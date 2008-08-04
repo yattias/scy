@@ -1,0 +1,16 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    <head>
+        <title>User overview</title>
+    </head>
+    <body>
+        <h1>User overview</h1>
+
+        <t:grid source="users" row="user">
+            <t:parameter name="lastnamecell">
+                ${user.name}
+                <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
+            </t:parameter>
+        </t:grid>
+
+    </body>
+</html>
