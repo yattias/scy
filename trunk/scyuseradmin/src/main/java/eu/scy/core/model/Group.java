@@ -1,0 +1,52 @@
+package eu.scy.core.model;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.LinkedList;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Henrik
+ * Date: 16.jun.2008
+ * Time: 23:08:45
+ * A group by which users can be organised. Groups can be organised in an hierarchical fashion
+ */
+@Entity
+@Table (name = "scygroup")
+public class Group extends SCYBaseObject {
+
+    private List<User> users;
+    private List <Group> children = new LinkedList<Group>();
+    private Group parentGroup;
+
+    @OneToMany(targetEntity = User.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @OneToMany(targetEntity = Group.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    public List<Group> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Group> children) {
+        this.children = children;
+    }
+
+    public void addChild(Group group) {
+        getChildren().add(group);
+    }
+
+    @ManyToOne(targetEntity = Group.class)
+    public Group getParentGroup() {
+        return parentGroup;
+    }
+
+    public void setParentGroup(Group parentGroup) {
+        this.parentGroup = parentGroup;
+    }
+}
