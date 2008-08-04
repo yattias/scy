@@ -5,7 +5,7 @@
     <body>
         <h1>SCY User Admin - MOCK UP only :-)</h1>
 
-        Group: ${rootGroup.name}
+        <!--Group: ${rootGroup.name}-->
 
 
         <t:beaneditform t:id="user" submitlabel="message:create-user"/>
