@@ -9,6 +9,7 @@ package eu.scy.modules.useradmin.components.border;
  */
 
 import org.apache.tapestry.annotations.*;
+import eu.scy.modules.useradmin.pages.SCYBasePage;
 
-public class Layout {
+public class Layout extends SCYBasePage {
 }

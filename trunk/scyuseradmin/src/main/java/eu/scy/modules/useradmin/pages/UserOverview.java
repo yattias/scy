@@ -1,6 +1,9 @@
 package eu.scy.modules.useradmin.pages;
 
 import org.apache.tapestry.ioc.annotations.Inject;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.userdetails.UserDetailsService;
+import org.springframework.security.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -14,7 +17,11 @@ import eu.scy.core.model.User;
  * Time: 14:41:57
  * Just a quick hack to list out users from the root group
  */
-public class UserOverview {
+public class UserOverview extends SCYBasePage{
+
+    public String getTull() {
+        return "tullballsdf" +getCurrentUsersUserName();
+    }
 
     @Inject
     private UserDAOHibernate userDAO;
