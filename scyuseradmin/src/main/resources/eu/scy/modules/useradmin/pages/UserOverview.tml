@@ -4,7 +4,6 @@
     </head>
     <body>
         <h1>User overview</h1>
-        ${tull}
 
         <t:grid source="users" row="user">
             <t:parameter name="lastnamecell">

@@ -7,7 +7,7 @@
 
 
     <body>
-        |<t:pagelink page="Home">Home</t:pagelink> |<t:pagelink page="UserOverview">User overview</t:pagelink> | Currently logged in as: ${currentUsersUserName}
+        |<t:pagelink page="Home">Home</t:pagelink> |<t:pagelink page="UserOverview">User Administration</t:pagelink> | Currently logged in as: ${currentUsersUserName}
 
             <t:body/>
 
