@@ -7,10 +7,9 @@
 
 
     <body>
-b   åådy
-        This is the scy!
-        <t:body/>
-        HEE HAA HEE HAA
+        |<t:pagelink page="Home">Home</t:pagelink> |<t:pagelink page="UserOverview">User overview</t:pagelink> | Currently logged in as: ${currentUsersUserName}
+
+            <t:body/>
 
     </body>
 </html>
