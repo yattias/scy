@@ -7,5 +7,8 @@ package eu.scy.modules.useradmin.components.border;
  * Time: 13:01:15
  * To change this template use File | Settings | File Templates.
  */
+
+import org.apache.tapestry.annotations.*;
+
 public class Layout {
 }

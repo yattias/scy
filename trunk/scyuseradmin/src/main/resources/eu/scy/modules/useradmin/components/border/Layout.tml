@@ -1,9 +1,13 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
     <head>
         <title>SCY</title>
-    </head>
-    <body>
+        <link href="/css/scylayout.css" rel="stylesheet" type="text/css"/>
 
+    </head>
+
+
+    <body>
+b   åådy
         This is the scy!
         <t:body/>
         HEE HAA HEE HAA
