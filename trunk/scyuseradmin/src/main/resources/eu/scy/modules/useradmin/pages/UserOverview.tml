@@ -11,6 +11,6 @@
                 <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
             </t:parameter>
         </t:grid>
-        sdffsdf
+        
     </body>
 </html>
