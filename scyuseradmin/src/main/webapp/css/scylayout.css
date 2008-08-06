@@ -27,6 +27,16 @@ html, body{
     background-position:top right;
     height:60px;
     overflow:hidden;
+    font-weight:bold;
+    color:#624293;
+}
+
+#scyTopInnerContainer a{
+    color:#03a4bd;
+    font-weight:bold;
+    border-right:1px solid #03a4bd;
+    padding-right:6px;
+    margin-left:6px;
 }
 
 #mainpane{
@@ -35,9 +45,21 @@ html, body{
     padding:6px;
 }
 
+#mainpane h1{
+    padding:0;
+    margin:0;
+    font-size:1.3em;
+}
+
 th{
-    background-color:#cccccc;
+    background-color:#e5e5e5;
     font-size:.9em;
+    color:#000000;
+}
+
+th a{
+    color:#000000 !important;
+
 }
 
 td{
