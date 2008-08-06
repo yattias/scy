@@ -1,15 +1,29 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
     <head>
         <title>SCY</title>
-        <link href="/css/scylayout.css" rel="stylesheet" type="text/css"/>
+        <link href="css/scylayout.css" rel="stylesheet" type="text/css"/>
+
 
     </head>
 
 
-    <body>
+    <body class="tundra">
+    <div>
+   <div id="scyTopContainer">
+       <div id="scyTopInnerContainer">
         |<t:pagelink page="Home">Home</t:pagelink> |<t:pagelink page="UserOverview">User Administration</t:pagelink> | Currently logged in as: ${currentUsersUserName}
+       </div>
+   </div>
 
-            <t:body/>
+    <div id="mainpane">
+        <t:body/>       
+    </div>
+
+</div>
+    
+
+
+
 
     </body>
 </html>

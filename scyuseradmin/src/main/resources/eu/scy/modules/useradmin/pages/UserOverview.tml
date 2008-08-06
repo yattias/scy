@@ -4,7 +4,7 @@
     </head>
     <body>
         <h1>User overview</h1>
-
+        Add user
         <t:grid source="users" row="user">
             <t:parameter name="lastnamecell">
                 ${user.name}
