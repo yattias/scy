@@ -31,6 +31,8 @@ html, body{
 
 #mainpane{
     border:1px solid #cccccc;
+    margin:0 6px;
+    padding:6px;
 }
 
 th{
