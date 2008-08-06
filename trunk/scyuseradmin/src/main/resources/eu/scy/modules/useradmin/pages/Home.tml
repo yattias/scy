@@ -1,5 +1,7 @@
 <html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-SCY IS THE LIMIT
+<div class="centeredContentsContainer">
+    <img src="graphics/mirrored_logo.png" alt="The SCY is the limit" />
+</div>
 
 </html>
