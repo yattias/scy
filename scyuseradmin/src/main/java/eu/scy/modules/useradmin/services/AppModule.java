@@ -114,7 +114,4 @@ public class AppModule {
         configuration.add("Timing", filter);
     }
 
-    public static void contributeRegistryStartup(OrderedConfiguration<Runnable> configuration) {
-        configuration.add("MyContributionName", new ConfigureDefaultSCYSettings());
-    }
 }
