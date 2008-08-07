@@ -44,7 +44,7 @@ public class Start {
 
     Object onSuccess() {
 
-        userDAO.addUser(getUser());
+        User u = userDAO.addUser(getUser());
 
         return UserOverview.class;
     }

@@ -18,8 +18,15 @@ public class UserDAOHibernate extends BaseDAOHibernate {
 
     }
 
-    public void addUser (User user) {
+    public User getUserByUsername(String username) {
+        return (User) getSession().createQuery("from User where userName like :username")
+                .setString("username", username)
+                .uniqueResult();
+    }
+
+    public User addUser (User user) {
         getHibernateTemplate().save(user);
+        return user;
     }
 
     public List getUsers() {

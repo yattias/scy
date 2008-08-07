@@ -62,4 +62,12 @@
         <property name="sessionFactory"><ref local="sessionFactory"/></property>
     </bean>
 
+    <bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+    </bean>
+
+    <bean id="projectDAO" class="eu.scy.core.persistence.hibernate.ProjectDAOHibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+    </bean>
+
 </beans>

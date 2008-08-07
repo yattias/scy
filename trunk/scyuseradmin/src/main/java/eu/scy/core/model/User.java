@@ -5,6 +5,7 @@ import org.apache.tapestry.beaneditor.Validate;
 import org.apache.tapestry.beaneditor.NonVisual;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,6 +26,8 @@ public class User extends SCYBaseObject {
     private String lastName;
 
     private Group group;
+
+    private List<UserRole> userRoles;
 
 
     @Column (name = "userName", nullable = false, unique = true)
@@ -70,6 +73,21 @@ public class User extends SCYBaseObject {
         this.group = group;
     }
 
+    @OneToMany(targetEntity = UserRole.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
 
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 
+    public void addRole(String rolename) {
+        UserRole role = new UserRole();
+        role.setName(rolename);
+        role.setUser(this);
+
+        getUserRoles().add(role);
+
+    }
 }

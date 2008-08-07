@@ -1,7 +1,7 @@
 package eu.scy.core.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * User: Henrik
@@ -12,4 +12,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class Role extends SCYBaseObject{
+
+    private List<UserRole> userRoles;
+
+    @OneToMany(targetEntity = UserRole.class, mappedBy = "role", fetch = FetchType.LAZY)
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 }
