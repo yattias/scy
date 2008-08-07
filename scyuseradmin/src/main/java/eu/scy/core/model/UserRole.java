@@ -16,6 +16,9 @@ public class UserRole extends SCYBaseObject{
     private User user;
     private Role role;
 
+
+    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn (name = "user_primKey")
     public User getUser() {
         return user;
     }
@@ -25,6 +28,8 @@ public class UserRole extends SCYBaseObject{
     }
 
 
+    @ManyToOne(targetEntity = Role.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn (name = "role_primKey")
     public Role getRole() {
         return role;
     }

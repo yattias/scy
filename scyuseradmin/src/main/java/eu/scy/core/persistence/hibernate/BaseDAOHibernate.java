@@ -10,4 +10,15 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * A hibernate base DAO
  */
 public class BaseDAOHibernate extends HibernateDaoSupport {
+
+
+    /**
+     * Dangerous method - need to use ACL to be sure this one does not mess up a lot!
+     */
+    public Object save(Object object) {
+        object = getHibernateTemplate().merge(object);
+        getHibernateTemplate().save(object);
+        return object;
+    }
+
 }

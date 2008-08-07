@@ -11,6 +11,7 @@
                 <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
             </t:parameter>
         </t:grid>
-        
+
+        <t:PageLink  page="Start">Add new user</t:PageLink>
     </body>
 </html>
