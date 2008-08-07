@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class ProjectDAOHibernate extends BaseDAOHibernate{
 
+    public List getAllProjects() {
+        return getSession().createQuery("From Project order by name")
+                .list();
+    }
+
     public void createProject(Project project) {
         getHibernateTemplate().save(project);        
     }

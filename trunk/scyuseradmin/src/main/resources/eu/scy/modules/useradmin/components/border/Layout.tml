@@ -12,7 +12,11 @@
     <div>
    <div id="scyTopContainer">
        <div id="scyTopInnerContainer">
-        <t:pagelink page="Home">Home</t:pagelink><t:pagelink page="UserOverview">User Administration</t:pagelink> Currently logged in as: ${currentUsersUserName}
+        <t:pagelink page="Home">Home</t:pagelink>
+        <t:pagelink page="UserOverview">User Administration</t:pagelink>
+        <t:pagelink page="projectmanagement/ProjectManagement">Project Management</t:pagelink> 
+
+           Currently logged in as: ${currentUsersUserName}
        </div>
    </div>
 

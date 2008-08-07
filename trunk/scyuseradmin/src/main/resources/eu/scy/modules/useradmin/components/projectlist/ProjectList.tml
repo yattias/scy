@@ -1,0 +1,6 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <t:grid source="projects" row="project">
+    </t:grid>
+
+</html>
