@@ -1,9 +1,12 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-    <t:grid source="projects" row="project">
+    <t:grid source="projects" row="project" add="edit">
         <t:parameter name="namecell">
             <t:actionLink page="projectmanagement/ProjectManagement" t:id="selectProject" context="project.id">${project.name}</t:actionLink>
         </t:parameter>
+        <t:parameter name="editcell">
+                <t:pagelink page="projectmanagement/EditProject" context="project.id">Edit</t:pagelink>
+            </t:parameter>
     </t:grid>
 
 </html>
