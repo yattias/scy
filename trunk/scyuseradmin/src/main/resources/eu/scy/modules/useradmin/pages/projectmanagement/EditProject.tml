@@ -2,6 +2,6 @@
 
 
 
-<t:beaneditform t:id="model" submitlabel="message:SAVE"/>
+<t:beaneditform t:id="project" submitlabel="message:SAVE"/>
 
 </html>

@@ -2,6 +2,7 @@ package eu.scy.modules.useradmin.pages.projectmanagement;
 
 import eu.scy.modules.useradmin.pages.SCYBasePage;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.core.model.Project;
 import org.apache.tapestry.annotations.BeginRender;
 import org.apache.tapestry.ioc.annotations.Inject;
 
@@ -17,6 +18,16 @@ public class EditProject extends SCYBasePage {
     @Inject
     private ProjectDAOHibernate projectDAOHibernate;
 
+    private Project project;
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     @BeginRender
     public void showModel() {
         System.out.println("MODEL IS " + getModel());
@@ -25,8 +36,13 @@ public class EditProject extends SCYBasePage {
 
     public Object onActivate(String projectId) {
         System.out.println("ACtivating with projectttttt: " + projectId);
-        setModel(projectDAOHibernate.getProject(projectId));
+        setProject(projectDAOHibernate.getProject(projectId));
         return null;
+    }
+
+    Object onSuccess() {
+        projectDAOHibernate.createProject(getProject());
+        return ProjectManagement.class;
     }
 
 }
