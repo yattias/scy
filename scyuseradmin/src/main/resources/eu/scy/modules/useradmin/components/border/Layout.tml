@@ -2,8 +2,8 @@
     <head>
         <title>SCY</title>
         <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" src="scripts/prototype.js"></script>
-        <script type="text/javascript" src="scripts/applicationController.js"></script>
+        <script type="text/javascript" src="${asset:context:scripts/prototype.js}"></script>
+        <script type="text/javascript" src="${asset:context:scripts/applicationController.js}"></script>
 
     </head>
 
