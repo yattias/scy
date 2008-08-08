@@ -10,6 +10,13 @@ package eu.scy.modules.useradmin.components.border;
 
 import org.apache.tapestry.annotations.*;
 import eu.scy.modules.useradmin.pages.SCYBasePage;
+import eu.scy.core.model.Project;
 
 public class Layout extends SCYBasePage {
+
+
+    public String getCurrentProjectName() {
+        if(getCurrentProject() == null) return "No project set";
+        else return getCurrentProject().getName();
+    }
 }

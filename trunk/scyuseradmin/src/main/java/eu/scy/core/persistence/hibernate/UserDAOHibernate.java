@@ -24,8 +24,13 @@ public class UserDAOHibernate extends BaseDAOHibernate {
                 .uniqueResult();
     }
 
-    public User addUser (User user) {
-        getHibernateTemplate().save(user);
+    public User addUser(User user) {
+        if (getUserByUsername(user.getUserName()) != null) {
+            getHibernateTemplate().update(user);
+        } else {
+            getHibernateTemplate().save(user);
+        }
+
         return user;
     }
 
