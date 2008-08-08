@@ -2,12 +2,14 @@ package eu.scy.modules.useradmin.components.projectlist;
 
 import org.apache.tapestry.ioc.annotations.Inject;
 import org.apache.tapestry.annotations.ApplicationState;
+import org.apache.tapestry.annotations.InjectPage;
 
 import java.util.List;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.model.Project;
+import eu.scy.modules.useradmin.pages.projectmanagement.EditProject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,4 +63,18 @@ public class ProjectList {
         setCurrentProject(getProjectDAOHibernate().getProject(projectId));
         return null;
     }
+
+
+    @InjectPage
+    private EditProject editProjectPage;
+
+    /*Object onActionFromEdit(String projectId) {
+        System.out.println("activating " + projectId);
+        Project p = getProjectDAOHibernate().getProject(projectId);
+        System.out.println("PROJECT IS " + p.getName());
+        
+        editProjectPage.setModel(project);
+        return editProjectPage;
+
+    } */
 }

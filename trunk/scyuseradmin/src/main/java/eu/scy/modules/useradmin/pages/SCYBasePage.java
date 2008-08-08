@@ -7,6 +7,7 @@ import org.apache.tapestry.annotations.ApplicationState;
 import org.apache.tapestry.annotations.SetupRender;
 import org.apache.tapestry.annotations.BeginRender;
 import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYBaseObject;
 import eu.scy.modules.useradmin.components.projectlist.ProjectList;
 
 /**
@@ -20,13 +21,13 @@ public class SCYBasePage {
 
     @ApplicationState (create=false)
     private Project currentProject;
-    private Object model;
+    private SCYBaseObject model;
 
-    public Object getModel() {
+    public SCYBaseObject getModel() {
         return model;
     }
 
-    public void setModel(Object model) {
+    public void setModel(SCYBaseObject model) {
         this.model = model;
     }
 
