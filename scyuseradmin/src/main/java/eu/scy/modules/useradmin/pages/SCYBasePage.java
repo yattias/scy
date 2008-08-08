@@ -48,7 +48,6 @@ public class SCYBasePage {
         System.out.println("BEGIN RENDER");
         if(getCurrentProject() == null) {
             System.out.println("*************************************** CURRENT PROJECT NOT SET");
-            throw new RedirectException
         } else {
             System.out.println("CURERENT IS : " + getCurrentProject());
         }
