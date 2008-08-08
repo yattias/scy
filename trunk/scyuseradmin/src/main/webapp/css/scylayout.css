@@ -69,3 +69,12 @@ td{
     text-align:center;
 }
 
+div.t-beaneditor, div.t-beandisplay, div.t-beaneditor-row {
+background:#ffffff none repeat scroll 0 0;
+border:0;
+
+    text-align:left;
+
+padding:2px;
+}
+
