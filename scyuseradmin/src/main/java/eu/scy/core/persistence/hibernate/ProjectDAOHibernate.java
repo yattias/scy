@@ -30,5 +30,9 @@ public class ProjectDAOHibernate extends BaseDAOHibernate{
     }
 
 
-
+    public Project getProject(String projectId) {
+        return (Project) getSession().createQuery("from Project where id like :projectId")
+                .setString("projectId", projectId)
+                .uniqueResult();
+    }
 }
