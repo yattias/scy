@@ -1,0 +1,7 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    Here is da gropu list
+    <t:grid source="groups" row="group">
+    </t:grid>
+
+<t:actionlink t:id="AddGroup">Add group</t:actionlink>
+</html>
