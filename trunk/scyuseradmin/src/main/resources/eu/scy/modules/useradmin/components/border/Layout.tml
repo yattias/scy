@@ -1,7 +1,7 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
     <head>
         <title>SCY</title>
-        <link href="css/scylayout.css" rel="stylesheet" type="text/css"/>
+        <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="scripts/prototype.js"></script>
         <script type="text/javascript" src="scripts/applicationController.js"></script>
 
