@@ -3,12 +3,8 @@
         <title>SCY User Admin</title>
     </head>
     <body>
-        <h1>SCY User Admin - MOCK UP only :-)</h1>
-
-        <!--Group: ${rootGroup.name}-->
-
-
         <t:beaneditform t:id="user" submitlabel="message:create-user"/>
 
+        <t:actionlink t:id="view" context="currentUsersUserName">View</t:actionlink>
     </body>
 </html>

@@ -17,6 +17,8 @@
         <t:pagelink page="projectmanagement/ProjectManagement">Project Management</t:pagelink> 
 
            Currently logged in as: ${currentUsersUserName}
+
+           
        </div>
    </div>
 

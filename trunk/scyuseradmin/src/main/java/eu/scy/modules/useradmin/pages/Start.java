@@ -1,6 +1,7 @@
 package eu.scy.modules.useradmin.pages;
 
 import org.apache.tapestry.ioc.annotations.Inject;
+import org.apache.tapestry.annotations.InjectPage;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
@@ -10,7 +11,7 @@ import java.util.Date;
 /**
  * Start page of application scyuseradmin.
  */
-public class Start {
+public class Start extends SCYBasePage {
 
     @Inject
     private UserDAOHibernate userDAO;
@@ -41,11 +42,25 @@ public class Start {
         return userDAO.getRootGroup();
     }
 
+    public String getUsername() {
+        if(getUser() != null) {
+            return getUser().getUserName();
+        }
+        return "NO user sete";
+    }
 
     Object onSuccess() {
 
         User u = userDAO.addUser(getUser());
 
         return UserOverview.class;
+    }
+
+    public Object onActivate(String username) {
+        System.out.println("ACTIVATING WITH USERNAME:" + username);
+        if(getUserDAO().getUserByUsername(username) == null) System.out.println("USER IS NULL!!!");
+        setUser(getUserDAO().getUserByUsername(username));
+        return null;
+
     }
 }

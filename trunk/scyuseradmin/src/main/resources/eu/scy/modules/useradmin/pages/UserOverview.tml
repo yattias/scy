@@ -7,8 +7,7 @@
        
         <t:grid source="users" row="user">
             <t:parameter name="lastnamecell">
-                ${user.name}
-                <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
+                <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
             </t:parameter>
         </t:grid>
 
