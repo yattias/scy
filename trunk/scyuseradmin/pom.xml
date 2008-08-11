@@ -96,6 +96,7 @@
 
 
     </dependencies>
+
     <build>
 
         <filters>
@@ -104,6 +105,10 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -136,7 +141,7 @@
                         <append>true</append>
                     </requestLog>
 
-                    <webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
+                    <webDefaultXml>target/classes/webdefault.xml</webDefaultXml>
 
                     <jettyEnvXml>target/classes/jetty-env.xml</jettyEnvXml>
                 </configuration>
@@ -166,6 +171,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.2-beta-1</version>
                 <configuration>
+
                     <descriptors>
                         <descriptor>src/assembly/jaxwsjar.xml</descriptor>
                     </descriptors>
