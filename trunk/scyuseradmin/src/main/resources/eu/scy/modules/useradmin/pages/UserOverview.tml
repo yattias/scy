@@ -3,19 +3,19 @@
     <title>User overdddviddew</title>
 </head>
 <body>
-<h1>User overview</h1>
+
 
 <t:if test="currentProject">
-    <table>
+    <table style="width:100%;">
         <tr>
-            <td valign="top">
+            <td style="width:20%;vertical-align:top;">
                 <div t:type="grouplist/GroupList"/>
-
+               
             </td>
-            <td valign="top">
+            <td style="width:80%;vertical-align:top;">
 
-                ${currentlySelectedGroupName}
-                <t:grid source="users" row="user">
+                <h1>Users in ${currentlySelectedGroupName}:</h1>
+                <t:grid source="users" row="user" style="width:100%;">
                     <t:parameter name="lastnamecell">
                         <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
                     </t:parameter>

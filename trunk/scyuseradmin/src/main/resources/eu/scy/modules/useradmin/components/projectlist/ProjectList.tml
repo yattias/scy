@@ -5,7 +5,9 @@
             <t:actionLink page="projectmanagement/ProjectManagement" t:id="selectProject" context="project.id">${project.name}</t:actionLink>
         </t:parameter>
         <t:parameter name="editcell">
-                <t:pagelink page="projectmanagement/EditProject" context="project.id">Edit</t:pagelink>
+                <t:pagelink page="projectmanagement/EditProject" context="project.id">
+                    <img src="${asset:context:graphics/pencil.png}" alt="Edit" style="border:0;"/>
+                </t:pagelink>
             </t:parameter>
     </t:grid>
 
