@@ -1,29 +1,21 @@
 package eu.scy.core.startup;
 
-import org.apache.tapestry.ioc.annotations.Inject;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
-import org.springframework.security.userdetails.GroupManager;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.hibernate.Session;
-import org.hibernate.HibernateException;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.RoleDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.Constants;
-import eu.scy.core.model.Role;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
-import eu.scy.core.model.UserRole;
 
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContext;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -165,7 +157,7 @@ public class ConfigureDefaultSCYSettings implements ServletContextListener {
             User theUser = userDAO.getUserByUsername(defaultGlobalAdmin.getUserName());
             if (theUser == null) {
                 log.info("Adding default global admin");
-                defaultGlobalAdmin = userDAO.addUser(defaultGlobalAdmin);
+                defaultGlobalAdmin = userDAO.addUser(null, null, defaultGlobalAdmin);
             }
 
         }

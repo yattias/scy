@@ -35,7 +35,7 @@ public class UserManagement {
 
     @WebMethod (operationName ="createGroup")
     public Group createGroup(String name, Group parent) {
-        return getUserDAO().createGroup(name, parent);
+        return getUserDAO().createGroup(null, name, parent);
     }
 
     @WebMethod(operationName = "getRootGroup")

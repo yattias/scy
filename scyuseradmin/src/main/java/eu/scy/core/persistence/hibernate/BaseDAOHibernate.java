@@ -1,6 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import eu.scy.core.model.SCYBaseObject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,8 +17,20 @@ public class BaseDAOHibernate extends HibernateDaoSupport {
      * Dangerous method - need to use ACL to be sure this one does not mess up a lot!
      */
     public Object save(Object object) {
-        object = getHibernateTemplate().merge(object);
-        getHibernateTemplate().save(object);
+        if (object instanceof SCYBaseObject) {
+            object = getHibernateTemplate().merge(object);
+            SCYBaseObject scyBaseObject = (SCYBaseObject) object;
+            if (scyBaseObject.getId() == null) {
+                System.out.println("CREATE NEW....");
+                getHibernateTemplate().save(object);
+            } else {
+                System.out.println("OBJECT ALREADY EXISTS - UPDATE!");
+                getHibernateTemplate().update(object);
+            }
+        } else {
+            System.out.println("!!!! NOT SCY BASE OBJECT - WHAT TO DO????");
+        }
+
         return object;
     }
 

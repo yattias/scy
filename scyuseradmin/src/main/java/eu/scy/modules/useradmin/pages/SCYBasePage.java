@@ -46,7 +46,6 @@ public class SCYBasePage {
 
     @BeginRender
     void checkForCurrentProject() {
-        System.out.println("BEGIN RENDER");
         if(getCurrentProject() == null) {
             System.out.println("*************************************** CURRENT PROJECT NOT SET");
         } else {

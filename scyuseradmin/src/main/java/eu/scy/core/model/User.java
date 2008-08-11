@@ -29,8 +29,10 @@ public class User extends SCYBaseObject {
 
     private List<UserRole> userRoles;
 
+    private Project project;
 
-    @Column (name = "userName", nullable = false, unique = true)
+
+    @Column(name = "userName", nullable = false, unique = true)
     public String getUserName() {
         return userName;
     }
@@ -46,6 +48,7 @@ public class User extends SCYBaseObject {
     public void setPassword(String password) {
         this.password = password;
     }
+
     @Validate("required")
     public String getFirstName() {
         return firstName;
@@ -63,8 +66,18 @@ public class User extends SCYBaseObject {
         this.lastName = lastName;
     }
 
+    @ManyToOne(targetEntity = Project.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_primKey")
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     @ManyToOne(targetEntity = Group.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn (name = "group_primKey")
+    @JoinColumn(name = "group_primKey")
     public Group getGroup() {
         return group;
     }
