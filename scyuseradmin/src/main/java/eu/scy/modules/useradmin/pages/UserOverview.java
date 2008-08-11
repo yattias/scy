@@ -8,6 +8,7 @@ import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Collections;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.User;
@@ -22,7 +23,7 @@ import eu.scy.core.model.Group;
  */
 public class UserOverview extends SCYBasePage{
 
-    @ApplicationState
+    @ApplicationState (create = false)
     private Group currentGroup;
 
     public Group getCurrentGroup() {
@@ -57,7 +58,11 @@ public class UserOverview extends SCYBasePage{
     }
 
     public List getUsers() {
+        if(getCurrentGroup() != null) {
         return getCurrentGroup().getUsers();
+        }
+        return Collections.EMPTY_LIST;
+
     }
 
 
@@ -67,5 +72,10 @@ public class UserOverview extends SCYBasePage{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getCurrentGroupExists() {
+        return false;//if(getCurrentGroup() != null) return true;
+        //return false;
     }
 }
