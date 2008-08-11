@@ -5,25 +5,31 @@
 <body>
 <h1>User overview</h1>
 
-<table>
-    <tr>
-        <td valign="top">
-            <div t:type="grouplist/GroupList"/>
+<t:if test="currentProject">
+    <table>
+        <tr>
+            <td valign="top">
+                <div t:type="grouplist/GroupList"/>
 
-        </td>
-        <td valign="top">
+            </td>
+            <td valign="top">
 
-            ${currentlySelectedGroupName}
-            <t:grid source="users" row="user">
-                <t:parameter name="lastnamecell">
-                    <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
-                </t:parameter>
-            </t:grid>
+                ${currentlySelectedGroupName}
+                <t:grid source="users" row="user">
+                    <t:parameter name="lastnamecell">
+                        <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
+                    </t:parameter>
+                </t:grid>
 
-
-            <t:PageLink page="Start">Add new user</t:PageLink>
-        </td>
-    </tr>
-</table>
+                <t:if test="currentGroup">
+                    <t:PageLink page="Start">Add new user</t:PageLink>
+                </t:if>
+            </td>
+        </tr>
+    </table>
+    <t:parameter name="else">
+        No project selected - select one first!
+    </t:parameter>
+</t:if>
 </body>
 </html>
