@@ -1,6 +1,8 @@
 package eu.scy.modules.useradmin.pages;
 
 import org.apache.tapestry.ioc.annotations.Inject;
+import org.apache.tapestry.annotations.ApplicationState;
+import org.apache.tapestry.annotations.Persist;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UserDetails;
@@ -9,6 +11,7 @@ import java.util.List;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.User;
+import eu.scy.core.model.Group;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,12 +22,29 @@ import eu.scy.core.model.User;
  */
 public class UserOverview extends SCYBasePage{
 
-    public String getTull() {
-        return "tullballsdf" +getCurrentUsersUserName();
+    @ApplicationState
+    private Group currentGroup;
+
+    public Group getCurrentGroup() {
+        return currentGroup;
     }
+
+    public void setCurrentGroup(Group currentGroup) {
+        this.currentGroup = currentGroup;
+    }
+
+    public String getCurrentlySelectedGroupName() {
+        if(getCurrentGroup() != null) {
+            return getCurrentGroup().getName();
+        }
+
+        return "No group selected";
+    }
+
 
     @Inject
     private UserDAOHibernate userDAO;
+    @Persist
     private User user;
 
 
@@ -37,8 +57,9 @@ public class UserOverview extends SCYBasePage{
     }
 
     public List getUsers() {
-        return getUserDAO().getUsers();
+        return getCurrentGroup().getUsers();
     }
+
 
     public User getUser() {
         return user;

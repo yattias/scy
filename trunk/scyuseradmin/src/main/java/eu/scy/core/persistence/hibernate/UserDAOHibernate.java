@@ -2,6 +2,7 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
+import eu.scy.core.model.Project;
 
 import java.util.List;
 
@@ -14,9 +15,6 @@ import java.util.List;
  */
 public class UserDAOHibernate extends BaseDAOHibernate {
 
-    public void addUser(String preferredUsername) {
-
-    }
 
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from User where userName like :username")
@@ -24,12 +22,10 @@ public class UserDAOHibernate extends BaseDAOHibernate {
                 .uniqueResult();
     }
 
-    public User addUser(User user) {
-        if (getUserByUsername(user.getUserName()) != null) {
-            getHibernateTemplate().saveOrUpdate(user);
-        } else {
-            getHibernateTemplate().save(user);
-        }
+    public User addUser(Project project, Group group, User user) {
+        user.setProject(project);
+        user.setGroup(group);
+        save(user);
 
         return user;
     }
@@ -39,11 +35,22 @@ public class UserDAOHibernate extends BaseDAOHibernate {
                 .list();
     }
 
-    public Group createGroup(String name, Group parent) {
+    public Group createGroup(Project project, String name, Group parent) {
+        if(project== null) {
+            throw new RuntimeException("Project not set - cannot create group");
+        }
         Group g = new Group();
+        g.setProject(project);
         g.setName(name);
         g.setParentGroup(parent);
-        getHibernateTemplate().save(g);
+        save(g);
+        return g;
+    }
+
+    public Group getGroup(String id) {
+        Group g = (Group) getSession().createQuery("from Group where id = :id")
+                .setString("id", id)
+                .uniqueResult();
         return g;
     }
 

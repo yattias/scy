@@ -1,7 +1,7 @@
 package eu.scy.modules.useradmin.pages;
 
 import org.apache.tapestry.ioc.annotations.Inject;
-import org.apache.tapestry.annotations.InjectPage;
+import org.apache.tapestry.annotations.ApplicationState;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
@@ -12,6 +12,9 @@ import java.util.Date;
  * Start page of application scyuseradmin.
  */
 public class Start extends SCYBasePage {
+
+    @ApplicationState (create = false)
+    private Group currentGroup;
 
     @Inject
     private UserDAOHibernate userDAO;
@@ -24,6 +27,14 @@ public class Start extends SCYBasePage {
 
     public void setUserDAO(UserDAOHibernate userDAO) {
         this.userDAO = userDAO;
+    }
+
+    public Group getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Group currentGroup) {
+        this.currentGroup = currentGroup;
     }
 
     public User getUser() {
@@ -50,9 +61,7 @@ public class Start extends SCYBasePage {
     }
 
     Object onSuccess() {
-
-        User u = userDAO.addUser(getUser());
-
+        User u = userDAO.addUser(getCurrentProject(), getCurrentGroup(), getUser());
         return UserOverview.class;
     }
 

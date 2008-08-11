@@ -4,6 +4,7 @@ import eu.scy.modules.useradmin.pages.SCYBasePage;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.model.Project;
 import org.apache.tapestry.annotations.BeginRender;
+import org.apache.tapestry.annotations.Persist;
 import org.apache.tapestry.ioc.annotations.Inject;
 
 /**
@@ -18,6 +19,7 @@ public class EditProject extends SCYBasePage {
     @Inject
     private ProjectDAOHibernate projectDAOHibernate;
 
+    @Persist
     private Project project;
 
     public Project getProject() {
@@ -41,7 +43,8 @@ public class EditProject extends SCYBasePage {
     }
 
     Object onSuccess() {
-        projectDAOHibernate.createProject(getProject());
+        System.out.println("SAVING PROJECT!!!!!");
+        projectDAOHibernate.save(getProject());
         return ProjectManagement.class;
     }
 
