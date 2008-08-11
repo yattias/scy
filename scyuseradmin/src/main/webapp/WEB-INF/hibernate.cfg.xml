@@ -13,8 +13,7 @@
         <mapping class="eu.scy.core.model.Project"/>
         <mapping class="eu.scy.core.model.Role"/>
         <mapping class="eu.scy.core.model.UserRole"/>
-
-        <!-- ELOs will probably be mapped here as welll..... -->
+        <mapping class="eu.scy.core.model.Elo"/>
 
     </session-factory>
 </hibernate-configuration>
