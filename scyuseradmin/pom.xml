@@ -195,23 +195,34 @@
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>1</id>
                         <goals>
                             <goal>wsgen</goal>
                         </goals>
                         <configuration>
-
-                            <packageName>eu.scy.modules.useradmin.webservice.</packageName>
-
+                            <packageName>eu.scy.brokerproxy.webservice</packageName>
+                            <sei>eu.scy.brokerproxy.webservice.BrokerProxyTest</sei>
+                            <genWsdl>true</genWsdl>
+                            <keep>true</keep>
+                            <verbose>true</verbose>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>2</id>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <packageName>eu.scy.modules.useradmin.webservice</packageName>
                             <sei>eu.scy.modules.useradmin.webservice.UserManagement</sei>
-
                             <!--sei>com.enovate.webservice.Authenticator</sei-->
                             <genWsdl>true</genWsdl>
                             <keep>true</keep>
-                            <verbouse>true</verbouse>
+                            <verbose>true</verbose>
                             <!-- The name of your generated source package
                             -->
                         </configuration>
-                    </execution>
+                    </execution>                
                 </executions>
 
                 <!-- if you want to use a specific version of JAX-WS, you
@@ -223,27 +234,25 @@
                 </dependencies-->
             </plugin>
 
-
-            <!--plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jaxws-maven-plugin</artifactId>
-            <executions>
-            <execution>
-            <goals>
-            <goal>wsimport</goal>
-            </goals>
-            <configuration>
-            <wsdlUrls>
-
-            <wsdlUrl>file:////${project.build.directory}/jaxws/wsgen/wsdl/UserManagemen
-            tService?wsdl</wsdlUrl>
-            </wsdlUrls>
-
-            <packageName>com.enovate.webservice.client</packageName>
-            </configuration>
-            </execution>
-            </executions>
-            </plugin-->
+            <!--
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                    <goals>
+                        <goal>wsimport</goal>
+                    </goals>
+                    <configuration>
+                        <wsdlUrls>
+                        <wsdlUrl>file:////${project.build.directory}/jaxws/wsgen/wsdl/UserManagementService?wsdl</wsdlUrl>
+                        </wsdlUrls>    
+                        <packageName>com.enovate.webservice.client</packageName>
+                    </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
 
         </plugins>
     </build>
@@ -308,9 +317,7 @@
 
     <pluginRepositories>
 
-        <!-- As above, this can be commented out when access to the
-snapshot version
-of a Tapestry Maven plugin is not required. -->
+        <!-- As above, this can be commented out when access to the snapshot version of a Tapestry Maven plugin is not required. -->
         <pluginRepository>
             <id>tapestry-snapshots</id>
 

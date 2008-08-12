@@ -70,6 +70,10 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>BrokerProxyTest</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>WSServlet</servlet-name>
         <display-name>WSServlet</display-name>
         <description>JAX-WS endpoint</description>
@@ -81,6 +85,10 @@
     <servlet-mapping>
         <servlet-name>UserManagement</servlet-name>
         <url-pattern>/UserManagement/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BrokerProxyTest</servlet-name>
+        <url-pattern>/BrokerProxyTest/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WSServlet</servlet-name>
