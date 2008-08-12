@@ -21,4 +21,14 @@
         <property name="userDAO" ref="userDAO"></property>
     </bean>
 
+    <wss:binding url="/services/BrokerProxyTest">
+        <wss:service>
+            <ws:service bean="#brokerProxyTestWebService"/>
+        </wss:service>
+    </wss:binding>    
+    
+    <bean id="brokerProxyTestWebService" class="eu.scy.brokerproxy.webservice.BrokerProxyTest">
+    </bean>
+    
+
 </beans>

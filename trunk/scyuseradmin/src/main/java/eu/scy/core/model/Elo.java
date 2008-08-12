@@ -9,20 +9,35 @@ import java.util.List;
  * User: Jeremy / Thomas
  * Date: 11.aug.2008
  * Time: 04:00:01
- * A attempt of an ELO
+ * An attempt at an ELO
  */
+
 @Entity
 @Table (name = "elo")
 public class Elo extends SCYBaseObject {
 
-	private List<User> users;
+    private String eloName;
+    private String eloContent;
     
-	@OneToMany(targetEntity = User.class, mappedBy = "elo", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    public List<User> getUsers() {
-        return users;
+	
+    @Column(name = "eloName", nullable = false, unique = false)
+    public String getEloName() {
+        return eloName;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setEloName(String eloName) {
+        this.eloName = eloName;
     }
+
+    
+    @Column(name = "eloContent", nullable = false, unique = false)
+    public String getEloContent() {
+        return "oh lala!";
+        //return eloContent;
+    }
+
+    public void setEloContent(String eloContent) {
+        this.eloContent = eloContent;
+    }
+
 }
