@@ -111,6 +111,11 @@
         <res-auth>Container</res-auth>
     </resource-ref>
 
+    <service-ref>
+        <service-ref-name>services/BrokerProxyTest</service-ref-name>
+        <service-interface>javax.xml.ws.Service</service-interface>
+        <wsdl-file>WEB-INF/wsdl/BrokerProxyTest.wsdl</wsdl-file>
+    </service-ref>
     
 
 </web-app>
