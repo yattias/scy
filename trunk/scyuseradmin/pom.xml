@@ -221,6 +221,10 @@
                             <genWsdl>true</genWsdl>
                             <keep>true</keep>
                             <verbose>true</verbose>
+                            <!--extension>true</extension>
+                            <protocol>Xsoap1.2/http</protocol-->
+                            <verbose>true</verbose>
+
                             <!-- The name of your generated source package
                             -->
                         </configuration>
