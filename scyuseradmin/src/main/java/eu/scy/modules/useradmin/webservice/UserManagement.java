@@ -5,6 +5,7 @@ import eu.scy.core.model.Group;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.xml.ws.BindingType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +20,7 @@ public class UserManagement {
     private UserDAOHibernate userDAO;
 
 
-    @WebMethod  (operationName = "getServiceName" )
+    @WebMethod  (operationName = "getServiceName"  )
     public String getServiceName() {
         System.out.println("ServiceName!");
         return "UserManagement";
