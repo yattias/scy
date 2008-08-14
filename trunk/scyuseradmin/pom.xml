@@ -129,7 +129,7 @@
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.5</version>
+                <version>6.1.11</version>
                 <configuration>
                     <!-- Log to the console. -->
                     <requestLog
@@ -193,6 +193,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
+                <!-- https://jax-ws-commons.dev.java.net/jaxws-maven-plugin/wsgen-mojo.html -->
                 <executions>
                     <execution>
                         <id>1</id>
@@ -203,6 +204,7 @@
                             <packageName>eu.scy.brokerproxy.webservice</packageName>
                             <sei>eu.scy.brokerproxy.webservice.BrokerProxyTest</sei>
                             <genWsdl>true</genWsdl>
+                            <protocol>soap1.1</protocol>
                             <keep>true</keep>
                             <verbose>true</verbose>
                         </configuration>

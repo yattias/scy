@@ -5,7 +5,9 @@
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
 
     <security:http auto-config='true'>
+        <!--
         <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        -->
     </security:http>
 
     <security:authentication-provider>

@@ -16,10 +16,17 @@ public class BrokerProxyTest {
 
 
     @WebMethod  (operationName = "getServiceName" )
-    public String getServiceName() {
+    public String getServiceName(String s) {
         System.out.println("ServiceName!!");
-        return "BrokerProxyTest.";
+        return "We are online!";
     }
 
 
+    @WebMethod  (operationName = "getDonkeyName" )
+    public String getDonkeyName(String name) {
+        System.out.println("donkey!");
+        return "Burro burro, " + name;
+    }
+
+    
 }
