@@ -26,4 +26,6 @@ public class Constants {
 
     public static final String ROLE_TEACHER = "ROLE_TEACHER";
     public static final String ROLE_STUDENT = "ROLE_STUDENT";
+
+    public static final String NAME_SPACE = "http://www.scy-net.eu/schemas";
 }
