@@ -37,7 +37,7 @@ public class WSTestClient {
 
     }
 
-    private String login(String userName, String password) {
+    public String login(String userName, String password) {
         LoginRequest request = new LoginRequest();
         request.setUserName(getStringType(userName));
         request.setPassword(getStringType(password));

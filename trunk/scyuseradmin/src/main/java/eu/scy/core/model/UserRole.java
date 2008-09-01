@@ -37,4 +37,6 @@ public class UserRole extends SCYBaseObject{
     public void setRole(Role role) {
         this.role = role;
     }
+
+    
 }
