@@ -8,7 +8,6 @@ package eu.scy.modules.useradmin.components.border;
  * To change this template use File | Settings | File Templates.
  */
 
-import org.apache.tapestry.annotations.*;
 import eu.scy.modules.useradmin.pages.SCYBasePage;
 import eu.scy.core.model.Project;
 

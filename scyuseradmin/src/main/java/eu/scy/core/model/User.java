@@ -1,8 +1,7 @@
 package eu.scy.core.model;
 
 
-import org.apache.tapestry.beaneditor.Validate;
-import org.apache.tapestry.beaneditor.NonVisual;
+import org.apache.tapestry5.beaneditor.Validate;
 
 import javax.persistence.*;
 import java.util.List;

@@ -1,7 +1,7 @@
 package eu.scy.brokerproxy.webservice;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+//import javax.jws.WebMethod;
+//import javax.jws.WebService;
 
 /**
  * Created by Intermedia
@@ -11,18 +11,18 @@ import javax.jws.WebService;
  * An attempt at a BrokerProxy WS
  */
 
-@WebService
+//WebService
 public class BrokerProxyTest {
 
 
-    @WebMethod  (operationName = "getServiceName" )
-    public String getServiceName(String s) {
+    //WebMethod  (operationName = "getServiceName" )
+    public String getLogin(String s) {
         System.out.println("ServiceName!!");
         return "We are online!";
     }
 
 
-    @WebMethod  (operationName = "getDonkeyName" )
+    //WebMethod  (operationName = "getDonkeyName" )
     public String getDonkeyName(String name) {
         System.out.println("donkey!");
         return "Burro burro, " + name;

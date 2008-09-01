@@ -1,19 +1,20 @@
 package eu.scy.modules.useradmin.pages;
 
-import org.apache.tapestry.ioc.annotations.Inject;
-import org.apache.tapestry.annotations.ApplicationState;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
 
 import java.util.Date;
 
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.annotations.ApplicationState;
+
 /**
  * Start page of application scyuseradmin.
  */
 public class Start extends SCYBasePage {
 
-    @ApplicationState (create = false)
+    @ApplicationState(create = false)
     private Group currentGroup;
 
     @Inject

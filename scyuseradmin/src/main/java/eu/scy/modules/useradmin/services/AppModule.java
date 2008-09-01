@@ -14,19 +14,19 @@
 
 package eu.scy.modules.useradmin.services;
 
-import java.io.IOException;
-
-import org.apache.tapestry.TapestryConstants;
-import org.apache.tapestry.ioc.MappedConfiguration;
-import org.apache.tapestry.ioc.OrderedConfiguration;
-import org.apache.tapestry.ioc.ServiceBinder;
-import org.apache.tapestry.ioc.annotations.InjectService;
-import org.apache.tapestry.services.Request;
-import org.apache.tapestry.services.RequestFilter;
-import org.apache.tapestry.services.RequestHandler;
-import org.apache.tapestry.services.Response;
+import org.apache.tapestry5.*;
+import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.services.RequestFilter;
+import org.apache.tapestry5.services.RequestHandler;
+import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.slf4j.Logger;
-import eu.scy.core.startup.ConfigureDefaultSCYSettings;
+
+import java.io.IOException;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry
@@ -50,12 +50,12 @@ public class AppModule {
         // you can extend this list of locales (it's a comma seperated series of locale names;
         // the first locale name is the default when there's no reasonable match).
 
-        configuration.add(TapestryConstants.SUPPORTED_LOCALES_SYMBOL, "en");
+        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
 
         // The factory default is true but during the early stages of an application
         // overriding to false is a good idea. In addition, this is often overridden
         // on the command line as -Dtapestry.production-mode=false
-        configuration.add(TapestryConstants.PRODUCTION_MODE_SYMBOL, "false");
+        configuration.add(SymbolConstants.SUPPORTED_LOCALES, "false");
     }
 
 

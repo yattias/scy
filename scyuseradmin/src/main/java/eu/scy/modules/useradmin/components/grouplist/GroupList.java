@@ -7,8 +7,8 @@ import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
 import java.util.List;
 
-import org.apache.tapestry.ioc.annotations.Inject;
-import org.apache.tapestry.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +19,7 @@ import org.apache.tapestry.annotations.ApplicationState;
  */
 public class GroupList extends SCYBasePage {
 
-    @ApplicationState (create=false)
+    @ApplicationState(create=false)
     private Group currentGroup;
 
     private Group group;

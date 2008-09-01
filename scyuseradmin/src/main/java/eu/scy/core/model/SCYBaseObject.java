@@ -1,10 +1,10 @@
 package eu.scy.core.model;
 
-import org.apache.tapestry.beaneditor.NonVisual;
+import org.apache.tapestry5.beaneditor.NonVisual;
 
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 

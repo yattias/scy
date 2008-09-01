@@ -1,15 +1,14 @@
 package eu.scy.modules.useradmin.components.projectlist;
 
-import org.apache.tapestry.ioc.annotations.Inject;
-import org.apache.tapestry.annotations.ApplicationState;
-import org.apache.tapestry.annotations.InjectPage;
+import eu.scy.core.model.Project;
+import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.modules.useradmin.pages.projectmanagement.EditProject;
 
 import java.util.List;
 
-import eu.scy.core.persistence.hibernate.UserDAOHibernate;
-import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
-import eu.scy.core.model.Project;
-import eu.scy.modules.useradmin.pages.projectmanagement.EditProject;
+import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
  * Created by IntelliJ IDEA.

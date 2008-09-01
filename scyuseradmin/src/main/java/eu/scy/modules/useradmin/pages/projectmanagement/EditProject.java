@@ -3,9 +3,9 @@ package eu.scy.modules.useradmin.pages.projectmanagement;
 import eu.scy.modules.useradmin.pages.SCYBasePage;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.model.Project;
-import org.apache.tapestry.annotations.BeginRender;
-import org.apache.tapestry.annotations.Persist;
-import org.apache.tapestry.ioc.annotations.Inject;
+import org.apache.tapestry5.annotations.BeginRender;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
  * Created by IntelliJ IDEA.
