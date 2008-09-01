@@ -1,10 +1,9 @@
 package eu.scy.modules.useradmin.pages.projectmanagement;
 
-import org.apache.tapestry.annotations.ApplicationState;
-import org.apache.tapestry.ioc.annotations.Inject;
 import eu.scy.core.model.Project;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.modules.useradmin.pages.SCYBasePage;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
  * Created by IntelliJ IDEA.

@@ -8,12 +8,14 @@
         </property>
     </bean>
 
-    <bean id="userManagementService" class="eu.scy.modules.useradmin.webservice.impl.UserManagementServiceImpl"/>
+    <bean id="userManagementService" class="eu.scy.modules.useradmin.webservice.impl.UserManagementServiceImpl">
+        <property name="dao" ref="userDAO"/>
+    </bean>
 
     <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
         <property name="mappings">
             <props>
-                <prop key="{http://www.scy-net.eu/schemas}ServiceNameRequest">userManagementEndpoint</prop>
+                <prop key="{http://www.scy-net.eu/schemas}LoginRequest">userManagementEndpoint</prop>
             </props>
         </property>
         <property name="interceptors">

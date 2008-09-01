@@ -9,7 +9,6 @@ package eu.scy.modules.useradmin.webservice;
  */
 public interface UserManagementService {
 
-    public String serviceName();
-
+    String loginUser(String userName, String password);
 
 }

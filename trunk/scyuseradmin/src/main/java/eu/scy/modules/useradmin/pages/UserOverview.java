@@ -1,18 +1,16 @@
 package eu.scy.modules.useradmin.pages;
 
-import org.apache.tapestry.ioc.annotations.Inject;
-import org.apache.tapestry.annotations.ApplicationState;
-import org.apache.tapestry.annotations.Persist;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UserDetails;
 
-import java.util.List;
-import java.util.Collections;
-
-import eu.scy.core.persistence.hibernate.UserDAOHibernate;
-import eu.scy.core.model.User;
 import eu.scy.core.model.Group;
+import eu.scy.core.model.User;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +21,7 @@ import eu.scy.core.model.Group;
  */
 public class UserOverview extends SCYBasePage{
 
-    @ApplicationState (create = false)
+    @ApplicationState(create = false)
     private Group currentGroup;
 
     public Group getCurrentGroup() {

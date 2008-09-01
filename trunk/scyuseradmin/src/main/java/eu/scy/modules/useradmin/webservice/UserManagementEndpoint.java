@@ -6,6 +6,8 @@ import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+import org.w3c.dom.NodeList;
+import org.dom4j.Node;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +18,6 @@ import org.w3c.dom.Text;
  */
 
 public class UserManagementEndpoint extends AbstractDomPayloadEndpoint {
-
 
 
     private UserDAOHibernate userDAO;
@@ -39,12 +40,44 @@ public class UserManagementEndpoint extends AbstractDomPayloadEndpoint {
     }
 
     protected Element invokeInternal(Element element, Document document) throws Exception {
-        Element root = document.createElementNS(Constants.NAME_SPACE, "ServiceNameResponse");
-        Element echoResponse = document.createElementNS(Constants.NAME_SPACE, "ServiceNameResponse" );
-        root.appendChild(echoResponse);
-        Element message =  document.createElementNS(Constants.NAME_SPACE, "Message");
-        echoResponse.appendChild(message);
-        Text responseText = document.createTextNode(getUserManagementService().serviceName());
+        String userName = null;
+        String password = null;
+        try {
+            System.out.println("ELEMENT: " + element.getNodeName());
+            NodeList nodes = element.getChildNodes();
+
+
+            for (int counter = 0; counter < nodes.getLength(); counter++) {
+                org.w3c.dom.Element n = (Element) nodes.item(counter);
+                if (n.getNodeName().equals("UserName")) userName = n.getTextContent();
+                else if (n.getNodeName().equals("Password")) password = n.getTextContent();
+                System.out.println("NODE: " + n.getNodeName());
+
+                System.out.println(n.getTextContent());
+                /*Node e = (Node) n.getElementsByTagNameNS(Constants.NAME_SPACE, "Name");
+                if (e != null) {
+                    System.out.println("VALUE: " + e.getName());
+                } */
+
+            }
+
+            System.out.println(document.toString());
+            System.out.println(element.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //Element e = document.getElementById("UserName");
+        //System.out.println(e);
+        //System.out.println("ELEMENT IS : " + e.getTextContent());
+
+
+        Element root = document.createElementNS(Constants.NAME_SPACE, "LoginResponse");
+        Element myResponse = document.createElementNS(Constants.NAME_SPACE, "LoginResponse");
+        root.appendChild(myResponse);
+        Element message = document.createElementNS(Constants.NAME_SPACE, "Message");
+        myResponse.appendChild(message);
+        Text responseText = document.createTextNode(getUserManagementService().loginUser(userName, password));
         message.appendChild(responseText);
         return root;
 

@@ -3,9 +3,8 @@ package eu.scy.modules.useradmin.pages;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import org.apache.log4j.Logger;
-import org.apache.tapestry.annotations.ApplicationState;
-import org.apache.tapestry.annotations.SetupRender;
-import org.apache.tapestry.annotations.BeginRender;
+import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.BeginRender;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.SCYBaseObject;
 import eu.scy.modules.useradmin.components.projectlist.ProjectList;
@@ -19,7 +18,7 @@ import eu.scy.modules.useradmin.components.projectlist.ProjectList;
  */
 public class SCYBasePage {
 
-    @ApplicationState (create=false)
+    @ApplicationState(create=false)
     private Project currentProject;
     private SCYBaseObject model;
 
