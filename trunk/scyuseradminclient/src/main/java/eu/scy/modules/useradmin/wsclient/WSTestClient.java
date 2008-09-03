@@ -24,8 +24,8 @@ public class WSTestClient {
     public WSTestClient() {
 
         try {
-            url = new URL("http://localhost:8080/scyadmin/ws/userManagement.wsdl");
-            qname = new QName("http://www.scy-net.eu/schemas", "UserManagementService");
+            url = new URL("http://localhost:8080/scyadmin/services/UserManagement?wsdl");
+            qname = new QName("http://www.scy-net.eu/schemas", "UserManagement");
             service = new UserManagementService(url, qname);
             factory = new ObjectFactory();
 
