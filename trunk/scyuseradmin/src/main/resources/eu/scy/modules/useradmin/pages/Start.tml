@@ -6,5 +6,18 @@
         <t:beaneditform t:id="user" submitlabel="message:create-user"/>
 
         <t:actionlink t:id="view" context="currentUsersUserName">View</t:actionlink>
+
+        <table class="navigation" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+        <t:loop source="userSessions" value="userSession">
+            <tr>
+                <td>
+                    ${userSessionStarted}
+                </td>
+            </tr>
+        </t:loop>
+    </table>
+    
     </body>
+
+
 </html>

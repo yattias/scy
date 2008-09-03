@@ -3,16 +3,22 @@ package eu.scy.modules.useradmin.pages;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserSession;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.log4j.Logger;
 
 /**
  * Start page of application scyuseradmin.
  */
 public class Start extends SCYBasePage {
+    private static Logger log = Logger.getLogger(SCYBasePage.class);
+
+    private UserSession userSession;
 
     @ApplicationState(create = false)
     private Group currentGroup;
@@ -72,5 +78,24 @@ public class Start extends SCYBasePage {
         setUser(getUserDAO().getUserByUsername(username));
         return null;
 
+    }
+
+
+    public List getUserSessions() {
+        log.info("Getting user sessions!");
+        return getUser().getUserSessions();
+    }
+
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
+    }
+
+    public String getUserSessionStarted() {
+        Date d = new Date(getUserSession().getSessionStarted());
+        return String.valueOf(d);
     }
 }

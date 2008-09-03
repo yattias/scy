@@ -1,7 +1,9 @@
 package eu.scy.modules.useradmin.webservice.impl;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserSession;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.hibernate.UserSessionDAOHibernate;
 import eu.scy.modules.useradmin.webservice.UserManagementService;
 import org.apache.log4j.Logger;
 
@@ -24,6 +26,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     private static Logger log = Logger.getLogger(UserManagementServiceImpl.class);
 
     private UserDAOHibernate dao = null;
+    private UserSessionDAOHibernate userSessionDAO;
 
 
 
@@ -32,8 +35,8 @@ public class UserManagementServiceImpl implements UserManagementService {
         User user = getDao().getUserByUsername(userName);
         if (user != null) {
             if (user.getPassword().equals(password)) {
-                //TODO: Replace this with a real session. This will at least get the IMO-guys running.
-                return userName;
+                UserSession session = getUserSessionDAO().createNewUserSession(user);
+                return session.getId();
             }
         }
         return "NO_SESSION_MAN!";
@@ -46,5 +49,13 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     public void setDao(UserDAOHibernate dao) {
         this.dao = dao;
+    }
+
+    public UserSessionDAOHibernate getUserSessionDAO() {
+        return userSessionDAO;
+    }
+
+    public void setUserSessionDAO(UserSessionDAOHibernate userSessionDAO) {
+        this.userSessionDAO = userSessionDAO;
     }
 }

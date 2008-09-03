@@ -14,7 +14,8 @@
        <div id="scyTopInnerContainer">
         <t:pagelink page="Home">Home</t:pagelink>
         <t:pagelink page="UserOverview">User Administration</t:pagelink>
-        <t:pagelink page="projectmanagement/ProjectManagement">Project Management</t:pagelink> 
+        <t:pagelink page="projectmanagement/ProjectManagement">Project Management</t:pagelink>
+        <div t:type="links/ActionLink"/>
 
            Currently logged in as: ${currentUsersUserName} - ${currentProjectName} 
 

@@ -32,6 +32,7 @@
 
     <bean id="userManagementService" class="eu.scy.modules.useradmin.webservice.impl.UserManagementServiceImpl">
         <property name="dao" ref="userDAO"/>
+        <property name="userSessionDAO" ref="userSessionDAO"/>
     </bean>
 
     <jaxws:endpoint id="userManagementWebService" implementor="#userManagementService" address="/UserManagement"/>
