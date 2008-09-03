@@ -35,7 +35,7 @@ public class AppTest
 
     public void testClient() {
         WSTestClient client = new WSTestClient();
-        assertEquals(client.login("henriks", "heehaa"), "henriks");
+        assertEquals(client.login("sky", "sky"), "sky");
     }
 
 

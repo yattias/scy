@@ -16,6 +16,6 @@ import javax.jws.WebMethod;
 public interface UserManagementService {
 
     @WebMethod (operationName = "loginUser")
-    String loginUser(String userName, String password);
+    String loginUser(@WebParam(name="userName")String userName, @WebParam(name="password")String password);
 
 }

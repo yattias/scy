@@ -27,6 +27,7 @@ public class User extends SCYBaseObject {
     private Group group;
 
     private List<UserRole> userRoles;
+    private List<UserSession> userSessions;
 
     private Project project;
 
@@ -101,5 +102,14 @@ public class User extends SCYBaseObject {
 
         getUserRoles().add(role);
 
+    }
+
+    @OneToMany(targetEntity = UserSession.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<UserSession> getUserSessions() {
+        return userSessions;
+    }
+
+    public void setUserSessions(List<UserSession> userSessions) {
+        this.userSessions = userSessions;
     }
 }

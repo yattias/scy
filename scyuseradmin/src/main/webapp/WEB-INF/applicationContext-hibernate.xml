@@ -70,4 +70,8 @@
         <property name="sessionFactory"><ref local="sessionFactory"/></property>
     </bean>
 
+    <bean id="userSessionDAO" class="eu.scy.core.persistence.hibernate.UserSessionDAOHibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+    </bean>
+
 </beans>
