@@ -17,33 +17,17 @@ public class WSTestClient {
 
     private URL url = null;
     QName qname = null;
-    UserManagementService service = null;
+    UserManagement userManagement = null;
     ObjectFactory factory = null;
 
 
     public WSTestClient() {
-
-        try {
-            url = new URL("http://localhost:8080/scyadmin/services/UserManagement?wsdl");
-            qname = new QName("http://www.scy-net.eu/schemas", "UserManagement");
-            service = new UserManagementService(url, qname);
-            factory = new ObjectFactory();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-
+        userManagement = new UserManagement();
 
     }
 
     public String login(String userName, String password) {
-        LoginRequest request = new LoginRequest();
-        request.setUserName(getStringType(userName));
-        request.setPassword(getStringType(password));
-
-        LoginResponse response = service.getUserManagementPort().login(request);
-        return response.getLoginResponse().getMessage();
+        return userManagement.getUserManagementServiceImplPort().loginUser(userName, password);
 
     }
 
@@ -54,12 +38,5 @@ public class WSTestClient {
 
     }
 
-    private StringType getStringType(String name) {
-        StringType type = factory.createStringType();
-        type.setName(name);
-        return type;
-
-
-    }
 
 }
