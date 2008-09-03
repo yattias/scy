@@ -2,7 +2,7 @@ package eu.scy.modules.useradmin.webservice;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.Constants;
-import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
+//import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -17,7 +17,7 @@ import org.dom4j.Node;
  * A quick start for using the user dao from a web service.... simple stuff really - annotate methods as WebMethod and boom you go!
  */
 
-public class UserManagementEndpoint extends AbstractDomPayloadEndpoint {
+public class UserManagementEndpoint /*extends AbstractDomPayloadEndpoint */{
 
 
     private UserDAOHibernate userDAO;
