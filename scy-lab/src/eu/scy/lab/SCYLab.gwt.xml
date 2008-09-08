@@ -1,0 +1,16 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+
+	<!-- Inherit the GWT Ext stuff.                  -->
+	<inherits name='com.gwtext.GwtExt'/>
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='eu.scy.lab.client.SCYLab'/>
+  
+  	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+  	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
+  	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+  	
+</module>
