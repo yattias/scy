@@ -22,6 +22,10 @@ public class SCYLab implements EntryPoint {
 		FormPanel p = new FormPanel();
 		TextField field = new TextField("Username", "username");
 		p.add(field);
+		field = new TextField("Surename", "surename");
+		p.add(field);
+		field = new TextField("EMail", "email");
+		p.add(field);
 
 		RootPanel.get().add(p);
 	}
