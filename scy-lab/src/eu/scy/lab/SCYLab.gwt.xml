@@ -9,14 +9,12 @@
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class='eu.scy.lab.client.SCYLab'/>
   
-  	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+  	<!--  <inherits name="com.google.gwt.user.theme.standard.Standard"/>-->
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
   	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
   	
-  	<!-- Define EXT JS stuff -->
-  	<stylesheet src="js/ext/resources/css/ext-all.css" />
-	<script src="js/ext/adapter/ext/ext-base.js" />
-	<script src="js/ext/ext-all.js" />
-  	
+  	<!-- Specifying the available locales -->
+  	<extend-property name="locale" values="en" /> 
+    <extend-property name="locale" values="de" /> 
   	
 </module>

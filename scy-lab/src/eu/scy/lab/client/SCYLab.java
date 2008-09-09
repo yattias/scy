@@ -4,39 +4,41 @@
 package eu.scy.lab.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.Window;
-import com.gwtext.client.widgets.form.TextField;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import eu.scy.lab.client.login.Login;
+import eu.scy.lab.client.usermanagement.CreateUser;
 
 /**
- * @author Sven
+ * @author Sven Manske
+ * 
  */
 public class SCYLab implements EntryPoint {
-    
-    public void onModuleLoad() {
-        Window p = new Window();
-        p.setTitle("Login");
-        
-        TextField field = new TextField("Username", "username");
-        p.add(field);
-        field = new TextField("Surename", "surename");
-        p.add(field);
-        field = new TextField("EMail", "email");
-        p.add(field);
-        
-        p.setFrame(true);
-        p.setWidth(250);
-        p.setFloating(true);
-        
-        Button[] buttons = new Button[2];
-        buttons[0] = new Button("Login");
-        buttons[1] = new Button("Reset");
-        p.setButtons(buttons);
-        
-        RootPanel.get().add(p);
-        
-        p.show();
-        p.setPosition(200, 200);
-    }
+
+	public void onModuleLoad() {
+		
+		//new Login Panel
+		Login login = new Login();
+		
+		//Positioning in Center
+		//wrap Login-Panel in vertical Panel
+		VerticalPanel verticalPanel  = new VerticalPanel();
+		verticalPanel.setWidth("100%");
+		verticalPanel.setHeight("100%");
+		verticalPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+		verticalPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(login);
+		
+		//adding verticalPanel to RootPanel, horizontalPanel to verticalPanel, LoginPanel to horizontalPanel
+		RootPanel.get().add(verticalPanel);
+		verticalPanel.add(horizontalPanel);
+		
+		
+		
+	}
+
 }
