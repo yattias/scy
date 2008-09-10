@@ -1,11 +1,5 @@
 #summary Developers guide to setup the user management server
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
 
 How to set up the scy useradmin and run it
 WARNING: The user admin is a work in progress – so this document will change radically the next coming weeks
@@ -26,5 +20,3 @@ For the time being you can only log in with username : scy and password scy, thi
 To access the 
 useradmin wsdl: http://localhost:8080/scyadmin/services/UserManagement?wsdl
 brokerProxy.wsdl: http://localhost:8080/scyadmin/services/BrokerProxy?wsdl
-
-
