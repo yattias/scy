@@ -9,7 +9,6 @@ package eu.scy.modules.useradmin.components.border;
  */
 
 import eu.scy.modules.useradmin.pages.SCYBasePage;
-import eu.scy.core.model.Project;
 
 public class Layout extends SCYBasePage {
 
