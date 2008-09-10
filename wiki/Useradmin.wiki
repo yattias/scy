@@ -2,6 +2,7 @@
 
 
 How to set up the scy useradmin and run it
+
 *WARNING:* The user admin is a work in progress – so this document will change radically the next coming weeks
 
 Useradmin is built from java1.5 – updates are needed to run it in 1.6, have not had the time yet to fix that part.
