@@ -25,4 +25,22 @@ public class Layout extends SCYBasePage {
     @Path("context:graphics/scy_home.png")
     private Asset scyHomeIcon;
 
+    public Asset getScyHomeIcon(){
+        return scyHomeIcon;
+    }
+    @Inject
+    @Path("context:graphics/scy_useradmin.png")
+    private Asset scyUserAdminIcon;
+
+    public Asset getScyUserAdminIcon(){
+        return scyUserAdminIcon;
+    }
+    @Inject
+    @Path("context:graphics/scy_projectmanagement.png")
+    private Asset scyProjectManagementIcon;
+
+    public Asset getScyProjectManagementIcon(){
+        return scyProjectManagementIcon;
+    }
+
 }
