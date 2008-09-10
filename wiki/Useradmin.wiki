@@ -7,9 +7,13 @@ WARNING: The user admin is a work in progress – so this document will change r
 Useradmin is built from java1.5 – updates are needed to run it in 1.6, have not had the time yet to fix that part.
 
 Required software:
+
 Java1.5.xx
+
 MySql 4 ++
+
 Maven 2
+
 
 1.	Check out the code from google code.
 2.	There is a file called sample_filter_rename_me.properties. Rename it to filter.properties (in the same folder) and update the properties inside filter.propertes to match your local requirements
