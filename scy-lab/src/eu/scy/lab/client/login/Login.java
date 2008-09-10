@@ -5,16 +5,12 @@ package eu.scy.lab.client.login;
 
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.gwtext.client.core.EventObject;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.widgets.Button;
-import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
-
-import eu.scy.lab.client.usermanagement.CreateUser;
 
 /**
  * @author Sven Manske
@@ -30,7 +26,6 @@ public class Login extends FormPanel {
 	public Login() {
 		// Localization
 		constants = (LoginConstants) GWT.create(LoginConstants.class);
-		
 		createFields();
 		createButtons();
 	}
@@ -62,25 +57,10 @@ public class Login extends FormPanel {
 
 		// Listener-Adapter for the Buttons
 		// TODO Insert real actions
-		ButtonListenerAdapter buttonListener = new ButtonListenerAdapter() {
-			public void onClick(Button button, EventObject e) {
-				if (button.equals(login)) {
-					login();
-				} else if (button.equals(register)) {
-					//remove child (=LoginPanel) from RootPanel
-					RootPanel.get().remove(0);
-					CreateUser cu = new CreateUser();
-				} else if (button.equals(passwordForgotten)) {
-					
-				}
 
-			}
-
-		};
-
-		login = new Button(constants.login(), buttonListener);
-		register = new Button(constants.register(), buttonListener);
-		passwordForgotten = new Button(constants.pwForgotten(), buttonListener);
+		login = new Button(constants.login(), new ButtonListenerAdapterImpl("login"));
+		register = new Button(constants.register(), new ButtonListenerAdapterImpl("register"));
+		passwordForgotten = new Button(constants.pwForgotten(), new ButtonListenerAdapterImpl("passwordForgotten"));
 
 		// storing Buttons in Array to set them as FormPanel-Buttons
 		Button[] buttons = new Button[3];
@@ -94,20 +74,24 @@ public class Login extends FormPanel {
 
 		setShadow(true);
 		setPaddings(5);
+		
+	}
+	
+	public VerticalPanel getCentredLoginDialog(){
+		
+		//Positioning in Center
+		//wrap Login-Panel in vertical Panel
+		VerticalPanel verticalPanel  = new VerticalPanel();
+		verticalPanel.setWidth("100%");
+		verticalPanel.setHeight("100%");
+		verticalPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+		verticalPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		verticalPanel.add(horizontalPanel);
+		horizontalPanel.add(this);
+		
+		return verticalPanel;
 	}
 
-	// TODO Implement login-procedure
-	public void login() {
-		Window.alert("Login durchgeführt");
-	}
-
-	// TODO Implement register-procedure
-	public void register() {
-		Window.alert("Login durchgeführt");
-	}
-
-	// TODO Implement passwordForgotten-procedure
-	public void passwordForgotten() {
-		Window.alert("Login durchgeführt");
-	}
+	
 }
