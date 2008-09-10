@@ -29,7 +29,8 @@
         <div id="mainpane_inner">
             <div id="scyUserMenu">
                 <t:pagelink page="Home">
-                    <img src="graphics/scy_home.png" title="Home"/>
+                    <img src="${scyHomeIcon}" title="Home"/>
+
                 </t:pagelink>
                 <t:pagelink page="UserOverview" title="User administration">
                     <img src="graphics/scy_useradmin.png" />
