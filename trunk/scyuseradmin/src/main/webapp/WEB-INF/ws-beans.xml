@@ -37,5 +37,10 @@
 
     <jaxws:endpoint id="userManagementWebService" implementor="#userManagementService" address="/UserManagement"/>
 
+    <bean id="brokerProxyService" class="eu.scy.brokerproxy.webservice.BrokerProxyService">
+    </bean>
+
+    <jaxws:endpoint id="brokerProxyWebService" implementor="#brokerProxyService" address="/BrokerProxy"/>
+
 
 </beans>

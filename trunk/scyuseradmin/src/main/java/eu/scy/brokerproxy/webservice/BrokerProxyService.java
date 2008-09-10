@@ -6,6 +6,12 @@ import java.util.List;
 import eu.scy.brokerproxy.BrokerProxy;
 import eu.scy.core.model.Elo;
 
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+
+import org.apache.log4j.Logger;
+
 // import javax.jws.WebMethod;
 // import javax.jws.WebService;
 
@@ -14,16 +20,18 @@ import eu.scy.core.model.Elo;
  * An attempt at a BrokerProxy WS
  */
 
-// WebService
+@WebService(endpointInterface = "eu.scy.brokerproxy.BrokerProxy", serviceName = "BrokerProxy")
 public class BrokerProxyService implements BrokerProxy {
-    
+
+    private static Logger log = Logger.getLogger(BrokerProxyService.class);
+
     // WebMethod (operationName = "getServiceName" )
     public String getLogin(String s) {
         System.out.println("ServiceName!!");
         return "We are online!";
     }
     
-    // WebMethod (operationName = "getDonkeyName" )
+
     public String getDonkeyName(String name) {
         System.out.println("donkey!");
         return "Burro burro, " + name;
@@ -43,9 +51,10 @@ public class BrokerProxyService implements BrokerProxy {
         // TODO Auto-generated method stub
         return 0;
     }
-    
-    public Elo getElo(String eloURI, String token) {
-        // TODO Auto-generated method stub
+
+    @WebMethod
+    public Elo getElo(@WebParam(name="eloURI")String eloURI, @WebParam(name="token")String token) {
+        log.debug("Getting elo: "+ eloURI + " I AM A REAL ROCKER!");
         return null;
     }
     

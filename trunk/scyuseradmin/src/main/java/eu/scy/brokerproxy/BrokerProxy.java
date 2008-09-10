@@ -5,6 +5,11 @@ import java.util.List;
 
 import eu.scy.core.model.Elo;
 
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+
+
+@WebService(targetNamespace = "http://www.scy-net.eu/schemas/brokerproxy")
 public interface BrokerProxy {
     
     /** The Constant token. */
@@ -51,6 +56,7 @@ public interface BrokerProxy {
      *            the token
      * @return the elo
      */
+    @WebMethod(operationName = "getELO")
     public Elo getElo(String eloURI, String token);
     
     /**
