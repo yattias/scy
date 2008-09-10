@@ -39,8 +39,6 @@
         </param-value>
     </context-param>
 
-
-
     <filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>
