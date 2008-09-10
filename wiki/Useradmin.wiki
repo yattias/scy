@@ -19,4 +19,5 @@ For the time being you can only log in with username : scy and password scy, thi
 
 To access the 
 useradmin wsdl: http://localhost:8080/scyadmin/services/UserManagement?wsdl
+
 brokerProxy.wsdl: http://localhost:8080/scyadmin/services/BrokerProxy?wsdl
