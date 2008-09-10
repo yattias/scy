@@ -36,6 +36,7 @@ public interface BrokerProxy {
      *            the password
      * @return the token
      */
+    @WebMethod(operationName = "getToken")
     public String getToken(String username, String password);
     
     /**
@@ -45,6 +46,7 @@ public interface BrokerProxy {
      *            the token
      * @return the int
      */
+    @WebMethod(operationName = "destroyToken")
     public int destroyToken(String token);
     
     /**
@@ -66,7 +68,8 @@ public interface BrokerProxy {
      *            the token
      * @return the user elos
      */
-    public List<String> getUserElos(String token);
+    @WebMethod(operationName = "getUserElos")
+    public List<Elo> getUserElos(String token);
     
     /**
      * Update current elo. (save... function)
@@ -75,6 +78,7 @@ public interface BrokerProxy {
      *            the token
      * @return the int
      */
+    @WebMethod(operationName = "updateElo")
     public int updateElo(String token);
     
     /**
@@ -84,6 +88,7 @@ public interface BrokerProxy {
      *            the token
      * @return the elo
      */
+    @WebMethod(operationName = "createNewElo")
     public Elo createNewElo(String token);
     
     /**
@@ -95,6 +100,7 @@ public interface BrokerProxy {
      *            the token
      * @return the elo
      */
+    @WebMethod(operationName = "copyElo")
     public Elo copyElo(Elo elo, String token);
     
     /**
@@ -106,6 +112,7 @@ public interface BrokerProxy {
      *            the token
      * @return the int
      */
+    @WebMethod(operationName = "lockElo")
     public int lockElo(String eloUri, String token);
     
     /**
@@ -117,6 +124,7 @@ public interface BrokerProxy {
      *            the token
      * @return the int
      */
+    @WebMethod(operationName = "unlockElo")
     public int unlockElo(String eloUri, String token);
     
     /**
@@ -130,6 +138,7 @@ public interface BrokerProxy {
      *            the token
      * @return the int
      */
+    @WebMethod(operationName = "setPermission")
     public int setPermission(String eloId, int permission, String token);
     
     /**
@@ -143,6 +152,7 @@ public interface BrokerProxy {
      *            the token
      * @return the list< string>
      */
+    @WebMethod(operationName = "retrieveAllElosAged")
     public List<String> retrieveAllElosAged(Date minDate, Date maxDate, String token);
     
 }

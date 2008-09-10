@@ -74,4 +74,8 @@
         <property name="sessionFactory"><ref local="sessionFactory"/></property>
     </bean>
 
+    <bean id="eloContainerManager" class="eu.scy.core.service.impl.EloContainerManagerMock">
+
+    </bean>
+
 </beans>
