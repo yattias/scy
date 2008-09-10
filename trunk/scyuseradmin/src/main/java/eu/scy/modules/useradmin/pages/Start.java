@@ -1,6 +1,7 @@
 package eu.scy.modules.useradmin.pages;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
 import eu.scy.core.model.UserSession;
@@ -28,7 +29,7 @@ public class Start extends SCYBasePage {
 
     private User user;
 
-    public UserDAOHibernate getUserDAO() {
+    public UserDAO getUserDAO() {
         return userDAO;
     }
 

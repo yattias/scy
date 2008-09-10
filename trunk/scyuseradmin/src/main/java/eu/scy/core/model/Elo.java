@@ -27,8 +27,7 @@ public class Elo extends SCYBaseObject {
     
     @Column(name = "eloContent", nullable = false, unique = false)
     public String getEloContent() {
-        return "oh lala!";
-        // return eloContent;
+        return eloContent;
     }
     
     public void setEloContent(String eloContent) {

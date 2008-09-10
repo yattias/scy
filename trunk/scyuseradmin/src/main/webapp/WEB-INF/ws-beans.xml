@@ -38,6 +38,7 @@
     <jaxws:endpoint id="userManagementWebService" implementor="#userManagementService" address="/UserManagement"/>
 
     <bean id="brokerProxyService" class="eu.scy.brokerproxy.webservice.BrokerProxyService">
+        <property name="eloContainerManager" ref="eloContainerManager"/>
     </bean>
 
     <jaxws:endpoint id="brokerProxyWebService" implementor="#brokerProxyService" address="/BrokerProxy"/>

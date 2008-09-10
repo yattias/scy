@@ -3,6 +3,7 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
 import eu.scy.core.model.Project;
+import eu.scy.core.persistence.UserDAO;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Time: 15:39:06
  * A hibernate implementation of access to the user database
  */
-public class UserDAOHibernate extends BaseDAOHibernate {
+public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
 
     public User getUserByUsername(String username) {

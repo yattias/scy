@@ -4,6 +4,7 @@ import eu.scy.modules.useradmin.pages.SCYBasePage;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.Group;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.UserDAO;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class GroupList extends SCYBasePage {
     @Inject
     private UserDAOHibernate userDAOHibernate;
 
-    public UserDAOHibernate getUserDAOHibernate() {
+    public UserDAO getUserDAO() {
         return userDAOHibernate;
     }
 
@@ -68,14 +69,14 @@ public class GroupList extends SCYBasePage {
 
     public void onActionFromAddGroup() {
         if(getCurrentProject() != null) {
-            Group g = getUserDAOHibernate().createGroup(getCurrentProject(), "New Group", null);
-            getUserDAOHibernate().save(g);
+            Group g = getUserDAO().createGroup(getCurrentProject(), "New Group", null);
+            getUserDAO().save(g);
         }
     }
 
     public void onActionFromSelectGroup(String id) {
         System.out.println("SELECTED GROUP!!! "+ id);
-        Group g = getUserDAOHibernate().getGroup(id);
+        Group g = getUserDAO().getGroup(id);
         setCurrentGroup(g);
     }
 

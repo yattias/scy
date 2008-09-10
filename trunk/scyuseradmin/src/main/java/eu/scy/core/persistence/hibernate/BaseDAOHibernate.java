@@ -2,6 +2,7 @@ package eu.scy.core.persistence.hibernate;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import eu.scy.core.model.SCYBaseObject;
+import eu.scy.core.persistence.BaseDAO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +11,7 @@ import eu.scy.core.model.SCYBaseObject;
  * Time: 15:38:00
  * A hibernate base DAO
  */
-public class BaseDAOHibernate extends HibernateDaoSupport {
+public class BaseDAOHibernate extends HibernateDaoSupport implements BaseDAO {
 
 
     /**
