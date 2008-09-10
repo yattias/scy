@@ -1,0 +1,30 @@
+#summary Developers guide to setup the user management server
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+How to set up the scy useradmin and run it
+WARNING: The user admin is a work in progress – so this document will change radically the next coming weeks
+
+Useradmin is built from java1.5 – updates are needed to run it in 1.6, have not had the time yet to fix that part.
+
+Required software:
+Java1.5.xx
+MySql 4 ++
+Maven 2
+
+1.	Check out the code from google code.
+2.	There is a file called sample_filter_rename_me.properties. Rename it to filter.properties (in the same folder) and update the properties inside filter.propertes to match your local requirements
+3.	In command line in the scyuseradmin folder, run mvn jetty:run to download dependencies and start up a jetty server. This server both serves the web pages of user admin, and also two web services for useradmin and brokerAPI.
+4.	You can access the web site from the url: http://localhost:8080/scyadmin/home
+For the time being you can only log in with username : scy and password scy, this will be updated pretty soon.
+
+To access the 
+useradmin wsdl: http://localhost:8080/scyadmin/services/UserManagement?wsdl
+brokerProxy.wsdl: http://localhost:8080/scyadmin/services/BrokerProxy?wsdl
+
+
