@@ -29,14 +29,14 @@
         <div id="mainpane_inner">
             <div id="scyUserMenu">
                 <t:pagelink page="Home">
-                    <img src="${scyHomeIcon}" title="Home"/>
-
+                    <img src="${scyHomeIcon}"/>
                 </t:pagelink>
                 <t:pagelink page="UserOverview" title="User administration">
-                    <img src="graphics/scy_useradmin.png" />
+                    <img src="${scyUserAdminIcon}"/>
+
                 </t:pagelink>
                 <t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
-                    <img src="graphics/scy_projectmanagement.png" />
+                    <img src="${scyProjectManagementIcon}"/>
                 </t:pagelink>
            </div>
             <t:body/>
