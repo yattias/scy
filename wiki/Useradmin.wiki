@@ -22,7 +22,7 @@ Maven 2
 
 1.	Check out the code from google code.
 
-2.	There is a file called sample_filter_rename_me.properties. Rename it to filter.properties (in the same folder) and update the properties inside filter.propertes to match your local requirements
+2.	In the folder <YOUR_LOCAL_REPOSITORY_COPY>/src/main/filters folder there is a file called sample_filter_rename_me.properties. Rename this file to filter.properties  and update the properties inside the file filter.propertes to match your local requirements. Make sure that you do not upload the filter.properties file to the code repository.
 
 3. Create a database in mysql that is named "scyuseradmin"
 
