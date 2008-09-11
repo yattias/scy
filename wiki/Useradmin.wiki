@@ -15,7 +15,9 @@ MySql 4 ++
 
 Maven 2
 
-*5 steps for a successful setup of SCY-useradmin*
+
+
+*5 steps for a successful setup of SCY-useradmin:*
 
 
 1.	Check out the code from google code.
