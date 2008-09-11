@@ -12,11 +12,12 @@ public class Tasks {
 	public Tasks() {
 		panel = new Panel();
 		panel.setBorder(false);
-		panel.setPaddings(15);
-		panel.setCollapsible(true);
-		panel.setTitle("Tasks");
+		panel.setPaddings(5);
+//		panel.setCollapsible(true);
+//		panel.setTitle("Tasks");
 
 		Panel subPanel = new Panel();
+		subPanel.setBorder(false);
 
 		VerticalPanel verticalPanel = new VerticalPanel();
 
@@ -35,7 +36,7 @@ public class Tasks {
 		subPanel.add(verticalPanel);
 		panel.add(subPanel);
 		panel.add(addTask);
-		panel.collapse();
+//		panel.collapse();
 
 	}
 

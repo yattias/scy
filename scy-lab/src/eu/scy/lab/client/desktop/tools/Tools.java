@@ -35,8 +35,8 @@ class Tools extends TreePanel {
              setRootVisible(false);  
    
              setTitle("Tools");  
-             setWidth(200);  
-             setHeight(400);  
+//             setWidth(200);  
+//             setHeight(400);  
              setRootNode(root);  
              root.setExpanded(true);  
          }  

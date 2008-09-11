@@ -18,6 +18,7 @@ public class TabbedWorkspace extends TabPanel {
 		mainPanel = new Panel();
 		mainPanel.setLayout(new VerticalLayout(15));
 		subPanel = new Panel();
+		subPanel.setBorder(false);
 		
 
 		setResizeTabs(true);
@@ -26,8 +27,8 @@ public class TabbedWorkspace extends TabPanel {
 		addTab("Welcome!", html);
 		setTabWidth(135);
 		setEnableTabScroll(true);
-		setWidth(450);
-		setHeight(400);
+//		setWidth(450);
+//		setHeight(400);
 		setActiveTab(0);
 	
 
@@ -45,11 +46,12 @@ public class TabbedWorkspace extends TabPanel {
 	private Panel addTab(String title, String html) {
 		Panel tab = new Panel();
 		tab.setAutoScroll(true);
-		tab.setTitle(title + (++index));
+		tab.setTitle(title);
 		tab.setIconCls("tab-icon");
 		tab.setHtml(html);
 		tab.setClosable(true);
 		add(tab);
+		++index;
 		return tab;
 	}
 

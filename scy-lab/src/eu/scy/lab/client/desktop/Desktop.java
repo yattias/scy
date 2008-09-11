@@ -25,7 +25,7 @@ public class Desktop extends VerticalPanel{
 	navigation = createNavigation();
 	workspace = createWorkspace();
 	mainPanel.setSize("100%", "100%");
-	mainPanel.setSplitPosition("220px");
+	mainPanel.setSplitPosition("240px");
 //	css-style doesnt exist
 	mainPanel.setLeftWidget(navigation);
 	mainPanel.setRightWidget(workspace);
