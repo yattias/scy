@@ -40,7 +40,7 @@ public class Login extends FormPanel {
 		add(username);
 
 		// FIXME KeyLister doesnt work
-		int keyCode=112;
+//		int keyCode=112;
 		
 		username.addListener(new TextFieldListenerAdapter(){
 			
