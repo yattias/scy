@@ -24,7 +24,7 @@ Maven 2
 
 2.	There is a file called sample_filter_rename_me.properties. Rename it to filter.properties (in the same folder) and update the properties inside filter.propertes to match your local requirements
 
-3. Create a database in mysql that is named "scy"
+3. Create a database in mysql that is named "scyuseradmin"
 
 4.	In command line in the scyuseradmin folder, run mvn jetty:run to download dependencies and start up a jetty server. This server both serves the web pages of user admin, and also two web services for useradmin and brokerAPI.
 
