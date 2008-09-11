@@ -26,7 +26,7 @@ Maven 2
 
 3. Create a database in mysql that is named "scyuseradmin". This can be done by starting mysql from the commandline with the command "mysql -u <YOUR_USER_NAME> -p". For example: "mysql -u root -p". Enter the passsword and run the following command when you have successfully logged into mysql: "create database scyuseradmin;".
 
-4.	In command line in the scyuseradmin folder, run mvn jetty:run to download dependencies and start up a jetty server. This server both serves the web pages of user admin, and also two web services for useradmin and brokerAPI.
+4.	In command line in the scyuseradmin folder, run mvn jetty:run to download dependencies and start up a jetty server. This server both serves the web pages of user admin, and also two web services for useradmin and brokerAPI. The download may take quite a while to complete the first time it is run, so please be patient.
 
 5.	You can access the web site from the url: http://localhost:8080/scyadmin/home
 For the time being you can only log in with username : scy and password scy, this will be 
