@@ -9,6 +9,7 @@ import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 
 import eu.scy.lab.client.desktop.Desktop;
+import eu.scy.lab.client.desktop.DesktopAccordion;
 import eu.scy.lab.client.usermanagement.CreateUser;
 
 public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
@@ -37,7 +38,7 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
 				configFadeIn.setDuration((float) 0.25);
 				configFadeIn.setEndOpacity(1);
 				RootPanel.get().clear();
-				RootPanel.get().add(new Desktop().createDesktop());
+				RootPanel.get().add(new DesktopAccordion().createDesktop());
 				Ext.getBody().fadeIn(configFadeIn);
 			}
 		};

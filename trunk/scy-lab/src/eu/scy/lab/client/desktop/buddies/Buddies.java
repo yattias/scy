@@ -9,20 +9,21 @@ public class Buddies {
 	Panel panel;
 
 	public Buddies() {
-		panel = new Panel("Buddies");
+		panel = new Panel();
 		panel.setBorder(false);
-		panel.setPaddings(15);
-		panel.setCollapsible(true);
+		panel.setPaddings(5);
+//		panel.setCollapsible(true);
 
 		final TreePanel treePanel = new BuddyTree();
 		treePanel.setHeader(false);
+		treePanel.setBorder(false);
 		// treePanel.setTitle("Buddies");
-		treePanel.setCollapsible(true);
+//		treePanel.setCollapsible(true);
 		treePanel.setWidth(190);
 		treePanel.setHeight(150);
 
 		panel.add(treePanel);
-		panel.collapse();
+//		panel.collapse();
 
 	}
 
@@ -73,9 +74,9 @@ public class Buddies {
 
 			setRootVisible(false);
 
-			setTitle("Buddies");
-			setWidth(200);
-			setHeight(400);
+//			setTitle("Buddies");
+//			setWidth(200);
+//			setHeight(400);
 			setRootNode(root);
 			root.setExpanded(true);
 		}

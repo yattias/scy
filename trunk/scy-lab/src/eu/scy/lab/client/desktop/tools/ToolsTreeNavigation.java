@@ -8,18 +8,20 @@ import com.gwtext.client.widgets.tree.TreePanel;
 	 Panel panel;
 	 
      public ToolsTreeNavigation() {  
-         panel = new Panel("Tools");  
+         panel = new Panel();  
          panel.setBorder(false);  
-         panel.setPaddings(15);
-         panel.setCollapsible(true);
+         panel.setPaddings(5);
+//         panel.setCollapsible(true);
    
          final TreePanel treePanel = new Tools();  
          treePanel.setHeader(false);
+         treePanel.setBorder(false);
 //         treePanel.setTitle("Tools");  
-         treePanel.setCollapsible(true);
-         treePanel.setWidth(190);  
-         treePanel.setHeight(150);  
-   
+//         treePanel.setCollapsible(true);
+//         treePanel.setWidth(190);  
+//         treePanel.setHeight(150);  
+    
+//         
          panel.add(treePanel);  
    
           
