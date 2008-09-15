@@ -1,6 +1,10 @@
 package eu.scy.lab.client.desktop.buddies;
 
+import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.Toolbar;
+import com.gwtext.client.widgets.ToolbarButton;
+import com.gwtext.client.widgets.ToolbarMenuButton;
 import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
 
@@ -12,23 +16,38 @@ public class Buddies {
 		panel = new Panel();
 		panel.setBorder(false);
 		panel.setPaddings(5);
-//		panel.setCollapsible(true);
+		panel.setAutoScroll(true);
+		panel.setAutoHeight(true);
+		panel.setAutoWidth(true);
+		panel.setTopToolbar(createToolbar());
 
 		final TreePanel treePanel = new BuddyTree();
 		treePanel.setHeader(false);
 		treePanel.setBorder(false);
-		// treePanel.setTitle("Buddies");
-//		treePanel.setCollapsible(true);
-		treePanel.setWidth(190);
-		treePanel.setHeight(150);
+		treePanel.setAutoHeight(true);
+		treePanel.setAutoWidth(true);
 
 		panel.add(treePanel);
-//		panel.collapse();
 
 	}
 
 	public Panel getPanel() {
 		return this.panel;
+	}
+	
+	public Toolbar createToolbar(){
+		Toolbar toolbar = new Toolbar();
+
+		ToolbarMenuButton options = new ToolbarMenuButton("Options");
+		options.setIcon("");
+		toolbar.addButton(options);
+		
+		ToolbarButton addBuddy = new ToolbarButton();
+		addBuddy.setIcon("");
+		addBuddy.setTitle("add a new Buddy to contact list");
+		toolbar.addButton(addBuddy);
+		
+		return toolbar;
 	}
 
 	class BuddyTree extends TreePanel {
@@ -74,9 +93,6 @@ public class Buddies {
 
 			setRootVisible(false);
 
-//			setTitle("Buddies");
-//			setWidth(200);
-//			setHeight(400);
 			setRootNode(root);
 			root.setExpanded(true);
 		}
