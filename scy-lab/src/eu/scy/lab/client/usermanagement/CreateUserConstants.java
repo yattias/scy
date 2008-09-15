@@ -13,7 +13,7 @@ public interface CreateUserConstants extends
 	 * @return translated "LoginConstants"
 	 */
 	@DefaultStringValue("LoginConstants")
-	String userName();
+	String username();
 
 	String password();
 

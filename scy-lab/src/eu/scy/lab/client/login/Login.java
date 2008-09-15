@@ -4,6 +4,7 @@
 package eu.scy.lab.client.login;
 
 
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -32,6 +33,7 @@ public class Login extends FormPanel {
 
 	public void createFields() {
 
+		setIconCls("scylogo16x16");
 		setFrame(true);
 		setTitle(constants.loginTitle());
 
@@ -41,6 +43,7 @@ public class Login extends FormPanel {
 
 		// FIXME KeyLister doesnt work
 //		int keyCode=112;
+		
 		
 		username.addListener(new TextFieldListenerAdapter(){
 			

@@ -52,7 +52,7 @@ public class CreateUser extends FormPanel{
 		FieldSet userdata = new FieldSet(constants.userdata());
 
 		// LOGIN-DATA
-		TextField username = new TextField(constants.userName(), "username");
+		TextField username = new TextField(constants.username(), "username");
 		username.setAllowBlank(false);
 		username.setWidth(190);
 		logindata.add(username);

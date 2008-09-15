@@ -11,17 +11,14 @@ import com.gwtext.client.widgets.tree.TreePanel;
          panel = new Panel();  
          panel.setBorder(false);  
          panel.setPaddings(5);
-//         panel.setCollapsible(true);
+
+ 		panel.setAutoHeight(true);
+ 		panel.setAutoWidth(true);
    
          final TreePanel treePanel = new Tools();  
          treePanel.setHeader(false);
          treePanel.setBorder(false);
-//         treePanel.setTitle("Tools");  
-//         treePanel.setCollapsible(true);
-//         treePanel.setWidth(190);  
-//         treePanel.setHeight(150);  
     
-//         
          panel.add(treePanel);  
    
           
