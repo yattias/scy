@@ -1,17 +1,20 @@
 package eu.scy.modules.useradmin.pages;
 
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.hibernate.RoleDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.User;
-import eu.scy.core.model.UserSession;
+import eu.scy.core.model.*;
 
 import java.util.Date;
 import java.util.List;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.ApplicationState;
+import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.StreamResponse;
+import org.apache.tapestry5.util.TextStreamResponse;
 import org.apache.log4j.Logger;
+import org.apache.tapestry.commons.components.InPlaceCheckbox;
 
 /**
  * Start page of application scyuseradmin.
@@ -20,12 +23,17 @@ public class Start extends SCYBasePage {
     private static Logger log = Logger.getLogger(SCYBasePage.class);
 
     private UserSession userSession;
+    private UserRole userRole;
+    private Role role;
 
     @ApplicationState(create = false)
     private Group currentGroup;
 
     @Inject
     private UserDAOHibernate userDAO;
+
+    @Inject
+    private RoleDAOHibernate roleDAO;
 
     private User user;
 
@@ -35,6 +43,14 @@ public class Start extends SCYBasePage {
 
     public void setUserDAO(UserDAOHibernate userDAO) {
         this.userDAO = userDAO;
+    }
+
+    public RoleDAOHibernate getRoleDAO() {
+        return roleDAO;
+    }
+
+    public void setRoleDAO(RoleDAOHibernate roleDAO) {
+        this.roleDAO = roleDAO;
     }
 
     public Group getCurrentGroup() {
@@ -74,7 +90,7 @@ public class Start extends SCYBasePage {
     }
 
     public Object onActivate(String username) {
-        System.out.println("ACTIVATING WITH USERNAME:" + username);
+        System.out.println("****************************** ******************************** ACTIVATING WITH USERNAME:" + username);
         if(getUserDAO().getUserByUsername(username) == null) System.out.println("USER IS NULL!!!");
         setUser(getUserDAO().getUserByUsername(username));
         return null;
@@ -98,5 +114,44 @@ public class Start extends SCYBasePage {
     public String getUserSessionStarted() {
         Date d = new Date(getUserSession().getSessionStarted());
         return String.valueOf(d);
+   }
+
+    @OnEvent(component = "inplacecheckbox", value = InPlaceCheckbox.EVENT_NAME)
+    public void inPlaceCheckbox(boolean checked) {
+        log.info("CHECKING ME!! " + checked);
+        //log.info("ROLE IS: " + getRole().getName());
+        //return new TextStreamResponse("text/html", checked ? "checked" : "un-checked");
+    }
+
+    public void onAction(String roleId) {
+        log.info("ROLE ID IS: " + roleId);
+    }
+
+    public Boolean getChecked() {
+        return true;
+    }
+
+    public List getUserRoles() {
+        return getUser().getUserRoles();    
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public List getRoles() {
+        return getRoleDAO().getRoles();
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

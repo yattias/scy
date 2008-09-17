@@ -1,17 +1,15 @@
 package eu.scy.brokerproxy.webservice;
 
-import java.util.Date;
-import java.util.List;
-
 import eu.scy.brokerproxy.BrokerProxy;
 import eu.scy.core.model.Elo;
 import eu.scy.core.service.EloContainerManager;
+import org.apache.log4j.Logger;
 
-import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-
-import org.apache.log4j.Logger;
+import javax.jws.WebService;
+import java.util.Date;
+import java.util.List;
 
 // import javax.jws.WebMethod;
 // import javax.jws.WebService;
@@ -45,7 +43,7 @@ public class BrokerProxyService implements BrokerProxy {
 
     @WebMethod
     public Elo createNewElo(String token) {
-        return getEloContainerManager().createNewElo(token);
+        return (Elo) getEloContainerManager().createNewElo(token);
     }
 
     @WebMethod
@@ -56,7 +54,7 @@ public class BrokerProxyService implements BrokerProxy {
 
     @WebMethod
     public Elo getElo(@WebParam(name="eloURI")String eloURI, @WebParam(name="token")String token) {
-        return getEloContainerManager().getElo(eloURI);
+        return (Elo) getEloContainerManager().getElo(eloURI);
     }
 
     @WebMethod

@@ -7,6 +7,23 @@
 
         <t:actionlink t:id="view" context="currentUsersUserName">View</t:actionlink>
 
+
+        <table>
+            <t:loop source="ognl:roles" value="role">
+                <tr>
+                    <td>
+                        <input type="checkbox" id="roleSelector" t:type="t5components/InPlaceCheckbox" value="checked" context="role.id"/>
+                    </td>
+                    <td>
+                        ${role.name}       
+                    </td>
+                </tr>
+            </t:loop>
+        </table>
+
+
+
+
         <table class="navigation" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
         <t:loop source="userSessions" value="userSession">
             <tr>

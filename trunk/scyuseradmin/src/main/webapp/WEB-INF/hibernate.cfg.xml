@@ -13,6 +13,7 @@
         <mapping class="eu.scy.core.model.Project"/>
         <mapping class="eu.scy.core.model.Role"/>
         <mapping class="eu.scy.core.model.UserRole"/>
+        <mapping class="eu.scy.core.model.BuddyConnection"/>
         <!-- mapping class="eu.scy.core.model.Elo"/ -->
         <mapping class="eu.scy.core.model.UserSession"/>
 

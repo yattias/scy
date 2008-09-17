@@ -1,8 +1,11 @@
 package eu.scy.modules.useradmin.webservice;
 
+import eu.scy.core.model.User;
+
 import javax.jws.WebService;
 import javax.jws.WebParam;
 import javax.jws.WebMethod;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,5 +20,8 @@ public interface UserManagementService {
 
     @WebMethod (operationName = "loginUser")
     String loginUser(@WebParam(name="userName")String userName, @WebParam(name="password")String password);
+
+    @WebMethod (operationName = "getBuddies")
+    List<User> getBuddies(@WebParam (name="userName") String userName);
 
 }

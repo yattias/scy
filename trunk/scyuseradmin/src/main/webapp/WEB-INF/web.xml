@@ -35,7 +35,6 @@
             /WEB-INF/applicationContext-hibernate.xml,
             /WEB-INF/applicationContext-myDefaultScyProjectSetup.xml,
             /WEB-INF/ws-beans.xml
-
         </param-value>
     </context-param>
 
