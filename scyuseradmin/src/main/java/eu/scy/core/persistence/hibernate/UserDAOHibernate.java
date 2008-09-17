@@ -6,6 +6,7 @@ import eu.scy.core.model.Project;
 import eu.scy.core.persistence.UserDAO;
 
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,4 +61,20 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                 .setMaxResults(1)
                 .uniqueResult();
     }
+
+    public List getBuddies(User user) {
+
+        User testOne = new User();
+        testOne.setName("Henrik");
+        testOne.setLastName("Schlanbusch");
+        List returnList = new LinkedList();
+        returnList.add(testOne);
+        return returnList;
+/*
+        return getSession().createQuery("select connection.buddy from BuddyConnection connection where myself = :mySelf")
+                .setEntity("mySelf", user)
+                .list();
+                */
+    }
+
 }

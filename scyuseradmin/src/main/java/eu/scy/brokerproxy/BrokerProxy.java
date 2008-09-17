@@ -1,12 +1,13 @@
 package eu.scy.brokerproxy;
 
+import eu.scy.core.model.Elo;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 import java.util.Date;
 import java.util.List;
 
-import eu.scy.core.model.Elo;
 
-import javax.jws.WebService;
-import javax.jws.WebMethod;
 
 
 @WebService(targetNamespace = "http://www.scy-net.eu/schemas/brokerproxy")

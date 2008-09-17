@@ -17,10 +17,10 @@
             <artifactId>tapestry-core</artifactId>
             <version>${tapestry-release-version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-spring</artifactId>
+
             <version>${tapestry-release-version}</version>
         </dependency>
 
@@ -58,7 +58,7 @@
             </exclusions>
         </dependency>
 
-            <dependency>
+        <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>2.2.3</version>
@@ -152,13 +152,13 @@
             <version>2.5</version>
         </dependency>
 
-            <dependency>
-                <groupId>org.springframework.ws</groupId>
-                <artifactId>spring-ws-core</artifactId>
-                <version>1.5.3</version>
-            </dependency>
-            
-            <dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
             <version>2.5.2</version>
@@ -181,6 +181,37 @@
             <artifactId>spring-security-core</artifactId>
             <version>2.0.3</version>
         </dependency>
+
+
+        <!-- T5 Components -->
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>t5c-contrib</artifactId>
+            <version>0.5.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>t5c-commons</artifactId>
+            <version>0.5.13</version>
+        </dependency>
+
+
+        <!-- ROOLO -->
+
+        <!--dependency>
+            <groupId>roolo-api</groupId>
+            <artifactId>roolo-api</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency-->
+
+
+        <dependency>
+            <groupId>roolo-mock</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
 
         <!-- SPRING WS -->
 
@@ -452,6 +483,11 @@
             <name>OpenQA Maven Repository</name>
             <url>http://maven.openqa.org/</url>
         </repository>
+        <repository>
+            <id>t5components</id>
+            <name>T5Components Maven Repository</name>
+            <url>http://87.193.218.134:8080/t5components/maven-repository</url>
+        </repository>
 
 
         <!-- METRO -->
@@ -466,6 +502,35 @@
             <id>maven2-repository.dev.java.net</id>
             <name>Java.net Repository for Maven 2</name>
             <url>http://download.java.net/maven/2/</url>
+        </repository>
+
+        <!-- SCY/ROOLO (AND OTHER SMART GUYS) REPOSITORY -->
+
+        <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
+
+        <repository>
+            <id>tels-repo-internal</id>
+            <name>TELS Center internal repository</name>
+            <url>http://repo.telscenter.org/internal/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>tels-repo-internal-snapshot</id>
+            <name>TELS Center internal snapshot repository</name>
+            <url>http://repo.telscenter.org/internal_snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
 
 

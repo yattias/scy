@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import java.util.List;
+import java.util.Collections;
 
 
 /**
@@ -41,6 +43,16 @@ public class UserManagementServiceImpl implements UserManagementService {
         }
         return "NO_SESSION_MAN!";
 
+    }
+
+    @WebMethod
+    public List<User> getBuddies(String userName) {
+        User user = getDao().getUserByUsername(userName);
+        if(user != null) {
+            return getDao().getBuddies(user);
+        }
+        log.debug("Returning empty buddy list....");
+        return Collections.EMPTY_LIST;
     }
 
     public UserDAOHibernate getDao() {

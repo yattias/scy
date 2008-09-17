@@ -4,6 +4,8 @@ import eu.scy.core.model.Elo;
 
 import java.util.List;
 
+import roolo.api.IELO;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik

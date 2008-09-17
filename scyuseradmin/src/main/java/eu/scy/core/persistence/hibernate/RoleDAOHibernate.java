@@ -2,6 +2,8 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.Role;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -28,6 +30,11 @@ public class RoleDAOHibernate extends BaseDAOHibernate{
                 .setString("roleName", roleName)
                 .uniqueResult();
     }
+
+    public List<Role> getRoles() {
+        return getSession().createQuery("from Role order by name")
+                .list();
+    }                                                                                    
 
 
 }

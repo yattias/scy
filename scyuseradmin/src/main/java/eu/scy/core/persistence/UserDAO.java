@@ -28,4 +28,6 @@ public interface UserDAO extends BaseDAO{
 
     public Group getRootGroup() ;
 
+    public List getBuddies(User user);
+
 }
