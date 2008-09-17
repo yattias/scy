@@ -1,20 +1,20 @@
-<module>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
 
 	<!-- Inherit the core Web Toolkit stuff.                  -->
-	<inherits name='com.google.gwt.user.User'/>
+	<inherits name="com.google.gwt.user.User"/>
 
 	<!-- Inherit the GWT Ext stuff.                  -->
-	<inherits name='com.gwtext.GwtExt'/>
+	<inherits name="com.gwtext.GwtExt"/>
 
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class='eu.scy.lab.client.SCYLab'/>
+	<entry-point class="eu.scy.lab.client.SCYLab"/>
   
   	<!--  <inherits name="com.google.gwt.user.theme.standard.Standard"/>-->
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
   	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
   	
   	<!-- Specifying the available locales -->
-  	<extend-property name="locale" values="en" /> 
-    <extend-property name="locale" values="de" /> 
+  	<extend-property name="locale" values="en"/> 
+    <extend-property name="locale" values="de"/> 
   	
-</module>
+<servlet class="eu.scy.lab.server.UserManagementImpl" path="/usermanagement"/></module>
