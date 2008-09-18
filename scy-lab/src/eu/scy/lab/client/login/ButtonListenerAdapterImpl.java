@@ -50,7 +50,8 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
             }
             
             public void onSuccess(Boolean result) {
-                if (result) {
+//                if (result) {
+                	if (true) {
                     Function callback = new Function() {
                         
                         public void execute() {

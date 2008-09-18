@@ -1,6 +1,7 @@
 package eu.scy.lab.client.desktop.workspace.elobrowser;
 
 import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.DateFieldDef;
 import com.gwtext.client.data.FieldDef;
@@ -8,39 +9,39 @@ import com.gwtext.client.data.FloatFieldDef;
 import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
+import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.PagingToolbar;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.ToolTip;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.NumberField;
+import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.FieldListenerAdapter;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
-import com.gwtext.client.widgets.layout.FitLayout;
+import com.gwtext.client.widgets.grid.event.GridRowListener;
+import com.gwtext.client.widgets.layout.BorderLayout;
+import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
-import com.gwtext.client.widgets.layout.RowLayout;
-import com.gwtext.client.widgets.layout.RowLayoutData;
 import com.gwtextux.client.data.PagingMemoryProxy;
 
 public class EloBrowser extends Panel {
 
+	private PreviewPanel previewPanel;
+	private GridPanel grid;
 
 	public EloBrowser() {
 		super("ELO-Browser");
-		setLayout(new FitLayout());
+		// FIXME only fixed height works
 		setHeight("600px");
 		setClosable(false);
 
-		PreviewPanel previewPanel=new PreviewPanel("Testobject", "Sven", "8.8.2008","res/images/testimage.png");
+		setLayout(new BorderLayout());
 
-		Panel panel = new Panel("Preview");
-		panel.setLayout(new RowLayout());
-		panel.setClosable(false);
-		panel.setBorder(false);
-		panel.setPaddings(15);
+		setPaddings(15);
 
-//		MemoryProxy proxy = new MemoryProxy(getCompanyData());
+		// MemoryProxy proxy = new MemoryProxy(getCompanyData());
 		PagingMemoryProxy proxy = new PagingMemoryProxy(getCompanyData());
 		RecordDef recordDef = new RecordDef(new FieldDef[] {
 				new StringFieldDef("company"), new FloatFieldDef("price"),
@@ -61,24 +62,19 @@ public class EloBrowser extends Panel {
 				new ColumnConfig("Last Updated", "lastChanged", 65),
 				new ColumnConfig("Industry", "industry", 60, true) };
 
+		// The Grid
+		//TODO set layout and size
 		ColumnModel columnModel = new ColumnModel(columns);
 
-		GridPanel grid = new GridPanel();
+		grid = new GridPanel();
 		grid.setStore(store);
 		grid.setColumnModel(columnModel);
 
 		grid.setFrame(true);
 		grid.setStripeRows(true);
+		grid.setLayout(new HorizontalLayout(0));
+//		grid.setHeight(300);
 		grid.setAutoExpandColumn("company");
-		grid.setAutoHeight(true);
-		grid.setAutoWidth(true);
-
-		// grid.setWidth(600);
-		// grid.setHeight(250);
-		// grid.setMonitorResize(false);
-		// grid.setMonitorWindowResize(true);
-		grid.setLayout(new HorizontalLayout(15));
-		grid.setAutoExpandMin(50);
 		grid.setTitle("Grid that pages Local / In-Memory data");
 		grid.setAutoExpandColumn("company");
 
@@ -87,6 +83,37 @@ public class EloBrowser extends Panel {
 		pagingToolbar.setDisplayInfo(true);
 		pagingToolbar.setDisplayMsg("Displaying companies {0} - {1} of {2}");
 		pagingToolbar.setEmptyMsg("No records to display");
+
+//		 Toolbar topToolbar = new Toolbar();
+//		 topToolbar.addFill();
+//		 grid.setTopToolbar(topToolbar);
+//		
+//		 GridSearchPlugin gridSearch = new
+//		 GridSearchPlugin(GridSearchPlugin.TOP);
+//		 gridSearch.setMode(GridSearchPlugin.LOCAL);
+//		 grid.addPlugin(gridSearch);
+		
+		grid.addGridRowListener(new GridRowListener(){
+
+			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+				
+				//Selection example
+				//TODO replace with real selection, connect to Preview
+				System.out.println(grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[0]));
+				
+			}
+
+			public void onRowContextMenu(GridPanel grid, int rowIndex,
+					EventObject e) {
+				
+			}
+
+			public void onRowDblClick(GridPanel grid, int rowIndex,
+					EventObject e) {
+				
+			}
+			
+		});
 
 		NumberField pageSizeField = new NumberField();
 		pageSizeField.setWidth(40);
@@ -106,29 +133,42 @@ public class EloBrowser extends Panel {
 		pagingToolbar.addField(pageSizeField);
 		grid.setBottomToolbar(pagingToolbar);
 		store.load(0, 5);
-		
-//		Toolbar topToolbar = new Toolbar();  
-//		topToolbar.addFill();  
-//		grid.setTopToolbar(topToolbar);  
 
-//		GridSearchPlugin gridSearch = new GridSearchPlugin(GridSearchPlugin.TOP);
-//		gridSearch.setMode(GridSearchPlugin.LOCAL);
-//		grid.addPlugin(gridSearch);
+		grid.setBufferResize(true);
 
-		panel.setPaddings(10);
-		panel.add(grid, new RowLayoutData("60%"));
-		panel.add(previewPanel.getPreviewPanel(), new RowLayoutData("40%"));
+		// adding the SearchField-Panel to the ELO-Browser
+		// TODO No search integrated at the moment
+		BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
+		northData.setSplit(true);
+		northData.setSplitTip("Drag to resize");
+		northData.setMinHeight(25);
+		Panel searchPanel = new Panel();
+		searchPanel.setLayout(new HorizontalLayout(15));
+		TextField searchField = new TextField();
+		Button searchButton = new Button("Search!");
+		searchPanel.add(searchField);
+		searchPanel.add(searchButton);
 
-		add(panel);
-		
+		add(searchPanel, northData);
+
+		// adding the Grid-Panel to the ELO-Browser
+		BorderLayoutData centerData = new BorderLayoutData(
+				RegionPosition.CENTER);
+
+		add(grid, centerData);
+		setAutoScroll(true);
+
+		// adding the Preview-Panel to the ELO Browser
+		previewPanel = new PreviewPanel("Testobject", "Sven", "8.8.2008",
+				PreviewPanel.DEFAULT_IMAGE_URL);
+		BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
+		southData.setSplit(true);
+		southData.setSplitTip("Drag to resize");
+		add(previewPanel.getPreviewPanel(), southData);
+
 	}
-	
-	
-	
-	public void updatePreviewPanel(){
-		
-	}
 
+	// The local Array-Data to display in the Grid
 	private Object[][] getCompanyData() {
 		return new Object[][] {
 				new Object[] { "3m Co", new Double(71.72), new Double(0.02),
