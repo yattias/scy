@@ -9,6 +9,7 @@ import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class PreviewPanel extends Panel {
 
+	public static final String DEFAULT_IMAGE_URL = "res/images/defaultIcon.png";
 	private Label nameLabel;
 	private String name;
 	private Label authorLabel;
@@ -19,26 +20,26 @@ public class PreviewPanel extends Panel {
 	private String iconUrl;
 	private Image img;
 
-	public PreviewPanel() {
-
+	public PreviewPanel(){
+		this("","","",DEFAULT_IMAGE_URL);
+	}
+	
+	public PreviewPanel(String name, String author, String date){
+		this(name, author,date,DEFAULT_IMAGE_URL);
 	}
 
 	public PreviewPanel(String name, String author, String date, String imageUrl) {
-
+		super("Preview");
+		setFrame(true);
+//		setLayout (new FitLayout());
+		setLayout(new HorizontalLayout(15));
+		setBorder(true);
 		this.name = name;
 		this.author = author;
 		this.date = date;
 		this.iconUrl = imageUrl;
-		// this.iconUrl="res/images/testimage.png";
-
-	}
-
-	public Panel getPreviewPanel() {
-		setLayout(new HorizontalLayout(5));
-		setBorder(false);
-		setHeader(false);
-
-		img = new Image("res/images/testimage.png");
+		
+		img = new Image(iconUrl);
 		img.setHeight("50px");
 
 		Panel subpanel = new Panel();
@@ -57,6 +58,10 @@ public class PreviewPanel extends Panel {
 		add(img);
 		add(subpanel);
 		addButton(workOnElo);
+
+	}
+
+	public Panel getPreviewPanel() {
 
 		return this;
 	}

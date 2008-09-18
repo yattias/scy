@@ -56,9 +56,7 @@ public class Desktop extends Panel {
 	private Panel createWorkspace() {
 		TabbedWorkspace workspace = new TabbedWorkspace();
 		workspace.add(new EloBrowser());
-		Panel panel = new Panel();
-		panel.add(workspace);
-		return panel;
+		return workspace;
 	}
 
 	public Desktop createDesktop() {

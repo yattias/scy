@@ -34,7 +34,7 @@ public class CreateUser extends FormPanel{
     
     private Button register;
     private Button back;
-    private  CreateUserConstants constants;
+    private CreateUserConstants constants;
     private TextField username;
     private TextField password;
     private TextField passwordRetype;
@@ -300,6 +300,7 @@ public class CreateUser extends FormPanel{
      * @return the date of birth
      */
     public String getDateOfBirth() {
+    	//TODO nullpointer if datefield.getValue()==null
         return Long.toString(datefield.getValue().getTime());
     }
 }
