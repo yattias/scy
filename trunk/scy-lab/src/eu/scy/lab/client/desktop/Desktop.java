@@ -14,6 +14,7 @@ import eu.scy.lab.client.desktop.buddies.Buddies;
 import eu.scy.lab.client.desktop.tasks.Tasks;
 import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
+import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
 
 public class Desktop extends Panel {
 
@@ -48,13 +49,15 @@ public class Desktop extends Panel {
 
 		add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
 
+		@SuppressWarnings("unused")
 		Viewport viewPort = new Viewport(this);
 	}
 
 	private Panel createWorkspace() {
 		TabbedWorkspace workspace = new TabbedWorkspace();
+		workspace.add(new EloBrowser());
 		Panel panel = new Panel();
-		panel.add(workspace.getMainPanel());
+		panel.add(workspace);
 		return panel;
 	}
 
