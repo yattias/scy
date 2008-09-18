@@ -2,24 +2,16 @@ package eu.scy.lab.client.desktop.workspace;
 
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
-import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class TabbedWorkspace extends TabPanel {
 
 	private int index;
-	private Panel mainPanel;
-	private Panel subPanel;
-	// private Menu menu;
 
 	public TabbedWorkspace() {
 		super();
 		setBorder(false);
 		setPaddings(15);
-		mainPanel = new Panel();
-		mainPanel.setLayout(new VerticalLayout(15));
-		subPanel = new Panel();
-		subPanel.setBorder(false);
-		
+		setHeight("auto");
 
 		setResizeTabs(true);
 		setMinTabWidth(115);
@@ -27,23 +19,11 @@ public class TabbedWorkspace extends TabPanel {
 		addTab("Welcome!", html);
 		setTabWidth(135);
 		setEnableTabScroll(true);
-//		setWidth(450);
-//		setHeight(400);
 		setActiveTab(0);
-	
-
-		subPanel.add(this);
-		mainPanel.add(subPanel);
-		
-//		mainPanel.add(this);
-
 	}
 	
-	public Panel getMainPanel(){
-		return mainPanel;
-	}
 
-	private Panel addTab(String title, String html) {
+	public Panel addTab(String title, String html) {
 		Panel tab = new Panel();
 		tab.setAutoScroll(true);
 		tab.setTitle(title);
@@ -55,9 +35,6 @@ public class TabbedWorkspace extends TabPanel {
 		return tab;
 	}
 
-//	public Viewport getViewport() {
-//		return this.viewport;
-//	}
 
 	public TabbedWorkspace getWorkspace() {
 		return this;

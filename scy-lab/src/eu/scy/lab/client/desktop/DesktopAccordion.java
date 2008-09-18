@@ -55,7 +55,7 @@ public class DesktopAccordion extends Panel {
     private Panel createWorkspace() {
         TabbedWorkspace workspace = new TabbedWorkspace();
         Panel panel = new Panel();
-        panel.add(workspace.getMainPanel());
+        panel.add(workspace);
         return panel;
     }
     
