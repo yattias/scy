@@ -60,7 +60,6 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
 		UserManagementAsync userManagement = UserManagement.Util.getInstance();
 		final String username = createUserPanel.getUsername();
 		final String password = createUserPanel.getPassword();
-		// TODO handle nullpointer at date-attribute
 		userManagement.register(username, password, createUserPanel
 				.getUserTitle(), createUserPanel.getFirstName(),
 				createUserPanel.getLastName(),

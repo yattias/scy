@@ -51,12 +51,8 @@ public class Login extends FormPanel {
         username.setAllowBlank(false);
         add(username);
         
-        // FIXME KeyLister doesnt work
-        //		int keyCode=112;
-        
-        
+        // TODO KeyListener or TextfieldListener for "Return" Button
         username.addListener(new TextFieldListenerAdapter(){
-            
         });
         
         password = new TextField(constants.password(), "password");
@@ -69,8 +65,6 @@ public class Login extends FormPanel {
     public void createButtons() {
         
         // Listener-Adapter for the Buttons
-        // TODO Insert real actions
-        
         login = new Button(constants.login(), new ButtonListenerAdapterImpl(this, "login"));
         register = new Button(constants.register(), new ButtonListenerAdapterImpl(this, "register"));
         passwordForgotten = new Button(constants.pwForgotten(), new ButtonListenerAdapterImpl(this, "passwordForgotten"));
