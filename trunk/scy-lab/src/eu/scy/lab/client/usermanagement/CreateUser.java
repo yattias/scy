@@ -122,56 +122,6 @@ public class CreateUser extends FormPanel{
         title.setSelectOnFocus(true);
         title.setHideTrigger(false);
         
-        //Combobox-Listener-Adapter
-        //TODO integrate some functionality???
-        title.addListener(new ComboBoxListenerAdapter() {
-            public boolean doBeforeQuery(ComboBox comboBox, ComboBoxCallback cb) {
-                System.out.println("ComboBox::doBeforeQuery()");
-                return true;
-            }
-            
-            public boolean doBeforeSelect(ComboBox comboBox, Record record,
-                    int index) {
-                System.out.println("ComboBox::doBeforeSelect("
-                        + record.getAsString("states") + ")");
-                return super.doBeforeSelect(comboBox, record, index);
-            }
-            
-            public void onCollapse(ComboBox comboBox) {
-                System.out.println("ComboBox::onCollapse()");
-            }
-            
-            public void onExpand(ComboBox comboBox) {
-                System.out.println("ComboBox::onExpand()");
-            }
-            
-            public void onSelect(ComboBox comboBox, Record record, int index) {
-                System.out.println("ComboBox::onSelect('"
-                        + record.getAsString("states") + "')");
-            }
-            
-            public void onBlur(Field field) {
-                System.out.println("ComboBox::onBlur()");
-            }
-            
-            public void onChange(Field field, Object newVal, Object oldVal) {
-                System.out.println("ComboBox::onChange(" + oldVal + "-->"
-                        + newVal + ")");
-            }
-            
-            public void onFocus(Field field) {
-                System.out.println("ComboBox::onFocus()");
-            }
-            
-            public void onInvalid(Field field, String msg) {
-                super.onInvalid(field, msg);
-            }
-            
-            public void onSpecialKey(Field field, EventObject e) {
-                System.out.println("ComboBox::onSpecialKey(key code "
-                        + e.getKey() + ")");
-            }
-        });
         userdata.add(title);
         
         firstName = new TextField(constants.firstName(), "firstName");
@@ -224,10 +174,10 @@ public class CreateUser extends FormPanel{
         setPaddings(5);
     }
     
-    // TODO Implement register-procedure
-    public void register() {
-        Window.alert("Registrierung durchgeführt");
-    }
+//    // TODO Implement register-procedure
+//    public void register() {
+//        Window.alert("Registrierung durchgeführt");
+//    }
     
     public VerticalPanel getCentredCreateUserDialog(){
         //Positioning in Center
@@ -300,7 +250,12 @@ public class CreateUser extends FormPanel{
      * @return the date of birth
      */
     public String getDateOfBirth() {
-    	//TODO nullpointer if datefield.getValue()==null
-        return Long.toString(datefield.getValue().getTime());
+    	if (datefield.getValue()!=null){
+    		return Long.toString(datefield.getValue().getTime());
+    	}
+    	else {
+    		//TODO Change Value for unspecified date
+    		return "unspecified";
+    	}
     }
 }

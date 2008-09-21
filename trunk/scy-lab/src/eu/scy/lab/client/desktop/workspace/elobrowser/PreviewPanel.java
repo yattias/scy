@@ -20,27 +20,32 @@ public class PreviewPanel extends Panel {
 	private String iconUrl;
 	private Image img;
 
-	public PreviewPanel(){
-		this("","","",DEFAULT_IMAGE_URL);
+	public PreviewPanel() {
+		this("", "", "", DEFAULT_IMAGE_URL);
 	}
-	
-	public PreviewPanel(String name, String author, String date){
-		this(name, author,date,DEFAULT_IMAGE_URL);
+
+	public PreviewPanel(String name, String author, String date) {
+		this(name, author, date, DEFAULT_IMAGE_URL);
 	}
 
 	public PreviewPanel(String name, String author, String date, String imageUrl) {
 		super("Preview");
 		setFrame(true);
-//		setLayout (new FitLayout());
+		// setLayout (new FitLayout());
 		setLayout(new HorizontalLayout(15));
 		setBorder(true);
 		this.name = name;
 		this.author = author;
 		this.date = date;
 		this.iconUrl = imageUrl;
-		
+
+		//scaling the image
 		img = new Image(iconUrl);
+		double scale_factor = img.getHeight() / 50.0;
+		System.out.println(scale_factor);
 		img.setHeight("50px");
+		int width = (int) (img.getWidth() / scale_factor);
+		img.setWidth(Integer.toString(width));
 
 		Panel subpanel = new Panel();
 		subpanel.setBorder(false);
@@ -66,11 +71,81 @@ public class PreviewPanel extends Panel {
 		return this;
 	}
 
-	public void update(String name, String author, String date, String imageUrl){
-	img.setUrl(imageUrl);
-	img.setHeight("50px");
-	nameLabel.setText("Author: " + author);
-	authorLabel.setText("Created by: "+ name);
-	dateLabel.setText("Date: "+ date);
-}
+	public void update(String name, String author, String date, String imageUrl) {
+
+		// scaling the updated image proportional
+		img.setUrl(imageUrl);
+		Image tempImg = new Image(imageUrl);
+		
+		double oldWidth = tempImg.getWidth();
+		double oldHeight = tempImg.getHeight();
+		int width = (int) ((double)(oldWidth*50.0) / ((double) oldHeight));
+		img.setSize(Integer.toString(width)+"px","50px");
+
+		//update labels
+		nameLabel.setText("Author: " + author);
+		authorLabel.setText("Created by: " + name);
+		dateLabel.setText("Date: " + date);
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the author
+	 */
+	public String getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author
+	 *            the author to set
+	 */
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public String getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date
+	 *            the date to set
+	 */
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	/**
+	 * @return the iconUrl
+	 */
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	/**
+	 * @param iconUrl
+	 *            the iconUrl to set
+	 */
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+
 }
