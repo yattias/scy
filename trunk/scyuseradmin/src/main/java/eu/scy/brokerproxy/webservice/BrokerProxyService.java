@@ -42,7 +42,9 @@ public class BrokerProxyService implements BrokerProxy {
     }
 
     @WebMethod
-    public Elo createNewElo(String token) {
+    public Elo createNewElo(String token, String eloXML) {
+        log.info("XML : " + eloXML);
+        log.info("HERE WE FIX SOMETHING");
         return (Elo) getEloContainerManager().createNewElo(token);
     }
 

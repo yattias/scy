@@ -87,10 +87,11 @@ public interface BrokerProxy {
      * 
      * @param token
      *            the token
+     * @param eloXML
      * @return the elo
      */
     @WebMethod(operationName = "createNewElo")
-    public Elo createNewElo(String token);
+    public Elo createNewElo(String token, String eloXML);
     
     /**
      * Copy an elo. (save as... function)
