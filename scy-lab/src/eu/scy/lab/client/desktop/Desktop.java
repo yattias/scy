@@ -5,6 +5,7 @@ import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Viewport;
+import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.RowLayout;
@@ -15,12 +16,15 @@ import eu.scy.lab.client.desktop.tasks.Tasks;
 import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
 import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
+import eu.scy.lab.client.startupview.lastMission.Mission;
 
 public class Desktop extends Panel {
 
 	private Panel navigationPanel;
 
 	private Panel workspacePanel;
+	
+	private TabbedWorkspace workspace;
 
 	public Desktop() {
 
@@ -52,9 +56,24 @@ public class Desktop extends Panel {
 		@SuppressWarnings("unused")
 		Viewport viewPort = new Viewport(this);
 	}
+	
+	public Desktop(Mission mission) {
+		this();
+		
+		//TODO connect to real missions-outline
+		Panel panel = new Panel("Mission "+ mission.getTitle());
+		panel.add(new Label("Missionsname: "+ mission.getTitle()));
+		panel.add(new Label("Last Visited: "+ mission.getLastVisitedDate()));
+//		workspace.setActiveTab((workspace.getItems().length-1));
+		
+		workspace.add(panel);
+		workspace.setActiveTab(workspace.getItems().length-1);
+		System.out.println(workspace.getItems().length);
+		
+	}
 
 	private Panel createWorkspace() {
-		TabbedWorkspace workspace = new TabbedWorkspace();
+		workspace = new TabbedWorkspace();
 		workspace.add(new EloBrowser());
 		return workspace;
 	}

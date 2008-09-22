@@ -9,11 +9,13 @@ import com.gwtext.client.core.FxConfig;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.MessageBoxConfig;
+import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 
 import eu.scy.lab.client.UserManagement;
 import eu.scy.lab.client.UserManagementAsync;
 import eu.scy.lab.client.desktop.Desktop;
+import eu.scy.lab.client.startupview.StartupView;
 import eu.scy.lab.client.usermanagement.CreateUser;
 
 public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
@@ -59,7 +61,10 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
                             configFadeIn.setDuration((float) 0.25);
                             configFadeIn.setEndOpacity(1);
                             RootPanel.get().clear();
-                            RootPanel.get().add(new Desktop().createDesktop());
+                            
+                            RootPanel.get().add(new StartupView().getCentredPanel());
+                            //TODO integrate this in StartupView 
+//                            RootPanel.get().add(new Desktop().createDesktop());
                             Ext.getBody().fadeIn(configFadeIn);
                         }
                     };
