@@ -37,6 +37,7 @@ public class EloBrowser extends Panel {
 //		setHeight("100%");
 		setClosable(false);
 
+		//TODO Try AnchorLayout()
 		setLayout(new BorderLayout());
 
 		setPaddings(15);
@@ -195,36 +196,6 @@ public class EloBrowser extends Panel {
 						"res/icons/openoffice_draw.png" },
 				new Object[] { "Kryptoarithmetics III", "Sven", "10/1 12:10am",
 						"res/icons/openoffice_calc.png" } };
-
-		// new Object[] { "3m Co", new Double(71.72), new Double(0.02),
-		// new Double(0.03), "9/1 12:00am", "MMM", "Manufacturing" },
-		// new Object[] { "Alcoa Inc", new Double(29.01),
-		// new Double(0.42), new Double(1.47), "9/1 12:00am",
-		// "AA", "Manufacturing" },
-		// new Object[] { "Altria Group Inc", new Double(83.81),
-		// new Double(0.28), new Double(0.34), "9/1 12:00am",
-		// "MO", "Manufacturing" },
-		// new Object[] { "American Express Company", new Double(52.55),
-		// new Double(0.01), new Double(0.02), "9/1 12:00am",
-		// "AXP", "Finance" },
-		// new Object[] { "American International Group, Inc.",
-		// new Double(64.13), new Double(0.31), new Double(0.49),
-		// "9/1 12:00am", "AIG", "Services" },
-		// new Object[] { "AT&T Inc.", new Double(31.61),
-		// new Double(-0.48), new Double(-1.54), "9/1 12:00am",
-		// "T", "Services" },
-		// new Object[] { "Boeing Co.", new Double(75.43),
-		// new Double(0.53), new Double(0.71), "9/1 12:00am",
-		// "BA", "Manufacturing" },
-		// new Object[] { "Caterpillar Inc.", new Double(67.27),
-		// new Double(0.92), new Double(1.39), "9/1 12:00am",
-		// "CAT", "Services" },
-		// new Object[] { "Citigroup, Inc.", new Double(49.37),
-		// new Double(0.02), new Double(0.04), "9/1 12:00am", "C",
-		// "Finance" },
-		// new Object[] { "E.I. du Pont de Nemours and Company",
-		// new Double(40.48), new Double(0.51), new Double(1.28),
-		// "9/1 12:00am", "DD", "Manufacturing" } };
 	}
 
 }

@@ -19,7 +19,7 @@ public class TabbedWorkspace extends TabPanel {
 		addTab("Welcome!", html);
 		setTabWidth(135);
 		setEnableTabScroll(true);
-		setActiveTab(0);
+//		setActiveTab(0);
 	}
 	
 

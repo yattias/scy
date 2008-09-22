@@ -42,7 +42,6 @@ public class PreviewPanel extends Panel {
 		//scaling the image
 		img = new Image(iconUrl);
 		double scale_factor = img.getHeight() / 50.0;
-		System.out.println(scale_factor);
 		img.setHeight("50px");
 		int width = (int) (img.getWidth() / scale_factor);
 		img.setWidth(Integer.toString(width));
@@ -75,6 +74,7 @@ public class PreviewPanel extends Panel {
 
 		// scaling the updated image proportional
 		img.setUrl(imageUrl);
+		//creating a temporary new Instance, because when setting a new ImageURL, the measurements aren't updated
 		Image tempImg = new Image(imageUrl);
 		
 		double oldWidth = tempImg.getWidth();
