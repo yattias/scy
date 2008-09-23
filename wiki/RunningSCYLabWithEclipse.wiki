@@ -1,0 +1,48 @@
+#summary Running SCYLab with GWT and Eclipse
+
+= Running SCYLab (with Eclipse) =
+
+This Guide is a HowTo for running the SCYLab with GWT and Eclipse
+
+
+== Requirements ==
+
+1. [http://www.eclipse.org/downloads/ Eclipse IDE 3.4] ("Ganymede") for JEE users (for Java Developers will not be sufficient, you will need the WTP).
+
+   
+2. Subversion (SVN) Plugin for Eclipse (for example [http://www.eclipse.org/subversive/downloads.php Subversive]).
+
+3. [http://code.google.com/webtoolkit/download.html GWT] (Google Web Toolkit). Get the latest Version and be sure that you have installed Java correctly (1.5 or higher).
+
+4. [http://code.google.com/p/cypal-studio/downloads/list Cypal] plugin for Eclipse.
+   
+
+== Steps to start the project ==
+
+1. Install Eclipse
+
+2. Install the SVN Plugin
+   Take care that Subversive for example needs two parts, the Plugin and the SVN Connector!
+
+3. Unzip the GWT Folder. 
+   You have to specify this later at Cypal.
+
+4. Install Cypal Plugin
+   Unzip the cypal Zip-archive into your Eclipse "dropins" Folder (Folder: <Eclipse>/dropins), then start Eclipse IDE.
+
+5. Configure Cypal
+   Select "Window -> Preferences" and in the Preferences dialogs navigation choose "Cypal Studio". Now you have to specify the "GWT Home" directory. Click on "Browse" to set the directory where you have unzipped GWT into. (e.g. C:\Program Files\gwt-windows-1.5.2). Apply that and close "Preferences".
+
+6. Check out from SVN
+   Eclipse is now set up for GWT use and you could check out the project from SVN:
+   In Eclipse click the File Menu: "File -> New -> Other..."
+   In the "Select wizard" Dialog choose "SVN -> Projects from SVN".
+   _The URL:_ https://scy.googlecode.com/svn/trunk/
+
+   _Authentication:_ Username is your google-Account-username, but the password is not your account password it is a generated password. See: http://code.google.com/hosting/settings
+   When asked if you wish to normalize URL, click "No".
+   Select the Ressource "scy-lab" and click "Finish". Building the workspace and checking out the data could take a while.
+
+7. Run-Configuration
+   Set up a new Run-configuration in Eclipse: "Run -> Run configurations..."
+   In the dialog choose "GWT Hosted Mode Application -> eu.scy.lab.SCYLab". This is a default Configuration for this project. After that, click on "Run". The GWT Development Shell and the Hosted Browser will appear. In the Browser you could see the actual SCYLab. While coding in Eclipse, you don't have to start the GWT Development Shell every time you changed code. You simply have to refresh the hosted Browser!
