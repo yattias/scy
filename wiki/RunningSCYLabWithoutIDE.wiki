@@ -1,0 +1,36 @@
+#summary Running SCYLab with GWT and no IDE
+
+= Running SCYLab (without IDE) =
+
+This Guide is a HowTo for running the SCYLab with GWT and without any IDE (not recommended)
+
+
+== Requirements ==
+
+1. [http://java.sun.com/javase/downloads/index.jsp JDK]
+
+2. Anything to Check out the Project on Subversion Server.
+
+3. [http://code.google.com/webtoolkit/download.html GWT (Google Web Toolkit)]. Get the latest Version and be sure that you have 
+
+installed Java correctly (1.5 or higher). 
+
+
+== Steps to start the project ==
+
+1. Install Java (the JDK)
+
+2. Install GWT
+   Unzip GWT to a local folder and add this folder to your Classpath belonging to your Operating System.
+
+3. Check out the Project from SVN and store it to a local folder.
+
+4. Creating the startup-Scripts
+   Move to the commandline (Windows: cmd.exe). Switch to your project folder (where you stored the checked out project), e.g. C:\scy-lab. Now start the applicationCreator by executing: "applicationCreator -ignore eu.scy.lab.client.SCYLab". This createthe scripts for starting the application in hosted mode and the script for compiling to a web application.
+
+5. Fixing the scripts
+   Open the "SCYLab-shell" and edit it: append the following to the classpath (this is the "-cp" entry): ";libs/gwtext.jar" (In Windows. In other Operating Systems could be another seperator, like the ":")
+   Redo this for your "SCYLab-compile" if you want to compile the application.
+   
+6. Start it!
+   Now execute the "SCYLab-shell" script to see the application!
