@@ -29,7 +29,7 @@ installed Java correctly (1.5 or higher).
    Move to the commandline (Windows: cmd.exe). Switch to your project folder (where you stored the checked out project), e.g. C:\scy-lab. Now start the applicationCreator by executing: "applicationCreator -ignore eu.scy.lab.client.SCYLab". This creates the scripts for starting the application in hosted mode and the script for compiling to a web application.
 
 5. Fixing the scripts
-   Open the "SCYLab-shell" (located in the main project-folder) and edit it: append the following to the classpath (this is the "-cp" entry): ";libs/gwtext.jar;libs/gwtextux.jar" (In Windows. In other Operating Systems could be another seperator, like the ":")
+   Open the "SCYLab-shell" (located in the main project-folder) and edit it: append the following to the classpath (this is the "-cp" entry): ";libs/gwtext.jar;libs/gwtextux.jar;libs/gwt-maps.jar" (In Windows. In other Operating Systems could be another seperator, like the ":")
    Redo this for your "SCYLab-compile" if you want to compile the application.
    
 6. Start it!
