@@ -43,7 +43,7 @@ public class EloBrowser extends Panel {
 		setPaddings(15);
 
 		// MemoryProxy proxy = new MemoryProxy(getCompanyData());
-		PagingMemoryProxy proxy = new PagingMemoryProxy(getCompanyData());
+		PagingMemoryProxy proxy = new PagingMemoryProxy(getGridData());
 		RecordDef recordDef = new RecordDef(new FieldDef[] {
 				new StringFieldDef("name"), new StringFieldDef("author"),
 				// new DateFieldDef("date", "n/j h:ia"),
@@ -76,6 +76,7 @@ public class EloBrowser extends Panel {
 		grid.setMonitorResize(true);
 		grid.setAutoExpandColumn("name");
 		grid.setTitle("Grid that pages Local / In-Memory data");
+//		grid.setLoadMask(true);
 
 		final PagingToolbar pagingToolbar = new PagingToolbar(store);
 		pagingToolbar.setPageSize(5);
@@ -184,7 +185,7 @@ public class EloBrowser extends Panel {
 	}
 
 	// The local Array-Data to display in the Grid
-	private Object[][] getCompanyData() {
+	private Object[][] getGridData() {
 		return new Object[][] {
 				new Object[] { "Kryptoarithmetics", "Sven", "9/1 12:00am",
 						"res/icons/fireworks01.png" },
