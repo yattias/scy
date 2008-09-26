@@ -14,6 +14,10 @@ import java.util.List;
 public class RoleDAOHibernate extends BaseDAOHibernate{
 
     public Role saveRole(String roleName) {
+        Role existingRole = getRole(roleName);
+        if(existingRole != null) {
+            return existingRole;
+        }
         Role newRole  =null;
         if(getRole(roleName) == null) {
             newRole = new Role();

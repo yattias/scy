@@ -51,6 +51,8 @@ public class BrokerProxyService implements BrokerProxy {
         log.info("token : " + token);
         log.info("XML : " + eloXML);
         log.info("TOKEN: " + token);
+        if(token == null ) throw new NullPointerException("TOKEN IS NULL");
+        if(eloXML == null) throw new NullPointerException("ELO XML IS NULL!!!");
         return (Elo) getEloContainerManager().createNewElo(token);
     }
 

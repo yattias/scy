@@ -32,8 +32,26 @@
         </property>
     </bean>
 
+    <bean id="lukeSkywalker" class="eu.scy.core.model.User">
+        <property name="userName" value="luke"/>
+        <property name="password" value="luke"/>
+        <property name="firstName" value="Luke"/>
+        <property name="lastName" value="Skywalker"/>
+        <property name="userRoles">
+            <list>
+                <ref bean="lukeRoleConnection"/>
+                <!--ref bean="projectAdminConnection"/-->
+            </list>
+        </property>
+    </bean>
+
     <bean id="adminRoleConnection" class="eu.scy.core.model.UserRole">
         <property name="user" ref="defaultGlobalAdmin"/>
+        <property name="role" ref="adminRole"/>
+    </bean>
+
+    <bean id="lukeRoleConnection" class="eu.scy.core.model.UserRole">
+        <property name="user" ref="lukeSkywalker"/>
         <property name="role" ref="adminRole"/>
     </bean>
 
@@ -44,6 +62,7 @@
 
     <bean id="adminRole" class="eu.scy.core.model.Role"><property name="name" value="ROLE_GLOBAL_ADMINISTRATOR"/></bean>
     <bean id="projectAdminRole" class="eu.scy.core.model.Role"><property name="name" value="ROLE_PROJECT_ADMINISTRATOR"/></bean>
+
 
 
 
