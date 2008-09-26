@@ -32,5 +32,7 @@ installed Java correctly (1.5 or higher).
    Open the "SCYLab-shell" (located in the main project-folder) and edit it: append the following to the classpath (this is the "-cp" entry): ";libs/gwtext.jar;libs/gwtextux.jar;libs/gwt-maps.jar" (In Windows. In other Operating Systems could be another seperator, like the ":")
    Redo this for your "SCYLab-compile" if you want to compile the application.
    
+[Lars: Additionally, I had to add ";.\build\classes" to the classpath or I would get a ClassDefNotFoundException not finding "eu\scy\lab\server\UserManagementImpl.class".]
+
 6. Start it!
    Now execute the "SCYLab-shell" script to see the application!
