@@ -10,7 +10,7 @@ This Guide is a HowTo for running the SCYLab with GWT and Eclipse
 1. [http://www.eclipse.org/downloads/ Eclipse IDE 3.4] ("Ganymede") for Java EE Developers (for Java Developers will not be sufficient, you will need the WTP).
 
    
-2. Subversion (SVN) Plugin for Eclipse (for example [http://www.eclipse.org/subversive/downloads.php Subversive]).
+2. Subversion (SVN) Plugin for Eclipse (for example [http://www.eclipse.org/subversive/downloads.php Subversive] - Don't forget the connectors using subversive!).
 
 3. [http://code.google.com/webtoolkit/download.html GWT] (Google Web Toolkit). Get the latest Version and be sure that you have installed Java correctly (1.5 or higher).
 
