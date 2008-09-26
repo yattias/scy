@@ -34,7 +34,8 @@
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
             /WEB-INF/applicationContext-myDefaultScyProjectSetup.xml,
-            /WEB-INF/ws-beans.xml
+            /WEB-INF/ws-beans.xml,
+            /WEB-INF/applicationContext-roolo.xml
         </param-value>
     </context-param>
 

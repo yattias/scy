@@ -4,14 +4,27 @@ import eu.scy.core.service.EloContainerManager;
 import eu.scy.core.model.Elo;
 import eu.scy.core.persistence.UserDAO;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Collections;
+import java.util.Locale;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
-import roolo.api.IRepository;
-import roolo.api.IELO;
+import roolo.api.*;
+import roolo.api.metadata.MetadataSingleUniversalValueAccessor;
+import roolo.api.metadata.MetadataListLanguagesValueAccessor;
+import roolo.api.metadata.MetadataListUniversalValueAccessor;
+import roolo.api.metadata.MetadataSingleLanguageValueAccessor;
+import roolo.api.basic.BasicELO;
+import roolo.api.basic.BasicMetadata;
+import roolo.cms.metadata.keys.Contribute;
+import roolo.cms.elo.JDomBasicELOFactory;
+import roolo.cms.elo.JDomStringConversion;
+
+import javax.annotation.Resource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -72,25 +85,35 @@ public class EloContainerManagerMock implements EloContainerManager {
     }
 
     public Elo getElo(String id) {
+        log.info("Starting to get elo.....") ;
+        //JDomBasicELOFactory jdomBasicELOFactory = null;
+        //BasicELO elo = new BasicELO();
+        if(jdomBasicELOFactory == null) {
+            log.warn("FACTORY IS NULL!!!");
+        }
+        IELO<IMetadataKey> elo = jdomBasicELOFactory.createELO();
+        log.info("Adding elo with id " + id) ;
+        try {
+            getRepository().addELO(elo);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        log.info("Added elo");
+
+        log.info("URI: " + elo.getUri());
+
+
+
+
         try {
 
-            if(!isInitialized()){
-                initializeHack();
-                setInitialized(true);
-            }
-            //log.info("URI IS NOW: " + coolElo.getUri());
-            log.info("GETTING ELO! " + id);
+            URI uri = elo.getUri();
 
-            URI uri = new URI(id);
             IELO returned = getRepository().retrieveELO(uri);
+            Elo returnElo = new Elo();
+            returnElo.setEloContent(returned.getXml());
             return (Elo) returned;
-            /*log.debug("CREATING SILLY ELO.... at least something is returne....");
-            Elo elo = new Elo();
-            elo.setEloName("Henrik is cool!");
-            elo.setEloContent("<xml><sometag>hee haa</sometag></xml>");
-            return elo;
-            */
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return null;
@@ -118,4 +141,56 @@ public class EloContainerManagerMock implements EloContainerManager {
         newElo.setEloContent("<SomeXML/>");
         return newElo;
     }
+
+
+
+    JDomStringConversion jdomStringConversion = new JDomStringConversion();
+
+	@Autowired
+	IMetadataTypeManager metadataTypeManager;
+	@Resource(name = "uriKey")
+	IMetadataKey uriKey;
+	@Resource(name = "titleKey")
+	IMetadataKey titleKey;
+	@Resource(name = "formatKey")
+	IMetadataKey formatKey;
+	@Resource(name = "dateCreatedKey")
+	IMetadataKey dateCreatedKey;
+	@Resource(name = "missionKey")
+	IMetadataKey missionKey;
+	@Resource(name = "authorKey")
+	IMetadataKey authorKey;
+	@Resource(name = "testStringListKey")
+	IMetadataKey testStringListKey;
+
+	@Autowired
+	IELOFactory jdomBasicELOFactory;
+
+	IMetadata<IMetadataKey> metadata = null;
+    
+
+    IMetadata<IMetadataKey> createMetadata2() throws Exception
+	{
+		IMetadata<IMetadataKey> metadata = new BasicMetadata<IMetadataKey>();
+		metadata.setDefaultLanguage(Locale.getDefault());
+		MetadataSingleLanguageValueAccessor<String> titleValue = new MetadataSingleLanguageValueAccessor<String>(
+					metadata, titleKey);
+		titleValue.setValue("default name");
+		titleValue.setValue("canada name", Locale.CANADA);
+		new MetadataSingleUniversalValueAccessor<String>(metadata, formatKey).setValue("drawing");
+		new MetadataSingleUniversalValueAccessor<Long>(metadata, dateCreatedKey).setValue(System
+					.currentTimeMillis());
+		new MetadataSingleUniversalValueAccessor<URI>(metadata, missionKey).setValue(new URI(
+					"roolo://somewhere/myMission.mission"));
+		new MetadataListUniversalValueAccessor<Contribute>(metadata, authorKey)
+					.addValue(new Contribute("my vcard", System.currentTimeMillis()));
+		MetadataListLanguagesValueAccessor<String> testStringListValue = new MetadataListLanguagesValueAccessor<String>(
+					metadata, testStringListKey);
+		testStringListValue.addValue("een", new Locale("NL"));
+		testStringListValue.addValue("twee", new Locale("NL"));
+		testStringListValue.addValue("one", new Locale("EN"));
+		testStringListValue.addValue("two", new Locale("EN"));
+		return metadata;
+	}
+
 }

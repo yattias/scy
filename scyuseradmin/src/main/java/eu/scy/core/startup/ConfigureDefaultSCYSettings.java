@@ -7,6 +7,7 @@ import org.springframework.web.context.ContextLoader;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.RoleDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.Constants;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
@@ -16,6 +17,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContext;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -148,19 +150,27 @@ public class ConfigureDefaultSCYSettings implements ServletContextListener {
 
         }
 
-        UserDAOHibernate userDAO = (UserDAOHibernate) ctx.getBean("userDAO");
         User defaultGlobalAdmin = (User) ctx.getBean("defaultGlobalAdmin");
+        User lukeSkywalker = (User) ctx.getBean("lukeSkywalker");
 
 
         if (defaultGlobalAdmin != null) {
-            log.info("Checking for a default global admin....");
-            User theUser = userDAO.getUserByUsername(defaultGlobalAdmin.getUserName());
-            if (theUser == null) {
-                log.info("Adding default global admin");
-                defaultGlobalAdmin = userDAO.addUser(null, null, defaultGlobalAdmin);
-            }
+            setupUser(defaultGlobalAdmin, ctx);
+            setupUser(lukeSkywalker, ctx);
 
         }
+
+    }
+
+
+    private static void setupUser(User userToBeSetup, XmlWebApplicationContext ctx) {
+        UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
+        User theUser = userDAO.getUserByUsername(userToBeSetup.getUserName());
+            if (theUser == null) {
+                log.info("Adding user " + userToBeSetup.getUserName() + " - " + userToBeSetup.getName() + " - " + userToBeSetup.getLastName());
+
+                userToBeSetup = userDAO.addUser(userToBeSetup.getProject(), userToBeSetup.getGroup(), userToBeSetup);
+            }
 
     }
 }

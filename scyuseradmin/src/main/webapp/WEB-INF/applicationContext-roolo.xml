@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean name="repository" class="roolo.cms.repository.mock.MockRepository">
+		<property name="metadataTypeManager" ref="metadataTypeManager"/>
+		<property name="extensionManager" ref="extensionManager"/>
+	</bean>
+
+	<bean name="metadataTypeManager" class="roolo.cms.repository.mock.MockMetadataTypeManager">
+		<property name="metadataKeys">
+			<list>
+				<ref bean="uriKey"/>
+				<ref bean="titleKey"/>
+				<ref bean="formatKey"/>
+				<ref bean="dateCreatedKey"/>
+				<ref bean="dateLastModifiedKey"/>
+				<ref bean="missionKey"/>
+				<ref bean="authorKey"/>
+				<ref bean="testStringListKey"/>
+			</list>
+		</property>
+	</bean>
+
+				<bean name="uriKey" class="roolo.cms.metadata.keys.UriMetadataKey">
+					<constructor-arg index="0" value="uri"/>
+					<constructor-arg index="1" value="/lom/general/identifier"/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultUriValidator"/>
+				</bean>
+				<bean name="titleKey" class="roolo.cms.metadata.keys.StringMetadataKey">
+					<constructor-arg index="0" value="title"/>
+					<constructor-arg index="1" value="/lom/general/title"/>
+					<constructor-arg index="2" value="SPECIFIC"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultStringValidator"/>
+				</bean>
+				<bean name="formatKey" class="roolo.cms.metadata.keys.StringMetadataKey">
+					<constructor-arg index="0" value="type"/>
+					<constructor-arg index="1" value="/lom/technical/format"/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultStringValidator"/>
+				</bean>
+				<bean name="dateCreatedKey" class="roolo.cms.metadata.keys.LongMetadataKey">
+					<constructor-arg index="0" value="dateCreated"/>
+					<constructor-arg index="1" value="/lom/technical/customElements/dateCreated"/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultLongValidator"/>
+				</bean>
+				<bean name="dateLastModifiedKey" class="roolo.cms.metadata.keys.LongMetadataKey">
+					<constructor-arg index="0" value="dateLastModified"/>
+					<constructor-arg index="1" value="/lom/technical/customElements/dateLastModified"/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultLongValidator"/>
+				</bean>
+				<bean name="missionKey" class="roolo.cms.metadata.keys.RelationMetadataKey">
+					<constructor-arg index="0" value='mission'/>
+					<constructor-arg index="1" value='/lom/relation/[kind="isbasedon",type="scy/mission"]'/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="SINGLE"/>
+					<constructor-arg index="4" ref="defaultUriValidator"/>
+				</bean>
+				<bean name="authorKey" class="roolo.cms.metadata.keys.ContributeMetadataKey">
+					<constructor-arg index="0" value='author'/>
+					<constructor-arg index="1" value='/lom/lifecycle/contribute/[kind="author"]'/>
+					<constructor-arg index="2" value="UNIVERSAL"/>
+					<constructor-arg index="3" value="LIST"/>
+					<constructor-arg index="4" ref="defaultContributeValidator"/>
+				</bean>
+
+				<bean name="testStringListKey" class="roolo.cms.metadata.keys.StringMetadataKey">
+					<constructor-arg index="0" value='testStringList'/>
+					<constructor-arg index="1" value='/test/list'/>
+					<constructor-arg index="2" value="SPECIFIC"/>
+					<constructor-arg index="3" value="LIST"/>
+					<constructor-arg index="4" ref="defaultStringValidator"/>
+				</bean>
+
+	<bean name="defaultStringValidator" class="roolo.cms.metadata.value.validators.StringValidator"></bean>
+
+	<bean name="defaultLongValidator" class="roolo.cms.metadata.value.validators.LongValidator"></bean>
+
+	<bean name="defaultUriValidator" class="roolo.cms.metadata.value.validators.UriValidator"></bean>
+
+	<bean name="defaultContributeValidator" class="roolo.cms.metadata.value.validators.ContributeValidator"></bean>
+
+	<bean name="extensionManager" class="roolo.cms.repository.mock.MockExtensionManager">
+		<property name="extensions">
+			<map>
+				<entry>
+					<key>
+						<value>scy/drawing</value>
+					</key>
+					<value>.scydraw</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="eloFactory" class="roolo.cms.elo.JDomBasicELOFactory">
+		<constructor-arg ref="metadataTypeManager"/>
+		<constructor-arg ref="uriKey"/>
+	</bean>
+
+</beans>
