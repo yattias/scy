@@ -11,6 +11,7 @@ This Guide is a HowTo for running the SCYLab with GWT and Eclipse
 
    
 2. Subversion (SVN) Plugin for Eclipse (for example [http://www.eclipse.org/subversive/downloads.php Subversive] - Don't forget the connectors using subversive!).
+
 Note (by Rokham). I'm using a Mac and I'm running OS X 1.5 with Eclipse's Ganymede version. I had a tough time figuring this out, but apparently the default URL for subversive's plugins are not the most up to date ones. You need to point your eclipse update manager to this url: http://www.polarion.org/projects/subversive/download/eclipse/2.0/weekly-site/ to get the latest plugin and for subversive to actually find your connectors.
 
 3. [http://code.google.com/webtoolkit/download.html GWT] (Google Web Toolkit). Get the latest Version and be sure that you have installed Java correctly (1.5 or higher).
