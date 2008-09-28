@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="libs/gwtext.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-google-apis.jar"/>
 	<classpathentry kind="lib" path="libs/gwtextux.jar"/>
+	<classpathentry kind="lib" path="libs/gwt-maps.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
