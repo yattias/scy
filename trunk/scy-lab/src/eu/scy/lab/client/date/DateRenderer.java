@@ -31,6 +31,10 @@ public class DateRenderer implements Renderer{
 	         Store store) {
 	      return value!=null?dateTimeFormat.format((Date) value):"";
 	   }
+	   
+	   public DateTimeFormat getDateTimeFormat(){
+		   return this.dateTimeFormat;
+	   }
 	
 	}
 
