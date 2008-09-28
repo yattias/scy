@@ -35,4 +35,5 @@
  	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x" />-->
  	
 	<servlet class="eu.scy.lab.server.UserManagementImpl" path="/usermanagement"/>
+	<servlet class="eu.scy.lab.server.tools.map.MapServiceImpl" path="/mapService"/>
 </module>

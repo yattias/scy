@@ -1,6 +1,9 @@
 package eu.scy.lab.client.tools.map;
 
 
+import java.util.Collection;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.maps.client.InfoWindow;
 import com.google.gwt.maps.client.InfoWindowContent;
 import com.google.gwt.maps.client.MapType;
@@ -20,6 +23,7 @@ import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.maps.client.overlay.PolyStyleOptions;
 import com.google.gwt.maps.client.overlay.Polygon;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -57,6 +61,7 @@ public class MapTool {
 
 	private Image loading;
 
+	// FIXME: Maybe save MapService for reuse?
 
 	public MapTool() {
 		map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
@@ -98,6 +103,28 @@ public class MapTool {
 		panel.add(map);
 		
 		geocoder = new Geocoder();
+		addSavedMarkers();
+	}
+
+	private void addSavedMarkers() {
+		MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
+		AsyncCallback<Collection<MarkerBean>> callback = new AsyncCallback<Collection<MarkerBean>>() {
+
+			public void onFailure(Throwable caught) {
+				GWT.log("Could nod get markers from server.", caught);
+			}
+
+			public void onSuccess(Collection<MarkerBean> result) {
+				GWT.log("Got markers from server. Adding them to map.",  null);
+				for (MarkerBean bean : result) {
+					Marker marker = new Marker( LatLng.newInstance(bean.getLatitude(), bean.getLongitude()));
+					marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
+					map.addOverlay(marker);
+				}
+			}
+			
+		};
+		mapService.getMarkers(callback);
 	}
 
 	private Widget getLocationFormPanel() {
@@ -264,7 +291,20 @@ public class MapTool {
 							MarkerOptions options = MarkerOptions.newInstance();
 							options.setDraggable(true);
 							final Marker marker = new Marker(event.getLatLng(), options);
+							
+							MarkerBean bean = new MarkerBean(event.getLatLng().getLatitude(), event.getLatLng().getLongitude());
+							
+							MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
+							AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+								// FIXME: Error handling
+								public void onFailure(Throwable caught) { GWT.log("Could not add marker.", caught); }
+								public void onSuccess(Boolean result) {}
+								
+							};
+							mapService.addMarker(bean, callback );
+							
 							marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
+							
 							map.addOverlay(marker);
 							map.removeMapClickHandler(this);
 						} 
