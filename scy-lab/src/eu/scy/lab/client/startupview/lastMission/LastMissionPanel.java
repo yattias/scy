@@ -3,6 +3,7 @@ package eu.scy.lab.client.startupview.lastMission;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.SortDir;
 import com.gwtext.client.data.ArrayReader;
@@ -32,7 +33,8 @@ public class LastMissionPanel extends Panel {
 	private Vector<Mission> missions;
 
 	private GridPanel grid;
-	private boolean showPreview = false;
+	
+	private DateRenderer renderer = new DateRenderer();
 
 	public LastMissionPanel() {
 
@@ -70,7 +72,7 @@ public class LastMissionPanel extends Panel {
 				// column ID is company which is later used in
 				new ColumnConfig("Name", "name", 160, false, null, "name"),
 				new ColumnConfig("Author", "author", 160, false),
-				new ColumnConfig("Date", "date", 45, false, new DateRenderer()),
+				new ColumnConfig("Date", "date", 45, false, renderer),
 				tempDateColumn };
 		ColumnModel columnModel = new ColumnModel(columns);
 		store.setSortInfo(new SortState("date", SortDir.ASC));
@@ -152,6 +154,7 @@ public class LastMissionPanel extends Panel {
 
 	// The local Array-Data to display in the Grid
 	private Object[][] getGridData() {
+		
 		return new Object[][] {
 				new Object[] { "Kryptoarithmetics", "Sven",new Date(108, 8, 22) },
 				new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) },
@@ -168,7 +171,16 @@ public class LastMissionPanel extends Panel {
 			for (int j = 0; j < ungroupedData[i].length; j++) {
 				groupedData[i][j] = ungroupedData[i][j];
 			}
+			//FIXME Parsing doesnt work
 			Date indexDate = new Date();
+//			DateTimeFormat dateTimeFormat = renderer.getDateTimeFormat();
+			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("dd.mm.yyyy");
+			String string = groupedData[i][2].toString();
+			dateTimeFormat.format(indexDate);
+//			indexDate = dateTimeFormat.parse(string);
+			System.out.println("string: "+ string);
+			System.out.println("indexDate: "+indexDate);
+			
 			// new Date(groupedData[i][2])
 			// groupedData[i][ungroupedData[i].length]="today";
 			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
@@ -186,6 +198,7 @@ public class LastMissionPanel extends Panel {
 
 	private String createRelativeDate(Date date) {
 		Date today = new Date();
+		//FIXME CHange this!
 		if ((date.getDate() == today.getDate())
 				&& (date.getMonth() == today.getMonth())
 				&& (date.getYear() == today.getYear())) {
