@@ -1,78 +1,207 @@
 package eu.scy.lab.client.tools.map;
 
 
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.maps.client.InfoWindow;
 import com.google.gwt.maps.client.InfoWindowContent;
+import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.control.ControlAnchor;
 import com.google.gwt.maps.client.control.ControlPosition;
-import com.google.gwt.maps.client.control.MapTypeControl;
+import com.google.gwt.maps.client.control.HierarchicalMapTypeControl;
 import com.google.gwt.maps.client.control.SmallZoomControl;
 import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.event.MapClickHandler;
 import com.google.gwt.maps.client.event.MarkerClickHandler;
+import com.google.gwt.maps.client.geocode.Geocoder;
+import com.google.gwt.maps.client.geocode.LatLngCallback;
 import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.maps.client.overlay.PolyStyleOptions;
 import com.google.gwt.maps.client.overlay.Polygon;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormHandler;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Prototype of a MapTool which allows the user to mark points and areas on a map 
  */
-public class MapTool implements EntryPoint {
+public class MapTool {
 
-	private MapWidget map;
-	private VerticalPanel panel;
-
-	// Default Position: Collide, University of Duisburg-Essen
-	public static LatLng DEFAULT_POSITION = LatLng.newInstance(51.4279590881704, 6.8000268888473511);
+	public static String VERSION = "MapTool 0.1";
 	
-	public MapTool() {
-		map = new MapWidget(DEFAULT_POSITION, 14);
-		map.setSize("500px", "400px");
+	// Default location and zoom level result in Europe being shown 
+	private static LatLng DEFAULT_POSITION = LatLng.newInstance(48.3416461723746 , 4.21875);
+	private static int DEFAUT_ZOOM_LEVEL = 4;
+	private static int DEFAULT_DETAILED_ZOOM_LEVEL = 12;
+	
+	//private static LatLng COLLIDE_POSITION = LatLng.newInstance(51.4279590881704, 6.8000268888473511);
+	
+	// FIXME: Needs to be static to update the map with the current location via native javascript.
+	private static MapWidget map;
+	
+	private VerticalPanel panel;
+	private Geocoder geocoder;
 
-		// Add Controls
+	private Image loading;
+
+
+	public MapTool() {
+		map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
+		map.setSize("500px", "300px");
+
+		// Add Controls for Zzoming, changing MapType and some actions
 		map.addControl(new SmallZoomControl());
-		map.addControl(new MapTypeControl());
+		HierarchicalMapTypeControl typeControl = new HierarchicalMapTypeControl();
+		typeControl.addRelationship(MapType.getNormalMap(), MapType.getSatelliteMap());
+		typeControl.addRelationship(MapType.getNormalMap(), MapType.getHybridMap());
+		map.addControl(typeControl);
 
 		map.addControl(new CreatePolygonControl());
 		map.addControl(new AddMarkerControl());
 
-		// Set a marker on the Default Position
-		final InfoWindow info = map.getInfoWindow();
-		final Marker marker = new Marker(DEFAULT_POSITION);
-		marker.addMarkerClickHandler(new MarkerClickHandler() {
-			public void onClick(MarkerClickEvent event) {
-				info.open(marker, new InfoWindowContent("Home of COLLIDE"));
+		// Build the top Panel with Location bar...
+		Panel topPanel = new HorizontalPanel();
+		topPanel.add(getLocationFormPanel());
+		
+		// ... Button for current location...
+		Button currentLocationButton = new Button("?");
+		currentLocationButton.addClickListener(new ClickListener() {
+			public void onClick(Widget sender) {
+				gotoCurrentPositionJSNI();
 			}
 		});
-		map.addOverlay(marker);
-
+		topPanel.add(currentLocationButton);
+		
+		// .. and loading indicator
+		loading = new Image("js/ext/resources/images/default/shared/blue-loading.gif");
+		loading.setPixelSize(16, 16);
+		stopLoadingIndicator();
+		topPanel.add(loading);
+		
+		// Put Top Panel and Map together
 		panel = new VerticalPanel();
 		panel.setSpacing(10);
+		panel.add(topPanel);
 		panel.add(map);
+		
+		geocoder = new Geocoder();
 	}
 
-	public void onModuleLoad() {
-		RootPanel.get().add(new MapTool().getPanel());
+	private Widget getLocationFormPanel() {
+		final FormPanel formPanel = new FormPanel();
+		formPanel.setAction("#");
+		Panel formElements = new FlowPanel();
+		final TextBox addressBox = new TextBox();
+		addressBox.setVisibleLength(55);
+		addressBox.setText("");
+		addressBox.addKeyboardListener(new KeyboardListener() {
+			public void onKeyUp(Widget sender, char keyCode, int modifiers) {}
+			public void onKeyDown(Widget sender, char keyCode, int modifiers) {}
+
+			public void onKeyPress(Widget sender, char keyCode, int modifiers) {
+				if (keyCode == KEY_ENTER) {
+					formPanel.submit();
+				}
+			}
+		});
+		formElements.add(addressBox);
+	    
+		Button submitButton = new Button("Go!");
+		submitButton.addClickListener(new ClickListener() {
+			public void onClick(Widget sender) {
+				formPanel.submit();
+			}
+		});
+		formElements.add(submitButton);
+		formPanel.add(formElements);
+		formPanel.addFormHandler(new FormHandler() {
+			public void onSubmit(FormSubmitEvent event) {
+				showAddress(addressBox.getText());
+				event.setCancelled(true);
+			}
+
+			public void onSubmitComplete(FormSubmitCompleteEvent event) {}
+		});
+		return formPanel;
 	}
 
+	private void stopLoadingIndicator() {
+		loading.setVisible(false);
+	}
+
+	private void startLoadingIndicator() {
+		loading.setVisible(true);
+	}
+	
 	public Widget getPanel() {
 		return panel;
+	}
+	
+	private void showAddress(final String address) {
+		startLoadingIndicator();
+		final InfoWindow info = map.getInfoWindow();
+		geocoder.getLatLng(address, new LatLngCallback() {
+			public void onFailure() {
+				Window.alert("Adress not found: " + address);
+				stopLoadingIndicator();
+			}
+
+			public void onSuccess(LatLng point) {
+				map.setCenter(point, DEFAULT_DETAILED_ZOOM_LEVEL);
+				final Marker marker = new Marker(point);
+				map.addOverlay(marker);
+				marker.addMarkerClickHandler(new MarkerClickHandler() {
+					public void onClick(MarkerClickEvent event) {
+						info.open(marker, new InfoWindowContent(address));
+					}
+				});
+				stopLoadingIndicator();
+			}
+		});
+	}
+    
+	public native void gotoCurrentPositionJSNI() /*-{
+	 	//FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
+		if (!$wnd.google ) {
+  			//location.href = "http://gears.google.com/?action=install&message=<your welcome message>"&return=<your website url>";
+          	alert("Unable to get your current position: Gears is not installed.");
+          	return;
+        }
+	  	try {
+	    	var geolocation = $wnd.google.gears.factory.create('beta.geolocation');
+	    	// For debugging use: alert('your position: ' + p.latitude + ', ' + p.longitude)
+	    	geolocation.getCurrentPosition( function(p) { @eu.scy.lab.client.tools.map.MapTool::gotoPosition(DD)(p.latitude,p.longitude); },
+	                                   		function(err) { alert('Error retrieving your location: ' + err.message);},
+						           			{ enableHighAccuracy: true,
+	                                     	gearsRequestAddress: true });
+	  	} catch (e) {
+	    	alert('Error using Geolocation API: ' + e.message);
+	    	return;
+	  	}
+	}-*/;
+
+	public static void gotoPosition(double latitude, double longitude) {
+		LatLng latLng = LatLng.newInstance(latitude, longitude);
+		map.setCenter(latLng, DEFAULT_DETAILED_ZOOM_LEVEL);
 	}
 
 	/**
 	 * Enables the user to draw Polygons on the map 
 	 */
-	private static class CreatePolygonControl extends CustomControl {
+	private class CreatePolygonControl extends CustomControl {
 
 		public CreatePolygonControl() {
 			super(new ControlPosition(ControlAnchor.TOP_RIGHT, 230, 5));
@@ -89,6 +218,7 @@ public class MapTool implements EntryPoint {
 			markAreaButton.setStyleName("markareacontrol");
 
 			markAreaButton.addClickListener(new ClickListener() {
+				
 				public void onClick(Widget sender) {
 					String color = "0000FF";
 					int weight = 1;
@@ -109,7 +239,7 @@ public class MapTool implements EntryPoint {
 	/**
 	 * Enables the user to add markers to the map
 	 */
-	private static class AddMarkerControl extends CustomControl {
+	private class AddMarkerControl extends CustomControl {
 
 		public AddMarkerControl() {
 			super(new ControlPosition(ControlAnchor.TOP_RIGHT, 350, 5));
@@ -126,36 +256,19 @@ public class MapTool implements EntryPoint {
 			addMarkerButton.setStyleName("addmarkercontrol");
 
 			addMarkerButton.addClickListener(new ClickListener() {
+				
 				public void onClick(Widget sender) {
-					
 					map.addMapClickHandler(new MapClickHandler() {
-						
+
 						public void onClick(MapClickEvent event) {
 							MarkerOptions options = MarkerOptions.newInstance();
 							options.setDraggable(true);
 							final Marker marker = new Marker(event.getLatLng(), options);
-							marker.addMarkerClickHandler(new MarkerClickHandler() {
-								public void onClick(MarkerClickEvent event) {
-									VerticalPanel panel = new VerticalPanel();
-									TextArea textArea = new TextArea();
-									textArea.setVisibleLines(5);
-									panel.add(textArea);
-									Button saveButton = new Button("Save");
-									saveButton.addClickListener(new ClickListener() {
-										public void onClick(Widget sender) {
-											System.out.println("SaveButton clicked");
-										}
-										
-									});
-									panel.add(saveButton);
-									InfoWindowContent content = new InfoWindowContent(panel);
-									map.getInfoWindow().open(marker, content);
-								}
-								
-							});
+							marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
 							map.addOverlay(marker);
 							map.removeMapClickHandler(this);
-						} });
+						} 
+					});
 				}
 			});
 			return addMarkerButton;
