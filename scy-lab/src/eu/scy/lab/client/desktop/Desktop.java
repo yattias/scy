@@ -114,7 +114,7 @@ public class Desktop extends Panel {
 		panelTools.setIconCls("settings-icon");
 		navigationPanel.add(panelTools);
 		panelTools.setAutoScroll(true);
-		panelTools.add(tools.getPanel(), new RowLayoutData(150));
+		panelTools.add(tools.getPanel(), new RowLayoutData());
 
 //		ListenerConfig clickListenerConfig = new ListenerConfig();
 //		
@@ -133,7 +133,8 @@ public class Desktop extends Panel {
 //		panelBuddies.setCollapsed(true);
 		navigationPanel.add(panelBuddies);
 		panelBuddies.setAutoScroll(true);
-		panelBuddies.add(buddies.getPanel(), new RowLayoutData(150));
+		panelBuddies.setBorder(false);
+		panelBuddies.add(buddies.getPanel(), new RowLayoutData());
 		
 //		panelBuddies.getTopToolbar().addEvent("click");
 //		panelBuddies.addListener("mouseDown", new Function(){
@@ -162,9 +163,11 @@ public class Desktop extends Panel {
 		panelTasks.setCollapsible(true);
 		panelTasks.setWidth(200);
 //		panelTasks.setCollapsed(true);
+		panelTasks.setAutoScroll(true);
+		panelTasks.setAutoHeight(true);
 		navigationPanel.add(panelTasks);
 		panelTasks.setAutoScroll(true);
-		panelTasks.add(tasks.getPanel(), new RowLayoutData(150));
+		panelTasks.add(tasks.getPanel(), new RowLayoutData());
 
 		return navigationPanel;
 	}
