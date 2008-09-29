@@ -11,6 +11,6 @@ public interface MapService extends RemoteService {
 	public boolean removeMarker(MarkerBean marker);
 	public Collection<MarkerBean> getMarkers();
 	public MarkerBean getMarkerAtPosition(double latitude, double longitude);
-	public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude);
-	public void updateMarkerInfo(MarkerBean marker, String info);
+	public boolean updateMarkerPosition(MarkerBean marker, double newLatitude, double newLongitude);
+	public boolean updateMarkerInfo(MarkerBean marker, String newInfo);
 }
