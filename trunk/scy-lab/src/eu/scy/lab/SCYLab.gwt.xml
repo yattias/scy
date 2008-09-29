@@ -17,7 +17,7 @@
 	<inherits name='com.google.gwt.gears.Gears'/>
  	
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class="eu.scy.lab.client.tools.map.MapToolDemo"/>
+	<entry-point class="eu.scy.lab.client.SCYLab"/>
 
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/>-->
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
