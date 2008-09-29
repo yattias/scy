@@ -34,7 +34,7 @@ public class LastMissionPanel extends Panel {
 
 	private GridPanel grid;
 	
-	private DateRenderer renderer = new DateRenderer();
+	private DateRenderer renderer = new DateRenderer("dd.MM.yyyy");
 
 	public LastMissionPanel() {
 
@@ -54,7 +54,7 @@ public class LastMissionPanel extends Panel {
 				getGridDataWithDate(getGridData()));
 		RecordDef recordDef = new RecordDef(new FieldDef[] {
 				new StringFieldDef("name"), new StringFieldDef("author"),
-				new DateFieldDef("date", "dd.mm.yyyy"),
+				new DateFieldDef("date", "dd.MM.yyyy"),
 				// new DateFieldDef("date"),
 				new StringFieldDef("relativedate") });
 
@@ -172,14 +172,18 @@ public class LastMissionPanel extends Panel {
 				groupedData[i][j] = ungroupedData[i][j];
 			}
 			//FIXME Parsing doesnt work
+			//My parsing example
 			Date indexDate = new Date();
-//			DateTimeFormat dateTimeFormat = renderer.getDateTimeFormat();
-			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("dd.mm.yyyy");
-			String string = groupedData[i][2].toString();
-			dateTimeFormat.format(indexDate);
-//			indexDate = dateTimeFormat.parse(string);
-			System.out.println("string: "+ string);
-			System.out.println("indexDate: "+indexDate);
+			String dateString3 = DateTimeFormat.getLongTimeFormat().format(indexDate);
+			DateTimeFormat dtf2 = DateTimeFormat.getLongTimeFormat();
+			System.out.println("dateString3: "+dateString3);
+			Date date3 = dtf2.parse(dateString3);
+			System.out.println("Date 3: "+ date3);
+			
+//			String string = groupedData[i][2].toString();
+//			Date indexDate = dateTimeFormat.parse(string);
+//			System.out.println("string: "+ string);
+//			System.out.println("indexDate: "+dateTimeFormat.format(indexDate));
 			
 			// new Date(groupedData[i][2])
 			// groupedData[i][ungroupedData[i].length]="today";
@@ -189,7 +193,7 @@ public class LastMissionPanel extends Panel {
 		// testing
 		for (int i = 0; i < groupedData.length; i++) {
 			for (int j = 0; j < groupedData[i].length; j++) {
-				System.out.print(groupedData[i][j]);
+				System.out.print(groupedData[i][j]+"\t");
 			}
 			System.out.println("");
 		}
