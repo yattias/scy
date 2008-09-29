@@ -64,23 +64,38 @@ public class LastMissionPanel extends Panel {
 		store.setDataProxy(proxy);
 		store.setGroupField("relativedate");
 
-		ColumnConfig tempDateColumn = new ColumnConfig("relative Date",
+		ColumnConfig tempDateColumn = new ColumnConfig("Relative Date",
 				"relativedate");
 		tempDateColumn.setHidden(true);
+		
+		ColumnConfig date = new ColumnConfig("Date", "date");
+		date.setRenderer(renderer);
+		date.setWidth(50);
+		date.setSortable(false);
 
 		ColumnConfig[] columns = new ColumnConfig[] {
 				// column ID is company which is later used in
-				new ColumnConfig("Name", "name", 160, false, null, "name"),
+				new ColumnConfig("Name", "name", 160,false, null, "name"),
 				new ColumnConfig("Author", "author", 160, false),
-				new ColumnConfig("Date", "date", 45, false, renderer),
+				date,
 				tempDateColumn };
 		ColumnModel columnModel = new ColumnModel(columns);
-		store.setSortInfo(new SortState("date", SortDir.ASC));
+		
+		
+		//FIXME CHange Sorting
+//		date.setSortable(true);
+		store.setSortInfo(new SortState("date", SortDir.DESC));
+		store.sort("date", SortDir.DESC);
+//		store.sort("relativedate", SortDir.DESC);
+//		store.setSortInfo(new SortState("relativedate", SortDir.DESC));
 
-		GroupingView gridView = new GroupingView();
-		gridView.setForceFit(true);
-		gridView
-				.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
+		
+		//FIXME GroupingView deactivated because GridView is not working
+//		GroupingView gridView = new GroupingView();
+//		gridView.setForceFit(true);
+//		gridView.updateHeaderSortState();
+//		gridView
+//				.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
 
 		// The Grid
 		// TODO set layout and size
@@ -96,8 +111,10 @@ public class LastMissionPanel extends Panel {
 		grid.setAutoExpandColumn("name");
 		grid.setHeader(false);
 
-		gridView.fitColumns(true);
-		grid.setView(gridView);
+		//FIXME GroupingView deactivated because GridView is not working
+//		gridView.fitColumns(true);
+//		grid.setView(gridView);
+		
 		grid.setIconCls("grid-icon");
 
 		grid.addGridRowListener(new GridRowListener() {
@@ -143,10 +160,6 @@ public class LastMissionPanel extends Panel {
 
 		grid.setBufferResize(true);
 
-		// adding the SearchField-Panel to the ELO-Browser
-		// TODO No search integrated at the moment
-
-		// adding the Grid-Panel to the ELO-Browser
 		add(grid);
 		setAutoScroll(true);
 
