@@ -156,7 +156,7 @@ public class LastMissionPanel extends Panel {
 	private Object[][] getGridData() {
 		
 		return new Object[][] {
-				new Object[] { "Kryptoarithmetics", "Sven",new Date(108, 8, 22) },
+				new Object[] { "Kryptoarithmetics", "Sven",new Date(108, 8, 29) },
 				new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) },
 				new Object[] { "Kryptoarithmetics II","Sven", new Date(108, 8, 20) },
 				new Object[] { "Dancing with animals","Sven", new Date(108, 8, 21) },
@@ -171,32 +171,14 @@ public class LastMissionPanel extends Panel {
 			for (int j = 0; j < ungroupedData[i].length; j++) {
 				groupedData[i][j] = ungroupedData[i][j];
 			}
-			//FIXME Parsing doesnt work
-			//My parsing example
+			
 			Date indexDate = new Date();
-			String dateString3 = DateTimeFormat.getLongTimeFormat().format(indexDate);
-			DateTimeFormat dtf2 = DateTimeFormat.getLongTimeFormat();
-			System.out.println("dateString3: "+dateString3);
-			Date date3 = dtf2.parse(dateString3);
-			System.out.println("Date 3: "+ date3);
-			
-//			String string = groupedData[i][2].toString();
-//			Date indexDate = dateTimeFormat.parse(string);
-//			System.out.println("string: "+ string);
-//			System.out.println("indexDate: "+dateTimeFormat.format(indexDate));
-			
-			// new Date(groupedData[i][2])
-			// groupedData[i][ungroupedData[i].length]="today";
+			if (groupedData[i][2] instanceof Date){
+				indexDate = (Date)groupedData[i][2];
+			}
 			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
 		}
 
-		// testing
-		for (int i = 0; i < groupedData.length; i++) {
-			for (int j = 0; j < groupedData[i].length; j++) {
-				System.out.print(groupedData[i][j]+"\t");
-			}
-			System.out.println("");
-		}
 		return groupedData;
 	}
 
