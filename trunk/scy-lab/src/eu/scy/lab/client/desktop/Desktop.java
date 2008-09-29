@@ -48,7 +48,7 @@ public class Desktop extends Panel {
 		westData.setFloatable(true);
 		add(navigationPanel, westData);
 
-		workspacePanel = createWorkspace();
+		workspacePanel = getWorkspace();
 		workspacePanel.setTitle("Workspace");
 
 		add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
@@ -72,20 +72,18 @@ public class Desktop extends Panel {
 		
 	}
 
-	private Panel createWorkspace() {
-		workspace = new TabbedWorkspace();
-		workspace.add(new EloBrowser());
+	public TabbedWorkspace getWorkspace() {
+		if (workspace == null) {
+			workspace = new TabbedWorkspace();
+			workspace.add(new EloBrowser());
+		}
 		return workspace;
 	}
-
-	public Desktop createDesktop() {
-		return this;
-	}
-
+	
 	private Panel createNavigationPanel() {
 
 		// Adding the tools, buddies, etc to navigation
-		ToolsTreeNavigation tools = new ToolsTreeNavigation();
+		ToolsTreeNavigation tools = new ToolsTreeNavigation(this);
 		Buddies buddies = new Buddies();
 		Tasks tasks = new Tasks();
 

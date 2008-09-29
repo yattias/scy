@@ -6,11 +6,10 @@ import java.util.Collection;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.maps.client.InfoWindow;
 import com.google.gwt.maps.client.InfoWindowContent;
-import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.control.ControlAnchor;
 import com.google.gwt.maps.client.control.ControlPosition;
-import com.google.gwt.maps.client.control.HierarchicalMapTypeControl;
+import com.google.gwt.maps.client.control.MapTypeControl;
 import com.google.gwt.maps.client.control.SmallZoomControl;
 import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.event.MapClickHandler;
@@ -36,14 +35,14 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Prototype of a MapTool which allows the user to mark points and areas on a map 
  */
-public class MapTool {
+public class MapTool extends com.gwtext.client.widgets.Panel {
 
+	public static final String ID = "MapID";
 	public static String VERSION = "MapTool 0.1";
 	
 	// Default location and zoom level result in Europe being shown 
@@ -56,24 +55,21 @@ public class MapTool {
 	// FIXME: Needs to be static to update the map with the current location via native javascript.
 	private static MapWidget map;
 	
-	private VerticalPanel panel;
 	private Geocoder geocoder;
 
 	private Image loading;
-
-	// FIXME: Maybe save MapService for reuse?
-
+	
 	public MapTool() {
+		super("Map"); 
+		setId(ID);
+		setClosable(true);
+		
 		map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
-		map.setSize("500px", "300px");
+		map.setSize("90%", "90%");
 
 		// Add Controls for Zooming, changing MapType and some actions
 		map.addControl(new SmallZoomControl());
-		HierarchicalMapTypeControl typeControl = new HierarchicalMapTypeControl();
-		typeControl.addRelationship(MapType.getNormalMap(), MapType.getSatelliteMap());
-		typeControl.addRelationship(MapType.getNormalMap(), MapType.getHybridMap());
-		map.addControl(typeControl);
-
+		map.addControl(new MapTypeControl());
 		map.addControl(new CreatePolygonControl());
 		map.addControl(new AddMarkerControl());
 
@@ -113,13 +109,23 @@ public class MapTool {
 		topPanel.add(loading);
 		
 		// Put Top Panel and Map together
-		panel = new VerticalPanel();
-		panel.setSpacing(10);
-		panel.add(topPanel);
-		panel.add(map);
+		//setSpacing(10);
+		setSize(500, 400);
+		add(topPanel);
+		add(map);
 		
 		geocoder = new Geocoder();
 		addSavedMarkers();
+	}
+
+	/**
+	 * Needed as a rather ugly hack to work around issues
+	 * adding a MapWidget into a gwt-ext Panel
+	 * see http://code.google.com/p/gwt-google-apis/issues/detail?id=127
+	 */
+	public void init() {
+		map.setVisible(true);
+		map.checkResize();
 	}
 
 	private void addSavedMarkers() {
@@ -188,10 +194,6 @@ public class MapTool {
 
 	private void startLoadingIndicator() {
 		loading.setVisible(true);
-	}
-	
-	public Widget getPanel() {
-		return panel;
 	}
 	
 	private void showAddress(final String address) {
