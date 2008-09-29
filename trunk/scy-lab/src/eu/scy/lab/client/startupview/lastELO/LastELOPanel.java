@@ -1,159 +1,242 @@
 package eu.scy.lab.client.startupview.lastELO;
 
-import com.gwtext.client.widgets.Panel;
-import com.gwtext.client.core.SortDir;
-import com.gwtext.client.core.TextAlign;
-import com.gwtext.client.data.*;
-import com.gwtext.client.util.DateUtil;
-import com.gwtext.client.util.Format;
-import com.gwtext.client.widgets.*;
-import com.gwtext.client.widgets.event.ButtonListenerAdapter;
-import com.gwtext.client.widgets.event.PanelListenerAdapter;
-import com.gwtext.client.widgets.grid.*;
-
 import java.util.Date;
+import java.util.Vector;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.gwtext.client.core.EventObject;
+import com.gwtext.client.core.SortDir;
+import com.gwtext.client.data.ArrayReader;
+import com.gwtext.client.data.DateFieldDef;
+import com.gwtext.client.data.FieldDef;
+import com.gwtext.client.data.GroupingStore;
+import com.gwtext.client.data.RecordDef;
+import com.gwtext.client.data.SortState;
+import com.gwtext.client.data.StringFieldDef;
+import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.MessageBox;
+import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
+import com.gwtext.client.widgets.grid.ColumnConfig;
+import com.gwtext.client.widgets.grid.ColumnModel;
+import com.gwtext.client.widgets.grid.GridPanel;
+import com.gwtext.client.widgets.grid.GroupingView;
+import com.gwtext.client.widgets.grid.event.GridRowListener;
+import com.gwtext.client.widgets.layout.FitLayout;
+import com.gwtext.client.widgets.layout.HorizontalLayout;
+import com.gwtextux.client.data.PagingMemoryProxy;
+
+import eu.scy.lab.client.date.DateRenderer;
 
 public class LastELOPanel extends Panel {
 
-	public LastELOPanel() {
-		super("Last ELOs");
-		onModuleLoad();
-	}
+	private Vector<ELO> elos;
 
 	private GridPanel grid;
-	private boolean showPreview = false;
+	
+	private DateRenderer renderer = new DateRenderer();
 
-	private Renderer renderTopic = new Renderer() {
-		public String render(Object value, CellMetadata cellMetadata,
-				Record record, int rowIndex, int colNum, Store store) {
-			return Format
-					.format(
-							"<b><a href=\"http://extjs.com/forum/showthread.php?t={2}\" target=\"_blank\">{0}</a></b>  <a href=\"http://extjs.com/forum/forumdisplay.php?f={3}\" target=\"_blank\">{1} Forum</a>",
-							new String[] { (String) value,
-									record.getAsString("forumtitle"),
-									record.getId(),
-									record.getAsString("forumid"), });
-		}
-	};
+	public LastELOPanel() {
 
-	private Renderer renderLast = new Renderer() {
-		public String render(Object value, CellMetadata cellMetadata,
-				Record record, int rowIndex, int colNum, Store store) {
-			Date lastPost = record.getAsDate("lastpost");
-			String lastPostStr = DateUtil.format(lastPost, "M j, Y, g:i a");
-			return Format.format("{0}<br/>by {1}", new String[] { lastPostStr,
-					record.getAsString("lastposter") });
-		}
-	};
+		super("Last ELOs");
+		onModuleLoad();
+
+	}
 
 	public void onModuleLoad() {
-		Panel panel = new Panel();
-		panel.setBorder(false);
-//		panel.setPaddings(15);
 
-		DataProxy dataProxy = new ScriptTagProxy(
-				"http://extjs.com/forum/topics-browse-remote.php");
+		// FIXME Setup a new Date Representation (not Date-Class)
+		setLayout(new FitLayout());
+		setClosable(false);
 
-		final RecordDef recordDef = new RecordDef(
-				new FieldDef[] { new StringFieldDef("title"),
-						new StringFieldDef("forumtitle"),
-						new StringFieldDef("forumid"),
-						new StringFieldDef("author"),
-						new IntegerFieldDef("replycount"),
-						new DateFieldDef("lastpost", "lastpost", "timestamp"),
-						new StringFieldDef("lastposter"),
-						new StringFieldDef("excerpt") });
-		JsonReader reader = new JsonReader(recordDef);
-		reader.setRoot("topics");
-		reader.setTotalProperty("totalCount");
-		reader.setId("threadid");
+		// MemoryProxy proxy = new MemoryProxy(getCompanyData());
+		PagingMemoryProxy proxy = new PagingMemoryProxy(
+				getGridDataWithDate(getGridData()));
+		RecordDef recordDef = new RecordDef(new FieldDef[] {
+				new StringFieldDef("name"), new StringFieldDef("author"),
+				new DateFieldDef("date", "dd.MM.yyyy"),
+				// new DateFieldDef("date"),
+				new StringFieldDef("relativedate") });
 
-		final Store store = new Store(dataProxy, reader, true);
-		store.setDefaultSort("lastpost", SortDir.DESC);
+		ArrayReader reader = new ArrayReader(recordDef);
+		final GroupingStore store = new GroupingStore();
+		store.setReader(reader);
+		store.setDataProxy(proxy);
+		store.setGroupField("relativedate");
 
-		ColumnConfig topicColumn = new ColumnConfig("Topic", "title", 420,
-				false, renderTopic, "topic");
-		topicColumn.setCss("white-space:normal;");
+		ColumnConfig tempDateColumn = new ColumnConfig("relative Date",
+				"relativedate");
+		tempDateColumn.setHidden(true);
 
-		ColumnConfig authorColumn = new ColumnConfig("Author", "author", 100);
-		authorColumn.setHidden(true);
+		ColumnConfig[] columns = new ColumnConfig[] {
+				// column ID is company which is later used in
+				new ColumnConfig("Name", "name", 160, false, null, "name"),
+				new ColumnConfig("Author", "author", 160, false),
+				new ColumnConfig("Date", "date", 45, false, renderer),
+				tempDateColumn };
+		ColumnModel columnModel = new ColumnModel(columns);
+		store.setSortInfo(new SortState("date", SortDir.ASC));
 
-		ColumnConfig repliesColumn = new ColumnConfig("Replies", "replycount",
-				70);
-		repliesColumn.setAlign(TextAlign.RIGHT);
+		GroupingView gridView = new GroupingView();
+		gridView.setForceFit(true);
+		gridView
+				.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
 
-		ColumnConfig lastPostColumn = new ColumnConfig("Last Post", "lastPost",
-				150, true, renderLast, "last");
-
-		ColumnModel columnModel = new ColumnModel(new ColumnConfig[] {
-				topicColumn, authorColumn, repliesColumn, lastPostColumn });
-		columnModel.setDefaultSortable(true);
+		// The Grid
+		// TODO set layout and size
 
 		grid = new GridPanel();
-		grid.setWidth(450);
-		grid.setHeight(340);
-		grid.setHeader(false);
-//		grid.setTitle("Remote Paging Grid ");
 		grid.setStore(store);
 		grid.setColumnModel(columnModel);
-		grid.setTrackMouseOver(false);
-		grid.setLoadMask(true);
-		grid.setSelectionModel(new RowSelectionModel());
+
 		grid.setFrame(true);
 		grid.setStripeRows(true);
+		grid.setLayout(new HorizontalLayout(0));
+		grid.setMonitorResize(true);
+		grid.setAutoExpandColumn("name");
+		grid.setHeader(false);
+
+		gridView.fitColumns(true);
+		grid.setView(gridView);
 		grid.setIconCls("grid-icon");
+
+		grid.addGridRowListener(new GridRowListener() {
+
+			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+
+				String name = (grid.getSelectionModel().getSelected()
+						.getAsString(grid.getSelectionModel().getSelected()
+								.getFields()[0]));
+				String author = (grid.getSelectionModel().getSelected()
+						.getAsString(grid.getSelectionModel().getSelected()
+								.getFields()[1]));
+				String date = (grid.getSelectionModel().getSelected()
+						.getAsString(grid.getSelectionModel().getSelected()
+								.getFields()[2]));
+
+			}
+
+			public void onRowContextMenu(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+
+			public void onRowDblClick(GridPanel grid, int rowIndex,
+					EventObject e) {
+
+			}
+
+		});
+
+		Button browseMission = new Button("Browse ELO!",
+				new ButtonListenerAdapter() {
+					public void onClick(Button button, EventObject e) {
+						// TODO Auto-generated method stub
+						MessageBox
+								.alert("Starting Missionbrowser when feature is enabled");
+					}
+				});
+		addButton(browseMission);
+
+		// store.load(0, 5);
+		store.load();
+
+		grid.setBufferResize(true);
+
+		// adding the SearchField-Panel to the ELO-Browser
+		// TODO No search integrated at the moment
+
+		// adding the Grid-Panel to the ELO-Browser
+		add(grid);
+		setAutoScroll(true);
+
+	}
+
+	// The local Array-Data to display in the Grid
+	private Object[][] getGridData() {
 		
-//		showPreview = false;
-//		grid.getView().refresh();
-
-		GridView view = new GridView() {
-			public String getRowClass(Record record, int index,
-					RowParams rowParams, Store store) {
-				if (showPreview) {
-					rowParams.setBody(Format.format("<p>{0}</p>", record
-							.getAsString("excerpt")));
-					return "x-grid3-row-expanded";
-				} else {
-					return "x-grid3-row-collapsed";
-				}
-			}
-		};
-		view.setForceFit(true);
-		view.setEnableRowBody(true);
-		grid.setView(view);
-
-		PagingToolbar pagingToolbar = new PagingToolbar(store);
-		pagingToolbar.setPageSize(25);
-		pagingToolbar.setDisplayInfo(true);
-//		pagingToolbar.setDisplayMsg("Displaying topics {0} - {1} of {2}");
-		pagingToolbar.setEmptyMsg("No topics to display");
-
-		pagingToolbar.addSeparator();
-		ToolbarButton toolbarButton = new ToolbarButton("Show Preview");
-		toolbarButton.setPressed(showPreview);
-		toolbarButton.setEnableToggle(true);
-//		toolbarButton.setCls("x-btn-text-icon details");
-		toolbarButton.addListener(new ButtonListenerAdapter() {
-			public void onToggle(Button button, boolean pressed) {
-				toggleDetails(pressed);
-			}
-		});
-
-		pagingToolbar.addButton(toolbarButton);
-		grid.setBottomToolbar(pagingToolbar);
-
-		grid.addListener(new PanelListenerAdapter() {
-			public void onRender(Component component) {
-				store.load(0, 25);
-			}
-		});
-		panel.add(grid);
-
-		add(panel);
+		return new Object[][] {
+				new Object[] { "Kryptoarithmetics", "Sven",new Date(108, 8, 22) },
+				new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) },
+				new Object[] { "Kryptoarithmetics II","Sven", new Date(108, 8, 20) },
+				new Object[] { "Dancing with animals","Sven", new Date(108, 8, 21) },
+				new Object[] { "Kryptoarithmetics III","Sven", new Date(108, 8, 22) } };
 	}
 
-	private void toggleDetails(boolean pressed) {
-		showPreview = pressed;
-		grid.getView().refresh();
+
+	private Object[][] getGridDataWithDate(Object[][] ungroupedData) {
+		Object[][] groupedData = new Object[ungroupedData.length][ungroupedData[0].length + 1];
+
+		for (int i = 0; i < ungroupedData.length; i++) {
+			for (int j = 0; j < ungroupedData[i].length; j++) {
+				groupedData[i][j] = ungroupedData[i][j];
+			}
+			//FIXME Parsing doesnt work
+//			Date indexDate = new Date();
+//			Date indexDate;
+//			DateTimeFormat dateTimeFormat = renderer.getDateTimeFormat();
+//			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
+//			DateTimeFormat dateTimeFormat = DateTimeFormat.getMediumDateFormat();
+//			dateTimeFormat.format(indexDate);
+//			String string = groupedData[i][2].toString();
+//			indexDate = dateTimeFormat.parse(string);
+//			System.out.println("string: "+ string);
+//			System.out.println("indexDate: "+dateTimeFormat.format(indexDate));
+//			
+			// new Date(groupedData[i][2])
+			// groupedData[i][ungroupedData[i].length]="today";
+//			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
+		}
+
+		// testing
+//		for (int i = 0; i < groupedData.length; i++) {
+//			for (int j = 0; j < groupedData[i].length; j++) {
+//				System.out.print(groupedData[i][j]);
+//			}
+//			System.out.println("");
+//		}
+		return groupedData;
 	}
+
+	private String createRelativeDate(Date date) {
+		Date today = new Date();
+		//FIXME CHange this!
+		if ((date.getDate() == today.getDate())
+				&& (date.getMonth() == today.getMonth())
+				&& (date.getYear() == today.getYear())) {
+			return "today";
+		} else if ((date.getMonth() == today.getMonth())
+				&& (date.getYear() == today.getYear())) {
+			return "this month";
+		} else
+			return "older";
+	}
+
+	/**
+	 * @return the last missions from a remote service
+	 */
+	// TODO connect to remote service and correct return statement
+	public Vector<ELO> getLastMissions() {
+
+		Vector<ELO> elos = new Vector<ELO>();
+		elos.add(new ELO("CO2 neutral house", "09/22/2008"));
+		elos.add(new ELO("Tutorial Mission", "09/21/2008"));
+		return elos;
+	}
+
+	/**
+	 * @param missions
+	 *            the missions to set
+	 */
+	public void setMissions(Vector<ELO> elos) {
+		this.elos = elos;
+	}
+
+	/**
+	 * @return the missions
+	 */
+	public Vector<ELO> getELOs() {
+		return elos;
+	}
+
 }
