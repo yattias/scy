@@ -33,16 +33,16 @@ public class StartupView extends Panel{
 //		setLayout(new FitLayout());
 		
 		missionBrowser = new MissionBrowser();
-		missionBrowser.setSize(450, 250);
+		missionBrowser.setSize(400, 250);
 		
 		lastMissionPanel = new LastMissionPanel();
-		lastMissionPanel.setSize(450, 250);
+		lastMissionPanel.setSize(400, 250);
 		
 		lastEloPanel = new LastELOPanel();
-		lastEloPanel.setSize(450, 360);
+		lastEloPanel.setSize(400, 250);
 		
 		feedbackPanel = new FeedbackPanel();
-		feedbackPanel.setSize(450, 360);
+		feedbackPanel.setSize(400, 250);
 		
 		
 		Panel tableWrapper = new Panel();
