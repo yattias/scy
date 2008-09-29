@@ -20,6 +20,9 @@
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
   	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
   	
+  	<!-- For internationalization -->
+  	<inherits name="com.google.gwt.i18n.I18N"/>
+  	
   	<!-- Specifying the available locales -->
   	<extend-property name="locale" values="en"/> 
     <extend-property name="locale" values="de"/> 
