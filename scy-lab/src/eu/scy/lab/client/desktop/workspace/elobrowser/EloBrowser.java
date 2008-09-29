@@ -1,16 +1,22 @@
 package eu.scy.lab.client.desktop.workspace.elobrowser;
 
+import com.google.gwt.user.client.Window;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.FieldDef;
+import com.gwtext.client.data.Record;
 import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.Store;
+import com.gwtext.client.data.StoreTraversalCallback;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.PagingToolbar;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.ToolTip;
+import com.gwtext.client.widgets.Toolbar;
+import com.gwtext.client.widgets.ToolbarButton;
+import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextField;
@@ -23,11 +29,16 @@ import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
 import com.gwtextux.client.data.PagingMemoryProxy;
+import com.gwtextux.client.widgets.grid.plugins.GridSearchPlugin;
 
 public class EloBrowser extends Panel {
 
 	private PreviewPanel previewPanel;
 	private GridPanel grid;
+	private Store store;
+	private TextField searchField;
+	private ColumnModel columnModel;
+
 
 	public EloBrowser() {
 		super("ELO-Browser");
@@ -50,7 +61,7 @@ public class EloBrowser extends Panel {
 				new StringFieldDef("date"), new StringFieldDef("iconurl") });
 
 		ArrayReader reader = new ArrayReader(recordDef);
-		final Store store = new Store(proxy, reader, true);
+		store = new Store(proxy, reader, true);
 
 		ColumnConfig[] columns = new ColumnConfig[] {
 				// column ID is company which is later used in
@@ -63,7 +74,7 @@ public class EloBrowser extends Panel {
 
 		// The Grid
 		// TODO set layout and size
-		ColumnModel columnModel = new ColumnModel(columns);
+		columnModel = new ColumnModel(columns);
 
 		grid = new GridPanel();
 		grid.setStore(store);
@@ -88,10 +99,10 @@ public class EloBrowser extends Panel {
 		// topToolbar.addFill();
 		// grid.setTopToolbar(topToolbar);
 		//		
-		// GridSearchPlugin gridSearch = new
-		// GridSearchPlugin(GridSearchPlugin.TOP);
-		// gridSearch.setMode(GridSearchPlugin.LOCAL);
-		// grid.addPlugin(gridSearch);
+//		 GridSearchPlugin gridSearch = new
+//		 GridSearchPlugin(GridSearchPlugin.TOP);
+//		 gridSearch.setMode(GridSearchPlugin.LOCAL);
+//		 grid.addPlugin(gridSearch);
 
 		grid.addGridRowListener(new GridRowListener() {
 
@@ -146,21 +157,44 @@ public class EloBrowser extends Panel {
 
 		grid.setBufferResize(true);
 
-		// adding the SearchField-Panel to the ELO-Browser
-		// TODO No search integrated at the moment
-		BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
-		northData.setSplit(true);
-		northData.setSplitTip("Drag to resize");
-		northData.setMinHeight(25);
-		Panel searchPanel = new Panel();
-		searchPanel.setLayout(new HorizontalLayout(15));
-		TextField searchField = new TextField();
-		Button searchButton = new Button("Search!");
-		searchPanel.add(searchField);
-		searchPanel.add(searchButton);
-		searchPanel.setHeight(25);
+//		// adding the SearchField-Panel to the ELO-Browser
+//		// TODO No search integrated at the moment
 
-		add(searchPanel, northData);
+		searchField = new TextField();
+		Toolbar topToolbar = new Toolbar();
+		topToolbar.addField(searchField);
+		
+		ToolbarButton searchButton = new ToolbarButton("Search!", new ButtonListenerAdapter(){
+			//FIXME Search doesnt work
+			public void onClick(Button button, EventObject e){
+				
+				final String content = searchField.getValueAsString();
+				
+				store.filterBy(new StoreTraversalCallback (){
+
+					public boolean execute(Record record) {
+
+						String[] row = record.getFields();
+						
+						for (int i = 0; i<row.length; i++ ){
+							if (record.getAsString(row[i]).contains(content)){
+								System.out.println(record.getAsString(row[i])+" contains "+content);
+								return true;
+							}
+						}
+						return false;
+					}
+					
+				});
+				store.reload();
+				grid.reconfigure(store, columnModel);
+				grid.disable();
+				grid.enable();
+			}
+		});
+
+		topToolbar.addButton(searchButton);
+		grid.setTopToolbar(topToolbar);
 
 		// adding the Grid-Panel to the ELO-Browser
 		BorderLayoutData centerData = new BorderLayoutData(
@@ -182,6 +216,20 @@ public class EloBrowser extends Panel {
 		previewPanel.setHeight(150);
 		add(previewPanel.getPreviewPanel(), southData);
 
+	}
+	
+	/**
+	 * @return the store
+	 */
+	public Store getStore() {
+		return store;
+	}
+	
+	/**
+	 * @param store the store to set
+	 */
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 	// The local Array-Data to display in the Grid
