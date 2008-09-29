@@ -24,7 +24,7 @@ public class DateRenderer implements Renderer{
 	   }
 	      
 	   public DateRenderer() {
-	      this.dateTimeFormat = DateTimeFormat.getFormat("dd.mm.yyyy");
+	      this.dateTimeFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
 	   }
 	   
 	   public String render(Object value, CellMetadata cellMetadata, Record record, int rowIndex, int colNum,
