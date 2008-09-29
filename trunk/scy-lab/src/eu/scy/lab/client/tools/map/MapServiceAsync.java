@@ -9,6 +9,6 @@ public interface MapServiceAsync {
 	public void removeMarker(MarkerBean marker, AsyncCallback<Boolean> callback);
 	public void getMarkers(AsyncCallback<Collection<MarkerBean>> callback);
 	public void getMarkerAtPosition(double latitude, double longitude, AsyncCallback<MarkerBean> callback);
-	public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude, AsyncCallback<?> callback);
-	public void updateMarkerInfo(MarkerBean marker, String info, AsyncCallback<?> callback);
+	public void updateMarkerPosition(MarkerBean marker, double newLatitude, double newLongitude, AsyncCallback<Boolean> callback);
+	public void updateMarkerInfo(MarkerBean marker, String newInfo, AsyncCallback<Boolean> callback);
 }

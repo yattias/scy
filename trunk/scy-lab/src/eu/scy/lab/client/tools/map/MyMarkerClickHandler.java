@@ -53,7 +53,7 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 			}
 
 			public void onSuccess(MarkerBean result) {
-				GWT.log("Received MarkerBean", null);
+				GWT.log("Received MarkerBean.", null);
 				final MarkerBean markerBean = result;
 				
 				textArea.setText(result.getInfo());
@@ -67,9 +67,9 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 						AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 							// FIXME: Error handling
 							public void onFailure(Throwable caught) { GWT.log("Failed to update MarkerBean.", caught); }
-							public void onSuccess(Boolean result) { GWT.log("Updated MarkerBean", null); }
+							public void onSuccess(Boolean result) { GWT.log("Updated MarkerBean.", null); }
 						};
-						mapService.updateMarkerInfo(markerBean, textArea.getText(), callback);
+						MapServiceSwitch.getInstance().updateMarkerInfo(markerBean, textArea.getText(), callback);
 						map.getInfoWindow().close();
 					}
 				});
@@ -83,7 +83,7 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 						AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 							// FIXME: Error handling
 							public void onFailure(Throwable caught) { GWT.log("Failed to remove MarkerBean.", caught); }
-							public void onSuccess(Boolean result) { GWT.log("Removed MarkerBean", null); }
+							public void onSuccess(Boolean result) { GWT.log("Removed MarkerBean.", null); }
 						};
 						mapService.removeMarker(markerBean, callback);
 						map.getInfoWindow().close();
@@ -93,8 +93,10 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 			}
 		};
 		
-		mapService.getMarkerAtPosition(marker.getLatLng().getLatitude(), marker.getLatLng().getLongitude(), callback);
-
+		//mapService.getMarkerAtPosition(marker.getLatLng().getLatitude(), marker.getLatLng().getLongitude(), callback);
+		MapServiceSwitch mss = MapServiceSwitch.getInstance();
+		mss.getMarkerAtPosition(marker.getLatLng().getLatitude(), marker.getLatLng().getLongitude(), callback);
+		
 		InfoWindowContent content = new InfoWindowContent(panel);
 		map.getInfoWindow().open(marker, content);
 	}

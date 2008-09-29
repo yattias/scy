@@ -67,7 +67,7 @@ public class MapTool {
 		map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
 		map.setSize("500px", "300px");
 
-		// Add Controls for Zzoming, changing MapType and some actions
+		// Add Controls for Zooming, changing MapType and some actions
 		map.addControl(new SmallZoomControl());
 		HierarchicalMapTypeControl typeControl = new HierarchicalMapTypeControl();
 		typeControl.addRelationship(MapType.getNormalMap(), MapType.getSatelliteMap());
@@ -90,6 +90,22 @@ public class MapTool {
 		});
 		topPanel.add(currentLocationButton);
 		
+		if (MapServiceSwitch.getInstance().checkForGears()) {
+			final Button offlineButton = new Button("go off");
+			offlineButton.addClickListener(new ClickListener() {
+				public void onClick(Widget sender) {
+					boolean b = !MapServiceSwitch.getInstance().getOnline();
+					if (!b) {
+						offlineButton.setText("go on");
+					} else {
+						offlineButton.setText("go off");
+					}
+					MapServiceSwitch.getInstance().setOnline(b);
+				}
+			});
+			topPanel.add(offlineButton);
+		}
+		
 		// .. and loading indicator
 		loading = new Image("js/ext/resources/images/default/shared/blue-loading.gif");
 		loading.setPixelSize(16, 16);
@@ -108,6 +124,7 @@ public class MapTool {
 
 	private void addSavedMarkers() {
 		MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
+		
 		AsyncCallback<Collection<MarkerBean>> callback = new AsyncCallback<Collection<MarkerBean>>() {
 
 			public void onFailure(Throwable caught) {

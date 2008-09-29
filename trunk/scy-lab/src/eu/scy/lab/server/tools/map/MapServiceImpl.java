@@ -31,19 +31,21 @@ public class MapServiceImpl extends RemoteServiceServlet implements MapService {
 		return null;
 	}
 
-	public void updateMarkerInfo(MarkerBean marker, String info) {
+	public boolean updateMarkerInfo(MarkerBean marker, String info) {
 		// FIXME: Is there a better way?
 		markers.remove(marker);
 		marker.setInfo(info);
 		markers.add(marker);
+		return true;
 	}
 
-	public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude) {
+	public boolean updateMarkerPosition(MarkerBean marker, double latitude, double longitude) {
 		// FIXME: Is there a better way?
 		markers.remove(marker);
 		marker.setLatitude(latitude);
 		marker.setLongitude(longitude);
 		markers.add(marker);
+		return true;
 	}
 
 	public Collection<MarkerBean> getMarkers() {
