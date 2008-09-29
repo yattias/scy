@@ -1,11 +1,10 @@
 package eu.scy.lab.client.desktop.workspace;
 
+import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
 
 public class TabbedWorkspace extends TabPanel {
-
-	private int index;
 
 	public TabbedWorkspace() {
 		super();
@@ -16,14 +15,12 @@ public class TabbedWorkspace extends TabPanel {
 		setResizeTabs(true);
 		setMinTabWidth(115);
 		String html = "<p>Use the navigation bar on the left to navigate through the SCY-Lab";
-		addTab("Welcome!", html);
+		addHtmlTab("Welcome!", html);
 		setTabWidth(135);
 		setEnableTabScroll(true);
-//		setActiveTab(0);
 	}
-	
 
-	public Panel addTab(String title, String html) {
+	public Panel addHtmlTab(String title, String html) {
 		Panel tab = new Panel();
 		tab.setAutoScroll(true);
 		tab.setTitle(title);
@@ -31,17 +28,15 @@ public class TabbedWorkspace extends TabPanel {
 		tab.setHtml(html);
 		tab.setClosable(true);
 		add(tab);
-		++index;
 		return tab;
 	}
 
-
-	public TabbedWorkspace getWorkspace() {
-		return this;
+	public boolean containsComponentID(String id) {
+		for (Component c : getComponents()) {
+			if (c.getId().equals(id)) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
-	public int getIndex(){
-		return index;
-	}
-
 }

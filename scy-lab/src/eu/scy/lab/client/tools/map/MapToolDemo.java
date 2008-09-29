@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class MapToolDemo implements EntryPoint {
 
 	public void onModuleLoad() {
-		RootPanel.get().add(new MapTool().getPanel());
+		RootPanel.get().add(new MapTool());
 	}
 	
 }
