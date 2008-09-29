@@ -75,16 +75,15 @@ public class LastELOPanel extends Panel {
 				new ColumnConfig("Date", "date", 45, false, renderer),
 				tempDateColumn };
 		ColumnModel columnModel = new ColumnModel(columns);
-		store.setSortInfo(new SortState("date", SortDir.ASC));
+		store.setSortInfo(new SortState("date", SortDir.DESC));
 
-		GroupingView gridView = new GroupingView();
-		gridView.setForceFit(true);
-		gridView
-				.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
-
+		//FIXME GroupingView deactivated because GridView is not working
+//		GroupingView gridView = new GroupingView();
+//		gridView.setForceFit(true);
+//		gridView.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
+		
+		
 		// The Grid
-		// TODO set layout and size
-
 		grid = new GridPanel();
 		grid.setStore(store);
 		grid.setColumnModel(columnModel);
@@ -96,8 +95,9 @@ public class LastELOPanel extends Panel {
 		grid.setAutoExpandColumn("name");
 		grid.setHeader(false);
 
-		gridView.fitColumns(true);
-		grid.setView(gridView);
+		//FIXME GroupingView deactivated because GridView is not working
+//		gridView.fitColumns(true);
+//		grid.setView(gridView);
 		grid.setIconCls("grid-icon");
 
 		grid.addGridRowListener(new GridRowListener() {
@@ -171,30 +171,14 @@ public class LastELOPanel extends Panel {
 			for (int j = 0; j < ungroupedData[i].length; j++) {
 				groupedData[i][j] = ungroupedData[i][j];
 			}
-			//FIXME Parsing doesnt work
-//			Date indexDate = new Date();
-//			Date indexDate;
-//			DateTimeFormat dateTimeFormat = renderer.getDateTimeFormat();
-//			DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
-//			DateTimeFormat dateTimeFormat = DateTimeFormat.getMediumDateFormat();
-//			dateTimeFormat.format(indexDate);
-//			String string = groupedData[i][2].toString();
-//			indexDate = dateTimeFormat.parse(string);
-//			System.out.println("string: "+ string);
-//			System.out.println("indexDate: "+dateTimeFormat.format(indexDate));
-//			
-			// new Date(groupedData[i][2])
-			// groupedData[i][ungroupedData[i].length]="today";
-//			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
+			
+			Date indexDate = new Date();
+			if (groupedData[i][2] instanceof Date){
+				indexDate = (Date)groupedData[i][2];
+			}
+			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
 		}
 
-		// testing
-//		for (int i = 0; i < groupedData.length; i++) {
-//			for (int j = 0; j < groupedData[i].length; j++) {
-//				System.out.print(groupedData[i][j]);
-//			}
-//			System.out.println("");
-//		}
 		return groupedData;
 	}
 
