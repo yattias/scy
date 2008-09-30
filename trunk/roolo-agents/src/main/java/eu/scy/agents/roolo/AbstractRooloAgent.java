@@ -15,67 +15,67 @@ public class AbstractRooloAgent<T extends IELO<K>, K extends IMetadataKey> imple
 {
 	private IRepository<T, K> repository;
 
-	@Override
+	//@Override
 	public IMetadata<K> addELO(T elo)
 	{
 		return repository.addELO(elo);
 	}
 
-	@Override
+	//@Override
 	public void archiveELO(URI id)
 	{
 		repository.archiveELO(id);
 	}
 
-	@Override
+	//@Override
 	public void deleteELO(URI id)
 	{
 		repository.deleteELO(id);
 	}
 
-	@Override
+	//@Override
 	public T retrieveELO(URI id)
 	{
 		return repository.retrieveELO(id);
 	}
 
-	@Override
+	//@Override
 	public T retrieveFirst(URI id)
 	{
 		return repository.retrieveFirst(id);
 	}
 
-	@Override
+	//@Override
 	public List<T> retrieveVersions(List<Float> versions, URI id)
 	{
 		return repository.retrieveVersions(versions, id);
 	}
 
-	@Override
+	//@Override
 	public IMetadata<K> retrieveMetadata(URI id)
 	{
 		return repository.retrieveMetadata(id);
 	}
 
-	@Override
+	//@Override
 	public List<ISearchResult> search(IQuery query)
 	{
 		return repository.search(query);
 	}
 
-	@Override
+	//@Override
 	public void unarchiveELO(URI id)
 	{
 		repository.unarchiveELO(id);
 	}
 
-	@Override
+	//@Override
 	public IMetadata<K> updateELO(T elo)
 	{
 		return repository.updateELO(elo);
 	}
 
-	@Override
+	//@Override
 	public void updateMetadata(URI id, IMetadata<K> metadata)
 	{
 		repository.updateMetadata(id, metadata);
