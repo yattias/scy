@@ -22,11 +22,8 @@ class Tools extends TreePanel {
 
 		TreeNode jDT = new TreeNode("JDT");
 		jDT.setExpanded(true);
-		TreeNode paint = new TreeNode("alternativ Paint");
-		paint.setExpanded(true);
 
 		drawing.appendChild(jDT);
-		drawing.appendChild(paint);
 
 		TreeNode simulation = new TreeNode("Simulation");
 		simulation.setExpanded(true);

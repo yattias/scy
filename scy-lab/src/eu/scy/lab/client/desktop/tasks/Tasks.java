@@ -8,7 +8,6 @@ import com.google.gwt.gears.client.GearsException;
 import com.google.gwt.gears.client.database.Database;
 import com.google.gwt.gears.client.database.DatabaseException;
 import com.google.gwt.gears.client.database.ResultSet;
-import com.google.gwt.user.client.Window;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.UrlParam;
 import com.gwtext.client.data.ArrayReader;
@@ -59,11 +58,17 @@ public class Tasks {
 
 
 		grid = createGrid();
+		grid.setBorder(false);
+		grid.setFrame(false);
+		grid.setPaddings(0);
+		grid.setHeader(false);
+//		grid.setEnableColumnHide(true);
+		grid.setHideColumnHeader(true);
 
 		panel = new Panel();
 		panel.setAutoScroll(true);
 		panel.setBorder(false);
-		panel.setPaddings(5);
+//		panel.setPaddings(5);
 
 		panel.add(grid);
 		// panel.add(addTask);
@@ -100,6 +105,7 @@ public class Tasks {
 
 		ColumnConfig configID = new ColumnConfig(null, "id", 15, false, null,
 				"id");
+		configID.setHidden(true);
 		ColumnConfig config = new ColumnConfig(null, "tasks", 185, false, null,
 				"tasks");
 		config.setEditor(new GridEditor(new TextField()));
@@ -139,7 +145,7 @@ public class Tasks {
 		grid.setStore(store);
 		grid.setColumnModel(columnmodel);
 		// FIXME correct height to not-fixed values
-		grid.setWidth(180);
+//		grid.setWidth(180);
 		grid.setHeight(150);
 		grid.setAutoExpandColumn("tasks");
 		// grid.setTitle("Editor Grid Example");
@@ -152,7 +158,6 @@ public class Tasks {
 			public void onAfterEdit(GridPanel grid, Record record,
 					java.lang.String field, java.lang.Object newValue,
 					java.lang.Object oldValue, int rowIndex, int colIndex) {
-				Window.alert(Integer.valueOf(rowIndex).toString());
 				try {
 					db.execute("UPDATE tasks SET TASK='" + newValue
 							+ "' WHERE ID=" + (rowIndex));
