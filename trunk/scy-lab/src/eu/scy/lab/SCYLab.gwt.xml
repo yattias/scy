@@ -18,6 +18,12 @@
  	
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="eu.scy.lab.client.SCYLab"/>
+	
+	<!-- Rebind the entry point if Gears is not installed -->
+  <replace-with class="eu.scy.lab.client.NoGears">
+    <when-type-is class="eu.scy.lab.client.SCYLab"/>
+    <when-property-is name="gears.installed" value="false"/>
+  </replace-with>
 
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/>-->
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
