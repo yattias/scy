@@ -1,8 +1,10 @@
 package eu.scy.lab.client.desktop.workspace;
 
+
 import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.TabPanel;
+
 
 public class TabbedWorkspace extends TabPanel {
 
@@ -10,7 +12,7 @@ public class TabbedWorkspace extends TabPanel {
 		super();
 		setBorder(false);
 		setPaddings(15);
-		setHeight("auto");
+//		setLayout(new FitLayout());
 
 		setResizeTabs(true);
 		setMinTabWidth(115);

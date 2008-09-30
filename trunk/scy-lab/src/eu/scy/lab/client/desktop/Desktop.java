@@ -58,7 +58,34 @@ public class Desktop extends Panel {
 	}
 	
 	public Desktop(Mission mission) {
-		this();
+//		this();
+		
+		setLayout(new BorderLayout());
+
+		navigationPanel = createNavigationPanel();
+		// navigationPanel.setAutoWidth(true);
+		navigationPanel.setIconCls("scylogo16x16");
+		navigationPanel.setTitle("SCY-Lab");
+		navigationPanel.setHeight(250);
+		navigationPanel.setWidth(202);
+		navigationPanel.setCollapsible(true);
+		navigationPanel.setAutoScroll(true);
+		navigationPanel.setBorder(true);
+
+		BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
+		// westData.setSplit(true);
+		// westData.setMinSize(202);
+		// westData.setMaxSize(400);
+		westData.setMargins(new Margins(0, 0, 5, 0));
+		westData.setFloatable(true);
+		add(navigationPanel, westData);
+
+		workspacePanel = getWorkspace();
+		workspacePanel.setTitle("Workspace");
+
+		add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
+
+		@SuppressWarnings("unused")
 		
 		//TODO connect to real missions-outline
 		Panel panel = new Panel("Mission "+ mission.getTitle());
@@ -66,9 +93,20 @@ public class Desktop extends Panel {
 		panel.add(new Label("Last Visited: "+ mission.getLastVisitedDate()));
 //		workspace.setActiveTab((workspace.getItems().length-1));
 		
-		workspace.add(panel);
-		workspace.setActiveTab(workspace.getItems().length-1);
-		System.out.println(workspace.getItems().length);
+//		workspace.add(panel);
+//		workspace.setActiveTab(workspace.getItems().length-1);
+		
+		BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
+		panel.setIconCls("scylogo16x16");
+//		panel.setTitle("SCY-Lab");
+		panel.setHeight(55);
+//		navigationPanel.setWidth(202);
+		panel.setCollapsible(true);
+//		panel.setAutoScroll(true);
+		panel.setBorder(true);
+		add(panel,northData);
+		
+		Viewport viewPort = new Viewport(this);
 		
 	}
 
@@ -89,11 +127,11 @@ public class Desktop extends Panel {
 
 		// Setting the Layout of the navigation-panel content
 		Panel navigationPanel = new Panel();
+		navigationPanel.setAutoScroll(false);
 
 		navigationPanel.setLayout(new RowLayout());
 		// navigationPanel.addListener(panelListener);
 
-		// navigationPanel.setAutoScroll(true);
 
 		// BaseItemListenerAdapter baseListener = new BaseItemListenerAdapter(){
 		// public void onActivate(BaseItem item){
@@ -113,7 +151,7 @@ public class Desktop extends Panel {
 		panelTools.setWidth(200);
 		panelTools.setIconCls("settings-icon");
 		navigationPanel.add(panelTools);
-		panelTools.setAutoScroll(true);
+		panelTools.setAutoScroll(false);
 		panelTools.add(tools.getPanel(), new RowLayoutData());
 
 //		ListenerConfig clickListenerConfig = new ListenerConfig();
@@ -134,6 +172,7 @@ public class Desktop extends Panel {
 		navigationPanel.add(panelBuddies);
 		panelBuddies.setAutoScroll(true);
 		panelBuddies.setBorder(false);
+		panelBuddies.setTopToolbar(buddies.createToolbar());
 		panelBuddies.add(buddies.getPanel(), new RowLayoutData());
 		
 //		panelBuddies.getTopToolbar().addEvent("click");
@@ -163,7 +202,7 @@ public class Desktop extends Panel {
 		panelTasks.setCollapsible(true);
 		panelTasks.setWidth(200);
 //		panelTasks.setCollapsed(true);
-		panelTasks.setAutoScroll(true);
+		panelTasks.setAutoScroll(false);
 		panelTasks.setAutoHeight(true);
 		navigationPanel.add(panelTasks);
 		panelTasks.setAutoScroll(true);

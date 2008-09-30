@@ -3,6 +3,7 @@
  */
 package eu.scy.lab.client.desktop.buddies;
 
+import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
 
@@ -15,6 +16,7 @@ public class BuddyTree extends TreePanel {
 	public BuddyTree() {
 		
 		setAutoScroll(true);
+//		setLayout(new FitLayout());
 
 		TreeNode root = new TreeNode("Buddies");
 

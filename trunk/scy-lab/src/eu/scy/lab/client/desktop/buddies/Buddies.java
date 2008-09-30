@@ -5,6 +5,7 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.ToolbarMenuButton;
+import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
 
@@ -16,18 +17,19 @@ public class Buddies {
 		panel = new Panel();
 		panel.setBorder(false);
 		panel.setPaddings(5);
-		panel.setAutoScroll(false);
+		panel.setAutoScroll(true);
 		panel.setAutoHeight(true);
 		panel.setAutoWidth(true);
-		panel.setTopToolbar(createToolbar());
-
+//		panel.setTopToolbar(createToolbar());
+		panel.setLayout(new FitLayout());
+		
 		final TreePanel treePanel = new BuddyTree();
 		treePanel.setHeader(false);
 		treePanel.setBorder(false);
 		treePanel.setAutoHeight(true);
 		treePanel.setAutoWidth(true);
 		//XXX
-//		treePanel.setAutoScroll(true);
+		treePanel.setAutoScroll(true);
 
 		panel.add(treePanel);
 
