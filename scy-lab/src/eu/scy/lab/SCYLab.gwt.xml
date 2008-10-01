@@ -15,16 +15,12 @@
 
  	<!-- Load the Google Gears GWT bindings from the gwt-google-apis project -->
 	<inherits name='com.google.gwt.gears.Gears'/>
- 	
+ 	<inherits name='com.google.gwt.gears.Offline' />
+ 	  
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class="eu.scy.lab.client.SCYLab"/>
 	
 	<!-- Rebind the entry point if Gears is not installed -->
-  <replace-with class="eu.scy.lab.client.NoGears">
-    <when-type-is class="eu.scy.lab.client.SCYLab"/>
-    <when-property-is name="gears.installed" value="false"/>
-  </replace-with>
-
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/>-->
   	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
   	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
@@ -41,7 +37,7 @@
   	-->
  	<!-- script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x&amp;key=???" /-->
 	<!-- Google Maps will work for localhost without api key -->
- 	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x" /> 
+ 	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x&amp;key=ABQIAAAAZriOtFocn-i7PM7l5RabAhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxR8sdUXeVXDJfsAPFxRl1UeV7Xshw" /> 
  	
 	<servlet class="eu.scy.lab.server.UserManagementImpl" path="/usermanagement"/>
 	<servlet class="eu.scy.lab.server.tools.map.MapServiceImpl" path="/mapService"/>

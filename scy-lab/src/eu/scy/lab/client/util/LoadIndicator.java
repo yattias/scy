@@ -7,8 +7,12 @@ import com.gwtext.client.core.ExtElement;
 public class LoadIndicator {
     
     public static void start(){
+        start("loading...");
+    }
+    
+    public static void start(String message) {
         ExtElement element = Ext.getBody();
-        element.mask("loading...");
+        element.mask(message);        
     }
     
     public static void stop(){
