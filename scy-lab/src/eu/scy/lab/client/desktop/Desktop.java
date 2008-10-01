@@ -26,57 +26,13 @@ public class Desktop extends Panel {
     private TabbedWorkspace workspace;
 
     public Desktop() {
-        setLayout(new BorderLayout());
-
-        navigationPanel = createNavigationPanel();
-        navigationPanel.setIconCls("scylogo16x16");
-        navigationPanel.setTitle("SCY-Lab");
-        navigationPanel.setCollapsible(true);
-        navigationPanel.setAutoScroll(false);
-        navigationPanel.setBorder(true);
-
-        BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
-        westData.setSplit(true);
-        westData.setMinSize(150);
-        westData.setMaxSize(400);
-        westData.setMargins(new Margins(0, 0, 5, 0));
-        westData.setFloatable(true);
-        add(navigationPanel, westData);
-
-        workspacePanel = getWorkspace();
-        workspacePanel.setTitle("Workspace");
-
-        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
-
+        buildGui();
         @SuppressWarnings("unused")
         Viewport viewPort = new Viewport(this);
     }
 
     public Desktop(Mission mission) {
-        setLayout(new BorderLayout());
-
-        navigationPanel = createNavigationPanel();
-        navigationPanel.setIconCls("scylogo16x16");
-        navigationPanel.setTitle("SCY-Lab");
-        navigationPanel.setCollapsible(true);
-        navigationPanel.setAutoScroll(false);
-        navigationPanel.setBorder(true);
-//        navigationPanel.setLayout(new FitLayout());
-
-        BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
-        westData.setSplit(true);
-        westData.setMinWidth(150);
-        westData.setMinSize(202);
-        westData.setMaxSize(400);
-        westData.setMargins(new Margins(0, 0, 5, 0));
-        westData.setFloatable(true);
-        add(navigationPanel, westData);
-
-        workspacePanel = getWorkspace();
-        workspacePanel.setTitle("Workspace");
-
-        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
-
+        buildGui();
         // TODO connect to real missions-outline
         Panel panel = new Panel("Mission " + mission.getTitle());
         panel.add(new Label("Missionsname: " + mission.getTitle()));
@@ -91,6 +47,31 @@ public class Desktop extends Panel {
 
         @SuppressWarnings("unused")
         Viewport viewPort = new Viewport(this);
+    }
+
+    private void buildGui() {
+        setLayout(new BorderLayout());
+
+        navigationPanel = createNavigationPanel();
+        navigationPanel.setIconCls("scylogo16x16");
+        navigationPanel.setTitle("SCY-Lab");
+        navigationPanel.setCollapsible(true);
+        navigationPanel.setAutoScroll(false);
+        navigationPanel.setBorder(true);
+
+        BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
+        westData.setSplit(true);
+        westData.setMinWidth(150);
+        westData.setMinSize(202);
+        westData.setMaxSize(400);
+        westData.setMargins(new Margins(0, 0, 5, 0));
+        westData.setFloatable(true);
+        add(navigationPanel, westData);
+
+        workspacePanel = getWorkspace();
+        workspacePanel.setTitle("Workspace");
+
+        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER)); 
     }
 
     public TabbedWorkspace getWorkspace() {
@@ -137,11 +118,10 @@ public class Desktop extends Panel {
         Panel panelTasks = new Panel("Tasks", "");
         panelTasks.setIconCls("user-add-icon");
         panelTasks.setCollapsible(true);
-        panelTasks.setAutoScroll(false);
-        panelTasks.setAutoHeight(true);
-        navigationPanel.add(panelTasks);
         panelTasks.setAutoScroll(true);
-        panelTasks.add(tasks.getPanel(), new RowLayoutData());
+        panelTasks.setTopToolbar(tasks.getToolbar());
+        navigationPanel.add(panelTasks);
+        panelTasks.add(tasks.getGrid(), new RowLayoutData());
         
         return navigationPanel;
     }
