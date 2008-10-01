@@ -8,9 +8,9 @@ import com.gwtext.client.core.SortDir;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.DateFieldDef;
 import com.gwtext.client.data.FieldDef;
-import com.gwtext.client.data.GroupingStore;
 import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.SortState;
+import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
@@ -52,10 +52,10 @@ public class LastMissionPanel extends Panel {
         new StringFieldDef("relativedate") });
 
         ArrayReader reader = new ArrayReader(recordDef);
-        final GroupingStore store = new GroupingStore();
-        store.setReader(reader);
+        final Store store = new Store(reader);
+//        store.setReader();
         store.setDataProxy(proxy);
-        store.setGroupField("relativedate");
+//        store.setGroupField("relativedate");
 
         ColumnConfig tempDateColumn = new ColumnConfig("Relative Date", "relativedate");
         tempDateColumn.setHidden(true);
@@ -70,11 +70,7 @@ public class LastMissionPanel extends Panel {
         new ColumnConfig("Name", "name", 160, false, null, "name"), new ColumnConfig("Author", "author", 160, false), date, tempDateColumn };
         ColumnModel columnModel = new ColumnModel(columns);
 
-        // FIXME CHange Sorting
-        // date.setSortable(true);
         store.setInitialSortState(new SortState("date", SortDir.DESC));
-        // store.sort("relativedate", SortDir.DESC);
-        // store.setSortInfo(new SortState("relativedate", SortDir.DESC));
 
         // FIXME GroupingView deactivated because GridView is not working
         // GroupingView gridView = new GroupingView();

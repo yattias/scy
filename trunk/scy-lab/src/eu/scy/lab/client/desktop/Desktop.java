@@ -48,7 +48,8 @@ public class Desktop extends Panel {
         panel.setCollapsible(true);
         panel.setBorder(true);
         add(panel, northData);
-
+        
+        panel.fireEvent("onResize");
         @SuppressWarnings("unused")
         Viewport viewPort = new Viewport(this);
     }
@@ -86,6 +87,7 @@ public class Desktop extends Panel {
         BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
         toolbar.setHeight(25);
         add(toolbar, southData);
+        
     }
 
     public TabbedWorkspace getWorkspace() {
