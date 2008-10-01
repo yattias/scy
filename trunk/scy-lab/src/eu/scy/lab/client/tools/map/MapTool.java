@@ -185,8 +185,10 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
      * Needed as a rather ugly hack to work around issues adding a MapWidget into a gwt-ext Panel see http://code.google.com/p/gwt-google-apis/issues/detail?id=127
      */
     public void init() {
-        map.setVisible(true);
-        map.checkResize();
+        if (map != null) {
+            map.setVisible(true);
+            map.checkResize();
+        }
     }
 
     private void addSavedMarkers() {
