@@ -53,7 +53,7 @@ public class Gears {
     private static void updateModeButton() {
         if (checkForGears() == false) {
             modeButton.setText("offline mode not available: Please install Gears.");
-            modeButton.setEnableToggle(false);
+            modeButton.disable();
         } else if (canServeLocally()) {
             modeButton.setText("work online");
         } else if (isOnline()) {
