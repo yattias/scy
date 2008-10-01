@@ -29,6 +29,7 @@ import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Field;
+import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 
@@ -68,22 +69,29 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         setId(ID);
         setClosable(true);
 
+        // Build the Toolbar with Location bar etc
+        toolbar = createToolbar();
+        add(toolbar);
+        
+        if (Gears.isOnline()) {
+            createMap();
+        } else {
+            Label message = new Label("The Map is not available in offline mode.");
+            add(message);
+        }
+
+        geocoder = new Geocoder();
+        addSavedMarkers();
+    }
+
+    private void createMap() {
         map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
         map.setSize("100%", "100%");
 
         // Add Controls for Zooming, changing MapType and some actions
         map.addControl(new SmallZoomControl());
         map.addControl(new MapTypeControl());
-
-        // Build the Toolbar with Location bar etc
-        toolbar = createToolbar();
-        
-        // Put Toolbarand Map together
-        add(toolbar);
         add(map);
-
-        geocoder = new Geocoder();
-        addSavedMarkers();
     }
 
     private Toolbar createToolbar() {
