@@ -10,49 +10,49 @@ import eu.scy.lab.client.tools.map.MarkerBean;
 
 public class MapServiceImpl extends RemoteServiceServlet implements MapService {
 
-	private static final long serialVersionUID = -113529265744115830L;
-	
-	Vector<MarkerBean> markers;
-	
-	public MapServiceImpl() {
-		markers = new Vector<MarkerBean>();
-	}
-	
-	public boolean addMarker(MarkerBean marker) {
-		return markers.add(marker);
-	}
+    private static final long serialVersionUID = -113529265744115830L;
 
-	public MarkerBean getMarkerAtPosition(double latitude, double longitude) {
-		for (MarkerBean marker : markers) {
-			if (marker.getLatitude() == latitude && marker.getLongitude() == longitude) {
-				return marker;
-			}
-		}
-		return null;
-	}
+    Vector<MarkerBean> markers;
 
-	public boolean updateMarkerInfo(MarkerBean marker, String info) {
-		// FIXME: Is there a better way?
-		markers.remove(marker);
-		marker.setInfo(info);
-		markers.add(marker);
-		return true;
-	}
+    public MapServiceImpl() {
+        markers = new Vector<MarkerBean>();
+    }
 
-	public boolean updateMarkerPosition(MarkerBean marker, double latitude, double longitude) {
-		// FIXME: Is there a better way?
-		markers.remove(marker);
-		marker.setLatitude(latitude);
-		marker.setLongitude(longitude);
-		markers.add(marker);
-		return true;
-	}
+    public boolean addMarker(MarkerBean marker) {
+        return markers.add(marker);
+    }
 
-	public Collection<MarkerBean> getMarkers() {
-		return markers;
-	}
+    public MarkerBean getMarkerAtPosition(double latitude, double longitude) {
+        for (MarkerBean marker : markers) {
+            if (marker.getLatitude() == latitude && marker.getLongitude() == longitude) {
+                return marker;
+            }
+        }
+        return null;
+    }
 
-	public boolean removeMarker(MarkerBean marker) {
-		return markers.remove(marker);
-	}
+    public boolean updateMarkerInfo(MarkerBean marker, String info) {
+        // FIXME: Is there a better way?
+        markers.remove(marker);
+        marker.setInfo(info);
+        markers.add(marker);
+        return true;
+    }
+
+    public boolean updateMarkerPosition(MarkerBean marker, double latitude, double longitude) {
+        // FIXME: Is there a better way?
+        markers.remove(marker);
+        marker.setLatitude(latitude);
+        marker.setLongitude(longitude);
+        markers.add(marker);
+        return true;
+    }
+
+    public Collection<MarkerBean> getMarkers() {
+        return markers;
+    }
+
+    public boolean removeMarker(MarkerBean marker) {
+        return markers.remove(marker);
+    }
 }
