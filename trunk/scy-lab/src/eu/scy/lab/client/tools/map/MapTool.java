@@ -69,12 +69,9 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         setId(ID);
         setClosable(true);
 
-        // Build the Toolbar with Location bar etc
-        toolbar = createToolbar();
-        add(toolbar);
-        
         if (Gears.isOnline()) {
             createMap();
+            createToolbar();
         } else {
             Label message = new Label("The Map is not available in offline mode.");
             add(message);
@@ -94,8 +91,8 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         add(map);
     }
 
-    private Toolbar createToolbar() {
-        Toolbar toolbar = new Toolbar();
+    private void createToolbar() {
+        toolbar = new Toolbar();
 
         // Setup the form to handle user input
         final FormPanel formPanel = new FormPanel();
@@ -160,7 +157,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         createPolygon.addListener( new MarkAreaListener() );
         toolbar.addButton(createPolygon);
         
-        return toolbar;
+        add(toolbar);
     }
 
     /**
