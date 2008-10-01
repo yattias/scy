@@ -119,7 +119,7 @@ public class Desktop extends Panel {
         panelTools.setCollapsible(true);
         panelTools.setIconCls("settings-icon");
         navigationPanel.add(panelTools);
-        panelTools.setAutoScroll(false);
+        panelTools.setAutoScroll(true);
         panelTools.add(tools.getPanel(), new RowLayoutData());
 
         final Panel panelBuddies = new Panel("Buddies", "");
