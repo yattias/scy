@@ -1,5 +1,6 @@
 package eu.scy.lab.client.desktop.workspace.elobrowser;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.RegionPosition;
@@ -10,7 +11,9 @@ import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StoreTraversalCallback;
 import com.gwtext.client.data.StringFieldDef;
+import com.gwtext.client.widgets.BoxComponent;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.Component;
 import com.gwtext.client.widgets.PagingToolbar;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.ToolTip;
@@ -21,6 +24,8 @@ import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.NumberField;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.FieldListenerAdapter;
+import com.gwtext.client.widgets.form.event.TextFieldListener;
+import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
@@ -33,218 +38,180 @@ import com.gwtextux.client.widgets.grid.plugins.GridSearchPlugin;
 
 public class EloBrowser extends Panel {
 
-	private PreviewPanel previewPanel;
-	private GridPanel grid;
-	private Store store;
-	private TextField searchField;
-	private ColumnModel columnModel;
+    private PreviewPanel previewPanel;
 
+    private GridPanel grid;
 
-	public EloBrowser() {
-		super("ELO-Browser");
-		// FIXME only fixed height works, perhaps need a fitting wrapper panel
-//		setLayout(new FitLayout());
-		setHeight("600px");
-//		setHeight("100%");
-		setClosable(false);
+    private Store store;
 
-		//TODO Try AnchorLayout()
-		setLayout(new BorderLayout());
+    private TextField searchField;
 
-		setPaddings(15);
+    private ColumnModel columnModel;
 
-		// MemoryProxy proxy = new MemoryProxy(getCompanyData());
-		PagingMemoryProxy proxy = new PagingMemoryProxy(getGridData());
-		RecordDef recordDef = new RecordDef(new FieldDef[] {
-				new StringFieldDef("name"), new StringFieldDef("author"),
-				// new DateFieldDef("date", "n/j h:ia"),
-				new StringFieldDef("date"), new StringFieldDef("iconurl") });
+    public EloBrowser() {
+        super("ELO-Browser");
+        // FIXME only fixed height works, perhaps need a fitting wrapper panel
+        // setLayout(new FitLayout());
+        setHeight("600px");
+        // setHeight("100%");
+        setClosable(false);
 
-		ArrayReader reader = new ArrayReader(recordDef);
-		store = new Store(proxy, reader, true);
+        // TODO Try AnchorLayout()
+        setLayout(new BorderLayout());
 
-		ColumnConfig[] columns = new ColumnConfig[] {
-				// column ID is company which is later used in
-				// setAutoExpandColumn
-				// new ColumnConfig("Name", "name", 160, true, null, "name"),
-				new ColumnConfig("Name", "name", 160, true, null, "name"),
-				new ColumnConfig("Author", "author", 160, true),
-				new ColumnConfig("Date", "date", 45),
-				new ColumnConfig("Icon-Url", "iconurl", 100) };
+        setPaddings(15);
 
-		// The Grid
-		// TODO set layout and size
-		columnModel = new ColumnModel(columns);
+        // MemoryProxy proxy = new MemoryProxy(getCompanyData());
+        PagingMemoryProxy proxy = new PagingMemoryProxy(getGridData());
+        RecordDef recordDef = new RecordDef(new FieldDef[] { new StringFieldDef("name"), new StringFieldDef("author"),
+        // new DateFieldDef("date", "n/j h:ia"),
+        new StringFieldDef("date"), new StringFieldDef("iconurl") });
 
-		grid = new GridPanel();
-		grid.setStore(store);
-		grid.setColumnModel(columnModel);
+        ArrayReader reader = new ArrayReader(recordDef);
+        store = new Store(proxy, reader, true);
 
-		grid.setFrame(true);
-		grid.setStripeRows(true);
-		grid.setLayout(new HorizontalLayout(0));
-		grid.setHeight(300);
-		grid.setMonitorResize(true);
-		grid.setAutoExpandColumn("name");
-		grid.setTitle("Grid that pages Local / In-Memory data");
-//		grid.setLoadMask(true);
+        ColumnConfig[] columns = new ColumnConfig[] {
+        // column ID is company which is later used in
+        // setAutoExpandColumn
+        // new ColumnConfig("Name", "name", 160, true, null, "name"),
+        new ColumnConfig("Name", "name", 160, true, null, "name"), new ColumnConfig("Author", "author", 160, true), new ColumnConfig("Date", "date", 45), new ColumnConfig("Icon-Url", "iconurl", 100) };
 
-		final PagingToolbar pagingToolbar = new PagingToolbar(store);
-		pagingToolbar.setPageSize(5);
-		pagingToolbar.setDisplayInfo(true);
-		pagingToolbar.setDisplayMsg("Displaying companies {0} - {1} of {2}");
-		pagingToolbar.setEmptyMsg("No records to display");
+        // The Grid
+        // TODO set layout and size
+        columnModel = new ColumnModel(columns);
 
-		// Toolbar topToolbar = new Toolbar();
-		// topToolbar.addFill();
-		// grid.setTopToolbar(topToolbar);
-		//		
-//		 GridSearchPlugin gridSearch = new
-//		 GridSearchPlugin(GridSearchPlugin.TOP);
-//		 gridSearch.setMode(GridSearchPlugin.LOCAL);
-//		 grid.addPlugin(gridSearch);
+        grid = new GridPanel();
+        grid.setStore(store);
+        grid.setColumnModel(columnModel);
 
-		grid.addGridRowListener(new GridRowListener() {
+        grid.setFrame(true);
+        grid.setStripeRows(true);
+        grid.setLayout(new HorizontalLayout(0));
+        grid.setHeight(300);
+        grid.setMonitorResize(true);
+        grid.setAutoExpandColumn("name");
+        grid.setTitle("Grid that pages Local / In-Memory data");
+        // grid.setLoadMask(true);
 
-			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+        final PagingToolbar pagingToolbar = new PagingToolbar(store);
+        pagingToolbar.setPageSize(5);
+        pagingToolbar.setDisplayInfo(true);
+        pagingToolbar.setDisplayMsg("Displaying companies {0} - {1} of {2}");
+        pagingToolbar.setEmptyMsg("No records to display");
 
-				String name = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[0]));
-				String author = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[1]));
-				String date = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[2]));
-				String iconURL = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[3]));
-				previewPanel.update(name, author, date, iconURL);
+        // Toolbar topToolbar = new Toolbar();
+        // topToolbar.addFill();
+        // grid.setTopToolbar(topToolbar);
+        //		
+        // GridSearchPlugin gridSearch = new
+        // GridSearchPlugin(GridSearchPlugin.TOP);
+        // gridSearch.setMode(GridSearchPlugin.LOCAL);
+        // grid.addPlugin(gridSearch);
 
-			}
+        grid.addGridRowListener(new GridRowListener() {
 
-			public void onRowContextMenu(GridPanel grid, int rowIndex,
-					EventObject e) {
+            public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
 
-			}
+                String name = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[0]));
+                String author = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[1]));
+                String date = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[2]));
+                String iconURL = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[3]));
+                previewPanel.update(name, author, date, iconURL);
 
-			public void onRowDblClick(GridPanel grid, int rowIndex,
-					EventObject e) {
+            }
 
-			}
+            public void onRowContextMenu(GridPanel grid, int rowIndex, EventObject e) {
 
-		});
+            }
 
-		NumberField pageSizeField = new NumberField();
-		pageSizeField.setWidth(40);
-		pageSizeField.setSelectOnFocus(true);
-		pageSizeField.addListener(new FieldListenerAdapter() {
-			public void onSpecialKey(Field field, EventObject e) {
-				if (e.getKey() == EventObject.ENTER) {
-					int pageSize = Integer.parseInt(field.getValueAsString());
-					pagingToolbar.setPageSize(pageSize);
-				}
-			}
-		});
+            public void onRowDblClick(GridPanel grid, int rowIndex, EventObject e) {
 
-		ToolTip toolTip = new ToolTip("Enter page size");
-		toolTip.applyTo(pageSizeField);
+            }
 
-		pagingToolbar.addField(pageSizeField);
-		grid.setBottomToolbar(pagingToolbar);
-		store.load(0, 5);
+        });
 
-		grid.setBufferResize(true);
+        NumberField pageSizeField = new NumberField();
+        pageSizeField.setWidth(40);
+        pageSizeField.setSelectOnFocus(true);
+        pageSizeField.addListener(new FieldListenerAdapter() {
 
-//		// adding the SearchField-Panel to the ELO-Browser
-//		// TODO No search integrated at the moment
+            public void onSpecialKey(Field field, EventObject e) {
+                if (e.getKey() == EventObject.ENTER) {
+                    int pageSize = Integer.parseInt(field.getValueAsString());
+                    pagingToolbar.setPageSize(pageSize);
+                }
+            }
+        });
 
-		searchField = new TextField();
-		Toolbar topToolbar = new Toolbar();
-		topToolbar.addField(searchField);
-		
-		ToolbarButton searchButton = new ToolbarButton("Search!", new ButtonListenerAdapter(){
-			//FIXME Search doesnt work
-			public void onClick(Button button, EventObject e){
-				
-				final String content = searchField.getValueAsString();
-				
-				store.filterBy(new StoreTraversalCallback (){
+        ToolTip toolTip = new ToolTip("Enter page size");
+        toolTip.applyTo(pageSizeField);
 
-					public boolean execute(Record record) {
+        pagingToolbar.addField(pageSizeField);
+        grid.setBottomToolbar(pagingToolbar);
+        store.load(0, 5);
 
-						String[] row = record.getFields();
-						
-						for (int i = 0; i<row.length; i++ ){
-							if (record.getAsString(row[i]).contains(content)){
-								System.out.println(record.getAsString(row[i])+" contains "+content);
-								return true;
-							}
-						}
-						return false;
-					}
-					
-				});
-				store.reload();
-				grid.reconfigure(store, columnModel);
-				grid.disable();
-				grid.enable();
-			}
-		});
+        grid.setBufferResize(true);
 
-		topToolbar.addButton(searchButton);
-		grid.setTopToolbar(topToolbar);
+        // // adding the SearchField-Panel to the ELO-Browser
+        // // TODO No search integrated at the moment
 
-		// adding the Grid-Panel to the ELO-Browser
-		BorderLayoutData centerData = new BorderLayoutData(
-				RegionPosition.CENTER);
+        searchField = new TextField();
+        Toolbar topToolbar = new Toolbar();
+        topToolbar.addField(searchField);
+        
+        final SearchButtonListener searchListener = new SearchButtonListener(grid,searchField);
+        final ToolbarButton searchButton = new ToolbarButton("Search!",searchListener);
+        searchButton.setId("search");
 
-		centerData.setMinHeight(200);
-		centerData.setMaxSize(300);
-		
-		add(grid, centerData);
-		setAutoScroll(true);
+        searchField.addListener(new TextFieldListenerAdapter() {
+            
+            public void onSpecialKey(Field field, EventObject e) {
+                if (e.getKey()==EventObject.RETURN) {
+                    searchListener.onClick(searchButton, e);
+                }
+            }
+        });
+        topToolbar.addButton(searchButton);
+        grid.setTopToolbar(topToolbar);
 
-		// adding the Preview-Panel to the ELO Browser
-		previewPanel = new PreviewPanel("Testobject", "Sven", "8.8.2008",
-				PreviewPanel.DEFAULT_IMAGE_URL);
-		BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
-		southData.setSplit(true);
-		southData.setSplitTip("Drag to resize");
-		southData.setMinHeight(150);
-		previewPanel.setHeight(150);
-		add(previewPanel.getPreviewPanel(), southData);
+        // adding the Grid-Panel to the ELO-Browser
+        BorderLayoutData centerData = new BorderLayoutData(RegionPosition.CENTER);
 
-	}
-	
-	/**
-	 * @return the store
-	 */
-	public Store getStore() {
-		return store;
-	}
-	
-	/**
-	 * @param store the store to set
-	 */
-	public void setStore(Store store) {
-		this.store = store;
-	}
+        centerData.setMinHeight(200);
+        centerData.setMaxSize(300);
 
-	// The local Array-Data to display in the Grid
-	private Object[][] getGridData() {
-		return new Object[][] {
-				new Object[] { "Kryptoarithmetics", "Sven", "9/1 12:00am",
-						"res/icons/fireworks01.png" },
-				new Object[] { "Graphsearch", "Sven M", "9/2 12:00am",
-						"res/icons/flash01.png" },
-				new Object[] { "Kryptoarithmetics II", "Sven", "9/4 12:00am",
-						"res/icons/dreamweaver01.png" },
-				new Object[] { "Dancing with animals", "Sven", "9/5 12:01pm",
-						"res/icons/openoffice_draw.png" },
-				new Object[] { "Kryptoarithmetics III", "Sven", "10/1 12:10am",
-						"res/icons/openoffice_calc.png" } };
-	}
+        add(grid, centerData);
+        setAutoScroll(true);
+
+        // adding the Preview-Panel to the ELO Browser
+        previewPanel = new PreviewPanel("Testobject", "Sven", "8.8.2008", PreviewPanel.DEFAULT_IMAGE_URL);
+        BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
+        southData.setSplit(true);
+        southData.setSplitTip("Drag to resize");
+        southData.setMinHeight(150);
+        previewPanel.setHeight(150);
+        add(previewPanel.getPreviewPanel(), southData);
+
+    }
+
+    /**
+     * @return the store
+     */
+    public Store getStore() {
+        return store;
+    }
+
+    /**
+     * @param store
+     *            the store to set
+     */
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    // The local Array-Data to display in the Grid
+    private Object[][] getGridData() {
+        return new Object[][] { new Object[] { "Kryptoarithmetics", "Sven", "9/1 12:00am", "res/icons/fireworks01.png" }, new Object[] { "Graphsearch", "Sven M", "9/2 12:00am", "res/icons/flash01.png" }, new Object[] { "Kryptoarithmetics II", "Sven", "9/4 12:00am", "res/icons/dreamweaver01.png" }, new Object[] { "Dancing with animals", "Sven", "9/5 12:01pm", "res/icons/openoffice_draw.png" }, new Object[] { "Kryptoarithmetics III", "Sven", "10/1 12:10am", "res/icons/openoffice_calc.png" } };
+    }
 
 }
