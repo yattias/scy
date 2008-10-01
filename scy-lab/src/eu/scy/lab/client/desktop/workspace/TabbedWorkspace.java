@@ -16,7 +16,7 @@ public class TabbedWorkspace extends TabPanel {
 
 		setResizeTabs(true);
 		setMinTabWidth(115);
-		String html = "<p>Use the navigation bar on the left to navigate through the SCY-Lab";
+		String html = "<p><center><img src=\"res/images/logo_orange.png\"></p>Use the navigation bar on the left to navigate through the SCY-Lab</p>";
 		addHtmlTab("Welcome!", html);
 		setTabWidth(135);
 		setEnableTabScroll(true);
