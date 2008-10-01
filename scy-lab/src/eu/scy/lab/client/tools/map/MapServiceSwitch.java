@@ -98,8 +98,6 @@ public class MapServiceSwitch implements MapServiceAsync {
                     }
                 }
             };
-        } else {
-            Window.alert("No gears! could not update marker info locally.");
         }
         mapService.updateMarkerInfo(marker, newInfo, callback);
     }
