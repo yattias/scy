@@ -9,7 +9,7 @@ import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class PreviewPanel extends Panel {
 
-    public static final String DEFAULT_IMAGE_URL = "res/images/defaultIcon.png";
+    public static final String DEFAULT_IMAGE_URL = "res/images/logo_blue.png";
 
     private Label nameLabel;
 
