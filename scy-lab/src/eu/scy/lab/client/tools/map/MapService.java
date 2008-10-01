@@ -5,6 +5,9 @@ import java.util.Collection;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * RPC interface for the MapTool
+ */
 @RemoteServiceRelativePath("/mapService")
 public interface MapService extends RemoteService {
 	public boolean addMarker(MarkerBean marker);

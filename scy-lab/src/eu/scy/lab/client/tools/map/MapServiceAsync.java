@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * RPC interface for the MapTool
+ */
 public interface MapServiceAsync {
 	public void addMarker(MarkerBean marker, AsyncCallback<Boolean> callback);
 	public void removeMarker(MarkerBean marker, AsyncCallback<Boolean> callback);
