@@ -11,7 +11,7 @@ import com.gwtext.client.widgets.ToolbarButton;
  */
 public class Gears {
 
-    private static boolean online = false;
+    private static boolean online = true;
     private static ToolbarButton modeButton;
     
     public static boolean isOnline() {
@@ -53,6 +53,7 @@ public class Gears {
     private static void updateModeButton() {
         if (checkForGears() == false) {
             modeButton.setText("offline mode not available: Please install Gears.");
+            modeButton.setEnableToggle(false);
         } else if (isOnline()) {
             modeButton.setText("work offline");
         } else if (canServeLocally()) {
