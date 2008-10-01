@@ -6,11 +6,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.maps.client.InfoWindow;
 import com.google.gwt.maps.client.InfoWindowContent;
 import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.control.ControlAnchor;
-import com.google.gwt.maps.client.control.ControlPosition;
 import com.google.gwt.maps.client.control.MapTypeControl;
 import com.google.gwt.maps.client.control.SmallZoomControl;
-import com.google.gwt.maps.client.control.Control.CustomControl;
 import com.google.gwt.maps.client.event.MapClickHandler;
 import com.google.gwt.maps.client.event.MarkerClickHandler;
 import com.google.gwt.maps.client.geocode.Geocoder;
@@ -21,14 +18,11 @@ import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.maps.client.overlay.PolyStyleOptions;
 import com.google.gwt.maps.client.overlay.Polygon;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.Toolbar;
@@ -39,387 +33,278 @@ import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 
 /**
- * Prototype of a MapTool which allows the user to mark points and areas on a
- * map
+ * Prototype of a MapTool which allows the user to mark points and areas on a map
  */
 public class MapTool extends com.gwtext.client.widgets.Panel {
 
-	public static final String ID = "MapID";
-	public static String VERSION = "MapTool 0.1";
+    public static final String ID = "MapID";
 
-	// Default location and zoom level result in Europe being shown
-	private static LatLng DEFAULT_POSITION = LatLng.newInstance(
-			48.3416461723746, 4.21875);
-	private static int DEFAUT_ZOOM_LEVEL = 4;
-	private static int DEFAULT_DETAILED_ZOOM_LEVEL = 12;
+    public static String VERSION = "MapTool 0.1";
 
-	// private static LatLng COLLIDE_POSITION =
-	// LatLng.newInstance(51.4279590881704, 6.8000268888473511);
+    // Default location and zoom level result in Europe being shown
+    private static LatLng DEFAULT_POSITION = LatLng.newInstance(48.3416461723746, 4.21875);
 
-	// FIXME: Needs to be static to update the map with the current location via
-	// native javascript.
-	private static MapWidget map;
+    private static int DEFAUT_ZOOM_LEVEL = 4;
 
-	private Geocoder geocoder;
+    private static int DEFAULT_DETAILED_ZOOM_LEVEL = 12;
 
-	// private Image loading;
-	// private ToolbarButton loadingButton;
-//	 private ExtElement element;
+    // private static LatLng COLLIDE_POSITION = LatLng.newInstance(51.4279590881704, 6.8000268888473511);
 
-	public MapTool() {
-		super("Map");
-		setBorder(true);
-		setId(ID);
-		setClosable(true);
+    // FIXME: Needs to be static to update the map with the current location via native javascript.
+    private static MapWidget map;
 
-//		 element = Ext.get(ID);
+    private Geocoder geocoder;
 
-		map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
-		map.setSize("100%", "100%");
+    private Toolbar toolbar;
 
-		// Add Controls for Zooming, changing MapType and some actions
-		map.addControl(new SmallZoomControl());
-		map.addControl(new MapTypeControl());
-		map.addControl(new CreatePolygonControl());
-		map.addControl(new AddMarkerControl());
+    public MapTool() {
+        super("Map");
+        setBorder(true);
+        setId(ID);
+        setClosable(true);
 
-		// Build the top Panel with Location bar...
-		Toolbar topPanel = new Toolbar();
+        map = new MapWidget(DEFAULT_POSITION, DEFAUT_ZOOM_LEVEL);
+        map.setSize("100%", "100%");
 
-		final TextField addressBox = new TextField();
-		addressBox.setEmptyText("insert adress...");
-		topPanel.addField(addressBox);
-		final FormPanel formPanel = new FormPanel();
-		formPanel.setAction("#");
+        // Add Controls for Zooming, changing MapType and some actions
+        map.addControl(new SmallZoomControl());
+        map.addControl(new MapTypeControl());
 
-		addressBox.addListener(new TextFieldListenerAdapter() {
+        // Build the Toolbar with Location bar etc
+        toolbar = createToolbar();
+        
+        // Put Toolbarand Map together
+        add(toolbar);
+        add(map);
 
-			public void onSpecialKey(Field field, EventObject e) {
-				if (e.getKey() == EventObject.RETURN) {
-					formPanel.submit();
-				}
+        geocoder = new Geocoder();
+        addSavedMarkers();
+    }
 
-			}
-		});
+    private Toolbar createToolbar() {
+        Toolbar toolbar = new Toolbar();
 
-		FlowPanel formElements = new FlowPanel();
+        // Setup the form to handle user input
+        final FormPanel formPanel = new FormPanel();
+        formPanel.setAction("#");
+        FlowPanel formElements = new FlowPanel();
+        formPanel.add(formElements);
 
+        // ... Button for current location...
+        ToolbarButton currentLocationButton = new ToolbarButton("?");
+        currentLocationButton.addListener(new ButtonListenerAdapter() {
 
-		ToolbarButton submitButton = new ToolbarButton("Go!");
-		topPanel.addButton(submitButton);
-		topPanel.addSeparator();
-		submitButton.addListener(new ButtonListenerAdapter() {
+            public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+                gotoCurrentPositionJSNI();
+            }
+        });
+        toolbar.addButton(currentLocationButton);
+        toolbar.addSeparator();
+        
+        // TextField to enter Adresses
+        final TextField addressBox = new TextField();
+        addressBox.setEmptyText("insert adress...");
+        addressBox.setWidth(180);
+        toolbar.addField(addressBox);
+        addressBox.addListener(new TextFieldListenerAdapter() {
 
-			public void onClick(com.gwtext.client.widgets.Button button,
-					EventObject e) {
-				formPanel.submit();
-			}
-		});
+            public void onSpecialKey(Field field, EventObject e) {
+                if (e.getKey() == EventObject.RETURN) {
+                    formPanel.submit();
+                }
+            }
+        });
 
-		formPanel.add(formElements);
-		formPanel.addFormHandler(new FormHandler() {
-			public void onSubmit(FormSubmitEvent event) {
-				showAddress(addressBox.getText());
-				event.setCancelled(true);
-			}
+        // configure form action
+        formPanel.addFormHandler(new FormHandler() {
 
-			public void onSubmitComplete(FormSubmitCompleteEvent event) {
-			}
-		});
+            public void onSubmit(FormSubmitEvent event) {
+                showAddress(addressBox.getText());
+                event.setCancelled(true);
+            }
 
-		// ... Button for current location...
+            public void onSubmitComplete(FormSubmitCompleteEvent event) {}
+        });
+        
+        ToolbarButton submitButton = new ToolbarButton("Go!");
+        toolbar.addButton(submitButton);
+        toolbar.addSeparator();
+        submitButton.addListener(new ButtonListenerAdapter() {
 
-		ToolbarButton currentLocationButton = new ToolbarButton("?");
+            public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+                formPanel.submit();
+            }
+        });
 
-		currentLocationButton.addListener(new ButtonListenerAdapter() {
+        ToolbarButton addMarker = new ToolbarButton("add Marker");
+        addMarker.addListener( new AddMarkerControl(map) );
+        toolbar.addButton(addMarker);
+        toolbar.addSeparator();
+ 
+        ToolbarButton createPolygon = new ToolbarButton("mark Area");
+        createPolygon.addListener( new CreatePolygonControl() );
+        toolbar.addButton(createPolygon);
+        
+        if (MapServiceSwitch.getInstance().checkForGears()) {
+            final ToolbarButton offlineButton = new ToolbarButton("go off");
+            offlineButton.addListener(new ButtonListenerAdapter() {
 
-			public void onClick(com.gwtext.client.widgets.Button button,
-					EventObject e) {
-				gotoCurrentPositionJSNI();
-			}
-		});
-		topPanel.addButton(currentLocationButton);
-		topPanel.addSeparator();
+                public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+                    boolean b = !MapServiceSwitch.getInstance().getOnline();
+                    if (!b) {
+                        offlineButton.setText("go on");
+                    } else {
+                        offlineButton.setText("go off");
+                    }
+                    MapServiceSwitch.getInstance().setOnline(b);
+                }
+            });
+            toolbar.addSeparator();
+            toolbar.addButton(offlineButton);
+        }
+        
+        return toolbar;
+    }
 
-		if (MapServiceSwitch.getInstance().checkForGears()) {
-			final ToolbarButton offlineButton = new ToolbarButton("go off");
-			offlineButton.addListener(new ButtonListenerAdapter() {
-				public void onClick(com.gwtext.client.widgets.Button button,
-						EventObject e) {
-					boolean b = !MapServiceSwitch.getInstance().getOnline();
-					if (!b) {
-						offlineButton.setText("go on");
-					} else {
-						offlineButton.setText("go off");
-					}
-					MapServiceSwitch.getInstance().setOnline(b);
-				}
-			});
-			topPanel.addButton(offlineButton);
-		}
+    /**
+     * Needed as a rather ugly hack to work around issues adding a MapWidget into a gwt-ext Panel see http://code.google.com/p/gwt-google-apis/issues/detail?id=127
+     */
+    public void init() {
+        map.setVisible(true);
+        map.checkResize();
+    }
 
-		// .. and loading indicator
-		// loading = new
-		// Image("js/ext/resources/images/default/shared/blue-loading.gif");
-		// loading.setPixelSize(16, 16);
-//		 element.unmask();
-		// stopLoadingIndicator();
-		// loadingButton = new ToolbarButton();
-		// loadingButton.setDisabled(true);
-		// loadingButton.setIcon(
-		// "js/ext/resources/images/default/shared/blue-loading.gif");
-		// topPanel.addButton(loadingButton);
+    private void addSavedMarkers() {
+        MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
 
-		// Put Top Panel and Map together
-		// setSpacing(10);
-		// FIXME no static size
-		// setSize(500, 400);
-//		setTopToolbar(topPanel);
-		add(topPanel);
-		add(map);
+        AsyncCallback<Collection<MarkerBean>> callback = new AsyncCallback<Collection<MarkerBean>>() {
 
-		geocoder = new Geocoder();
-		addSavedMarkers();
-	}
+            public void onFailure(Throwable caught) {
+                GWT.log("Could nod get markers from server.", caught);
+            }
 
-	/**
-	 * Needed as a rather ugly hack to work around issues adding a MapWidget
-	 * into a gwt-ext Panel see
-	 * http://code.google.com/p/gwt-google-apis/issues/detail?id=127
-	 */
-	public void init() {
-		map.setVisible(true);
-		map.checkResize();
-	}
+            public void onSuccess(Collection<MarkerBean> result) {
+                GWT.log("Got markers from server. Adding them to map.", null);
+                for (MarkerBean bean : result) {
+                    Marker marker = new Marker(LatLng.newInstance(bean.getLatitude(), bean.getLongitude()));
+                    marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
+                    map.addOverlay(marker);
+                }
+            }
 
-	private void addSavedMarkers() {
-		MapServiceAsync mapService = (MapServiceAsync) GWT
-				.create(MapService.class);
+        };
+        mapService.getMarkers(callback);
+    }
 
-		AsyncCallback<Collection<MarkerBean>> callback = new AsyncCallback<Collection<MarkerBean>>() {
+    private void showAddress(final String address) {
+        final InfoWindow info = map.getInfoWindow();
+        geocoder.getLatLng(address, new LatLngCallback() {
 
-			public void onFailure(Throwable caught) {
-				GWT.log("Could nod get markers from server.", caught);
-			}
+            public void onFailure() {
+                MessageBox.alert("Adress not found: " + address);
+            }
 
-			public void onSuccess(Collection<MarkerBean> result) {
-				GWT.log("Got markers from server. Adding them to map.", null);
-				for (MarkerBean bean : result) {
-					Marker marker = new Marker(LatLng.newInstance(bean
-							.getLatitude(), bean.getLongitude()));
-					marker.addMarkerClickHandler(new MyMarkerClickHandler(map,
-							marker));
-					map.addOverlay(marker);
-				}
-			}
+            public void onSuccess(LatLng point) {
+                map.setCenter(point, DEFAULT_DETAILED_ZOOM_LEVEL);
+                final Marker marker = new Marker(point);
+                map.addOverlay(marker);
+                marker.addMarkerClickHandler(new MarkerClickHandler() {
 
-		};
-		mapService.getMarkers(callback);
-	}
+                    public void onClick(MarkerClickEvent event) {
+                        info.open(marker, new InfoWindowContent(address));
+                    }
+                });
+            }
+        });
+    }
 
-//	private Widget getLocationFormPanel() {
-//		final FormPanel formPanel = new FormPanel();
-//		formPanel.setAction("#");
-//		FlowPanel formElements = new FlowPanel();
-//		final TextBox addressBox = new TextBox();
-//		addressBox.setVisibleLength(55);
-//		addressBox.setText("");
-//		addressBox.addKeyboardListener(new KeyboardListener() {
-//			public void onKeyUp(Widget sender, char keyCode, int modifiers) {
-//			}
-//
-//			public void onKeyDown(Widget sender, char keyCode, int modifiers) {
-//			}
-//
-//			public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-//				if (keyCode == KEY_ENTER) {
-//					formPanel.submit();
-//				}
-//			}
-//		});
-//		// formElements.add(addressBox);
-//
-//		Button submitButton = new Button("Go!");
-//		submitButton.addClickListener(new ClickListener() {
-//			public void onClick(Widget sender) {
-//				formPanel.submit();
-//			}
-//		});
-//		// formElements.add(submitButton);
-//		formPanel.add(formElements);
-//		formPanel.addFormHandler(new FormHandler() {
-//			public void onSubmit(FormSubmitEvent event) {
-//				showAddress(addressBox.getText());
-//				event.setCancelled(true);
-//			}
-//
-//			public void onSubmitComplete(FormSubmitCompleteEvent event) {
-//			}
-//		});
-//		return formPanel;
-//	}
-//
-//	private void stopLoadingIndicator() {
-//		// loadingButton.setVisible(false);
-//		// loadingButton.hide();
-//	}
-//
-//	private void startLoadingIndicator() {
-//		// loadingButton.setVisible(true);
-//		// loadingButton.show();
-//	}
+    public native void gotoCurrentPositionJSNI() /*-{
+        //FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
+        if (!$wnd.google ) {
+            //location.href = "http://gears.google.com/?action=install&message=<your welcome message>"&return=<your website url>";
+            alert("Unable to get your current position: Gears is not installed.");
+            return;
+         }
+        try {
+            var geolocation = $wnd.google.gears.factory.create('beta.geolocation');
+            // For debugging use: alert('your position: ' + p.latitude + ', ' + p.longitude)
+            geolocation.getCurrentPosition( function(p) { @eu.scy.lab.client.tools.map.MapTool::gotoPosition(DD)(p.latitude,p.longitude); },
+                                            function(err) { alert('Error retrieving your location: ' + err.message);},
+                            	            { enableHighAccuracy: true,
+                                            gearsRequestAddress: true });
+        } catch (e) {
+            alert('Error using Geolocation API: ' + e.message);
+                return;
+        }
+    }-*/;
 
-	private void showAddress(final String address) {
-//		 element.mask("loading...");
-		// startLoadingIndicator();
-		final InfoWindow info = map.getInfoWindow();
-		geocoder.getLatLng(address, new LatLngCallback() {
-			public void onFailure() {
-				MessageBox.alert("Adress not found: " + address);
-				// stopLoadingIndicator();
-//				 element.unmask();
-			}
+    public static void gotoPosition(double latitude, double longitude) {
+        LatLng latLng = LatLng.newInstance(latitude, longitude);
+        map.setCenter(latLng, DEFAULT_DETAILED_ZOOM_LEVEL);
+    }
 
-			public void onSuccess(LatLng point) {
-				map.setCenter(point, DEFAULT_DETAILED_ZOOM_LEVEL);
-				final Marker marker = new Marker(point);
-				map.addOverlay(marker);
-				marker.addMarkerClickHandler(new MarkerClickHandler() {
-					public void onClick(MarkerClickEvent event) {
-						info.open(marker, new InfoWindowContent(address));
-					}
-				});
-				// stopLoadingIndicator();
-//				 element.unmask();
-			}
-		});
-	}
+    /**
+     * Enables the user to draw Polygons on the map
+     */
+    private class CreatePolygonControl extends ButtonListenerAdapter {
 
-	public native void gotoCurrentPositionJSNI() /*-{
-	 	//FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
-		if (!$wnd.google ) {
-	 			//location.href = "http://gears.google.com/?action=install&message=<your welcome message>"&return=<your website url>";
-	         	alert("Unable to get your current position: Gears is not installed.");
-	         	return;
-	       }
-	  	try {
-	    	var geolocation = $wnd.google.gears.factory.create('beta.geolocation');
-	    	// For debugging use: alert('your position: ' + p.latitude + ', ' + p.longitude)
-	    	geolocation.getCurrentPosition( function(p) { @eu.scy.lab.client.tools.map.MapTool::gotoPosition(DD)(p.latitude,p.longitude); },
-	                                   		function(err) { alert('Error retrieving your location: ' + err.message);},
-						           			{ enableHighAccuracy: true,
-	                                     	gearsRequestAddress: true });
-	  	} catch (e) {
-	    	alert('Error using Geolocation API: ' + e.message);
-	    	return;
-	  	}
-	}-*/;
+        public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+            String color = "0000FF";
+            int weight = 1;
+            double opacity = 0.8;
+            boolean fillFlag = true;
 
-	public static void gotoPosition(double latitude, double longitude) {
-		LatLng latLng = LatLng.newInstance(latitude, longitude);
-		map.setCenter(latLng, DEFAULT_DETAILED_ZOOM_LEVEL);
-	}
+            PolyStyleOptions style = PolyStyleOptions.newInstance(color, weight, opacity);
+            final Polygon poly = new Polygon(new LatLng[0], color, weight, opacity, color, fillFlag ? .7 : 0.0);
 
-	/**
-	 * Enables the user to draw Polygons on the map
-	 */
-	private class CreatePolygonControl extends CustomControl {
+            poly.setStrokeStyle(style);
+            map.addOverlay(poly);
+            poly.setDrawingEnabled();
+        }
+    }
+}
 
-		public CreatePolygonControl() {
-			super(new ControlPosition(ControlAnchor.TOP_RIGHT, 230, 5));
-		}
+    /**
+     * Enables the user to add markers to the map
+     */
+    class AddMarkerControl extends ButtonListenerAdapter {
 
-		@Override
-		public boolean isSelectable() {
-			return false;
-		}
+        private MapWidget map;
+        
+        public AddMarkerControl(MapWidget map) {
+            this.map = map;
+        }
 
-		@Override
-		protected Widget initialize(final MapWidget map) {
-			Button markAreaButton = new Button("Mark Area");
-			markAreaButton.setStyleName("markareacontrol");
+        public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+            map.addMapClickHandler(new MapClickHandler() {
 
-			markAreaButton.addClickListener(new ClickListener() {
+                public void onClick(MapClickEvent event) {
 
-				public void onClick(Widget sender) {
-					String color = "0000FF";
-					int weight = 1;
-					double opacity = 0.8;
-					boolean fillFlag = true;
+                    MarkerOptions options = MarkerOptions.newInstance();
+                    options.setDraggable(true);
+                    final Marker marker = new Marker(event.getLatLng(), options);
 
-					PolyStyleOptions style = PolyStyleOptions.newInstance(
-							color, weight, opacity);
-					final Polygon poly = new Polygon(new LatLng[0], color,
-							weight, opacity, color, fillFlag ? .7 : 0.0);
-					poly.setStrokeStyle(style);
-					map.addOverlay(poly);
-					poly.setDrawingEnabled();
-				}
-			});
-			return markAreaButton;
-		}
-	}
+                    MarkerBean bean = new MarkerBean(event.getLatLng().getLatitude(), event.getLatLng().getLongitude());
 
-	/**
-	 * Enables the user to add markers to the map
-	 */
-	private class AddMarkerControl extends CustomControl {
+                    MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
+                    AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 
-		public AddMarkerControl() {
-			super(new ControlPosition(ControlAnchor.TOP_RIGHT, 350, 5));
-		}
+                        // FIXME: Error handling
+                        public void onFailure(Throwable caught) {
+                            GWT.log("Could not add marker.", caught);
+                        }
 
-		@Override
-		public boolean isSelectable() {
-			return false;
-		}
+                        public void onSuccess(Boolean result) {}
 
-		@Override
-		protected Widget initialize(final MapWidget map) {
-			Button addMarkerButton = new Button("Add Marker");
-			addMarkerButton.setStyleName("addmarkercontrol");
+                    };
+                    mapService.addMarker(bean, callback);
 
-			addMarkerButton.addClickListener(new ClickListener() {
+                    marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
 
-				public void onClick(Widget sender) {
-					map.addMapClickHandler(new MapClickHandler() {
-
-						public void onClick(MapClickEvent event) {
-							MarkerOptions options = MarkerOptions.newInstance();
-							options.setDraggable(true);
-							final Marker marker = new Marker(event.getLatLng(),
-									options);
-
-							MarkerBean bean = new MarkerBean(event.getLatLng()
-									.getLatitude(), event.getLatLng()
-									.getLongitude());
-
-							MapServiceAsync mapService = (MapServiceAsync) GWT
-									.create(MapService.class);
-							AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
-								// FIXME: Error handling
-								public void onFailure(Throwable caught) {
-									GWT.log("Could not add marker.", caught);
-								}
-
-								public void onSuccess(Boolean result) {
-								}
-
-							};
-							mapService.addMarker(bean, callback);
-
-							marker
-									.addMarkerClickHandler(new MyMarkerClickHandler(
-											map, marker));
-
-							map.addOverlay(marker);
-							map.removeMapClickHandler(this);
-						}
-					});
-				}
-			});
-			return addMarkerButton;
-		}
-	}
+                    map.addOverlay(marker);
+                    map.removeMapClickHandler(this);
+                }
+            });
+        }
 
 }
