@@ -3,6 +3,8 @@ package eu.scy.lab.client.desktop;
 import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.widgets.Panel;
+import com.gwtext.client.widgets.Toolbar;
+import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.layout.BorderLayout;
@@ -16,6 +18,8 @@ import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
 import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
 import eu.scy.lab.client.startupview.lastMission.Mission;
+import eu.scy.lab.client.util.Gears;
+import eu.scy.lab.client.util.ModeSwitcher;
 
 public class Desktop extends Panel {
 
@@ -71,7 +75,17 @@ public class Desktop extends Panel {
         workspacePanel = getWorkspace();
         workspacePanel.setTitle("Workspace");
 
-        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER)); 
+        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
+        
+        Toolbar toolbar = new Toolbar();
+        ToolbarButton modeButton = new ToolbarButton();
+        modeButton.addListener( new ModeSwitcher() );
+        toolbar.addButton(modeButton);
+        Gears.setModeButton(modeButton);
+        
+        BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
+        toolbar.setHeight(25);
+        add(toolbar, southData);
     }
 
     public TabbedWorkspace getWorkspace() {
