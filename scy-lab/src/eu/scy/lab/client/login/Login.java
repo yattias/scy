@@ -3,8 +3,6 @@
  */
 package eu.scy.lab.client.login;
 
-
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -61,6 +59,7 @@ public class Login extends FormPanel {
 
         };
         username.addListener(loginKeyListener);
+        username.focus();
         add(username);
         
         password = new TextField(constants.password(), "password");

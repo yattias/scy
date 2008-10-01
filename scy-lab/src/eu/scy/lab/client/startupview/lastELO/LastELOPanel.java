@@ -8,9 +8,9 @@ import com.gwtext.client.core.SortDir;
 import com.gwtext.client.data.ArrayReader;
 import com.gwtext.client.data.DateFieldDef;
 import com.gwtext.client.data.FieldDef;
-import com.gwtext.client.data.GroupingStore;
 import com.gwtext.client.data.RecordDef;
 import com.gwtext.client.data.SortState;
+import com.gwtext.client.data.Store;
 import com.gwtext.client.data.StringFieldDef;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
@@ -50,10 +50,10 @@ public class LastELOPanel extends Panel {
         RecordDef recordDef = new RecordDef(new FieldDef[] { new StringFieldDef("name"), new StringFieldDef("author"), new DateFieldDef("date", "dd.MM.yyyy"), new StringFieldDef("relativedate") });
 
         ArrayReader reader = new ArrayReader(recordDef);
-        final GroupingStore store = new GroupingStore();
-        store.setReader(reader);
+        final Store store = new Store(reader);
+//        store.setReader(reader);
         store.setDataProxy(proxy);
-        store.setGroupField("relativedate");
+//        store.setGroupField("relativedate");
 
         ColumnConfig tempDateColumn = new ColumnConfig("relative Date", "relativedate");
         tempDateColumn.setHidden(true);
