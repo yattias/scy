@@ -3,8 +3,8 @@ package eu.scy.lab.client.util;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Callback to be used to first do the normal callback to get/save data via rpc
- * and afterwards save data locally via gears
+ * Callback to be used to first save the data locally using gears and
+ * afterwards continue with the normal callback
  */
 public abstract class GearsAsyncCallback<T> implements AsyncCallback<T> {
 
