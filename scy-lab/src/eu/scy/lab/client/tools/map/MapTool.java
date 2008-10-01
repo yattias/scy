@@ -97,6 +97,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
 
         // ... Button for current location...
         ToolbarButton currentLocationButton = new ToolbarButton("?");
+        currentLocationButton.setTooltip("Centers the map on your current location");
         currentLocationButton.addListener(new ButtonListenerAdapter() {
 
             public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
