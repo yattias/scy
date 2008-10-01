@@ -34,16 +34,12 @@ public class ModeSwitcher extends ButtonListenerAdapter {
 
             new Timer() {
 
-                final String oldVersion = managedResourceStore.getCurrentVersion();
                 private String status = ".";
                 
                 @Override
                 public void run() {
                     switch (managedResourceStore.getUpdateStatus()) {
                         case ManagedResourceStore.UPDATE_OK:
-                            if (!managedResourceStore.getCurrentVersion().equals(oldVersion)) {
-                                Window.alert("Download complete. Please refresh the page.");
-                            }
                             Gears.setOnline(false);
                             LoadIndicator.stop();
                             break;
