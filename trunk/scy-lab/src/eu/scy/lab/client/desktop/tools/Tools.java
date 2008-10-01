@@ -3,8 +3,6 @@ package eu.scy.lab.client.desktop.tools;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.gwtext.client.core.EventObject;
-import com.gwtext.client.core.Ext;
-import com.gwtext.client.core.ExtElement;
 import com.gwtext.client.data.Node;
 import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
@@ -45,9 +43,7 @@ class Tools extends TreePanel {
                     desktop.getWorkspace().add(map);
                     // FIXME: This is a rather ugly hack to work around issues
                     // adding a MapWidget into a gwt-ext Panel
-                    // see
-                    // http://code.google.com/p/gwt-google-apis/issues/detail
-                    // ?id=127
+                    // see http://code.google.com/p/gwt-google-apis/issues/detail?id=127
                     Timer t = new Timer() {
 
                         @Override

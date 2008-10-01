@@ -96,6 +96,7 @@ public class Desktop extends Panel {
     public TabbedWorkspace getWorkspace() {
         if (workspace == null) {
             workspace = new TabbedWorkspace();
+            workspace.setPaddings(0);
             workspace.add(new EloBrowser());
         }
         return workspace;
