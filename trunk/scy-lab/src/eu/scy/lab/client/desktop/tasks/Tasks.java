@@ -31,6 +31,8 @@ import com.gwtext.client.widgets.grid.GridPanel;
 import com.gwtext.client.widgets.grid.event.EditorGridListenerAdapter;
 import com.gwtextux.client.data.PagingMemoryProxy;
 
+import eu.scy.lab.client.util.Gears;
+
 public class Tasks {
 
     private Database db;
@@ -47,14 +49,16 @@ public class Tasks {
 
     public Tasks() {
 
-        // Create the database if it doesn't exist.
-        try {
-            db = Factory.getInstance().createDatabase();
-            db.open("scy-lab-tasks");
-            // The 'int' type will store up to 8 byte ints depending on the magnitude of the value added.
-            db.execute("create table if not exists tasks (ID int, Task string)");
-        } catch (GearsException e) {
-            MessageBox.alert(e.toString());
+        if (Gears.checkForGears()) {
+            // Create the database if it doesn't exist.
+            try {
+                db = Factory.getInstance().createDatabase();
+                db.open("scy-lab-tasks");
+                // The 'int' type will store up to 8 byte ints depending on the magnitude of the value added.
+                db.execute("create table if not exists tasks (ID int, Task string)");
+            } catch (GearsException e) {
+                MessageBox.alert(e.toString());
+            }
         }
 
         grid = createGrid();
