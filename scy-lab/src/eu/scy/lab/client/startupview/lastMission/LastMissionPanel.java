@@ -3,7 +3,6 @@ package eu.scy.lab.client.startupview.lastMission;
 import java.util.Date;
 import java.util.Vector;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.SortDir;
 import com.gwtext.client.data.ArrayReader;
@@ -20,7 +19,6 @@ import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.grid.ColumnConfig;
 import com.gwtext.client.widgets.grid.ColumnModel;
 import com.gwtext.client.widgets.grid.GridPanel;
-import com.gwtext.client.widgets.grid.GroupingView;
 import com.gwtext.client.widgets.grid.event.GridRowListener;
 import com.gwtext.client.widgets.layout.FitLayout;
 import com.gwtext.client.widgets.layout.HorizontalLayout;
@@ -30,210 +28,181 @@ import eu.scy.lab.client.date.DateRenderer;
 
 public class LastMissionPanel extends Panel {
 
-	private Vector<Mission> missions;
+    private Vector<Mission> missions;
 
-	private GridPanel grid;
-	
-	private DateRenderer renderer = new DateRenderer("dd.MM.yyyy");
+    private GridPanel grid;
 
-	public LastMissionPanel() {
+    private DateRenderer renderer = new DateRenderer("dd.MM.yyyy");
 
-		super("Last Missions");
-		onModuleLoad();
+    public LastMissionPanel() {
 
-	}
+        super("Last Missions");
+        onModuleLoad();
 
-	public void onModuleLoad() {
+    }
 
-		// FIXME Setup a new Date Representation (not Date-Class)
-		setLayout(new FitLayout());
-		setClosable(false);
+    public void onModuleLoad() {
 
-		// MemoryProxy proxy = new MemoryProxy(getCompanyData());
-		PagingMemoryProxy proxy = new PagingMemoryProxy(
-				getGridDataWithDate(getGridData()));
-		RecordDef recordDef = new RecordDef(new FieldDef[] {
-				new StringFieldDef("name"), new StringFieldDef("author"),
-				new DateFieldDef("date", "dd.MM.yyyy"),
-				// new DateFieldDef("date"),
-				new StringFieldDef("relativedate") });
+        setLayout(new FitLayout());
+        setClosable(false);
 
-		ArrayReader reader = new ArrayReader(recordDef);
-		final GroupingStore store = new GroupingStore();
-		store.setReader(reader);
-		store.setDataProxy(proxy);
-		store.setGroupField("relativedate");
+        PagingMemoryProxy proxy = new PagingMemoryProxy(getGridDataWithDate(getGridData()));
+        RecordDef recordDef = new RecordDef(new FieldDef[] { new StringFieldDef("name"), new StringFieldDef("author"), new DateFieldDef("date", "dd.MM.yyyy"),
+        // new DateFieldDef("date"),
+        new StringFieldDef("relativedate") });
 
-		ColumnConfig tempDateColumn = new ColumnConfig("Relative Date",
-				"relativedate");
-		tempDateColumn.setHidden(true);
-		
-		ColumnConfig date = new ColumnConfig("Date", "date");
-		date.setRenderer(renderer);
-		date.setWidth(50);
-		date.setSortable(false);
+        ArrayReader reader = new ArrayReader(recordDef);
+        final GroupingStore store = new GroupingStore();
+        store.setReader(reader);
+        store.setDataProxy(proxy);
+        store.setGroupField("relativedate");
 
-		ColumnConfig[] columns = new ColumnConfig[] {
-				// column ID is company which is later used in
-				new ColumnConfig("Name", "name", 160,false, null, "name"),
-				new ColumnConfig("Author", "author", 160, false),
-				date,
-				tempDateColumn };
-		ColumnModel columnModel = new ColumnModel(columns);
-		
-		
-		//FIXME CHange Sorting
-//		date.setSortable(true);
-		store.setSortInfo(new SortState("date", SortDir.DESC));
-		store.sort("date", SortDir.DESC);
-//		store.sort("relativedate", SortDir.DESC);
-//		store.setSortInfo(new SortState("relativedate", SortDir.DESC));
+        ColumnConfig tempDateColumn = new ColumnConfig("Relative Date", "relativedate");
+        tempDateColumn.setHidden(true);
 
-		
-		//FIXME GroupingView deactivated because GridView is not working
-//		GroupingView gridView = new GroupingView();
-//		gridView.setForceFit(true);
-//		gridView.updateHeaderSortState();
-//		gridView
-//				.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
+        ColumnConfig date = new ColumnConfig("Date", "date");
+        date.setRenderer(renderer);
+        date.setWidth(50);
+        date.setSortable(false);
 
-		// The Grid
-		// TODO set layout and size
+        ColumnConfig[] columns = new ColumnConfig[] {
+        // column ID is company which is later used in
+        new ColumnConfig("Name", "name", 160, false, null, "name"), new ColumnConfig("Author", "author", 160, false), date, tempDateColumn };
+        ColumnModel columnModel = new ColumnModel(columns);
 
-		grid = new GridPanel();
-		grid.setStore(store);
-		grid.setColumnModel(columnModel);
+        // FIXME CHange Sorting
+        // date.setSortable(true);
+        store.setInitialSortState(new SortState("date", SortDir.DESC));
+        // store.sort("relativedate", SortDir.DESC);
+        // store.setSortInfo(new SortState("relativedate", SortDir.DESC));
 
-		grid.setFrame(true);
-		grid.setStripeRows(true);
-		grid.setLayout(new HorizontalLayout(0));
-		grid.setMonitorResize(true);
-		grid.setAutoExpandColumn("name");
-		grid.setHeader(false);
+        // FIXME GroupingView deactivated because GridView is not working
+        // GroupingView gridView = new GroupingView();
+        // gridView.setForceFit(true);
+        // gridView.updateHeaderSortState();
+        // gridView
+        // .setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
 
-		//FIXME GroupingView deactivated because GridView is not working
-//		gridView.fitColumns(true);
-//		grid.setView(gridView);
-		
-		grid.setIconCls("grid-icon");
+        // The Grid
+        // TODO set layout and size
 
-		grid.addGridRowListener(new GridRowListener() {
+        grid = new GridPanel();
+        grid.setStore(store);
+        grid.setColumnModel(columnModel);
 
-			public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
+        grid.setFrame(true);
+        grid.setStripeRows(true);
+        grid.setLayout(new HorizontalLayout(0));
+        grid.setMonitorResize(true);
+        grid.setAutoExpandColumn("name");
+        grid.setHeader(false);
 
-				String name = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[0]));
-				String author = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[1]));
-				String date = (grid.getSelectionModel().getSelected()
-						.getAsString(grid.getSelectionModel().getSelected()
-								.getFields()[2]));
+        // FIXME GroupingView deactivated because GridView is not working
+        // gridView.fitColumns(true);
+        // grid.setView(gridView);
 
-			}
+        grid.setIconCls("grid-icon");
 
-			public void onRowContextMenu(GridPanel grid, int rowIndex,
-					EventObject e) {
+        grid.addGridRowListener(new GridRowListener() {
 
-			}
+            public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
 
-			public void onRowDblClick(GridPanel grid, int rowIndex,
-					EventObject e) {
+                String name = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[0]));
+                String author = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[1]));
+                String date = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[2]));
 
-			}
+            }
 
-		});
+            public void onRowContextMenu(GridPanel grid, int rowIndex, EventObject e) {
 
-		Button browseMission = new Button("Browse Mission!",
-				new ButtonListenerAdapter() {
-					public void onClick(Button button, EventObject e) {
-						// TODO Auto-generated method stub
-						MessageBox
-								.alert("Starting Missionbrowser when feature is enabled");
-					}
-				});
-		addButton(browseMission);
+            }
 
-		// store.load(0, 5);
-		store.load();
+            public void onRowDblClick(GridPanel grid, int rowIndex, EventObject e) {
 
-		grid.setBufferResize(true);
+            }
 
-		add(grid);
-		setAutoScroll(true);
+        });
 
-	}
+        Button browseMission = new Button("Browse Mission!", new ButtonListenerAdapter() {
 
-	// The local Array-Data to display in the Grid
-	private Object[][] getGridData() {
-		
-		return new Object[][] {
-				new Object[] { "Kryptoarithmetics", "Sven",new Date(108, 8, 29) },
-				new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) },
-				new Object[] { "Kryptoarithmetics II","Sven", new Date(108, 8, 20) },
-				new Object[] { "Dancing with animals","Sven", new Date(108, 8, 21) },
-				new Object[] { "Kryptoarithmetics III","Sven", new Date(108, 8, 22) } };
-	}
+            public void onClick(Button button, EventObject e) {
+                // TODO Auto-generated method stub
+                MessageBox.alert("Starting Missionbrowser when feature is enabled");
+            }
+        });
+        addButton(browseMission);
 
+        store.load();
 
-	private Object[][] getGridDataWithDate(Object[][] ungroupedData) {
-		Object[][] groupedData = new Object[ungroupedData.length][ungroupedData[0].length + 1];
+        grid.setBufferResize(true);
 
-		for (int i = 0; i < ungroupedData.length; i++) {
-			for (int j = 0; j < ungroupedData[i].length; j++) {
-				groupedData[i][j] = ungroupedData[i][j];
-			}
-			
-			Date indexDate = new Date();
-			if (groupedData[i][2] instanceof Date){
-				indexDate = (Date)groupedData[i][2];
-			}
-			groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
-		}
+        add(grid);
+        setAutoScroll(true);
 
-		return groupedData;
-	}
+    }
 
-	private String createRelativeDate(Date date) {
-		Date today = new Date();
-		//FIXME CHange this!
-		if ((date.getDate() == today.getDate())
-				&& (date.getMonth() == today.getMonth())
-				&& (date.getYear() == today.getYear())) {
-			return "today";
-		} else if ((date.getMonth() == today.getMonth())
-				&& (date.getYear() == today.getYear())) {
-			return "this month";
-		} else
-			return "older";
-	}
+    // The local Array-Data to display in the Grid
+    @SuppressWarnings("deprecation")
+    private Object[][] getGridData() {
 
-	/**
-	 * @return the last missions from a remote service
-	 */
-	// TODO connect to remote service and correct return statement
-	public Vector<Mission> getLastMissions() {
+        return new Object[][] { new Object[] { "Kryptoarithmetics", "Sven", new Date(108, 8, 29) }, new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) }, new Object[] { "Kryptoarithmetics II", "Sven", new Date(108, 8, 20) }, new Object[] { "Dancing with animals", "Sven", new Date(108, 8, 21) }, new Object[] { "Kryptoarithmetics III", "Sven", new Date(108, 8, 22) } };
+    }
 
-		Vector<Mission> missions = new Vector<Mission>();
-		missions.add(new Mission("CO2 neutral house", "09/22/2008"));
-		missions.add(new Mission("Tutorial Mission", "09/21/2008"));
-		return missions;
-	}
+    private Object[][] getGridDataWithDate(Object[][] ungroupedData) {
+        Object[][] groupedData = new Object[ungroupedData.length][ungroupedData[0].length + 1];
 
-	/**
-	 * @param missions
-	 *            the missions to set
-	 */
-	public void setMissions(Vector<Mission> missions) {
-		this.missions = missions;
-	}
+        for (int i = 0; i < ungroupedData.length; i++) {
+            for (int j = 0; j < ungroupedData[i].length; j++) {
+                groupedData[i][j] = ungroupedData[i][j];
+            }
 
-	/**
-	 * @return the missions
-	 */
-	public Vector<Mission> getMissions() {
-		return missions;
-	}
+            Date indexDate = new Date();
+            if (groupedData[i][2] instanceof Date) {
+                indexDate = (Date) groupedData[i][2];
+            }
+            groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
+        }
+
+        return groupedData;
+    }
+
+    @SuppressWarnings("deprecation")
+    private String createRelativeDate(Date date) {
+        Date today = new Date();
+        // XXX change the relative dates
+        if ((date.getDate() == today.getDate()) && (date.getMonth() == today.getMonth()) && (date.getYear() == today.getYear())) {
+            return "today";
+        } else if ((date.getMonth() == today.getMonth()) && (date.getYear() == today.getYear())) {
+            return "this month";
+        } else
+            return "older";
+    }
+
+    /**
+     * @return the last missions from a remote service
+     */
+    // TODO connect to remote service and correct return statement
+    public Vector<Mission> getLastMissions() {
+
+        Vector<Mission> missions = new Vector<Mission>();
+        missions.add(new Mission("CO2 neutral house", "09/22/2008"));
+        missions.add(new Mission("Tutorial Mission", "09/21/2008"));
+        return missions;
+    }
+
+    /**
+     * @param missions
+     *            the missions to set
+     */
+    public void setMissions(Vector<Mission> missions) {
+        this.missions = missions;
+    }
+
+    /**
+     * @return the missions
+     */
+    public Vector<Mission> getMissions() {
+        return missions;
+    }
 
 }
