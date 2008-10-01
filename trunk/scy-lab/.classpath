@@ -10,9 +10,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/gwtext.jar"/>
-	<classpathentry kind="lib" path="libs/gwtextux.jar"/>
-	<classpathentry kind="lib" path="libs/gwt-maps.jar"/>
-	<classpathentry kind="lib" path="libs/gwt-gears.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
