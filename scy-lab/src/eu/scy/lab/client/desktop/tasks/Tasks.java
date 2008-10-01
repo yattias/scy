@@ -8,6 +8,7 @@ import com.google.gwt.gears.client.GearsException;
 import com.google.gwt.gears.client.database.Database;
 import com.google.gwt.gears.client.database.DatabaseException;
 import com.google.gwt.gears.client.database.ResultSet;
+import com.google.gwt.user.client.Window;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.UrlParam;
 import com.gwtext.client.data.ArrayReader;
@@ -74,17 +75,19 @@ public class Tasks {
     }
 
     public GridPanel createGrid() {
-
-        // Fetch previous results from the database.
         tasks = new ArrayList<StringIntegerPair<Integer, String>>();
-        try {
-            ResultSet rs = db.execute("select * from tasks order by ID");
-            for (int i = 0; rs.isValidRow(); ++i, rs.next()) {
-                tasks.add(new StringIntegerPair<Integer, String>(rs.getFieldAsInt(0), rs.getFieldAsString(1)));
+        
+        if (Gears.checkForGears()) {
+            // Fetch previous results from the database.
+            try {
+                ResultSet rs = db.execute("select * from tasks order by ID");
+                for (int i = 0; rs.isValidRow(); ++i, rs.next()) {
+                    tasks.add(new StringIntegerPair<Integer, String>(rs.getFieldAsInt(0), rs.getFieldAsString(1)));
+                }
+                rs.close();
+            } catch (DatabaseException e) {
+                MessageBox.alert(e.toString());
             }
-            rs.close();
-        } catch (DatabaseException e) {
-            MessageBox.alert(e.toString());
         }
 
         // Display the list of results in a table
@@ -111,7 +114,10 @@ public class Tasks {
         ToolbarButton button = new ToolbarButton("Add Task...", new ButtonListenerAdapter() {
 
             public void onClick(Button button, EventObject e) {
-
+                if (!Gears.checkForGears()) {
+                    Window.alert("Unable to add task: Gears is not installed.");
+                    return;
+                }
                 // int indexID = id;
                 String text = "EXAMPLE TASK";
                 Record plant = recordDef.createRecord(new Object[] { id, text });
@@ -157,6 +163,10 @@ public class Tasks {
 
     public Object[][] getGridData() {
         tasks = new ArrayList<StringIntegerPair<Integer, String>>();
+        if (Gears.checkForGears() == false) {
+            return new Object[0][0];
+        }
+        
         try {
 
             ResultSet rs = db.execute("select * from tasks order by ID");
@@ -177,7 +187,6 @@ public class Tasks {
         }
 
         return result;
-
     }
 
     public GridPanel getGrid() {
