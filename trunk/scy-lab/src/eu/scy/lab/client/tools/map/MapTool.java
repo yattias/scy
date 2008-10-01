@@ -32,6 +32,9 @@ import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
 
+import eu.scy.lab.client.util.Gears;
+import eu.scy.lab.client.util.LoadIndicator;
+
 /**
  * Prototype of a MapTool which allows the user to mark points and areas on a map
  */
@@ -53,6 +56,8 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     // FIXME: Needs to be static to update the map with the current location via native javascript.
     private static MapWidget map;
 
+    private Marker shownLocation;
+    
     private Geocoder geocoder;
 
     private Toolbar toolbar;
@@ -95,6 +100,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         currentLocationButton.addListener(new ButtonListenerAdapter() {
 
             public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
+                LoadIndicator.start();
                 gotoCurrentPositionJSNI();
             }
         });
@@ -145,7 +151,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         createPolygon.addListener( new CreatePolygonControl() );
         toolbar.addButton(createPolygon);
         
-        if (MapServiceSwitch.getInstance().checkForGears()) {
+        if (Gears.checkForGears()) {
             final ToolbarButton offlineButton = new ToolbarButton("go off");
             offlineButton.addListener(new ButtonListenerAdapter() {
 
@@ -198,20 +204,27 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
 
     private void showAddress(final String address) {
         final InfoWindow info = map.getInfoWindow();
+        LoadIndicator.start();
+        
         geocoder.getLatLng(address, new LatLngCallback() {
 
             public void onFailure() {
+                LoadIndicator.stop();
                 MessageBox.alert("Adress not found: " + address);
             }
 
             public void onSuccess(LatLng point) {
+                LoadIndicator.stop();
+                if (shownLocation != null) {
+                    map.removeOverlay(shownLocation);
+                }
                 map.setCenter(point, DEFAULT_DETAILED_ZOOM_LEVEL);
-                final Marker marker = new Marker(point);
-                map.addOverlay(marker);
-                marker.addMarkerClickHandler(new MarkerClickHandler() {
+                shownLocation = new Marker(point);
+                map.addOverlay(shownLocation);
+                shownLocation.addMarkerClickHandler(new MarkerClickHandler() {
 
                     public void onClick(MarkerClickEvent event) {
-                        info.open(marker, new InfoWindowContent(address));
+                        info.open(shownLocation, new InfoWindowContent(address));
                     }
                 });
             }
@@ -241,6 +254,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     public static void gotoPosition(double latitude, double longitude) {
         LatLng latLng = LatLng.newInstance(latitude, longitude);
         map.setCenter(latLng, DEFAULT_DETAILED_ZOOM_LEVEL);
+        LoadIndicator.stop();
     }
 
     /**
@@ -262,12 +276,11 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
             poly.setDrawingEnabled();
         }
     }
-}
 
     /**
      * Enables the user to add markers to the map
      */
-    class AddMarkerControl extends ButtonListenerAdapter {
+    private class AddMarkerControl extends ButtonListenerAdapter {
 
         private MapWidget map;
         
@@ -306,5 +319,5 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
                 }
             });
         }
-
+    }
 }
