@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import eu.scy.lab.client.util.Gears;
+import eu.scy.lab.client.util.GearsAsyncCallback;
 
 public class MapServiceSwitch implements MapServiceAsync {
 
@@ -94,7 +95,7 @@ public class MapServiceSwitch implements MapServiceAsync {
 
     public void updateMarkerInfo(final MarkerBean marker, final String newInfo, AsyncCallback<Boolean> callback) {
         if (Gears.checkForGears()) {
-            callback = new GearAsyncCallback<Boolean>(callback) {
+            callback = new GearsAsyncCallback<Boolean>(callback) {
 
                 @Override
                 protected void saveData(Boolean result) {
