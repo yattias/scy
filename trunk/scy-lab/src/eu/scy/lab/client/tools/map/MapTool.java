@@ -109,7 +109,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         currentLocationButton.addListener(new ButtonListenerAdapter() {
 
             public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
-                LoadIndicator.start();
+                LoadIndicator.start("Getting your location...");
                 gotoCurrentPositionJSNI();
             }
         });
@@ -151,32 +151,14 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
             }
         });
 
-        ToolbarButton addMarker = new ToolbarButton("add Marker");
+        ToolbarButton addMarker = new ToolbarButton("Add Marker");
         addMarker.addListener( new AddMarkerListener(map) );
         toolbar.addButton(addMarker);
         toolbar.addSeparator();
  
-        ToolbarButton createPolygon = new ToolbarButton("mark Area");
+        ToolbarButton createPolygon = new ToolbarButton("Mark Area");
         createPolygon.addListener( new MarkAreaListener() );
         toolbar.addButton(createPolygon);
-        
-        if (Gears.checkForGears()) {
-            final ToolbarButton offlineButton = new ToolbarButton("go off");
-            offlineButton.addListener(new ButtonListenerAdapter() {
-
-                public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
-                    boolean b = !MapServiceSwitch.getInstance().getOnline();
-                    if (!b) {
-                        offlineButton.setText("go on");
-                    } else {
-                        offlineButton.setText("go off");
-                    }
-                    MapServiceSwitch.getInstance().setOnline(b);
-                }
-            });
-            toolbar.addSeparator();
-            toolbar.addButton(offlineButton);
-        }
         
         return toolbar;
     }

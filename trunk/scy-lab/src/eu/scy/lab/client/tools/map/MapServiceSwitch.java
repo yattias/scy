@@ -20,9 +20,7 @@ public class MapServiceSwitch implements MapServiceAsync {
 
     private Database db;
 
-    private boolean online = true;
-
-    public static MapServiceSwitch instance;
+    private static MapServiceSwitch instance;
 
     public static MapServiceSwitch getInstance() {
         if (instance == null) {
@@ -39,19 +37,11 @@ public class MapServiceSwitch implements MapServiceAsync {
                 db = Factory.getInstance().createDatabase();
                 // Create the database if it doesn't exist.
                 db.open("scy-tools-map");
-                db.execute("create table if not exists markers (Latitude double, Longitude double, Info varchar(255) )");
+                db.execute("create table if not exists markers (Latitude double, Longitude double, Info String)");
             } catch (Exception e) {
                 Window.alert(e.toString());
             }
         }
-    }
-
-    public boolean getOnline() {
-        return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
     }
 
     public void addMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
@@ -59,7 +49,7 @@ public class MapServiceSwitch implements MapServiceAsync {
     }
 
     public void getMarkerAtPosition(double latitude, double longitude, AsyncCallback<MarkerBean> callback) {
-        if (online) {
+        if (Gears.isOnline()) {
             mapService.getMarkerAtPosition(latitude, longitude, callback);
         } else {
             if (Gears.checkForGears()) {
@@ -70,7 +60,7 @@ public class MapServiceSwitch implements MapServiceAsync {
                     if (rs.isValidRow()) {
                         bean.setInfo(rs.getFieldAsString(0));
                     } else {
-                        Window.alert("no valid row!");
+                        Window.alert("Could not get marker data from database: No valid row!");
                     }
                     rs.close();
                     callback.onSuccess(bean);
