@@ -1,9 +1,12 @@
 package eu.scy.lab.client.desktop.tools;
 
+import pl.rmalinowski.gwt2swf.client.ui.SWFWidget;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.data.Node;
+import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
 import com.gwtext.client.widgets.tree.event.TreeNodeListenerAdapter;
@@ -12,6 +15,9 @@ import eu.scy.lab.client.desktop.Desktop;
 import eu.scy.lab.client.tools.map.MapTool;
 
 class Tools extends TreePanel {
+
+    protected static final String CO2SIMULATION_ID = "co2-simulation";
+    protected static final String CO2SIMULATION_PATH = "flash/ScyVerticalDemo.swf";
 
     public Tools(final Desktop desktop) {
 
@@ -29,8 +35,20 @@ class Tools extends TreePanel {
         simulation.setExpanded(true);
 
         TreeNode co2sim = new TreeNode("CO2-Simulation");
+        co2sim.addListener(new TreeNodeListenerAdapter() {
+            public void onDblClick(Node node, EventObject e) {
+                if (!desktop.getWorkspace().containsComponentID(CO2SIMULATION_ID)) {
+                    Panel panel = new Panel("CO2-Simulation");
+                    panel.setClosable(true);
+                    panel.setId(CO2SIMULATION_ID);
+                    SWFWidget swfWidget = new SWFWidget(CO2SIMULATION_PATH, 800, 500);
+                    panel.add(swfWidget);
+                    desktop.getWorkspace().add(panel);
+                }
+                desktop.getWorkspace().activate(CO2SIMULATION_ID);
+            }
+        });
         co2sim.setExpanded(true);
-
         simulation.appendChild(co2sim);
 
         TreeNode mapTool = new TreeNode("Map");
