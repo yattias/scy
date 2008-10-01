@@ -143,12 +143,12 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         });
 
         ToolbarButton addMarker = new ToolbarButton("add Marker");
-        addMarker.addListener( new AddMarkerControl(map) );
+        addMarker.addListener( new AddMarkerListener(map) );
         toolbar.addButton(addMarker);
         toolbar.addSeparator();
  
         ToolbarButton createPolygon = new ToolbarButton("mark Area");
-        createPolygon.addListener( new CreatePolygonControl() );
+        createPolygon.addListener( new MarkAreaListener() );
         toolbar.addButton(createPolygon);
         
         if (Gears.checkForGears()) {
@@ -181,8 +181,6 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     }
 
     private void addSavedMarkers() {
-        MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
-
         AsyncCallback<Collection<MarkerBean>> callback = new AsyncCallback<Collection<MarkerBean>>() {
 
             public void onFailure(Throwable caught) {
@@ -191,15 +189,18 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
 
             public void onSuccess(Collection<MarkerBean> result) {
                 GWT.log("Got markers from server. Adding them to map.", null);
-                for (MarkerBean bean : result) {
-                    Marker marker = new Marker(LatLng.newInstance(bean.getLatitude(), bean.getLongitude()));
-                    marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
+                for (MarkerBean markerBean : result) {
+                    MarkerOptions options = MarkerOptions.newInstance();
+                    options.setDraggable(true);
+                    Marker marker = new Marker(LatLng.newInstance(markerBean.getLatitude(), markerBean.getLongitude()), options);
+                    marker.addMarkerClickHandler(new ShowMarkerInfoHandler(map, marker));
+                    marker.addMarkerDragEndHandler( new UpdateMarkerPositionHandler(marker, markerBean));
                     map.addOverlay(marker);
                 }
             }
 
         };
-        mapService.getMarkers(callback);
+        MapServiceSwitch.getInstance().getMarkers(callback);
     }
 
     private void showAddress(final String address) {
@@ -260,7 +261,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     /**
      * Enables the user to draw Polygons on the map
      */
-    private class CreatePolygonControl extends ButtonListenerAdapter {
+    private class MarkAreaListener extends ButtonListenerAdapter {
 
         public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
             String color = "0000FF";
@@ -280,11 +281,11 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     /**
      * Enables the user to add markers to the map
      */
-    private class AddMarkerControl extends ButtonListenerAdapter {
+    private class AddMarkerListener extends ButtonListenerAdapter {
 
         private MapWidget map;
         
-        public AddMarkerControl(MapWidget map) {
+        public AddMarkerListener(MapWidget map) {
             this.map = map;
         }
 
@@ -297,9 +298,8 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
                     options.setDraggable(true);
                     final Marker marker = new Marker(event.getLatLng(), options);
 
-                    MarkerBean bean = new MarkerBean(event.getLatLng().getLatitude(), event.getLatLng().getLongitude());
+                    final MarkerBean markerBean = new MarkerBean(event.getLatLng().getLatitude(), event.getLatLng().getLongitude());
 
-                    MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
                     AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 
                         // FIXME: Error handling
@@ -310,10 +310,11 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
                         public void onSuccess(Boolean result) {}
 
                     };
-                    mapService.addMarker(bean, callback);
+                    MapServiceSwitch.getInstance().addMarker(markerBean, callback);
 
-                    marker.addMarkerClickHandler(new MyMarkerClickHandler(map, marker));
-
+                    marker.addMarkerClickHandler(new ShowMarkerInfoHandler(map, marker));
+                    marker.addMarkerDragEndHandler(new UpdateMarkerPositionHandler(marker, markerBean) );
+                    
                     map.addOverlay(marker);
                     map.removeMapClickHandler(this);
                 }

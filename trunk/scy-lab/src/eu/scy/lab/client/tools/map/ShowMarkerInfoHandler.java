@@ -16,12 +16,12 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Handler for clicks on markers which receives the text for that marker and displays it in the map's info window
  */
-public class MyMarkerClickHandler implements MarkerClickHandler {
+public class ShowMarkerInfoHandler implements MarkerClickHandler {
 
 	private MapWidget map;
 	private Marker marker;
 
-	public MyMarkerClickHandler(MapWidget map, Marker marker) {
+	public ShowMarkerInfoHandler(MapWidget map, Marker marker) {
 		super();
 		this.map = map;
 		this.marker = marker;
@@ -45,8 +45,6 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 		removeButton.setEnabled(false);
 		buttonPanel.add(removeButton);
 		
-		final MapServiceAsync mapService = (MapServiceAsync) GWT.create(MapService.class);
-
 		final AsyncCallback<MarkerBean> callback = new AsyncCallback<MarkerBean>() {
 			public void onFailure(Throwable caught) {
 				GWT.log("Failed to get MarkerBean.", caught);
@@ -85,7 +83,7 @@ public class MyMarkerClickHandler implements MarkerClickHandler {
 							public void onFailure(Throwable caught) { GWT.log("Failed to remove MarkerBean.", caught); }
 							public void onSuccess(Boolean result) { GWT.log("Removed MarkerBean.", null); }
 						};
-						mapService.removeMarker(markerBean, callback);
+						MapServiceSwitch.getInstance().removeMarker(markerBean, callback);
 						map.getInfoWindow().close();
 					}
 					
