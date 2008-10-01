@@ -10,7 +10,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
+import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
@@ -49,15 +51,22 @@ public class Login extends FormPanel {
         
         username = new TextField(constants.userName(), "username");
         username.setAllowBlank(false);
+        final ButtonListenerAdapterImpl listener = new ButtonListenerAdapterImpl(this,"login");
+        TextFieldListenerAdapter loginKeyListener = new TextFieldListenerAdapter(){
+            public void onSpecialKey(Field field, EventObject e) {
+                if (e.getKey()==EventObject.RETURN){
+                    listener.onClick(login, e);
+                }
+            }
+
+        };
+        username.addListener(loginKeyListener);
         add(username);
-        
-        // TODO KeyListener or TextfieldListener for "Return" Button
-        username.addListener(new TextFieldListenerAdapter(){
-        });
         
         password = new TextField(constants.password(), "password");
         password.setAllowBlank(false);
         password.setInputType("password");
+        password.addListener(loginKeyListener);
         add(password);
         
     }
@@ -76,8 +85,6 @@ public class Login extends FormPanel {
         buttons[2] = passwordForgotten;
         
         setButtons(buttons);
-        // setMinButtonWidth(50);
-        // setDraggable(true);
         
         setShadow(true);
         setPaddings(5);
