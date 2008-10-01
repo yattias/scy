@@ -54,7 +54,7 @@ public class MapServiceSwitch implements MapServiceAsync {
     }
 
     public void addMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
-    // TODO Auto-generated method stub
+        mapService.addMarker(marker, callback);
     }
 
     public void getMarkerAtPosition(double latitude, double longitude, AsyncCallback<MarkerBean> callback) {
@@ -85,12 +85,11 @@ public class MapServiceSwitch implements MapServiceAsync {
     }
 
     public void getMarkers(AsyncCallback<Collection<MarkerBean>> callback) {
-    // TODO Auto-generated method stub
+        mapService.getMarkers(callback);
     }
 
     public void removeMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
-    // TODO Auto-generated method stub
-
+        mapService.removeMarker(marker, callback);
     }
 
     public void updateMarkerInfo(final MarkerBean marker, final String newInfo, AsyncCallback<Boolean> callback) {
@@ -114,8 +113,7 @@ public class MapServiceSwitch implements MapServiceAsync {
         mapService.updateMarkerInfo(marker, newInfo, callback);
     }
 
-    public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude, AsyncCallback<Boolean> callback) {
-    // TODO Auto-generated method stub
-
+    public void updateMarkerPosition(MarkerBean marker, double newLatitude, double newLongitude, AsyncCallback<Boolean> callback) {
+        mapService.updateMarkerPosition(marker, newLatitude, newLongitude, callback);
     }
 }
