@@ -157,7 +157,7 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         createPolygon.addListener( new MarkAreaListener() );
         toolbar.addButton(createPolygon);
         
-        add(toolbar);
+        setTopToolbar(toolbar);
     }
 
     /**
