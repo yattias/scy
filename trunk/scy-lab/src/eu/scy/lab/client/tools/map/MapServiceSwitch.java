@@ -11,116 +11,111 @@ import com.google.gwt.gears.client.database.ResultSet;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import eu.scy.lab.client.util.Gears;
+
 public class MapServiceSwitch implements MapServiceAsync {
 
-	private MapServiceAsync mapService;
-	private Database db;
+    private MapServiceAsync mapService;
 
-	private boolean online = true;
+    private Database db;
 
-	public static MapServiceSwitch instance;
-	
-	public static MapServiceSwitch getInstance() {
-		if (instance == null) {
-			instance = new MapServiceSwitch();
-		}
-		return instance;
-	}
-	
-	private MapServiceSwitch() {
-		this.mapService = (MapServiceAsync) GWT.create(MapService.class);
+    private boolean online = true;
 
-		if (checkForGears() == true) {
-			try {
-				db = Factory.getInstance().createDatabase();
-				// Create the database if it doesn't exist.
-				db.open("scy-tools-map");
-				db.execute("create table if not exists markers (Latitude double, Longitude double, Info varchar(255) )");
-			} catch (Exception e) {
-				Window.alert(e.toString());
-			}
-		}
-	}
+    public static MapServiceSwitch instance;
 
-	public boolean getOnline() {
-		return online;
-	}
-	
-	public void setOnline(boolean online) {
-		this.online = online;
-	}
-	
-	public native boolean checkForGears() /*-{
- 	//FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
-		if ($wnd.google) {
-			return true;
-		} else {
-			return false;
-		}
-    }-*/;
+    public static MapServiceSwitch getInstance() {
+        if (instance == null) {
+            instance = new MapServiceSwitch();
+        }
+        return instance;
+    }
 
-	public void addMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
-		// TODO Auto-generated method stub
-	}
+    private MapServiceSwitch() {
+        this.mapService = (MapServiceAsync) GWT.create(MapService.class);
 
-	public void getMarkerAtPosition(double latitude, double longitude, AsyncCallback<MarkerBean> callback) {
-		if (online) {
-			mapService.getMarkerAtPosition(latitude, longitude, callback);
-		} else {
-			if (checkForGears()) {
-				MarkerBean bean = new MarkerBean();
-				try {
-					Window.alert("getting marker info from db");
-					ResultSet rs = db.execute("select info from markers where latitude = ? and longitude = ?", Double.toString(latitude), Double.toString(longitude) );
-					if (rs.isValidRow()) {
-						bean.setInfo(rs.getFieldAsString(0));
-					} else {
-						Window.alert("no valid row!");
-					}
-					rs.close();
-					callback.onSuccess(bean);
-				} catch (DatabaseException e) {
-					Window.alert("Database lookup failed : " + e.getMessage());
-					callback.onFailure(new Throwable("Database lookup failed : " + e.getMessage()) );
-				}
+        if (Gears.checkForGears() == true) {
+            try {
+                db = Factory.getInstance().createDatabase();
+                // Create the database if it doesn't exist.
+                db.open("scy-tools-map");
+                db.execute("create table if not exists markers (Latitude double, Longitude double, Info varchar(255) )");
+            } catch (Exception e) {
+                Window.alert(e.toString());
+            }
+        }
+    }
 
-			} else {
-				callback.onFailure(new Throwable("No gears available."));
-			}
-		}
-	}
+    public boolean getOnline() {
+        return online;
+    }
 
-	public void getMarkers(AsyncCallback<Collection<MarkerBean>> callback) {
-		// TODO Auto-generated method stub
-	}
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
-	public void removeMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
-		// TODO Auto-generated method stub
+    public void addMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
+    // TODO Auto-generated method stub
+    }
 
-	}
+    public void getMarkerAtPosition(double latitude, double longitude, AsyncCallback<MarkerBean> callback) {
+        if (online) {
+            mapService.getMarkerAtPosition(latitude, longitude, callback);
+        } else {
+            if (Gears.checkForGears()) {
+                MarkerBean bean = new MarkerBean();
+                try {
+                    Window.alert("getting marker info from db");
+                    ResultSet rs = db.execute("select info from markers where latitude = ? and longitude = ?", Double.toString(latitude), Double.toString(longitude));
+                    if (rs.isValidRow()) {
+                        bean.setInfo(rs.getFieldAsString(0));
+                    } else {
+                        Window.alert("no valid row!");
+                    }
+                    rs.close();
+                    callback.onSuccess(bean);
+                } catch (DatabaseException e) {
+                    Window.alert("Database lookup failed : " + e.getMessage());
+                    callback.onFailure(new Throwable("Database lookup failed : " + e.getMessage()));
+                }
 
-	public void updateMarkerInfo(final MarkerBean marker, final String newInfo, AsyncCallback<Boolean> callback) {
-		if (checkForGears()) {
-			callback = new GearAsyncCallback<Boolean>(callback) {
-				@Override
-				protected void saveData(Boolean result) {
-					try {
-						Window.alert("Writing marker info to db: " + newInfo);
-						// FIXME: Need to use update if the marker is already there
-						db.execute("insert into markers values (?,?,?)", Double.toString(marker.getLatitude()), Double.toString(marker.getLongitude()), newInfo);
-					} catch (GearsException e) {
-						Window.alert("???" + e.getMessage());
-					}
-				}
-			};
-		} else {
-			Window.alert("No gears! could not update marker info locally.");
-		}
-		mapService.updateMarkerInfo(marker, newInfo, callback);
-	}
+            } else {
+                callback.onFailure(new Throwable("No gears available."));
+            }
+        }
+    }
 
-	public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude, AsyncCallback<Boolean> callback) {
-		// TODO Auto-generated method stub
+    public void getMarkers(AsyncCallback<Collection<MarkerBean>> callback) {
+    // TODO Auto-generated method stub
+    }
 
-	}
+    public void removeMarker(MarkerBean marker, AsyncCallback<Boolean> callback) {
+    // TODO Auto-generated method stub
+
+    }
+
+    public void updateMarkerInfo(final MarkerBean marker, final String newInfo, AsyncCallback<Boolean> callback) {
+        if (Gears.checkForGears()) {
+            callback = new GearAsyncCallback<Boolean>(callback) {
+
+                @Override
+                protected void saveData(Boolean result) {
+                    try {
+                        Window.alert("Writing marker info to db: " + newInfo);
+                        // FIXME: Need to use update if the marker is already there
+                        db.execute("insert into markers values (?,?,?)", Double.toString(marker.getLatitude()), Double.toString(marker.getLongitude()), newInfo);
+                    } catch (GearsException e) {
+                        Window.alert("???" + e.getMessage());
+                    }
+                }
+            };
+        } else {
+            Window.alert("No gears! could not update marker info locally.");
+        }
+        mapService.updateMarkerInfo(marker, newInfo, callback);
+    }
+
+    public void updateMarkerPosition(MarkerBean marker, double latitude, double longitude, AsyncCallback<Boolean> callback) {
+    // TODO Auto-generated method stub
+
+    }
 }
