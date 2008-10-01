@@ -54,10 +54,10 @@ public class Gears {
         if (checkForGears() == false) {
             modeButton.setText("offline mode not available: Please install Gears.");
             modeButton.setEnableToggle(false);
-        } else if (isOnline()) {
-            modeButton.setText("work offline");
         } else if (canServeLocally()) {
             modeButton.setText("work online");
+        } else if (isOnline()) {
+            modeButton.setText("work offline");
         }
     }
 }

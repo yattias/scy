@@ -20,7 +20,9 @@ public class ModeSwitcher extends ButtonListenerAdapter {
         }
 
         if (Gears.isOnline() == false) {
+            LoadIndicator.start("Switching to online mode.");
             Gears.setOnline(true);
+            LoadIndicator.stop();
             return;
         }
         
