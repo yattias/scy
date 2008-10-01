@@ -1,6 +1,5 @@
 package eu.scy.lab.client.desktop;
 
-
 import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.widgets.Panel;
@@ -20,194 +19,129 @@ import eu.scy.lab.client.startupview.lastMission.Mission;
 
 public class Desktop extends Panel {
 
-	private Panel navigationPanel;
+    private Panel navigationPanel;
 
-	private Panel workspacePanel;
-	
-	private TabbedWorkspace workspace;
+    private Panel workspacePanel;
 
-	public Desktop() {
+    private TabbedWorkspace workspace;
 
-		setLayout(new BorderLayout());
+    public Desktop() {
+        setLayout(new BorderLayout());
 
-		navigationPanel = createNavigationPanel();
-		// navigationPanel.setAutoWidth(true);
-		navigationPanel.setIconCls("scylogo16x16");
-		navigationPanel.setTitle("SCY-Lab");
-		navigationPanel.setHeight(250);
-		navigationPanel.setWidth(202);
-		navigationPanel.setCollapsible(true);
-		navigationPanel.setAutoScroll(true);
-		navigationPanel.setBorder(true);
+        navigationPanel = createNavigationPanel();
+        navigationPanel.setIconCls("scylogo16x16");
+        navigationPanel.setTitle("SCY-Lab");
+        navigationPanel.setCollapsible(true);
+        navigationPanel.setAutoScroll(false);
+        navigationPanel.setBorder(true);
 
-		BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
-		// westData.setSplit(true);
-		// westData.setMinSize(202);
-		// westData.setMaxSize(400);
-		westData.setMargins(new Margins(0, 0, 5, 0));
-		westData.setFloatable(true);
-		add(navigationPanel, westData);
+        BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
+        westData.setSplit(true);
+        westData.setMinSize(150);
+        westData.setMaxSize(400);
+        westData.setMargins(new Margins(0, 0, 5, 0));
+        westData.setFloatable(true);
+        add(navigationPanel, westData);
 
-		workspacePanel = getWorkspace();
-		workspacePanel.setTitle("Workspace");
+        workspacePanel = getWorkspace();
+        workspacePanel.setTitle("Workspace");
 
-		add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
+        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
 
-		@SuppressWarnings("unused")
-		Viewport viewPort = new Viewport(this);
-	}
-	
-	public Desktop(Mission mission) {
-//		this();
-		
-		setLayout(new BorderLayout());
+        @SuppressWarnings("unused")
+        Viewport viewPort = new Viewport(this);
+    }
 
-		navigationPanel = createNavigationPanel();
-		// navigationPanel.setAutoWidth(true);
-		navigationPanel.setIconCls("scylogo16x16");
-		navigationPanel.setTitle("SCY-Lab");
-		navigationPanel.setHeight(250);
-		navigationPanel.setWidth(202);
-		navigationPanel.setCollapsible(true);
-		navigationPanel.setAutoScroll(true);
-		navigationPanel.setBorder(true);
+    public Desktop(Mission mission) {
+        setLayout(new BorderLayout());
 
-		BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
-		// westData.setSplit(true);
-		// westData.setMinSize(202);
-		// westData.setMaxSize(400);
-		westData.setMargins(new Margins(0, 0, 5, 0));
-		westData.setFloatable(true);
-		add(navigationPanel, westData);
+        navigationPanel = createNavigationPanel();
+        navigationPanel.setIconCls("scylogo16x16");
+        navigationPanel.setTitle("SCY-Lab");
+        navigationPanel.setCollapsible(true);
+        navigationPanel.setAutoScroll(false);
+        navigationPanel.setBorder(true);
+//        navigationPanel.setLayout(new FitLayout());
 
-		workspacePanel = getWorkspace();
-		workspacePanel.setTitle("Workspace");
+        BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
+        westData.setSplit(true);
+        westData.setMinWidth(150);
+        westData.setMinSize(202);
+        westData.setMaxSize(400);
+        westData.setMargins(new Margins(0, 0, 5, 0));
+        westData.setFloatable(true);
+        add(navigationPanel, westData);
 
-		add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
+        workspacePanel = getWorkspace();
+        workspacePanel.setTitle("Workspace");
 
-		@SuppressWarnings("unused")
-		
-		//TODO connect to real missions-outline
-		Panel panel = new Panel("Mission "+ mission.getTitle());
-		panel.add(new Label("Missionsname: "+ mission.getTitle()));
-		panel.add(new Label("Last Visited: "+ mission.getLastVisitedDate()));
-//		workspace.setActiveTab((workspace.getItems().length-1));
-		
-//		workspace.add(panel);
-//		workspace.setActiveTab(workspace.getItems().length-1);
-		
-		BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
-		panel.setIconCls("scylogo16x16");
-//		panel.setTitle("SCY-Lab");
-		panel.setHeight(55);
-//		navigationPanel.setWidth(202);
-		panel.setCollapsible(true);
-//		panel.setAutoScroll(true);
-		panel.setBorder(true);
-		add(panel,northData);
-		
-		Viewport viewPort = new Viewport(this);
-		
-	}
+        add(workspacePanel, new BorderLayoutData(RegionPosition.CENTER));
 
-	public TabbedWorkspace getWorkspace() {
-		if (workspace == null) {
-			workspace = new TabbedWorkspace();
-			workspace.add(new EloBrowser());
-		}
-		return workspace;
-	}
-	
-	private Panel createNavigationPanel() {
+        // TODO connect to real missions-outline
+        Panel panel = new Panel("Mission " + mission.getTitle());
+        panel.add(new Label("Missionsname: " + mission.getTitle()));
+        panel.add(new Label("Last Visited: " + mission.getLastVisitedDate()));
 
-		// Adding the tools, buddies, etc to navigation
-		ToolsTreeNavigation tools = new ToolsTreeNavigation(this);
-		Buddies buddies = new Buddies();
-		Tasks tasks = new Tasks();
+        BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
+        panel.setIconCls("scylogo16x16");
+        panel.setHeight(55);
+        panel.setCollapsible(true);
+        panel.setBorder(true);
+        add(panel, northData);
 
-		// Setting the Layout of the navigation-panel content
-		Panel navigationPanel = new Panel();
-		navigationPanel.setAutoScroll(false);
+        @SuppressWarnings("unused")
+        Viewport viewPort = new Viewport(this);
+    }
 
-		navigationPanel.setLayout(new RowLayout());
-		// navigationPanel.addListener(panelListener);
+    public TabbedWorkspace getWorkspace() {
+        if (workspace == null) {
+            workspace = new TabbedWorkspace();
+            workspace.add(new EloBrowser());
+        }
+        return workspace;
+    }
 
+    private Panel createNavigationPanel() {
 
-		// BaseItemListenerAdapter baseListener = new BaseItemListenerAdapter(){
-		// public void onActivate(BaseItem item){
-		// expand();
-		// }
-		// public void onDeactivate(BaseItem item){
-		// collapse();
-		// }
-		// };
+        // Adding the tools, buddies, etc to navigation
+        ToolsTreeNavigation tools = new ToolsTreeNavigation(this);
+        Buddies buddies = new Buddies();
+        Tasks tasks = new Tasks();
 
+        // Setting the Layout of the navigation-panel content
+        Panel navigationPanel = new Panel();
+        navigationPanel.setWidth(202);
+        navigationPanel.setAutoScroll(false);
 
-		// You have to set fixed width to suppress auto-resize while collapsing
-		// panels
-		Panel panelTools = new Panel("Tools", "");
+        navigationPanel.setLayout(new RowLayout());
 
-		panelTools.setCollapsible(true);
-		panelTools.setWidth(200);
-		panelTools.setIconCls("settings-icon");
-		navigationPanel.add(panelTools);
-		panelTools.setAutoScroll(false);
-		panelTools.add(tools.getPanel(), new RowLayoutData());
+        // You have to set fixed width to suppress auto-resize while collapsing panels
+        Panel panelTools = new Panel("Tools", "");
 
-//		ListenerConfig clickListenerConfig = new ListenerConfig();
-//		
-//		EventManager.addListener(panelTools.getElement(), "mousedown",
-//				new EventCallback() {
-//			public void execute(EventObject e) {
-//				Window.alert("mousedown fired");
-//			}
-//		}, clickListenerConfig);
-		
-		
-		final Panel panelBuddies = new Panel("Buddies", "");
-		panelBuddies.setIconCls("folder-icon");
-		panelBuddies.setCollapsible(true);
-		panelBuddies.setWidth(200);
-//		panelBuddies.setCollapsed(true);
-		navigationPanel.add(panelBuddies);
-		panelBuddies.setAutoScroll(true);
-		panelBuddies.setBorder(false);
-		panelBuddies.setTopToolbar(buddies.createToolbar());
-		panelBuddies.add(buddies.getPanel(), new RowLayoutData());
-		
-//		panelBuddies.getTopToolbar().addEvent("click");
-//		panelBuddies.addListener("mouseDown", new Function(){
-//			public void execute(){
-//				Window.alert("click performed");
-//			}
-//		});
-		
-//		Function function = new Function(){
-//			public void execute() {
-//				// TODO Auto-generated method stub
-//				panelBuddies.collapse();
-//				Window.alert("event fired");
-//			}
-//		};
-//		Toolbar toolbar = new Toolbar();
-//		toolbar.addFill();
-//		toolbar.addListener("click", function);
-//		panelBuddies.setTopToolbar(toolbar);
-		
-		
-		
+        panelTools.setCollapsible(true);
+        panelTools.setIconCls("settings-icon");
+        navigationPanel.add(panelTools);
+        panelTools.setAutoScroll(false);
+        panelTools.add(tools.getPanel(), new RowLayoutData());
 
-		Panel panelTasks = new Panel("Tasks", "");
-		panelTasks.setIconCls("user-add-icon");
-		panelTasks.setCollapsible(true);
-		panelTasks.setWidth(200);
-//		panelTasks.setCollapsed(true);
-		panelTasks.setAutoScroll(false);
-		panelTasks.setAutoHeight(true);
-		navigationPanel.add(panelTasks);
-		panelTasks.setAutoScroll(true);
-		panelTasks.add(tasks.getPanel(), new RowLayoutData());
+        final Panel panelBuddies = new Panel("Buddies", "");
+        panelBuddies.setIconCls("folder-icon");
+        panelBuddies.setCollapsible(true);
+        navigationPanel.add(panelBuddies);
+        panelBuddies.setAutoScroll(true);
+        panelBuddies.setBorder(false);
+        panelBuddies.setTopToolbar(buddies.createToolbar());
+        panelBuddies.add(buddies.getPanel(), new RowLayoutData());
 
-		return navigationPanel;
-	}
+        Panel panelTasks = new Panel("Tasks", "");
+        panelTasks.setIconCls("user-add-icon");
+        panelTasks.setCollapsible(true);
+        panelTasks.setAutoScroll(false);
+        panelTasks.setAutoHeight(true);
+        navigationPanel.add(panelTasks);
+        panelTasks.setAutoScroll(true);
+        panelTasks.add(tasks.getPanel(), new RowLayoutData());
+        
+        return navigationPanel;
+    }
 }
