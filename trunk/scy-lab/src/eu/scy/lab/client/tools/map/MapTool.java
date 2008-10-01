@@ -17,6 +17,7 @@ import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.maps.client.overlay.MarkerOptions;
 import com.google.gwt.maps.client.overlay.PolyStyleOptions;
 import com.google.gwt.maps.client.overlay.Polygon;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormHandler;
@@ -106,8 +107,12 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         currentLocationButton.addListener(new ButtonListenerAdapter() {
 
             public void onClick(com.gwtext.client.widgets.Button button, EventObject e) {
-                LoadIndicator.start("Getting your location...");
-                gotoCurrentPositionJSNI();
+                if (Gears.checkForGears()) {
+                    LoadIndicator.start("Getting your location...");
+                    gotoCurrentPositionJSNI();
+                } else {
+                    Window.alert("Could not get your current Location: Gears is not installed.");
+                }
             }
         });
         toolbar.addButton(currentLocationButton);
@@ -131,7 +136,11 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         formPanel.addFormHandler(new FormHandler() {
 
             public void onSubmit(FormSubmitEvent event) {
-                showAddress(addressBox.getText());
+                if (addressBox.getText().equals("")) {
+                    Window.alert("Please enter an address.");
+                } else {
+                    showAddress(addressBox.getText());
+                }
                 event.setCancelled(true);
             }
 
@@ -223,12 +232,6 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
     }
 
     public native void gotoCurrentPositionJSNI() /*-{
-        //FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
-        if (!$wnd.google ) {
-            //location.href = "http://gears.google.com/?action=install&message=<your welcome message>"&return=<your website url>";
-            alert("Unable to get your current position: Gears is not installed.");
-            return;
-         }
         try {
             var geolocation = $wnd.google.gears.factory.create('beta.geolocation');
             // For debugging use: alert('your position: ' + p.latitude + ', ' + p.longitude)
