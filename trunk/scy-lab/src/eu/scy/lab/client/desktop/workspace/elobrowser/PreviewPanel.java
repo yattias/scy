@@ -9,143 +9,152 @@ import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class PreviewPanel extends Panel {
 
-	public static final String DEFAULT_IMAGE_URL = "res/images/defaultIcon.png";
-	private Label nameLabel;
-	private String name;
-	private Label authorLabel;
-	private String author;
-	private Label dateLabel;
-	private String date;
-	private Button workOnElo;
-	private String iconUrl;
-	private Image img;
+    public static final String DEFAULT_IMAGE_URL = "res/images/defaultIcon.png";
 
-	public PreviewPanel() {
-		this("", "", "", DEFAULT_IMAGE_URL);
-	}
+    private Label nameLabel;
 
-	public PreviewPanel(String name, String author, String date) {
-		this(name, author, date, DEFAULT_IMAGE_URL);
-	}
+    private String name;
 
-	public PreviewPanel(String name, String author, String date, String imageUrl) {
-		super("Preview");
-		setFrame(true);
-		// setLayout (new FitLayout());
-		setLayout(new HorizontalLayout(15));
-		setBorder(true);
-		this.name = name;
-		this.author = author;
-		this.date = date;
-		this.iconUrl = imageUrl;
+    private Label authorLabel;
 
-		//scaling the image
-		img = new Image(iconUrl);
-		double scale_factor = img.getHeight() / 50.0;
-		img.setHeight("50px");
-		int width = (int) (img.getWidth() / scale_factor);
-		img.setWidth(Integer.toString(width));
+    private String author;
 
-		Panel subpanel = new Panel();
-		subpanel.setBorder(false);
-		subpanel.setLayout(new VerticalLayout());
+    private Label dateLabel;
 
-		nameLabel = new Label("Author: " + author);
-		subpanel.add(nameLabel);
-		authorLabel = new Label("Created by: " + name);
-		subpanel.add(authorLabel);
-		dateLabel = new Label("Date: " + date);
-		subpanel.add(dateLabel);
+    private String date;
 
-		workOnElo = new Button("Work on ELO");
+    private Button workOnElo;
 
-		add(img);
-		add(subpanel);
-		addButton(workOnElo);
+    private String iconUrl;
 
-	}
+    private Image img;
 
-	public Panel getPreviewPanel() {
+    public PreviewPanel() {
+        this("", "", "", DEFAULT_IMAGE_URL);
+    }
 
-		return this;
-	}
+    public PreviewPanel(String name, String author, String date) {
+        this(name, author, date, DEFAULT_IMAGE_URL);
+    }
 
-	public void update(String name, String author, String date, String imageUrl) {
+    public PreviewPanel(String name, String author, String date, String imageUrl) {
+        super("Preview");
+        setFrame(true);
+        // setLayout (new FitLayout());
+        setLayout(new HorizontalLayout(15));
+        setBorder(true);
+        this.name = name;
+        this.author = author;
+        this.date = date;
+        this.iconUrl = imageUrl;
 
-		// scaling the updated image proportional
-		img.setUrl(imageUrl);
-		//creating a temporary new Instance, because when setting a new ImageURL, the measurements aren't updated
-		Image tempImg = new Image(imageUrl);
-		
-		double oldWidth = tempImg.getWidth();
-		double oldHeight = tempImg.getHeight();
-		int width = (int) ((double)(oldWidth*50.0) / ((double) oldHeight));
-		img.setSize(Integer.toString(width)+"px","50px");
+        // scaling the image
+        img = new Image(iconUrl);
+        double scale_factor = img.getHeight() / 50.0;
+        img.setHeight("50px");
+        int width = (int) (img.getWidth() / scale_factor);
+        img.setWidth(Integer.toString(width));
 
-		//update labels
-		nameLabel.setText("Author: " + author);
-		authorLabel.setText("Created by: " + name);
-		dateLabel.setText("Date: " + date);
-	}
+        Panel subpanel = new Panel();
+        subpanel.setBorder(false);
+        subpanel.setLayout(new VerticalLayout());
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+        nameLabel = new Label("Author: " + author);
+        subpanel.add(nameLabel);
+        authorLabel = new Label("Created by: " + name);
+        subpanel.add(authorLabel);
+        dateLabel = new Label("Date: " + date);
+        subpanel.add(dateLabel);
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+        workOnElo = new Button("Work on ELO");
 
-	/**
-	 * @return the author
-	 */
-	public String getAuthor() {
-		return author;
-	}
+        add(img);
+        add(subpanel);
+        addButton(workOnElo);
 
-	/**
-	 * @param author
-	 *            the author to set
-	 */
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    }
 
-	/**
-	 * @return the date
-	 */
-	public String getDate() {
-		return date;
-	}
+    public Panel getPreviewPanel() {
 
-	/**
-	 * @param date
-	 *            the date to set
-	 */
-	public void setDate(String date) {
-		this.date = date;
-	}
+        return this;
+    }
 
-	/**
-	 * @return the iconUrl
-	 */
-	public String getIconUrl() {
-		return iconUrl;
-	}
+    public void update(String name, String author, String date, String imageUrl) {
 
-	/**
-	 * @param iconUrl
-	 *            the iconUrl to set
-	 */
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
-	}
+        // scaling the updated image proportional
+        img.setUrl(imageUrl);
+        // creating a temporary new Instance, because when setting a new ImageURL, the measurements aren't updated
+        Image tempImg = new Image(imageUrl);
+
+        double oldWidth = tempImg.getWidth();
+        double oldHeight = tempImg.getHeight();
+        int width = (int) ((double) (oldWidth * 50.0) / ((double) oldHeight));
+        img.setSize(Integer.toString(width) + "px", "50px");
+
+        // update labels
+        nameLabel.setText("Author: " + author);
+        authorLabel.setText("Created by: " + name);
+        dateLabel.setText("Date: " + date);
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the author
+     */
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * @param author
+     *            the author to set
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
+     * @return the date
+     */
+    public String getDate() {
+        return date;
+    }
+
+    /**
+     * @param date
+     *            the date to set
+     */
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    /**
+     * @return the iconUrl
+     */
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    /**
+     * @param iconUrl
+     *            the iconUrl to set
+     */
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
 
 }
