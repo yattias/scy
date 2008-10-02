@@ -9,3 +9,14 @@ This page describes how to use, and where to find the SCY JIRA-installation
 To log on to the SCY JIRA-installation go to *http://enovate.no/jira *
 
 To create a user, send an e-mail to *oyvind@enovate.no *.
+
+= Integration into Mylyn (Eclipse) =
+
+# Open the _Task Repositories_ view in Eclipse (Ctrl+3 + type Task Repositories + Enter)
+# Click (data base like) icon on top of view or right click and klick _Add Task Repository_
+# Select JIRA and click on next (if you do not see JIRA, then you have to install the connector - URL to come soon)
+# Put values and validate:
+* Server: https://base.enovate.no
+* Label: SCY (Enovate)
+* Your credentials (see above)
+# Finish dialog
