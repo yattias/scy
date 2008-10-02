@@ -1,0 +1,11 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This page describes how to use, and where to find the SCY JIRA-installation
+
+= Details =
+
+To log on to the SCY JIRA-installation go to *http://enovate.no/jira *
+
+To create a user, send an e-mail to *oyvind@enovate.no *.
