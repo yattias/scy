@@ -1,28 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>scy-lab</display-name>
-  <servlet>
-  	<servlet-name>UserManagement</servlet-name>
-  	<servlet-class>eu.scy.lab.server.UserManagementImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>UserManagement</servlet-name>
-  	<url-pattern>/usermanagement</url-pattern>
-  </servlet-mapping>
-    <servlet>
-  	<servlet-name>MapService</servlet-name>
-  	<servlet-class>eu.scy.lab.server.tools.map.MapServiceImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>MapService</servlet-name>
-  	<url-pattern>/mapService</url-pattern>
-  </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>scy-lab</display-name>
+	<servlet>
+		<servlet-name>UserManagement</servlet-name>
+		<servlet-class>eu.scy.lab.server.UserManagementImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserManagement</servlet-name>
+		<url-pattern>/usermanagement</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>MapService</servlet-name>
+		<servlet-class>eu.scy.lab.server.tools.map.MapServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MapService</servlet-name>
+		<url-pattern>/mapService</url-pattern>
+	</servlet-mapping>
+
+	<!--
+		- Loads the root application context of this web app at startup, - by
+		default from "/WEB-INF/applicationContext.xml". - Note that you need
+		to fall back to Spring's ContextLoaderServlet for - J2EE servers that
+		do not follow the Servlet 2.4 initialization order. - - Use
+		WebApplicationContextUtils.getWebApplicationContext(servletContext) -
+		to access it anywhere in the web application, outside of the
+		framework. - - The root context is the parent of all servlet-specific
+		contexts. - This means that its beans are automatically available in
+		these child contexts, - both for getBean(name) calls and (external)
+		bean references.
+	-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+		</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>RepositoryService</servlet-name>
+		<servlet-class>eu.scy.lab.server.RepositoryServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RepositoryService</servlet-name>
+		<url-pattern>/repositoryService</url-pattern>
+	</servlet-mapping>
+	
+
+	<welcome-file-list>
+		<welcome-file>SCYLab.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>
