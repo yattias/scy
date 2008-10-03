@@ -8,6 +8,8 @@ import eu.scy.core.persistence.UserDAO;
 import java.util.List;
 import java.util.LinkedList;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -17,6 +19,7 @@ import java.util.LinkedList;
  */
 public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
+    private static Logger log = Logger.getLogger(UserDAOHibernate.class);
 
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from User where userName like :username")
@@ -25,12 +28,18 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
     }
 
     public User addUser(Project project, Group group, User user) {
+
+        if(project == null) project = getDefaultProject();
+        if(group == null) group = getDefaultGroup();
+
         user.setProject(project);
         user.setGroup(group);
         save(user);
 
         return user;
     }
+
+
 
     public List getUsers() {
         return getSession().createQuery("from User order by userName ")
@@ -78,7 +87,26 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
     }
 
     public Boolean loginUser(String username, String password) {
-        return true;    
+        User user = (User) getSession().createQuery("from User where userName = :username and password = :password")
+                .setString("username", username)
+                .setString("password", password)
+                .setMaxResults(1)
+                .uniqueResult();
+        return user != null;
     }
 
+    public Project getDefaultProject() {
+        log.info("Getting default project!! REALLY HACKY METHOD, but works for now. Need to know more about the future structure to create a good default....");
+        return (Project) getSession().createQuery("from Project")
+                .setMaxResults(1)
+                .uniqueResult();
+    }
+
+    private Group getDefaultGroup() {
+        return (Group) getSession().createQuery("from Group")
+                .setMaxResults(1)
+                .uniqueResult();
+
+
+    }
 }
