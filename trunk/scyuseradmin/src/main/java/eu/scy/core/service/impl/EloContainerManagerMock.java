@@ -155,53 +155,5 @@ public class EloContainerManagerMock implements EloContainerManager {
 
 
 
-    JDomStringConversion jdomStringConversion = new JDomStringConversion();
-
-	@Autowired
-	IMetadataTypeManager metadataTypeManager;
-	@Resource(name = "uriKey")
-	IMetadataKey uriKey;
-	@Resource(name = "titleKey")
-	IMetadataKey titleKey;
-	@Resource(name = "formatKey")
-	IMetadataKey formatKey;
-	@Resource(name = "dateCreatedKey")
-	IMetadataKey dateCreatedKey;
-	@Resource(name = "missionKey")
-	IMetadataKey missionKey;
-	@Resource(name = "authorKey")
-	IMetadataKey authorKey;
-	@Resource(name = "testStringListKey")
-	IMetadataKey testStringListKey;
-
-	@Autowired
-	IELOFactory jdomBasicELOFactory;
-
-	IMetadata<IMetadataKey> metadata = null;
-
-
-    IMetadata<IMetadataKey> createMetadata2() throws Exception
-	{
-		IMetadata<IMetadataKey> metadata = new BasicMetadata<IMetadataKey>();
-		metadata.setDefaultLanguage(Locale.getDefault());
-		MetadataSingleLanguageValueAccessor<String> titleValue = new MetadataSingleLanguageValueAccessor<String>(
-					metadata, titleKey);
-		titleValue.setValue("default name");
-		titleValue.setValue("canada name", Locale.CANADA);
-		new MetadataSingleUniversalValueAccessor<String>(metadata, formatKey).setValue("drawing");
-		new MetadataSingleUniversalValueAccessor<Long>(metadata, dateCreatedKey).setValue(System
-					.currentTimeMillis());
-		new MetadataSingleUniversalValueAccessor<URI>(metadata, missionKey).setValue(new URI(
-					"roolo://somewhere/myMission.mission"));
-		new MetadataListUniversalValueAccessor<Contribute>(metadata, authorKey)
-					.addValue(new Contribute("my vcard", System.currentTimeMillis()));
-		MetadataListLanguagesValueAccessor<String> testStringListValue = new MetadataListLanguagesValueAccessor<String>(
-					metadata, testStringListKey);
-		testStringListValue.addValue("een", new Locale("NL"));
-		testStringListValue.addValue("twee", new Locale("NL"));
-		testStringListValue.addValue("one", new Locale("EN"));
-		testStringListValue.addValue("two", new Locale("EN"));
-		return metadata;
-	}
 
 }
