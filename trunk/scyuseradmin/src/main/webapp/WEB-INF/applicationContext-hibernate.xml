@@ -76,6 +76,7 @@
 
     <bean id="eloContainerManager" class="eu.scy.core.service.impl.EloContainerManagerMock">
         <property name="repository" ref="repository"/>
+        <property name="factory" ref="eloFactory"/>
     </bean>
 
 
