@@ -11,7 +11,6 @@ import roolo.api.IMetadata;
 import roolo.api.IMetadataKey;
 import roolo.api.IMetadataValueContainer;
 import roolo.cms.elo.JDomStringConversion;
-import colab.vt.whiteboard.component.XmlNames;
 
 public class DrawAnalyserAgent<T extends IELO<K>, K extends IMetadataKey> extends
 			AbstractRooloAgent<T, K>
@@ -83,19 +82,19 @@ public class DrawAnalyserAgent<T extends IELO<K>, K extends IMetadataKey> extend
 	{
 		Map<String, AtomicInteger> counters = nameCounters.getCounters();
 		setCountMetadataValue(metatdata.getMetadataValueContainer(lineCountKey), counters
-					.get(XmlNames.line));
+					.get(WhiteboardXmlNames.line));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(rectangleCountKey), counters
-					.get(XmlNames.rectangle));
+					.get(WhiteboardXmlNames.rectangle));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(ovalCountKey), counters
-					.get(XmlNames.oval));
+					.get(WhiteboardXmlNames.oval));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(freehandCountKey), counters
-					.get(XmlNames.freehand));
+					.get(WhiteboardXmlNames.freehand));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(textCountKey), counters
-					.get(XmlNames.text));
+					.get(WhiteboardXmlNames.text));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(imageCountKey), counters
-					.get(XmlNames.image));
+					.get(WhiteboardXmlNames.image));
 		setCountMetadataValue(metatdata.getMetadataValueContainer(tagPointerCountKey), counters
-					.get(XmlNames.tagPointer));
+					.get(WhiteboardXmlNames.tagPointer));
 	}
 
 	private void setCountMetadataValue(IMetadataValueContainer valueContainer, AtomicInteger value)
