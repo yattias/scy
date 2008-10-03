@@ -35,6 +35,7 @@
             /WEB-INF/applicationContext-hibernate.xml,
             /WEB-INF/applicationContext-myDefaultScyProjectSetup.xml,
             /WEB-INF/ws-beans.xml,
+            /WEB-INF/remoting-servlet.xml,
             /WEB-INF/applicationContext-roolo.xml
         </param-value>
     </context-param>
@@ -59,16 +60,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--servlet>
-        <servlet-name>spring-ws</servlet-name>
-        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>spring-ws</servlet-name>
-        <url-pattern>/ws/*</url-pattern>
-    </servlet-mapping-->
-
     <servlet>
         <servlet-name>CFXServlet</servlet-name>
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
@@ -80,13 +71,27 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/remoting/*</url-pattern>
+	</servlet-mapping>
+
+
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <listener>
+    <!--listener>
         <listener-class>eu.scy.core.startup.ConfigureDefaultSCYSettings</listener-class>
-    </listener>
+    </listener-->
 
 
 

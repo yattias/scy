@@ -60,7 +60,7 @@ public class BrokerProxyService implements BrokerProxy {
     public int destroyToken(String token) {
         // TODO Auto-generated method stub
         return 0;
-    }
+    }                                                                                         
 
     @WebMethod
     public Elo getElo(@WebParam(name="eloURI")String eloURI, @WebParam(name="token")String token) {

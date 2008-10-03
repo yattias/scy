@@ -77,4 +77,8 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                 */
     }
 
+    public Boolean loginUser(String username, String password) {
+        return true;    
+    }
+
 }
