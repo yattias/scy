@@ -1,0 +1,33 @@
+#summary Collection of usefull maven commands
+
+= Introduction =
+
+Usefull maven commands should be collected here, so we do not have to search them again and again.
+
+= Building = 
+== Avoid running tests ==
+Sometimes you do not want to run the test while building a project (even if this is not a good idea!). You can avoid this by using this VM argument: -Dmaven.test.skip=true
+
+*Example*
+
+`mvn -Dmaven.test.skip=true build`
+
+= Deployment =
+== Deploy a non-maven project ==
+If you have a non-maven project (a jar file) and you want to add this to a maven project, you should deploy that file either to your local repository or to the shared repository and add a maven dependey to your project. Maven has two plugins for that.
+
+=== Install locally ===
+
+Install-Plugin -> [http://maven.apache.org/plugins/maven-install-plugin/usage.html]
+
+*Example*
+
+`mvn install:install-file -Dfile=whiteboard.jar -DgroupId=colab.vt -DartifactId=whiteboard -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true`
+
+=== Deploy remotely ===
+
+Install-Remote -> [http://maven.apache.org/plugins/maven-deploy-plugin/usage.html]
+
+*Example*
+
+`mvn deploy:deploy-file -Durl=http://mvn.collide.info/content/repositories/releases/ -DrepositoryId=mvn_collide_releases -Dfile=whiteboard.jar -DgroupId=colab.vt -DartifactId=whiteboard -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true`
