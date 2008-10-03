@@ -6,6 +6,8 @@ import eu.scy.lab.client.UserManagement;
 
 public class UserManagementImpl extends RemoteServiceServlet implements UserManagement {
     
+    // Inject UserDAOHibernate
+    
     public boolean login(String username, String password) {
         return UserDB.authenticateUser(username, password);
     }
