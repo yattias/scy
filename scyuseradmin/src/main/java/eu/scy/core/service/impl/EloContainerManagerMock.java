@@ -44,6 +44,8 @@ public class EloContainerManagerMock implements EloContainerManager {
 
     private IRepository repository;
 
+    private JDomBasicELOFactory factory;
+
     private void initializeHack() {
          log.warn("*********************************************************");
         log.warn("*********************************************************");
@@ -57,6 +59,15 @@ public class EloContainerManagerMock implements EloContainerManager {
         Elo coolElo = new Elo();
         coolElo.setEloName("Henrik is a rabbagast!");
         getRepository().addELO(coolElo);
+    }
+
+
+    public void setFactory(JDomBasicELOFactory factory) {
+        this.factory = factory;
+    }
+
+    public JDomBasicELOFactory getFactory() {
+        return this.factory;
     }
 
     //TODO: REMOVE FASTER THAN LIGHTNING.... MEGA HACK
@@ -88,10 +99,10 @@ public class EloContainerManagerMock implements EloContainerManager {
         log.info("Starting to get elo.....") ;
         //JDomBasicELOFactory jdomBasicELOFactory = null;
         //BasicELO elo = new BasicELO();
-        if(jdomBasicELOFactory == null) {
+        if(getFactory() == null) {
             log.warn("FACTORY IS NULL!!!");
         }
-        IELO<IMetadataKey> elo = jdomBasicELOFactory.createELO();
+        IELO<IMetadataKey> elo = getFactory().createELO();
         log.info("Adding elo with id " + id) ;
         try {
             getRepository().addELO(elo);
@@ -167,7 +178,7 @@ public class EloContainerManagerMock implements EloContainerManager {
 	IELOFactory jdomBasicELOFactory;
 
 	IMetadata<IMetadataKey> metadata = null;
-    
+
 
     IMetadata<IMetadataKey> createMetadata2() throws Exception
 	{
