@@ -30,4 +30,5 @@ public interface UserDAO extends BaseDAO{
 
     public List getBuddies(User user);
 
+    Boolean loginUser(String username, String password);
 }
