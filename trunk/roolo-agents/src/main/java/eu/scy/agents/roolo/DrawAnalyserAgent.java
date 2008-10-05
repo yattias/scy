@@ -105,11 +105,11 @@ public class DrawAnalyserAgent<T extends IELO<K>, K extends IMetadataKey> extend
 		valueContainer.setValue(Long.valueOf(count));
 	}
 
-	public void setTypeKey(K typeKey)
-	{
-		this.formatKey = typeKey;
-	}
-
+//	public void setTypeKey(K typeKey)
+//	{
+//		this.formatKey = typeKey;
+//	}
+//
 	public void setJdomStringConversion(JDomStringConversion jdomStringConversion)
 	{
 		this.jdomStringConversion = jdomStringConversion;
