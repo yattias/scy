@@ -6,18 +6,18 @@ import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.Viewport;
-import com.gwtext.client.widgets.form.Label;
 import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.RowLayout;
 import com.gwtext.client.widgets.layout.RowLayoutData;
 
 import eu.scy.lab.client.desktop.buddies.Buddies;
+import eu.scy.lab.client.desktop.north.NorthPanel;
 import eu.scy.lab.client.desktop.tasks.Tasks;
 import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
 import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
-import eu.scy.lab.client.startupview.lastMission.Mission;
+import eu.scy.lab.client.mission.Mission;
 import eu.scy.lab.client.util.Gears;
 import eu.scy.lab.client.util.ModeSwitcher;
 
@@ -38,18 +38,10 @@ public class Desktop extends Panel {
     public Desktop(Mission mission) {
         buildGui();
         // TODO connect to real missions-outline
-        Panel panel = new Panel("Mission " + mission.getTitle());
-        panel.add(new Label("Missionsname: " + mission.getTitle()));
-        panel.add(new Label("Last Visited: " + mission.getLastVisitedDate()));
-
         BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
-        panel.setIconCls("scylogo16x16");
-        panel.setHeight(55);
-        panel.setCollapsible(true);
-        panel.setBorder(true);
-        add(panel, northData);
+        NorthPanel north = new NorthPanel(mission);
+        add(north, northData);
         
-        panel.fireEvent("onResize");
         @SuppressWarnings("unused")
         Viewport viewPort = new Viewport(this);
     }
@@ -63,6 +55,7 @@ public class Desktop extends Panel {
         navigationPanel.setCollapsible(true);
         navigationPanel.setAutoScroll(false);
         navigationPanel.setBorder(true);
+        navigationPanel.setMonitorResize(true);
 
         BorderLayoutData westData = new BorderLayoutData(RegionPosition.WEST);
         westData.setSplit(true);
@@ -100,6 +93,7 @@ public class Desktop extends Panel {
     }
 
     private Panel createNavigationPanel() {
+        setMonitorResize(true);
 
         // Adding the tools, buddies, etc to navigation
         ToolsTreeNavigation tools = new ToolsTreeNavigation(this);
@@ -138,6 +132,10 @@ public class Desktop extends Panel {
         panelTasks.setTopToolbar(tasks.getToolbar());
         navigationPanel.add(panelTasks);
         panelTasks.add(tasks.getGrid(), new RowLayoutData());
+        
+        //FIXME Dirty workaround: scrollbars are not visible in Navigation-Panel
+        panelTasks.collapse();
+        panelTasks.expand();
         
         return navigationPanel;
     }

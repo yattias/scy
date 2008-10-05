@@ -25,6 +25,7 @@ import com.gwtext.client.widgets.layout.HorizontalLayout;
 import com.gwtextux.client.data.PagingMemoryProxy;
 
 import eu.scy.lab.client.date.DateRenderer;
+import eu.scy.lab.client.mission.Mission;
 
 public class LastMissionPanel extends Panel {
 
