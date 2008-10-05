@@ -69,7 +69,7 @@ public class EloBrowser extends Panel {
         grid.setHeight(300);
         grid.setMonitorResize(true);
         grid.setAutoExpandColumn("name");
-        grid.setTitle("Grid that pages Local / In-Memory data");
+        grid.setTitle("Browse/Filter ELOs");
 
         final PagingToolbar pagingToolbar = new PagingToolbar(store);
         pagingToolbar.setPageSize(5);
@@ -155,7 +155,7 @@ public class EloBrowser extends Panel {
         southData.setSplit(true);
         southData.setSplitTip("Drag to resize");
         southData.setMinHeight(150);
-        previewPanel.setHeight(150);
+        previewPanel.setHeight(200);
         add(previewPanel.getPreviewPanel(), southData);
 
     }
@@ -177,7 +177,7 @@ public class EloBrowser extends Panel {
 
     // The local Array-Data to display in the Grid
     private Object[][] getGridData() {
-        return new Object[][] { new Object[] { "Kryptoarithmetics", "Sven", "9/1 12:00am", "res/icons/fireworks01.png" }, new Object[] { "Graphsearch", "Sven M", "9/2 12:00am", "res/icons/flash01.png" }, new Object[] { "Kryptoarithmetics II", "Sven", "9/4 12:00am", "res/icons/dreamweaver01.png" }, new Object[] { "Dancing with animals", "Sven", "9/5 12:01pm", "res/icons/openoffice_draw.png" }, new Object[] { "Kryptoarithmetics III", "Sven", "10/1 12:10am", "res/icons/openoffice_calc.png" } };
+        return new Object[][] { new Object[] { "Kryptoarithmetics", "Sven", "9/1 12:00am", "res/icons/App2.png" }, new Object[] { "Graphsearch", "Sven M", "9/2 12:00am", "res/icons/App1.png" }, new Object[] { "Kryptoarithmetics II", "Sven", "9/4 12:00am", "res/icons/Document.png" }, new Object[] { "Dancing with animals", "Sven", "9/5 12:01pm", "res/icons/Mail1.png" }, new Object[] { "Kryptoarithmetics III", "Sven", "10/1 12:10am", "res/icons/Help1.png" } };
     }
 
 }

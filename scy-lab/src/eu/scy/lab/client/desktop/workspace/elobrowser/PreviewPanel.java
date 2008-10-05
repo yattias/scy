@@ -1,6 +1,5 @@
 package eu.scy.lab.client.desktop.workspace.elobrowser;
 
-import com.google.gwt.user.client.ui.Image;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.form.Label;
@@ -26,8 +25,12 @@ public class PreviewPanel extends Panel {
     private Button workOnElo;
 
     private String iconUrl;
+    
+    private Panel subpanel;
 
-    private Image img;
+//    private Image img;
+    
+    private Label imageLabel;
 
     public PreviewPanel() {
         this("", "", "", DEFAULT_IMAGE_URL);
@@ -49,13 +52,18 @@ public class PreviewPanel extends Panel {
         this.iconUrl = imageUrl;
 
         // scaling the image
-        img = new Image(iconUrl);
-        double scale_factor = img.getHeight() / 50.0;
-        img.setHeight("50px");
-        int width = (int) (img.getWidth() / scale_factor);
-        img.setWidth(Integer.toString(width));
+//        img = new Image(iconUrl);
+        Label imageLabel = new Label();
+        imageLabel.setId("imagelabel");
+        imageLabel.setHtml("<p><center><img src=\"res/images/logo_orange.png\"></p>");
+       
+//        double scale_factor = img.getHeight() / 50.0;
+//        img.setHeight("50px");
+//        int width = (int) (img.getWidth() / scale_factor);
+//        img.setWidth(Integer.toString(width));
 
-        Panel subpanel = new Panel();
+        subpanel = new Panel();
+        subpanel.setId("subpanel");
         subpanel.setBorder(false);
         subpanel.setLayout(new VerticalLayout());
 
@@ -68,7 +76,8 @@ public class PreviewPanel extends Panel {
 
         workOnElo = new Button("Work on ELO");
 
-        add(img);
+//        add(img);
+        add(imageLabel);
         add(subpanel);
         addButton(workOnElo);
 
@@ -82,14 +91,23 @@ public class PreviewPanel extends Panel {
     public void update(String name, String author, String date, String imageUrl) {
 
         // scaling the updated image proportional
-        img.setUrl(imageUrl);
+//        img.setUrl(imageUrl);
+//        this.remove("imagelabel");
+//        imageLabel.destroy();
+        this.remove("subpanel");
+        imageLabel = new Label();
+        imageLabel.setId("imagelabel");
+        imageLabel.setHtml("<p><center><img src=\""+imageUrl+"\"></p>");
+        this.add(imageLabel);
+        this.add(subpanel);
+        
         // creating a temporary new Instance, because when setting a new ImageURL, the measurements aren't updated
-        Image tempImg = new Image(imageUrl);
-
-        double oldWidth = tempImg.getWidth();
-        double oldHeight = tempImg.getHeight();
-        int width = (int) ((double) (oldWidth * 50.0) / ((double) oldHeight));
-        img.setSize(Integer.toString(width) + "px", "50px");
+//        Image tempImg = new Image(imageUrl);
+//
+//        double oldWidth = tempImg.getWidth();
+//        double oldHeight = tempImg.getHeight();
+//        int width = (int) ((double) (oldWidth * 50.0) / ((double) oldHeight));
+//        img.setSize(Integer.toString(width) + "px", "50px");
 
         // update labels
         nameLabel.setText("Author: " + author);

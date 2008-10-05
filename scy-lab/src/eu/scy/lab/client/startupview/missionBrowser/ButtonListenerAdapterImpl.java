@@ -10,8 +10,8 @@ import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 
 import eu.scy.lab.client.desktop.Desktop;
-import eu.scy.lab.client.startupview.lastMission.InfoWindow;
-import eu.scy.lab.client.startupview.lastMission.Mission;
+import eu.scy.lab.client.mission.Mission;
+import eu.scy.lab.client.mission.MissionInfoWindow;
 
 public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
 
@@ -62,7 +62,7 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
 		if (mission == null) {
 			MessageBox.alert("Please select a Mission at first!");
 		} else {
-			InfoWindow info = new InfoWindow(missionBrowser);
+			MissionInfoWindow info = new MissionInfoWindow(mission);
 			info.show();
 		}
 	}

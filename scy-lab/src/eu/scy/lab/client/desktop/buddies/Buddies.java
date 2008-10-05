@@ -1,12 +1,10 @@
 package eu.scy.lab.client.desktop.buddies;
 
-import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.Toolbar;
 import com.gwtext.client.widgets.ToolbarButton;
 import com.gwtext.client.widgets.ToolbarMenuButton;
 import com.gwtext.client.widgets.layout.FitLayout;
-import com.gwtext.client.widgets.tree.TreeNode;
 import com.gwtext.client.widgets.tree.TreePanel;
 
 public class Buddies {
@@ -20,7 +18,6 @@ public class Buddies {
 		panel.setAutoScroll(true);
 		panel.setAutoHeight(true);
 		panel.setAutoWidth(true);
-//		panel.setTopToolbar(createToolbar());
 		panel.setLayout(new FitLayout());
 		
 		final TreePanel treePanel = new BuddyTree();
@@ -28,6 +25,7 @@ public class Buddies {
 		treePanel.setBorder(false);
 		treePanel.setAutoHeight(true);
 		treePanel.setAutoWidth(true);
+	
 		//XXX
 		treePanel.setAutoScroll(true);
 
@@ -47,7 +45,7 @@ public class Buddies {
 		toolbar.addButton(options);
 		
 		ToolbarButton addBuddy = new ToolbarButton();
-		addBuddy.setIcon("");
+		addBuddy.setIcon("res/icons/Chat2x16.png");
 		addBuddy.setTitle("add a new Buddy to contact list");
 		toolbar.addButton(addBuddy);
 		

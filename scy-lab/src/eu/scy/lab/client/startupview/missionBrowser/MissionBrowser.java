@@ -11,7 +11,7 @@ import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.event.ComboBoxListenerAdapter;
 import com.gwtext.client.widgets.layout.FitLayout;
 
-import eu.scy.lab.client.startupview.lastMission.Mission;
+import eu.scy.lab.client.mission.Mission;
 
 public class MissionBrowser extends Panel {
 
