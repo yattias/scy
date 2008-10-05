@@ -4,6 +4,7 @@
 package eu.scy.lab.client.usermanagement;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -49,6 +50,8 @@ public class CreateUser extends FormPanel{
         
         // Localization
         constants = (CreateUserConstants) GWT.create(CreateUserConstants.class);
+        
+        History.newItem("register");
         
         createFields();
         createButtons();

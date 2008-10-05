@@ -4,6 +4,7 @@
 package eu.scy.lab.client.login;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,6 +15,8 @@ import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.event.TextFieldListenerAdapter;
+
+import eu.scy.lab.client.history.HistoryListenerImpl;
 
 /**
  * @author Sven Manske
@@ -33,6 +36,8 @@ public class Login extends FormPanel {
         constants = (LoginConstants) GWT.create(LoginConstants.class);
         createFields();
         createButtons();
+        History.newItem("initial");
+        History.addHistoryListener(new HistoryListenerImpl());
     }
     
     public Login(String username, String password) {

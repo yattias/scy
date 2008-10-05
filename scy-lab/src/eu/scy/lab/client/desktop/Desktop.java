@@ -1,5 +1,6 @@
 package eu.scy.lab.client.desktop;
 
+import com.google.gwt.user.client.History;
 import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
 import com.gwtext.client.widgets.Panel;
@@ -31,12 +32,14 @@ public class Desktop extends Panel {
 
     public Desktop() {
         buildGui();
+        History.newItem("desktop");
         @SuppressWarnings("unused")
         Viewport viewPort = new Viewport(this);
     }
 
     public Desktop(Mission mission) {
         buildGui();
+        History.newItem("desktop:"+mission.getTitle());
         // TODO connect to real missions-outline
         BorderLayoutData northData = new BorderLayoutData(RegionPosition.NORTH);
         NorthPanel north = new NorthPanel(mission);
