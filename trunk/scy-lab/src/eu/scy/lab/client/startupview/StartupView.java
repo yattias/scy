@@ -3,6 +3,7 @@
  */
 package eu.scy.lab.client.startupview;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -32,6 +33,7 @@ public class StartupView extends Panel {
 
     public StartupView() {
         super();
+        History.newItem("startup");
         setBorder(false);
         // setLayout(new FitLayout());
 

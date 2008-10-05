@@ -9,12 +9,10 @@ import com.gwtext.client.core.FxConfig;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.MessageBox;
 import com.gwtext.client.widgets.MessageBoxConfig;
-import com.gwtext.client.widgets.Viewport;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 
 import eu.scy.lab.client.UserManagement;
 import eu.scy.lab.client.UserManagementAsync;
-import eu.scy.lab.client.desktop.Desktop;
 import eu.scy.lab.client.startupview.StartupView;
 import eu.scy.lab.client.usermanagement.CreateUser;
 
