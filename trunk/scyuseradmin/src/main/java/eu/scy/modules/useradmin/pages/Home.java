@@ -13,6 +13,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.xy.XYDataset;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -38,8 +39,12 @@ public class Home extends Start {
         return resources.createActionLink("chart", false, new Object[]{"400", "300"});
     }
 
+    public Link getSessionsStartedTimeSeriesChart() {
+        return resources.createActionLink("sessionsStartedTimeSeriesChart", false, new Object[]{"400", "300"});
+    }
+
     public StreamResponse onChart(final int width, final int height) {
-        final PieDataset pieDataset = this.getGroupUserCountPieDataset(getCurrentProject());
+        final PieDataset pieDataset = getGroupUserCountPieDataset(getCurrentProject());
 
 
         return new StreamResponse() {
@@ -53,6 +58,26 @@ public class Home extends Start {
                 plot.setIgnoreZeroValues(true);
                 plot.setIgnoreNullValues(true);
                 plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} ({1})"));                
+                ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                ChartUtilities.writeBufferedImageAsPNG(byteArray, chart.createBufferedImage(width, height));
+                return new ByteArrayInputStream(byteArray.toByteArray());
+            }
+
+            public void prepareResponse(Response response) {
+            }
+        };
+    }
+
+    public StreamResponse onSessionsStartedTimeSeriesChart(final int width, final int height) {
+        final XYDataset dataset = getStartedSessionsDataset(getCurrentProject());
+
+        return new StreamResponse() {
+            public String getContentType() {
+                return Constants.CONTENT_TYPE_IMAGE_PNG;
+            }
+
+            public InputStream getStream() throws IOException {
+                JFreeChart chart = ChartFactory.createTimeSeriesChart("User session statistics", "Date", "Count", dataset, true, true, true);
                 ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
                 ChartUtilities.writeBufferedImageAsPNG(byteArray, chart.createBufferedImage(width, height));
                 return new ByteArrayInputStream(byteArray.toByteArray());

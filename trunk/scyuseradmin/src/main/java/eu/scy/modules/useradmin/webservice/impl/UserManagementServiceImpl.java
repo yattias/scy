@@ -37,7 +37,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         User user = getDao().getUserByUsername(userName);
         if (user != null) {
             if (user.getPassword().equals(password)) {
-                UserSession session = getUserSessionDAO().createNewUserSession(user);
+                UserSession session = getUserSessionDAO().createNewUserSession(user);                
                 return session.getId();
             }
         }

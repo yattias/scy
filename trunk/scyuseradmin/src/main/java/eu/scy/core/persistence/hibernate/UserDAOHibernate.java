@@ -1,14 +1,22 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.Constants;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserSession;
 import eu.scy.core.persistence.UserDAO;
 import org.apache.log4j.Logger;
 import org.jfree.data.DefaultKeyedValues;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.time.TimeSeriesDataItem;
+import org.jfree.data.xy.XYDataset;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,9 +44,7 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
         user.setProject(project);
         user.setGroup(group);
-        save(user);
-
-        return user;
+        return (User) save(user);
     }
 
     public List getUsers() {
@@ -90,6 +96,7 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                 .setString("password", password)
                 .setMaxResults(1)
                 .uniqueResult();
+
         return user != null;
     }
 
@@ -106,6 +113,13 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                 .uniqueResult();
     }
 
+    public List<UserSession> getStartedSessions(long startTime, long endTime, Project project) {
+        return (List<UserSession>) getSession().createQuery("from UserSession where sessionStarted >= :startTime and sessionStarted <= :endTime and user.project = :project")
+                .setEntity("project", project)
+                .setLong("startTime", startTime)
+                .setLong("endTime", endTime)
+                .list();
+    }
 
     public Long getNumberOfGroups(Project project) {
         return (Long) getSession().createQuery("select count(g) from Group g where g.project= :project")
@@ -134,5 +148,40 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         }
 
         return new DefaultPieDataset(values);
+    }
+
+    public XYDataset getStartedSessionsDataset(Project project) {
+        long startTime = System.currentTimeMillis() - Constants.ONE_MONTH_MILLISECONDS;
+        long endTime = startTime + Constants.ONE_MONTH_MILLISECONDS;
+
+        List<UserSession> sessions = getStartedSessions(startTime, endTime, project);
+        TimeSeries s1 = new TimeSeries("User sessions", Day.class);
+        TimeSeries s2 = new TimeSeries("Log in failures", Day.class);
+
+        if (sessions.size() == 0) {
+            for (int count = 1; count < 26; count++) {
+                log.warn("hack hack hack - dummy data dummy data dummy data");
+                s1.add(new TimeSeriesDataItem(new Day(new Date(startTime + (Constants.ONE_DAY_MILLISECONDS * count))), Math.random() * 1000));
+                s2.add(new TimeSeriesDataItem(new Day(new Date(startTime + (Constants.ONE_DAY_MILLISECONDS * count))), Math.random() * 100));
+            }
+        } else {
+            s1.add(new TimeSeriesDataItem(new Day(new Date(startTime)), 0));
+            s1.add(new TimeSeriesDataItem(new Day(new Date(endTime)), 0));
+
+            for (UserSession session : sessions) {
+                Day day = new Day(new Date(session.getSessionStarted()));
+                TimeSeriesDataItem item = s1.getDataItem(day);
+                if (item != null) {
+                    s1.addOrUpdate(day, item.getValue().intValue() + 1);
+                } else {
+                    s1.add(day, 1);
+                }
+            }
+        }
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(s1);
+        dataset.addSeries(s2);
+        return dataset;
     }
 }
