@@ -80,4 +80,7 @@ public class GroupList extends SCYBasePage {
         setCurrentGroup(g);
     }
 
+    public long getUserCount() {
+        return getUserDAO().getNumberOfUsers(getGroup());
+    }
 }

@@ -37,4 +37,8 @@ public class Constants {
     public static final long TWO_WEEKS_MILLISECONDS =  ONE_WEEK_MILLISECONDS * 2 ;
     public static final long ONE_MONTH_MILLISECONDS =  TWO_WEEKS_MILLISECONDS * 2 ;
     public static final long ONE_YEAR_MILLISECONDS =  ONE_DAY_MILLISECONDS * 365 ;
+
+    //Strings
+    public final static String EMPTY_STRING = "";
+    public final static String ONSE_SPACE_STRING = " ";
 }

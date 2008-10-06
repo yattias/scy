@@ -17,9 +17,16 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 public abstract class SCYBaseObject implements Serializable {
-
-    private String id = null;
     private String name = null;
+    private String id = null;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Id
 	@GeneratedValue(generator = "nboid")
@@ -32,14 +39,6 @@ public abstract class SCYBaseObject implements Serializable {
     @NonVisual
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     // NEED TO IMPLEMENT HASHCODDE AND EQUALS!

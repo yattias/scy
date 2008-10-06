@@ -13,9 +13,7 @@
         <div id="scyPageInnerContainer">
    <div id="scyTopContainer">
        <div id="scyTopRightPlaceHolder">
-           <div id="scyTopInnerContainer">
-
-            <div t:type="links/ActionLink"/>
+           <div id="scyTopInnerContainer">            
 
                Currently logged in as: ${currentUsersUserName} - ${currentProjectName}
 
