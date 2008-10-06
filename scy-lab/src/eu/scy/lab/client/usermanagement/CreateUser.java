@@ -5,27 +5,21 @@ package eu.scy.lab.client.usermanagement;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtext.client.core.EventObject;
-import com.gwtext.client.data.Record;
 import com.gwtext.client.data.SimpleStore;
 import com.gwtext.client.data.Store;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.form.ComboBox;
 import com.gwtext.client.widgets.form.DateField;
-import com.gwtext.client.widgets.form.Field;
 import com.gwtext.client.widgets.form.FieldSet;
 import com.gwtext.client.widgets.form.FormPanel;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.form.VType;
 import com.gwtext.client.widgets.form.ValidationException;
 import com.gwtext.client.widgets.form.Validator;
-import com.gwtext.client.widgets.form.event.ComboBoxCallback;
-import com.gwtext.client.widgets.form.event.ComboBoxListenerAdapter;
 
 /**
  * @author Sven Manske
@@ -41,7 +35,6 @@ public class CreateUser extends FormPanel{
     private TextField passwordRetype;
     private ComboBox title;
     private TextField firstName;
-    private TextField surName;
     private TextField lastName;
     private TextField email;
     private DateField datefield;
@@ -131,11 +124,6 @@ public class CreateUser extends FormPanel{
         firstName.setAllowBlank(false);
         firstName.setWidth(190);
         userdata.add(firstName);
-        
-        surName = new TextField(constants.surName(), "surName");
-        surName.setAllowBlank(true);
-        surName.setWidth(190);
-        userdata.add(surName);
         
         lastName = new TextField(constants.lastName(), "lastName");
         lastName.setAllowBlank(false);
@@ -228,12 +216,6 @@ public class CreateUser extends FormPanel{
         return firstName.getText();
     }
     
-    /**
-     * @return the surName
-     */
-    public String getSurName() {
-        return surName.getText();
-    }
     
     /**
      * @return the lastName

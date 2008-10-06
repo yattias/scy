@@ -32,6 +32,7 @@ public class StartupView extends Panel {
     private FeedbackPanel feedbackPanel;
 
     public StartupView() {
+        
         super();
         History.newItem("startup");
         setBorder(true);
