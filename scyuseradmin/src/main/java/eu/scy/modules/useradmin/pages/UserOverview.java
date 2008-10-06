@@ -4,6 +4,7 @@ package eu.scy.modules.useradmin.pages;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.modules.useradmin.pages.projectmanagement.ProjectManagement;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
  * Time: 14:41:57
  * Just a quick hack to list out users from the root group
  */
-public class UserOverview extends SCYBasePage{
+public class UserOverview extends SCYBasePage {
 
     @ApplicationState(create = false)
     private Group currentGroup;
@@ -75,5 +76,11 @@ public class UserOverview extends SCYBasePage{
     public Boolean getCurrentGroupExists() {
         return false;//if(getCurrentGroup() != null) return true;
         //return false;
+    }
+
+    public Object onSuccess() {
+        System.out.println("SAVING Group!!!!!");
+        userDAO.save(getCurrentGroup());
+        return UserOverview.class;
     }
 }

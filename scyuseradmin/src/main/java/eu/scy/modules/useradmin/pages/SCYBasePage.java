@@ -30,7 +30,6 @@ public class SCYBasePage {
         this.model = model;
     }
 
-
     public Project getCurrentProject() {
         return currentProject;
     }

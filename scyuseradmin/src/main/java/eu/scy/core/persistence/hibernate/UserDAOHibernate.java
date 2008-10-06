@@ -1,14 +1,16 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.Group;
-import eu.scy.core.model.User;
 import eu.scy.core.model.Project;
+import eu.scy.core.model.User;
 import eu.scy.core.persistence.UserDAO;
-
-import java.util.List;
-import java.util.LinkedList;
-
 import org.apache.log4j.Logger;
+import org.jfree.data.DefaultKeyedValues;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,8 +31,8 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
     public User addUser(Project project, Group group, User user) {
 
-        if(project == null) project = getDefaultProject();
-        if(group == null) group = getDefaultGroup();
+        if (project == null) project = getDefaultProject();
+        if (group == null) group = getDefaultGroup();
 
         user.setProject(project);
         user.setGroup(group);
@@ -39,30 +41,26 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         return user;
     }
 
-
-
     public List getUsers() {
         return getSession().createQuery("from User order by userName ")
                 .list();
     }
 
     public Group createGroup(Project project, String name, Group parent) {
-        if(project== null) {
+        if (project == null) {
             throw new RuntimeException("Project not set - cannot create group");
         }
         Group g = new Group();
         g.setProject(project);
         g.setName(name);
         g.setParentGroup(parent);
-        save(g);
-        return g;
+        return (Group) save(g);
     }
 
     public Group getGroup(String id) {
-        Group g = (Group) getSession().createQuery("from Group where id = :id")
+        return (Group) getSession().createQuery("from Group where id = :id")
                 .setString("id", id)
                 .uniqueResult();
-        return g;
     }
 
     public Group getRootGroup() {
@@ -106,7 +104,35 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         return (Group) getSession().createQuery("from Group")
                 .setMaxResults(1)
                 .uniqueResult();
+    }
 
 
+    public Long getNumberOfGroups(Project project) {
+        return (Long) getSession().createQuery("select count(g) from Group g where g.project= :project")
+                .setEntity("project", project)
+                .uniqueResult();
+    }
+
+    public Long getNumberOfUsers(Project project) {
+        return (Long) getSession().createQuery("select count(user) from User user where user.project= :project")
+                .setEntity("project", project)
+                .uniqueResult();
+    }
+
+    public Long getNumberOfUsers(Group group) {
+        return (Long) getSession().createQuery("select count(user) from User user where user.group= :group")
+                .setEntity("group", group)
+                .uniqueResult();
+    }
+
+    public PieDataset getGroupUserCountPieDataset(Project project) {
+        List<Group> groups = project.getGroups();
+
+        DefaultKeyedValues values = new DefaultKeyedValues();
+        for (Group group : groups) {
+            values.addValue(group.getName(), getNumberOfUsers(group));
+        }
+
+        return new DefaultPieDataset(values);
     }
 }

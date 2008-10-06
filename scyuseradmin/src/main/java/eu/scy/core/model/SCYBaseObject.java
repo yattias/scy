@@ -18,8 +18,8 @@ import java.io.Serializable;
 @MappedSuperclass
 public abstract class SCYBaseObject implements Serializable {
 
-    private String id;
-    private String name;
+    private String id = null;
+    private String name = null;
 
     @Id
 	@GeneratedValue(generator = "nboid")

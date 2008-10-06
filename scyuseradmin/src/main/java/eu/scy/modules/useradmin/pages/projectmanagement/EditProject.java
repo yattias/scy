@@ -42,10 +42,9 @@ public class EditProject extends SCYBasePage {
         return null;
     }
 
-    Object onSuccess() {
+    public Object onSuccess() {
         System.out.println("SAVING PROJECT!!!!!");
         projectDAOHibernate.save(getProject());
         return ProjectManagement.class;
     }
-
 }

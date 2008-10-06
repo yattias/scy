@@ -13,6 +13,7 @@
                
             </td>
             <td style="width:80%;vertical-align:top;">
+                <t:beaneditform t:id="currentGroup" submitlabel="message:SAVE"/>
 
                 <h1>Users in ${currentlySelectedGroupName}:</h1>
                 <t:grid source="users" row="user" style="width:100%;">
