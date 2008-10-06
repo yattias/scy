@@ -27,126 +27,126 @@ import com.gwtextux.client.data.PagingMemoryProxy;
 import eu.scy.lab.client.date.DateRenderer;
 
 public class LastELOPanel extends Panel {
-
+    
     private Vector<ELO> elos;
-
+    
     private GridPanel grid;
-
+    
     private DateRenderer renderer = new DateRenderer();
-
+    
     public LastELOPanel() {
-
+        
         super("Last ELOs");
         onModuleLoad();
-
+        
     }
-
+    
     public void onModuleLoad() {
-
+        
         setLayout(new FitLayout());
         setClosable(false);
-
+        
         PagingMemoryProxy proxy = new PagingMemoryProxy(getGridDataWithDate(getGridData()));
         RecordDef recordDef = new RecordDef(new FieldDef[] { new StringFieldDef("name"), new StringFieldDef("author"), new DateFieldDef("date", "dd.MM.yyyy"), new StringFieldDef("relativedate") });
-
+        
         ArrayReader reader = new ArrayReader(recordDef);
         final Store store = new Store(reader);
         // store.setReader(reader);
         store.setDataProxy(proxy);
         // store.setGroupField("relativedate");
-
+        
         ColumnConfig tempDateColumn = new ColumnConfig("relative Date", "relativedate");
         tempDateColumn.setHidden(true);
-
+        
         ColumnConfig[] columns = new ColumnConfig[] {
-        // column ID is company which is later used in
-        new ColumnConfig("Name", "name", 160, false, null, "name"), new ColumnConfig("Author", "author", 160, false), new ColumnConfig("Date", "date", 45, false, renderer), tempDateColumn };
+                // column ID is company which is later used in
+                new ColumnConfig("Name", "name", 160, false, null, "name"), new ColumnConfig("Author", "author", 160, false), new ColumnConfig("Date", "date", 80, false, renderer), tempDateColumn };
         ColumnModel columnModel = new ColumnModel(columns);
         store.setInitialSortState(new SortState("date", SortDir.DESC));
-
+        
         // FIXME GroupingView deactivated because GridView is not working
         // GroupingView gridView = new GroupingView();
         // gridView.setForceFit(true);
         // gridView.setGroupTextTpl("{text} ({[values.rs.length]} {[values.rs.length > 1 ? \"Items\" : \"Item\"]})");
-
+        
         // The Grid
         grid = new GridPanel();
         grid.setStore(store);
         grid.setColumnModel(columnModel);
-
+        
         grid.setFrame(false);
         grid.setStripeRows(true);
         grid.setLayout(new HorizontalLayout(0));
         grid.setMonitorResize(true);
         grid.setAutoExpandColumn("name");
         grid.setHeader(false);
-
+        
         // FIXME GroupingView deactivated because GridView is not working
         // gridView.fitColumns(true);
         // grid.setView(gridView);
         grid.setIconCls("grid-icon");
-
+        
         grid.addGridRowListener(new GridRowListener() {
-
+            
             public void onRowClick(GridPanel grid, int rowIndex, EventObject e) {
-
+                
                 String name = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[0]));
                 String author = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[1]));
                 String date = (grid.getSelectionModel().getSelected().getAsString(grid.getSelectionModel().getSelected().getFields()[2]));
-
+                
             }
-
+            
             public void onRowContextMenu(GridPanel grid, int rowIndex, EventObject e) {
-
+                
             }
-
+            
             public void onRowDblClick(GridPanel grid, int rowIndex, EventObject e) {
-
+                
             }
-
+            
         });
-
+        
         Button browseMission = new Button("Browse ELO!", new ButtonListenerAdapter() {
-
+            
             public void onClick(Button button, EventObject e) {
                 MessageBox.alert("Starting Missionbrowser when feature is enabled");
             }
         });
         addButton(browseMission);
-
+        
         store.load();
-
+        
         grid.setBufferResize(true);
         add(grid);
         setAutoScroll(true);
-
+        
     }
-
+    
     // The local Array-Data to display in the Grid
     @SuppressWarnings("deprecation")
     private Object[][] getGridData() {
-
+        
         return new Object[][] { new Object[] { "Kryptoarithmetics", "Sven", new Date(108, 8, 22) }, new Object[] { "Graphsearch", "Sven M", new Date(108, 8, 21) }, new Object[] { "Kryptoarithmetics II", "Sven", new Date(108, 8, 20) }, new Object[] { "Dancing with animals", "Sven", new Date(108, 8, 21) }, new Object[] { "Kryptoarithmetics III", "Sven", new Date(108, 8, 22) } };
     }
-
+    
     private Object[][] getGridDataWithDate(Object[][] ungroupedData) {
         Object[][] groupedData = new Object[ungroupedData.length][ungroupedData[0].length + 1];
-
+        
         for (int i = 0; i < ungroupedData.length; i++) {
             for (int j = 0; j < ungroupedData[i].length; j++) {
                 groupedData[i][j] = ungroupedData[i][j];
             }
-
+            
             Date indexDate = new Date();
             if (groupedData[i][2] instanceof Date) {
                 indexDate = (Date) groupedData[i][2];
             }
             groupedData[i][ungroupedData[i].length] = createRelativeDate(indexDate);
         }
-
+        
         return groupedData;
     }
-
+    
     @SuppressWarnings("deprecation")
     private String createRelativeDate(Date date) {
         Date today = new Date();
@@ -155,22 +155,23 @@ public class LastELOPanel extends Panel {
             return "today";
         } else if ((date.getMonth() == today.getMonth()) && (date.getYear() == today.getYear())) {
             return "this month";
-        } else
+        } else {
             return "older";
+        }
     }
-
+    
     /**
      * @return the last missions from a remote service
      */
     // TODO connect to remote service and correct return statement
     public Vector<ELO> getLastMissions() {
-
+        
         Vector<ELO> elos = new Vector<ELO>();
         elos.add(new ELO("CO2 neutral house", "09/22/2008"));
         elos.add(new ELO("Tutorial Mission", "09/21/2008"));
         return elos;
     }
-
+    
     /**
      * @param missions
      *            the missions to set
@@ -178,12 +179,12 @@ public class LastELOPanel extends Panel {
     public void setMissions(Vector<ELO> elos) {
         this.elos = elos;
     }
-
+    
     /**
      * @return the missions
      */
     public Vector<ELO> getELOs() {
         return elos;
     }
-
+    
 }
