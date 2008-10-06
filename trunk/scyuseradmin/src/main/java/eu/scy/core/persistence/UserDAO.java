@@ -6,6 +6,8 @@ import eu.scy.core.model.Project;
 
 import java.util.List;
 
+import org.jfree.data.general.PieDataset;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -30,5 +32,13 @@ public interface UserDAO extends BaseDAO{
 
     public List getBuddies(User user);
 
-    Boolean loginUser(String username, String password);
+    public Boolean loginUser(String username, String password);
+
+    public Long getNumberOfGroups(Project project);
+
+    public Long getNumberOfUsers(Project project);
+
+    public Long getNumberOfUsers(Group group);
+
+    public PieDataset getGroupUserCountPieDataset(Project project);
 }

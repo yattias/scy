@@ -19,7 +19,6 @@ public class Constants {
 
 
     // ROLES:
-
     public static final String ROLE_GLOBAL_ADMINISTRATOR = "ROLE_GLOBAL_ADMINISTRATOR";
 
     public static final String ROLE_PROJECT_ADMINISTRATOR = "ROLE_PROJECT_ADMINISTRATOR";
@@ -28,4 +27,7 @@ public class Constants {
     public static final String ROLE_STUDENT = "ROLE_STUDENT";
 
     public static final String NAME_SPACE = "http://www.scy-net.eu/schemas";
+
+    //Content types
+    public final static String CONTENT_TYPE_IMAGE_PNG = "image/png";
 }

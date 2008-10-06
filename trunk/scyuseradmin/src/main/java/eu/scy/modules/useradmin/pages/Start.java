@@ -15,6 +15,7 @@ import org.apache.tapestry5.StreamResponse;
 import org.apache.tapestry5.util.TextStreamResponse;
 import org.apache.log4j.Logger;
 import org.apache.tapestry.commons.components.InPlaceCheckbox;
+import org.jfree.data.general.PieDataset;
 
 /**
  * Start page of application scyuseradmin.
@@ -75,6 +76,22 @@ public class Start extends SCYBasePage {
 
     public Group getRootGroup() {
         return userDAO.getRootGroup();
+    }
+
+    public Long getNumberOfGroups() {
+        return userDAO.getNumberOfGroups(getCurrentProject());
+    }
+
+    public Long getNumberOfUsers() {
+        return userDAO.getNumberOfUsers(getCurrentProject());
+    }
+
+    public Long getNumberOfUsers(Group group) {
+        return userDAO.getNumberOfUsers(group);
+    }
+
+    public PieDataset getGroupUserCountPieDataset(Project project) {
+        return userDAO.getGroupUserCountPieDataset(project);
     }
 
     public String getUsername() {
