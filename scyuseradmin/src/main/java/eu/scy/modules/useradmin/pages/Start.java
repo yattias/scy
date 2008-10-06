@@ -4,6 +4,7 @@ import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.RoleDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.*;
+import eu.scy.core.Constants;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.apache.tapestry5.util.TextStreamResponse;
 import org.apache.log4j.Logger;
 import org.apache.tapestry.commons.components.InPlaceCheckbox;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.xy.XYDataset;
 
 /**
  * Start page of application scyuseradmin.
@@ -94,6 +96,10 @@ public class Start extends SCYBasePage {
         return userDAO.getGroupUserCountPieDataset(project);
     }
 
+    public XYDataset getStartedSessionsDataset(Project project) {
+        return userDAO.getStartedSessionsDataset(project);
+    }
+
     public String getUsername() {
         if(getUser() != null) {
             return getUser().getUserName();
@@ -102,7 +108,7 @@ public class Start extends SCYBasePage {
     }
 
     Object onSuccess() {
-        User u = userDAO.addUser(getCurrentProject(), getCurrentGroup(), getUser());
+        userDAO.addUser(getCurrentProject(), getCurrentGroup(), getUser());
         return UserOverview.class;
     }
 
@@ -111,9 +117,7 @@ public class Start extends SCYBasePage {
         if(getUserDAO().getUserByUsername(username) == null) System.out.println("USER IS NULL!!!");
         setUser(getUserDAO().getUserByUsername(username));
         return null;
-
     }
-
 
     public List getUserSessions() {
         log.info("Getting user sessions!");

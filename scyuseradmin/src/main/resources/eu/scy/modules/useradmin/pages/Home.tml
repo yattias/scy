@@ -15,7 +15,13 @@
     </table>    
 </div>
 
+<br/>
+<h1>A few charts to demonstrate possibilities</h1>
+<br/>
+
 <img src="${groupUserCountPieChart}"/>
+
+<img src="${sessionsStartedTimeSeriesChart}"/>
 
 <div class="centeredContentsContainer">
     <img src="graphics/mirrored_logo.png" alt="The SCY is the limit" />

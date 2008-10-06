@@ -7,6 +7,7 @@ import eu.scy.core.model.Project;
 import java.util.List;
 
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.xy.XYDataset;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,4 +42,6 @@ public interface UserDAO extends BaseDAO{
     public Long getNumberOfUsers(Group group);
 
     public PieDataset getGroupUserCountPieDataset(Project project);
+
+    public XYDataset getStartedSessionsDataset(Project project);
 }

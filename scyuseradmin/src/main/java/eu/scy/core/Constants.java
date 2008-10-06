@@ -30,4 +30,11 @@ public class Constants {
 
     //Content types
     public final static String CONTENT_TYPE_IMAGE_PNG = "image/png";
+
+    //Time
+    public static final long ONE_DAY_MILLISECONDS = 86400000;
+    public static final long ONE_WEEK_MILLISECONDS =  ONE_DAY_MILLISECONDS * 7;
+    public static final long TWO_WEEKS_MILLISECONDS =  ONE_WEEK_MILLISECONDS * 2 ;
+    public static final long ONE_MONTH_MILLISECONDS =  TWO_WEEKS_MILLISECONDS * 2 ;
+    public static final long ONE_YEAR_MILLISECONDS =  ONE_DAY_MILLISECONDS * 365 ;
 }
