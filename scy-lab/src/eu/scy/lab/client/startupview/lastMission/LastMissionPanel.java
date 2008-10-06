@@ -54,9 +54,9 @@ public class LastMissionPanel extends Panel {
 
         ArrayReader reader = new ArrayReader(recordDef);
         final Store store = new Store(reader);
-//        store.setReader();
+        // store.setReader();
         store.setDataProxy(proxy);
-//        store.setGroupField("relativedate");
+        // store.setGroupField("relativedate");
 
         ColumnConfig tempDateColumn = new ColumnConfig("Relative Date", "relativedate");
         tempDateColumn.setHidden(true);
@@ -87,7 +87,7 @@ public class LastMissionPanel extends Panel {
         grid.setStore(store);
         grid.setColumnModel(columnModel);
 
-        grid.setFrame(true);
+        grid.setFrame(false);
         grid.setStripeRows(true);
         grid.setLayout(new HorizontalLayout(0));
         grid.setMonitorResize(true);
