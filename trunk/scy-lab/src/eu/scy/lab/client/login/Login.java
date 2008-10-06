@@ -8,6 +8,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
@@ -33,11 +34,13 @@ public class Login extends FormPanel {
     
     public Login() {
         // Localization
+        RootPanel.get().clear();
         constants = (LoginConstants) GWT.create(LoginConstants.class);
         createFields();
         createButtons();
-        History.newItem("initial");
         History.addHistoryListener(new HistoryListenerImpl());
+        History.newItem("initial");
+//        History.fireCurrentHistoryState();
     }
     
     public Login(String username, String password) {
