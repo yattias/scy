@@ -2,6 +2,8 @@ package eu.scy.modules.useradmin.components.projectlist;
 
 import eu.scy.core.model.Project;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.UserDAO;
 import eu.scy.modules.useradmin.pages.projectmanagement.EditProject;
 
 import java.util.List;
@@ -33,6 +35,17 @@ public class ProjectList {
     }
 
     @Inject
+    private UserDAOHibernate userDAOHibernate;
+
+    public UserDAO getUserDAO() {
+        return userDAOHibernate;
+    }
+
+    public void setUserDAOHibernate(UserDAOHibernate userDAOHibernate) {
+        this.userDAOHibernate = userDAOHibernate;
+    }
+
+    @Inject
     private ProjectDAOHibernate projectDAOHibernate;
 
 
@@ -61,6 +74,14 @@ public class ProjectList {
         System.out.println("setting project" + projectId);
         setCurrentProject(getProjectDAOHibernate().getProject(projectId));
         return null;
+    }
+
+    public long getNumberOfGroups() {
+        return getUserDAO().getNumberOfGroups(getProject());
+    }
+
+    public long getNumberOfUsers() {
+        return getUserDAO().getNumberOfUsers(getProject());
     }
 
 
