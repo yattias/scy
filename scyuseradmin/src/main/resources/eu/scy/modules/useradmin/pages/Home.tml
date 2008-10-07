@@ -12,12 +12,15 @@
             <td>Number of users</td>
             <td>${numberOfUsers}</td>
         </tr>
-        <tr>
-           <td>Number of online users</td>
-            <td>${numberOfOnlineUsers}</td>
-        </tr>
 
-    </table>    
+
+    </table>
+
+    <t:grid source="onlineUsers" row="user" style="width:100%;">
+        <t:parameter name="lastnamecell">
+            <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
+        </t:parameter>
+    </t:grid>
 </div>
 
 <br/>
