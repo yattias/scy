@@ -39,12 +39,44 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
     public User addUser(Project project, Group group, User user) {
 
+        if (isExistingUsername(user)) {
+            user.setUserName(getSecureUserName(user.getUserName()));
+        }
+
         if (project == null) project = getDefaultProject();
         if (group == null) group = getDefaultGroup();
 
         user.setProject(project);
         user.setGroup(group);
         return (User) save(user);
+    }
+
+    private String getSecureUserName(String userName) {
+        int counter = 1;
+        Boolean found = false;
+        String suggestion = userName;
+        while (!found) {
+            suggestion = userName + counter;
+            User result = (User) getSession().createQuery("from User where userName = :suggestion")
+                    .setString("suggestion", suggestion)
+                    .setMaxResults(1)
+                    .uniqueResult();
+            if(result == null)  found = true;
+            counter++;
+
+        }
+
+        return suggestion;
+    }
+
+    private boolean isExistingUsername(User user) {
+        User result = (User) getSession().createQuery("From User where userName = :username")
+                .setString("username", user.getUserName())
+                .setMaxResults(1)
+                .uniqueResult();
+        return result != null;
+
+
     }
 
     public List getUsers() {
@@ -100,7 +132,7 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         return user != null;
     }
 
-    public Project getDefaultProject() {
+    private Project getDefaultProject() {
         log.info("Getting default project!! REALLY HACKY METHOD, but works for now. Need to know more about the future structure to create a good default....");
         return (Project) getSession().createQuery("from Project")
                 .setMaxResults(1)
