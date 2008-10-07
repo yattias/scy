@@ -89,6 +89,10 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>eu.scy.core.startup.UserCounterListener</listener-class>
+    </listener>
+
     <!--listener>
         <listener-class>eu.scy.core.startup.ConfigureDefaultSCYSettings</listener-class>
     </listener-->

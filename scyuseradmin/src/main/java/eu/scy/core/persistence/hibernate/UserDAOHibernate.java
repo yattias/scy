@@ -1,6 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.Constants;
+import eu.scy.core.startup.UserCounterListener;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
@@ -18,9 +19,7 @@ import org.jfree.data.xy.XYDataset;
 import org.springframework.security.concurrent.SessionRegistryImpl;
 import org.springframework.security.context.SecurityContext;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,6 +37,19 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         return (User) getSession().createQuery("from User where userName like :username")
                 .setString("username", username)
                 .uniqueResult();
+    }
+
+
+    public Boolean getIsUserOnline(String userName) {
+        Set users = UserCounterListener.getUsers();
+        Iterator it = users.iterator();
+        while (it.hasNext()) {
+            org.springframework.security.userdetails.User  o = (org.springframework.security.userdetails.User) it.next();
+            User online = getUserByUsername(o.getUsername());
+            if(online != null) return true;
+
+        }
+        return false;
     }
 
     public User addUser(Project project, Group group, User user) {
@@ -63,7 +75,11 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         log.warn("********************************************************************************************************");
         log.warn("********************************************************************************************************");
         log.warn("********************************************************************************************************");
-        getOnlineUsers();
+        List users = getOnlineUsers();
+        for (int i = 0; i < users.size(); i++) {
+            User user1 = (User) users.get(i);
+            log.info("--------------------------------- " + user1.getUserName() + " " + user1.getLastName());
+        }
 
         if (isExistingUsername(user)) {
             user.setUserName(getSecureUserName(user.getUserName()));
@@ -111,17 +127,16 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
     }
 
     public List <User> getOnlineUsers() {
-        SessionRegistryImpl registry = getSessionRegistry();
-        Object [] onlineUsers = registry.getAllPrincipals();
-        
-        log.info(registry.getAllSessions("scy", false));
-        
-        log.info("ONLINE USERS: " + registry.getAllPrincipals().length + " " + registry.getAllPrincipals());
-        for (int i = 0; i < onlineUsers.length; i++) {
-            Object onlineUser = onlineUsers[i];
-            log.info("ONLINE USER " + onlineUser);
+        Set users = UserCounterListener.getUsers();
+        Iterator it = users.iterator();
+        List onlineUsers = new LinkedList<User>();
+        while (it.hasNext()) {
+            org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
+            User user = getUserByUsername(o.getUsername());
+            if(user != null) onlineUsers.add(user);
         }
-        return getUsers();
+
+        return onlineUsers;
     }
 
     public Group createGroup(Project project, String name, Group parent) {
