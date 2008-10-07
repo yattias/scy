@@ -15,6 +15,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.jfree.data.xy.XYDataset;
+import org.springframework.security.concurrent.SessionRegistryImpl;
+import org.springframework.security.context.SecurityContext;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -30,6 +32,7 @@ import java.util.List;
 public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
     private static Logger log = Logger.getLogger(UserDAOHibernate.class);
+    private SessionRegistryImpl sessionRegistry;
 
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from User where userName like :username")
@@ -38,6 +41,29 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
     }
 
     public User addUser(Project project, Group group, User user) {
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        log.warn("********************************************************************************************************");
+        getOnlineUsers();
 
         if (isExistingUsername(user)) {
             user.setUserName(getSecureUserName(user.getUserName()));
@@ -82,6 +108,20 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
     public List getUsers() {
         return getSession().createQuery("from User order by userName ")
                 .list();
+    }
+
+    public List <User> getOnlineUsers() {
+        SessionRegistryImpl registry = getSessionRegistry();
+        Object [] onlineUsers = registry.getAllPrincipals();
+        
+        log.info(registry.getAllSessions("scy", false));
+        
+        log.info("ONLINE USERS: " + registry.getAllPrincipals().length + " " + registry.getAllPrincipals());
+        for (int i = 0; i < onlineUsers.length; i++) {
+            Object onlineUser = onlineUsers[i];
+            log.info("ONLINE USER " + onlineUser);
+        }
+        return getUsers();
     }
 
     public Group createGroup(Project project, String name, Group parent) {
@@ -215,5 +255,14 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
         dataset.addSeries(s1);
         dataset.addSeries(s2);
         return dataset;
+    }
+
+
+    public SessionRegistryImpl getSessionRegistry() {
+        return sessionRegistry;
+    }
+
+    public void setSessionRegistry(SessionRegistryImpl sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
     }
 }

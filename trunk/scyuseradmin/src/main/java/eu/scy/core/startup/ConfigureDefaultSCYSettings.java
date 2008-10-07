@@ -80,7 +80,7 @@ public class ConfigureDefaultSCYSettings implements ServletContextListener {
 
 
     public static void setupContext(ServletContext context) {
-        /*try {
+        try {
 
             XmlWebApplicationContext ctx = (XmlWebApplicationContext) context.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
             if (ctx == null) {
@@ -111,7 +111,7 @@ public class ConfigureDefaultSCYSettings implements ServletContextListener {
         } catch (Exception e) {
             log.error("Error populating drop-downs failed!", e);
 
-        } */
+        }
     }
 
     private static void setupUsersAndRoles(XmlWebApplicationContext ctx) {
