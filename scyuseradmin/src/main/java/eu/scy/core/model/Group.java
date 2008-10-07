@@ -22,6 +22,9 @@ public class Group extends SCYBaseObject {
 
     @OneToMany(targetEntity = User.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     public List<User> getUsers() {
+        if(users == null) {
+            users = new LinkedList<User>();
+        }
         return users;
     }
 
@@ -31,6 +34,9 @@ public class Group extends SCYBaseObject {
 
     @OneToMany(targetEntity = Group.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<Group> getChildren() {
+        if(children == null) {
+            children = new LinkedList<Group>();
+        }
         return children;
     }
 
@@ -39,7 +45,10 @@ public class Group extends SCYBaseObject {
     }
 
     public void addChild(Group group) {
-        getChildren().add(group);
+        if(group != null) {
+            getChildren().add(group);    
+        }
+
     }
 
     @ManyToOne(targetEntity = Group.class)
@@ -59,5 +68,12 @@ public class Group extends SCYBaseObject {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public void addUser(User user) {
+        if(user != null) {
+            getUsers().add(user);    
+        }
+
     }
 }

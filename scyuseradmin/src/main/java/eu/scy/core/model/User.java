@@ -20,6 +20,7 @@ public class User extends SCYBaseObject {
 
     private String userName;
     private String password;
+    private String enabled;
 
     private String firstName;
     private String lastName;
@@ -47,6 +48,14 @@ public class User extends SCYBaseObject {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 
     @Validate("required")

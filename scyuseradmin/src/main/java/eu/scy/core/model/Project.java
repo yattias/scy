@@ -2,6 +2,7 @@ package eu.scy.core.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +22,9 @@ public class Project extends SCYBaseObject {
 
     @OneToMany(targetEntity = Group.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<Group> getGroups() {
+        if(groups == null) {
+            groups = new LinkedList<Group>();
+        }
         return groups;
     }
 
@@ -36,5 +40,12 @@ public class Project extends SCYBaseObject {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public void addGroup(Group group) {
+        if(group != null) {
+            getGroups().add(group);    
+        }
+
     }
 }
