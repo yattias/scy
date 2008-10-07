@@ -88,8 +88,8 @@ public class Start extends SCYBasePage {
         return userDAO.getNumberOfUsers(getCurrentProject());
     }
 
-    public Integer getNumberOfOnlineUsers() {
-        return userDAO.getOnlineUsers().size();
+    public List  getOnlineUsers() {
+        return userDAO.getOnlineUsers();
     }
 
     public Long getNumberOfUsers(Group group) {
