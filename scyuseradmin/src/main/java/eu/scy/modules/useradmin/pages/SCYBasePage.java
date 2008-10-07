@@ -39,7 +39,11 @@ public class SCYBasePage {
     }
 
     public String getCurrentUsersUserName() {
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+            return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        } 
+        return "NO SECURITY CONTEXT!!";
+
     }
 
     @BeginRender

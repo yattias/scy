@@ -42,7 +42,7 @@ public class UserOverview extends SCYBasePage {
     }
 
 
-    @Inject
+    @Inject  
     private UserDAOHibernate userDAO;
     @Persist
     private User user;

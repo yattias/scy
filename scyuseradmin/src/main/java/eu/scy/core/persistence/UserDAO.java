@@ -44,4 +44,6 @@ public interface UserDAO extends BaseDAO{
     public PieDataset getGroupUserCountPieDataset(Project project);
 
     public XYDataset getStartedSessionsDataset(Project project);
+
+    List <User> getOnlineUsers();
 }
