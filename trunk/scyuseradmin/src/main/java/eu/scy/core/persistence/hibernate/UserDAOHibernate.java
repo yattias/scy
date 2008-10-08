@@ -42,13 +42,16 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
 
     public Boolean getIsUserOnline(String userName) {
         Set users = UserCounterListener.getUsers();
-        Iterator it = users.iterator();
-        while (it.hasNext()) {
-            org.springframework.security.userdetails.User  o = (org.springframework.security.userdetails.User) it.next();
-            User online = getUserByUsername(o.getUsername());
-            if(online != null) return true;
+        if (users != null) {
+            Iterator it = users.iterator();
+            while (it.hasNext()) {
+                org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
+                User online = getUserByUsername(o.getUsername());
+                if (online != null) return true;
 
+            }
         }
+
         return false;
     }
 
@@ -81,7 +84,7 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                     .setString("suggestion", suggestion)
                     .setMaxResults(1)
                     .uniqueResult();
-            if(result == null)  found = true;
+            if (result == null) found = true;
             counter++;
 
         }
@@ -104,17 +107,21 @@ public class UserDAOHibernate extends BaseDAOHibernate implements UserDAO {
                 .list();
     }
 
-    public List <User> getOnlineUsers() {
+    public List<User> getOnlineUsers() {
         Set users = UserCounterListener.getUsers();
-        Iterator it = users.iterator();
-        List onlineUsers = new LinkedList<User>();
-        while (it.hasNext()) {
-            org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
-            User user = getUserByUsername(o.getUsername());
-            if(user != null) onlineUsers.add(user);
-        }
 
-        return onlineUsers;
+        if (users != null) {
+            Iterator it = users.iterator();
+            List onlineUsers = new LinkedList<User>();
+            while (it.hasNext()) {
+                org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
+                User user = getUserByUsername(o.getUsername());
+                if (user != null) onlineUsers.add(user);
+            }
+
+            return onlineUsers;
+        }
+        return Collections.EMPTY_LIST;
     }
 
     public Group createGroup(Project project, String name, Group parent) {
