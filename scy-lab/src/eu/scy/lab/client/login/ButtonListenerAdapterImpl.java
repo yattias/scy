@@ -15,6 +15,7 @@ import eu.scy.lab.client.UserManagement;
 import eu.scy.lab.client.UserManagementAsync;
 import eu.scy.lab.client.startupview.StartupView;
 import eu.scy.lab.client.usermanagement.CreateUser;
+import eu.scy.lab.client.usermanagement.User;
 
 public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
     
@@ -50,8 +51,8 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
             }
             
             public void onSuccess(Boolean result) {
-//                if (result) {
-                	if (true) {
+                if (result) {
+                    User.getInstance().setUsername(loginPanel.getUsername());
                     Function callback = new Function() {
                         
                         public void execute() {
@@ -61,8 +62,9 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
                             RootPanel.get().clear();
                             
                             RootPanel.get().add(new StartupView().getCentredPanel());
-                            //TODO integrate this in StartupView 
-//                            RootPanel.get().add(new Desktop().createDesktop());
+                            // TODO integrate this in StartupView
+                            // RootPanel.get().add(new
+                            // Desktop().createDesktop());
                             Ext.getBody().fadeIn(configFadeIn);
                         }
                     };
@@ -84,7 +86,8 @@ public class ButtonListenerAdapterImpl extends ButtonListenerAdapter {
     }
     
     public void register() {
-        Function callback = new Function(){
+        Function callback = new Function() {
+            
             public void execute() {
                 FxConfig configFadeIn = new FxConfig();
                 configFadeIn.setDuration((float) 0.25);

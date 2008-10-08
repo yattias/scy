@@ -7,39 +7,39 @@ import com.gwtext.client.widgets.layout.HorizontalLayout;
 import com.gwtext.client.widgets.layout.VerticalLayout;
 
 public class PreviewPanel extends Panel {
-
-    public static final String DEFAULT_IMAGE_URL = "res/images/logo_blue.png";
-
+    
+    public static final String DEFAULT_IMAGE_URL = "res/icons/Document.png";
+    
     private Label nameLabel;
-
+    
     private String name;
-
+    
     private Label authorLabel;
-
+    
     private String author;
-
+    
     private Label dateLabel;
-
+    
     private String date;
-
+    
     private Button workOnElo;
-
+    
     private String iconUrl;
     
     private Panel subpanel;
-
-//    private Image img;
+    
+    //    private Image img;
     
     private Label imageLabel;
-
+    
     public PreviewPanel() {
         this("", "", "", DEFAULT_IMAGE_URL);
     }
-
+    
     public PreviewPanel(String name, String author, String date) {
         this(name, author, date, DEFAULT_IMAGE_URL);
     }
-
+    
     public PreviewPanel(String name, String author, String date, String imageUrl) {
         super("Preview");
         setFrame(true);
@@ -50,78 +50,72 @@ public class PreviewPanel extends Panel {
         this.author = author;
         this.date = date;
         this.iconUrl = imageUrl;
-
+        
         // scaling the image
-//        img = new Image(iconUrl);
         Label imageLabel = new Label();
         imageLabel.setId("imagelabel");
-        imageLabel.setHtml("<p><center><img src=\"res/images/logo_orange.png\"></p>");
-       
-//        double scale_factor = img.getHeight() / 50.0;
-//        img.setHeight("50px");
-//        int width = (int) (img.getWidth() / scale_factor);
-//        img.setWidth(Integer.toString(width));
-
+        imageLabel.setHtml("<p><center><img src=\"" + DEFAULT_IMAGE_URL + "\"></p>");
+        
         subpanel = new Panel();
         subpanel.setId("subpanel");
         subpanel.setBorder(false);
         subpanel.setLayout(new VerticalLayout());
-
+        
         nameLabel = new Label("Author: " + author);
         subpanel.add(nameLabel);
         authorLabel = new Label("Created by: " + name);
         subpanel.add(authorLabel);
         dateLabel = new Label("Date: " + date);
         subpanel.add(dateLabel);
-
+        
         workOnElo = new Button("Work on ELO");
-
-//        add(img);
+        
+        //        add(img);
         add(imageLabel);
         add(subpanel);
         addButton(workOnElo);
-
+        
     }
-
+    
     public Panel getPreviewPanel() {
-
+        
         return this;
     }
-
-    public void update(String name, String author, String date, String imageUrl) {
-
+    
+    public void update(String title, String author, String date, String version, String id) {
+        
         // scaling the updated image proportional
-//        img.setUrl(imageUrl);
-//        this.remove("imagelabel");
-//        imageLabel.destroy();
+        //        img.setUrl(imageUrl);
+        //        this.remove("imagelabel");
+        //        imageLabel.destroy();
         this.remove("subpanel");
         imageLabel = new Label();
         imageLabel.setId("imagelabel");
-        imageLabel.setHtml("<p><center><img src=\""+imageUrl+"\"></p>");
+        imageLabel.setHtml("<p><center><img src=\"" + DEFAULT_IMAGE_URL + "\"></p>");
         this.add(imageLabel);
         this.add(subpanel);
         
         // creating a temporary new Instance, because when setting a new ImageURL, the measurements aren't updated
-//        Image tempImg = new Image(imageUrl);
-//
-//        double oldWidth = tempImg.getWidth();
-//        double oldHeight = tempImg.getHeight();
-//        int width = (int) ((double) (oldWidth * 50.0) / ((double) oldHeight));
-//        img.setSize(Integer.toString(width) + "px", "50px");
-
+        //        Image tempImg = new Image(imageUrl);
+        //
+        //        double oldWidth = tempImg.getWidth();
+        //        double oldHeight = tempImg.getHeight();
+        //        int width = (int) ((double) (oldWidth * 50.0) / ((double) oldHeight));
+        //        img.setSize(Integer.toString(width) + "px", "50px");
+        
         // update labels
-        nameLabel.setText("Author: " + author);
-        authorLabel.setText("Created by: " + name);
+        nameLabel.setText("Title: " + title);
+        authorLabel.setText("Created by: " + author);
         dateLabel.setText("Date: " + date);
     }
-
+    
     /**
      * @return the name
      */
     public String getName() {
         return name;
     }
-
+    
     /**
      * @param name
      *            the name to set
@@ -129,14 +123,14 @@ public class PreviewPanel extends Panel {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     /**
      * @return the author
      */
     public String getAuthor() {
         return author;
     }
-
+    
     /**
      * @param author
      *            the author to set
@@ -144,14 +138,14 @@ public class PreviewPanel extends Panel {
     public void setAuthor(String author) {
         this.author = author;
     }
-
+    
     /**
      * @return the date
      */
     public String getDate() {
         return date;
     }
-
+    
     /**
      * @param date
      *            the date to set
@@ -159,14 +153,14 @@ public class PreviewPanel extends Panel {
     public void setDate(String date) {
         this.date = date;
     }
-
+    
     /**
      * @return the iconUrl
      */
     public String getIconUrl() {
         return iconUrl;
     }
-
+    
     /**
      * @param iconUrl
      *            the iconUrl to set
@@ -174,5 +168,5 @@ public class PreviewPanel extends Panel {
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
     }
-
+    
 }

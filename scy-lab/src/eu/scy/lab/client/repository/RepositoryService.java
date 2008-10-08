@@ -22,10 +22,10 @@ public interface RepositoryService extends RemoteService {
         }
     }
     
-    public String addELO(String elo);
+    public String[] addELO(String elo);
     
-    public String getELO(String id);
+    public String[] getELO(String id);
     
-    public String searchELO(String search);
+    public String[][] searchELO(String search);
     
 }
