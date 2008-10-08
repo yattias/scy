@@ -26,4 +26,6 @@ public interface UserManagement extends RemoteService {
     public boolean login(String username, String password);
     
     public boolean register(String username, String password, String title, String firstname, String lastname, String birthdate, String email);
+    
+    public String[][] getBuddies(String username);
 }

@@ -46,10 +46,11 @@
 		src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x&amp;key=???"
 		/
 	-->
-	<!-- Google Maps will work for localhost without api key -->
-	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x" />
+	<!-- Google Maps will work for localhost without api key
+	<script src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x" /> -->
+	<!-- Key for http://scy.collide.info -->
 	<script
-		src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x&amp;key=ABQIAAAAZriOtFocn-i7PM7l5RabAhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxR8sdUXeVXDJfsAPFxRl1UeV7Xshw" />
+		src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2.x&amp;key=ABQIAAAAsEbwtUFaUXOhRtKP92djAhSqYo9mqsAy07a_h_oDd-3qDOc2kRRo3x8jkJDwFf8ZNvWp83ikhnD0lg" />
 
 	<servlet class="eu.scy.lab.server.UserManagementImpl" path="/usermanagement" />
 	<servlet class="eu.scy.lab.server.tools.map.MapServiceImpl" path="/mapService" />

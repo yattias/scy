@@ -6,7 +6,9 @@ import eu.scy.lab.client.UserManagement;
 
 public class UserManagementImpl extends RemoteServiceServlet implements UserManagement {
     
-    // Inject UserDAOHibernate
+    private static int Counter = 0;
+    
+    private static String[][] users = new String[][] { { "Stefan" }, { "Adam" }, { "Lars" }, { "Henrik" } };
     
     public boolean login(String username, String password) {
         return UserDB.authenticateUser(username, password);
@@ -16,5 +18,17 @@ public class UserManagementImpl extends RemoteServiceServlet implements UserMana
         return UserDB.addUser(birthdate, email, firstname, lastname, password, title, username);
     }
     
-    
+    public String[][] getBuddies(String username) {
+        if ((Counter >= 0) && (Counter <= 3)) {
+            Counter++;
+        }
+        if (Counter == 4) {
+            Counter = 0;
+        }
+        String[][] result = new String[Counter][];
+        for (int i = 0; i < Counter; i++) {
+            result[i] = users[i];
+        }
+        return result;
+    }
 }
