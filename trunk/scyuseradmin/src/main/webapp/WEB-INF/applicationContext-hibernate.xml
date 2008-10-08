@@ -94,6 +94,10 @@
         <property name="factory" ref="eloFactory"/>
     </bean>
 
+    <bean id="userSessionService" class="eu.scy.core.service.impl.UserSessionServiceImpl">
+
+    </bean>
+
 
     <bean id="jdbcUserService" class="org.springframework.security.userdetails.jdbc.JdbcDaoImpl">
         <property name="rolePrefix" value="ROLE_"/>
