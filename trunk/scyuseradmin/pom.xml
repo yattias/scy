@@ -63,9 +63,9 @@
         </dependency>
 
         <dependency>
-                <groupId>jfree</groupId>
-                <artifactId>jfreechart</artifactId>
-                <version>1.0.9</version>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.9</version>
         </dependency>
 
 
@@ -92,6 +92,31 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.0.5</version>
         </dependency>
+
+        <dependency>
+            <artifactId>commons-dbcp</artifactId>
+            <groupId>commons-dbcp</groupId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!--dependency>
+            <artifactId>slf4j-log4j12</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>1.5.0</version>
+        </dependency-->
+
+        <!--dependency>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>1.5.0</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>jcl104-over-slf4j</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>1.5.0</version>
+        </dependency-->
+
 
         <!--dependency>
             <groupId>javax.xml.soap</groupId>
@@ -222,7 +247,6 @@
             <artifactId>roolo-mock</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
 
 
         <!-- APACHE CXF -->
