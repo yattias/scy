@@ -21,11 +21,11 @@ public class UserAdminTest {
 
    @Test
     public void test1() {
-        String appPackage = "eu.scy.modules.useradmin";
+        /*String appPackage = "eu.scy.modules.useradmin";
         String appName = "scyadmin";
         PageTester tester = new PageTester(appPackage, "", "src/main/webapp");
         Document doc = tester.renderPage("Home");
-
+        */
         
         //assertEquals(doc.getElementById("id1").getChildText(), "hello");
     }
