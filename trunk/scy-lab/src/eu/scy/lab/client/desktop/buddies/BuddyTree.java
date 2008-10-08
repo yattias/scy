@@ -68,24 +68,25 @@ public class BuddyTree extends TreePanel {
                                     if (((TreeNode) user).getText().equals(userStrings[0])) {
                                         found = true;
                                     }
-                                    if (!found) {
-                                        userTempNode = new TreeNode(userStrings[0]);
-                                        userTempNode.setExpanded(true);
-                                        userTempNode.setIcon("res/icons/buddyx16.png");
-                                        buddies.appendChild(userTempNode);
-                                    }
+                                }
+                                if (!found) {
+                                    userTempNode = new TreeNode(userStrings[0]);
+                                    userTempNode.setExpanded(true);
+                                    userTempNode.setIcon("res/icons/buddyx16.png");
+                                    buddies.appendChild(userTempNode);
                                 }
                             }
                             
                             for (Node user : buddies.getChildNodes()) {
+                                boolean found = false;
                                 for (String[] userStrings : result) {
-                                    boolean found = false;
+                                    found = false;
                                     if (((TreeNode) user).getText().equals(userStrings[0])) {
                                         found = true;
                                     }
-                                    if (!found) {
-                                        user.remove();
-                                    }
+                                }
+                                if (!found) {
+                                    user.remove();
                                 }
                             }
                         }
