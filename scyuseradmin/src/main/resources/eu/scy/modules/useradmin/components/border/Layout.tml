@@ -36,6 +36,7 @@
                 <t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
                     <img src="${scyProjectManagementIcon}"/>
                 </t:pagelink>
+                <t:actionlink t:id="logout">Log out</t:actionlink>
            </div>
             <t:body/>
         </div>
