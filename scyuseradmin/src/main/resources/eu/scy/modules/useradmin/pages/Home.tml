@@ -16,6 +16,7 @@
 
     </table>
 
+    <h2>Online users</h2>
     <t:grid source="onlineUsers" row="user" style="width:100%;">
         <t:parameter name="lastnamecell">
             <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
