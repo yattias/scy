@@ -4,7 +4,9 @@
 package eu.scy.toolbrokerapi;
 
 import roolo.api.IELO;
+import roolo.api.IExtensionManager;
 import roolo.api.IMetadataKey;
+import roolo.api.IMetadataTypeManager;
 import roolo.api.IRepository;
 
 /**
@@ -23,5 +25,15 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return repository the repository instace
      */
     public IRepository<IELO<K>, K> getRepository();
+
+    /**
+     * @return the metaDataTypeManager
+     */
+    public IMetadataTypeManager<K> getMetaDataTypeManager();
+
+    /**
+     * @return the extensionManager
+     */
+    public IExtensionManager getExtensionManager();
     
 }
