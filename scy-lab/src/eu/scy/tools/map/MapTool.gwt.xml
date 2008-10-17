@@ -3,6 +3,9 @@
 	<!-- Inherit global SCY stuff -->
 	<inherits name="eu.scy.global.ScyGlobal" />
 	
+	<!-- Inherit the GWT Ext stuff. -->
+	<inherits name="com.gwtext.GwtExt" />
+	
 	<!-- Inherit Google Maps API. -->
 	<inherits name="com.google.gwt.maps.GoogleMaps" />
 	<script src="js/gears_init.js" />
