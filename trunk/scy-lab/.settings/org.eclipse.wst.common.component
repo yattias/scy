@@ -5,6 +5,9 @@
         <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.lab.SCYLab"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.lab.testing.SCYLabFirefox"/>
+		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.CO2Sim"/>
+		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.ToolApi"/>
+		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.global.ScyGlobal"/>
         <property name="context-root" value="scy-lab"/>
         <property name="java-output-path"/>
     </wb-module>

@@ -32,7 +32,7 @@ import com.gwtext.client.widgets.grid.GridPanel;
 import com.gwtext.client.widgets.grid.event.EditorGridListenerAdapter;
 import com.gwtextux.client.data.PagingMemoryProxy;
 
-import eu.scy.lab.client.util.Gears;
+import eu.scy.lab.client.connectivity.Connectivity;
 
 public class Tasks {
 
@@ -50,7 +50,7 @@ public class Tasks {
 
     public Tasks() {
 
-        if (Gears.checkForGears()) {
+        if (Connectivity.checkForGears()) {
             // Create the database if it doesn't exist.
             try {
                 db = Factory.getInstance().createDatabase();
@@ -77,7 +77,7 @@ public class Tasks {
     public GridPanel createGrid() {
         tasks = new ArrayList<StringIntegerPair<Integer, String>>();
         
-        if (Gears.checkForGears()) {
+        if (Connectivity.checkForGears()) {
             // Fetch previous results from the database.
             try {
                 ResultSet rs = db.execute("select * from tasks order by ID");
@@ -114,7 +114,7 @@ public class Tasks {
         ToolbarButton button = new ToolbarButton("Add Task...", new ButtonListenerAdapter() {
 
             public void onClick(Button button, EventObject e) {
-                if (!Gears.checkForGears()) {
+                if (!Connectivity.checkForGears()) {
                     Window.alert("Unable to add task: Gears is not installed.");
                     return;
                 }
@@ -163,7 +163,7 @@ public class Tasks {
 
     public Object[][] getGridData() {
         tasks = new ArrayList<StringIntegerPair<Integer, String>>();
-        if (Gears.checkForGears() == false) {
+        if (Connectivity.checkForGears() == false) {
             return new Object[0][0];
         }
         
