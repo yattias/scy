@@ -1,0 +1,5 @@
+<module>
+	<!-- Use this module to run the Drawing Tool on its own -->
+	<inherits name="eu.scy.tools.drawing.DrawingTool" />
+	<entry-point class="eu.scy.tools.drawing.client.DrawingToolApp" />
+</module>
