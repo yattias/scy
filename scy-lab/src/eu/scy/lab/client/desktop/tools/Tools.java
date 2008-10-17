@@ -1,7 +1,5 @@
 package eu.scy.lab.client.desktop.tools;
 
-import pl.rmalinowski.gwt2swf.client.ui.SWFWidget;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.gwtext.client.core.EventObject;
@@ -12,12 +10,10 @@ import com.gwtext.client.widgets.tree.TreePanel;
 import com.gwtext.client.widgets.tree.event.TreeNodeListenerAdapter;
 
 import eu.scy.lab.client.desktop.Desktop;
-import eu.scy.lab.client.tools.map.MapTool;
+import eu.scy.tools.co2sim.client.CO2Sim;
+import eu.scy.tools.map.client.MapTool;
 
 class Tools extends TreePanel {
-    
-    protected static final String CO2SIMULATION_ID = "co2-simulation";
-    protected static final String CO2SIMULATION_PATH = "flash/ScyVerticalDemo.swf";
     
     protected static final String DRAWTOOL_ID = "draw-tool";
     protected static final String DRAWTOOL_PATH = "applet/drawTool.html";
@@ -54,15 +50,10 @@ class Tools extends TreePanel {
         TreeNode co2sim = new TreeNode("CO2-Simulation");
         co2sim.addListener(new TreeNodeListenerAdapter() {
             public void onDblClick(Node node, EventObject e) {
-                if (!desktop.getWorkspace().containsComponentID(CO2SIMULATION_ID)) {
-                    Panel panel = new Panel("CO2-Simulation");
-                    panel.setClosable(true);
-                    panel.setId(CO2SIMULATION_ID);
-                    SWFWidget swfWidget = new SWFWidget(CO2SIMULATION_PATH, 800, 500);
-                    panel.add(swfWidget);
-                    desktop.getWorkspace().add(panel);
+                if (!desktop.getWorkspace().containsComponentID(CO2Sim.TOOL_ID)) {
+                    desktop.getWorkspace().add( new CO2Sim() );
                 }
-                desktop.getWorkspace().activate(CO2SIMULATION_ID);
+                desktop.getWorkspace().activate(CO2Sim.TOOL_ID);
             }
         });
         co2sim.setExpanded(true);
@@ -72,25 +63,14 @@ class Tools extends TreePanel {
         mapTool.addListener(new TreeNodeListenerAdapter() {
             
             public void onDblClick(Node node, EventObject e) {
-                if (!desktop.getWorkspace().containsComponentID(MapTool.ID)) {
+                if (!desktop.getWorkspace().containsComponentID(MapTool.TOOL_ID)) {
                     GWT.log("Activating tool: MapTool", null);
                     final MapTool map = new MapTool();
                     desktop.getWorkspace().add(map);
-                    // FIXME: This is a rather ugly hack to work around issues
-                    // adding a MapWidget into a gwt-ext Panel
-                    // see http://code.google.com/p/gwt-google-apis/issues/detail?id=127
-                    Timer t = new Timer() {
-                        
-                        @Override
-                        public void run() {
-                            map.init();
-                        }
-                    };
-                    t.schedule(500);
                 } else {
                     GWT.log("Tool already loaded: MapTool", null);
                 }
-                desktop.getWorkspace().activate(MapTool.ID);
+                desktop.getWorkspace().activate(MapTool.TOOL_ID);
             }
         });
         

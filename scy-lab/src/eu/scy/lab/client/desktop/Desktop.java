@@ -12,6 +12,8 @@ import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.RowLayout;
 import com.gwtext.client.widgets.layout.RowLayoutData;
 
+import eu.scy.lab.client.connectivity.Connectivity;
+import eu.scy.lab.client.connectivity.ConnectiviySwitcher;
 import eu.scy.lab.client.desktop.buddies.Buddies;
 import eu.scy.lab.client.desktop.north.NorthPanel;
 import eu.scy.lab.client.desktop.tasks.Tasks;
@@ -19,8 +21,6 @@ import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
 import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
 import eu.scy.lab.client.mission.Mission;
-import eu.scy.lab.client.util.Gears;
-import eu.scy.lab.client.util.ModeSwitcher;
 
 public class Desktop extends Panel {
 
@@ -76,9 +76,9 @@ public class Desktop extends Panel {
         
         Toolbar toolbar = new Toolbar();
         ToolbarButton modeButton = new ToolbarButton();
-        modeButton.addListener( new ModeSwitcher() );
+        modeButton.addListener( new ConnectiviySwitcher() );
         toolbar.addButton(modeButton);
-        Gears.setModeButton(modeButton);
+        Connectivity.setModeButton(modeButton);
         
         BorderLayoutData southData = new BorderLayoutData(RegionPosition.SOUTH);
         toolbar.setHeight(25);

@@ -1,0 +1,5 @@
+<module>
+	<!-- Use this module to run the Map Tool on its own -->
+	<inherits name="eu.scy.tools.map.MapTool" />
+	<entry-point class="eu.scy.tools.map.client.MapToolApp" />
+</module>
