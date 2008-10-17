@@ -12,6 +12,10 @@ import java.util.List;
  * Time: 05:49:47
  * To change this template use File | Settings | File Templates.
  */
+
+@Entity
+@Table (name = "user" )
+@org.hibernate.annotations.Proxy (proxyClass = User.class )
 public class UserImpl extends ScyBaseObject implements User {
 
     private String userName;
