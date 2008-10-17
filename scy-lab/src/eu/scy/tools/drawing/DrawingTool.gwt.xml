@@ -5,4 +5,6 @@
 	
 	<!-- Inherit Applet Integration -->
 	<inherits name="com.google.gwt.gwtai.applet.AppletIntegration"/>
+	<inherits name='com.google.gwt.gwtai.trayicon.TrayIconIntegration' />
+	
 </module>

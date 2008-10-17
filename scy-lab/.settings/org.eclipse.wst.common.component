@@ -8,6 +8,12 @@
 		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.CO2Sim"/>
 		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.ToolApi"/>
 		<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.global.ScyGlobal"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.co2sim.CO2Sim"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.co2sim.CO2SimApp"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.drawing.DrawingTool"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.drawing.DrawingToolApp"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.map.MapTool"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.map.MapToolApp"/>
         <property name="context-root" value="scy-lab"/>
         <property name="java-output-path"/>
     </wb-module>
