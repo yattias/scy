@@ -68,7 +68,20 @@
         <property name="sessionFactory">
             <ref local="sessionFactory"/>
         </property>
-        <!--property name="sessionRegistry" ref="sessionRegistry"/-->
+    </bean>
+
+    <!-- PROJECT DAO: Hibernate implementation -->
+    <bean id="projectDAO" class="eu.scy.core.persistence.hibernate.ProjectDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- GROUP DAO: Hibernate implementation -->
+    <bean id="gropuDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
     </bean>
 
     <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">

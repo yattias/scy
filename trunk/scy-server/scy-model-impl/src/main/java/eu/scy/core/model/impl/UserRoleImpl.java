@@ -4,10 +4,7 @@ import eu.scy.core.model.UserRole;
 import eu.scy.core.model.User;
 import eu.scy.core.model.Role;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,13 +13,15 @@ import javax.persistence.JoinColumn;
  * Time: 06:12:30
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table (name = "userrole")
 public class UserRoleImpl extends ScyBaseObject implements UserRole {
 
      private User user;
     private Role role;
 
 
-    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_primKey")
     public User getUser() {
         return user;
@@ -33,7 +32,7 @@ public class UserRoleImpl extends ScyBaseObject implements UserRole {
     }
 
 
-    @ManyToOne(targetEntity = Role.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = RoleImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn (name = "role_primKey")
     public Role getRole() {
         return role;

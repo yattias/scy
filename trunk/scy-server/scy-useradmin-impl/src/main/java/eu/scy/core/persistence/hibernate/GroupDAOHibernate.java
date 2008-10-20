@@ -1,0 +1,42 @@
+package eu.scy.core.persistence.hibernate;
+
+import eu.scy.core.model.Group;
+import eu.scy.core.model.Project;
+import eu.scy.core.model.impl.GroupImpl;
+import eu.scy.core.persistence.GroupDAO;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Henrik
+ * Date: 20.okt.2008
+ * Time: 06:30:15
+ * To change this template use File | Settings | File Templates.
+ */
+public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
+
+    public Group createGroup(Project project, String name, Group parent) {
+        if (project == null) {
+            throw new RuntimeException("Project not set - cannot create group");
+        }
+        Group g = new GroupImpl();
+        g.setProject(project);
+        g.setName(name);
+        g.setParentGroup(parent);
+        return (Group) save(g);
+    }
+
+    public Group getGroup(String id) {
+        return (Group) getSession().createQuery("from GroupImpl where id = :id")
+                .setString("id", id)
+                .uniqueResult();
+    }
+
+    public Group getRootGroup() {
+        return (Group) getSession().createQuery("From GroupImpl where parentGroup is null")
+                .setMaxResults(1)
+                .uniqueResult();
+    }
+
+
+
+}

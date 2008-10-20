@@ -25,12 +25,6 @@ public interface UserDAO extends SCYBaseDAO{
 
     List getUsers();
 
-    Group createGroup(Project project, String name, Group parent);
-
-    Group getGroup(String id);
-
-    Group getRootGroup();
-
     List getBuddies(User user);
 
     Boolean loginUser(String username, String password);

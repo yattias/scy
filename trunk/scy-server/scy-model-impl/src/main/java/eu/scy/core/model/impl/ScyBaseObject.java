@@ -5,6 +5,8 @@ import eu.scy.core.model.ScyBase;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +15,8 @@ import javax.persistence.Column;
  * Time: 05:59:39
  * To change this template use File | Settings | File Templates.
  */
-public class ScyBaseObject implements ScyBase {
+@MappedSuperclass
+public class ScyBaseObject implements ScyBase, Serializable {
 
     private String name = null;
     private String id = null;
