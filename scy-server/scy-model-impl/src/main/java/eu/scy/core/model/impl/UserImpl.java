@@ -74,7 +74,7 @@ public class UserImpl extends ScyBaseObject implements User {
         this.lastName = lastName;
     }
 
-    @ManyToOne(targetEntity = Project.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = ProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_primKey")
     public Project getProject() {
         return project;
@@ -84,7 +84,7 @@ public class UserImpl extends ScyBaseObject implements User {
         this.project = project;
     }
 
-    @ManyToOne(targetEntity = Group.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = GroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_primKey")
     public Group getGroup() {
         return group;
@@ -94,7 +94,7 @@ public class UserImpl extends ScyBaseObject implements User {
         this.group = group;
     }
 
-    @OneToMany(targetEntity = UserRole.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = UserRoleImpl.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -112,7 +112,7 @@ public class UserImpl extends ScyBaseObject implements User {
 
     }
 
-    @OneToMany(targetEntity = UserSession.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = UserSessionImpl.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<UserSession> getUserSessions() {
         return userSessions;
     }

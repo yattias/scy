@@ -25,7 +25,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     private SessionRegistryImpl sessionRegistry;
 
     public User getUserByUsername(String username) {
-        return (User) getSession().createQuery("from User where userName like :username")
+        return (User) getSession().createQuery("from UserImpl where userName like :username")
                 .setString("username", username)
                 .uniqueResult();
     }
@@ -71,7 +71,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         String suggestion = userName;
         while (!found) {
             suggestion = userName + counter;
-            User result = (User) getSession().createQuery("from User where userName = :suggestion")
+            User result = (User) getSession().createQuery("from UserImpl where userName = :suggestion")
                     .setString("suggestion", suggestion)
                     .setMaxResults(1)
                     .uniqueResult();
@@ -84,7 +84,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public boolean isExistingUsername(User user) {
-        User result = (User) getSession().createQuery("From User where userName = :username")
+        User result = (User) getSession().createQuery("From UserImpl where userName = :username")
                 .setString("username", user.getUserName())
                 .setMaxResults(1)
                 .uniqueResult();
@@ -94,7 +94,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public List getUsers() {
-        return getSession().createQuery("from User order by userName ")
+        return getSession().createQuery("from UserImpl order by userName ")
                 .list();
     }
 
@@ -115,37 +115,15 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         return Collections.EMPTY_LIST;
     }
      */
-    public Group createGroup(Project project, String name, Group parent) {
-        if (project == null) {
-            throw new RuntimeException("Project not set - cannot create group");
-        }
-        Group g = new GroupImpl();
-        g.setProject(project);
-        g.setName(name);
-        g.setParentGroup(parent);
-        return (Group) save(g);
-    }
-
-    public Group getGroup(String id) {
-        return (Group) getSession().createQuery("from Group where id = :id")
-                .setString("id", id)
-                .uniqueResult();
-    }
-
-    public Group getRootGroup() {
-        return (Group) getSession().createQuery("From Group where parentGroup is null")
-                .setMaxResults(1)
-                .uniqueResult();
-    }
 
     public List getBuddies(User user) {
-        return getSession().createQuery("select connection.buddy from BuddyConnection connection where myself = :mySelf")
+        return getSession().createQuery("select connection.buddy from BuddyConnectionImpl connection where myself = :mySelf")
                 .setEntity("mySelf", user)
                 .list();
     }
 
     public Boolean loginUser(String username, String password) {
-        User user = (User) getSession().createQuery("from User where userName = :username and password = :password")
+        User user = (User) getSession().createQuery("from UserImpl where userName = :username and password = :password")
                 .setString("username", username)
                 .setString("password", password)
                 .setMaxResults(1)
@@ -156,19 +134,19 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     public Project getDefaultProject() {
         log.info("Getting default project!! REALLY HACKY METHOD, but works for now. Need to know more about the future structure to create a good default....");
-        return (Project) getSession().createQuery("from Project")
+        return (Project) getSession().createQuery("from ProjectImpl")
                 .setMaxResults(1)
                 .uniqueResult();
     }
 
     public Group getDefaultGroup() {
-        return (Group) getSession().createQuery("from Group")
+        return (Group) getSession().createQuery("from GroupImpl")
                 .setMaxResults(1)
                 .uniqueResult();
     }
 
     public List<UserSession> getStartedSessions(long startTime, long endTime, Project project) {
-        return (List<UserSession>) getSession().createQuery("from UserSession where sessionStarted >= :startTime and sessionStarted <= :endTime and user.project = :project")
+        return (List<UserSession>) getSession().createQuery("from UserSessionImpl where sessionStarted >= :startTime and sessionStarted <= :endTime and user.project = :project")
                 .setEntity("project", project)
                 .setLong("startTime", startTime)
                 .setLong("endTime", endTime)
@@ -176,19 +154,19 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public Long getNumberOfGroups(Project project) {
-        return (Long) getSession().createQuery("select count(g) from Group g where g.project= :project")
+        return (Long) getSession().createQuery("select count(g) from GroupImpl g where g.project= :project")
                 .setEntity("project", project)
                 .uniqueResult();
     }
 
     public Long getNumberOfUsers(Project project) {
-        return (Long) getSession().createQuery("select count(user) from User user where user.project= :project")
+        return (Long) getSession().createQuery("select count(user) from UserImpl user where user.project= :project")
                 .setEntity("project", project)
                 .uniqueResult();
     }
 
     public Long getNumberOfUsers(Group group) {
-        return (Long) getSession().createQuery("select count(user) from User user where user.group= :group")
+        return (Long) getSession().createQuery("select count(user) from UserImpl user where user.group= :group")
                 .setEntity("group", group)
                 .uniqueResult();
     }

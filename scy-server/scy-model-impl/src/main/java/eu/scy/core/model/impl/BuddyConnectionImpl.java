@@ -3,9 +3,7 @@ package eu.scy.core.model.impl;
 import eu.scy.core.model.BuddyConnection;
 import eu.scy.core.model.User;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+import javax.persistence.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,12 +12,14 @@ import javax.persistence.FetchType;
  * Time: 06:26:40
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table(name = "buddyconnection")
 public class BuddyConnectionImpl extends ScyBaseObject implements BuddyConnection {
 
     private User myself;
     private User buddy;
 
-    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public User getMyself() {
         return myself;
     }
@@ -28,7 +28,7 @@ public class BuddyConnectionImpl extends ScyBaseObject implements BuddyConnectio
         this.myself = myself;
     }
 
-    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public User getBuddy() {
         return buddy;
     }

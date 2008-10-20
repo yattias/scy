@@ -15,6 +15,8 @@ import java.util.LinkedList;
  * Time: 06:00:11
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table (name = "scygroup")
 public class GroupImpl extends ScyBaseObject implements Group {
 
 
@@ -23,7 +25,7 @@ public class GroupImpl extends ScyBaseObject implements Group {
     private Group parentGroup;
     private Project project;
 
-    @OneToMany(targetEntity = User.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = UserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     public List<User> getUsers() {
         if(users == null) {
             users = new LinkedList<User>();
@@ -35,7 +37,7 @@ public class GroupImpl extends ScyBaseObject implements Group {
         this.users = users;
     }
 
-    @OneToMany(targetEntity = Group.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = GroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<Group> getChildren() {
         if(children == null) {
             children = new LinkedList<Group>();
@@ -54,7 +56,7 @@ public class GroupImpl extends ScyBaseObject implements Group {
 
     }
 
-    @ManyToOne(targetEntity = Group.class)
+    @ManyToOne(targetEntity = GroupImpl.class)
     public Group getParentGroup() {
         return parentGroup;
     }
@@ -63,7 +65,7 @@ public class GroupImpl extends ScyBaseObject implements Group {
         this.parentGroup = parentGroup;
     }
 
-    @ManyToOne(targetEntity = Project.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = ProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_primKey")
     public Project getProject() {
         return project;

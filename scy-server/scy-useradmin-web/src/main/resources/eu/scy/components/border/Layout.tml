@@ -29,11 +29,13 @@
                      <t:pagelink page="Index" title="Index">
                          <img src="${scyHomeIcon}"/>
                      </t:pagelink>
-                     <!--t:pagelink page="UserOverview" title="User administration">
-                         <img src="${scyUserAdminIcon}"/>
+                     <t:if test="currentProject">
+                         <t:pagelink page="GroupOverview" title="User administration">
+                             <img src="${scyUserAdminIcon}"/>
 
-                     </t:pagelink>
-                     <t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
+                         </t:pagelink>
+                     </t:if>
+                     <!--t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
                          <img src="${scyProjectManagementIcon}"/>
                      </t:pagelink>
                      <t:actionlink t:id="logout">Log out</t:actionlink-->

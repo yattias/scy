@@ -16,16 +16,17 @@
 
     </table>
 
-    <h2>Online users</h2>
-    <t:grid source="users" row="user" style="width:100%;">
-        <t:parameter name="lastnamecell">
-            <t:pagelink page="start" context="user.username">${user.lastname}</t:pagelink>
-        </t:parameter>
-    </t:grid>
+    <t:loop source="projects" value="scyProject">
+            <a t:type="pageLink" page="Index" context="scyProject.id">${scyProject.name}</a>
+    </t:loop>
 </div>
 
 <br/>
-<h1>A few charts to demonstrate possibilities</h1>
+
+    <t:if test="model">
+        PROJECET: ${model.name}
+    </t:if>
+
 <br/>
 
 <!--div class="centeredContentsContainer">

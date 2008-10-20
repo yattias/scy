@@ -34,6 +34,7 @@
         <module>scy-model-api</module>
         <module>scy-model-impl</module>
         <module>scy-useradmin-api</module>
+        <module>scy-useradmin-impl</module>
         <module>scy-useradmin-web</module>
     </modules>
 </project>

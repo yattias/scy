@@ -19,4 +19,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <!--distributionManagement>
+        <repository>
+            <id>scy-repository</id>
+            <name>SCY</name>
+            <url>scp://minserver/data/home/maven/repository/maven2/</url>
+        </repository>
+    </distributionManagement-->
+
 </project>
