@@ -1,5 +1,5 @@
 <module>
 	<!-- Use this module to run the YouTube Tool on its own -->
-	<inherits name="eu.scy.tools.youtube.YouTube" />
+	<inherits name="eu.scy.tools.youtube.YouTubeTool" />
 	<entry-point class="eu.scy.tools.youtube.client.YouTubeApp" />
 </module>

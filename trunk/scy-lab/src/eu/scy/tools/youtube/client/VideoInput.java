@@ -14,6 +14,8 @@ import com.gwtext.client.widgets.form.Validator;
 
 public class VideoInput extends Panel {
 
+    public static final String TOOL_ID = "VideoInput-ID";
+    
     private Panel previewPanel;
     private TextField urlField;
     private TextArea descriptionArea;
@@ -22,7 +24,8 @@ public class VideoInput extends Panel {
 
     public VideoInput() {
         super("Video Input");
-
+        setId(TOOL_ID);
+        
         final FormPanel formPanel = new FormPanel();
         formPanel.setFrame(true);  
         formPanel.setLabelWidth(100);  

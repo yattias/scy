@@ -1,7 +1,6 @@
 package eu.scy.lab.client.desktop.tools;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Timer;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.data.Node;
 import com.gwtext.client.widgets.Panel;
@@ -12,6 +11,7 @@ import com.gwtext.client.widgets.tree.event.TreeNodeListenerAdapter;
 import eu.scy.lab.client.desktop.Desktop;
 import eu.scy.tools.co2sim.client.CO2Sim;
 import eu.scy.tools.map.client.MapTool;
+import eu.scy.tools.youtube.client.VideoInput;
 
 class Tools extends TreePanel {
     
@@ -74,9 +74,25 @@ class Tools extends TreePanel {
             }
         });
         
+        TreeNode videoTool = new TreeNode("Video");
+        videoTool.addListener(new TreeNodeListenerAdapter() {
+            
+            public void onDblClick(Node node, EventObject e) {
+                if (!desktop.getWorkspace().containsComponentID(VideoInput.TOOL_ID)) {
+                    GWT.log("Activating tool: Video", null);
+                    final VideoInput videoTool = new VideoInput();
+                    desktop.getWorkspace().add(videoTool);
+                } else {
+                    GWT.log("Tool already loaded: Video", null);
+                }
+                desktop.getWorkspace().activate(VideoInput.TOOL_ID);
+            }
+        });
+        
         root.appendChild(drawing);
         root.appendChild(simulation);
         root.appendChild(mapTool);
+        root.appendChild(videoTool);
         
         setRootVisible(false);
         
