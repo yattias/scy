@@ -80,7 +80,6 @@ public class BuddyTree extends TreePanel {
                             for (Node user : buddies.getChildNodes()) {
                                 boolean found = false;
                                 for (String[] userStrings : result) {
-                                    found = false;
                                     if (((TreeNode) user).getText().equals(userStrings[0])) {
                                         found = true;
                                     }
