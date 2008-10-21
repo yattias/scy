@@ -38,7 +38,6 @@ public class UserSessionImpl extends ScyBaseObject implements UserSession {
     }
 
     public void setUser(User user) {
-        user.;
         this.user = user;
     }
 
