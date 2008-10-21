@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <project>
-    <parent>
+    <!--parent>
         <artifactId>scy-server</artifactId>
         <groupId>eu.scy</groupId>
         <version>1.0-SNAPSHOT</version>
-    </parent>
+    </parent-->
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>scy-useradmin-impl</artifactId>
@@ -96,4 +96,45 @@
 
 
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
+
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
