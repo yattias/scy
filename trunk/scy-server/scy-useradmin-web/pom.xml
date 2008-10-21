@@ -79,6 +79,15 @@
             <name>T5Components Maven Repository</name>
             <url>http://87.193.218.134:8080/t5components/maven-repository</url>
         </repository>
+         <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -285,19 +294,6 @@
             </plugin>
         </plugins>
     </reporting>
-
-     <repositories>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </repository>
-
-    </repositories>
 
     <distributionManagement>
         <repository>
