@@ -27,8 +27,8 @@
         <param-value>
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
-            /WEB-INF/applicationContext-hibernate.xml,
-            classpath:/applicationContext-modelBeans.xml
+            /WEB-INF/applicationContext-hibernate.xml
+            <!--classpath:applicationContext-modelBeans.xml-->
             <!--/WEB-INF/applicationContext-myDefaultScyProjectSetup.xml,-->
             <!--/WEB-INF/ws-beans.xml,-->
             <!--/WEB-INF/remoting-servlet.xml,-->
