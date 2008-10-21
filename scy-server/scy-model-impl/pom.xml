@@ -22,6 +22,16 @@
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
+                    <finalName>scy-model-api</finalName>
+                    <attach>true</attach>
+                </configuration>
+            </plugin>
         </plugins>
         <resources>
             <resource>
