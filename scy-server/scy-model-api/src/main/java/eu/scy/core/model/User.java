@@ -9,7 +9,7 @@ import java.util.List;
  * Time: 05:49:08
  * To change this template use File | Settings | File Templates.
  */
-public interface User {
+public interface User extends ScyBase{
 
     String getUserName();
 
