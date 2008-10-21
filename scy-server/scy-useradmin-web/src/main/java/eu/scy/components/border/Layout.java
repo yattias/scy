@@ -1,6 +1,5 @@
 package eu.scy.components.border;
 
-import org.apache.log4j.Logger;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.annotations.Path;
@@ -16,7 +15,6 @@ import eu.scy.pages.TapestryContextAware;
  */
 public class Layout extends TapestryContextAware {
 
-    private static Logger log = Logger.getLogger(Layout.class);
 
         public String getCurrentProjectName() {
             if (getCurrentProject() == null) return "No project set";
