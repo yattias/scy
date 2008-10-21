@@ -7,7 +7,7 @@ import java.util.List;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 06:01:23
- * To change this template use File | Settings | File Templates.
+ * The role defines which access authorisations a User has within the system
  */
 public interface Role extends ScyBase{
 

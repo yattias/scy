@@ -7,7 +7,7 @@ import java.util.List;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 06:11:09
- * To change this template use File | Settings | File Templates.
+ * The project is the workspace for users. Information in a project will only be available for that project's users 
  */
 public interface Project extends ScyBase{
 

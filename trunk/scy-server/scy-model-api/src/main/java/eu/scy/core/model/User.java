@@ -7,7 +7,7 @@ import java.util.List;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 05:49:08
- * To change this template use File | Settings | File Templates.
+ * A user in the SCY system.
  */
 public interface User extends ScyBase{
 

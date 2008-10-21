@@ -5,6 +5,7 @@ package eu.scy.core.model;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 06:26:30
+ * A many to many connection between users
  */
 public interface BuddyConnection extends ScyBase{
 
