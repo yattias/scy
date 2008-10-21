@@ -15,12 +15,15 @@ import org.springframework.beans.BeansException;
  * Time: 08:00:16
  * To change this template use File | Settings | File Templates.
  */
-public class UserSessionDAOImpl extends ScyBaseDAOHibernate implements UserSessionDAO, ApplicationContextAware {
+public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements UserSessionDAO, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     public void loginUser(User user) {
         UserSession session = (UserSession) applicationContext.getBean("userSession");
-        
+        session.setSessionStarted(System.currentTimeMillis());
+        save(session);
+        user.addUserSession(session);
+        save(user);
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

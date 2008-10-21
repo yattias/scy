@@ -121,4 +121,9 @@ public class UserImpl extends ScyBaseObject implements User {
         this.userSessions = userSessions;
     }
 
+    public void addUserSession(UserSession userSession) {
+        getUserSessions().add(userSession);
+        userSession.setUser(this);
+    }
+
 }

@@ -15,4 +15,12 @@ public interface UserSession extends ScyBase{
     User getUser();
 
     void setUser(User user);
+
+    long getSessionEnded();
+
+    void setSessionEnded(long sessionEnded);
+
+    String getSessionId();
+
+    void setSessionId(String sessionId);
 }
