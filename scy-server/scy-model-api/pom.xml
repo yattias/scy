@@ -24,7 +24,7 @@
                 <configuration>
                     <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
                     <finalName>scy-model-api</finalName>
-                    <attach>false</attach>
+                    <attach>true</attach>
                 </configuration>
             </plugin>
 
