@@ -10,14 +10,16 @@ import javax.persistence.*;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 06:18:34
- * To change this template use File | Settings | File Templates.
+ * A session is a unit of work from a user first logs in to the system until the user logs out or is logged out
  */
 @Entity
 @Table(name = "usersession")
 public class UserSessionImpl extends ScyBaseObject implements UserSession {
 
     private long sessionStarted;
+    private long sessionEnded;
 
+    private String sessionId;
     private User user;
 
 
@@ -36,7 +38,23 @@ public class UserSessionImpl extends ScyBaseObject implements UserSession {
     }
 
     public void setUser(User user) {
+        user.;
         this.user = user;
     }
 
+    public long getSessionEnded() {
+        return sessionEnded;
+    }
+
+    public void setSessionEnded(long sessionEnded) {
+        this.sessionEnded = sessionEnded;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
 }

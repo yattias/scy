@@ -11,41 +11,43 @@ import java.util.List;
  */
 public interface User extends ScyBase{
 
-    String getUserName();
+    public String getUserName();
 
-    void setUserName(String userName);
+    public void setUserName(String userName);
 
-    String getPassword();
+    public String getPassword();
 
-    void setPassword(String password);
+    public void setPassword(String password);
 
-    String getEnabled();
+    public String getEnabled();
 
-    void setEnabled(String enabled);
+    public void setEnabled(String enabled);
 
-    String getFirstName();
+    public String getFirstName();
 
-    void setFirstName(String firstName);
+    public void setFirstName(String firstName);
 
-    String getLastName();
+    public String getLastName();
 
-    void setLastName(String lastName);
+    public void setLastName(String lastName);
 
-    Project getProject();
+    public Project getProject();
 
-    void setProject(Project project);
+    public void setProject(Project project);
 
-    Group getGroup();
+    public Group getGroup();
 
-    void setGroup(Group group);
+    public void setGroup(Group group);
 
-    List<UserRole> getUserRoles();
+    public List<UserRole> getUserRoles();
 
-    void setUserRoles(List<UserRole> userRoles);
+    public void setUserRoles(List<UserRole> userRoles);
 
-    void addRole(String rolename);
+    public void addRole(String rolename);
 
-    List<UserSession> getUserSessions();
+    public List<UserSession> getUserSessions();
 
-    void setUserSessions(List<UserSession> userSessions);
+    public void setUserSessions(List<UserSession> userSessions);
+
+    public void addUserSession(UserSession userSession);
 }

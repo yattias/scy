@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import eu.scy.core.persistence.UserDAO;
+import eu.scy.core.persistence.UserSessionDAO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -125,13 +126,14 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
         if (event.getName().equals(EVENT_KEY) && !isAnonymous()) {
             ServletContext servletContext = event.getSession().getServletContext();
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-            UserDAO dao = (UserDAO) wac.getBean("userDAO");
-            if (dao == null) throw new RuntimeException("NO USER DAO AVAILABLE!!");
+            UserSessionDAO sessionDAO = (UserSessionDAO) wac.getBean("userSessionDAO");
+            UserDAO userDAO = (UserDAO) wac.getBean("userDAO");
+            if (sessionDAO == null) throw new RuntimeException("NO USER DAO AVAILABLE!!");
             SecurityContext securityContext = (SecurityContext) event.getValue();
             User user = (User) securityContext.getAuthentication().getPrincipal();
+            sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
             addUsername(user);
             log.info("** *** ** USER LOGGED IN: " + user.getUsername());
-            dao.getUserByUsername(user.getUsername());
             log.info("Creating new session for user: " + event.getSession().getId());
         }
     }
