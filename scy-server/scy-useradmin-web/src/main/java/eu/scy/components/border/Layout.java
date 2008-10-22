@@ -5,6 +5,7 @@ import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.Asset;
 import eu.scy.pages.TapestryContextAware;
+import eu.scy.core.persistence.UserSessionDAO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,47 +17,53 @@ import eu.scy.pages.TapestryContextAware;
 public class Layout extends TapestryContextAware {
 
 
-        public String getCurrentProjectName() {
-            if (getCurrentProject() == null) return "No project set";
-            else return getCurrentProject().getName();
-        }
+    @Inject
+    private UserSessionDAO userSessionDAO;
 
-        @Inject
-        @Path("context:graphics/scy_home.png")
-        private Asset scyHomeIcon;
+    public UserSessionDAO getUserSessionDAO() {
+        return userSessionDAO;
+    }
 
-        public Asset getScyHomeIcon() {
-            return scyHomeIcon;
-        }
+    public void setUserSessionDAO(UserSessionDAO userSessionDAO) {
+        this.userSessionDAO = userSessionDAO;
+    }
 
-        @Inject
-        @Path("context:graphics/scy_useradmin.png")
-        private Asset scyUserAdminIcon;
+    public String getCurrentProjectName() {
+        if (getCurrentProject() == null) return "No project set";
+        else return getCurrentProject().getName();
+    }
 
-        public Asset getScyUserAdminIcon() {
-            return scyUserAdminIcon;
-        }
+    @Inject
+    @Path("context:graphics/scy_home.png")
+    private Asset scyHomeIcon;
 
-        @Inject
-        @Path("context:graphics/scy_projectmanagement.png")
-        private Asset scyProjectManagementIcon;
+    public Asset getScyHomeIcon() {
+        return scyHomeIcon;
+    }
 
-        public Asset getScyProjectManagementIcon() {
-            return scyProjectManagementIcon;
-        }
-        
-        @Inject
-        private RequestGlobals requestGlobals;
+    @Inject
+    @Path("context:graphics/scy_useradmin.png")
+    private Asset scyUserAdminIcon;
 
-        //Inject
-        /*private UserSessionServiceImpl userSessionService;
+    public Asset getScyUserAdminIcon() {
+        return scyUserAdminIcon;
+    }
 
-        public Object onActionFromLogout() {
-            userSessionService.logoutUser(requestGlobals.getHTTPServletRequest().getSession());
-            return null;
-        }
-        */
+    @Inject
+    @Path("context:graphics/scy_projectmanagement.png")
+    private Asset scyProjectManagementIcon;
 
+    public Asset getScyProjectManagementIcon() {
+        return scyProjectManagementIcon;
+    }
+
+    @Inject
+    private RequestGlobals requestGlobals;
+
+    public Object onActionFromLogout() {
+        requestGlobals.getRequest().getSession(true).invalidate();
+        return null;
+    }
 
 
 }
