@@ -31,8 +31,9 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
                 .uniqueResult();
     }
 
-    public Group getRootGroup() {
-        return (Group) getSession().createQuery("From GroupImpl where parentGroup is null")
+    public Group getRootGroup(Project project) {
+        return (Group) getSession().createQuery("From GroupImpl where parentGroup is null and project = :project")
+                .setEntity("project", project)
                 .setMaxResults(1)
                 .uniqueResult();
     }
