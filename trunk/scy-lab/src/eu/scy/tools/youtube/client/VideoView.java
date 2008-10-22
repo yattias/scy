@@ -16,28 +16,35 @@ public class VideoView extends Panel {
     // FIXME: beautify
     public VideoView() {
         super("Video Viewer");
-        setLayout(new VerticalLayout());
+        setLayout(new HorizontalLayout(2));
+
+        Panel leftPanel = new Panel();
+        leftPanel.setBorder(false);
+        leftPanel.setPaddings(10);
+        leftPanel.setLayout(new VerticalLayout());
         
         Panel topPanel = new Panel();
         topPanel.setPaddings(10);
         topPanel.setBorder(false);
         titleLabel = new Label();
         topPanel.add(titleLabel);
-        add(topPanel);
+        leftPanel.add(topPanel);
         
-        Panel centerPanel = new Panel();
-        centerPanel.setLayout(new HorizontalLayout(2));
-        centerPanel.setPaddings(20);
         video = new YouTubeViewer("");
         video.setWidth("425px");
         video.setHeight("344px");
-        centerPanel.add(video);
+        leftPanel.add(video);
+        add(leftPanel);
+        
+        Panel rightPanel = new Panel();
+        rightPanel.setBorder(false);
+        rightPanel.setPaddings(10);
         
         descriptionLabel = new Label();
-        centerPanel.add(descriptionLabel);
-        add(centerPanel);
+        rightPanel.add(descriptionLabel);
+        add(rightPanel);
         
-        showVideo(new VideoBean("jb41_lzILxg", "This is the title", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."));
+        showVideo(new VideoBean("jb41_lzILxg", "Lorem ipsum!", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."));
     }
     
     public void showVideo(VideoBean videoBean) {
