@@ -9,11 +9,11 @@ package eu.scy.core.model;
  */
 public interface BuddyConnection extends ScyBase{
 
-    User getMyself();
+    public User getMyself();
 
-    void setMyself(User myself);
+    public void setMyself(User myself);
 
-    User getBuddy();
+    public User getBuddy();
 
-    void setBuddy(User buddy);
+    public void setBuddy(User buddy);
 }

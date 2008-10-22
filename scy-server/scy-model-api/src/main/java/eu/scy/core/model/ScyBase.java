@@ -9,9 +9,9 @@ package eu.scy.core.model;
  */
 public interface ScyBase {
 
-    String getName();
+    public String getName();
 
-    void setName(String name);
+    public void setName(String name);
 
-    String getId();
+    public String getId();
 }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface Role extends ScyBase{
 
-    List<UserRole> getUserRoles();
+    public List<UserRole> getUserRoles();
 
-    void setUserRoles(List<UserRole> userRoles);
+    public void setUserRoles(List<UserRole> userRoles);
 }

@@ -15,31 +15,32 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface UserDAO extends SCYBaseDAO{
-    User getUserByUsername(String username);
 
-    User addUser(Project project, Group group, User user);
+    public User getUserByUsername(String username);
 
-    String getSecureUserName(String userName);
+    public User addUser(Project project, Group group, User user);
 
-    boolean isExistingUsername(User user);
+    public String getSecureUserName(String userName);
 
-    List getUsers();
+    public boolean isExistingUsername(User user);
 
-    List getBuddies(User user);
+    public List getUsers();
 
-    Boolean loginUser(String username, String password);
+    public List getBuddies(User user);
 
-    Project getDefaultProject();
+    public Boolean loginUser(String username, String password);
 
-    Group getDefaultGroup();
+    public Project getDefaultProject();
 
-    List<UserSession> getStartedSessions(long startTime, long endTime, Project project);
+    public Group getDefaultGroup();
 
-    Long getNumberOfGroups(Project project);
+    public List<UserSession> getStartedSessions(long startTime, long endTime, Project project);
 
-    Long getNumberOfUsers(Project project);
+    public Long getNumberOfGroups(Project project);
 
-    Long getNumberOfUsers(Group group);
+    public Long getNumberOfUsers(Project project);
+
+    public Long getNumberOfUsers(Group group);
 
     /*SessionRegistryImpl getSessionRegistry();
 
