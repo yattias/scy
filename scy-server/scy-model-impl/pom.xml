@@ -32,17 +32,41 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
+            <!--plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/resources/eu/scy</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/java/eu/scy/core/model/impl/applicationContext-modelBeans.xml
+                                    </directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>                                              
+            </plugin-->
         </plugins>
-        <resources>
+
+
+        <!--resources>
             <resource>
                 <directory>
-                    src/main/resources
+
                 </directory>
                 <includes>
                     <include>applicationContext-modelBeans.xml</include>
                 </includes>
             </resource>
-        </resources>
+        </resources-->
     </build>
 
     <dependencies>
