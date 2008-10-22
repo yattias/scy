@@ -160,15 +160,14 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
             ServletContext servletContext = event.getSession().getServletContext();
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
             UserDAO dao = (UserDAO) wac.getBean("userDAO");
-            if (dao == null) throw new RuntimeException("NO USER DAO AVAILABLE!!");
-
+            UserSessionDAO usd = (UserSessionDAO) wac.getBean("userSessionDAO");
             SecurityContext securityContext = (SecurityContext) event.getValue();
             Authentication auth = securityContext.getAuthentication();
             if (auth != null && (auth.getPrincipal() instanceof User)) {
                 User user = (User) auth.getPrincipal();
                 removeUsername(user);
                 log.info("** ** Logged user out: " + user.getUsername());
-
+                usd.logoutUser(dao.getUserByUsername(user.getUsername()));
             }
         }
     }
