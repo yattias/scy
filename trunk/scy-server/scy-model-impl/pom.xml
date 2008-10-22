@@ -1,10 +1,5 @@
 <?xml version="1.0"?>
 <project>
-    <!--parent>
-        <artifactId>scy-server</artifactId>
-        <groupId>eu.scy</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent-->
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy</groupId>
     <artifactId>scy-model-impl</artifactId>
@@ -27,46 +22,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <configuration>
-                    <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
                     <finalName>scy-model-api</finalName>
                     <attach>true</attach>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/src/main/resources/eu/scy</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/java/eu/scy/core/model/impl/applicationContext-modelBeans.xml
-                                    </directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>                                              
-            </plugin-->
         </plugins>
 
-
-        <!--resources>
-            <resource>
-                <directory>
-
-                </directory>
-                <includes>
-                    <include>applicationContext-modelBeans.xml</include>
-                </includes>
-            </resource>
-        </resources-->
     </build>
 
     <dependencies>
