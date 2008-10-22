@@ -1,3 +1,5 @@
+#summary Licensing discussion and information for SCY developers
+
 = Source Code License =
 
 Licensing is a very important topic for the software developers. After several discussion the dicision for licensing the SCY code under the LGPL has been made which has several consequences:
