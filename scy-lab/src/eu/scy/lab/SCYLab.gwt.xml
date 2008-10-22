@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE document SYSTEM "http://google-web-toolkit.googlecode.com/svn/releases/1.5/distro-source/core/src/gwt-module.dtd">
 <module>
 
 	<!-- Inherit the core Web Toolkit stuff. -->
@@ -13,7 +13,6 @@
 	<!-- Inherit the Gears API. -->
 	<inherits name='com.google.gwt.gears.Gears' />
 	<inherits name='com.google.gwt.gears.Offline' />
-
 	<!-- Inherit global SCY stuff -->
 	<inherits name="eu.scy.global.ScyGlobal" />
 	
