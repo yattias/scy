@@ -16,6 +16,7 @@ import org.springframework.beans.BeansException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements UserSessionDAO, ApplicationContextAware {
+
     private ApplicationContext applicationContext;
 
     public void loginUser(User user) {
