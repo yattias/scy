@@ -1,7 +1,10 @@
 package eu.scy.pages;
 
 import eu.scy.core.persistence.GroupDAO;
+import eu.scy.core.model.Group;
 import org.apache.tapestry5.ioc.annotations.Inject;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,4 +21,8 @@ public class GroupOverview extends ScyModelPage{
     public void loadModel() {
         groupDAO.getGroup(getModelId());
     }
+
+   public Group getRootGroup() {
+       return groupDAO.getRootGroup(getCurrentProject());
+   }
 }

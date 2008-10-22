@@ -16,5 +16,5 @@ public interface GroupDAO extends SCYBaseDAO{
 
     Group getGroup(String id);
 
-    Group getRootGroup();
+    Group getRootGroup(Project project);
 }
