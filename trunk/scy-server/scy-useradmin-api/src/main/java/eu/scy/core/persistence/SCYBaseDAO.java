@@ -10,7 +10,7 @@ package eu.scy.core.persistence;
 public interface SCYBaseDAO {
 
 
-    Object save(Object object);
+    public Object save(Object object);
 
     
 }

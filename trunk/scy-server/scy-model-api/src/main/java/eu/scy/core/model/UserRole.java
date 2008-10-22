@@ -8,11 +8,12 @@ package eu.scy.core.model;
  * Connects users and roles
  */
 public interface UserRole extends ScyBase{
-    User getUser();
 
-    void setUser(User user);
+    public User getUser();
 
-    Role getRole();
+    public void setUser(User user);
 
-    void setRole(Role role);
+    public Role getRole();
+
+    public void setRole(Role role);
 }

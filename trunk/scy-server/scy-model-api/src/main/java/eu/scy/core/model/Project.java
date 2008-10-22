@@ -12,13 +12,13 @@ import java.util.List;
 public interface Project extends ScyBase{
 
 
-    List<Group> getGroups();
+    public List<Group> getGroups();
 
-    void setGroups(List<Group> groups);
+    public void setGroups(List<Group> groups);
 
-    List<User> getUsers();
+    public List<User> getUsers();
 
-    void setUsers(List<User> users);
+    public void setUsers(List<User> users);
 
-    void addGroup(Group group);
+    public void addGroup(Group group);
 }

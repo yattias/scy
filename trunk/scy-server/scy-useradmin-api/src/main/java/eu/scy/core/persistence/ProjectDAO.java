@@ -14,11 +14,11 @@ import java.util.List;
 public interface ProjectDAO extends SCYBaseDAO{
 
 
-    List getAllProjects();
+    public List getAllProjects();
 
-    void createProject(Project project);
+    public void createProject(Project project);
 
-    List <Project> findProjectsByName(String name);
+    public List <Project> findProjectsByName(String name);
 
-    Project getProject(String projectId);
+    public Project getProject(String projectId);
 }

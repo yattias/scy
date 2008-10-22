@@ -12,9 +12,9 @@ import eu.scy.core.model.Project;
  */
 public interface GroupDAO extends SCYBaseDAO{
     
-    Group createGroup(Project project, String name, Group parent);
+    public Group createGroup(Project project, String name, Group parent);
 
-    Group getGroup(String id);
+    public Group getGroup(String id);
 
-    Group getRootGroup(Project project);
+    public Group getRootGroup(Project project);
 }
