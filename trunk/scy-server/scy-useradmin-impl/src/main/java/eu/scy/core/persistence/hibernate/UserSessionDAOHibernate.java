@@ -19,7 +19,7 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     private ApplicationContext applicationContext;
 
     public void loginUser(User user) {
-        UserSession session = new UserSessionImpl();//UserSession) applicationContext.getBean("userSession");
+        UserSession session = (UserSession) applicationContext.getBean("userSession");
         session.setSessionStarted(System.currentTimeMillis());
         save(session);
         user.addUserSession(session);
