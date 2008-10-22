@@ -131,10 +131,13 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
             if (sessionDAO == null) throw new RuntimeException("NO USER DAO AVAILABLE!!");
             SecurityContext securityContext = (SecurityContext) event.getValue();
             User user = (User) securityContext.getAuthentication().getPrincipal();
-            sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
-            addUsername(user);
-            log.info("** *** ** USER LOGGED IN: " + user.getUsername());
-            log.info("Creating new session for user: " + event.getSession().getId());
+            if (user != null && user.getUsername() != null) {
+                sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
+                addUsername(user);
+                log.info("** *** ** USER LOGGED IN: " + user.getUsername());
+                log.info("Creating new session for user: " + event.getSession().getId());
+            }
+
         }
     }
 

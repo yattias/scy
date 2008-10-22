@@ -1,6 +1,7 @@
 package eu.scy.core.persistence;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserSession;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +12,11 @@ import eu.scy.core.model.User;
  */
 public interface UserSessionDAO extends SCYBaseDAO {
 
+    /**
+     * creates a UserSession object for the current session. Will first check whether there is an active ongoing session first.
+     * If there exists an ongoing session, a new one will not be created
+     * @param user
+     */
     public void loginUser(User user);
 
     /**
@@ -18,4 +24,11 @@ public interface UserSessionDAO extends SCYBaseDAO {
      * @param user
      */
     public void logoutUser(User user);
+
+    /**
+     * gives a handle to the currently ongoing UserSession. Returns null if no sessions are active
+     * @param user
+     * @return
+     */
+    public UserSession getActiveSession(User user);
 }
