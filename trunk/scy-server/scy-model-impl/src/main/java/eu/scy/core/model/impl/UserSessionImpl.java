@@ -18,6 +18,7 @@ public class UserSessionImpl extends ScyBaseObject implements UserSession {
 
     private long sessionStarted;
     private long sessionEnded;
+    private Boolean isSessionActive;
 
     private String sessionId;
     private User user;
@@ -55,5 +56,13 @@ public class UserSessionImpl extends ScyBaseObject implements UserSession {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Boolean getSessionActive() {
+        return isSessionActive;
+    }
+
+    public void setSessionActive(Boolean sessionActive) {
+        isSessionActive = sessionActive;
     }
 }

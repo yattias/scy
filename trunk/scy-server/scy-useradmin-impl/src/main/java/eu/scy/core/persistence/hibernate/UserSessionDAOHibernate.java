@@ -21,9 +21,22 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     public void loginUser(User user) {
         UserSession session = (UserSession) applicationContext.getBean("userSession");
         session.setSessionStarted(System.currentTimeMillis());
+        session.setSessionActive(true);
         save(session);
         user.addUserSession(session);
         save(user);
+    }
+
+    public void logoutUser(User user) {
+        UserSession userSession = (UserSession) getSession().createQuery("From UserSessionImpl where user = :user and sessionActive = 1")
+                .setEntity("user", user)
+                .setMaxResults(1)
+                .uniqueResult();
+        if(userSession != null) {
+            userSession.setSessionEnded(System.currentTimeMillis());
+            userSession.setSessionActive(false);
+            save(userSession);
+        }
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

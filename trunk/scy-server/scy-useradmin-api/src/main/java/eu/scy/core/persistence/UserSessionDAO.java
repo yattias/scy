@@ -13,4 +13,9 @@ public interface UserSessionDAO extends SCYBaseDAO {
 
     public void loginUser(User user);
 
+    /**
+     * logs the user out of the system and cleans up user sessions
+     * @param user
+     */
+    public void logoutUser(User user);
 }
