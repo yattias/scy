@@ -52,9 +52,9 @@ public class VideoInput extends Panel {
 
             public void onClick(Button button, EventObject e) {
                 if (urlField.getText().equals("")) {
-                    Window.alert("Please enter a URL.");
-                } if (getIDFromURL(urlField.getText()) == null) {
-                    Window.alert("Could not get ID from video Address. Please check the URL.");
+                    Window.alert("Please enter the URL to a YouTube video.");
+                } else if (getIDFromURL(urlField.getText()) == null) {
+                    Window.alert("Could not get ID from video Address. Please check the URL to your YouTube video.");
                 } else {
                     showPreview();
                 }
