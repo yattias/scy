@@ -58,6 +58,7 @@ public class UserSessionImpl extends ScyBaseObject implements UserSession {
         this.sessionId = sessionId;
     }
 
+    
     public Boolean getSessionActive() {
         return isSessionActive;
     }
