@@ -25,7 +25,7 @@ public class VideoInput extends Panel {
     public VideoInput() {
         super("Video Input");
         setId(TOOL_ID);
-        
+
         final FormPanel formPanel = new FormPanel();
         formPanel.setFrame(true);  
         formPanel.setLabelWidth(100);  
