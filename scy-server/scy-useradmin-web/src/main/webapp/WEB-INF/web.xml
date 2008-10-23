@@ -21,6 +21,12 @@
 <web-app>
     <display-name>scy-useradmin-web Tapestry 5 Application</display-name>
 
+    <context-param>
+        <param-name>tapestry.app-package</param-name>
+        <param-value>eu.scy</param-value>
+    </context-param>
+
+
     <!-- SPRING DEFINITIONS -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -29,10 +35,6 @@
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
             classpath:/applicationContext-modelBeans.xml
-            <!--/WEB-INF/applicationContext-myDefaultScyProjectSetup.xml,-->
-            <!--/WEB-INF/ws-beans.xml,-->
-            <!--/WEB-INF/remoting-servlet.xml,-->
-            <!--/WEB-INF/applicationContext-roolo.xml-->
         </param-value>
     </context-param>
 
@@ -40,9 +42,6 @@
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>
     </filter>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
 
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -53,7 +52,17 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
+
+    <filter-mapping>
+        <filter-name>app</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <listener>
         <listener-class>eu.scy.listeners.UserSessionListener</listener-class>
     </listener>
@@ -61,18 +70,10 @@
     
     
 
-    <context-param>
-        <param-name>tapestry.app-package</param-name>
-        <param-value>eu.scy</param-value>
-    </context-param>
     <!--filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>
     </filter-->
-    <filter-mapping>
-        <filter-name>app</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 
     <resource-ref>
         <res-ref-name>jdbc/scyuseradmin</res-ref-name>
