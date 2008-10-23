@@ -4,9 +4,10 @@ import eu.scy.pages.TapestryContextAware;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.persistence.ProjectDAO;
-import eu.scy.core.model.User;
-import eu.scy.core.model.Project;
+import eu.scy.core.persistence.GroupDAO;
+import eu.scy.core.model.*;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.impl.GroupImpl;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,23 @@ public class Index  extends ScyModelPage {
 
     @Inject
     private ProjectDAO projectDAO;
+
+    @Inject
+    GroupDAO groupDAO;
+
     private Project scyProject;
+    private UserRole userRole;
+
+    private Group group;
+
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
 
     public void loadModel() {
         setModel((ScyBaseObject) getProjectDAO().getProject(getModelId()));
@@ -51,7 +68,23 @@ public class Index  extends ScyModelPage {
         this.projectDAO = projectDAO;
     }
 
-    
+    public GroupDAO getGroupDAO() {
+        return groupDAO;
+    }
 
+    public void setGroupDAO(GroupDAO groupDAO) {
+        this.groupDAO = groupDAO;
+    }
 
+    public List <Group> getGroups() {
+        return getGroupDAO().getGroupsForProject(getCurrentProject());
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 }

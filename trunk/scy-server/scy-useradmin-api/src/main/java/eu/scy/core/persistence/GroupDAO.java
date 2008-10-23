@@ -3,6 +3,8 @@ package eu.scy.core.persistence;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.Project;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -17,4 +19,6 @@ public interface GroupDAO extends SCYBaseDAO{
     public Group getGroup(String id);
 
     public Group getRootGroup(Project project);
+
+    public List <Group> getGroupsForProject(Project project);
 }

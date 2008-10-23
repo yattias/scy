@@ -17,6 +17,7 @@ import java.util.LinkedList;
  */
 @Entity
 @Table (name = "scygroup")
+@org.hibernate.annotations.Proxy (proxyClass = Group.class )
 public class GroupImpl extends ScyBaseObject implements Group {
 
 

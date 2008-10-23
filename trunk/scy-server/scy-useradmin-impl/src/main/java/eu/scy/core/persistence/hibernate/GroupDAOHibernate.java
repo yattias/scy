@@ -5,6 +5,9 @@ import eu.scy.core.model.Project;
 import eu.scy.core.model.impl.GroupImpl;
 import eu.scy.core.persistence.GroupDAO;
 
+import java.util.List;
+import java.util.Collections;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -39,6 +42,14 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
                 .uniqueResult();
     }
 
+    public List<Group> getGroupsForProject(Project project) {
+        if(project != null) {
+            return getSession().createQuery("from GroupImpl where project = :project order by name")
+                    .setEntity("project", project)
+                    .list();
+        }
+        return Collections.EMPTY_LIST;
+    }
 
 
 }
