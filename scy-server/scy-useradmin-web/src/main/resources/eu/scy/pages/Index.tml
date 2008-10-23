@@ -1,36 +1,41 @@
 <html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
+<body>
 
 <div>
-    <table cellpadding="5">
-        <th colspan="2">Statistics</th>
-        <!--tr>
-            <td>Number of groups</td>
-            <td>${numberOfGroups}</td>
-        </tr>
-        <tr>
-            <td>Number of users</td>
-            <td>${numberOfUsers}</td>
-        </tr-->
 
-
-    </table>
-
-    <t:loop source="projects" value="scyProject">
-            <a t:type="pageLink" page="Index" context="scyProject.id">${scyProject.name}</a>
+    <t:loop source="currentUser.userRoles" value="userRole">
+        ${userRole.role.name}
     </t:loop>
+
+    ${group.name}
+    <t:if test="model">
+        PROJECET: ${currentProject.name}
+
+        <t:grid source="groups" row="group">
+            <t:parameter name="namecell">
+                ${group.name}
+                <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
+            </t:parameter>
+        </t:grid>
+
+
+    </t:if>
+    <t:if test="model" negate="true">
+        <h1>Available projects</h1>
+        <table>
+            <t:loop source="projects" value="scyProject">
+                <tr>
+                    <td>
+                        <a t:type="pageLink" page="Index" context="scyProject.id">${scyProject.name}</a>
+                    </td>
+                </tr>
+
+            </t:loop>
+        </table>
+    </t:if>
 </div>
 
-<br/>
 
-    <t:if test="model">
-        PROJECET: ${model.name}
-    </t:if>
-
-<br/>
-
-<!--div class="centeredContentsContainer">
-    <img src="graphics/mirrored_logo.png" alt="The SCY is the limit" />
-</div-->
-
+</body>
 </html>

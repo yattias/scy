@@ -2,7 +2,7 @@
 <head>
     <title>SCY</title>
     <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript" src="${asset:context:scripts/prototype.js}"></script>
+  <!--script type="text/javascript" src="${asset:context:scripts/prototype.js}"></script-->
   <script type="text/javascript" src="${asset:context:scripts/applicationController.js}"></script>
 
 </head>
@@ -32,7 +32,6 @@
                      <t:if test="currentProject">
                          <t:pagelink page="GroupOverview" title="User administration">
                              <img src="${scyUserAdminIcon}"/>
-
                          </t:pagelink>
                      </t:if>
                      <!--t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
