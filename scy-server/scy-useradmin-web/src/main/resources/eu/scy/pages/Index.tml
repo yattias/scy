@@ -4,17 +4,21 @@
 
 <div>
 
+    <t:zone id="main_contents">
+        This is the zone man!
+    </t:zone>
+
+
     <t:loop source="currentUser.userRoles" value="userRole">
         ${userRole.role.name}
     </t:loop>
 
-    ${group.name}
     <t:if test="model">
         PROJECET: ${currentProject.name}
 
         <t:grid source="groups" row="group">
             <t:parameter name="namecell">
-                ${group.name}
+                <t:actionlink t:id="delete" context="group.id" t:zone="main_contents">${group.name}</t:actionlink>
                 <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
             </t:parameter>
         </t:grid>
