@@ -1,6 +1,9 @@
 package eu.scy.tools.youtube.client;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
@@ -24,13 +27,25 @@ public class VideoInput extends Panel {
 
     public VideoInput() {
         super("Video Input");
+        setClosable(true);
+        setBorder(true);
         setId(TOOL_ID);
-
+        
+        VerticalPanel mainVerticalPanel = new VerticalPanel();
+        mainVerticalPanel.setWidth("100%");
+        mainVerticalPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+        add(mainVerticalPanel);
+        
+        HorizontalPanel topHorizontalPanel = new HorizontalPanel();
+        mainVerticalPanel.add(topHorizontalPanel);
+        
         final FormPanel formPanel = new FormPanel();
-        formPanel.setFrame(true);  
+        formPanel.setPaddings(5);
+        formPanel.setFrame(true);
         formPanel.setLabelWidth(100);  
 
         urlField = new TextField("Address", "url", 400);
+        urlField.setValue("http://www.youtube.com/watch?v=jb41_lzILxg&feature=related");
         urlField.setValidator( new Validator() {
 
             public boolean validate(String value) throws ValidationException {
@@ -83,7 +98,7 @@ public class VideoInput extends Panel {
         });
         formPanel.addButton(saveButton);
         
-        add(formPanel);
+        topHorizontalPanel.add(formPanel);
 
         previewPanel = new Panel();
         videoView = new VideoView();
@@ -91,7 +106,7 @@ public class VideoInput extends Panel {
         previewPanel.add(videoView);
         previewPanel.setVisible(false);
 
-        add(previewPanel);
+        mainVerticalPanel.add(previewPanel);
     }
 
     protected void showPreview() {
