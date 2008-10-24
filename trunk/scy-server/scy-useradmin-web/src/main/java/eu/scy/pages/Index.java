@@ -27,7 +27,7 @@ public class Index  extends ScyModelPage {
     private ProjectDAO projectDAO;
 
     @Inject
-    GroupDAO groupDAO;
+    private GroupDAO groupDAO;
 
     private Project scyProject;
     private UserRole userRole;
@@ -87,4 +87,19 @@ public class Index  extends ScyModelPage {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    Object onActionFromDelete(String groupId) {
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        System.out.println("GROUP: " + groupId);
+        return GroupOverview.class;
+    }
+
 }
