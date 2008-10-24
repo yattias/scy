@@ -15,6 +15,7 @@
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.map.MapTool"/>
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.map.MapToolApp"/>
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.youtube.YouTubeApp"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.monitor.Statistics"/>
         <property name="context-root" value="scy-lab"/>
         <property name="java-output-path"/>
     </wb-module>
