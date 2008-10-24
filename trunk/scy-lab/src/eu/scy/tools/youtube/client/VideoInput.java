@@ -45,7 +45,7 @@ public class VideoInput extends Panel {
         formPanel.setLabelWidth(100);  
 
         urlField = new TextField("Address", "url", 400);
-        urlField.setValue("http://www.youtube.com/watch?v=jb41_lzILxg&feature=related");
+        //urlField.setValue("http://www.youtube.com/watch?v=jb41_lzILxg&feature=related");
         urlField.setValidator( new Validator() {
 
             public boolean validate(String value) throws ValidationException {
