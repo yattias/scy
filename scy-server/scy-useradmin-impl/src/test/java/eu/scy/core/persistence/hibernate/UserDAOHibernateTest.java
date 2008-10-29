@@ -43,6 +43,8 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
     @Test
     public void testGetUserInRole() {
+        user = new UserImpl();
+        user.addRole("ROLE_ADMIN");
         String userRole = "ROLE_ADMIN";
         assert(getUserDAO().getUserInRole(userRole, user));
 
