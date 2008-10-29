@@ -51,6 +51,24 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
     }
 
     /**
+     * Highlights possible nodes to drop on (!= sourceNode)
+     */
+    public void onEnter(DragContext context) {
+        super.onEnter(context);
+        if (getDropTarget() != ((DrawEdgeDragController) context.dragController).getSourceNode().getNodeView()) {
+            getDropTarget().setStyleName(CSSConstants.CSS_DROPTARGET_NODE_ENGAGE);
+        }
+    }
+    
+    /**
+     * Removes highlighting applied in onEnter()
+     */
+    public void onLeave(DragContext context) {
+       super.onLeave(context);
+       getDropTarget().removeStyleName(CSSConstants.CSS_DROPTARGET_NODE_ENGAGE);
+    }
+    
+    /**
      * @param context DragContext of the completed DragOperation
      * @param n1 The node the drag started
      * @param n2 The node the drop was completed on
