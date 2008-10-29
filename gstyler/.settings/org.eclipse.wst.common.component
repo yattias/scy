@@ -3,7 +3,7 @@
 <wb-module deploy-name="gstyler">
 <wb-resource deploy-path="/" source-path="/WebContent"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-<wb-resource deploy-path="/" source-path="/build/gwtOutput/info.collide.gstyler.GStyler"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.gstyler.GStyler"/>
 <property name="context-root" value="gstyler"/>
 <property name="java-output-path"/>
 </wb-module>
