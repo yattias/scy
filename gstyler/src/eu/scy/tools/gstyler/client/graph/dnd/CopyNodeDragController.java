@@ -19,6 +19,7 @@ public class CopyNodeDragController extends PickupDragController {
 
     public CopyNodeDragController(final GWTGraph targetGraph) {
         super(RootPanel.get(), true);
+        // Create a proxy (== copy of the dragSource) as we do not want to move the source node but copy it directly
         setBehaviorDragProxy(true);
         registerDropController(targetGraph.getDropController());
 
