@@ -108,7 +108,6 @@
         </dependency>
 
 
-
     </dependencies>
 
 
@@ -116,13 +115,12 @@
         <filters>
             <filter>${filter.file}</filter>
         </filters>
-        <resources>
-            <resource>
+        <testResources>
+            <testResource>
                 <directory>src/test/java</directory>
                 <filtering>true</filtering>
-            </resource>
-        </resources>
-
+            </testResource>
+        </testResources>
 
         <plugins>
             <plugin>
@@ -142,8 +140,10 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
+
 
     <repositories>
         <repository>
