@@ -1,6 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import org.testng.annotations.Test;
+import org.testng.annotations.BeforeTest;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.User;
@@ -32,6 +33,7 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
     }
 
+    @BeforeTest
     protected void setupForTest() {
         user = new UserImpl();
         user.addRole("ROLE_ADMIN");
