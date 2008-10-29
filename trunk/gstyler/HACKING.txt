@@ -1,14 +1,11 @@
 == TODO ==
 
-* I18n
-
 * Decide on Edge handling
 * Edge deletion
 * Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface)
 * Enable Simulation -> QOC? 
 * Modefull edge drawing does not work 100%
 * Decide on modeless/modefull/both edge drawing
-* BUG: Mouse cursor does not change when drawing edges in Firefox
 * Think about collaboration and saving
 * Mavenize
 * Pull GWTGraph into its own project?
