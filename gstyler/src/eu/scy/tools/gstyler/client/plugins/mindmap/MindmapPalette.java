@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.GStyler;
+import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 import eu.scy.tools.gstyler.client.plugins.Palette;
 
 public class MindmapPalette extends Palette {
@@ -14,21 +15,31 @@ public class MindmapPalette extends Palette {
 
         getGraph().addNode(new MindmapNode(), 5, 5);
 
-        final Button drawEdgeButton = new Button("Draw edges");
+        final Button drawEdgeButton = new Button("Edit edges");
+        final Button moveNodesButton = new Button("Move nodes");
+
         drawEdgeButton.addClickListener(new ClickListener() {
 
             public void onClick(Widget sender) {
-                if (gstyler.getGraph().isEdgeMode()) {
-                    gstyler.getGraph().leaveEdgeMode();
-                    drawEdgeButton.setText("Draw edges");
-                } else {
-                    gstyler.getGraph().enterEdgeMode();
-                    drawEdgeButton.setText("Move nodes");
-                }
+                drawEdgeButton.setEnabled(false);
+                moveNodesButton.setEnabled(true);
+                gstyler.getGraph().setInteractionMode(InteractionMode.EDIT_EDGES);
             }
         });
         getActionsPanel().add(drawEdgeButton);
-        getActionsPanel().add(new Button("Delete edge"));
+        
+        
+        moveNodesButton.setEnabled(false);
+        moveNodesButton.addClickListener(new ClickListener() {
+
+            public void onClick(Widget sender) {
+                drawEdgeButton.setEnabled(true);
+                moveNodesButton.setEnabled(false);
+                gstyler.getGraph().setInteractionMode(InteractionMode.MOVE_NODES);
+            }
+            
+        });
+        getActionsPanel().add(moveNodesButton);
     }
 
     @Override

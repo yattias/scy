@@ -1,10 +1,5 @@
 package eu.scy.tools.gstyler.client.graph.dnd;
 
-import java.util.Collection;
-
-import pl.balon.gwt.diagrams.client.connection.Connection;
-import pl.balon.gwt.diagrams.client.connector.UIObjectConnector;
-
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,12 +19,7 @@ public class RemoveEdgeDropController extends DrawEdgeDropController {
     @Override
     public void handleDrop(DragContext context, Node<?, ?> n1, Node<?, ?> n2) {
         System.out.println("Need to remove edge between " + n1 + " and " + n2);
-        // TODO: How to get connection between two?
-        Collection<Connection> cons = UIObjectConnector.getWrapper(n1.getNodeView()).getConnections();
-        for (Connection c : cons) { 
-            c.remove();
-            // graph.removeEdge() ?
-        }
+        graph.removeEdge( graph.getEdge(n1, n2) );
     }
 
 }

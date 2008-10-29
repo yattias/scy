@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.NodeView;
+import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 
 /**
  * This MouseListener is used to capture MouseClicks on a widget of a NodeView
@@ -41,7 +42,7 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
     public void onMouseDown(Widget sender, int x, int y) {
         
         // Any clicks will be ignored if not in edge mode
-        if (modeless == false && graph.isEdgeMode() == false) {
+        if (modeless == false && graph.getOmteractionMode() != InteractionMode.EDIT_EDGES){
             System.out.println("not in egde mode");
             return;
         }

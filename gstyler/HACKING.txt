@@ -1,11 +1,9 @@
 == TODO ==
 
-* Decide on Edge handling
-* Edge deletion
-* Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface)
-* Enable Simulation -> QOC? 
-* Modefull edge drawing does not work 100%
-* Decide on modeless/modefull/both edge drawing
+* BUG: Modefull edge drawing does not work 100%
+* Enable Simulation -> QOC?
+* Differentiate Directed and NonDirected Edges?
+* Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface) 
 * Think about collaboration and saving
 * Mavenize
 * Pull GWTGraph into its own project?

@@ -4,11 +4,6 @@ package eu.scy.tools.gstyler.client.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import pl.balon.gwt.diagrams.client.connection.Connection;
-import pl.balon.gwt.diagrams.client.connection.StraightTwoEndedConnection;
-import pl.balon.gwt.diagrams.client.connector.Connector;
-import pl.balon.gwt.diagrams.client.connector.UIObjectConnector;
-
 import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
@@ -29,11 +24,26 @@ public class GWTGraph extends AbsolutePanel {
     public DragController dragController;
 
     /**
+     * The graph can differentiate two interaction modes:
+     * MOVE_NODES enables the user to move nodes and only draw/delete edges when clicking on the EdgeHandles
+     * EDIT_EDGES locks all nodes in position and enables the user to draw and delte edges from any DragHandle of the node
+     *
+     */
+    public enum InteractionMode {
+        MOVE_NODES,
+        EDIT_EDGES;
+    }
+    
+    /**
      * DropController to be used to drop nodes from the pallete's graph onto the main graph
      */
     private DropController dropController;
+    
+    private ArrayList<Node<?, ?>> nodes = new ArrayList<Node<?, ?>>();
+    
+    private ArrayList<Edge> edges = new ArrayList<Edge>();
 
-    private boolean edgeMode = false;
+    public InteractionMode interactionMode;
     
     /**
      * Creates a new GWTGraph with a normal MoveNodeDragController which allows for nodes
@@ -77,7 +87,7 @@ public class GWTGraph extends AbsolutePanel {
     
     private void initNode(Node<?, ?> node) {
         initNodeView(node.getNodeView());
-        // FIXME: add to internal array?
+        nodes.add(node);
     }
     
     private void initNodeView(NodeView<?> nodeView) {
@@ -87,14 +97,43 @@ public class GWTGraph extends AbsolutePanel {
         nodeView.getEdgeHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
     }
 
+    /**
+     * Adds an Edge to this graph
+     */
     public void addEdge(Edge edge) {
-      // FIXME: add to internal array?
-      Connector c1 = UIObjectConnector.wrap(edge.getNode1().getNodeView());
-      Connector c2 = UIObjectConnector.wrap(edge.getNode2().getNodeView());
-      Connection connection = new StraightTwoEndedConnection(c1, c2);
-      connection.appendTo(this);
+      edge.getConnection().appendTo(this);
+      edges.add(edge);
     }
 
+    /**
+     * Removes the given edge from this graph
+     */
+    public void removeEdge(Edge edge) {
+        edges.remove(edge);
+        edge.getConnection().remove();
+    }
+    
+    /**
+     * @return Edge from n1 to n2, if none found Edge from n2 to n2 or null
+     */
+    public Edge getEdge(Node<?, ?> n1, Node<?, ?> n2) {
+        for (Edge e : edges) {
+            if (e.getNode1() == n1) {
+                if (e.getNode2() == n2) {
+                    return e;
+                }
+            }
+        }
+        for (Edge e : edges) {
+            if (e.getNode2() == n1) {
+                if (e.getNode1() == n2) {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
+    
     /**
      * Returns a Collection of DropControllers, eg. to be used as targets when drawing new edges
      */
@@ -111,6 +150,7 @@ public class GWTGraph extends AbsolutePanel {
     /**
      * Returns a Collection of DropControllers, eg. to be used as targets when removing edges
      */
+    // FIXME: either use or remove
     public Collection<DropController> getRemoveEdgeDropControllers() {
         ArrayList<DropController> list = new ArrayList<DropController> ();
         for (Widget w : getChildren()) {
@@ -121,12 +161,25 @@ public class GWTGraph extends AbsolutePanel {
         return list;
     }
 
-    public boolean isEdgeMode() {
-        return edgeMode;
+    public InteractionMode getOmteractionMode() {
+        return interactionMode;
     }
 
-    public void enterEdgeMode() {
-        edgeMode = true;
+    public void setInteractionMode(InteractionMode interactionMode) {
+        switch (interactionMode) {
+            case MOVE_NODES:
+                leaveEdgeMode();
+                break;
+                
+            case EDIT_EDGES:
+                enterEdgeMode();
+                break;
+        }
+        this.interactionMode = interactionMode;
+    }
+    
+    private void enterEdgeMode() {
+        interactionMode = InteractionMode.EDIT_EDGES;
         for (Widget w: getChildren() ) {
             if (w instanceof NodeView) {
                 dragController.makeNotDraggable(w);
@@ -134,8 +187,7 @@ public class GWTGraph extends AbsolutePanel {
         }
     }
 
-    public void leaveEdgeMode() {
-        edgeMode = false;
+    private void leaveEdgeMode() {
         for (Widget w: getChildren() ) {
             if (w instanceof NodeView) {
                 dragController.makeDraggable(w);
