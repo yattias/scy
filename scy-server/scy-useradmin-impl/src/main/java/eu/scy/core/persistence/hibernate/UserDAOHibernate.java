@@ -1,11 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.persistence.UserDAO;
-import eu.scy.core.model.User;
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.UserSession;
-import eu.scy.core.model.impl.GroupImpl;
+import eu.scy.core.model.*;
 import org.springframework.security.concurrent.SessionRegistryImpl;
 
 import java.util.*;
@@ -171,8 +167,17 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .uniqueResult();
     }
 
+    public Boolean getUserInRole(String role, User user) {
+        UserRole userRole = (UserRole) getSession().createQuery("from UserRoleImpl where user = :user and role.name = :role")
+                .setEntity("user", user)
+                .setString("role", role)
+                .setMaxResults(1)
+                .uniqueResult();
+        return userRole != null;
+    }
 
-   /* public SessionRegistryImpl getSessionRegistry() {
+
+    /* public SessionRegistryImpl getSessionRegistry() {
         return sessionRegistry;
     }
 

@@ -46,4 +46,6 @@ public interface UserDAO extends SCYBaseDAO{
 
     void setSessionRegistry(SessionRegistryImpl sessionRegistry);
     */
+
+    Boolean getUserInRole(String role, User user);
 }
