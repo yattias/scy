@@ -1,8 +1,10 @@
 package eu.scy.tools.gstyler.client;
 
 
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -54,8 +56,15 @@ public class GStyler extends SimplePanel {
         
         graph.addNode(new MindmapNode(), 400, 100);
         
-        Edge e = new Edge(n1, n2);
+        final Edge e = new Edge(n1, n2);
         graph.addEdge(e);
+        
+        menuBar.addItem(new MenuItem("DEBUG: del edge", new Command() {
+
+            public void execute() {
+                graph.removeEdge(e);
+            }
+        }));
     }
 
     public GWTGraph getGraph() {
