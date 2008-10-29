@@ -9,9 +9,9 @@
     </t:zone>
 
 
-    <t:loop source="currentUser.userRoles" value="userRole">
-        ${userRole.role.name}
-    </t:loop>
+    <div t:type="assertroles/AssertRoles" roles="literal:ROLE_ADMIN">Hei</div>
+
+
 
     <t:if test="model">
         PROJECET: ${currentProject.name}
