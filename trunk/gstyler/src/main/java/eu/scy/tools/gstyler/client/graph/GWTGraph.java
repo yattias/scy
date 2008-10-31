@@ -104,12 +104,14 @@ public class GWTGraph extends AbsolutePanel {
     /**
      * Adds an Edge to this graph
      */
-    public void addEdge(Edge edge) {
+    public boolean addEdge(Edge edge) {
         if (edge.isValid() == false) {
-            throw new RuntimeException("Invalid edge: " + edge);
+            return false;
         }
+        // FIXME: Check if nodes exist in graph
         edge.getConnection().appendTo(this);
         edges.add(edge);
+        return true;
     }
 
     /**
