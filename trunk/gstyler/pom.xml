@@ -4,6 +4,7 @@
 	<groupId>gstyler</groupId>
 	<artifactId>gstyler</artifactId>
 	<packaging>war</packaging>
+	<name>GStyler - Web based graph modelling tool</name>
 	<version>0.0.6-SNAPSHOT</version>
 <!--  convenience to define GWT version in one place -->
 	<properties>
@@ -27,12 +28,6 @@
 	</repositories>
 	<dependencies>
 <!--  GWT deps (from central repo) -->
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -72,7 +67,16 @@
 			<version>2.5.6</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwtVersion}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
+	<scm>
+		<url>http://scy.googlecode.com/svn/trunk/</url>
+	</scm>
 	<build>
 		<plugins>
 <!--  configure the GWT-Maven plugin -->
