@@ -7,9 +7,9 @@ import eu.scy.tools.gstyler.client.graph.EdgeCreationHandle;
 import eu.scy.tools.gstyler.client.graph.NodeView;
 
 
-public class ViewMockep extends NodeView<NodeMockup> {
+public class ViewMockup extends NodeView<NodeMockup> {
 
-    public ViewMockep(NodeMockup node) {
+    public ViewMockup(NodeMockup node) {
         super(node);
     }
 

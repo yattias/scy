@@ -3,10 +3,10 @@ package eu.scy.tools.gstyler.client.test;
 import eu.scy.tools.gstyler.client.graph.Node;
 
 
-public class NodeMockup extends Node<ModelMockup, ViewMockep> {
+public class NodeMockup extends Node<ModelMockup, ViewMockup> {
 
     @Override
-    public Node<ModelMockup, ViewMockep> createClone() {
+    public Node<ModelMockup, ViewMockup> createClone() {
         return new NodeMockup();
     }
 
@@ -16,8 +16,8 @@ public class NodeMockup extends Node<ModelMockup, ViewMockep> {
     }
 
     @Override
-    public ViewMockep createView() {
-        return new ViewMockep(this);
+    public ViewMockup createView() {
+        return new ViewMockup(this);
     }
 
 }
