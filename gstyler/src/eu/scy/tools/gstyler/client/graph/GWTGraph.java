@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Widget;
 import eu.scy.tools.gstyler.client.graph.dnd.CreateEdgeDropController;
 import eu.scy.tools.gstyler.client.graph.dnd.DrawEdgeMouseListener;
 import eu.scy.tools.gstyler.client.graph.dnd.MoveNodeDragController;
-import eu.scy.tools.gstyler.client.graph.dnd.RemoveEdgeDropController;
 
 public class GWTGraph extends AbsolutePanel {
 
@@ -92,17 +91,25 @@ public class GWTGraph extends AbsolutePanel {
     
     private void initNodeView(NodeView<?> nodeView) {
         dragController.makeDraggable(nodeView);
+        // Make the node draggeable and thus moveable
         SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();
         dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, false));
-        nodeView.getEdgeHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
+
+        // Add any EdgeHandlers to draw Edges
+        for (EdgeCreationHandle w : nodeView.getEdgeCreationHandles()) {
+            w.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
+        }
     }
 
     /**
      * Adds an Edge to this graph
      */
     public void addEdge(Edge edge) {
-      edge.getConnection().appendTo(this);
-      edges.add(edge);
+        if (edge.isValid() == false) {
+            throw new RuntimeException("Invalid edge: " + edge);
+        }
+        edge.getConnection().appendTo(this);
+        edges.add(edge);
     }
 
     /**
@@ -141,26 +148,15 @@ public class GWTGraph extends AbsolutePanel {
         ArrayList<DropController> list = new ArrayList<DropController> ();
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
-                list.add(new CreateEdgeDropController(w, this));
+                NodeView<?> nodeView = (NodeView<?>) w;
+                for (EdgeCreationHandle h : nodeView.getEdgeCreationHandles()) {
+                    list.add(new CreateEdgeDropController(w, this, h.getEdge()));
+                }                    
             }
         }
         return list;
     }
     
-    /**
-     * Returns a Collection of DropControllers, eg. to be used as targets when removing edges
-     */
-    // FIXME: either use or remove
-    public Collection<DropController> getRemoveEdgeDropControllers() {
-        ArrayList<DropController> list = new ArrayList<DropController> ();
-        for (Widget w : getChildren()) {
-            if (w instanceof NodeView) {
-                list.add(new RemoveEdgeDropController(w, this));
-            }
-        }
-        return list;
-    }
-
     public InteractionMode getOmteractionMode() {
         return interactionMode;
     }

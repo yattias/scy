@@ -3,6 +3,7 @@ package eu.scy.tools.gstyler.client.graph.dnd;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.google.gwt.user.client.ui.Widget;
 
+import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.Node;
 
@@ -12,8 +13,8 @@ import eu.scy.tools.gstyler.client.graph.Node;
  */
 public class RemoveEdgeDropController extends DrawEdgeDropController {
 
-    public RemoveEdgeDropController(Widget nodeView, GWTGraph graph) {
-        super(nodeView, graph);
+    public RemoveEdgeDropController(Widget nodeView, GWTGraph graph, Edge edge) {
+        super(nodeView, graph, edge);
     }
 
     @Override
