@@ -12,8 +12,8 @@ import eu.scy.tools.gstyler.client.graph.Node;
  */
 public class CreateEdgeDropController extends DrawEdgeDropController {
 
-    public CreateEdgeDropController(Widget nodeView, GWTGraph graph) {
-        super(nodeView, graph);
+    public CreateEdgeDropController(Widget nodeView, GWTGraph graph, Edge edge) {
+        super(nodeView, graph, edge);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class CreateEdgeDropController extends DrawEdgeDropController {
         if (existingEdge != null) {
             graph.removeEdge(existingEdge);
         } else {
-            Edge newEdge = new Edge(n1, n2);
-            graph.addEdge(newEdge);
+            edge.init(n1, n2);
+            graph.addEdge(edge);
         }
     }
 

@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.Node;
 import eu.scy.tools.gstyler.client.graph.NodeView;
@@ -19,14 +20,17 @@ import eu.scy.tools.gstyler.client.graph.NodeView;
 public abstract class DrawEdgeDropController extends AbstractDropController {
 
     protected GWTGraph graph;
+    protected Edge edge;
+    
 
     /**
      * @param nodeView Has to be a NodeView!!
      * @param graph Parent graph of given NodeView
      */
-    public DrawEdgeDropController(Widget nodeView, GWTGraph graph) {
+    public DrawEdgeDropController(Widget nodeView, GWTGraph graph, Edge edge) {
         super(nodeView);
         this.graph = graph;
+        this.edge = edge;
     }
 
     public void onPreviewDrop(DragContext context) throws VetoDragException {

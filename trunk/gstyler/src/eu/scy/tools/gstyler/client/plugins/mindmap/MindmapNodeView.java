@@ -1,13 +1,17 @@
 package eu.scy.tools.gstyler.client.plugins.mindmap;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SourcesMouseEvents;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.EdgeCreationHandle;
+import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.NodeView;
 
 
@@ -40,8 +44,11 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
     }
 
     @Override
-    public SourcesMouseEvents getEdgeHandle() {
-        return footer;
+    public Collection<EdgeCreationHandle> getEdgeCreationHandles() {
+        Collection<EdgeCreationHandle> c = new ArrayList<EdgeCreationHandle>(); 
+        EdgeCreationHandle handle = new EdgeCreationHandle(footer, new Edge());
+        c.add(handle);
+        return c;
     }
 
 }
