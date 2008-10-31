@@ -5,10 +5,10 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.GStyler;
+import eu.scy.tools.gstyler.client.common.AbstractPalette;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
-import eu.scy.tools.gstyler.client.plugins.Palette;
 
-public class MindmapPalette extends Palette {
+public class MindmapPalette extends AbstractPalette {
 
     public MindmapPalette(final GStyler gstyler) {
         super(gstyler);
