@@ -2,7 +2,6 @@
 <module>
 	<!-- Inherit the GWT stuff. -->
 	<inherits name='com.google.gwt.user.User'/>
-  	<inherits name='com.google.gwt.junit.JUnit'/> 
 	<inherits name="com.google.gwt.i18n.I18N"/>
 
   	<!-- Inherit Edge drawing stuff. -->
