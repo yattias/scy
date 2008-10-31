@@ -1,6 +1,7 @@
 package eu.scy.tools.gstyler.client.graph;
 
 
+
 public abstract class NodeModel {
     
     protected String header;
@@ -16,4 +17,6 @@ public abstract class NodeModel {
     public void setHeader(String header) {
         this.header = header;
     }
+
+    public abstract NodeModel createClone();
 }

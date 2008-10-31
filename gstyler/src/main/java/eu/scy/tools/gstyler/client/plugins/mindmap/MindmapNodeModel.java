@@ -19,4 +19,12 @@ public class MindmapNodeModel extends NodeModel {
     public void setNote(String note) {
         this.note = note;
     }
+
+    @Override
+    public MindmapNodeModel createClone() {
+        MindmapNodeModel clone = new MindmapNodeModel();
+        clone.setHeader(getHeader());
+        clone.setNote(getNote());
+        return clone;
+    }
 }

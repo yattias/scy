@@ -30,7 +30,7 @@ public class CopyNodeDragController extends PickupDragController {
                 // Get the dragged nodeView, clone the corresponding node and add it to the graph
                 GWTGraph graph = targetGraph;
                 NodeView<?> nodeView = (NodeView<?>) event.getContext().draggable;
-                Node<?, ?> newNode = nodeView.getNode().clone();
+                Node<?, ?> newNode = nodeView.getNode().createClone();
                 graph.addNode(newNode, event.getContext().desiredDraggableX, event.getContext().desiredDraggableY);
                 
                 // TODO: something is wrong with the modefull stuff. Check it!
