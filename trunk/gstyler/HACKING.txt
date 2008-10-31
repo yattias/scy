@@ -7,7 +7,8 @@
 * Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface) 
 * Think about collaboration and saving
 * Check war for unnecessary classes and libs
-* Pull GWTGraph into its own project?
+* Pull GWTGraph into its own project
+* Pull public api into its own project
 * Put plugins into own projects
 
 == Architecture ==
