@@ -15,6 +15,9 @@ public abstract class Node<M extends NodeModel, V extends NodeView<?>> {
     }
 
     public V getNodeView() {
+        if (view == null) {
+            view = createView();
+        }
         return view;
     }
     

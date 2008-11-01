@@ -30,7 +30,6 @@ public class GwtTestNode extends GWTTestCase {
         NodeView<?> view = testNode.createView();
         assertNotNull(view);
         assertNotNull(view.getDragHandle());
-        assertNotNull(view.getEdgeCreationHandles());
     }
     
 }

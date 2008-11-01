@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.plugins.mindmap;
+package eu.scy.tools.gstyler.client.plugins.qoc;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -8,14 +8,18 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
 import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
-import eu.scy.tools.gstyler.client.graph.edge.Edge;
+import eu.scy.tools.gstyler.client.plugins.qoc.nodes.CriterionNode;
+import eu.scy.tools.gstyler.client.plugins.qoc.nodes.OptionNode;
+import eu.scy.tools.gstyler.client.plugins.qoc.nodes.QuestionNode;
 
-public class MindmapPlugin extends AbstractGraphPlugin {
+public class QOCPlugin extends AbstractGraphPlugin {
 
-    public MindmapPlugin(final GraphApplication graphApplication) {
+    public QOCPlugin(final GraphApplication graphApplication) {
         super(graphApplication);
 
-        getGraph().addNode(new MindmapNode(), 5, 5);
+        getGraph().addNode(new QuestionNode(), 5, 5);
+        getGraph().addNode(new OptionNode(), 5, 60);
+        getGraph().addNode(new CriterionNode(), 5, 130);
 
         final Button drawEdgeButton = new Button("Edit edges");
         final Button moveNodesButton = new Button("Move nodes");
@@ -29,8 +33,7 @@ public class MindmapPlugin extends AbstractGraphPlugin {
             }
         });
         getActionsPanel().add(drawEdgeButton);
-        
-        
+
         moveNodesButton.setEnabled(false);
         moveNodesButton.addClickListener(new ClickListener() {
 
@@ -39,7 +42,7 @@ public class MindmapPlugin extends AbstractGraphPlugin {
                 moveNodesButton.setEnabled(false);
                 graphApplication.getGraph().setInteractionMode(InteractionMode.MOVE_NODES);
             }
-            
+
         });
         getActionsPanel().add(moveNodesButton);
         
@@ -56,28 +59,15 @@ public class MindmapPlugin extends AbstractGraphPlugin {
 
     @Override
     public String getName() {
-        return "Mindmap";
+        return "QOC";
     }
 
     public void addExampleDocument(GWTGraph graph) {
-        MindmapNode n1 = new MindmapNode();
-        n1.getModel().setNote("Beer");
-        n1.getNodeView().updateFromModel();
-        MindmapNode n2 = new MindmapNode();
-        n2.getModel().setNote("Pilsener");
-        n2.getNodeView().updateFromModel();
-        MindmapNode n3 = new MindmapNode();
-        n3.getModel().setNote("Ale");
-        n3.getNodeView().updateFromModel();
-        
-        graph.addNode(n1, 200, 50);
-        graph.addNode(n2, 100, 300);
-        graph.addNode(n3, 400, 200);
-
-        Edge e1 = new Edge(n1, n2);
-        graph.addEdge(e1);
-        
-        Edge e2 = new Edge(n1, n3);
-        graph.addEdge(e2);
+        QuestionNode n1 = new QuestionNode();
+        OptionNode n2 = new OptionNode();
+        CriterionNode n3 = new CriterionNode();
+        graph.addNode(n3, 400, 100);
+        graph.addNode(n1, 100, 100);
+        graph.addNode(n2, 200, 300);
     }
 }

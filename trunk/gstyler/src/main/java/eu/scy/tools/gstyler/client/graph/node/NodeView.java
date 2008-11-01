@@ -50,7 +50,7 @@ public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel imple
         popupLabel.addClickListener(new PopupClickListener(nodeView));
         topPanel.add(popupLabel);
         
-        titleLabel = new Label();
+        titleLabel = new Label(node.getModel().getTitle());
         titleLabel.setWidth("100%");
         titleLabel.addStyleName(CSSConstants.CSS_NODE_DRAG_HANDLE);
         topPanel.add(titleLabel);
@@ -77,7 +77,7 @@ public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel imple
     /**
      * EdgeCreationHandles are used to draw edges via drag and drop from one node to another node during the MOVE_NODES InteractionMode
      * 
-     * @return Collection of EdgeCreationHandles which may be empty, but not null
+     * @return A Collection of EdgeCreationHandles or null
      */
     public abstract Collection<EdgeCreationHandle> getEdgeCreationHandles();
 

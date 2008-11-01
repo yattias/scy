@@ -105,8 +105,10 @@ public class GWTGraph extends AbsolutePanel {
         dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, false));
 
         // Add any EdgeHandlers to draw Edges any time from specific handles
-        for (EdgeCreationHandle w : nodeView.getEdgeCreationHandles()) {
-            w.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
+        if (nodeView.getEdgeCreationHandles() != null) {
+            for (EdgeCreationHandle w : nodeView.getEdgeCreationHandles()) {
+                w.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
+            }
         }
     }
 
@@ -201,8 +203,10 @@ public class GWTGraph extends AbsolutePanel {
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
                 NodeView<?> nodeView = (NodeView<?>) w;
-                for (EdgeCreationHandle h : nodeView.getEdgeCreationHandles()) {
-                    list.add(new CreateEdgeDropController(w, this, h.getEdge()));
+                if (nodeView.getEdgeCreationHandles() != null) {
+                    for (EdgeCreationHandle h : nodeView.getEdgeCreationHandles()) {
+                        list.add(new CreateEdgeDropController(w, this, h.getEdge()));
+                    }
                 }
             }
         }
