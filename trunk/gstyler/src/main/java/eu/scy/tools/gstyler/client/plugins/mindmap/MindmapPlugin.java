@@ -10,8 +10,8 @@ import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
 
 public class MindmapPlugin extends AbstractGraphPlugin {
 
-    public MindmapPlugin(final GraphApplication gstyler) {
-        super(gstyler);
+    public MindmapPlugin(final GraphApplication graphApplication) {
+        super(graphApplication);
 
         getGraph().addNode(new MindmapNode(), 5, 5);
 
@@ -23,7 +23,7 @@ public class MindmapPlugin extends AbstractGraphPlugin {
             public void onClick(Widget sender) {
                 drawEdgeButton.setEnabled(false);
                 moveNodesButton.setEnabled(true);
-                gstyler.getGraph().setInteractionMode(InteractionMode.EDIT_EDGES);
+                graphApplication.getGraph().setInteractionMode(InteractionMode.EDIT_EDGES);
             }
         });
         getActionsPanel().add(drawEdgeButton);
@@ -35,7 +35,7 @@ public class MindmapPlugin extends AbstractGraphPlugin {
             public void onClick(Widget sender) {
                 drawEdgeButton.setEnabled(true);
                 moveNodesButton.setEnabled(false);
-                gstyler.getGraph().setInteractionMode(InteractionMode.MOVE_NODES);
+                graphApplication.getGraph().setInteractionMode(InteractionMode.MOVE_NODES);
             }
             
         });
