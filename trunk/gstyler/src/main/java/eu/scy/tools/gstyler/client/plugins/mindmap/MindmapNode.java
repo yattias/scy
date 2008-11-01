@@ -17,9 +17,8 @@ public class MindmapNode extends Node<MindmapNodeModel, MindmapNodeView> {
     
     @Override
     public Node<MindmapNodeModel, MindmapNodeView> createClone() {
-        MindmapNode nodeClone = new MindmapNode();
-        MindmapNodeModel modelClone = getModel().createClone();
-        nodeClone.setModel(modelClone);
-        return nodeClone;
+        MindmapNode clone = new MindmapNode();
+        clone.setModel(getModel().createClone());
+        return clone;
     }
 }
