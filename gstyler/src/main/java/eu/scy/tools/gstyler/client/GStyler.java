@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import eu.scy.tools.gstyler.client.common.GraphApplication;
 import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.Node;
@@ -17,7 +18,7 @@ import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapNode;
  * Main class construction the GStyler Application.
  * Uses the GWTGraph widget in the main area and a PaletteContainer on the right side to add new nodes 
  */
-public class GStyler extends SimplePanel {
+public class GStyler extends SimplePanel implements GraphApplication {
 
     public static String VERSION = "GStyler 0.0.6";
 
@@ -67,6 +68,9 @@ public class GStyler extends SimplePanel {
         }));
     }
 
+    /* (non-Javadoc)
+     * @see eu.scy.tools.gstyler.client.GraphApplication#getGraph()
+     */
     public GWTGraph getGraph() {
         return graph;
     }

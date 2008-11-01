@@ -12,9 +12,11 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import eu.scy.tools.gstyler.client.common.GraphApplication;
+
 public class GStylerMenuBar extends MenuBar {
 
-    public GStylerMenuBar(GStyler gstyler) {
+    public GStylerMenuBar(GraphApplication gstyler) {
         setAnimationEnabled(true);
         setAutoOpen(true);
 
