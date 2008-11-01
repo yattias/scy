@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
-import eu.scy.tools.gstyler.client.graph.EdgeCreationHandle;
-import eu.scy.tools.gstyler.client.graph.Edge;
-import eu.scy.tools.gstyler.client.graph.NodeView;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
+import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
+import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
 
 public class MindmapNodeView extends NodeView<MindmapNode> {
@@ -39,7 +39,7 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
 
     @Override
     public void updateFromModel() {
-        header.setText( getNode().getModel().getHeader() );
+        header.setText( getNode().getModel().getTitle() );
         textArea.setText( getNode().getModel().getNote() );
     }
 

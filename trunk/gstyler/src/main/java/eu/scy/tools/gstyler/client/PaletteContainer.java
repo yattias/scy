@@ -2,8 +2,8 @@ package eu.scy.tools.gstyler.client;
 
 import com.google.gwt.user.client.ui.TabPanel;
 
-import eu.scy.tools.gstyler.client.common.GraphApplication;
-import eu.scy.tools.gstyler.client.common.Palette;
+import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
+import eu.scy.tools.gstyler.client.graph.application.GraphPlugin;
 import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapPalette;
 
 /**
@@ -16,7 +16,7 @@ public class PaletteContainer extends TabPanel {
         addPalette(new MindmapPalette(gstyler));
     }
 
-    private void addPalette(Palette palette) {
+    private void addPalette(GraphPlugin palette) {
         add(palette.getUI(), palette.getName());
         selectTab(getWidgetCount() - 1);
     }

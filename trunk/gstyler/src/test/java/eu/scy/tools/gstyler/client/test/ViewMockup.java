@@ -3,8 +3,8 @@ package eu.scy.tools.gstyler.client.test;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import eu.scy.tools.gstyler.client.graph.EdgeCreationHandle;
-import eu.scy.tools.gstyler.client.graph.NodeView;
+import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
+import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
 
 public class ViewMockup extends NodeView<NodeMockup> {

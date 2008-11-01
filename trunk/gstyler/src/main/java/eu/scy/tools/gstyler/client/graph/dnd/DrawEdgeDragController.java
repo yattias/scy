@@ -11,7 +11,7 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.Node;
+import eu.scy.tools.gstyler.client.graph.node.Node;
 
 /**
  * When drawing an edge this DragController sets up all allowed drag targets (i.e. Nodes) 

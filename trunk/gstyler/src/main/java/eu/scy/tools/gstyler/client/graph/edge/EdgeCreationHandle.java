@@ -1,6 +1,7 @@
-package eu.scy.tools.gstyler.client.graph;
+package eu.scy.tools.gstyler.client.graph.edge;
 
 import com.google.gwt.user.client.ui.SourcesMouseEvents;
+
 
 /**
  * Handle a NodeView may have which being clicked on results in a specific edge being drawn

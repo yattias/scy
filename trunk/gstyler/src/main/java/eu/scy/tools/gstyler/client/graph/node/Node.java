@@ -1,6 +1,5 @@
-package eu.scy.tools.gstyler.client.graph;
+package eu.scy.tools.gstyler.client.graph.node;
 
-// FIXME: Integrate Node and NodeView ?
 public abstract class Node<M extends NodeModel, V extends NodeView<?>> {
 
     private M model;

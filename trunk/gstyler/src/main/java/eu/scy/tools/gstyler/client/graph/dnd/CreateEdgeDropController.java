@@ -3,9 +3,9 @@ package eu.scy.tools.gstyler.client.graph.dnd;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.Node;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
+import eu.scy.tools.gstyler.client.graph.node.Node;
 
 /**
  * This DropController creates an edge between two nodes if there is none and deletes one if there is already an edge

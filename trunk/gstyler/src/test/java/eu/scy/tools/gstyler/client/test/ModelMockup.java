@@ -1,6 +1,6 @@
 package eu.scy.tools.gstyler.client.test;
 
-import eu.scy.tools.gstyler.client.graph.NodeModel;
+import eu.scy.tools.gstyler.client.graph.node.NodeModel;
 
 
 public class ModelMockup extends NodeModel {

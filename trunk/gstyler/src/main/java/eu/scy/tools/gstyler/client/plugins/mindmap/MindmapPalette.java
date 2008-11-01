@@ -4,11 +4,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.common.AbstractPalette;
-import eu.scy.tools.gstyler.client.common.GraphApplication;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
+import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
+import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
 
-public class MindmapPalette extends AbstractPalette {
+public class MindmapPalette extends AbstractGraphPlugin {
 
     public MindmapPalette(final GraphApplication gstyler) {
         super(gstyler);

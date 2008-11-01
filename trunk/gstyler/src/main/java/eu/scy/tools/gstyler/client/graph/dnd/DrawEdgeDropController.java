@@ -8,10 +8,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
-import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.Node;
-import eu.scy.tools.gstyler.client.graph.NodeView;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
+import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
 /**
  * When drawing an edge and successfully completing the drop on a Node, subclasses of this controller
