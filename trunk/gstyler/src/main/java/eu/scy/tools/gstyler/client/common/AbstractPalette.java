@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.GStyler;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.dnd.CopyNodeDragController;
 
@@ -20,7 +19,7 @@ public abstract class AbstractPalette extends VerticalPanel implements Palette {
 
     private HorizontalPanel actionsPanel;
 
-    public AbstractPalette(GStyler gstyler) {
+    public AbstractPalette(GraphApplication gstyler) {
         setTitle(getName());
 
         graph = new GWTGraph(new CopyNodeDragController(gstyler.getGraph()));

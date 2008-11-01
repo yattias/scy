@@ -4,13 +4,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.GStyler;
 import eu.scy.tools.gstyler.client.common.AbstractPalette;
+import eu.scy.tools.gstyler.client.common.GraphApplication;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 
 public class MindmapPalette extends AbstractPalette {
 
-    public MindmapPalette(final GStyler gstyler) {
+    public MindmapPalette(final GraphApplication gstyler) {
         super(gstyler);
 
         getGraph().addNode(new MindmapNode(), 5, 5);

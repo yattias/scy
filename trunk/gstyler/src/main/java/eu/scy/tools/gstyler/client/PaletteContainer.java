@@ -2,6 +2,7 @@ package eu.scy.tools.gstyler.client;
 
 import com.google.gwt.user.client.ui.TabPanel;
 
+import eu.scy.tools.gstyler.client.common.GraphApplication;
 import eu.scy.tools.gstyler.client.common.Palette;
 import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapPalette;
 
@@ -10,7 +11,7 @@ import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapPalette;
  */
 public class PaletteContainer extends TabPanel {
 
-    public PaletteContainer(GStyler gstyler) {
+    public PaletteContainer(GraphApplication gstyler) {
         setSize("100%", "300px");
         addPalette(new MindmapPalette(gstyler));
     }
