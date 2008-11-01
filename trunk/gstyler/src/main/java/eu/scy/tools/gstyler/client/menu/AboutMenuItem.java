@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client;
+package eu.scy.tools.gstyler.client.menu;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -7,21 +7,16 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
+import eu.scy.tools.gstyler.client.GStyler;
 
-public class GStylerMenuBar extends MenuBar {
+public class AboutMenuItem extends MenuItem {
 
-    public GStylerMenuBar(GraphApplication gstyler) {
-        setAnimationEnabled(true);
-        setAutoOpen(true);
-
-        MenuBar helpMenu = new MenuBar(true);
-        helpMenu.addItem(new MenuItem("About", new Command() {
+    public AboutMenuItem() {
+        super("About", new Command() {
 
             public void execute() {
                 final DialogBox dialogBox = new DialogBox();
@@ -46,7 +41,6 @@ public class GStylerMenuBar extends MenuBar {
                 dialogBox.show();
             }
 
-        }));
-        addItem(new MenuItem("File", helpMenu));
+        });
     }
 }

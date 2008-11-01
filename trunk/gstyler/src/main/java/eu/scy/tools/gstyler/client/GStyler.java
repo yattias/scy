@@ -8,9 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
-import eu.scy.tools.gstyler.client.graph.edge.Edge;
-import eu.scy.tools.gstyler.client.graph.node.Node;
-import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapNode;
+import eu.scy.tools.gstyler.client.menu.GStylerMenuBar;
 
 /**
  * Main class construction the GStyler Application.
@@ -43,19 +41,6 @@ public class GStyler extends SimplePanel implements GraphApplication {
 
         paletteContainer = new PaletteContainer(this);
         mainPanel.add(paletteContainer);
-        
-        addTestNodes();
-    }
-
-    private void addTestNodes() {
-        Node<?, ?> n1 = new MindmapNode();
-        Node<?, ?> n2 = new MindmapNode();
-        graph.addNode(n1, 100, 100);
-        graph.addNode(n2, 200, 300);
-        
-        graph.addNode(new MindmapNode(), 400, 100);
-        Edge e = new Edge(n1, n2);
-        graph.addEdge(e);
     }
 
     /* (non-Javadoc)
