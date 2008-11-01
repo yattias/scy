@@ -5,7 +5,7 @@
 	<artifactId>gstyler</artifactId>
 	<packaging>war</packaging>
 	<name>GStyler - Web based graph modelling tool</name>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 <!--  convenience to define GWT version in one place -->
 	<properties>
 		<gwtVersion>1.5.2</gwtVersion>
