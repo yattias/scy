@@ -2,6 +2,7 @@ package eu.scy.tools.gstyler.client.graph;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import com.allen_sauer.gwt.dnd.client.DragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
@@ -43,6 +44,8 @@ public class GWTGraph extends AbsolutePanel {
 
     private ArrayList<Edge> edges = new ArrayList<Edge>();
 
+    private HashMap<Node<?,?>, Collection<Edge>> nodeToEdgeMap = new HashMap<Node<?,?>, Collection<Edge>>();
+    
     private InteractionMode interactionMode;
 
     /**
@@ -86,17 +89,20 @@ public class GWTGraph extends AbsolutePanel {
     }
 
     private void initNode(Node<?, ?> node) {
-        initNodeView(node.getNodeView());
         nodes.add(node);
+        node.setParentGraph(this);
+        initNodeView(node.getNodeView());
     }
 
     private void initNodeView(NodeView<?> nodeView) {
-        dragController.makeDraggable(nodeView);
         // Make the node draggeable and thus moveable
+        dragController.makeDraggable(nodeView);
+
+        // When in DRAW_EDGES mode the DragHandle may be used to draw edges
         SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();
         dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, false));
 
-        // Add any EdgeHandlers to draw Edges
+        // Add any EdgeHandlers to draw Edges any time from specific handles
         for (EdgeCreationHandle w : nodeView.getEdgeCreationHandles()) {
             w.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
         }
@@ -107,18 +113,53 @@ public class GWTGraph extends AbsolutePanel {
      */
     public boolean addEdge(Edge edge) {
         if (edge.isValid() == false) {
+            System.out.println("edge invalid");
             return false;
         }
         if (!nodes.contains(edge.getNode1()) || !nodes.contains(edge.getNode2())) {
             return false;
         }
-        edge.getConnection().appendTo(this);
         edges.add(edge);
+        addToNodeToEdgeMap(edge, edge.getNode1());
+        addToNodeToEdgeMap(edge, edge.getNode2());
+        edge.getConnection().appendTo(this);
         return true;
     }
 
+    private void addToNodeToEdgeMap(Edge edge, Node<?, ?> node) {
+        Collection<Edge> c = nodeToEdgeMap.get(node);
+        if (c == null) {
+            c = new ArrayList<Edge>();
+        }
+        c.add(edge);
+        nodeToEdgeMap.put(node, c);
+    }
+
+    /**
+     * Removes the given Node from this graph. This also removes all Edges connected to that node
+     *
+     * @return true if the node was removed, false if not (ie. the node was not in this graph)
+     */
+    public boolean removeNode(Node<?, ?> node) {
+        if (!nodes.contains(node)) {
+            return false;
+        }
+        if (nodeToEdgeMap.get(node) != null) {
+            // Remove all Edges connected to this node
+            for (Edge e : nodeToEdgeMap.get(node)) {
+                removeEdge(e);
+            }
+        }
+        nodes.remove(node);
+        remove(node.getNodeView());
+        return true;
+    }
+
+    
     /**
      * Removes the given edge from this graph
+     * 
+     * @return true if the edge was removed, false if not (ie. the edge was not in this graph)
      */
     public boolean removeEdge(Edge edge) {
         if (!edges.contains(edge)) {

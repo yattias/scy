@@ -18,7 +18,7 @@ import eu.scy.tools.gstyler.client.graph.node.NodeView;
 public class MindmapNodeView extends NodeView<MindmapNode> {
 
     private TextArea textArea;
-    private Label footer;
+    private Label edgeHandle;
 
     public MindmapNodeView(MindmapNode node) {
         super(node);
@@ -32,21 +32,21 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
             }
         });
         add(textArea);
-        footer = new Label("+");
-        footer.setStyleName(CSSConstants.CSS_DRAW_EDGES);
-        add(footer);
+        edgeHandle = new Label("+");
+        edgeHandle.setStyleName(CSSConstants.CSS_DRAW_EDGES);
+        topPanel.add(edgeHandle);
     }
 
     @Override
     public void updateFromModel() {
-        header.setText( getNode().getModel().getTitle() );
+        titleLabel.setText( getNode().getModel().getTitle() );
         textArea.setText( getNode().getModel().getNote() );
     }
 
     @Override
     public Collection<EdgeCreationHandle> getEdgeCreationHandles() {
         Collection<EdgeCreationHandle> c = new ArrayList<EdgeCreationHandle>(); 
-        EdgeCreationHandle handle = new EdgeCreationHandle(footer, new Edge());
+        EdgeCreationHandle handle = new EdgeCreationHandle(edgeHandle, new Edge());
         c.add(handle);
         return c;
     }
