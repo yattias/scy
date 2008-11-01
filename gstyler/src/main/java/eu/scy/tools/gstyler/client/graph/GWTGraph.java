@@ -46,7 +46,7 @@ public class GWTGraph extends AbsolutePanel {
 
     private HashMap<Node<?,?>, Collection<Edge>> nodeToEdgeMap = new HashMap<Node<?,?>, Collection<Edge>>();
     
-    private InteractionMode interactionMode;
+    private InteractionMode interactionMode = InteractionMode.MOVE_NODES;
 
     /**
      * Creates a new GWTGraph with a normal MoveNodeDragController which allows for nodes to be moved around freely on the graphs area
@@ -95,8 +95,10 @@ public class GWTGraph extends AbsolutePanel {
     }
 
     private void initNodeView(NodeView<?> nodeView) {
-        // Make the node draggeable and thus moveable
-        dragController.makeDraggable(nodeView);
+        if (interactionMode.equals(InteractionMode.MOVE_NODES)) {
+            // Make the node draggeable and thus moveable
+            dragController.makeDraggable(nodeView);
+        }
 
         // When in DRAW_EDGES mode the DragHandle may be used to draw edges
         SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();

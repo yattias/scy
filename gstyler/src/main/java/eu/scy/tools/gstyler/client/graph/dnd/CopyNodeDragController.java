@@ -33,9 +33,6 @@ public class CopyNodeDragController extends PickupDragController {
                 Node<?, ?> newNode = nodeView.getNode().createClone();
                 graph.addNode(newNode, event.getContext().desiredDraggableX, event.getContext().desiredDraggableY);
                 
-                // TODO: something is wrong with the modefull stuff. Check it!
-                //graph.leaveEdgeMode();
-                
                 // throw the exception, so that the original widget will not be moved
                 throw new VetoDragException();
             }
