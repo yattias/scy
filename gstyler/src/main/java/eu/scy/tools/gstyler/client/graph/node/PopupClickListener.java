@@ -9,20 +9,27 @@ import com.google.gwt.user.client.ui.Widget;
 public class PopupClickListener implements ClickListener {
 
     private NodeView<?> nodeView;
+    NodePopup popup = null;
 
     public PopupClickListener(NodeView<?> nodeView) {
         this.nodeView = nodeView;
     }
 
     public void onClick(Widget sender) {
-        final NodePopup popup = new NodePopup(nodeView.getNode());
+        if (popup != null) {
+            popup.hide();
+            popup = null;
+            return;
+        }
+
+        popup = new NodePopup(nodeView.getNode());
         DOM.setStyleAttribute(popup.getElement(), "zIndex", "100");
 
         popup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
           public void setPosition(int offsetWidth, int offsetHeight) {
             int left = nodeView.getNode().getParentGraph().getWidgetLeft(nodeView);
             int top = nodeView.getNode().getParentGraph().getWidgetTop(nodeView);
-            popup.setPopupPosition(left+40, top+50);
+            popup.setPopupPosition(left+30, top-10);
           }
         });
       }
