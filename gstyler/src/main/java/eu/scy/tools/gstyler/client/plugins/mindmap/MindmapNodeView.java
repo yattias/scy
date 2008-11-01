@@ -32,8 +32,8 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
             }
         });
         add(textArea);
-        edgeHandle = new Label("+");
-        edgeHandle.setStyleName(CSSConstants.CSS_DRAW_EDGES);
+        edgeHandle = new Label("->");
+        edgeHandle.setStyleName(CSSConstants.CSS_CLICKABLE_WIDGET);
         topPanel.add(edgeHandle);
     }
 

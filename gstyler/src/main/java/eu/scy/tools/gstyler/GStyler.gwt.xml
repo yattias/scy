@@ -20,4 +20,6 @@
 	<!-- Specify the available locales -->
 	<extend-property name="locale" values="en" />
 	<extend-property name="locale" values="de" />
+	
+	<stylesheet src="graph.css"/>
 </module>

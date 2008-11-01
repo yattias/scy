@@ -48,7 +48,7 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
         }
         
         // Changes the mouse pointer to a hand
-        RootPanel.get().setStylePrimaryName(CSSConstants.CSS_DRAW_EDGES);
+        RootPanel.get().setStylePrimaryName(CSSConstants.CSS_CLICKABLE_WIDGET);
         
         // Add an invisible Label as a dummy object to the graph...
         int left = nodeView.getAbsoluteLeft() + x;

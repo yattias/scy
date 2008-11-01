@@ -1,0 +1,12 @@
+.graph-node-dropTarget-engage {
+	border: 1px solid #000000;
+	background-color: #77AAFF; /* light blue */
+}
+
+.graph-node-drag-handle {
+	background-color: #E0E8FF;
+}
+
+.graph-clickable-widget {
+	cursor: pointer;
+}

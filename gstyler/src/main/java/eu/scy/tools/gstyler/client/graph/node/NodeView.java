@@ -44,14 +44,15 @@ public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel imple
         topPanel.setHorizontalAlignment(ALIGN_CENTER);
         topPanel.setWidth("100%");
     
-        popupLabel = new Label("X");
+        popupLabel = new Label("+");
+        popupLabel.addStyleName(CSSConstants.CSS_CLICKABLE_WIDGET);
         final NodeView<N> nodeView = this;
         popupLabel.addClickListener(new PopupClickListener(nodeView));
         topPanel.add(popupLabel);
         
         titleLabel = new Label();
         titleLabel.setWidth("100%");
-        titleLabel.addStyleName(CSSConstants.CSS_DRAG_HANDLE);
+        titleLabel.addStyleName(CSSConstants.CSS_NODE_DRAG_HANDLE);
         topPanel.add(titleLabel);
         
         add(topPanel);

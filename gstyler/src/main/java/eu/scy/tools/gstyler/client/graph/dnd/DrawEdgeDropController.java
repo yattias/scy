@@ -41,7 +41,7 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
     }
     
     public void onDrop(DragContext context) {
-        RootPanel.get().removeStyleDependentName(CSSConstants.CSS_DRAW_EDGES);
+        RootPanel.get().removeStyleDependentName(CSSConstants.CSS_CLICKABLE_WIDGET);
         if ( !(getDropTarget() instanceof NodeView)) {
             System.out.println("drop target not a nodeView: " + getDropTarget() );
             return;
@@ -60,7 +60,7 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
     public void onEnter(DragContext context) {
         super.onEnter(context);
         if (getDropTarget() != ((DrawEdgeDragController) context.dragController).getSourceNode().getNodeView()) {
-            getDropTarget().setStyleName(CSSConstants.CSS_DROPTARGET_NODE_ENGAGE);
+            getDropTarget().setStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
         }
     }
     
@@ -69,7 +69,7 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
      */
     public void onLeave(DragContext context) {
        super.onLeave(context);
-       getDropTarget().removeStyleName(CSSConstants.CSS_DROPTARGET_NODE_ENGAGE);
+       getDropTarget().removeStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
     }
     
     /**

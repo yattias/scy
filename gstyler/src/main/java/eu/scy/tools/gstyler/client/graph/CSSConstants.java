@@ -1,7 +1,7 @@
 package eu.scy.tools.gstyler.client.graph;
 
 public interface CSSConstants {
-    public static final String CSS_DRAW_EDGES = "draw-edges";
-    public static final String CSS_DRAG_HANDLE = "drag-handle";
-    public static final String CSS_DROPTARGET_NODE_ENGAGE = "dropTarget-node-engage";
+    public static final String CSS_CLICKABLE_WIDGET = "graph-clickable-widget";
+    public static final String CSS_NODE_DRAG_HANDLE = "graph-node-drag-handle";
+    public static final String CSS_NODE_DROPTARGET_ENGAGE = "graph-node-dropTarget-engage";
 }
