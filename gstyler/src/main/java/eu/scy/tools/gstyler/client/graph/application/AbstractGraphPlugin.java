@@ -19,10 +19,13 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
 
     private HorizontalPanel actionsPanel;
 
-    public AbstractGraphPlugin(GraphApplication gstyler) {
+    private GraphApplication graphApplication;
+    
+    public AbstractGraphPlugin(GraphApplication graphApplication) {
+        this.graphApplication = graphApplication;
         setTitle(getName());
 
-        graph = new GWTGraph(new CopyNodeDragController(gstyler.getGraph()));
+        graph = new GWTGraph(new CopyNodeDragController(graphApplication.getGraph()));
         graph.setHeight("400px");
         add(graph);
 
@@ -36,6 +39,10 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
 
     protected HorizontalPanel getActionsPanel() {
         return actionsPanel;
+    }
+
+    public GraphApplication getGraphApplication() {
+        return graphApplication;
     }
 
     /* (non-Javadoc)
