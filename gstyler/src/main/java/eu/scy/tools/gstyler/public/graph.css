@@ -10,3 +10,15 @@
 .graph-clickable-widget {
 	cursor: pointer;
 }
+
+.graph-plugin-qoc-question {
+	background-color: FF0A0A; /* red */
+}	
+
+.graph-plugin-qoc-option {
+	background-color: #3366FF; /* blue */
+}	
+
+.graph-plugin-qoc-criterion {
+	background-color: #FFFF0A; /* yellow */
+}
