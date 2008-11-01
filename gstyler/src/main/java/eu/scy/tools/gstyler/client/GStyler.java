@@ -1,10 +1,8 @@
 package eu.scy.tools.gstyler.client;
 
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -20,7 +18,7 @@ import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapNode;
  */
 public class GStyler extends SimplePanel implements GraphApplication {
 
-    public static String VERSION = "GStyler 0.0.6";
+    public static String VERSION = "GStyler 0.1";
 
     private GWTGraph graph;
     private PaletteContainer paletteContainer;
@@ -56,16 +54,8 @@ public class GStyler extends SimplePanel implements GraphApplication {
         graph.addNode(n2, 200, 300);
         
         graph.addNode(new MindmapNode(), 400, 100);
-        
-        final Edge e = new Edge(n1, n2);
+        Edge e = new Edge(n1, n2);
         graph.addEdge(e);
-        
-        menuBar.addItem(new MenuItem("DEBUG: del edge", new Command() {
-
-            public void execute() {
-                graph.removeEdge(e);
-            }
-        }));
     }
 
     /* (non-Javadoc)
