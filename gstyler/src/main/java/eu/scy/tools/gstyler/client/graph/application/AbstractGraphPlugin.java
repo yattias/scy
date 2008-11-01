@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.common;
+package eu.scy.tools.gstyler.client.graph.application;
 
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,17 +9,17 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.dnd.CopyNodeDragController;
 
 /**
- * Abstract base class for the visible part of plugins.
+ * Abstract base class for graph plugins.
  * Contains a Graph to add new nodes to the main Graph and
  * an actionsPanel which should be filled by subclasses. 
  */
-public abstract class AbstractPalette extends VerticalPanel implements Palette {
+public abstract class AbstractGraphPlugin extends VerticalPanel implements GraphPlugin {
 
     private GWTGraph graph;
 
     private HorizontalPanel actionsPanel;
 
-    public AbstractPalette(GraphApplication gstyler) {
+    public AbstractGraphPlugin(GraphApplication gstyler) {
         setTitle(getName());
 
         graph = new GWTGraph(new CopyNodeDragController(gstyler.getGraph()));

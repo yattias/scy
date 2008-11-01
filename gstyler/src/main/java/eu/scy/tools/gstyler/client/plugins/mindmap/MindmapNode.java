@@ -1,6 +1,6 @@
 package eu.scy.tools.gstyler.client.plugins.mindmap;
 
-import eu.scy.tools.gstyler.client.graph.Node;
+import eu.scy.tools.gstyler.client.graph.node.Node;
 
 
 public class MindmapNode extends Node<MindmapNodeModel, MindmapNodeView> {

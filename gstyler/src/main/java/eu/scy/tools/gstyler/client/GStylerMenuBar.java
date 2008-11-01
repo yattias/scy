@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.common.GraphApplication;
+import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
 
 public class GStylerMenuBar extends MenuBar {
 

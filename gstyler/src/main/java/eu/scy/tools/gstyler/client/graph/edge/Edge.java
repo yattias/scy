@@ -1,5 +1,6 @@
-package eu.scy.tools.gstyler.client.graph;
+package eu.scy.tools.gstyler.client.graph.edge;
 
+import eu.scy.tools.gstyler.client.graph.node.Node;
 import pl.balon.gwt.diagrams.client.connection.Connection;
 import pl.balon.gwt.diagrams.client.connection.StraightTwoEndedConnection;
 import pl.balon.gwt.diagrams.client.connector.Connector;

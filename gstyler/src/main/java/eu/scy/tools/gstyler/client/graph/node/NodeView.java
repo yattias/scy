@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.graph;
+package eu.scy.tools.gstyler.client.graph.node;
 
 import java.util.Collection;
 
@@ -7,12 +7,23 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
+
+/**
+ * According to the MVC pattern this class is the graphical representation of a Node.
+ * UI logic has to go here, especially updating the view according to the nodes model.
+ * Also this view may return a list of EdgeCreationHandles which allow the user to draw edges by clicking on a UI element of this node
+ */
 public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel implements HasDragHandle {
 
     private N node;
 
     protected Label header;
 
+    /**
+     * Creates a new NodeView for the given Node
+     */
     public NodeView(N node) {
         super();
         this.node = node;
@@ -23,6 +34,9 @@ public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel imple
         add(header);
     }
 
+    /**
+     * @return The node this view is associated with
+     */
     public N getNode() {
         return node;
     }
@@ -39,6 +53,7 @@ public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel imple
 
     /**
      * EdgeCreationHandles are used to draw edges via drag and drop from one node to another node during the MOVE_NODES InteractionMode
+     * @return Collection of EdgeCreationHandles which may be empty, but not null 
      */
     public abstract Collection<EdgeCreationHandle> getEdgeCreationHandles();
 

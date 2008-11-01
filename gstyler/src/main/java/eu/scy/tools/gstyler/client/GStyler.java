@@ -8,10 +8,10 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import eu.scy.tools.gstyler.client.common.GraphApplication;
-import eu.scy.tools.gstyler.client.graph.Edge;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.Node;
+import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
+import eu.scy.tools.gstyler.client.graph.node.Node;
 import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapNode;
 
 /**

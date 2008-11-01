@@ -1,6 +1,6 @@
 package eu.scy.tools.gstyler.client.plugins.mindmap;
 
-import eu.scy.tools.gstyler.client.graph.NodeModel;
+import eu.scy.tools.gstyler.client.graph.node.NodeModel;
 
 
 public class MindmapNodeModel extends NodeModel {
@@ -8,7 +8,7 @@ public class MindmapNodeModel extends NodeModel {
     private String note;
 
     public MindmapNodeModel() {
-        this.header = "Note";
+        this.title = "Note";
         this.note = "";
     }
     
@@ -23,7 +23,7 @@ public class MindmapNodeModel extends NodeModel {
     @Override
     public MindmapNodeModel createClone() {
         MindmapNodeModel clone = new MindmapNodeModel();
-        clone.setHeader(getHeader());
+        clone.setTitle(getTitle());
         clone.setNote(getNote());
         return clone;
     }

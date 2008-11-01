@@ -9,8 +9,8 @@ import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.Node;
-import eu.scy.tools.gstyler.client.graph.NodeView;
+import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
 /**
  * This DragController is responsible for copying the nodes from the palette to the main graph
