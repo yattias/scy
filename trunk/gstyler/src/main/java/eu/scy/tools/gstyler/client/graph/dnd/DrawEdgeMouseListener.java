@@ -51,8 +51,8 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
         RootPanel.get().setStylePrimaryName(CSSConstants.CSS_CLICKABLE_WIDGET);
         
         // Add an invisible Label as a dummy object to the graph...
-        int left = nodeView.getAbsoluteLeft() + x;
-        int top = nodeView.getAbsoluteTop() + y;
+        int left = graph.getWidgetLeft(nodeView) + 50;
+        int top = graph.getWidgetTop(nodeView);
         Label l = new Label("");
         graph.add(l, left, top);
 
