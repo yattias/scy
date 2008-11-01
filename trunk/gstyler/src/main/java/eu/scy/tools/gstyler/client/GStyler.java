@@ -16,7 +16,7 @@ import eu.scy.tools.gstyler.client.menu.GStylerMenuBar;
  */
 public class GStyler extends SimplePanel implements GraphApplication {
 
-    public static String VERSION = "GStyler 0.1";
+    public static String VERSION = "GStyler 0.2-SNAPSHOT";
 
     private GWTGraph graph;
     private PaletteContainer paletteContainer;
