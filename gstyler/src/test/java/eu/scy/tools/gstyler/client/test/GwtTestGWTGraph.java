@@ -116,8 +116,6 @@ public class GwtTestGWTGraph extends GWTTestCase {
         assertEquals(1, graph.getEdges().size());
         assertTrue(graph.getEdges().contains(edge));
 
-        System.out.println("==");
-        
         Node<?, ?> node3 = new NodeMockup();
         graph.addNode(node3, 300, 300);
         Edge edge2 = new Edge();
