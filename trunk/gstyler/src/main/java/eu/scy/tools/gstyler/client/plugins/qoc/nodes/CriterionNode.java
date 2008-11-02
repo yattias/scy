@@ -22,4 +22,8 @@ public class CriterionNode extends Node<CriterionNodeModel, CriterionNodeView>{
         return new CriterionNodeView(this);
     }
 
+    public void setRelevance(int relevance) {
+        getModel().setRelevance(relevance);
+        fireNodeChangedEvent();
+    }
 }

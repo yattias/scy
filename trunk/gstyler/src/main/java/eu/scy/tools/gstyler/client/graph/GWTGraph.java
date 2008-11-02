@@ -48,6 +48,8 @@ public class GWTGraph extends AbsolutePanel {
     
     private InteractionMode interactionMode = InteractionMode.MOVE_NODES;
 
+    private Collection<NodeListener> nodeListeners =  new ArrayList<NodeListener>();
+
     /**
      * Creates a new GWTGraph with a normal MoveNodeDragController which allows for nodes to be moved around freely on the graphs area
      */
@@ -86,6 +88,7 @@ public class GWTGraph extends AbsolutePanel {
     public void addNode(Node<?, ?> node, int left, int top) {
         super.add(node.getNodeView(), left, top);
         initNode(node);
+        fireNodeAddedEvent(node);
     }
 
     private void initNode(Node<?, ?> node) {
@@ -117,7 +120,6 @@ public class GWTGraph extends AbsolutePanel {
      */
     public boolean addEdge(Edge edge) {
         if (edge.isValid() == false) {
-            System.out.println("edge invalid");
             return false;
         }
         if (!nodes.contains(edge.getNode1()) || !nodes.contains(edge.getNode2())) {
@@ -127,6 +129,11 @@ public class GWTGraph extends AbsolutePanel {
         addToNodeToEdgeMap(edge, edge.getNode1());
         addToNodeToEdgeMap(edge, edge.getNode2());
         edge.getConnection().appendTo(this);
+        
+        edge.setParentGraph(this);
+        if (edge instanceof NodeListener) {
+            addNodeListener((NodeListener) edge);
+        }
         return true;
     }
 
@@ -137,6 +144,10 @@ public class GWTGraph extends AbsolutePanel {
         }
         c.add(edge);
         nodeToEdgeMap.put(node, c);
+    }
+    
+    public void addNodeListener(NodeListener l) {
+        nodeListeners.add(l);
     }
 
     /**
@@ -156,10 +167,10 @@ public class GWTGraph extends AbsolutePanel {
         }
         nodes.remove(node);
         remove(node.getNodeView());
+        fireNodeRemoved(node);
         return true;
     }
 
-    
     /**
      * Removes the given edge from this graph
      * 
@@ -259,5 +270,27 @@ public class GWTGraph extends AbsolutePanel {
 
     public Collection<Edge> getEdges() {
         return edges;
+    }
+    
+    public void fireNodeAddedEvent(Node<?, ?> node) {
+        for (NodeListener l : nodeListeners ) {
+            l.nodeAdded(node);
+        }
+    }
+    
+    public void fireNodeChangedEvent(Node<?, ?> node) {
+        for (NodeListener l : nodeListeners ) {
+            l.nodeChanged(node);
+        }
+    }
+    
+    private void fireNodeRemoved(Node<?, ?> node) {
+        for (NodeListener l : nodeListeners ) {
+            l.nodeRemoved(node);
+        } 
+    }
+
+    public Collection<Edge> getEdgesForNode(Node<?,?> node) {
+        return nodeToEdgeMap.get(node);
     }
 }
