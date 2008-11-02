@@ -8,6 +8,7 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
 import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
+import eu.scy.tools.gstyler.client.plugins.qoc.edges.PositiveEdge;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.CriterionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.OptionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.QuestionNode;
@@ -64,10 +65,26 @@ public class QOCPlugin extends AbstractGraphPlugin {
 
     public void addExampleDocument(GWTGraph graph) {
         QuestionNode n1 = new QuestionNode();
+        n1.getModel().setQuestion("What to eat?");
+        n1.getNodeView().updateFromModel();
         OptionNode n2 = new OptionNode();
-        CriterionNode n3 = new CriterionNode();
-        graph.addNode(n3, 400, 100);
-        graph.addNode(n1, 100, 100);
-        graph.addNode(n2, 200, 300);
+        n2.getModel().setOption("Falafel");
+        n2.getNodeView().updateFromModel();
+        OptionNode n3 = new OptionNode();
+        OptionNode n4 = new OptionNode();
+        CriterionNode n5 = new CriterionNode();
+        n5.getModel().setCriterion("Vegetarian");
+        n5.getNodeView().updateFromModel();
+        CriterionNode n6 = new CriterionNode();
+        CriterionNode n7 = new CriterionNode();
+        graph.addNode(n1, 400, 10);
+        graph.addNode(n2, 100, 120);
+        graph.addNode(n3, 400, 120);
+        graph.addNode(n4, 700, 120);
+        graph.addNode(n5, 50, 300);
+        graph.addNode(n6, 300, 300);
+        graph.addNode(n7, 600, 300);
+        PositiveEdge e1 = new PositiveEdge(n2, n5);
+        graph.addEdge(e1);
     }
 }
