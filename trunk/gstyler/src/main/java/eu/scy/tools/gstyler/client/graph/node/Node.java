@@ -4,7 +4,7 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
 
 public abstract class Node<M extends NodeModel, V extends NodeView<?>> {
 
-    private M model;
+    protected M model;
     private V view;
     private GWTGraph parentGraph;
     
