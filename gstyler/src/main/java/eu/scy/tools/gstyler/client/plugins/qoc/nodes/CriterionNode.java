@@ -3,8 +3,9 @@ package eu.scy.tools.gstyler.client.plugins.qoc.nodes;
 import eu.scy.tools.gstyler.client.graph.node.Node;
 
 
-public class CriterionNode extends Node<CriterionNodeModel, CriterionNodeView>{
+public class CriterionNode extends QOCNode<CriterionNodeModel, CriterionNodeView> {
 
+    @SuppressWarnings("unchecked")
     @Override
     public Node<CriterionNodeModel, CriterionNodeView> createClone() {
         CriterionNode clone = new CriterionNode();
@@ -25,5 +26,9 @@ public class CriterionNode extends Node<CriterionNodeModel, CriterionNodeView>{
     public void setRelevance(int relevance) {
         getModel().setRelevance(relevance);
         fireNodeChangedEvent();
+    }
+
+    public int getRelevance() {
+        return getModel().getRelevance();
     }
 }

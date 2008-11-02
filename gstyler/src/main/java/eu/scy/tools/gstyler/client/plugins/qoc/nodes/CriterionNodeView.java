@@ -10,13 +10,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
-import eu.scy.tools.gstyler.client.graph.node.NodeView;
 import eu.scy.tools.gstyler.client.plugins.qoc.CSSConstants;
 
 
-public class CriterionNodeView extends NodeView<CriterionNode> {
+public class CriterionNodeView extends QOCNodeView {
 
-    private TextBox criterionBox;
     private TextBox relevanceBox;
 
     public CriterionNodeView(CriterionNode node) {
@@ -24,8 +22,6 @@ public class CriterionNodeView extends NodeView<CriterionNode> {
         setTitle("Criterion");
         setStylePrimaryName(CSSConstants.CSS_CRITERION);
         titleLabel.setStylePrimaryName(CSSConstants.CSS_CRITERION);
-        criterionBox = new TextBox();
-        add(criterionBox);
         HorizontalPanel p = new HorizontalPanel();
         p.setHorizontalAlignment(HasAlignment.ALIGN_RIGHT);
         p.setVerticalAlignment(HasAlignment.ALIGN_MIDDLE);
@@ -44,9 +40,9 @@ public class CriterionNodeView extends NodeView<CriterionNode> {
                   System.out.println("Exception: " + e);
               }
               System.out.println("settign relevance to " + relevance);
-              getNode().setRelevance(relevance);
+              getCastedNode().setRelevance(relevance);
             }
-            
+
         });
         
         p.add(relevanceBox);
@@ -60,8 +56,11 @@ public class CriterionNodeView extends NodeView<CriterionNode> {
 
     @Override
     public void updateFromModel() {
-        criterionBox.setText(getNode().getModel().getCriterion());
-        relevanceBox.setText(Integer.toString(getNode().getModel().getRelevance()));
+        super.updateFromModel();
+        relevanceBox.setText(Integer.toString(getCastedNode().getModel().getRelevance()));
     } 
-
+    
+    public CriterionNode getCastedNode() {
+        return (CriterionNode) getNode();
+    }
 }

@@ -29,7 +29,7 @@ public class OptionNode extends Node<OptionNodeModel, OptionNodeView> {
        for (Edge e : getParentGraph().getEdgesForNode(this) ) {
            if (e instanceof PositiveEdge) {
                CriterionNode cNode = (CriterionNode) e.getOtherNode(this);
-               score += cNode.getModel().getRelevance();
+               score += cNode.getRelevance();
            }
        }
        getModel().setScore(score);

@@ -73,7 +73,7 @@ public class QOCPlugin extends AbstractGraphPlugin {
         OptionNode n3 = new OptionNode();
         OptionNode n4 = new OptionNode();
         CriterionNode n5 = new CriterionNode();
-        n5.getModel().setCriterion("Vegetarian");
+        n5.getModel().setDescription("Vegetarian");
         n5.getNodeView().updateFromModel();
         CriterionNode n6 = new CriterionNode();
         CriterionNode n7 = new CriterionNode();
