@@ -163,6 +163,13 @@ public class GwtTestGWTGraph extends GWTTestCase implements NodeListener {
         assertTrue(callbackCalled);
     }
     
+    public void testClear() {
+        createSimpleGraph();
+        graph.clear();
+        assertEquals(0, graph.getNodes().size());
+        assertEquals(0, graph.getEdges().size());
+    }
+    
     public void nodeAdded(Node<?, ?> node) {
         callbackCalled = true;
     }

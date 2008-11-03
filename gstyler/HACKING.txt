@@ -2,7 +2,7 @@
 
 0.2
 
-	* Enable Simulation -> QOC?
+	* Enable simulation -> QOC Plugin
 	* create toEdgeMode(Edge edge) and enable the dragHandle as DropTarget in EDIT_EDGES
 	* Differentiate Directed and NonDirected Edges?
 	* Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface) ?
@@ -18,8 +18,6 @@
 	
 1.0
 	* Stable API
-
-== DEVELOPMENT ==
 
 == ARCHITECTURE ==
 
