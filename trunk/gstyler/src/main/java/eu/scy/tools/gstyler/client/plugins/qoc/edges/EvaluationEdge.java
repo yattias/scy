@@ -1,12 +1,13 @@
 package eu.scy.tools.gstyler.client.plugins.qoc.edges;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
+import eu.scy.tools.gstyler.client.graph.NodeListener;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.node.Node;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.CriterionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.OptionNode;
 
-public class EvaluationEdge extends Edge {
+public class EvaluationEdge extends Edge implements NodeListener {
 
     public EvaluationEdge() {
         super();
@@ -32,6 +33,7 @@ public class EvaluationEdge extends Edge {
     }
 
     public void nodeChanged(Node<?, ?> source) {
+        System.out.println("node change!");
         if (source instanceof CriterionNode && isConnectedTo(source)) {
             updateConnectedCriterionNode();
         }
