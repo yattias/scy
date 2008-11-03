@@ -22,3 +22,26 @@
 .graph-plugin-qoc-criterion {
 	background-color: #FFFF0A; /* yellow */
 }
+
+.gwt-diagrams-canvas-positiv {
+	color: green;
+}
+
+.gwt-diagrams-canvas-neutral {
+	color: black;
+}
+
+.gwt-diagrams-canvas-negative {
+	color: red;
+}
+.gwt-diagrams-vml-curve-positiv {
+	color: green;
+}
+
+.gwt-diagrams-vml-curve-neutral {
+	color: black;
+}
+
+.gwt-diagrams-vml-curve-negative {
+	color: red;
+}
