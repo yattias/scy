@@ -26,7 +26,7 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
         setTitle(getName());
 
         graph = new GWTGraph(new CopyNodeDragController(graphApplication.getGraph()));
-        graph.setHeight("400px");
+        graph.setHeight("300px");
         add(graph);
 
         actionsPanel = new HorizontalPanel();
