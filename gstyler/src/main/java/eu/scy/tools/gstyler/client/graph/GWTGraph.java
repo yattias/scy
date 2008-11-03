@@ -164,6 +164,7 @@ public class GWTGraph extends AbsolutePanel {
             for (Edge e : nodeToEdgeMap.get(node)) {
                 removeEdge(e);
             }
+            nodeToEdgeMap.remove(node);
         }
         nodes.remove(node);
         remove(node.getNodeView());
@@ -181,6 +182,9 @@ public class GWTGraph extends AbsolutePanel {
             return false;
         }
         edges.remove(edge);
+        if (edge instanceof NodeListener) {
+            nodeListeners.remove(edge);
+        }
         edge.getConnection().remove();
         return true;
     }
@@ -292,5 +296,13 @@ public class GWTGraph extends AbsolutePanel {
 
     public Collection<Edge> getEdgesForNode(Node<?,?> node) {
         return nodeToEdgeMap.get(node);
+    }
+    
+    public void clear() {
+        Collection<Node<?,?>> c = new ArrayList<Node<?,?>>();
+        c.addAll(getNodes());
+        for (Node<?, ?> n: c) {
+            removeNode(n);
+        }
     }
 }
