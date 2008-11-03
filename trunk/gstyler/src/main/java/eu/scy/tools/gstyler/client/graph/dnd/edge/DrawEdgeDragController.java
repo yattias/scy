@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.graph.dnd;
+package eu.scy.tools.gstyler.client.graph.dnd.edge;
 
 import java.util.Collection;
 
@@ -11,6 +11,7 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
+import eu.scy.tools.gstyler.client.graph.dnd.node.MoveNodeDragController;
 import eu.scy.tools.gstyler.client.graph.node.Node;
 
 /**
@@ -25,7 +26,7 @@ public class DrawEdgeDragController extends MoveNodeDragController {
         super(RootPanel.get(), false);
         this.sourceNode = sourceNode;
         
-        // Set up all allowed targets (i.e. NodeViews
+        // Set up all allowed targets (i.e. NodeViews)
         for (DropController c : dropControllers) {
             registerDropController(c);
         }

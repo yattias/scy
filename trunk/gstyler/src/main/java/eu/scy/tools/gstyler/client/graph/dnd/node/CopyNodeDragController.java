@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.graph.dnd;
+package eu.scy.tools.gstyler.client.graph.dnd.node;
 
 
 

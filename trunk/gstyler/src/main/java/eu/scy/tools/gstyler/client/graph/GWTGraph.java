@@ -11,9 +11,9 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SourcesMouseEvents;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.dnd.CreateEdgeDropController;
-import eu.scy.tools.gstyler.client.graph.dnd.DrawEdgeMouseListener;
-import eu.scy.tools.gstyler.client.graph.dnd.MoveNodeDragController;
+import eu.scy.tools.gstyler.client.graph.dnd.edge.DrawEdgeDropController;
+import eu.scy.tools.gstyler.client.graph.dnd.edge.DrawEdgeMouseListener;
+import eu.scy.tools.gstyler.client.graph.dnd.node.MoveNodeDragController;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
 import eu.scy.tools.gstyler.client.graph.node.Node;
@@ -106,14 +106,10 @@ public class GWTGraph extends AbsolutePanel {
             dragController.makeDraggable(nodeView);
         }
 
-        // When in DRAW_EDGES mode the DragHandle may be used to draw edges
-        SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();
-        dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, false));
-
-        // Add any EdgeHandlers to draw Edges any time from specific handles
+        // Add any EdgeHandlers to draw Edges in MOVE_NODES mode from specific handles
         if (nodeView.getEdgeCreationHandles() != null) {
-            for (EdgeCreationHandle w : nodeView.getEdgeCreationHandles()) {
-                w.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, true));
+            for (EdgeCreationHandle h : nodeView.getEdgeCreationHandles()) {
+                h.getHandle().addMouseListener(new DrawEdgeMouseListener(this, nodeView, InteractionMode.MOVE_NODES, h.getEdge()));
             }
         }
     }
@@ -215,20 +211,28 @@ public class GWTGraph extends AbsolutePanel {
 
     /**
      * Returns a Collection of DropControllers, eg. to be used as targets when drawing new edges
+     * @param edge 
      */
-    public Collection<DropController> getCreateEdgeDropControllers() {
+    public Collection<DropController> getDrawEdgeDropControllers(Edge edge) {
+        System.out.println("getDrawEdgeDropControllers: " + edge);
+        
         ArrayList<DropController> list = new ArrayList<DropController>();
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
-                NodeView<?> nodeView = (NodeView<?>) w;
-                if (nodeView.getEdgeCreationHandles() != null) {
-                    for (EdgeCreationHandle h : nodeView.getEdgeCreationHandles()) {
-                        list.add(new CreateEdgeDropController(w, this, h.getEdge()));
-                    }
-                }
+                list.add(new DrawEdgeDropController(w, this, edge));
             }
         }
         return list;
+        /*
+        switch (interactionMode) {
+            case EDIT_EDGES:
+                return getDragHandleDropControllers(edge);
+            case MOVE_NODES:
+                return getEdgeHandleDropControllers(edge);
+            default: 
+                return null;
+        }
+        */
     }
 
     /**
@@ -238,32 +242,26 @@ public class GWTGraph extends AbsolutePanel {
         return interactionMode;
     }
 
-    /**
-     * Sets the new InteractionMode for this GWTGraph
-     */
-    public void setInteractionMode(InteractionMode interactionMode) {
-        switch (interactionMode) {
-            case MOVE_NODES:
-                leaveEdgeMode();
-                break;
-
-            case EDIT_EDGES:
-                enterEdgeMode();
-                break;
-        }
-        this.interactionMode = interactionMode;
-    }
-
-    private void enterEdgeMode() {
+    public void enterEdgeMode(Edge edge) {
         interactionMode = InteractionMode.EDIT_EDGES;
+        
+        // Nodes are not draggable anymore...
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
                 dragController.makeNotDraggable(w);
+                
+                NodeView<?> nodeView = (NodeView<?>) w;
+                // .. instead: The DragHandle may be used to draw edges
+                SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();
+                dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, InteractionMode.EDIT_EDGES, edge));
             }
         }
     }
 
-    private void leaveEdgeMode() {
+    public void enterNodeMode() {
+        interactionMode = InteractionMode.MOVE_NODES;
+        
+        // Make nodes draggable again
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
                 dragController.makeDraggable(w);

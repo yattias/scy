@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.dnd.CopyNodeDragController;
+import eu.scy.tools.gstyler.client.graph.dnd.node.CopyNodeDragController;
 
 /**
  * Abstract base class for graph plugins.
