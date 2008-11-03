@@ -22,4 +22,5 @@
 	<extend-property name="locale" values="de" />
 	
 	<stylesheet src="graph.css"/>
+	<stylesheet src="qoc.css"/>
 </module>

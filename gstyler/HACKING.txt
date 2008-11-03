@@ -1,7 +1,6 @@
 == ROADMAP ==
 
 0.2
-	* Add color to qoc edges
 	* Add EdgeRules
 	* Differentiate Directed and NonDirected Edges
 	* Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface) ?

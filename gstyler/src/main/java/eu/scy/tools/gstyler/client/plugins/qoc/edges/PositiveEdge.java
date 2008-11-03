@@ -2,6 +2,7 @@ package eu.scy.tools.gstyler.client.plugins.qoc.edges;
 
 import eu.scy.tools.gstyler.client.graph.NodeListener;
 import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.plugins.qoc.QOCCSSConstants;
 
 
 public class PositiveEdge extends EvaluationEdge implements NodeListener {
@@ -14,4 +15,7 @@ public class PositiveEdge extends EvaluationEdge implements NodeListener {
         super(node1, node2);
     }
 
+    protected String getStyleName() {
+        return QOCCSSConstants.CSS_POSITIVE_EDGE;
+    }
 }
