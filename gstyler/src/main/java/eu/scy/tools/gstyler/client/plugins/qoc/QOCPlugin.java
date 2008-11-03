@@ -1,12 +1,12 @@
 package eu.scy.tools.gstyler.client.plugins.qoc;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Widget;
-
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
 import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
+import eu.scy.tools.gstyler.client.plugins.CreateEdgeButton;
+import eu.scy.tools.gstyler.client.plugins.DeleteEdgeButton;
+import eu.scy.tools.gstyler.client.plugins.MoveNodesButton;
+import eu.scy.tools.gstyler.client.plugins.ShowExampleButton;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.NegativeEdge;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.PositiveEdge;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.QuestionEdge;
@@ -23,40 +23,12 @@ public class QOCPlugin extends AbstractGraphPlugin {
         getGraph().addNode(new OptionNode(), 5, 60);
         getGraph().addNode(new CriterionNode(), 5, 130);
 
-        final Button exampleButton = new Button("Show example");
-        exampleButton.addClickListener(new ClickListener() {
-
-            public void onClick(Widget sender) {
-                addExampleDocument(graphApplication.getGraph());
-            }
-            
-        });
-        getActionsPanel().add(exampleButton);
-        
-        final Button drawEdgeButton = new Button("Edit edges");
-        final Button moveNodesButton = new Button("Move nodes");
-
-        drawEdgeButton.addClickListener(new ClickListener() {
-
-            public void onClick(Widget sender) {
-                drawEdgeButton.setEnabled(false);
-                moveNodesButton.setEnabled(true);
-                graphApplication.getGraph().enterEdgeMode(new PositiveEdge());
-            }
-        });
-        getActionsPanel().add(drawEdgeButton);
-
-        moveNodesButton.setEnabled(false);
-        moveNodesButton.addClickListener(new ClickListener() {
-
-            public void onClick(Widget sender) {
-                drawEdgeButton.setEnabled(true);
-                moveNodesButton.setEnabled(false);
-                graphApplication.getGraph().enterNodeMode();
-            }
-
-        });
-        getActionsPanel().add(moveNodesButton);
+        getActionsPanel().add(new ShowExampleButton(this));
+        getActionsPanel().add(new CreateEdgeButton("Create PositiveEdges", this, new PositiveEdge()));
+        getActionsPanel().add(new CreateEdgeButton("Create NegativeEdges", this, new NegativeEdge()));
+        getActionsPanel().add(new CreateEdgeButton("Create QuestionEdges", this, new QuestionEdge()));
+        getActionsPanel().add(new DeleteEdgeButton(this));
+        getActionsPanel().add(new MoveNodesButton(this));
     }
 
     @Override
