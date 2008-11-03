@@ -33,7 +33,6 @@ public class EvaluationEdge extends Edge implements NodeListener {
     }
 
     public void nodeChanged(Node<?, ?> source) {
-        System.out.println("node change!");
         if (source instanceof CriterionNode && isConnectedTo(source)) {
             updateConnectedCriterionNode();
         }
