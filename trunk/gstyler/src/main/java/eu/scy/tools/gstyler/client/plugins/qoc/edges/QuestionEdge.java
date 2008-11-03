@@ -4,6 +4,7 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.NodeListener;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.plugins.qoc.nodes.CriterionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.OptionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.QuestionNode;
 
@@ -43,5 +44,8 @@ public class QuestionEdge extends Edge implements NodeListener {
     }
 
     public void nodeRemoved(Node<?, ?> node) {
+        if (node instanceof CriterionNode || node instanceof OptionNode) {
+            updateConnectedQuestionNode();
+        }
     }
 }
