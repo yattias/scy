@@ -41,7 +41,6 @@ public class OptionNode extends Node<OptionNodeModel, OptionNodeView> implements
                 }
             }
         }
-        System.out.println("new score: " + score);
         getModel().setScore(score);
         getNodeView().updateFromModel();
         fireNodeChangedEvent();
