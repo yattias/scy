@@ -1,12 +1,9 @@
-package eu.scy.tools.gstyler.client.plugins.qoc;
+package eu.scy.tools.gstyler.client.test;
+
+import com.google.gwt.junit.client.GWTTestCase;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
-import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
-import eu.scy.tools.gstyler.client.plugins.CreateEdgeButton;
-import eu.scy.tools.gstyler.client.plugins.DeleteEdgeButton;
-import eu.scy.tools.gstyler.client.plugins.MoveNodesButton;
-import eu.scy.tools.gstyler.client.plugins.ShowExampleButton;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.NegativeEdge;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.PositiveEdge;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.QuestionEdge;
@@ -14,49 +11,51 @@ import eu.scy.tools.gstyler.client.plugins.qoc.nodes.CriterionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.OptionNode;
 import eu.scy.tools.gstyler.client.plugins.qoc.nodes.QuestionNode;
 
-public class QOCPlugin extends AbstractGraphPlugin {
+public class GwtTestQOC extends GWTTestCase {
 
-    public QOCPlugin(final GraphApplication graphApplication) {
-        super(graphApplication);
+    private GWTGraph graph;
 
-        getGraph().addNode(new QuestionNode(), 5, 5);
-        getGraph().addNode(new OptionNode(), 5, 60);
-        getGraph().addNode(new CriterionNode(), 5, 130);
+    private QuestionNode questionNode;
 
-        getActionsPanel().add(new ShowExampleButton(this));
-        getActionsPanel().add(new CreateEdgeButton("Create PositiveEdges", this, new PositiveEdge()));
-        getActionsPanel().add(new CreateEdgeButton("Create NegativeEdges", this, new NegativeEdge()));
-        getActionsPanel().add(new CreateEdgeButton("Create QuestionEdges", this, new QuestionEdge()));
-        getActionsPanel().add(new DeleteEdgeButton(this));
-        getActionsPanel().add(new MoveNodesButton(this));
-    }
+    private OptionNode optionPizza;
+
+    private OptionNode optionFalafel;
+
+    private OptionNode optionKebap;
+
+    private CriterionNode criterionTaste;
+
+    private CriterionNode criterionVegetarian;
+
+    private CriterionNode criterionPrice;
 
     @Override
-    public String getName() {
-        return "QOC";
+    public String getModuleName() {
+        return "eu.scy.tools.gstyler.GStyler";
     }
 
-    public void addExampleDocument(GWTGraph graph) {
-        QuestionNode questionNode = new QuestionNode();
+    public void gwtSetUp() {
+        graph = new GWTGraph();
+        questionNode = new QuestionNode();
         questionNode.getModel().setQuestion("What to eat?");
         questionNode.getNodeView().updateFromModel();
-        OptionNode optionPizza = new OptionNode();
+        optionPizza = new OptionNode();
         optionPizza.getModel().setOption("Pizza");
         optionPizza.getNodeView().updateFromModel();
-        OptionNode optionFalafel = new OptionNode();
+        optionFalafel = new OptionNode();
         optionFalafel.getModel().setOption("Falafel");
-        optionFalafel.getNodeView().updateFromModel();        
-        OptionNode optionKebap = new OptionNode();
+        optionFalafel.getNodeView().updateFromModel();
+        optionKebap = new OptionNode();
         optionKebap.getModel().setOption("Kebap");
         optionKebap.getNodeView().updateFromModel();
-        CriterionNode criterionTaste = new CriterionNode();
+        criterionTaste = new CriterionNode();
         criterionTaste.getModel().setCriterion("Taste");
         criterionTaste.getModel().setRelevance(90);
         criterionTaste.getNodeView().updateFromModel();
-        CriterionNode criterionVegetarian = new CriterionNode();
+        criterionVegetarian = new CriterionNode();
         criterionVegetarian.getModel().setCriterion("Vegetarian");
         criterionVegetarian.getNodeView().updateFromModel();
-        CriterionNode criterionPrice = new CriterionNode();
+        criterionPrice = new CriterionNode();
         criterionPrice.getModel().setCriterion("Price");
         criterionPrice.getModel().setRelevance(80);
         criterionPrice.getNodeView().updateFromModel();
@@ -75,5 +74,30 @@ public class QOCPlugin extends AbstractGraphPlugin {
         graph.addEdge(new NegativeEdge(criterionVegetarian, optionKebap));
         graph.addEdge(new PositiveEdge(criterionTaste, optionFalafel));
         graph.addEdge(new PositiveEdge(criterionVegetarian, optionFalafel));
+    }
+    
+    public void testRemoveNode() {
+        assertEquals("BEST OPTION", optionFalafel.getModel().getTitle());
+        graph.removeNode(optionFalafel);
+        assertEquals("BEST OPTION", optionPizza.getModel().getTitle());
+    }
+    
+    public void testAddEvaluationEdge() {
+        int score = optionKebap.getModel().getScore();
+        graph.addEdge(new PositiveEdge(criterionTaste, optionKebap));
+        assertEquals(optionKebap.getModel().getScore(), score+criterionTaste.getModel().getRelevance());
+    }
+    
+    public void testChangeRelevance() {
+        int score = optionKebap.getModel().getScore();
+        criterionVegetarian.setRelevance(criterionVegetarian.getModel().getRelevance()-20);
+        assertEquals(optionKebap.getModel().getScore(), score+20);
+    }
+    
+    public void testRemoveEvalutationEdge() {
+        int score = optionFalafel.getModel().getScore() - criterionVegetarian.getModel().getRelevance();
+        Edge e = graph.getEdge(optionFalafel, criterionVegetarian);
+        graph.removeEdge(e);
+        assertEquals(optionFalafel.getModel().getScore(), score);
     }
 }

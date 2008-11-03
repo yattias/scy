@@ -13,7 +13,8 @@ import eu.scy.tools.gstyler.client.graph.node.Node;
 /**
  * IMPORTANT: New test classes _must_ start with GwtTest - see http://gwt-maven.googlecode.com/svn/docs/maven-googlewebtoolkit2-plugin/testing.html
  * 
- * To run the test use "-Xmx512m -Xms512m" as VMArgs
+ * To run the test use "-Xmx512m -Xms512m" as VMArgs.
+ * Also add "target/classes", "src/main/java", "src/test/java" to the classpath. 
  */
 public class GwtTestGWTGraph extends GWTTestCase implements NodeListener, EdgeListener {
 
