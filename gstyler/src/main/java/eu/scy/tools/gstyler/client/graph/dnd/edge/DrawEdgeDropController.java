@@ -55,7 +55,7 @@ public class DrawEdgeDropController extends AbstractDropController {
         Edge existingEdge = graph.getEdge(n1, n2);
         if (existingEdge != null) {
             graph.removeEdge(existingEdge);
-        } else {
+        } else if (edge != null){
             edge.init(n1, n2);
             graph.addEdge(edge);
         }
