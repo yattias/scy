@@ -9,7 +9,6 @@
 <!--  convenience to define GWT version in one place -->
 	<properties>
 		<gwtVersion>1.5.2</gwtVersion>
-		<google.webtoolkit.extrajvmargs>-XstartOnFirstThread</google.webtoolkit.extrajvmargs>
 	</properties>
 <!-- include the GWT-Maven repo as plugin, and as standard -->
 	<pluginRepositories>
