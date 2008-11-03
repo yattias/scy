@@ -1,5 +1,8 @@
 package eu.scy.tools.gstyler.client.graph.node;
 
+/**
+ * According to the MVC pattern this class holds all data about a Node.
+ */
 public abstract class NodeModel {
     
     protected String title;

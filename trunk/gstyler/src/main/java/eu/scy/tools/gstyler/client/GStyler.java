@@ -19,7 +19,7 @@ public class GStyler extends SimplePanel implements GraphApplication {
     public static String VERSION = "GStyler 0.2-SNAPSHOT";
 
     private GWTGraph graph;
-    private PaletteContainer paletteContainer;
+    private PluginManager paletteContainer;
     private MenuBar menuBar;
     
 
@@ -39,7 +39,7 @@ public class GStyler extends SimplePanel implements GraphApplication {
         graph = new GWTGraph();
         mainPanel.add(graph);
 
-        paletteContainer = new PaletteContainer(this);
+        paletteContainer = new PluginManager(this);
         mainPanel.add(paletteContainer);
     }
 

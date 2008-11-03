@@ -12,8 +12,10 @@ import eu.scy.tools.gstyler.client.graph.CSSConstants;
 import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
 
 /**
- * According to the MVC pattern this class is the graphical representation of a Node. UI logic has to go here, especially updating the view according to the nodes model. Also this view may return a list of EdgeCreationHandles which allow the user to draw edges by clicking on a UI element of this
- * node
+ * According to the MVC pattern this class is the graphical representation of a Node.
+ * UI logic has to go here, especially updating the view according to the nodes model.
+ * Also this view may return a list of EdgeCreationHandles which allow the user to draw edges
+ * by clicking on a UI element of this node
  */
 public abstract class NodeView<N extends Node<?, ?>> extends VerticalPanel implements HasDragHandle {
 
