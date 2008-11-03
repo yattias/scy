@@ -24,9 +24,6 @@ public class PluginManager extends TabPanel {
 
         addPlugin(new MindmapPlugin(gstyler));
         addPlugin(new QOCPlugin(gstyler));
-
-        // FIXME: For debugging
-        new QOCPlugin(gstyler).addExampleDocument(gstyler.getGraph());
     }
 
     private void addPlugin(GraphPlugin plugin) {
