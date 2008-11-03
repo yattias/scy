@@ -254,8 +254,12 @@ public class GWTGraph extends AbsolutePanel {
     }
 
     public void enterEdgeMode(Edge edge) {
-        interactionMode = InteractionMode.EDIT_EDGES;
+        // This is ugly, but if someone calls enterEdgeMode during edgeMode exceptions will be thrown.
+        if (interactionMode.equals(InteractionMode.EDIT_EDGES)) {
+            enterNodeMode();
+        }
         
+        interactionMode = InteractionMode.EDIT_EDGES;
         // Nodes are not draggable anymore...
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
@@ -265,6 +269,7 @@ public class GWTGraph extends AbsolutePanel {
                 // .. instead: The DragHandle may be used to draw edges
                 SourcesMouseEvents dragHandle = (SourcesMouseEvents) nodeView.getDragHandle();
                 dragHandle.addMouseListener(new DrawEdgeMouseListener(this, nodeView, InteractionMode.EDIT_EDGES, edge));
+                // FIXME: The listeners are not removed!
             }
         }
     }
@@ -312,7 +317,6 @@ public class GWTGraph extends AbsolutePanel {
         }
     }
     
-    // FIXME: currently unused, maybe use in Edge
     public void fireEdgeChangedEvent(Edge edge) {
         for (EdgeListener l : edgeListeners ) {
             l.edgeChanged(edge);
