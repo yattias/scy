@@ -10,7 +10,6 @@ import eu.scy.tools.gstyler.client.plugins.qoc.nodes.QuestionNode;
 
 public class QuestionEdge extends Edge implements NodeListener {
 
-    
     public QuestionEdge() {
         super();
     }
@@ -34,18 +33,15 @@ public class QuestionEdge extends Edge implements NodeListener {
         updateConnectedQuestionNode();
     }
 
-    public void nodeAdded(Node<?, ?> node) {
-        // TODO Auto-generated method stub
-    }
-
     public void nodeChanged(Node<?, ?> node) {
         if (node instanceof OptionNode && isConnectedTo(node)) {
             updateConnectedQuestionNode();
         }
     }
 
-    public void nodeRemoved(Node<?, ?> node) {
-        // TODO Auto-generated method stub
+    public void nodeAdded(Node<?, ?> node) {
     }
 
+    public void nodeRemoved(Node<?, ?> node) {
+    }
 }
