@@ -1,6 +1,7 @@
 == ROADMAP ==
 
 0.2
+	* Add weighted edges (-> QOC)
 	* Add EdgeRules
 	* Pull GWTGraph into its own project
 	
