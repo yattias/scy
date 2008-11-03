@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.GWTGraphCSSConstants;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
 import eu.scy.tools.gstyler.client.graph.node.NodeView;
@@ -33,7 +33,8 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
         });
         add(textArea);
         edgeHandle = new Label("->");
-        edgeHandle.setStyleName(CSSConstants.CSS_CLICKABLE_WIDGET);
+        edgeHandle.setTitle("Create a new edge");
+        edgeHandle.setStyleName(GWTGraphCSSConstants.CSS_CLICKABLE_WIDGET);
         topPanel.add(edgeHandle);
     }
 
@@ -46,8 +47,7 @@ public class MindmapNodeView extends NodeView<MindmapNode> {
     @Override
     public Collection<EdgeCreationHandle> getEdgeCreationHandles() {
         Collection<EdgeCreationHandle> c = new ArrayList<EdgeCreationHandle>(); 
-        EdgeCreationHandle handle = new EdgeCreationHandle(edgeHandle, new Edge());
-        c.add(handle);
+        c.add(new EdgeCreationHandle(edgeHandle, new Edge()));
         return c;
     }
 

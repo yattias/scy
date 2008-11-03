@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.GWTGraphCSSConstants;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
@@ -46,12 +46,11 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
         
         // Any clicks will be ignored if not in correct mode
         if (!graph.getInteractionMode().equals(mode)){
-            System.out.println("not in mode: " + mode);
             return;
         }
         
         // Changes the mouse pointer to a hand
-        RootPanel.get().setStylePrimaryName(CSSConstants.CSS_CLICKABLE_WIDGET);
+        RootPanel.get().setStylePrimaryName(GWTGraphCSSConstants.CSS_CLICKABLE_WIDGET);
         
         // Add an invisible Label as a dummy object to the graph...
         int left = graph.getWidgetLeft(nodeView) + 50;
@@ -78,5 +77,4 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
         var cl = sender.@com.google.gwt.user.client.ui.Label::mouseListeners;
         cl.@com.google.gwt.user.client.ui.MouseListenerCollection::fireMouseDown(Lcom/google/gwt/user/client/ui/Widget;II)(sender, x, y);
     }-*/;
-    
 }

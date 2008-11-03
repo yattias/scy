@@ -74,4 +74,8 @@ public class Edge {
         }
         return null;
     }
+    
+    public boolean isConnectedTo(Node<?,?> node) {
+        return node.equals(getNode1()) || node.equals(getNode2());
+    }
 }

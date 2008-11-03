@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
 import eu.scy.tools.gstyler.client.graph.node.NodeView;
-import eu.scy.tools.gstyler.client.plugins.qoc.CSSConstants;
+import eu.scy.tools.gstyler.client.plugins.qoc.QOCCSSConstants;
 
 
 public class QuestionNodeView extends NodeView<QuestionNode>{
@@ -17,8 +17,8 @@ public class QuestionNodeView extends NodeView<QuestionNode>{
         super(node);
         questionBox = new TextBox();
         add(questionBox);
-        setStylePrimaryName(CSSConstants.CSS_QUESTION);
-        titleLabel.setStylePrimaryName(CSSConstants.CSS_QUESTION);
+        setStylePrimaryName(QOCCSSConstants.CSS_QUESTION);
+        titleLabel.setStylePrimaryName(QOCCSSConstants.CSS_QUESTION);
     }
 
     @Override
