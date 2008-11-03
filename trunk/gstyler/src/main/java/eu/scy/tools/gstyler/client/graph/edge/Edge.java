@@ -12,7 +12,7 @@ public class Edge {
 
     private Node<?, ?> node2;
     private Node<?, ?> node1;
-    private Connection connection;
+    private StraightTwoEndedConnection connection;
     private GWTGraph parentGraph;
 
     /**
@@ -38,8 +38,18 @@ public class Edge {
         Connector c1 = UIObjectConnector.wrap(node1.getNodeView());
         Connector c2 = UIObjectConnector.wrap(node2.getNodeView());
         connection = new StraightTwoEndedConnection(c1, c2);
+        if (getStyleName() != null) {
+            connection.addStyleName(getStyleName());
+        }
     }
     
+    /**
+     * Overwrite this method to set the StyleName of the Widget painting the edge, e.g. to change its color
+     */
+    protected String getStyleName() {
+        return null;
+    }
+
     public boolean isValid() {
         return node1 != null && node2 != null && connection != null;
     }

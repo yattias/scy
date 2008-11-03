@@ -1,6 +1,7 @@
 package eu.scy.tools.gstyler.client.plugins.qoc.edges;
 
 import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.plugins.qoc.QOCCSSConstants;
 
 
 public class NegativeEdge extends EvaluationEdge {
@@ -13,4 +14,7 @@ public class NegativeEdge extends EvaluationEdge {
         super(node1, node2);
     }
 
+    protected String getStyleName() {
+        return QOCCSSConstants.CSS_NEGATIVE_EDGE;
+    }
 }
