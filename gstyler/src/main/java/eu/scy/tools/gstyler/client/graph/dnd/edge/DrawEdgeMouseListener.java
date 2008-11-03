@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.graph.dnd;
+package eu.scy.tools.gstyler.client.graph.dnd.edge;
 
 import pl.balon.gwt.diagrams.client.connection.Connection;
 import pl.balon.gwt.diagrams.client.connection.StraightTwoEndedConnection;
@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 import eu.scy.tools.gstyler.client.graph.CSSConstants;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
 /**
@@ -27,23 +28,25 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
 
     private NodeView<?> nodeView;
     private GWTGraph graph;
-    private boolean modeless;
+    private InteractionMode mode;
+    private Edge edge;
 
     /**
      * @param graph The graph edges will be drawn for
      * @param nodeView The Source nodeView which is the start for the new edge
      */
-    public DrawEdgeMouseListener(GWTGraph graph, NodeView<?> nodeView, boolean modeless) {
+    public DrawEdgeMouseListener(GWTGraph graph, NodeView<?> nodeView, InteractionMode mode, Edge edge) {
         this.graph = graph;
         this.nodeView = nodeView;
-        this.modeless = modeless;
+        this.mode = mode;
+        this.edge = edge;
     }
 
     public void onMouseDown(Widget sender, int x, int y) {
         
-        // Any clicks will be ignored if not in edge mode
-        if (modeless == false && graph.getInteractionMode() != InteractionMode.EDIT_EDGES){
-            System.out.println("not in egde mode");
+        // Any clicks will be ignored if not in correct mode
+        if (!graph.getInteractionMode().equals(mode)){
+            System.out.println("not in mode: " + mode);
             return;
         }
         
@@ -63,7 +66,7 @@ public class DrawEdgeMouseListener extends MouseListenerAdapter {
         connection.appendTo(graph);
 
         // Now construct the necessary DragController and directly start the DragOperation on the label
-        DragController dragC = new DrawEdgeDragController(graph, nodeView.getNode(), connection, graph.getCreateEdgeDropControllers());
+        DragController dragC = new DrawEdgeDragController(graph, nodeView.getNode(), connection, graph.getDrawEdgeDropControllers(edge));
         dragC.makeDraggable(l);
         fireMouseDownEvent(l, 0, 0);
     }

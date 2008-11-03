@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
-import eu.scy.tools.gstyler.client.graph.GWTGraph.InteractionMode;
 import eu.scy.tools.gstyler.client.graph.application.AbstractGraphPlugin;
 import eu.scy.tools.gstyler.client.graph.application.GraphApplication;
 import eu.scy.tools.gstyler.client.plugins.qoc.edges.PositiveEdge;
@@ -30,7 +29,7 @@ public class QOCPlugin extends AbstractGraphPlugin {
             public void onClick(Widget sender) {
                 drawEdgeButton.setEnabled(false);
                 moveNodesButton.setEnabled(true);
-                graphApplication.getGraph().setInteractionMode(InteractionMode.EDIT_EDGES);
+                graphApplication.getGraph().enterEdgeMode(new PositiveEdge());
             }
         });
         getActionsPanel().add(drawEdgeButton);
@@ -41,7 +40,7 @@ public class QOCPlugin extends AbstractGraphPlugin {
             public void onClick(Widget sender) {
                 drawEdgeButton.setEnabled(true);
                 moveNodesButton.setEnabled(false);
-                graphApplication.getGraph().setInteractionMode(InteractionMode.MOVE_NODES);
+                graphApplication.getGraph().enterNodeMode();
             }
 
         });

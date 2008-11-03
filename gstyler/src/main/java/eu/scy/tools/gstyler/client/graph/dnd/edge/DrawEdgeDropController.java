@@ -1,4 +1,4 @@
-package eu.scy.tools.gstyler.client.graph.dnd;
+package eu.scy.tools.gstyler.client.graph.dnd.edge;
 
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
@@ -17,7 +17,7 @@ import eu.scy.tools.gstyler.client.graph.node.NodeView;
  * When drawing an edge and successfully completing the drop on a Node, subclasses of this controller
  * handle the drop to create or remove an edge. 
  */
-public abstract class DrawEdgeDropController extends AbstractDropController {
+public class DrawEdgeDropController extends AbstractDropController {
 
     protected GWTGraph graph;
     protected Edge edge;
@@ -51,7 +51,14 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
         Node<?, ?> n1 = dc.getSourceNode().getNodeView().getNode();
         Node<?, ?> n2 = ((NodeView<?>) getDropTarget()).getNode();
         
-        handleDrop(context, n1, n2);
+        // Create new edge or remove existing one of there is already an edge
+        Edge existingEdge = graph.getEdge(n1, n2);
+        if (existingEdge != null) {
+            graph.removeEdge(existingEdge);
+        } else {
+            edge.init(n1, n2);
+            graph.addEdge(edge);
+        }
     }
 
     /**
@@ -71,11 +78,4 @@ public abstract class DrawEdgeDropController extends AbstractDropController {
        super.onLeave(context);
        getDropTarget().removeStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
     }
-    
-    /**
-     * @param context DragContext of the completed DragOperation
-     * @param n1 The node the drag started
-     * @param n2 The node the drop was completed on
-     */
-    public abstract void handleDrop(DragContext context, Node<?, ?> n1, Node<?, ?> n2);
 }
