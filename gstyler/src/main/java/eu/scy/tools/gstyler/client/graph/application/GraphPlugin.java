@@ -9,9 +9,11 @@ import eu.scy.tools.gstyler.client.graph.GWTGraph;
  */
 public interface GraphPlugin {
 
-    public abstract String getName();
+    public String getName();
 
-    public abstract Widget getUI();
+    public Widget getUI();
 
-    public abstract void addExampleDocument(GWTGraph graph);
+    public void addExampleDocument(GWTGraph graph);
+
+    public GraphApplication getGraphApplication();
 }

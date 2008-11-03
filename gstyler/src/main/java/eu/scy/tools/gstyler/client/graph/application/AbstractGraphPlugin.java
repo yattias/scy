@@ -1,7 +1,8 @@
 package eu.scy.tools.gstyler.client.graph.application;
 
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -17,7 +18,7 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
 
     private GWTGraph graph;
 
-    private HorizontalPanel actionsPanel;
+    private Panel actionsPanel;
 
     private GraphApplication graphApplication;
     
@@ -29,7 +30,7 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
         graph.setHeight("300px");
         add(graph);
 
-        actionsPanel = new HorizontalPanel();
+        actionsPanel = new FlowPanel();
         add(actionsPanel);
     }
 
@@ -37,7 +38,7 @@ public abstract class AbstractGraphPlugin extends VerticalPanel implements Graph
         return graph;
     }
 
-    protected HorizontalPanel getActionsPanel() {
+    protected Panel getActionsPanel() {
         return actionsPanel;
     }
 
