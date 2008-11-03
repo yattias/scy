@@ -34,7 +34,7 @@ public class DrawEdgeDragController extends MoveNodeDragController {
         addDragHandler(new DragHandlerAdapter() {
 
             public void onDragEnd(DragEndEvent event) {
-                System.out.println("Drag ended. Removing temp connection.");
+                // Drag ended. Removing temporary connection
                 UIObjectConnector.unwrap(event.getContext().draggable);
                 graph.remove(event.getContext().draggable);
                 tmpConnection.remove();

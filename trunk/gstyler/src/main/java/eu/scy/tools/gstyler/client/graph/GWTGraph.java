@@ -53,6 +53,8 @@ public class GWTGraph extends AbsolutePanel {
 
     private Collection<NodeListener> nodeListeners =  new ArrayList<NodeListener>();
 
+    private Collection<EdgeListener> edgeListeners = new ArrayList<EdgeListener>();
+
     /**
      * Creates a new GWTGraph with a normal MoveNodeDragController which allows for nodes to be moved around freely on the graphs area
      */
@@ -91,6 +93,9 @@ public class GWTGraph extends AbsolutePanel {
     public void addNode(Node<?, ?> node, int left, int top) {
         super.add(node.getNodeView(), left, top);
         initNode(node);
+        if (node instanceof EdgeListener) {
+            edgeListeners.add((EdgeListener) node);
+        }
         fireNodeAddedEvent(node);
     }
 
@@ -125,18 +130,19 @@ public class GWTGraph extends AbsolutePanel {
             return false;
         }
         edges.add(edge);
-        addToNodeToEdgeMap(edge, edge.getNode1());
-        addToNodeToEdgeMap(edge, edge.getNode2());
+        addToNodeToEdgeMap(edge.getNode1(), edge);
+        addToNodeToEdgeMap(edge.getNode2(), edge);
         edge.getConnection().appendTo(this);
         
         edge.setParentGraph(this);
         if (edge instanceof NodeListener) {
             addNodeListener((NodeListener) edge);
         }
+        fireEdgeAddedEvent(edge);
         return true;
     }
 
-    private void addToNodeToEdgeMap(Edge edge, Node<?, ?> node) {
+    private void addToNodeToEdgeMap(Node<?, ?> node, Edge edge) {
         Collection<Edge> c = nodeToEdgeMap.get(node);
         if (c == null) {
             c = new ArrayList<Edge>();
@@ -145,10 +151,22 @@ public class GWTGraph extends AbsolutePanel {
         nodeToEdgeMap.put(node, c);
     }
     
-    public void addNodeListener(NodeListener l) {
-        nodeListeners.add(l);
+    private void removeFromNodeToEdgeMap(Node<?, ?> node, Edge edge) {
+        Collection<Edge> c = nodeToEdgeMap.get(node);
+        if (c != null) {
+            c.remove(edge);
+        }
+        nodeToEdgeMap.put(node, c);
+    }
+    
+    public void addNodeListener(NodeListener listener) {
+        nodeListeners.add(listener);
     }
 
+    public void addEdgeListener(EdgeListener listener) {
+        edgeListeners.add(listener);
+    }
+    
     /**
      * Removes the given Node from this graph. This also removes all Edges connected to that node
      *
@@ -160,7 +178,9 @@ public class GWTGraph extends AbsolutePanel {
         }
         if (nodeToEdgeMap.get(node) != null) {
             // Remove all Edges connected to this node
-            for (Edge e : nodeToEdgeMap.get(node)) {
+            // Create a copied array to avoid a ConcurrentModificationException
+            Edge[] edges = nodeToEdgeMap.get(node).toArray(new Edge[nodeToEdgeMap.get(node).size()]);
+            for (Edge e : edges) {
                 removeEdge(e);
             }
             nodeToEdgeMap.remove(node);
@@ -180,11 +200,15 @@ public class GWTGraph extends AbsolutePanel {
         if (!edges.contains(edge)) {
             return false;
         }
+        removeFromNodeToEdgeMap(edge.getNode1(), edge);
+        removeFromNodeToEdgeMap(edge.getNode2(), edge);
+        
         edges.remove(edge);
         if (edge instanceof NodeListener) {
             nodeListeners.remove(edge);
         }
         edge.getConnection().remove();
+        fireEdgeRemoved(edge);
         return true;
     }
 
@@ -211,11 +235,8 @@ public class GWTGraph extends AbsolutePanel {
 
     /**
      * Returns a Collection of DropControllers, eg. to be used as targets when drawing new edges
-     * @param edge 
      */
     public Collection<DropController> getDrawEdgeDropControllers(Edge edge) {
-        System.out.println("getDrawEdgeDropControllers: " + edge);
-        
         ArrayList<DropController> list = new ArrayList<DropController>();
         for (Widget w : getChildren()) {
             if (w instanceof NodeView) {
@@ -223,16 +244,6 @@ public class GWTGraph extends AbsolutePanel {
             }
         }
         return list;
-        /*
-        switch (interactionMode) {
-            case EDIT_EDGES:
-                return getDragHandleDropControllers(edge);
-            case MOVE_NODES:
-                return getEdgeHandleDropControllers(edge);
-            default: 
-                return null;
-        }
-        */
     }
 
     /**
@@ -277,7 +288,7 @@ public class GWTGraph extends AbsolutePanel {
         return edges;
     }
     
-    public void fireNodeAddedEvent(Node<?, ?> node) {
+    private void fireNodeAddedEvent(Node<?, ?> node) {
         for (NodeListener l : nodeListeners ) {
             l.nodeAdded(node);
         }
@@ -294,6 +305,26 @@ public class GWTGraph extends AbsolutePanel {
             l.nodeRemoved(node);
         } 
     }
+    
+    private void fireEdgeAddedEvent(Edge edge) {
+        for (EdgeListener l : edgeListeners ) {
+            l.edgeAdded(edge);
+        }
+    }
+    
+    // FIXME: currently unused, maybe use in Edge
+    public void fireEdgeChangedEvent(Edge edge) {
+        for (EdgeListener l : edgeListeners ) {
+            l.edgeChanged(edge);
+        }
+    }
+    
+    private void fireEdgeRemoved(Edge edge) {
+        for (EdgeListener l : edgeListeners ) {
+            l.edgeRemoved(edge);
+        } 
+    }
+    
 
     /**
      * @return All Nodes connected to the given Edge
@@ -306,9 +337,9 @@ public class GWTGraph extends AbsolutePanel {
      * Removes all Nodes (and thus all edges) from this Graph
      */
     public void clear() {
-        Collection<Node<?,?>> c = new ArrayList<Node<?,?>>();
-        c.addAll(getNodes());
-        for (Node<?, ?> n: c) {
+        // Create a copied array to avoid a ConcurrentModificationException
+        Node<?,?>[] nodes = getNodes().toArray(new Node[getNodes().size()]);
+        for (Node<?, ?> n: nodes) {
             removeNode(n);
         }
     }

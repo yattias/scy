@@ -1,6 +1,8 @@
 package eu.scy.tools.gstyler.client.plugins.qoc.nodes;
 
+import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.node.Node;
+import eu.scy.tools.gstyler.client.plugins.qoc.edges.QuestionEdge;
 
 
 public class QuestionNode extends Node<QuestionNodeModel, QuestionNodeView> {
@@ -22,4 +24,19 @@ public class QuestionNode extends Node<QuestionNodeModel, QuestionNodeView> {
         return new QuestionNodeView(this);
     }
 
+    public void calculatePreference() {
+        OptionNode maxNode = null;
+        for (Edge edge : getParentGraph().getEdgesForNode(this) ) {
+            if (edge instanceof QuestionEdge) {
+                OptionNode oNode = (OptionNode) edge.getOtherNode(this);
+                oNode.setPreferred(false);
+                if (maxNode == null) {
+                    maxNode = oNode;
+                } else if (oNode.getModel().getScore() > maxNode.getModel().getScore()) {
+                    maxNode = oNode;
+                }
+            }
+        }
+        maxNode.setPreferred(true);
+    }
 }

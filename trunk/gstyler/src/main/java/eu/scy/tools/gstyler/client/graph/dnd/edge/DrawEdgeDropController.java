@@ -7,7 +7,7 @@ import com.allen_sauer.gwt.dnd.client.drop.AbstractDropController;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import eu.scy.tools.gstyler.client.graph.CSSConstants;
+import eu.scy.tools.gstyler.client.graph.GWTGraphCSSConstants;
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 import eu.scy.tools.gstyler.client.graph.edge.Edge;
 import eu.scy.tools.gstyler.client.graph.node.Node;
@@ -35,18 +35,18 @@ public class DrawEdgeDropController extends AbstractDropController {
 
     public void onPreviewDrop(DragContext context) throws VetoDragException {
         if (getDropTarget() == ((DrawEdgeDragController) context.dragController).getSourceNode().getNodeView()) {
-            System.out.println("No drop on self allowed!");
+            // No drop on self allowed
             throw new VetoDragException();
         }
     }
     
     public void onDrop(DragContext context) {
-        RootPanel.get().removeStyleDependentName(CSSConstants.CSS_CLICKABLE_WIDGET);
+        RootPanel.get().removeStyleDependentName(GWTGraphCSSConstants.CSS_CLICKABLE_WIDGET);
         if ( !(getDropTarget() instanceof NodeView)) {
-            System.out.println("drop target not a nodeView: " + getDropTarget() );
+            // Only drops on NodeViews allowed
             return;
         }
-        System.out.println("drop sucessfull.");
+        // drop sucessfull, get the nodes
         DrawEdgeDragController dc = (DrawEdgeDragController) context.dragController;
         Node<?, ?> n1 = dc.getSourceNode().getNodeView().getNode();
         Node<?, ?> n2 = ((NodeView<?>) getDropTarget()).getNode();
@@ -67,7 +67,7 @@ public class DrawEdgeDropController extends AbstractDropController {
     public void onEnter(DragContext context) {
         super.onEnter(context);
         if (getDropTarget() != ((DrawEdgeDragController) context.dragController).getSourceNode().getNodeView()) {
-            getDropTarget().addStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
+            getDropTarget().addStyleName(GWTGraphCSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
         }
     }
     
@@ -76,6 +76,6 @@ public class DrawEdgeDropController extends AbstractDropController {
      */
     public void onLeave(DragContext context) {
        super.onLeave(context);
-       getDropTarget().removeStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
+       getDropTarget().removeStyleName(GWTGraphCSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
     }
 }
