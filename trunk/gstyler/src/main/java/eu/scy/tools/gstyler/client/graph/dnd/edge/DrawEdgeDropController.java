@@ -67,7 +67,7 @@ public class DrawEdgeDropController extends AbstractDropController {
     public void onEnter(DragContext context) {
         super.onEnter(context);
         if (getDropTarget() != ((DrawEdgeDragController) context.dragController).getSourceNode().getNodeView()) {
-            getDropTarget().setStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
+            getDropTarget().addStyleName(CSSConstants.CSS_NODE_DROPTARGET_ENGAGE);
         }
     }
     
