@@ -76,6 +76,9 @@ public class Edge {
         this.parentGraph = parentGraph;
     }
     
+    /**
+     * @return Returns the other node than the given Node this Edge is connected to
+     */
     public Node<?, ?> getOtherNode(Node<?, ?> node) {
         if (getNode1() == node) {
             return getNode2();
