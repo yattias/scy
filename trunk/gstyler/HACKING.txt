@@ -3,7 +3,6 @@
 0.2
 
 	* Enable simulation -> QOC Plugin
-	* create toEdgeMode(Edge edge) and enable the dragHandle as DropTarget in EDIT_EDGES
 	* Differentiate Directed and NonDirected Edges?
 	* Integrate Node and NodeView but keep Model separate? AbstractNode + Node (Interface) ?
 	* Pull GWTGraph into its own project
