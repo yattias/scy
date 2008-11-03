@@ -10,13 +10,15 @@ import eu.scy.tools.gstyler.client.plugins.mindmap.MindmapPlugin;
 import eu.scy.tools.gstyler.client.plugins.qoc.QOCPlugin;
 
 /**
- * Class responsible for adding Palettes to the right part of GStylers UI.
+ * Class responsible for managing plugins and adding their UI.
+ * 
+ * FIXME: Need to differentiate between Plugin and Palette?
  */
-public class PaletteContainer extends TabPanel {
+public class PluginManager extends TabPanel {
 
     public ArrayList<GraphPlugin> plugins;
 
-    public PaletteContainer(GraphApplication gstyler) {
+    public PluginManager(GraphApplication gstyler) {
         setSize("100%", "300px");
         plugins = new ArrayList<GraphPlugin>();
 

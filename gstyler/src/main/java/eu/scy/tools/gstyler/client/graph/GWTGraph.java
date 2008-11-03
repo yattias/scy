@@ -19,6 +19,9 @@ import eu.scy.tools.gstyler.client.graph.edge.EdgeCreationHandle;
 import eu.scy.tools.gstyler.client.graph.node.Node;
 import eu.scy.tools.gstyler.client.graph.node.NodeView;
 
+/**
+ * GWTGraph allows Nodes being added and moved around via Drag&Drop, as well as edges connecting the nodes.
+ */
 public class GWTGraph extends AbsolutePanel {
 
     /**
@@ -294,10 +297,16 @@ public class GWTGraph extends AbsolutePanel {
         } 
     }
 
+    /**
+     * @return All Nodes connected to the given Edge
+     */
     public Collection<Edge> getEdgesForNode(Node<?,?> node) {
         return nodeToEdgeMap.get(node);
     }
     
+    /**
+     * Removes all Nodes (and thus all edges) from this Graph
+     */
     public void clear() {
         Collection<Node<?,?>> c = new ArrayList<Node<?,?>>();
         c.addAll(getNodes());

@@ -2,6 +2,10 @@ package eu.scy.tools.gstyler.client.graph.node;
 
 import eu.scy.tools.gstyler.client.graph.GWTGraph;
 
+/** 
+ * According to the MVC pattern this class is responsible for connecting and controlling
+ * a NodeModel and a NodeView.
+ */
 public abstract class Node<M extends NodeModel, V extends NodeView<?>> {
 
     protected M model;
