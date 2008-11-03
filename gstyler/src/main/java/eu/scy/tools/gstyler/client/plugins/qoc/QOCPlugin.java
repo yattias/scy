@@ -23,6 +23,16 @@ public class QOCPlugin extends AbstractGraphPlugin {
         getGraph().addNode(new OptionNode(), 5, 60);
         getGraph().addNode(new CriterionNode(), 5, 130);
 
+        final Button exampleButton = new Button("Show example");
+        exampleButton.addClickListener(new ClickListener() {
+
+            public void onClick(Widget sender) {
+                addExampleDocument(graphApplication.getGraph());
+            }
+            
+        });
+        getActionsPanel().add(exampleButton);
+        
         final Button drawEdgeButton = new Button("Edit edges");
         final Button moveNodesButton = new Button("Move nodes");
 
@@ -47,16 +57,6 @@ public class QOCPlugin extends AbstractGraphPlugin {
 
         });
         getActionsPanel().add(moveNodesButton);
-        
-        final Button exampleButton = new Button("Show example");
-        exampleButton.addClickListener(new ClickListener() {
-
-            public void onClick(Widget sender) {
-                addExampleDocument(graphApplication.getGraph());
-            }
-            
-        });
-        getActionsPanel().add(exampleButton);
     }
 
     @Override

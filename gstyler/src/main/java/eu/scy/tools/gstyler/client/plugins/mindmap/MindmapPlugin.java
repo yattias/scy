@@ -16,6 +16,16 @@ public class MindmapPlugin extends AbstractGraphPlugin {
 
         getGraph().addNode(new MindmapNode(), 5, 5);
 
+        final Button exampleButton = new Button("Show example");
+        exampleButton.addClickListener(new ClickListener() {
+
+            public void onClick(Widget sender) {
+                addExampleDocument(graphApplication.getGraph());
+            }
+            
+        });
+        getActionsPanel().add(exampleButton);
+        
         final Button drawEdgeButton = new Button("Edit edges");
         final Button moveNodesButton = new Button("Move nodes");
 
@@ -41,16 +51,6 @@ public class MindmapPlugin extends AbstractGraphPlugin {
             
         });
         getActionsPanel().add(moveNodesButton);
-        
-        final Button exampleButton = new Button("Show example");
-        exampleButton.addClickListener(new ClickListener() {
-
-            public void onClick(Widget sender) {
-                addExampleDocument(graphApplication.getGraph());
-            }
-            
-        });
-        getActionsPanel().add(exampleButton);
     }
 
     @Override
