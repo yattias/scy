@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  * User: Henrik
  * Date: 16.okt.2008
  * Time: 06:44:19
- * To change this template use File | Settings | File Templates.
  */
 public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
@@ -26,29 +25,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .uniqueResult();
     }
 
-
-    /*public Boolean getIsUserOnline(String userName) {
-        Set users = UserCounterListener.getUsers();
-        if (users != null) {
-            Iterator it = users.iterator();
-            while (it.hasNext()) {
-                org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
-                User online = getUserByUsername(o.getUsername());
-                if (online != null) return true;
-
-            }
-        }
-
-        return false;
-    }
-      */
     public User addUser(Project project, Group group, User user) {
-        /*List users = getOnlineUsers();
-        for (int i = 0; i < users.size(); i++) {
-            User user1 = (User) users.get(i);
-            log.info("--------------------------------- " + user1.getUserName() + " " + user1.getLastName());
-        }
-         */
         if (isExistingUsername(user)) {
             user.setUserName(getSecureUserName(user.getUserName()));
         }
@@ -93,24 +70,6 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         return getSession().createQuery("from UserImpl order by userName ")
                 .list();
     }
-
-    /*public List<User> getOnlineUsers() {
-        Set users = UserCounterListener.getUsers();
-
-        if (users != null) {
-            Iterator it = users.iterator();
-            List onlineUsers = new LinkedList<User>();
-            while (it.hasNext()) {
-                org.springframework.security.userdetails.User o = (org.springframework.security.userdetails.User) it.next();
-                User user = getUserByUsername(o.getUsername());
-                if (user != null) onlineUsers.add(user);
-            }
-
-            return onlineUsers;
-        }
-        return Collections.EMPTY_LIST;
-    }
-     */
 
     public List getBuddies(User user) {
         return getSession().createQuery("select connection.buddy from BuddyConnectionImpl connection where myself = :mySelf")
@@ -176,14 +135,5 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         return userRole != null;
     }
 
-
-    /* public SessionRegistryImpl getSessionRegistry() {
-        return sessionRegistry;
-    }
-
-    public void setSessionRegistry(SessionRegistryImpl sessionRegistry) {
-        this.sessionRegistry = sessionRegistry;
-    }
-    */
 
 }
