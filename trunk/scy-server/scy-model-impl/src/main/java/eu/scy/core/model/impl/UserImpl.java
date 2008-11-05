@@ -4,6 +4,7 @@ import eu.scy.core.model.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -96,6 +97,9 @@ public class UserImpl extends ScyBaseObject implements User {
 
     @OneToMany(targetEntity = UserRoleImpl.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<UserRole> getUserRoles() {
+        if(userRoles == null) {
+            userRoles = new LinkedList<UserRole>();
+        }
         return userRoles;
     }
 
