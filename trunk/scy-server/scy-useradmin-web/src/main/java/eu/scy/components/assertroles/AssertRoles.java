@@ -1,7 +1,6 @@
 package eu.scy.components.assertroles;
 
 import eu.scy.pages.TapestryContextAware;
-import eu.scy.core.model.UserRole;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -34,7 +33,7 @@ public class AssertRoles extends TapestryContextAware {
         String legalRoles [] = roles.split(",");
         for (int i = 0; i < legalRoles.length; i++) {
             String legalRole = legalRoles[i];
-            if(getUserDAOHibernate().getUserInRole(legalRole,  getCurrentUser())) {
+            if(getUserDAOHibernate().getIsUserInRole(legalRole,  getCurrentUser())) {
                 return true;
             }
         }

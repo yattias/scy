@@ -42,5 +42,5 @@ public interface UserDAO extends SCYBaseDAO{
 
     public Long getNumberOfUsers(Group group);
 
-    public Boolean getUserInRole(String role, User user);
+    public Boolean getIsUserInRole(String role, User user);
 }
