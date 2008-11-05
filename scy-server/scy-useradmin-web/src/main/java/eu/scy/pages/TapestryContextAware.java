@@ -9,6 +9,7 @@ import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.persistence.UserDAO;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,13 +25,13 @@ public class TapestryContextAware {
     private ScyBaseObject model;
 
     @Inject
-    private UserDAO userDAOHibernate;
+    private UserDAOHibernate userDAOHibernate;
 
     public UserDAO getUserDAOHibernate() {
         return userDAOHibernate;
     }
 
-    public void setUserDAOHibernate(UserDAO userDAOHibernate) {
+    public void setUserDAOHibernate(UserDAOHibernate userDAOHibernate) {
         this.userDAOHibernate = userDAOHibernate;
     }
 

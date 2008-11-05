@@ -126,7 +126,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .uniqueResult();
     }
 
-    public Boolean getUserInRole(String role, User user) {
+    public Boolean getIsUserInRole(String role, User user) {
         UserRole userRole = (UserRole) getSession().createQuery("from UserRoleImpl where user = :user and role.name = :role")
                 .setEntity("user", user)
                 .setString("role", role)
