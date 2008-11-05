@@ -42,10 +42,5 @@ public interface UserDAO extends SCYBaseDAO{
 
     public Long getNumberOfUsers(Group group);
 
-    /*SessionRegistryImpl getSessionRegistry();
-
-    void setSessionRegistry(SessionRegistryImpl sessionRegistry);
-    */
-
-    Boolean getUserInRole(String role, User user);
+    public Boolean getUserInRole(String role, User user);
 }

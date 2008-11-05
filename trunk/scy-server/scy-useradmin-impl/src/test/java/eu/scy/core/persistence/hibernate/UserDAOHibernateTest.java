@@ -36,6 +36,8 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
     @BeforeTest
     protected void setupForTest() {
         user = new UserImpl();
+        user.setUserName("H_IS_COOL" + System.currentTimeMillis());
+        user = (User) userDAO.save(user);
         user.addRole("ROLE_ADMIN");
 
 
@@ -45,7 +47,7 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
     public void testGetUserInRole() {
         user = new UserImpl();
         user.setUserName("H_IS_COOL" + System.currentTimeMillis());
-        userDAO.save(user);
+        user = (User) userDAO.save(user);
         user.addRole("ROLE_ADMIN");
         String userRole = "ROLE_ADMIN";
         assert(getUserDAO().getUserInRole(userRole, user));
