@@ -12,13 +12,18 @@ import eu.scy.core.model.impl.UserImpl;
  */
 public class EditUserPage extends ScyModelPage{
 
+    private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void loadModel() {
-        if(getModelId() != null) {
-            setModel(getUserDAOHibernate().getUser(getModelId()));
-        }
-        else setModel(new UserImpl());
-
+        setModel(getUserDAO().getUser(getModelId()));
+        setUser((User) getModel());
     }
 }
