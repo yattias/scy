@@ -164,15 +164,15 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public void addRole(User user, String roleName) {
-        Role loaded = (Role) getSession().createQuery("from RoleImpl where name like :name")
+        Role persistentRole = (Role) getSession().createQuery("from RoleImpl where name like :name")
                 .setString("name", roleName)
                 .setMaxResults(1)
                 .uniqueResult();
-        if(loaded == null) {
-            Role role = new RoleImpl();
-            role.setName(roleName);
+        if(persistentRole == null) {
+            persistentRole = new RoleImpl();
+            persistentRole.setName(roleName);
         }
-        addRole(user, roleName);
+        addRole(user, persistentRole);
     }
 
 
