@@ -19,6 +19,14 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
     private SessionRegistryImpl sessionRegistry;
 
+    public User getUser(String id) {
+        return (User) getSession().createQuery("From UserImpl where id like :id")
+                .setString("id", id)
+                .setMaxResults(1)
+                .uniqueResult();
+
+    }
+
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from UserImpl where userName like :username")
                 .setString("username", username)
