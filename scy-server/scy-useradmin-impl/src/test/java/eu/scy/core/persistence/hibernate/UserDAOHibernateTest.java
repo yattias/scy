@@ -5,7 +5,11 @@ import org.testng.annotations.BeforeTest;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.User;
+import eu.scy.core.model.UserRole;
+import eu.scy.core.model.Role;
 import eu.scy.core.model.impl.UserImpl;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,14 +52,28 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         user = new UserImpl();
         user.setUserName("H_IS_COOL" + System.currentTimeMillis());
         user = (User) userDAO.save(user);
-        user.addRole("ROLE_ADMIN");
+        getUserDAO().addRole(user, "ROLE_ADMIN");
         String userRole = "ROLE_ADMIN";
+        getUserDAO().save(user);
+        assert(user.getId() != null);
+        List userRoles = user.getUserRoles();
+        assert (userRoles != null );
+        assert (userRoles.size() > 0);
+        UserRole first = (UserRole) userRoles.get(0);
+        assert (first.getId() != null);
+        Role role = first.getRole();
+        assert(role != null);
+        assert(role.getName().equals("ROLE_ADMIN"));
+        assert(role.getId() != null);
         assert(getUserDAO().getIsUserInRole(userRole, user));
 
     }
 
     @Test
     public void testGetUser() {
+        User user = new UserImpl();
+        user.setUserName(getUserDAO().getSecureUserName("hh"));
+        user = (User) getUserDAO().save(user);
         String userId = user.getId();
         assert(userId != null);
         User loaded = getUserDAO().getUser(userId);

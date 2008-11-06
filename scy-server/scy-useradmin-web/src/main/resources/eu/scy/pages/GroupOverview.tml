@@ -1,25 +1,12 @@
 <html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-<!--div t:id="slidingPanel" style="width: 350px;">
-    <div>
-        adsf asdfasdf asdfa
-        <t:pagelink page="GroupOverview" title="User administration">link</t:pagelink>
-                
-    </div>
-</div-->
+${model.name}
 
-adsf asd
-fasdf asd
-fasdfa
-sdfa sdfasdasdf a
-<!--div t:type="t5components/SidePanel" style="height:600px;">
-    ... your content goes here
-</div-->
+<t:grid source="groupMembers" value="currentUser">
+    
+</t:grid>
 
-<div t:type="t5components/Tooltip" title="Info" value="... and here comes the info text ..." effect="blind">
-    ... the content ...
-</div>
-
+<t:actionlink t:id="addUser" context="model.id">Add New Group Member</t:actionlink> 
 
 
 
