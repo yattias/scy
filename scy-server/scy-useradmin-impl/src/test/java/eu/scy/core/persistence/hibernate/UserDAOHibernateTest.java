@@ -54,4 +54,12 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
     }
 
+    @Test
+    public void testGetUser() {
+        String userId = user.getId();
+        assert(userId != null);
+        User loaded = getUserDAO().getUser(userId);
+        assert(loaded != null);
+    }
+
 }

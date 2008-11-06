@@ -16,8 +16,28 @@ import java.util.List;
  */
 public interface UserDAO extends SCYBaseDAO{
 
+    /**
+     * Fetch by primary key
+     * @param id
+     * @return
+     */
+    public User getUser(String id);
+
+
+    /**
+     * Fetch by user name
+     * @param username
+     * @return
+     */
     public User getUserByUsername(String username);
 
+    /**
+     * Adds a user to the specified group in the specified project
+     * @param project
+     * @param group
+     * @param user
+     * @return
+     */
     public User addUser(Project project, Group group, User user);
 
     public String getSecureUserName(String userName);
