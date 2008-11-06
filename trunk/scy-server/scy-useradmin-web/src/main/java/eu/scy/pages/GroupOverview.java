@@ -80,10 +80,10 @@ public class GroupOverview extends ScyModelPage {
 
         User user = getNewUser();
 
-        user.setUserName(getUserDAOHibernate().getSecureUserName("U"));
-        user = (User) getUserDAOHibernate().save(user);
+        user.setUserName(getUserDAO().getSecureUserName("U"));
+        user = (User) getUserDAO().save(user);
 
-        getUserDAOHibernate().addUser(getCurrentProject(), group, user);
+        getUserDAO().addUser(getCurrentProject(), group, user);
         log.info("Added new user to the project - " + user.getId() + " " + user.getUserName());
         editUserPage.setModelId(user.getId());
 

@@ -28,12 +28,8 @@ public class TapestryContextAware {
     @Inject
     private UserDAOHibernate userDAOHibernate;
 
-    public UserDAO getUserDAOHibernate() {
+    public UserDAOHibernate getUserDAO() {
         return userDAOHibernate;
-    }
-
-    public void setUserDAOHibernate(UserDAOHibernate userDAOHibernate) {
-        this.userDAOHibernate = userDAOHibernate;
     }
 
     public ScyBase getModel() {
@@ -61,7 +57,7 @@ public class TapestryContextAware {
     }
 
     public User getCurrentUser() {
-        return getUserDAOHibernate().getUserByUsername(getCurrentUsersUserName());
+        return getUserDAO().getUserByUsername(getCurrentUsersUserName());
     }
 
     @BeginRender
