@@ -1,9 +1,6 @@
 package eu.scy.core.persistence;
 
-import eu.scy.core.model.User;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.Project;
-import eu.scy.core.model.UserSession;
+import eu.scy.core.model.*;
 
 import java.util.List;
 
@@ -63,4 +60,18 @@ public interface UserDAO extends SCYBaseDAO{
     public Long getNumberOfUsers(Group group);
 
     public Boolean getIsUserInRole(String role, User user);
+
+    /**
+     * Adds the role to the user. If the role does not exist, it is created
+     * @param user
+     * @param role
+     */
+    void addRole(User user, Role role);
+
+    /**
+     * Adds the role to the user. If no role with the rolename exists, a new role will be created
+     * @param user
+     * @param roleName
+     */
+    void addRole(User user, String roleName);
 }

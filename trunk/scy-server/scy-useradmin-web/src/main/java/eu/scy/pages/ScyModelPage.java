@@ -1,6 +1,7 @@
 package eu.scy.pages;
 
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.ScyBase;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +13,7 @@ import eu.scy.core.model.impl.ScyBaseObject;
 public abstract class ScyModelPage extends TapestryContextAware {
 
     private String modelId;
-    private ScyBaseObject model;
+    private ScyBase model;
 
     public abstract void loadModel();
 
@@ -24,11 +25,11 @@ public abstract class ScyModelPage extends TapestryContextAware {
         this.modelId = modelId;
     }
 
-    public ScyBaseObject getModel() {
+    public ScyBase getModel() {
         return model;
     }
 
-    public void setModel(ScyBaseObject model) {
+    public void setModel(ScyBase model) {
         this.model = model;
     }
 

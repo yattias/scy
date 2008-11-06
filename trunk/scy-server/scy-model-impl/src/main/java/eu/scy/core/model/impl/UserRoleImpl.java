@@ -14,10 +14,10 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table (name = "userrole")
+@Table(name = "userrole")
 public class UserRoleImpl extends ScyBaseObject implements UserRole {
 
-     private User user;
+    private User user;
     private Role role;
 
 
@@ -33,7 +33,7 @@ public class UserRoleImpl extends ScyBaseObject implements UserRole {
 
 
     @ManyToOne(targetEntity = RoleImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn (name = "role_primKey")
+    @JoinColumn(name = "role_primKey")
     public Role getRole() {
         return role;
     }

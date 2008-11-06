@@ -16,12 +16,15 @@ import java.util.logging.Logger;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.Service;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Start page of application scy-useradmin-web.
  */
-public class Index  extends ScyModelPage {
+public class Index extends ScyModelPage {
+
+    private static Logger log = Logger.getLogger("Index.class");
 
     @Inject
     private ProjectDAO projectDAO;
@@ -34,6 +37,9 @@ public class Index  extends ScyModelPage {
 
     private Group group;
 
+
+    @InjectPage
+    private GroupOverview groupOverview;
 
     public UserRole getUserRole() {
         return userRole;
@@ -76,7 +82,7 @@ public class Index  extends ScyModelPage {
         this.groupDAO = groupDAO;
     }
 
-    public List <Group> getGroups() {
+    public List<Group> getGroups() {
         return getGroupDAO().getGroupsForProject(getCurrentProject());
     }
 
@@ -88,18 +94,12 @@ public class Index  extends ScyModelPage {
         this.group = group;
     }
 
-    Object onActionFromDelete(String groupId) {
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        System.out.println("GROUP: " + groupId);
-        return GroupOverview.class;
+
+    Object onActionFromOpenGroup(String groupId) {
+        Group group = getGroupDAO().getGroup(groupId);
+        log.info("Loading group :" + group.getName());
+        groupOverview.setModelId(groupId);
+        return groupOverview;
     }
 
 }

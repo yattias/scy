@@ -7,6 +7,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
+import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
@@ -22,7 +23,7 @@ public class TapestryContextAware {
 
      @ApplicationState(create=false)
     private Project currentProject;
-    private ScyBaseObject model;
+    private ScyBase model;
 
     @Inject
     private UserDAOHibernate userDAOHibernate;
@@ -35,11 +36,11 @@ public class TapestryContextAware {
         this.userDAOHibernate = userDAOHibernate;
     }
 
-    public ScyBaseObject getModel() {
+    public ScyBase getModel() {
         return model;
     }
 
-    public void setModel(ScyBaseObject model) {
+    public void setModel(ScyBase model) {
         this.model = model;
     }
 
