@@ -1,6 +1,7 @@
 package eu.scy.sessionmanager;
 
 import javax.security.auth.login.CredentialNotFoundException;
+import javax.security.auth.login.LoginException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +12,7 @@ import javax.security.auth.login.CredentialNotFoundException;
  */
 public interface SessionManager {
 
-    public String login(String username, String password);
+    public String login(String username, String password) throws LoginException;
 
     public void setFirstName(String firstName) throws CredentialNotFoundException;
 
