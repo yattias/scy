@@ -2,8 +2,6 @@ package eu.scy.sessionmanager.impl;
 
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.core.persistence.hibernate.UserSessionDAOHibernate;
-import eu.scy.core.model.impl.UserImpl;
-import eu.scy.core.model.User;
 import eu.scy.core.model.UserSession;
 
 import javax.security.auth.login.CredentialNotFoundException;
