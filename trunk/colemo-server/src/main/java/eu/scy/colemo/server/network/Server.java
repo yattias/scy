@@ -147,6 +147,15 @@ public class Server implements Receiver, WindowListener, ActionListener {
 
     private void clientLoggedOn(LogOn logon, InetAddress ip) throws LoginException {
         log.debug("CLIENT LOGGED ON");
+        if(logon.getPerson() == null) {
+            throw new LoginException("No credentials available - cannot login");
+        }
+        if(logon.getPerson().getUserName() == null)  {
+            throw new LoginException("No username provided");
+        }
+        if(logon.getPerson().getPassword() == null) {
+            throw new LoginException("No password provided!");
+        }
         String loginToken = getSessionManager().login(logon.getPerson().getUserName(), logon.getPerson().getPassword());
         log.debug(logon.getPerson().getUserName());
         xmlusers.writeToXML(logon.getPerson().getUserName(), "loggedOn", ip, System.currentTimeMillis());
