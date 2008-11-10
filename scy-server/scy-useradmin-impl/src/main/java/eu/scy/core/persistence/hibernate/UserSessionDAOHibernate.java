@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;
 
+import javax.security.auth.login.LoginException;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +22,7 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
      private static Logger log = Logger.getLogger("UserSessionDAOHibernate.class");
     private ApplicationContext applicationContext;
 
-    public UserSession loginUser(String userName, String password) {
+    public UserSession loginUser(String userName, String password) throws LoginException{
         User user = (User) getSession().createQuery("From UserImpl where userName like :username and password like :password")
                 .setString("username", userName)
                 .setString("password", password)
@@ -29,9 +30,12 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
                 .uniqueResult();
         return loginUser(user);
     }
-
-    public UserSession loginUser(User user) {
+    public UserSession loginUser(User user) throws LoginException {
+        if(user == null) {
+            throw new LoginException("Login failed");
+        }
         UserSession session = getActiveSession(user);
+
         if(session == null) {
             session = (UserSession) applicationContext.getBean("userSession");
         }
