@@ -3,6 +3,7 @@ package eu.scy.sessionmanager.impl;
 import eu.scy.sessionmanager.SessionManager;
 
 import javax.security.auth.login.CredentialNotFoundException;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,8 +14,11 @@ import javax.security.auth.login.CredentialNotFoundException;
  */
 public class SessionManagerImpl implements SessionManager {
 
-    public String login(String s, String s1) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+      private static Logger log = Logger.getLogger("SessionManagerImpl.class");
+
+    public String login(String username, String password) {
+        log.info("Logging in : " + username);
+        return "hhhha";
     }
 
     public void setFirstName(String s) throws CredentialNotFoundException {
