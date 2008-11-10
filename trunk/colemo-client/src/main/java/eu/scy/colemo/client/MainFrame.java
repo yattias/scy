@@ -531,11 +531,13 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 	
 	public void connect() {
 		UserDialog login = new UserDialog();
-		user=login.userName;
-		String serverip=login.serverip;
-		if(!user.equals("")){
+		String userName = login.getUserName();
+		String serverip=login.getServerIp();
+        String password = login.getPassword();
+		if(userName != null && password !=null){
 		    if(!login.cancel){
-				Person person = new Person(user);
+				Person person = new Person(userName);
+                person.setPassword(password);
 				client = new Client(this,person,serverip);
 				NetworkMessage message = new NetworkMessage(client.getConnection().getSocket().getLocalAddress(),client.getPerson(),new LogOn(client.getPerson()),"connect");
 				client.getConnection().send(message);

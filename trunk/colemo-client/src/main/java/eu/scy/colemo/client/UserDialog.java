@@ -11,7 +11,8 @@ import javax.swing.*;
 import java.util.*;
 
 class UserDialog {
-	String userName, serverip;
+	private String userName, serverip;
+    private String password;
 	boolean cancel=false;
 	UserDialog(){
 		getIDandPassword();
@@ -27,13 +28,23 @@ class UserDialog {
 
 		// Create the labels and text fields.
 		JLabel userNameLabel = new JLabel("User name   :", JLabel.LEFT);
-		JTextField userNameField = new JTextField(getName());
+		JLabel passwordLabel = new JLabel("Password   :", JLabel.LEFT);
+		JTextField userNameField = new JTextField();
+		JTextField passwordField = new JTextField();
 		JLabel serverIp = new JLabel("Server IP   :", JLabel.LEFT);
-		//JTextField serverIpField = new JTextField("129.177.34.253");
 		JTextField serverIpField = new JTextField("127.0.0.1");
-		connectionPanel = new JPanel(false);
-		connectionPanel.setLayout(new BoxLayout(connectionPanel,
-				BoxLayout.X_AXIS));
+        connectionPanel = new JPanel(false);
+
+        connectionPanel.setLayout(new GridLayout(3,2));
+        connectionPanel.add(userNameLabel);
+        connectionPanel.add(userNameField);
+        connectionPanel.add(passwordLabel);
+        connectionPanel.add(passwordField);
+        connectionPanel.add(serverIp);
+        connectionPanel.add(serverIpField);
+
+
+		/*connectionPanel.setLayout(new BoxLayout(connectionPanel, BoxLayout.X_AXIS));
 		JPanel namePanel = new JPanel(false);
 		namePanel.setLayout(new GridLayout(0, 1));
 		namePanel.add(userNameLabel);
@@ -45,53 +56,34 @@ class UserDialog {
 		connectionPanel.add(namePanel);
 		connectionPanel.add(fieldPanel);
 		serverIpField.setEditable(true);
-
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new GridLayout(0,1));
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordField);
+        connectionPanel.add(passwordPanel);
+         */
 		// Connect or quit
 		if (JOptionPane.showOptionDialog(null, connectionPanel, ConnectTitle,
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
 				null, ConnectOptionNames, ConnectOptionNames[0]) != 0) {
 			cancel=true;
 		}
-		userName = userNameField.getText();
-		serverip = serverIpField.getText();
+		this.userName = userNameField.getText();
+		this.serverip = serverIpField.getText();
+        this.password = passwordField.getText();
 	}
 	
-	public String getName() {
-	    Vector names = new Vector();
-	    names.add("Øystein");
-	    names.add("Roger");
-	    names.add("Espen");
-	    names.add("Bjarte");
-	    names.add("Jan");
-	    names.add("Kim");
-	    names.add("Muhammed");
-	    names.add("Atle");
-	    names.add("Per");
-	    names.add("Kristian");
-	    names.add("Tim");
-	    names.add("Burt");
-	    names.add("Paul");
-	    names.add("Charlie");
-	    names.add("Ragnvald");
-	    names.add("Roar");
-	    names.add("Morten");
-	    names.add("Marius");
-	    names.add("Harald");
-	    names.add("Rolf");
-	    names.add("Bjørnar");
-	    names.add("Svein");
-	    names.add("Kjetil");
-	    names.add("Bjørn");
-	    names.add("Bezu");
-	    names.add("Robert");
-	    
-	    int size = names.size();
-	    Random generator = new Random();
-	    int number = generator.nextInt(size);
-	    String s =(String)names.elementAt(number);
-	    return s;
-	    
+	public String getUserName() {
+	    return this.userName;
 	}
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getServerIp() {
+        return this.serverip;
+    }
 
 
 }
