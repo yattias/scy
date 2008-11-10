@@ -3,6 +3,8 @@ package eu.scy.core.persistence;
 import eu.scy.core.model.User;
 import eu.scy.core.model.UserSession;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -17,7 +19,7 @@ public interface UserSessionDAO extends SCYBaseDAO {
      * If there exists an ongoing session, a new one will not be created
      * @param user
      */
-    public UserSession loginUser(User user);
+    public UserSession loginUser(User user) throws LoginException;
 
     /**
      * logs the user out of the system and cleans up user sessions
@@ -32,5 +34,5 @@ public interface UserSessionDAO extends SCYBaseDAO {
      */
     public UserSession getActiveSession(User user);
 
-    UserSession loginUser(String userName, String password);
+    UserSession loginUser(String userName, String password)throws LoginException;
 }
