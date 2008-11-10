@@ -54,8 +54,11 @@ public class Connection extends Thread {
             } catch (IOException e) {
                 receiver.receive(new ClientDisconnected(this));
                 e.printStackTrace();
+                this.close();
             } catch (Exception e) {
+                receiver.receive(new ClientDisconnected(this));
                 e.printStackTrace();
+                this.close();
             }
 
         }
