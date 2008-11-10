@@ -21,6 +21,15 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
      private static Logger log = Logger.getLogger("UserSessionDAOHibernate.class");
     private ApplicationContext applicationContext;
 
+    public UserSession loginUser(String userName, String password) {
+        User user = (User) getSession().createQuery("From UserImpl where userName like :username and password like :password")
+                .setString("username", userName)
+                .setString("password", password)
+                .setMaxResults(1)
+                .uniqueResult();
+        return loginUser(user);
+    }
+
     public UserSession loginUser(User user) {
         UserSession session = getActiveSession(user);
         if(session == null) {

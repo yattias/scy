@@ -5,7 +5,7 @@
 <beans>
 
     <bean id="sessionManager" class="eu.scy.sessionmanager.impl.SessionManagerImpl">
-        
+        <property name="userSessionDAOHibernate" ref="userSessionDAO"/>
     </bean>
 
 </beans>
