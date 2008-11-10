@@ -31,4 +31,6 @@ public interface UserSessionDAO extends SCYBaseDAO {
      * @return
      */
     public UserSession getActiveSession(User user);
+
+    UserSession loginUser(String userName, String password);
 }
