@@ -60,7 +60,7 @@ public class Server implements Receiver, WindowListener, ActionListener {
     private boolean dialogMode = true;
     private VoteResult result;
     private OnlineUsers users = new OnlineUsers();
-    private Vector userInfo;
+    ///private Vector userInfo;
 
     private XMLActionLogWriter xml;
     private ManageUsers xmlusers;
@@ -174,7 +174,7 @@ public class Server implements Receiver, WindowListener, ActionListener {
             connection.send(logon);
             connection.send(v);
         }
-        userInfo.add(new UserInfo(logon.getPerson().getUserName(), ip));
+        //userInfo.add(new UserInfo(logon.getPerson().getUserName(), ip));
 
 
     }
@@ -540,7 +540,7 @@ public class Server implements Receiver, WindowListener, ActionListener {
     }
 
     public Vector getUserInfo() {
-        return userInfo;
+        throw new RuntimeException("USER INFO HAS BEEN REMOVED!");//return userInfo;
     }
 
     public ManageUsers getXmlUsers() {
