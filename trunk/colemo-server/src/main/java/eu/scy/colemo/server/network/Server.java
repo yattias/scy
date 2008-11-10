@@ -139,7 +139,6 @@ public class Server implements Receiver, WindowListener, ActionListener {
             }
         }
         catch (Exception e) {
-            text.append("Error - " + e + NEW_LINE);
             e.printStackTrace();
         }
 
