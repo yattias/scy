@@ -14,14 +14,29 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- SCY CORE MODULES -->
+
         <dependency>
             <groupId>eu.scy</groupId>
             <artifactId>scy-model-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>eu.scy</groupId>
             <artifactId>scy-model-impl</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-sessionmanager-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-sessionmanager-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
