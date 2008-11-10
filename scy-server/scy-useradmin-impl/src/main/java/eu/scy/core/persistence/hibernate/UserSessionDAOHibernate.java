@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -16,6 +18,7 @@ import org.springframework.beans.BeansException;
  */
 public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements UserSessionDAO, ApplicationContextAware {
 
+     private static Logger log = Logger.getLogger("UserSessionDAOHibernate.class");
     private ApplicationContext applicationContext;
 
     public UserSession loginUser(User user) {
@@ -26,7 +29,10 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
         session.setSessionStarted(System.currentTimeMillis());
         session.setSessionActive(true);
         user.addUserSession(session);
+
         save(user);
+        log.info("Found session...");
+        return session;
     }
 
     public void logoutUser(User user) {
@@ -39,6 +45,7 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     }
 
     public UserSession getActiveSession(User user) {
+        log.info("Getting active session for user: " + user.getUserName());
         return (UserSession) getSession().createQuery("From UserSessionImpl where user = :user and sessionActive = :sessionActiveFlag")
                 .setEntity("user", user)
                 .setBoolean("sessionActiveFlag", Boolean.TRUE)

@@ -33,6 +33,7 @@ public class SessionManagerImpl implements SessionManager {
     }
 
     public String login(String username, String password) throws LoginException {
+        log.info("Logging in user: "+ username);
         User user = new UserImpl();
         user.setUserName(username);
         user.setPassword(password);
