@@ -1,4 +1,4 @@
-package eu.scy.pages;
+package eu.scy.webapp.pages;
 
 import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.BeginRender;

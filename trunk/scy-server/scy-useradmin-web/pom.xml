@@ -143,6 +143,21 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- COLEMO -->
+
+        <dependency>
+            <groupId>colemo</groupId>
+            <artifactId>colemo-server</artifactId>
+            <version>${colemo.version}</version>
+        </dependency>
+
+<dependency>
+            <groupId>colemo</groupId>
+            <artifactId>colemo-model</artifactId>
+            <version>${colemo.version}</version>
+        </dependency>
+
+
         <!-- TAPESTRY -->
 
         <dependency>
@@ -333,11 +348,12 @@
     </distributionManagement>
 
     <properties>
-        <tapestry-release-version>5.0.15</tapestry-release-version>
+        <tapestry-release-version>5.0.16-SNAPSHOT</tapestry-release-version>
         <spring-release-version>2.5.5</spring-release-version>
         <cxf.version>2.1</cxf.version>
         <slf4j.version>1.5.0</slf4j.version>
         <t5components.version>0.5.15</t5components.version>
+        <colemo.version>1.0-SNAPSHOT</colemo.version>
         <filter.file>src/main/filters/filter.properties</filter.file>
     </properties>
 </project>

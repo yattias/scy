@@ -1,9 +1,6 @@
-package eu.scy.components.assertroles;
+package eu.scy.webapp.components.assertroles;
 
-import eu.scy.pages.TapestryContextAware;
-import eu.scy.core.model.User;
-import eu.scy.core.model.UserRole;
-import eu.scy.core.model.Role;
+import eu.scy.webapp.pages.TapestryContextAware;
 
 import java.util.List;
 import java.util.LinkedList;

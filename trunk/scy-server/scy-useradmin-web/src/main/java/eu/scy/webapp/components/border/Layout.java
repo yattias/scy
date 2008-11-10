@@ -1,10 +1,10 @@
-package eu.scy.components.border;
+package eu.scy.webapp.components.border;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.Asset;
-import eu.scy.pages.TapestryContextAware;
+import eu.scy.webapp.pages.TapestryContextAware;
 import eu.scy.core.persistence.UserSessionDAO;
 
 /**
