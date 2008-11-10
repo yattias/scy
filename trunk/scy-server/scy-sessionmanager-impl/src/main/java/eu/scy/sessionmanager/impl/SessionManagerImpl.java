@@ -3,6 +3,7 @@ package eu.scy.sessionmanager.impl;
 import eu.scy.sessionmanager.SessionManager;
 
 import javax.security.auth.login.CredentialNotFoundException;
+import javax.security.auth.login.LoginException;
 import java.util.logging.Logger;
 
 /**
@@ -16,7 +17,7 @@ public class SessionManagerImpl implements SessionManager {
 
       private static Logger log = Logger.getLogger("SessionManagerImpl.class");
 
-    public String login(String username, String password) {
+    public String login(String username, String password) throws LoginException {
         log.info("Logging in : " + username);
         return "hhhha";
     }
