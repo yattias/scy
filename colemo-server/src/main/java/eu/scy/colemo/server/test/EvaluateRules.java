@@ -37,12 +37,12 @@ public class EvaluateRules implements Runnable{
     }
     
     public void run() {
-		for(;;) {
+		/*for(;;) {
 			try {
 			    setXmlDocuments();
 			    
 			    Thread.sleep(getVariable("//eu.scy.colemo.server.agent/check_interval",1000,agentInfo));
-				
+
 				evaluateRules();
 			} 
 			catch (InterruptedException e) {
@@ -51,7 +51,7 @@ public class EvaluateRules implements Runnable{
 			catch (DocumentException de){
 			    de.printStackTrace();
 			}
-		}
+		}*/
 	}
     
     public Document readXMLFile(File xmlFile) throws DocumentException{
