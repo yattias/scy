@@ -34,10 +34,7 @@ public class SessionManagerImpl implements SessionManager {
 
     public String login(String username, String password) throws LoginException {
         log.info("Logging in user: "+ username);
-        User user = new UserImpl();
-        user.setUserName(username);
-        user.setPassword(password);
-        UserSession session = getUserSessionDAOHibernate().loginUser(user);
+        UserSession session = getUserSessionDAOHibernate().loginUser(username, password);
         if(session == null) throw new LoginException("User not found!");
         return session.getSessionId();
     }
