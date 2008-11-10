@@ -37,6 +37,7 @@ import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.network.LogOn;
 import eu.scy.colemo.network.NetworkMessage;
+import eu.scy.sessionmanager.SessionManager;
 import org.apache.log4j.Logger;
 
 /**
@@ -68,11 +69,21 @@ public class Server implements Receiver, WindowListener, ActionListener{
 	private JTextArea text;
 	private JToolBar toolbar;
 	private JButton mode;
+
+    private SessionManager sessionManager;
 	
 	//private EasyPTPlot plot;
 
-				
-	public static void main(String args[]) {
+
+    public SessionManager getSessionManager() {
+        return sessionManager;
+    }
+
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
+
+    public static void main(String args[]) {
 
 		Server s = new Server();
 		s.run();
