@@ -1,7 +1,6 @@
-package eu.scy.pages;
+package eu.scy.webapp.pages;
 
 import eu.scy.core.model.User;
-import eu.scy.core.model.impl.UserImpl;
 
 /**
  * Created by IntelliJ IDEA.

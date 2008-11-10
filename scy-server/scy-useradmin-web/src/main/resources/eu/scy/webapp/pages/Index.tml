@@ -9,7 +9,7 @@
     </t:zone>
 
 
-    <div t:type="assertroles/AssertRoles" roles="literal:ROLE_ADMIN">Hei</div>
+    <!--div t:type="assertroles/AssertRoles" roles="literal:ROLE_ADMIN">Hei</div-->
 
 
 

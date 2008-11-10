@@ -1,12 +1,10 @@
-package eu.scy.pages;
+package eu.scy.webapp.pages;
 
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.InjectPage;
-import org.apache.tapestry.commons.components.SlidingPanel;
 
 import java.util.List;
 import java.util.logging.Logger;

@@ -1,23 +1,15 @@
-package eu.scy.pages;
+package eu.scy.webapp.pages;
 
-import eu.scy.pages.TapestryContextAware;
-import eu.scy.core.persistence.hibernate.UserDAOHibernate;
-import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.*;
 import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.core.model.impl.GroupImpl;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Collections;
 import java.util.logging.Logger;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.annotations.Service;
 import org.apache.tapestry5.annotations.InjectPage;
-import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Start page of application scy-useradmin-web.
