@@ -146,6 +146,9 @@ public class Server implements Receiver, WindowListener, ActionListener {
     }
 
     private void clientLoggedOn(LogOn logon, InetAddress ip) throws LoginException {
+        if(logon == null) {
+            throw new LoginException("Logon is null");
+        }
         log.debug("CLIENT LOGGED ON");
         if(logon.getPerson() == null) {
             throw new LoginException("No credentials available - cannot login");
