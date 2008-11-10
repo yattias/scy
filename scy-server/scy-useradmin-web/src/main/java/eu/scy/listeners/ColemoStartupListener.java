@@ -19,10 +19,21 @@ public class ColemoStartupListener implements ServletContextListener {
     private Logger log = Logger.getLogger(ColemoStartupListener.class);
 
     public void contextInitialized(ServletContextEvent sce) {
-        log.info("Initializing COLEMO SERVER");
-        Server colemoServer = new Server();
-        colemoServer.run();
-        log.info("COLEMO SERVER STARTED");
+
+        new Thread() {
+
+            public void run() {
+                log.info("Initializing COLEMO SERVER");
+                Server colemoServer = new Server();
+                colemoServer.run();
+                log.info("COLEMO SERVER STARTED");
+
+            }
+
+        }.start();
+
+
+
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
