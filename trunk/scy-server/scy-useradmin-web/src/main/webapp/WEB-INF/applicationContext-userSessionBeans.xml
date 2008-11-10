@@ -4,6 +4,8 @@
 
 <beans>
 
-    <bean id="sessionManager" class="eu.scy.sessionmanager.impl.SessionManagerImpl"/>
+    <bean id="sessionManager" class="eu.scy.sessionmanager.impl.SessionManagerImpl">
+        
+    </bean>
 
 </beans>

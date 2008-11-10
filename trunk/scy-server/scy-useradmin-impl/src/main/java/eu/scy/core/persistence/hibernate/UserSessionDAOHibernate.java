@@ -3,7 +3,6 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.persistence.UserSessionDAO;
 import eu.scy.core.model.User;
 import eu.scy.core.model.UserSession;
-import eu.scy.core.model.impl.UserSessionImpl;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;
@@ -19,7 +18,7 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
 
     private ApplicationContext applicationContext;
 
-    public void loginUser(User user) {
+    public UserSession loginUser(User user) {
         UserSession session = getActiveSession(user);
         if(session == null) {
             session = (UserSession) applicationContext.getBean("userSession");

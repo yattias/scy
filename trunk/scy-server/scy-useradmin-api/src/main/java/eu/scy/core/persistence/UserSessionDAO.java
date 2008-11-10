@@ -17,7 +17,7 @@ public interface UserSessionDAO extends SCYBaseDAO {
      * If there exists an ongoing session, a new one will not be created
      * @param user
      */
-    public void loginUser(User user);
+    public UserSession loginUser(User user);
 
     /**
      * logs the user out of the system and cleans up user sessions
