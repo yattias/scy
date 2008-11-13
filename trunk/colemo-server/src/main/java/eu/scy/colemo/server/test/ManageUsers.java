@@ -150,7 +150,7 @@ public class ManageUsers {
 	}
 
 	public void updateUser(String type,String user,long time){
-	    String a ="//user_information/user";
+	    /*String a ="//user_information/user";
 	   
 	    List list = userDoc.selectNodes(a);
 	  
@@ -215,6 +215,7 @@ public class ManageUsers {
 		        break;
 	        }  
 	    }
+	    */
 	}
 	
 	/**
