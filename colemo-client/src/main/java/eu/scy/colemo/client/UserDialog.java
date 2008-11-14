@@ -18,6 +18,12 @@ class UserDialog {
 		getIDandPassword();
 	}
 
+    public UserDialog(String userName, String password, String host) {
+        this.userName = userName;
+        this.password = password;
+        this.serverip = host;
+    }
+
 	// modal dialog to get user ID and password
 	static String[] ConnectOptionNames = { "Login", "Cancel" };
 
@@ -29,10 +35,10 @@ class UserDialog {
 		// Create the labels and text fields.
 		JLabel userNameLabel = new JLabel("User name   :", JLabel.LEFT);
 		JLabel passwordLabel = new JLabel("Password   :", JLabel.LEFT);
-		JTextField userNameField = new JTextField();
-		JTextField passwordField = new JTextField();
+		JTextField userNameField = new JTextField(this.userName);
+		JTextField passwordField = new JTextField(this.password);
 		JLabel serverIp = new JLabel("Server IP   :", JLabel.LEFT);
-		JTextField serverIpField = new JTextField("127.0.0.1");
+		JTextField serverIpField = new JTextField(this.serverip);
         connectionPanel = new JPanel(false);
 
         connectionPanel.setLayout(new GridLayout(3,2));
