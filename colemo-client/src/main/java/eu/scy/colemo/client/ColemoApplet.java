@@ -23,7 +23,10 @@ public class ColemoApplet extends JApplet {
         String password = getParameter("password");
         String url = getDocumentBase().getHost();
 
-        MainFrame frame = new MainFrame(userName, password, url);
+        MainFrame frame = new MainFrame();
+        frame.setUsername(userName);
+        frame.setPassword(password);
+        frame.setHost(url);
     }
 
     @Override
