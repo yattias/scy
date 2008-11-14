@@ -63,10 +63,10 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 	private GraphicsDiagram gDiagram;
 	private JTextArea textArea;
 	private Selectable selected;
-	private final JFileChooser fc=new JFileChooser();
+	//private final JFileChooser fc=new JFileChooser();
 	private String user;
 	private Client client;
-	private JPanel southPanel, chatPanel, northPanel;
+	private JPanel /*southPanel, */chatPanel, northPanel;
 	private JScrollPane scrollPane;
 	//private TextField inputField;
 	private ChatPane chatPane;
@@ -110,10 +110,10 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 		gDiagram.setPreferredSize(new Dimension(1800,1200));
 																		
 		//Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
-		southPanel = new JPanel();
+		/*southPanel = new JPanel();
 		southPanel.setLayout(new BorderLayout());
 		southPanel.setPreferredSize(new Dimension(1000,300));
-		
+		 */
         //Chatpanelet
 		chatPanel=new JPanel();
 		chatPanel.setLayout(new BorderLayout());
@@ -130,8 +130,8 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 		userList.setBackground(new Color(232,215,176));
 					
 		//Legger chatPanelet på panelet i sør
-		southPanel.add(chatPanel,BorderLayout.CENTER);
-		southPanel.add(userList,BorderLayout.EAST);
+		//southPanel.add(chatPanel,BorderLayout.CENTER);
+		//southPanel.add(userList,BorderLayout.EAST);
 										
 		//Legger textArea og textField til i chatpanelet
 		chatPane=new ChatPane();
@@ -211,7 +211,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 		//Legger toolbaren, panelet og textfeltet til på rammen
 		this.getContentPane().add(northPanel,BorderLayout.NORTH);
 		this.getContentPane().add(scrollPane,BorderLayout.CENTER);
-		this.getContentPane().add(southPanel,BorderLayout.SOUTH);
+		//this.getContentPane().add(southPanel,BorderLayout.SOUTH);
 		
 		this.setVisible(true);
 		
@@ -480,7 +480,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 		userList.setListData(v);
 	}
 	public void save(){
-		int returnVal = fc.showSaveDialog(this);
+		/*int returnVal = fc.showSaveDialog(this);
 		if(returnVal == JFileChooser.APPROVE_OPTION){			
 			File saveFile=null;
 			saveFile = fc.getSelectedFile();
@@ -500,9 +500,11 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 						e.printStackTrace();
 					}
 				}
+				*/
 		}
 	
 	public void load(){
+        /*
 		int returnVal = fc.showOpenDialog(this);
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			File fil = fc.getSelectedFile();	
@@ -527,6 +529,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 					e.printStackTrace();
 					}
 				}
+				*/
 		}
 	
 	public void connect() {
