@@ -57,6 +57,15 @@
                     <mainClass>eu.scy.colemo.client.Start</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+
 
         </plugins>
         <resources>
