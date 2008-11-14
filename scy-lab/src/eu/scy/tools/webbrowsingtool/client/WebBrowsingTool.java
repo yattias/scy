@@ -1,8 +1,8 @@
 package eu.scy.tools.webbrowsingtool.client;
 
-import rocket.selection.client.Selection;
-import rocket.style.client.Css;
-import rocket.style.client.InlineStyle;
+//import rocket.selection.client.Selection;
+//import rocket.style.client.Css;
+//import rocket.style.client.InlineStyle;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.DOM;
@@ -82,14 +82,14 @@ public class WebBrowsingTool extends Panel implements EntryPoint {
 		ToolbarButton highlight = new ToolbarButton("Highlight Selection!",
 				new ButtonListenerAdapter() {
 					public void onClick(Button button, EventObject e) {
-						final Selection selection = Selection.getSelection();
-						final Element element = DOM.createSpan();
-						
-						final InlineStyle inlineStyle = 		
-					                            InlineStyle.getInlineStyle(element);
-//						inlineStyle.setString(Css.FONT_SIZE, "larger");
-						inlineStyle.setString(Css.BACKGROUND_COLOR, "#FFFF66");
-						selection.surround(element);
+//						final Selection selection = Selection.getSelection();
+//						final Element element = DOM.createSpan();
+//						
+//						final InlineStyle inlineStyle = 		
+//					                            InlineStyle.getInlineStyle(element);
+////						inlineStyle.setString(Css.FONT_SIZE, "larger");
+//						inlineStyle.setString(Css.BACKGROUND_COLOR, "#FFFF66");
+//						selection.surround(element);
 
 					}
 				});
