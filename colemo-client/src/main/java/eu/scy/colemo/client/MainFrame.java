@@ -574,12 +574,12 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 		}
 	
 	public void connect() {
-		UserDialog login = new UserDialog(getUsername(), getPassword(), getHost());
-		String userName = login.getUserName();
-		String serverip=login.getServerIp();
-        String password = login.getPassword();
+		//UserDialog login = new UserDialog(getUsername(), getPassword(), getHost());
+		String userName = this.username;//login.getUserName();
+		String serverip=this.getHost();//login.getServerIp();
+        String password = this.getPassword();//login.getPassword();
 		if(userName != null && password !=null){
-		    if(!login.cancel){
+		    //if(!login.cancel){
 				Person person = new Person(userName);
                 person.setPassword(password);
 				client = new Client(this,person,serverip);
@@ -588,7 +588,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 				this.setTitle("UML Class Module - Logged in as "+user);
 				toolbar.remove(connect);
 				toolbar.add(disconnect);
-			}
+			//}
 			
 		}
 		else{
