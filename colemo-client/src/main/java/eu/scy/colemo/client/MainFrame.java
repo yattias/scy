@@ -128,7 +128,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         this.addWindowListener(this);
 
         //Rammen som alt skal ligge på
-        this.setTitle("UML CLASS MODULE");
+        this.setTitle(getUsername());
         //this.setExtendedState(MAXIMIZED_BOTH);
         this.setSize(new Dimension(400,400));
         this.setLocation(250,150);
