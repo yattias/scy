@@ -104,149 +104,162 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         this.host = host;
     }
 
+    public MainFrame(String userName, String password, String host) {
+        setUsername(userName);
+        setPassword(password);
+        setHost(host);
+        initializseGUI();
+    }
+
     /**
 	 * 
 	 */
 	public MainFrame() {
-		//Avslutting av programmet styres nå av WindowClosing
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		//Adder windowListener
-		this.addWindowListener(this);
-		
-		//Rammen som alt skal ligge på
-		this.setTitle("UML CLASS MODULE");
-		//this.setExtendedState(MAXIMIZED_BOTH);
+        initializseGUI();
+
+
+    }
+
+    private void initializseGUI() {
+        //Avslutting av programmet styres nå av WindowClosing
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        //Adder windowListener
+        this.addWindowListener(this);
+
+        //Rammen som alt skal ligge på
+        this.setTitle("UML CLASS MODULE");
+        //this.setExtendedState(MAXIMIZED_BOTH);
         this.setSize(new Dimension(400,400));
-		this.setLocation(250,150);
-		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
-		
-		//Lage meny oppe
-		createMenu();
-		
-		URL url=null;		
-		Class MainFrame=this.getClass();
-		
-		url =MainFrame.getResource("icon.png");
-		
-		ImageIcon image = new ImageIcon(url);
-	    this.setIconImage(image.getImage());
-	    
-		//Panelet som vi skal tegne på
-		gDiagram = new GraphicsDiagram(new UmlDiagram(),this);
-		gDiagram.setBackground(Color.white);
-		gDiagram.setPreferredSize(new Dimension(1800,1200));
-																		
-		//Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
-		/*southPanel = new JPanel();
-		southPanel.setLayout(new BorderLayout());
-		southPanel.setPreferredSize(new Dimension(1000,300));
-		 */
+        this.setLocation(250,150);
+        this.getContentPane().setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
+
+        //Lage meny oppe
+        createMenu();
+
+        URL url=null;
+        Class MainFrame=this.getClass();
+
+        url =MainFrame.getResource("icon.png");
+
+        ImageIcon image = new ImageIcon(url);
+        this.setIconImage(image.getImage());
+
+        //Panelet som vi skal tegne på
+        gDiagram = new GraphicsDiagram(new UmlDiagram(),this);
+        gDiagram.setBackground(Color.white);
+        gDiagram.setPreferredSize(new Dimension(1800,1200));
+
+        //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
+        /*southPanel = new JPanel();
+southPanel.setLayout(new BorderLayout());
+southPanel.setPreferredSize(new Dimension(1000,300));
+*/
         //Chatpanelet
-		chatPanel=new JPanel();
-		chatPanel.setLayout(new BorderLayout());
-					
-		//Inputfield
-		//inputField = new TextField("Enter your chat messages here! Press enter to send!");
-		//inputField.setBackground(Color.LIGHT_GRAY);
-		//inputField.addMouseListener(this);
-		
-		//User list
-		Vector v= new Vector();
-		userList = new JList(v);
-		userList.setBorder(BorderFactory.createLineBorder(Color.GRAY,2));
-		userList.setBackground(new Color(232,215,176));
-					
-		//Legger chatPanelet på panelet i sør
-		//southPanel.add(chatPanel,BorderLayout.CENTER);
-		//southPanel.add(userList,BorderLayout.EAST);
-										
-		//Legger textArea og textField til i chatpanelet
-		chatPane=new ChatPane();
-		chatPanel.add(chatPane,BorderLayout.CENTER);
-		chatPanel.add(new JPanel());//inputField,BorderLayout.SOUTH);
-		
-		//Toolbaren med hvor du kan velge hva du vil gjøre
-		toolbar = new JToolBar();
-		northPanel = new JPanel();
-		northPanel.setLayout(new BorderLayout());
-		northPanel.setPreferredSize(new Dimension(0,30));
-		northPanel.add(toolbar);
-		
-		//Lager knappene med tilhørende icon		
-		url=MainFrame.getResource("addClass.png");
-		addClass=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("save.png");
-		save=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("open.png");
-		load=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("connect.png");
-		connect=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("disconnect.png");
-		disconnect=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("addAbstract.png");
-		addAbstract=new JButton(new ImageIcon(url));
-		
-		url=null;
-		url=MainFrame.getResource("addInterface.png");
-		addInterface=new JButton(new ImageIcon(url));
-		
-		//Tool tip
-		addClass.setToolTipText("Adds a class");
-		save.setToolTipText("Saves current diagram");
-		load.setToolTipText("Loads a diagram");
-		addAbstract.setToolTipText("Adds an abstract class");
-		addInterface.setToolTipText("Adds an interface");
-		connect.setToolTipText("Connects to the server");
-		disconnect.setToolTipText("Disconnect & quit application");
-		
-		//Legger actionListener til på knappene
-		addClass.addActionListener(this);
-		save.addActionListener(this);
-		load.addActionListener(this);
-		connect.addActionListener(this);
-		disconnect.addActionListener(this);
-		//inputField.addActionListener(this);
-		addAbstract.addActionListener(this);
-		addInterface.addActionListener(this);
-		//inputField.addTextListener(this);
-	
-		//Lager shortcuts til knappene (alt+x)
-		addClass.setMnemonic(KeyEvent.VK_A);
-		save.setMnemonic(KeyEvent.VK_S);
-		load.setMnemonic(KeyEvent.VK_L);
-		
-		//Legger knappene til toolbaren
-		toolbar.add(addClass);
-		toolbar.add(addAbstract);
-		toolbar.add(addInterface);
-		toolbar.add(save);
-		toolbar.add(load);
-		toolbar.add(connect);
-		
-		scrollPane= new JScrollPane(gDiagram);
-		
-		//Legger toolbaren, panelet og textfeltet til på rammen
-		this.getContentPane().add(northPanel,BorderLayout.NORTH);
-		this.getContentPane().add(scrollPane,BorderLayout.CENTER);
-		//this.getContentPane().add(southPanel,BorderLayout.SOUTH);
-		
-		this.setVisible(true);
-		
-	}
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
+        chatPanel=new JPanel();
+        chatPanel.setLayout(new BorderLayout());
+
+        //Inputfield
+        //inputField = new TextField("Enter your chat messages here! Press enter to send!");
+        //inputField.setBackground(Color.LIGHT_GRAY);
+        //inputField.addMouseListener(this);
+
+        //User list
+        Vector v= new Vector();
+        userList = new JList(v);
+        userList.setBorder(BorderFactory.createLineBorder(Color.GRAY,2));
+        userList.setBackground(new Color(232,215,176));
+
+        //Legger chatPanelet på panelet i sør
+        //southPanel.add(chatPanel,BorderLayout.CENTER);
+        //southPanel.add(userList,BorderLayout.EAST);
+
+        //Legger textArea og textField til i chatpanelet
+        chatPane=new ChatPane();
+        chatPanel.add(chatPane,BorderLayout.CENTER);
+        chatPanel.add(new JPanel());//inputField,BorderLayout.SOUTH);
+
+        //Toolbaren med hvor du kan velge hva du vil gjøre
+        toolbar = new JToolBar();
+        northPanel = new JPanel();
+        northPanel.setLayout(new BorderLayout());
+        northPanel.setPreferredSize(new Dimension(0,30));
+        northPanel.add(toolbar);
+
+        //Lager knappene med tilhørende icon
+        url=MainFrame.getResource("addClass.png");
+        addClass=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("save.png");
+        save=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("open.png");
+        load=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("connect.png");
+        connect=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("disconnect.png");
+        disconnect=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("addAbstract.png");
+        addAbstract=new JButton(new ImageIcon(url));
+
+        url=null;
+        url=MainFrame.getResource("addInterface.png");
+        addInterface=new JButton(new ImageIcon(url));
+
+        //Tool tip
+        addClass.setToolTipText("Adds a class");
+        save.setToolTipText("Saves current diagram");
+        load.setToolTipText("Loads a diagram");
+        addAbstract.setToolTipText("Adds an abstract class");
+        addInterface.setToolTipText("Adds an interface");
+        connect.setToolTipText("Connects to the server");
+        disconnect.setToolTipText("Disconnect & quit application");
+
+        //Legger actionListener til på knappene
+        addClass.addActionListener(this);
+        save.addActionListener(this);
+        load.addActionListener(this);
+        connect.addActionListener(this);
+        disconnect.addActionListener(this);
+        //inputField.addActionListener(this);
+        addAbstract.addActionListener(this);
+        addInterface.addActionListener(this);
+        //inputField.addTextListener(this);
+
+        //Lager shortcuts til knappene (alt+x)
+        addClass.setMnemonic(KeyEvent.VK_A);
+        save.setMnemonic(KeyEvent.VK_S);
+        load.setMnemonic(KeyEvent.VK_L);
+
+        //Legger knappene til toolbaren
+        toolbar.add(addClass);
+        toolbar.add(addAbstract);
+        toolbar.add(addInterface);
+        toolbar.add(save);
+        toolbar.add(load);
+        toolbar.add(connect);
+
+        scrollPane= new JScrollPane(gDiagram);
+
+        //Legger toolbaren, panelet og textfeltet til på rammen
+        this.getContentPane().add(northPanel,BorderLayout.NORTH);
+        this.getContentPane().add(scrollPane,BorderLayout.CENTER);
+        //this.getContentPane().add(southPanel,BorderLayout.SOUTH);
+
+        this.setVisible(true);
+    }
+
+    /* (non-Javadoc)
+      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+      */
 	public void actionPerformed(ActionEvent ae) {
 		UmlDiagram diagram=gDiagram.getUmlDiagram();
 		

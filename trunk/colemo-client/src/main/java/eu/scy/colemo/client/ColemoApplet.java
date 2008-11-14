@@ -18,12 +18,12 @@ public class ColemoApplet extends JApplet {
     @Override
     public void init() {
         super.init();
-        MainFrame frame = new MainFrame();
 
         String userName = getParameter("username");
         String password = getParameter("password");
         String url = getDocumentBase().getHost();
 
+        MainFrame frame = new MainFrame(userName, password, url);
     }
 
     @Override
