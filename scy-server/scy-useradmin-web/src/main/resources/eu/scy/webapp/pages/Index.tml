@@ -10,7 +10,12 @@
 
 
     <!--div t:type="assertroles/AssertRoles" roles="literal:ROLE_ADMIN">Hei</div-->
+   <t:any element="applet" codebase="applets" code="eu.scy.colemo.client.ColemoApplet.class"
+        archive="colemo-client.jar, colemo-model.jar, scy-model-api.jar, scy-model-impl.jar"
+        width="600" height="600">
 
+
+</t:any>
 
 
     <t:if test="model">

@@ -1,6 +1,6 @@
 package eu.scy.listeners;
 
-import eu.scy.colemo.server.network.Server;
+
 
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import eu.scy.colemo.server.network.Server;
 
 /**
  * Created by IntelliJ IDEA.

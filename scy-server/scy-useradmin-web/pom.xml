@@ -59,6 +59,7 @@
                     </requestLog>
                     <webDefaultXml>target/classes/webdefault.xml</webDefaultXml>
                     <jettyEnvXml>target/classes/jetty-env.xml</jettyEnvXml>
+                    <webAppSourceDirectory>target/classes/</webAppSourceDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -83,11 +84,11 @@
                 <configuration>
                     <webResources>
                         <resource>
-                            <directory>target/resources</directory>
+                            <directory>target/classes/applets</directory>
                         </resource>
                     </webResources>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -114,15 +115,27 @@
                                     <version>1.0-SNAPSHOT</version>
                                     <type>jar</type>
                                 </artifactItem>
+                                <artifactItem>
+                                    <artifactId>scy-model-api</artifactId>
+                                    <groupId>eu.scy</groupId>
+                                    <version>1.0-SNAPSHOT</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <artifactId>scy-model-impl</artifactId>
+                                    <groupId>eu.scy</groupId>
+                                    <version>1.0-SNAPSHOT</version>
+                                    <type>jar</type>
+                                </artifactItem>
                             </artifactItems>
-                            <outputDirectory>target/resources/applets/</outputDirectory>
+                            <outputDirectory>target/classes/applets/</outputDirectory>
 
                             <stripVersion>true</stripVersion>
                         </configuration>
 
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
         </plugins>
 
     </build>

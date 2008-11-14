@@ -109,6 +109,11 @@ public class AppModule {
 
     public static void contributeIgnoredPathsFilter(Configuration<String> configuration) {
         configuration.add("/services/.*");
+        configuration.add("/applets/.*");
+        configuration.add("/css/.*");
+        configuration.add("/graphics/.*");
+
     }
+
 
 }
