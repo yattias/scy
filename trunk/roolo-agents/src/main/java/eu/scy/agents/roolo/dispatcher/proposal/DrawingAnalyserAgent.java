@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jdom.Element;
 
-import roolo.api.IELO;
-import roolo.api.IMetadata;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataValueContainer;
-import roolo.cms.elo.JDomStringConversion;
+import roolo.elo.JDomStringConversion;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataValueContainer;
 import eu.scy.agents.roolo.NameCounters;
 import eu.scy.agents.roolo.WhiteboardXmlNames;
 
@@ -68,8 +68,9 @@ public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey> ext
     
     private void setCountMetadataValue(IMetadataValueContainer valueContainer, AtomicInteger value) {
         int count = 0;
-        if (value != null)
+        if (value != null) {
             count = value.get();
+        }
         valueContainer.setValue(Long.valueOf(count));
     }
     
@@ -123,7 +124,7 @@ public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey> ext
     
     @Override
     public void processMetadata(IMetadata<K> metadata) {
-    // do nothing
+        // do nothing
     }
     
 }

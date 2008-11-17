@@ -1,9 +1,9 @@
 package eu.scy.agents.roolo.dispatcher.proposal;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import roolo.api.IELO;
-import roolo.api.IMetadata;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 
 public abstract interface IRooloAgent<T extends IELO<K>, K extends IMetadataKey> {
     
