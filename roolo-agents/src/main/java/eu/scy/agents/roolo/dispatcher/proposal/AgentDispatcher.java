@@ -5,12 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import roolo.api.IELO;
-import roolo.api.IMetadata;
-import roolo.api.IMetadataKey;
-import roolo.api.IQuery;
 import roolo.api.IRepository;
-import roolo.api.ISearchResult;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 
 public class AgentDispatcher<T extends IELO<K>, K extends IMetadataKey> implements IRepository<T, K> {
     

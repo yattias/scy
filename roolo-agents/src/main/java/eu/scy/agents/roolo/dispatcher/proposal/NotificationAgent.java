@@ -1,8 +1,8 @@
 package eu.scy.agents.roolo.dispatcher.proposal;
 
-import roolo.api.IELO;
-import roolo.api.IMetadata;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 
 public class NotificationAgent<T extends IELO<K>, K extends IMetadataKey> extends AbstractAgent<T, K> {
     
@@ -18,7 +18,7 @@ public class NotificationAgent<T extends IELO<K>, K extends IMetadataKey> extend
     @SuppressWarnings("unchecked")
     @Override
     public void processMetadata(IMetadata metadata) {
-    // do nothing
+        // do nothing
     }
     
 }

@@ -1,8 +1,8 @@
 package eu.scy.agents.roolo.dispatcher.proposal;
 
-import roolo.api.IELO;
-import roolo.api.IMetadata;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
 
 public class TestAfterAgent<T extends IELO<K>, K extends IMetadataKey> extends AbstractAgent<T, K> {
     
@@ -13,7 +13,7 @@ public class TestAfterAgent<T extends IELO<K>, K extends IMetadataKey> extends A
     
     @Override
     public void processMetadata(IMetadata<K> metadata) {
-    // do nothing
+        // do nothing
     }
     
 }
