@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>roolo-agents</name>
   <groupId>roolo-agents</groupId>
@@ -43,7 +44,7 @@
     <dependency>
     	<groupId>roolo-mock</groupId>
     	<artifactId>roolo-mock</artifactId>
-    	<version>0.1.0-SNAPSHOT</version>
+    	<version>0.2.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>jdom</groupId>
@@ -83,4 +84,9 @@
   		<url>http://mvn.collide.info/content/repositories/snapshots</url>
   	</snapshotRepository>
   </distributionManagement>
+  <scm>
+		<connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection>
+		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection>
+		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url>
+	</scm>
 </project>
