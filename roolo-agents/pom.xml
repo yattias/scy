@@ -34,6 +34,10 @@
   		<id>snapshots-local</id>
   		<url>http://mvn.collide.info/content/repositories/snapshots</url>
   	</repository>
+  	<repository>
+  		<id>snapshots-tels</id>
+  		<url>http://repo.telscenter.org/internal_snapshot/</url>
+  	</repository>
   </repositories>
   <dependencies>
     <dependency>
