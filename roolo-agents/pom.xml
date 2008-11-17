@@ -37,7 +37,7 @@
   	</repository>
   	<repository>
   		<id>snapshots-tels</id>
-  		<url>http://repo.telscenter.org/internal_snapshot/</url>
+  		<url>http://repo.telscenter.org/internal_snapshot</url>
   	</repository>
   </repositories>
   <dependencies>
