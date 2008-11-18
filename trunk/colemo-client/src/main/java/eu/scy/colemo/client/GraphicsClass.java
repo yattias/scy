@@ -37,7 +37,7 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  */
 public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener {
     private UmlClass umlClass;
-    public ClassLabel nameLabel;
+    public JLabel nameLabel;
     public FieldLabel fieldLabel;
     public MethodLabel methodLabel;
     private int paddingX = 7;
@@ -49,7 +49,6 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     private long time = System.currentTimeMillis();
     private GraphicsDiagram gDiagram;
     private PopUpMenu popMenu;
-    private JPanel topPanel = new JPanel();
 
     private BufferedImage shadow = null;
 
@@ -68,8 +67,6 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         setOpaque(false);
         //setBounds(100, 100, 100, 100);
         //topPanel.setBackground(Color.GREEN);
-        topPanel.setSize(new Dimension(0, 0));
-        topPanel.setOpaque(false);
 
         layoutComponents();
 
@@ -83,38 +80,16 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
     public void layoutComponents() {
         String preName;
-        if (umlClass.getType().equals("a")) preName = new String("{ab} ");
-        else if (umlClass.getType().equals("i")) preName = new String("<<i>> ");
-        else preName = new String();
 
-        nameLabel = new ClassLabel(this, preName);
-        fieldLabel = new FieldLabel("Fields: " + "(" + umlClass.getFields().size() + ")", this);
-        methodLabel = new MethodLabel("Methods: " + "(" + umlClass.getMethods().size() + ")", this);
-        fieldLabel.setFont(new Font("sansserif", Font.BOLD, 12));
-        methodLabel.setFont(new Font("sansserif", Font.BOLD, 12));
+        nameLabel = new JLabel(getUmlClass().getName());//new ClassLabel(this, preName);
 
         this.removeAll();
-        //int height = 0;
-        //this.add(topPanel);
+
 
         add(nameLabel);
 
-        /*if(!umlClass.getType().equals("i")){
-              this.add(fieldLabel);
-          }
-          if(umlClass.showFields()){
-              for(int i=0;i<umlClass.getFields().size();i++) {
-                  this.add(new Field((String)umlClass.getFields().elementAt(i),this));
-              }
-          }
-          this.add(methodLabel);
-          if(umlClass.showMethods()){
-              for(int i=0;i<umlClass.getMethods().size();i++) {
-                  this.add(new Method((String)umlClass.getMethods().elementAt(i),this));
-              }
-          }
-          */
         setBounds();
+        nameLabel.setLocation(45,45);
 
         createPopUpMenu();
     }
@@ -217,11 +192,18 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         g2.fillRoundRect(x, y, w, h, arc, arc);
 
         g2.setStroke(new BasicStroke(3f));
-        g2.setColor(new Color(153, 153, 255, 200));
+        if (isSelected()) {
+            g2.setColor(new Color(204, 0, 255, 200));
+        } else {
+            g2.setColor(new Color(153, 153, 255, 200));
+
+        }
+
         g2.drawRoundRect(x, y, w, h, arc, arc);
 
         g2.dispose();
 
+        nameLabel.setLocation((getWidth() / 2)  -  (nameLabel.getWidth() / 2), 30);
     }
 
 
