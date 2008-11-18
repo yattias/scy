@@ -166,7 +166,7 @@ public class Server implements Receiver, WindowListener, ActionListener{
 		if(o instanceof AddClass) {
 			AddClass add = (AddClass)o;
 			UmlClass umlClass = new UmlClass(add.getName(),add.getType(),add.getAuthor());
-			umlDiagram.addClass(umlClass);
+			umlDiagram.addDiagramData(umlClass);
 			
 			sendObject(add);
 		

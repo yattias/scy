@@ -25,6 +25,9 @@ public class Start {
 		        		"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		    } catch (Exception e) { }*/
 		MainFrame frame = new MainFrame();
+        frame.setUsername("scy");
+        frame.setPassword("scy");
+        frame.setHost("localhost");
 	}
 	
 }

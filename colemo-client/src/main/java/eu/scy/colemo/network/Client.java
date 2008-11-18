@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Vector;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultStyledDocument;
 import eu.scy.colemo.contributions.AddClass;
@@ -20,15 +21,13 @@ import eu.scy.colemo.contributions.DeleteLink;
 import eu.scy.colemo.contributions.DeleteMethod;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.contributions.Rename;
+import eu.scy.colemo.contributions.cmap.ConceptNode;
 import eu.scy.colemo.agent.AgentMessage;
 import eu.scy.colemo.agent.EndVote;
 import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.agent.VoteResult;
 import eu.scy.colemo.client.MainFrame;
-import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.server.uml.UmlAssociation;
-import eu.scy.colemo.server.uml.UmlClass;
-import eu.scy.colemo.server.uml.UmlDiagram;
+import eu.scy.colemo.server.uml.*;
 
 /**
  * 
@@ -37,6 +36,7 @@ import eu.scy.colemo.server.uml.UmlDiagram;
  */
 
 public class Client implements Receiver, Runnable {
+    private Logger log = Logger.getLogger("Client.class");
 	public final int PORT = 8800;
 	private Person user;
 	private Connection connection;
@@ -86,8 +86,16 @@ public class Client implements Receiver, Runnable {
 		if(o instanceof AddClass){
 			AddClass add = (AddClass)o;
 			UmlClass umlClass = new UmlClass(add.getName(),add.getType(),add.getAuthor());
-			frame.getGraphicsDiagram().getUmlDiagram().addClass(umlClass);
+			frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
 			frame.getGraphicsDiagram().addClass(umlClass);
+			frame.getChatPane().addAgentText("Agent >: "+add.getPerson().getUserName()+" added the new class: \""+add.getName().toUpperCase()+"\""+newline);
+		}
+		if(o instanceof ConceptNode){
+            log.info("CONCEPT NODE!!");
+			ConceptNode add = (ConceptNode)o;
+			ConceptMapNodeData conceptMapNodeData = new ConceptMapNodeData(add.getName());
+			frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(conceptMapNodeData);
+			frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
 			frame.getChatPane().addAgentText("Agent >: "+add.getPerson().getUserName()+" added the new class: \""+add.getName().toUpperCase()+"\""+newline);
 		}
 		if(o instanceof AddLink){
