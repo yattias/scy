@@ -43,6 +43,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import eu.scy.colemo.contributions.AddClass;
+import eu.scy.colemo.contributions.cmap.ConceptNode;
 import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.network.Person;
@@ -58,7 +59,7 @@ import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
  */
 public class MainFrame extends JFrame implements ActionListener, WindowListener, TextListener, MouseListener {
     private JToolBar toolbar;
-    private JButton addClass, save, load, connect, addAbstract, addInterface, disconnect;
+    private JButton addClass, save, load, connect, addAbstract, addInterface, disconnect, addConcept;
     private GraphicsDiagram gDiagram;
     private JTextArea textArea;
     private Selectable selected;
@@ -146,7 +147,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 
         //Panelet som vi skal tegne på
         gDiagram = new GraphicsDiagram(new UmlDiagram(), this);
-        gDiagram.setBackground(Color.white);
+        gDiagram.setBackground(new Color(204, 204, 204));
         gDiagram.setPreferredSize(new Dimension(1800, 1200));
 
         //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
@@ -189,6 +190,9 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         url = MainFrame.getResource("addClass.png");
         addClass = new JButton(new ImageIcon(url));
 
+        url = MainFrame.getResource("addClass.png");
+        addConcept = new JButton(new ImageIcon(url));
+
         url = null;
         url = MainFrame.getResource("save.png");
         save = new JButton(new ImageIcon(url));
@@ -215,6 +219,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
         //Tool tip
         addClass.setToolTipText("Adds a class");
+        addConcept.setToolTipText("Adds a Concept");
         save.setToolTipText("Saves current diagram");
         load.setToolTipText("Loads a diagram");
         addAbstract.setToolTipText("Adds an abstract class");
@@ -224,6 +229,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
         //Legger actionListener til på knappene
         addClass.addActionListener(this);
+        addConcept.addActionListener(this);
         save.addActionListener(this);
         load.addActionListener(this);
         connect.addActionListener(this);
@@ -240,6 +246,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
         //Legger knappene til toolbaren
         toolbar.add(addClass);
+        toolbar.add(addConcept);
         toolbar.add(addAbstract);
         toolbar.add(addInterface);
         toolbar.add(save);
@@ -322,6 +329,10 @@ southPanel.setPreferredSize(new Dimension(1000,300));
                 String type = new String("c");
                 addClass(diagram, type);
             }
+            if (ae.getSource() == addConcept) {
+                String type = new String("c");
+                addConcept(diagram, type);
+            }
             if (ae.getSource() == addAbstract) {
                 String type = new String("a");
                 addClass(diagram, type);
@@ -339,6 +350,23 @@ southPanel.setPreferredSize(new Dimension(1000,300));
             try {
                 if (!gDiagram.getUmlDiagram().nameExist(name)) {
                     AddClass addClass = new AddClass(name, type, client.getPerson().getUserName(), client.getConnection().getSocket().getLocalAddress(), client.getPerson());
+
+                    client.getConnection().send(addClass);
+                } else {
+                    JOptionPane.showMessageDialog(this, "This class already exists!");
+                }
+            } catch (ClassNameAlreadyExistException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addConcept(UmlDiagram diagram, String type) {
+        String name = JOptionPane.showInputDialog(this, "Please type name of new class:");
+        if (name != null) {
+            try {
+                if (!gDiagram.getUmlDiagram().nameExist(name)) {
+                    ConceptNode addClass = new ConceptNode(name,client.getConnection().getSocket().getLocalAddress(), client.getPerson());
 
                     client.getConnection().send(addClass);
                 } else {

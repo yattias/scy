@@ -26,10 +26,7 @@ import eu.scy.colemo.contributions.*;
 import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.network.Connection;
-import eu.scy.colemo.server.uml.UmlDiagram;
-import eu.scy.colemo.server.uml.UmlAssociation;
-import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.server.uml.*;
 
 /**
  * @author Øystein
@@ -52,9 +49,19 @@ public class GraphicsDiagram extends JPanel implements MouseListener,ActionListe
 		extend = new Vector();
 		associate = new Vector();
 		components = new Hashtable();
+        setBackground(new Color(204, 204, 255));
 	}
 	public void addClass(UmlClass umlClass) {
 		GraphicsClass gClass = new GraphicsClass(umlClass,this);
+	    components.put(gClass.getUmlClass().getName(),gClass);
+	    this.add(gClass);
+	    updatePopUpMenus();
+	    gClass.invalidate();
+	    gClass.validate();
+	    gClass.repaint();
+	}
+	public void addConceptMapNodeData(ConceptMapNodeData conceptMapNodeData) {
+		GraphicsConcept gClass = new GraphicsConcept(conceptMapNodeData,this);
 	    components.put(gClass.getUmlClass().getName(),gClass);
 	    this.add(gClass);
 	    updatePopUpMenus();
