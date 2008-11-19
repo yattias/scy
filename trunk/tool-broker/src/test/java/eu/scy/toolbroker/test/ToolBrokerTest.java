@@ -9,12 +9,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.api.IELO;
 import roolo.api.IExtensionManager;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
 import roolo.api.IRepository;
-import roolo.api.ISearchResult;
+import roolo.api.search.ISearchResult;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**

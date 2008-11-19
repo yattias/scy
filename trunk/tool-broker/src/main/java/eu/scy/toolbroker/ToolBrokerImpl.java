@@ -6,11 +6,11 @@ package eu.scy.toolbroker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import roolo.api.IELO;
 import roolo.api.IExtensionManager;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
 import roolo.api.IRepository;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -33,6 +33,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private IExtensionManager extensionManager;
     
     
+    @SuppressWarnings("unchecked")
     public ToolBrokerImpl() {
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
         
