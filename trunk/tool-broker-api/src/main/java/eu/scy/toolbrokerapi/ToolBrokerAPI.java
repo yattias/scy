@@ -3,11 +3,11 @@
  */
 package eu.scy.toolbrokerapi;
 
-import roolo.api.IELO;
 import roolo.api.IExtensionManager;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
 import roolo.api.IRepository;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
@@ -25,12 +25,12 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return repository the repository instace
      */
     public IRepository<IELO<K>, K> getRepository();
-
+    
     /**
      * @return the metaDataTypeManager
      */
     public IMetadataTypeManager<K> getMetaDataTypeManager();
-
+    
     /**
      * @return the extensionManager
      */
