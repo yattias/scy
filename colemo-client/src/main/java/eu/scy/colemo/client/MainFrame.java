@@ -150,6 +150,9 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         gDiagram.setBackground(new Color(204, 204, 204));
         gDiagram.setPreferredSize(new Dimension(1800, 1200));
 
+        ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
+        ApplicationController.getDefaultInstance().setMainFrame(this);
+
         //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
         /*southPanel = new JPanel();
 southPanel.setLayout(new BorderLayout());

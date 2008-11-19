@@ -135,6 +135,7 @@ public class Client implements Receiver, Runnable {
 			MoveClass move = (MoveClass)o;
 			frame.getGraphicsDiagram().getUmlDiagram().updateClass(move.getUmlClass());
 			frame.getGraphicsDiagram().updateClass(move.getUmlClass());
+			
 		}
 		if(o instanceof DeleteLink) {
 			DeleteLink delete= (DeleteLink)o;
