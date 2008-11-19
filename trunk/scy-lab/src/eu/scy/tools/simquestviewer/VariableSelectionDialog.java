@@ -19,8 +19,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
-
 import sqv.ModelVariable;
 
 public class VariableSelectionDialog extends JDialog implements ActionListener {
@@ -41,9 +39,9 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 	}
 
 	private void initGUI() {
-		this.setTitle("Select relevant variables...");
-		this.setLayout(new BorderLayout());
-		this.setLocation((int)this.getOwner().getBounds().getCenterX(), (int)this.getOwner().getBounds().getCenterY());
+		setTitle("Select relevant variables...");
+		setLayout(new BorderLayout());
+		this.setLocation((int)getOwner().getBounds().getCenterX(), (int)getOwner().getBounds().getCenterY());
 		
 
 		variablePanel = new JPanel();
@@ -67,10 +65,10 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		button.addActionListener(this);
 		buttonPanel.add(button);
 
-		this.getContentPane().add(new JLabel("Please choose the variables that will be recorded."), BorderLayout.NORTH);
-		this.getContentPane().add(variablePanel, BorderLayout.CENTER);
-		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-		this.pack();
+		getContentPane().add(new JLabel("Please choose the variables that will be recorded."), BorderLayout.NORTH);
+		getContentPane().add(variablePanel, BorderLayout.CENTER);
+		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		pack();
 	}
 
 	@Override
@@ -86,9 +84,9 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 			}
 			System.out.println("VariableSelectionDialog.actionPerformed(). added "+selectedVariables.size()+" variables");
 			collector.setSelectedVariables(selectedVariables);
-			this.dispose();
+			dispose();
 		} else if (evt.getActionCommand().equals("cancel")) {
-			this.dispose();
+			dispose();
 		}
 	}
 
@@ -99,8 +97,8 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		for (Iterator<ModelVariable> i = collector.getSimulationVariables()
 				.iterator(); i.hasNext();) {
 			var = i.next();
-			if (var.getKind() == ModelVariable.VK_INPUT
-					|| var.getKind() == ModelVariable.VK_OUTPUT || var.getKind() == ModelVariable.VK_TIME) {
+			if ((var.getKind() == ModelVariable.VK_INPUT)
+					|| (var.getKind() == ModelVariable.VK_OUTPUT) || (var.getKind() == ModelVariable.VK_TIME)) {
 				checkbox = new JCheckBox(var.getName() + ": "
 						+ var.getExternalName());
 				if (collector.getSelectedVariables().contains(var)) {
