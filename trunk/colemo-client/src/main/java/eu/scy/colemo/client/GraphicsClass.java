@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.InetAddress;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.BevelBorder;
@@ -36,6 +37,7 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener {
+    private Logger log = Logger.getLogger("GraphicsClass.class");
     private UmlClass umlClass;
     public JLabel nameLabel;
     public FieldLabel fieldLabel;
@@ -221,10 +223,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         return getGraphicsDiagram().getMainFrame().getSelected() == this;
     }
 
-    public void showMenu(int x, int y) {
-        popMenu.show(this, x, y);
-    }
-
+    
     public void mousePressed(MouseEvent e) {
 
         if (e.getSource() instanceof FieldLabel) {
@@ -235,12 +234,17 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
         MainFrame frame = getGraphicsDiagram().getMainFrame();
         this.getGraphicsDiagram().getMainFrame().setSelected(this);
-        if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
+        /*if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
             showMenu(e.getX(), e.getY());
-        }
+        } */
     }
 
     public void mouseReleased(MouseEvent ae) {
+        log.info("Mouse Clicked!");
+        if(ae.isPopupTrigger()) {
+            log.info("POPUP TRIGGER!!");
+            PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, ae.getX(), ae.getY(), ae);
+        }
         MainFrame frame = getGraphicsDiagram().getMainFrame();
 
         if (ae.getModifiers() != InputEvent.BUTTON3_MASK) {
@@ -275,6 +279,11 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     }
 
     public void mouseClicked(MouseEvent arg0) {
+        log.info("Mouse Clicked!");
+        if(arg0.isPopupTrigger()) {
+            log.info("POPUP TRIGGE!!");
+            PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, arg0.getX(), arg0.getY(), arg0);
+        }
     }
 
     public void mouseEntered(MouseEvent arg0) {
