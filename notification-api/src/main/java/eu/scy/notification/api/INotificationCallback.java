@@ -1,4 +1,4 @@
-package main.java.eu.scy.notification.api;
+package eu.scy.notification.api;
 
 public interface INotificationCallback
 {
