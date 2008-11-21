@@ -1,4 +1,4 @@
-package main.java.eu.scy.notification;
+package eu.scy.notification;
 
 import java.util.Vector;
 import javax.jms.Connection;
@@ -11,9 +11,9 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import main.java.eu.scy.notification.api.INotification;
-import main.java.eu.scy.notification.api.INotificationCallback;
-import main.java.eu.scy.notification.api.INotificationService;
+import eu.scy.notification.api.INotification;
+import eu.scy.notification.api.INotificationCallback;
+import eu.scy.notification.api.INotificationService;
 
 public class NotificationService implements INotificationService, MessageListener
 {

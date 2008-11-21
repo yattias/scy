@@ -1,11 +1,11 @@
-package main.java.eu.scy.notification;
+package eu.scy.notification;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import main.java.eu.scy.notification.api.INotification;
+import eu.scy.notification.api.INotification;
 
 
 public class Notification implements INotification
