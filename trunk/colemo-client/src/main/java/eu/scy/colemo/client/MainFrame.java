@@ -26,21 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Vector;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JToolBar;
+import javax.swing.*;
 
 import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.cmap.ConceptNode;
@@ -53,6 +39,7 @@ import eu.scy.colemo.network.LogOn;
 import eu.scy.colemo.test.XMLFileViewer;
 import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
+import eu.scy.colemo.client.actions.AddConnectionAction;
 
 /**
  * @author Øystein
@@ -60,6 +47,7 @@ import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
 public class MainFrame extends JFrame implements ActionListener, WindowListener, TextListener, MouseListener {
     private JToolBar toolbar;
     private JButton addClass, save, load, connect, addAbstract, addInterface, disconnect, addConcept;
+    private JToggleButton addConnection;
     private GraphicsDiagram gDiagram;
     private JTextArea textArea;
     private Selectable selected;
@@ -230,6 +218,9 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         connect.setToolTipText("Connects to the server");
         disconnect.setToolTipText("Disconnect & quit application");
 
+        addConnection = new JToggleButton("Add Connection");
+        addConnection.setAction(new AddConnectionAction());
+
         //Legger actionListener til på knappene
         addClass.addActionListener(this);
         addConcept.addActionListener(this);
@@ -255,6 +246,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         toolbar.add(save);
         toolbar.add(load);
         toolbar.add(connect);
+        toolbar.add(addConnection);
 
         scrollPane = new JScrollPane(gDiagram);
 
@@ -498,6 +490,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
     }
 
     public void setSelected(Selectable selected) {
+        SelectionController.getDefaultInstance().setSelected(selected);
         if (this.selected != null) {
             this.selected.setSelected(false);
         }

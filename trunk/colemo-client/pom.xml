@@ -84,14 +84,14 @@
                     <include>*.png</include>
                 </includes>
             </resource>
-            <resource>
+            <!--resource>
                 <directory>src/main/java/eu/scy/colemo/client</directory>
                 <targetPath>eu/scy/colemo/client</targetPath>
                 <includes>
                     <include>*.gif</include>
                     <include>*.png</include>
                 </includes>
-            </resource>
+            </resource-->
         </resources>
     </build>
 
