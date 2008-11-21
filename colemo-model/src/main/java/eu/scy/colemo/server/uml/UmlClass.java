@@ -15,21 +15,18 @@ import java.util.Vector;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UmlClass implements Serializable{
-	private String name;
-	private Vector methods=new Vector();
+public class UmlClass extends AbstractDiagramData{
+    private Vector methods=new Vector();
 	private Vector fields=new Vector();
 	private boolean showMethods=true;
 	private boolean showFields=true;
-	private int x;
-	private int y;
-	private String type;
+    private String type;
 	private String author;
 	private boolean move=false;
 	
 	public UmlClass(String name,String type,String author) {
-		this.name=name;
-		this.type=type;
+        super(name);
+        this.type=type;
 		this.author=author;
 		setX(100);
 		setY(100);
@@ -59,19 +56,8 @@ public class UmlClass implements Serializable{
 	public void setMethods(Vector methods) {
 		this.methods = methods;
 	}
-	/**
-	 * @return Returns the name.
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name The name to set.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
+
+    /**
 	 * @return Returns the showFields.
 	 */
 	public boolean showFields() {
@@ -95,32 +81,8 @@ public class UmlClass implements Serializable{
 	public void setShowMethods(boolean showMethods) {
 		this.showMethods = showMethods;
 	}
-	/**
-	 * @return Returns the x.
-	 */
-	public int getX() {
-		return x;
-	}
-	/**
-	 * @param x The x to set.
-	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-	/**
-	 * @return Returns the y.
-	 */
-	public int getY() {
-		return y;
-	}
-	/**
-	 * @param y The y to set.
-	 */
-	public void setY(int y) {
-		this.y = y;
-	}
-	
-	/**
+
+    /**
 	 * @return Returns the type.
 	 */
 	public String getType() {
