@@ -25,8 +25,8 @@ public class UmlDiagram implements Serializable{
 	}
 	public UmlDiagram() {}
 	
-	public void addClass(UmlClass umlClass) {		
-		components.add(umlClass);
+	public void addDiagramData(AbstractDiagramData abstractDiagramData) {
+		components.add(abstractDiagramData);
 	}
 	public void addLink(UmlLink umlLink) {	
 		components.add(umlLink);	
