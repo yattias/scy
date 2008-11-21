@@ -1,4 +1,4 @@
-package main.java.eu.scy.notification;
+package eu.scy.notification;
 
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
@@ -9,8 +9,8 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import main.java.eu.scy.notification.api.INotification;
-import main.java.eu.scy.notification.api.INotificationSender;
+import eu.scy.notification.api.INotification;
+import eu.scy.notification.api.INotificationSender;
 
 
 public class NotificationSender implements INotificationSender {
