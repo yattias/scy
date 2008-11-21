@@ -1,4 +1,4 @@
-package eu.scy.actionlogging.receiver;
+package main.java.eu.scy.actionlogging.receiver;
 
 import java.util.Vector;
 
@@ -12,10 +12,10 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.api.IActionCallback;
-import eu.scy.actionlogging.api.IActionReceiver;
-import eu.scy.actionlogging.logger.Action;
+import main.java.eu.scy.actionlogging.api.IAction;
+import main.java.eu.scy.actionlogging.api.IActionCallback;
+import main.java.eu.scy.actionlogging.api.IActionReceiver;
+import main.java.eu.scy.actionlogging.logger.Action;
 
 public class ActionReceiver implements IActionReceiver, MessageListener
 {
