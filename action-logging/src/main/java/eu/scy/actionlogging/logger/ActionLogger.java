@@ -1,4 +1,4 @@
-package main.java.eu.scy.actionlogging.logger;
+package eu.scy.actionlogging.logger;
 
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
@@ -9,8 +9,8 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import main.java.eu.scy.actionlogging.api.IAction;
-import main.java.eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IActionLogger;
 
 public class ActionLogger implements IActionLogger
 {
