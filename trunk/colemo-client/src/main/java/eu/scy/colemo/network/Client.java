@@ -47,7 +47,6 @@ public class Client implements Receiver, Runnable {
     Thread t;
     LinkedList queue;
 
-
     public Client(MainFrame frame, Person user, String serverip) {
         this.frame = frame;
         this.user = user;
