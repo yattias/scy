@@ -1,11 +1,11 @@
-package main.java.eu.scy.actionlogging.logger;
+package eu.scy.actionlogging.logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import main.java.eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IAction;
 
 public class Action implements IAction
 {
