@@ -26,6 +26,7 @@ import eu.scy.colemo.contributions.DeleteMethod;
 import eu.scy.colemo.contributions.*;
 import eu.scy.colemo.contributions.Rename;
 import eu.scy.colemo.contributions.UserTyping;
+import eu.scy.colemo.contributions.cmap.ConceptNode;
 import eu.scy.colemo.server.agent.EndVote;
 import eu.scy.colemo.server.agent.StartVote;
 import eu.scy.colemo.server.agent.VoteResult;
@@ -33,10 +34,7 @@ import eu.scy.colemo.server.agent.VoteResult;
 import eu.scy.colemo.server.test.EvaluateRules;
 import eu.scy.colemo.server.test.XMLActionLogWriter;
 import eu.scy.colemo.server.test.ManageUsers;
-import eu.scy.colemo.server.uml.UmlAssociation;
-import eu.scy.colemo.server.uml.UmlClass;
-import eu.scy.colemo.server.uml.UmlDiagram;
-import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.colemo.server.uml.*;
 import eu.scy.colemo.network.LogOn;
 import eu.scy.colemo.network.NetworkMessage;
 import eu.scy.sessionmanager.SessionManager;
@@ -221,7 +219,7 @@ public class Server implements Receiver, WindowListener, ActionListener {
             log.info("Was add class");
             AddClass add = (AddClass) o;
             UmlClass umlClass = new UmlClass(add.getName(), add.getType(), add.getAuthor());
-            umlDiagram.addClass(umlClass);
+            umlDiagram.addDiagramData(umlClass);
 
             sendObject(add);
 
@@ -235,6 +233,15 @@ public class Server implements Receiver, WindowListener, ActionListener {
             if (user != null) {
                 xmlusers.updateUser("relevantChat", user, receivedTime);
             }
+        }
+        if (o instanceof ConceptNode) {
+            log.info("Was concept node");
+            ConceptNode add = (ConceptNode) o;
+            ConceptMapNodeData umlClass = new ConceptMapNodeData(add.getName());
+            umlDiagram.addDiagramData(umlClass);
+
+            sendObject(add);
+            updatePlot(receivedTime);
         }
         if (o instanceof AddLink) {
             AddLink add = (AddLink) o;

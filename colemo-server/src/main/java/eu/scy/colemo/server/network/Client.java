@@ -91,7 +91,7 @@ public class Client implements Receiver, Runnable {
 		if(o instanceof AddClass){
 			AddClass add = (AddClass)o;
 			UmlClass umlClass = new UmlClass(add.getName(),add.getType(),add.getAuthor());
-			frame.getGraphicsDiagram().getUmlDiagram().addClass(umlClass);
+			frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
 			frame.getGraphicsDiagram().addClass(umlClass);
 			frame.getChatPane().addAgentText("Agent >: "+add.getPerson().getUserName()+" added the new class: \""+add.getName().toUpperCase()+"\""+newline);
 		}
