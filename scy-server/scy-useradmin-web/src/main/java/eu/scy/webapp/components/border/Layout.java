@@ -8,8 +8,9 @@ import org.apache.tapestry5.Asset;
 import eu.scy.webapp.pages.TapestryContextAware;
 import eu.scy.core.persistence.UserSessionDAO;
 import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.framework.actions.ActionManager;
+import eu.scy.framework.ActionManager;
 import eu.scy.framework.BaseAction;
+import eu.scy.framework.PageManager;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,6 +41,9 @@ public class Layout extends TapestryContextAware {
     private ActionManager actionManager;
 
     @Inject
+    private PageManager pageManager;
+
+    @Inject
     private UserSessionDAO userSessionDAO;
 
     public UserSessionDAO getUserSessionDAO() {
@@ -56,6 +60,14 @@ public class Layout extends TapestryContextAware {
 
     public void setActionManager(ActionManager actionManager) {
         this.actionManager = actionManager;
+    }
+
+    public PageManager getPageManager() {
+        return pageManager;
+    }
+
+    public void setPageManager(PageManager pageManager) {
+        this.pageManager = pageManager;
     }
 
     public String getCurrentProjectName() {
@@ -115,7 +127,12 @@ public class Layout extends TapestryContextAware {
         BaseAction action = getActionManager().getActionById(actionId);
         action.setActionManager(getActionManager());
         if(action != null) {
-            action.actionPerformed(scyBaseObject);
+            Object theObject = action.actionPerformed(scyBaseObject);
+
+            String pageId= getPageManager().getPageIdForObject(theObject);
+            return pageId;
+
+
         }
         return null;
     }

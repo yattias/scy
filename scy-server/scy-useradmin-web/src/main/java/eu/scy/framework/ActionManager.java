@@ -1,4 +1,4 @@
-package eu.scy.framework.actions;
+package eu.scy.framework;
 
 import eu.scy.framework.BaseAction;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;

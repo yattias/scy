@@ -1,7 +1,7 @@
 package eu.scy.framework;
 
 import eu.scy.framework.actions.AddGroupToProjectAction;
-import eu.scy.framework.actions.ActionManager;
+import eu.scy.framework.ActionManager;
 import eu.scy.framework.actions.AddMemberToGroupAction;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
