@@ -4,6 +4,7 @@ import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.*;
 import eu.scy.core.model.impl.UserRoleImpl;
 import eu.scy.core.model.impl.RoleImpl;
+import eu.scy.core.model.impl.ScyBaseObject;
 import org.springframework.security.concurrent.SessionRegistryImpl;
 
 import java.util.*;
@@ -174,6 +175,5 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         }
         addRole(user, persistentRole);
     }
-
 
 }

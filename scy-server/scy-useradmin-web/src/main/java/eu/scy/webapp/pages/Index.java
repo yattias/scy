@@ -4,6 +4,7 @@ import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.*;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.webapp.pages.projectmanagement.ProjectEditor;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -92,6 +93,14 @@ public class Index extends ScyModelPage {
         log.info("Loading group :" + group.getName());
         groupOverview.setModelId(groupId);
         return groupOverview;
+    }
+
+    @InjectPage
+    private ProjectEditor _projectEditor;
+
+    public Object onActionFromCreateNewProject() {
+        log.info("Creating new proejct!");
+        return _projectEditor;
     }
 
 }

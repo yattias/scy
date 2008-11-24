@@ -84,11 +84,18 @@
                 <configuration>
                     <webResources>
                         <resource>
-                            <directory>target/classes/applets</directory>
+                            <directory>target/resources</directory>
+                            <includes>
+                                <include>applets/*.jar</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/WEB-INF</exclude>
+                            </excludes>
                         </resource>
                     </webResources>
                 </configuration>
             </plugin-->
+
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -116,6 +123,11 @@
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.swinglabs</groupId>
+                                    <artifactId>swingx</artifactId>
+                                    <version>0.9.1</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <artifactId>scy-model-api</artifactId>
                                     <groupId>eu.scy</groupId>
                                     <version>1.0-SNAPSHOT</version>
@@ -128,7 +140,7 @@
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>target/classes/applets/</outputDirectory>
+                            <outputDirectory>src/main/webapp/applets</outputDirectory>
 
                             <stripVersion>true</stripVersion>
                         </configuration>
@@ -136,6 +148,50 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--execution>
+                <id>copy-applet-for-jetty</id>
+                <phase>process-resources</phase>
+                <goals>
+                    <goal>copy</goal>
+                </goals>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <artifactId>colemo-client</artifactId>
+                            <groupId>colemo</groupId>
+                            <version>1.0-SNAPSHOT</version>
+                            <type>jar</type>
+                        </artifactItem>
+                        <artifactItem>
+                            <artifactId>colemo-model</artifactId>
+                            <groupId>colemo</groupId>
+                            <version>1.0-SNAPSHOT</version>
+                            <type>jar</type>
+                        </artifactItem>
+                        <artifactItem>
+                            <artifactId>scy-model-api</artifactId>
+                            <groupId>eu.scy</groupId>
+                            <version>1.0-SNAPSHOT</version>
+                            <type>jar</type>
+                        </artifactItem>
+                        <artifactItem>
+                            <artifactId>scy-model-impl</artifactId>
+                            <groupId>eu.scy</groupId>
+                            <version>1.0-SNAPSHOT</version>
+                            <type>jar</type>
+                        </artifactItem>
+                    </artifactItems>
+                    <outputDirectory>target/classes/applets/</outputDirectory>
+
+                    <stripVersion>true</stripVersion>
+                </configuration>
+
+            </execution-->
+
+
+            <!--/executions>
+            </plugin-->
         </plugins>
 
     </build>
