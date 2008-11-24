@@ -26,6 +26,7 @@ import eu.scy.framework.SCYCoercer;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate;
+import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to
@@ -37,7 +38,7 @@ public class AppModule {
 
 
     public static void bind(ServiceBinder binder) {
-        binder.bind(ActionManager.class, ActionManagerImpl.class);
+        //binder.bind(ActionManager.class, ActionManagerImpl.class);
         //binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
 
@@ -47,6 +48,24 @@ public class AppModule {
         // invoking the constructor.
     }
 
+    /**
+     * sets up the action manager service
+     * @param userDAOHibernate
+     * @param projectDAOHibernate
+     * @return
+     */
+    public static ActionManager build(UserDAOHibernate userDAOHibernate, ProjectDAOHibernate projectDAOHibernate) {
+        ActionManager actionManager = new ActionManagerImpl();
+        actionManager.setProjectDAOHibernate(projectDAOHibernate);
+        actionManager.setUserDAOHibernate(userDAOHibernate);
+    }
+
+
+    /**
+     * Sets up the SCYCOercerService. Responsible for translating strings to SCYBaseObjects 
+     * @param userDAOHibernate
+     * @return
+     */
     public static SCYCoercer build(UserDAOHibernate userDAOHibernate) {
         SCYCoercer coercer = new SCYCoercerServiceImpl();
         coercer.setUserDAOHibernate(userDAOHibernate);
