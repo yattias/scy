@@ -14,18 +14,12 @@ import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 
 import org.slf4j.Logger;
-import org.hibernate.Session;
-import eu.scy.framework.actions.ActionManager;
-import eu.scy.framework.ActionManagerImpl;
-import eu.scy.framework.SCYCoercerServiceImpl;
-import eu.scy.framework.SCYCoercer;
+import eu.scy.framework.*;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
-import eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 
 /**
@@ -38,6 +32,7 @@ public class AppModule {
 
 
     public static void bind(ServiceBinder binder) {
+        binder.bind(PageManager.class, PageManagerImpl.class);
         //binder.bind(ActionManager.class, ActionManagerImpl.class);
         //binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);

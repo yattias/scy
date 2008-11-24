@@ -39,6 +39,7 @@ public class ProjectDAOHibernate extends ScyBaseDAOHibernate implements ProjectD
     }
 
     public Project addGroupToProject(Project project, Group group) {
+        getHibernateTemplate().saveOrUpdate(group);
         project.addGroup(group);
         group.setProject(project);
         save(project);

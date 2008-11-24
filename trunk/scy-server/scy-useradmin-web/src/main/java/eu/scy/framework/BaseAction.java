@@ -1,6 +1,6 @@
 package eu.scy.framework;
 
-import eu.scy.framework.actions.ActionManager;
+import eu.scy.framework.ActionManager;
 
 import java.util.logging.Logger;
 
