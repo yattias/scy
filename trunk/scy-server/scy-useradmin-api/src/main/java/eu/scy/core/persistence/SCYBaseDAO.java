@@ -17,5 +17,5 @@ public interface SCYBaseDAO {
     public Object save(Object object);
 
 
-    Project addGroupToProject(Project project, Group group);
+    
 }
