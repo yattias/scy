@@ -21,4 +21,8 @@ public interface ActionManager {
     ProjectDAOHibernate getProjectDAOHibernate();
 
     UserDAOHibernate getUserDAOHibernate();
+
+    void setProjectDAOHibernate(ProjectDAOHibernate projectDAOHibernate);
+
+    void setUserDAOHibernate(UserDAOHibernate userDAOHibernate);
 }

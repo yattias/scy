@@ -113,6 +113,7 @@ public class Layout extends TapestryContextAware {
 
     public Object onActionFromActionMenuItem(ScyBaseObject scyBaseObject, String actionId)  {
         BaseAction action = getActionManager().getActionById(actionId);
+        action.setActionManager(getActionManager());
         if(action != null) {
             action.actionPerformed(scyBaseObject);
         }
