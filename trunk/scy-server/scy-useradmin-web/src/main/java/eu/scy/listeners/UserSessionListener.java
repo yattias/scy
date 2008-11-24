@@ -20,6 +20,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionAttributeListener;
+import javax.security.auth.login.LoginException;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -132,7 +133,11 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
             SecurityContext securityContext = (SecurityContext) event.getValue();
             User user = (User) securityContext.getAuthentication().getPrincipal();
             if (user != null && user.getUsername() != null) {
-                sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
+                try {
+                    sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
+                } catch (LoginException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 addUsername(user);
                 log.info("** *** ** USER LOGGED IN: " + user.getUsername());
                 log.info("Creating new session for user: " + event.getSession().getId());
