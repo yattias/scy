@@ -58,6 +58,7 @@ public class AppModule {
         ActionManager actionManager = new ActionManagerImpl();
         actionManager.setProjectDAOHibernate(projectDAOHibernate);
         actionManager.setUserDAOHibernate(userDAOHibernate);
+        return actionManager;
     }
 
 
