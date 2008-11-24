@@ -140,7 +140,7 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <configuration>
@@ -149,7 +149,7 @@
                         <format>xml</format>
                     </formats>
                 </configuration>
-            </plugin>
+            </plugin-->
 
         </plugins>
 
