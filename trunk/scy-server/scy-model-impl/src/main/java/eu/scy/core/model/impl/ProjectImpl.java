@@ -23,7 +23,7 @@ public class ProjectImpl extends ScyBaseObject implements Project {
     private List<Group> groups;
     private List<User>  users;
 
-    @OneToMany(targetEntity = GroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = GroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     public List<Group> getGroups() {
         if(groups == null) {
             groups = new LinkedList<Group>();
@@ -48,6 +48,7 @@ public class ProjectImpl extends ScyBaseObject implements Project {
     public void addGroup(Group group) {
         if(group != null) {
             getGroups().add(group);
+            group.setProject(this);
         }
 
     }
