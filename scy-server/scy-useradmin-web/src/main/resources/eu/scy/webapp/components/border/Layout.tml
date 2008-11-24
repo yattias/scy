@@ -41,7 +41,7 @@
 
 
                     <t:loop source="actions" value="baseAction">
-                        <t:actionlink t:id="actionMenuItem" t:context="list: baseAction.actionId, userObject">  ${baseAction.name}</t:actionlink> 
+                        <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">  ${baseAction.name}</t:actionlink> 
                     </t:loop>
             
 

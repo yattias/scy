@@ -1,6 +1,7 @@
 package eu.scy.framework;
 
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,5 +13,10 @@ import eu.scy.core.model.impl.ScyBaseObject;
 public interface SCYCoercer {
 
     public ScyBaseObject get(Class clazz, String id);
+
+    public UserDAOHibernate getUserDAOHibernate();
+
+    public void setUserDAOHibernate(UserDAOHibernate userDAOHibernate);
+
 
 }

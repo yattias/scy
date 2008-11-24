@@ -1,6 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.Project;
+import eu.scy.core.model.Group;
 import eu.scy.core.persistence.ProjectDAO;
 
 import java.util.List;
@@ -37,4 +38,10 @@ public class ProjectDAOHibernate extends ScyBaseDAOHibernate implements ProjectD
                 .uniqueResult();
     }
 
+    public Project addGroupToProject(Project project, Group group) {
+        project.addGroup(group);
+        group.setProject(project);
+        save(project);
+        return project;
+    }
 }
