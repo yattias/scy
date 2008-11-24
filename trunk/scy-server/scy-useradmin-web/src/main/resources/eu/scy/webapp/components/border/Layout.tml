@@ -18,6 +18,7 @@
                     Currently logged in as: ${currentUsersUserName} - ${currentProjectName}
 
 
+
                 </div>
 
             </div>
@@ -37,6 +38,13 @@
                      <!--t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
                          <img src="${scyProjectManagementIcon}"/>
                      </t:pagelink-->
+
+
+                    <t:loop source="actions" value="baseAction">
+                        <t:actionlink t:id="actionMenuItem" t:context="list: baseAction.actionId, userObject">  ${baseAction.name}</t:actionlink> 
+                    </t:loop>
+            
+
                      <t:actionlink t:id="logout">Log out</t:actionlink>
                 </div>
                 <t:body/>

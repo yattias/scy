@@ -1,0 +1,8 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+    <t:any element="applet" codebase="applets" code="eu.scy.colemo.client.ColemoApplet.class"
+        archive="colemo-client.jar, colemo-model.jar, scy-model-api.jar, scy-model-impl.jar, swingx.jar"
+        width="600" height="600">
+        <t:any element="param" name="username" value="${username}"/>
+        <t:any element="param" name="password" value="${password}"/>
+    </t:any>
+</html>

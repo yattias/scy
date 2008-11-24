@@ -1,22 +1,10 @@
-<html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
 <body>
 
 <div>
 
-    <t:zone id="main_contents">
-        This is the zone man!
-    </t:zone>
-
-
-    <!--div t:type="assertroles/AssertRoles" roles="literal:ROLE_ADMIN">Hei</div-->
-   <t:any element="applet" codebase="applets" code="eu.scy.colemo.client.ColemoApplet.class"
-        archive="colemo-client.jar, colemo-model.jar, scy-model-api.jar, scy-model-impl.jar"
-        width="600" height="600">
-
-
-</t:any>
-
+   <div t:type="colemo/Colemo"/>
 
     <t:if test="model">
         PROJECET: ${currentProject.name}
@@ -24,7 +12,6 @@
         <t:grid source="groups" row="group">
             <t:parameter name="namecell">
                 <t:actionlink t:id="openGroup" context="group.id" t:zone="main_contents">${group.name}</t:actionlink>
-                <!--t:pagelink page="user/view" context="user.id">${user.lastname}</t:pagelink-->
             </t:parameter>
         </t:grid>
 
@@ -39,10 +26,12 @@
                         <a t:type="pageLink" page="Index" context="scyProject.id">${scyProject.name}</a>
                     </td>
                 </tr>
-
             </t:loop>
         </table>
     </t:if>
+
+
+    <a t:type="ActionLink" t:id="CreateNewProject">Create new Project</a> 
 </div>
 
 

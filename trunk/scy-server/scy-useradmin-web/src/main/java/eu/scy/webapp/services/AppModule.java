@@ -3,16 +3,29 @@ package eu.scy.webapp.services;
 import java.io.IOException;
 
 import org.apache.tapestry5.*;
+import org.apache.tapestry5.services.RequestFilter;
+import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.Configuration;
+import org.apache.tapestry5.ioc.services.CoercionTuple;
+import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.RequestFilter;
-import org.apache.tapestry5.services.RequestHandler;
-import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.InjectService;
+
 import org.slf4j.Logger;
+import org.hibernate.Session;
+import eu.scy.framework.actions.ActionManager;
+import eu.scy.framework.ActionManagerImpl;
+import eu.scy.framework.SCYCoercerServiceImpl;
+import eu.scy.framework.SCYCoercer;
+import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
+import eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to
@@ -20,8 +33,12 @@ import org.slf4j.Logger;
  */
 public class AppModule {
 
+    private static java.util.logging.Logger log = java.util.logging.Logger.getLogger("AppModule.class");
+
 
     public static void bind(ServiceBinder binder) {
+        binder.bind(ActionManager.class, ActionManagerImpl.class);
+        binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
 
         // Make bind() calls on the binder object to define most IoC services.
@@ -109,10 +126,40 @@ public class AppModule {
 
     public static void contributeIgnoredPathsFilter(Configuration<String> configuration) {
         configuration.add("/services/.*");
+        configuration.add("/resources/.*");
         configuration.add("/applets/.*");
         configuration.add("/css/.*");
         configuration.add("/graphics/.*");
 
+    }
+
+    public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService ("SCYCoercer") ScyBaseDAOHibernate dao) {
+        Coercion<ScyBaseObject, String> fromScyBaseObjectToString = new Coercion<ScyBaseObject, String>() {
+            public String coerce(ScyBaseObject input) {
+                return input.getClass().getName() + "-SCY-" + input.getId();
+            }
+        };
+
+        Coercion<String, ScyBaseObject> fromStringToScy = new Coercion< String, ScyBaseObject>() {
+            public ScyBaseObject coerce(String input) {
+                String clazz= input.substring(0, input.indexOf("-"));
+                Class theClass = null;
+
+                try {
+                    theClass = Class.forName(clazz);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                log.info("CLASS IS: "+ clazz);
+                String id= input.substring(input.indexOf("-SCY-") + 5, input.length());
+                log.info("** ID IS: " + id);
+                return (ScyBaseObject) dao.getObject(theClass, id);
+            }
+        };
+
+        configuration.add(new CoercionTuple< String, ScyBaseObject>(String.class, ScyBaseObject.class, fromStringToScy) );
+        configuration.add(new CoercionTuple< ScyBaseObject, String>(ScyBaseObject.class, String.class,  fromScyBaseObjectToString));
     }
 
 

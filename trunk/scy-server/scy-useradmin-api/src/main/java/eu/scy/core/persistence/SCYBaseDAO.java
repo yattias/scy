@@ -9,6 +9,7 @@ package eu.scy.core.persistence;
  */
 public interface SCYBaseDAO {
 
+    public Object getObject(Class clazz, String id);
 
     public Object save(Object object);
 
