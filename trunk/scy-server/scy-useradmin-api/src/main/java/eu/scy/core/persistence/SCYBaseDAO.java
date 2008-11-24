@@ -16,6 +16,4 @@ public interface SCYBaseDAO {
 
     public Object save(Object object);
 
-
-    
 }
