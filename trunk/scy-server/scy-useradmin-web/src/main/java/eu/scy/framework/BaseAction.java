@@ -1,5 +1,7 @@
 package eu.scy.framework;
 
+import eu.scy.framework.actions.ActionManager;
+
 import java.util.logging.Logger;
 
 /**
@@ -14,6 +16,7 @@ public abstract class BaseAction {
     protected static Logger log = Logger.getLogger("BaseACtion.class");
 
     private String name;
+    private ActionManager actionManager;
 
     public String getName() {
         return name;
@@ -33,6 +36,14 @@ public abstract class BaseAction {
 
     public String getActionId() {
         return getClass().getName();
+    }
+
+    public ActionManager getActionManager() {
+        return actionManager;
+    }
+
+    public void setActionManager(ActionManager actionManager) {
+        this.actionManager = actionManager;
     }
 }
 

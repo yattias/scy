@@ -111,14 +111,10 @@ public class Layout extends TapestryContextAware {
         return getActionManager().getActions(getUserObject());
     }
 
-    public Object onActionFromActionMenuItem(String actionId, ScyBaseObject model)  {
-        log.info("GOt model: "+ model.getName());
-        log.info("GOt model: "+ model.getName());
-        log.info("GOt model: "+ model.getName());
-        log.info("GOt model: "+ model.getName());
+    public Object onActionFromActionMenuItem(ScyBaseObject scyBaseObject, String actionId)  {
         BaseAction action = getActionManager().getActionById(actionId);
         if(action != null) {
-            //action.actionPerformed()
+            action.actionPerformed(scyBaseObject);
         }
         return null;
     }

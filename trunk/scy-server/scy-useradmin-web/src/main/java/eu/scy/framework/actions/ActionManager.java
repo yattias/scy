@@ -1,6 +1,8 @@
 package eu.scy.framework.actions;
 
 import eu.scy.framework.BaseAction;
+import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
 import java.util.List;
 
@@ -15,4 +17,8 @@ public interface ActionManager {
     public List<BaseAction> getActions(Object userObject);
 
     public BaseAction getActionById(String id);
+
+    ProjectDAOHibernate getProjectDAOHibernate();
+
+    UserDAOHibernate getUserDAOHibernate();
 }

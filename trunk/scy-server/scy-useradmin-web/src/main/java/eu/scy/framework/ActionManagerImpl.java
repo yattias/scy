@@ -3,6 +3,8 @@ package eu.scy.framework;
 import eu.scy.framework.actions.AddGroupToProjectAction;
 import eu.scy.framework.actions.ActionManager;
 import eu.scy.framework.actions.AddMemberToGroupAction;
+import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -21,6 +23,9 @@ public class ActionManagerImpl implements ActionManager {
 
     private static Logger log = Logger.getLogger("ActionManagerImpl.class");
 
+    private ProjectDAOHibernate projectDAOHibernate;
+    private UserDAOHibernate userDAOHibernate;
+
     private List<BaseAction> actions;
 
     public ActionManagerImpl() {
@@ -38,14 +43,11 @@ public class ActionManagerImpl implements ActionManager {
         List returnList = new LinkedList();
 
         List<Class> classes = getClasses(userObject.getClass());
-        log.info("found " + classes.size() + " classes");
 
         for (int i = 0; i < actions.size(); i++) {
 
             BaseAction baseAction = actions.get(i);
-            log.info("i: " + i + " bas" + baseAction.getName());
             for (int j = 0; j < classes.size(); j++) {
-                log.info("j:" + j);
                 Class aClass = classes.get(j);
                 if (baseAction.getOperatesOn().getName().equals(aClass.getName())) returnList.add(baseAction);
             }
@@ -57,7 +59,10 @@ public class ActionManagerImpl implements ActionManager {
     public BaseAction getActionById(String id) {
         for (int i = 0; i < actions.size(); i++) {
             BaseAction baseAction = actions.get(i);
-            if(baseAction.getActionId().equals(id)) return baseAction;
+            if(baseAction.getActionId().equals(id)) {
+                baseAction.setActionManager(this);
+                return baseAction;
+            }
         }
 
         return null;
@@ -82,4 +87,19 @@ public class ActionManagerImpl implements ActionManager {
     }
 
 
+    public ProjectDAOHibernate getProjectDAOHibernate() {
+        return projectDAOHibernate;
+    }
+
+    public void setProjectDAOHibernate(ProjectDAOHibernate projectDAOHibernate) {
+        this.projectDAOHibernate = projectDAOHibernate;
+    }
+
+    public UserDAOHibernate getUserDAOHibernate() {
+        return userDAOHibernate;
+    }
+
+    public void setUserDAOHibernate(UserDAOHibernate userDAOHibernate) {
+        this.userDAOHibernate = userDAOHibernate;
+    }
 }

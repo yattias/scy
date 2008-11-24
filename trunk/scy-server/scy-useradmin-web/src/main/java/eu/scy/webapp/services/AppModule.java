@@ -38,13 +38,19 @@ public class AppModule {
 
     public static void bind(ServiceBinder binder) {
         binder.bind(ActionManager.class, ActionManagerImpl.class);
-        binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
+        //binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
 
         // Make bind() calls on the binder object to define most IoC services.
         // Use service builder methods (example below) when the implementation
         // is provided inline, or requires more initialization than simply
         // invoking the constructor.
+    }
+
+    public static SCYCoercer build(UserDAOHibernate userDAOHibernate) {
+        SCYCoercer coercer = new SCYCoercerServiceImpl();
+        coercer.setUserDAOHibernate(userDAOHibernate);
+        return coercer;
     }
 
 
@@ -133,16 +139,14 @@ public class AppModule {
 
     }
 
-    public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService ("SCYCoercer") ScyBaseDAOHibernate dao) {
-        Coercion<ScyBaseObject, String> fromScyBaseObjectToString = new Coercion<ScyBaseObject, String>() {
-            public String coerce(ScyBaseObject input) {
-                return input.getClass().getName() + "-SCY-" + input.getId();
-            }
-        };
+    public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService("SCYCoercer") SCYCoercer coerser) {
 
-        Coercion<String, ScyBaseObject> fromStringToScy = new Coercion< String, ScyBaseObject>() {
+        Coercion<String, ScyBaseObject> fromStringToScy = new Coercion<String, ScyBaseObject>() {
             public ScyBaseObject coerce(String input) {
-                String clazz= input.substring(0, input.indexOf("-"));
+                log.info("---------------------------------------------------------------------------------------");
+                log.info("COERCING: " + input);
+                log.info("---------------------------------------------------------------------------------------");
+                String clazz = input.substring(0, input.indexOf("-"));
                 Class theClass = null;
 
                 try {
@@ -151,15 +155,22 @@ public class AppModule {
                     e.printStackTrace();
                 }
 
-                log.info("CLASS IS: "+ clazz);
-                String id= input.substring(input.indexOf("-SCY-") + 5, input.length());
-                log.info("** ID IS: " + id);
-                return (ScyBaseObject) dao.getObject(theClass, id);
+                log.info("--------------CLASS IS: " + clazz);
+                String id = input.substring(input.indexOf("-SCY-") + 5, input.length());
+                //log.info("** ID IS: " + id);
+                return coerser.get(theClass, id);
             }
         };
 
-        configuration.add(new CoercionTuple< String, ScyBaseObject>(String.class, ScyBaseObject.class, fromStringToScy) );
-        configuration.add(new CoercionTuple< ScyBaseObject, String>(ScyBaseObject.class, String.class,  fromScyBaseObjectToString));
+        Coercion<ScyBaseObject, String> fromScyBaseObjectToString = new Coercion<ScyBaseObject, String>() {
+            public String coerce(ScyBaseObject input) {
+                return input.getClass().getName() + "-SCY-" + input.getId();
+            }
+        };
+
+
+        configuration.add(new CoercionTuple<String, ScyBaseObject>(String.class, ScyBaseObject.class, fromStringToScy));
+        configuration.add(new CoercionTuple<ScyBaseObject, String>(ScyBaseObject.class, String.class, fromScyBaseObjectToString));
     }
 
 
