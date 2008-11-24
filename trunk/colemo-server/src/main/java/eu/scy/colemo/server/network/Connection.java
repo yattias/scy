@@ -53,11 +53,12 @@ public class Connection extends Thread {
                 receiver.receive(objectIn.readObject());
             } catch (IOException e) {
                 receiver.receive(new ClientDisconnected(this));
-                e.printStackTrace();
+                log.info(e.getClass().getName() + "::: " + e.getMessage());
                 this.close();
             } catch (Exception e) {
                 receiver.receive(new ClientDisconnected(this));
-                e.printStackTrace();
+                log.info(e.getClass().getName() + "::: " + e.getMessage());
+                //e.printStackTrace();
                 this.close();
             }
 
