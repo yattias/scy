@@ -112,5 +112,12 @@ div.t-beaneditor, div.t-beandisplay, div.t-beaneditor-row {
     /*padding:2px;*/
 }
 
+#breadCrumbsContainer{
+    background-color:#999999;
+    color:#ffffff;
+}
+#breadCrumbsContainer a{
+    color:#ffffff;
+}
 
 
