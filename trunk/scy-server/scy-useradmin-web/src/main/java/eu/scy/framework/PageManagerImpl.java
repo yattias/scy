@@ -5,6 +5,7 @@ import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.GroupImpl;
 import eu.scy.core.model.impl.UserImpl;
+import eu.scy.core.model.impl.ProjectImpl;
 import eu.scy.webapp.pages.GroupOverview;
 import eu.scy.webapp.pages.ScyModelPage;
 
@@ -40,11 +41,9 @@ public class PageManagerImpl implements PageManager {
     }
 
     public PageManagerImpl() {
-        map.put(Group.class, "GroupOverview");
         map.put(GroupImpl.class, "GroupOverview");
         map.put(UserImpl.class, "EditUserPage");
-        map.put(User.class, "EditUserPage");
-
+        map.put(ProjectImpl.class, "Index");
 
 
     }

@@ -1,5 +1,7 @@
-<html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
+
+${user.group.name}
 
 <t:beaneditform t:id="userEditor" object="user" exclude="id, name, enabled"></t:beaneditform>
 
