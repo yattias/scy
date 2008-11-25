@@ -1,4 +1,5 @@
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
 <div id="breadCrumbsContainer">
     <t:if test="currentProject">
         <t:loop source="objectList" value="currentObject">

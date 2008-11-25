@@ -4,22 +4,13 @@
     <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
 </head>
 
-<div id="scyPage">
+<body id="scyPage">
     <div id="scyPageInnerContainer">
         <div id="scyTopContainer">
-            <div id="scyTopRightPlaceHolder">
-                <div id="scyTopInnerContainer">
-
-                    Currently logged in as: ${currentUsersUserName} - ${currentProjectName}
-
-
-
-                </div>
-
+            <div id="scyTopInnerContainer">
+                Currently logged in as: ${currentUsersUserName} - ${currentProjectName}
             </div>
         </div>
-
-
         <div id="mainpane">
             <div id="mainpane_inner">
                 <div id="scyUserMenu">
@@ -27,7 +18,7 @@
                          Home |
                      </t:pagelink>
                     <t:loop source="actions" value="baseAction">
-                        <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">  ${baseAction.name}</t:actionlink> 
+                        <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">  ${baseAction.name} | </t:actionlink> 
                     </t:loop>
             
 
@@ -36,12 +27,14 @@
                  <div>
                     <div t:type="breadcrumbs/BreadCrumbs" model="userObject"/>
                 </div>
-                <t:body/>
+                <div id="bodyContainer">
+                    <t:body/>
+                </div>
             </div>
         </div>
 
     </div>
-</div>
+</body>
 
 
 <!--/body-->
