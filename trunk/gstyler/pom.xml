@@ -20,15 +20,12 @@
 	<repositories>
 		<repository>
 			<id>gwt-maven</id>
-			<url>
-            http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/
-          </url>
+			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</repository>
 		<repository>
             <id>collide-releases</id>
             <url>http://mvn.collide.info/content/repositories/releases</url>
         </repository>
-
         <repository>
             <id>collide-snapshots</id>
             <url>http://mvn.collide.info/content/repositories/snapshots</url>
@@ -98,7 +95,7 @@
 					<runTarget>eu.scy.tools.gstyler.GStyler/GStyler.html</runTarget>
 					<style>DETAILED</style>
 					<noServer>false</noServer>
-					<extraJvmArgs>-Xmx512m -XstartOnFirstThread</extraJvmArgs>
+					<extraJvmArgs>-Xmx512m ${extraPlatformVMArgs}</extraJvmArgs>
 <!--
                     <i18nConstantsNames>
                         <value>com.totsp.sample.client.AppConstants</value>
@@ -198,6 +195,7 @@
 			<id>gwt-dev-mac</id>
 			<properties>
 				<platform>mac</platform>
+				<extraPlatformVMArgs>-XstartOnFirstThread</extraPlatformVMArgs>
 			</properties>
 			<activation>
 				<activeByDefault>false</activeByDefault>
