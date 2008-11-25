@@ -38,11 +38,11 @@ public class ProjectDAOHibernate extends ScyBaseDAOHibernate implements ProjectD
                 .uniqueResult();
     }
 
-    public Project addGroupToProject(Project project, Group group) {
+    public Group addGroupToProject(Project project, Group group) {
         getHibernateTemplate().saveOrUpdate(group);
         project.addGroup(group);
         group.setProject(project);
         save(project);
-        return project;
+        return group;
     }
 }
