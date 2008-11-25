@@ -1,0 +1,5 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<t:if test="currentProject">
+    ${currentProject.name}
+</t:if>
+</html>

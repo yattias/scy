@@ -24,6 +24,7 @@
             </div>
         </div>
 
+
         <div id="mainpane">
             <div id="mainpane_inner">
                 <div id="scyUserMenu">
@@ -47,9 +48,13 @@
 
                      <t:actionlink t:id="logout">Log out</t:actionlink>
                 </div>
+                 <div>
+                    <div t:type="breadcrumbs/BreadCrumbs"/>
+                </div>
                 <t:body/>
             </div>
         </div>
+
     </div>
 </div>
 
