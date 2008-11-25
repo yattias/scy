@@ -27,11 +27,6 @@
             </t:loop>
         </table>
     </t:if>
-
-
-    <a t:type="ActionLink" t:id="CreateNewProject">Create new Project</a> 
 </div>
-
-
 </body>
 </html>
