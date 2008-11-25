@@ -3,6 +3,7 @@ package eu.scy.webapp.pages;
 import org.apache.tapestry5.annotations.ApplicationState;
 import org.apache.tapestry5.annotations.BeginRender;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.ComponentSource;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import eu.scy.core.model.Project;
@@ -13,6 +14,8 @@ import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
+import eu.scy.framework.PageManagerImpl;
+import eu.scy.framework.PageManager;
 
 import java.util.logging.Logger;
 
@@ -27,7 +30,7 @@ public class TapestryContextAware {
 
     protected static Logger log = Logger.getLogger("BASE.class");
 
-     @ApplicationState(create=false)
+    @ApplicationState(create = false)
     private Project currentProject;
     private ScyBase model;
 
@@ -37,6 +40,9 @@ public class TapestryContextAware {
     @Inject
     private ProjectDAOHibernate projectDAOHibernate;
 
+    @Inject
+    private PageManager pageManager;
+
     public UserDAOHibernate getUserDAO() {
         return userDAOHibernate;
     }
@@ -45,6 +51,11 @@ public class TapestryContextAware {
     public ProjectDAO getProjectDAO() {
         return projectDAOHibernate;
     }
+
+    public PageManager getPageManager() {
+        return pageManager;
+    }
+
 
     public ScyBase getModel() {
         return model;
@@ -63,7 +74,7 @@ public class TapestryContextAware {
     }
 
     public String getCurrentUsersUserName() {
-        if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
+        if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {
             return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         }
         return "NO SECURITY CONTEXT!!";
@@ -76,11 +87,22 @@ public class TapestryContextAware {
 
     @BeginRender
     void checkForCurrentProject() {
-        if(getCurrentProject() == null) {
+        if (getCurrentProject() == null) {
             log.info("*************************************** CURRENT PROJECT NOT SET");
         } else {
             log.info("CURERENT IS : " + getCurrentProject());
         }
+    }
+
+
+    @Inject
+    private ComponentSource compSource;
+
+    public Object getNextPage(Object selectedObject) {
+        String pageId = getPageManager().getPageIdForObject(selectedObject);
+        ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
+        comp.setModelId(((ScyBase) selectedObject).getId());
+        return comp;
     }
 
 }

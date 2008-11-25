@@ -1,39 +1,7 @@
 <html t:type="border/layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-<table>
-    <tr>
-        <td>
-            ${message:FIRST_NAME}
-        </td>
-        <td>
-            ${user.firstName}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ${message:LAST_NAME}
-        </td>
-        <td>
-            ${user.lastName}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ${message:USER_NAME}
-        </td>
-        <td>
-            ${user.userName}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ${message:PASSWORD}
-        </td>
-        <td>
-            ${user.password}
-        </td>
-    </tr>
-</table>
+
+<t:beaneditform t:id="userEditor" object="user"></t:beaneditform>
 
 
 </html>
