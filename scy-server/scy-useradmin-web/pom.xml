@@ -479,7 +479,7 @@
         <spring-release-version>2.5.5</spring-release-version>
         <cxf.version>2.1</cxf.version>
         <slf4j.version>1.5.0</slf4j.version>
-        <t5components.version>0.5.15</t5components.version>
+        <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>
         <filter.file>src/main/filters/filter.properties</filter.file>
     </properties>
