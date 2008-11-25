@@ -9,7 +9,7 @@ import eu.scy.core.model.User;
  * Time: 05:44:23
  * To change this template use File | Settings | File Templates.
  */
-public class EditUserPage extends ScyModelPage{
+public class EditUserPage extends ScyModelPage {
 
     private User user;
 
@@ -21,8 +21,14 @@ public class EditUserPage extends ScyModelPage{
         this.user = user;
     }
 
+    public Object onSuccess() {
+        getUserDAO().save(user);
+        return getNextPage(user);
+    }
+
     public void loadModel() {
         setModel(getUserDAO().getUser(getModelId()));
+        log.info("Got model in EDIT USER AGE: " + getModel());
         setUser((User) getModel());
     }
 }
