@@ -72,21 +72,5 @@ public class GroupOverview extends ScyModelPage {
         return group.getUsers();
     }
 
-    public Object onActionFromAddUser(String groupId) {
-        log.info("Adding new user...");
-        Group group = getGroupDAO().getGroup(groupId);
-
-        User user = getNewUser();
-
-        user.setUserName(getUserDAO().getSecureUserName("U"));
-        user = (User) getUserDAO().save(user);
-
-        getUserDAO().addUser(getCurrentProject(), group, user);
-        log.info("Added new user to the project - " + user.getId() + " " + user.getUserName());
-        editUserPage.setModelId(user.getId());
-
-        return editUserPage;
-
-    }
 
 }
