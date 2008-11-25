@@ -18,6 +18,7 @@ html, body{
     background-image:url(../graphics/scyPageBorder.png);
     background-repeat:repeat-y;
     border-bottom:4px solid #bebebe;
+
 }
 
 #scyPageInnerContainer{
@@ -25,35 +26,31 @@ html, body{
     background-repeat:repeat-y;
     background-position:right;
     height:100%;
+    padding:0 4px;
    
 }
 #scyTopContainer{
     height:25px;
     color:#ffffff;
-    background-image:url(../graphics/component_top_left.png);
-    background-repeat:no-repeat;
-    background-color:#d5d5d5;
+    /*background-image:url(../graphics/component_top_left.png);
+    background-repeat:no-repeat;*/
+    background-color:#2f42d7;
     /*border-bottom:6px solid #ffffff;*/
-    padding-left:10px;
+    /*padding-left:10px;*/
     overflow:hidden;
 }
 
-#scyTopRightPlaceHolder{
-    padding-right:10px;
-    background-image:url(../graphics/component_top_right.png);
-    background-repeat:no-repeat;
-    background-position:top right;
-}
 
 #scyTopInnerContainer{
      /*padding:5px 0;*/
-    background-image:url(../graphics/component_top_center.png);
+    /*background-image:url(../graphics/component_top_center.png);
     background-repeat:repeat-x;
-    background-position:top right;
+    background-position:top right;*/
    height:25px;
     /*overflow:hidden;*/
     font-size:12px;
     padding-top:5px;
+    padding-left:5px;
     
 }
 
@@ -67,13 +64,17 @@ html, body{
 }
 
 #scyUserMenu{
-    padding-top:4px;
-    height:70px;
+    padding:4px 0 0 4px;
+    /*height:70px;*/
     background-color:#ededed;
-    margin:0 4px;
+    /*margin:0 4px;*/
+    border-top:1px solid #000000;
     border-bottom:4px outset #cccccc;
 }
-
+#scyUserMenu a{
+    color:#000000;
+    text-decoration:none;
+}
 #mainpane{
     width:100%;
     /*border:1px solid #cccccc;*/
@@ -113,11 +114,16 @@ div.t-beaneditor, div.t-beandisplay, div.t-beaneditor-row {
 }
 
 #breadCrumbsContainer{
-    background-color:#999999;
-    color:#ffffff;
+    background-color:#84a2ff;
+    color:#000000;
+    padding-left:4px;
 }
 #breadCrumbsContainer a{
-    color:#ffffff;
+    color:#000000;
+}
+
+#bodyContainer{
+    padding:4px;
 }
 
 
