@@ -23,7 +23,7 @@ public interface ProjectDAO extends SCYBaseDAO{
 
     public Project getProject(String projectId);
 
-    Project addGroupToProject(Project project, Group group);
+    Group addGroupToProject(Project project, Group group);
 
 
 }
