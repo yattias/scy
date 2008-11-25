@@ -1,14 +1,9 @@
 <html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 
-${model.name}
+<h1>${model.name}</h1>
 
-<t:grid source="groupMembers" value="currentUser">
-    
+<t:grid source="groupMembers" value="currentUser" exclude="id, name, enabled">
+
 </t:grid>
-
-<t:actionlink t:id="addUser" context="model.id">Add New Group Member</t:actionlink> 
-
-
-
 
 </html>
