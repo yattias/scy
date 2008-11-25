@@ -2,6 +2,8 @@ package eu.scy.webapp.pages;
 
 import eu.scy.core.model.ScyBase;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -9,7 +11,9 @@ import eu.scy.core.model.ScyBase;
  * Time: 06:07:34
  * To change this template use File | Settings | File Templates.
  */
-public abstract class ScyModelPage extends TapestryContextAware {
+public abstract class  ScyModelPage extends TapestryContextAware {
+
+
 
     private String modelId;
     private ScyBase model;
@@ -21,6 +25,7 @@ public abstract class ScyModelPage extends TapestryContextAware {
     }
 
     public void setModelId(String modelId) {
+        log.info("Set model id"  + modelId + "("  + getClass().getName() + ")");
         this.modelId = modelId;
     }
 
@@ -29,11 +34,12 @@ public abstract class ScyModelPage extends TapestryContextAware {
     }
 
     public void setModel(ScyBase model) {
+        log.info("Set model:" + model + "("  + getClass().getName() + ")");
         this.model = model;
     }
 
     public void onActivate(String id) {
-        System.out.println("** ** ** ** ** ** MODEL ID: " + id);
+        log.info("** ** ** ** ** ** MODEL ID: " + id);
         modelId = id;
         if (id != null) {
             loadModel();

@@ -2,12 +2,19 @@ package eu.scy.webapp.components.border;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
+import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.Asset;
+import org.apache.tapestry5.internal.services.PagePool;
 import eu.scy.webapp.pages.TapestryContextAware;
+import eu.scy.webapp.pages.ScyModelPage;
+import eu.scy.webapp.pages.GroupOverview;
+import eu.scy.webapp.pages.PageLocator;
 import eu.scy.core.persistence.UserSessionDAO;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.ScyBase;
 import eu.scy.framework.ActionManager;
 import eu.scy.framework.BaseAction;
 import eu.scy.framework.PageManager;
@@ -123,16 +130,24 @@ public class Layout extends TapestryContextAware {
         return getActionManager().getActions(getUserObject());
     }
 
+
+    @InjectPage
+    private PageLocator pageLocator;
+
+    @Inject
+  private ComponentSource compSource;
+
+
+
     public Object onActionFromActionMenuItem(ScyBaseObject scyBaseObject, String actionId)  {
         BaseAction action = getActionManager().getActionById(actionId);
         action.setActionManager(getActionManager());
         if(action != null) {
             Object theObject = action.actionPerformed(scyBaseObject);
-
-            String pageId= getPageManager().getPageIdForObject(theObject);
-            return pageId;
-
-
+            String pageId = getPageManager().getPageIdForObject(theObject);
+            ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
+            comp.setModelId(((ScyBase) theObject).getId());
+            return comp;            
         }
         return null;
     }
