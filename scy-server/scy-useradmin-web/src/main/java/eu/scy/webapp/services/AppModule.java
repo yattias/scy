@@ -29,6 +29,13 @@ public class AppModule {
 
     private static java.util.logging.Logger log = java.util.logging.Logger.getLogger("AppModule.class");
 
+    public static final String CGLIB_TOKEN = "CGLIB";
+    /**
+     * enhanced cglib class starts with this string after the real name of the class
+     */
+    public static final String CGLIB_ADDED_SIGNS = "$";
+    public static final String CGLIB_AT = "@";
+
 
     public static void bind(ServiceBinder binder) {
         binder.bind(PageManager.class, PageManagerImpl.class);
@@ -44,6 +51,7 @@ public class AppModule {
 
     /**
      * sets up the action manager service
+     *
      * @param userDAOHibernate
      * @param projectDAOHibernate
      * @return
@@ -57,7 +65,8 @@ public class AppModule {
 
 
     /**
-     * Sets up the SCYCOercerService. Responsible for translating strings to SCYBaseObjects 
+     * Sets up the SCYCOercerService. Responsible for translating strings to SCYBaseObjects
+     *
      * @param userDAOHibernate
      * @return
      */
@@ -66,7 +75,6 @@ public class AppModule {
         coercer.setUserDAOHibernate(userDAOHibernate);
         return coercer;
     }
-
 
 
     public static void contributeApplicationDefaults(
@@ -161,7 +169,18 @@ public class AppModule {
                 log.info("---------------------------------------------------------------------------------------");
                 log.info("COERCING: " + input);
                 log.info("---------------------------------------------------------------------------------------");
-                String clazz = input.substring(0, input.indexOf("-"));
+                String clazz = input;
+                if(input.indexOf("-") > 0) {
+                    clazz = input.substring(0, input.indexOf("-"));
+                }
+                if (clazz.indexOf(CGLIB_TOKEN) > 0) {
+                    clazz = clazz.substring(0, clazz.indexOf(CGLIB_ADDED_SIGNS));
+                }
+                if(clazz.indexOf(CGLIB_AT )> 0 ) {
+                    clazz = clazz.substring(0, clazz.indexOf(CGLIB_AT));    
+                }
+
+
                 Class theClass = null;
 
                 try {

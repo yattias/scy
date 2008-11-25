@@ -2,7 +2,12 @@
 
 <h1>${model.name}</h1>
 
-<t:grid source="groupMembers" value="currentUser" exclude="id, name, enabled">
+<t:grid source="groupMembers" row="currentUser" exclude="id, name, enabled">
+    <t:parameter name="usernamecell">
+        <t:if test="currentUser">
+            <a t:type="links/SelectObjectLink" model="currentUser">${currentUser.userName}</a>
+        </t:if>
+    </t:parameter>
 
 </t:grid>
 
