@@ -2,13 +2,8 @@
 <head>
     <title>SCY</title>
     <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
-  <!--script type="text/javascript" src="${asset:context:scripts/prototype.js}"></script-->
-  <!--script type="text/javascript" src="${asset:context:scripts/applicationController.js}"></script-->
-
 </head>
 
-
-<!--body onload="ApplicationController.init();"-->
 <div id="scyPage">
     <div id="scyPageInnerContainer">
         <div id="scyTopContainer">
@@ -36,11 +31,6 @@
                              <img src="${scyUserAdminIcon}"/>
                          </t:pagelink>
                      </t:if>
-                     <!--t:pagelink page="projectmanagement/ProjectManagement" title="Project management">
-                         <img src="${scyProjectManagementIcon}"/>
-                     </t:pagelink-->
-
-
                     <t:loop source="actions" value="baseAction">
                         <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">  ${baseAction.name}</t:actionlink> 
                     </t:loop>

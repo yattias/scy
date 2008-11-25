@@ -27,6 +27,11 @@
             </t:loop>
         </table>
     </t:if>
+
+
+<div t:type="t5components/GPlotter" city="Bergen" t:id="plotter" style="width: 500px; height: 300px"/>
+
+
 </div>
 </body>
 </html>

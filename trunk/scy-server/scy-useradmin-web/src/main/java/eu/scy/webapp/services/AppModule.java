@@ -3,10 +3,8 @@ package eu.scy.webapp.services;
 import java.io.IOException;
 
 import org.apache.tapestry5.*;
-import org.apache.tapestry5.services.RequestFilter;
-import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.Response;
-import org.apache.tapestry5.services.RequestHandler;
+import org.apache.tapestry5.internal.services.ContextResource;
+import org.apache.tapestry5.services.*;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
@@ -15,6 +13,7 @@ import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry.contrib.utils.ProxyConfig;
 
 import org.slf4j.Logger;
 import eu.scy.framework.*;
@@ -67,6 +66,7 @@ public class AppModule {
         coercer.setUserDAOHibernate(userDAOHibernate);
         return coercer;
     }
+
 
 
     public static void contributeApplicationDefaults(
