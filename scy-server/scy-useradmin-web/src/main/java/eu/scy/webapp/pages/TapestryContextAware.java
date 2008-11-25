@@ -14,6 +14,8 @@ import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -22,6 +24,8 @@ import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
  * To change this template use File | Settings | File Templates.
  */
 public class TapestryContextAware {
+
+    protected static Logger log = Logger.getLogger("BASE.class");
 
      @ApplicationState(create=false)
     private Project currentProject;
@@ -73,9 +77,9 @@ public class TapestryContextAware {
     @BeginRender
     void checkForCurrentProject() {
         if(getCurrentProject() == null) {
-            System.out.println("*************************************** CURRENT PROJECT NOT SET");
+            log.info("*************************************** CURRENT PROJECT NOT SET");
         } else {
-            System.out.println("CURERENT IS : " + getCurrentProject());
+            log.info("CURERENT IS : " + getCurrentProject());
         }
     }
 

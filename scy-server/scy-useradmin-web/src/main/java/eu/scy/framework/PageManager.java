@@ -1,5 +1,8 @@
 package eu.scy.framework;
 
+import eu.scy.webapp.pages.ScyModelPage;
+import eu.scy.webapp.pages.GroupOverview;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -12,4 +15,5 @@ public interface PageManager {
 
     public String getPageIdForObject(Object object);
 
+    GroupOverview getGroupOverview();
 }
