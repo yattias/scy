@@ -2,6 +2,8 @@ package eu.scy.listeners;
 
 import eu.scy.core.model.Project;
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.UserImpl;
+import eu.scy.core.model.impl.ProjectImpl;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.framework.Constants;
@@ -136,7 +138,8 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
     } */
 
     private static void setupDefaultProject(XmlWebApplicationContext ctx) {
-        Project defaultProject = (Project) ctx.getBean("defaultProject");
+        Project defaultProject = new ProjectImpl();
+        defaultProject.setName("SCY-WARS");
         ProjectDAOHibernate projectDAO = (ProjectDAOHibernate) ctx.getBean("projectDAO");
         if (defaultProject != null) {
             log.info("Checking for default projejct... if it does not exist - I will most certainly create it!");
@@ -147,13 +150,26 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
 
         }
 
-        User defaultGlobalAdmin = (User) ctx.getBean("defaultGlobalAdmin");
-        User lukeSkywalker = (User) ctx.getBean("lukeSkywalker");
+        UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
+        User defaultGlobalAdmin = new UserImpl();
+        defaultGlobalAdmin.setUserName("scy");
+        defaultGlobalAdmin.setPassword("scy");
+        defaultGlobalAdmin.setFirstName("Darth");
+        defaultGlobalAdmin.setLastName("Vader");
+
+        User lukeSkywalkekr = new UserImpl();
+        lukeSkywalkekr.setUserName("luke");
+        lukeSkywalkekr.setPassword("luke");
+        lukeSkywalkekr.setFirstName("Luke");
+        lukeSkywalkekr.setLastName("SCYWalker");
+
+        //User defaultGlobalAdmin = (User) ctx.getBean("defaultGlobalAdmin");
+        //User lukeSkywalker = (User) ctx.getBean("lukeSkywalker");
 
 
         if (defaultGlobalAdmin != null) {
             setupUser(defaultGlobalAdmin, ctx);
-            setupUser(lukeSkywalker, ctx);
+            setupUser(lukeSkywalkekr, ctx);
 
         }
 
