@@ -1,4 +1,4 @@
-package eu.scy.agents.roolo;
+package eu.scy.agents.roolo.impl;
 
 import java.util.HashMap;
 import java.util.Map;
