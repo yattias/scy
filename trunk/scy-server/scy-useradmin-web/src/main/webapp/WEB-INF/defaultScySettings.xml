@@ -36,7 +36,7 @@
         <property name="userName" value="luke"/>
         <property name="password" value="luke"/>
         <property name="firstName" value="Luke"/>
-        <property name="lastName" value="Skywalker"/>
+        <property name="lastName" value="SCYwalker"/>
         <property name="userRoles">
             <list>
                 <ref bean="lukeRoleConnection"/>
