@@ -1,10 +1,17 @@
 package eu.scy.framework;
 
 import eu.scy.core.model.Group;
+import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.GroupImpl;
+import eu.scy.webapp.pages.GroupOverview;
+import eu.scy.webapp.pages.ScyModelPage;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.internal.services.PagePool;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +24,18 @@ public class PageManagerImpl implements PageManager {
 
     private Map map = new HashMap();
 
+    @InjectPage
+    private GroupOverview groupOverview;
+
+
+
+    public GroupOverview getGroupOverview() {
+        return groupOverview;
+    }
+
+    public void setGroupOverview(GroupOverview groupOverview) {
+        this.groupOverview = groupOverview;
+    }
 
     public PageManagerImpl() {
         map.put(Group.class, "GroupOverview");
@@ -27,9 +46,6 @@ public class PageManagerImpl implements PageManager {
     }
 
     public String getPageIdForObject(Object object) {
-        String pageId = (String) map.get(object.getClass());
-        if(pageId == null) throw new NullPointerException("No registered page for class " + object.getClass());
-        return pageId;
-
+        return (String) map.get(object.getClass());
     }
 }
