@@ -1,7 +1,5 @@
 package eu.scy.tools.webbrowsingtool.client;
 
-import java.util.Vector;
-
 import com.google.gwt.user.client.Window;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Margins;
@@ -16,15 +14,13 @@ import com.gwtext.client.widgets.layout.FitLayout;
 
 public class HighlightTab extends Panel {
     
-    Vector<Note> notes;
-    
     private Panel center;
     
     private NotesPanel notesPanel;
     
-    public HighlightTab(Vector<Note> notes){
+    public HighlightTab(NotesPanel notesPanel){
         super("Highlight");
-        this.notes = notes;
+        this.notesPanel = notesPanel;
         
         setLayout(new FitLayout());
         Panel panel = new Panel();
@@ -64,18 +60,11 @@ public class HighlightTab extends Panel {
     private Panel buildCenterPanel() {
         Panel center = new Panel();
         center.setLayout(new FitLayout());
-        notesPanel = new NotesPanel(notes);
         center.add(notesPanel);
         return center;
     }
 
     
-    /**
-     * @return the notes
-     */
-    public Vector<Note> getNotes() {
-        return notes;
-    }
 
     
     /**
@@ -92,7 +81,8 @@ public class HighlightTab extends Panel {
     public void setNotesPanel(NotesPanel notesPanel) {
         this.notesPanel = notesPanel;
     }
-
+    
+    
     
     
 }
