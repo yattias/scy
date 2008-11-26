@@ -41,23 +41,21 @@ public class WebbrowsingToolIFrame extends Panel implements EntryPoint {
 
         this.add(wrapper);
 
+        @SuppressWarnings("unused")
         Viewport view = new Viewport(this);
 
     }
 
     private Panel buildMainPanel() {
-        Panel wrapper = new Panel();
-        wrapper.setLayout(new FitLayout());
         TabPanel tabPanel = new TabPanel();
-        tabPanel.setHeight(500);
+        tabPanel.setHeight(570);
         tabPanel.setMonitorResize(true);
-        wrapper.add(tabPanel);
         BrowseTab browseTab = new BrowseTab();
         tabPanel.add(browseTab);
         HighlightTab highlightTab = new HighlightTab(notes);
         browseTab.setHighlightTab(highlightTab);
         tabPanel.add(highlightTab);
-        return wrapper;
+        return tabPanel;
     }
 
 
