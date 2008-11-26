@@ -16,7 +16,12 @@ public class NotesPanel extends Panel {
     
     public NotesPanel(Vector<Note> notes){
         super();
-        
+        if (notes == null){
+            notes = new Vector<Note>();
+        }
+        if (labels == null){
+            labels = new Vector<Label>();
+        }
         setLayout(new VerticalLayout(20));
         for (Note note : notes) {
             addNote(note);
