@@ -1,17 +1,14 @@
 package eu.scy.colemo.client.actions;
 
-import eu.scy.colemo.client.*;
-import eu.scy.colemo.client.actions.DoubleSelectAction;
-import eu.scy.colemo.client.actions.BaseAction;
-import eu.scy.colemo.server.uml.UmlClass;
-import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.server.uml.UmlAssociation;
-import eu.scy.colemo.contributions.AddLink;
+import eu.scy.colemo.client.ApplicationController;
+import eu.scy.colemo.client.GraphicsAssociation;
+import eu.scy.colemo.client.GraphicsClass;
+import eu.scy.colemo.client.SelectionController;
 import eu.scy.colemo.contributions.AssociateClass;
+import eu.scy.colemo.server.uml.UmlAssociation;
+import eu.scy.colemo.server.uml.UmlClass;
 
 import java.awt.event.ActionEvent;
-
-import com.sun.deploy.association.Association;
 
 /**
  * Created by IntelliJ IDEA.
