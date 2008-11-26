@@ -51,7 +51,7 @@ public class GraphicsLink {
 			g2d.setStroke(new BasicStroke());
 		}
 				
-		drawArrow(g2d,(int)fromConnectioPoint.getX(),(int)fromConnectioPoint.getY(),(int)toConnectionPoint.getX(),(int)toConnectionPoint.getY(),10,15);
+		drawArrow(g2d,(int)fromConnectioPoint.getX(),(int)fromConnectioPoint.getY(),(int)toConnectionPoint.getX(),(int)toConnectionPoint.getY(),10,11);
 		
 	}
 	

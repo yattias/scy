@@ -36,7 +36,7 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
-public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener {
+public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener, SelectionControllerListener {
     private Logger log = Logger.getLogger("GraphicsClass.class");
     private UmlClass umlClass;
     public JLabel nameLabel;
@@ -53,6 +53,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     private PopUpMenu popMenu;
 
     private BufferedImage shadow = null;
+    private boolean isSelected = false;
 
 
     public GraphicsClass(UmlClass umlClass, GraphicsDiagram gDiagram) {
@@ -210,17 +211,12 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
 
     public void setSelected(boolean selected) {
-        /* if (selected) {
-
-            this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.LIGHT_GRAY, Color.DARK_GRAY));
-        } else {
-            this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
-        }
-        */
+        this.isSelected = selected;
     }
 
     public boolean isSelected() {
-        return getGraphicsDiagram().getMainFrame().getSelected() == this;
+        return this.isSelected;
+        //return getGraphicsDiagram().getMainFrame().getSelected() == this;
     }
 
     
@@ -283,6 +279,8 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         if(arg0.isPopupTrigger()) {
             log.info("POPUP TRIGGE!!");
             PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, arg0.getX(), arg0.getY(), arg0);
+        } else {
+            SelectionController.getDefaultInstance().setSelected(umlClass);
         }
     }
 
@@ -342,4 +340,16 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         this.getParent().repaint();
     }
 
+    public void selectionPerformed(Object selected) {
+        if(selected.equals(this) || selected.equals(umlClass)) {
+            setSelected(true);
+        } else {
+            setSelected(false);
+        }
+
+        this.invalidate();
+        this.validate();
+        this.repaint();
+        
+    }
 }

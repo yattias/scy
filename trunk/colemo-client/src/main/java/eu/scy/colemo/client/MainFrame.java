@@ -17,13 +17,6 @@ import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Vector;
 import javax.swing.*;
@@ -39,7 +32,6 @@ import eu.scy.colemo.network.LogOn;
 import eu.scy.colemo.test.XMLFileViewer;
 import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
-import eu.scy.colemo.client.actions.AddConnectionAction;
 
 /**
  * @author Øystein
@@ -47,7 +39,7 @@ import eu.scy.colemo.client.actions.AddConnectionAction;
 public class MainFrame extends JFrame implements ActionListener, WindowListener, TextListener, MouseListener {
     private JToolBar toolbar;
     private JButton addClass, save, load, connect, addAbstract, addInterface, disconnect, addConcept;
-    private JToggleButton addConnection;
+    private JToggleButton addDirectedConnection, addConnection;
     private GraphicsDiagram gDiagram;
     private JTextArea textArea;
     private Selectable selected;
@@ -218,8 +210,11 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         connect.setToolTipText("Connects to the server");
         disconnect.setToolTipText("Disconnect & quit application");
 
+        addDirectedConnection = new JToggleButton("Add Directed Connection");
+        addDirectedConnection.setAction(new eu.scy.colemo.client.actions.AddDirectedConnectionAction());
+
         addConnection = new JToggleButton("Add Connection");
-        addConnection.setAction(new AddConnectionAction());
+        addConnection.setAction(new eu.scy.colemo.client.actions.AddNonDirectedConnectionAction());
 
         //Legger actionListener til på knappene
         addClass.addActionListener(this);
@@ -246,6 +241,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         toolbar.add(save);
         toolbar.add(load);
         toolbar.add(connect);
+        toolbar.add(addDirectedConnection);
         toolbar.add(addConnection);
 
         scrollPane = new JScrollPane(gDiagram);
@@ -490,6 +486,9 @@ southPanel.setPreferredSize(new Dimension(1000,300));
     }
 
     public void setSelected(Selectable selected) {
+        /*if(selected instanceof GraphicsClass) {
+
+        }
         SelectionController.getDefaultInstance().setSelected(selected);
         if (this.selected != null) {
             this.selected.setSelected(false);
@@ -497,6 +496,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         this.selected = selected;
         this.selected.setSelected(true);
         this.revalidate();
+        */
     }
 
     public Selectable getSelected() {
