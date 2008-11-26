@@ -1,5 +1,7 @@
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.network.Client;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -37,5 +39,9 @@ public class ApplicationController {
 
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
+    }
+
+    public Client getClient() {
+        return getMainFrame().getClient();
     }
 }

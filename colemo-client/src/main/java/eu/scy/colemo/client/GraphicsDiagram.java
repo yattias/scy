@@ -54,11 +54,12 @@ public class GraphicsDiagram extends JPanel implements MouseListener,ActionListe
 	public void addClass(UmlClass umlClass) {
 		GraphicsClass gClass = new GraphicsClass(umlClass,this);
 	    components.put(gClass.getUmlClass().getName(),gClass);
-	    this.add(gClass);
+        this.add(gClass);
 	    updatePopUpMenus();
 	    gClass.invalidate();
 	    gClass.validate();
 	    gClass.repaint();
+        SelectionController.getDefaultInstance().addSelectionControllerListnenr(gClass);
 	}
 	public void addConceptMapNodeData(ConceptMapNodeData conceptMapNodeData) {
 		GraphicsConcept gClass = new GraphicsConcept(conceptMapNodeData,this);

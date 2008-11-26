@@ -1,6 +1,16 @@
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.contributions.AddClass;
+import eu.scy.colemo.contributions.AddLink;
+import eu.scy.colemo.client.actions.DoubleSelectAction;
+
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.LinkedList;
+
+import eu.scy.colemo.client.actions.DoubleSelectAction;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,9 +30,13 @@ public class SelectionController {
 
     private Logger log = Logger.getLogger("SelectionController.class");
 
-    private Object currentPrimarySelection;
-    private Object currentSecondarySelection;
+    private Object currentPrimarySelection = null;
+    private Object currentSecondarySelection = null;
+    private DoubleSelectAction doubleSelectAction;
 
+    private List<SelectionControllerListener> listeners = new LinkedList<SelectionControllerListener>();
+
+    
 
     private SelectionController() {
 
@@ -35,10 +49,12 @@ public class SelectionController {
     public void setSelectModus(String selectModus) {
         log.info("Setting selection modus: " + selectModus);
         this.selectModus = selectModus;
+        setCurrentPrimarySelection(null);
+        setCurrentSecondarySelection(null);
     }
 
     public static SelectionController getDefaultInstance() {
-        if(selectionController == null) {
+        if (selectionController == null) {
             selectionController = new SelectionController();
         }
 
@@ -47,12 +63,30 @@ public class SelectionController {
     }
 
     public void setSelected(Object selected) {
-        if(getSelectModus().equals(SINGLE_SELECT_MODUS)) {
+        if (getSelectModus().equals(SINGLE_SELECT_MODUS)) {
             setCurrentPrimarySelection(selected);
             setCurrentSecondarySelection(null);
         } else {
             setCurrentSecondarySelection(getCurrentPrimarySelection());
             setCurrentPrimarySelection(selected);
+        }
+
+        if (getSelectModus().equals(DOUBLE_SELECT_MODUS)) {
+            if (getCurrentPrimarySelection() != null && getCurrentSecondarySelection() != null) {
+                if(getDoubleSelectAction() != null) {
+                    getDoubleSelectAction().performDoubleSelectAction(null);
+                }
+
+            }
+        }
+        fireSelectEvent(selected);
+
+    }
+
+    private void fireSelectEvent(Object selected) {
+        for (int i = 0; i < listeners.size(); i++) {
+            SelectionControllerListener selectionControllerListener = listeners.get(i);
+            selectionControllerListener.selectionPerformed(selected);
         }
     }
 
@@ -72,5 +106,21 @@ public class SelectionController {
     private void setCurrentSecondarySelection(Object currentSecondarySelection) {
         log.info("SecondarySelection: " + currentSecondarySelection);
         this.currentSecondarySelection = currentSecondarySelection;
+    }
+
+    public void setCurrentDoubleSelectAction(DoubleSelectAction doubleSelectAction) {
+        this.doubleSelectAction=doubleSelectAction;
+    }
+
+    public DoubleSelectAction getDoubleSelectAction() {
+        return doubleSelectAction;
+    }
+
+    public void addSelectionControllerListnenr(SelectionControllerListener selectionControllerListener) {
+        listeners.add(selectionControllerListener);
+    }
+
+    public void removeSelectionControllerListener(SelectionControllerListener selectionControllerListener) {
+        listeners.remove(selectionControllerListener);
     }
 }
