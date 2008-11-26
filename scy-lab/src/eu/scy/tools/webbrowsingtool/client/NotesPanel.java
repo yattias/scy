@@ -37,7 +37,7 @@ public class NotesPanel extends Panel {
         label.setText(note.getText());
         ToolTip tip = new ToolTip();
         tip.setTitle(note.getTitle());
-        tip.setHtml(note.getAnnotation());
+        tip.setHtml(note.getAnnotation()+"\t"+note.getUrl());
         tip.setDismissDelay(15000);
         tip.setWidth(300);
         tip.setTrackMouse(true);
@@ -46,8 +46,8 @@ public class NotesPanel extends Panel {
         labels.add(label);
     }
     
-    public void addNote(String title, String text, String annotation){
-        Note note = new Note(title,text,annotation);
+    public void addNote(String title, String text, String annotation,String url){
+        Note note = new Note(title,text,annotation,url);
         addNote(note);
     }
 

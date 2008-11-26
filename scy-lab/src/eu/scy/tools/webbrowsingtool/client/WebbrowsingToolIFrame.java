@@ -13,7 +13,7 @@ import com.gwtext.client.widgets.layout.FitLayout;
 
 public class WebbrowsingToolIFrame extends Panel implements EntryPoint {
 
-    private Vector<Note> notes;
+    private NotesPanel notesPanel;
 
     private Panel header;
 
@@ -21,9 +21,9 @@ public class WebbrowsingToolIFrame extends Panel implements EntryPoint {
 
     public WebbrowsingToolIFrame() {
         // Testing
-        notes = new Vector<Note>();
-        notes.add(new Note("Test1", "Testtext blabla bla", "Testannotation bla"));
-        notes.add(new Note("Test2", "Testtext blabla bla bla 2", "Testannotation blabla2"));
+        notesPanel = new NotesPanel(new Vector<Note>());
+        notesPanel.addNote(new Note("Test1", "Testtext blabla bla", "Testannotation bla"));
+        notesPanel.addNote(new Note("Test2", "Testtext blabla bla bla 2", "Testannotation blabla2"));
 
         buildGUI();
     }
@@ -52,7 +52,7 @@ public class WebbrowsingToolIFrame extends Panel implements EntryPoint {
         tabPanel.setMonitorResize(true);
         BrowseTab browseTab = new BrowseTab();
         tabPanel.add(browseTab);
-        HighlightTab highlightTab = new HighlightTab(notes);
+        HighlightTab highlightTab = new HighlightTab(notesPanel);
         browseTab.setHighlightTab(highlightTab);
         tabPanel.add(highlightTab);
         return tabPanel;

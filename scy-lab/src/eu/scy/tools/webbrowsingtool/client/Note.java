@@ -11,15 +11,20 @@ public class Note {
     private String url;
     private Date date;
     
-    public Note(String header, String text, String annotation) {
+    public Note(String header, String text, String annotation,String url) {
         this.title=header;
         this.text=text;
         this.annotation=annotation;
+        this.url=url;
         this.date=new Date();
     }
     
+    public Note(String header, String text, String annotation) {
+        this(header,text,annotation,"");
+    }
+    
     public Note(String header, String text) {
-        this(header,text,"");
+        this(header,text,"","");
     }
     
     public Note(String text){
