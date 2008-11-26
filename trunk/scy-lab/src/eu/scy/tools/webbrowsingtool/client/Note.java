@@ -1,17 +1,21 @@
 package eu.scy.tools.webbrowsingtool.client;
 
+import java.util.Date;
+
 
 public class Note {
     
     private String title;
     private String text;
     private String annotation;
+    private String url;
+    private Date date;
     
     public Note(String header, String text, String annotation) {
         this.title=header;
         this.text=text;
         this.annotation=annotation;
- 
+        this.date=new Date();
     }
     
     public Note(String header, String text) {
@@ -76,6 +80,39 @@ public class Note {
         String str = "Title: \t\t"+title+"\n" +"Text: \t\t"+text+"\n"+"Annotation: \t"+annotation;
         return str;
     }
+
+    
+    /**
+     * @return the date
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    
+    /**
+     * @param date the date to set
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
     
 
+    
 }
