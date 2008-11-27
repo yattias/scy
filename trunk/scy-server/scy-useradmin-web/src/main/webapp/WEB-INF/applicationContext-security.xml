@@ -8,6 +8,7 @@
         <security:intercept-url pattern="/**" access="ROLE_USER"/>
         <security:intercept-url pattern="/services/**" filters="none"/>
         <security:intercept-url pattern="/remoting/**" filters="none"/>
+        <security:intercept-url pattern="/applets/**" filters="none"/>
     </security:http>
 
     <security:authentication-provider user-service-ref="jdbcUserService">

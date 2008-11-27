@@ -5,7 +5,7 @@
 
 <div>
 
-   <!--div t:type="colemo/Colemo"/-->
+   <div t:type="colemo/Colemo"/>
 
     <t:if test="model">
         <t:grid source="groups" row="group" exclude="id">
