@@ -12,11 +12,12 @@ import eu.scy.webapp.pages.TapestryContextAware;
 public class Colemo extends TapestryContextAware {
 
     public String getUsername() {
-        return getCurrentUser().getUserName();
+        return "henrik@enovate.no";//getCurrentUser().getUserName();
     }
 
     public String getPassword() {
-        return getCurrentUser().getPassword();
+        return "heehaa";
+        //return getCurrentUser().getPassword();
     }
 
     
