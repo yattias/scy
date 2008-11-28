@@ -6,13 +6,19 @@
 
 	<!-- Inherit the GWT Ext stuff. -->
 	<inherits name="com.gwtext.GwtExt" />
-
+	<!-- Add Stylesheet and Scripts needed for Ext.  -->  
+  	<stylesheet src="js/ext/resources/css/ext-all.css" />
+	<script src="js/ext/adapter/ext/ext-base.js" />
+	<script src="js/ext/ext-all.js" />
+	
 	<!-- Inherit the GWT Ext User Extensions stuff. -->
 	<inherits name="com.gwtextux.GwtExtUx" />
 
 	<!-- Inherit the Gears API. -->
 	<inherits name='com.google.gwt.gears.Gears' />
 	<inherits name='com.google.gwt.gears.Offline' />
+	<script src="js/gears_init.js" />
+		
 	<!-- Inherit global SCY stuff -->
 	<inherits name="eu.scy.global.ScyGlobal" />
 	
@@ -24,7 +30,7 @@
 	
 	<!-- Specify the app entry point class. -->
 	<entry-point class="eu.scy.lab.client.SCYLab" />
-
+	  	
 	<!-- Specifying the available locales -->
 	<extend-property name="locale" values="en" />
 	<extend-property name="locale" values="de" />
