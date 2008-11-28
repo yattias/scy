@@ -24,12 +24,8 @@ public class Connectivity {
     }
     
     public static native boolean checkForGears() /*-{
-        //FIXME: Normally should also check for google.gears, but I have no idea on how to get that object from here
-        if ($wnd.google) {
-            return true;
-        } else {
-            return false;
-        }
+        var available = $wnd.google && $wnd.google.gears;
+        return available != null;
     }-*/;
 
     public static boolean canServeLocally() {
