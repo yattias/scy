@@ -1,20 +1,15 @@
 <html>
 	<head>
 	
-		<!--                                           -->
-		<!-- Any title is fine                         -->
-		<!--                                           -->
 		<title>SCYLab</title>
 
-		<!--                                           -->
-		<!-- Use normal html, such as style            -->
-		<!--                                           -->
 		<style>
 			body,td,a,div,.p{font-family:arial,sans-serif}
 			div,td{color:#000000}
 			a:link,.w,.w a:link{color:#0000cc}
 			a:visited{color:#551a8b}
 			a:active{color:#ff0000}
+			
 			#loading {
             position: absolute;
             left: 45%;
@@ -24,6 +19,7 @@
             height: auto;
             border: 1px solid #ccc;
 	        }
+	        
 	        #loading a {
 	            color: #225588;
 	        }
@@ -40,77 +36,27 @@
 	        #loading-msg {
 	            font: normal 10px arial, tahoma, sans-serif;
 	        }
-			
 		</style>
-
-		<!--                                           -->
-		<!-- This script loads your compiled module.   -->
-		<!-- If you add any GWT meta tags, they must   -->
-		<!-- be added before this line.                -->
-		<!--                                           -->
-		
-		<link rel="stylesheet" href="js/ext/resources/css/ext-all.css"/>
 		<link rel="stylesheet" href="res/scyIcon.css"/>
-		<link id="theme" rel="stylesheet" type="text/css" href="js/ext/resources/css/xtheme-blue.css"/>
-		
-		<!-- Gridsearch ressources 
-		<link id="theme" rel="stylesheet" type="text/css" href="js/gridsearch/css/gridsearch.css"/>
-		<link rel="stylesheet" type="text/css" href="js/gridsearch/css/icons.css">
-		<link rel="stylesheet" type="text/css" href="js/gridsearch/css/Ext.ux.grid.RowActions.css">
-		<link rel="stylesheet" type="text/css" href="js/gridsearch/css/empty.css" id="theme">
-		<link rel="stylesheet" type="text/css" href="js/gridsearch/css/webpage.css">
-		<link rel="stylesheet" type="text/css" href="js/gridsearch/css/gridsearch.css">-->
-		
-		
 	</head>
 
-	<!--                                           -->
-	<!-- The body can have arbitrary html, or      -->
-	<!-- you can leave the body empty if you want  -->
-	<!-- to create a completely dynamic ui         -->
-	<!--                                           -->
 	<body>
 
-
-		<!-- OPTIONAL: include this if you want history support -->
+		<!-- History support -->
 		<iframe src="javascript:''" id="__gwt_historyFrame" style="width:0;height:0;border:0"></iframe>
 		
-		<!--add loading indicator while the app is being loaded-->
+		<!-- Add loading indicator -->
 		<div id="loading">
 		    <div class="loading-indicator">
 		        <img src="js/ext/resources/images/default/shared/large-loading.gif" width="32" height="32"
 		             style="margin-right:8px;float:left;vertical-align:top;"/>SCY-Lab<br/>
-		        <span id="loading-msg">Loading styles and images...</span></div>
+		        <span id="loading-msg">Loading...</span></div>
 		</div>
-		
-		<!--  gridsearch scripts
-		<script type="text/javascript" src="js/gridsearch/js/WebPage.js"></script>
-		<script type="text/javascript" src="js/gridsearch/js/Ext.ux.ThemeCombo.js"></script>
-		<script type="text/javascript" src="js/gridsearch/js/Ext.ux.IconMenu.js"></script>
-		<script type="text/javascript" src="js/gridsearch/js/Ext.ux.Toast.js"></script>
-		<script type="text/javascript" src="js/gridsearch/js/Ext.ux.grid.Search.js"></script>
-		<script type="text/javascript" src="js/gridsearch/js/Ext.ux.grid.RowActions.js"></script>
-		<script type="text/javascript" src="js/gridsearch/gridsearch.js"></script> -->
-		
-		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading Core API...';</script>
-		
-		<!--include the Ext Core API-->
-		<script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
-		
-		<!--include Ext -->
-		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Loading UI Components...';</script>
-		
-		<script type="text/javascript" src="js/ext/ext-all.js"></script>
-		
-		<!--include the application JS-->
-		<script type="text/javascript">document.getElementById('loading-msg').innerHTML = 'Initializing...';</script>
-		
+
+		<!--Include the application -->
    		<script type="text/javascript" language="javascript" src="eu.scy.lab.SCYLab.nocache.js"></script>
    		
-		<!--hide loading message-->
+		<!--Hide loading message -->
 		<script type="text/javascript">Ext.get('loading').fadeOut({remove: true, duration:.25});</script>   		
-   		
-   		<!--  Init Google Gears API -->
-   		<script src="js/gears_init.js"></script>   		
 	</body>
 </html>
