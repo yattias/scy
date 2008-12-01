@@ -16,6 +16,16 @@
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.map.MapToolApp"/>
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.youtube.YouTubeApp"/>
 <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.monitor.Statistics"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/global/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/co2sim/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/lab/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/drawing/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/map/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/webbrowsingtool/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tools/youtube/src/main/java"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.webbrowsingtool.WebBrowsingTool"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.webbrowsingtool.WebbrowsingToolIFrame"/>
+<wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.youtube.YouTubeTool"/>
         <property name="context-root" value="scy-lab"/>
         <property name="java-output-path"/>
     </wb-module>

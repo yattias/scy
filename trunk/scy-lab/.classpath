@@ -1,7 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-dev/1.5.2/gwt-dev-1.5.2-mac.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-servlet/1.5.2/gwt-servlet-1.5.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-user/1.5.2/gwt-user-1.5.2.jar"/>
+	<classpathentry kind="src" output="global/target/classes" path="global/src/main/java"/>
+	<classpathentry kind="src" output="tools/co2sim/target/classes" path="tools/co2sim/src/main/java"/>
+	<classpathentry kind="src" output="lab/target/classes" path="lab/src/main/java"/>
+	<classpathentry kind="src" output="tools/drawing/target/classes" path="tools/drawing/src/main/java"/>
+	<classpathentry kind="src" output="tools/map/target/classes" path="tools/map/src/main/java"/>
+	<classpathentry kind="src" output="tools/webbrowsingtool/target/classes" path="tools/webbrowsingtool/src/main/java"/>
+	<classpathentry kind="src" output="tools/youtube/target/classes" path="tools/youtube/src/main/java"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-sun-1.6.0.10"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
