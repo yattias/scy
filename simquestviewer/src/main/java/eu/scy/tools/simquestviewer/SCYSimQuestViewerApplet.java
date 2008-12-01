@@ -7,7 +7,7 @@ import sqv.SimQuestViewerApplet;
 public class SCYSimQuestViewerApplet extends SimQuestViewerApplet {
 
 	// run it with
-	// <PARAM NAME="file" VALUE="http://pervulgo.hopto.org/sqv/balance.html/balance.sqzx">
+	// <PARAM NAME="file" VALUE="http://pervulgo.hopto.org/sqv/balance.sqzx">
 	//    (or wherever you have put a *.sqzx file)
 	// <PARAM NAME="security" VALUE="false">
 
