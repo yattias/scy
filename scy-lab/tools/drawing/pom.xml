@@ -16,12 +16,12 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwtai-client</artifactId>
-			<version>0.1</version>
+			<version>0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwtai-core</artifactId>
-			<version>0.1</version>
+			<version>0.2</version>
 		</dependency>
 	</dependencies>
 	
