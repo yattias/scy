@@ -7,20 +7,30 @@
 	<version>0.2-SNAPSHOT</version>
 	<name>SCYLab Meta POM - Includes SCYLab and all Tools</name>
 	
-	<pluginRepositories>
-		<pluginRepository>
-			<id>gwt-maven-plugins</id>
-			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<repositories>
-		<repository>
+	    <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
+        
+        <repository>
 			<id>gwt-maven</id>
 			<url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
 		</repository>
 	</repositories>
-
+	
+	<pluginRepositories>
+       <pluginRepository>
+         <id>gwt-maven</id>
+         <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo</url>
+       </pluginRepository>
+    </pluginRepositories> 
+    
 	<properties>
 		<gwtVersion>1.5.2</gwtVersion>
 	</properties>
@@ -65,17 +75,17 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!--  Move those down vs let them all depend on ext and gears -->
+		<!-- TODO: Move those dependencys down vs let them all depend on ext and gears -->
 		<dependency>
 			<groupId>com.gwtext</groupId>
-			<artifactId>gwt-ext</artifactId>
+			<artifactId>gwtext</artifactId>
 			<version>2.0.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gwtextux</groupId>
-			<artifactId>gwt-extux</artifactId>
-			<version>0.3.0</version>
+			<artifactId>gwtextux</artifactId>
+			<version>0.3.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -96,7 +106,7 @@
 
 	<build>
 		<plugins>
-			<!--  tell the compiler to use 1.5 -->
+			<!--  tell the compiler to use 1.6 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -109,7 +119,7 @@
 			<plugin>
 				<groupId>com.totsp.gwt</groupId>
 				<artifactId>maven-googlewebtoolkit2-plugin</artifactId>
-				<version>2.0-beta26</version>
+				<version>2.0-beta24</version>
 				<configuration>
 					<compileTargets>
 						<value>${groupId}.${artifactId}.${name}</value>
