@@ -21,6 +21,7 @@
 		
 	<!--  *** Start SCY Lab Tools *** -->
 	<inherits name="eu.scy.tools.co2sim.CO2Sim" />
+	<inherits name="eu.scy.tools.drawing.DrawingTool" />
 	<inherits name="eu.scy.tools.map.MapTool" />
 	<inherits name="eu.scy.tools.youtube.YouTubeTool" />
 	<!--  *** End Scy Lab Tools *** -->

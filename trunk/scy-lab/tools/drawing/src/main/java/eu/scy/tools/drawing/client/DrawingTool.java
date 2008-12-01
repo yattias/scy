@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DrawingTool extends VerticalPanel {
 
+    public static final String DRAWINGTOOL_ID = "drawing-tool";
+    
     public DrawingTool() {
         Button b = new Button("Create applet");
         b.addClickListener(new ClickListener() {

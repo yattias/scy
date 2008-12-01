@@ -4,9 +4,13 @@ This folder contains the SCYLab including all tools.
 
 == USAGE ==
 
-* Debugging: In the "lab" subfolder use "mvn com.totsp.gwt:maven-googleweit2-plugin:gwt"
+* Debugging: In the "lab" subfolder use "mvn com.totsp.gwt:maven-googlewebtoolkit2-plugin:gwt"
 * Packaging: Running "mvn package" will produce lab/target/scy-lab.war
 * Local Deployment: After running "mvn install tomcat:run-war" you can open http://localhost:8080/scy-lab
+
+IMPORTANT: 
+	Because of a bug in a used library (gwt-ai) you have tu run maven with java 1.5  !
+	Otherwise you will get a StackOverflowError, see http://code.google.com/p/gwtai/issues/detail?id=4
 
 == TODO ==
 
