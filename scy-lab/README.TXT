@@ -4,35 +4,9 @@ This folder contains the SCYLab including all tools.
 
 == USAGE ==
 
-Running "mvn package" will produce lab/target/scy-lab.war
-
-== DEVELOPMENT ==
-
-* Adding a new Tool:
-
-* Compiling for gwt:
-
-	<build>
-		<plugins>
-			<!--  configure the GWT-Maven plugin -->
-			<plugin>
-				<groupId>com.totsp.gwt</groupId>
-				<artifactId>maven-googlewebtoolkit2-plugin
-				</artifactId>
-				<version>2.0-beta26</version>
-				<executions>
-					<execution>
-						<goals>
-							<!-- <goal>mergewebxml</goal> -->
-							<!-- <goal>i18n</goal>-->
-							<goal>compile</goal>
-							<!-- <goal>test</goal> -->
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+* Debugging: In the "lab" subfolder use "mvn com.totsp.gwt:maven-googleweit2-plugin:gwt"
+* Packaging: Running "mvn package" will produce lab/target/scy-lab.war
+* Local Deployment: After running "mvn install tomcat:run-war" you can open http://localhost:8080/scy-lab
 
 == TODO ==
 
@@ -44,6 +18,8 @@ Running "mvn package" will produce lab/target/scy-lab.war
 
 * Reduce gwt-ext?
 
+* KNOWN BUG: Naming prefix conflict between used gwt-maven plugin and another Codehaus plugin.
+	See http://code.google.com/p/gwt-maven/issues/detail?id=107
 * KNOWN BUG: The maven gwt plugin complains about modules without entry points.
 	May be ignored in this set up. See http://code.google.com/p/gwt-maven/issues/detail?id=28 
 * KNOWN BUG: ${settings.localRespository} does not get expanded.

@@ -15,12 +15,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-ai-client</artifactId>
+			<artifactId>gwtai-client</artifactId>
 			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-ai-core</artifactId>
+			<artifactId>gwtai-core</artifactId>
 			<version>0.1</version>
 		</dependency>
 	</dependencies>
