@@ -18,8 +18,8 @@ IMPORTANT:
 * Include the monitor component
 * Inherit from SCY super pom
 * Add resource filtering to get the version number in SCYLab
-
-* Reduce gwt-ext?
+* Split tools into server and client parts?
+	* Server side dependency should be "runtime" or "compile", while client side is "provided" -> Only classed needed for Servlets end up in the war 
 
 * KNOWN BUG: Naming prefix conflict between used gwt-maven plugin and another Codehaus plugin.
 	See http://code.google.com/p/gwt-maven/issues/detail?id=107
