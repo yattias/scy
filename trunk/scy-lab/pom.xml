@@ -39,8 +39,9 @@
 		<module>global</module>
 		<module>lab</module>
 		<module>tools/co2sim</module>
-		<module>tools/drawing</module>
+		<!-- <module>tools/drawing</module> -->
 		<module>tools/map</module>
+		<!-- <module>tools/simquestviewer</module> -->
 		<module>tools/webbrowsingtool</module>
 		<module>tools/youtube</module>
 	</modules>
@@ -106,13 +107,13 @@
 
 	<build>
 		<plugins>
-			<!--  tell the compiler to use 1.6 -->
+			<!--  tell the compiler to use 1.5 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 			<!--  configure the GWT-Maven plugin -->
