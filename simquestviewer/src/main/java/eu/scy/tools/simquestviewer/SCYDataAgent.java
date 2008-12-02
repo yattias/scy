@@ -90,4 +90,12 @@ public final class SCYDataAgent extends DataAgent
 		return false;
 	}
 
+	public void unregister() {
+		if (m_dataServer != null)
+		{
+			m_dataServer.unregister(this);
+		}
+		
+	}
+
 }
