@@ -17,7 +17,7 @@ import eu.scy.lab.client.connectivity.ConnectiviySwitcher;
 import eu.scy.lab.client.desktop.buddies.Buddies;
 import eu.scy.lab.client.desktop.north.NorthPanel;
 import eu.scy.lab.client.desktop.tasks.Tasks;
-import eu.scy.lab.client.desktop.tools.ToolsTreeNavigation;
+import eu.scy.lab.client.desktop.tools.ToolsPanel;
 import eu.scy.lab.client.desktop.workspace.TabbedWorkspace;
 import eu.scy.lab.client.desktop.workspace.elobrowser.EloBrowser;
 import eu.scy.lab.client.mission.Mission;
@@ -99,7 +99,7 @@ public class Desktop extends Panel {
         setMonitorResize(true);
 
         // Adding the tools, buddies, etc to navigation
-        ToolsTreeNavigation tools = new ToolsTreeNavigation(this);
+        ToolsPanel tools = new ToolsPanel(this);
         Buddies buddies = new Buddies();
         Tasks tasks = new Tasks();
 
@@ -117,7 +117,7 @@ public class Desktop extends Panel {
         panelTools.setIconCls("settings-icon");
         navigationPanel.add(panelTools);
         panelTools.setAutoScroll(true);
-        panelTools.add(tools.getPanel(), new RowLayoutData());
+        panelTools.add(tools, new RowLayoutData());
 
         final Panel panelBuddies = new Panel("Buddies", "");
         panelBuddies.setIconCls("folder-icon");
