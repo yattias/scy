@@ -43,8 +43,8 @@ import utils.ResourceManager;
 
 /**
  * This class is very similar to {@link sqv.SimQuestViewer} (which is
- * unfortunately final). It adds the {@link sqv.scy.DataCollector} panel to the
- * user interface.
+ * unfortunately final). It adds the {@link eu.scy.tools.simquestviewer.DataCollector}
+ * panel to the user interface.
  * 
  * @author P.M. Visser, Lars Bollen
  * 
@@ -66,8 +66,7 @@ public final class SCYSimQuestViewer implements Runnable, ISimQuestViewer {
     double m_startmem;
     
     // Logging stuff
-    public static Logger logger = Logger.getLogger(SimQuestViewer.class
-            .getName());
+    public static Logger logger = Logger.getLogger(SimQuestViewer.class.getName());
     // private static FileHandler logFile = new FileHandler("sqv.log");
     
     public Application g_application;
@@ -458,7 +457,7 @@ public final class SCYSimQuestViewer implements Runnable, ISimQuestViewer {
     }
     
     /**
-     * Returns the SimQuestViewer´s application
+     * Returns the SimQuestViewerï¿½s application
      * 
      * @param
      * @return Application
@@ -468,7 +467,7 @@ public final class SCYSimQuestViewer implements Runnable, ISimQuestViewer {
     }
     
     /**
-     * Returns the SimQuestViewer´s dataserver
+     * Returns the SimQuestViewerï¿½s dataserver
      * 
      * @param
      * @return DataServer
