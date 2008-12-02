@@ -1,0 +1,18 @@
+#summary HowTo set up a JMS/ActiveMQ Server
+
+= Requirements =
+
+ - [http://activemq.apache.org/download.html ActiveMQ 5.x] (version 4.x should work also work)
+
+
+= Steps to get the server running =
+
+1. extract ActiveMQ<br />
+2. run install_dir/bin/activemq<br />
+3. check http://localhost:8161/admin to see if the admin console is running
+
+The ActiveMQ default port is 61616, and it also allows STOMP connections on port 61613.<br />
+The default location for connections is tcp://localhost:61616.<br />
+You can try this with the 'action-logging' and 'notifications-imp' projects.<br />
+<br />
+A detailed guide HowTo set up ActiveMQ can be found at http://activemq.apache.org/getting-started.html
