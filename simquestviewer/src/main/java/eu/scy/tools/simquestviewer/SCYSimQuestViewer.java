@@ -216,7 +216,7 @@ public final class SCYSimQuestViewer implements Runnable, ISimQuestViewer {
         // Set the interface into the main frame
         // m_mainframe.setContentPane( g_interface.m_panel );
         Container pane = m_mainframe.getContentPane();
-        pane.add(g_interface.m_panel, BorderLayout.CENTER);
+        pane.add(g_interface.getInterfacePanel(), BorderLayout.CENTER);
         
         TopicBrowser topicBrowser = new TopicBrowser(this);
         pane.add(topicBrowser, BorderLayout.EAST);
@@ -242,14 +242,14 @@ public final class SCYSimQuestViewer implements Runnable, ISimQuestViewer {
     public void setInterface(Element elInterface) {
         if (g_interface != null) {
             Container pane = m_mainframe.getContentPane();
-            pane.remove(g_interface.m_panel);
+            pane.remove(g_interface.getInterfacePanel());
             g_interface.release();
             g_interface = null;
             
             //dummy variables to get things compiled
             //g_interface = new Interface(elInterface, g_dataServer);
             g_interface = new Interface(elInterface, g_dataServer, new ResourceManager(null, false));
-            pane.add(g_interface.m_panel, BorderLayout.CENTER);
+            pane.add(g_interface.getInterfacePanel(), BorderLayout.CENTER);
             
             pane.validate();
         }
