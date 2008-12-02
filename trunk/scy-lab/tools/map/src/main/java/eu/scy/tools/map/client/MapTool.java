@@ -67,8 +67,8 @@ public class MapTool extends com.gwtext.client.widgets.Panel {
         setId(TOOL_ID);
         setClosable(true);
         
-        createToolbar();
         createMap();
+        createToolbar();
         
         geocoder = new Geocoder();
         addSavedMarkers();
