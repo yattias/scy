@@ -23,10 +23,6 @@ class ToolsTreePanel extends TreePanel {
         TreeNode root = new TreeNode("SCY Toolbox");
         root.setExpanded(true);
         
-        TreeNode drawing = new TreeNode("Drawing");
-        drawing.setExpanded(true);
-        root.appendChild(drawing);
-        
 //        drawing.appendChild( new ToolsTreeNode("Drawing Tool", DrawingTool.DRAWINGTOOL_ID, desktop) {
 //            protected Widget createTool() {
 //                return new DrawingTool();
@@ -45,7 +41,7 @@ class ToolsTreePanel extends TreePanel {
         simulation.setExpanded(true);
         root.appendChild(simulation);
         
-        simulation.appendChild(new ToolsTreeNode("CO2-Simulationm", CO2Sim.TOOL_ID, desktop) {
+        simulation.appendChild(new ToolsTreeNode("CO2-Simulation", CO2Sim.TOOL_ID, desktop) {
             protected Widget createTool() {
                 return new CO2Sim();
             }
