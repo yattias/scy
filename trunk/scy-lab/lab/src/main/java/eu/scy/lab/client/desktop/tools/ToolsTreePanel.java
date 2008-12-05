@@ -7,6 +7,7 @@ import com.gwtext.client.widgets.tree.TreePanel;
 import eu.scy.lab.client.desktop.Desktop;
 import eu.scy.tools.co2sim.client.CO2Sim;
 import eu.scy.tools.map.client.MapTool;
+import eu.scy.tools.simquestviewer.client.SimQuestViewer;
 import eu.scy.tools.youtube.client.VideoInput;
 
 /**
@@ -47,11 +48,11 @@ class ToolsTreePanel extends TreePanel {
             }
         });
         
-//        simulation.appendChild(new ToolsTreeNode("SimQuestViewer", SimQuestViewerAI.SIMQUESTVIEWER_ID, desktop) {
-//            protected Widget createTool() {
-//                return new SimQuestViewerAI();
-//            }
-//        });
+        simulation.appendChild(new ToolsTreeNode("SimQuestViewer", SimQuestViewer.SIMQUESTVIEWER_ID, desktop) {
+            protected Widget createTool() {
+                return new SimQuestViewer();
+            }
+        });
         
         root.appendChild(new ToolsTreeNode("Map", MapTool.TOOL_ID, desktop) {
             protected Widget createTool() {
