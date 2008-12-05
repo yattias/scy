@@ -1,6 +1,6 @@
 package eu.scy.tools.webbrowsingtool.client;
 
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RichTextArea;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
@@ -12,15 +12,18 @@ import com.gwtext.client.widgets.layout.BorderLayoutData;
 import com.gwtext.client.widgets.layout.FitLayout;
 
 
+
 public class HighlightTab extends Panel {
     
     private Panel center;
     
-    private NotesPanel notesPanel;
+    private RichTextArea textArea;
     
-    public HighlightTab(NotesPanel notesPanel){
+    private HTMLWindow htmlWindow;
+    
+    public HighlightTab(RichTextArea textArea){
         super("Highlight");
-        this.notesPanel = notesPanel;
+        this.textArea = textArea;
         
         setLayout(new FitLayout());
         Panel panel = new Panel();
@@ -37,6 +40,8 @@ public class HighlightTab extends Panel {
         panel.add(center,centerData );
         panel.add(buildEastPanel(),eastData );
         add(panel);
+        
+
     }
     
     public void update(){
@@ -49,38 +54,81 @@ public class HighlightTab extends Panel {
         final Button highlightButton = new Button("Highlight!",new ButtonListenerAdapter(){
 
             public void onClick(Button button, EventObject e) {
-                Window.alert("Feature not implemented yet");
-            }
-
+                if (textArea.getBasicFormatter()!=null){
+                    textArea.getExtendedFormatter().setBackColor("yellow");
+                }
+             }
         });
+        
+        final Button underlineButton = new Button("Underline!",new ButtonListenerAdapter(){
+
+            public void onClick(Button button, EventObject e) {
+                if (textArea.getBasicFormatter()!=null)
+                {
+                        textArea.getBasicFormatter().toggleUnderline();
+                }
+             }
+        });
+ 
+        
+        Button toggleBold = new Button("Bold",new ButtonListenerAdapter(){
+            public void onClick(Button button, EventObject e) {
+               if (textArea.getBasicFormatter()!=null)
+               {
+                       textArea.getBasicFormatter().toggleBold();
+               }
+            }
+            });
+
+        Button showHTML = new Button("Show HTML File",new ButtonListenerAdapter(){
+            public void onClick(Button button, EventObject e) {
+                   htmlWindow = new HTMLWindow(textArea.getHTML());
+                   htmlWindow.show();
+            }
+            });
+        
+        //Testing:
+        Button testExternalFrame = new Button("testExternalFrame",new ButtonListenerAdapter(){
+            public void onClick(Button button, EventObject e) {
+               WindowIFrame windowIFrame = new WindowIFrame("http://www.google.de");
+               windowIFrame.show();
+            }
+            });
+        
+        
+        panel.add(toggleBold);
         panel.add(highlightButton);
+        panel.add(underlineButton);
+        panel.add(showHTML);
+        panel.add(testExternalFrame);
         return panel;
     }
 
     private Panel buildCenterPanel() {
         Panel center = new Panel();
         center.setLayout(new FitLayout());
-        center.add(notesPanel);
+        center.add(textArea);
         return center;
     }
 
     
-
-    
     /**
-     * @return the notesPanel
+     * @return the textArea
      */
-    public NotesPanel getNotesPanel() {
-        return notesPanel;
+    public RichTextArea getTextArea() {
+        return textArea;
     }
 
     
     /**
-     * @param notesPanel the notesPanel to set
+     * @param textArea the textArea to set
      */
-    public void setNotesPanel(NotesPanel notesPanel) {
-        this.notesPanel = notesPanel;
+    public void setTextArea(RichTextArea textArea) {
+        this.textArea = textArea;
     }
+
+    
+
     
     
     
