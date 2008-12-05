@@ -42,14 +42,12 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<!--			
 		<dependency>
 			<groupId>eu.scy</groupId>
 			<artifactId>tools.simquestviewer</artifactId>
 			<version>0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>	
-		-->
 		
 		<dependency>
 			<groupId>eu.scy</groupId>
