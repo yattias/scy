@@ -1,8 +1,7 @@
 package eu.scy.tools.webbrowsingtool.client;
 
-import java.util.Vector;
-
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.RichTextArea;
 import com.gwtext.client.core.EventObject;
 import com.gwtext.client.core.Margins;
 import com.gwtext.client.core.RegionPosition;
@@ -10,7 +9,6 @@ import com.gwtext.client.widgets.Button;
 import com.gwtext.client.widgets.Panel;
 import com.gwtext.client.widgets.event.ButtonListenerAdapter;
 import com.gwtext.client.widgets.form.Label;
-import com.gwtext.client.widgets.form.TextArea;
 import com.gwtext.client.widgets.form.TextField;
 import com.gwtext.client.widgets.layout.BorderLayout;
 import com.gwtext.client.widgets.layout.BorderLayoutData;
@@ -24,13 +22,18 @@ public class BrowseTab extends Panel {
     
     private String url;
 
-    private HighlightTab highlightTab;
+//    private HighlightTab highlightTab;
     
     private Frame iFrame;
     
-    public BrowseTab(HighlightTab highlightTab,String url){
+    private WebbrowsingToolIFrame tool;
+    
+//    private RichTextArea textArea;
+    private RichTextArea clipboard;
+    
+    public BrowseTab(RichTextArea textArea,String url){
         super("Browse");
-        this.highlightTab=highlightTab;
+//        this.textArea = textArea;
         this.url = url;
         
         setLayout(new FitLayout());
@@ -49,12 +52,13 @@ public class BrowseTab extends Panel {
         add(panel);
     }
     
-    public BrowseTab(HighlightTab highlightTab){
-        this(highlightTab,DEFAULT_URL);
+    public BrowseTab(RichTextArea textArea){
+        this(textArea,DEFAULT_URL);
     }
     
-    public BrowseTab(){
-        this(new HighlightTab(new NotesPanel(new Vector<Note>())));
+    public BrowseTab(WebbrowsingToolIFrame webbrowsingToolIFrame, RichTextArea textArea) {
+        this(textArea);
+        this.tool = webbrowsingToolIFrame;
     }
 
     private Panel buildEastPanel() {
@@ -66,25 +70,39 @@ public class BrowseTab extends Panel {
         Label labelTitle = new Label("Title:");
         final TextField textFieldTitle = new TextField();
         textFieldTitle.setWidth(190);
+  
+        //A rich text area for copying the whole html from clipboard
+        clipboard = new RichTextArea();
+        clipboard.setHeight("200 px");
+        clipboard.setWidth("190 px");
+        
+        
+        Button toggleBold = new Button("Bold",new ButtonListenerAdapter(){
+            public void onClick(Button button, EventObject e) {
+               if (clipboard.getBasicFormatter()!=null)
+               {
+                   clipboard.getBasicFormatter().toggleBold();
+               }
+            }
+            });
         Label labelAddText = new Label("Add Text:");
-        final TextArea textBox = new TextArea();
-        textBox.setWidth(190);
-        textBox.setHeight(200);
+        
         Label labelComment = new Label("Comment:");
         final TextField textField = new TextField();
         textField.setWidth(190);
         Button addButton = new Button("Add!",new ButtonListenerAdapter(){
             public void onClick(Button button, EventObject e) {
-               highlightTab.getNotesPanel().addNote(textFieldTitle.getValueAsString(),textBox.getValueAsString(),textField.getValueAsString(),iFrame.getUrl()); 
+                tool.getTextArea().setHTML("<p>"+tool.getTextArea().getHTML()+textFieldTitle.getValueAsString()+clipboard.getHTML()+"</p>");
             }
         });
         panel.add(labelTitle);
         panel.add(textFieldTitle);
         panel.add(labelAddText);
-        panel.add(textBox);
+        panel.add(clipboard);
         panel.add(labelComment);
         panel.add(textField);
         panel.add(addButton);
+        panel.add(toggleBold);
 
         return panel;
     }
@@ -97,20 +115,6 @@ public class BrowseTab extends Panel {
         return panel;
     }
     
-    /**
-     * @return the highlightTab
-     */
-    public HighlightTab getHighlightTab() {
-        return highlightTab;
-    }
-
-    
-    /**
-     * @param highlightTab the highlightTab to set
-     */
-    public void setHighlightTab(HighlightTab highlightTab) {
-        this.highlightTab = highlightTab;
-    }
 
     /**
      * @return the url
