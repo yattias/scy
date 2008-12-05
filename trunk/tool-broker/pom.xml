@@ -24,6 +24,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>action-logger</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -42,10 +49,13 @@
 			<id>collide-releases</id>
 			<url>http://mvn.collide.info/content/repositories/releases</url>
 		</repository>
-
 		<repository>
 			<id>collide-snapshots</id>
 			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>snapshots-tels</id>
+			<url>http://repo.telscenter.org/internal_snapshot</url>
 		</repository>
 	</repositories>
 	<distributionManagement>
