@@ -19,14 +19,19 @@ import com.gwtext.client.widgets.layout.VerticalLayout;
 
 
 public class BrowseTab extends Panel {
+    
+    public static String DEFAULT_URL="http://en.wikipedia.org/wiki/Java_(programming_language)";
+    
+    private String url;
 
     private HighlightTab highlightTab;
     
     private Frame iFrame;
     
-    public BrowseTab(HighlightTab highlightTab){
+    public BrowseTab(HighlightTab highlightTab,String url){
         super("Browse");
         this.highlightTab=highlightTab;
+        this.url = url;
         
         setLayout(new FitLayout());
         Panel panel = new Panel();
@@ -42,6 +47,10 @@ public class BrowseTab extends Panel {
         panel.add(buildCenterPanel(),centerData );
         panel.add(buildEastPanel(),eastData );
         add(panel);
+    }
+    
+    public BrowseTab(HighlightTab highlightTab){
+        this(highlightTab,DEFAULT_URL);
     }
     
     public BrowseTab(){
@@ -83,7 +92,7 @@ public class BrowseTab extends Panel {
     private Panel buildCenterPanel() {
         Panel panel = new Panel();
         panel.setLayout(new FitLayout());
-        iFrame = new Frame("http://www.google.de");
+        iFrame = new Frame(DEFAULT_URL);
         panel.add(iFrame);
         return panel;
     }
@@ -102,5 +111,21 @@ public class BrowseTab extends Panel {
     public void setHighlightTab(HighlightTab highlightTab) {
         this.highlightTab = highlightTab;
     }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 
 }
