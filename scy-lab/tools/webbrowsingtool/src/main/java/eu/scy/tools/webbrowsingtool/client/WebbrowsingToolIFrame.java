@@ -22,8 +22,8 @@ public class WebbrowsingToolIFrame extends Panel implements EntryPoint {
     public WebbrowsingToolIFrame() {
         // Testing
         notesPanel = new NotesPanel(new Vector<Note>());
-        notesPanel.addNote(new Note("Test1", "Testtext blabla bla", "Testannotation bla"));
-        notesPanel.addNote(new Note("Test2", "Testtext blabla bla bla 2", "Testannotation blabla2"));
+        notesPanel.addNote(new Note("Primary goals", "It should be \"simple, object oriented, and familiar\".\n It should be \"robust and secure\".\n It should be \"architecture neutral and portable\".\n It should execute with \"high performance\".\n It should be \"interpreted, threaded, and dynamic\".", "Very important!"));
+        notesPanel.addNote(new Note("Applets", "An applet is placed in an HTML document using the <applet> HTML element. The applet tag has three attributes set: code=\"Hello\" specifies the name of the Applet class and width=\"200\" height=\"200\" sets the pixel width and height of the applet. Applets may also be embedded in HTML using either the object or embed element[15], although support for these elements by Web browsers is inconsistent.[16] However, the applet tag is deprecated, so the object tag is preferred where supported.", "How to integrate applets in your website."));
 
         buildGUI();
     }
