@@ -39,9 +39,9 @@
 		<module>global</module>
 		<module>lab</module>
 		<module>tools/co2sim</module>
-		<!-- <module>tools/drawing</module> -->
+	 	<!-- <module>tools/drawing</module> -->
 		<module>tools/map</module>
-		<!-- <module>tools/simquestviewer</module> -->
+	 	<module>tools/simquestviewer</module>
 		<module>tools/webbrowsingtool</module>
 		<module>tools/youtube</module>
 	</modules>
