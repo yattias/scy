@@ -12,6 +12,9 @@ IMPORTANT:
 	Because of a bug in a used library (gwt-ai) you have to run maven with java 1.5  !
 	Otherwise you will get a StackOverflowError, see http://code.google.com/p/gwtai/issues/detail?id=4
 
+	Furthermore the SimQuestViewer applet will not be loaded, unless the jar is unpacked.
+	Thus some manual work is necessary, to unpack the simquestviewer-all.jar in the final war.
+
 == TODO ==
 
 * Refactor eu.scy.global: Rename to scy-lab-api?
