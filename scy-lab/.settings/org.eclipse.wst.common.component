@@ -19,6 +19,9 @@
         <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.webbrowsingtool.WebBrowsingTool"/>
         <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.webbrowsingtool.WebbrowsingToolIFrame"/>
         <wb-resource deploy-path="/" source-path="/build/gwtOutput/eu.scy.tools.youtube.YouTubeTool"/>
+<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/tools.map/tools.map">
+<dependency-type>uses</dependency-type>
+</dependent-module>
         <property name="context-root" value="scy-lab"/>
         <property name="java-output-path"/>
     </wb-module>

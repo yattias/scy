@@ -148,8 +148,22 @@
 					<!--  Use the dependency plugin to unpack gwt-dev-PLATFORM-libs.zip -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin
-				</artifactId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>com.google.gwt</groupId>
+							<artifactId>gwt-dev</artifactId>
+							<version>${gwtVersion}</version>
+							<classifier>${platform}-libs</classifier>
+							<type>zip</type>
+							<overWrite>false</overWrite>
+							<outputDirectory>
+								${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
+							</outputDirectory>
+						</artifactItem>
+					</artifactItems>
+				</configuration>				
 				<executions>
 					<execution>
 						<id>unpack</id>
@@ -157,21 +171,6 @@
 						<goals>
 							<goal>unpack</goal>
 						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.google.gwt</groupId>
-									<artifactId>gwt-dev</artifactId>
-									<version>${gwtVersion}</version>
-									<classifier>${platform}-libs</classifier>
-									<type>zip</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>
-										${settings.localRepository}/com/google/gwt/gwt-dev/${gwtVersion}
-									</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

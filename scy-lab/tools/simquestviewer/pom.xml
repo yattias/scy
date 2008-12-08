@@ -96,11 +96,6 @@ For now some manual work is necessary, to unpack the simquestviewer-all.jar in t
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>roolo-mock</groupId>
-			<artifactId>roolo-mock</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
 			<version>1.0.2</version>
