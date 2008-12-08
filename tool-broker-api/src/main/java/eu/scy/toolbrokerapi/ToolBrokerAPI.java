@@ -8,6 +8,8 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.notification.api.INotificationService;
 
 /**
  * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
@@ -36,4 +38,13 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      */
     public IExtensionManager getExtensionManager();
     
+    /**
+     * @return the action logger
+     */
+    public IActionLogger getActionLogger();
+    
+    /**
+     * @return the notification service
+     */
+    public INotificationService getNotificationService();
 }
