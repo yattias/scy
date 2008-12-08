@@ -1,0 +1,118 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="nl">rects</string>
+        <string language="en">rects</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/2/rects.scydraw</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/drawing</format>
+      <customElements>
+        <dateCreated>1222244378378</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2008-09-24T10:19:38.378+0200</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+  </lom>
+</metadata>
+<content languageIndependend="true">
+<whiteboard>
+  <whiteboardContainers>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-7326c29f:11c937022ca:-8000">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-7326c29f:11c937022ca:-8000">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+      </container>
+      <content>
+        <rectangle>
+          <xBegin>51</xBegin>
+          <yBegin>55</yBegin>
+          <xEnd>150</xEnd>
+          <yEnd>116</yEnd>
+        </rectangle>
+      </content>
+    </whiteboardContainer>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-7326c29f:11c937022ca:-7fff">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-7326c29f:11c937022ca:-7fff">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+      </container>
+      <content>
+        <rectangle>
+          <xBegin>100</xBegin>
+          <yBegin>89</yBegin>
+          <xEnd>190</xEnd>
+          <yEnd>152</yEnd>
+        </rectangle>
+      </content>
+    </whiteboardContainer>
+  </whiteboardContainers>
+</whiteboard>
+</content>
+</elo>
