@@ -35,6 +35,7 @@
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
+            /WEB-INF/applicationContext-roolo.xml,
             /WEB-INF/loginservice-beans.xml,
             /WEB-INF/applicationContext-colemo.xml,
             /WEB-INF/applicationContext-userSessionBeans.xml,
@@ -44,10 +45,10 @@
 
     <!-- TAPESTRY FILTER -->
 
-    <filter>
-        <filter-name>app</filter-name>
-        <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>
-    </filter>
+<!--    <filter>-->
+<!--        <filter-name>app</filter-name>-->
+<!--        <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>-->
+<!--    </filter>-->
 
 
 
@@ -65,10 +66,10 @@
 
     <!-- THIS ONE NEEDS TO BE AFTER SECURITY FILTER - OR ELSE SECURITY IS OVERLOOKED -->
     
-    <filter-mapping>
-        <filter-name>app</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<!--    <filter-mapping>-->
+<!--        <filter-name>app</filter-name>-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
 
 
@@ -84,6 +85,27 @@
         <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
+    
+    <!-- Roolo -->
+	
+	<!--
+		- Dispatcher servlet definition for HTTP remoting via Hessian, Burlap, and
+		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
+	-->
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!--
+		- Dispatcher servlet mapping for HTTP remoting via Hessian, Burlap, and
+		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
+	-->
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/remoting/*</url-pattern>
+	</servlet-mapping>
 
 
     <!-- LISTENERS -->
