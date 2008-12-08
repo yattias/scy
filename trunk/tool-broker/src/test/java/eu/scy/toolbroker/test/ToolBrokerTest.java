@@ -15,6 +15,10 @@ import roolo.api.search.ISearchResult;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.logger.Action;
+import eu.scy.notification.api.INotification;
+import eu.scy.notification.api.INotificationCallback;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**
@@ -71,6 +75,26 @@ public class ToolBrokerTest {
         for (ISearchResult result : searchResult) {
             System.out.println(result.getUri());
         }
+    }
+    
+    @Test
+    public void testActionLogging() throws Exception {
+        IAction action = new Action();
+        action.addProperty("name", "adam");
+        action.addProperty("tool", "map");
+        toolBroker.getActionLogger().log(action);
+    }
+    
+    @Test
+    public void testNotificationRegistration() throws Exception {
+        toolBroker.getNotificationService().registerCallback(new INotificationCallback() {
+            
+            @Override
+            public void onNotification(INotification notification) {
+                System.out.println(notification);
+            }
+            
+        });
     }
     
 }
