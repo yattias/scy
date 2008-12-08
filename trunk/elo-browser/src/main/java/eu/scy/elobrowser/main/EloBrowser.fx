@@ -48,8 +48,10 @@ Stage {
       text: "Search"
       action: function()  {
          var query1 = queryEntry1.getSearchQuery();
-         var results1 = roolo.repository.search(query1);
-         System.out.println("Query 1: {query1.toString()}\nNr of search results {results1.size()}");
+         System.out.println("Query 1: {query1.toString()}");
+         var displayEloMappings = roolo.queryToElosDisplay.getDisplayEloMapping(metadataDisplayMappingWidget.getMappingElo(),query1);
+         System.out.println("Query 1: {query1.toString()}\nNr of elos {displayEloMappings.size()}");
+         resultView.newDisplayEloMappings(displayEloMappings);
       }
    }
 

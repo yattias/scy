@@ -117,6 +117,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 	  if (mappingElo != null)
 	  {
 		  mappingEloListModel.addElement(mappingElo);
+		  repository.addELO(mappingElo.getElo());
 	  }
 	 }//GEN-LAST:event_addButtonActionPerformed
 
@@ -126,6 +127,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 	  if (selectedMappingElo != null)
 	  {
 		  mappingEloListModel.removeElement(selectedMappingElo);
+		  repository.deleteELO(selectedMappingElo.getElo().getUri());
 	  }
 	 }//GEN-LAST:event_deleteButtonActionPerformed
 
@@ -142,6 +144,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 				  selectedMappingElo.setName(mappingElo.getName());
 				  selectedMappingElo.setDescription(mappingElo.getDescription());
 				  selectedMappingElo.setMetadataDisplayMapping(mappingElo.getMetadataDisplayMapping());
+				  repository.updateELO(mappingElo.getElo());
 			  }
 		  }
 	  }
@@ -178,6 +181,11 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 		this.mappingEloFactory = mappingEloFactory;
 	}
 
+	public MappingElo getSelectedMappingElo()
+	{
+		return (MappingElo) metadataDisplayMappingList.getSelectedValue();
+	}
+
 	private MappingElo editMappingElo(MappingElo mappingElo, String title)
 	{
 		MetadataDisplayMappingEditorPanel metadataDisplayMappingEditorPanel = new MetadataDisplayMappingEditorPanel(mappingElo, metadataTypeManager.getMetadataKeys());
@@ -198,7 +206,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 		return null;
 	}
 
-	private void loadMappingElos()
+	public void loadMappingElos()
 	{
 		mappingEloListModel.clear();
 		IQuery query = new BasicMetadataQuery(formatKey, BasicSearchOperations.EQUALS, BasicMappingEloFactory.metadataDisplayMappingFormat, null);
@@ -208,6 +216,10 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 			IELO<IMetadataKey> elo = repository.retrieveELO(searchResult.getUri());
 			MappingElo mappingElo = mappingEloFactory.createMappingElo(elo);
 			mappingEloListModel.addElement(mappingElo);
+		}
+		if (searchResults.size()>0)
+		{
+			metadataDisplayMappingList.setSelectedIndex(0);
 		}
 
 // to append to the mouse listener

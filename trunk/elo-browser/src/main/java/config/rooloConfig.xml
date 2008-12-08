@@ -242,6 +242,12 @@
 					</key>
 					<value>.scydraw</value>
 				</entry>
+				<entry>
+					<key>
+						<value>scy/eloBrowser/metadataDisplayMapping</value>
+					</key>
+					<value>.selomap</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -266,4 +272,9 @@
 		<property name="nameKey" ref="titleKey"/>
 		<property name="descriptionKey" ref="descriptionKey"/>
 	</bean>
+
+	<bean name="queryToElosDisplay" class="eu.scy.elobrowser.model.mapping.impl.BasicQueryToElosDisplay">
+		<property name="repository" ref="repository"/>
+	</bean>
+
 </beans>
