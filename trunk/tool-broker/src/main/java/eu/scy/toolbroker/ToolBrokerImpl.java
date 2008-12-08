@@ -11,6 +11,8 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.notification.api.INotificationService;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -32,6 +34,10 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     
     private IExtensionManager extensionManager;
     
+    private IActionLogger actionLogger;
+    
+    private INotificationService notificationService;
+    
     
     @SuppressWarnings("unchecked")
     public ToolBrokerImpl() {
@@ -40,6 +46,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         repository = (IRepository<IELO<K>, K>) context.getBean("repository");
         metaDataTypeManager = (IMetadataTypeManager<K>) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
+        
+        actionLogger = (IActionLogger) context.getBean("actionlogger");
+        notificationService = (INotificationService) context.getBean("notificationService");
     }
     
     /**
@@ -69,6 +78,22 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         this.extensionManager = extensionManager;
     }
     
+    /**
+     * @param actionLogger
+     *            the actionLogger to be set
+     */
+    public void setActionLogger(IActionLogger actionLogger) {
+        this.actionLogger = actionLogger;
+    }
+    
+    /**
+     * @param notificationService
+     *            the notificationService to be set
+     */
+    public void setNotificationService(INotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+    
     /*
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
@@ -91,5 +116,13 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
      */
     public IExtensionManager getExtensionManager() {
         return extensionManager;
+    }
+    
+    public IActionLogger getActionLogger() {
+        return actionLogger;
+    }
+    
+    public INotificationService getNotificationService() {
+        return notificationService;
     }
 }
