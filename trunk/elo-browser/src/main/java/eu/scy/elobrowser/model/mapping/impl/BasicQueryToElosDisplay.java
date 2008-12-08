@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import roolo.api.IELO;
 import roolo.api.IQuery;
 import roolo.api.IRepository;
@@ -25,7 +26,7 @@ import roolo.api.ISearchResult;
  */
 public class BasicQueryToElosDisplay implements QueryToElosDisplay
 {
-
+	private static final Logger logger = Logger.getLogger(BasicQueryToElosDisplay.class);
 	private IRepository repository;
 
 	public void setRepository(IRepository repository)
@@ -54,6 +55,7 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
 		List<ISearchResult> searchResults = repository.search(query);
 		for (ISearchResult searchResult : searchResults)
 		{
+//		  logger.debug("searchResult:" + searchResult);
 			displayEloMappings.add(createDisplayEloMapping(mappingElo.getMetadataDisplayMapping().getMappings(), searchResult, basicDisplayMappingListMap));
 		}
 		for (Mapping mapping : mappingElo.getMetadataDisplayMapping().getMappings())
