@@ -5,8 +5,8 @@
 	<projects>
 		<project>global</project>
 		<project>tools.co2sim</project>
-		<project>tools.drawing</project>
 		<project>tools.map</project>
+		<project>tools.simquestviewer</project>
 		<project>tools.webbrowsingtool</project>
 		<project>tools.youtube</project>
 	</projects>
