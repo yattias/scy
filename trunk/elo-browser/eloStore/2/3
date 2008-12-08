@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="nl">rect</string>
+        <string language="en">rect</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/3/rect.scydraw</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/drawing</format>
+      <customElements>
+        <dateCreated>1222356578456</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2008-09-25T17:29:38.456+0200</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+  </lom>
+</metadata>
+<content languageIndependend="true">
+<whiteboard>
+  <whiteboardContainers>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-10962bdb:11c9a21104f:-8000">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-10962bdb:11c9a21104f:-8000">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+      </container>
+      <content>
+        <rectangle>
+          <xBegin>61</xBegin>
+          <yBegin>68</yBegin>
+          <xEnd>185</xEnd>
+          <yEnd>127</yEnd>
+        </rectangle>
+      </content>
+    </whiteboardContainer>
+  </whiteboardContainers>
+</whiteboard>
+</content>
+</elo>

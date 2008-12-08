@@ -1,0 +1,133 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="nl">untitiled</string>
+        <string language="en">untitiled</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/6/untitiled.scydraw</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/drawing</format>
+      <customElements>
+        <dateCreated>1222873932834</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2008-10-01T17:12:12.834+0200</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+    <agentData>
+      <draw>
+        <lineCount>2</lineCount>
+        <rectangleCount>0</rectangleCount>
+        <ovalCount>0</ovalCount>
+        <freehandCount>0</freehandCount>
+        <textCount>0</textCount>
+        <imageCount>0</imageCount>
+        <tagPointerCount>0</tagPointerCount>
+      </draw>
+    </agentData>
+  </lom>
+</metadata>
+<content languageIndependend="true">
+<whiteboard>
+  <whiteboardContainers>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-57975d98:11cb8f7530b:-8000">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-57975d98:11cb8f7530b:-8000">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+        <locked>false</locked>
+        <creationTime>1222873928521</creationTime>
+      </container>
+      <content>
+        <line>
+          <xBegin>39</xBegin>
+          <yBegin>115</yBegin>
+          <xEnd>125</xEnd>
+          <yEnd>71</yEnd>
+        </line>
+      </content>
+    </whiteboardContainer>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-57975d98:11cb8f7530b:-7fff">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-57975d98:11cb8f7530b:-7fff">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+        <locked>false</locked>
+        <creationTime>1222873929224</creationTime>
+      </container>
+      <content>
+        <line>
+          <xBegin>50</xBegin>
+          <yBegin>68</yBegin>
+          <xEnd>101</xEnd>
+          <yEnd>155</yEnd>
+        </line>
+      </content>
+    </whiteboardContainer>
+  </whiteboardContainers>
+</whiteboard>
+</content>
+</elo>
