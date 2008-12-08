@@ -50,7 +50,7 @@
 			</value>
 		</property>
 		<property name="serviceInterface">
-			<value>roolo.api.IMetadataTypeManager
+			<value>roolo.elo.api.IMetadataTypeManager
 			</value>
 		</property>
 		<!--
@@ -87,6 +87,16 @@
 			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
 			</property>
 		-->
+	</bean>
+	
+	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger">
+		<constructor-arg index="0" value="${jmsServer}:${jmsPort}" />
+		<constructor-arg index="1" value="action" />
+	</bean>
+	
+	<bean id="notificationService" class="eu.scy.notification.NotificationService">
+		<constructor-arg index="0" value="${jmsServer}:${jmsPort}" />
+		<constructor-arg index="1" value="notification" />
 	</bean>
 
 </beans>
