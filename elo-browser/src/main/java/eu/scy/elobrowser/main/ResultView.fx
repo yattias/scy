@@ -11,9 +11,13 @@ import eu.scy.elobrowser.main.EloDisplay;
 import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.ResultViewModel;
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.model.mapping.DisplayEloMapping;
+import eu.scy.elobrowser.model.mapping.DisplayMapping;
+import eu.scy.elobrowser.model.mapping.DisplayProperty;
 import java.lang.Math;
 import java.lang.System;
 import java.net.URI;
+import java.util.List;
 import java.util.Locale;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
@@ -22,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import roolo.api.IMetadata;
 
 /**
  * @author sikken
@@ -41,7 +46,7 @@ public class ResultView extends CustomNode {
    var eloDisplays:EloDisplay[];
    
    public override function create(): Node {
-      Group
+         Group
       {
          content: [
             Rectangle {
@@ -52,7 +57,7 @@ public class ResultView extends CustomNode {
                fill: null;
                stroke: Color.BLACK;
             },
-               Rectangle
+            Rectangle
 	    {
                x: xOffset,
                y: yOffset
@@ -76,12 +81,58 @@ public class ResultView extends CustomNode {
          ]
       }
    }
+
+   public function newDisplayEloMappings(displayEloMappings: List) {
+      System.out.println("Nr of eloDisplay to place {displayEloMappings.size()}");
+      for (j in [0..(
+         nrOfElos - 1)]) {
+         eloDisplays[j].translateX = calculateX(0);
+         eloDisplays[j].translateY = calculateY(0);
+         eloDisplays[j].radius = calculateZ(0);
+         eloDisplays[j].visible = false;
+      }
+      var i = 0;
+      var displayEloMappingIterator = displayEloMappings.iterator();
+
+      while(
+      displayEloMappingIterator.hasNext()){
+         var displayEloMapping =
+         displayEloMappingIterator.next() as DisplayEloMapping;
+         System.out.println("placing eloDisplay {i}, {displayEloMapping.getElo().getUri()}");
+         var eloDisplay = eloDisplays[i];
+         var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
+         while(
+         displayMappingIterator.hasNext()){
+            var displayMapping =
+            displayMappingIterator.next() as DisplayMapping;
+         System.out.println("- setting property, {displayMapping}");
+            if (displayMapping.getValue() == null)
+            continue;
+            if (displayMapping.getDisplayProperty() == DisplayProperty.X)
+            {
+               eloDisplay.translateX = calculateX(displayMapping.getValue());
+            } else 
+            if (displayMapping.getDisplayProperty() == DisplayProperty.Y) {
+               eloDisplay.translateY = calculateY(displayMapping.getValue());
+            } else
+            if (displayMapping.getDisplayProperty() == DisplayProperty.SIZE) {
+               eloDisplay.radius = calculateZ(displayMapping.getValue());
+            }
+         }
+        // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
+         eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
+         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, ");
+         eloDisplay.visible = true;
+         ++i;
+      }
+
+   }
    
    public function resultsChanged(combinedSearchResults : CombinedSearchResult[]) {
       //       var combinedSearchResults = resultViewModel.combinedSearchResults;
       System.out.println("Nr of eloDisplay to place {combinedSearchResults.size()}");
       for (j in [0..(
-         nrOfElos - 1)]) {
+      nrOfElos - 1)]) {
          eloDisplays[j].visible = false;
       }
       var i = 0;
@@ -112,13 +163,14 @@ public class ResultView extends CustomNode {
       calculateSize(zOffset,zSize,relevance);
    }
    
-   function calculateSize(offset:Integer,maxSize:Integer,relevance:Number) : Integer {
-      var useRelevance = Math.max(0, Math.min(1,relevance));
-      return Math.round(offset + useRelevance * maxSize) as Integer;
+   function calculateSize(offset:Integer,maxSize:Integer,value:Number) : Integer {
+      var useValue = Math.max(0, Math.min(1,value));
+      var size = Math.round(offset + useValue * maxSize) as Integer;
+      //System.out.println("offset:{offset}, maxSize:{maxSize}, value:{value}, size:{size}");
+      return size;
    }
-   
+
    function getTitle(uri:URI): String {
-      var title =null;
       var metadata = roolo.repository.retrieveMetadata(uri);
       if (metadata == null)
       {
@@ -133,23 +185,34 @@ public class ResultView extends CustomNode {
 	    System.out.println("there is no elo for {uri}");
          }
       }
+      return getTitleOutEloMetadata(metadata);
+   }
+   function getTitleOutEloMetadata(metadata:IMetadata): String {
+      var title =null;
       if (metadata != null)
       {
          title = metadata.getMetadataValueContainer(roolo.titleKey).getValue() as String;
          if (title == null)
          title = metadata.getMetadataValueContainer(roolo.titleKey).getValue(Locale.ENGLISH) as String;
       }
-      if (title == null)
-      {
-         // still no title found, apply a quick hack, the title is also in the uri
-         var uriString = uri.toString();
-         var lastSlashPos =  uriString.lastIndexOf('/');
-         var lastPointPos =  uriString.lastIndexOf('.');
-         title = uriString.substring(lastSlashPos + 1, lastPointPos);
-      }
+      //      if (title == null)
+      //      {
+      //         // still no title found, apply a quick hack, the title is also in the uri
+      //         var uriString = uri.toString();
+      //         var lastSlashPos =  uriString.lastIndexOf('/');
+      //         var lastPointPos =  uriString.lastIndexOf('.');
+      //         title = uriString.substring(lastSlashPos + 1, lastPointPos);
+      //      }
       if (title == null)
       title ="<<no title>>";
       return title;
+   }
+   
+   function getTitleFromUri(uri:URI): String {
+      var uriString = uri.toString();
+      var lastSlashPos =  uriString.lastIndexOf('/');
+      var lastPointPos =  uriString.lastIndexOf('.');
+      return uriString.substring(lastSlashPos + 1, lastPointPos);
    }
    
 }

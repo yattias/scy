@@ -9,6 +9,7 @@ package eu.scy.elobrowser.main;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.model.mapping.editor.MetadataDisplayMappingListPanel;
+import eu.scy.elobrowser.model.mapping.MappingElo;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
@@ -30,6 +31,7 @@ public class MetadataDisplayMappingWidget extends CustomNode {
       metadataDisplayMappingListPanel.setRepository(roolo.repository);
       metadataDisplayMappingListPanel.setMetadataTypeManager(roolo.metadataTypeManager);
       metadataDisplayMappingListPanel.setFormatKey(roolo.typeKey);
+      metadataDisplayMappingListPanel.loadMappingElos();
    }
    
    public override function create(): Node {
@@ -42,10 +44,14 @@ public class MetadataDisplayMappingWidget extends CustomNode {
 
       };
    }
+
+   public function getMappingElo():MappingElo {
+      metadataDisplayMappingListPanel.getSelectedMappingElo();
+   }
 }
 
 function run() {
-   Stage
+      Stage
 {
       title: "MDM list widget"
       width: 170

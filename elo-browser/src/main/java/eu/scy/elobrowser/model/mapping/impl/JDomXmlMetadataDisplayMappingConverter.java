@@ -37,7 +37,7 @@ public class JDomXmlMetadataDisplayMappingConverter implements XmlMetadataDispla
 	public String toXmlString(MetadataDisplayMapping metadataDisplayMapping)
 	{
 		Element root = new Element(XmlNames.metadataDisplayMapping);
-		root.addContent(createElement(XmlNames.display, metadataDisplayMapping.getMappingType().name().toLowerCase()));
+		root.addContent(createElement(XmlNames.mappingType, metadataDisplayMapping.getMappingType().name().toLowerCase()));
 		for (Mapping mapping : metadataDisplayMapping.getMappings())
 		{
 			Element mappingElement = new Element(XmlNames.mapping);
@@ -64,6 +64,7 @@ public class JDomXmlMetadataDisplayMappingConverter implements XmlMetadataDispla
 	@Override
 	public MetadataDisplayMapping fromXmlString(String xmlString)
 	{
+		//logger.debug("xml: " + xmlString);
 		Element root = jdomStringConversion.stringToXml(xmlString);
 		MappingTypes mappingType = MappingTypes.valueOf(root.getChildTextNormalize(XmlNames.mappingType).toUpperCase());
 		List<Mapping> mappings = new ArrayList<Mapping>();

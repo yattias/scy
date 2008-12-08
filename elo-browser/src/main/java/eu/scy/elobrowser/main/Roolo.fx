@@ -8,6 +8,7 @@ package eu.scy.elobrowser.main;
 
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
+import eu.scy.elobrowser.model.mapping.QueryToElosDisplay;
 import java.io.FileNotFoundException;
 import java.lang.*;
 import java.security.AccessControlException;
@@ -39,6 +40,7 @@ public class Roolo {
    public var sizeKey:IMetadataKey;
    
    public var mappingEloFactory:MappingEloFactory;
+   public var queryToElosDisplay:QueryToElosDisplay;
    
    // private attribute keys:IMetadataKey[];
    
@@ -86,13 +88,6 @@ public class Roolo {
       findKeys();
       findEloBrowserParts();
    }
-   
-   //   function createRooloParts()
-   //   {
-   //      repository = new MockRepository();
-   //      metadataTypeManager = new MockMetadataTypeManager();
-   //      extensionManager = new MockExtensionManager();
-   //   }
    
    function findRooloParts()
    {
@@ -148,27 +143,10 @@ public class Roolo {
    function findEloBrowserParts() {
       mappingEloFactory =
       getSpringBean("mappingEloFactory") as MappingEloFactory;
+      queryToElosDisplay =
+      getSpringBean("queryToElosDisplay") as QueryToElosDisplay;
    }
    
-   function createKeys() {
-//      var count1:MetadataValueCount;
-//      var count2:MetadataValueCount = MetadataValueCount.valueOf("SINGLE");
-//      idKey = new UriMetadataKey(null as String,null as String,null as I18nType,null as MetadataValueCount,null as Validator);
-//      idKey = new UriMetadataKey("id","/lom/general/identifier",null as I18nType,MetadataValueCount.SINGLE as MetadataValueCount,null as Validator);
-      
-//      idKey = new UriMetadataKey("id","/lom/general/identifier",I18nType.UNIVERSAL,MetadataValueCount.SINGLE,null as Validator);
-//      insert idKey into keys;
-//      titleKey = new StringMetadataKey("title","/lom/general/title",I18nType.SPECIFIC,MetadataValueCount.SINGLE,null);
-//      insert titleKey into keys;
-//      typeKey = new StringMetadataKey("type","/lom/technical/format",I18nType.UNIVERSAL,MetadataValueCount.SINGLE,null);
-//      insert typeKey into keys;
-//      sizeKey = new LongMetadataKey("size","/lom/technical/size",I18nType.UNIVERSAL,MetadataValueCount.SINGLE,null);
-//      insert sizeKey into keys;
-//
-//      for (key in keys)
-//	 metadataTypeManager.registerMetadataKey(key);
-
-   }
    
 }
 
@@ -178,7 +156,8 @@ public function getRoolo():Roolo {
    if (roolo == null)
    {
       try {
-			DOMConfigurator.configure (new ClassPathResource ("config/elobrowser.log4j.xml").getURL ());
+			DOMConfigurator.configure (
+         new ClassPathResource ("config/elobrowser.log4j.xml").getURL ());
 		} catch (e) {
 			e.printStackTrace();
 		}
