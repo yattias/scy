@@ -6,6 +6,7 @@ package eu.scy.elobrowser.model.mapping.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class DisplayMappingList
 {
-
+	private static final Logger logger = Logger.getLogger(DisplayMappingList.class);
 	private final List<BasicDisplayMapping> displayMappings = new ArrayList<BasicDisplayMapping>();
 	private double minimum = Double.MAX_VALUE;
 	private double maximum = Double.MIN_VALUE;
@@ -41,10 +42,12 @@ public class DisplayMappingList
 
 	public void range(double rangeMinimum, double rangeMaximum)
 	{
+//		logger.debug("range from " + rangeMinimum + " - " + maximum);
 		for (BasicDisplayMapping basicDisplayMapping : displayMappings)
 		{
-			double rangedValue = basicDisplayMapping.getValue() - minimum / (maximum - minimum);
+			double rangedValue = (basicDisplayMapping.getValue() - minimum) / (maximum - minimum);
 			rangedValue = Math.min(1.0, Math.max(0.0, rangedValue));
+//			logger.debug("original value:" + basicDisplayMapping.getValue() + ", rangedValue:" + rangedValue);
 			basicDisplayMapping.setValue(rangedValue);
 		}
 	}
