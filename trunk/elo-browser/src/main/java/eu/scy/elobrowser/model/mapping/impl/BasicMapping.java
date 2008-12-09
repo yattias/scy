@@ -6,7 +6,7 @@ package eu.scy.elobrowser.model.mapping.impl;
 
 import eu.scy.elobrowser.model.mapping.DisplayProperty;
 import eu.scy.elobrowser.model.mapping.Mapping;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IMetadataKey;
 
 /**
  *

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.elobrowser.model.mapping.editor;
 
 import java.awt.Component;
@@ -15,13 +14,15 @@ import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IMetadataKey;
 
 /**
  *
  * @author sikkenj
  */
-public class ComboKeyTableCellRenderer extends JComboBox implements TableCellEditor {
+public class ComboKeyTableCellRenderer extends JComboBox implements TableCellEditor
+{
+
 	private transient List<CellEditorListener> cellEditorListeners = new CopyOnWriteArrayList<CellEditorListener>();
 	private transient IMetadataKey original;
 
@@ -34,9 +35,9 @@ public class ComboKeyTableCellRenderer extends JComboBox implements TableCellEdi
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
-			IMetadataKey key = (IMetadataKey) value;
-			setSelectedItem(key);
-			return this;
+		IMetadataKey key = (IMetadataKey) value;
+		setSelectedItem(key);
+		return this;
 	}
 
 	@Override
@@ -87,13 +88,17 @@ public class ComboKeyTableCellRenderer extends JComboBox implements TableCellEdi
 		setSelectedItem(original);
 		ChangeEvent changeEvent = new ChangeEvent(this);
 		for (CellEditorListener cellEditorListener : cellEditorListeners)
+		{
 			cellEditorListener.editingCanceled(changeEvent);
+		}
 	}
 
 	private void fireEditingStopped()
 	{
 		ChangeEvent changeEvent = new ChangeEvent(this);
 		for (CellEditorListener cellEditorListener : cellEditorListeners)
+		{
 			cellEditorListener.editingStopped(changeEvent);
+		}
 	}
 }

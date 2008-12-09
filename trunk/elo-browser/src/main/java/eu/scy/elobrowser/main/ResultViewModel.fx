@@ -6,87 +6,85 @@
 
 package eu.scy.elobrowser.main;
 
-import java.util.*;
-import java.net.*;
+import eu.scy.elobrowser.main.CombinedSearchResult;
 import java.lang.*;
-import roolo.api.*;
+import java.net.*;
+import java.util.*;
+import roolo.api.search.ISearchResult;
 
 /**
  * @author sikken
  */
 
-public class ResultViewModel
-{
+public class ResultViewModel {
    public var combinedSearchResults:CombinedSearchResult[];
-//   attribute nrOfElos = 20;
-//   
-//   public function initialize()
-//   {
-//       for (i in [1..nrOfElos])
-//       {
-//	  var combinedSearchResult = CombinedSearchResult{};
-//	  insert combinedSearchResult into combinedSearchResults;
-//       }
-//   }
+   //   attribute nrOfElos = 20;
+   //
+   //   public function initialize()
+   //   {
+   //       for (i in [1..nrOfElos])
+   //       {
+   //	  var combinedSearchResult = CombinedSearchResult{};
+   //	  insert combinedSearchResult into combinedSearchResults;
+   //       }
+   //   }
 
    
-   public function newSearchResults(xSsearchResults:List,ySsearchResults:List,zSsearchResults:List) :CombinedSearchResult[]
-   {
+   public function newSearchResults(xSsearchResults:List,ySsearchResults:List,zSsearchResults:List) :CombinedSearchResult[] {
       var newCombinedSearchResults:CombinedSearchResult[];
       var processedUris = new HashSet();
       // process x results
       var iterator = xSsearchResults.iterator();
-      while (iterator.hasNext())
-      {
-	  var searchResult = iterator.next() as ISearchResult;
-	  if (not processedUris.contains(searchResult.getUri()))
-	  {
-	      var combinedSearchResult = CombinedSearchResult
+      while (
+      iterator.hasNext()) {
+         var searchResult =
+         iterator.next() as ISearchResult;
+         if (not processedUris.contains(searchResult.getUri()))
+         {
+            var combinedSearchResult = CombinedSearchResult
 	      {
-		  uri: searchResult.getUri();
-		  relevanceX: searchResult.getRelevance();
-		  relevanceY: getSearchResultRelevance(ySsearchResults,searchResult.getUri());
-		  relevanceZ: getSearchResultRelevance(zSsearchResults,searchResult.getUri());
+               uri: searchResult.getUri();
+               relevanceX: searchResult.getRelevance();
+               relevanceY: getSearchResultRelevance(ySsearchResults,searchResult.getUri());
+               relevanceZ: getSearchResultRelevance(zSsearchResults,searchResult.getUri());
 	      };
 	      insert combinedSearchResult into newCombinedSearchResults;
 	      processedUris.add(searchResult.getUri());
-	  }   
+         }
       }
       // process  y results
       iterator = ySsearchResults.iterator();
-      while (iterator.hasNext())
-      {
-	  var searchResult = iterator.next() as ISearchResult;
-	  if (not processedUris.contains(searchResult.getUri()))
-	  {
-	      var combinedSearchResult = CombinedSearchResult
+      while (iterator.hasNext()) {
+         var searchResult = iterator.next() as ISearchResult;
+         if (not processedUris.contains(searchResult.getUri()))
+         {
+            var combinedSearchResult = CombinedSearchResult
 	      {
-		  uri: searchResult.getUri();
-		  relevanceX: getSearchResultRelevance(xSsearchResults,searchResult.getUri());
-		  relevanceY: searchResult.getRelevance();
-		  relevanceZ: getSearchResultRelevance(zSsearchResults,searchResult.getUri());
+               uri: searchResult.getUri();
+               relevanceX: getSearchResultRelevance(xSsearchResults,searchResult.getUri());
+               relevanceY: searchResult.getRelevance();
+               relevanceZ: getSearchResultRelevance(zSsearchResults,searchResult.getUri());
 	      };
 	      insert combinedSearchResult into newCombinedSearchResults;
 	      processedUris.add(searchResult.getUri());
-	  }   
+         }
       }
       // process  z results
       iterator = zSsearchResults.iterator();
-      while (iterator.hasNext())
-      {
-	  var searchResult = iterator.next() as ISearchResult;
-	  if (not processedUris.contains(searchResult.getUri()))
-	  {
-	      var combinedSearchResult = CombinedSearchResult
+      while (iterator.hasNext()) {
+         var searchResult = iterator.next() as ISearchResult;
+         if (not processedUris.contains(searchResult.getUri()))
+         {
+            var combinedSearchResult = CombinedSearchResult
 	      {
-		  uri: searchResult.getUri();
-		  relevanceX: getSearchResultRelevance(xSsearchResults,searchResult.getUri());
-		  relevanceY: getSearchResultRelevance(ySsearchResults,searchResult.getUri());
-		  relevanceZ: searchResult.getRelevance();
+               uri: searchResult.getUri();
+               relevanceX: getSearchResultRelevance(xSsearchResults,searchResult.getUri());
+               relevanceY: getSearchResultRelevance(ySsearchResults,searchResult.getUri());
+               relevanceZ: searchResult.getRelevance();
 	      };
 	      insert combinedSearchResult into newCombinedSearchResults;
 	      processedUris.add(searchResult.getUri());
-	  }   
+         }
       }
       System.out.println("Processed search results, nr of elos {newCombinedSearchResults.size()}");
       combinedSearchResults = newCombinedSearchResults;
@@ -94,16 +92,14 @@ public class ResultViewModel
       return newCombinedSearchResults;
    }
    
-   function getSearchResultRelevance(searchResults:List,uri:URI):Number
-   {
+   function getSearchResultRelevance(searchResults:List,uri:URI):Number {
       var iterator = searchResults.iterator();
-      while (iterator.hasNext())
-      {
-	  var searchResult = iterator.next() as ISearchResult;
-	  if (uri.equals(searchResult.getUri()))
-	  {
-	     return searchResult.getRelevance();
-	  }   
+      while (iterator.hasNext()) {
+         var searchResult = iterator.next() as ISearchResult;
+         if (uri.equals(searchResult.getUri()))
+         {
+            return searchResult.getRelevance();
+         }
       }
       return 0.0;
    }

@@ -4,7 +4,8 @@
  */
 package eu.scy.elobrowser.model.mapping;
 
-import roolo.api.IELO;
+import roolo.elo.api.IELO;
+
 
 /**
  *

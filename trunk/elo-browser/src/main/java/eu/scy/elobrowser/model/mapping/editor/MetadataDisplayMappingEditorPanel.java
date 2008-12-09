@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 import org.springframework.util.StringUtils;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IMetadataKey;
 
 /**
  *
@@ -120,8 +120,8 @@ public class MetadataDisplayMappingEditorPanel extends javax.swing.JPanel
                      .add(nameLabel))
                   .addPreferredGap(LayoutStyle.RELATED)
                   .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                     .add(nameField, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-                     .add(descriptionScrollPane, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))))
+                     .add(nameField, GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                     .add(descriptionScrollPane, GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))))
             .addContainerGap())
       );
       layout.setVerticalGroup(

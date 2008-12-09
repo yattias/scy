@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import roolo.api.IELO;
-import roolo.api.IQuery;
 import roolo.api.IRepository;
-import roolo.api.ISearchResult;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
+import roolo.elo.api.IELO;
 
 /**
  *

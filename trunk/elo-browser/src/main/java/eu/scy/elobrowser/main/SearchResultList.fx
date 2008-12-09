@@ -6,6 +6,7 @@
 
 package eu.scy.elobrowser.main;
 
+import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.main.SearchResultList;
 import java.lang.*;
@@ -19,7 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import roolo.api.ISearchResult;
+import roolo.api.search.ISearchResult;
 
 /**
  * @author sikken
@@ -99,7 +100,7 @@ public class SearchResultList extends CustomNode {
 }
 
 function run() {
-   Stage
+      Stage
 {
       title: "Test SearchResultList"
       width: 400

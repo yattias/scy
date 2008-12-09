@@ -10,7 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IMetadataKey;
 
 /**
  *

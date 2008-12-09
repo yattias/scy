@@ -19,8 +19,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import roolo.api.*;
-import roolo.api.search.*;
+import roolo.api.IExtensionManager;
+import roolo.api.IRepository;
+import roolo.cms.repository.search.BasicSearchOperationNames;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * @author sikkenj
@@ -89,8 +92,7 @@ public class Roolo {
       findEloBrowserParts();
    }
    
-   function findRooloParts()
-   {
+   function findRooloParts() {
       springContext = null;
       try {
          springContext = new FileSystemXmlApplicationContext(configFileLocation);

@@ -5,7 +5,7 @@
 package eu.scy.elobrowser.model.mapping;
 
 import java.util.List;
-import roolo.api.IQuery;
+import roolo.api.search.IQuery;
 
 /**
  *

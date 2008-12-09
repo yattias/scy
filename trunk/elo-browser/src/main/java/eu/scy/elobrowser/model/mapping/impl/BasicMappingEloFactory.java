@@ -7,10 +7,10 @@ package eu.scy.elobrowser.model.mapping.impl;
 import eu.scy.elobrowser.model.mapping.MappingElo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
 import eu.scy.elobrowser.model.mapping.XmlMetadataDisplayMappingConverter;
-import roolo.api.IELO;
-import roolo.api.IELOFactory;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  *

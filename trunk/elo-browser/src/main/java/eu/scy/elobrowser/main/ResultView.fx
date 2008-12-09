@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import roolo.api.IMetadata;
+import roolo.elo.api.IMetadata;
 
 /**
  * @author sikken
@@ -46,7 +46,7 @@ public class ResultView extends CustomNode {
    var eloDisplays:EloDisplay[];
    
    public override function create(): Node {
-         Group
+      Group
       {
          content: [
             Rectangle {
@@ -57,7 +57,7 @@ public class ResultView extends CustomNode {
                fill: null;
                stroke: Color.BLACK;
             },
-            Rectangle
+               Rectangle
 	    {
                x: xOffset,
                y: yOffset
@@ -85,7 +85,7 @@ public class ResultView extends CustomNode {
    public function newDisplayEloMappings(displayEloMappings: List) {
       System.out.println("Nr of eloDisplay to place {displayEloMappings.size()}");
       for (j in [0..(
-         nrOfElos - 1)]) {
+      nrOfElos - 1)]) {
          eloDisplays[j].translateX = calculateX(0);
          eloDisplays[j].translateY = calculateY(0);
          eloDisplays[j].radius = calculateZ(0);
@@ -105,7 +105,7 @@ public class ResultView extends CustomNode {
          displayMappingIterator.hasNext()){
             var displayMapping =
             displayMappingIterator.next() as DisplayMapping;
-         System.out.println("- setting property, {displayMapping}");
+            System.out.println("- setting property, {displayMapping}");
             if (displayMapping.getValue() == null)
             continue;
             if (displayMapping.getDisplayProperty() == DisplayProperty.X)
@@ -119,7 +119,7 @@ public class ResultView extends CustomNode {
                eloDisplay.radius = calculateZ(displayMapping.getValue());
             }
          }
-        // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
+         // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
          eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
          System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, ");
          eloDisplay.visible = true;
@@ -132,7 +132,7 @@ public class ResultView extends CustomNode {
       //       var combinedSearchResults = resultViewModel.combinedSearchResults;
       System.out.println("Nr of eloDisplay to place {combinedSearchResults.size()}");
       for (j in [0..(
-      nrOfElos - 1)]) {
+         nrOfElos - 1)]) {
          eloDisplays[j].visible = false;
       }
       var i = 0;
