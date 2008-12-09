@@ -367,6 +367,30 @@
             </exclusions>
         </dependency>
 
+        <!-- ACTIVEMQ -->
+
+
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-web</artifactId>
+            <version>5.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.mortbay.jetty</artifactId>
+                    <groupId>jetty-util</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mx4j</artifactId>
+                    <groupId>mx4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>

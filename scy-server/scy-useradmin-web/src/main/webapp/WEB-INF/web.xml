@@ -51,10 +51,9 @@
 <!--    </filter>-->
 
 
-
     <!-- SPRING SECURITY -->
 
-     <filter>
+    <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
@@ -65,15 +64,14 @@
     </filter-mapping>
 
     <!-- THIS ONE NEEDS TO BE AFTER SECURITY FILTER - OR ELSE SECURITY IS OVERLOOKED -->
-    
+
 <!--    <filter-mapping>-->
 <!--        <filter-name>app</filter-name>-->
 <!--        <url-pattern>/*</url-pattern>-->
 <!--    </filter-mapping>-->
 
 
-
- <!-- SCY LOGIN SERVICE -->
+    <!-- SCY LOGIN SERVICE -->
 
     <servlet>
         <servlet-name>CXFServlet</servlet-name>
@@ -108,6 +106,17 @@
 	</servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>AjaxServlet</servlet-name>
+        <servlet-class>org.apache.activemq.web.AjaxServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AjaxServlet</servlet-name>
+        <url-pattern>/amq/*</url-pattern>
+    </servlet-mapping>
+
+
     <!-- LISTENERS -->
 
     <listener>
@@ -125,7 +134,6 @@
     <listener>
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
     </listener>
-
 
 
     <resource-ref>
