@@ -64,16 +64,29 @@ html, body{
 }
 
 #scyUserMenu{
-    padding:4px 0 0 4px;
+    padding:6px 0 6px 6px;
     /*height:70px;*/
     background-color:#ededed;
     /*margin:0 4px;*/
     border-top:1px solid #000000;
     border-bottom:4px outset #cccccc;
+
 }
 #scyUserMenu a{
     color:#000000;
     text-decoration:none;
+    background-color:#ffffff;
+    padding:2px;
+    border:1px solid #444444;
+    margin-left:3px;
+}
+
+#scyUserMenu a:hover{
+    background-color:#cccccc;
+}
+
+#scyUserMenu a.selected{
+    background-color:#cccccc;
 }
 #mainpane{
     width:100%;
