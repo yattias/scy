@@ -10,25 +10,22 @@
  */
 package eu.scy.elobrowser.model.mapping.editor;
 
-import eu.scy.elobrowser.model.mapping.DisplayProperty;
-import eu.scy.elobrowser.model.mapping.Mapping;
 import eu.scy.elobrowser.model.mapping.MappingElo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
-import eu.scy.elobrowser.model.mapping.impl.BasicMapping;
 import eu.scy.elobrowser.model.mapping.impl.BasicMappingEloFactory;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
-import roolo.api.IELO;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
-import roolo.api.IQuery;
 import roolo.api.IRepository;
-import roolo.api.ISearchResult;
-import roolo.api.search.BasicSearchOperations;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  *

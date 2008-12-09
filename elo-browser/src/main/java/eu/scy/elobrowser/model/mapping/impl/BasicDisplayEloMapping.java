@@ -7,9 +7,8 @@ package eu.scy.elobrowser.model.mapping.impl;
 
 import eu.scy.elobrowser.model.mapping.DisplayEloMapping;
 import eu.scy.elobrowser.model.mapping.DisplayMapping;
-import java.util.ArrayList;
 import java.util.List;
-import roolo.api.IELO;
+import roolo.elo.api.IELO;
 
 /**
  *

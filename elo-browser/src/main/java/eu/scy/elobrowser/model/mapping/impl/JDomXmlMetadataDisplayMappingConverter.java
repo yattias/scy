@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
-import roolo.api.IMetadataKey;
-import roolo.api.IMetadataTypeManager;
-import roolo.cms.elo.JDomStringConversion;
+import roolo.elo.JDomStringConversion;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  *

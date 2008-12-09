@@ -8,7 +8,7 @@ package eu.scy.elobrowser.model.mapping.editor;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import roolo.api.IMetadataKey;
+import roolo.elo.api.IMetadataKey;
 
 /**
  *

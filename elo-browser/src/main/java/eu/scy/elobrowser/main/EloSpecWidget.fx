@@ -17,8 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import org.springframework.util.StringUtils;
-import roolo.api.*;
+import roolo.api.search.IQuery;
 import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.elo.api.IMetadataKey;
 
 /**
  * @author sikkenj
@@ -49,28 +50,26 @@ public class EloSpecWidget extends CustomNode {
    function initializeSelectors() {
       keySelector = SwingComboBox
        {
-         items: 
-         for (key in roolo.getKeys())  {
-               SwingComboBoxItem
+         items: for (key in roolo.getKeys())  {
+                    SwingComboBoxItem
 	      {
-               text: key.getId();
-               value: key;
-            }
-         }
+                    text: key.getId();
+                    value: key;
+                 }
+              }
          editable: false;
          text: "Select key";
          selectedIndex:0;
       }
       operationSelector = SwingComboBox
        {
-         items: 
-         for (operation in roolo.getSearchOperations())  {
-               SwingComboBoxItem
+         items: for (operation in roolo.getSearchOperations())  {
+                    SwingComboBoxItem
 	      {
-               text: operation;
-               value: operation;
-            }
-         }
+                    text: operation;
+                    value: operation;
+                 }
+              }
          editable: false;
          text: "Select operation";
          selectedIndex:0;
@@ -118,16 +117,16 @@ public class EloSpecWidget extends CustomNode {
             },
             Group{
                translateY:yOffset + 1 * yStep;
-            content:[keyLabel,keySelector]},
+               content:[keyLabel,keySelector]},
             Group{
                translateY:yOffset + 2 * yStep;
-            content:[operationLabel,operationSelector]},
+               content:[operationLabel,operationSelector]},
             Group{
                translateY:yOffset + 3 * yStep;
-            content:[value1Label,value1Text]},
+               content:[value1Label,value1Text]},
             Group{
                translateY:yOffset + 4 * yStep;
-            content:[value2Label,value2Text]},
+               content:[value2Label,value2Text]},
          ]
 
       };
@@ -158,7 +157,7 @@ public class EloSpecWidget extends CustomNode {
 
 function run() {
 
-      Stage
+   Stage
 {
       title: "Elo spec widget tester"
       width: 200

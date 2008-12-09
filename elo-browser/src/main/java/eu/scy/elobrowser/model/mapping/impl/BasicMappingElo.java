@@ -11,11 +11,11 @@ import eu.scy.elobrowser.model.mapping.MetadataDisplayMapping;
 import eu.scy.elobrowser.model.mapping.XmlMetadataDisplayMappingConverter;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
-import roolo.api.IContent;
-import roolo.api.IELO;
-import roolo.api.IMetadataKey;
-import roolo.api.metadata.MetadataSingleLanguageValueAccessor;
-import roolo.cms.content.StringContent;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.MetadataSingleLanguageValueAccessor;
+import roolo.elo.content.StringContent;
 
 /**
  *
