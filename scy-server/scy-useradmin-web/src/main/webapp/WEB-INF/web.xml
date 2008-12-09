@@ -45,10 +45,10 @@
 
     <!-- TAPESTRY FILTER -->
 
-<!--    <filter>-->
-<!--        <filter-name>app</filter-name>-->
-<!--        <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>-->
-<!--    </filter>-->
+    <filter>
+        <filter-name>app</filter-name>
+            <filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>
+    </filter>
 
 
     <!-- SPRING SECURITY -->
@@ -65,10 +65,10 @@
 
     <!-- THIS ONE NEEDS TO BE AFTER SECURITY FILTER - OR ELSE SECURITY IS OVERLOOKED -->
 
-<!--    <filter-mapping>-->
-<!--        <filter-name>app</filter-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>app</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
     <!-- SCY LOGIN SERVICE -->

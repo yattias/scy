@@ -92,8 +92,9 @@ public class Index extends ScyModelPage {
 
     Object onActionFromOpenGroup(String groupId) {
         Group group = getGroupDAO().getGroup(groupId);
-        log.info("Loading group :" + group.getName());
+        log.info("** ** ** ** ** ** *Loading group :" + group.getName());
         groupOverview.setModelId(groupId);
+        groupOverview.loadModel();
         return groupOverview;
     }
 
