@@ -2,8 +2,6 @@
 <head>
     <title>SCY</title>
     <link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="amq/amq.js"></script>
-    <script type="text/javascript">amq.uri='/mycontext/amq';</script>          
 </head>
 
 <body id="scyPage">

@@ -159,6 +159,7 @@ public class AppModule {
         configuration.add("/applets/.*");
         configuration.add("/css/.*");
         configuration.add("/graphics/.*");
+        configuration.add("/remoting/.*");
 
     }
 
