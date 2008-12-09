@@ -135,6 +135,10 @@
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>eu.scy.listeners.SQLSpaceStartupListener</listener-class>
+    </listener>
+
 
     <resource-ref>
         <res-ref-name>jdbc/scyuseradmin</res-ref-name>

@@ -4,7 +4,7 @@
     <p>Before starting to work on concept maps - you have to connect to the server.... Select connect in the menu and .... connect....!</p>
     <p>Click "Add class" to add a concept. The two buttons with no icon represents different kinds of connections that can be added betweeen concepts</p>
     <p>Currently there is only one concept mapping session - so all concepts that you add will be shared by everybody - this will of course be fixed, but until then, do not add text you do not wish to share with others...:-) (recommended text: Henrik is cool)</p>
-    <t:any element="applet" codebase="applets" code="eu.scy.colemo.client.ColemoApplet.class"
+    <t:any element="applet" codebase="/scy-useradmin-web/applets" code="eu.scy.colemo.client.ColemoApplet.class"
         archive="colemo-client.jar, colemo-model.jar, scy-model-api.jar, scy-model-impl.jar, swingx.jar"
         width="600" height="600">
         <t:any element="param" name="username" value="${username}"/>
