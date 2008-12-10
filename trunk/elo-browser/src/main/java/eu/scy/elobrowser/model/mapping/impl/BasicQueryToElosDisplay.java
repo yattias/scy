@@ -26,71 +26,76 @@ import roolo.elo.api.IELO;
  */
 public class BasicQueryToElosDisplay implements QueryToElosDisplay
 {
-	private static final Logger logger = Logger.getLogger(BasicQueryToElosDisplay.class);
-	private IRepository repository;
 
-	public void setRepository(IRepository repository)
-	{
-		this.repository = repository;
-	}
+   private static final Logger logger = Logger.getLogger(BasicQueryToElosDisplay.class);
+   private IRepository repository;
 
-	private DisplayMappingList getBasicDisplayMappingList(
-		Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap,
-		DisplayProperty displayProperty)
-	{
-		DisplayMappingList displayMappingList = basicDisplayMappingListMap.get(displayProperty);
-		if (displayMappingList == null)
-		{
-			displayMappingList = new DisplayMappingList();
-			basicDisplayMappingListMap.put(displayProperty, displayMappingList);
-		}
-		return displayMappingList;
-	}
+   public void setRepository(IRepository repository)
+   {
+      this.repository = repository;
+   }
 
-	@Override
-	public List<DisplayEloMapping> getDisplayEloMapping(MappingElo mappingElo, IQuery query)
-	{
-		Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap = new HashMap<DisplayProperty, DisplayMappingList>();
-		List<DisplayEloMapping> displayEloMappings = new ArrayList<DisplayEloMapping>();
-		List<ISearchResult> searchResults = repository.search(query);
-		for (ISearchResult searchResult : searchResults)
-		{
+   private DisplayMappingList getBasicDisplayMappingList(
+      Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap,
+      DisplayProperty displayProperty)
+   {
+      DisplayMappingList displayMappingList = basicDisplayMappingListMap.get(displayProperty);
+      if (displayMappingList == null)
+      {
+         displayMappingList = new DisplayMappingList();
+         basicDisplayMappingListMap.put(displayProperty, displayMappingList);
+      }
+      return displayMappingList;
+   }
+
+   @Override
+   public List<DisplayEloMapping> getDisplayEloMapping(MappingElo mappingElo, IQuery query)
+   {
+      Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap = new HashMap<DisplayProperty, DisplayMappingList>();
+      List<DisplayEloMapping> displayEloMappings = new ArrayList<DisplayEloMapping>();
+      List<ISearchResult> searchResults = repository.search(query);
+      for (ISearchResult searchResult : searchResults)
+      {
 //		  logger.debug("searchResult:" + searchResult);
-			displayEloMappings.add(createDisplayEloMapping(mappingElo.getMetadataDisplayMapping().getMappings(), searchResult, basicDisplayMappingListMap));
-		}
-		for (Mapping mapping : mappingElo.getMetadataDisplayMapping().getMappings())
-		{
-			if (mapping.isAutoRanging())
-			{
-				basicDisplayMappingListMap.get(mapping.getDisplayPropperty()).autoRange();
-			}
-			else
-			{
-				basicDisplayMappingListMap.get(mapping.getDisplayPropperty()).range(mapping.getMinimum(), mapping.getMaximum());
-			}
-		}
-		return displayEloMappings;
-	}
+         displayEloMappings.add(createDisplayEloMapping(mappingElo.getMetadataDisplayMapping().getMappings(), searchResult, basicDisplayMappingListMap));
+      }
+      for (Mapping mapping : mappingElo.getMetadataDisplayMapping().getMappings())
+      {
+         DisplayMappingList displayMappingList = basicDisplayMappingListMap.get(mapping.getDisplayPropperty());
+         if (displayMappingList != null)
+         {
+            if (mapping.isAutoRanging())
+            {
+               displayMappingList.autoRange();
+            }
+            else
+            {
+               displayMappingList.range(mapping.getMinimum(), mapping.getMaximum());
+            }
+         }
+      }
+      return displayEloMappings;
+   }
 
-	private DisplayEloMapping createDisplayEloMapping(List<Mapping> mappings,
-		ISearchResult searchResult,
-		Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap)
-	{
-		IELO elo = repository.retrieveELO(searchResult.getUri());
-		List<DisplayMapping> displayMappings = new ArrayList<DisplayMapping>();
-		for (Mapping mapping : mappings)
-		{
-			Double displayValue = null;
-			Object value = elo.getMetadata().getMetadataValueContainer(mapping.getMetadataKey()).getValue();
-			if (value instanceof Number)
-			{
-				Number numberValue = (Number) value;
-				displayValue = new Double(numberValue.doubleValue());
-			}
-			BasicDisplayMapping basicDisplayMapping = new BasicDisplayMapping(mapping.getDisplayPropperty(), displayValue);
-			displayMappings.add(basicDisplayMapping);
-			getBasicDisplayMappingList(basicDisplayMappingListMap, mapping.getDisplayPropperty()).addBasicDisplayMapping(basicDisplayMapping);
-		}
-		return new BasicDisplayEloMapping(elo, displayMappings);
-	}
+   private DisplayEloMapping createDisplayEloMapping(List<Mapping> mappings,
+      ISearchResult searchResult,
+      Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap)
+   {
+      IELO elo = repository.retrieveELO(searchResult.getUri());
+      List<DisplayMapping> displayMappings = new ArrayList<DisplayMapping>();
+      for (Mapping mapping : mappings)
+      {
+         Double displayValue = null;
+         Object value = elo.getMetadata().getMetadataValueContainer(mapping.getMetadataKey()).getValue();
+         if (value instanceof Number)
+         {
+            Number numberValue = (Number) value;
+            displayValue = new Double(numberValue.doubleValue());
+         }
+         BasicDisplayMapping basicDisplayMapping = new BasicDisplayMapping(mapping.getDisplayPropperty(), displayValue);
+         displayMappings.add(basicDisplayMapping);
+         getBasicDisplayMappingList(basicDisplayMappingListMap, mapping.getDisplayPropperty()).addBasicDisplayMapping(basicDisplayMapping);
+      }
+      return new BasicDisplayEloMapping(elo, displayMappings);
+   }
 }
