@@ -45,7 +45,7 @@
   	</repository>
   	<repository>
   		<id>fhg-maven</id>
-  		<url>http://theseuskd:8080/nexus/content/groups/public/</url>
+  		<url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
   		<releases>
   			<updatePolicy>always</updatePolicy>
   			<checksumPolicy>fail</checksumPolicy>
