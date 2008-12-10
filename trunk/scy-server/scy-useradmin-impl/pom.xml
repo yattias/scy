@@ -185,6 +185,6 @@
     </distributionManagement>
 
     <properties>
-        <filter.file>src/test/resources/filters.properties</filter.file>
+        <filter.file>src/test/resources/filter.properties</filter.file>
     </properties>
 </project>
