@@ -66,6 +66,16 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archiveClasses>true</archiveClasses>
+                    <filters>
+                        <filter>${filter.file}</filter>
+                    </filters>
+                    <webResources>
+                        <resource>
+              		    	<directory>src/main/webapp/META-INF</directory>
+                        	<targetPath>META-INF</targetPath>
+              		    	<filtering>true</filtering>
+            	        </resource>
+          	    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -420,6 +430,10 @@
                 <exclusion>
                     <artifactId>mx4j</artifactId>
                     <groupId>mx4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>activeio-core</artifactId>
+                    <groupId>org.apache.activemq</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
