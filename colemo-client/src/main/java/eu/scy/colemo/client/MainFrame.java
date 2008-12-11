@@ -18,6 +18,8 @@ import java.awt.event.TextListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.URL;
+import java.net.InetAddress;
+import java.net.Inet4Address;
 import java.util.Vector;
 import javax.swing.*;
 
@@ -26,12 +28,11 @@ import eu.scy.colemo.contributions.cmap.ConceptNode;
 import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.network.Person;
-import eu.scy.colemo.network.NetworkMessage;
-import eu.scy.colemo.network.LogOn;
 
 import eu.scy.colemo.test.XMLFileViewer;
 import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
+import eu.scy.colemo.client.groups.ConnectionHandlerJGroups;
 
 /**
  * @author Øystein
@@ -59,6 +60,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
     private String username;
     private String password;
     private String host;
+
 
     public String getUsername() {
         return username;
@@ -336,13 +338,15 @@ southPanel.setPreferredSize(new Dimension(1000,300));
     }
 
     public void addClass(UmlDiagram diagram, String type) {
+
         String name = JOptionPane.showInputDialog(this, "Please type name of new class:");
         if (name != null) {
             try {
                 if (!gDiagram.getUmlDiagram().nameExist(name)) {
-                    AddClass addClass = new AddClass(name, type, client.getPerson().getUserName(), client.getConnection().getSocket().getLocalAddress(), client.getPerson());
-
-                    client.getConnection().send(addClass);
+                    InetAddress address = null;
+                    Person person = null;
+                    AddClass addClass = new AddClass(name, type, "", address, person);
+                    ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(addClass);
                 } else {
                     JOptionPane.showMessageDialog(this, "This class already exists!");
                 }
@@ -593,25 +597,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
     }
 
     public void connect() {
-        //UserDialog login = new UserDialog(getUsername(), getPassword(), getHost());
-        String userName = getUsername();//this.username;//login.getUserName();
-        String serverip = getHost();
-        String password = getPassword();
-        if (userName != null && password != null) {
-            //if(!login.cancel){
-            Person person = new Person(userName);
-            person.setPassword(password);
-            client = new Client(this, person, serverip);
-            NetworkMessage message = new NetworkMessage(client.getConnection().getSocket().getLocalAddress(), client.getPerson(), new LogOn(client.getPerson()), "connect");
-            client.getConnection().send(message);
-            this.setTitle(getUsername());
-            toolbar.remove(connect);
-            toolbar.add(disconnect);
-            //}
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Surely you must come up with an user name!");
-        }
+        ApplicationController.getDefaultInstance().connect();
     }
 
     /* (non-Javadoc)

@@ -8,6 +8,7 @@ package eu.scy.colemo.client;
 
 import eu.scy.colemo.network.Connection;
 import eu.scy.colemo.network.Client;
+import eu.scy.colemo.network.Person;
 import eu.scy.colemo.contributions.ClassMoving;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.server.uml.UmlClass;
@@ -245,18 +246,19 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
         if (ae.getModifiers() != InputEvent.BUTTON3_MASK) {
             Client client = getGraphicsDiagram().getMainFrame().getClient();
-            Connection connection = client.getConnection();
-            InetAddress ip = connection.getSocket().getLocalAddress();
+            //Connection connection = client.getConnection();
+            InetAddress ip = null;//connection.getSocket().getLocalAddress();
+            Person person = null;
 
             if (umlClass.isMove()) {
                 umlClass.setMove(false);
                 ClassMoving classMoving = new ClassMoving(umlClass, ip);
-                connection.send(classMoving);
+                ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(classMoving);
             }
 
             getParent().repaint();
-            MoveClass movedClass = new MoveClass(umlClass, ip, client.getPerson());
-            connection.send(movedClass);
+            MoveClass movedClass = new MoveClass(umlClass, ip, person);
+            ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
         }
     }
 
@@ -264,9 +266,10 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         if (e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()) {
             umlClass.setMove(true);
             Client client = getGraphicsDiagram().getMainFrame().getClient();
-            Connection connection = client.getConnection();
-            ClassMoving classMoving = new ClassMoving(umlClass, connection.getSocket().getLocalAddress());
-            connection.send(classMoving);
+            //Connection connection = client.getConnection();
+            InetAddress adr = null;
+            ClassMoving classMoving = new ClassMoving(umlClass, adr);//connection.getSocket().getLocalAddress());
+            ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(classMoving);
         }
 
         this.changePosition(e.getX(), e.getY());
