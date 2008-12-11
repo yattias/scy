@@ -25,6 +25,7 @@ public class AddConceptAction extends BaseAction {
         if(frame == null) log.info("Frame is null");
         if(frame.getGraphicsDiagram() == null) log.info("Graphics diagram is null");
         if(frame.getGraphicsDiagram().getUmlDiagram() == null) log.info("UML DIAGRAM is null");
-        ApplicationController.getDefaultInstance().getMainFrame().addClass(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
+        ApplicationController.getDefaultInstance().getConnectionHandler().sendMessage("ADD CONCEPT!");
+        //ApplicationController.getDefaultInstance().getMainFrame().addClass(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
     }
 }
