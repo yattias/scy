@@ -2,6 +2,7 @@ package eu.scy.agents.impl;
 
 import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.ICommunicationAgent;
+import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public abstract class AbstractCommunicationAgent<K extends IMetadataKey> extends AbstractAgent implements ICommunicationAgent<K> {
@@ -25,8 +26,7 @@ public abstract class AbstractCommunicationAgent<K extends IMetadataKey> extends
     
     @Override
     public ToolBrokerAPI<K> getToolBrokerAPI() {
-        // ApplicationContext context =
-        return null;
+        return new ToolBrokerImpl<K>();
     }
     
 }
