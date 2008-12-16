@@ -98,7 +98,7 @@ For now some manual work is necessary, to unpack the simquestviewer-all.jar in t
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
-			<version>1.0.2</version>
+			<version>[1.0.3,)</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy</groupId>
@@ -116,6 +116,10 @@ For now some manual work is necessary, to unpack the simquestviewer-all.jar in t
 			<version>0.2</version>
 		</dependency>
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
 	
