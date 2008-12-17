@@ -51,8 +51,8 @@ IDataClient {
     private ISimQuestViewer simquestViewer;
     private JTextArea text = new JTextArea(5, 20);
     private ToolBrokerImpl<IMetadataKey> toolBroker;
-    private JDomBasicELOFactory eloFactory;
-    private IMetadataTypeManager metadataTypeManager;
+    private JDomBasicELOFactory<IMetadataKey> eloFactory;
+    private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
     private SCYDataAgent dataAgent;
     private List<ModelVariable> simulationVariables;
     private List<ModelVariable> selectedVariables;
@@ -111,6 +111,11 @@ IDataClient {
         button.addActionListener(this);
         buttonPanel.add(button);
         
+        button = new JButton("test");
+        button.setActionCommand("test");
+        button.addActionListener(this);
+        buttonPanel.add(button);
+        
         this.add(buttonPanel, BorderLayout.NORTH);
         
         JScrollPane pane = new JScrollPane(text);
@@ -138,6 +143,9 @@ IDataClient {
             VariableSelectionDialog dialog = new VariableSelectionDialog(
                     simquestViewer.getMainFrame(), this);
             dialog.setVisible(true);
+        } else if (evt.getActionCommand().equals("test")) {
+        	// testing: creating a toolbroker instance
+        	toolBroker = new ToolBrokerImpl<IMetadataKey>();
         } else if (evt.getActionCommand().equals("saveelo")) {
             
             
