@@ -56,6 +56,8 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
       deleteButton = new javax.swing.JButton();
       addButton = new javax.swing.JButton();
 
+      setPreferredSize(new java.awt.Dimension(180, 200));
+
       metadataDisplayMappingList.setModel(mappingEloListModel);
       metadataDisplayMappingList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
       metadataDisplayMappingList.setCellRenderer(new MappingEloListCellRenderer());
@@ -87,7 +89,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
          .add(layout.createSequentialGroup()
             .addContainerGap()
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-               .add(org.jdesktop.layout.GroupLayout.LEADING, metadataDisplayMappingListScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+               .add(org.jdesktop.layout.GroupLayout.LEADING, metadataDisplayMappingListScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                .add(layout.createSequentialGroup()
                   .add(addButton)
                   .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -98,7 +100,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
          layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
          .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
             .addContainerGap()
-            .add(metadataDisplayMappingListScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+            .add(metadataDisplayMappingListScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                .add(deleteButton)

@@ -95,7 +95,7 @@ public class EloSpecWidget extends CustomNode {
       initializeSelectors();
       var yOffset = 0;
       var yStep = 30;
-      def xOffset = 80;
+      def xOffset = 70;
       def inputWidth = Math.max(keySelector.width,operationSelector.width);
       keySelector.width = inputWidth;
       operationSelector.width = inputWidth;
@@ -105,16 +105,12 @@ public class EloSpecWidget extends CustomNode {
       operationSelector.translateX=xOffset;
       value1Text.translateX=xOffset;
       value2Text.translateX=xOffset;
+      yOffset = -yStep;
       return Group
       {
          translateX:5;
          translateY:5;
          content: [
-            Group{
-               translateY:yOffset;
-               content: [titleLabel
-               ]
-            },
             Group{
                translateY:yOffset + 1 * yStep;
                content:[keyLabel,keySelector]},
