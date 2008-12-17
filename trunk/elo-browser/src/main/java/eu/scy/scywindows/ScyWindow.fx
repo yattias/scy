@@ -452,6 +452,11 @@ function run() {
             text: "Tree"
             action: function() {
                var tree = new JTree();
+					var treeSize = new Dimension(2000,2000);
+					//tree.setMinimumSize(treeSize);
+					//tree.setMaximumSize(treeSize);
+					tree.setPreferredSize(treeSize);
+					//tree.setSize(treeSize);
                var treeNode = SwingComponent.wrap(tree);
                var drawingWindow = ScyWindow{
                   color:Color.BLUE
@@ -459,7 +464,7 @@ function run() {
 						width:150
 						height:150
                   scyContent: treeNode
-						swingContent:tree
+						//swingContent:tree
                   visible:true
                }
                scyDesktop.addScyWindow(drawingWindow)
