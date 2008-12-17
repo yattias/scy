@@ -3,6 +3,29 @@
   <groupId>eu.scy</groupId>
   <artifactId>agent-impl</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+ 	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
   <dependencies>
   	<dependency>
   		<groupId>eu.scy</groupId>
