@@ -11,6 +11,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.RooloMetadataKeys;
 
 /**
  *
@@ -56,6 +57,16 @@ public class BasicMappingEloFactory implements MappingEloFactory
 	public void setXmlMetadataDisplayMappingConverter(XmlMetadataDisplayMappingConverter xmlMetadataDisplayMappingConverter)
 	{
 		this.xmlMetadataDisplayMappingConverter = xmlMetadataDisplayMappingConverter;
+	}
+
+	public void initialized()
+	{
+		if (formatKey==null)
+			formatKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+		if (nameKey==null)
+			nameKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
+		if (descriptionKey==null)
+			descriptionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
 	}
 	
 	@Override

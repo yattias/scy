@@ -6,12 +6,18 @@
 
 package eu.scy.elobrowser.main;
 
+import eu.scy.client.tools.drawing.MyPropertyPlaceholderConfigurer;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
 import eu.scy.elobrowser.model.mapping.QueryToElosDisplay;
 import java.io.FileNotFoundException;
-import java.lang.*;
+import java.lang.IllegalStateException;
+import java.lang.Object;
+import java.lang.System;
+import java.net.URL;
 import java.security.AccessControlException;
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -25,13 +31,17 @@ import roolo.cms.repository.search.BasicSearchOperationNames;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 
+
+
+
+
 /**
  * @author sikkenj
  */
 
 public class Roolo {
    public var configFileLocation:String = "rooloConfig.xml";
-   public var configClasspathLocation:String = "config/rooloConfig.xml";
+   public var configClasspathLocation:String = "/config/rooloConfig.xml";
    public var repository:IRepository;
    public var metadataTypeManager :IMetadataTypeManager;
    public var extensionManager: IExtensionManager;
@@ -93,21 +103,23 @@ public class Roolo {
    }
    
    function findRooloParts() {
+      setupServerAddress();
       springContext = null;
-      try {
-         springContext = new FileSystemXmlApplicationContext(configFileLocation);
-      } catch (e1:AccessControlException) {
-         System.out.println("Could not access file {configFileLocation}, trying on class path");
-      } catch (e2:BeanDefinitionStoreException) {
-         if (not(
-         e2.getRootCause() instanceof FileNotFoundException))
-         {
-	       throw e2;
-         }
-         System.out.println("Could not find file {configFileLocation}, trying on class path");
-      }
+//      try {
+//         springContext = new FileSystemXmlApplicationContext(configFileLocation);
+//      } catch (e1:AccessControlException) {
+//         System.out.println("Could not access file {configFileLocation}, trying on class path");
+//      } catch (e2:BeanDefinitionStoreException) {
+//         if (not(
+//         e2.getRootCause() instanceof FileNotFoundException))
+//         {
+//	       throw e2;
+//         }
+//         System.out.println("Could not find file {configFileLocation}, trying on class path");
+//      }
       if (springContext == null)
       {
+         System.out.println("trying to load spring config from class path {configClasspathLocation}");
          springContext = new ClassPathXmlApplicationContext(configClasspathLocation);
       }
       if (springContext == null)
@@ -124,8 +136,38 @@ public class Roolo {
       searchOperationNames =
       getSpringBean("searchOperations") as BasicSearchOperationNames;
    }
+
+   function setupServerAddress(){
+      try{
+         var basicService =
+      ServiceManager.lookup("BasicService") as BasicService;
+         if (basicService != null){
+            var codeBase = basicService.getCodeBase();
+            var properties = MyPropertyPlaceholderConfigurer.properties;
+            properties.put("serverName", codeBase.getHost());
+            properties.put("httpPort", "{codeBase.getPort()}");
+            properties.put("contextPath", getContextPath(codeBase));
+         }
+      } catch (exception){
+          System.out.println("Failed to get info about jnlp codeBase, {exception}");
+      }
+   }
+
+   function getContextPath(codeBase:URL) : String{
+      var path = codeBase.getPath();
+		var contextPath = path;
+		var startSearchPos = 0;
+		if (path.length() > 0 and path.charAt(0) == '/'){
+         startSearchPos = 1;
+      }
+		var slashPos = path.indexOf('/',startSearchPos);
+		if (slashPos >= 0){
+         contextPath = path.substring(0, slashPos);
+      }
+		return contextPath;
+   }
    
-   function getSpringBean(name:String):Object {
+   public function getSpringBean(name:String):Object {
       try {
          return springContext.getBean(name);
       } catch (e:NoSuchBeanDefinitionException) {
@@ -152,19 +194,20 @@ public class Roolo {
    
 }
 
-var roolo:Roolo;;
+   var roolo:Roolo;;
 
-public function getRoolo():Roolo {
-   if (roolo == null)
-   {
-      try {
-			DOMConfigurator.configure (
-         new ClassPathResource ("config/elobrowser.log4j.xml").getURL ());
-		} catch (e) {
+   public function getRoolo():Roolo {
+      if (roolo == null)
+      {
+         try {
+            DOMConfigurator.configure (
+            new ClassPathResource ("config/elobrowser.log4j.xml").getURL ());
+         } catch (e) {
+         System.out.println("Problems with loading log4j config");
 			e.printStackTrace();
-		}
-      roolo = Roolo{};
+         }
+         roolo = Roolo{};
       roolo.initialize();
+      }
+      return roolo;
    }
-   return roolo;
-}

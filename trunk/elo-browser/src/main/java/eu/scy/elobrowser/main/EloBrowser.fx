@@ -7,6 +7,7 @@
 package eu.scy.elobrowser.main;
 
 import colab.vt.whiteboard.component.WhiteboardPanel;
+import eu.scy.client.tools.drawing.EloDrawingPanel;
 import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
@@ -29,7 +30,10 @@ import javafx.stage.Stage;
 function createScyDesktop():ScyDesktop {
    var scyDesktopMain:ScyDesktop = ScyDesktop{};
 
-   var newGroup = Group {
+   var newGroup = VBox {
+      translateX:5
+      translateY:5;
+      spacing:3;
       content:[
          SwingButton{
             text: "Drawing"
@@ -80,6 +84,8 @@ function createScyDesktop():ScyDesktop {
    }
 
    var newScyWindow= ScyWindow{
+      translateX:10;
+      translateY:150;
       title:"New"
       color:Color.BLUEVIOLET
       scyContent:newGroup
@@ -92,10 +98,93 @@ function createScyDesktop():ScyDesktop {
    return scyDesktopMain;
 }
 
-var stage:Stage;
-var scyDesktop = createScyDesktop();
-
 var roolo= Roolo.getRoolo();
+var stage:Stage;
+var scyDesktop = ScyDesktop{};
+
+var newGroup = VBox {
+   translateX:5
+   translateY:5;
+   spacing:3;
+   content:[
+      SwingButton{
+         text: "Drw"
+         action: function() {
+            var newWhiteboard = new WhiteboardPanel();
+            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
+            var drawingWindow = ScyWindow{
+               color:Color.GREEN
+               title:"Drawing"
+               scyContent: newWhiteboardNode
+               minimumWidth:320;
+               minimumHeigth:100;
+               width: 320;
+               height: 150;
+               }
+            scyDesktop.addScyWindow(drawingWindow)
+         }
+      }
+      SwingButton{
+         text: "Drawing"
+         action: function() {
+            var newWhiteboard =
+            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
+            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
+            var drawingWindow = ScyWindow{
+               color:Color.GREEN
+               title:"Drawing"
+               scyContent: newWhiteboardNode
+               minimumWidth:320;
+               minimumHeigth:100;
+               width: 320;
+               height: 150;
+               }
+            scyDesktop.addScyWindow(drawingWindow)
+         }
+      }
+//         SwingButton{
+//            translateY:25
+//            text: "Water"
+//            action: function() {
+//               var drawingWindow = ScyWindow{
+//                  color:Color.BLUE
+//                  title:"Water"
+//                  scyContent: ImageView{
+//                     image:image1
+//                  }
+//               }
+//               scyDesktopMain.addScyWindow(drawingWindow)
+//            }
+//         }
+//         SwingButton{
+//            translateY:50
+//            text: "Sun"
+//            action: function() {
+//               var drawingWindow = ScyWindow{
+//                  color:Color.RED
+//                  title:"Sun"
+//                  scyContent: ImageView{
+//                     image:image2
+//                  }
+//               }
+//               scyDesktopMain.addScyWindow(drawingWindow)
+//            }
+//         }
+   ]
+   }
+
+var newScyWindow= ScyWindow{
+   translateX:10;
+   translateY:150;
+   title:"New"
+   color:Color.BLUEVIOLET
+   scyContent:newGroup
+   allowClose:false;
+   allowResize:false;
+   };
+
+scyDesktop.addScyWindow(newScyWindow);
+
 var queryEntry1 = EloSpecWidget{
    roolo: roolo;
    title: "Query";
@@ -106,8 +195,10 @@ var metadataDisplayMappingWidget = MetadataDisplayMappingWidget{
 }
 
 var resultView = ResultView{
-   xSize: bind stage.width as Integer;
-   ySize: bind stage.height as Integer;
+   xSize: bind
+   stage.width - 110 as Integer;
+   ySize: bind
+   stage.height - 130 as Integer;
 }
 
 function doSearch(){
@@ -139,6 +230,7 @@ var queryWindow = ScyWindow{
 }
 
 scyDesktop.addScyWindow(queryWindow);
+scyDesktop.hideScyWindow(queryWindow);
 
 var metadataDisplayMappingWindow = ScyWindow{
    title:"Display mapping"
@@ -154,8 +246,11 @@ var metadataDisplayMappingWindow = ScyWindow{
 }
 
 scyDesktop.addScyWindow(metadataDisplayMappingWindow);
+scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
 var eloBrowserControl= ScyWindow{
+   translateX:10;
+   translateY:10;
    title:"Search"
    color:Color.BLUE;
    allowClose:false;
@@ -163,9 +258,9 @@ var eloBrowserControl= ScyWindow{
    width:100;
    height:120;
    scyContent: VBox{
-       translateX:5
-       translateY:5;
-       spacing:3;
+      translateX:5
+      translateY:5;
+      spacing:3;
       content:[
          SwingButton {
             text: "Search"
