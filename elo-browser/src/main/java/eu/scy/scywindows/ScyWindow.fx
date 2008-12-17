@@ -54,6 +54,7 @@ public class ScyWindow extends CustomNode {
    public var allowRotate = false;
    public var allowResize = true;
    public var allowClose = true;
+   public var closeIsHide = false;
    public var scyDesktop:ScyDesktop;
 
 	var borderWidth = 3;
@@ -250,10 +251,18 @@ public class ScyWindow extends CustomNode {
                onMousePressed: function( e: MouseEvent ):Void {
                   if (scyDesktop != null)
                   {
-                     scyDesktop.removeScyWindow(this);
+                     if (closeIsHide){
+                        scyDesktop.hideScyWindow(this);
+                        System.out.println("hided {title}");
+                     }
+                     else {
+                        scyDesktop.removeScyWindow(this);
+                        System.out.println("closed {title}");
+                     }
                   }
-                  visible = false;
-                  System.out.println("closing {title}");
+                  //visible = false;
+
+
                }
                onMouseEntered: function( e: MouseEvent ):Void {
                   closeElement.effect = closeMouseOverEffect;
@@ -365,7 +374,7 @@ public class ScyWindow extends CustomNode {
 			onMouseDragged: function( e: MouseEvent ):Void {
 				doDrag(e);
 			}
-		};
+		};;
 	}
 }
 

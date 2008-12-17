@@ -38,10 +38,12 @@ public class ScyDesktop{
    public function addScyWindow(scyWindow:ScyWindow){
       scyWindow.id = "id_{idCount++}";
       scyWindow.scyDesktop = this;
-      scyWindow.translateX = windowOffsetStep*idCount;
-      scyWindow.translateY = windowOffsetStep*idCount;
+//      scyWindow.translateX = windowOffsetStep * idCount;
+//      scyWindow.translateY = windowOffsetStep * idCount;
       deactivateScyWindow(scyWindow);
+      if (not desktopContainsWindow(scyWindow)){
        insert scyWindow into desktop.content;
+      }
       System.out.println("Add scyWindow {scyWindow.title} to the desktop ({desktop.content.size()})");
    }
 
@@ -56,6 +58,7 @@ public class ScyDesktop{
       if (activeWindow != null){
          deactivateScyWindow(activeWindow);
       }
+      showScyWindow(scyWindow);
       scyWindow.toFront();
       activeWindow = scyWindow;
       activeWindow.effect = activeWindowEffect;
@@ -66,6 +69,27 @@ public class ScyDesktop{
       if (scyWindow == activeWindow){
          activeWindow = null;
       }
+   }
+
+   public function hideScyWindow(scyWindow:ScyWindow){
+      if (scyWindow == activeWindow){
+         deactivateScyWindow(scyWindow);
+      }
+     // scyWindow.visible = false;
+      removeScyWindow(scyWindow);
+   }
+
+   public function showScyWindow(scyWindow:ScyWindow){
+      //scyWindow.visible = true;
+      addScyWindow(scyWindow);
+   }
+
+   function desktopContainsWindow(scyWindow:ScyWindow) : Boolean{
+      for (window in desktop.content){
+         if (window == scyWindow)
+         return true;
+      }
+   return false;
    }
 
 }
