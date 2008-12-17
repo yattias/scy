@@ -127,8 +127,12 @@ var newGroup = VBox {
       SwingButton{
          text: "Drawing"
          action: function() {
-            var newWhiteboard =
-            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
+//            var newWhiteboard =
+//            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
+				var newWhiteboard = new EloDrawingPanel();
+				newWhiteboard.setRepository(roolo.repository);
+				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
+				newWhiteboard.setEloFactory(roolo.eloFactory);
             var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
             var drawingWindow = ScyWindow{
                color:Color.GREEN
