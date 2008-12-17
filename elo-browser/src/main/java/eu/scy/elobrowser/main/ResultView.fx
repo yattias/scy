@@ -38,31 +38,35 @@ public class ResultView extends CustomNode {
    public var xOffset = 50;
    public var yOffset = 50;
    public var zOffset = 5;
-   public var xSize = 200;
-   public var ySize = 200;
+   public var xSize = 200 on replace {
+      placeEloDisplays()};
+   public var ySize = 200 on replace {
+      placeEloDisplays()};
    public var zSize = 30;
    public var nrOfElos = 40;
+   public var displayEloMappings: List on replace {
+      placeEloDisplays()};
    
    var eloDisplays:EloDisplay[];
    
    public override function create(): Node {
-      Group
+         Group
       {
          content: [
             Rectangle {
                x: 0,
                y: 0
-               width: xSize + 2 * xOffset,
-               height: ySize + 2 * xOffset
+               width: bind xSize + 2 * xOffset,
+               height: bind ySize + 2 * xOffset
                fill: null;
                stroke: Color.BLACK;
             },
-               Rectangle
+            Rectangle
 	    {
                x: xOffset,
                y: yOffset
-               width: xSize,
-               height: ySize
+               width: bind xSize,
+               height: bind ySize
                fill: Color.YELLOW
             },
             for (i in [1..nrOfElos]) {
@@ -83,13 +87,16 @@ public class ResultView extends CustomNode {
    }
 
    public function newDisplayEloMappings(displayEloMappings: List) {
+      this.displayEloMappings = displayEloMappings;
+   }
+
+   public function placeEloDisplays() {
       System.out.println("Nr of eloDisplay to place {displayEloMappings.size()}");
-      for (j in [0..(
-      nrOfElos - 1)]) {
-         eloDisplays[j].translateX = calculateX(0);
-         eloDisplays[j].translateY = calculateY(0);
-         eloDisplays[j].radius = calculateZ(0);
-         eloDisplays[j].visible = false;
+      for (eloDisplay in eloDisplays) {
+         eloDisplay.translateX = calculateX(0);
+         eloDisplay.translateY = calculateY(0);
+         eloDisplay.radius = calculateZ(0);
+         eloDisplay.visible = false;
       }
       var i = 0;
       var displayEloMappingIterator = displayEloMappings.iterator();
@@ -100,6 +107,10 @@ public class ResultView extends CustomNode {
          displayEloMappingIterator.next() as DisplayEloMapping;
          System.out.println("placing eloDisplay {i}, {displayEloMapping.getElo().getUri()}");
          var eloDisplay = eloDisplays[i];
+         if (eloDisplay == null){
+            System.out.println("not enough elo displays, have {i+1}, but need {displayEloMappings.size()}");
+            break;
+         }
          var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
          while(
          displayMappingIterator.hasNext()){
@@ -132,7 +143,7 @@ public class ResultView extends CustomNode {
       //       var combinedSearchResults = resultViewModel.combinedSearchResults;
       System.out.println("Nr of eloDisplay to place {combinedSearchResults.size()}");
       for (j in [0..(
-         nrOfElos - 1)]) {
+      nrOfElos - 1)]) {
          eloDisplays[j].visible = false;
       }
       var i = 0;

@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="localRooloConfig.xml"/>
-	<!--<import resource="remoteRooloConfig.xml"/>-->
+	<!--<import resource="localRooloConfig.xml"/>-->
+	<import resource="remoteRooloConfig.xml"/>
 
 	<bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
 		<constructor-arg index="0" ref="metadataTypeManager"/>
@@ -17,17 +17,20 @@
 		<property name="metadataTypeManager" ref="metadataTypeManager"/>
 	</bean>
 	
-	<bean name="mappingEloFactory" class="eu.scy.elobrowser.model.mapping.impl.BasicMappingEloFactory">
+	<bean name="mappingEloFactory" class="eu.scy.elobrowser.model.mapping.impl.BasicMappingEloFactory" init-method="initialized">
 		<property name="xmlMetadataDisplayMappingConverter" ref="xmlMetadataDisplayMappingConverter"/>
 		<property name="metadataTypeManager" ref="metadataTypeManager"/>
 		<property name="eloFactory" ref="eloFactory"/>
-		<property name="formatKey" ref="formatKey"/>
-		<property name="nameKey" ref="titleKey"/>
-		<property name="descriptionKey" ref="descriptionKey"/>
 	</bean>
 
 	<bean name="queryToElosDisplay" class="eu.scy.elobrowser.model.mapping.impl.BasicQueryToElosDisplay">
 		<property name="repository" ref="repository"/>
+	</bean>
+
+	<bean name="drawingTool" class="eu.scy.client.tools.drawing.EloDrawingPanel" scope="prototype">
+		<property name="repository" ref="repository"/>
+		<property name="metadataTypeManager" ref="metadataTypeManager"/>
+		<property name="eloFactory" ref="eloFactory"/>
 	</bean>
 
 </beans>

@@ -14,7 +14,7 @@
 
 	</appender>
 
-	<logger name="org.scy.elobrowser">
+	<logger name="org.scy">
 		<level value="debug" />
 		
 	</logger>
