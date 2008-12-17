@@ -1,0 +1,38 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/eloBrowser/metadataDisplayMapping</format>
+    </technical>
+    <general>
+      <title>
+        <string language="en">test</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/10/test.selomap</entry>
+      </identifier>
+    </general>
+  </lom>
+</metadata>
+<content languageIndependend="true">
+<metadataDisplayMapping>
+  <mappingType>direct</mappingType>
+  <mapping>
+    <display>x</display>
+    <metadata>rectangleCount</metadata>
+  </mapping>
+  <mapping>
+    <display>y</display>
+    <metadata>imageCount</metadata>
+  </mapping>
+  <mapping>
+    <display>size</display>
+    <metadata>freehandCount</metadata>
+  </mapping>
+</metadataDisplayMapping>
+</content>
+</elo>
