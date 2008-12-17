@@ -1,19 +1,21 @@
 /*
- * ScyWindow.fx
+ * ScyWindow2.fx
  *
- * Created on 15-dec-2008, 18:49:31
+ * Created on 12-dec-2008, 19:01:31
  */
 
 package eu.scy.scywindows;
 
 import colab.vt.whiteboard.component.WhiteboardPanel;
-import eu.scy.scywindows.ScyWindow;
 import java.lang.Math;
 import java.lang.System;
+import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,9 +53,15 @@ public class ScyWindow extends CustomNode {
 		};
    public var allowRotate = false;
    public var allowResize = true;
+   public var allowClose = true;
+   public var scyDesktop:ScyDesktop;
 
 	var borderWidth = 3;
 	var topLeftBlockSize = 23;
+   var closeColor = Color.WHITE;
+   var closeMouseOverEffect:Effect = Glow{
+      level:1}
+   var closeStrokeWidth = 2;
 	var borderBlockOffset = 5;
 	var dragStrokeWith = 4;
 	var dragLength = 20;
@@ -64,6 +72,8 @@ public class ScyWindow extends CustomNode {
 	var lineWidth = 1;
 	var contentBorder = 0;
 	var textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
+	//def minimumHeigth = topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth;
+	//def minimumWidth = 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset;
 	var originalX:Number;
 	var originalY:Number;
 	var originalWidth:Number;
@@ -74,6 +84,8 @@ public class ScyWindow extends CustomNode {
    var maxDifX:Number;
    var maxDifY:Number;
 
+   var closeElement:Node;
+
    public var minimumHeigth:Number = 100 on replace{
       minimumHeigth = Math.max(minimumHeigth, topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth);
    }
@@ -82,7 +94,7 @@ public class ScyWindow extends CustomNode {
    }
 
 	function startDragging(e: MouseEvent) {
-		toFront();
+		activate();
 		originalX = e.x;
 		originalY = e.y;
 		originalWidth = width;
@@ -96,7 +108,7 @@ public class ScyWindow extends CustomNode {
 
    function printMousePos(label:String, e:MouseEvent) {
 //      System.out.println("{label} - x:{e.x}, sceneX:{e.sceneX}, screenX:{e.screenX}, y:{e.y}, sceneY:{e.sceneY}, screenY:{e.screenY}");
-
+   
    }
 
    function isInvalidMousePos(e: MouseEvent){
@@ -104,18 +116,15 @@ public class ScyWindow extends CustomNode {
 		var invalid = Math.abs(e.screenX) > maxScreenCoordinate or Math.abs(e.screenY) > maxScreenCoordinate;
 		if (invalid)
 		{
-			System.out.println("unreasonable mouse position, will ignore it");
+         System.out.println("unreasonable mouse position, will ignore it");
       }
       return invalid;
    }
 
 	function doDrag(e: MouseEvent) {
       printMousePos("drag",e);
-      if (Math.abs(e.x) > 1e6 or Math.abs(e.y) > 1e6)
-      {
-         System.out.println("unreasonable mouse position, will ignore it");
-         return;
-      }
+      if (isInvalidMousePos(e))
+		return;
 		var difX = e.x - originalX;
 		var difY = e.y - originalY;
       maxDifX = Math.max(maxDifX, difX);
@@ -160,17 +169,31 @@ public class ScyWindow extends CustomNode {
 		return rotation;
 	}
 
+	function getScyContent(scyCont:Node): Node {
+		if (scyCont != null)
+		return scyCont;
+		return Rectangle {
+			x: 0,
+			y: 0
+			width: 10,
+			height: 10
+			fill: Color.TRANSPARENT
+		};
+	}
+
+   function activate(){
+      if (scyDesktop != null)
+      scyDesktop.activateScyWindow(this);
+   }
+
+
 	public override function create(): Node {
 		blocksMouse = true;
 		return Group {
-			effect: DropShadow {
-				offsetX: 4,
-				offsetY: 4
-			}
          cursor: Cursor.MOVE;
 
 			content: [
-				Rectangle { // main border
+               Rectangle { // main border
 					x: 0,
 					y: borderBlockOffset;
 					width: bind width - borderBlockOffset,
@@ -179,14 +202,67 @@ public class ScyWindow extends CustomNode {
 					stroke:bind color
 					strokeWidth:borderWidth;
 				}
-				Rectangle { // top left block
-					x: bind width - topLeftBlockSize,
-					y: 0;
-					width: topLeftBlockSize,
-					height: topLeftBlockSize
-					fill: bind color
-				}
-				Text { // title
+               Rectangle { // top left block
+               x: bind width - topLeftBlockSize,
+               y: 0;
+               width: topLeftBlockSize,
+               height: topLeftBlockSize
+               fill: bind color
+            }
+            closeElement = Group{ // close button
+               cursor:Cursor.HAND
+               visible:bind allowClose
+               content:[
+                  Rectangle { // top left block
+                     x: bind width - topLeftBlockSize,
+                     y: 0;
+                     width: topLeftBlockSize,
+                     height: topLeftBlockSize
+                     fill: bind color
+                  }
+                  Group{ // close cross
+                     clip: Rectangle { // top left block
+                        x: bind width - topLeftBlockSize,
+                        y: 0;
+                        width: topLeftBlockSize,
+                        height: topLeftBlockSize
+                     }
+                     content:[
+                        Line {
+                           startX: bind width - topLeftBlockSize,
+                           startY: 0
+                           endX: bind width,
+                           endY: bind topLeftBlockSize
+                           strokeWidth: closeStrokeWidth
+                           stroke: closeColor
+                        }
+                        Line {
+                           startX: bind width,
+                           startY: 0
+                           endX: bind width - topLeftBlockSize,
+                           endY: bind topLeftBlockSize
+                           strokeWidth: closeStrokeWidth
+                           stroke: closeColor
+                        }
+                     ]
+                  }
+               ]
+               onMousePressed: function( e: MouseEvent ):Void {
+                  if (scyDesktop != null)
+                  {
+                     scyDesktop.removeScyWindow(this);
+                  }
+                  visible = false;
+                  System.out.println("closing {title}");
+               }
+               onMouseEntered: function( e: MouseEvent ):Void {
+                  closeElement.effect = closeMouseOverEffect;
+               }
+               onMouseExited: function( e: MouseEvent ):Void {
+                  closeElement.effect = null;
+               }
+            }
+               Text { // title
 					font: textFont
 					x: borderWidth,
 					y: borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation
@@ -200,7 +276,7 @@ public class ScyWindow extends CustomNode {
 					fill:bind color;
 					content: bind title;
 				}
-				Line { // line under title
+               Line { // line under title
 					startX: borderWidth / 2,
 					startY:borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation + lineOffsetY
 					endX: bind width - topLeftBlockSize - borderWidth / 2 + 1,
@@ -208,7 +284,7 @@ public class ScyWindow extends CustomNode {
 					strokeWidth: lineWidth
 					stroke: bind color
 				}
-				Group{ // the content
+               Group{ // the content
                blocksMouse:true;
                cursor:Cursor.DEFAULT;
                translateX:borderWidth / 2 + contentBorder + 1
@@ -222,10 +298,10 @@ public class ScyWindow extends CustomNode {
                }
                content:bind scyContent
                onMousePressed: function( e: MouseEvent ):Void {
-                  toFront();
+                  activate();
                }
             }
-				Group{ // bottom right resize element
+               Group{ // bottom right resize element
                blocksMouse:true;
                visible:bind allowResize
                cursor:Cursor.NW_RESIZE;
@@ -234,7 +310,7 @@ public class ScyWindow extends CustomNode {
                   offsetY: 2
                }
                content:[
-						Line { // vertical line
+                     Line { // vertical line
                      startX: bind width - borderBlockOffset - borderWidth - dragBorder,
                      startY: bind height - dragStrokeWith - dragBorder - dragLength
                      endX: bind width - borderBlockOffset - borderWidth - dragBorder,
@@ -242,7 +318,7 @@ public class ScyWindow extends CustomNode {
                      stroke:bind color
                      strokeWidth:bind dragStrokeWith;
                   }
-						Line { // horizontal line
+                     Line { // horizontal line
                      startX: bind width - borderBlockOffset - borderWidth - dragBorder - dragLength,
                      startY: bind height - dragStrokeWith - dragBorder
                      endX: bind width - borderBlockOffset - borderWidth - dragBorder,
@@ -258,7 +334,7 @@ public class ScyWindow extends CustomNode {
                   doResize(e);
                }
             }
-				Arc { // bottom left rotate element
+               Arc { // bottom left rotate element
 					blocksMouse:true;
                visible:bind allowRotate;
 					effect: DropShadow {
@@ -294,55 +370,84 @@ public class ScyWindow extends CustomNode {
 }
 
 function run() {
-	var image = Image{
-		url: "{__DIR__}Water lilies.jpg"}
-	var imageView = ImageView{
-		image:image
-  }
-	var imageView2 = ImageView{
-		image:image
-  }
-	var testContent = Rectangle {
-		x: 0,
-		y: 0
-		width: 200,
-		height: 200
-		fill: Color.RED
-}
-	var whiteboard = new WhiteboardPanel();
-	var whiteboardNode = SwingComponent.wrap(whiteboard);
-	//whiteboardNode.cursor = null;
+   //	var image = Image{
+   //		url: "{__DIR__}Water lilies.jpg"}
+   //	var imageView = ImageView{
+   //		image:image
+   //  }
+   //	var imageView2 = ImageView{
+   //		image:image
+   //  }
+   //	var testContent = Rectangle {
+   //		x: 0,
+   //		y: 0
+   //		width: 200,
+   //		height: 200
+   //		fill: Color.RED
+   //   }
+   //	var whiteboard = new WhiteboardPanel();
+   //	var whiteboardNode = SwingComponent.wrap(whiteboard);
+   //	//whiteboardNode.cursor = null;
+   //
+   //   var tree = new JTree();
+   //	var treeNode = SwingComponent.wrap(tree);
+   //
 
-   var tree = new JTree();
-	var treeNode = SwingComponent.wrap(tree);
+   var scyDesktop:ScyDesktop = ScyDesktop{};
+
+   var newGroup = Group
+   {
+      content:[
+         SwingButton{
+            text: "Drawing"
+            action: function() {
+               var newWhiteboard = new WhiteboardPanel();
+               var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
+               var drawingWindow = ScyWindow{
+                  color:Color.BLUE
+                  title:"Drawing"
+                  scyContent: newWhiteboardNode
+                  visible:true
+               }
+               scyDesktop.addScyWindow(drawingWindow)
+            }
+         }
+         SwingButton{
+            translateY:25
+            text: "Red"
+            action: function() {
+               var drawingWindow = ScyWindow{
+                  color:Color.BLUE
+                  title:"Red"
+                  scyContent: Rectangle {
+                     x: 10,
+                     y: 10
+                     width: 140,
+                     height: 90
+                     fill: Color.PERU
+                  }
+                  visible:true
+               }
+               scyDesktop.addScyWindow(drawingWindow)
+            }
+         }
+      ]
+   };
+   var newScyWindow= ScyWindow{
+      title:"New"
+      color:Color.BLUEVIOLET
+      scyContent:newGroup
+      allowClose:false;
+      allowResize:false;
+   };
+   scyDesktop.addScyWindow(newScyWindow);
 
 	Stage {
 		title: "Scy window test"
 		width: 250
 		height: 250
 		scene: Scene {
-			content: [
-				Group{
-					content:[
-						ScyWindow{
-							color:Color.BLUE
-							title:"Blue"
-							translateX:10,
-							translateY:10
-							//scyContent: imageView
-						},
-						ScyWindow{
-							color:Color.GREEN
-							title:"Green or greener"
-							translateX:20,
-							translateY:20
-                     width:200
-                     height:200
-							scyContent: treeNode
-						}
-					]
-				}
-			]
+			content:scyDesktop.desktop
 
 		}
 	}
