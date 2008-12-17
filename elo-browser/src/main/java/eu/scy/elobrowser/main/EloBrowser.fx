@@ -14,6 +14,7 @@ import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
+import java.awt.Dimension;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
@@ -127,12 +128,16 @@ var newGroup = VBox {
       SwingButton{
          text: "Drawing"
          action: function() {
-//            var newWhiteboard =
-//            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
+				//            var newWhiteboard =
+				//            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
 				var newWhiteboard = new EloDrawingPanel();
 				newWhiteboard.setRepository(roolo.repository);
 				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
 				newWhiteboard.setEloFactory(roolo.eloFactory);
+				var preferredSize = new Dimension(200,200);
+				//tree.setMinimumSize(treeSize);
+				//tree.setMaximumSize(treeSize);
+				newWhiteboard.setPreferredSize(preferredSize);
             var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
             var drawingWindow = ScyWindow{
                color:Color.GREEN
@@ -200,9 +205,9 @@ var metadataDisplayMappingWidget = MetadataDisplayMappingWidget{
 
 var resultView = ResultView{
    xSize: bind
-   stage.width - 110 as Integer;
+		  stage.width - 110 as Integer;
    ySize: bind
-   stage.height - 130 as Integer;
+		  stage.height - 130 as Integer;
 }
 
 function doSearch(){
