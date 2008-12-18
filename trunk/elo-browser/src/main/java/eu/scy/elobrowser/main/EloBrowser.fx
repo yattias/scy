@@ -12,6 +12,7 @@ import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
@@ -24,80 +25,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+
 /**
  * @author sikkenj
  */
 
-function createScyDesktop():ScyDesktop {
-   var scyDesktopMain:ScyDesktop = ScyDesktop{};
-
-   var newGroup = VBox {
-      translateX:5
-      translateY:5;
-      spacing:3;
-      content:[
-         SwingButton{
-            text: "Drawing"
-            action: function() {
-               var newWhiteboard = new WhiteboardPanel();
-               var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-               var drawingWindow = ScyWindow{
-                  color:Color.GREEN
-                  title:"Drawing"
-                  scyContent: newWhiteboardNode
-                  minimumWidth:320;
-                  minimumHeigth:100;
-                  width: 320;
-                  height: 150;
-               }
-               scyDesktopMain.addScyWindow(drawingWindow)
-            }
-         }
-//         SwingButton{
-//            translateY:25
-//            text: "Water"
-//            action: function() {
-//               var drawingWindow = ScyWindow{
-//                  color:Color.BLUE
-//                  title:"Water"
-//                  scyContent: ImageView{
-//                     image:image1
-//                  }
-//               }
-//               scyDesktopMain.addScyWindow(drawingWindow)
-//            }
-//         }
-//         SwingButton{
-//            translateY:50
-//            text: "Sun"
-//            action: function() {
-//               var drawingWindow = ScyWindow{
-//                  color:Color.RED
-//                  title:"Sun"
-//                  scyContent: ImageView{
-//                     image:image2
-//                  }
-//               }
-//               scyDesktopMain.addScyWindow(drawingWindow)
-//            }
-//         }
-      ]
-   }
-
-   var newScyWindow= ScyWindow{
-      translateX:10;
-      translateY:150;
-      title:"New"
-      color:Color.BLUEVIOLET
-      scyContent:newGroup
-      allowClose:false;
-      allowResize:false;
-   };
-
-   scyDesktopMain.addScyWindow(newScyWindow);
-
-   return scyDesktopMain;
-}
 
 var roolo= Roolo.getRoolo();
 var stage:Stage;
@@ -112,6 +45,10 @@ var newGroup = VBox {
          text: "Drw"
          action: function() {
             var newWhiteboard = new WhiteboardPanel();
+				var preferredSize = new Dimension(200,200);
+				newWhiteboard.setMinimumSize(preferredSize);
+				newWhiteboard.setMaximumSize(preferredSize);
+				newWhiteboard.setPreferredSize(preferredSize);
             var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
             var drawingWindow = ScyWindow{
                color:Color.GREEN
@@ -130,19 +67,23 @@ var newGroup = VBox {
          action: function() {
 				//            var newWhiteboard =
 				//            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
+            //            var whiteboard = new WhiteboardPanel();
+            //            var panel = new JPanel();
+            //            panel.setLayout(new GridLayout(1,1,0,0));
+            //            panel.add(whiteboard);
 				var newWhiteboard = new EloDrawingPanel();
 				newWhiteboard.setRepository(roolo.repository);
 				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
 				newWhiteboard.setEloFactory(roolo.eloFactory);
 				var preferredSize = new Dimension(200,200);
-				//tree.setMinimumSize(treeSize);
-				//tree.setMaximumSize(treeSize);
+            //				newWhiteboard.setMinimumSize(preferredSize);
+            //				newWhiteboard.setMaximumSize(preferredSize);
 				newWhiteboard.setPreferredSize(preferredSize);
             var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
             var drawingWindow = ScyWindow{
                color:Color.GREEN
                title:"Drawing"
-               scyContent: newWhiteboardNode
+               scyContent: DrawingNode.createDrawingNode()
                minimumWidth:320;
                minimumHeigth:100;
                width: 320;
