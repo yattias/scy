@@ -19,6 +19,9 @@ import roolo.api.IRepository;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.RooloMetadataKeys;
 
 /**
  *
@@ -29,11 +32,20 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
 
    private static final Logger logger = Logger.getLogger(BasicQueryToElosDisplay.class);
    private IRepository repository;
+   private IMetadataTypeManager metadataTypeManager;
+	private IMetadataKey typeKey;
 
    public void setRepository(IRepository repository)
    {
       this.repository = repository;
    }
+
+	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
+	{
+		this.metadataTypeManager = metadataTypeManager;
+		typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+	}
+
 
    private DisplayMappingList getBasicDisplayMappingList(
       Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap,
@@ -96,6 +108,7 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
          displayMappings.add(basicDisplayMapping);
          getBasicDisplayMappingList(basicDisplayMappingListMap, mapping.getDisplayPropperty()).addBasicDisplayMapping(basicDisplayMapping);
       }
-      return new BasicDisplayEloMapping(elo, displayMappings);
+		String eloType = (String)elo.getMetadata().getMetadataValueContainer(typeKey).getValue();
+      return new BasicDisplayEloMapping(elo, displayMappings,eloType);
    }
 }

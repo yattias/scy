@@ -18,11 +18,13 @@ public class BasicDisplayEloMapping implements DisplayEloMapping {
 
 	private final IELO elo;
 	private final List<DisplayMapping> displayMappings;
+	private final String eloType;
 
-	public BasicDisplayEloMapping(IELO elo,List<DisplayMapping> displayMappings)
+	public BasicDisplayEloMapping(IELO elo,List<DisplayMapping> displayMappings,String eloType)
 	{
 		this.elo = elo;
 		this.displayMappings = displayMappings;
+		this.eloType = eloType;
 	}
 
 	@Override
@@ -42,5 +44,12 @@ public class BasicDisplayEloMapping implements DisplayEloMapping {
 	{
 		return displayMappings;
 	}
+
+	@Override
+	public String getEloType()
+	{
+		return eloType;
+	}
+
 
 }

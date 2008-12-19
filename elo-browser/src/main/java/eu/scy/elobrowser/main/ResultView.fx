@@ -37,12 +37,12 @@ public class ResultView extends CustomNode {
    public var resultViewModel:ResultViewModel;
    public var xOffset = 50;
    public var yOffset = 50;
-   public var zOffset = 5;
+   public var zOffset = 16;
    public var xSize = 200 on replace {
       placeEloDisplays()};
    public var ySize = 200 on replace {
       placeEloDisplays()};
-   public var zSize = 30;
+   public var zSize = 48;
    public var nrOfElos = 40;
    public var displayEloMappings: List on replace {
       placeEloDisplays()};
@@ -67,7 +67,7 @@ public class ResultView extends CustomNode {
                y: yOffset
                width: bind xSize,
                height: bind ySize
-               fill: Color.YELLOW
+               fill: Color.color(0.90,0.90,0.90)
             },
             for (i in [1..nrOfElos]) {
                var relevance = 1.0 * i / nrOfElos;
@@ -111,6 +111,7 @@ public class ResultView extends CustomNode {
             System.out.println("not enough elo displays, have {i+1}, but need {displayEloMappings.size()}");
             break;
          }
+            eloDisplay.eloType = displayEloMapping.getEloType();
          var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
          while(
          displayMappingIterator.hasNext()){
@@ -132,7 +133,7 @@ public class ResultView extends CustomNode {
          }
          // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
          eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
-         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, ");
+         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, eloType:{eloDisplay.eloType}");
          eloDisplay.visible = true;
          ++i;
       }

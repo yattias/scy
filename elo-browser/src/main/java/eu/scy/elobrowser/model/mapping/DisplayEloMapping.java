@@ -17,4 +17,6 @@ public interface DisplayEloMapping
 	public IELO getElo();
 
 	public List<DisplayMapping> getDisplayMappings();
+
+	public String getEloType();
 }
