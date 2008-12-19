@@ -69,8 +69,8 @@
 		</dependency>
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
-			<artifactId>obwious-core</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<artifactId>obwious</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
