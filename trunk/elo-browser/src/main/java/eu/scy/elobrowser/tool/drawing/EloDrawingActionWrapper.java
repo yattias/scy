@@ -42,7 +42,7 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class EloDrawingActionWrapper {
 	private static final Logger logger = Logger.getLogger(EloDrawingActionWrapper.class.getName());
-	private static final String scyDrawType = "scy/drawing";
+	public static final String scyDrawType = "scy/drawing";
 
 	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
 	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;

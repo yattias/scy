@@ -41,27 +41,27 @@ var newGroup = VBox {
    translateY:5;
    spacing:3;
    content:[
-      SwingButton{
-         text: "Drw"
-         action: function() {
-            var newWhiteboard = new WhiteboardPanel();
-				var preferredSize = new Dimension(200,200);
-				newWhiteboard.setMinimumSize(preferredSize);
-				newWhiteboard.setMaximumSize(preferredSize);
-				newWhiteboard.setPreferredSize(preferredSize);
-            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-            var drawingWindow = ScyWindow{
-               color:Color.GREEN
-               title:"Drawing"
-               scyContent: newWhiteboardNode
-               minimumWidth:320;
-               minimumHeigth:100;
-               width: 320;
-               height: 150;
-               }
-            scyDesktop.addScyWindow(drawingWindow)
-         }
-      }
+//      SwingButton{
+//         text: "Drw"
+//         action: function() {
+//            var newWhiteboard = new WhiteboardPanel();
+//				var preferredSize = new Dimension(200,200);
+//				newWhiteboard.setMinimumSize(preferredSize);
+//				newWhiteboard.setMaximumSize(preferredSize);
+//				newWhiteboard.setPreferredSize(preferredSize);
+//            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
+//            var drawingWindow = ScyWindow{
+//               color:Color.GREEN
+//               title:"Drawing"
+//               scyContent: newWhiteboardNode
+//               minimumWidth:320;
+//               minimumHeigth:100;
+//               width: 320;
+//               height: 150;
+//               }
+//            scyDesktop.addScyWindow(drawingWindow)
+//         }
+//      }
       SwingButton{
          text: "Drawing"
          action: function() {
@@ -83,7 +83,7 @@ var newGroup = VBox {
             var drawingWindow = ScyWindow{
                color:Color.GREEN
                title:"Drawing"
-               scyContent: DrawingNode.createDrawingNode()
+               scyContent: DrawingNode.createDrawingNode(roolo)
                minimumWidth:320;
                minimumHeigth:100;
                width: 320;
@@ -238,8 +238,8 @@ scyDesktop.addScyWindow(eloBrowserControl);
 stage = Stage {
 
 	title: "ELO browser"
-	width: 400
-	height: 400
+	width: 800
+	height: 600
 	scene: Scene {
 		content: [
 			Group{

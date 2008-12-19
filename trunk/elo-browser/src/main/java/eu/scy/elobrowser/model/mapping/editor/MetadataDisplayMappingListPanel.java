@@ -116,7 +116,13 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 	  if (mappingElo != null)
 	  {
 		  mappingEloListModel.addElement(mappingElo);
-		  repository.addELO(mappingElo.getElo());
+		  if (mappingElo.getElo().getUri() == null)
+		  {
+			  repository.addELO(mappingElo.getElo());
+		  } else
+		  {
+			  repository.updateELO(mappingElo.getElo());
+		  }
 	  }
 	 }//GEN-LAST:event_addButtonActionPerformed
 
@@ -196,8 +202,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 			if (StringUtils.hasLength(mappingElo.getName()))
 			{
 				return mappingElo;
-			}
-			else
+			} else
 			{
 				JOptionPane.showConfirmDialog(this, "Name may not be empty");
 			}
@@ -216,7 +221,7 @@ public class MetadataDisplayMappingListPanel extends javax.swing.JPanel
 			MappingElo mappingElo = mappingEloFactory.createMappingElo(elo);
 			mappingEloListModel.addElement(mappingElo);
 		}
-		if (searchResults.size()>0)
+		if (searchResults.size() > 0)
 		{
 			metadataDisplayMappingList.setSelectedIndex(0);
 		}
