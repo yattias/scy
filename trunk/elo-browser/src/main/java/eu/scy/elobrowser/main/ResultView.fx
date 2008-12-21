@@ -50,7 +50,7 @@ public class ResultView extends CustomNode {
    var eloDisplays:EloDisplay[];
    
    public override function create(): Node {
-         Group
+			Group
       {
          content: [
             Rectangle {
@@ -61,7 +61,7 @@ public class ResultView extends CustomNode {
                fill: null;
                stroke: Color.BLACK;
             },
-            Rectangle
+				Rectangle
 	    {
                x: xOffset,
                y: yOffset
@@ -111,7 +111,7 @@ public class ResultView extends CustomNode {
             System.out.println("not enough elo displays, have {i+1}, but need {displayEloMappings.size()}");
             break;
          }
-            eloDisplay.eloType = displayEloMapping.getEloType();
+			eloDisplay.eloType = displayEloMapping.getEloType();
          var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
          while(
          displayMappingIterator.hasNext()){
@@ -133,7 +133,8 @@ public class ResultView extends CustomNode {
          }
          // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
          eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
-         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, eloType:{eloDisplay.eloType}");
+//         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, eloType:{eloDisplay.eloType}");
+//		   System.out.println("- image:{eloDisplay.image}, url:{eloDisplay.image.url}, width:{eloDisplay.image.width}, ");
          eloDisplay.visible = true;
          ++i;
       }
@@ -144,7 +145,7 @@ public class ResultView extends CustomNode {
       //       var combinedSearchResults = resultViewModel.combinedSearchResults;
       System.out.println("Nr of eloDisplay to place {combinedSearchResults.size()}");
       for (j in [0..(
-      nrOfElos - 1)]) {
+		nrOfElos - 1)]) {
          eloDisplays[j].visible = false;
       }
       var i = 0;

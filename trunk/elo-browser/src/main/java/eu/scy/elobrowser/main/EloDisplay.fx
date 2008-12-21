@@ -31,16 +31,16 @@ import javafx.ext.swing.SwingButton;
 
 var eloImages:HashMap;
 var unknownEloImage:Image = Image {
-   url: "{__DIR__}/images/unknownElo.png"
+   url: "{__DIR__}images/unknownElo.png"
    };
 
 function initImages(){
    eloImages = new HashMap();
    var plainEloImage = Image {
-      url: "{__DIR__}/images/plainElo.png"
+      url: "{__DIR__}images/plainElo.png"
       }
    var drawingEloImage = Image {
-      url: "{__DIR__}/images/drawingElo.png"
+      url: "{__DIR__}images/drawingElo.png"
       }
    eloImages.put(EloDrawingActionWrapper.scyDrawType,drawingEloImage);
 }
@@ -59,31 +59,37 @@ function getEloImage(eType:String){
 public class EloDisplay extends CustomNode {
    public var title = "title";
    public var radius = 20;
-   public var eloType = "unknown";
+   public var eloType = "unknown" on replace {updateImage()};
+	public var image = unknownEloImage;
    public var strokeColor = Color.BLACK;
    public var fillColor = Color.color(0,0.5,0,0.25);
    var textFont =  Font {
       size: 12}
-   
+
+	function updateImage()
+	{
+		 image = getEloImage(eloType);
+	}
+
    public override function create(): Node {
       return Group
       {
          content: [
+//            Circle {
+//               centerX: 0;
+//               centerY: 0;
+//               radius: bind radius/2;
+//               stroke:bind strokeColor;
+//               fill: bind fillColor;
+//            },
             ImageView{
                 translateX:bind -radius/2
                 translateY:bind -radius/2
-               image:bind unknownEloImage
+               image:bind image
                fitHeight:bind radius
                fitWidth:bind radius
                preserveRatio:true
             }
-            Circle {
-               centerX: 0;
-               centerY: 0;
-               radius: bind radius/2;
-               stroke:bind strokeColor;
-               fill: bind fillColor;
-            },
                Text
 	    {
                x: 0;
@@ -112,7 +118,7 @@ function run(){
                translateY:50;
                radius:30
                title:"testing"
-               eloType:"??"
+               //eloType:"??"
             }
             SwingButton {
                text: "change"

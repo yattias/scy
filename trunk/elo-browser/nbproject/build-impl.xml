@@ -20,13 +20,12 @@ is divided into following sections:
 
         -->
 <project xmlns:javafxproject1="http://www.netbeans.org/ns/javafx-project/1" xmlns:javafxproject2="http://www.netbeans.org/ns/javafx-project/2" xmlns:javafxproject3="http://www.netbeans.org/ns/javafx-project/3" basedir=".." default="default" name="elo-browser-impl">
- 
+    <target depends="jar" description="Build whole project." name="default"/>
+
 <property name="src.dir" value="src/main/java" />
 <property name="build.dir" value="build" />
 <property name="dist.dir" value="dist" />
 <property name="dist.javadoc.dir" value="javadoc" />
-
- <target depends="jar" description="Build whole project." name="default"/>
     <!--
                     ======================
                     INITIALIZATION SECTION
