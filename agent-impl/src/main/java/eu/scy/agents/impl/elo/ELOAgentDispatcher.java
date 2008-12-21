@@ -100,7 +100,7 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey> imple
     public IMetadata<K> updateELO(T elo) {
         processBefore(elo);
         
-        IMetadata<K> metadata = repository.addELO(elo);
+        IMetadata<K> metadata = repository.updateELO(elo);
         
         notifyAgents(elo);
         
