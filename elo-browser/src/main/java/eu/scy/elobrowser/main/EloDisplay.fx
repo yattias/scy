@@ -7,9 +7,11 @@
 package eu.scy.elobrowser.main;
 
 import eu.scy.elobrowser.main.EloDisplay;
+import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
-import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.elobrowser.ui.SwingMenuItem;
+import eu.scy.elobrowser.ui.SwingPopupMenu;
+import eu.scy.scywindows.ScyDesktop;
 import java.util.HashMap;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.CustomNode;
@@ -24,6 +26,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import roolo.elo.api.IELO;
+import javafx.scene.shape.Rectangle;
 
 	/**
 	 * @author sikken
@@ -59,10 +63,12 @@ import javafx.stage.Stage;
 	}
 
 public class EloDisplay extends CustomNode {
+	public var roolo:Roolo;
    public var title = "title";
    public var radius = 20;
    public var eloType = "unknown" on replace {
 		updateImage()};
+	public var elo:IELO;
 	public var image = unknownEloImage;
    public var strokeColor = Color.BLACK;
    public var fillColor = Color.color(0,0.5,0,0.25);
@@ -73,25 +79,54 @@ public class EloDisplay extends CustomNode {
 	var originalX:Number;
 	var originalY:Number;
 
+	var openMenuItem = SwingMenuItem{
+		label:"Open"
+		enabled:false;
+		action:openElo;
+			}
+
 	function updateImage() {
 		image = getEloImage(eloType);
+		openMenuItem.enabled = EloDrawingActionWrapper.scyDrawType == eloType;
+	}
+
+	function openElo(){
+		if (EloDrawingActionWrapper.scyDrawType == eloType){
+			var eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
+			if (eloWindow == null){
+				var drawingNode = DrawingNode.createDrawingNode(roolo);
+				eloWindow = DrawingNode.createDrawingWindow(drawingNode);
+				ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
+				drawingNode.loadElo(elo.getUri());
+			}
+			else {
+			ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
+			}
+		}
 	}
 
    public override function create(): Node {
  		var menuItems = [
-			SwingMenuItem{
-				label:"Open"
-				enabled:false;
-			}
+			openMenuItem,
 			SwingMenuItem{
 				label:"Show elo xml"
 				enabled:false;
 			}
 		];
 		var imageView:ImageView;
-		var text:Text;
-		return Group
+		var text:Text = Text{
+               x: 0;
+               y: bind radius / 2 + textFont.size;
+               textAlignment:TextAlignment.CENTER;
+               //wrappingWidth:100
+               content: bind title;
+               fill: bind strokeColor;
+               font: bind textFont;
+            };
+		var textRect:Rectangle;
+		var displayGroup = Group
       {
+			blocksMouse:true;
 			content: [
 				//            Circle {
 				//               centerX: 0;
@@ -108,24 +143,14 @@ public class EloDisplay extends CustomNode {
                fitWidth:bind radius
                preserveRatio:true
             }
-				text = Text{
-               x: 0;
-               y: bind radius / 2 + textFont.size;
-               textAlignment:TextAlignment.CENTER;
-               //wrappingWidth:100
-               content: bind title;
-               fill: bind strokeColor;
-               font: bind textFont;
-            }
-				SwingPopupMenu{
-					items: menuItems;
-					translateX:bind -radius / 2
-					translateY:bind -radius / 2
-					width:1000
-					height:bind radius + 2*textFont.size;
-					shapes:[imageView,text]
-					//fill:Color.color(0.9,0.9,0.9,0.7);
+				textRect = Rectangle { // to better catch mouse actions on the text, the text does catch mouse action always
+					x: bind text.boundsInLocal.minX,
+					y: bind text.boundsInLocal.minY
+					width: bind text.boundsInLocal.width,
+					height: bind text.boundsInLocal.height
+					fill: Color.TRANSPARENT
 				}
+				text
          ]
 			onMousePressed: function( e: MouseEvent ):Void {
 				originalX = translateX;
@@ -137,7 +162,24 @@ public class EloDisplay extends CustomNode {
 					translateY = originalY + e.dragY;
 				}
 			}
+			onMouseClicked: function( e: MouseEvent ):Void {
+				if (e.clickCount == 2) openElo();
+			}
       };
+		return Group{
+			content:[
+				displayGroup
+				SwingPopupMenu{
+					items: menuItems;
+					translateX:bind -radius / 2
+					translateY:bind -radius / 2
+					width:1000
+					height:bind radius + 2 * textFont.size;
+					shapes:[imageView,textRect,text]
+					//fill:Color.color(0.9,0.9,0.9,0.7);
+				}
+			]
+  }
 	}
 }
 

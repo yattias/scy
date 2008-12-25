@@ -10,6 +10,7 @@ import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
+import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
 import java.net.URI;
 import javafx.ext.swing.SwingComponent;
@@ -34,10 +35,24 @@ import javafx.stage.Stage;
 public class DrawingNode extends CustomNode {
    var whiteboardPanel:WhiteboardPanel;
    var eloDrawingActionWrapper:EloDrawingActionWrapper;
+	public var scyWindow:ScyWindow on replace {
+		setScyWindowTitle()};
 
    public function loadElo(uri:URI){
       eloDrawingActionWrapper.loadElo(uri);
+		setScyWindowTitle();
    }
+
+	function setScyWindowTitle(){
+		if (scyWindow == null)
+		return;
+		scyWindow.title = "Drawing: {eloDrawingActionWrapper.getDocName()}";
+		var eloUri = eloDrawingActionWrapper.getEloUri();
+		if (eloUri != null)
+			scyWindow.id = eloUri.toString()
+		else
+			scyWindow.id = "";
+	}
 
    public override function create(): Node {
       return Group {
@@ -55,24 +70,28 @@ public class DrawingNode extends CustomNode {
                            label:"New"
                            clickAction:function( e: MouseEvent ):Void {
                               eloDrawingActionWrapper.newDrawingAction();
+										setScyWindowTitle();
                            }
                         }
                         CommandText{
                            label:"Load"
                            clickAction:function( e: MouseEvent ):Void {
                               eloDrawingActionWrapper.loadDrawingAction();
+										setScyWindowTitle();
                            }
                         }
                         CommandText{
                            label:"Save"
                            clickAction:function( e: MouseEvent ):Void {
                               eloDrawingActionWrapper.saveDrawingAction();
+										setScyWindowTitle();
                            }
                         }
                         CommandText{
                            label:"Save as"
                            clickAction:function( e: MouseEvent ):Void {
                               eloDrawingActionWrapper.saveAsDrawingAction();
+										setScyWindowTitle();
                            }
                         }
                      ]
@@ -85,60 +104,82 @@ public class DrawingNode extends CustomNode {
    }
 }
 
-class CommandText extends CustomNode {
-   public var label="label";
-   public var clickAction:function(e: MouseEvent):Void;
-   var color = Color.color(0.34,0.34,0.34);
-   var hoverColor = Color.BLACK;
-   var textFont =  Font {
-      size: 11}
-   var text:Text;
+	class CommandText extends CustomNode {
+		public var label="label";
+		public var clickAction:function(e: MouseEvent):Void;
+		var color = Color.color(0.34,0.34,0.34);
+		var hoverColor = Color.BLACK;
+		var textFont =  Font {
+			size: 11}
+		var text:Text;
 
-   public override function create(): Node {
-      return Group {
-         content: [
-            Rectangle {
-               x: 0,
-               y: 0
-               width: 55,
-               height: 17
-               arcHeight:5
-               arcWidth:5
-               fill: Color.color(0.9,0.9,0.9)
-            }
-            text = Text{
-               translateX:8;
-               translateY:12;
-               font:textFont
-               content: bind label
-               fill:color
-            }
-         ]
-         onMouseEntered: function( e: MouseEvent ):Void {
-            text.fill = hoverColor;
-         }
-         onMouseExited: function( e: MouseEvent ):Void {
-            text.fill = color;
-         }
-         onMouseClicked: function( e: MouseEvent ):Void {
-            if (clickAction != null) clickAction(e);
-         }
+		public override function create(): Node {
+			return Group {
+				content: [
+					Rectangle {
+						x: 0,
+						y: 0
+						width: 55,
+						height: 17
+						arcHeight:5
+						arcWidth:5
+						fill: Color.color(0.9,0.9,0.9)
+					}
+					text = Text{
+						translateX:8;
+						translateY:12;
+						font:textFont
+						content: bind label
+						fill:color
+					}
+				]
+				onMouseEntered: function( e: MouseEvent ):Void {
+					text.fill = hoverColor;
+				}
+				onMouseExited: function( e: MouseEvent ):Void {
+					text.fill = color;
+				}
+				onMouseClicked: function( e: MouseEvent ):Void {
+					if (clickAction != null) clickAction(e);
+				}
       };
-   }
-}
+		}
+	}
 
-public function createDrawingNode(roolo:Roolo):DrawingNode{
-   var whiteboardPanel= new WhiteboardPanel();
-   whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
-   var eloDrawingActionWrapper= new EloDrawingActionWrapper(whiteboardPanel);
-   eloDrawingActionWrapper.setRepository(roolo.repository);
-   eloDrawingActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
-   eloDrawingActionWrapper.setEloFactory(roolo.eloFactory);
-   return DrawingNode{
-      whiteboardPanel:whiteboardPanel;
-      eloDrawingActionWrapper:eloDrawingActionWrapper;
-   }
-}
+	public function createDrawingNode(roolo:Roolo):DrawingNode{
+		var whiteboardPanel= new WhiteboardPanel();
+		whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
+		var eloDrawingActionWrapper= new EloDrawingActionWrapper(whiteboardPanel);
+		eloDrawingActionWrapper.setRepository(roolo.repository);
+		eloDrawingActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
+		eloDrawingActionWrapper.setEloFactory(roolo.eloFactory);
+		return DrawingNode{
+			whiteboardPanel:whiteboardPanel;
+			eloDrawingActionWrapper:eloDrawingActionWrapper;
+		}
+	}
+
+
+
+	public function createDrawingWindow(roolo:Roolo):ScyWindow{
+		return
+		createDrawingWindow(DrawingNode.createDrawingNode(roolo));
+	}
+
+	public function createDrawingWindow(drawingNode:DrawingNode):ScyWindow{
+		var drawingWindow = ScyWindow{
+			color:Color.GREEN
+			title:"Drawing"
+			scyContent: drawingNode
+			minimumWidth:320;
+			minimumHeigth:100;
+			width: 320;
+			height: 250;
+			cache:true;
+      }
+		drawingNode.scyWindow = drawingWindow;
+		return drawingWindow;
+	}
 
 function run(){
    Stage {

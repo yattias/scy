@@ -43,6 +43,7 @@ import roolo.elo.metadata.keys.Contribute;
 public class EloDrawingActionWrapper {
 	private static final Logger logger = Logger.getLogger(EloDrawingActionWrapper.class.getName());
 	public static final String scyDrawType = "scy/drawing";
+   public static final String untitledDocName = "untitled";
 
 	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
 	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
@@ -56,7 +57,7 @@ public class EloDrawingActionWrapper {
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
 	private WhiteboardPanel whiteboardPanel;
-	private String docName = "untitiled";
+	private String docName = untitledDocName;
 	private IELO<IMetadataKey> elo = null;
 	private boolean whiteboardChanged = false;
 	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
@@ -119,6 +120,14 @@ public class EloDrawingActionWrapper {
 		this.eloFactory = eloFactory;
 	}
 
+   public URI getEloUri()
+   {
+      if (elo==null)
+         return null;
+      else
+         return elo.getUri();
+   }
+
 	public String getELOTitle()
 	{
 		if (elo == null)
@@ -136,10 +145,16 @@ public class EloDrawingActionWrapper {
 		// setTitle(windowTitle);
 	}
 
+   public String getDocName()
+   {
+      return docName;
+   }
+
 	public void newDrawingAction()
 	{
 		whiteboardPanel.deleteAllWhiteboardContainers();
 		elo = null;
+      docName = untitledDocName;
 		sendELOLoadedChangedListener();
 	}
 
@@ -154,7 +169,7 @@ public class EloDrawingActionWrapper {
 		int i = 0;
 		for (ISearchResult searchResult : searchResults)
 			drawingUris[i++] = searchResult.getUri();
-		URI drawingUri = (URI) JOptionPane.showInputDialog(whiteboardPanel, "Select drawing", "Select drawing",
+		URI drawingUri = (URI) JOptionPane.showInputDialog(null, "Select drawing", "Select drawing",
 					JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
 		if (drawingUri != null)
 		{

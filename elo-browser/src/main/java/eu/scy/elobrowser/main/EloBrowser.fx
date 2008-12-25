@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 
 var roolo= Roolo.getRoolo();
 var stage:Stage;
-var scyDesktop = ScyDesktop{};
+var scyDesktop = ScyDesktop.getScyDesktop();
 
 var newGroup = VBox {
    translateX:5
@@ -71,24 +71,28 @@ var newGroup = VBox {
             //            var panel = new JPanel();
             //            panel.setLayout(new GridLayout(1,1,0,0));
             //            panel.add(whiteboard);
-				var newWhiteboard = new EloDrawingPanel();
-				newWhiteboard.setRepository(roolo.repository);
-				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
-				newWhiteboard.setEloFactory(roolo.eloFactory);
-				var preferredSize = new Dimension(200,200);
-            //				newWhiteboard.setMinimumSize(preferredSize);
-            //				newWhiteboard.setMaximumSize(preferredSize);
-				newWhiteboard.setPreferredSize(preferredSize);
-            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-            var drawingWindow = ScyWindow{
-               color:Color.GREEN
-               title:"Drawing"
-               scyContent: DrawingNode.createDrawingNode(roolo)
-               minimumWidth:320;
-               minimumHeigth:100;
-               width: 320;
-               height: 150;
-               }
+//				var newWhiteboard = new EloDrawingPanel();
+//				newWhiteboard.setRepository(roolo.repository);
+//				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
+//				newWhiteboard.setEloFactory(roolo.eloFactory);
+//				var preferredSize = new Dimension(2000,2000);
+//            //				newWhiteboard.setMinimumSize(preferredSize);
+//            //				newWhiteboard.setMaximumSize(preferredSize);
+//				newWhiteboard.setPreferredSize(preferredSize);
+//            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
+//				var drawingNode = DrawingNode.createDrawingNode(roolo);
+//            var drawingWindow = ScyWindow{
+//               color:Color.GREEN
+//               title:"Drawing"
+//               scyContent: drawingNode
+//               minimumWidth:320;
+//               minimumHeigth:100;
+//               width: 320;
+//               height: 150;
+//					cache:true;
+//               }
+//				drawingNode.scyWindow = drawingWindow;
+            var drawingWindow = DrawingNode.createDrawingWindow(roolo);
             scyDesktop.addScyWindow(drawingWindow)
          }
       }
@@ -145,6 +149,7 @@ var metadataDisplayMappingWidget = MetadataDisplayMappingWidget{
 }
 
 var resultView = ResultView{
+	 roolo:roolo;
    xSize: bind
 		  stage.width - 110 as Integer;
    ySize: bind
