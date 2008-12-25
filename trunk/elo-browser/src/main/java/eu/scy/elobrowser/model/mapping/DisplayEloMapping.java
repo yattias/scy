@@ -19,4 +19,6 @@ public interface DisplayEloMapping
 	public List<DisplayMapping> getDisplayMappings();
 
 	public String getEloType();
+
+   public boolean isDragable();
 }

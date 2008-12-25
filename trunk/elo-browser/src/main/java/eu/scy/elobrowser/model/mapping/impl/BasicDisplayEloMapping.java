@@ -19,12 +19,14 @@ public class BasicDisplayEloMapping implements DisplayEloMapping {
 	private final IELO elo;
 	private final List<DisplayMapping> displayMappings;
 	private final String eloType;
+   private final boolean dragable;
 
-	public BasicDisplayEloMapping(IELO elo,List<DisplayMapping> displayMappings,String eloType)
+	public BasicDisplayEloMapping(IELO elo,List<DisplayMapping> displayMappings,String eloType,boolean dragable)
 	{
 		this.elo = elo;
 		this.displayMappings = displayMappings;
 		this.eloType = eloType;
+		this.dragable = dragable;
 	}
 
 	@Override
@@ -50,6 +52,12 @@ public class BasicDisplayEloMapping implements DisplayEloMapping {
 	{
 		return eloType;
 	}
+
+   @Override
+   public boolean isDragable()
+   {
+      return dragable;
+   }
 
 
 }

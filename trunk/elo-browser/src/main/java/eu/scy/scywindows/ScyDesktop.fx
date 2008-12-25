@@ -37,7 +37,7 @@ public class ScyDesktop{
 			}
 
    public function addScyWindow(scyWindow:ScyWindow){
-      scyWindow.id = "id_{idCount++}";
+      //scyWindow.id = "id_{idCount++}";
       scyWindow.scyDesktop = this;
       //      scyWindow.translateX = windowOffsetStep * idCount;
       //      scyWindow.translateY = windowOffsetStep * idCount;
@@ -62,11 +62,11 @@ public class ScyDesktop{
       showScyWindow(scyWindow);
       scyWindow.toFront();
       activeWindow = scyWindow;
-      activeWindow.effect = activeWindowEffect;
+      activeWindow.windowEffect = activeWindowEffect;
    }
 
    function deactivateScyWindow(scyWindow:ScyWindow){
-      scyWindow.effect = inactiveWindowEffect;
+      scyWindow.windowEffect = inactiveWindowEffect;
       if (scyWindow == activeWindow){
          activeWindow = null;
       }
@@ -85,6 +85,14 @@ public class ScyDesktop{
       addScyWindow(scyWindow);
    }
 
+	public function findScyWindow(id:String):ScyWindow{
+      for (window in desktop.content){
+         if (window.id == id)
+         return window as ScyWindow;
+      }
+   return null as ScyWindow;
+ 	}
+
    function desktopContainsWindow(scyWindow:ScyWindow) : Boolean{
       for (window in desktop.content){
          if (window == scyWindow)
@@ -93,4 +101,10 @@ public class ScyDesktop{
    return false;
    }
 
+}
+
+var scyDesktop = ScyDesktop{};
+
+public function getScyDesktop(){
+	 return scyDesktop;
 }

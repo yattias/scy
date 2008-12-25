@@ -14,11 +14,13 @@ import java.lang.Math;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
+import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.Shadow;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -35,6 +37,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JComponent;
 import javax.swing.JTree;
+import javafx.scene.shape.Polyline;
 
 /**
  * @author sikken
@@ -56,12 +59,13 @@ public class ScyWindow extends CustomNode {
       height: 10
       fill: Color.TRANSPARENT
 		};
-   public var allowRotate = false;
+   public var allowRotate = true;
    public var allowResize = true;
    public var allowClose = true;
    public var closeIsHide = false;
    public var swingContent:JComponent;
    public var scyDesktop:ScyDesktop;
+	public var windowEffect:Effect;
 
 	var borderWidth = 3;
 	var topLeftBlockSize = 23;
@@ -90,6 +94,7 @@ public class ScyWindow extends CustomNode {
 	var initialRotation:Number;
    var maxDifX:Number;
    var maxDifY:Number;
+	var sceneTopLeft:Point2D;
 
    var closeElement:Node;
 
@@ -120,8 +125,8 @@ public class ScyWindow extends CustomNode {
 
 	function startDragging(e: MouseEvent) {
 		activate();
-		originalX = e.x;
-		originalY = e.y;
+		originalX = translateX;
+		originalY = translateY;
 		originalWidth = width;
 		originalHeight = height;
 		rotateCenterX = width / 2;
@@ -129,6 +134,7 @@ public class ScyWindow extends CustomNode {
 		initialRotation = calculateRotation(e);
       maxDifX = 0;
       maxDifY = 0;
+		sceneTopLeft = localToScene(0,0);
 	}
 
    function printMousePos(label:String, e:MouseEvent) {
@@ -150,13 +156,13 @@ public class ScyWindow extends CustomNode {
       printMousePos("drag",e);
       if (isInvalidMousePos(e))
 		return;
-		var difX = e.x - originalX;
-		var difY = e.y - originalY;
+		var difX = e.dragX;
+		var difY = e.dragY;
       maxDifX = Math.max(maxDifX, difX);
       maxDifY = Math.max(maxDifY, difY);
 		//System.out.println("difX: {e.x}-{e.dragAnchorX} {difX}, difY: {e.y}-{e.dragAnchorY} {difY}");
-		translateX += difX;
-		translateY += difY;
+		translateX = originalX + difX;
+		translateY = originalY + difY;
 //		System.out.println("dragged {title}, difX: {difX}, difY: {difY}, maxDifX:{maxDifX}, maxDifY: {maxDifY}");
 
    }
@@ -165,13 +171,23 @@ public class ScyWindow extends CustomNode {
       printMousePos("resize",e);
       if (isInvalidMousePos(e))
 		return;
-		var difX = e.x - originalX;
-		var difY = e.y - originalY;
-		width = Math.max(minimumWidth,originalWidth + difX);
-		height =Math.max(minimumHeigth,originalHeight + difY);
-		//System.out.println("resized {title}, difX: {difX}, difY: {difY}");
+		var angle = Math.toRadians(rotate);
+		var difW = Math.cos(angle) * e.dragX + Math.sin(angle) * e.dragY;
+		var difH = Math.cos(angle) * e.dragY - Math.sin(angle) * e.dragX;
+		var difX:Number;
+		var difY:Number;
+		difX = (1 - Math.cos(angle)) * difW / 2;
+		difY = (1 - Math.cos(angle)) * difH / 2;
+		//difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
+		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
+		width = Math.max(minimumWidth,originalWidth + difW);
+		height =Math.max(minimumHeigth,originalHeight + difH);
+		translateX = originalX - difX;
+		translateY = originalY - difY;
+//		var newSceneTopLeft = localToScene(0,0);
+//		System.out.println("resized {title}, angle: {rotate}, difW: {difW}, difH: {difH}, difX: {difX}, difY: {difY}, dtlX:{sceneTopLeft.x-newSceneTopLeft.x}, dtlY:{sceneTopLeft.y-newSceneTopLeft.y}");
 
-   }
+	}
 
 	function doRotate(e: MouseEvent) {
       printMousePos("rotate",e);
@@ -218,7 +234,17 @@ public class ScyWindow extends CustomNode {
          cursor: Cursor.MOVE;
 
 			content: [
-					Rectangle { // main border
+//					Rectangle { // main border, only for effect, applying effect on main slows things down
+//					x: 0,
+//					y: borderBlockOffset;
+//					width: bind width - borderBlockOffset,
+//					height: bind height - borderBlockOffset
+//					fill:bind backgroundColor;
+//					stroke:bind color
+//					strokeWidth:borderWidth;
+//					effect:bind windowEffect;
+//				}
+				Rectangle { // main border
 					x: 0,
 					y: borderBlockOffset;
 					width: bind width - borderBlockOffset,
@@ -226,13 +252,59 @@ public class ScyWindow extends CustomNode {
 					fill:bind backgroundColor;
 					stroke:bind color
 					strokeWidth:borderWidth;
+					//effect:bind windowEffect;
 				}
+				Line {
+					startX: bind width - borderBlockOffset,
+					startY: borderBlockOffset
+					endX: bind width - borderBlockOffset,
+					endY: bind height
+					stroke:bind color
+					strokeWidth:borderWidth;
+					effect:bind windowEffect;
+				}
+				Line {
+					startX: 0,
+					startY: bind height
+					endX: bind width - borderBlockOffset,
+					endY: bind height
+					stroke:bind color
+					strokeWidth:borderWidth;
+					effect:bind windowEffect;
+				}
+				Line {
+					startX: bind width -borderWidth/2,
+					startY: borderWidth/2
+					endX: bind width-borderWidth/2,
+					endY: topLeftBlockSize-borderWidth/2
+					stroke:bind color
+					strokeWidth:borderWidth;
+					effect:bind windowEffect;
+				}
+					Group{ // the content
+               blocksMouse:true;
+               cursor:Cursor.DEFAULT;
+               translateX:borderWidth / 2 + contentBorder + 1
+               translateY:borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation + lineOffsetY + contentBorder + lineWidth / 2 + 1
+               clip:Rectangle {
+                  x: 0,
+                  y: 0
+                  width: bind width - borderBlockOffset - borderWidth - 0,
+                  height: bind height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0
+                  fill: Color.BLACK
+               }
+               content:bind scyContent
+               onMousePressed: function( e: MouseEvent ):Void {
+                  activate();
+               }
+            }
 					Rectangle { // top left block
                x: bind width - topLeftBlockSize,
                y: 0;
                width: topLeftBlockSize,
                height: topLeftBlockSize
                fill: bind color
+					//effect:bind windowEffect;
             }
 				closeElement = Group{ // close button
                cursor:Cursor.HAND
@@ -317,23 +389,6 @@ public class ScyWindow extends CustomNode {
 					strokeWidth: lineWidth
 					stroke: bind color
 				}
-					Group{ // the content
-               blocksMouse:true;
-               cursor:Cursor.DEFAULT;
-               translateX:borderWidth / 2 + contentBorder + 1
-               translateY:borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation + lineOffsetY + contentBorder + lineWidth / 2 + 1
-               clip:Rectangle {
-                  x: 0,
-                  y: 0
-                  width: bind width - borderBlockOffset - borderWidth - 0,
-                  height: bind height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0
-                  fill: Color.BLACK
-               }
-               content:bind scyContent
-               onMousePressed: function( e: MouseEvent ):Void {
-                  activate();
-               }
-            }
 					Group{ // bottom right resize element
                blocksMouse:true;
                visible:bind allowResize
@@ -438,12 +493,14 @@ function run() {
             text: "Drawing"
             action: function() {
                var newWhiteboard = new WhiteboardPanel();
+					newWhiteboard.setPreferredSize(new Dimension(2000,2000));
                var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
                var drawingWindow = ScyWindow{
                   color:Color.BLUE
                   title:"Drawing"
                   scyContent: newWhiteboardNode
                   visible:true
+						cache:true
                }
                scyDesktop.addScyWindow(drawingWindow)
             }
@@ -499,12 +556,70 @@ function run() {
    };
    scyDesktop.addScyWindow(newScyWindow);
 
+	var whiteboard = new WhiteboardPanel();
+	whiteboard.setPreferredSize(new Dimension(300,150));
+	var whiteboardNode = SwingComponent.wrap(whiteboard);
+	whiteboardNode.translateX = 150;
+	whiteboardNode.translateY = 25;
+
+	var whiteboard2 = new WhiteboardPanel();
+	whiteboard2.setPreferredSize(new Dimension(300,150));
+	var whiteboardNode2 = SwingComponent.wrap(whiteboard2);
+	var drawingWindow2 = ScyWindow{
+		translateX:50
+		translateY:200
+		width:300;
+		height:150
+		color:Color.GREEN
+		title:"Drawing 2"
+		scyContent: whiteboardNode2
+		visible:true
+		effect: DropShadow {
+			offsetX: 4,
+			offsetY: 4,
+			color: Color.BLACK
+		}
+   }
+
+	var whiteboard3 = new WhiteboardPanel();
+	whiteboard3.setPreferredSize(new Dimension(2000,1500));
+	var whiteboardNode3 = SwingComponent.wrap(whiteboard3);
+	var drawingWindow3 = ScyWindow{
+		translateX:50
+		translateY:400
+		width:300;
+		height:150
+		color:Color.GREEN
+		title:"Drawing 3"
+		scyContent: whiteboardNode3
+		visible:true
+		//		windowEffect: Lighting {
+		//			light: DistantLight {
+		//				azimuth: -135
+		//			}
+		//			surfaceScale: 5
+		//		}
+		//		windowEffect:Shadow{
+		//		}
+		windowEffect:DropShadow {
+			offsetX: 4,
+			offsetY: 4,
+			color: Color.BLACK
+		}
+
+   }
+
 	Stage {
 		title: "Scy window test"
-		width: 250
-		height: 250
+		width: 400
+		height: 600
 		scene: Scene {
-			content:scyDesktop.desktop
+			content:[
+				 scyDesktop.desktop,
+				whiteboardNode,
+				drawingWindow2
+				drawingWindow3
+			]
 
 		}
 	}

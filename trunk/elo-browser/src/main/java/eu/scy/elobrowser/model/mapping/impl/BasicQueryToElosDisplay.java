@@ -33,19 +33,18 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
    private static final Logger logger = Logger.getLogger(BasicQueryToElosDisplay.class);
    private IRepository repository;
    private IMetadataTypeManager metadataTypeManager;
-	private IMetadataKey typeKey;
+   private IMetadataKey typeKey;
 
    public void setRepository(IRepository repository)
    {
       this.repository = repository;
    }
 
-	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
-	{
-		this.metadataTypeManager = metadataTypeManager;
-		typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
-	}
-
+   public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
+   {
+      this.metadataTypeManager = metadataTypeManager;
+      typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+   }
 
    private DisplayMappingList getBasicDisplayMappingList(
       Map<DisplayProperty, DisplayMappingList> basicDisplayMappingListMap,
@@ -108,7 +107,7 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
          displayMappings.add(basicDisplayMapping);
          getBasicDisplayMappingList(basicDisplayMappingListMap, mapping.getDisplayPropperty()).addBasicDisplayMapping(basicDisplayMapping);
       }
-		String eloType = (String)elo.getMetadata().getMetadataValueContainer(typeKey).getValue();
-      return new BasicDisplayEloMapping(elo, displayMappings,eloType);
+      String eloType = (String) elo.getMetadata().getMetadataValueContainer(typeKey).getValue();
+      return new BasicDisplayEloMapping(elo, displayMappings, eloType, true);
    }
 }

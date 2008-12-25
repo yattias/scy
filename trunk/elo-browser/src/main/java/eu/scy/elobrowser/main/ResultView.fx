@@ -78,6 +78,7 @@ public class ResultView extends CustomNode {
                   translateY: calculateY(1 - relevance);
                   radius: calculateZ(relevance);
                   visible: false;
+						roolo:roolo;
 	       }
 	       insert eloDisplay into eloDisplays;
                eloDisplay;
@@ -111,6 +112,7 @@ public class ResultView extends CustomNode {
             System.out.println("not enough elo displays, have {i+1}, but need {displayEloMappings.size()}");
             break;
          }
+			eloDisplay.elo = displayEloMapping.getElo();
 			eloDisplay.eloType = displayEloMapping.getEloType();
          var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
          while(
