@@ -130,6 +130,7 @@ var newGroup = VBox {
 var newScyWindow= ScyWindow{
    translateX:10;
    translateY:150;
+	opacity:0.75;
    title:"New"
    color:Color.BLUEVIOLET
    scyContent:newGroup
@@ -212,6 +213,7 @@ var eloBrowserControl= ScyWindow{
    allowResize:false;
    width:100;
    height:130;
+	opacity:0.75;
    scyContent: VBox{
       translateX:5
       translateY:5;
