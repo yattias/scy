@@ -8,7 +8,6 @@ package eu.scy.elobrowser.tool.drawing;
 
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.elobrowser.main.Roolo;
-import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
@@ -148,7 +147,7 @@ public class DrawingNode extends CustomNode {
 
 	public function createDrawingNode(roolo:Roolo):DrawingNode{
 		var whiteboardPanel= new WhiteboardPanel();
-		whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
+		//whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
 		var eloDrawingActionWrapper= new EloDrawingActionWrapper(whiteboardPanel);
 		eloDrawingActionWrapper.setRepository(roolo.repository);
 		eloDrawingActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
@@ -158,8 +157,6 @@ public class DrawingNode extends CustomNode {
 			eloDrawingActionWrapper:eloDrawingActionWrapper;
 		}
 	}
-
-
 
 	public function createDrawingWindow(roolo:Roolo):ScyWindow{
 		return
@@ -173,11 +170,12 @@ public class DrawingNode extends CustomNode {
 			scyContent: drawingNode
 			minimumWidth:320;
 			minimumHeigth:100;
-			width: 320;
+			//width: 320;
 			height: 250;
 			cache:true;
       }
 		drawingNode.scyWindow = drawingWindow;
+		drawingWindow.width = 320;
 		return drawingWindow;
 	}
 
