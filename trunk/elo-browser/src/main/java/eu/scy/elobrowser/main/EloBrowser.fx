@@ -178,7 +178,7 @@ var queryWindow = ScyWindow{
    closeIsHide:true;
    allowResize:false;
    width:270;
-   height:150;
+   height:160;
    scyContent: Group{
       content:[queryEntry1]
    }
@@ -211,7 +211,7 @@ var eloBrowserControl= ScyWindow{
    allowClose:false;
    allowResize:false;
    width:100;
-   height:120;
+   height:130;
    scyContent: VBox{
       translateX:5
       translateY:5;

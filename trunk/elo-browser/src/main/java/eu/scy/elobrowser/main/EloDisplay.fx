@@ -7,13 +7,16 @@
 package eu.scy.elobrowser.main;
 
 import eu.scy.elobrowser.main.EloDisplay;
+import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.elobrowser.ui.SwingMenuItem;
 import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyWindow;
 import java.util.HashMap;
 import javafx.ext.swing.SwingButton;
+import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -22,15 +25,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import roolo.elo.api.IELO;
-import javafx.scene.shape.Rectangle;
 
 	/**
-	 * @author sikken
+	* @author sikken
 	 */
 
 	 // place your code here
@@ -70,7 +74,8 @@ public class EloDisplay extends CustomNode {
 		updateImage()};
 	public var elo:IELO;
 	public var image = unknownEloImage;
-   public var strokeColor = Color.BLACK;
+   public var textColor = Color.BLACK;
+	public var textBackgroundColor = Color.TRANSPARENT;
    public var fillColor = Color.color(0,0.5,0,0.25);
 	public var dragable = true;
    var textFont =  Font {
@@ -105,25 +110,58 @@ public class EloDisplay extends CustomNode {
 		}
 	}
 
+	function openEloXml(){
+		var eloXmlWindowId = "{elo.getUri().toString()}.xml";
+		var eloXmlWindow = ScyDesktop.getScyDesktop().findScyWindow(eloXmlWindowId);
+		if (eloXmlWindow == null){
+			var textArea = new JTextArea();
+			textArea.setEditable(false);
+			textArea.setWrapStyleWord(true);
+			textArea.setLineWrap(true);
+			var scrollPane = new JScrollPane(textArea);
+			var textNode = SwingComponent.wrap(scrollPane);
+			eloXmlWindow = ScyWindow{
+				id: eloXmlWindowId
+				color:Color.color(0.8,0,0)
+				title:"XML: {elo.getUri()}"
+				scyContent: textNode
+				visible:true
+				//width:150
+				height:150
+			}
+			eloXmlWindow.width = 300;
+			ScyDesktop.getScyDesktop().addScyWindow(eloXmlWindow);
+			textArea.setText(elo.getXml());
+		}
+		else {
+			ScyDesktop.getScyDesktop().activateScyWindow(eloXmlWindow);
+		}
+	}
+
    public override function create(): Node {
  		var menuItems = [
 			openMenuItem,
 			SwingMenuItem{
 				label:"Show elo xml"
-				enabled:false;
+				action:openEloXml
 			}
 		];
 		var imageView:ImageView;
-		var text:Text = Text{
-               x: 0;
-               y: bind radius / 2 + textFont.size;
-               textAlignment:TextAlignment.CENTER;
-               //wrappingWidth:100
-               content: bind title;
-               fill: bind strokeColor;
-               font: bind textFont;
+		var titleText = Text{
+			content: bind title;
+			fill: bind textColor;
+			font: bind textFont;
             };
-		var textRect:Rectangle;
+		// place a rect behind the text, to better catch mouse actions on the text,
+		// the text does catch mouse actions always
+		var titleTextRect:Rectangle = Rectangle {
+			x: bind titleText.boundsInLocal.minX,
+			y: bind titleText.boundsInLocal.minY
+			width: bind titleText.boundsInLocal.width,
+			height: bind titleText.boundsInLocal.height
+			fill: bind textBackgroundColor
+				};
+		var titleGroup:Group;
 		var displayGroup = Group
       {
 			blocksMouse:true;
@@ -143,14 +181,11 @@ public class EloDisplay extends CustomNode {
                fitWidth:bind radius
                preserveRatio:true
             }
-				textRect = Rectangle { // to better catch mouse actions on the text, the text does catch mouse action always
-					x: bind text.boundsInLocal.minX,
-					y: bind text.boundsInLocal.minY
-					width: bind text.boundsInLocal.width,
-					height: bind text.boundsInLocal.height
-					fill: Color.TRANSPARENT
+				titleGroup = Group{
+					translateX:bind -titleText .boundsInLocal.width / 2;
+					translateY:bind radius / 2 + titleText.boundsInLocal.height;
+					content:[titleTextRect,titleText]
 				}
-				text
          ]
 			onMousePressed: function( e: MouseEvent ):Void {
 				originalX = translateX;
@@ -171,15 +206,15 @@ public class EloDisplay extends CustomNode {
 				displayGroup
 				SwingPopupMenu{
 					items: menuItems;
-					translateX:bind -radius / 2
-					translateY:bind -radius / 2
-					width:1000
-					height:bind radius + 2 * textFont.size;
-					shapes:[imageView,textRect,text]
+					translateX: bind displayGroup.boundsInLocal.minX,
+					translateY: bind displayGroup.boundsInLocal.minY
+					width: bind displayGroup.boundsInLocal.width,
+					height: bind displayGroup.boundsInLocal.height
+					shapes:[imageView,titleGroup]
 					//fill:Color.color(0.9,0.9,0.9,0.7);
 				}
 			]
-  }
+		}
 	}
 }
 
@@ -204,6 +239,7 @@ function run(){
                action: function() {
                   eloDisplay.eloType="scy/drawing";
                   eloDisplay.radius = 48;
+						eloDisplay.title = "new title, but very long"
                }
             }
          ]

@@ -14,15 +14,16 @@ import java.lang.Math;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
+import javafx.ext.swing.SwingScrollPane;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.Shadow;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -36,8 +37,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
-import javafx.scene.shape.Polyline;
 
 /**
  * @author sikken
@@ -106,20 +108,24 @@ public class ScyWindow extends CustomNode {
    }
 
 	function resizeTheContent(){
-		if (swingContent == null)
-		return;
 		var contentWidth = width - borderBlockOffset - borderWidth - 0;
 		var contentHeight = height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0;
-		var contentDimension = new Dimension(contentWidth,contentHeight);
-		swingContent.setMinimumSize(contentDimension);
-		swingContent.setMaximumSize(contentDimension);
-		swingContent.setPreferredSize(contentDimension);
-		swingContent.setSize(contentDimension);
-		swingContent.invalidate();
-		swingContent.validate();
-		swingContent.doLayout();
-		//scyContent.width = contentWidth;
-		System.out.println("resized swingContent to {contentDimension}");
+		if (swingContent != null){
+			var contentDimension = new Dimension(contentWidth,contentHeight);
+			swingContent.setMinimumSize(contentDimension);
+			swingContent.setMaximumSize(contentDimension);
+			swingContent.setPreferredSize(contentDimension);
+			swingContent.setSize(contentDimension);
+			swingContent.invalidate();
+			swingContent.validate();
+			swingContent.doLayout();
+//		System.out.println("resized swingContent to {contentDimension}");
+		}
+		if (scyContent instanceof Resizable){
+			var resizeableScyContent = scyContent as Resizable;
+			resizeableScyContent.width = contentWidth;
+			resizeableScyContent.height = contentHeight;
+		}
 	}
 
 
@@ -195,7 +201,11 @@ public class ScyWindow extends CustomNode {
 		return;
 		var newRotation = calculateRotation(e);
 		var deltaRotation = Math.toDegrees(newRotation - initialRotation);
-		rotate += deltaRotation;
+		var newRotate = rotate+deltaRotation;
+		if (e.controlDown){
+			 newRotate = 45*Math.round(newRotate/45);
+		}
+		rotate = newRotate;
 		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
 
    }
@@ -234,17 +244,17 @@ public class ScyWindow extends CustomNode {
          cursor: Cursor.MOVE;
 
 			content: [
-//					Rectangle { // main border, only for effect, applying effect on main slows things down
-//					x: 0,
-//					y: borderBlockOffset;
-//					width: bind width - borderBlockOffset,
-//					height: bind height - borderBlockOffset
-//					fill:bind backgroundColor;
-//					stroke:bind color
-//					strokeWidth:borderWidth;
-//					effect:bind windowEffect;
-//				}
-				Rectangle { // main border
+				//					Rectangle { // main border, only for effect, applying effect on main slows things down
+				//					x: 0,
+				//					y: borderBlockOffset;
+				//					width: bind width - borderBlockOffset,
+				//					height: bind height - borderBlockOffset
+				//					fill:bind backgroundColor;
+				//					stroke:bind color
+				//					strokeWidth:borderWidth;
+				//					effect:bind windowEffect;
+				//				}
+					Rectangle { // main border
 					x: 0,
 					y: borderBlockOffset;
 					width: bind width - borderBlockOffset,
@@ -273,15 +283,15 @@ public class ScyWindow extends CustomNode {
 					effect:bind windowEffect;
 				}
 				Line {
-					startX: bind width -borderWidth/2,
-					startY: borderWidth/2
-					endX: bind width-borderWidth/2,
-					endY: topLeftBlockSize-borderWidth/2
+					startX: bind width - borderWidth / 2,
+					startY: borderWidth / 2
+					endX: bind width - borderWidth / 2,
+					endY: topLeftBlockSize - borderWidth / 2
 					stroke:bind color
 					strokeWidth:borderWidth;
 					effect:bind windowEffect;
 				}
-					Group{ // the content
+				Group{ // the content
                blocksMouse:true;
                cursor:Cursor.DEFAULT;
                translateX:borderWidth / 2 + contentBorder + 1
@@ -298,7 +308,7 @@ public class ScyWindow extends CustomNode {
                   activate();
                }
             }
-					Rectangle { // top left block
+				Rectangle { // top left block
                x: bind width - topLeftBlockSize,
                y: 0;
                width: topLeftBlockSize,
@@ -306,19 +316,19 @@ public class ScyWindow extends CustomNode {
                fill: bind color
 					//effect:bind windowEffect;
             }
-				closeElement = Group{ // close button
+					closeElement = Group{ // close button
                cursor:Cursor.HAND
                visible:bind allowClose
                content:[
-						Rectangle { // top left block
+							Rectangle { // top left block
                      x: bind width - topLeftBlockSize,
                      y: 0;
                      width: topLeftBlockSize,
                      height: topLeftBlockSize
                      fill: bind color
                   }
-						Group{ // close cross
-							clip: Rectangle { // top left block
+							Group{ // close cross
+								clip: Rectangle { // top left block
                         x: bind width - topLeftBlockSize,
                         y: 0;
                         width: topLeftBlockSize,
@@ -367,7 +377,7 @@ public class ScyWindow extends CustomNode {
                   closeElement.effect = null;
                }
             }
-					Text { // title
+				Text { // title
 					font: textFont
 					x: borderWidth,
 					y: borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation
@@ -381,7 +391,7 @@ public class ScyWindow extends CustomNode {
 					fill:bind color;
 					content: bind title;
 				}
-					Line { // line under title
+				Line { // line under title
 					startX: borderWidth / 2,
 					startY:borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation + lineOffsetY
 					endX: bind width - topLeftBlockSize - borderWidth / 2 + 1,
@@ -389,7 +399,7 @@ public class ScyWindow extends CustomNode {
 					strokeWidth: lineWidth
 					stroke: bind color
 				}
-					Group{ // bottom right resize element
+				Group{ // bottom right resize element
                blocksMouse:true;
                visible:bind allowResize
                cursor:Cursor.NW_RESIZE;
@@ -398,7 +408,7 @@ public class ScyWindow extends CustomNode {
                   offsetY: 2
                }
                content:[
-							Line { // vertical line
+						Line { // vertical line
                      startX: bind width - borderBlockOffset - borderWidth - dragBorder,
                      startY: bind height - dragStrokeWith - dragBorder - dragLength
                      endX: bind width - borderBlockOffset - borderWidth - dragBorder,
@@ -406,7 +416,7 @@ public class ScyWindow extends CustomNode {
                      stroke:bind color
                      strokeWidth:bind dragStrokeWith;
                   }
-							Line { // horizontal line
+						Line { // horizontal line
                      startX: bind width - borderBlockOffset - borderWidth - dragBorder - dragLength,
                      startY: bind height - dragStrokeWith - dragBorder
                      endX: bind width - borderBlockOffset - borderWidth - dragBorder,
@@ -422,7 +432,7 @@ public class ScyWindow extends CustomNode {
                   doResize(e);
                }
             }
-					Arc { // bottom left rotate element
+				Arc { // bottom left rotate element
 					blocksMouse:true;
                visible:bind allowRotate;
 					effect: DropShadow {
@@ -493,7 +503,7 @@ function run() {
             text: "Drawing"
             action: function() {
                var newWhiteboard = new WhiteboardPanel();
-					newWhiteboard.setPreferredSize(new Dimension(2000,2000));
+					//newWhiteboard.setPreferredSize(new Dimension(2000,2000));
                var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
                var drawingWindow = ScyWindow{
                   color:Color.BLUE
@@ -528,6 +538,53 @@ function run() {
             }
          }
          SwingButton{
+            text: "Text"
+            action: function() {
+					var textArea = new JTextArea();
+					textArea.setPreferredSize(new Dimension(2000,2000));
+					textArea.setEditable(true);
+					textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
+               var textNode = SwingComponent.wrap(textArea);
+               var drawingWindow = ScyWindow{
+                  color:Color.BLUE
+                  title:"Drawing"
+						width:150
+						height:150
+                  scyContent: SwingScrollPane{
+							view:textNode
+							scrollable:true;
+						}
+                  visible:true
+               }
+               scyDesktop.addScyWindow(drawingWindow)
+            }
+         }
+         SwingButton{
+            text: "Text 2"
+            action: function() {
+					var textArea = new JTextArea();
+					//textArea.setPreferredSize(new Dimension(2000,2000));
+					textArea.setEditable(true);
+					textArea.setWrapStyleWord(true);
+					textArea.setLineWrap(true);
+					//textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
+					var scrollPane = new JScrollPane(textArea);
+					//scrollPane.setPreferredSize(new Dimension(200,200));
+               var textNode = SwingComponent.wrap(scrollPane);
+               var drawingWindow = ScyWindow{
+                  color:Color.BLUE
+                  title:"Drawing"
+                  scyContent: textNode
+						visible:true
+						//swingContent:scrollPane
+						width:150
+						height:150
+               }
+               scyDesktop.addScyWindow(drawingWindow);
+					drawingWindow.width = 151;
+            }
+         }
+         SwingButton{
             text: "Red"
             action: function() {
                var drawingWindow = ScyWindow{
@@ -550,6 +607,7 @@ function run() {
    var newScyWindow= ScyWindow{
       title:"New"
       color:Color.BLUEVIOLET
+		height:150;
       scyContent:newGroup
       allowClose:false;
       allowResize:false;
@@ -616,9 +674,9 @@ function run() {
 		scene: Scene {
 			content:[
 				 scyDesktop.desktop,
-				whiteboardNode,
-				drawingWindow2
-				drawingWindow3
+//				whiteboardNode,
+//				drawingWindow2
+//				drawingWindow3
 			]
 
 		}
