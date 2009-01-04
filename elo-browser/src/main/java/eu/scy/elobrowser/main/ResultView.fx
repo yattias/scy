@@ -133,8 +133,8 @@ public class ResultView extends CustomNode {
                eloDisplay.radius = calculateZ(displayMapping.getValue());
             }
          }
-         // eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
-         eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
+         eloDisplay.title = getTitleOutEloMetadata(displayEloMapping.getElo().getMetadata());
+         //eloDisplay.title = getTitleFromUri(displayEloMapping.getElo().getUri());
 //         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, eloType:{eloDisplay.eloType}");
 //		   System.out.println("- image:{eloDisplay.image}, url:{eloDisplay.image.url}, width:{eloDisplay.image.width}, ");
          eloDisplay.visible = true;

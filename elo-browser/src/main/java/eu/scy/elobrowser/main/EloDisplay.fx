@@ -15,9 +15,13 @@ import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.util.HashMap;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -78,17 +83,29 @@ public class EloDisplay extends CustomNode {
 	public var textBackgroundColor = Color.TRANSPARENT;
    public var fillColor = Color.color(0,0.5,0,0.25);
 	public var dragable = true;
+	public var windowColor = Color.BLUE;
    var textFont =  Font {
       size: 12}
 
 	var originalX:Number;
 	var originalY:Number;
+	var windowOpenVisible = false;
+	var windowOpenStrokeWidth = 1;
+	var windowOpenStrokeColor = bind windowColor;
+	var windowOpenSize = 12;
+   var closeMouseOverEffect:Effect = Glow{
+      level:1}
+	var eloWindow:ScyWindow;
 
 	var openMenuItem = SwingMenuItem{
 		label:"Open"
 		enabled:false;
 		action:openElo;
 			}
+
+	public function clear(){
+		eloWindow = null;
+	}
 
 	function updateImage() {
 		image = getEloImage(eloType);
@@ -97,16 +114,45 @@ public class EloDisplay extends CustomNode {
 
 	function openElo(){
 		if (EloDrawingActionWrapper.scyDrawType == eloType){
-			var eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
+			eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
 			if (eloWindow == null){
+				// elo window is not created
 				var drawingNode = DrawingNode.createDrawingNode(roolo);
 				eloWindow = DrawingNode.createDrawingWindow(drawingNode);
+				eloWindow.minimizeAction = hideEloWindow;
+				eloWindow.allowMinimize = true;
+				eloWindow.closeAction=closeEloWindow;
 				ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
+				eloWindow.openFrom(translateX, translateY);
 				drawingNode.loadElo(elo.getUri());
 			}
 			else {
+				 // elo window exists, show it
 			ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
 			}
+		}
+	}
+
+	function hideEloWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.hideTo(translateX, translateY);
+		 windowOpenVisible = true;
+	}
+
+	function showEloWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.showFrom(translateX, translateY);
+		 windowOpenVisible = false;
+	}
+
+	function closeEloWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.closeIt();
+	}
+
+	function openEloWindow(){
+		if (eloWindow.visible){
+			ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
+		}
+		else {
+			 showEloWindow(eloWindow);
 		}
 	}
 
@@ -126,11 +172,12 @@ public class EloDisplay extends CustomNode {
 				title:"XML: {elo.getUri()}"
 				scyContent: textNode
 				visible:true
-				//width:150
+				width:300
 				height:150
 			}
-			eloXmlWindow.width = 300;
+			eloXmlWindow.closeAction=closeEloWindow;
 			ScyDesktop.getScyDesktop().addScyWindow(eloXmlWindow);
+			eloXmlWindow.openFrom(translateX, translateY);
 			textArea.setText(elo.getXml());
 		}
 		else {
@@ -201,9 +248,41 @@ public class EloDisplay extends CustomNode {
 				if (e.clickCount == 2) openElo();
 			}
       };
+		var windowGroup:Group = Group{
+			blocksMouse:true;
+			visible:bind windowOpenVisible
+			translateX: bind imageView.layoutBounds.width / 2
+			translateY: bind -imageView .layoutBounds.height / 2
+			content:[
+				//				Rectangle {
+				//					x:0
+				//					y: 0
+				//					width: bind windowOpenSize,
+				//					height: bind windowOpenSize
+				//					fill: bind windowColor
+				//				}
+				Polyline {
+					points: [ windowOpenStrokeWidth,windowOpenSize - windowOpenStrokeWidth - 1 windowOpenSize - windowOpenStrokeWidth - 1,windowOpenSize - windowOpenStrokeWidth - 1 windowOpenSize / 2, windowOpenStrokeWidth windowOpenStrokeWidth,windowOpenSize - windowOpenStrokeWidth - 1]
+					strokeWidth: windowOpenStrokeWidth
+					stroke: windowOpenStrokeColor
+					fill: bind windowColor
+				}
+			]
+			onMouseClicked: function( e: MouseEvent ):Void {
+				openEloWindow();
+			}
+			onMouseEntered: function( e: MouseEvent ):Void {
+				windowGroup.effect = closeMouseOverEffect;
+			}
+			onMouseExited: function( e: MouseEvent ):Void {
+				windowGroup.effect = null;
+			}
+
+		}
 		return Group{
 			content:[
 				displayGroup
+				windowGroup
 				SwingPopupMenu{
 					items: menuItems;
 					translateX: bind displayGroup.boundsInLocal.minX,
