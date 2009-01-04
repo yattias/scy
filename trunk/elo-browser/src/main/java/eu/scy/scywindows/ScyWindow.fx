@@ -12,6 +12,9 @@ import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
 import java.lang.Math;
 import java.lang.System;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.ext.swing.SwingComponent;
 import javafx.ext.swing.SwingScrollPane;
@@ -31,6 +34,7 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -51,8 +55,10 @@ public class ScyWindow extends CustomNode {
 	public var color = Color.GREEN;
 	public var backgroundColor = color.WHITE;
 	public var width:Number = 100 on replace{
+		width = Math.max(width,minimumWidth);
 		resizeTheContent()};
 	public var height:Number = 100 on replace{
+		height = Math.max(height, minimumHeight);
 		resizeTheContent()};
 	public var scyContent:Node= Rectangle {
       x: 0,
@@ -64,10 +70,12 @@ public class ScyWindow extends CustomNode {
    public var allowRotate = true;
    public var allowResize = true;
    public var allowClose = true;
+   public var allowMinimize = false;
    public var closeIsHide = false;
-   public var swingContent:JComponent;
    public var scyDesktop:ScyDesktop;
 	public var windowEffect:Effect;
+	public var closeAction:function(ScyWindow):Void;
+	public var minimizeAction:function(ScyWindow):Void;
 
 	var borderWidth = 3;
 	var topLeftBlockSize = 23;
@@ -87,10 +95,14 @@ public class ScyWindow extends CustomNode {
 	var textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
 	//def minimumHeigth = topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth;
 	//def minimumWidth = 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset;
+	public-read var originalTranslateX:Number;
+	public-read var originalTranslateY:Number;
+	public-read var originalWidth:Number;
+	public-read var originalHeight:Number;
 	var originalX:Number;
 	var originalY:Number;
-	var originalWidth:Number;
-	var originalHeight:Number;
+	var originalW:Number;
+	var originalH:Number;
 	var rotateCenterX:Number;
 	var rotateCenterY:Number;
 	var initialRotation:Number;
@@ -99,29 +111,134 @@ public class ScyWindow extends CustomNode {
 	var sceneTopLeft:Point2D;
 
    var closeElement:Node;
+   var minimizeElement:Node;
+	var resizeAnimationTime = 250ms;
+	var opcityAnimationTime = 250ms;
+	var closeAnimationTime = 350ms;
 
-   public var minimumHeigth:Number = 100 on replace{
-      minimumHeigth = Math.max(minimumHeigth, topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth);
+   public var minimumHeight:Number = 100 on replace{
+      minimumHeight = Math.max(minimumHeight, topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth);
    }
    public var minimumWidth:Number = 100 on replace{
       minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset);
    }
 
-	function resizeTheContent(){
-		var contentWidth = width - borderBlockOffset - borderWidth - 0;
-		var contentHeight = height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0;
-		if (swingContent != null){
-			var contentDimension = new Dimension(contentWidth,contentHeight);
-			swingContent.setMinimumSize(contentDimension);
-			swingContent.setMaximumSize(contentDimension);
-			swingContent.setPreferredSize(contentDimension);
-			swingContent.setSize(contentDimension);
-			swingContent.invalidate();
-			swingContent.validate();
-			swingContent.doLayout();
-//		System.out.println("resized swingContent to {contentDimension}");
+	postinit {
+		resizeTheContent();
+	}
+
+	function getHideTimeline(endX:Number,endY:Number):Timeline{
+		return Timeline{
+			keyFrames: [
+				KeyFrame{
+					time:resizeAnimationTime;
+					values:[
+						translateX => endX tween Interpolator.EASEBOTH
+						translateY => endY tween Interpolator.EASEBOTH
+						width => minimumWidth tween Interpolator.EASEBOTH
+						height => minimumHeight tween Interpolator.EASEBOTH
+					]
+				}
+				KeyFrame{
+					time:resizeAnimationTime + opcityAnimationTime;
+					values:[
+						opacity => 0 tween Interpolator.EASEBOTH
+					]
+					action:function(){
+						scyDesktop.hideScyWindow(this);
+					}
+				}
+			];
 		}
+	}
+
+	function getShowTimeline(beginX:Number,beginY:Number,endX:Number,endY:Number,endWidth:Number,endHeight:Number):Timeline{
+		return Timeline{
+			keyFrames: [
+				KeyFrame{
+					time:0ms;
+					values:[
+						translateX => beginX
+						translateY => beginY
+						width => minimumWidth
+						height => minimumHeight
+						opacity => 0.0
+					]
+				}
+				KeyFrame{
+					time:opcityAnimationTime;
+					values:[
+						translateX => beginX
+						translateY => beginY
+						width => minimumWidth
+						height => minimumHeight
+						opacity => 1.0 tween Interpolator.EASEBOTH
+					]
+				}
+				KeyFrame{
+					time:resizeAnimationTime + opcityAnimationTime;
+					values:[
+						translateX => endX tween Interpolator.EASEBOTH
+						translateY => endY tween Interpolator.EASEBOTH
+						width => endWidth tween Interpolator.EASEBOTH
+						height => endHeight tween Interpolator.EASEBOTH
+					]
+				}
+			];
+		}
+	}
+
+	function getCloseTimeline(endX:Number,endY:Number):Timeline{
+		return Timeline{
+			keyFrames:[
+				KeyFrame{
+					time:closeAnimationTime;
+					values:[
+						translateX => endX
+						translateY => endY
+						scaleX =>
+						1.0 / width
+						scaleY =>
+						1.0 / height
+					]
+					action: function(){
+						scyDesktop.removeScyWindow(this);
+					}
+				}
+			]
+		 }
+	}
+
+	public function hideTo(x:Number,y:Number){
+		originalTranslateX = translateX;
+		originalTranslateY = translateY;
+		originalWidth = width;
+		originalHeight = height;
+		var hideTimeline = getHideTimeline(x,y);
+		hideTimeline.play();
+	}
+
+	public function showFrom(x:Number,y:Number){
+		var showTimeline = getShowTimeline(x,y,originalTranslateX,originalTranslateY,originalWidth,originalHeight);
+		scyDesktop.showScyWindow(this);
+		showTimeline.play();
+	}
+
+	public function openFrom(x:Number,y:Number){
+		// cannot add myself to scyDesktop, because the scyDesktop variable is set in the addScyWindow call
+		var openTimeline = getShowTimeline(x,y,translateX,translateY,width,height);
+		openTimeline.play();
+	}
+	
+	public function closeIt(){
+		var closeTimeline = getCloseTimeline(translateX+width/2,translateY-height/2);
+		closeTimeline.play();
+	}
+
+	function resizeTheContent(){
 		if (scyContent instanceof Resizable){
+			var contentWidth = width - borderBlockOffset - borderWidth - 0;
+			var contentHeight = height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0;
 			var resizeableScyContent = scyContent as Resizable;
 			resizeableScyContent.width = contentWidth;
 			resizeableScyContent.height = contentHeight;
@@ -133,8 +250,8 @@ public class ScyWindow extends CustomNode {
 		activate();
 		originalX = translateX;
 		originalY = translateY;
-		originalWidth = width;
-		originalHeight = height;
+		originalW = width;
+		originalH = height;
 		rotateCenterX = width / 2;
 		rotateCenterY = height / 2;
 		initialRotation = calculateRotation(e);
@@ -151,9 +268,8 @@ public class ScyWindow extends CustomNode {
    function isInvalidMousePos(e: MouseEvent){
 		def maxScreenCoordinate = 1e4;
 		var invalid = Math.abs(e.screenX) > maxScreenCoordinate or Math.abs(e.screenY) > maxScreenCoordinate;
-		if (invalid)
-		{
-         System.out.println("unreasonable mouse position, will ignore it");
+		if (invalid){
+         println("unreasonable mouse position, will ignore it");
       }
       return invalid;
    }
@@ -186,8 +302,8 @@ public class ScyWindow extends CustomNode {
 		difY = (1 - Math.cos(angle)) * difH / 2;
 		//difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
 		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
-		width = Math.max(minimumWidth,originalWidth + difW);
-		height =Math.max(minimumHeigth,originalHeight + difH);
+		width = Math.max(minimumWidth,originalW + difW);
+		height =Math.max(minimumHeight,originalH + difH);
 		translateX = originalX - difX;
 		translateY = originalY - difY;
 //		var newSceneTopLeft = localToScene(0,0);
@@ -201,9 +317,9 @@ public class ScyWindow extends CustomNode {
 		return;
 		var newRotation = calculateRotation(e);
 		var deltaRotation = Math.toDegrees(newRotation - initialRotation);
-		var newRotate = rotate+deltaRotation;
+		var newRotate = rotate + deltaRotation;
 		if (e.controlDown){
-			 newRotate = 45*Math.round(newRotate/45);
+			newRotate = 45 * Math.round(newRotate  /  45);
 		}
 		rotate = newRotate;
 		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
@@ -254,17 +370,17 @@ public class ScyWindow extends CustomNode {
 				//					strokeWidth:borderWidth;
 				//					effect:bind windowEffect;
 				//				}
-					Rectangle { // main border
-					x: 0,
+				Rectangle { // main border
+					x: borderBlockOffset,
 					y: borderBlockOffset;
-					width: bind width - borderBlockOffset,
+					width: bind width - 2 * borderBlockOffset,
 					height: bind height - borderBlockOffset
 					fill:bind backgroundColor;
 					stroke:bind color
 					strokeWidth:borderWidth;
 					//effect:bind windowEffect;
 				}
-				Line {
+				Line { // right border line, only for the effect
 					startX: bind width - borderBlockOffset,
 					startY: borderBlockOffset
 					endX: bind width - borderBlockOffset,
@@ -273,8 +389,8 @@ public class ScyWindow extends CustomNode {
 					strokeWidth:borderWidth;
 					effect:bind windowEffect;
 				}
-				Line {
-					startX: 0,
+				Line { // bottom border line, only for the effect
+					startX: borderBlockOffset,
 					startY: bind height
 					endX: bind width - borderBlockOffset,
 					endY: bind height
@@ -282,7 +398,7 @@ public class ScyWindow extends CustomNode {
 					strokeWidth:borderWidth;
 					effect:bind windowEffect;
 				}
-				Line {
+				Line { // right top block border line, only for the effect
 					startX: bind width - borderWidth / 2,
 					startY: borderWidth / 2
 					endX: bind width - borderWidth / 2,
@@ -294,12 +410,12 @@ public class ScyWindow extends CustomNode {
 				Group{ // the content
                blocksMouse:true;
                cursor:Cursor.DEFAULT;
-               translateX:borderWidth / 2 + contentBorder + 1
+               translateX:borderBlockOffset + borderWidth / 2 + contentBorder + 1
                translateY:borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation + lineOffsetY + contentBorder + lineWidth / 2 + 1
                clip:Rectangle {
                   x: 0,
                   y: 0
-                  width: bind width - borderBlockOffset - borderWidth - 0,
+                  width: bind width - 2 * borderBlockOffset - borderWidth - 0,
                   height: bind height - borderBlockOffset - borderWidth - titleFontsize - fontHeightCompensation - lineOffsetY + lineWidth / 2 + 0
                   fill: Color.BLACK
                }
@@ -309,6 +425,56 @@ public class ScyWindow extends CustomNode {
                }
             }
 				Rectangle { // top left block
+               x: 0,
+               y: 0;
+               width: topLeftBlockSize,
+               height: topLeftBlockSize
+               fill: bind color
+					//effect:bind windowEffect;
+            }
+				minimizeElement = Group{
+					cursor:Cursor.HAND
+					visible:bind allowMinimize
+					content:[
+						Rectangle { // top left block
+							x: 0,
+							y: 0;
+							width: topLeftBlockSize,
+							height: topLeftBlockSize
+							fill: bind color
+					//effect:bind windowEffect;
+						}
+						Polyline {
+							points: [ closeStrokeWidth,closeStrokeWidth topLeftBlockSize - closeStrokeWidth - 1,closeStrokeWidth topLeftBlockSize / 2,topLeftBlockSize - closeStrokeWidth - 1 closeStrokeWidth,closeStrokeWidth]
+							strokeWidth: closeStrokeWidth
+							stroke: closeColor
+						}
+					]
+               onMouseClicked: function( e: MouseEvent ):Void {
+                  if (scyDesktop != null)
+                  {
+							if (minimizeAction != null){
+								minimizeAction(this)
+							}
+							else {
+								originalTranslateX = translateX;
+								originalTranslateY = translateY;
+								originalWidth = width;
+								originalHeight = height;
+								scyDesktop.hideScyWindow(this);
+							}
+							System.out.println("hided {title}");
+                  }
+					}
+               onMouseEntered: function( e: MouseEvent ):Void {
+                  minimizeElement.effect = closeMouseOverEffect;
+               }
+               onMouseExited: function( e: MouseEvent ):Void {
+                  minimizeElement.effect = null;
+               }
+
+				}
+				Rectangle { // top right block
                x: bind width - topLeftBlockSize,
                y: 0;
                width: topLeftBlockSize,
@@ -354,21 +520,23 @@ public class ScyWindow extends CustomNode {
                      ]
                   }
                ]
-               onMousePressed: function( e: MouseEvent ):Void {
+               onMouseClicked: function( e: MouseEvent ):Void {
                   if (scyDesktop != null)
                   {
-                     if (closeIsHide){
-                        scyDesktop.hideScyWindow(this);
-                        System.out.println("hided {title}");
-                     }
-                     else {
-                        scyDesktop.removeScyWindow(this);
-                        System.out.println("closed {title}");
-                     }
-                  }
-                  //visible = false;
-
-
+ 							if (closeAction != null){
+								closeAction(this);
+							}
+							else {
+								if (closeIsHide){
+									scyDesktop.hideScyWindow(this);
+									System.out.println("hided {title}");
+								}
+								else {
+									scyDesktop.removeScyWindow(this);
+									System.out.println("closed {title}");
+								}
+							}
+						}
 					}
                onMouseEntered: function( e: MouseEvent ):Void {
                   closeElement.effect = closeMouseOverEffect;
@@ -379,12 +547,12 @@ public class ScyWindow extends CustomNode {
             }
 				Text { // title
 					font: textFont
-					x: borderWidth,
+					x: topLeftBlockSize + borderWidth,
 					y: borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation
 					clip:Rectangle {
-						x: 0,
+						x: topLeftBlockSize,
 						y: 0
-						width: bind width - topLeftBlockSize - borderWidth / 2 + 1,
+						width: bind width - 2 * topLeftBlockSize - borderWidth  + 1,
 						height: bind height
 						fill: Color.BLACK
 					}
@@ -439,7 +607,7 @@ public class ScyWindow extends CustomNode {
 						offsetX: 2,
 						offsetY: 2
 					}
-					centerX: borderWidth + dragBorder + dragLength,
+					centerX: borderBlockOffset + borderWidth + dragBorder + dragLength,
 					centerY: bind height - borderWidth - dragBorder - dragLength,
 					radiusX: dragLength,
 					radiusY: dragLength
@@ -466,6 +634,18 @@ public class ScyWindow extends CustomNode {
 		};;
 	}
 }
+
+	function hideScyWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.hideTo(scyWindow.translateX, scyWindow.translateY);
+	}
+
+	function showScyWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.showFrom(scyWindow.translateX, scyWindow.translateY);
+	}
+
+	function closeScyWindow(scyWindow:ScyWindow):Void{
+		 scyWindow.closeIt();
+	}
 
 function run() {
    //	var image = Image{
@@ -588,6 +768,8 @@ function run() {
             text: "Red"
             action: function() {
                var drawingWindow = ScyWindow{
+						//						 translateX:100;
+						//						 translateY:100;
                   color:Color.BLUE
                   title:"Red"
                   scyContent: Rectangle {
@@ -598,8 +780,29 @@ function run() {
                      fill: Color.PERU
                   }
                   visible:true
+						//opacity:0;
+						closeAction:closeScyWindow;
                }
-               scyDesktop.addScyWindow(drawingWindow)
+               scyDesktop.addScyWindow(drawingWindow);
+					var opacityTimeline = Timeline{
+						keyFrames: [
+						 at (0s){ 
+							//drawingWindow.opacity => 0.0;
+							drawingWindow.translateX => 0;
+							drawingWindow.translateY => 0;
+							drawingWindow.width => 0;
+							drawingWindow.height => 0;
+						 }
+						 at (500ms){
+							//drawingWindow.opacity => 1.0;
+							drawingWindow.translateX => 200;
+							drawingWindow.translateY => 200;
+							drawingWindow.width => 150;
+							drawingWindow.height => 150;
+						 }
+						];
+					}
+					opacityTimeline.play();
             }
          }
       ]
@@ -611,6 +814,7 @@ function run() {
       scyContent:newGroup
       allowClose:false;
       allowResize:false;
+      allowMinimize:false;
    };
    scyDesktop.addScyWindow(newScyWindow);
 

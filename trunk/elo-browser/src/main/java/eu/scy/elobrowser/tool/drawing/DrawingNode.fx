@@ -169,7 +169,7 @@ public class DrawingNode extends CustomNode {
 			title:"Drawing"
 			scyContent: drawingNode
 			minimumWidth:320;
-			minimumHeigth:100;
+			minimumHeight:100;
 			//width: 320;
 			height: 250;
 			cache:true;
