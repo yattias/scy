@@ -4,6 +4,7 @@ import eu.scy.framework.actions.AddGroupToProjectAction;
 import eu.scy.framework.ActionManager;
 import eu.scy.framework.actions.AddMemberToGroupAction;
 import eu.scy.framework.actions.EnableOrDisableUserAction;
+import eu.scy.framework.actions.EditGroup;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
