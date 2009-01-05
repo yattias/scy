@@ -3,6 +3,7 @@ package eu.scy.webapp.pages;
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.Group;
 import eu.scy.core.model.User;
+import eu.scy.webapp.pages.projectmanagement.ProjectEditor;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
 
@@ -67,9 +68,24 @@ public class GroupOverview extends ScyModelPage {
         this.currentUser = currentUser;
     }
 
-    public List <User> getGroupMembers() {
+    public List<User> getGroupMembers() {
         Group group = (Group) getModel();
         return group.getUsers();
+    }
+
+    @InjectPage
+    private EditGroup editGroup;
+
+    Object onActionFromEditGroup(String groupId) {
+        log.info("EDIT GROUP!");
+        editGroup.setModelId(groupId);
+        editGroup.loadModel();
+        return editGroup;
+    }
+
+    Object onActionFromDeleteGroup(String groupId) {
+        getUserDAO().deleteGroup(getGroupDAO().getGroup(groupId));
+        return null;
     }
 
 

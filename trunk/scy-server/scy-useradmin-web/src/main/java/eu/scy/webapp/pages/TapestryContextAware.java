@@ -99,6 +99,7 @@ public class TapestryContextAware {
     private ComponentSource compSource;
 
     public Object getNextPage(Object selectedObject) {
+        log.info("GETTING PAGE FOR OBJECT: " + selectedObject);
         String pageId = getPageManager().getPageIdForObject(selectedObject);
         ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
         comp.setModelId(((ScyBase) selectedObject).getId());
