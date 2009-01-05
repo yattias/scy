@@ -7,7 +7,9 @@ import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.User;
 import eu.scy.core.model.UserRole;
 import eu.scy.core.model.Role;
+import eu.scy.core.model.Group;
 import eu.scy.core.model.impl.UserImpl;
+import eu.scy.core.model.impl.GroupImpl;
 
 import java.util.List;
 
@@ -80,4 +82,17 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         assert(loaded != null);
     }
 
+
+    @Test
+    public void testDeleteGroup() {
+        Group group = new GroupImpl();
+        group = (Group) userDAO.save(group);
+        assert(group.getId() != null);
+
+        String id = group.getId();
+
+        userDAO.deleteGroup(id);
+        userDAO.getGroup(id);
+
+    }
 }

@@ -177,9 +177,16 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public void deleteGroup(String groupId) {
-        getSession().createQuery("delete from Group where id like :id")
+        getSession().createQuery("delete from GroupImpl where id like :id")
                 .setString("id", groupId)
                 .executeUpdate();
+    }
+
+    public Group getGroup(String id) {
+        return (Group) getSession().createQuery("from GroupImpl where id  like :id")
+                .setString("id", id)
+                .setMaxResults(1)
+                .uniqueResult();
     }
 
 }
