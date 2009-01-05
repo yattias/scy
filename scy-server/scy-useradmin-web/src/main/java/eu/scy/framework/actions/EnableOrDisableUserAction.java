@@ -16,9 +16,22 @@ public class EnableOrDisableUserAction extends BaseAction {
         return UserImpl.class;
     }
 
+    @Override
+    public String getName() {
+        User model = (User) getUserObject();
+        if (model != null) {
+            if (model.getEnabled() != null && model.getEnabled().equals("1")) return "Disable";
+            return "Enable";
+        } else {
+            return "Hei";
+        }
+
+
+    }
+
     protected Object doAction(Object model) {
         User user = (User) model;
-        if(user.getEnabled().equals("0")) {
+        if (user.getEnabled() != null && user.getEnabled().equals("0")) {
             user.setEnabled("1");
         } else {
             user.setEnabled("0");

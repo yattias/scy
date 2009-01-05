@@ -5,5 +5,8 @@ ${user.group.name}
 
 <t:beaneditform t:id="userEditor" object="user" exclude="id, name, enabled"></t:beaneditform>
 
+<t:if test="disabled">
+    User is disabled    
+</t:if>
 
 </html>

@@ -85,7 +85,7 @@ public class UserImpl extends ScyBaseObject implements User {
         this.project = project;
     }
 
-    @ManyToOne(targetEntity = GroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = GroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_primKey")
     public Group getGroup() {
         return group;

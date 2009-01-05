@@ -29,6 +29,7 @@ public class AddMemberToGroupAction extends BaseAction {
         user.setLastName("New User");
         user.setUserName(getActionManager().getUserDAOHibernate().getSecureUserName("NewUser"));
         user.setPassword("default");
+        user.setEnabled("1");
         user = (User) getActionManager().getUserDAOHibernate().save(user);
 
         getActionManager().getUserDAOHibernate().addUser(getProject(), (Group) model, user);

@@ -87,4 +87,11 @@ public interface UserDAO extends SCYBaseDAO{
      * @return
      */
     public Group getGroup(String id);
+
+
+    /**
+     * removes the user from the system permanently
+     * @param id
+     */
+    void deleteUser(String id);
 }

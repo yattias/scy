@@ -1,10 +1,7 @@
 package eu.scy.framework;
 
-import eu.scy.framework.actions.AddGroupToProjectAction;
 import eu.scy.framework.ActionManager;
-import eu.scy.framework.actions.AddMemberToGroupAction;
-import eu.scy.framework.actions.EnableOrDisableUserAction;
-import eu.scy.framework.actions.EditGroup;
+import eu.scy.framework.actions.*;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 
@@ -36,6 +33,8 @@ public class ActionManagerImpl implements ActionManager {
             actions.add(new AddGroupToProjectAction());
             actions.add(new AddMemberToGroupAction());
             actions.add(new EnableOrDisableUserAction());
+            actions.add(new DeleteGroup());
+            actions.add(new DeleteUser());
         }
 
     }
@@ -52,7 +51,10 @@ public class ActionManagerImpl implements ActionManager {
             BaseAction baseAction = actions.get(i);
             for (int j = 0; j < classes.size(); j++) {
                 Class aClass = classes.get(j);
-                if (baseAction.getOperatesOn().getName().equals(aClass.getName())) returnList.add(baseAction);
+                if (baseAction.getOperatesOn().getName().equals(aClass.getName())) {
+                    baseAction.setUserObject(userObject);
+                    returnList.add(baseAction);
+                }
             }
         }
 

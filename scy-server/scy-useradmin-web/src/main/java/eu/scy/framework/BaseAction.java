@@ -22,6 +22,15 @@ public abstract class BaseAction {
 
     private Project project;
     private User user;
+    private Object userObject;
+
+    public Object getUserObject() {
+        return userObject;
+    }
+
+    public void setUserObject(Object userObject) {
+        this.userObject = userObject;
+    }
 
     public Project getProject() {
         return project;
