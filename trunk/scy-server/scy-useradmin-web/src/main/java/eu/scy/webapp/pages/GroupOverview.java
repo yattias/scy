@@ -84,7 +84,7 @@ public class GroupOverview extends ScyModelPage {
     }
 
     Object onActionFromDeleteGroup(String groupId) {
-        getUserDAO().deleteGroup(getGroupDAO().getGroup(groupId));
+        getUserDAO().deleteGroup(groupId);
         return null;
     }
 

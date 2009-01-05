@@ -176,8 +176,10 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         addRole(user, persistentRole);
     }
 
-    public void deleteGroup(Group group) {
-        getHibernateTemplate().delete(group);
+    public void deleteGroup(String groupId) {
+        getSession().createQuery("delete from Group where id like :id")
+                .setString("id", groupId)
+                .executeUpdate();
     }
 
 }
