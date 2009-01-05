@@ -26,7 +26,7 @@ public class EditUserPage extends ScyModelPage {
         getUserDAO().save(user);
         Group g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
 
-        return getNextPage(g);
+        return null;
     }
 
     public void loadModel() {
@@ -34,4 +34,12 @@ public class EditUserPage extends ScyModelPage {
         log.info("Got model in EDIT USER PAGE: " + getModel());
         setUser((User) getModel());
     }
+
+
+    public Boolean getDisabled() {
+        if(getUser().getEnabled() == null || getUser().getEnabled().equals("0") ) return true;
+        return false;
+    }
 }
+
+

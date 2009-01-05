@@ -17,6 +17,7 @@
                     <t:pagelink page="Index" title="Index">
                          Home
                      </t:pagelink>
+                    |
 
                     <!--a t:type="pagelink" t:page="colemo/ColemoContentPane">COLEMO DEMO</a>
                     <a t:type="pagelink" t:page="rickroll/RickRoll">COOLEMO DEMO</a-->
@@ -24,6 +25,7 @@
                         <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">${baseAction.name}</t:actionlink>
                     </t:loop>
 
+                    |
 
                     <t:actionlink t:id="logout">Log out</t:actionlink>
                 </div>
