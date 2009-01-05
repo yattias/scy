@@ -3,6 +3,7 @@
 <h1>${model.name}</h1>
 
 <t:actionlink t:id="editGroup" context="model.id">Edit</t:actionlink>
+<t:actionlink t:id="deleteGroup" context="model.id">Delete</t:actionlink>
 
 <t:grid source="groupMembers" row="currentUser" exclude="id, name, enabled">
     <t:parameter name="usernamecell">

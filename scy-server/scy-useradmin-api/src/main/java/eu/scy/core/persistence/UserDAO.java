@@ -75,5 +75,5 @@ public interface UserDAO extends SCYBaseDAO{
      */
     void addRole(User user, String roleName);
 
-    public void deleteGroup(Group group);
+    public void deleteGroup(String groupId);
 }
