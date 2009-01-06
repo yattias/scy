@@ -19,16 +19,8 @@ import de.fhg.iais.kd.tm.obwious.operator.document.Tokens;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import de.fhg.iais.kd.tm.obwious.operator.type.Container;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
-import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends AbstractELOAgent<T, K> {
-
-	private ToolBrokerAPI<K> toolbroker;
-
-	public ObwiousAgent() {
-		this.toolbroker = new ToolBrokerImpl<K>();
-	}
 
 	class TestObwious extends Workflow {
 
@@ -63,22 +55,20 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 		System.out.println(doc.getFeature(Features.TOKENS));
 		doc.getFeature(Features.TOKENS);
 
-		K tokenKey = this.toolbroker.getMetaDataTypeManager().getMetadataKey("token");
+		K tokenKey = (K) this.getMetadataTypeManager().getMetadataKey("token");
 		if (tokenKey == null) {
-			IMetadataKey token = new StringMetadataKey("token",
-					"/agentdata/obwiousdata/tokens/token", I18nType.UNIVERSAL,
-					MetadataValueCount.LIST, new StringValidator());
-			this.toolbroker.getMetaDataTypeManager().registerMetadataKey((K) token);
-			tokenKey = (K) token;
+			K token = (K) new StringMetadataKey("token", "/agentdata/obwiousdata/tokens/token",
+					I18nType.UNIVERSAL, MetadataValueCount.LIST, new StringValidator());
+			this.getMetadataTypeManager().registerMetadataKey(token);
+			tokenKey = token;
 		}
 
-		K workflowKey = this.toolbroker.getMetaDataTypeManager().getMetadataKey("workflow");
+		K workflowKey = (K) this.getMetadataTypeManager().getMetadataKey("workflow");
 		if (workflowKey == null) {
-			IMetadataKey workflowK = new StringMetadataKey("workflow",
-					"/agentdata/obwiousdata/workflow", I18nType.UNIVERSAL,
-					MetadataValueCount.SINGLE, new StringValidator());
-			this.toolbroker.getMetaDataTypeManager().registerMetadataKey((K) workflowK);
-			workflowKey = (K) workflowK;
+			K workflowK = (K) new StringMetadataKey("workflow", "/agentdata/obwiousdata/workflow",
+					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
+			this.getMetadataTypeManager().registerMetadataKey(workflowK);
+			workflowKey = workflowK;
 		}
 
 		IMetadataValueContainer tokenContainer = elo.getMetadata().getMetadataValueContainer(
