@@ -1,6 +1,7 @@
 package eu.scy.eloimporter;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
@@ -26,9 +27,16 @@ import eu.scy.eloimporter.contentextractors.IContentExtractor;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
+/**
+ * A tool to easily import files as elo. Needs a Roolo-Server instance to be running. The elos are
+ * directly saved as to the roolo. In future version the metadata will be adjustable.
+ * 
+ * @author fschulz
+ */
 public class ELOImporter {
 
 	private static final String SCY_VERSION = "SCYv0.5";
+	private static int counter = 0;
 	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
 	private IExtensionManager extensionManager;
 	private IELOFactory<IMetadataKey> eloFactory;
@@ -50,17 +58,19 @@ public class ELOImporter {
 	}
 
 	private void registerKeys() {
-		// IMetadataKey identifierCatalog = new
-		// StringMetadataKey("identifier/catalog",
-		// "/metadata/lom/general/identifier/catalog", I18nType.UNIVERSAL,
-		// MetadataValueCount.SINGLE, new UriValidator());
-		// typeManager.registerMetadataKey(identifierCatalog);
-		//        
-		// IMetadataKey identifierEntry = new
-		// StringMetadataKey("identifier/entry",
-		// "/metadata/lom/general/identifier/entry", I18nType.UNIVERSAL,
-		// MetadataValueCount.SINGLE, new UriValidator());
-		// typeManager.registerMetadataKey(identifierEntry);
+		IMetadataKey structureSource = new StringMetadataKey("logical_representation/source",
+				"/lom/structure/source", I18nType.UNIVERSAL, MetadataValueCount.SINGLE,
+				new StringValidator());
+		if (!this.typeManager.isMetadataKeyRegistered(structureSource)) {
+			this.typeManager.registerMetadataKey(structureSource);
+		}
+
+		IMetadataKey structureValue = new StringMetadataKey("logical_representation/value",
+				"/lom/structure/value", I18nType.UNIVERSAL, MetadataValueCount.SINGLE,
+				new StringValidator());
+		if (!this.typeManager.isMetadataKeyRegistered(structureValue)) {
+			this.typeManager.registerMetadataKey(structureValue);
+		}
 
 		IMetadataKey size = new StringMetadataKey("size", "/lom/technical/size",
 				I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new LongValidator());
@@ -103,14 +113,14 @@ public class ELOImporter {
 			this.typeManager.registerMetadataKey(contributeDate);
 		}
 
-		IMetadataKey learningResourceTypeSource = new StringMetadataKey("learningResource/source",
+		IMetadataKey learningResourceTypeSource = new StringMetadataKey("functional_role/source",
 				"/lom/educational/learningResource/source", I18nType.UNIVERSAL,
 				MetadataValueCount.SINGLE, new StringValidator());
 		if (!this.typeManager.isMetadataKeyRegistered(learningResourceTypeSource)) {
 			this.typeManager.registerMetadataKey(learningResourceTypeSource);
 		}
 
-		IMetadataKey learningResourceTypeValue = new StringMetadataKey("learningResource/value",
+		IMetadataKey learningResourceTypeValue = new StringMetadataKey("functional_role/value",
 				"/lom/educational/learningResource/value", I18nType.UNIVERSAL,
 				MetadataValueCount.SINGLE, new StringValidator());
 		if (!this.typeManager.isMetadataKeyRegistered(learningResourceTypeValue)) {
@@ -145,7 +155,7 @@ public class ELOImporter {
 	}
 
 	public IELO<IMetadataKey> importFile(File file) {
-		IELO<IMetadataKey> elo = this.eloFactory.createELO();
+		IELO<IMetadataKey> elo = this.createNewElo();
 
 		IMetadataValueContainer title = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("title"));
@@ -163,15 +173,25 @@ public class ELOImporter {
 		keywordContainer.setValueList(keywords);
 		keywordContainer.setValueList(keywords, Locale.GERMAN);
 
+		IMetadataValueContainer structureSourceContainer = elo.getMetadata()
+				.getMetadataValueContainer(
+						this.typeManager.getMetadataKey("logical_representation/source"));
+		structureSourceContainer.setValue(SCY_VERSION);
+
+		IMetadataValueContainer structureValueContainer = elo.getMetadata()
+				.getMetadataValueContainer(
+						this.typeManager.getMetadataKey("logical_representation/value"));
+		structureValueContainer.setValue(StructureValues.graph.toString());
+
 		IMetadataValueContainer aggregationContainer = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("aggregation"));
 		aggregationContainer.setValue(1);
 
 		IMetadataValueContainer type = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("type"));
-		String extension = file.getName().substring(file.getName().lastIndexOf('.'),
-				file.getName().length());
-		String mimetype = this.extensionManager.getType(extension);
+		// String extension = file.getName().substring(file.getName().lastIndexOf('.'),
+		// file.getName().length());
+		String mimetype = this.extensionManager.getType(file.toURI());
 		type.setValue(mimetype);
 
 		IMetadataValueContainer sizeContainer = elo.getMetadata().getMetadataValueContainer(
@@ -198,13 +218,13 @@ public class ELOImporter {
 
 		IMetadataValueContainer learningResourceSourceContainer = elo.getMetadata()
 				.getMetadataValueContainer(
-						this.typeManager.getMetadataKey("learningResource/source"));
+						this.typeManager.getMetadataKey("functional_role/source"));
 		learningResourceSourceContainer.setValue(SCY_VERSION);
 
-		IMetadataValueContainer learningResourceValueContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						this.typeManager.getMetadataKey("learningResource/value"));
-		learningResourceValueContainer.setValue(LearningResourceType.narrativetext.toString());
+		IMetadataValueContainer learningResourceValueContainer = elo
+				.getMetadata()
+				.getMetadataValueContainer(this.typeManager.getMetadataKey("functional_role/value"));
+		learningResourceValueContainer.setValue(LearningResourceTypeValues.report.toString());
 
 		IMetadataValueContainer copyrightSourceContainer = elo.getMetadata()
 				.getMetadataValueContainer(this.typeManager.getMetadataKey("copyright/source"));
@@ -229,12 +249,36 @@ public class ELOImporter {
 		this.repository.addELO(elo);
 	}
 
+	public IELO<IMetadataKey> createNewElo() {
+		return this.eloFactory.createELO();
+	}
+
+	public IMetadataTypeManager<IMetadataKey> getTypeManager() {
+		return this.typeManager;
+	}
+
 	public static void main(String[] args) throws URISyntaxException {
 		ELOImporter importer = new ELOImporter();
-		URL url = ELOImporter.class.getResource("/100-Carolina-Quispe-b-3.xml");
-		File file = new File(url.toURI());
-		IELO<IMetadataKey> elo = importer.importFile(file);
-		importer.saveElo(elo);
+		URL url = ELOImporter.class.getResource("/");
+		File dir = new File(url.toURI());
+		File[] xmlFiles = dir.listFiles(new FileFilter() {
+
+			public boolean accept(File pathname) {
+				return pathname.getName().endsWith(".xml");
+			}
+		});
+		// GraphConverterAgent<IELO<IMetadataKey>, IMetadataKey> agent = new
+		// GraphConverterAgent<IELO<IMetadataKey>, IMetadataKey>();
+		for (final File file : xmlFiles) {
+			System.out.println("elo #" + updateCounter() + " saved");
+			IELO<IMetadataKey> elo = importer.importFile(file);
+			// agent.processElo(elo);
+			importer.saveElo(elo);
+		}
 		System.exit(0);
+	}
+
+	protected static int updateCounter() {
+		return counter++;
 	}
 }
