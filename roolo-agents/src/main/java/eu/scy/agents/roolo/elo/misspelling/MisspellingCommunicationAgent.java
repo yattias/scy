@@ -18,12 +18,13 @@ public class MisspellingCommunicationAgent<K extends IMetadataKey> extends
 			throw new RuntimeException(e);
 		}
 
+		String uri = (String) t.getField(1).getValue();
 		Integer numberOfErrors = (Integer) t.getField(3).getValue();
 		// INotification notification = new Notification();
 		// notification.addProperty("errors", "" + numberOfErrors);
 		// notification.addProperty("target", "misspellings");
 		// getToolBrokerAPI().getNotificationService().notifyCallbacks(notification);
-		System.out.println("***************** your document has " + numberOfErrors
+		System.out.println("***************** your document " + uri + " has " + numberOfErrors
 				+ " spelling errors ********** ");
 	}
 }
