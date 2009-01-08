@@ -77,14 +77,7 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 
 		IMetadataValueContainer workflowContainer = elo.getMetadata().getMetadataValueContainer(
 				workflowKey);
-		workflowContainer.setValue("<operator class=\"Workflow\">\n"
-				+ "  <operator class=\"ELO2OBWIOUSDocument\"\n"
-				+ "  <parameter name=\"locale\" value=\"" + Locale.GERMAN + "\" />"
-				+ "  </operator>\n" + "  <operator class=\"Tokens\">\n"
-				+ "    <parameter name=\"toLower\" value=\"true\" />\n"
-				+ "    <parameter name=\"delimiter\" value=\" -;,.()\"\" />\\n\\t\\f"
-				+ "    <parameter name=\"update\" value=\"true\"\n" + "  </operator>"
-				+ "  <operator class=\"Stopwords\">\n" + "  </operator>\n" + "</operator>\n");
+		workflowContainer.setValue(workflow.toXml());
 
 		System.out.println(doc.getFeature(Features.TERMFREQUENCY));
 	}
