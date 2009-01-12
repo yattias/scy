@@ -1,4 +1,4 @@
-package eu.scy.tools.simquestviewer.applet;
+package eu.scy.elobrowser.tool.simquest;
 
 import sqv.data.DataAgent;
 import sqv.data.DataServer;
