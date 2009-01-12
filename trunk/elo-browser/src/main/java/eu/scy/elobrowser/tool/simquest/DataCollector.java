@@ -1,4 +1,4 @@
-package eu.scy.tools.simquestviewer.applet;
+package eu.scy.elobrowser.tool.simquest;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -97,24 +97,24 @@ IDataClient {
         button.addActionListener(this);
         buttonPanel.add(button);
         
-        button = new JButton("save ELO");
-        button.setActionCommand("saveelo");
-        button.addActionListener(this);
-        buttonPanel.add(button);
+        //button = new JButton("save ELO");
+        //button.setActionCommand("saveelo");
+        //button.addActionListener(this);
+        //buttonPanel.add(button);
         
         checkbox = new JCheckBox("add datapoints continuosly");
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
         
-        button = new JButton("clear data");
-        button.setActionCommand("cleardata");
-        button.addActionListener(this);
-        buttonPanel.add(button);
+        //button = new JButton("clear data");
+        //button.setActionCommand("cleardata");
+        //button.addActionListener(this);
+        // buttonPanel.add(button);
         
-        button = new JButton("test");
-        button.setActionCommand("test");
-        button.addActionListener(this);
-        buttonPanel.add(button);
+        //button = new JButton("test");
+        //button.setActionCommand("test");
+        //button.addActionListener(this);
+        //buttonPanel.add(button);
         
         this.add(buttonPanel, BorderLayout.NORTH);
         
@@ -147,7 +147,8 @@ IDataClient {
         	// testing: creating a toolbroker instance
         	toolBroker = new ToolBrokerImpl<IMetadataKey>();
         } else if (evt.getActionCommand().equals("saveelo")) {
-            
+            // this is not used anymore; using the methods from
+            // EloSimQuestWrapper instead
             
             
             // setup tool-broker-api
@@ -178,11 +179,15 @@ IDataClient {
             IMetadata<IMetadataKey> resultMetadata = toolBroker.getRepository().addELO(elo);
             // eloFactory.updateELOWithResult(elo, resultMetadata);
         } else if (evt.getActionCommand().equals("cleardata")) {
-            dataset.removeAll();
-            text.setText("");
+            newELO();
         }
     }
-    
+
+    public void newELO() {
+        dataset.removeAll();
+        text.setText("");
+    }
+
     private void configureSCYConnection() {
         toolBroker = new ToolBrokerImpl<IMetadataKey>();
         metadataTypeManager = toolBroker.getMetaDataTypeManager();
@@ -208,6 +213,10 @@ IDataClient {
         content.setXml(new JDomStringConversion().xmlToString(dataset.toXML()));
         content.setLanguages(dataset.getLanguages());
         return content;
+    }
+
+    public DataSet getDataSet() {
+        return dataset;
     }
     
     private void fillMetadata(IELO<IMetadataKey> elo) {

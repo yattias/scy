@@ -1,5 +1,6 @@
-package eu.scy.tools.simquestviewer.applet;
+package eu.scy.elobrowser.tool.simquest;
 
+import eu.scy.elobrowser.tool.simquest.DataCollector;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
