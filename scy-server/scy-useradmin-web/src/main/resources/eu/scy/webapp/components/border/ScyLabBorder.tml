@@ -4,7 +4,7 @@
     <script src="../../pages/scylab/application.js" type="text/javascript"/>
 </head>
 
-<body id="scyPage" onload="sLab.init();">
+<body id="scyPage" onload="SCYLab.init();">
     <div id="bodyContainer">
         <t:body/>
     </div>
