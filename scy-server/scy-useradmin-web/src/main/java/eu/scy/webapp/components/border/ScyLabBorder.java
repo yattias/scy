@@ -1,6 +1,7 @@
 package eu.scy.webapp.components.border;
 
 import eu.scy.webapp.pages.TapestryContextAware;
+import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 
 /**
  * Created by IntelliJ IDEA.
