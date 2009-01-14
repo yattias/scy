@@ -26,6 +26,8 @@
                     </t:loop>
 
                     |
+                    <a t:type="pagelink" t:page="scylab/ScyLabHome">SCY-Lab DEMO</a>
+                    |
 
                     <t:actionlink t:id="logout">Log out</t:actionlink>
                 </div>

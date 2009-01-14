@@ -1,0 +1,13 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<head>
+    <title>SCY_Lab</title>
+    <!--link href="${asset:context:css/scylayout.css}" rel="stylesheet" type="text/css"/-->
+    <script src="application.js" type="text/javascript"/>
+</head>
+
+<body id="scyPage"  onload="SCYLab.init();">
+    <div id="bodyContainer">
+        <t:body/>
+    </div>
+</body>
+</html>
