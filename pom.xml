@@ -1,40 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.scy</groupId>
-    <artifactId>scy-server</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>scy-server</name>
-    <url>http://maven.apache.org</url>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <modules>
-        <module>scy-model-api</module>
-        <module>scy-model-impl</module>
-        <module>scy-useradmin-api</module>
-        <module>scy-server-impl</module>
-        <module>scy-useradmin-web</module>
-    </modules>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy</groupId>
+	<artifactId>action-logger</artifactId>
+	<version>0.0.1</version>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>collide-releases</id>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>collide-snapshots</id>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>snapshots-tels</id>
+			<url>http://repo.telscenter.org/internal_snapshot</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>mvn_collide_releases</id>
+			<name>Collide Internal Releases</name>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>mvn_collide_snapshots</id>
+			<name>Collide Internal Snapshots</name>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
