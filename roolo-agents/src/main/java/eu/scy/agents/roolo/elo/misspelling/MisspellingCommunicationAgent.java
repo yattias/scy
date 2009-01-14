@@ -14,17 +14,20 @@ public class MisspellingCommunicationAgent<K extends IMetadataKey> extends
 		try {
 			t = this.getTupleSpace().waitToTake(
 					new Tuple("misspellings", String.class, Long.class, Integer.class));
+			String uri = (String) t.getField(1).getValue();
+			Integer numberOfErrors = (Integer) t.getField(3).getValue();
+			this.getTupleSpace().write(
+					new Tuple("notification", "misspelling", uri, numberOfErrors));
+			System.out.println("***************** your document " + uri + " has " + numberOfErrors
+					+ " spelling errors ********** ");
 		} catch (TupleSpaceException e) {
 			throw new RuntimeException(e);
 		}
 
-		String uri = (String) t.getField(1).getValue();
-		Integer numberOfErrors = (Integer) t.getField(3).getValue();
 		// INotification notification = new Notification();
 		// notification.addProperty("errors", "" + numberOfErrors);
 		// notification.addProperty("target", "misspellings");
 		// getToolBrokerAPI().getNotificationService().notifyCallbacks(notification);
-		System.out.println("***************** your document " + uri + " has " + numberOfErrors
-				+ " spelling errors ********** ");
+
 	}
 }
