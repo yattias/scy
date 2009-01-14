@@ -2,6 +2,7 @@
 <head>
     <title>SCY_Lab</title>
     <script src="../scripts/application.js" type="text/javascript"></script>
+    <script src="../scripts/SCYInfobus.js" type="text/javascript"></script>
 </head>
 
 <body id="scyPage" onload="init();">
