@@ -16,6 +16,7 @@ import eu.scy.colemo.agent.AgentMessage;
 import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.agent.VoteResult;
 import eu.scy.colemo.agent.EndVote;
+import eu.scy.colemo.clientframework.ClientFrameworkHandler;
 
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.*;
@@ -36,10 +37,10 @@ import java.io.Serializable;
  */
 public class ConnectionHandlerJGroups  extends ReceiverAdapter implements ConnectionHandler {
 
-    protected Logger log = Logger.getLogger("ConnectionHandlerJGroups");
+    //protected Logger log = Logger.getLogger("ConnectionHandlerJGroups");
 
     JChannel channel;
-    String user_name=System.getProperty("user.name", "n/a");
+    String user_name="scy";//System.getProperty("user.name", "n/a");
     final List<Object> state=new LinkedList<Object>();
 
     public void viewAccepted(View new_view) {
@@ -48,9 +49,10 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
 
     public void receive(Message msg) {
         String line=msg.getSrc() + ": " + msg.getObject();
-        log.info(String.valueOf(msg.getObject()));
+        //log.info(String.valueOf(msg.getObject()));
         System.out.println(line);
 
+        ClientFrameworkHandler.getClientFrameworkHandler().postEvent(line);
 
 
         Object obj = msg.getObject();
@@ -136,7 +138,7 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
     public void sendObject(Object object) {
         try {
             Message msg = new Message(null, null, (Serializable) object);
-            log.info("Sending: "+ object);
+            //log.info("Sending: "+ object);
             channel.send(msg);
         } catch (ChannelNotConnectedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -156,7 +158,7 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
             frame.getGraphicsDiagram().addClass(umlClass);
         }
         if (o instanceof ConceptNode) {
-            log.info("CONCEPT NODE!!");
+            //log.info("CONCEPT NODE!!");
             ConceptNode add = (ConceptNode) o;
             ConceptMapNodeData conceptMapNodeData = new ConceptMapNodeData(add.getName());
             frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(conceptMapNodeData);
