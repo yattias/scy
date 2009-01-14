@@ -2,6 +2,9 @@ package eu.scy.colemo.client;
 
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.client.groups.ConnectionHandlerJGroups;
+import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
+
+import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,6 +21,8 @@ public class ApplicationController {
     private MainFrame mainFrame;
 
     private ConnectionHandler connectionHandler = null;
+    private JApplet applet;
+
 
     public ConnectionHandler getConnectionHandler() {
         return connectionHandler;
@@ -27,15 +32,24 @@ public class ApplicationController {
         this.connectionHandler = connectionHandler;
     }
 
-
-
+    
     public static ApplicationController getDefaultInstance() {
         if(defaultInstance == null) defaultInstance = new ApplicationController();
         return defaultInstance;
     }
 
+
+
     private ApplicationController() {
 
+    }
+
+    public JApplet getApplet() {
+        return applet;
+    }
+
+    public void setApplet(JApplet applet) {
+        this.applet = applet;
     }
 
     public GraphicsDiagram getGraphicsDiagram() {
@@ -59,7 +73,8 @@ public class ApplicationController {
     }
 
     public void connect() {
-        connectionHandler = new ConnectionHandlerJGroups();
+        connectionHandler = new ConnectionHandlerSqlSpaces();
+        //connectionHandler = new ConnectionHandlerJGroups();
         try {
             connectionHandler.initialize();
         } catch (Exception e) {

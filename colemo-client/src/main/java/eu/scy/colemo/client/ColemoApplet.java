@@ -1,4 +1,7 @@
 package eu.scy.colemo.client;
+
+import eu.scy.colemo.clientframework.ClientFrameworkHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,7 +21,8 @@ public class ColemoApplet extends JApplet {
     @Override
     public void init() {
         super.init();
-
+        ApplicationController.getDefaultInstance().setApplet(this);
+        
         String userName = getParameter("username");
         String password = getParameter("password");
         String url = getDocumentBase().getHost();
@@ -27,11 +31,13 @@ public class ColemoApplet extends JApplet {
         frame.setUsername(userName);
         frame.setPassword(password);
         frame.setHost(url);
+
+        ClientFrameworkHandler.getClientFrameworkHandler().postEvent("COLEMO -- INITIALIZED!");
+
     }
 
     @Override
     public void start() {
-        super.start();    //To change body of overridden methods use File | Settings | File Templates.
-        //throw new NullPointerException("start");
+        super.start();
     }
 }

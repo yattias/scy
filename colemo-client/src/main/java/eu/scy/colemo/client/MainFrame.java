@@ -473,7 +473,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
     public void windowClosing(WindowEvent arg0) {
         int i = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit the session?");
         if (i == 0) {
-            System.exit(0);
+            //System.exit(0);
         }
     }
 
