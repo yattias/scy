@@ -1,5 +1,7 @@
-var sLab = new SCYLab();
+//var sLab = new SCYLab();
 //lLab.init();
+
+//alert("Heisann");
 
 var SCYLab = {
     init: function() {
