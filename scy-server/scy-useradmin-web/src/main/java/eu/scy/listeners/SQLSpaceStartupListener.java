@@ -47,7 +47,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
                     
 
                 } catch (TupleSpaceException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();  
                 }
 
             }
