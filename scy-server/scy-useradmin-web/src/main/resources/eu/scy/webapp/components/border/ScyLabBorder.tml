@@ -1,7 +1,7 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 <head>
     <title>SCY_Lab</title>
-    <script src="application.js" type="text/javascript"/>
+    <script src="../scripts/application.js" type="text/javascript"></script>
 </head>
 
 <body id="scyPage" onload="init();">

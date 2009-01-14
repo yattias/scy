@@ -1,9 +1,11 @@
 <html t:type="border/ScyLabBorder" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-    <script type="text/javascript">
+    <script type="text/javascript" language="JavaScript">
 
         function init() {
-            var sLab = new SCYLab();
-            sLab.init();
+           
+
+           //var sLab = new SCYLab();
+           SCYLab.init();
 
         }
 
