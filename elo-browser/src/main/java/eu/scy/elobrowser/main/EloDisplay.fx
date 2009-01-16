@@ -10,6 +10,7 @@ import eu.scy.elobrowser.main.EloDisplay;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
+import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
 import eu.scy.elobrowser.ui.SwingMenuItem;
 import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.scywindows.ScyDesktop;
@@ -57,7 +58,11 @@ import roolo.elo.api.IELO;
 		var drawingEloImage = Image {
 			url: "{__DIR__}images/drawingElo.png"
       }
+        var datasetEloImage = Image {
+			url: "{__DIR__}images/datasetElo.png"
+      }
    eloImages.put(EloDrawingActionWrapper.scyDrawType,drawingEloImage);
+   eloImages.put(EloSimQuestWrapper.scyDatasetType,datasetEloImage);
 	}
 
 	function getEloImage(eType:String){
