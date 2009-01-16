@@ -171,6 +171,12 @@
 					</key>
 					<value>.scydraw</value>
 				</entry>
+                <entry>
+					<key>
+						<value>scy/dataset</value>
+					</key>
+					<value>.scydataset</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
