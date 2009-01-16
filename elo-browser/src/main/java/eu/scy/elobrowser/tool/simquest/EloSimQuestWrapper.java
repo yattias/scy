@@ -34,6 +34,7 @@ public class EloSimQuestWrapper {
 
     private static final Logger logger = Logger.getLogger(EloSimQuestWrapper.class.getName());
     public static final String untitledDocName = "untitled";
+    public static final String scyDatasetType = "scy/dataset";
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
     private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
     private IELOFactory<IMetadataKey> eloFactory;
