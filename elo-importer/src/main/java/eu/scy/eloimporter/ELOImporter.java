@@ -5,8 +5,11 @@ import java.io.FileFilter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -41,6 +44,7 @@ public class ELOImporter {
 	private IExtensionManager extensionManager;
 	private IELOFactory<IMetadataKey> eloFactory;
 	private IMetadataTypeManager<IMetadataKey> typeManager;
+	private Locale[] locales;
 
 	@SuppressWarnings("unchecked")
 	public ELOImporter() {
@@ -55,6 +59,7 @@ public class ELOImporter {
 		this.extensionManager.registerExtension("text/plain", "txt");
 
 		this.registerKeys();
+		this.fillLocales();
 	}
 
 	private void registerKeys() {
@@ -155,15 +160,16 @@ public class ELOImporter {
 	}
 
 	public IELO<IMetadataKey> importFile(File file) {
+
 		IELO<IMetadataKey> elo = this.createNewElo();
 
 		IMetadataValueContainer title = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("title"));
-		title.setValue(file.getName());
+		title.setValue(file.getName(), this.getNearestLocale(Locale.getDefault()));
 
 		IMetadataValueContainer descriptionContainer = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("description"));
-		descriptionContainer.setValue("description");
+		descriptionContainer.setValue("description", this.getNearestLocale(Locale.getDefault()));
 
 		IMetadataValueContainer keywordContainer = elo.getMetadata().getMetadataValueContainer(
 				this.typeManager.getMetadataKey("keyword"));
@@ -171,7 +177,7 @@ public class ELOImporter {
 				"keyword4" });
 		System.out.println(keywords);
 		keywordContainer.setValueList(keywords);
-		keywordContainer.setValueList(keywords, Locale.GERMAN);
+		keywordContainer.setValueList(keywords, this.getNearestLocale(Locale.GERMAN));
 
 		IMetadataValueContainer structureSourceContainer = elo.getMetadata()
 				.getMetadataValueContainer(
@@ -280,5 +286,37 @@ public class ELOImporter {
 
 	protected static int updateCounter() {
 		return counter++;
+	}
+
+	private void fillLocales() {
+		Locale[] tmp_locales = Locale.getAvailableLocales();
+		Set<Locale> locale_set = new HashSet<Locale>();
+		for (Locale locale : tmp_locales) {
+			if ("".equals(locale.getCountry())) {
+				locale_set.add(locale);
+			}
+		}
+
+		this.locales = new Locale[locale_set.size()];
+		int i = 0;
+		for (Locale locale : locale_set) {
+			this.locales[i] = locale;
+			i++;
+		}
+		Arrays.sort(this.locales, new Comparator<Locale>() {
+
+			public int compare(Locale o1, Locale o2) {
+				return o1.toString().compareTo(o2.toString());
+			}
+		});
+	}
+
+	private Locale getNearestLocale(Locale locale) {
+		for (int i = 0; i < this.locales.length; i++) {
+			if (this.locales[i].getLanguage().equals(locale.getLanguage())) {
+				return this.locales[i];
+			}
+		}
+		return locale;
 	}
 }

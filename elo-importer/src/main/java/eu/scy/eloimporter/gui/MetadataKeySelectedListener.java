@@ -9,6 +9,10 @@ import javax.swing.event.TreeSelectionListener;
 
 import eu.scy.eloimporter.gui.panels.AbstractEloDisplayPanel;
 import eu.scy.eloimporter.gui.panels.content.ContentPanel;
+import eu.scy.eloimporter.gui.panels.general.AggregationLevelPanel;
+import eu.scy.eloimporter.gui.panels.general.DescriptionPanel;
+import eu.scy.eloimporter.gui.panels.general.GeneralPanel;
+import eu.scy.eloimporter.gui.panels.general.KeywordPanel;
 import eu.scy.eloimporter.gui.panels.general.TitlePanel;
 import eu.scy.eloimporter.gui.panels.technical.TechnicalPanel;
 
@@ -28,10 +32,33 @@ public final class MetadataKeySelectedListener implements TreeSelectionListener 
 	}
 
 	public void valueChanged(TreeSelectionEvent e) {
+		if ("General".equals(e.getPath().getLastPathComponent().toString().trim())) {
+			GeneralPanel generalPanel = new GeneralPanel(this.application);
+			generalPanel.setElo(this.application.getElo());
+			this.splitPane.setRightComponent(generalPanel);
+		}
 		if ("Title".equals(e.getPath().getLastPathComponent().toString().trim())) {
 			TitlePanel titlePanel = new TitlePanel(this.application);
 			titlePanel.setElo(this.application.getElo());
 			this.splitPane.setRightComponent(titlePanel);
+		}
+		if ("Aggregation Level".equals(e.getPath().getLastPathComponent().toString().trim())) {
+			AggregationLevelPanel aggregationLevelPanel = new AggregationLevelPanel(
+					this.application);
+			aggregationLevelPanel.setElo(this.application.getElo());
+			this.splitPane.setRightComponent(aggregationLevelPanel);
+		}
+		if ("Description".equals(e.getPath().getLastPathComponent().toString().trim())) {
+			DescriptionPanel descriptionPanel = new DescriptionPanel(this.application);
+			descriptionPanel.setElo(this.application.getElo());
+			this.splitPane.setRightComponent(descriptionPanel);
+		}
+		if ("Keywords".equals(e.getPath().getLastPathComponent().toString().trim())) {
+			int dividerLocation = this.splitPane.getDividerLocation();
+			KeywordPanel keywordPanel = new KeywordPanel(this.application);
+			keywordPanel.setElo(this.application.getElo());
+			this.splitPane.setRightComponent(keywordPanel);
+			this.splitPane.setDividerLocation(dividerLocation);
 		}
 		if ("Content".equals(e.getPath().getLastPathComponent().toString().trim())) {
 			int dividerLocation = this.splitPane.getDividerLocation();

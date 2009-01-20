@@ -6,12 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.Map.Entry;
 
 import javax.swing.JButton;
@@ -29,36 +32,40 @@ import eu.scy.eloimporter.gui.EloImporterApplication;
 import eu.scy.eloimporter.gui.PanelFactory;
 import eu.scy.eloimporter.gui.panels.AbstractEloDisplayPanel;
 
-public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory {
+public class KeywordPanel extends AbstractEloDisplayPanel implements PanelFactory {
 
-	class InternalTitlePanel extends JPanel {
+	class InternalPanel extends JPanel {
 
 		JComboBox localeChooser;
 		JTextField textField;
 
-		public InternalTitlePanel() {
+		public InternalPanel() {
 			this.localeChooser = new JComboBox();
 
 			GridBagLayout layout = new GridBagLayout();
 			this.setLayout(layout);
 
-			this.localeChooser = new JComboBox(TitlePanel.this.locales);
+			this.localeChooser = new JComboBox(KeywordPanel.this.locales);
 			this.localeChooser.addActionListener(new ActionListener() {
 
 				private Locale oldLocale;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (TitlePanel.this.elo != null) {
-						IMetadataValueContainer value = TitlePanel.this.elo.getMetadata()
-								.getMetadataValueContainer(TitlePanel.this.titleKey);
+					if (KeywordPanel.this.elo != null) {
+						IMetadataValueContainer value = KeywordPanel.this.elo.getMetadata()
+								.getMetadataValueContainer(KeywordPanel.this.keywordKey);
 						if (this.oldLocale != null) {
 							value.deleteLanguage(this.oldLocale);
 						}
-						Locale locale = (Locale) InternalTitlePanel.this.localeChooser
-								.getSelectedItem();
-						String text = InternalTitlePanel.this.textField.getText();
-						value.setValue(text, locale);
+						Locale locale = (Locale) InternalPanel.this.localeChooser.getSelectedItem();
+						String text = InternalPanel.this.textField.getText();
+						List<String> keywords = new ArrayList<String>();
+						StringTokenizer tokenizer = new StringTokenizer(text);
+						while (tokenizer.hasMoreTokens()) {
+							keywords.add(tokenizer.nextToken());
+						}
+						value.setValueList(keywords, locale);
 						this.oldLocale = locale;
 					}
 				}
@@ -91,13 +98,17 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 
 				private void updateEloTitle(DocumentEvent e) throws BadLocationException {
 					String text = e.getDocument().getText(0, e.getDocument().getLength());
-					Locale locale = (Locale) InternalTitlePanel.this.localeChooser
-							.getSelectedItem();
-					if (TitlePanel.this.elo != null) {
-						IMetadataValueContainer value = TitlePanel.this.elo.getMetadata()
-								.getMetadataValueContainer(TitlePanel.this.titleKey);
+					Locale locale = (Locale) InternalPanel.this.localeChooser.getSelectedItem();
+					if (KeywordPanel.this.elo != null) {
+						IMetadataValueContainer value = KeywordPanel.this.elo.getMetadata()
+								.getMetadataValueContainer(KeywordPanel.this.keywordKey);
 						value.deleteLanguage(locale);
-						value.setValue(text, locale);
+						List<String> keywords = new ArrayList<String>();
+						StringTokenizer tokenizer = new StringTokenizer(text);
+						while (tokenizer.hasMoreTokens()) {
+							keywords.add(tokenizer.nextToken());
+						}
+						value.setValueList(keywords, locale);
 					}
 				}
 
@@ -134,7 +145,7 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JPanel panelToAdd = TitlePanel.this.panelFactory.create();
+			JPanel panelToAdd = KeywordPanel.this.panelFactory.create();
 			JButton removeButton = new JButton("-");
 			removeButton.addActionListener(new RemovePanelAction());
 
@@ -143,7 +154,7 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 			containerPanel.setLayout(layout);
 			GridBagConstraints c = new GridBagConstraints();
 			c.gridx = 0;
-			c.gridy = TitlePanel.this.button2Panel.size();
+			c.gridy = KeywordPanel.this.button2Panel.size();
 			c.weightx = 1.0;
 			c.weighty = 1.0;
 			c.fill = GridBagConstraints.BOTH;
@@ -152,16 +163,16 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 
 			c = new GridBagConstraints();
 			c.gridx = 1;
-			c.gridy = TitlePanel.this.button2Panel.size();
+			c.gridy = KeywordPanel.this.button2Panel.size();
 			c.weightx = 0.0;
 			c.weighty = 0.0;
 			c.fill = GridBagConstraints.NONE;
 			layout.setConstraints(removeButton, c);
 			containerPanel.add(removeButton);
 
-			TitlePanel.this.add(containerPanel);
-			TitlePanel.this.button2Panel.put(removeButton, containerPanel);
-			TitlePanel.this.validate();
+			KeywordPanel.this.add(containerPanel);
+			KeywordPanel.this.button2Panel.put(removeButton, containerPanel);
+			KeywordPanel.this.validate();
 		}
 
 	}
@@ -171,15 +182,15 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			JPanel panelToRemove = TitlePanel.this.button2Panel.get(button);
+			JPanel panelToRemove = KeywordPanel.this.button2Panel.get(button);
 
-			TitlePanel.this.remove(panelToRemove);
-			TitlePanel.this.button2Panel.remove(button);
-			TitlePanel.this.updateLayout();
+			KeywordPanel.this.remove(panelToRemove);
+			KeywordPanel.this.button2Panel.remove(button);
+			KeywordPanel.this.updateLayout();
 
-			Dimension oldSize = TitlePanel.this.getParent().getSize();
-			TitlePanel.this.getParent().setSize(oldSize.width + 1, oldSize.height + 1);
-			TitlePanel.this.getParent().setSize(oldSize.width, oldSize.height);
+			Dimension oldSize = KeywordPanel.this.getParent().getSize();
+			KeywordPanel.this.getParent().setSize(oldSize.width + 1, oldSize.height + 1);
+			KeywordPanel.this.getParent().setSize(oldSize.width, oldSize.height);
 		}
 	}
 
@@ -187,13 +198,13 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 	LinkedHashMap<JButton, JPanel> button2Panel;
 	PanelFactory panelFactory;
 	private EloImporterApplication application;
-	IMetadataKey titleKey;
+	IMetadataKey keywordKey;
 	IELO<IMetadataKey> elo;
 
-	public TitlePanel(EloImporterApplication app) {
+	public KeywordPanel(EloImporterApplication app) {
 		this.application = app;
 		this.elo = this.application.getElo();
-		this.titleKey = this.application.getImporter().getTypeManager().getMetadataKey("title");
+		this.keywordKey = this.application.getImporter().getTypeManager().getMetadataKey("keyword");
 		this.panelFactory = this;
 		this.setLayout(new GridLayout(0, 1));
 		this.button2Panel = new LinkedHashMap<JButton, JPanel>();
@@ -226,16 +237,6 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		});
 	}
 
-	void updateLayout() {
-		this.removeAll();
-
-		this.setLayout(new GridLayout(0, 1));
-		for (Entry<JButton, JPanel> entry : this.button2Panel.entrySet()) {
-			this.add(entry.getValue());
-		}
-		this.validate();
-	}
-
 	private void initComponents() {
 		JPanel panel = this.panelFactory.create();
 		JButton addButton = new JButton("+");
@@ -246,7 +247,7 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		containerPanel.setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = TitlePanel.this.button2Panel.size();
+		c.gridy = this.button2Panel.size();
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.fill = GridBagConstraints.BOTH;
@@ -255,7 +256,7 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
-		c.gridy = TitlePanel.this.button2Panel.size();
+		c.gridy = this.button2Panel.size();
 		c.weightx = 0.0;
 		c.weighty = 0.0;
 		c.fill = GridBagConstraints.NONE;
@@ -266,6 +267,7 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		this.button2Panel.put(addButton, containerPanel);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setElo(IELO<IMetadataKey> elo) {
 		this.elo = null;
@@ -273,29 +275,44 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		this.button2Panel.clear();
 		this.initComponents();
 
-		IMetadataValueContainer value = elo.getMetadata().getMetadataValueContainer(this.titleKey);
-		String title = null;
+		IMetadataValueContainer value = elo.getMetadata()
+				.getMetadataValueContainer(this.keywordKey);
+		List<String> keywords = null;
 
 		JButton addButton = this.button2Panel.keySet().iterator().next();
-		InternalTitlePanel titlePanel = (InternalTitlePanel) this.button2Panel.get(addButton)
-				.getComponent(0);
+		InternalPanel titlePanel = (InternalPanel) this.button2Panel.get(addButton).getComponent(0);
 		for (int i = 0; i < this.locales.length; i++) {
 			if (this.locales[i].getLanguage().equals(Locale.getDefault().getLanguage())) {
 				titlePanel.setSelectedLocaleIndex(i);
-				title = (String) value.getValue(this.locales[i]);
+				keywords = (List<String>) value.getValueList(this.locales[i]);
 				break;
 			}
 		}
 
-		titlePanel.setText(title);
-		this.repaint();
+		if (keywords != null) {
+			String text = new String();
+			for (String keyword : keywords) {
+				text = text + " " + keyword;
+			}
+			titlePanel.setText(text);
+		}
 
 		this.elo = elo;
 	}
 
 	@Override
 	public JPanel create() {
-		return new InternalTitlePanel();
+		return new InternalPanel();
+	}
+
+	void updateLayout() {
+		this.removeAll();
+
+		this.setLayout(new GridLayout(0, 1));
+		for (Entry<JButton, JPanel> entry : this.button2Panel.entrySet()) {
+			this.add(entry.getValue());
+		}
+		this.validate();
 	}
 
 }
