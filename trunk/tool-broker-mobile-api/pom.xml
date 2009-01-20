@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy</groupId>
+	<artifactId>tool-broker-mobile-api</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>tool-broker-mobile-api</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>tool-broker-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>collide-releases</id>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+
+		<repository>
+			<id>collide-snapshots</id>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
+					<finalName>scy-model-api</finalName>
+					<attach>true</attach>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
