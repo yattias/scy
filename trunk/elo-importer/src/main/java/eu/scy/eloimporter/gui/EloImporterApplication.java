@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Enumeration;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -13,17 +14,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import eu.scy.eloimporter.ELOImporter;
 import eu.scy.eloimporter.gui.panels.AbstractEloDisplayPanel;
+import eu.scy.eloimporter.gui.panels.general.GeneralPanel;
 
 public class EloImporterApplication extends JFrame {
 
@@ -95,7 +98,9 @@ public class EloImporterApplication extends JFrame {
 		this.initMenu();
 		this.initComponents();
 
-		this.setSize(800, 600);
+		this.setSize(600, 400);
+		// this.pack();
+		System.out.println(this.getSize());
 	}
 
 	public void setElo(IELO<IMetadataKey> importedElo) {
@@ -129,10 +134,38 @@ public class EloImporterApplication extends JFrame {
 		JTree metadataTree = new JTree(new DefaultTreeModel(this.initNodes()));
 		metadataTree.addTreeSelectionListener(new MetadataKeySelectedListener(this));
 		this.splitPane.setLeftComponent(metadataTree);
-		this.splitPane.setRightComponent(new JPanel());
+		this.splitPane.setRightComponent(new GeneralPanel(this));
 		this.splitPane.setDividerSize(5);
 		this.splitPane.setDividerLocation(200);
 		this.add(this.splitPane, BorderLayout.CENTER);
+		this.expandAll(metadataTree, true);
+	}
+
+	public void expandAll(JTree tree, boolean expand) {
+		TreeNode root = (TreeNode) tree.getModel().getRoot();
+
+		// Traverse tree from root
+		this.expandAll(tree, new TreePath(root), expand);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void expandAll(JTree tree, TreePath parent, boolean expand) {
+		// Traverse children
+		TreeNode node = (TreeNode) parent.getLastPathComponent();
+		if (node.getChildCount() >= 0) {
+			for (Enumeration e = node.children(); e.hasMoreElements();) {
+				TreeNode n = (TreeNode) e.nextElement();
+				TreePath path = parent.pathByAddingChild(n);
+				this.expandAll(tree, path, expand);
+			}
+		}
+
+		// Expansion or collapse must be done bottom-up
+		if (expand) {
+			tree.expandPath(parent);
+		} else {
+			tree.collapsePath(parent);
+		}
 	}
 
 	private DefaultMutableTreeNode initNodes() {
