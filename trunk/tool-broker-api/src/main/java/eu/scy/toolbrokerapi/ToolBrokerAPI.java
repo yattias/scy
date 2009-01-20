@@ -37,6 +37,8 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return the extensionManager
      */
     public IExtensionManager getExtensionManager();
+
+    public UserSessionManager getUserSession(String username, String password);
     
     /**
      * @return the action logger
