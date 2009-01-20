@@ -11,6 +11,8 @@ import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
+import eu.scy.elobrowser.tool.dataProcessTool.EloDataToolWrapper;
+import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.ui.SwingMenuItem;
 import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.scywindows.ScyDesktop;
@@ -61,8 +63,12 @@ import roolo.elo.api.IELO;
         var datasetEloImage = Image {
 			url: "{__DIR__}images/datasetElo.png"
       }
+      var pdsEloImage = Image {
+			url: "{__DIR__}images/pdsElo.png"
+      }
    eloImages.put(EloDrawingActionWrapper.scyDrawType,drawingEloImage);
    eloImages.put(EloSimQuestWrapper.scyDatasetType,datasetEloImage);
+   eloImages.put(EloDataToolWrapper.scyPDSType,pdsEloImage);
 	}
 
 	function getEloImage(eType:String){
@@ -114,7 +120,8 @@ public class EloDisplay extends CustomNode {
 
 	function updateImage() {
 		image = getEloImage(eloType);
-		openMenuItem.enabled = EloDrawingActionWrapper.scyDrawType == eloType;
+		openMenuItem.enabled = EloDrawingActionWrapper.scyDrawType == eloType
+        or EloDataToolWrapper.scyPDSType == eloType or eloType == EloSimQuestWrapper.scyDatasetType;
 	}
 
 	function openElo(){
@@ -135,7 +142,26 @@ public class EloDisplay extends CustomNode {
 				 // elo window exists, show it
 			ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
 			}
-		}
+            }else if (EloDataToolWrapper.scyPDSType == eloType or  EloSimQuestWrapper.scyDatasetType == eloType){
+                // ELO type PDS or DS => open with data process visualization tool
+                eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
+                if (eloWindow == null){
+                    // elo window is not created
+                    var dataToolNode = DataToolNode.createDataToolNode(roolo);
+                    eloWindow = DataToolNode.createDataToolWindow(dataToolNode);
+                    eloWindow.minimizeAction = hideEloWindow;
+                    eloWindow.allowMinimize = true;
+                    eloWindow.closeAction=closeEloWindow;
+                    ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
+                    eloWindow.openFrom(translateX, translateY);
+                    dataToolNode.loadElo(elo.getUri());
+                }
+                else {
+                     // elo window exists, show it
+                    ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
+                }
+            }
+
 	}
 
 	function hideEloWindow(scyWindow:ScyWindow):Void{

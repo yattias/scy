@@ -14,6 +14,7 @@ import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
+import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
@@ -133,6 +134,14 @@ var newGroup = VBox {
 //               scyDesktopMain.addScyWindow(drawingWindow)
 //            }
 //         }
+            SwingButton{
+            text: "Data Process Tool"
+            action: function() {
+                var dataToolWindow = DataToolNode.createDataToolWindow(roolo);
+                dataToolWindow.allowResize;
+                scyDesktop.addScyWindow(dataToolWindow)
+            }
+          }
     ]
    }
 
@@ -145,6 +154,8 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
+    width:150;
+    height:150;
    };
 
 scyDesktop.addScyWindow(newScyWindow);
