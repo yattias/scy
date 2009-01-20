@@ -177,6 +177,12 @@
 					</key>
 					<value>.scydataset</value>
 				</entry>
+                <entry>
+					<key>
+						<value>scy/pds</value>
+					</key>
+					<value>.scypds</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
