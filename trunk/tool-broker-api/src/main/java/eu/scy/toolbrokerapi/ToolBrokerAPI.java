@@ -39,6 +39,12 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      */
     public IExtensionManager getExtensionManager();
 
+    /**
+     * The session manager for handling user authentication and authorisation
+     * @param username
+     * @param password
+     * @return
+     */
     public SessionManager getUserSession(String username, String password);
     
     /**
