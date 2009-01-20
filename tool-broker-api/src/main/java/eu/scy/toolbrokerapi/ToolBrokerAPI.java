@@ -10,6 +10,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.notification.api.INotificationService;
+import eu.scy.sessionmanager.SessionManager;
 
 /**
  * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
@@ -38,7 +39,7 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      */
     public IExtensionManager getExtensionManager();
 
-    public UserSessionManager getUserSession(String username, String password);
+    public SessionManager getUserSession(String username, String password);
     
     /**
      * @return the action logger
