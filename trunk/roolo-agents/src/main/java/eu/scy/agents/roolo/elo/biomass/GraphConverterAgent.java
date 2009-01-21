@@ -65,6 +65,9 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		}
 
 		IContent content = elo.getContent();
+		if (content == null) {
+			return;
+		}
 		StringReader reader = new StringReader(content.getXml());
 		SAXBuilder builder = new SAXBuilder();
 		try {
@@ -72,7 +75,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 			this.readGraph(rootElement);
 
 			this.calculateScore(elo);
-			this.writeArff(elo);
+			// this.writeArff(elo);
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
