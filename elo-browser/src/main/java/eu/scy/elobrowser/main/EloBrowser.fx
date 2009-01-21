@@ -6,8 +6,6 @@
 
 package eu.scy.elobrowser.main;
 
-import colab.vt.whiteboard.component.WhiteboardPanel;
-import eu.scy.client.tools.drawing.EloDrawingPanel;
 import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
@@ -15,12 +13,11 @@ import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
+import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
-import java.awt.Dimension;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -42,7 +39,7 @@ var newGroup = VBox {
     translateX:5
     translateY:5;
     spacing:3;
-        content:[
+    content:[
         //      SwingButton{
         //         text: "Drw"
         //         action: function() {
@@ -105,7 +102,15 @@ var newGroup = VBox {
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow)
             }
-          }
+        },
+        SwingButton{
+            text: "Textpad"
+            action: function() {
+                var textpadWindow = TextpadNode.createTextpadWindow(roolo);
+                textpadWindow.allowResize;
+                scyDesktop.addScyWindow(textpadWindow)
+            }
+        }
 //         SwingButton{
 //            translateY:25
 //            text: "Water"
