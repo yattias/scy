@@ -99,4 +99,6 @@
 		<constructor-arg index="1" value="notification" />
 	</bean>
 
+    <bean id="sessionManager" class="eu.scy.sessionmanager.impl.SessionManagerImpl"></bean>
+
 </beans>

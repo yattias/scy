@@ -14,6 +14,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.sessionmanager.SessionManager;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -37,6 +38,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private IActionLogger actionLogger;
     
     private INotificationService notificationService;
+
+    private SessionManager sessionManager;
     
     
     @SuppressWarnings("unchecked")
@@ -49,6 +52,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         
         actionLogger = (IActionLogger) context.getBean("actionlogger");
         notificationService = (INotificationService) context.getBean("notificationService");
+        sessionManager = (SessionManager) context.getBean("sessionManager");
     }
     
     /**
@@ -117,7 +121,22 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     public IExtensionManager getExtensionManager() {
         return extensionManager;
     }
-    
+
+
+    /**
+     * The manager that handles login and usersession
+     * @param s
+     * @param s1
+     * @return
+     */
+    public SessionManager getUserSession(String s, String s1) {
+        return sessionManager;
+    }
+
+    public void setSessionManager(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
+    }
+
     public IActionLogger getActionLogger() {
         return actionLogger;
     }
