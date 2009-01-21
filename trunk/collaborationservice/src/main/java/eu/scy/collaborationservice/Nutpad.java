@@ -87,7 +87,7 @@ public class Nutpad extends JFrame {
 
     class OpenFileAction extends AbstractAction {
         public OpenFileAction() {
-            super("Open from File...");
+            super("Open from File");
             putValue(MNEMONIC_KEY, new Integer('O'));
         }
         
@@ -109,7 +109,7 @@ public class Nutpad extends JFrame {
     
     class OpenCSAction extends AbstractAction {
         public OpenCSAction() {
-            super("Open from CS...");
+            super("Open from CS");
             putValue(MNEMONIC_KEY, new Integer('O'));
         }
         
@@ -124,7 +124,7 @@ public class Nutpad extends JFrame {
     class SaveFileAction extends AbstractAction {
 
         SaveFileAction() {
-            super("Save to File...");
+            super("Save to File");
             putValue(MNEMONIC_KEY, new Integer('S'));
         }
 
@@ -148,7 +148,7 @@ public class Nutpad extends JFrame {
     class SaveCSAction extends AbstractAction {
 
         SaveCSAction() {
-            super("Save to CS...");
+            super("Save to CS");
             putValue(MNEMONIC_KEY, new Integer('S'));
         }
 
