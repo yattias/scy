@@ -43,7 +43,9 @@ public class CollaborationService {
     
     public void write(String tool, ScyBaseObject object) {
         try {
-            this.tupleSpace.write(new Tuple(HARD_CODED_USERNAME, tool, object.getId(), object.getClass(), object.getName(), object.getDescription()));
+           // this.tupleSpace.write(new Tuple(HARD_CODED_USERNAME, tool, object.getId(), object.getClass(), object.getName(), object.getDescription()));
+        	logger.debug(HARD_CODED_USERNAME+" "+tool+" "+object.getId()+" "+object.getClass()+" "+object.getName()+" "+object.getDescription());
+        	this.tupleSpace.write(new Tuple(HARD_CODED_USERNAME, "nutpad", "12345", "1.2.3.4.5", "The name", "The desc"));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing touple " + e);
         } 
