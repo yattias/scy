@@ -20,6 +20,7 @@ public class ScyBaseObject implements ScyBase, Serializable {
 
     private String name = null;
     private String id = null;
+    private String description = null;
 
     public String getName() {
         return name;
@@ -41,5 +42,12 @@ public class ScyBaseObject implements ScyBase, Serializable {
         this.id = id;
     }
 
-
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getId() {
+        return this.description;
+    }
 }

@@ -14,4 +14,7 @@ public interface ScyBase {
     public void setName(String name);
 
     public String getId();
+
+    public String getDescription();
+
 }
