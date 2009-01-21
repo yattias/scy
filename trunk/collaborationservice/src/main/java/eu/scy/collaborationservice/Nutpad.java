@@ -29,20 +29,21 @@ import eu.scy.core.model.impl.ScyBaseObject;
 
 
 public class Nutpad extends JFrame {
-    
+    private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
+    private static final String HARD_CODED_TOOL_NAME = "Colemo";
+    private static final String HARD_CODED_USER_NAME = "nootman";
         
     private JTextArea    _editArea;
     private JFileChooser _fileChooser = new JFileChooser();
-    
     private Action _openFileAction = new OpenFromFileAction();
     private Action _openCSAction = new OpenFromCollaborationServiceAction();
     private Action _saveToFileAction = new SaveToFileAction();
     private Action _saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action _exitAction = new ExitAction(); 
+
     private CollaborationService cs;
     
-    private static final String HARD_CODED_TOOL_NAME = "Colemo";
     
 
     public static void main(String[] args) {
@@ -53,7 +54,7 @@ public class Nutpad extends JFrame {
     public Nutpad() {
         
         cs = CollaborationService.createCollaborationService();
-        cs.setUserName("jeremy");
+        cs.setUserName(HARD_CODED_USER_NAME);
         
         _editArea = new JTextArea(15, 80);
         _editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
@@ -86,21 +87,24 @@ public class Nutpad extends JFrame {
     
 
     class OpenFromFileAction extends AbstractAction {
+        private static final long serialVersionUID = 2214397309885399070L;
+
         public OpenFromFileAction() {
             super("Open from File");
             putValue(MNEMONIC_KEY, new Integer('1'));
         }
         
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent event) {
             int retval = _fileChooser.showOpenDialog(Nutpad.this);
             if (retval == JFileChooser.APPROVE_OPTION) {
                 File f = _fileChooser.getSelectedFile();
                 FileReader reader = null;
                 try {
                     reader = new FileReader(f);
-                    _editArea.read(reader, "");  // Use TextComponent read                    
-                } catch (IOException ioex) {
-                    System.out.println(e);
+                    _editArea.read(reader, "");                    
+                } catch (IOException e2) {
+                    logger.error("Trouble while reading from file " + e2);
+                    JOptionPane.showMessageDialog(Nutpad.this, "Trouble while reading from file " + e2);
                     System.exit(1);
                 }
             }
@@ -108,6 +112,8 @@ public class Nutpad extends JFrame {
     }
     
     class OpenFromCollaborationServiceAction extends AbstractAction {
+        private static final long serialVersionUID = -5599432544551421021L;
+
         public OpenFromCollaborationServiceAction() {
             super("Open from CS");
             putValue(MNEMONIC_KEY, new Integer('2'));
@@ -123,12 +129,17 @@ public class Nutpad extends JFrame {
 
     class SaveToFileAction extends AbstractAction {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 7773471019357144532L;
+
         SaveToFileAction() {
             super("Save to File");
             putValue(MNEMONIC_KEY, new Integer('3'));
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent event) {
             int retval = _fileChooser.showSaveDialog(Nutpad.this);
             if (retval == JFileChooser.APPROVE_OPTION) {
                 File f = _fileChooser.getSelectedFile();
@@ -136,8 +147,9 @@ public class Nutpad extends JFrame {
                 try {
                     writer = new FileWriter(f);
                     _editArea.write(writer);
-                } catch (IOException ioex) {
-                    JOptionPane.showMessageDialog(Nutpad.this, ioex);
+                } catch (IOException e2) {
+                    logger.error("Trouble while saving to file " + e2);
+                    JOptionPane.showMessageDialog(Nutpad.this, "Trouble while saving to file " + e2);
                     System.exit(1);
                 }
             }
@@ -146,6 +158,7 @@ public class Nutpad extends JFrame {
     }
     
     class SaveToCollaborationServiceAction extends AbstractAction {
+        private static final long serialVersionUID = 2570708232031173971L;
 
         SaveToCollaborationServiceAction() {
             super("Save to CS");
@@ -164,10 +177,11 @@ public class Nutpad extends JFrame {
     
 
     class ExitAction extends AbstractAction {
-        
+        private static final long serialVersionUID = -7603073618047398002L;
+
         public ExitAction() {
             super("Exit");
-            putValue(MNEMONIC_KEY, new Integer('X'));
+            putValue(MNEMONIC_KEY, new Integer('5'));
         }
         
         public void actionPerformed(ActionEvent e) {
