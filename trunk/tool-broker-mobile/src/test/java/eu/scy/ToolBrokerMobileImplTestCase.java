@@ -7,13 +7,13 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class ToolBrokerMobileImplTest extends TestCase {
+public class ToolBrokerMobileImplTestCase extends TestCase {
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public ToolBrokerMobileImplTest( String testName ) {
+    public ToolBrokerMobileImplTestCase( String testName ) {
         super( testName );
     }
 
@@ -21,7 +21,8 @@ public class ToolBrokerMobileImplTest extends TestCase {
      * @return the suite of tests being tested
      */
     public static Test suite() {
-        return new TestSuite( ToolBrokerMobileImplTest.class );
+      //  return new TestSuite( ToolBrokerMobileImplTest.class );
+		return new TestSuite();
     }
 
     /**
