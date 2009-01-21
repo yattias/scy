@@ -53,6 +53,7 @@ public class Nutpad extends JFrame {
     public Nutpad() {
         
         cs = CollaborationService.createCollaborationService();
+        cs.setUserName("jeremy");
         
         _editArea = new JTextArea(15, 80);
         _editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
