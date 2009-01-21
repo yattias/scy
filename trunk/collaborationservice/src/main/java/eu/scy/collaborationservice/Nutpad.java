@@ -35,10 +35,10 @@ public class Nutpad extends JFrame {
     private JTextArea    _editArea;
     private JFileChooser _fileChooser = new JFileChooser();
     
-    private Action _openFileAction = new OpenFileAction();
-    private Action _openCSAction = new OpenCSAction();
-    private Action _saveToFileAction = new SaveFileAction();
-    private Action _saveToCollaborationServiceAction = new SaveCSAction();
+    private Action _openFileAction = new OpenFromFileAction();
+    private Action _openCSAction = new OpenFromCollaborationServiceAction();
+    private Action _saveToFileAction = new SaveToFileAction();
+    private Action _saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action _exitAction = new ExitAction(); 
     private CollaborationService cs;
     
@@ -85,10 +85,10 @@ public class Nutpad extends JFrame {
     }
     
 
-    class OpenFileAction extends AbstractAction {
-        public OpenFileAction() {
+    class OpenFromFileAction extends AbstractAction {
+        public OpenFromFileAction() {
             super("Open from File");
-            putValue(MNEMONIC_KEY, new Integer('O'));
+            putValue(MNEMONIC_KEY, new Integer('1'));
         }
         
         public void actionPerformed(ActionEvent e) {
@@ -107,10 +107,10 @@ public class Nutpad extends JFrame {
         }
     }
     
-    class OpenCSAction extends AbstractAction {
-        public OpenCSAction() {
+    class OpenFromCollaborationServiceAction extends AbstractAction {
+        public OpenFromCollaborationServiceAction() {
             super("Open from CS");
-            putValue(MNEMONIC_KEY, new Integer('O'));
+            putValue(MNEMONIC_KEY, new Integer('2'));
         }
         
         public void actionPerformed(ActionEvent e) {
@@ -121,11 +121,11 @@ public class Nutpad extends JFrame {
     }
     
 
-    class SaveFileAction extends AbstractAction {
+    class SaveToFileAction extends AbstractAction {
 
-        SaveFileAction() {
+        SaveToFileAction() {
             super("Save to File");
-            putValue(MNEMONIC_KEY, new Integer('S'));
+            putValue(MNEMONIC_KEY, new Integer('3'));
         }
 
         public void actionPerformed(ActionEvent e) {
@@ -145,11 +145,11 @@ public class Nutpad extends JFrame {
         
     }
     
-    class SaveCSAction extends AbstractAction {
+    class SaveToCollaborationServiceAction extends AbstractAction {
 
-        SaveCSAction() {
+        SaveToCollaborationServiceAction() {
             super("Save to CS");
-            putValue(MNEMONIC_KEY, new Integer('S'));
+            putValue(MNEMONIC_KEY, new Integer('4'));
         }
 
         public void actionPerformed(ActionEvent e) {
