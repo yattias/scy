@@ -35,8 +35,10 @@ public class Nutpad extends JFrame {
     private JTextArea    _editArea;
     private JFileChooser _fileChooser = new JFileChooser();
     
-    private Action _openAction = new OpenAction();
-    private Action _saveAction = new SaveAction();
+    private Action _openFileAction = new OpenFileAction();
+    private Action _openCSAction = new OpenCSAction();
+    private Action _saveToFileAction = new SaveFileAction();
+    private Action _saveToCollaborationServiceAction = new SaveCSAction();
     private Action _exitAction = new ExitAction(); 
     private CollaborationService cs;
     
@@ -64,8 +66,10 @@ public class Nutpad extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = menuBar.add(new JMenu("File"));
         fileMenu.setMnemonic('F');
-        fileMenu.add(_openAction);
-        fileMenu.add(_saveAction);
+        fileMenu.add(_openFileAction);
+        fileMenu.add(_openCSAction);
+        fileMenu.add(_saveToFileAction);
+        fileMenu.add(_saveToCollaborationServiceAction);
         fileMenu.addSeparator(); 
         fileMenu.add(_exitAction);
         
@@ -80,36 +84,46 @@ public class Nutpad extends JFrame {
     }
     
 
-    class OpenAction extends AbstractAction {
-        public OpenAction() {
-            super("Open...");
+    class OpenFileAction extends AbstractAction {
+        public OpenFileAction() {
+            super("Open from File...");
+            putValue(MNEMONIC_KEY, new Integer('O'));
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+            int retval = _fileChooser.showOpenDialog(Nutpad.this);
+            if (retval == JFileChooser.APPROVE_OPTION) {
+                File f = _fileChooser.getSelectedFile();
+                FileReader reader = null;
+                try {
+                    reader = new FileReader(f);
+                    _editArea.read(reader, "");  // Use TextComponent read                    
+                } catch (IOException ioex) {
+                    System.out.println(e);
+                    System.exit(1);
+                }
+            }
+        }
+    }
+    
+    class OpenCSAction extends AbstractAction {
+        public OpenCSAction() {
+            super("Open from CS...");
             putValue(MNEMONIC_KEY, new Integer('O'));
         }
         
         public void actionPerformed(ActionEvent e) {
             ArrayList<String> result = cs.read(HARD_CODED_TOOL_NAME);
+            _editArea.setText("");
             _editArea.append(result.get(result.size() - 1));
-            
-//            int retval = _fileChooser.showOpenDialog(NutPad.this);
-//            if (retval == JFileChooser.APPROVE_OPTION) {
-//                File f = _fileChooser.getSelectedFile();
-//                FileReader reader = null;
-//                try {
-//                    reader = new FileReader(f);
-//                    _editArea.read(reader, "");  // Use TextComponent read                    
-//                } catch (IOException ioex) {
-//                    System.out.println(e);
-//                    System.exit(1);
-//                }
-//            }
         }
     }
     
 
-    class SaveAction extends AbstractAction {
+    class SaveFileAction extends AbstractAction {
 
-        SaveAction() {
-            super("Save...");
+        SaveFileAction() {
+            super("Save to File...");
             putValue(MNEMONIC_KEY, new Integer('S'));
         }
 
@@ -125,14 +139,24 @@ public class Nutpad extends JFrame {
                     JOptionPane.showMessageDialog(Nutpad.this, ioex);
                     System.exit(1);
                 }
-                if (writer != null) {
-                    ScyBaseObject sbo = new ScyBaseObject();
-                    sbo.setId("12345");
-                    sbo.setName("a nice name for the object");
-                    sbo.setDescription(_editArea.getText());
-                    cs.write(HARD_CODED_TOOL_NAME, sbo);
-                }
             }
+        }         
+        
+    }
+    
+    class SaveCSAction extends AbstractAction {
+
+        SaveCSAction() {
+            super("Save to CS...");
+            putValue(MNEMONIC_KEY, new Integer('S'));
+        }
+
+        public void actionPerformed(ActionEvent e) {
+        	ScyBaseObject sbo = new ScyBaseObject();
+            sbo.setId("12345");
+            sbo.setName("a nice name for the object");
+            sbo.setDescription(_editArea.getText());
+            cs.write(HARD_CODED_TOOL_NAME, sbo);
         }         
         
     }
