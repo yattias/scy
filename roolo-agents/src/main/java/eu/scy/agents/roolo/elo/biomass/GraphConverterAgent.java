@@ -51,16 +51,16 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		if (allScoreKey == null) {
 			IMetadataKey score = new StringMetadataKey("all_score", "/agentdata/biomass/allScore",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new LongValidator());
-			this.getMetadataTypeManager().registerMetadataKey(score);
+			getMetadataTypeManager().registerMetadataKey(score);
 			allScoreKey = score;
 		}
 
-		IMetadataKey cappedScoreKey = this.getMetadataTypeManager().getMetadataKey("capped_score");
+		IMetadataKey cappedScoreKey = getMetadataTypeManager().getMetadataKey("capped_score");
 		if (cappedScoreKey == null) {
 			IMetadataKey score = new StringMetadataKey("capped_score",
 					"/agentdata/biomass/cappedScore", I18nType.UNIVERSAL,
 					MetadataValueCount.SINGLE, new LongValidator());
-			this.getMetadataTypeManager().registerMetadataKey(score);
+			getMetadataTypeManager().registerMetadataKey(score);
 			cappedScoreKey = score;
 		}
 
@@ -72,9 +72,9 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		SAXBuilder builder = new SAXBuilder();
 		try {
 			Element rootElement = builder.build(reader).getRootElement();
-			this.readGraph(rootElement);
-
-			this.calculateScore(elo);
+			if (this.readGraph(rootElement)) {
+				this.calculateScore(elo);
+			}
 			// this.writeArff(elo);
 		} catch (JDOMException e) {
 			e.printStackTrace();
@@ -87,8 +87,8 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 	@SuppressWarnings("unchecked")
 	private void calculateScore(T elo) {
 		int score = 0;
-		IMetadataKey allScoreKey = this.getMetadataTypeManager().getMetadataKey("all_score");
-		IMetadataKey cappedScoreKey = this.getMetadataTypeManager().getMetadataKey("capped_score");
+		IMetadataKey allScoreKey = getMetadataTypeManager().getMetadataKey("all_score");
+		IMetadataKey cappedScoreKey = getMetadataTypeManager().getMetadataKey("capped_score");
 
 		if (this.edgeValues[0] == 1) {
 			score += 1;
@@ -141,7 +141,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		}
 
 		String title = (String) elo.getMetadata().getMetadataValueContainer(
-				(K) this.getMetadataTypeManager().getMetadataKey("title")).getValue();
+				(K) getMetadataTypeManager().getMetadataKey("title")).getValue();
 		if ("".equals(title.trim())) {
 			writer.write("unknown title");
 		} else {
@@ -152,7 +152,11 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 	}
 
 	@SuppressWarnings( { "cast", "unchecked" })
-	private void readGraph(Element rootElement) {
+	private boolean readGraph(Element rootElement) {
+		if ((rootElement == null) || (!"DocumentRoot".equals(rootElement.getName()))) {
+			return false;
+		}
+
 		this.nodes.clear();
 		this.edgeValues = new int[6];
 		for (int i = 0; i < this.edgeValues.length; i++) {
@@ -198,6 +202,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 				}
 			}
 		}
+		return true;
 	}
 
 	private int getNodeNumber(Node node) {
