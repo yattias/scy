@@ -12,13 +12,15 @@ import eu.scy.core.model.impl.ScyBaseObject;
 
 public class CollaborationService {
 
-	private TupleSpace tupleSpace;
 	private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
 	private static final String SERVER_IP = "129.240.212.15";
 	private static final int SERVER_PORT = 2525;
 	private static final String SQLSPACE_NAME = "COLLABORATION_SERVICE_SPACE";
+
+	private TupleSpace tupleSpace;
 	private String userName = "unregistered_user";
 
+	
 
 	public CollaborationService() {
 	}
@@ -79,6 +81,7 @@ public class CollaborationService {
 	}
 
 
+	//TODO: this is a temporary solution until we implement a better way of receiving the username
 	public void setUserName(String username) {
 		this.userName = username;
 	}
