@@ -41,8 +41,11 @@ public class Nutpad extends JFrame {
     private Action _saveToFileAction = new SaveToFileAction();
     private Action _saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action _exitAction = new ExitAction(); 
+    private Action _openAwarenessClientAction = new OpenAwarenessClientAction();
 
     private CollaborationService cs;
+    private AwarenessClient awarenessClient;
+    private String documentSqlSpaceId;
     
     
 
@@ -53,8 +56,7 @@ public class Nutpad extends JFrame {
 
     public Nutpad() {
         
-        cs = CollaborationService.createCollaborationService();
-        cs.setUserName(HARD_CODED_USER_NAME);
+        cs = CollaborationService.createCollaborationService(HARD_CODED_USER_NAME, CollaborationService.COLLABORATION_SERVICE_SPACE);
         
         _editArea = new JTextArea(15, 80);
         _editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
@@ -75,6 +77,9 @@ public class Nutpad extends JFrame {
         fileMenu.addSeparator(); 
         fileMenu.add(_exitAction);
         
+        JMenu connectMenu = menuBar.add(new JMenu("Connect"));
+        connectMenu.add(_openAwarenessClientAction);
+        
         setContentPane(content);
         setJMenuBar(menuBar);
         
@@ -83,6 +88,22 @@ public class Nutpad extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        // make sure that we have a documentSqlSpaceId
+        this.write();
+    }
+    
+    
+    class OpenAwarenessClientAction extends AbstractAction {
+
+        public OpenAwarenessClientAction() {
+            super("Awareness client");
+            putValue(MNEMONIC_KEY, new Integer('1'));
+        }
+        
+        public void actionPerformed(ActionEvent event) {
+            awarenessClient = AwarenessClient.createAwarenessClient(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME);
+        }
     }
     
 
@@ -120,7 +141,7 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> result = cs.read(HARD_CODED_TOOL_NAME);
+            ArrayList<String> result = cs.take(HARD_CODED_TOOL_NAME);
             _editArea.setText("");
             _editArea.append(result.get(result.size() - 1));
         }
@@ -166,12 +187,8 @@ public class Nutpad extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-        	ScyBaseObject sbo = new ScyBaseObject();
-            sbo.setId("12345");
-            sbo.setName("a nice name for the object");
-            sbo.setDescription(_editArea.getText());
-            cs.write(HARD_CODED_TOOL_NAME, sbo);
-        }         
+            write();
+        }
         
     }
     
@@ -188,4 +205,13 @@ public class Nutpad extends JFrame {
             System.exit(0);
         }
     }
+    
+    
+    public void write() {
+        ScyBaseObject sbo = new ScyBaseObject();
+        sbo.setId("12345");
+        sbo.setName("a nice name for the object");
+        sbo.setDescription(_editArea.getText());
+        this.documentSqlSpaceId = cs.write(HARD_CODED_TOOL_NAME, sbo);     
+    }         
 }
