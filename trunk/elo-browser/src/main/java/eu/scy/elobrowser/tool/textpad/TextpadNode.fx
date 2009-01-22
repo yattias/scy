@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.net.URI;
 
 /**
  * @author weinbrenner
@@ -37,6 +38,11 @@ public class TextpadNode extends CustomNode {
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle()
     };
+
+     public function loadElo(uri:URI){
+        eloTextpadActionWrapper.loadElo(uri);
+        setScyWindowTitle();
+     }
 
 	function setScyWindowTitle(){
 		if (scyWindow == null)
