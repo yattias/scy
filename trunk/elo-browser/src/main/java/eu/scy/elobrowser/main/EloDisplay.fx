@@ -13,6 +13,8 @@ import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
 import eu.scy.elobrowser.tool.dataProcessTool.EloDataToolWrapper;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
+import eu.scy.elobrowser.tool.textpad.EloTextpadWrapper;
+import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.elobrowser.ui.SwingMenuItem;
 import eu.scy.elobrowser.ui.SwingPopupMenu;
 import eu.scy.scywindows.ScyDesktop;
@@ -69,6 +71,8 @@ import roolo.elo.api.IELO;
    eloImages.put(EloDrawingActionWrapper.scyDrawType,drawingEloImage);
    eloImages.put(EloSimQuestWrapper.scyDatasetType,datasetEloImage);
    eloImages.put(EloDataToolWrapper.scyPDSType,pdsEloImage);
+   //TODO: create a nice icon for text ELOs
+   eloImages.put(EloTextpadWrapper.scyTextType,plainEloImage);
 	}
 
 	function getEloImage(eType:String){
@@ -155,6 +159,21 @@ public class EloDisplay extends CustomNode {
                     ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
                     eloWindow.openFrom(translateX, translateY);
                     dataToolNode.loadElo(elo.getUri());
+                }
+                }else if (EloTextpadWrapper.scyTextType == eloType){
+                // ELO type is TEXT => open with textpad tool
+                eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
+                if (eloWindow == null){
+                    // elo window is not created
+                    var textpadNode = TextpadNode.createTextpadNode(roolo);
+                    eloWindow = TextpadNode.createTextpadWindow(textpadNode);
+                    eloWindow.allowResize;
+                    eloWindow.minimizeAction = hideEloWindow;
+                    eloWindow.allowMinimize = true;
+                    eloWindow.closeAction=closeEloWindow;
+                    ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
+                    eloWindow.openFrom(translateX, translateY);
+                    textpadNode.loadElo(elo.getUri());
                 }
                 else {
                      // elo window exists, show it
