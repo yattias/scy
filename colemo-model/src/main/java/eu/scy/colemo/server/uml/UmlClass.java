@@ -23,7 +23,8 @@ public class UmlClass extends AbstractDiagramData{
     private String type;
 	private String author;
 	private boolean move=false;
-	
+
+
 	public UmlClass(String name,String type,String author) {
         super(name);
         this.type=type;
