@@ -183,6 +183,12 @@
 					</key>
 					<value>.scypds</value>
 				</entry>
+                <entry>
+					<key>
+						<value>scy/text</value>
+					</key>
+					<value>.scytext</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
