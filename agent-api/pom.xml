@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.scy</groupId>
-  <artifactId>agent-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
- 	<build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy</groupId>
+	<artifactId>agent-api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
@@ -26,29 +27,29 @@
 			</plugin>
 		</plugins>
 	</build>
-  <dependencies>
-  	<dependency>
-  		<groupId>info.collide</groupId>
-  		<artifactId>sqlspaces-client</artifactId>
-  		<version>3.1.0-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>elo-api</groupId>
-  		<artifactId>elo-api</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>roolo-api</groupId>
-  		<artifactId>roolo-api</artifactId>
-  		<version>0.2.0-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>eu.scy</groupId>
-  		<artifactId>tool-broker-api</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
-  <repositories>
+	<dependencies>
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+			<version>3.1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>elo-api</groupId>
+			<artifactId>elo-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>roolo-api</groupId>
+			<artifactId>roolo-api</artifactId>
+			<version>0.2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>tool-broker-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<repositories>
 		<repository>
 			<id>snapshots-local</id>
 			<url>http://mvn.collide.info/content/repositories/snapshots</url>
@@ -74,4 +75,17 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>mvn_collide_releases</id>
+			<name>Collide Internal Releases</name>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>mvn_collide_snapshots</id>
+			<name>Collide Internal Snapshots</name>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
