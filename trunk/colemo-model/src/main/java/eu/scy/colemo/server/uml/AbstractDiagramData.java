@@ -14,6 +14,8 @@ public class AbstractDiagramData implements Serializable {
     protected int y;
     protected String name;
 
+    protected String id;
+
     public AbstractDiagramData(String name) {
         this.name = name;
     }
@@ -59,4 +61,12 @@ public class AbstractDiagramData implements Serializable {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
