@@ -13,7 +13,7 @@ import eu.scy.colemo.network.Person;
  * @author Øystein
  *
  */
-public class AddClass implements Serializable,Contribution{
+public class AddClass extends BaseConceptMapNode implements Serializable,Contribution{
 
 	private String name;
 	private String type;
