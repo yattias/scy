@@ -30,7 +30,7 @@ public class ELO2OBWIOUSDocument extends OperatorSpecification implements Featur
 		IELO elo = inputParameters.getObject(ELO);
 		Locale usedLanguage = inputParameters.getObject(LOCALE);
 
-		Container output = new Container(this.getOutputSignature());
+		Container output = new Container(getOutputSignature());
 
 		Document doc = new Document("test");
 		String text = "";
