@@ -10,9 +10,9 @@ import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
-import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
@@ -21,6 +21,8 @@ import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -111,42 +113,42 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(textpadWindow)
             }
         }
-//         SwingButton{
-//            translateY:25
-//            text: "Water"
-//            action: function() {
-//               var drawingWindow = ScyWindow{
-//                  color:Color.BLUE
-//                  title:"Water"
-//                  scyContent: ImageView{
-//                     image:image1
-//                  }
-//               }
-//               scyDesktopMain.addScyWindow(drawingWindow)
-//            }
-//         }
-//         SwingButton{
-//            translateY:50
-//            text: "Sun"
-//            action: function() {
-//               var drawingWindow = ScyWindow{
-//                  color:Color.RED
-//                  title:"Sun"
-//                  scyContent: ImageView{
-//                     image:image2
-//                  }
-//               }
-//               scyDesktopMain.addScyWindow(drawingWindow)
-//            }
-//         }
-            SwingButton{
+        //         SwingButton{
+        //            translateY:25
+        //            text: "Water"
+        //            action: function() {
+        //               var drawingWindow = ScyWindow{
+        //                  color:Color.BLUE
+        //                  title:"Water"
+        //                  scyContent: ImageView{
+        //                     image:image1
+        //                  }
+        //               }
+        //               scyDesktopMain.addScyWindow(drawingWindow)
+        //            }
+        //         }
+        //         SwingButton{
+        //            translateY:50
+        //            text: "Sun"
+        //            action: function() {
+        //               var drawingWindow = ScyWindow{
+        //                  color:Color.RED
+        //                  title:"Sun"
+        //                  scyContent: ImageView{
+        //                     image:image2
+        //                  }
+        //               }
+        //               scyDesktopMain.addScyWindow(drawingWindow)
+        //            }
+        //         }
+        SwingButton{
             text: "Data Process Tool"
             action: function() {
                 var dataToolWindow = DataToolNode.createDataToolWindow(roolo);
                 dataToolWindow.allowResize;
                 scyDesktop.addScyWindow(dataToolWindow)
             }
-          }
+        }
     ]
    }
 
@@ -159,8 +161,8 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
-    width:150;
-    height:150;
+    width:160;
+    height:160;
    };
 
 scyDesktop.addScyWindow(newScyWindow);
@@ -266,16 +268,40 @@ var eloBrowserControl= ScyWindow{
     }
 }
 scyDesktop.addScyWindow(eloBrowserControl);
+var loginGroup = SCYLogin {
+    mainContent: [
+        scyDesktop.desktop,
+        resultView
+    ]
+}
+
 
 stage = Stage {
 
 	title: "ELO browser"
-	width: 800
-	height: 600
+	width: 1024
+	height: 768
 	scene: Scene {
+        fill: RadialGradient {
+            centerX: 1200
+            centerY: -700
+            radius: 1300
+            focusX: 800
+            focusY: 600
+            proportional: false
+            stops: [
+                Stop {
+                    offset: 0
+                color: Color.web("#bdd1ef")},
+                Stop {
+                    offset: 1
+                color: Color.web("#ebf3ff")}
+            ]
+        }
 		content: [
 			Group{
 				content:[
+                    loginGroup
                     resultView
 					scyDesktop.desktop
 				]

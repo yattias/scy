@@ -195,17 +195,17 @@ public class SimQuestNode extends CustomNode {
 
 	public function createSimQuestWindow(simquestNode:SimQuestNode):ScyWindow{
 		var simquestWindow = ScyWindow{
+            translateX: 10
 			color:Color.GREEN
 			title:"SimQuest"
 			scyContent: simquestNode
 			minimumWidth:320;
 			minimumHeight:100;
-			//width: 320;
-			height: 250;
+			width: 500;
+			height: 680;
 			cache:true;
       }
 		simquestNode.scyWindow = simquestWindow;
-		simquestWindow.width = 320;
 		return simquestWindow;
 	}
 
