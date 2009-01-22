@@ -18,7 +18,7 @@ import eu.scy.colemo.network.Person;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class MoveClass implements Serializable {
+public class MoveClass extends BaseConceptMapNode implements Serializable {
 
 	private UmlClass umlClass;
 	private InetAddress ip;
