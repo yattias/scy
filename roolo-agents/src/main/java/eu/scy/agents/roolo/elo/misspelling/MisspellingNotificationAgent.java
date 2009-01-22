@@ -1,27 +1,31 @@
 package eu.scy.agents.roolo.elo.misspelling;
 
-import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-
-import java.util.Locale;
-
-import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import eu.scy.agents.impl.elo.AbstractELOAgent;
+import eu.scy.agents.impl.AbstractCommunicationAgent;
 
-public class MisspellingNotificationAgent<T extends IELO<K>, K extends IMetadataKey> extends
-		AbstractELOAgent<T, K> {
+public class MisspellingNotificationAgent<K extends IMetadataKey> extends
+		AbstractCommunicationAgent<K> {
 
 	@Override
-	public void processElo(T elo) {
+	protected void doRun() {
+		Tuple t;
 		try {
-			TupleSpace ts = this.getTupleSpace();
-			ts.write(new Tuple("misspellings", elo.getUri().toString(), System.currentTimeMillis(),
-					elo.getContent(Locale.GERMAN).getXml()));
+			t = getTupleSpace().waitToTake(
+					new Tuple("misspellings", String.class, Long.class, Integer.class));
+			String uri = (String) t.getField(1).getValue();
+			Integer numberOfErrors = (Integer) t.getField(3).getValue();
+			getTupleSpace().write(new Tuple("notification", "misspelling", uri, numberOfErrors));
+			System.out.println("***************** your document " + uri + " has " + numberOfErrors
+					+ " spelling errors ********** ");
 		} catch (TupleSpaceException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+
+		// INotification notification = new Notification();
+		// notification.addProperty("errors", "" + numberOfErrors);
+		// notification.addProperty("target", "misspellings");
+		// getToolBrokerAPI().getNotificationService().notifyCallbacks(notification);
 	}
 }

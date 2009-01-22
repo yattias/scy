@@ -14,8 +14,8 @@ import de.fhg.iais.kd.tm.obwious.base.feature.Features;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
-import de.fhg.iais.kd.tm.obwious.operator.document.TermFrequency;
-import de.fhg.iais.kd.tm.obwious.operator.document.Tokens;
+import de.fhg.iais.kd.tm.obwious.operator.document.ProvideTermFrequency;
+import de.fhg.iais.kd.tm.obwious.operator.document.ProvideTokens;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import de.fhg.iais.kd.tm.obwious.operator.type.Container;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
@@ -31,14 +31,14 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 			this.addNamespaceLink("ELO2OBWIOUSDocument", "elo", "elo");
 			this.setInputParameter("ELO2OBWIOUSDocument", "locale", Locale.GERMAN);
 
-			this.addOperatorSpecification("Tokens", Tokens.class);
+			this.addOperatorSpecification("Tokens", ProvideTokens.class);
 			this.setInputParameter("Tokens", "toLower", true);
 			this.setInputParameter("Tokens", "delimiter", " -;,.()\"\n\t\r\f");
 			this.setInputParameter("Tokens", "update", true);
 
 			// this.addOperatorSpecification("Stopwords", StopWords.class);
 
-			this.addOperatorSpecification("TermFrequencies", TermFrequency.class);
+			this.addOperatorSpecification("TermFrequencies", ProvideTermFrequency.class);
 			this.setInputParameter("TermFrequencies", "update", true);
 
 			this.addOutputType(ObjectIdentifiers.DOCUMENT, Document.class);
@@ -55,19 +55,19 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 		System.out.println(doc.getFeature(Features.TOKENS));
 		doc.getFeature(Features.TOKENS);
 
-		K tokenKey = (K) this.getMetadataTypeManager().getMetadataKey("token");
+		K tokenKey = (K) getMetadataTypeManager().getMetadataKey("token");
 		if (tokenKey == null) {
 			K token = (K) new StringMetadataKey("token", "/agentdata/obwiousdata/tokens/token",
 					I18nType.UNIVERSAL, MetadataValueCount.LIST, new StringValidator());
-			this.getMetadataTypeManager().registerMetadataKey(token);
+			getMetadataTypeManager().registerMetadataKey(token);
 			tokenKey = token;
 		}
 
-		K workflowKey = (K) this.getMetadataTypeManager().getMetadataKey("workflow");
+		K workflowKey = (K) getMetadataTypeManager().getMetadataKey("workflow");
 		if (workflowKey == null) {
 			K workflowK = (K) new StringMetadataKey("workflow", "/agentdata/obwiousdata/workflow",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
-			this.getMetadataTypeManager().registerMetadataKey(workflowK);
+			getMetadataTypeManager().registerMetadataKey(workflowK);
 			workflowKey = workflowK;
 		}
 
