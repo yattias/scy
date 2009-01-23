@@ -18,6 +18,7 @@ import java.net.InetAddress;
  */
 public class ColemoPanel extends JPanel {
 
+    
     private GraphicsDiagram gDiagram;
     private JScrollPane scrollPane;
 
