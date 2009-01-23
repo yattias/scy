@@ -1,10 +1,13 @@
 package eu.scy.agents.roolo.elo.misspelling;
 
+import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.Callback.Command;
 
-import java.io.File;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import com.swabunga.spell.engine.SpellDictionary;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
@@ -14,40 +17,52 @@ import com.swabunga.spell.event.StringWordTokenizer;
 import eu.scy.agents.impl.AbstractProcessingAgent;
 
 public class CheckMisspellingAgent extends AbstractProcessingAgent {
-
-	public CheckMisspellingAgent() {
-		super();
-	}
-
-	@Override
-	protected void doRun() {
-		Tuple t;
-		try {
-			t = this.getTupleSpace().waitToTake(
-					new Tuple("misspellings", String.class, Long.class, String.class));
-		} catch (TupleSpaceException e) {
-			throw new RuntimeException(e);
-		}
-
-		String content = (String) t.getField(3).getValue();
-		content = content.replaceAll("<[^>]*>", "");
-
-		URL url = CheckMisspellingAgent.class.getResource("/de.dic");// eng_com.dic
-		File dictFile;
-		try {
-			dictFile = new File(url.toURI());
-			SpellDictionary dictionary = new SpellDictionaryHashMap(dictFile);
-			SpellChecker spellChecker = new SpellChecker(dictionary);
-			int numOfErrors = spellChecker.checkSpelling(new StringWordTokenizer(content));
-			if (numOfErrors > 0) {
-				this.getTupleSpace().write(
-						new Tuple("misspellings", t.getField(1).getValue(), System
-								.currentTimeMillis(), numOfErrors));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-
+    
+    private SpellChecker spellChecker;
+    
+    public CheckMisspellingAgent() {
+        super();
+        // First parse dictinary
+        InputStream inputStream = CheckMisspellingAgent.class.getResourceAsStream("/eng_com.dic");// eng_com.dic
+        SpellDictionary dictionary;
+        try {
+            dictionary = new SpellDictionaryHashMap(new InputStreamReader(inputStream));
+            spellChecker = new SpellChecker(dictionary);
+            
+            // Register for notifications
+            getTupleSpace().eventRegister(Command.WRITE, new Tuple("misspellings", String.class, Long.class, String.class), new Callback() {
+                
+                @Override
+                public void call(Command command, int seq, Tuple after, Tuple before) {
+                    System.out.println(after);
+                    String content = (String) after.getField(3).getValue();
+                    content = content.replaceAll("<[^>]*>", "");
+                    String uri = (String) after.getField(1).getValue();
+                    checkMispelling(uri, content);
+                }
+            }, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    protected void doRun() {
+        // FIXME
+        done = true;
+    }
+    
+    private void checkMispelling(String uri, String content) {
+        int numOfErrors = spellChecker.checkSpelling(new StringWordTokenizer(content));
+        if (numOfErrors > 0) {
+            try {
+                getTupleSpace().write(new Tuple("misspellings", uri, System.currentTimeMillis(), numOfErrors));
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 }
