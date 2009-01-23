@@ -34,19 +34,7 @@
 		<dependency>
 			<groupId>eu.scy</groupId>
 			<artifactId>notification-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy</groupId>
-			<artifactId>scy-sessionmanager-api</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy</groupId>
-			<artifactId>scy-sessionmanager-impl</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -59,6 +47,24 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/src.xml 
+						</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
