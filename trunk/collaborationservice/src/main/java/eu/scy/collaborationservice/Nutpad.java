@@ -52,6 +52,7 @@ public class Nutpad extends JFrame {
     private AwarenessClient awarenessClient;
     private String documentSqlSpaceId = null;
     private String userName = "username";
+    private boolean connected = false;
     
     
 
@@ -66,6 +67,7 @@ public class Nutpad extends JFrame {
         userNameField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         userNameField.setFont(new Font("monospaced", Font.PLAIN, 14));
         userNameField.setText(userName);
+        
         awarenessConnectButton = new JButton();
         awarenessConnectButton.setAction(openAwarenessClientAction);
         awarenessConnectButton.setText("Connect");
@@ -115,8 +117,19 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent event) {
-            userName = userNameField.getText();
-            awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
+        	if(connected) {
+        		awarenessClient.shutDown();
+        		userNameField.setEditable(true);
+        		awarenessConnectButton.setText("Connect");
+        		connected = false;  
+        	}
+        	else {
+        		userName = userNameField.getText();
+        		userNameField.setEditable(false);
+        		awarenessConnectButton.setText("Disconnect");
+        		awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
+        		connected = true;        		
+        	}
         }
     }
     

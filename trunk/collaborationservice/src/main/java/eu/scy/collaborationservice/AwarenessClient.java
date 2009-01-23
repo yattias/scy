@@ -54,7 +54,7 @@ public class AwarenessClient extends JFrame {
         AwarenessClient ac = new AwarenessClient();
         ac.userName = userName;
         ac.toolsToWatch.put(toolName, toolName);
-        ac.usersToWatch = new ArrayList<String>(Arrays.asList(new String[]{"jeremyt", "olesm", "janad"})); //this list will be populated by usermanagement
+        ac.usersToWatch = new ArrayList<String>(Arrays.asList(new String[]{"thomasd", "olesm", "janad"})); //this list will be populated by usermanagement
         
         ac.cs = CollaborationService.createCollaborationService(ac.userName, CollaborationService.AWARENESS_SERVICE_SPACE);
         ac.signUp();
@@ -131,5 +131,10 @@ public class AwarenessClient extends JFrame {
     private void signOff() {
         logger.debug("SAC signing off");
         cs.takeById(this.loginId);
+    }
+    
+    public void shutDown() {
+    	 setVisible(false);
+         dispose();
     }
 }
