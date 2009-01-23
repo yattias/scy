@@ -70,7 +70,8 @@ public class CollaborationService {
             if (sqlSpaceId == null) {
                 tid = this.tupleSpace.write(tuple);                
             } else {
-                tid = new TupleID(sqlSpaceId);
+                tid = new TupleID(Long.valueOf(sqlSpaceId));
+                //tid = new TupleID(sqlSpaceId);
                 this.tupleSpace.update(tid, tuple);                
             }
         } catch (TupleSpaceException e) {
@@ -138,6 +139,7 @@ public class CollaborationService {
         if (tuple != null) {
             returnValues = new ArrayList<String>();
             Field field;
+            returnValues.add(String.valueOf(tuple.getTupleID()));
             for (int i = 0; i < tuple.getFields().length; i++) {
                 field = tuple.getFields()[i];
                 returnValues.add(field.getValue().toString());
