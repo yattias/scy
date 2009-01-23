@@ -6,6 +6,7 @@ import java.util.Locale;
 import roolo.elo.api.I18nType;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.MetadataValueCount;
 import roolo.elo.metadata.keys.StringMetadataKey;
@@ -45,6 +46,8 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 		}
 	}
 
+	private IMetadataTypeManager<IMetadataKey> typeManager;
+
 	@SuppressWarnings("unchecked")
 	public void processElo(T elo) {
 		System.out.println("Starting obwious agent");
@@ -55,19 +58,19 @@ public class ObwiousAgent<T extends IELO<K>, K extends IMetadataKey> extends Abs
 		System.out.println(doc.getFeature(Features.TOKENS));
 		doc.getFeature(Features.TOKENS);
 
-		K tokenKey = (K) getMetadataTypeManager().getMetadataKey("token");
+		K tokenKey = (K) typeManager.getMetadataKey("token");
 		if (tokenKey == null) {
 			K token = (K) new StringMetadataKey("token", "/agentdata/obwiousdata/tokens/token",
 					I18nType.UNIVERSAL, MetadataValueCount.LIST, new StringValidator());
-			getMetadataTypeManager().registerMetadataKey(token);
+			typeManager.registerMetadataKey(token);
 			tokenKey = token;
 		}
 
-		K workflowKey = (K) getMetadataTypeManager().getMetadataKey("workflow");
+		K workflowKey = (K) typeManager.getMetadataKey("workflow");
 		if (workflowKey == null) {
 			K workflowK = (K) new StringMetadataKey("workflow", "/agentdata/obwiousdata/workflow",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
-			getMetadataTypeManager().registerMetadataKey(workflowK);
+			typeManager.registerMetadataKey(workflowK);
 			workflowKey = workflowK;
 		}
 

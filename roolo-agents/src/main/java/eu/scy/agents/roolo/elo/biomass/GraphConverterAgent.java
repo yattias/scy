@@ -16,14 +16,16 @@ import roolo.elo.api.I18nType;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.MetadataValueCount;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.value.validators.LongValidator;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
+import eu.scy.toolbroker.ToolBrokerImpl;
 
-public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> extends
-		AbstractELOAgent<T, K> {
+public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
+		extends AbstractELOAgent<T, K> {
 
 	static class Node {
 
@@ -36,8 +38,11 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 	private LinkedHashMap<String, Node> nodes;
 	private int[] edgeValues;
 	private int counter;
+	private IMetadataTypeManager<IMetadataKey> typeManager;
 
+	@SuppressWarnings("unchecked")
 	public GraphConverterAgent() {
+		typeManager = new ToolBrokerImpl().getMetaDataTypeManager();
 		this.nodes = new LinkedHashMap<String, Node>();
 		this.edgeValues = new int[6];
 		for (int i = 0; i < this.edgeValues.length; i++) {
@@ -49,18 +54,20 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 	public void processElo(T elo) {
 		IMetadataKey allScoreKey = typeManager.getMetadataKey("all_score");
 		if (allScoreKey == null) {
-			IMetadataKey score = new StringMetadataKey("all_score", "/agentdata/biomass/allScore",
-					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new LongValidator());
-			getMetadataTypeManager().registerMetadataKey(score);
+			IMetadataKey score = new StringMetadataKey("all_score",
+					"/agentdata/biomass/allScore", I18nType.UNIVERSAL,
+					MetadataValueCount.SINGLE, new LongValidator());
+			typeManager.registerMetadataKey(score);
 			allScoreKey = score;
 		}
 
-		IMetadataKey cappedScoreKey = getMetadataTypeManager().getMetadataKey("capped_score");
+		IMetadataKey cappedScoreKey = typeManager.getMetadataKey(
+				"capped_score");
 		if (cappedScoreKey == null) {
 			IMetadataKey score = new StringMetadataKey("capped_score",
 					"/agentdata/biomass/cappedScore", I18nType.UNIVERSAL,
 					MetadataValueCount.SINGLE, new LongValidator());
-			getMetadataTypeManager().registerMetadataKey(score);
+			typeManager.registerMetadataKey(score);
 			cappedScoreKey = score;
 		}
 
@@ -87,8 +94,10 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 	@SuppressWarnings("unchecked")
 	private void calculateScore(T elo) {
 		int score = 0;
-		IMetadataKey allScoreKey = getMetadataTypeManager().getMetadataKey("all_score");
-		IMetadataKey cappedScoreKey = getMetadataTypeManager().getMetadataKey("capped_score");
+		IMetadataKey allScoreKey = typeManager.getMetadataKey(
+				"all_score");
+		IMetadataKey cappedScoreKey = typeManager.getMetadataKey(
+				"capped_score");
 
 		if (this.edgeValues[0] == 1) {
 			score += 1;
@@ -106,19 +115,20 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 			score += 1;
 		}
 
-		IMetadataValueContainer scoreContainer = elo.getMetadata().getMetadataValueContainer(
-				(K) allScoreKey);
+		IMetadataValueContainer scoreContainer = elo.getMetadata()
+				.getMetadataValueContainer((K) allScoreKey);
 		scoreContainer.setValue(score);
 
-		IMetadataValueContainer cappedScoreContainer = elo.getMetadata().getMetadataValueContainer(
-				(K) cappedScoreKey);
+		IMetadataValueContainer cappedScoreContainer = elo.getMetadata()
+				.getMetadataValueContainer((K) cappedScoreKey);
 		cappedScoreContainer.setValue(score > 3 ? 3 : score);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void writeArff(T elo) throws IOException {
 		this.counter++;
-		File file = new File(System.getProperty("user.home") + "/ude_biomass_graph.arff");
+		File file = new File(System.getProperty("user.home")
+				+ "/ude_biomass_graph.arff");
 		BufferedWriter writer = null;
 		if (!file.exists()) {
 			writer = new BufferedWriter(new FileWriter(file));
@@ -126,7 +136,8 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 			writer.write("\n");
 			for (String nodeID : this.nodes.keySet()) {
 				Node n = this.nodes.get(nodeID);
-				writer.write("@attribute " + n.name.replace(' ', '_').toLowerCase()
+				writer.write("@attribute "
+						+ n.name.replace(' ', '_').toLowerCase()
 						+ " {-1,0,1,2,3,4,5}\n");
 			}
 			writer.write("@attribute file string");
@@ -141,7 +152,8 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		}
 
 		String title = (String) elo.getMetadata().getMetadataValueContainer(
-				(K) getMetadataTypeManager().getMetadataKey("title")).getValue();
+				(K) typeManager.getMetadataKey("title"))
+				.getValue();
 		if ("".equals(title.trim())) {
 			writer.write("unknown title");
 		} else {
@@ -153,7 +165,8 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 
 	@SuppressWarnings( { "cast", "unchecked" })
 	private boolean readGraph(Element rootElement) {
-		if ((rootElement == null) || (!"DocumentRoot".equals(rootElement.getName()))) {
+		if ((rootElement == null)
+				|| (!"DocumentRoot".equals(rootElement.getName()))) {
 			return false;
 		}
 
@@ -166,13 +179,15 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 		Element sessionData = rootElement.getChild("SessionData");
 		Element workspaces = sessionData.getChild("Workspaces");
 		Element workspace = workspaces.getChild("Workspace");
-		List<Element> jgraphList = (List<Element>) workspace.getChildren("JGraph");
+		List<Element> jgraphList = (List<Element>) workspace
+				.getChildren("JGraph");
 
 		for (Element jgraph : jgraphList) {
 			List<Element> arrays = jgraph.getChildren("ARRAY");
 			if (arrays != null) {
 				for (Element array : arrays) {
-					List<Element> nodesList = (List<Element>) array.getChildren("NodeInfo");
+					List<Element> nodesList = (List<Element>) array
+							.getChildren("NodeInfo");
 					for (Element nodeElement : nodesList) {
 						Element stockNode = nodeElement.getChild("StockNode");
 						if (stockNode != null) {
@@ -184,16 +199,20 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey> exte
 						}
 					}
 
-					List<Element> edgesList = (List<Element>) array.getChildren();
+					List<Element> edgesList = (List<Element>) array
+							.getChildren();
 					for (Element graphEdge : edgesList) {
 						if (graphEdge.getName().contains("Edge")) {
-							List<Element> ids = (List<Element>) graphEdge.getChildren("UniqueID");
-							Node inNode = this.nodes.get(ids.get(0).getTextTrim());
+							List<Element> ids = (List<Element>) graphEdge
+									.getChildren("UniqueID");
+							Node inNode = this.nodes.get(ids.get(0)
+									.getTextTrim());
 
-							Node outNode = this.nodes.get(ids.get(1).getTextTrim());
+							Node outNode = this.nodes.get(ids.get(1)
+									.getTextTrim());
 
-							int type = Integer.parseInt(graphEdge.getChild("IconType")
-									.getAttributeValue("type"));
+							int type = Integer.parseInt(graphEdge.getChild(
+									"IconType").getAttributeValue("type"));
 							if (inNode.number != -1) {
 								this.edgeValues[inNode.number] = type;
 							}
