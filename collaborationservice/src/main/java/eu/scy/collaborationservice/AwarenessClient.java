@@ -33,7 +33,7 @@ public class AwarenessClient extends JFrame {
     private static final long LOGIN_KEEPALIVE_DURATION = 1 * 1000;
     //private static final String[] COLUMN_NAMES = { "username", "status", "doc id"};
 
-    private JTextArea _editArea;
+    private JTextArea textArea;
     private JPanel panel;
     private JScrollPane scrollPane;
     private ArrayList<String> usersToWatch;
@@ -68,10 +68,11 @@ public class AwarenessClient extends JFrame {
         ac.setTitle( "Awereness client makes " + userName + " happy");
         ac.setSize(300, 500);
        
-        ac._editArea = new JTextArea(15, 80);
-        ac._editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        ac._editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
-        JScrollPane scrollingText = new JScrollPane(ac._editArea);
+        ac.textArea = new JTextArea(15, 80);
+        ac.textArea.setEditable(false);
+        ac.textArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        ac.textArea.setFont(new Font("monospaced", Font.PLAIN, 14));
+        JScrollPane scrollingText = new JScrollPane(ac.textArea);
         
         ac.panel = new JPanel();
         ac.panel.setLayout(new BorderLayout());
@@ -90,13 +91,21 @@ public class AwarenessClient extends JFrame {
     }
     
     
-    private void displayBuddyList() {
+    private void refreshBuddyList() {
         logger.debug("SAC refreshes buddylist every " + LOGIN_KEEPALIVE_DURATION);
         String outputToTextArea = "";
+        String user;
+        String status;
         for(int i=0; i<usersToWatch.size(); i++) {
-        	outputToTextArea = outputToTextArea + usersToWatch.get(i) + "\n";
+            user = usersToWatch.get(i);
+            if (cs.read(user, HARD_CODED_TOOL_NAME) != null) {
+                status = "online";
+            } else {
+                status = "offline";
+            }
+        	outputToTextArea = outputToTextArea + user + "\t" + status + "\n";
         }
-        _editArea.setText(outputToTextArea);
+        textArea.setText(outputToTextArea);
     }
 
 
@@ -109,8 +118,7 @@ public class AwarenessClient extends JFrame {
     
     private class BuddyPresenceTimer extends TimerTask {
         public void run() {
-           usersToWatch.add("mickey");
-           displayBuddyList();
+           refreshBuddyList();
         }
     }
 
