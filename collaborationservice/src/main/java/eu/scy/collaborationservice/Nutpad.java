@@ -150,7 +150,7 @@ public class Nutpad extends JFrame {
         private static final long serialVersionUID = -5599432544551421021L;
 
         public OpenFromCollaborationServiceAction() {
-            super("Open from CS");
+            super("Open random from CS");
             putValue(MNEMONIC_KEY, new Integer('2'));
         }
         
