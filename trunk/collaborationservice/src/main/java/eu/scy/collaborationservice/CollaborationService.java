@@ -5,11 +5,10 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-
-import com.sun.org.apache.xml.internal.serializer.ToUnknownStream;
 
 import eu.scy.core.model.impl.ScyBaseObject;
 
@@ -66,63 +65,69 @@ public class CollaborationService {
     }
     
 
-	public ArrayList<String> read(String tool) {
-		Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
-		Tuple returnTuple;
+	public ArrayList<String> read(String userName, String tool) {
+		Tuple tuple;
+		if (userName == null) {
+		    tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);		    
+		} else {
+            tuple = new Tuple(userName, tool, String.class, String.class, String.class, String.class);          
+		}
+        Tuple returnTuple = null;
 		try {
 			returnTuple = this.tupleSpace.read(tuple);
 		} catch (TupleSpaceException e) {
 			logger.error("Trouble while reading touple " + e);
 			return null;
 		}
-		ArrayList<String> returnValues = null;
-		if (returnTuple != null) {
-			returnValues = new ArrayList<String>();
-			Field field;
-			for (int i = 0; i < returnTuple.getFields().length; i++) {
-				field = returnTuple.getFields()[i];
-				returnValues.add(field.getValue().toString());
-			}
-		}
-		return returnValues;
+        return convertTupleToStringArray(returnTuple);
 	}
+	
 	
     public ArrayList<String> take(String tool) {
         Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
-        Tuple returnTuple;
+        Tuple returnTuple = null;
         try {
-            returnTuple = this.tupleSpace.take(tuple);
+            returnTuple = tupleSpace.take(tuple);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while taking touple " + e);
             return null;
         }
+        return convertTupleToStringArray(returnTuple);
+    }
+    
+    
+    public ArrayList<String> readById(String id) {
+        Tuple returnTuple = null;
+        try {
+            returnTuple = tupleSpace.readTupleById(new TupleID(id));
+        } catch (TupleSpaceException e) {
+            logger.error("Trouble while reading touple " + e);
+        }
+        return convertTupleToStringArray(returnTuple);
+    }
+    
+    
+    public ArrayList<String> takeById(String id) {
+        Tuple returnTuple = null;
+        try {
+            returnTuple = tupleSpace.takeTupleById(new TupleID(id));
+        } catch (TupleSpaceException e) {
+            logger.error("Trouble while take touple " + e);
+        }
+        return convertTupleToStringArray(returnTuple);
+    }
+    
+    
+    private ArrayList<String> convertTupleToStringArray(Tuple tuple) {
         ArrayList<String> returnValues = null;
-        if (returnTuple != null) {
+        if (tuple != null) {
             returnValues = new ArrayList<String>();
             Field field;
-            for (int i = 0; i < returnTuple.getFields().length; i++) {
-                field = returnTuple.getFields()[i];
+            for (int i = 0; i < tuple.getFields().length; i++) {
+                field = tuple.getFields()[i];
                 returnValues.add(field.getValue().toString());
             }
         }
         return returnValues;
-    }
-    
-    
-    public void readById(String id) {
-        try {
-           this.tupleSpace.readTupleById(new TupleID(id));
-        } catch (TupleSpaceException e) {
-            logger.error("Trouble while reading touple " + e);
-        }
-    }
-    
-    
-    public void takeById(String id) {
-        try {
-           this.tupleSpace.takeTupleById(new TupleID(id));
-        } catch (TupleSpaceException e) {
-            logger.error("Trouble while taking touple " + e);
-        }
     }
 }
