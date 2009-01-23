@@ -3,16 +3,23 @@ package eu.scy.collaborationservice;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
@@ -21,14 +28,12 @@ import eu.scy.core.model.impl.ScyBaseObject;
 
 public class AwarenessClient extends JFrame {
     
-    private static final long serialVersionUID = -1293958675013915926L;
-
     private final static Logger logger = Logger.getLogger(AwarenessClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
     private static final long LOGIN_KEEPALIVE_DURATION = 1 * 1000;
-    private static final String[] COLUMN_NAMES = { "username", "status", "doc id"};
+    //private static final String[] COLUMN_NAMES = { "username", "status", "doc id"};
 
-    private JTable table;
+    private JTextArea _editArea;
     private JPanel panel;
     private JScrollPane scrollPane;
     private ArrayList<String> usersToWatch;
@@ -40,6 +45,8 @@ public class AwarenessClient extends JFrame {
     
     private Timer loginTimer;
     private Timer buddyTimer;
+    
+    private TableModel tableModel;
 
     
     public AwarenessClient() {        
@@ -60,9 +67,20 @@ public class AwarenessClient extends JFrame {
         // Set the frame characteristics
         ac.setTitle( "Awereness client makes " + userName + " happy");
         ac.setSize(300, 500);
-
-        ac.refreshBuddyList();
+       
+        ac._editArea = new JTextArea(15, 80);
+        ac._editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        ac._editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
+        JScrollPane scrollingText = new JScrollPane(ac._editArea);
+        
+        ac.panel = new JPanel();
+        ac.panel.setLayout(new BorderLayout());
+        ac.panel.add(scrollingText, BorderLayout.CENTER);
+        
+        
+        ac.getContentPane().add(ac.panel);
         ac.setLocationRelativeTo(null);
+        ac.setVisible(true);
         
         ac.loginTimer = new Timer();
         ac.loginTimer.schedule(ac.new LoginTimer(), 1, LOGIN_KEEPALIVE_DURATION);
@@ -72,16 +90,13 @@ public class AwarenessClient extends JFrame {
     }
     
     
-    private void refreshBuddyList() {
+    private void displayBuddyList() {
         logger.debug("SAC refreshes buddylist every " + LOGIN_KEEPALIVE_DURATION);
-        panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        table = new JTable(populateTable(usersToWatch, COLUMN_NAMES), COLUMN_NAMES);        
-        table.setBackground(Color.orange);
-        scrollPane = new JScrollPane(table);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        getContentPane().add(panel);
-        setVisible(true);
+        String outputToTextArea = "";
+        for(int i=0; i<usersToWatch.size(); i++) {
+        	outputToTextArea = outputToTextArea + usersToWatch.get(i) + "\n";
+        }
+        _editArea.setText(outputToTextArea);
     }
 
 
@@ -94,9 +109,8 @@ public class AwarenessClient extends JFrame {
     
     private class BuddyPresenceTimer extends TimerTask {
         public void run() {
-            getContentPane().remove(panel);
-            refreshBuddyList();
-            usersToWatch.add("mickey");
+           usersToWatch.add("mickey");
+           displayBuddyList();
         }
     }
 
@@ -115,16 +129,4 @@ public class AwarenessClient extends JFrame {
         logger.debug("SAC signing off");
         cs.takeById(this.loginId);
     }
-
-
-    private String[][] populateTable(ArrayList<String> users, String[] columnNames) {
-        String dataValues[][] = new String[users.size()][columnNames.length];
-        for (int i = 0 ; i < users.size() ; i++) {
-            dataValues[i][0] = users.get(i);
-            dataValues[i][1] = "online";
-            dataValues[i][2] = "some document";
-        }
-        return dataValues;
-    }
- 
 }
