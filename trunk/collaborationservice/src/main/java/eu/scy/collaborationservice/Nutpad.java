@@ -91,6 +91,8 @@ public class Nutpad extends JFrame {
         
         // make sure that we have a documentSqlSpaceId
         this.write();
+        // remove it right away so we don't clutter the db with empyt tuples
+        cs.takeById(documentSqlSpaceId);
     }
     
     
