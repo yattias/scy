@@ -9,7 +9,6 @@ package eu.scy.colemo.client;
  */
 public interface ConnectionHandler {
 
-    
 
     void sendMessage(String message);
 

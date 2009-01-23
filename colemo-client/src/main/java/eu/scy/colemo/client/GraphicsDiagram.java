@@ -42,6 +42,15 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     private Vector associate;
     private Hashtable components;
 
+    public GraphicsClass getConceptMapNode(String id) {
+        Enumeration enumer = components.keys();
+        while(enumer.hasMoreElements()) {
+            Object key = enumer.nextElement();
+            System.out.println("----> Contains:" + key);
+        }
+        return (GraphicsClass) components.get(id);
+    }
+
     public GraphicsDiagram(UmlDiagram umlDiagram, MainFrame frame) {
         this.umlDiagram = umlDiagram;
         this.frame = frame;
@@ -55,7 +64,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void addClass(UmlClass umlClass) {
         GraphicsClass gClass = new GraphicsClass(umlClass, this);
-        components.put(gClass.getUmlClass().getName(), gClass);
+        components.put(gClass.getUmlClass().getId(), gClass);
+        System.out.println("ADDED " + umlClass.getName() + "; " + umlClass.getId() + " to components: " + components);
         this.add(gClass);
         updatePopUpMenus();
         gClass.invalidate();
@@ -108,7 +118,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void updateClass(UmlClass umlClass) {
-        GraphicsClass gClass = (GraphicsClass) components.get(umlClass.getName());
+        GraphicsClass gClass = (GraphicsClass) components.get(umlClass.getId());
+        System.out.println("UPDATIN A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
         if (umlClass.isMove()) {
             gClass.setBackground(new Color(236, 236, 236));
             gClass.setToolTipText("<html>" + umlClass.getName() + " created by " + umlClass.getAuthor() + ".<br>" +
@@ -364,16 +375,16 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void createMenu(MouseEvent e) {
         JPopupMenu menu = new JPopupMenu();
-        JMenuItem addClass = new JMenuItem("Add class");
-        JMenuItem addAbstract = new JMenuItem("Add abstract class");
-        JMenuItem addInterface = new JMenuItem("Add interface");
+        JMenuItem addClass = new JMenuItem("Add concept");
+        //JMenuItem addAbstract = new JMenuItem("Add abstract class");
+        //JMenuItem addInterface = new JMenuItem("Add interface");
         addClass.addActionListener(this);
-        addAbstract.addActionListener(this);
-        addInterface.addActionListener(this);
+        //addAbstract.addActionListener(this);
+        //addInterface.addActionListener(this);
 
         menu.add(addClass);
-        menu.add(addAbstract);
-        menu.add(addInterface);
+        //menu.add(addAbstract);
+        //menu.add(addInterface);
         menu.show(e.getComponent(),
                 e.getX(), e.getY());
 
@@ -381,13 +392,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void actionPerformed(ActionEvent ae) {
 
-        if (ae.getActionCommand().equals("Add class")) {
+        if (ae.getActionCommand().equals("Add concept")) {
             getMainFrame().addClass(umlDiagram, "c");
-        } else if (ae.getActionCommand().equals("Add abstract class")) {
+        } /*else if (ae.getActionCommand().equals("Add abstract class")) {
             getMainFrame().addClass(umlDiagram, "a");
         } else if (ae.getActionCommand().equals("Add interface")) {
             getMainFrame().addClass(umlDiagram, "i");
-        }
+        }   */
     }
 
     public void mousePressed(MouseEvent ae) {

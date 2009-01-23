@@ -17,11 +17,14 @@ public class ApplicationController {
 
     private static ApplicationController defaultInstance;
 
+    
+
     private GraphicsDiagram graphicsDiagram;
     private MainFrame mainFrame;
 
     private ConnectionHandler connectionHandler = null;
     private JApplet applet;
+    private Client client;
 
 
     public ConnectionHandler getConnectionHandler() {
@@ -83,4 +86,9 @@ public class ApplicationController {
         connectionHandler.sendMessage("Henrik ROCKS!");
 
     }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
 }
