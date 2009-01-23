@@ -10,7 +10,7 @@ public class ActionLogger implements IActionLogger {
     //default settings:
     private String host = "127.0.0.1";
     private int port = 2525;
-    private String space = "SCYSpace-actionlogging";
+    private String space = "actionlogging";
     //
     private TupleSpace ts = null;
     
