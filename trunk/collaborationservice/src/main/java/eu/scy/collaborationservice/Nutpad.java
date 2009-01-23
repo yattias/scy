@@ -145,9 +145,19 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> result = cs.take(HARD_CODED_TOOL_NAME);
+            ArrayList<String> result;
+            if (documentSqlSpaceId != null) {
+                result = cs.takeById(documentSqlSpaceId);                
+            } else {
+                result = cs.take(HARD_CODED_TOOL_NAME);                
+            }
             editArea.setText("");
-            editArea.append(result.get(result.size() - 1));
+            if (result == null) {
+                JOptionPane.showMessageDialog(Nutpad.this, "I still havn't found what you're looking for");
+                logger.error("Trouble while finding that pesky Tuple.");
+            } else {
+                editArea.append(result.get(result.size() - 1));                
+            }
         }
     }
     
