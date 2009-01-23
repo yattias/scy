@@ -13,7 +13,7 @@ public class MisspellingNotificationAgent<K extends IMetadataKey> extends Abstra
     private NotificationSender sender;
     
     public MisspellingNotificationAgent() {
-        sender = new NotificationSender();
+        sender = new NotificationSender("scy.collide.info", 2525, "notifications");
     }
     
     @Override
