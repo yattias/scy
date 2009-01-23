@@ -7,6 +7,7 @@
 	<alias name="httpInvokerRepositoryProxy" alias="repository" />
 	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
 	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
+	<alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
 
 	<!-- Resolves ${...} placeholders from client.properties -->
 	<bean id="propertyConfigurer"
@@ -89,16 +90,32 @@
 		-->
 	</bean>
 	
-	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger">
-		<constructor-arg index="0" value="${jmsServer}:${jmsPort}" />
-		<constructor-arg index="1" value="action" />
+	<!-- Proxy for the HTTP-invoker-exported session manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerSessionManagerProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				http://${serverName}:${httpPort}${contextPath}/remoting/sessionManager-httpinvoker
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>eu.scy.sessionmanager.SessionManager</value>
+		</property>
+		<!--
+			Comment the following in to use Apache Commons HttpClient instead of
+			the JDK's standard HttpURLConnection (as used by the default
+			SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+			<property name="httpInvokerRequestExecutor"> <bean
+			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+			</property>
+		-->
 	</bean>
 	
-	<bean id="notificationService" class="eu.scy.notification.NotificationService">
-		<constructor-arg index="0" value="${jmsServer}:${jmsPort}" />
-		<constructor-arg index="1" value="notification" />
-	</bean>
-
-    <bean id="sessionManager" class="eu.scy.sessionmanager.impl.SessionManagerImpl"></bean>
+	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger" />
+	
+	<bean id="notificationService" class="eu.scy.notification.NotificationService" />
 
 </beans>
