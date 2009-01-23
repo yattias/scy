@@ -148,7 +148,7 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
     }
 
         public void processObject(Object o) {
-            MainFrame frame = ApplicationController.getDefaultInstance().getMainFrame();
+            MainFrame frame = null;//ApplicationController.getDefaultInstance().getMainFrame();
 
         DefaultStyledDocument logDoc = frame.getChatPane().getLogDoc();
         if (o instanceof AddClass) {

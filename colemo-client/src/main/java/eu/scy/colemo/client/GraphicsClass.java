@@ -229,8 +229,8 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
             setMethodsMaximized(!getUmlClass().showMethods());
         }
 
-        MainFrame frame = getGraphicsDiagram().getMainFrame();
-        this.getGraphicsDiagram().getMainFrame().setSelected(this);
+        //MainFrame frame = getGraphicsDiagram().getMainFrame();
+        //this.getGraphicsDiagram().getMainFrame().setSelected(this);
         /*if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
             showMenu(e.getX(), e.getY());
         } */
@@ -242,10 +242,10 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
             log.info("POPUP TRIGGER!!");
             PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, ae.getX(), ae.getY(), ae);
         }
-        MainFrame frame = getGraphicsDiagram().getMainFrame();
+        //MainFrame frame = getGraphicsDiagram().getMainFrame();
 
         if (ae.getModifiers() != InputEvent.BUTTON3_MASK) {
-            Client client = getGraphicsDiagram().getMainFrame().getClient();
+            //Client client = getGraphicsDiagram().getMainFrame().getClient();
             //Connection connection = client.getConnection();
             InetAddress ip = null;//connection.getSocket().getLocalAddress();
             Person person = null;
@@ -265,7 +265,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     public void mouseDragged(MouseEvent e) {
         if (e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()) {
             umlClass.setMove(true);
-            Client client = getGraphicsDiagram().getMainFrame().getClient();
+            //Client client = getGraphicsDiagram().getMainFrame().getClient();
             //Connection connection = client.getConnection();
             InetAddress adr = null;
             ClassMoving classMoving = new ClassMoving(umlClass, adr);//connection.getSocket().getLocalAddress());

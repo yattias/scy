@@ -179,7 +179,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent ae) {
-		
+		    /*
 			MainFrame frame = gClass.getGraphicsDiagram().getMainFrame();
 			InetAddress ip = frame.getClient().getConnection().getSocket().getLocalAddress();
 			Person person = frame.getClient().getPerson();
@@ -378,7 +378,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 			}
 			
 			
-		
+		     */
 		}
 		
 		public boolean checkExtensions(String from,String to){

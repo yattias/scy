@@ -105,7 +105,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>eu.scy.colemo.client.Start</mainClass>
+                    <!--mainClass>eu.scy.colemo.client.Start</mainClass-->
+                    <mainClass>eu.scy.colemo.client.ColemoStartup</mainClass>
                 </configuration>
             </plugin>
             <plugin>

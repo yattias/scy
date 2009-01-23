@@ -47,11 +47,12 @@ public class Method extends JLabel implements MouseListener {
 		if(e.getModifiers() ==InputEvent.BUTTON3_MASK){
 			int i = JOptionPane.showConfirmDialog(this,"Do you want to delete this method?");
 			if(i==0) {
-				Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
+				/*Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
 				Connection connection = client.getConnection();
 				InetAddress address = connection.getSocket().getLocalAddress();
 				DeleteMethod deleteMethod = new DeleteMethod(gClass.getUmlClass(),method,address,client.getPerson());
 				gClass.getGraphicsDiagram().getMainFrame().getClient().getConnection().send(deleteMethod);
+				*/
 			}
 		}
 		else{

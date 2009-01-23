@@ -20,7 +20,9 @@ public class ApplicationController {
     
 
     private GraphicsDiagram graphicsDiagram;
-    private MainFrame mainFrame;
+    //private MainFrame mainFrame;
+
+    private ColemoPanel colemoPanel = null;
 
     private ConnectionHandler connectionHandler = null;
     private JApplet applet;
@@ -63,18 +65,18 @@ public class ApplicationController {
         this.graphicsDiagram = graphicsDiagram;
     }
 
-    public MainFrame getMainFrame() {
+    /*public MainFrame getMainFrame() {
         return mainFrame;
     }
 
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-    }
+    } */
 
-    public Client getClient() {
+    /*public Client getClient() {
         return getMainFrame().getClient();
     }
-
+      */
     public void connect() {
         connectionHandler = new ConnectionHandlerSqlSpaces();
         //connectionHandler = new ConnectionHandlerJGroups();
@@ -91,4 +93,11 @@ public class ApplicationController {
         this.client = client;
     }
 
+    public ColemoPanel getColemoPanel() {
+        return colemoPanel;
+    }
+
+    public void setColemoPanel(ColemoPanel colemoPanel) {
+        this.colemoPanel = colemoPanel;
+    }
 }

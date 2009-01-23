@@ -64,6 +64,7 @@ public class AbstractMapNode extends JPanel implements MouseListener, ActionList
     }
 
     public boolean isSelected() {
-        return getGraphicsDiagram().getMainFrame().getSelected()==this;
+        //return getGraphicsDiagram().getMainFrame().getSelected()==this;
+        return false;
     }
 }
