@@ -32,16 +32,16 @@ public class Nutpad extends JFrame {
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Colemo";
-    private static final String HARD_CODED_USER_NAME = "nootman";
+    private static final String HARD_CODED_USER_NAME = "thomasd";
         
-    private JTextArea    _editArea;
-    private JFileChooser _fileChooser = new JFileChooser();
-    private Action _openFileAction = new OpenFromFileAction();
-    private Action _openCSAction = new OpenFromCollaborationServiceAction();
-    private Action _saveToFileAction = new SaveToFileAction();
-    private Action _saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
-    private Action _exitAction = new ExitAction(); 
-    private Action _openAwarenessClientAction = new OpenAwarenessClientAction();
+    private JTextArea    editArea;
+    private JFileChooser fileChooser = new JFileChooser();
+    private Action openFileAction = new OpenFromFileAction();
+    private Action openCSAction = new OpenFromCollaborationServiceAction();
+    private Action saveToFileAction = new SaveToFileAction();
+    private Action saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
+    private Action exitAction = new ExitAction(); 
+    private Action openAwarenessClientAction = new OpenAwarenessClientAction();
 
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
@@ -58,10 +58,10 @@ public class Nutpad extends JFrame {
         
         cs = CollaborationService.createCollaborationService(HARD_CODED_USER_NAME, CollaborationService.COLLABORATION_SERVICE_SPACE);
         
-        _editArea = new JTextArea(15, 80);
-        _editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-        _editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
-        JScrollPane scrollingText = new JScrollPane(_editArea);
+        editArea = new JTextArea(15, 80);
+        editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
+        JScrollPane scrollingText = new JScrollPane(editArea);
         
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
@@ -70,15 +70,15 @@ public class Nutpad extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = menuBar.add(new JMenu("File"));
         fileMenu.setMnemonic('F');
-        fileMenu.add(_openFileAction);
-        fileMenu.add(_openCSAction);
-        fileMenu.add(_saveToFileAction);
-        fileMenu.add(_saveToCollaborationServiceAction);
+        fileMenu.add(openFileAction);
+        fileMenu.add(openCSAction);
+        fileMenu.add(saveToFileAction);
+        fileMenu.add(saveToCollaborationServiceAction);
         fileMenu.addSeparator(); 
-        fileMenu.add(_exitAction);
+        fileMenu.add(exitAction);
         
         JMenu connectMenu = menuBar.add(new JMenu("Connect"));
-        connectMenu.add(_openAwarenessClientAction);
+        connectMenu.add(openAwarenessClientAction);
         
         setContentPane(content);
         setJMenuBar(menuBar);
@@ -118,13 +118,13 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent event) {
-            int retval = _fileChooser.showOpenDialog(Nutpad.this);
+            int retval = fileChooser.showOpenDialog(Nutpad.this);
             if (retval == JFileChooser.APPROVE_OPTION) {
-                File f = _fileChooser.getSelectedFile();
+                File f = fileChooser.getSelectedFile();
                 FileReader reader = null;
                 try {
                     reader = new FileReader(f);
-                    _editArea.read(reader, "");                    
+                    editArea.read(reader, "");                    
                 } catch (IOException e2) {
                     logger.error("Trouble while reading from file " + e2);
                     JOptionPane.showMessageDialog(Nutpad.this, "Trouble while reading from file " + e2);
@@ -144,8 +144,8 @@ public class Nutpad extends JFrame {
         
         public void actionPerformed(ActionEvent e) {
             ArrayList<String> result = cs.take(HARD_CODED_TOOL_NAME);
-            _editArea.setText("");
-            _editArea.append(result.get(result.size() - 1));
+            editArea.setText("");
+            editArea.append(result.get(result.size() - 1));
         }
     }
     
@@ -160,13 +160,13 @@ public class Nutpad extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            int retval = _fileChooser.showSaveDialog(Nutpad.this);
+            int retval = fileChooser.showSaveDialog(Nutpad.this);
             if (retval == JFileChooser.APPROVE_OPTION) {
-                File f = _fileChooser.getSelectedFile();
+                File f = fileChooser.getSelectedFile();
                 FileWriter writer = null;
                 try {
                     writer = new FileWriter(f);
-                    _editArea.write(writer);
+                    editArea.write(writer);
                 } catch (IOException e2) {
                     logger.error("Trouble while saving to file " + e2);
                     JOptionPane.showMessageDialog(Nutpad.this, "Trouble while saving to file " + e2);
@@ -210,7 +210,7 @@ public class Nutpad extends JFrame {
         ScyBaseObject sbo = new ScyBaseObject();
         sbo.setId("12345");
         sbo.setName("a nice name for the object");
-        sbo.setDescription(_editArea.getText());
+        sbo.setDescription(editArea.getText());
         this.documentSqlSpaceId = cs.write(HARD_CODED_TOOL_NAME, sbo);     
     }         
 }
