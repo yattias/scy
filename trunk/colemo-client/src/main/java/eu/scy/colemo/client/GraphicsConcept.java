@@ -137,20 +137,20 @@ public class GraphicsConcept extends AbstractMapNode{
             setMethodsMaximized(!getUmlClass().showMethods());
         }
          */
-        MainFrame frame = getGraphicsDiagram().getMainFrame();
-        this.getGraphicsDiagram().getMainFrame().setSelected(this);
+        //MainFrame frame = getGraphicsDiagram().getMainFrame();
+        //this.getGraphicsDiagram().getMainFrame().setSelected(this);
         if(e.getModifiers() == InputEvent.BUTTON3_MASK){
             showMenu(e.getX(),e.getY());
         }
     }
 
     public void mouseReleased(MouseEvent ae) {
-        MainFrame frame = getGraphicsDiagram().getMainFrame();
+        //MainFrame frame = getGraphicsDiagram().getMainFrame();
 
         if(ae.getModifiers() !=InputEvent.BUTTON3_MASK){
-            Client client = getGraphicsDiagram().getMainFrame().getClient();
-            Connection connection = client.getConnection();
-            InetAddress ip = connection.getSocket().getLocalAddress();
+          //  Client client = getGraphicsDiagram().getMainFrame().getClient();
+            //Connection connection = client.getConnection();
+            //InetAddress ip = connection.getSocket().getLocalAddress();
 
             /*if(umlClass.isMove()){
                 umlClass.setMove(false);
@@ -168,8 +168,8 @@ public class GraphicsConcept extends AbstractMapNode{
     public void mouseDragged(MouseEvent e) {
         //if(e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()){
             //umlClass.setMove(true);
-            Client client = getGraphicsDiagram().getMainFrame().getClient();
-            Connection connection = client.getConnection();
+            //Client client = getGraphicsDiagram().getMainFrame().getClient();
+            //Connection connection = client.getConnection();
             /*ClassMoving classMoving = new ClassMoving(umlClass,connection.getSocket().getLocalAddress());
             connection.send(classMoving);*/
         //}

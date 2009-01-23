@@ -78,15 +78,6 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
-
-            /*Tuple templateTuple = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
-            Tuple returnTuple = tupleSpace.read(templateTuple);
-            if (returnTuple != null) {
-                System.out.println("return tuple" + returnTuple + returnTuple.getField(0) + " " + returnTuple.getField(1));
-                //ApplicationController.getDefaultInstance().getMainFrame().getClient().receive("HEnrik");
-            } */
-
-
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -113,22 +104,23 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
             UmlClass umlClass = null;
 
-            System.out.println("Before add class");
+            System.out.println("CALL: Before add class");
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
 
             if (node instanceof AddClass) {
-                System.out.println("After add class");
-                System.out.println("name: " + ((AddClass) node).getName() + " ID : " + node.getId());
+                System.out.println("CALL: After add class");
+                System.out.println("CALL: name: " + ((AddClass) node).getName() + " ID : " + node.getId());
                 System.out.println(((AddClass) node).getType());
                 System.out.println(((AddClass) node).getAuthor());
                 umlClass = new UmlClass(((AddClass) node).getName(), ((AddClass) node).getType(), ((AddClass) node).getAuthor());
                 umlClass.setId(node.getId());
-                ApplicationController.getDefaultInstance().getMainFrame().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
-                ApplicationController.getDefaultInstance().getMainFrame().getGraphicsDiagram().addClass(umlClass);
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addClass(umlClass);
+                //ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateUmlDiagram(ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram());
             } else if (node instanceof MoveClass) {
                 System.out.println("MOVE CLASS: " + ((MoveClass) node).getUmlClass().getName());
                 MoveClass moveClass = (MoveClass) node;
-                ApplicationController.getDefaultInstance().getMainFrame().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
             }
         }
     }

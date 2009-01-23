@@ -14,19 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
-import eu.scy.colemo.contributions.*;
-import eu.scy.colemo.agent.StartVote;
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.network.Connection;
 import eu.scy.colemo.server.uml.*;
 
 /**
@@ -37,7 +29,7 @@ import eu.scy.colemo.server.uml.*;
  */
 public class GraphicsDiagram extends JPanel implements MouseListener, ActionListener {
     private UmlDiagram umlDiagram;
-    private MainFrame frame;
+    //private MainFrame frame;
     private Vector extend;
     private Vector associate;
     private Hashtable components;
@@ -51,9 +43,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         return (GraphicsClass) components.get(id);
     }
 
-    public GraphicsDiagram(UmlDiagram umlDiagram, MainFrame frame) {
+    public GraphicsDiagram(UmlDiagram umlDiagram) {
         this.umlDiagram = umlDiagram;
-        this.frame = frame;
+        //this.frame = frame;
         this.setLayout(null);
         addMouseListener(this);
         extend = new Vector();
@@ -64,13 +56,17 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void addClass(UmlClass umlClass) {
         GraphicsClass gClass = new GraphicsClass(umlClass, this);
+
         components.put(gClass.getUmlClass().getId(), gClass);
-        System.out.println("ADDED " + umlClass.getName() + "; " + umlClass.getId() + " to components: " + components);
+        System.out.println("Graphics diagram: ADDED " + umlClass.getName() + "; " + umlClass.getId() + " to components: " + components);
         this.add(gClass);
-        updatePopUpMenus();
+        //updatePopUpMenus();
         gClass.invalidate();
         gClass.validate();
         gClass.repaint();
+        invalidate();
+        validate();
+        repaint();
         SelectionController.getDefaultInstance().addSelectionControllerListnenr(gClass);
     }
 
@@ -308,7 +304,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void deleteClass(GraphicsClass gClass) {
-        //Kalle opp alle klienter og spørre om de vil slette klassen
+       /* //Kalle opp alle klienter og spørre om de vil slette klassen
         //frame.getClient().getConnection().send(new StartVote());
         int n = JOptionPane.showConfirmDialog(frame, "The deletion of this class will affect" + "\n" +
                 "other classes and links with a relation to it." + "\n" +
@@ -320,10 +316,12 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 removeClass(gClass);
             }
         }
+        */
     }
 
     public void removeClass(GraphicsClass gClass) {
-        Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
+        /*//Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
+        //Client client = ApplicationController.getDefaultInstance().getClient();
         Connection connection = client.getConnection();
         InetAddress ip = connection.getSocket().getLocalAddress();
 
@@ -349,10 +347,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         DeleteClass deleteClass = new DeleteClass(gClass.getUmlClass(), ip, client.getPerson());
         connection.send(deleteClass);
+        */
     }
 
     public void deleteLinks(GraphicsClass gClass) {
-        Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
+        /*
+        Client client = ApplicationController.getDefaultInstance().getClient();
+        //gClass.getGraphicsDiagram().getMainFrame().getClient();
         Connection connection = client.getConnection();
         InetAddress ip = connection.getSocket().getLocalAddress();
 
@@ -363,15 +364,17 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 if (current.getFrom() == gClass.getClassName() || current.getTo() == gClass.getClassName()) {
 
                     DeleteLink deleteLink = new DeleteLink(current, ip, client.getPerson());
-                    gClass.getGraphicsDiagram().getMainFrame().getClient().getConnection().send(deleteLink);
+                    //gClass.getGraphicsDiagram().getMainFrame().getClient().getConnection().send(deleteLink);
+                    ApplicationController.getDefaultInstance().getClient().getConnection().send(deleteLink);
                 }
             }
         }
+        */
     }
 
-    public MainFrame getMainFrame() {
+    /*public MainFrame getMainFrame() {
         return frame;
-    }
+    } */
 
     public void createMenu(MouseEvent e) {
         JPopupMenu menu = new JPopupMenu();
@@ -393,7 +396,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void actionPerformed(ActionEvent ae) {
 
         if (ae.getActionCommand().equals("Add concept")) {
-            getMainFrame().addClass(umlDiagram, "c");
+            ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(umlDiagram, "c");
         } /*else if (ae.getActionCommand().equals("Add abstract class")) {
             getMainFrame().addClass(umlDiagram, "a");
         } else if (ae.getActionCommand().equals("Add interface")) {

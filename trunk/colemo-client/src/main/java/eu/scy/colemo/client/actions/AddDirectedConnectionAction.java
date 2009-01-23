@@ -49,10 +49,10 @@ public class AddDirectedConnectionAction extends BaseAction implements DoubleSel
         UmlLink link = new UmlLink(from.getName(), to.getName(), "Henrik");
 
         GraphicsLink gLink = new GraphicsLink(link, ApplicationController.getDefaultInstance().getGraphicsDiagram());
-        ApplicationController.getDefaultInstance().getMainFrame().getGraphicsDiagram().addLink(link);
-        ApplicationController.getDefaultInstance().getMainFrame().getClient().send(link);
+        ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
+        //ApplicationController.getDefaultInstance().getMainFrame().getClient().send(link);
 
-        AddLink addLink = new AddLink(from.getName(), to.getName(), "Henrik", ApplicationController.getDefaultInstance().getMainFrame().getClient().getConnection().getSocket().getLocalAddress(), ApplicationController.getDefaultInstance().getMainFrame().getClient().getPerson());
-        ApplicationController.getDefaultInstance().getClient().getConnection().send(addLink);
+        //AddLink addLink = new AddLink(from.getName(), to.getName(), "Henrik", ApplicationController.getDefaultInstance().getMainFrame().getClient().getConnection().getSocket().getLocalAddress(), ApplicationController.getDefaultInstance().getMainFrame().getClient().getPerson());
+        //ApplicationController.getDefaultInstance().getClient().getConnection().send(addLink);
     }
 }

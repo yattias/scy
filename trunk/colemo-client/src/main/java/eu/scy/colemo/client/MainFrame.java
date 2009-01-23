@@ -128,12 +128,12 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         this.setIconImage(image.getImage());
 
         //Panelet som vi skal tegne på
-        gDiagram = new GraphicsDiagram(new UmlDiagram(), this);
+        gDiagram = new GraphicsDiagram(new UmlDiagram());
         gDiagram.setBackground(new Color(204, 204, 204));
         gDiagram.setPreferredSize(new Dimension(1800, 1200));
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
-        ApplicationController.getDefaultInstance().setMainFrame(this);
+        //ApplicationController.getDefaultInstance().setMainFrame(this);
         ApplicationController.getDefaultInstance().setClient(client);
 
         //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg

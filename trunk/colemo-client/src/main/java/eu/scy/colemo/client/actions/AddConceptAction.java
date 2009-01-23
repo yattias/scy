@@ -21,11 +21,12 @@ public class AddConceptAction extends BaseAction {
 
     protected void performAction(ActionEvent e) {
         log.info("Adding concept....");
-        MainFrame frame = ApplicationController.getDefaultInstance().getMainFrame();
+        /*MainFrame frame = ApplicationController.getDefaultInstance().getMainFrame();
         if(frame == null) log.info("Frame is null");
         if(frame.getGraphicsDiagram() == null) log.info("Graphics diagram is null");
         if(frame.getGraphicsDiagram().getUmlDiagram() == null) log.info("UML DIAGRAM is null");
         ApplicationController.getDefaultInstance().getConnectionHandler().sendMessage("ADD CONCEPT!");
         //ApplicationController.getDefaultInstance().getMainFrame().addClass(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
+        */
     }
 }

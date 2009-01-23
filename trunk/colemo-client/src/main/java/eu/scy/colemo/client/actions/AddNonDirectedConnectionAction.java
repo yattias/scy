@@ -48,10 +48,12 @@ public class AddNonDirectedConnectionAction extends BaseAction implements Double
 
         GraphicsAssociation gLink = new GraphicsAssociation(link, ApplicationController.getDefaultInstance().getGraphicsDiagram());
         //ApplicationController.getDefaultInstance().getMainFrame().getGraphicsDiagram().addLink(link);
-        ApplicationController.getDefaultInstance().getMainFrame().getClient().send(link);
+        throw new RuntimeException("NOT IMPLEMENTED");
+        /*ApplicationController.getDefaultInstance().getMainFrame().getClient().send(link);
 
         AssociateClass associateClass = new AssociateClass(from.getName(), to.getName(), "Henrik", ApplicationController.getDefaultInstance().getMainFrame().getClient().getConnection().getSocket().getLocalAddress(), ApplicationController.getDefaultInstance().getMainFrame().getClient().getPerson());
         ApplicationController.getDefaultInstance().getClient().getConnection().send(associateClass);
+        */
     }
 
 }
