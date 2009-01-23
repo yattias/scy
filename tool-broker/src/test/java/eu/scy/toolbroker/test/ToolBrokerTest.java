@@ -82,12 +82,12 @@ public class ToolBrokerTest {
         IAction action = new Action();
         action.addProperty("name", "adam");
         action.addProperty("tool", "map");
-        toolBroker.getActionLogger().log(action);
+        toolBroker.getActionLogger().log("Adam", "tool", action);
     }
     
     @Test
     public void testNotificationRegistration() throws Exception {
-        toolBroker.getNotificationService().registerCallback(new INotificationCallback() {
+        toolBroker.getNotificationService().registerCallback("Adam", new INotificationCallback() {
             
             @Override
             public void onNotification(INotification notification) {
