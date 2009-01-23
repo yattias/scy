@@ -98,6 +98,8 @@ public class Nutpad extends JFrame {
     
     class OpenAwarenessClientAction extends AbstractAction {
 
+        private static final long serialVersionUID = -5424901729682590512L;
+
         public OpenAwarenessClientAction() {
             super("Awareness client");
             putValue(MNEMONIC_KEY, new Integer('1'));
@@ -211,6 +213,6 @@ public class Nutpad extends JFrame {
         sbo.setId("12345");
         sbo.setName("a nice name for the object");
         sbo.setDescription(editArea.getText());
-        this.documentSqlSpaceId = cs.write(HARD_CODED_TOOL_NAME, sbo);     
+        this.documentSqlSpaceId = cs.write(HARD_CODED_TOOL_NAME, sbo);
     }         
 }
