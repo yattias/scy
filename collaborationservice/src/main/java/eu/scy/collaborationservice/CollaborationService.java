@@ -109,6 +109,15 @@ public class CollaborationService {
     }
     
     
+    public void readById(String id) {
+        try {
+           this.tupleSpace.readTupleById(new TupleID(id));
+        } catch (TupleSpaceException e) {
+            logger.error("Trouble while reading touple " + e);
+        }
+    }
+    
+    
     public void takeById(String id) {
         try {
            this.tupleSpace.takeTupleById(new TupleID(id));
