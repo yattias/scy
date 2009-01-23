@@ -2,7 +2,6 @@ package eu.scy.collaborationservice;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,14 +10,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;

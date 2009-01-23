@@ -2,6 +2,8 @@ package eu.scy.collaborationservice;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -21,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
@@ -32,9 +36,10 @@ public class Nutpad extends JFrame {
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Colemo";
-    private static final String HARD_CODED_USER_NAME = "thomasd";
         
-    private JTextArea    editArea;
+    private JTextArea editArea;
+    private JTextField userNameField;
+    private JButton awarenessConnectButton;
     private JFileChooser fileChooser = new JFileChooser();
     private Action openFileAction = new OpenFromFileAction();
     private Action openCSAction = new OpenFromCollaborationServiceAction();
@@ -46,6 +51,7 @@ public class Nutpad extends JFrame {
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
     private String documentSqlSpaceId = null;
+    private String userName = "username";
     
     
 
@@ -55,17 +61,27 @@ public class Nutpad extends JFrame {
     
 
     public Nutpad() {
-        
-        cs = CollaborationService.createCollaborationService(HARD_CODED_USER_NAME, CollaborationService.COLLABORATION_SERVICE_SPACE);
+
+        userNameField = new JTextField(20);
+        userNameField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        userNameField.setFont(new Font("monospaced", Font.PLAIN, 14));
+        userNameField.setText(userName);
+        awarenessConnectButton = new JButton();
+        awarenessConnectButton.setAction(openAwarenessClientAction);
+        awarenessConnectButton.setText("Connect");
         
         editArea = new JTextArea(15, 80);
         editArea.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
         JScrollPane scrollingText = new JScrollPane(editArea);
         
-        JPanel content = new JPanel();
-        content.setLayout(new BorderLayout());
-        content.add(scrollingText, BorderLayout.CENTER);
+        JPanel userNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        userNamePanel.add(userNameField);
+        userNamePanel.add(awarenessConnectButton);
+        contentPanel.add(userNamePanel, BorderLayout.NORTH);
+        contentPanel.add(scrollingText, BorderLayout.CENTER);
         
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = menuBar.add(new JMenu("File"));
@@ -76,11 +92,8 @@ public class Nutpad extends JFrame {
         fileMenu.add(saveToCollaborationServiceAction);
         fileMenu.addSeparator(); 
         fileMenu.add(exitAction);
-        
-        JMenu connectMenu = menuBar.add(new JMenu("Connect"));
-        connectMenu.add(openAwarenessClientAction);
-        
-        setContentPane(content);
+                
+        setContentPane(contentPanel);
         setJMenuBar(menuBar);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,12 +110,13 @@ public class Nutpad extends JFrame {
         private static final long serialVersionUID = -5424901729682590512L;
 
         public OpenAwarenessClientAction() {
-            super("Awareness client");
+            super("Connect awareness client");
             putValue(MNEMONIC_KEY, new Integer('1'));
         }
         
         public void actionPerformed(ActionEvent event) {
-            awarenessClient = AwarenessClient.createAwarenessClient(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME);
+            userName = userNameField.getText();
+            awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
         }
     }
     
@@ -141,7 +155,7 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> result = cs.read(null, HARD_CODED_TOOL_NAME);                
+            ArrayList<String> result = getCS().read(null, HARD_CODED_TOOL_NAME);                
             editArea.setText("");
             if (result == null) {
                 JOptionPane.showMessageDialog(Nutpad.this, "I still havn't found what you're looking for");
@@ -216,12 +230,21 @@ public class Nutpad extends JFrame {
         sbo.setId("12345");
         sbo.setName("a nice name for the object");
         sbo.setDescription(editArea.getText());
-        documentSqlSpaceId = cs.write(documentSqlSpaceId, HARD_CODED_TOOL_NAME, sbo); // if documentSqlSpaceId != null this will update the tuple
+        documentSqlSpaceId = getCS().write(documentSqlSpaceId, HARD_CODED_TOOL_NAME, sbo); // if documentSqlSpaceId != null this will update the tuple
         if (documentSqlSpaceId != null) {
             JOptionPane.showMessageDialog(Nutpad.this, "Save OK");                
         } else {
             JOptionPane.showMessageDialog(Nutpad.this, "Call home. Something bad has happened.");  
             logger.error("Trouble while writing to CS");
         }
-    }         
+    } 
+   
+    
+    private CollaborationService getCS() {
+        if (cs == null || !userName.equals(userNameField.getText())) {
+            userName = userNameField.getText();
+            cs = CollaborationService.createCollaborationService(userName, CollaborationService.COLLABORATION_SERVICE_SPACE);                
+        }
+        return cs;
+    }
 }
