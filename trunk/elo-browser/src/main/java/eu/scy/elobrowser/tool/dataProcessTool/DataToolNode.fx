@@ -169,11 +169,11 @@ public class DataToolNode extends CustomNode {
 			minimumWidth:320;
 			minimumHeight:100;
 			//width: 320;
-			height: 550;
+			height: 650;
 			cache:true;
       }
 		dataToolNode.scyWindow = dataToolWindow;
-		dataToolWindow.width = 750;
+		dataToolWindow.width = 850;
 		return dataToolWindow;
 	}
 
