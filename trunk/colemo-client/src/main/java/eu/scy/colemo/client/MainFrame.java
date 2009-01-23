@@ -134,6 +134,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
         ApplicationController.getDefaultInstance().setMainFrame(this);
+        ApplicationController.getDefaultInstance().setClient(client);
 
         //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
         /*southPanel = new JPanel();
@@ -339,7 +340,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
     public void addClass(UmlDiagram diagram, String type) {
 
-        String name = JOptionPane.showInputDialog(this, "Please type name of new class:");
+        String name = JOptionPane.showInputDialog(this, "Please type name of new concept:");
         if (name != null) {
             try {
                 if (!gDiagram.getUmlDiagram().nameExist(name)) {
@@ -348,7 +349,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
                     AddClass addClass = new AddClass(name, type, "", address, person);
                     ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(addClass);
                 } else {
-                    JOptionPane.showMessageDialog(this, "This class already exists!");
+                    JOptionPane.showMessageDialog(this, "This concept already exists!");
                 }
             } catch (ClassNameAlreadyExistException e) {
                 e.printStackTrace();
