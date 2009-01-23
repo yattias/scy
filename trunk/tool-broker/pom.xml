@@ -81,6 +81,10 @@
 			<id>snapshots-tels</id>
 			<url>http://repo.telscenter.org/internal_snapshot</url>
 		</repository>
+		<repository>
+			<id>releases-tels</id>
+			<url>http://repo.telscenter.org/internal</url>
+		</repository>
 	</repositories>
 	<distributionManagement>
 		<repository>

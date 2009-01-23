@@ -46,7 +46,6 @@
 			<id>collide-releases</id>
 			<url>http://mvn.collide.info/content/repositories/releases</url>
 		</repository>
-
 		<repository>
 			<id>collide-snapshots</id>
 			<url>http://mvn.collide.info/content/repositories/snapshots</url>
@@ -54,6 +53,10 @@
 		<repository>
 			<id>snapshots-tels</id>
 			<url>http://repo.telscenter.org/internal_snapshot</url>
+		</repository>
+		<repository>
+			<id>releases-tels</id>
+			<url>http://repo.telscenter.org/internal</url>
 		</repository>
 	</repositories>
 	<distributionManagement>
