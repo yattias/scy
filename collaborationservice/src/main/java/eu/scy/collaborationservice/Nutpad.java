@@ -152,9 +152,6 @@ public class Nutpad extends JFrame {
 
     class SaveToFileAction extends AbstractAction {
 
-        /**
-         * 
-         */
         private static final long serialVersionUID = 7773471019357144532L;
 
         SaveToFileAction() {

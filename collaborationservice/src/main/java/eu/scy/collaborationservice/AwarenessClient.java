@@ -21,6 +21,8 @@ import eu.scy.core.model.impl.ScyBaseObject;
 
 public class AwarenessClient extends JFrame {
     
+    private static final long serialVersionUID = -1293958675013915926L;
+
     private final static Logger logger = Logger.getLogger(AwarenessClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
     private static final long LOGIN_KEEPALIVE_DURATION = 1 * 1000;
@@ -60,6 +62,7 @@ public class AwarenessClient extends JFrame {
         ac.setSize(300, 500);
 
         ac.refreshBuddyList();
+        ac.setLocationRelativeTo(null);
         
         ac.loginTimer = new Timer();
         ac.loginTimer.schedule(ac.new LoginTimer(), 1, LOGIN_KEEPALIVE_DURATION);
@@ -78,7 +81,6 @@ public class AwarenessClient extends JFrame {
         scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
         getContentPane().add(panel);
-        setLocationRelativeTo(null);
         setVisible(true);
     }
 
