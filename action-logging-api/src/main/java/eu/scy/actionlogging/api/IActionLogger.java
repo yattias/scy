@@ -7,5 +7,5 @@ public interface IActionLogger
      * @param source	the tool throwing the action
      * @param action	the IAction object that will be logged
      */
-    public void log(String source, IAction action);
+    public void log(String username, String source, IAction action);
 }
