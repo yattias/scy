@@ -45,7 +45,7 @@ public class Nutpad extends JFrame {
 
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
-    private String documentSqlSpaceId;
+    private String documentSqlSpaceId = null;
     
     
 
@@ -90,7 +90,7 @@ public class Nutpad extends JFrame {
         setVisible(true);
         
         // make sure that we have a documentSqlSpaceId
-        this.write();
+        write();
         // remove it right away so we don't clutter the db with empyt tuples
         cs.takeById(documentSqlSpaceId);
     }
@@ -213,6 +213,6 @@ public class Nutpad extends JFrame {
         sbo.setId("12345");
         sbo.setName("a nice name for the object");
         sbo.setDescription(editArea.getText());
-        this.documentSqlSpaceId = cs.write(HARD_CODED_TOOL_NAME, sbo);
+        documentSqlSpaceId = cs.write(documentSqlSpaceId, HARD_CODED_TOOL_NAME, sbo); // if documentSqlSpaceId != null this will update the tuple
     }         
 }
