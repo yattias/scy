@@ -16,7 +16,7 @@ public class NotificationService implements INotificationService, Callback {
     //default settings:
     private String host = "127.0.0.1";
     private int port = 2525;
-    private String space = "SCYSpace-notifications";
+    private String space = "notifications";
     
     private Vector<INotificationCallback> callbacks = new Vector<INotificationCallback>();
     private TupleSpace ts = null;
