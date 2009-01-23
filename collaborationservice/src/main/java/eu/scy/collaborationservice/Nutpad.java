@@ -141,12 +141,14 @@ public class Nutpad extends JFrame {
         }
         
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> result = cs.take(HARD_CODED_TOOL_NAME);                
+            ArrayList<String> result = cs.read(null, HARD_CODED_TOOL_NAME);                
             editArea.setText("");
             if (result == null) {
                 JOptionPane.showMessageDialog(Nutpad.this, "I still havn't found what you're looking for");
                 logger.error("Trouble while finding a Tuple. Is the space empty?");
             } else {
+                logger.debug("AAAA: " + result.toString());
+                documentSqlSpaceId = result.get(0); // get id
                 editArea.append(result.get(result.size() - 1));                
             }
         }
