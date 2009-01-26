@@ -47,7 +47,7 @@ public class Nutpad extends JFrame {
     private Action saveToFileAction = new SaveToFileAction();
     private Action saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action exitAction = new ExitAction(); 
-    private Action openAwarenessClientAction = new OpenAwarenessClientAction();
+    private Action awarenessClientAction = new AwarenessClientAction();
 
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
@@ -70,7 +70,7 @@ public class Nutpad extends JFrame {
         userNameField.setText(userName);
         
         awarenessConnectButton = new JButton();
-        awarenessConnectButton.setAction(openAwarenessClientAction);
+        awarenessConnectButton.setAction(awarenessClientAction);
         awarenessConnectButton.setText("Connect");
         
         editArea = new JTextArea(15, 80);
@@ -108,11 +108,11 @@ public class Nutpad extends JFrame {
     }
     
     
-    class OpenAwarenessClientAction extends AbstractAction {
+    class AwarenessClientAction extends AbstractAction {
 
         private static final long serialVersionUID = -5424901729682590512L;
 
-        public OpenAwarenessClientAction() {
+        public AwarenessClientAction() {
             super("Connect awareness client");
             putValue(MNEMONIC_KEY, new Integer('1'));
         }
