@@ -161,8 +161,8 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
-    width:160;
-    height:160;
+    width:150;
+    height:170;
    };
 
 scyDesktop.addScyWindow(newScyWindow);
