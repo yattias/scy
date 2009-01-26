@@ -76,6 +76,7 @@ public class AwarenessClient extends JFrame {
         
         ac.getContentPane().add(ac.panel);
         ac.setLocationRelativeTo(null);
+        ac.setLocation(ac.getLocation().x + 200, ac.getLocation().y + 200);
         ac.setVisible(true);
         
         ac.loginTimer = new Timer();

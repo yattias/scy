@@ -36,7 +36,8 @@ public class Nutpad extends JFrame {
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Colemo";
-        
+    private static final String INIT_USER_NAME = "<username>";
+
     private JTextArea editArea;
     private JTextField userNameField;
     private JButton awarenessConnectButton;
@@ -51,7 +52,7 @@ public class Nutpad extends JFrame {
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
     private String documentSqlSpaceId = null;
-    private String userName = "username";
+    private String userName = INIT_USER_NAME;
     private boolean connected = false;
     
     
@@ -121,14 +122,19 @@ public class Nutpad extends JFrame {
         		awarenessClient.shutDown();
         		userNameField.setEditable(true);
         		awarenessConnectButton.setText("Connect");
-        		connected = false;  
+        		connected = false;
+        		awarenessClient = null;
         	}
         	else {
         		userName = userNameField.getText();
-        		userNameField.setEditable(false);
-        		awarenessConnectButton.setText("Disconnect");
-        		awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
-        		connected = true;        		
+        		if (userName == null || userName.trim().length() == 0 || userName.equals(INIT_USER_NAME)) {
+        		    JOptionPane.showMessageDialog(Nutpad.this, "Dear sir. Please enter your username.");
+        		} else {
+        		    userNameField.setEditable(false);
+        		    awarenessConnectButton.setText("Disconnect");
+        		    awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
+        		    connected = true;        		        		    
+        		}
         	}
         }
     }
