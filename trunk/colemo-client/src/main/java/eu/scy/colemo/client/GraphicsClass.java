@@ -6,12 +6,11 @@
  */
 package eu.scy.colemo.client;
 
-import eu.scy.colemo.network.Connection;
-import eu.scy.colemo.network.Client;
 import eu.scy.colemo.network.Person;
 import eu.scy.colemo.contributions.ClassMoving;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.server.uml.UmlLink;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,12 +23,9 @@ import java.awt.event.MouseMotionListener;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.BevelBorder;
 
 import org.jdesktop.swingx.graphics.ShadowRenderer;
 import org.jdesktop.swingx.graphics.GraphicsUtilities;
-import org.jdesktop.swingx.border.DropShadowBorder;
 
 /**
  * @author Øystein
@@ -38,6 +34,13 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener, SelectionControllerListener {
+
+    public static final int CONNECT_MODE_OFF = 0;
+    public static final int CONNECT_MODE_RIGHT = 1;
+    public static final int CONNECT_MODE_LEFT = 2;
+    public static final int CONNECT_MODE_TOP = 3;
+    public static final int CONNECT_MODE_BOTTOM = 4;
+
     private Logger log = Logger.getLogger("GraphicsClass.class");
     private UmlClass umlClass;
     public JLabel nameLabel;
@@ -55,6 +58,13 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
     private BufferedImage shadow = null;
     private boolean isSelected = false;
+
+    private int connectMode = CONNECT_MODE_OFF;
+
+    public static final int DRAGMODE_OFF = 0;
+    public static final int DRAGMODE_ON = 1;
+
+    private int dragMode = DRAGMODE_ON;
 
 
     public GraphicsClass(UmlClass umlClass, GraphicsDiagram gDiagram) {
@@ -93,7 +103,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         add(nameLabel);
 
         setBounds();
-        nameLabel.setLocation(45,45);
+        nameLabel.setLocation(45, 45);
 
         createPopUpMenu();
     }
@@ -157,8 +167,24 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         g2.fillRoundRect(shadowSize, shadowSize, w, h, arc, arc);
         g2.dispose();
 
+
     }
 
+    public int getConnectMode() {
+        return connectMode;
+    }
+
+    public void setConnectMode(int connectMode) {
+        this.connectMode = connectMode;
+    }
+
+    public int getDragMode() {
+        return dragMode;
+    }
+
+    public void setDragMode(int dragMode) {
+        this.dragMode = dragMode;
+    }
 
     public void setBounds() {
         setBounds(umlClass.getX(), umlClass.getY(), 120, 70);
@@ -204,10 +230,28 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         }
 
         g2.drawRoundRect(x, y, w, h, arc, arc);
+        if (getConnectMode() == CONNECT_MODE_OFF) {
+
+        } else if (getConnectMode() == CONNECT_MODE_RIGHT) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, 4, getHeight());
+        } else if(getConnectMode() == CONNECT_MODE_LEFT) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(getWidth() -4, 0, 4, getHeight());
+        } else if(getConnectMode() == CONNECT_MODE_TOP) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0,0, getWidth(), 4);
+        } else if(getConnectMode() == CONNECT_MODE_BOTTOM) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0,(getHeight() -4), getWidth(), 4);
+        }
+
 
         g2.dispose();
 
-        nameLabel.setLocation((getWidth() / 2)  -  (nameLabel.getWidth() / 2), 30);
+        nameLabel.setLocation((getWidth() / 2) - (nameLabel.getWidth() / 2), 30);
+
+
     }
 
 
@@ -217,36 +261,37 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
     public boolean isSelected() {
         return this.isSelected;
-        //return getGraphicsDiagram().getMainFrame().getSelected() == this;
     }
 
-    
+
     public void mousePressed(MouseEvent e) {
+
+        if (isConnectPointRight(e) || isConnectPointLeft(e) || isConnectPointTop(e) || isConnectPointBottom(e)) {
+            setDragMode(DRAGMODE_OFF);
+            getGraphicsDiagram().setConnectMode(GraphicsDiagram.CONNECT_MODE_ON);
+            getGraphicsDiagram().setSource(this);
+        } else {
+            setDragMode(DRAGMODE_ON);
+            getGraphicsDiagram().setConnectMode(GraphicsDiagram.CONNECT_MODE_OFF);
+        }
 
         if (e.getSource() instanceof FieldLabel) {
             setFieldsMaximized(!getUmlClass().showFields());
         } else if (e.getSource() instanceof MethodLabel) {
             setMethodsMaximized(!getUmlClass().showMethods());
         }
-
-        //MainFrame frame = getGraphicsDiagram().getMainFrame();
-        //this.getGraphicsDiagram().getMainFrame().setSelected(this);
-        /*if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
-            showMenu(e.getX(), e.getY());
-        } */
     }
 
     public void mouseReleased(MouseEvent ae) {
-        log.info("Mouse Clicked!");
-        if(ae.isPopupTrigger()) {
-            log.info("POPUP TRIGGER!!");
+        if(getGraphicsDiagram().getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON) {
+            getGraphicsDiagram().addLink(new UmlLink(getGraphicsDiagram().getSource().getUmlClass().getName(), getGraphicsDiagram().getTarget().getUmlClass().getName(), "Henrik"));
+        }
+        
+        if (ae.isPopupTrigger()) {
             PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, ae.getX(), ae.getY(), ae);
         }
-        //MainFrame frame = getGraphicsDiagram().getMainFrame();
 
         if (ae.getModifiers() != InputEvent.BUTTON3_MASK) {
-            //Client client = getGraphicsDiagram().getMainFrame().getClient();
-            //Connection connection = client.getConnection();
             InetAddress ip = null;//connection.getSocket().getLocalAddress();
             Person person = null;
 
@@ -263,38 +308,104 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()) {
-            umlClass.setMove(true);
-            //Client client = getGraphicsDiagram().getMainFrame().getClient();
-            //Connection connection = client.getConnection();
-            InetAddress adr = null;
-            ClassMoving classMoving = new ClassMoving(umlClass, adr);//connection.getSocket().getLocalAddress());
-            ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(classMoving);
+        if (isConnectPointRight(e) || isConnectPointLeft(e) || isConnectPointTop(e) || isConnectPointBottom(e)) {
+            //System.out.println("WILL NOT DRAG!");
+        } else {
+            if (getDragMode() == DRAGMODE_ON) {
+
+
+                if (e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()) {
+                    umlClass.setMove(true);
+                    InetAddress adr = null;
+                    ClassMoving classMoving = new ClassMoving(umlClass, adr);//connection.getSocket().getLocalAddress());
+                    ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(classMoving);
+                }
+
+
+                this.changePosition(e.getX() - (getWidth() / 2), e.getY() - (getHeight() / 2));
+                this.repaint();
+                getParent().repaint();
+            }
         }
 
-        this.changePosition(e.getX(), e.getY());
-        this.repaint();
-        getParent().repaint();
     }
 
     public void mouseClicked(MouseEvent arg0) {
-        log.info("Mouse Clicked!");
-        if(arg0.isPopupTrigger()) {
-            log.info("POPUP TRIGGE!!");
+        if (arg0.isPopupTrigger()) {
             PopupMenuController.getDefaultinstance().showPopupDialog(umlClass, arg0.getX(), arg0.getY(), arg0);
         } else {
             SelectionController.getDefaultInstance().setSelected(umlClass);
         }
     }
 
-    public void mouseEntered(MouseEvent arg0) {
-
+    public void mouseEntered(MouseEvent e) {
+        if(getGraphicsDiagram().getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON) {
+            getGraphicsDiagram().setTarget(this);
+        }
     }
 
     public void mouseExited(MouseEvent arg0) {
+        setConnectMode(CONNECT_MODE_OFF);
+        repaint();
     }
 
-    public void mouseMoved(MouseEvent arg0) {
+
+    private Boolean isConnectPointRight(MouseEvent e) {
+        if (e.getX() >= 0 && e.getX() <= 4) {
+            setConnectMode(CONNECT_MODE_RIGHT);
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean isConnectPointLeft(MouseEvent e) {
+
+        if(e.getX() >= (getWidth() - 4) && e.getX() <= getWidth()) {
+            setConnectMode(CONNECT_MODE_LEFT);
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean isConnectPointTop(MouseEvent e) {
+
+        if(e.getY() >= 0 && e.getY() <= 4) {
+            setConnectMode(CONNECT_MODE_TOP);
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean isConnectPointBottom(MouseEvent e) {
+
+        if(e.getY() >= getHeight() -4 && e.getY() <= getHeight()) {
+            setConnectMode(CONNECT_MODE_BOTTOM);
+            return true;
+        }
+        return false;
+    }
+
+
+    public void mouseMoved(MouseEvent e) {
+
+        if (isConnectPointRight(e)) {
+            setConnectMode(CONNECT_MODE_RIGHT);
+            repaint();
+        } else if(isConnectPointLeft(e)) {
+            setConnectMode(CONNECT_MODE_LEFT);
+            repaint();
+        } else if(isConnectPointTop(e)) {
+            setConnectMode(CONNECT_MODE_TOP);
+            repaint();
+        } else if(isConnectPointBottom(e)) {
+            setConnectMode(CONNECT_MODE_BOTTOM);
+            repaint();
+        } else {
+            setConnectMode(CONNECT_MODE_OFF);
+            repaint();
+        }
+
+
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -344,7 +455,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     }
 
     public void selectionPerformed(Object selected) {
-        if(selected.equals(this) || selected.equals(umlClass)) {
+        if (selected.equals(this) || selected.equals(umlClass)) {
             setSelected(true);
         } else {
             setSelected(false);
@@ -353,6 +464,6 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
         this.invalidate();
         this.validate();
         this.repaint();
-        
+
     }
 }

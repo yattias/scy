@@ -34,6 +34,49 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     private Vector associate;
     private Hashtable components;
 
+    public static final int CONNECT_MODE_ON = 0;
+    public static final int CONNECT_MODE_OFF = 1;
+
+    private int connectMode = CONNECT_MODE_OFF;
+
+    private GraphicsClass source = null;
+    private GraphicsClass target = null;
+
+    public int getConnectMode() {
+        return connectMode;
+    }
+
+    public void setConnectMode(int connectMode) {
+        this.connectMode = connectMode;
+        if(connectMode == CONNECT_MODE_OFF) {
+            //setTarget(null);
+            //setSource(null);
+        }
+    }
+
+
+    public GraphicsClass getSource() {
+        return source;
+    }
+
+    public void setSource(GraphicsClass source) {
+        this.source = source;
+    }
+
+    public GraphicsClass getTarget() {
+        return target;
+    }
+
+    public void setTarget(GraphicsClass target) {
+        if(target == null) {
+            System.out.println("Setting target to null");
+        } else {
+            System.out.println("Setting target: " +target.getName());    
+        }
+
+        this.target = target;
+    }
+
     public GraphicsClass getConceptMapNode(String id) {
         Enumeration enumer = components.keys();
         while(enumer.hasMoreElements()) {
@@ -51,7 +94,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         extend = new Vector();
         associate = new Vector();
         components = new Hashtable();
-        setBackground(new Color(204, 204, 255));
+        //setBackground(new Color(204, 204, 255));
     }
 
     public void addClass(UmlClass umlClass) {

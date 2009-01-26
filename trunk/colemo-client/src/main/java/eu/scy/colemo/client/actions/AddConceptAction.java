@@ -3,9 +3,13 @@ package eu.scy.colemo.client.actions;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.MainFrame;
 import eu.scy.colemo.client.GraphicsDiagram;
+import eu.scy.colemo.network.Person;
+import eu.scy.colemo.contributions.AddClass;
+import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.net.InetAddress;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,12 +25,24 @@ public class AddConceptAction extends BaseAction {
 
     protected void performAction(ActionEvent e) {
         log.info("Adding concept....");
-        /*MainFrame frame = ApplicationController.getDefaultInstance().getMainFrame();
-        if(frame == null) log.info("Frame is null");
-        if(frame.getGraphicsDiagram() == null) log.info("Graphics diagram is null");
-        if(frame.getGraphicsDiagram().getUmlDiagram() == null) log.info("UML DIAGRAM is null");
         ApplicationController.getDefaultInstance().getConnectionHandler().sendMessage("ADD CONCEPT!");
-        //ApplicationController.getDefaultInstance().getMainFrame().addClass(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
-        */
+        ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
+
+
+        /*String name = JOptionPane.showInputDialog(this, "Please type name of new concept:");
+        if (name != null) {
+            try {
+                if (!ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram().nameExist(name)) {
+                    InetAddress address = null;
+                    Person person = null;
+                    AddClass addClass = new AddClass(name, "c", "", address, person);
+                    ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(addClass);
+                } else {
+                    JOptionPane.showMessageDialog(null, "This concept already exists!");
+                }
+            } catch (ClassNameAlreadyExistException e) {
+                e.printStackTrace();
+            }
+        } */
     }
 }
