@@ -92,7 +92,7 @@ public class AwarenessClient extends JFrame {
         String outputToTextArea = "";
         String user;
         String status;
-        for(int i=0; i<usersToWatch.size(); i++) {
+        for (int i = 0 ; i<usersToWatch.size() ; i++) {
             user = usersToWatch.get(i);
             if (cs.read(user, HARD_CODED_TOOL_NAME) != null) {
                 status = "online";

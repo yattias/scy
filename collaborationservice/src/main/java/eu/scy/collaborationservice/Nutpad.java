@@ -3,9 +3,12 @@ package eu.scy.collaborationservice;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -37,7 +40,7 @@ public class Nutpad extends JFrame {
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Colemo";
     private static final String INIT_USER_NAME = "<username>";
-
+    
     private JTextArea editArea;
     private JTextField userNameField;
     private JButton awarenessConnectButton;
@@ -48,7 +51,7 @@ public class Nutpad extends JFrame {
     private Action saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action exitAction = new ExitAction(); 
     private Action awarenessClientAction = new AwarenessClientAction();
-
+    
     private CollaborationService cs;
     private AwarenessClient awarenessClient;
     private String documentSqlSpaceId = null;
@@ -56,14 +59,14 @@ public class Nutpad extends JFrame {
     private boolean connected = false;
     
     
-
+    
     public static void main(String[] args) {
         new Nutpad();
     }
     
-
+    
     public Nutpad() {
-
+        
         userNameField = new JTextField(20);
         userNameField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         userNameField.setFont(new Font("monospaced", Font.PLAIN, 14));
@@ -83,6 +86,7 @@ public class Nutpad extends JFrame {
         contentPanel.setLayout(new BorderLayout());
         userNamePanel.add(userNameField);
         userNamePanel.add(awarenessConnectButton);
+        
         contentPanel.add(userNamePanel, BorderLayout.NORTH);
         contentPanel.add(scrollingText, BorderLayout.CENTER);
         
@@ -95,7 +99,7 @@ public class Nutpad extends JFrame {
         fileMenu.add(saveToCollaborationServiceAction);
         fileMenu.addSeparator(); 
         fileMenu.add(exitAction);
-                
+        
         setContentPane(contentPanel);
         setJMenuBar(menuBar);
         
@@ -109,40 +113,40 @@ public class Nutpad extends JFrame {
     
     
     class AwarenessClientAction extends AbstractAction {
-
+        
         private static final long serialVersionUID = -5424901729682590512L;
-
+        
         public AwarenessClientAction() {
             super("Connect awareness client");
             putValue(MNEMONIC_KEY, new Integer('1'));
         }
         
         public void actionPerformed(ActionEvent event) {
-        	if(connected) {
-        		awarenessClient.shutDown();
-        		userNameField.setEditable(true);
-        		awarenessConnectButton.setText("Connect");
-        		connected = false;
-        		awarenessClient = null;
-        	}
-        	else {
-        		userName = userNameField.getText();
-        		if (userName == null || userName.trim().length() == 0 || userName.equals(INIT_USER_NAME)) {
-        		    JOptionPane.showMessageDialog(Nutpad.this, "Dear sir. Please enter your username.");
-        		} else {
-        		    userNameField.setEditable(false);
-        		    awarenessConnectButton.setText("Disconnect");
-        		    awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
-        		    connected = true;        		        		    
-        		}
-        	}
+            if(connected) {
+                awarenessClient.shutDown();
+                userNameField.setEditable(true);
+                awarenessConnectButton.setText("Connect");
+                connected = false;
+                awarenessClient = null;
+            }
+            else {
+                userName = userNameField.getText();
+                if (userName == null || userName.trim().length() == 0 || userName.equals(INIT_USER_NAME)) {
+                    JOptionPane.showMessageDialog(Nutpad.this, "Dear sir. Please enter your username.");
+                } else {
+                    userNameField.setEditable(false);
+                    awarenessConnectButton.setText("Disconnect");
+                    awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
+                    connected = true;        		        		    
+                }
+            }
         }
     }
     
-
+    
     class OpenFromFileAction extends AbstractAction {
         private static final long serialVersionUID = 2214397309885399070L;
-
+        
         public OpenFromFileAction() {
             super("Open from File");
             putValue(MNEMONIC_KEY, new Integer('1'));
@@ -167,7 +171,7 @@ public class Nutpad extends JFrame {
     
     class OpenFromCollaborationServiceAction extends AbstractAction {
         private static final long serialVersionUID = -5599432544551421021L;
-
+        
         public OpenFromCollaborationServiceAction() {
             super("Open random from CS");
             putValue(MNEMONIC_KEY, new Integer('2'));
@@ -187,16 +191,16 @@ public class Nutpad extends JFrame {
         }
     }
     
-
+    
     class SaveToFileAction extends AbstractAction {
-
+        
         private static final long serialVersionUID = 7773471019357144532L;
-
+        
         SaveToFileAction() {
             super("Save to File");
             putValue(MNEMONIC_KEY, new Integer('3'));
         }
-
+        
         public void actionPerformed(ActionEvent event) {
             int retval = fileChooser.showSaveDialog(Nutpad.this);
             if (retval == JFileChooser.APPROVE_OPTION) {
@@ -217,22 +221,22 @@ public class Nutpad extends JFrame {
     
     class SaveToCollaborationServiceAction extends AbstractAction {
         private static final long serialVersionUID = 2570708232031173971L;
-
+        
         SaveToCollaborationServiceAction() {
             super("Save to CS");
             putValue(MNEMONIC_KEY, new Integer('4'));
         }
-
+        
         public void actionPerformed(ActionEvent e) {
             write();
         }
         
     }
     
-
+    
     class ExitAction extends AbstractAction {
         private static final long serialVersionUID = -7603073618047398002L;
-
+        
         public ExitAction() {
             super("Exit");
             putValue(MNEMONIC_KEY, new Integer('5'));
@@ -257,7 +261,7 @@ public class Nutpad extends JFrame {
             logger.error("Trouble while writing to CS");
         }
     } 
-   
+    
     
     private CollaborationService getCS() {
         if (cs == null || !userName.equals(userNameField.getText())) {
