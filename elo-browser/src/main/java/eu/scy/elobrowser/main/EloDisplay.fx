@@ -43,57 +43,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import roolo.elo.api.IELO;
 
-	/**
-	* @author sikken
-	 */
+/**
+ * @author sikken
+ */
 
-	 // place your code here
+ // place your code here
 
-	var eloImages:HashMap;
-	var unknownEloImage:Image = Image {
-		url: "{__DIR__}images/unknownElo.png"
-   };
-
-	function initImages(){
-		eloImages = new HashMap();
-		var plainEloImage = Image {
-			url: "{__DIR__}images/plainElo.png"
-      }
-		var drawingEloImage = Image {
-			url: "{__DIR__}images/drawingElo.png"
-      }
-        var datasetEloImage = Image {
-			url: "{__DIR__}images/datasetElo.png"
-      }
-      var pdsEloImage = Image {
-			url: "{__DIR__}images/pdsElo.png"
-      }
-   eloImages.put(EloDrawingActionWrapper.scyDrawType,drawingEloImage);
-   eloImages.put(EloSimQuestWrapper.scyDatasetType,datasetEloImage);
-   eloImages.put(EloDataToolWrapper.scyPDSType,pdsEloImage);
-   //TODO: create a nice icon for text ELOs
-   eloImages.put(EloTextpadWrapper.scyTextType,plainEloImage);
-	}
-
-	function getEloImage(eType:String){
-		if (eloImages == null) initImages();
-		var image:Image =
-   eloImages.get(eType) as Image;
-		if (image == null){
-			image = unknownEloImage;
-		}
-   //System.out.println("finding image for {eType}, {image.url}");
-   return image;
-	}
 
 public class EloDisplay extends CustomNode {
 	public var roolo:Roolo;
-   public var title = "title";
+   public var title = "title" ;
    public var radius = 20;
    public var eloType = "unknown" on replace {
 		updateImage()};
 	public var elo:IELO;
-	public var image = unknownEloImage;
+	public var color = Color.CADETBLUE;
    public var textColor = Color.BLACK;
 	public var textBackgroundColor = Color.TRANSPARENT;
    public var fillColor = Color.color(0,0.5,0,0.25);
@@ -110,87 +74,76 @@ public class EloDisplay extends CustomNode {
 	var windowOpenSize = 12;
    var closeMouseOverEffect:Effect = Glow{
       level:1}
-	var eloWindow:ScyWindow;
+	public var eloWindow:ScyWindow;
 
 	var openMenuItem = SwingMenuItem{
 		label:"Open"
 		enabled:false;
-		action:openElo;
+		//action:openElo;
 			}
+
+	postinit{
+		updateImage();
+  };
+
+	function updateImage() {
+		var eloTypeChar = "?";
+		var eloColor = Color.GRAY;
+		if (EloDrawingActionWrapper.scyDrawType == eloType){
+			eloTypeChar = "D";
+			eloColor = Color.GREEN;
+		}
+		else
+		if (EloSimQuestWrapper.scyDatasetType == eloType){
+			eloTypeChar = "V";
+			eloColor = Color.BROWN;
+		}
+		else
+		if (EloDataToolWrapper.scyPDSType == eloType){
+			eloTypeChar = "S";
+			eloColor = Color.GREENYELLOW;
+		}
+		else
+		if (EloTextpadWrapper.scyTextType == eloType){
+			eloTypeChar = "T";
+			eloColor = Color.YELLOW;
+		}
+
+		eloWindow.eloType = eloTypeChar;
+	}
 
 	public function clear(){
 		eloWindow = null;
 	}
 
-	function updateImage() {
-		image = getEloImage(eloType);
-		openMenuItem.enabled = EloDrawingActionWrapper.scyDrawType == eloType
-        or EloDataToolWrapper.scyPDSType == eloType or eloType == EloSimQuestWrapper.scyDatasetType;
-	}
-
-	function openElo(){
+	function setEloContent(scyWindow:ScyWindow){
 		if (EloDrawingActionWrapper.scyDrawType == eloType){
-			eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
-			if (eloWindow == null){
-				// elo window is not created
-				var drawingNode = DrawingNode.createDrawingNode(roolo);
-				eloWindow = DrawingNode.createDrawingWindow(drawingNode);
-				eloWindow.minimizeAction = hideEloWindow;
-				eloWindow.allowMinimize = true;
-				eloWindow.closeAction=closeEloWindow;
-				ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
-				eloWindow.openFrom(translateX, translateY);
-				drawingNode.loadElo(elo.getUri());
-			}
-			else {
-				 // elo window exists, show it
-			ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
-			}
-            }else if (EloDataToolWrapper.scyPDSType == eloType or  EloSimQuestWrapper.scyDatasetType == eloType){
-                // ELO type PDS or DS => open with data process visualization tool
-                eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
-                if (eloWindow == null){
-                    // elo window is not created
-                    var dataToolNode = DataToolNode.createDataToolNode(roolo);
-                    eloWindow = DataToolNode.createDataToolWindow(dataToolNode);
-                    eloWindow.minimizeAction = hideEloWindow;
-                    eloWindow.allowMinimize = true;
-                    eloWindow.closeAction=closeEloWindow;
-                    ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
-                    eloWindow.openFrom(translateX, translateY);
+			var drawingNode = DrawingNode.createDrawingNode(roolo);
+			scyWindow.scyContent = drawingNode;
+			drawingNode.loadElo(elo.getUri());
+		}else
+		if (EloDataToolWrapper.scyPDSType == eloType or  EloSimQuestWrapper.scyDatasetType == eloType){
+			// ELO type PDS or DS => open with data process visualization tool
+			var dataToolNode = DataToolNode.createDataToolNode(roolo);
+			scyWindow.scyContent = dataToolNode;
                     dataToolNode.loadElo(elo.getUri());
-                }
-                }else if (EloTextpadWrapper.scyTextType == eloType){
-                // ELO type is TEXT => open with textpad tool
-                eloWindow = ScyDesktop.getScyDesktop().findScyWindow(elo.getUri().toString());
-                if (eloWindow == null){
-                    // elo window is not created
-                    var textpadNode = TextpadNode.createTextpadNode(roolo);
-                    eloWindow = TextpadNode.createTextpadWindow(textpadNode);
-                    eloWindow.allowResize;
-                    eloWindow.minimizeAction = hideEloWindow;
-                    eloWindow.allowMinimize = true;
-                    eloWindow.closeAction=closeEloWindow;
-                    ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
-                    eloWindow.openFrom(translateX, translateY);
+		}else
+		if (EloTextpadWrapper.scyTextType == eloType){
+			// ELO type is TEXT => open with textpad tool
+			var textpadNode = TextpadNode.createTextpadNode(roolo);
+			scyWindow.scyContent = textpadNode;
                     textpadNode.loadElo(elo.getUri());
-                }
-                else {
-                     // elo window exists, show it
-                    ScyDesktop.getScyDesktop().activateScyWindow(eloWindow);
-                }
-            }
-
+		}
 	}
 
 	function hideEloWindow(scyWindow:ScyWindow):Void{
 		 scyWindow.hideTo(translateX, translateY);
-		 windowOpenVisible = true;
+		windowOpenVisible = true;
 	}
 
 	function showEloWindow(scyWindow:ScyWindow):Void{
 		 scyWindow.showFrom(translateX, translateY);
-		 windowOpenVisible = false;
+		windowOpenVisible = false;
 	}
 
 	function closeEloWindow(scyWindow:ScyWindow):Void{
@@ -236,133 +189,36 @@ public class EloDisplay extends CustomNode {
 	}
 
    public override function create(): Node {
- 		var menuItems = [
-			openMenuItem,
-			SwingMenuItem{
-				label:"Show elo xml"
-				action:openEloXml
-			}
-		];
-		var imageView:ImageView;
-		var titleText = Text{
-			content: bind title;
-			fill: bind textColor;
-			font: bind textFont;
-            };
-		// place a rect behind the text, to better catch mouse actions on the text,
-		// the text does catch mouse actions always
-		var titleTextRect:Rectangle = Rectangle {
-			x: bind titleText.boundsInLocal.minX,
-			y: bind titleText.boundsInLocal.minY
-			width: bind titleText.boundsInLocal.width,
-			height: bind titleText.boundsInLocal.height
-			fill: bind textBackgroundColor
-				};
-		var titleGroup:Group;
-		var displayGroup = Group
-      {
-			blocksMouse:true;
-			content: [
-				//            Circle {
-				//               centerX: 0;
-				//               centerY: 0;
-				//               radius: bind radius/2;
-				//               stroke:bind strokeColor;
-				//               fill: bind fillColor;
-				//            },
-            imageView = ImageView{
-					translateX:bind -radius / 2
-					translateY:bind -radius / 2
-               image:bind image
-               fitHeight:bind radius
-               fitWidth:bind radius
-               preserveRatio:true
-            }
-				titleGroup = Group{
-					translateX:bind -titleText .boundsInLocal.width / 2;
-					translateY:bind radius / 2 + titleText.boundsInLocal.height;
-					content:[titleTextRect,titleText]
-				}
-         ]
-			onMousePressed: function( e: MouseEvent ):Void {
-				originalX = translateX;
-				originalY = translateY;
-			}
-			onMouseDragged: function( e: MouseEvent ):Void {
-				if (dragable){
-					translateX = originalX + e.dragX;
-					translateY = originalY + e.dragY;
-				}
-			}
-			onMouseClicked: function( e: MouseEvent ):Void {
-				if (e.clickCount == 2) openElo();
-			}
-      };
-		var windowGroup:Group = Group{
-			blocksMouse:true;
-			visible:bind windowOpenVisible
-			translateX: bind imageView.layoutBounds.width / 2
-			translateY: bind -imageView .layoutBounds.height / 2
-			content:[
-				//				Rectangle {
-				//					x:0
-				//					y: 0
-				//					width: bind windowOpenSize,
-				//					height: bind windowOpenSize
-				//					fill: bind windowColor
-				//				}
-				Polyline {
-					points: [ windowOpenStrokeWidth,windowOpenSize - windowOpenStrokeWidth - 1 windowOpenSize - windowOpenStrokeWidth - 1,windowOpenSize - windowOpenStrokeWidth - 1 windowOpenSize / 2, windowOpenStrokeWidth windowOpenStrokeWidth,windowOpenSize - windowOpenStrokeWidth - 1]
-					strokeWidth: windowOpenStrokeWidth
-					stroke: windowOpenStrokeColor
-					fill: bind windowColor
-				}
-			]
-			onMouseClicked: function( e: MouseEvent ):Void {
-				openEloWindow();
-			}
-			onMouseEntered: function( e: MouseEvent ):Void {
-				windowGroup.effect = closeMouseOverEffect;
-			}
-			onMouseExited: function( e: MouseEvent ):Void {
-				windowGroup.effect = null;
-			}
-
+		eloWindow = ScyWindow{
+			title:bind title;
+			color:bind color;
+			allowClose:true;
+			allowMinimize:true;
+			allowResize:true;
+			allowRotate:true;
+			setScyContent:setEloContent;
 		}
-		return Group{
-			content:[
-				displayGroup
-				windowGroup
-				SwingPopupMenu{
-					items: menuItems;
-					translateX: bind displayGroup.boundsInLocal.minX,
-					translateY: bind displayGroup.boundsInLocal.minY
-					width: bind displayGroup.boundsInLocal.width,
-					height: bind displayGroup.boundsInLocal.height
-					shapes:[imageView,titleGroup]
-					//fill:Color.color(0.9,0.9,0.9,0.7);
-				}
-			]
-		}
+		return eloWindow;
 	}
 }
 
 
 function run(){
 	var eloDisplay:EloDisplay;
+	eloDisplay=EloDisplay{
+		translateX:50;
+		translateY:50;
+		radius:30
+		title:"testing"
+      //eloType:"??"
+	}
    Stage {
       title: "EloDisplay test"
       scene: Scene {
          width: 200
          height: 200
          content: [
-				eloDisplay=EloDisplay{
-               translateX:50;
-               translateY:50;
-               radius:30
-               title:"testing"
-               //eloType:"??"
-            }
+				eloDisplay
             SwingButton {
                text: "change"
                action: function() {

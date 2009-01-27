@@ -138,6 +138,7 @@ public class SCYLogin extends Group {
             }
 
         ];
+		  loginNode.openWindow(90, 90);
         startLoginAnimation();
     }
 
