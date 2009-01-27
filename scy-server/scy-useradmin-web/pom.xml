@@ -281,6 +281,18 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+			<id>fhg-maven</id>
+			<url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
         
     </repositories>
     <pluginRepositories>
