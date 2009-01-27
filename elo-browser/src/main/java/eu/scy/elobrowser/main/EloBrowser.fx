@@ -14,6 +14,7 @@ import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
+import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
@@ -109,8 +110,18 @@ var newGroup = VBox {
             text: "Textpad"
             action: function() {
                 var textpadWindow = TextpadNode.createTextpadWindow(roolo);
-                textpadWindow.allowResize;
-                scyDesktop.addScyWindow(textpadWindow)
+                textpadWindow.allowResize = true;
+                scyDesktop.addScyWindow(textpadWindow);
+                textpadWindow.openWindow(300,100);
+            }
+        }
+        SwingButton{
+            text: "ChatPad"
+            action: function() {
+                var chatWindow = ChatNode.createChatWindow(roolo);
+                chatWindow.allowResize = true;
+                scyDesktop.addScyWindow(chatWindow);
+                chatWindow.openWindow(300,300);
             }
         }
         //         SwingButton{
@@ -145,8 +156,9 @@ var newGroup = VBox {
             text: "Data Process Tool"
             action: function() {
                 var dataToolWindow = DataToolNode.createDataToolWindow(roolo);
-                dataToolWindow.allowResize;
-                scyDesktop.addScyWindow(dataToolWindow)
+                //dataToolWindow.allowResize;
+                scyDesktop.addScyWindow(dataToolWindow);
+                dataToolWindow.openWindow(711,568);
             }
         }
     ]
@@ -162,10 +174,8 @@ var newScyWindow= ScyWindow{
     allowClose:false;
     allowResize:false;
 	 allowMinimize:true;
-    width:150;
-    height:170;
    };
-newScyWindow.openWindow(150, 170);
+newScyWindow.openWindow(150, 190);
 scyDesktop.addScyWindow(newScyWindow);
 
 var queryEntry1 = EloSpecWidget{
