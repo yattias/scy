@@ -45,59 +45,12 @@ var newGroup = VBox {
     translateY:5;
     spacing:3;
     content:[
-        //      SwingButton{
-        //         text: "Drw"
-        //         action: function() {
-        //            var newWhiteboard = new WhiteboardPanel();
-        //				var preferredSize = new Dimension(200,200);
-        //				newWhiteboard.setMinimumSize(preferredSize);
-        //				newWhiteboard.setMaximumSize(preferredSize);
-        //				newWhiteboard.setPreferredSize(preferredSize);
-        //            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-        //            var drawingWindow = ScyWindow{
-        //               color:Color.GREEN
-        //               title:"Drawing"
-        //               scyContent: newWhiteboardNode
-        //               minimumWidth:320;
-        //               minimumHeigth:100;
-        //               width: 320;
-        //               height: 150;
-        //               }
-        //            scyDesktop.addScyWindow(drawingWindow)
-        //         }
-        //      }
         SwingButton{
             text: "Drawing"
             action: function() {
-				//            var newWhiteboard =
-				//            roolo.getSpringBean("drawingTool") as EloDrawingPanel;
-                //            var whiteboard = new WhiteboardPanel();
-                //            var panel = new JPanel();
-                //            panel.setLayout(new GridLayout(1,1,0,0));
-                //            panel.add(whiteboard);
-                //				var newWhiteboard = new EloDrawingPanel();
-                //				newWhiteboard.setRepository(roolo.repository);
-                //				newWhiteboard.setMetadataTypeManager(roolo.metadataTypeManager);
-                //				newWhiteboard.setEloFactory(roolo.eloFactory);
-                //				var preferredSize = new Dimension(2000,2000);
-                //            //				newWhiteboard.setMinimumSize(preferredSize);
-                //            //				newWhiteboard.setMaximumSize(preferredSize);
-                //				newWhiteboard.setPreferredSize(preferredSize);
-                //            var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-                //				var drawingNode = DrawingNode.createDrawingNode(roolo);
-                //            var drawingWindow = ScyWindow{
-                //               color:Color.GREEN
-                //               title:"Drawing"
-                //               scyContent: drawingNode
-                //               minimumWidth:320;
-                //               minimumHeigth:100;
-                //               width: 320;
-                //               height: 150;
-                //					cache:true;
-                //               }
-                //				drawingNode.scyWindow = drawingWindow;
                 var drawingWindow = DrawingNode.createDrawingWindow(roolo);
-                scyDesktop.addScyWindow(drawingWindow)
+                scyDesktop.addScyWindow(drawingWindow);
+                drawingWindow.openWindow(414, 377);
             }
         }
         SwingButton{
@@ -105,7 +58,8 @@ var newGroup = VBox {
             action: function() {
                 var simquestWindow = SimQuestNode.createSimQuestWindow(roolo);
                 simquestWindow.allowResize;
-                scyDesktop.addScyWindow(simquestWindow)
+                scyDesktop.addScyWindow(simquestWindow);
+                simquestWindow.openWindow(491,673);
             }
         },
         SwingButton{
@@ -114,6 +68,7 @@ var newGroup = VBox {
                 var textpadWindow = TextpadNode.createTextpadWindow(roolo);
                 textpadWindow.allowResize = true;
                 scyDesktop.addScyWindow(textpadWindow);
+                textpadWindow.openWindow(263,256);
             }
         },
         SwingButton{
@@ -122,6 +77,7 @@ var newGroup = VBox {
                 var colemoWIndow = ColemoNode.createColemoWindow(roolo);
                 colemoWIndow.allowResize = true;
                 scyDesktop.addScyWindow(colemoWIndow);
+                colemoWIndow.openWindow(600,300);
             }
         }
 
@@ -131,43 +87,16 @@ var newGroup = VBox {
                 var chatWindow = ChatNode.createChatWindow(roolo);
                 chatWindow.allowResize = true;
                 scyDesktop.addScyWindow(chatWindow);
+                chatWindow.openWindow(323,289);
             }
         }
-        //         SwingButton{
-        //            translateY:25
-        //            text: "Water"
-        //            action: function() {
-        //               var drawingWindow = ScyWindow{
-        //                  color:Color.BLUE
-        //                  title:"Water"
-        //                  scyContent: ImageView{
-        //                     image:image1
-        //                  }
-        //               }
-        //               scyDesktopMain.addScyWindow(drawingWindow)
-        //            }
-        //         }
-        //         SwingButton{
-        //            translateY:50
-        //            text: "Sun"
-        //            action: function() {
-        //               var drawingWindow = ScyWindow{
-        //                  color:Color.RED
-        //                  title:"Sun"
-        //                  scyContent: ImageView{
-        //                     image:image2
-        //                  }
-        //               }
-        //               scyDesktopMain.addScyWindow(drawingWindow)
-        //            }
-        //         }
         SwingButton{
             text: "Data Process Tool"
             action: function() {
                 var dataToolWindow = DataToolNode.createDataToolWindow(roolo);
-                //dataToolWindow.allowResize;
                 scyDesktop.addScyWindow(dataToolWindow);
-                dataToolWindow.openWindow(711,568);
+                dataToolWindow.allowResize = true;
+                dataToolWindow.openWindow(811,664);
             }
         }
     ]
@@ -181,10 +110,10 @@ var newScyWindow= ScyWindow{
     color:Color.BLUEVIOLET
     scyContent:newGroup
     allowClose:false;
-    allowResize:false;
+    allowResize:true;
     allowMinimize:true;
    };
-newScyWindow.openWindow(150, 190);
+newScyWindow.openWindow(150, 230);
 scyDesktop.addScyWindow(newScyWindow);
 
 var queryEntry1 = EloSpecWidget{
