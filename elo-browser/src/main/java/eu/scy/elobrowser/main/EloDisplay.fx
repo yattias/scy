@@ -178,7 +178,7 @@ public class EloDisplay extends CustomNode {
 				width:300
 				height:150
 			}
-			eloXmlWindow.closeAction=closeEloWindow;
+//			eloXmlWindow.closeAction=closeEloWindow;
 			ScyDesktop.getScyDesktop().addScyWindow(eloXmlWindow);
 			eloXmlWindow.openFrom(translateX, translateY);
 			textArea.setText(elo.getXml());
