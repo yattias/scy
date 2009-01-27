@@ -10,14 +10,15 @@ import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.notification.GrowlFX;
+import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
-import eu.scy.elobrowser.tool.chat.ChatNode;
+import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
-import eu.scy.elobrowser.notification.GrowlFX;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
@@ -114,7 +115,16 @@ var newGroup = VBox {
                 textpadWindow.allowResize = true;
                 scyDesktop.addScyWindow(textpadWindow);
             }
+        },
+        SwingButton{
+            text: "Cool(emo)"
+            action: function() {
+                var colemoWIndow = ColemoNode.createColemoWindow(roolo);
+                colemoWIndow.allowResize = true;
+                scyDesktop.addScyWindow(colemoWIndow);
+            }
         }
+
         SwingButton{
             text: "ChatPad"
             action: function() {
@@ -314,10 +324,10 @@ stage = Stage {
             stops: [
                 Stop {
                     offset: 0
-                    color: Color.web("#bdd1ef")},
+                color: Color.web("#bdd1ef")},
                 Stop {
                     offset: 1
-                    color: Color.web("#ebf3ff")}
+                color: Color.web("#ebf3ff")}
             ]
         }
 		content: [
