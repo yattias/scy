@@ -158,12 +158,11 @@ public class ChatNode extends CustomNode {
             scyContent: chatNode;
             minimumWidth:320;
             minimumHeight:100;
-            height: 250;
             cache:true;
             allowResize:false
       }
         chatNode.scyWindow = chatWindow;
-        chatWindow.width = 320;
+        chatWindow.openWindow(320, 250);
     return chatWindow;
     }
 

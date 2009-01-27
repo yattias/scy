@@ -179,14 +179,10 @@ public class TextpadNode extends CustomNode {
             color:Color.ORANGE
             title:"Textpad"
             scyContent: textpadNode
-            minimumWidth:320;
-            minimumHeight:100;
-            height: 250;
             cache:true;
-            allowResize:false
       }
+        textpadWindow.openWindow(320, 240);
         textpadNode.scyWindow = textpadWindow;
-        textpadWindow.width = 320;
     return textpadWindow;
     }
 

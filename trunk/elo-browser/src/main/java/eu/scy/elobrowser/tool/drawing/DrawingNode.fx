@@ -170,12 +170,10 @@ public class DrawingNode extends CustomNode {
 			scyContent: drawingNode
 			minimumWidth:320;
 			minimumHeight:100;
-			//width: 320;
-			height: 250;
 			cache:true;
       }
+        drawingWindow.openWindow(340, 250);
 		drawingNode.scyWindow = drawingWindow;
-		drawingWindow.width = 320;
 		return drawingWindow;
 	}
 
