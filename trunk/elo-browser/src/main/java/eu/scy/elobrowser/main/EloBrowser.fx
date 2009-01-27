@@ -113,7 +113,6 @@ var newGroup = VBox {
                 var textpadWindow = TextpadNode.createTextpadWindow(roolo);
                 textpadWindow.allowResize = true;
                 scyDesktop.addScyWindow(textpadWindow);
-                textpadWindow.openWindow(300,100);
             }
         }
         SwingButton{
@@ -122,7 +121,6 @@ var newGroup = VBox {
                 var chatWindow = ChatNode.createChatWindow(roolo);
                 chatWindow.allowResize = true;
                 scyDesktop.addScyWindow(chatWindow);
-                chatWindow.openWindow(300,300);
             }
         }
         //         SwingButton{
