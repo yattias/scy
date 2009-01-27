@@ -54,8 +54,8 @@ public class ResultView extends CustomNode {
 	public override function create(): Node {
 		Group
       {
-			content: [
-				Rectangle {
+            content: [
+/*			content	Rectangle {
 					x: 0,
 					y: 0
 					width: bind xSize + 2 * xOffset,
@@ -75,10 +75,10 @@ public class ResultView extends CustomNode {
 						radius: 50;
 					},
 					fill: Color.color(0.5,0.5,0.5,0.1)
-				},
-				for (i in [1..nrOfElos]) {
-					var relevance = 1.0 * i / nrOfElos;
-					var eloDisplay = EloDisplay
+				},*/
+                for (i in [1..nrOfElos]) {
+                    var relevance = 1.0 * i / nrOfElos;
+                    var eloDisplay = EloDisplay
 	       {
 						title: "elo {i}";
 						translateX: calculateX(relevance);
