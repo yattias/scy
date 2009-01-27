@@ -17,6 +17,7 @@ import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
+import eu.scy.elobrowser.notification.GrowlFX;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
@@ -173,7 +174,7 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
-	 allowMinimize:true;
+    allowMinimize:true;
    };
 newScyWindow.openWindow(150, 190);
 scyDesktop.addScyWindow(newScyWindow);
@@ -212,7 +213,7 @@ var searchButton = SwingButton{
 
 var queryWindow = ScyWindow{
     title:"Query"
-	 eloType:"Search"
+    eloType:"Search"
     color:Color.BLUE;
     allowClose:true;
     closeIsHide:true;
@@ -230,7 +231,7 @@ scyDesktop.hideScyWindow(queryWindow);
 
 var metadataDisplayMappingWindow = ScyWindow{
     title:"Display mapping"
-	 eloType:"Search"
+    eloType:"Search"
     color:Color.BLUE;
     allowClose:true;
     closeIsHide:true;
@@ -249,11 +250,11 @@ var eloBrowserControl= ScyWindow{
     translateX:10;
     translateY:10;
     title:"Search"
-	 eloType:"Search"
+    eloType:"Search"
     color:Color.BLUE;
     allowClose:false;
     allowResize:false;
-	 allowMinimize:true;
+    allowMinimize:true;
     width:100;
     height:130;
 	opacity:0.75;
@@ -292,6 +293,12 @@ var loginGroup = SCYLogin {
     ]
 }
 
+var growl = GrowlFX {
+    translateX: bind (stage.width / 2) - 200;
+    translateY: bind stage.height - 120;
+    opacity: 0;
+}
+
 
 stage = Stage {
 
@@ -309,10 +316,10 @@ stage = Stage {
             stops: [
                 Stop {
                     offset: 0
-                color: Color.web("#bdd1ef")},
+                    color: Color.web("#bdd1ef")},
                 Stop {
                     offset: 1
-                color: Color.web("#ebf3ff")}
+                    color: Color.web("#ebf3ff")}
             ]
         }
 		content: [
@@ -321,6 +328,7 @@ stage = Stage {
                     loginGroup
                     resultView
 					scyDesktop.desktop
+                    growl
 				]
 			}
 		]
