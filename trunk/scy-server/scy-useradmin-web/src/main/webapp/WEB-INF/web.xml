@@ -15,10 +15,9 @@
    limitations under the License.
 -->
 
-<!DOCTYPE web-app
-        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_4.dtd">
-<web-app>
+<web-app xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4">
     <display-name>SCY</display-name>
 
     <context-param>
@@ -135,9 +134,9 @@
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
     </listener>
 
-    <listener>
+    <!-- <listener>
         <listener-class>eu.scy.listeners.SQLSpaceStartupListener</listener-class>
-    </listener>
+    </listener>  -->
 
 
     <resource-ref>
