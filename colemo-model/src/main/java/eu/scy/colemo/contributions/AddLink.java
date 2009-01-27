@@ -13,7 +13,7 @@ import java.net.InetAddress;
  * @author Øystein
  *
  */
-public class AddLink implements Serializable, Contribution {
+public class AddLink extends BaseConceptMapNode implements Serializable, Contribution {
 
 	private String from;
 	private String to;
