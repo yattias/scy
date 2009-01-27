@@ -137,7 +137,7 @@ public class EloDisplayOld extends CustomNode {
 				eloWindow = DrawingNode.createDrawingWindow(drawingNode);
 				eloWindow.minimizeAction = hideEloWindow;
 				eloWindow.allowMinimize = true;
-				eloWindow.closeAction=closeEloWindow;
+//				eloWindow.closeAction=closeEloWindow;
 				ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
 				eloWindow.openFrom(translateX, translateY);
 				drawingNode.loadElo(elo.getUri());
@@ -155,7 +155,7 @@ public class EloDisplayOld extends CustomNode {
                     eloWindow = DataToolNode.createDataToolWindow(dataToolNode);
                     eloWindow.minimizeAction = hideEloWindow;
                     eloWindow.allowMinimize = true;
-                    eloWindow.closeAction=closeEloWindow;
+//                    eloWindow.closeAction=closeEloWindow;
                     ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
                     eloWindow.openFrom(translateX, translateY);
                     dataToolNode.loadElo(elo.getUri());
@@ -170,7 +170,7 @@ public class EloDisplayOld extends CustomNode {
                     eloWindow.allowResize;
                     eloWindow.minimizeAction = hideEloWindow;
                     eloWindow.allowMinimize = true;
-                    eloWindow.closeAction=closeEloWindow;
+//                    eloWindow.closeAction=closeEloWindow;
                     ScyDesktop.getScyDesktop().addScyWindow(eloWindow);
                     eloWindow.openFrom(translateX, translateY);
                     textpadNode.loadElo(elo.getUri());
@@ -225,7 +225,7 @@ public class EloDisplayOld extends CustomNode {
 				width:300
 				height:150
 			}
-			eloXmlWindow.closeAction=closeEloWindow;
+//			eloXmlWindow.closeAction=closeEloWindow;
 			ScyDesktop.getScyDesktop().addScyWindow(eloXmlWindow);
 			eloXmlWindow.openFrom(translateX, translateY);
 			textArea.setText(elo.getXml());

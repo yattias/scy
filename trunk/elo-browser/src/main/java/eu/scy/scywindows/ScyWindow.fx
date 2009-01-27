@@ -80,9 +80,11 @@ public class ScyWindow extends CustomNode {
    public var closeIsHide = false;
    public var scyDesktop:ScyDesktop;
 	public var windowEffect:Effect;
-	public var closeAction:function(ScyWindow):Void;
+	//	public var closeAction:function(ScyWindow):Void;
 	public var minimizeAction:function(ScyWindow):Void;
 	public var setScyContent:function(ScyWindow):Void;
+	public var aboutToCloseAction:function(ScyWindow):Boolean;
+	public var closedAction:function(ScyWindow):Void;
 
 	// status variables
 	var isMinimized = false;
@@ -90,6 +92,7 @@ public class ScyWindow extends CustomNode {
 	var isAnimating = false;
 
 	// layout constants
+	def windowBackgroundColor = Color.WHITE;
 	def controlColor = Color.BLACK;
 	def controlLength = 20;
 	def controlStrokeWidth = 4;
@@ -249,9 +252,10 @@ public class ScyWindow extends CustomNode {
 						1.0 / height
 					]
 					action: function(){
-						if (scyDesktop != null){
-							scyDesktop.removeScyWindow(this);
-						}
+						closedAction(this);
+//						if (scyDesktop != null){
+//							scyDesktop.removeScyWindow(this);
+//						}
 						isAnimating = false;
 					}
 				}
@@ -434,10 +438,12 @@ public class ScyWindow extends CustomNode {
 	function doClose(){
 		//		if (scyDesktop != null)
 		//		{
-		if (closeAction != null){
-			closeAction(this);
+		if (aboutToCloseAction != null){
+			if (not aboutToCloseAction(this)){
+				// close blocked
+				return;
+			}
 		}
-		else {
 			isClosed = true;
 			var closeTimeline = null;
 			if (closeIsHide){
@@ -455,9 +461,6 @@ public class ScyWindow extends CustomNode {
 
 			//scyDesktop.removeScyWindow(this);
 			System.out.println("closed {title}");
-		}
-//		}
-
 	}
 
 	function doMinimize(){
@@ -547,15 +550,40 @@ public class ScyWindow extends CustomNode {
 				//					strokeWidth:borderWidth;
 				//					//effect:bind windowEffect;
 				//				}
-					Rectangle { // the white background of the window
-               x: 0,
-               y: 0
-               width: bind width,
-               height: bind height
-					strokeWidth: borderWidth
-               fill: Color.WHITE
- 					stroke: Color.WHITE
-            }
+					Group{ // the white background of the window
+					content:[
+						Rectangle { // top part until the arc
+							x: 0,
+							y: 0
+							width: bind width,
+							height: bind height - controlLength
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						},
+						Rectangle { // bottom left part until the arc
+							x: bind controlLength,
+							y: bind height - controlLength
+							width: bind width - controlLength,
+							height: bind controlLength
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						},
+						Arc { // the bottom left rotate arc part
+							centerX: controlLength,
+							centerY: bind height - controlLength,
+							radiusX: dragLength,
+							radiusY: dragLength
+							startAngle: 180,
+							length: 90
+							type: ArcType.ROUND
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						}
+					]
+				}
 					Line { // the left border line
 					startX: 0,
 					startY: bind height - controlLength - borderWidth / 2 - closeStrokeWidth / 2
@@ -603,33 +631,6 @@ public class ScyWindow extends CustomNode {
 					stroke: bind color
 					//effect:bind windowEffect
 				}
-				//				Line { // right border line, only for the effect
-				//					startX: bind width - borderBlockOffset,
-				//					startY: borderBlockOffset
-				//					endX: bind width - borderBlockOffset,
-				//					endY: bind height
-				//					stroke:bind color
-				//					strokeWidth:borderWidth;
-				//					effect:bind windowEffect;
-				//				}
-				//				Line { // bottom border line, only for the effect
-				//					startX: borderBlockOffset,
-				//					startY: bind height
-				//					endX: bind width - borderBlockOffset,
-				//					endY: bind height
-				//					stroke:bind color
-				//					strokeWidth:borderWidth;
-				//					effect:bind windowEffect;
-				//				}
-				//				Line { // right top block border line, only for the effect
-				//					startX: bind width - borderWidth / 2,
-				//					startY: borderWidth / 2
-				//					endX: bind width - borderWidth / 2,
-				//					endY: topLeftBlockSize - borderWidth / 2
-				//					stroke:bind color
-				//					strokeWidth:borderWidth;
-				//					effect:bind windowEffect;
-				//				}
 					Group{ // the content
                blocksMouse:true;
                cursor:Cursor.DEFAULT;
@@ -718,19 +719,19 @@ public class ScyWindow extends CustomNode {
 						//                     fill: bind color
 						//					//effect:bind windowEffect;
 						//                  }
-						closeElement = Group{ // close button
+							closeElement = Group{ // close button
                      cursor:Cursor.HAND
                      visible:bind allowClose and not isClosed
                      content:[
-								Rectangle { // top left block
+									Rectangle { // top left block
                            x: 0,
                            y: 0;
                            width: topLeftBlockSize,
                            height: topLeftBlockSize
                            fill: bind color
                         }
-								Group{ // close cross
-									clip: Rectangle { // top left block
+									Group{ // close cross
+										clip: Rectangle { // top left block
                               x: closeCrossInset,
                               y: closeCrossInset;
                               width: topLeftBlockSize - 2 * closeCrossInset,
@@ -787,8 +788,8 @@ public class ScyWindow extends CustomNode {
 							fill:Color.WHITE
 						}
 					]
-				}
-				Text { // title
+				},
+					Text { // title
 					font: textFont
 					x: 3 * topLeftBlockSize / 4 + iconSize + 1,
 					y: borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation
@@ -801,7 +802,7 @@ public class ScyWindow extends CustomNode {
 					}
 					fill:bind color;
 					content: bind title;
-				}
+				},
 				//				Group{ // just for checking title clip
 				//					content:[
 				//						Rectangle {
@@ -812,25 +813,21 @@ public class ScyWindow extends CustomNode {
 				//							fill: Color.BLACK
 				//						}
 				//					]
-				//				}
-					Line { // line under title
+				//				},
+				Line { // line under title
 					startX:2 * borderWidth,
 					startY:iconSize + topLeftBlockSize / 2
 					endX: bind width - 2 * borderWidth,
 					endY: iconSize + topLeftBlockSize / 2
 					strokeWidth: lineWidth
 					stroke: bind color
-				}
-					Group{ // bottom right resize element
+				},
+				Group{ // bottom right resize element
                blocksMouse:true;
-               visible:bind allowResize
+               visible:bind allowResize or isClosed
                cursor:Cursor.NW_RESIZE;
-               //               effect: DropShadow {
-               //                  offsetX: 2,
-               //                  offsetY: 2
-               //               }
                content:[
-						Line { // vertical line
+							Line { // vertical line
                      startX: bind width,
                      startY: bind height - controlLength
                      endX: bind width,
@@ -838,7 +835,7 @@ public class ScyWindow extends CustomNode {
                      stroke:bind controlColor
                      strokeWidth:bind controlStrokeWidth;
                   }
-						Line { // horizontal line
+							Line { // horizontal line
                      startX: bind width,
                      startY: bind height
                      endX: bind width - controlLength,
@@ -846,7 +843,7 @@ public class ScyWindow extends CustomNode {
                      stroke:bind controlColor
                      strokeWidth:bind controlStrokeWidth;
                   }
-						Line { // top-right devider
+							Line { // top-right devider
 							startX: bind width,
 							startY: bind height - controlLength - controlStrokeWidth / 2
 							endX: bind width,
@@ -854,7 +851,7 @@ public class ScyWindow extends CustomNode {
 							strokeWidth:bind controlStrokeWidth;
 							stroke: Color.WHITE
 						}
-						Line { // bottom left devider
+							Line { // bottom left devider
 							startX:bind width - controlLength,
 							startY: bind height
 							endX:bind width - controlLength,
@@ -864,13 +861,21 @@ public class ScyWindow extends CustomNode {
 						}
                ]
                onMousePressed: function( e: MouseEvent ):Void {
-                  startDragging(e);
+						if (allowResize){
+							startDragging(e);
+						}
+						else {
+							activate();
+							openWindow(minimumWidth,minimumHeight);
+						}
                }
                onMouseDragged: function( e: MouseEvent ):Void {
-                  doResize(e);
+						if (allowResize){
+							doResize(e);
+						}
                }
-            }
-				Group{ // bottom left rotate element
+            },
+					Group{ // bottom left rotate element
 					blocksMouse:true;
                visible:bind allowRotate;
 					content:[
@@ -890,7 +895,7 @@ public class ScyWindow extends CustomNode {
 							stroke:bind controlColor
 							strokeWidth:bind controlStrokeWidth;
 						}
-						Line { // top-left devider
+							Line { // top-left devider
 							startX: 0,
 							startY: bind height - controlLength - controlStrokeWidth / 2
 							endX: 0,
@@ -898,7 +903,7 @@ public class ScyWindow extends CustomNode {
 							strokeWidth:bind controlStrokeWidth;
 							stroke: Color.WHITE
 						}
-						Line { // bottom right devider
+							Line { // bottom right devider
 							startX: controlLength,
 							startY: bind height
 							endX: controlLength,
@@ -1071,7 +1076,7 @@ function run() {
                   }
                   visible:true
 						//opacity:0;
-						closeAction:closeScyWindow;
+						//closeAction:closeScyWindow;
                }
                scyDesktop.addScyWindow(drawingWindow);
 					var opacityTimeline = Timeline{
@@ -1109,12 +1114,15 @@ function run() {
 		translateX:20;
 		translateY:20;
 	   setScyContent:function(scyWindow:ScyWindow){
-			// println("setScyContent");
+			println("setScyContent");
 			scyWindow.scyContent = newGroup
-
 		};
+		closedAction:function(scyWindow:ScyWindow){
+			println("closedAction");
+			scyWindow.scyContent = null
+		}
    };
-	newScyWindow.openWindow(0, 150);
+	//newScyWindow.openWindow(0, 150);
    scyDesktop.addScyWindow(newScyWindow);
 
    var fixedScyWindow= ScyWindow{
@@ -1205,7 +1213,7 @@ function run() {
 		color:bind Color.RED;
 		allowClose:true;
 		allowMinimize:true;
-		allowResize:true;
+		allowResize:false;
 		allowRotate:true;
 		//setScyContent:setEloContent;
 		translateX:200
