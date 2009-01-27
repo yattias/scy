@@ -8,25 +8,13 @@ package eu.scy.colemo.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.InetAddress;
 import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import eu.scy.colemo.contributions.AddField;
-import eu.scy.colemo.contributions.AddLink;
-import eu.scy.colemo.contributions.AddMethod;
-import eu.scy.colemo.contributions.AssociateClass;
-import eu.scy.colemo.contributions.DeleteAssociation;
-import eu.scy.colemo.contributions.DeleteField;
-import eu.scy.colemo.contributions.DeleteLink;
-import eu.scy.colemo.contributions.DeleteMethod;
-import eu.scy.colemo.contributions.Rename;
 import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.server.uml.UmlAssociation;
-import eu.scy.colemo.network.Person;
 
 /**
  * @author Øystein
@@ -54,9 +42,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	private Vector fields;
 	private Vector methods;
 	
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 	
-		public PopUpMenu(GraphicsClass gClass) {
+		public PopUpMenu(ConceptNode gClass) {
 	    super();
 		
 		this.gClass=gClass;

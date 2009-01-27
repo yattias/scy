@@ -2,9 +2,8 @@ package eu.scy.colemo.client.actions;
 
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.GraphicsAssociation;
-import eu.scy.colemo.client.GraphicsClass;
+import eu.scy.colemo.client.ConceptNode;
 import eu.scy.colemo.client.SelectionController;
-import eu.scy.colemo.contributions.AssociateClass;
 import eu.scy.colemo.server.uml.UmlAssociation;
 import eu.scy.colemo.server.uml.UmlClass;
 
@@ -20,7 +19,7 @@ import java.awt.event.ActionEvent;
 public class AddNonDirectedConnectionAction extends BaseAction implements DoubleSelectAction {
 
       public Class getOperateson() {
-        return GraphicsClass.class;
+        return ConceptNode.class;
     }
 
     public void actionPerformed(ActionEvent e) {

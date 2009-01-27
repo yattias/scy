@@ -21,8 +21,8 @@ import eu.scy.colemo.server.uml.UmlAssociation;
  */
 public class GraphicsAssociation {
 
-	private GraphicsClass from;
-	private GraphicsClass to;
+	private ConceptNode from;
+	private ConceptNode to;
 	private GraphicsDiagram diagram;
 	private UmlAssociation link;
 	private Color color;
@@ -49,18 +49,18 @@ public class GraphicsAssociation {
 		
 		if(Math.abs(x)>Math.abs(y)){
 			if(from.getX()<to.getX()){
-				return GraphicsClass.EAST;
+				return ConceptNode.EAST;
 			}
 			else{
-				return GraphicsClass.WEST;
+				return ConceptNode.WEST;
 			}
 		}
 		else{
 			if(from.getY()>to.getY()){
-				return GraphicsClass.NORTH;
+				return ConceptNode.NORTH;
 			}
 			else {
-				return GraphicsClass.SOUTH;
+				return ConceptNode.SOUTH;
 			}	
 		}	
 	}
@@ -72,13 +72,13 @@ public class GraphicsAssociation {
 	/**
 	 * @return Returns the from.
 	 */
-	public GraphicsClass getFrom() {
+	public ConceptNode getFrom() {
 		return from;
 	}
 	/**
 	 * @return Returns the to.
 	 */
-	public GraphicsClass getTo() {
+	public ConceptNode getTo() {
 		return to;
 	}
 }

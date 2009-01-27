@@ -16,9 +16,9 @@ import javax.swing.JLabel;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ClassLabel extends JLabel {
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 		
-	public ClassLabel(GraphicsClass gClass,String preName){
+	public ClassLabel(ConceptNode gClass,String preName){
 		super(preName+(gClass.getUmlClass().getName()).toUpperCase());
 		this.setFont(new Font("sansserif", Font.BOLD, 14));
 		this.gClass=gClass;

@@ -2,12 +2,11 @@ package eu.scy.colemo.client.actions;
 
 import eu.scy.colemo.client.actions.BaseAction;
 import eu.scy.colemo.client.SelectionController;
-import eu.scy.colemo.client.GraphicsClass;
+import eu.scy.colemo.client.ConceptNode;
 import eu.scy.colemo.client.GraphicsLink;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.contributions.AddLink;
 
 import java.awt.event.ActionEvent;
 
@@ -22,7 +21,7 @@ import eu.scy.colemo.client.actions.DoubleSelectAction;
  */
 public class AddDirectedConnectionAction extends BaseAction implements DoubleSelectAction {
     public Class getOperateson() {
-        return GraphicsClass.class;
+        return ConceptNode.class;
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -1,6 +1,5 @@
 package eu.scy.colemo.client.actions;
 
-import eu.scy.colemo.client.GraphicsClass;
 import eu.scy.colemo.server.uml.UmlClass;
 
 import java.awt.event.ActionEvent;

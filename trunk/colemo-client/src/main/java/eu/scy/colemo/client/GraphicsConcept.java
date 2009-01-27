@@ -1,21 +1,12 @@
 package eu.scy.colemo.client;
 
-import eu.scy.colemo.contributions.cmap.ConceptNode;
-import eu.scy.colemo.contributions.ClassMoving;
-import eu.scy.colemo.contributions.MoveClass;
-import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.ConceptMapNodeData;
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.network.Connection;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionEvent;
-import java.util.logging.Logger;
-import java.net.InetAddress;
-
 
 
 /**
@@ -204,10 +195,10 @@ public class GraphicsConcept extends AbstractMapNode{
     }
     public Point getConnectionPoint(int point){
         switch(point) {
-        case GraphicsClass.WEST: return new Point(this.getX()-2,(int) this.getCenterPoint().getY());
-        case GraphicsClass.EAST: return new Point(this.getX()+this.getWidth()+2,(int) this.getCenterPoint().getY());
-        case GraphicsClass.NORTH: return new Point((int) this.getCenterPoint().getX(),this.getY()-2);
-        case GraphicsClass.SOUTH: return new Point((int) this.getCenterPoint().getX(),this.getY()+this.getHeight()+2);
+        case ConceptNode.WEST: return new Point(this.getX()-2,(int) this.getCenterPoint().getY());
+        case ConceptNode.EAST: return new Point(this.getX()+this.getWidth()+2,(int) this.getCenterPoint().getY());
+        case ConceptNode.NORTH: return new Point((int) this.getCenterPoint().getX(),this.getY()-2);
+        case ConceptNode.SOUTH: return new Point((int) this.getCenterPoint().getX(),this.getY()+this.getHeight()+2);
         }
         return null;
     }

@@ -17,9 +17,9 @@ import javax.swing.JLabel;
 public class MethodLabel extends JLabel {
 	
 	private String text;
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 	
-	public MethodLabel(String text,GraphicsClass gClass) {
+	public MethodLabel(String text, ConceptNode gClass) {
 		super(text);
 		this.addMouseListener(gClass);
 		this.text=text;
