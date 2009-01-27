@@ -161,7 +161,7 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
-	allowMinimize:true;
+	 allowMinimize:true;
     width:150;
     height:170;
    };
