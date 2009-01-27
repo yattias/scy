@@ -61,25 +61,25 @@ public class SCYLogin extends Group {
 
     init  {
         content = [
-            text = Text {
-                visible: false
-                opacity: 0.0
-                content: "SCY"
-                fill: Color.DARKGRAY
-                translateX: bind (scene.width - text.layoutBounds.width) / 2 - text.layoutBounds.minX
-                translateY: bind (scene.height - text.layoutBounds.height) / 2 - text.layoutBounds.minY
-                font: Font.font("Verdana", FontWeight.MEDIUM,300)
-                stroke: Color.CADETBLUE
-                effect: Reflection {
-                    fraction: 0.8
-                    topOpacity: 0.4
-                    topOffset: 10
-                }
-                effect: DropShadow {
-                    radius: 20
-                }
-
-            },
+//            text = Text {
+//                visible: false
+//                opacity: 0.0
+//                content: "SCY"
+//                fill: Color.DARKGRAY
+//                translateX: bind (scene.width - text.layoutBounds.width) / 2 - text.layoutBounds.minX
+//                translateY: bind (scene.height - text.layoutBounds.height) / 2 - text.layoutBounds.minY
+//                font: Font.font("Verdana", FontWeight.MEDIUM,300)
+//                stroke: Color.CADETBLUE
+//                effect: Reflection {
+//                    fraction: 0.8
+//                    topOpacity: 0.4
+//                    topOffset: 10
+//                }
+//                effect: DropShadow {
+//                    radius: 20
+//                }
+//
+//            },
             loginNode= ScyWindow{
                 translateX: bind (scene.width - loginNode.layoutBounds.width) / 2 - loginNode.layoutBounds.minX
                 translateY: bind (scene.height - loginNode.layoutBounds.height) / 2 - loginNode.layoutBounds.minY
