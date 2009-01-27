@@ -14,9 +14,61 @@
 <!--		<property name="extensionManager" ref="extensionManager"/>-->
 <!--	</bean>-->
 
-<!--	<alias name="drawAnalyserAgent" alias="repository"/>-->
+	<alias name="dispatcher" alias="repository"/>
+	
+	<!-- Begin Agent Definitions -->
+	<bean name="dispatcher" class="eu.scy.agents.impl.elo.ELOAgentDispatcher">
+		<property name="repository" ref="mockRepository" />
+		<property name="beforeAgents">
+			<list>
+				<!-- <ref bean="graphConverterAgent" />  -->
+				<!-- <ref bean="drawAnalyserAgent" /> -->
+				<!--  <ref bean="obwiousAgent" /> -->
+			</list>
+		</property>
+		<property name="afterAgents">
+			<list>
+				<!--<ref bean="testAfterAgent" /> -->
+				<ref bean="misspellingProcessEloAgent" />
+			</list>
+		</property>
+		<property name="notificationAgents">
+			<list>
 
-	<bean name="repository" class="roolo.cms.repository.mock.MockRepository">
+			</list>
+		</property>
+	</bean>
+
+		<!-- <bean name="graphConverterAgent" class="eu.scy.agents.roolo.elo.biomass.GraphConverterAgent"/>  -->
+
+	<!--<bean name="obwiousAgent" class="eu.scy.agents.roolo.elo.obwious.ObwiousAgent">
+	</bean>-->
+
+	<!--<bean name="testAfterAgent" class="eu.scy.agents.roolo.elo.TestAfterAgent">
+	</bean>-->
+
+	<bean name="misspellingNotificationAgent"
+		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent">
+	</bean>
+
+	<!-- <bean name="drawAnalyserAgent" class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
+		<property name="formatKey" ref="formatKey" />
+		<property name="lineCountKey" ref="lineCountKey" />
+		<property name="rectangleCountKey" ref="rectangleCountKey" />
+		<property name="ovalCountKey" ref="ovalCountKey" />
+		<property name="freehandCountKey" ref="freehandCountKey" />
+		<property name="textCountKey" ref="textCountKey" />
+		<property name="imageCountKey" ref="imageCountKey" />
+		<property name="tagPointerCountKey" ref="tagPointerCountKey" />
+	</bean>  -->
+
+	<bean name="misspellingAgent" class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" />
+
+	<bean name="misspellingProcessEloAgent" class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO" /> 
+
+<!-- End Agent Definitions! -->
+
+	<bean name="mockRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="metadataTypeManager"/>
 		<property name="extensionManager" ref="extensionManager"/>
 <!--		<property name="eloStoreDirectory" value="eloStore"/>-->
@@ -183,6 +235,24 @@
 						<value>scy/drawing</value>
 					</key>
 					<value>.scydraw</value>
+				</entry>
+				<entry>
+					<key>
+						<value>scy/dataset</value>
+					</key>
+					<value>.scydataset</value>
+				</entry>
+                <entry>
+					<key>
+						<value>scy/pds</value>
+					</key>
+					<value>.scypds</value>
+				</entry>
+				<entry>
+					<key>
+						<value>scy/text</value>
+					</key>
+					<value>.scytext</value>
 				</entry>
 			</map>
 		</property>
