@@ -17,8 +17,8 @@ import javax.swing.JList;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class MethodList extends JList {
-	GraphicsClass gClass;
-	public MethodList(GraphicsClass gClass, Vector methods){
+	ConceptNode gClass;
+	public MethodList(ConceptNode gClass, Vector methods){
 		super(methods);
 		this.gClass=gClass;
 		this.addMouseListener(gClass);

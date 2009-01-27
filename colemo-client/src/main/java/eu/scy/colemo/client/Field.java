@@ -9,18 +9,11 @@ package eu.scy.colemo.client;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.InetAddress;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.network.Connection;
-
 //import eu.scy.colemo.server.contributions.DeleteField;
-import eu.scy.colemo.network.Connection;
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.contributions.DeleteField;
 
 /**
  * @author Øystein
@@ -31,9 +24,9 @@ import eu.scy.colemo.contributions.DeleteField;
 public class Field extends JLabel implements MouseListener{
 
 	private String field;
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 	
-	public Field(String field,GraphicsClass gClass) {
+	public Field(String field, ConceptNode gClass) {
 		super(field);
 		this.addMouseListener(this);
 		this.field=field;

@@ -33,7 +33,7 @@ import org.jdesktop.swingx.graphics.GraphicsUtilities;
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
-public class GraphicsClass extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener, SelectionControllerListener {
+public class ConceptNode extends JPanel implements Selectable, MouseListener, ActionListener, MouseMotionListener, SelectionControllerListener {
 
     public static final int CONNECT_MODE_OFF = 0;
     public static final int CONNECT_MODE_RIGHT = 1;
@@ -67,7 +67,7 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
     private int dragMode = DRAGMODE_ON;
 
 
-    public GraphicsClass(UmlClass umlClass, GraphicsDiagram gDiagram) {
+    public ConceptNode(UmlClass umlClass, GraphicsDiagram gDiagram) {
         this.umlClass = umlClass;
         this.gDiagram = gDiagram;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -424,13 +424,13 @@ public class GraphicsClass extends JPanel implements Selectable, MouseListener, 
 
     public Point getConnectionPoint(int point) {
         switch (point) {
-            case GraphicsClass.WEST:
+            case ConceptNode.WEST:
                 return new Point(this.getX() - 2, (int) this.getCenterPoint().getY());
-            case GraphicsClass.EAST:
+            case ConceptNode.EAST:
                 return new Point(this.getX() + this.getWidth() + 2, (int) this.getCenterPoint().getY());
-            case GraphicsClass.NORTH:
+            case ConceptNode.NORTH:
                 return new Point((int) this.getCenterPoint().getX(), this.getY() - 2);
-            case GraphicsClass.SOUTH:
+            case ConceptNode.SOUTH:
                 return new Point((int) this.getCenterPoint().getX(), this.getY() + this.getHeight() + 2);
         }
         return null;

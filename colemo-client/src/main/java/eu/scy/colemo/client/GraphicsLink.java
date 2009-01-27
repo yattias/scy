@@ -21,8 +21,8 @@ import eu.scy.colemo.server.uml.UmlLink;
  */
 public class GraphicsLink {
 
-	private GraphicsClass from;
-	private GraphicsClass to;
+	private ConceptNode from;
+	private ConceptNode to;
 	private GraphicsDiagram diagram;
 	private UmlLink link;
 	private Color color;
@@ -61,18 +61,18 @@ public class GraphicsLink {
 		
 		if(Math.abs(x)>Math.abs(y)){
 			if(from.getX()<to.getX()){
-				return GraphicsClass.EAST;
+				return ConceptNode.EAST;
 			}
 			else{
-				return GraphicsClass.WEST;
+				return ConceptNode.WEST;
 			}
 		}
 		else{
 			if(from.getY()>to.getY()){
-				return GraphicsClass.NORTH;
+				return ConceptNode.NORTH;
 			}
 			else {
-				return GraphicsClass.SOUTH;
+				return ConceptNode.SOUTH;
 			}
 		}
 	}
@@ -116,13 +116,13 @@ public class GraphicsLink {
 	/**
 	 * @return Returns the from.
 	 */
-	public GraphicsClass getFrom() {
+	public ConceptNode getFrom() {
 		return from;
 	}
 	/**
 	 * @return Returns the to.
 	 */
-	public GraphicsClass getTo() {
+	public ConceptNode getTo() {
 		return to;
 	}
 }

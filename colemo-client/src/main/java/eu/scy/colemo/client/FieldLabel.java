@@ -17,9 +17,9 @@ import javax.swing.JLabel;
 public class FieldLabel extends JLabel {
 	
 	private String text;
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 	
-	public FieldLabel(String text,GraphicsClass gClass) {
+	public FieldLabel(String text, ConceptNode gClass) {
 		super(text);
 		this.addMouseListener(gClass);
 		this.text=text;

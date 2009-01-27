@@ -39,8 +39,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     private int connectMode = CONNECT_MODE_OFF;
 
-    private GraphicsClass source = null;
-    private GraphicsClass target = null;
+    private ConceptNode source = null;
+    private ConceptNode target = null;
 
     public int getConnectMode() {
         return connectMode;
@@ -55,19 +55,19 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
 
-    public GraphicsClass getSource() {
+    public ConceptNode getSource() {
         return source;
     }
 
-    public void setSource(GraphicsClass source) {
+    public void setSource(ConceptNode source) {
         this.source = source;
     }
 
-    public GraphicsClass getTarget() {
+    public ConceptNode getTarget() {
         return target;
     }
 
-    public void setTarget(GraphicsClass target) {
+    public void setTarget(ConceptNode target) {
         if(target == null) {
             System.out.println("Setting target to null");
         } else {
@@ -77,13 +77,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         this.target = target;
     }
 
-    public GraphicsClass getConceptMapNode(String id) {
+    public ConceptNode getConceptMapNode(String id) {
         Enumeration enumer = components.keys();
         while(enumer.hasMoreElements()) {
             Object key = enumer.nextElement();
             System.out.println("----> Contains:" + key);
         }
-        return (GraphicsClass) components.get(id);
+        return (ConceptNode) components.get(id);
     }
 
     public GraphicsDiagram(UmlDiagram umlDiagram) {
@@ -98,7 +98,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void addClass(UmlClass umlClass) {
-        GraphicsClass gClass = new GraphicsClass(umlClass, this);
+        ConceptNode gClass = new ConceptNode(umlClass, this);
 
         components.put(gClass.getUmlClass().getId(), gClass);
         System.out.println("Graphics diagram: ADDED " + umlClass.getName() + "; " + umlClass.getId() + " to components: " + components);
@@ -138,7 +138,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void deleteClass(UmlClass umlClass) {
-        GraphicsClass gClass = (GraphicsClass) components.remove(umlClass.getName());
+        ConceptNode gClass = (ConceptNode) components.remove(umlClass.getName());
         updatePopUpMenus();
         this.remove(gClass);
         this.repaint();
@@ -157,7 +157,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void updateClass(UmlClass umlClass) {
-        GraphicsClass gClass = (GraphicsClass) components.get(umlClass.getId());
+        ConceptNode gClass = (ConceptNode) components.get(umlClass.getId());
         System.out.println("UPDATIN A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
         if (umlClass.isMove()) {
             gClass.setBackground(new Color(236, 236, 236));
@@ -184,7 +184,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void renameClass(UmlClass umlClass) {
         //Hente ut evt linker og rename de
-        GraphicsClass gClass = (GraphicsClass) components.remove(umlClass.getName());
+        ConceptNode gClass = (ConceptNode) components.remove(umlClass.getName());
         String oldName = umlClass.getName();
 
         components.put(gClass.getUmlClass().getName(), gClass);
@@ -206,8 +206,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void findLink(String oldName, String newName) {
         for (Enumeration e = components.elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
-            if (o instanceof GraphicsClass) {
-                GraphicsClass gClass = (GraphicsClass) o;
+            if (o instanceof ConceptNode) {
+                ConceptNode gClass = (ConceptNode) o;
                 if (components.get(oldName + gClass.getUmlClass().getName()) != null) {
                     if (components.get(oldName + gClass.getUmlClass().getName()) instanceof GraphicsLink) {
                         GraphicsLink gLink = (GraphicsLink) components.remove(oldName + gClass.getUmlClass().getName());
@@ -253,8 +253,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void updatePopUpMenus() {
         for (Enumeration e = components.elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
-            if (o instanceof GraphicsClass) {
-                GraphicsClass gClass = (GraphicsClass) o;
+            if (o instanceof ConceptNode) {
+                ConceptNode gClass = (ConceptNode) o;
                 gClass.createPopUpMenu();
             }
         }
@@ -284,19 +284,19 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void createPopUpMenus() {
         Component[] components = getComponents();
         for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof GraphicsClass) {
-                ((GraphicsClass) components[i]).createPopUpMenu();
+            if (components[i] instanceof ConceptNode) {
+                ((ConceptNode) components[i]).createPopUpMenu();
             }
         }
     }
 
-    public GraphicsClass getClass(String name) {
+    public ConceptNode getClass(String name) {
         Component[] components = getComponents();
         for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof GraphicsClass) {
-                GraphicsClass gc = (GraphicsClass) components[i];
-                if (((GraphicsClass) components[i]).getClassName().equals(name)) {
-                    return (GraphicsClass) components[i];
+            if (components[i] instanceof ConceptNode) {
+                ConceptNode gc = (ConceptNode) components[i];
+                if (((ConceptNode) components[i]).getClassName().equals(name)) {
+                    return (ConceptNode) components[i];
                 }
             }
         }
@@ -308,8 +308,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         Component[] components = getComponents();
         for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof GraphicsClass) {
-                classNames.add(((GraphicsClass) components[i]).getClassName());
+            if (components[i] instanceof ConceptNode) {
+                classNames.add(((ConceptNode) components[i]).getClassName());
             }
         }
         return classNames;
@@ -346,7 +346,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
     }
 
-    public void deleteClass(GraphicsClass gClass) {
+    public void deleteClass(ConceptNode gClass) {
        /* //Kalle opp alle klienter og spørre om de vil slette klassen
         //frame.getClient().getConnection().send(new StartVote());
         int n = JOptionPane.showConfirmDialog(frame, "The deletion of this class will affect" + "\n" +
@@ -362,7 +362,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         */
     }
 
-    public void removeClass(GraphicsClass gClass) {
+    public void removeClass(ConceptNode gClass) {
         /*//Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
         //Client client = ApplicationController.getDefaultInstance().getClient();
         Connection connection = client.getConnection();
@@ -393,7 +393,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         */
     }
 
-    public void deleteLinks(GraphicsClass gClass) {
+    public void deleteLinks(ConceptNode gClass) {
         /*
         Client client = ApplicationController.getDefaultInstance().getClient();
         //gClass.getGraphicsDiagram().getMainFrame().getClient();

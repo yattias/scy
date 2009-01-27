@@ -3,13 +3,9 @@ package eu.scy.colemo.client.sqlspacesimpl;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.Field;
 import eu.scy.colemo.contributions.AddClass;
-import eu.scy.colemo.contributions.Contribution;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.client.ApplicationController;
-import eu.scy.colemo.client.GraphicsClass;
-import eu.scy.colemo.server.uml.UmlClass;
-
-import java.util.StringTokenizer;
+import eu.scy.colemo.client.ConceptNode;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,7 +52,7 @@ public class ObjectTranslator {
                     return ac;
                } else if(c.getName().indexOf("MoveClass") > 0) {
                     System.out.println("Creating new MoveClass!");
-                    GraphicsClass graphicsClass = ApplicationController.getDefaultInstance().getGraphicsDiagram().getConceptMapNode((String) objectIdField.getValue());
+                    ConceptNode graphicsClass = ApplicationController.getDefaultInstance().getGraphicsDiagram().getConceptMapNode((String) objectIdField.getValue());
                     String pos = (String) descriptionField.getValue();
                     String [] posArray = pos.split(",");
                     String xPos = posArray[0];

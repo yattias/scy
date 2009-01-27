@@ -20,8 +20,8 @@ import javax.swing.JList;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class FieldList extends JList  {
-	GraphicsClass gClass;
-	public FieldList(GraphicsClass gClass, Vector fields){
+	ConceptNode gClass;
+	public FieldList(ConceptNode gClass, Vector fields){
 		super(fields);
 		this.gClass=gClass;
 		this.addMouseListener(gClass);

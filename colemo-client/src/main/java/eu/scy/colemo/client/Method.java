@@ -9,15 +9,9 @@ package eu.scy.colemo.client;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.InetAddress;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.network.Connection;
-
-import eu.scy.colemo.contributions.DeleteMethod;
 
 /**
  * @author Øystein
@@ -28,9 +22,9 @@ import eu.scy.colemo.contributions.DeleteMethod;
 public class Method extends JLabel implements MouseListener {
 
 	private String method;
-	private GraphicsClass gClass;
+	private ConceptNode gClass;
 	
-	public Method(String method,GraphicsClass gClass) {
+	public Method(String method, ConceptNode gClass) {
 		super(method);
 		this.addMouseListener(this);
 		this.method=method;
