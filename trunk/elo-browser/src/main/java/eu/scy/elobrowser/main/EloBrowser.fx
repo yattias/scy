@@ -239,7 +239,7 @@ var growl = GrowlFX {
 
 stage = Stage {
 
-	title: "ELO browser"
+	title: "SCY Lab (FX)"
 	width: 1024
 	height: 768
 	scene: Scene {
