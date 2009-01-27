@@ -161,10 +161,11 @@ var newScyWindow= ScyWindow{
     scyContent:newGroup
     allowClose:false;
     allowResize:false;
+	 allowMinize:true;
     width:150;
     height:170;
    };
-
+newScyWindow.openWindow(150, 170);
 scyDesktop.addScyWindow(newScyWindow);
 
 var queryEntry1 = EloSpecWidget{
@@ -201,6 +202,7 @@ var searchButton = SwingButton{
 
 var queryWindow = ScyWindow{
     title:"Query"
+	 eloType:"Search"
     color:Color.BLUE;
     allowClose:true;
     closeIsHide:true;
@@ -211,12 +213,14 @@ var queryWindow = ScyWindow{
         content:[queryEntry1]
     }
 }
+queryWindow.openWindow(270, 160);
 
 scyDesktop.addScyWindow(queryWindow);
 scyDesktop.hideScyWindow(queryWindow);
 
 var metadataDisplayMappingWindow = ScyWindow{
     title:"Display mapping"
+	 eloType:"Search"
     color:Color.BLUE;
     allowClose:true;
     closeIsHide:true;
@@ -227,7 +231,7 @@ var metadataDisplayMappingWindow = ScyWindow{
         content:[metadataDisplayMappingWidget]
     }
 }
-
+metadataDisplayMappingWindow.openWindow(188, 223);
 scyDesktop.addScyWindow(metadataDisplayMappingWindow);
 scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
@@ -235,9 +239,11 @@ var eloBrowserControl= ScyWindow{
     translateX:10;
     translateY:10;
     title:"Search"
+	 eloType:"Search"
     color:Color.BLUE;
     allowClose:false;
     allowResize:false;
+	 allowMinimize:true;
     width:100;
     height:130;
 	opacity:0.75;
@@ -267,6 +273,7 @@ var eloBrowserControl= ScyWindow{
         ]
     }
 }
+eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
 var loginGroup = SCYLogin {
     mainContent: [

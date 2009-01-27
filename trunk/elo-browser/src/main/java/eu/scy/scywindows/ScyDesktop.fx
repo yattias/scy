@@ -33,11 +33,12 @@ public class ScyDesktop{
       offsetY: 4,
       color: Color.BLACK
 			}
-   var inactiveWindowEffect:Effect = DropShadow {
-      offsetX: 1,
-      offsetY: 1
-      color: Color.BLACK
-			}
+//   var inactiveWindowEffect:Effect = DropShadow {
+//      offsetX: 1,
+//      offsetY: 1
+//      color: Color.BLACK
+//			}
+   var inactiveWindowEffect:Effect = null;
 
 	init{
 		println("ScyDesktop created")
