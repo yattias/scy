@@ -201,10 +201,9 @@ public class SimQuestNode extends CustomNode {
 			scyContent: simquestNode
 			minimumWidth:320;
 			minimumHeight:100;
-			width: 500;
-			height: 680;
 			cache:true;
       }
+        simquestWindow.openWindow(500, 680);
 		simquestNode.scyWindow = simquestWindow;
 		return simquestWindow;
 	}
