@@ -15,7 +15,7 @@ import java.io.Serializable;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UmlLink implements Serializable {
+public class UmlLink extends AbstractDiagramData implements Serializable {
 	private String from;
 	private String to;
 	private String createdBy;
@@ -24,7 +24,7 @@ public class UmlLink implements Serializable {
 	 * 
 	 */
 	public UmlLink(String from, String to, String createdBy) {
-		
+		super(from + "-" + to);
 		this.from = from;
 		this.to = to;
 		this.createdBy = createdBy;
