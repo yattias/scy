@@ -1,8 +1,9 @@
 package eu.scy.elobrowser.main;
 
-import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.lang.Math;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.SimpleInterpolator;
 import javafx.animation.Timeline;
@@ -21,30 +22,29 @@ import org.jfxtras.scene.layout.Cell;
 import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
-import javafx.animation.Interpolator;
 
-    class SlackyInterpolator extends SimpleInterpolator {
+class SlackyInterpolator extends SimpleInterpolator {
 
-        override function curve(x: Number) : Number {
-            if (x >= 0 and x <= 0.2) {
-                return 11.61 * Math.pow(x,3) + 0.04 * x;
-            } else
-            if (x > 0.2 and x <= 0.3) {
-                return  -12.5 * Math.pow(x,3) + 14.46 * Math.pow(x,2) - 2.86 * x + 0.19;
-            } else
-            if (x > 0.3 and x <= 0.5) {
-                return  -2.23 * Math.pow(x,3) + 5.22 * Math.pow(x,2) - 0.08 * x - 0.08;
-            } else
-            if (x > 0.5 and x <= 0.7) {
-                return  -58.48 * Math.pow(x,3) + 89.6 * Math.pow(x,2) - 42.27 * x + 6.95;
-            } else
-            if (x > 0.7 and x <= 0.8) {
-                return  212.5 * Math.pow(x,3) - 479.46 * Math.pow(x,2) + 356.07 * x - 86;
-            } else {
-                return  -50.89 * Math.pow(x,3) + 152.68 * Math.pow(x,2) - 149.64 * x + 48.86;
-            }
+    override function curve(x: Number) : Number {
+        if (x >= 0 and x <= 0.2) {
+            return 11.61 * Math.pow(x,3) + 0.04 * x;
+        } else
+        if (x > 0.2 and x <= 0.3) {
+            return  -12.5 * Math.pow(x,3) + 14.46 * Math.pow(x,2) - 2.86 * x + 0.19;
+        } else
+        if (x > 0.3 and x <= 0.5) {
+            return  -2.23 * Math.pow(x,3) + 5.22 * Math.pow(x,2) - 0.08 * x - 0.08;
+        } else
+        if (x > 0.5 and x <= 0.7) {
+            return  -58.48 * Math.pow(x,3) + 89.6 * Math.pow(x,2) - 42.27 * x + 6.95;
+        } else
+        if (x > 0.7 and x <= 0.8) {
+            return  212.5 * Math.pow(x,3) - 479.46 * Math.pow(x,2) + 356.07 * x - 86;
+        } else {
+            return  -50.89 * Math.pow(x,3) + 152.68 * Math.pow(x,2) - 149.64 * x + 48.86;
         }
     }
+}
 
 public class SCYLogin extends Group {
     var text : Text;
@@ -88,6 +88,11 @@ public class SCYLogin extends Group {
                 height: 90;
                 title:"Login"
                 color:Color.BLUEVIOLET
+
+                var usernamefield = TextBox {}
+
+                var passwordfield = TextBox {}
+
                 scyContent:
                 loginGroup = Grid {
                     width: 50
@@ -102,8 +107,7 @@ public class SCYLogin extends Group {
                                     content: "Username:"
                                 },
                                 Cell {
-                                    content: TextBox {
-                                    }
+                                    content: usernamefield
                                 }
                             ]
                         },
@@ -113,8 +117,7 @@ public class SCYLogin extends Group {
                                     content: "Password:"
                                 },
                                 Cell {
-                                    content: TextBox {
-                                    }
+                                    content: passwordfield
                                 }
                             ]
                         },
@@ -125,7 +128,17 @@ public class SCYLogin extends Group {
                                 content: SwingButton {
                                     text: "Ok"
                                     action: function() {
-                                        loginNodeDisappear();
+                                        var sm = new ScyLoginManager();
+                                        var username = usernamefield.text;
+                                        var password = passwordfield.text;
+                                        var loginResult = sm.login(username, password);
+                                        if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
+                                            loginNodeDisappear();
+                                        } else {
+                                            startLoginAnimation();
+                                        }
+
+
                                     }
                                 }
                             }
