@@ -1,6 +1,7 @@
 package eu.scy.collaborationservice;
 
 import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
@@ -12,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import eu.scy.core.model.impl.ScyBaseObject;
 
-public class CollaborationService {
+public class CollaborationService implements Callback {
     
     private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
     private static final String SERVER_IP = "129.240.212.15";
@@ -23,24 +24,30 @@ public class CollaborationService {
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     
+    private CollaborationServiceClientInterface client;
+
     
     
     public CollaborationService() {
     }
     
     
-    public static CollaborationService createCollaborationService(String userName, String sqlSpaceName) {
+    public static CollaborationService createCollaborationService(String userName, String sqlSpaceName, CollaborationServiceClientInterface c) {
         CollaborationService cs = null;
+        cs = new CollaborationService();
+        cs.client = c;
+        cs.userName = userName;
         TupleSpace ts;
+        Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
         try {
             ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+            ts.eventRegister(Command.WRITE, template, cs, true);
+            ts.eventRegister(Command.DELETE, template, cs, true);
         } catch (TupleSpaceException e) {
             logger.error("Tupplespace pb " + e);
             return null;
         }
-        cs = new CollaborationService();
         cs.tupleSpace = ts;
-        cs.userName = userName;
         return cs;
     }
     
@@ -147,4 +154,17 @@ public class CollaborationService {
         }
         return returnValues;
     }
+
+
+	public void call(Command cmd, int seq, Tuple afterCmd, Tuple beforeCmd) {
+		switch (cmd) {
+		case WRITE:
+			client.actionUponWrite(afterCmd.getField(0).getValue().toString());
+			break;
+		case DELETE:
+			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
+			break;
+		}
+	}
+
 }
