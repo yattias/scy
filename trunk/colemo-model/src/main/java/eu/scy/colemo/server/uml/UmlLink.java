@@ -11,9 +11,7 @@ import java.io.Serializable;
 
 /**
  * @author Øystein
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+*
  */
 public class UmlLink extends AbstractDiagramData implements Serializable {
 	private String from;
