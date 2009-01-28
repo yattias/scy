@@ -76,7 +76,7 @@ public class ScyWindow extends CustomNode {
    public var allowRotate = true;
    public var allowResize = true;
    public var allowClose = true;
-   public var allowMinimize = false;
+   public var allowMinimize = true;
    public var closeIsHide = false;
    public var scyDesktop:ScyDesktop;
 	public var windowEffect:Effect;
