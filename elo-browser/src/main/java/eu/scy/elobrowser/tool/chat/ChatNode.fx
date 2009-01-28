@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.net.URI;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 /**
  * @author weinbrenner
@@ -167,15 +169,28 @@ public class ChatNode extends CustomNode {
     }
 
 function run(){
+    var chatnode : ChatNode;
     Stage {
         title: "Chat"
         width: 250
         height: 250
         scene: Scene {
-            content:ChatNode{
+            content:chatnode = ChatNode{
+                
             }
 
         }
     }
+    Timeline {
+        keyFrames: [
+            KeyFrame {
+                time: 30s
+                action: function() {
+                chatnode.chatpanel.DELETE_ME_QUICKLY();
+            }
+
+            }
+        ]
+}.play();
 
 }
