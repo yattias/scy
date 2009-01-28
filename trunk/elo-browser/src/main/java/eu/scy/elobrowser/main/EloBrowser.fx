@@ -128,9 +128,9 @@ var metadataDisplayMappingWidget = MetadataDisplayMappingWidget{
 var resultView = ResultView{
     roolo:roolo;
     xSize: bind
-        stage.width - 110 as Integer;
+        stage.width - 200 as Integer;
     ySize: bind
-        stage.height - 130 as Integer;
+        stage.height - 150 as Integer;
 }
 
 function doSearch(){
