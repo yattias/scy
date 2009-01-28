@@ -32,10 +32,10 @@ public class CollaborationService implements Callback {
     }
     
     
-    public static CollaborationService createCollaborationService(String userName, String sqlSpaceName, CollaborationServiceClientInterface c) {
+    public static CollaborationService createCollaborationService(String userName, String sqlSpaceName, CollaborationServiceClientInterface csci) {
         CollaborationService cs = null;
         cs = new CollaborationService();
-        cs.client = c;
+        cs.client = csci;
         cs.userName = userName;
         TupleSpace ts;
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
