@@ -82,7 +82,7 @@ var newGroup = VBox {
         }
 
         SwingButton{
-            text: "ChatPad"
+            text: "BuddyList"
             action: function() {
                 var chatWindow = ChatNode.createChatWindow(roolo);
                 chatWindow.allowResize = true;
