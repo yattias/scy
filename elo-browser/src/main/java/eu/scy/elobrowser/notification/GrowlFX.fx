@@ -29,12 +29,7 @@ public class GrowlFX extends CustomNode, INotificationCallback {
 
     var notificationService = new NotificationService("scy.collide.info", 2525, "notifications");
 
-    var text :String on replace {
-        if(fadein.running) {
-           fadein.stop();
-        }
-        fadein.playFromStart();
-    };
+    var text :String;
 
     public var width = 400;
 
@@ -75,6 +70,10 @@ public class GrowlFX extends CustomNode, INotificationCallback {
         
         FX.deferAction(function() :Void {
             text = "You have {errnum} errors in your last saved text!";
+            if(fadein.running) {
+                fadein.stop();
+            }
+            fadein.playFromStart();
         });
     }
 
