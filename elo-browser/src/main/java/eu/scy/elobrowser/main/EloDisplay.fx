@@ -92,6 +92,9 @@ public class EloDisplay extends CustomNode {
 		if (EloDrawingActionWrapper.scyDrawType == eloType){
 			eloTypeChar = "D";
 			eloColor = Color.GREEN;
+			eloWindow.minimumWidth=320;
+			eloWindow.minimumHeight=100;
+			cache=true;
 		}
 		else
 		if (EloSimQuestWrapper.scyDatasetType == eloType){
@@ -110,6 +113,7 @@ public class EloDisplay extends CustomNode {
 		}
 
 		eloWindow.eloType = eloTypeChar;
+		color = eloColor;
 	}
 
 	public function clear(){

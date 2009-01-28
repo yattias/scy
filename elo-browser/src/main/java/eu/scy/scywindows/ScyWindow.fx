@@ -1115,7 +1115,9 @@ function run() {
 		translateY:20;
 	   setScyContent:function(scyWindow:ScyWindow){
 			println("setScyContent");
-			scyWindow.scyContent = newGroup
+			scyWindow.scyContent = newGroup;
+			scyWindow.color =
+				 Color.CORAL;
 		};
 		closedAction:function(scyWindow:ScyWindow){
 			println("closedAction");
