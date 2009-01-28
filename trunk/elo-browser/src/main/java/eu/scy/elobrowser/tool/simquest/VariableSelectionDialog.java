@@ -46,18 +46,34 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		
 
 		variablePanel = new JPanel();
-		variablePanel.setLayout(new GridLayout(variables.size(),
-				1));
+        // we need +3 because we have three more selection buttons
+		variablePanel.setLayout(new GridLayout(variables.size()+3, 1));
 		JCheckBox checkbox;	
 		for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes.hasNext();) {
 			checkbox = boxes.next();
 			variablePanel.add(checkbox);
 		}
+        // the select-all-button...
+        JButton button = new JButton("select all");
+        button.setActionCommand("all");
+        button.addActionListener(this);
+        variablePanel.add(button);
+        // the select-non-button...
+        button = new JButton("select none");
+        button.setActionCommand("none");
+        button.addActionListener(this);
+        variablePanel.add(button);
+        // the invert-selection-button...
+        button = new JButton("invert selection");
+        button.setActionCommand("invert");
+        button.addActionListener(this);
+        variablePanel.add(button);
+
 		variablePanel.setBorder(BorderFactory.createTitledBorder("available variables"));
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		JButton button = new JButton("save");
+		button = new JButton("save");
 		button.setActionCommand("save");
 		button.addActionListener(this);
 		buttonPanel.add(button);
@@ -79,15 +95,30 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 				JCheckBox box = boxes.next();
 				if (box.isSelected()) {
 					selectedVariables.add(variables.get(box));
-					System.out.println("VariableSelectionDialog.actionPerformed(). add variable "+variables.get(box).getExternalName());
+					//System.out.println("VariableSelectionDialog.actionPerformed(). add variable "+variables.get(box).getExternalName());
 				}
 			}
-			System.out.println("VariableSelectionDialog.actionPerformed(). added "+selectedVariables.size()+" variables");
+			//System.out.println("VariableSelectionDialog.actionPerformed(). added "+selectedVariables.size()+" variables");
 			collector.setSelectedVariables(selectedVariables);
 			dispose();
 		} else if (evt.getActionCommand().equals("cancel")) {
 			dispose();
-		}
+		} else if (evt.getActionCommand().equals("all")) {
+			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes.hasNext();) {
+				JCheckBox box = boxes.next();
+				box.setSelected(true);
+			}
+		} else if (evt.getActionCommand().equals("none")) {
+			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes.hasNext();) {
+				JCheckBox box = boxes.next();
+				box.setSelected(false);
+			}
+		} else if (evt.getActionCommand().equals("invert")) {
+			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes.hasNext();) {
+				JCheckBox box = boxes.next();
+				box.setSelected(!box.isSelected());
+			}
+        }
 	}
 
 	private Map<JCheckBox, ModelVariable> createVariables(List<ModelVariable> simulationvariables) {
