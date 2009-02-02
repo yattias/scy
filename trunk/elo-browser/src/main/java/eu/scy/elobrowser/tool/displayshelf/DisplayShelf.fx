@@ -281,10 +281,10 @@ public class DisplayShelf extends CustomNode {
 			color:Color.YELLOWGREEN
 			title:"Picture Display"
 			scyContent: dispShelf
-			minimumWidth:320;
-			minimumHeight:100;
-			//width: 320;
-			height: 250;
+			minimumWidth:600;
+			minimumHeight:300;
+			width: 600;
+			height: 300;
 			cache:true;
       }
 		dispShelf.scyWindow = dispWindow;
