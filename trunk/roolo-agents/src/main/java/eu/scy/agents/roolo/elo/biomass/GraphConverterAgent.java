@@ -13,13 +13,11 @@ import roolo.elo.api.I18nType;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.MetadataValueCount;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.value.validators.LongValidator;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
-import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
@@ -34,8 +32,6 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 
 	private LinkedHashMap<String, Node> nodes;
 	private int[] edgeValues;
-	// private int counter;
-	private IMetadataTypeManager<IMetadataKey> typeManger;
 
 	public GraphConverterAgent() {
 		this.nodes = new LinkedHashMap<String, Node>();
@@ -85,14 +81,6 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 			e.printStackTrace();
 		}
 
-	}
-
-	private IMetadataTypeManager<IMetadataKey> getMetadataTypeManager() {
-		if (typeManger == null) {
-			typeManger = new ToolBrokerImpl<IMetadataKey>()
-					.getMetaDataTypeManager();
-		}
-		return typeManger;
 	}
 
 	@SuppressWarnings("unchecked")
