@@ -17,6 +17,7 @@ import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.elobrowser.tool.colemo.*;
+import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
@@ -96,7 +97,17 @@ var newGroup = VBox {
                 var dataToolWindow = DataToolNode.createDataToolWindow(roolo);
                 scyDesktop.addScyWindow(dataToolWindow);
                 dataToolWindow.allowResize = true;
-                dataToolWindow.openWindow(811,664);
+                dataToolWindow.openWindow(300,600);
+            }
+        }
+
+         SwingButton{
+            text: "OSLO picture viewer"
+            action: function() {
+                var shelfWindow = DisplayShelf.createScyDisplayShelf(roolo);
+                scyDesktop.addScyWindow(shelfWindow);
+                shelfWindow.allowResize = false;
+                shelfWindow.openWindow(600,300);
             }
         }
     ]
