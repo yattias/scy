@@ -29,9 +29,9 @@ public class ScyDesktop{
    var windowOffsetStep = 10;
    var activeWindow:ScyWindow;
    var activeWindowEffect:Effect = DropShadow {
-      offsetX: 4,
-      offsetY: 4,
-      color: Color.BLACK
+      offsetX: 6,
+      offsetY: 6,
+      color: Color.color(0.25,.25,.25)
 			}
 //   var inactiveWindowEffect:Effect = DropShadow {
 //      offsetX: 1,
