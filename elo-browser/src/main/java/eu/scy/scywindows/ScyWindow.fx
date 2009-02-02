@@ -93,26 +93,30 @@ public class ScyWindow extends CustomNode {
 
 	// layout constants
 	def windowBackgroundColor = Color.WHITE;
-	def controlColor = Color.BLACK;
-	def controlLength = 20;
+//	def controlColor = Color.BLACK;
+//	def controlColor = Color.color(lighterColorElement(color.red),lighterColorElement(color.green),lighterColorElement(color.blue));
+	def controlColor = Color.WHITE;
+	def controlLength = 21;
 	def controlStrokeWidth = 4;
-	def closeCrossInset = 2;
+	def closeCrossInset = 4;
+   def controlStrokeDashArray = [0.0,7.0];
+   def controlStrokeDashOffset = 0;
 
    def iconSize = 16;
 
 	def borderWidth = 4;
-	def topLeftBlockSize = 20;
+	def topLeftBlockSize = 17;
 	def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
    def closeColor = Color.WHITE;
    def closeMouseOverEffect:Effect = Glow{
       level:1}
    def closeStrokeWidth = 2;
-	var borderBlockOffset = 5;
-	var dragStrokeWith = 4;
-	var dragLength = 20;
-	var dragBorder = 4;
+//	var borderBlockOffset = 5;
+//	var dragStrokeWith = 4;
+//	var dragLength = 20;
+//	var dragBorder = 4;
 	var titleFontsize = 12;
-	var fontHeightCompensation = 0;
+	var fontHeightCompensation = 3;
 	var lineOffsetY=3;
 	var lineWidth = 1;
 	var contentBorder = 2;
@@ -144,10 +148,10 @@ public class ScyWindow extends CustomNode {
 	def closeAnimationTime = 350ms;
 
    public var minimumHeight:Number = 100 on replace{
-      minimumHeight = Math.max(minimumHeight, topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth);
+      minimumHeight = Math.max(minimumHeight, topLeftBlockSize + controlLength + borderWidth);
    }
    public var minimumWidth:Number = 100 on replace{
-      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset);
+      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
    }
 
 	postinit {
@@ -156,6 +160,11 @@ public class ScyWindow extends CustomNode {
 		}
 		resizeTheContent();
 	}
+
+   function lighterColorElement(elementValue:Number):Number{
+   var whiteDif = 1-elementValue;
+   return 1-whiteDif/2;
+}
 
 	public function openWindow(openWidth:Number,openHeight:Number){
 		checkScyContent();
@@ -530,26 +539,6 @@ public class ScyWindow extends CustomNode {
          cursor: Cursor.MOVE;
 
 			content: [
-				//					Rectangle { // main border, only for effect, applying effect on main slows things down
-				//					x: 0,
-				//					y: borderBlockOffset;
-				//					width: bind width - borderBlockOffset,
-				//					height: bind height - borderBlockOffset
-				//					fill:bind backgroundColor;
-				//					stroke:bind color
-				//					strokeWidth:borderWidth;
-				//					effect:bind windowEffect;
-				//				}
-				//					Rectangle { // main border
-				//					x: borderBlockOffset,
-				//					y: borderBlockOffset;
-				//					width: bind width - 2 * borderBlockOffset,
-				//					height: bind height - borderBlockOffset
-				//					fill:bind backgroundColor;
-				//					stroke:bind color
-				//					strokeWidth:borderWidth;
-				//					//effect:bind windowEffect;
-				//				}
 					Group{ // the white background of the window
 					content:[
 						Rectangle { // top part until the arc
@@ -573,8 +562,8 @@ public class ScyWindow extends CustomNode {
 						Arc { // the bottom left rotate arc part
 							centerX: controlLength,
 							centerY: bind height - controlLength,
-							radiusX: dragLength,
-							radiusY: dragLength
+							radiusX: controlLength,
+							radiusY: controlLength
 							startAngle: 180,
 							length: 90
 							type: ArcType.ROUND
@@ -621,8 +610,8 @@ public class ScyWindow extends CustomNode {
 					Arc { // the bottom left "disabled" rotate arc
 					centerX: controlLength,
 					centerY: bind height - controlLength,
-					radiusX: dragLength,
-					radiusY: dragLength
+					radiusX: controlLength,
+					radiusY: controlLength
 					startAngle: 180,
 					length: 90
 					type: ArcType.OPEN
@@ -664,14 +653,22 @@ public class ScyWindow extends CustomNode {
 				minimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and not isMinimized and not isClosed
-					translateX:-topLeftBlockSize / 2
+					translateX:bind width / 2
+               translateY: bind height+borderWidth/2
+					//effect:bind windowEffect
 					content:[
-						Polyline {
-							points: [ 0,0 topLeftBlockSize,0 topLeftBlockSize / 2,topLeftBlockSize 0,0]
-							fill: bind color
+                  Arc {
+                     centerX: 0,
+                     centerY: 0
+                     radiusX: topLeftBlockSize/2,
+                     radiusY: topLeftBlockSize/2
+                     startAngle: 180,
+                     length: 180
+                     type: ArcType.OPEN
+                     fill: Color.TRANSPARENT
 							strokeWidth: controlStrokeWidth
-							stroke: controlColor
-						}
+							stroke: bind color
+                  }
 					]
                onMouseClicked: function( e: MouseEvent ):Void {
 						doMinimize();
@@ -687,14 +684,22 @@ public class ScyWindow extends CustomNode {
 				unminimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and isMinimized and not isClosed
-					translateX:-topLeftBlockSize / 2
+					translateX:bind width / 2
+               translateY: bind height+borderWidth/2
+					//effect:bind windowEffect
 					content:[
-						Polyline {
-							points: [ 0,0 topLeftBlockSize,0 topLeftBlockSize / 2,-topLeftBlockSize 0,0]
-							fill: bind color
+                  Arc {
+                     centerX: 0, 
+                     centerY: 0
+                     radiusX: topLeftBlockSize/2,
+                     radiusY: topLeftBlockSize/2
+                     startAngle: 180,
+                     length: 180
+                     type: ArcType.OPEN
+                     fill: Color.TRANSPARENT
 							strokeWidth: controlStrokeWidth
-							stroke: controlColor
-						}
+							stroke: bind color
+                  }
 					]
                onMouseClicked: function( e: MouseEvent ):Void {
 						doUnminimize();
@@ -731,26 +736,28 @@ public class ScyWindow extends CustomNode {
                            fill: bind color
                         }
 									Group{ // close cross
-										clip: Rectangle { // top left block
-                              x: closeCrossInset,
-                              y: closeCrossInset;
-                              width: topLeftBlockSize - 2 * closeCrossInset,
-                              height: topLeftBlockSize - 2 * closeCrossInset
-                           }
+                     translateX:0
+                     translateY:-1
+//										clip: Rectangle { // top left block
+//                              x: closeCrossInset,
+//                              y: closeCrossInset;
+//                              width: topLeftBlockSize - 2 * closeCrossInset,
+//                              height: topLeftBlockSize - 2 * closeCrossInset
+//                           }
                            content:[
                               Line {
-                                 startX: 0,
-                                 startY: 0
-                                 endX: topLeftBlockSize,
-                                 endY: topLeftBlockSize
+                                 startX: closeCrossInset,
+                                 startY: closeCrossInset
+                                 endX: topLeftBlockSize-closeCrossInset,
+                                 endY: topLeftBlockSize-closeCrossInset
                                  strokeWidth: closeStrokeWidth
                                  stroke: closeColor
                               }
                               Line {
-                                 startX: 0,
-                                 startY: topLeftBlockSize
-                                 endX: topLeftBlockSize,
-                                 endY: 0
+                                 startX: closeCrossInset,
+                                 startY: topLeftBlockSize-closeCrossInset
+                                 endX: topLeftBlockSize-closeCrossInset,
+                                 endY: closeCrossInset
                                  strokeWidth: closeStrokeWidth
                                  stroke: closeColor
                               }
@@ -771,7 +778,7 @@ public class ScyWindow extends CustomNode {
 				}
 					Group{ // icon for title
 					translateX:3 * topLeftBlockSize / 4
-					translateY:topLeftBlockSize / 4
+					translateY:topLeftBlockSize / 4+1
 					content:[
 						Rectangle{
 							x:0
@@ -791,12 +798,12 @@ public class ScyWindow extends CustomNode {
 				},
 					Text { // title
 					font: textFont
-					x: 3 * topLeftBlockSize / 4 + iconSize + 1,
-					y: borderBlockOffset + borderWidth / 2 + titleFontsize - fontHeightCompensation
+					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
+					y: borderWidth + titleFontsize + fontHeightCompensation
 					clip:Rectangle {
 						x: 3 * topLeftBlockSize / 4 + iconSize,
 						y: 0
-						width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
+						width: bind width - 3 * topLeftBlockSize / 4 - iconSize-4,
 						height: bind height
 						fill: Color.BLACK
 					}
@@ -815,7 +822,7 @@ public class ScyWindow extends CustomNode {
 				//					]
 				//				},
 				Line { // line under title
-					startX:2 * borderWidth,
+					startX:3 * topLeftBlockSize / 4,
 					startY:iconSize + topLeftBlockSize / 2
 					endX: bind width - 2 * borderWidth,
 					endY: iconSize + topLeftBlockSize / 2
@@ -826,39 +833,89 @@ public class ScyWindow extends CustomNode {
                blocksMouse:true;
                visible:bind allowResize or isClosed
                cursor:Cursor.NW_RESIZE;
+               translateX:bind width;
+               translateY:bind height;
                content:[
-							Line { // vertical line
-                     startX: bind width,
-                     startY: bind height - controlLength
-                     endX: bind width,
-                     endY: bind height
-                     stroke:bind controlColor
+                  Polyline {
+                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
+                     stroke:bind Color.WHITE
                      strokeWidth:bind controlStrokeWidth;
                   }
-							Line { // horizontal line
-                     startX: bind width,
-                     startY: bind height
-                     endX: bind width - controlLength,
-                     endY: bind height
-                     stroke:bind controlColor
+                  Polyline {
+                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
+                     stroke:bind color
                      strokeWidth:bind controlStrokeWidth;
+                     strokeDashArray: controlStrokeDashArray;
+                     strokeDashOffset:controlStrokeDashOffset;
                   }
-							Line { // top-right devider
-							startX: bind width,
-							startY: bind height - controlLength - controlStrokeWidth / 2
-							endX: bind width,
-							endY: bind height - controlLength - controlStrokeWidth / 2
-							strokeWidth:bind controlStrokeWidth;
-							stroke: Color.WHITE
-						}
-							Line { // bottom left devider
-							startX:bind width - controlLength,
-							startY: bind height
-							endX:bind width - controlLength,
-							endY: bind height
-							strokeWidth:bind controlStrokeWidth;
-							stroke: Color.WHITE
-						}
+//                  Line { // vertical line
+//                     startX: bind width,
+//                     startY: bind height - controlLength
+//                     endX: bind width,
+//                     endY: bind height
+//                     stroke:bind Color.WHITE
+//                     strokeWidth:bind controlStrokeWidth;
+//                  }
+//                  Line { // vertical line
+//                     startX: bind width,
+//                     startY: bind height - controlLength
+//                     endX: bind width,
+//                     endY: bind height
+//                     stroke:bind color
+//                     strokeWidth:bind controlStrokeWidth;
+//                     strokeDashArray: controlStrokeDashArray;
+//                     strokeDashOffset:controlStrokeDashOffset;
+//                  }
+//                  Line { // horizontal line
+//                     startX: bind width,
+//                     startY: bind height
+//                     endX: bind width - controlLength,
+//                     endY: bind height
+//                     stroke:bind Color.WHITE
+//                     strokeWidth:bind controlStrokeWidth;
+//                  }
+//                  Line { // horizontal line
+//                     startX: bind width,
+//                     startY: bind height
+//                     endX: bind width - controlLength,
+//                     endY: bind height
+//                     stroke:bind color
+//                     strokeWidth:bind controlStrokeWidth;
+//                     strokeDashArray: controlStrokeDashArray;
+//                     strokeDashOffset:controlStrokeDashOffset;
+//                  }
+//							Line { // vertical line
+//                     startX: bind width,
+//                     startY: bind height - controlLength
+//                     endX: bind width,
+//                     endY: bind height
+//                     stroke:bind color
+//                     strokeWidth:bind controlStrokeWidth;
+//                 }
+//							Line { // horizontal line
+//                     startX: bind width,
+//                     startY: bind height
+//                     endX: bind width - controlLength,
+//                     endY: bind height
+//                     stroke:bind color
+//                     strokeWidth:bind controlStrokeWidth;
+//                  }
+//							Line { // top-right devider
+//							startX: bind width,
+//							startY: bind height - controlLength - controlStrokeWidth / 2
+//							endX: bind width,
+//							endY: bind height - controlLength - controlStrokeWidth / 2
+//							strokeWidth:bind controlStrokeWidth;
+//							stroke: Color.WHITE
+//						}
+//							Line { // bottom left devider
+//							startX:bind width - controlLength,
+//							startY: bind height
+//							endX:bind width - controlLength,
+//							endY: bind height
+//							strokeWidth:bind controlStrokeWidth;
+//							stroke: Color.WHITE
+//						}
                ]
                onMousePressed: function( e: MouseEvent ):Void {
 						if (allowResize){
@@ -880,37 +937,49 @@ public class ScyWindow extends CustomNode {
                visible:bind allowRotate;
 					content:[
 						Arc {
-							//					effect: DropShadow {
-							//						offsetX: 2,
-							//						offsetY: 2
-							//					}
 							centerX: controlLength,
 							centerY: bind height - controlLength,
-							radiusX: dragLength,
-							radiusY: dragLength
+							radiusX: controlLength,
+							radiusY: controlLength
 							startAngle: 180,
 							length: 90
 							type: ArcType.OPEN
 							fill: Color.TRANSPARENT
-							stroke:bind controlColor
+							stroke:Color.WHITE
 							strokeWidth:bind controlStrokeWidth;
+//                     strokeDashArray: controlStrokeDashArray;
+//                     strokeDashOffset:controlStrokeDashOffset;
 						}
-							Line { // top-left devider
-							startX: 0,
-							startY: bind height - controlLength - controlStrokeWidth / 2
-							endX: 0,
-							endY: bind height - controlLength - controlStrokeWidth / 2
+						Arc {
+							centerX: controlLength,
+							centerY: bind height - controlLength,
+							radiusX: controlLength,
+							radiusY: controlLength
+							startAngle: 180,
+							length: 90
+							type: ArcType.OPEN
+							fill: Color.TRANSPARENT
+							stroke:bind color
 							strokeWidth:bind controlStrokeWidth;
-							stroke: Color.WHITE
+                     strokeDashArray: controlStrokeDashArray;
+                     strokeDashOffset:controlStrokeDashOffset;
 						}
-							Line { // bottom right devider
-							startX: controlLength,
-							startY: bind height
-							endX: controlLength,
-							endY: bind height
-							strokeWidth:bind controlStrokeWidth;
-							stroke: Color.WHITE
-						}
+//							Line { // top-left devider
+//							startX: 0,
+//							startY: bind height - controlLength - controlStrokeWidth / 2
+//							endX: 0,
+//							endY: bind height - controlLength - controlStrokeWidth / 2
+//							strokeWidth:bind controlStrokeWidth;
+//							stroke: Color.WHITE
+//						}
+//							Line { // bottom right devider
+//							startX: controlLength,
+//							startY: bind height
+//							endX: controlLength,
+//							endY: bind height
+//							strokeWidth:bind controlStrokeWidth;
+//							stroke: Color.WHITE
+//						}
 					]
 					onMousePressed: function( e: MouseEvent ):Void {
 						startDragging(e);
@@ -1116,15 +1185,15 @@ function run() {
 	   setScyContent:function(scyWindow:ScyWindow){
 			println("setScyContent");
 			scyWindow.scyContent = newGroup;
-			scyWindow.color =
-				 Color.CORAL;
+//			scyWindow.color =
+//				 Color.CORAL;
 		};
 		closedAction:function(scyWindow:ScyWindow){
 			println("closedAction");
 			scyWindow.scyContent = null
 		}
    };
-	//newScyWindow.openWindow(0, 150);
+	newScyWindow.openWindow(0, 150);
    scyDesktop.addScyWindow(newScyWindow);
 
    var fixedScyWindow= ScyWindow{
@@ -1144,7 +1213,7 @@ function run() {
 
    var closedScyWindow= ScyWindow{
       title:"Closed and very closed"
-      color:Color.BLUEVIOLET
+      color:Color.GRAY
 		height:27;
 		isClosed:true;
       allowClose:true;
@@ -1154,6 +1223,7 @@ function run() {
 		translateX:20;
 		translateY:200;
    };
+//	closedScyWindow.openWindow(100, 150);
    scyDesktop.addScyWindow(closedScyWindow);
 
 	var whiteboard = new WhiteboardPanel();
