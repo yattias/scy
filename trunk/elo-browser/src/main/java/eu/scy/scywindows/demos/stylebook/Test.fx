@@ -31,6 +31,7 @@ function run(){
       allowMinimize:true;
 		translateX:20; // x pos of window
 		translateY:20; // y pos of window
+      rotate:30; // the initial rotation angle
    };
    // uncomment next line to open the window, parameters are width and height
    //	closedScyWindow.openWindow(100, 150);
