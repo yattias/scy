@@ -89,8 +89,8 @@ public class ScyRelation extends CustomNode {
                         size: 12
 
                     }
-                    x: bind (window1.translateX+window2.translateX+window2.width/2)/2,
-                    y: bind (window1.translateY+window2.translateY+window2.height/2)/2,
+                    x: bind (startX()+endX())/2,
+                    y: bind (startY()+endY())/2,
                     content: name,
                     fill: color
                 }
