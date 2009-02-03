@@ -44,6 +44,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javafx.scene.shape.Polygon;
 
 /**
  * @author sikken
@@ -650,23 +651,82 @@ public class ScyWindow extends CustomNode {
 				//                  fill: Color.RED
 				//               }
 				//            }
+					Group{ // icon for title
+					translateX:3 * topLeftBlockSize / 4
+					translateY:topLeftBlockSize / 4+1
+					content:[
+						Rectangle{
+							x:0
+							y:0
+							width:iconSize
+							height:iconSize
+							fill:bind color
+						}
+						Text {
+							font:eloTypeFont
+							x: eloTypeFont.size / 4,
+							y: eloTypeFont.size - 1
+							content:bind eloType.substring(0, 1)
+							fill:Color.WHITE
+						}
+					]
+				},
+					Text { // title
+					font: textFont
+					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
+					y: borderWidth + titleFontsize + fontHeightCompensation
+					clip:Rectangle {
+						x: 3 * topLeftBlockSize / 4 + iconSize,
+						y: 0
+						width: bind width - 3 * topLeftBlockSize / 4 - iconSize-4,
+						height: bind height
+						fill: Color.BLACK
+					}
+					fill:bind color;
+					content: bind title;
+				},
+				//				Group{ // just for checking title clip
+				//					content:[
+				//						Rectangle {
+				//							x: 3 * topLeftBlockSize / 4 + iconSize,
+				//							y: 0
+				//							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
+				//							height: bind height
+				//							fill: Color.BLACK
+				//						}
+				//					]
+				//				},
+				Line { // line under title
+					startX:3 * topLeftBlockSize / 4,
+					startY:iconSize + topLeftBlockSize / 2
+					endX: bind width - 2 * borderWidth,
+					endY: iconSize + topLeftBlockSize / 2
+					strokeWidth: lineWidth
+					stroke: bind color
+				},
 				minimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and not isMinimized and not isClosed
-					translateX:bind width / 2
-               translateY: bind height+borderWidth/2
+					translateX:bind width / 2 -topLeftBlockSize/2
+               translateY: bind height+topLeftBlockSize/4
 					//effect:bind windowEffect
 					content:[
-                  Arc {
-                     centerX: 0,
-                     centerY: 0
-                     radiusX: topLeftBlockSize/2,
-                     radiusY: topLeftBlockSize/2
-                     startAngle: 180,
-                     length: 180
-                     type: ArcType.OPEN
-                     fill: Color.TRANSPARENT
-							strokeWidth: controlStrokeWidth
+//                  Arc {
+//                     centerX: 0,
+//                     centerY: 0
+//                     radiusX: topLeftBlockSize / 2,
+//                     radiusY: topLeftBlockSize / 2
+//                     startAngle: 180,
+//                     length: 180
+//                     type: ArcType.OPEN
+//                     fill: Color.TRANSPARENT
+//							strokeWidth: controlStrokeWidth
+//							stroke: bind color
+//                  }
+                  Polygon {
+                     points: [ 0,0, topLeftBlockSize/2,-topLeftBlockSize/2, topLeftBlockSize,0 ]
+                     fill: Color.WHITE
+							strokeWidth: controlStrokeWidth/2
 							stroke: bind color
                   }
 					]
@@ -684,20 +744,26 @@ public class ScyWindow extends CustomNode {
 				unminimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and isMinimized and not isClosed
-					translateX:bind width / 2
-               translateY: bind height+borderWidth/2
+					translateX:bind width / 2 -topLeftBlockSize/2
+               translateY: bind height-topLeftBlockSize/4
 					//effect:bind windowEffect
 					content:[
-                  Arc {
-                     centerX: 0, 
-                     centerY: 0
-                     radiusX: topLeftBlockSize/2,
-                     radiusY: topLeftBlockSize/2
-                     startAngle: 180,
-                     length: 180
-                     type: ArcType.OPEN
-                     fill: Color.TRANSPARENT
-							strokeWidth: controlStrokeWidth
+//                  Arc {
+//                     centerX: 0,
+//                     centerY: 0
+//                     radiusX: topLeftBlockSize/2,
+//                     radiusY: topLeftBlockSize/2
+//                     startAngle: 180,
+//                     length: 180
+//                     type: ArcType.OPEN
+//                     fill: Color.TRANSPARENT
+//							strokeWidth: controlStrokeWidth
+//							stroke: bind color
+//                  }
+                  Polygon {
+                     points: [ 0,0, topLeftBlockSize/2,topLeftBlockSize/2, topLeftBlockSize,0 ]
+                     fill: Color.WHITE
+							strokeWidth: controlStrokeWidth/2
 							stroke: bind color
                   }
 					]
@@ -776,59 +842,6 @@ public class ScyWindow extends CustomNode {
                   }
                ]
 				}
-					Group{ // icon for title
-					translateX:3 * topLeftBlockSize / 4
-					translateY:topLeftBlockSize / 4+1
-					content:[
-						Rectangle{
-							x:0
-							y:0
-							width:iconSize
-							height:iconSize
-							fill:bind color
-						}
-						Text {
-							font:eloTypeFont
-							x: eloTypeFont.size / 4,
-							y: eloTypeFont.size - 1
-							content:bind eloType.substring(0, 1)
-							fill:Color.WHITE
-						}
-					]
-				},
-					Text { // title
-					font: textFont
-					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
-					y: borderWidth + titleFontsize + fontHeightCompensation
-					clip:Rectangle {
-						x: 3 * topLeftBlockSize / 4 + iconSize,
-						y: 0
-						width: bind width - 3 * topLeftBlockSize / 4 - iconSize-4,
-						height: bind height
-						fill: Color.BLACK
-					}
-					fill:bind color;
-					content: bind title;
-				},
-				//				Group{ // just for checking title clip
-				//					content:[
-				//						Rectangle {
-				//							x: 3 * topLeftBlockSize / 4 + iconSize,
-				//							y: 0
-				//							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
-				//							height: bind height
-				//							fill: Color.BLACK
-				//						}
-				//					]
-				//				},
-				Line { // line under title
-					startX:3 * topLeftBlockSize / 4,
-					startY:iconSize + topLeftBlockSize / 2
-					endX: bind width - 2 * borderWidth,
-					endY: iconSize + topLeftBlockSize / 2
-					strokeWidth: lineWidth
-					stroke: bind color
-				},
 				Group{ // bottom right resize element
                blocksMouse:true;
                visible:bind allowResize or isClosed
