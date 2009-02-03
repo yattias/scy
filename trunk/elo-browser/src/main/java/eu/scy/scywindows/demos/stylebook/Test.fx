@@ -97,13 +97,13 @@ function run(){
         height: 400
         scene: Scene {
             content: [
-				 scyDesktop.desktop,
                  ScyRelation {
                      window1:imageScyWindow1,
                      window2:imageScyWindow2,
                      color:imageScyWindow1.color,
                      name:"Test"
                 }
+				 scyDesktop.desktop,
             ]
         }
     }

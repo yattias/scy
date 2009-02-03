@@ -34,17 +34,17 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
-import javafx.scene.shape.Polygon;
 
 /**
  * @author sikken
@@ -94,10 +94,10 @@ public class ScyWindow extends CustomNode {
 
 	// layout constants
 	def windowBackgroundColor = Color.WHITE;
-//	def controlColor = Color.BLACK;
-//	def controlColor = Color.color(lighterColorElement(color.red),lighterColorElement(color.green),lighterColorElement(color.blue));
+   //	def controlColor = Color.BLACK;
+   //	def controlColor = Color.color(lighterColorElement(color.red),lighterColorElement(color.green),lighterColorElement(color.blue));
 	def controlColor = Color.WHITE;
-	def controlLength = 21;
+	def controlLength = 18;
 	def controlStrokeWidth = 4;
 	def closeCrossInset = 4;
    def controlStrokeDashArray = [0.0,7.0];
@@ -112,10 +112,10 @@ public class ScyWindow extends CustomNode {
    def closeMouseOverEffect:Effect = Glow{
       level:1}
    def closeStrokeWidth = 2;
-//	var borderBlockOffset = 5;
-//	var dragStrokeWith = 4;
-//	var dragLength = 20;
-//	var dragBorder = 4;
+   //	var borderBlockOffset = 5;
+   //	var dragStrokeWith = 4;
+   //	var dragLength = 20;
+   //	var dragBorder = 4;
 	var titleFontsize = 12;
 	var fontHeightCompensation = 3;
 	var lineOffsetY=3;
@@ -144,9 +144,17 @@ public class ScyWindow extends CustomNode {
    var closeElement:Node;
    var minimizeElement:Node;
    var unminimizeElement:Node;
+   var resizeOutlineShape:Shape;
+   var resizeInnerShape:Shape;
 	def resizeAnimationTime = 250ms;
 	def opcityAnimationTime = 250ms;
 	def closeAnimationTime = 350ms;
+
+   var resizeHighLighted = false;
+   var rotateHighLighted = false;
+   var closeHighLighted = false;
+   var minimizeHighLighted = false;
+   var unminimizeHighLighted = false;
 
    public var minimumHeight:Number = 100 on replace{
       minimumHeight = Math.max(minimumHeight, topLeftBlockSize + controlLength + borderWidth);
@@ -163,9 +171,13 @@ public class ScyWindow extends CustomNode {
 	}
 
    function lighterColorElement(elementValue:Number):Number{
-   var whiteDif = 1-elementValue;
-   return 1-whiteDif/2;
-}
+      var whiteDif = 1 - elementValue;
+      return 1 - whiteDif / 2;
+   }
+
+   function lighterColor(aColor:Color):Color{
+      Color.color(lighterColorElement(aColor.red),lighterColorElement(aColor.green),lighterColorElement(aColor.blue))
+   }
 
 	public function openWindow(openWidth:Number,openHeight:Number){
 		checkScyContent();
@@ -263,14 +275,14 @@ public class ScyWindow extends CustomNode {
 					]
 					action: function(){
 						closedAction(this);
-//						if (scyDesktop != null){
-//							scyDesktop.removeScyWindow(this);
-//						}
+                  //						if (scyDesktop != null){
+                  //							scyDesktop.removeScyWindow(this);
+                  //						}
 						isAnimating = false;
 					}
 				}
 			]
-		 }
+      }
 	}
  
 	function getMinimizeTimeline(endX:Number,endY:Number):Timeline{
@@ -289,7 +301,7 @@ public class ScyWindow extends CustomNode {
 					}
 				}
 			]
-		 }
+      }
 	}
 
 	function getUnminimizeTimeline(endX:Number,endY:Number,endWidth:Number,endHeight:Number):Timeline{
@@ -308,7 +320,7 @@ public class ScyWindow extends CustomNode {
 					}
 				}
 			]
-		 }
+      }
 	}
 
 	public function hideTo(x:Number,y:Number){
@@ -454,23 +466,23 @@ public class ScyWindow extends CustomNode {
 				return;
 			}
 		}
-			isClosed = true;
-			var closeTimeline = null;
-			if (closeIsHide){
-				isClosed = false;
-				scyDesktop.hideScyWindow(this);
-			}
-			else {
-				closeTimeline = getMinimizeTimeline(translateX,translateY);
-			}
+      isClosed = true;
+      var closeTimeline = null;
+      if (closeIsHide){
+         isClosed = false;
+         scyDesktop.hideScyWindow(this);
+      }
+      else {
+         closeTimeline = getMinimizeTimeline(translateX,translateY);
+      }
 
-			if (closeTimeline != null){
-				isAnimating = true;
-				closeTimeline.play();
-			}
+      if (closeTimeline != null){
+         isAnimating = true;
+         closeTimeline.play();
+      }
 
-			//scyDesktop.removeScyWindow(this);
-			System.out.println("closed {title}");
+      //scyDesktop.removeScyWindow(this);
+      System.out.println("closed {title}");
 	}
 
 	function doMinimize(){
@@ -540,9 +552,9 @@ public class ScyWindow extends CustomNode {
          cursor: Cursor.MOVE;
 
 			content: [
-					Group{ // the white background of the window
+            Group{ // the white background of the window
 					content:[
-						Rectangle { // top part until the arc
+                     Rectangle { // top part until the arc
 							x: 0,
 							y: 0
 							width: bind width,
@@ -551,7 +563,7 @@ public class ScyWindow extends CustomNode {
 							fill: windowBackgroundColor
 							stroke: windowBackgroundColor
 						},
-						Rectangle { // bottom left part until the arc
+                     Rectangle { // bottom left part until the arc
 							x: bind controlLength,
 							y: bind height - controlLength
 							width: bind width - controlLength,
@@ -560,7 +572,7 @@ public class ScyWindow extends CustomNode {
 							fill: windowBackgroundColor
 							stroke: windowBackgroundColor
 						},
-						Arc { // the bottom left rotate arc part
+                     Arc { // the bottom left rotate arc part
 							centerX: controlLength,
 							centerY: bind height - controlLength,
 							radiusX: controlLength,
@@ -574,7 +586,7 @@ public class ScyWindow extends CustomNode {
 						}
 					]
 				}
-					Line { // the left border line
+            Line { // the left border line
 					startX: 0,
 					startY: bind height - controlLength - borderWidth / 2 - closeStrokeWidth / 2
 					endX: 0,
@@ -582,7 +594,7 @@ public class ScyWindow extends CustomNode {
 					strokeWidth: borderWidth
 					stroke: bind color
 				}
-					Line { // the top border line
+            Line { // the top border line
 					startX: 0,
 					startY: 0
 					endX: bind width,
@@ -590,7 +602,7 @@ public class ScyWindow extends CustomNode {
 					strokeWidth: borderWidth
 					stroke: bind color
 				}
-					Line { // the right border line
+            Line { // the right border line
 					startX: bind width,
 					startY: 0
 					endX: bind width,
@@ -599,7 +611,7 @@ public class ScyWindow extends CustomNode {
 					stroke: bind color
 					effect:bind windowEffect
 				}
-					Line { // the bottom border line
+            Line { // the bottom border line
 					startX: bind width,
 					startY: bind height
 					endX: bind controlLength + borderWidth / 2 + closeStrokeWidth / 2,
@@ -608,7 +620,7 @@ public class ScyWindow extends CustomNode {
 					stroke: bind color
 					effect:bind windowEffect
 				}
-					Arc { // the bottom left "disabled" rotate arc
+            Arc { // the bottom left "disabled" rotate arc
 					centerX: controlLength,
 					centerY: bind height - controlLength,
 					radiusX: controlLength,
@@ -621,7 +633,7 @@ public class ScyWindow extends CustomNode {
 					stroke: bind color
 					//effect:bind windowEffect
 				}
-					Group{ // the content
+            Group{ // the content
                blocksMouse:true;
                cursor:Cursor.DEFAULT;
                translateX:borderWidth / 2 + 1 + contentBorder
@@ -651,9 +663,9 @@ public class ScyWindow extends CustomNode {
 				//                  fill: Color.RED
 				//               }
 				//            }
-					Group{ // icon for title
+            Group{ // icon for title
 					translateX:3 * topLeftBlockSize / 4
-					translateY:topLeftBlockSize / 4+1
+					translateY:topLeftBlockSize / 4 + 1
 					content:[
 						Rectangle{
 							x:0
@@ -671,14 +683,14 @@ public class ScyWindow extends CustomNode {
 						}
 					]
 				},
-					Text { // title
+            Text { // title
 					font: textFont
 					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
 					y: borderWidth + titleFontsize + fontHeightCompensation
 					clip:Rectangle {
 						x: 3 * topLeftBlockSize / 4 + iconSize,
 						y: 0
-						width: bind width - 3 * topLeftBlockSize / 4 - iconSize-4,
+						width: bind width - 3 * topLeftBlockSize / 4 - iconSize - 4,
 						height: bind height
 						fill: Color.BLACK
 					}
@@ -696,7 +708,7 @@ public class ScyWindow extends CustomNode {
 				//						}
 				//					]
 				//				},
-				Line { // line under title
+               Line { // line under title
 					startX:3 * topLeftBlockSize / 4,
 					startY:iconSize + topLeftBlockSize / 2
 					endX: bind width - 2 * borderWidth,
@@ -707,142 +719,78 @@ public class ScyWindow extends CustomNode {
 				minimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and not isMinimized and not isClosed
-					translateX:bind width / 2 -topLeftBlockSize/2
-               translateY: bind height+topLeftBlockSize/4
-					//effect:bind windowEffect
+					translateX:bind width / 2 - topLeftBlockSize / 2
+               translateY: bind height + topLeftBlockSize / 4
 					content:[
-//                  Arc {
-//                     centerX: 0,
-//                     centerY: 0
-//                     radiusX: topLeftBlockSize / 2,
-//                     radiusY: topLeftBlockSize / 2
-//                     startAngle: 180,
-//                     length: 180
-//                     type: ArcType.OPEN
-//                     fill: Color.TRANSPARENT
-//							strokeWidth: controlStrokeWidth
-//							stroke: bind color
-//                  }
+                  //                  Arc {
+                  //                     centerX: 0,
+                  //                     centerY: 0
+                  //                     radiusX: topLeftBlockSize / 2,
+                  //                     radiusY: topLeftBlockSize / 2
+                  //                     startAngle: 180,
+                  //                     length: 180
+                  //                     type: ArcType.OPEN
+                  //                     fill: Color.TRANSPARENT
+                  //							strokeWidth: controlStrokeWidth
+                  //							stroke: bind color
+                  //                  }
+
                   Polygon {
-                     points: [ 0,0, topLeftBlockSize/2,-topLeftBlockSize/2, topLeftBlockSize,0 ]
-                     fill: Color.WHITE
-							strokeWidth: controlStrokeWidth/2
-							stroke: bind color
+                     points: [ 0,0, topLeftBlockSize / 2,-topLeftBlockSize / 2, topLeftBlockSize,0 ]
+                     fill: controlColor
+							strokeWidth: controlStrokeWidth / 2
+							stroke: bind
+                          if (minimizeHighLighted) lighterColor(color) else color
                   }
 					]
                onMouseClicked: function( e: MouseEvent ):Void {
 						doMinimize();
 					}
                onMouseEntered: function( e: MouseEvent ):Void {
-                  minimizeElement.effect = closeMouseOverEffect;
+                  minimizeHighLighted = true;
                }
                onMouseExited: function( e: MouseEvent ):Void {
-                  minimizeElement.effect = null;
+                  minimizeHighLighted = false;
                }
 
-				}
+				},
 				unminimizeElement = Group{
 					cursor:Cursor.HAND
 					visible:bind allowMinimize and isMinimized and not isClosed
-					translateX:bind width / 2 -topLeftBlockSize/2
-               translateY: bind height-topLeftBlockSize/4
-					//effect:bind windowEffect
+					translateX:bind width / 2 - topLeftBlockSize / 2
+               translateY: bind height - topLeftBlockSize / 4
 					content:[
-//                  Arc {
-//                     centerX: 0,
-//                     centerY: 0
-//                     radiusX: topLeftBlockSize/2,
-//                     radiusY: topLeftBlockSize/2
-//                     startAngle: 180,
-//                     length: 180
-//                     type: ArcType.OPEN
-//                     fill: Color.TRANSPARENT
-//							strokeWidth: controlStrokeWidth
-//							stroke: bind color
-//                  }
+                  //                  Arc {
+                  //                     centerX: 0,
+                  //                     centerY: 0
+                  //                     radiusX: topLeftBlockSize/2,
+                  //                     radiusY: topLeftBlockSize/2
+                  //                     startAngle: 180,
+                  //                     length: 180
+                  //                     type: ArcType.OPEN
+                  //                     fill: Color.TRANSPARENT
+                  //							strokeWidth: controlStrokeWidth
+                  //							stroke: bind color
+                  //                  }
                   Polygon {
-                     points: [ 0,0, topLeftBlockSize/2,topLeftBlockSize/2, topLeftBlockSize,0 ]
-                     fill: Color.WHITE
-							strokeWidth: controlStrokeWidth/2
-							stroke: bind color
+                     points: [ 0,0, topLeftBlockSize / 2,topLeftBlockSize / 2, topLeftBlockSize,0 ]
+                     fill: controlColor
+							strokeWidth: controlStrokeWidth / 2
+							stroke: bind
+                          if (unminimizeHighLighted) lighterColor(color) else color
                   }
 					]
                onMouseClicked: function( e: MouseEvent ):Void {
 						doUnminimize();
 					}
                onMouseEntered: function( e: MouseEvent ):Void {
-                  unminimizeElement.effect = closeMouseOverEffect;
+                  unminimizeHighLighted = true;
                }
                onMouseExited: function( e: MouseEvent ):Void {
-                  unminimizeElement.effect = null;
+                  unminimizeHighLighted = false;
                }
-
-				}
-					Group{ // the complete close element
-               translateX:bind width - topLeftBlockSize / 2
-               translateY:-topLeftBlockSize / 2
-               content:[
-						//						Rectangle { // top right block
-						//                     x: 0,
-						//                     y: 0;
-						//                     width: topLeftBlockSize,
-						//                     height: topLeftBlockSize
-						//                     fill: bind color
-						//					//effect:bind windowEffect;
-						//                  }
-							closeElement = Group{ // close button
-                     cursor:Cursor.HAND
-                     visible:bind allowClose and not isClosed
-                     content:[
-									Rectangle { // top left block
-                           x: 0,
-                           y: 0;
-                           width: topLeftBlockSize,
-                           height: topLeftBlockSize
-                           fill: bind color
-                        }
-									Group{ // close cross
-                     translateX:0
-                     translateY:-1
-//										clip: Rectangle { // top left block
-//                              x: closeCrossInset,
-//                              y: closeCrossInset;
-//                              width: topLeftBlockSize - 2 * closeCrossInset,
-//                              height: topLeftBlockSize - 2 * closeCrossInset
-//                           }
-                           content:[
-                              Line {
-                                 startX: closeCrossInset,
-                                 startY: closeCrossInset
-                                 endX: topLeftBlockSize-closeCrossInset,
-                                 endY: topLeftBlockSize-closeCrossInset
-                                 strokeWidth: closeStrokeWidth
-                                 stroke: closeColor
-                              }
-                              Line {
-                                 startX: closeCrossInset,
-                                 startY: topLeftBlockSize-closeCrossInset
-                                 endX: topLeftBlockSize-closeCrossInset,
-                                 endY: closeCrossInset
-                                 strokeWidth: closeStrokeWidth
-                                 stroke: closeColor
-                              }
-                           ]
-                        }
-                     ]
-                     onMouseClicked: function( e: MouseEvent ):Void {
-								doClose();
-                     }
-                     onMouseEntered: function( e: MouseEvent ):Void {
-                        closeElement.effect = closeMouseOverEffect;
-                     }
-                     onMouseExited: function( e: MouseEvent ):Void {
-                        closeElement.effect = null;
-                     }
-                  }
-               ]
-				}
-				Group{ // bottom right resize element
+				},
+               Group{ // bottom right resize element
                blocksMouse:true;
                visible:bind allowResize or isClosed
                cursor:Cursor.NW_RESIZE;
@@ -851,16 +799,28 @@ public class ScyWindow extends CustomNode {
                content:[
                   Polyline {
                      points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-                     stroke:bind Color.WHITE
+                     stroke: bind
+                          if (resizeHighLighted) controlColor else color
                      strokeWidth:bind controlStrokeWidth;
                   }
                   Polyline {
                      points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-                     stroke:bind color
-                     strokeWidth:bind controlStrokeWidth;
-                     strokeDashArray: controlStrokeDashArray;
-                     strokeDashOffset:controlStrokeDashOffset;
+                     stroke: bind
+                          if (resizeHighLighted) color else controlColor
+                     strokeWidth:bind controlStrokeWidth / 2;
                   }
+//                  Polyline {
+//                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
+//                     stroke:bind Color.WHITE
+//                     strokeWidth:bind controlStrokeWidth/2;
+//                  }
+//                  Polyline {
+//                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
+//                     stroke:bind color
+//                     strokeWidth:bind controlStrokeWidth/2;
+//                     strokeDashArray: controlStrokeDashArray;
+//                     strokeDashOffset:controlStrokeDashOffset;
+//                  }
 //                  Line { // vertical line
 //                     startX: bind width,
 //                     startY: bind height - controlLength
@@ -944,8 +904,14 @@ public class ScyWindow extends CustomNode {
 							doResize(e);
 						}
                }
+               onMouseEntered: function( e: MouseEvent ):Void {
+                  resizeHighLighted = true;
+               }
+               onMouseExited: function( e: MouseEvent ):Void {
+                  resizeHighLighted = false;
+               }
             },
-					Group{ // bottom left rotate element
+            Group{ // bottom left rotate element
 					blocksMouse:true;
                visible:bind allowRotate;
 					content:[
@@ -958,10 +924,9 @@ public class ScyWindow extends CustomNode {
 							length: 90
 							type: ArcType.OPEN
 							fill: Color.TRANSPARENT
-							stroke:Color.WHITE
+							stroke:bind 
+                     if (rotateHighLighted) controlColor else color
 							strokeWidth:bind controlStrokeWidth;
-//                     strokeDashArray: controlStrokeDashArray;
-//                     strokeDashOffset:controlStrokeDashOffset;
 						}
 						Arc {
 							centerX: controlLength,
@@ -972,11 +937,38 @@ public class ScyWindow extends CustomNode {
 							length: 90
 							type: ArcType.OPEN
 							fill: Color.TRANSPARENT
-							stroke:bind color
-							strokeWidth:bind controlStrokeWidth;
-                     strokeDashArray: controlStrokeDashArray;
-                     strokeDashOffset:controlStrokeDashOffset;
+							stroke:bind 
+                     if (rotateHighLighted) color else controlColor
+							strokeWidth:bind controlStrokeWidth / 2;
 						}
+//						Arc {
+//							centerX: controlLength,
+//							centerY: bind height - controlLength,
+//							radiusX: controlLength,
+//							radiusY: controlLength
+//							startAngle: 180,
+//							length: 90
+//							type: ArcType.OPEN
+//							fill: Color.TRANSPARENT
+//							stroke:Color.WHITE
+//							strokeWidth:bind controlStrokeWidth;
+////                     strokeDashArray: controlStrokeDashArray;
+////                     strokeDashOffset:controlStrokeDashOffset;
+//						}
+//						Arc {
+//							centerX: controlLength,
+//							centerY: bind height - controlLength,
+//							radiusX: controlLength,
+//							radiusY: controlLength
+//							startAngle: 180,
+//							length: 90
+//							type: ArcType.OPEN
+//							fill: Color.TRANSPARENT
+//							stroke:bind color
+//							strokeWidth:bind controlStrokeWidth;
+//                     strokeDashArray: controlStrokeDashArray;
+//                     strokeDashOffset:controlStrokeDashOffset;
+//						}
 //							Line { // top-left devider
 //							startX: 0,
 //							startY: bind height - controlLength - controlStrokeWidth / 2
@@ -1000,6 +992,60 @@ public class ScyWindow extends CustomNode {
 					onMouseDragged: function( e: MouseEvent ):Void {
 						doRotate(e);
 					}
+               onMouseEntered: function( e: MouseEvent ):Void {
+                  rotateHighLighted = true;
+               }
+               onMouseExited: function( e: MouseEvent ):Void {
+                  rotateHighLighted = false;
+               }
+				},
+            Group{ // the close element
+               cursor:Cursor.HAND
+               visible:bind allowClose and not isClosed
+               translateX:bind width - topLeftBlockSize / 2
+               translateY:-topLeftBlockSize / 2
+               content:[
+                  Rectangle { // background rect
+                     x: 0,
+                     y: 0;
+                     width: topLeftBlockSize,
+                     height: topLeftBlockSize
+                     fill: bind
+                     if (closeHighLighted) lighterColor(color) else color
+                     stroke: bind color
+                  },
+                  Group{ // close cross
+                     translateX:0
+                     translateY:0
+                     content:[
+                        Line {
+                           startX: closeCrossInset,
+                           startY: closeCrossInset
+                           endX: topLeftBlockSize - closeCrossInset,
+                           endY: topLeftBlockSize - closeCrossInset
+                           strokeWidth: closeStrokeWidth
+                           stroke: closeColor
+                        }
+                        Line {
+                           startX: closeCrossInset,
+                           startY: topLeftBlockSize - closeCrossInset
+                           endX: topLeftBlockSize - closeCrossInset,
+                           endY: closeCrossInset
+                           strokeWidth: closeStrokeWidth
+                           stroke: closeColor
+                        }
+                     ]
+                  }
+               ]
+               onMouseClicked: function( e: MouseEvent ):Void {
+						doClose();
+               }
+               onMouseEntered: function( e: MouseEvent ):Void {
+                  closeHighLighted = true;
+               }
+               onMouseExited: function( e: MouseEvent ):Void {
+                  closeHighLighted = false;
+               }
 				}
 			]
 			onMousePressed: function( e: MouseEvent ):Void {
@@ -1012,17 +1058,17 @@ public class ScyWindow extends CustomNode {
 	}
 }
 
-	function hideScyWindow(scyWindow:ScyWindow):Void{
+   function hideScyWindow(scyWindow:ScyWindow):Void{
       scyWindow.hideTo(scyWindow.translateX, scyWindow.translateY);
-	}
+   }
 
-	function showScyWindow(scyWindow:ScyWindow):Void{
+   function showScyWindow(scyWindow:ScyWindow):Void{
       scyWindow.showFrom(scyWindow.translateX, scyWindow.translateY);
-	}
+   }
 
-	function closeScyWindow(scyWindow:ScyWindow):Void{
+   function closeScyWindow(scyWindow:ScyWindow):Void{
       scyWindow.closeIt();
-	}
+   }
 
 function run() {
    //	var image = Image{
@@ -1200,7 +1246,9 @@ function run() {
 			scyWindow.scyContent = newGroup;
 //			scyWindow.color =
 //				 Color.CORAL;
-		};
+
+
+      };
 		closedAction:function(scyWindow:ScyWindow){
 			println("closedAction");
 			scyWindow.scyContent = null
@@ -1211,7 +1259,7 @@ function run() {
 
    var fixedScyWindow= ScyWindow{
       title:"Fixed"
-      color:Color.BLUEVIOLET
+      color:Color.GREEN
 		height:150;
 		//      scyContent:newGroup
       allowClose:false;
@@ -1236,7 +1284,7 @@ function run() {
 		translateX:20;
 		translateY:200;
    };
-//	closedScyWindow.openWindow(100, 150);
+   //	closedScyWindow.openWindow(100, 150);
    scyDesktop.addScyWindow(closedScyWindow);
 
 	var whiteboard = new WhiteboardPanel();
