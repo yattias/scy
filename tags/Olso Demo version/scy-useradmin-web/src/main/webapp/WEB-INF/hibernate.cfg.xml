@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <mapping package="eu.scy.core.model.impl"/>
+
+        <mapping class="eu.scy.core.model.impl.UserImpl"/>
+        <mapping class="eu.scy.core.model.impl.GroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.ProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.RoleImpl"/>
+        <mapping class="eu.scy.core.model.impl.UserRoleImpl"/>
+        <mapping class="eu.scy.core.model.impl.BuddyConnectionImpl"/>
+        <mapping class="eu.scy.core.model.impl.UserSessionImpl"/>
+
+    </session-factory>
+</hibernate-configuration>
