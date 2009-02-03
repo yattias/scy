@@ -8,9 +8,10 @@ import de.fhg.iais.kd.tm.obwious.base.feature.Features;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;
-import de.fhg.iais.kd.tm.obwious.operator.type.Container;
+import de.fhg.iais.kd.tm.obwious.type.Container;
 
-public class ELO2OBWIOUSDocument extends OperatorSpecification implements FeatureProvider {
+public class ELO2OBWIOUSDocument extends OperatorSpecification implements
+		FeatureProvider {
 
 	private static final String ELO = "elo";
 	private static final String LOCALE = "locale";
@@ -37,7 +38,8 @@ public class ELO2OBWIOUSDocument extends OperatorSpecification implements Featur
 		if (usedLanguage != null) {
 			text = elo.getContent().getXml().replaceAll("<[^>]*>", "");
 		} else {
-			text = elo.getContent(usedLanguage).getXml().replaceAll("<[^>]*>", "");
+			text = elo.getContent(usedLanguage).getXml().replaceAll("<[^>]*>",
+					"");
 		}
 		doc.setFeature(Features.TEXT, text);
 
