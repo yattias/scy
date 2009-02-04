@@ -24,24 +24,14 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
     
     private final static Logger logger = Logger.getLogger(AwarenessClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
-    private static final long LOGIN_KEEPALIVE_DURATION = 1 * 1000;
-    // private static final String[] COLUMN_NAMES = { "username", "status",
-    // "doc id"};
+    private static final long LOGIN_KEEPALIVE_DURATION = 10 * 1000;
     
     private JTextArea textArea;
     private JPanel panel;
-    private JScrollPane scrollPane;
-    private HashMap<String, Object> toolsToWatch = new HashMap<String, Object>();
     private String userName;
     private String loginId;
-    
     private CollaborationService cs;
-    
     private Timer loginTimer;
-    private Timer buddyTimer;
-    
-    private TableModel tableModel;
-    
     private HashMap<String, Boolean> usersToWatch = new HashMap<String, Boolean>();
     
     public AwarenessClient() {}
@@ -49,18 +39,12 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
     public AwarenessClient(String userName, String toolName) {
         logger.debug("Awareness is upon you.");
         
-        userName = userName;
-        toolsToWatch.put(toolName, toolName);
-        
-        // ac.usersToWatch = new ArrayList<String>(Arrays.asList(new
-        // String[]{"jeremyt", "olesm", "janad"})); //this list will be
-        // populated by usermanagement
-        
+        this.userName = userName;
         cs = CollaborationService.createCollaborationService(userName, CollaborationService.AWARENESS_SERVICE_SPACE, this);
         signUp();
         
         // Set the frame characteristics
-        setTitle("Awereness client makes " + userName + " happy");
+        setTitle("Awareness client makes " + userName + " happy");
         setSize(300, 500);
         
         textArea = new JTextArea(15, 80);
@@ -80,22 +64,6 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
         
         loginTimer = new Timer();
         loginTimer.schedule(new LoginTimer(), 1, LOGIN_KEEPALIVE_DURATION);
-    }
-    
-    private void generateBuddyList() {
-        // logger.debug("SAC refreshes buddylist every " +
-        // LOGIN_KEEPALIVE_DURATION);
-        String outputToTextArea = "";
-        String status;
-        for (String user : usersToWatch.keySet()) {
-            if (cs.read(user, HARD_CODED_TOOL_NAME) != null) {
-                status = "online";
-            } else {
-                status = "offline";
-            }
-            outputToTextArea = outputToTextArea + user + "\t" + status + "\n";
-        }
-        textArea.setText(outputToTextArea);
     }
     
     private class LoginTimer extends TimerTask {
