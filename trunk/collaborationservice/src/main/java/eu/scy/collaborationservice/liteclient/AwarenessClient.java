@@ -55,11 +55,6 @@ public class AwarenessClient extends JFrame implements
 		userName = userName;
 		toolsToWatch.put(toolName, toolName);
 
-		// needs to come from the collab services
-		usersToWatch.put("thomasd", false);
-		usersToWatch.put("olesm", false);
-		usersToWatch.put("janad", false);
-
 		// ac.usersToWatch = new ArrayList<String>(Arrays.asList(new
 		// String[]{"jeremyt", "olesm", "janad"})); //this list will be
 		// populated by usermanagement
