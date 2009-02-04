@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
@@ -21,7 +20,7 @@ import eu.scy.collaborationservice.CollaborationServiceClientInterface;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 public class AwarenessClient extends JFrame implements CollaborationServiceClientInterface {
-    
+
     private final static Logger logger = Logger.getLogger(AwarenessClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
     private static final long LOGIN_KEEPALIVE_DURATION = 10 * 1000;
@@ -36,10 +35,10 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
     
     public AwarenessClient() {}
     
-    public AwarenessClient(String userName, String toolName) {
+    public AwarenessClient(String user, String toolName) {
         logger.debug("Awareness is upon you.");
         
-        this.userName = userName;
+        userName = user;
         cs = CollaborationService.createCollaborationService(userName, CollaborationService.AWARENESS_SERVICE_SPACE, this);
         signUp();
         
