@@ -132,10 +132,8 @@ Stage {
             ImageView{
                 image: Image {
                     url: "{__DIR__}navigator.png"
-                    width: 200
-                    height: 150
                 }
-                y:550
+                y:650
                 x:750
             },
             ScyRelation {
