@@ -41,6 +41,8 @@ public class CollaborationService implements Callback {
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
         try {
             ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+            
+            //setup the events that client will use
             ts.eventRegister(Command.WRITE, template, cs, true);
             ts.eventRegister(Command.DELETE, template, cs, true);
         } catch (TupleSpaceException e) {

@@ -138,7 +138,7 @@ public class Nutpad extends JFrame implements CollaborationServiceClientInterfac
                 } else {
                     userNameField.setEditable(false);
                     awarenessConnectButton.setText("Disconnect");
-                    awarenessClient = AwarenessClient.createAwarenessClient(userName, HARD_CODED_TOOL_NAME);
+                    awarenessClient = new AwarenessClient(userName, HARD_CODED_TOOL_NAME);
                     connected = true;        		        		    
                 }
             }
