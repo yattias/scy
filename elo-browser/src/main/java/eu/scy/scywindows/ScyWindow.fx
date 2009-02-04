@@ -676,7 +676,7 @@ public class ScyWindow extends CustomNode {
 						}
 						Text {
 							font:eloTypeFont
-							x: eloTypeFont.size / 4,
+							x: eloTypeFont.size / 4-1,
 							y: eloTypeFont.size - 1
 							content:bind eloType.substring(0, 1)
 							fill:Color.WHITE
@@ -722,19 +722,6 @@ public class ScyWindow extends CustomNode {
 					translateX:bind width / 2 - topLeftBlockSize / 2
                translateY: bind height + topLeftBlockSize / 4
 					content:[
-                  //                  Arc {
-                  //                     centerX: 0,
-                  //                     centerY: 0
-                  //                     radiusX: topLeftBlockSize / 2,
-                  //                     radiusY: topLeftBlockSize / 2
-                  //                     startAngle: 180,
-                  //                     length: 180
-                  //                     type: ArcType.OPEN
-                  //                     fill: Color.TRANSPARENT
-                  //							strokeWidth: controlStrokeWidth
-                  //							stroke: bind color
-                  //                  }
-
                   Polygon {
                      points: [ 0,0, topLeftBlockSize / 2,-topLeftBlockSize / 2, topLeftBlockSize,0 ]
                      fill: controlColor
@@ -760,18 +747,6 @@ public class ScyWindow extends CustomNode {
 					translateX:bind width / 2 - topLeftBlockSize / 2
                translateY: bind height - topLeftBlockSize / 4
 					content:[
-                  //                  Arc {
-                  //                     centerX: 0,
-                  //                     centerY: 0
-                  //                     radiusX: topLeftBlockSize/2,
-                  //                     radiusY: topLeftBlockSize/2
-                  //                     startAngle: 180,
-                  //                     length: 180
-                  //                     type: ArcType.OPEN
-                  //                     fill: Color.TRANSPARENT
-                  //							strokeWidth: controlStrokeWidth
-                  //							stroke: bind color
-                  //                  }
                   Polygon {
                      points: [ 0,0, topLeftBlockSize / 2,topLeftBlockSize / 2, topLeftBlockSize,0 ]
                      fill: controlColor
@@ -821,74 +796,6 @@ public class ScyWindow extends CustomNode {
 //                     strokeDashArray: controlStrokeDashArray;
 //                     strokeDashOffset:controlStrokeDashOffset;
 //                  }
-//                  Line { // vertical line
-//                     startX: bind width,
-//                     startY: bind height - controlLength
-//                     endX: bind width,
-//                     endY: bind height
-//                     stroke:bind Color.WHITE
-//                     strokeWidth:bind controlStrokeWidth;
-//                  }
-//                  Line { // vertical line
-//                     startX: bind width,
-//                     startY: bind height - controlLength
-//                     endX: bind width,
-//                     endY: bind height
-//                     stroke:bind color
-//                     strokeWidth:bind controlStrokeWidth;
-//                     strokeDashArray: controlStrokeDashArray;
-//                     strokeDashOffset:controlStrokeDashOffset;
-//                  }
-//                  Line { // horizontal line
-//                     startX: bind width,
-//                     startY: bind height
-//                     endX: bind width - controlLength,
-//                     endY: bind height
-//                     stroke:bind Color.WHITE
-//                     strokeWidth:bind controlStrokeWidth;
-//                  }
-//                  Line { // horizontal line
-//                     startX: bind width,
-//                     startY: bind height
-//                     endX: bind width - controlLength,
-//                     endY: bind height
-//                     stroke:bind color
-//                     strokeWidth:bind controlStrokeWidth;
-//                     strokeDashArray: controlStrokeDashArray;
-//                     strokeDashOffset:controlStrokeDashOffset;
-//                  }
-//							Line { // vertical line
-//                     startX: bind width,
-//                     startY: bind height - controlLength
-//                     endX: bind width,
-//                     endY: bind height
-//                     stroke:bind color
-//                     strokeWidth:bind controlStrokeWidth;
-//                 }
-//							Line { // horizontal line
-//                     startX: bind width,
-//                     startY: bind height
-//                     endX: bind width - controlLength,
-//                     endY: bind height
-//                     stroke:bind color
-//                     strokeWidth:bind controlStrokeWidth;
-//                  }
-//							Line { // top-right devider
-//							startX: bind width,
-//							startY: bind height - controlLength - controlStrokeWidth / 2
-//							endX: bind width,
-//							endY: bind height - controlLength - controlStrokeWidth / 2
-//							strokeWidth:bind controlStrokeWidth;
-//							stroke: Color.WHITE
-//						}
-//							Line { // bottom left devider
-//							startX:bind width - controlLength,
-//							startY: bind height
-//							endX:bind width - controlLength,
-//							endY: bind height
-//							strokeWidth:bind controlStrokeWidth;
-//							stroke: Color.WHITE
-//						}
                ]
                onMousePressed: function( e: MouseEvent ):Void {
 						if (allowResize){
@@ -941,50 +848,6 @@ public class ScyWindow extends CustomNode {
                      if (rotateHighLighted) color else controlColor
 							strokeWidth:bind controlStrokeWidth / 2;
 						}
-//						Arc {
-//							centerX: controlLength,
-//							centerY: bind height - controlLength,
-//							radiusX: controlLength,
-//							radiusY: controlLength
-//							startAngle: 180,
-//							length: 90
-//							type: ArcType.OPEN
-//							fill: Color.TRANSPARENT
-//							stroke:Color.WHITE
-//							strokeWidth:bind controlStrokeWidth;
-////                     strokeDashArray: controlStrokeDashArray;
-////                     strokeDashOffset:controlStrokeDashOffset;
-//						}
-//						Arc {
-//							centerX: controlLength,
-//							centerY: bind height - controlLength,
-//							radiusX: controlLength,
-//							radiusY: controlLength
-//							startAngle: 180,
-//							length: 90
-//							type: ArcType.OPEN
-//							fill: Color.TRANSPARENT
-//							stroke:bind color
-//							strokeWidth:bind controlStrokeWidth;
-//                     strokeDashArray: controlStrokeDashArray;
-//                     strokeDashOffset:controlStrokeDashOffset;
-//						}
-//							Line { // top-left devider
-//							startX: 0,
-//							startY: bind height - controlLength - controlStrokeWidth / 2
-//							endX: 0,
-//							endY: bind height - controlLength - controlStrokeWidth / 2
-//							strokeWidth:bind controlStrokeWidth;
-//							stroke: Color.WHITE
-//						}
-//							Line { // bottom right devider
-//							startX: controlLength,
-//							startY: bind height
-//							endX: controlLength,
-//							endY: bind height
-//							strokeWidth:bind controlStrokeWidth;
-//							stroke: Color.WHITE
-//						}
 					]
 					onMousePressed: function( e: MouseEvent ):Void {
 						startDragging(e);
@@ -1274,6 +1137,7 @@ function run() {
 
    var closedScyWindow= ScyWindow{
       title:"Closed and very closed"
+      eloType:"M"
       color:Color.GRAY
 		height:27;
 		isClosed:true;
