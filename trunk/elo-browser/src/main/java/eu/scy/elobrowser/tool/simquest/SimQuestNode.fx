@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import java.lang.System;
 import eu.scy.elobrowser.tool.simquest.DataCollector;
 import java.awt.BorderLayout;
@@ -161,27 +162,31 @@ public class SimQuestNode extends CustomNode {
         System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileName.toURI().getPath().toString()}");
 		simquestViewer.setFile(fileName.toURI());
         simquestViewer.createFrame(false);
-        simquestViewer.run();
-
-        var dataCollector = new DataCollector(simquestViewer);
-
-        var simquestPanel = new JPanel();
-        simquestPanel.setLayout(new BorderLayout());
         
-        simquestPanel.add(dataCollector, BorderLayout.SOUTH);
-
-        System.out.println(simquestViewer.getInterfacePanel().getSize());
-        System.out.println(simquestViewer.getInterfacePanel().getPreferredSize());
-
-        // TODO: infering correct dimension rather than guessing
-        simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450,450));
-        simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
-
+        var simquestPanel = new JPanel();
+        var dataCollector:DataCollector;
         var eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);
-		eloSimQuestWrapper.setRepository(roolo.repository);
-		eloSimQuestWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
-		eloSimQuestWrapper.setEloFactory(roolo.eloFactory);
-		
+        
+        try {
+        	dataCollector = new DataCollector(simquestViewer);
+        	simquestViewer.run();  	
+        	simquestPanel.setLayout(new BorderLayout());
+        	simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+        	// TODO: infering correct dimension rather than guessing
+        	simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450,450));
+        	simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+			eloSimQuestWrapper.setRepository(roolo.repository);
+			eloSimQuestWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
+			eloSimQuestWrapper.setEloFactory(roolo.eloFactory);
+        } catch (e:java.lang.Exception) {
+        	var info = new JTextArea(4,42);
+        	info.append("Simulation could not be loaded.\n");
+        	info.append("Probably the simulation file was not found,\n");
+        	info.append("it was expected at:\n");
+        	info.append(fileName.toURI().getPath().toString());
+            simquestPanel.add(info);
+        }
+	
         return SimQuestNode{
 			simquestPanel:simquestPanel;
 			eloSimQuestWrapper:eloSimQuestWrapper;
