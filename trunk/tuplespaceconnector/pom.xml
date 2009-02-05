@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy.collaborationservice.tuplespaceconnector</groupId>
+    <artifactId>tuplespaceconnector</artifactId>
+    <name>TuplespaceConnector</name>
+    <description>Enables intercepted messages to spill over into SQL-spaces.</description>
+    <organization>
+        <name>InterMedia, University of Oslo</name>
+    </organization>
+    <version>0.1</version>
+    <packaging>openfire-plugin</packaging>
+    <url>http://maven.reucon.com/projects/public/maven-openfire-plugin</url>
+    
+    <prerequisites>
+        <maven>2.0.1</maven>
+    </prerequisites>
+    <licenses>
+        <license>
+            <name>lgpl</name>
+        </license>
+    </licenses>
+    
+    <repositories>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.igniterealtime.openfire</groupId>
+            <artifactId>openfire</artifactId>
+            <version>3.6.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.reucon.maven.plugins</groupId>
+                <artifactId>maven-openfire-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <jspPackageName>eu.scy.collaborationservice.tuplespaceconnector.jsp</jspPackageName>
+                </configuration>
+            </plugin>            
+        </plugins>
+        
+    </build>
+
+</project>
