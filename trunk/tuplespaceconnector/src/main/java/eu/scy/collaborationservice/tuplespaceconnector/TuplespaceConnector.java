@@ -35,17 +35,9 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
 
 
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {
-        if (processed) {
-            logger.debug("packet processed.");
-        } else {
-            logger.debug("packet not processed.");
+        if (!processed && incoming) {
+            logger.debug("incoming, unprocessed packet: " + packet.toXML());        
+            logger.debug("============================================");        
         }
-        if (incoming) {
-            logger.debug("packet incoming.");
-        } else {
-            logger.debug("packet outgoing.");
-        }
-        logger.debug("packet: " + packet.toXML());        
-        logger.debug("============================================");        
     }
 }   
