@@ -18,9 +18,11 @@ The project consists of four classes, a simplified ELO-class, a object factory t
 Start the web service and retrieve an ELO by its ID by entering {{{http://localhost:9998/elo/<id>}}}
 
 = Resources =
-There are a wide range of example files that can be found at
+There are a wide range of example files that can be found at:
 http://wikis.sun.com/display/Jersey/Main
 
+RESTful Web Services Developer's Guide
 http://docs.sun.com/app/docs/doc/820-4867?l=en
 
-REST Anti-Patterns: http://www.infoq.com/articles/rest-anti-patterns
+REST Anti-Patterns
+http://www.infoq.com/articles/rest-anti-patterns
