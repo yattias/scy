@@ -40,6 +40,8 @@ public class CallOut extends CustomNode {
     public var innerBorderWidth = 10.0;
     public var chatAgent = "Yuri";
     public var iChat = true;
+    var startDragX:Number;
+    var startDragY:Number;
 
     var text_Y = innerBorderWidth + 20;
 
@@ -105,6 +107,14 @@ public class CallOut extends CustomNode {
             }
             typeField
         ]
+            onMousePressed: function( e: MouseEvent ):Void {
+                        startDragX = topX;
+                        startDragY = topY;
+                    }
+                    onMouseDragged: function( e: MouseEvent ):Void {
+                        topX = startDragX + e.dragX;
+                        topY = startDragY + e.dragY;
+                    }
         }
 
     public function addText(txt: String) :Void {
@@ -153,24 +163,13 @@ function run() {
         scene: Scene {
             content: [
                 CallOut {
-                    var cx = 10.0;
-                    var cy = 10.0;
                     var startDragX = 0.0;
                     var startDragY = 0.0;
-                    topX: bind cx;
-                    topY: bind cy;
+                    topX: 10;
+                    topY: 10;
                     pointX:-60
                     pointY:120
                     callWidth: 20
-                    onMousePressed: function( e: MouseEvent ):Void {
-                        startDragX = cx;
-                        startDragY = cy;
-                    }
-                    onMouseDragged: function( e: MouseEvent ):Void {
-                        cx = startDragX + e.dragX;
-                        cy = startDragY + e.dragY;
-                    }
-
                 }
             ]
 
