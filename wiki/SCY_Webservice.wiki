@@ -22,3 +22,5 @@ There are a wide range of example files that can be found at
 http://wikis.sun.com/display/Jersey/Main
 
 http://docs.sun.com/app/docs/doc/820-4867?l=en
+
+REST Anti-Patterns: http://www.infoq.com/articles/rest-anti-patterns
