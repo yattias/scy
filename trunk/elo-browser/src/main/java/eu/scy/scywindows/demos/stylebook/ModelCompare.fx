@@ -17,13 +17,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
  * @author sikkenj and joolingenwr
  */
-var roolo=Roolo.getRoolo();
+var roolo = Roolo.getRoolo();
 
 function createImageWindow(imageURL:String, color:Color, title: String, type: String, x: Number, y:Number, scale:Number):ScyWindow {
     var im = Image {
@@ -85,7 +84,12 @@ function run(){
     var i=0;
     var stackCenter_x = 100.0;
     var stackCenter_y = 600.0;
-    var closedScyWindow = ScyWindow{
+    var closedScyWindow:ScyWindow;
+
+while (
+    i < 10) {
+        i++;
+        closedScyWindow= ScyWindow{
             title:"Temp Data"
             eloType: "DATA";
             color:Color.RED;
@@ -96,41 +100,23 @@ function run(){
             translateX: stackCenter_x + rnd.nextInt() mod 20; // x pos of window
             translateY: stackCenter_y + rnd.nextInt() mod 20; // y pos of window
             rotate: rnd.nextInt() mod 30; // the initial rotation angle
-        };;
-
-    var tWindow:ScyWindow;
-while (
-    i < 10) {
-        i++;
-        tWindow= ScyWindow{
-            title:"Temp Data"
-            eloType: "DATA";
-            color:Color.RED;
-            allowClose:true;
-            allowResize:true;
-            allowRotate:true;
-            allowMinimize:true;
-            translateX: bind closedScyWindow.translateX + rnd.nextInt() mod 20; // x pos of window
-            translateY: bind closedScyWindow.translateY + rnd.nextInt() mod 20; // y pos of window
-            rotate: rnd.nextInt() mod 30; // the initial rotation angle
         };
         // uncomment next line to open the window, parameters are width and height
         //	closedScyWindow.openWindow(100, 150);
-        scyDesktop.addScyWindow(tWindow);
-    }
         scyDesktop.addScyWindow(closedScyWindow);
+    }
 
-    var imageScyModelWindow=createImageWindow("{__DIR__}model.png", Color.BLUE, "Model of Greenhouse", "Model", 100,100);
+    var imageScyModelWindow=createImageWindow("{__DIR__}modeling.png", Color.BLUE, "Model of Greenhouse", "Model", 100,100);
     scyDesktop.addScyWindow(imageScyModelWindow);
-    var imageScyWindow2= createImageWindow( "{__DIR__}graphsmall.png", Color.RED, "CO2 Data", "Graph", 200, 300);
-    scyDesktop.addScyWindow(imageScyWindow2);
+    //var imageScyWindow2= createImageWindow( "{__DIR__}graphsmall.png", Color.RED, "CO2 Data", "Graph", 200, 300);
+    //scyDesktop.addScyWindow(imageScyWindow2);
     var imageScyWindow3= createImageWindow("{__DIR__}co2sim.png", Color.DARKGREEN, "CO2 Simulation", "Simulation", 400, 400);
     scyDesktop.addScyWindow(imageScyWindow3);
-    var imageScyBrowserWindow= createImageWindow("{__DIR__}browser.png", Color.MAGENTA, "Background information", "WebBrowser", 400, 400, 0.3);
+    var imageScyBrowserWindow= createImageWindow("{__DIR__}model.png", Color.BLUE, "Yuri's Model", "Model", 400, 400, 0.5);
     scyDesktop.addScyWindow(imageScyBrowserWindow);
-//    var textWindow = TextpadNode.createTextpadWindow(roolo);
-//    textWindow.title = "Talking to Yuri";
-//    scyDesktop.addScyWindow(textWindow);
+    var textWindow = TextpadNode.createTextpadWindow(roolo);
+    textWindow.title = "Talking to Yuri";
+    scyDesktop.addScyWindow(textWindow);
 
     // activate the window (only one window can be active)
     scyDesktop.activateScyWindow(imageScyModelWindow);
@@ -157,42 +143,29 @@ while (
                     y:550
                     x:750
                 },
-                Rectangle {
-                    x:780
-                    y:580
-                    width: 60
-                    height: 50
-                    stroke: Color.RED
-                    fill: null
-                    strokeWidth: 1.5
-                },
                 ScyRelation {
-                    window1:imageScyWindow3,
-                    window2:imageScyModelWindow,
+                    window1:imageScyModelWindow,
+                    window2:imageScyWindow3,
                     name:"model_of"
                 },
                 ScyRelation {
-                    window1:imageScyWindow3,
+                    window1:imageScyModelWindow,
                     window2:closedScyWindow,
                     name:"generated_by"
                 },
                 ScyRelation {
-                    window1:imageScyWindow2,
-                    window2:closedScyWindow,
-                    name:"displays"
+                    window1:imageScyModelWindow,
+                    window2:imageScyBrowserWindow,
+                    name:"complements"
                 },
-                ScyRelation {
-                    window1:imageScyWindow3,
-                    window2:closedScyWindow,
-                    name:"displays"
-                },
+
 
             scyDesktop.desktop,
                 buddy("adam.jpg",10,10),
                 buddy("ard.jpg", 80, 10),
                 buddy("cedric.jpg", 10, 100),
                 buddy("yuri.jpg",80,100),
-                CallOut{}
+                buddy("yuri.jpg",400,400)
             ]
         }
 }
