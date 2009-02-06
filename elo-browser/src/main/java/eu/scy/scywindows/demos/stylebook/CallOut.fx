@@ -26,8 +26,8 @@ import javafx.stage.Stage;
  */
 
 public class CallOut extends CustomNode {
-    public var topx = 80.0;
-    public var topy = 10.0;
+    public var topX = 80.0;
+    public var topY = 10.0;
     public var width = 100.0;
     public var height = 200.0;
     public var pointX = -60.0;
@@ -38,61 +38,58 @@ public class CallOut extends CustomNode {
     public var stroke = Color.DARKGRAY;
     public var innerBorderWidth = 10.0;
     def calloutLineX = 
-    if (pointX < 0) {topx;
+    bind if (pointX < 0) {0;
     } else {
-        topx + width;
+        width;
     }
 
     public override function create() {
         return Group {
+            translateX: bind topX;
+            translateY: bind topY;
             content: [
                 Rectangle {
                     fill: fill
                     stroke: stroke
-                    x: bind topx
-                    y: bind topy
+                    x: 0
+                    y: 0
                     width: bind width
                     height: bind height
                     arcWidth: 10
                     arcHeight: 10
-                    onMouseDragged: function( e: MouseEvent ):Void {
-//                        System.out.println("Dragging");
-                        topx = e.x;
-                        topy = e.y;
-                    }
                 }
                 Polygon {
-                    points: bind [calloutLineX, topy + callHeight - callWidth / 2, calloutLineX + pointX, topy + pointY, calloutLineX, topy + callHeight + callWidth / 2]
+                    points: bind [calloutLineX, callHeight - callWidth / 2, calloutLineX + pointX, pointY, calloutLineX, callHeight + callWidth / 2]
                     stroke: null
                     fill: fill
                 }
                 Rectangle {
                     x: bind calloutLineX
-                    y: bind topy + callHeight - callWidth / 2
+                    y: bind callHeight - callWidth / 2
                     width: 2
                     height: callWidth
                     stroke: null
                     fill: fill
                 }
                 Line {
-                    startX: bind calloutLineX
-                    startY: bind topy + callHeight - callWidth / 2
+                    startX: calloutLineX
+                    startY: bind callHeight - callWidth / 2
                     endX: bind calloutLineX + pointX
-                    endY: bind topy + pointY
+                    endY: bind pointY
                     stroke: stroke
                 }
                 Line {
-                    startX: bind calloutLineX
-                    startY: bind topy + callHeight + callWidth / 2
+                    startX: calloutLineX
+                    startY: bind callHeight + callWidth / 2
                     endX: bind calloutLineX + pointX
-                    endY: bind topy + pointY
+                    endY: bind pointY
                     stroke: stroke
                 }
                 SwingTextField {
                     columns: 10
                     borderless: true;
-                    translateX: bind topx + innerBorderWidth
-                    translateY: bind topy + innerBorderWidth
+                    translateX: innerBorderWidth
+                    translateY: innerBorderWidth
                     width: width - 2 * innerBorderWidth
                     height: height - 2 * innerBorderWidth
                     text: "TextField"
@@ -114,9 +111,18 @@ function run() {
         scene: Scene {
             content: [
                 CallOut {
+                    var cx = 10.0;
+                    var cy = 10.0;
+                    topX: bind cx;
+                    topY: bind cy;
                     pointX:-60
                     pointY:120
                     callWidth: 20
+                    onMouseDragged: function( e: MouseEvent ):Void {
+                        System.out.println("Dragging{e.x} {e.y}");
+                        cx = e.x;
+                        cy = e.y;
+                    }
                 }
             ]
 
