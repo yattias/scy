@@ -1,7 +1,10 @@
 #summary RESTFul webservice primer
 
 = Introduction =
-This is an example of how to create a RESTFul webservice using Jersey (http://jersey.dev.java.net/). For more information about RESTFul service, please refer to  This example exposes a 
+This is an example of how to create a RESTFul webservice using Jersey (http://jersey.dev.java.net/). For more information about RESTFul service, please refer to:
+*  Fielding Dissertation: Chapter 5: Representational State Transfer (REST), at http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+* Wikipedia article on Representational State Transfer (REST), at http://en.wikipedia.org/wiki/RESTful
+  
 
 = Checkout project =
 The example project can be checked out from the SCY-repository using the command:
