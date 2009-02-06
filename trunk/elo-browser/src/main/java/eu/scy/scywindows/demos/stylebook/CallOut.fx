@@ -7,8 +7,7 @@
 package eu.scy.scywindows.demos.stylebook;
 
 import eu.scy.scywindows.demos.stylebook.CallOut;
-import javafx.ext.swing.SwingList;
-import javafx.ext.swing.SwingListItem;
+import javafx.ext.swing.SwingTextField;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -17,9 +16,9 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.ext.swing.SwingTextField;
 
 
 
@@ -39,6 +38,11 @@ public class CallOut extends CustomNode {
     public var fill = Color.LIGHTYELLOW;
     public var stroke = Color.DARKGRAY;
     public var innerBorderWidth = 10.0;
+    public var chatAgent = "Yuri";
+    public var iChat = true;
+
+    var text_Y = innerBorderWidth + 20;
+
     def calloutLineX = 
     bind
     if (pointX < 0) {0;
@@ -46,71 +50,97 @@ public class CallOut extends CustomNode {
         width;
     }
 
-    public override function create() {
-        var text = Text {
-            content: "This is a multiline text"
-            x: innerBorderWidth
-            y: innerBorderWidth + 20
-            wrappingWidth: bind width - innerBorderWidth * 2
-                }
-        var typeField:SwingTextField = SwingTextField {
-                    columns: 10
-                    text: ""
-                    translateY: height - innerBorderWidth - 20
-                    translateX: innerBorderWidth
-                    width: width - 2 * innerBorderWidth;
-                    editable: true
-                    action: function ():Void {
-                        text.content = "{text.content}\n{typeField.text}";
-                        typeField.text="";
-                    }
-                }
-
-        return Group {
-            translateX: bind topX;
-            translateY: bind topY;
-            content: [
-                Rectangle {
-                    fill: fill
-                    stroke: stroke
-                    x: 0
-                    y: 0
-                    width: bind width
-                    height: bind height
-                    arcWidth: 10
-                    arcHeight: 10
-                }
-                Polygon {
-                    points: bind [calloutLineX, callHeight - callWidth / 2, calloutLineX + pointX, pointY, calloutLineX, callHeight + callWidth / 2]
-                    stroke: null
-                    fill: fill
-                }
-                Rectangle {
-                    x: bind calloutLineX
-                    y: bind callHeight - callWidth / 2
-                    width: 2
-                    height: callWidth
-                    stroke: null
-                    fill: fill
-                }
-                Line {
-                    startX: calloutLineX
-                    startY: bind callHeight - callWidth / 2
-                    endX: bind calloutLineX + pointX
-                    endY: bind pointY
-                    stroke: stroke
-                }
-                Line {
-                    startX: calloutLineX
-                    startY: bind callHeight + callWidth / 2
-                    endX: bind calloutLineX + pointX
-                    endY: bind pointY
-                    stroke: stroke
-                }
-                text,
-                typeField
-            ]
+    var typeField:SwingTextField = SwingTextField {
+        columns: 10
+        text: ""
+        translateY: height - innerBorderWidth - 20
+        translateX: innerBorderWidth
+        width: width - 2 * innerBorderWidth;
+        editable: true
+        action: function ():Void {
+            addText(typeField.text);
+            typeField.text="";
         }
+                }
+    var grp = Group {
+        translateX: bind topX;
+        translateY: bind topY;
+        content: [
+            Rectangle {
+                fill: fill
+                stroke: stroke
+                x: 0
+                y: 0
+                width: bind width
+                height: bind height
+                arcWidth: 10
+                arcHeight: 10
+            }
+            Polygon {
+                points: bind [calloutLineX, callHeight - callWidth / 2, calloutLineX + pointX, pointY, calloutLineX, callHeight + callWidth / 2]
+                stroke: null
+                fill: fill
+            }
+            Rectangle {
+                x: bind calloutLineX
+                y: bind callHeight - callWidth / 2
+                width: 2
+                height: callWidth
+                stroke: null
+                fill: fill
+            }
+            Line {
+                startX: calloutLineX
+                startY: bind callHeight - callWidth / 2
+                endX: bind calloutLineX + pointX
+                endY: bind pointY
+                stroke: stroke
+            }
+            Line {
+                startX: calloutLineX
+                startY: bind callHeight + callWidth / 2
+                endX: bind calloutLineX + pointX
+                endY: bind pointY
+                stroke: stroke
+            }
+            typeField
+        ]
+        }
+
+    public function addText(txt: String) :Void {
+        var cht: String;
+        if (iChat) {
+            cht = "me:"
+        } else {
+            cht = "{chatAgent}:"
+        }
+        iChat = not iChat;
+
+
+        insert Text {
+            content: cht;
+            font: Font {
+                embolden: true;
+            }
+            x: innerBorderWidth;
+            y: text_Y
+            } into grp.content;
+
+        text_Y +=10;
+        insert Text { 
+            content: txt;
+             font: Font {
+                oblique: true;
+            }           x: innerBorderWidth;
+            y: text_Y
+            } into grp.content;
+         text_Y +=13;
+    }
+
+
+    public override function create() {
+
+        return grp;
     }
 
 }
@@ -140,6 +170,7 @@ function run() {
                         cx = startDragX + e.dragX;
                         cy = startDragY + e.dragY;
                     }
+
                 }
             ]
 
