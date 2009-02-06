@@ -16,15 +16,20 @@ import java.io.IOException;
 public class SCYWebservice {
 	public static void main(String[] args) throws IOException {
 
+		// Where to publish the ws
 		final String baseUri = "http://localhost:9998/";
-        final Map<String, String> initParams = new HashMap<String, String>();
 
+		final Map<String, String> initParams = new HashMap<String, String>();
+
+		// Configure jersey to read resources from the package
         initParams.put("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
 
-		// This is where 
+		// This is the package where the service-classes live
         initParams.put("com.sun.jersey.config.property.packages", "eu.scy.ws.example.resources");
 
         System.out.println("Starting grizzly...");
+
+		// Using Grizzly as servlet container for our ws
         SelectorThread threadSelector = GrizzlyWebContainerFactory.create(baseUri, initParams);
         System.out.println(String.format("Jersey app started with WADL available at %sapplication.wadl\nTry out %selo/1\nHit enter to stop it...", baseUri, baseUri));
         System.in.read();
