@@ -37,6 +37,11 @@ public class CallOut extends CustomNode {
     public var fill = Color.LIGHTYELLOW;
     public var stroke = Color.DARKGRAY;
     public var innerBorderWidth = 10.0;
+    def calloutLineX = 
+    if (pointX < 0) {topx;
+    } else {
+        topx + width;
+    }
 
     public override function create() {
         return Group {
@@ -51,35 +56,35 @@ public class CallOut extends CustomNode {
                     arcWidth: 10
                     arcHeight: 10
                     onMouseDragged: function( e: MouseEvent ):Void {
-                        System.out.println("Dragging");
+//                        System.out.println("Dragging");
                         topx = e.x;
                         topy = e.y;
                     }
                 }
                 Polygon {
-                    points: bind [topx, topy+callHeight - callWidth / 2, topx + pointX, topy + pointY, topx, topy+callHeight + callWidth / 2]
+                    points: bind [calloutLineX, topy + callHeight - callWidth / 2, calloutLineX + pointX, topy + pointY, calloutLineX, topy + callHeight + callWidth / 2]
                     stroke: null
                     fill: fill
                 }
                 Rectangle {
-                    x: bind topx
-                    y: bind topy+callHeight - callWidth / 2
+                    x: bind calloutLineX
+                    y: bind topy + callHeight - callWidth / 2
                     width: 2
                     height: callWidth
                     stroke: null
                     fill: fill
                 }
                 Line {
-                    startX: bind topx
-                    startY: bind topy+callHeight - callWidth / 2
-                    endX: bind topx + pointX
+                    startX: bind calloutLineX
+                    startY: bind topy + callHeight - callWidth / 2
+                    endX: bind calloutLineX + pointX
                     endY: bind topy + pointY
                     stroke: stroke
                 }
                 Line {
-                    startX: bind topx
-                    startY: bind topy+callHeight + callWidth / 2
-                    endX: bind topx + pointX
+                    startX: bind calloutLineX
+                    startY: bind topy + callHeight + callWidth / 2
+                    endX: bind calloutLineX + pointX
                     endY: bind topy + pointY
                     stroke: stroke
                 }
@@ -88,8 +93,8 @@ public class CallOut extends CustomNode {
                     borderless: true;
                     translateX: bind topx + innerBorderWidth
                     translateY: bind topy + innerBorderWidth
-                    width: width - 2*innerBorderWidth
-                    height: height - 2*innerBorderWidth
+                    width: width - 2 * innerBorderWidth
+                    height: height - 2 * innerBorderWidth
                     text: "TextField"
                     editable: true
 
@@ -109,6 +114,9 @@ function run() {
         scene: Scene {
             content: [
                 CallOut {
+                    pointX:-60
+                    pointY:120
+                    callWidth: 20
                 }
             ]
 
