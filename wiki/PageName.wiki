@@ -1,0 +1,21 @@
+#summary RESTFul webservice primer
+
+= Introduction =
+This is an example of how to create a RESTFul webservice using Jersey (http://jersey.dev.java.net/). For more information about RESTFul service, please refer to  This example exposes a 
+
+= Checkout project =
+The example project can be checked out from the SCY-repository using the command:
+{{{
+svn co https://scy.googlecode.com/svn/trunk/tool-broker-service tool-broker-service
+}}}
+
+= Details =
+The project consists of four classes, a simplified ELO-class, a object factory that creates and provides a few mock-elo objects and the web service that exposes the ELO objects to the outside world. See to comments in the ELOService-class for more details.
+
+Start the web service and retrieve an ELO by its ID by entering {{{http://localhost:9998/elo/<id>}}}
+
+= Resources =
+There are a wide range of example files that can be found at
+http://wikis.sun.com/display/Jersey/Main
+
+http://docs.sun.com/app/docs/doc/820-4867?l=en
