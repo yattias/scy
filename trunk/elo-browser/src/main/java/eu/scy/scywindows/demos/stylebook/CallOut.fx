@@ -7,8 +7,8 @@
 package eu.scy.scywindows.demos.stylebook;
 
 import eu.scy.scywindows.demos.stylebook.CallOut;
-import java.lang.System;
-import javafx.ext.swing.SwingTextField;
+import javafx.ext.swing.SwingList;
+import javafx.ext.swing.SwingListItem;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -17,7 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.ext.swing.SwingTextField;
 
 
 
@@ -38,12 +40,32 @@ public class CallOut extends CustomNode {
     public var stroke = Color.DARKGRAY;
     public var innerBorderWidth = 10.0;
     def calloutLineX = 
-    bind if (pointX < 0) {0;
+    bind
+    if (pointX < 0) {0;
     } else {
         width;
     }
 
     public override function create() {
+        var text = Text {
+            content: "This is a multiline text"
+            x: innerBorderWidth
+            y: innerBorderWidth + 20
+            wrappingWidth: bind width - innerBorderWidth * 2
+                }
+        var typeField:SwingTextField = SwingTextField {
+                    columns: 10
+                    text: ""
+                    translateY: height - innerBorderWidth - 20
+                    translateX: innerBorderWidth
+                    width: width - 2 * innerBorderWidth;
+                    editable: true
+                    action: function ():Void {
+                        text.content = "{text.content}\n{typeField.text}";
+                        typeField.text="";
+                    }
+                }
+
         return Group {
             translateX: bind topX;
             translateY: bind topY;
@@ -85,19 +107,9 @@ public class CallOut extends CustomNode {
                     endY: bind pointY
                     stroke: stroke
                 }
-                SwingTextField {
-                    columns: 10
-                    borderless: true;
-                    translateX: innerBorderWidth
-                    translateY: innerBorderWidth
-                    width: width - 2 * innerBorderWidth
-                    height: height - 2 * innerBorderWidth
-                    text: "TextField"
-                    editable: true
-
-                }
+                text,
+                typeField
             ]
-
         }
     }
 
@@ -113,15 +125,20 @@ function run() {
                 CallOut {
                     var cx = 10.0;
                     var cy = 10.0;
+                    var startDragX = 0.0;
+                    var startDragY = 0.0;
                     topX: bind cx;
                     topY: bind cy;
                     pointX:-60
                     pointY:120
                     callWidth: 20
+                    onMousePressed: function( e: MouseEvent ):Void {
+                        startDragX = cx;
+                        startDragY = cy;
+                    }
                     onMouseDragged: function( e: MouseEvent ):Void {
-                        System.out.println("Dragging{e.x} {e.y}");
-                        cx = e.x;
-                        cy = e.y;
+                        cx = startDragX + e.dragX;
+                        cy = startDragY + e.dragY;
                     }
                 }
             ]
