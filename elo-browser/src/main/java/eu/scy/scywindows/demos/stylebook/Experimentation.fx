@@ -104,11 +104,11 @@ i < 10) {
     scyDesktop.addScyWindow(closedScyWindow);
 }
 
-var imageScyModelWindow=createImageWindow("{__DIR__}modeling.png", Color.BLUE, "Model of Greenhouse", "Model", 100,100);
+var imageScyModelWindow=createImageWindow("{__DIR__}model.png", Color.BLUE, "Model of Greenhouse", "Model", 100,100);
 scyDesktop.addScyWindow(imageScyModelWindow);
 var imageScyWindow2= createImageWindow( "{__DIR__}graphsmall.png", Color.RED, "CO2 Data", "Graph", 200, 300);
 scyDesktop.addScyWindow(imageScyWindow2);
-var imageScyWindow3= createImageWindow("{__DIR__}co2sim.png", Color.DARKGREEN, "CO2 Simulation", "Simulation", 400, 400,0.3);
+var imageScyWindow3= createImageWindow("{__DIR__}co2sim.png", Color.DARKGREEN, "CO2 Simulation", "Simulation", 400, 400);
 scyDesktop.addScyWindow(imageScyWindow3);
 var imageScyBrowserWindow= createImageWindow("{__DIR__}browser.png", Color.MAGENTA, "Background information", "WebBrowser", 400, 400, 0.3);
 scyDesktop.addScyWindow(imageScyBrowserWindow);
@@ -139,12 +139,12 @@ Stage {
                 x:750
             },
             ScyRelation {
-                window1:imageScyModelWindow,
-                window2:imageScyWindow3,
+                window1:imageScyWindow3,
+                window2:imageScyModelWindow,
                 name:"model_of"
             },
             ScyRelation {
-                window1:imageScyModelWindow,
+                window1:imageScyWindow3,
                 window2:closedScyWindow,
                 name:"generated_by"
             },
@@ -153,6 +153,12 @@ Stage {
                 window2:closedScyWindow,
                 name:"displays"
             },
+            ScyRelation {
+                window1:imageScyWindow3,
+                window2:closedScyWindow,
+                name:"displays"
+            },
+
             scyDesktop.desktop,
             buddy("adam.jpg",10,10),
             buddy("ard.jpg", 80, 10),

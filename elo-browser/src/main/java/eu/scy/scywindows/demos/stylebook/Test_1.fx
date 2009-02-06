@@ -6,8 +6,6 @@
 
 package eu.scy.scywindows.demos.stylebook;
 
-import eu.scy.elobrowser.main.Roolo;
-import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.demos.stylebook.ScyRelation;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
@@ -23,7 +21,6 @@ import javafx.stage.Stage;
 /**
  * @author sikkenj and joolingenwr
  */
-var roolo=Roolo.getRoolo();
 
 function createImageWindow(imageURL:String, color:Color, title: String, type: String, x: Number, y:Number, scale:Number):ScyWindow {
     var im = Image {
@@ -85,7 +82,12 @@ function run(){
     var i=0;
     var stackCenter_x = 100.0;
     var stackCenter_y = 600.0;
-    var closedScyWindow = ScyWindow{
+    var closedScyWindow:ScyWindow;
+
+while (
+    i < 10) {
+        i++;
+        closedScyWindow= ScyWindow{
             title:"Temp Data"
             eloType: "DATA";
             color:Color.RED;
@@ -96,29 +98,11 @@ function run(){
             translateX: stackCenter_x + rnd.nextInt() mod 20; // x pos of window
             translateY: stackCenter_y + rnd.nextInt() mod 20; // y pos of window
             rotate: rnd.nextInt() mod 30; // the initial rotation angle
-        };;
-
-    var tWindow:ScyWindow;
-while (
-    i < 10) {
-        i++;
-        tWindow= ScyWindow{
-            title:"Temp Data"
-            eloType: "DATA";
-            color:Color.RED;
-            allowClose:true;
-            allowResize:true;
-            allowRotate:true;
-            allowMinimize:true;
-            translateX: bind closedScyWindow.translateX + rnd.nextInt() mod 20; // x pos of window
-            translateY: bind closedScyWindow.translateY + rnd.nextInt() mod 20; // y pos of window
-            rotate: rnd.nextInt() mod 30; // the initial rotation angle
         };
         // uncomment next line to open the window, parameters are width and height
         //	closedScyWindow.openWindow(100, 150);
-        scyDesktop.addScyWindow(tWindow);
-    }
         scyDesktop.addScyWindow(closedScyWindow);
+    }
 
     var imageScyModelWindow=createImageWindow("{__DIR__}model.png", Color.BLUE, "Model of Greenhouse", "Model", 100,100);
     scyDesktop.addScyWindow(imageScyModelWindow);
@@ -128,9 +112,6 @@ while (
     scyDesktop.addScyWindow(imageScyWindow3);
     var imageScyBrowserWindow= createImageWindow("{__DIR__}browser.png", Color.MAGENTA, "Background information", "WebBrowser", 400, 400, 0.3);
     scyDesktop.addScyWindow(imageScyBrowserWindow);
-//    var textWindow = TextpadNode.createTextpadWindow(roolo);
-//    textWindow.title = "Talking to Yuri";
-//    scyDesktop.addScyWindow(textWindow);
 
     // activate the window (only one window can be active)
     scyDesktop.activateScyWindow(imageScyModelWindow);
@@ -191,8 +172,7 @@ while (
                 buddy("adam.jpg",10,10),
                 buddy("ard.jpg", 80, 10),
                 buddy("cedric.jpg", 10, 100),
-                buddy("yuri.jpg",80,100),
-                CallOut{}
+                buddy("yuri.jpg",80,100)
             ]
         }
 }
