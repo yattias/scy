@@ -26,3 +26,9 @@ http://docs.sun.com/app/docs/doc/820-4867?l=en
 
 REST Anti-Patterns
 http://www.infoq.com/articles/rest-anti-patterns
+
+= Tools, tips & tricks =
+IntelliJ has a integrated REST client which allows you to send custom HTTP requests to a RESTful service and analyze the response. Tools -> WebServices -> RESTful Web Services ->
+Test RESTful Web Service.
+
+For you non-IntelliJ people, the Firefox addon "Poster" (http://addons.mozilla.org/en-US/firefox/addon/2691) can basically do the same thing.
