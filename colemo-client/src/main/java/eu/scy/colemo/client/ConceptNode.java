@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.InetAddress;
+import java.net.URL;
 import java.util.logging.Logger;
 import javax.swing.*;
 
@@ -66,6 +67,16 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     private int dragMode = DRAGMODE_ON;
 
+    private Image arrowRight = null;
+    private Image arrowLeft = null;
+    private Image arrowUp = null;
+    private Image arrowDown = null;
+
+    private URL arrowRightURL = getClass().getResource("arrowRight.png");
+    private URL arrowUpURL = getClass().getResource("arrowUp.png");
+    private URL arrowLeftURL = getClass().getResource("arrowLeft.png");
+    private URL arrowDownURL = getClass().getResource("arrowDown.png");
+
 
     public ConceptNode(UmlClass umlClass, GraphicsDiagram gDiagram) {
         this.umlClass = umlClass;
@@ -75,6 +86,14 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.setToolTipText(umlClass.getName() + " created by " + umlClass.getAuthor());
+
+        Toolkit toolkit = getToolkit();
+
+
+        arrowRight = toolkit.createImage(arrowRightURL);
+        arrowUp = toolkit.createImage(arrowUpURL);
+        arrowLeft = toolkit.createImage(arrowLeftURL);
+        arrowDown = toolkit.createImage(arrowDownURL);
 
         //setPreferredSize(new Dimension(200,200));
 
@@ -233,17 +252,13 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         if (getConnectMode() == CONNECT_MODE_OFF) {
 
         } else if (getConnectMode() == CONNECT_MODE_RIGHT) {
-            g2.setColor(Color.BLACK);
-            g2.fillRect(0, 0, 4, getHeight());
+            g2.drawImage(arrowLeft, 3,getHeight()/2, this);
         } else if(getConnectMode() == CONNECT_MODE_LEFT) {
-            g2.setColor(Color.BLACK);
-            g2.fillRect(getWidth() -4, 0, 4, getHeight());
+            g2.drawImage(arrowRight, getWidth() - 20,getHeight()/2, this);
         } else if(getConnectMode() == CONNECT_MODE_TOP) {
-            g2.setColor(Color.BLACK);
-            g2.fillRect(0,0, getWidth(), 4);
+            g2.drawImage(arrowUp, getWidth()/2, 20, this);
         } else if(getConnectMode() == CONNECT_MODE_BOTTOM) {
-            g2.setColor(Color.BLACK);
-            g2.fillRect(0,(getHeight() -4), getWidth(), 4);
+            g2.drawImage(arrowDown, getWidth()/2, getHeight() - 20, this);
         }
 
 
@@ -284,7 +299,12 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     public void mouseReleased(MouseEvent ae) {
         if(getGraphicsDiagram().getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON) {
-            getGraphicsDiagram().addLink(new UmlLink(getGraphicsDiagram().getSource().getUmlClass().getName(), getGraphicsDiagram().getTarget().getUmlClass().getName(), "Henrik"));
+            System.out.println("CREATING LINK (Conceptnode)");
+            UmlLink link = new UmlLink(getGraphicsDiagram().getSource().getUmlClass().getName(), getGraphicsDiagram().getTarget().getUmlClass().getName(), "Henrik");
+            link.setId("ID-" + System.currentTimeMillis());
+            getGraphicsDiagram().addLink(link);
+            ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
+            System.out.println("DONE CREATING LINK (Conceptnode)");
         }
         
         if (ae.isPopupTrigger()) {
@@ -351,7 +371,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
 
     private Boolean isConnectPointRight(MouseEvent e) {
-        if (e.getX() >= 0 && e.getX() <= 4) {
+        if (e.getX() >= 0 && e.getX() <= 7) {
             setConnectMode(CONNECT_MODE_RIGHT);
             return true;
         }
@@ -360,7 +380,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     private Boolean isConnectPointLeft(MouseEvent e) {
 
-        if(e.getX() >= (getWidth() - 4) && e.getX() <= getWidth()) {
+        if(e.getX() >= (getWidth() - 7) && e.getX() <= getWidth()) {
             setConnectMode(CONNECT_MODE_LEFT);
             return true;
         }
@@ -369,7 +389,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     private Boolean isConnectPointTop(MouseEvent e) {
 
-        if(e.getY() >= 0 && e.getY() <= 4) {
+        if(e.getY() >= 0 && e.getY() <= 7) {
             setConnectMode(CONNECT_MODE_TOP);
             return true;
         }
@@ -378,7 +398,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     private Boolean isConnectPointBottom(MouseEvent e) {
 
-        if(e.getY() >= getHeight() -4 && e.getY() <= getHeight()) {
+        if(e.getY() >= getHeight() -7 && e.getY() <= getHeight()) {
             setConnectMode(CONNECT_MODE_BOTTOM);
             return true;
         }

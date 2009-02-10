@@ -124,10 +124,15 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void addLink(UmlLink umlLink) {
-        GraphicsLink gLink = new GraphicsLink(umlLink, this);
-        components.put(gLink.getFrom().getUmlClass().getName() + gLink.getTo().getUmlClass().getName(), gLink);
+        try {
+            GraphicsLink gLink = new GraphicsLink(umlLink, this);
+            components.put(gLink.getFrom().getUmlClass().getName() + gLink.getTo().getUmlClass().getName(), gLink);
         extend.add(gLink);
         gLink.paint(getGraphics());
+        } catch(Exception e) {
+            System.out.println("Evil bug...");
+        }
+
     }
 
     public void addAssociation(UmlAssociation umlAssociation) {
