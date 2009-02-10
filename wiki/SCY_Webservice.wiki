@@ -21,6 +21,8 @@ Start the web service and retrieve an ELO by its ID by entering {{{http://localh
 There are a wide range of example files that can be found at:
 http://wikis.sun.com/display/Jersey/Main
 
+http://ajaxpatterns.org/RESTful_Service
+
 RESTful Web Services Developer's Guide
 http://docs.sun.com/app/docs/doc/820-4867?l=en
 
