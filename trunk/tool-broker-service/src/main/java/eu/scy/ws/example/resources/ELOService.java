@@ -1,8 +1,9 @@
 package eu.scy.ws.example.resources;
 
 import com.sun.jersey.spi.resource.Singleton;
-import eu.scy.ws.example.model.ELO;
-import eu.scy.ws.example.model.ELOMockFactory;
+import eu.scy.ws.example.api.dao.DAOFactory;
+import eu.scy.ws.example.api.dao.ELODAO;
+import eu.scy.ws.example.api.ELO;
 
 import javax.ws.rs.*;
 
@@ -16,24 +17,37 @@ import javax.ws.rs.*;
  * @author Bjørge Næss
  */
 
-// Set as singleton to keep the same instance of the eloMockFactory between requests
+// Set as singleton to keep the same instance of the eloDAO between requests
 @Singleton
-@Path("/elo")
+@Path("/elos")
 public class ELOService {
 
-	private ELOMockFactory eloMockFactory = new ELOMockFactory();
+	private ELODAO eloDAO = DAOFactory.getInstance().getELODAO();
+
+	/**
+	 *
+	 * @return Help text
+	 */
+	@GET
+    @Produces({"text/plain"})
+	public String getAll() {
+		return "Usage: GET /elos/<eloid>";
+	}
 
 	/**
 	 * This method is called when the relative url /elo/<someid> is requested.
 	 * @param eloId Id of elo to retrieve
 	 * @return The ELO in the format specified by the clients request header "Accept" (one of the types defined by the @Produces annotation)
 	 */
+	
 	@GET
 	@Path("{eloId}")
     @Produces({"application/xml", "application/json"})
 	public ELO getElo(@PathParam("eloId") Integer eloId) {
-		System.out.println("Someone requested ELO with ID " + eloId);
-		return eloMockFactory.getELO(eloId);
+		System.out.println("Someone requested MockELO with ID " + eloId);
+		ELO elo = eloDAO.getELO(eloId);
+		System.out.println("elo = " + elo);
+		return elo;
 	}
 
 	/**
@@ -48,7 +62,7 @@ public class ELOService {
     @Produces({"text/plain"})
 	@Path("{eloId}")
 	public synchronized String postElo(@PathParam("eloId") Integer eloId, ELO elo) {
-		eloMockFactory.saveELO(eloId, elo);
+		eloDAO.saveELO(elo);
 		return "Elo updated";
 	}
 }
