@@ -1,7 +1,7 @@
 package eu.scy.ws.example.mock.dao;
 
-import eu.scy.ws.example.api.dao.ELODAO;
 import eu.scy.ws.example.api.ELO;
+import eu.scy.ws.example.api.dao.ELODAO;
 import eu.scy.ws.example.mock.api.MockELO;
 
 import java.util.ArrayList;
