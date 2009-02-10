@@ -102,6 +102,10 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
         //channel.close();
     }
 
+    public void cleanUp() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private void eventLoop() {
         BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
         while(true) {

@@ -30,7 +30,7 @@ public class ColemoPanel extends JPanel {
         ApplicationController.getDefaultInstance().connect();
 
         UmlDiagram diagram = gDiagram.getUmlDiagram();
-        addNewConcept(diagram, "c");
+        //addNewConcept(diagram, "c");
 
     }
 
@@ -76,6 +76,10 @@ public class ColemoPanel extends JPanel {
         invalidate();
         validate();
         repaint();
+    }
+
+    public void cleanUp() {
+        ApplicationController.getDefaultInstance().getConnectionHandler().cleanUp();
     }
 
 }
