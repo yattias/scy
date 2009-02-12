@@ -29,7 +29,8 @@ import eu.scy.eloimporter.gui.EloImporterApplication;
 import eu.scy.eloimporter.gui.PanelFactory;
 import eu.scy.eloimporter.gui.panels.AbstractEloDisplayPanel;
 
-public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFactory {
+public class DescriptionPanel extends AbstractEloDisplayPanel implements
+		PanelFactory {
 
 	class InternalPanel extends JPanel {
 
@@ -50,12 +51,14 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (DescriptionPanel.this.elo != null) {
-						IMetadataValueContainer value = DescriptionPanel.this.elo.getMetadata()
-								.getMetadataValueContainer(DescriptionPanel.this.descriptionKey);
+						IMetadataValueContainer value = DescriptionPanel.this.elo
+								.getMetadata().getMetadataValueContainer(
+										DescriptionPanel.this.descriptionKey);
 						if (this.oldLocale != null) {
 							value.deleteLanguage(this.oldLocale);
 						}
-						Locale locale = (Locale) InternalPanel.this.localeChooser.getSelectedItem();
+						Locale locale = (Locale) InternalPanel.this.localeChooser
+								.getSelectedItem();
 						String text = InternalPanel.this.textField.getText();
 						value.setValue(text, locale);
 						this.oldLocale = locale;
@@ -71,48 +74,54 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 			layout.setConstraints(this.localeChooser, c);
 			this.add(this.localeChooser);
 
-			this.textField = new JTextArea();
-			this.textField.getDocument().addDocumentListener(new DocumentListener() {
+			this.textField = new JTextArea(2, 30);
+			this.textField.getDocument().addDocumentListener(
+					new DocumentListener() {
 
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					// not needed
-				}
+						@Override
+						public void changedUpdate(DocumentEvent e) {
+							// not needed
+						}
 
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					try {
-						this.updateEloTitle(e);
-					} catch (BadLocationException e1) {
-						e1.printStackTrace();
-					}
-				}
+						@Override
+						public void insertUpdate(DocumentEvent e) {
+							try {
+								this.updateEloTitle(e);
+							} catch (BadLocationException e1) {
+								e1.printStackTrace();
+							}
+						}
 
-				private void updateEloTitle(DocumentEvent e) throws BadLocationException {
-					String text = e.getDocument().getText(0, e.getDocument().getLength());
-					Locale locale = (Locale) InternalPanel.this.localeChooser.getSelectedItem();
-					if (DescriptionPanel.this.elo != null) {
-						IMetadataValueContainer value = DescriptionPanel.this.elo.getMetadata()
-								.getMetadataValueContainer(DescriptionPanel.this.descriptionKey);
-						value.deleteLanguage(locale);
-						value.setValue(text, locale);
-					}
-				}
+						private void updateEloTitle(DocumentEvent e)
+								throws BadLocationException {
+							String text = e.getDocument().getText(0,
+									e.getDocument().getLength());
+							Locale locale = (Locale) InternalPanel.this.localeChooser
+									.getSelectedItem();
+							if (DescriptionPanel.this.elo != null) {
+								IMetadataValueContainer value = DescriptionPanel.this.elo
+										.getMetadata()
+										.getMetadataValueContainer(
+												DescriptionPanel.this.descriptionKey);
+								value.deleteLanguage(locale);
+								value.setValue(text, locale);
+							}
+						}
 
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					try {
-						this.updateEloTitle(e);
-					} catch (BadLocationException e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
+						@Override
+						public void removeUpdate(DocumentEvent e) {
+							try {
+								this.updateEloTitle(e);
+							} catch (BadLocationException e1) {
+								e1.printStackTrace();
+							}
+						}
+					});
 			c = new GridBagConstraints();
 			c.gridx = 1;
 			c.gridy = 0;
-			c.weightx = 0.5;
-			c.weighty = 0.0;
+			c.weightx = 1.0;
+			c.weighty = 0.1;
 			c.fill = GridBagConstraints.HORIZONTAL;
 			layout.setConstraints(this.textField, c);
 			this.add(this.textField);
@@ -158,7 +167,8 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 			containerPanel.add(removeButton);
 
 			DescriptionPanel.this.add(containerPanel);
-			DescriptionPanel.this.button2Panel.put(removeButton, containerPanel);
+			DescriptionPanel.this.button2Panel
+					.put(removeButton, containerPanel);
 			DescriptionPanel.this.validate();
 		}
 
@@ -169,15 +179,18 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			JPanel panelToRemove = DescriptionPanel.this.button2Panel.get(button);
+			JPanel panelToRemove = DescriptionPanel.this.button2Panel
+					.get(button);
 
 			DescriptionPanel.this.remove(panelToRemove);
 			DescriptionPanel.this.button2Panel.remove(button);
 			DescriptionPanel.this.updateLayout();
 
 			Dimension oldSize = DescriptionPanel.this.getParent().getSize();
-			DescriptionPanel.this.getParent().setSize(oldSize.width + 1, oldSize.height + 1);
-			DescriptionPanel.this.getParent().setSize(oldSize.width, oldSize.height);
+			DescriptionPanel.this.getParent().setSize(oldSize.width + 1,
+					oldSize.height + 1);
+			DescriptionPanel.this.getParent().setSize(oldSize.width,
+					oldSize.height);
 		}
 	}
 
@@ -191,8 +204,8 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 	public DescriptionPanel(EloImporterApplication app) {
 		this.application = app;
 		this.elo = this.application.getElo();
-		this.descriptionKey = this.application.getImporter().getTypeManager().getMetadataKey(
-				"description");
+		this.descriptionKey = this.application.getImporter().getTypeManager()
+				.getMetadataKey("description");
 		this.panelFactory = this;
 		this.setLayout(new GridLayout(0, 1));
 		this.button2Panel = new LinkedHashMap<JButton, JPanel>();
@@ -262,14 +275,16 @@ public class DescriptionPanel extends AbstractEloDisplayPanel implements PanelFa
 		this.button2Panel.clear();
 		this.initComponents();
 
-		IMetadataValueContainer value = elo.getMetadata().getMetadataValueContainer(
-				this.descriptionKey);
+		IMetadataValueContainer value = elo.getMetadata()
+				.getMetadataValueContainer(this.descriptionKey);
 		String title = null;
 
 		JButton addButton = this.button2Panel.keySet().iterator().next();
-		InternalPanel titlePanel = (InternalPanel) this.button2Panel.get(addButton).getComponent(0);
+		InternalPanel titlePanel = (InternalPanel) this.button2Panel.get(
+				addButton).getComponent(0);
 		for (int i = 0; i < this.locales.length; i++) {
-			if (this.locales[i].getLanguage().equals(Locale.getDefault().getLanguage())) {
+			if (this.locales[i].getLanguage().equals(
+					Locale.getDefault().getLanguage())) {
 				titlePanel.setSelectedLocaleIndex(i);
 				title = (String) value.getValue(this.locales[i]);
 				break;
