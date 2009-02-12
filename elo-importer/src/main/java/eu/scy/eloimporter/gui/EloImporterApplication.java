@@ -36,14 +36,14 @@ public class EloImporterApplication extends JFrame {
 			super("Exit");
 			this.putValue(Action.SHORT_DESCRIPTION, "Save as ELO");
 			this.putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_X));
-			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q,
-					ActionEvent.CTRL_MASK));
+			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+					KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
 
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			EloImporterApplication.this.dispatchEvent(new WindowEvent(EloImporterApplication.this,
-					WindowEvent.WINDOW_CLOSING));
+			EloImporterApplication.this.dispatchEvent(new WindowEvent(
+					EloImporterApplication.this, WindowEvent.WINDOW_CLOSING));
 		}
 	}
 
@@ -53,12 +53,13 @@ public class EloImporterApplication extends JFrame {
 			super("Save");
 			this.putValue(Action.SHORT_DESCRIPTION, "Save as ELO");
 			this.putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_S));
-			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S,
-					ActionEvent.CTRL_MASK));
+			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+					KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			EloImporterApplication.this.getImporter().saveElo(EloImporterApplication.this.getElo());
+			EloImporterApplication.this.getImporter().saveElo(
+					EloImporterApplication.this.getElo());
 		}
 	}
 
@@ -68,16 +69,16 @@ public class EloImporterApplication extends JFrame {
 			super("Import");
 			this.putValue(Action.SHORT_DESCRIPTION, "Import File");
 			this.putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
-			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_I,
-					ActionEvent.CTRL_MASK));
+			this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
+					KeyEvent.VK_I, ActionEvent.CTRL_MASK));
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = new JFileChooser();
 			if (chooser.showOpenDialog(EloImporterApplication.this) == JFileChooser.APPROVE_OPTION) {
 				File file = chooser.getSelectedFile();
-				EloImporterApplication.this.setElo(EloImporterApplication.this.getImporter()
-						.importFile(file));
+				EloImporterApplication.this.setElo(EloImporterApplication.this
+						.getImporter().importFile(file));
 			}
 
 		}
@@ -97,6 +98,8 @@ public class EloImporterApplication extends JFrame {
 
 		this.initMenu();
 		this.initComponents();
+
+		setElo(elo);
 
 		this.setSize(600, 400);
 		// this.pack();
@@ -132,7 +135,8 @@ public class EloImporterApplication extends JFrame {
 	private void initComponents() {
 		this.splitPane = new JSplitPane();
 		JTree metadataTree = new JTree(new DefaultTreeModel(this.initNodes()));
-		metadataTree.addTreeSelectionListener(new MetadataKeySelectedListener(this));
+		metadataTree.addTreeSelectionListener(new MetadataKeySelectedListener(
+				this));
 		this.splitPane.setLeftComponent(metadataTree);
 		this.splitPane.setRightComponent(new GeneralPanel(this));
 		this.splitPane.setDividerSize(5);
@@ -176,35 +180,44 @@ public class EloImporterApplication extends JFrame {
 		DefaultMutableTreeNode title = new DefaultMutableTreeNode("Title");
 		general.add(title);
 
-		DefaultMutableTreeNode aggregationLevel = new DefaultMutableTreeNode("Aggregation Level");
+		DefaultMutableTreeNode aggregationLevel = new DefaultMutableTreeNode(
+				"Aggregation Level");
 		general.add(aggregationLevel);
-		DefaultMutableTreeNode description = new DefaultMutableTreeNode("Description");
+		DefaultMutableTreeNode description = new DefaultMutableTreeNode(
+				"Description");
 		general.add(description);
 		DefaultMutableTreeNode keyword = new DefaultMutableTreeNode("Keywords");
 		general.add(keyword);
-		DefaultMutableTreeNode structure = new DefaultMutableTreeNode("Logical Representation");
+		DefaultMutableTreeNode structure = new DefaultMutableTreeNode(
+				"Logical Representation");
 		general.add(structure);
 		root.add(general);
 
-		DefaultMutableTreeNode technical = new DefaultMutableTreeNode("Technical");
+		DefaultMutableTreeNode technical = new DefaultMutableTreeNode(
+				"Technical");
 		// DefaultMutableTreeNode format = new DefaultMutableTreeNode("Format");
 		// technical.add(format);
 		// DefaultMutableTreeNode size = new DefaultMutableTreeNode("Size");
 		// technical.add(size);
 		root.add(technical);
 
-		DefaultMutableTreeNode lifecycle = new DefaultMutableTreeNode("Lifecycle");
-		DefaultMutableTreeNode contribute = new DefaultMutableTreeNode("Contribute");
+		DefaultMutableTreeNode lifecycle = new DefaultMutableTreeNode(
+				"Lifecycle");
+		DefaultMutableTreeNode contribute = new DefaultMutableTreeNode(
+				"Contribute");
 		lifecycle.add(contribute);
 		root.add(lifecycle);
 
-		DefaultMutableTreeNode educational = new DefaultMutableTreeNode("Educational");
-		DefaultMutableTreeNode learningResource = new DefaultMutableTreeNode("Functional Role");
+		DefaultMutableTreeNode educational = new DefaultMutableTreeNode(
+				"Educational");
+		DefaultMutableTreeNode learningResource = new DefaultMutableTreeNode(
+				"Functional Role");
 		educational.add(learningResource);
 		root.add(educational);
 
 		DefaultMutableTreeNode rights = new DefaultMutableTreeNode("Rights");
-		DefaultMutableTreeNode copyright = new DefaultMutableTreeNode("Copyright");
+		DefaultMutableTreeNode copyright = new DefaultMutableTreeNode(
+				"Copyright");
 		rights.add(copyright);
 		root.add(rights);
 
