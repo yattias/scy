@@ -38,13 +38,14 @@
 package eu.scy.ws.example.config;
 
 import com.sun.jersey.api.json.JSONJAXBContext;
-import eu.scy.ws.example.mock.api.MockELO;
-import eu.scy.ws.example.mock.api.MockUser;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /**
  *
@@ -55,16 +56,16 @@ public final class JAXBContextResolver implements ContextResolver<JAXBContext> {
     
     private final JAXBContext context;
     
-    private final Set<Class> types;
+    private final HashSet types;
 
-    private final Class[] cTypes = {MockELO.class, MockUser.class};
+    private final Class[] cTypes = {};
 
     public JAXBContextResolver() throws Exception {
         Map<String, Object> props = new HashMap<String, Object>();
         props.put(JSONJAXBContext.JSON_NOTATION, JSONJAXBContext.JSONNotation.MAPPED);
         props.put(JSONJAXBContext.JSON_ROOT_UNWRAPPING, Boolean.TRUE);
         props.put(JSONJAXBContext.JSON_NON_STRINGS, new HashSet<String>(1){{add("number");}});
-        this.types = new HashSet(Arrays.asList(cTypes));
+        this.types = new HashSet<Class>(Arrays.asList(cTypes));
         this.context = new JSONJAXBContext(cTypes, props);
     }
     

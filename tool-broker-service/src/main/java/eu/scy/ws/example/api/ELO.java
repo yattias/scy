@@ -8,21 +8,21 @@ import java.util.List;
  * @author Bjørge Næss
  */
 public interface ELO {
-	String getTitle();
-
-	void setTitle(String title);
 
 	void setId(Integer eloid);
 
 	int getId();
 
-	String getContent();
+	String getTitle();
 
-	void setContent(String content);
+	void setTitle(String title);
 
-	List<ELO> getChildren();
+	Object getContent();
+	void setContent(Object content);
+
+	List<?extends ELO> getChildren();
 
 	void addChildELO(ELO elo);
 
-	void setChildren(List<ELO> childELOs);
+	void setChildren(List<? extends ELO> childELOs);
 }

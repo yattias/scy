@@ -12,23 +12,31 @@ import java.util.List;
  *
  * @author Bjørge Næss
  */
+
 @Produces("application/json")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "elo")
+@XmlRootElement(name = "elo",namespace = "eu.scy")
 public class MockELO implements ELO {
 	private String title;
-	private String content;
+	private Object content;
 	private int id;
 
-    @XmlElementWrapper
-	@XmlAnyElement(lax=false)
-	private List<ELO> children = new ArrayList<ELO>();
+    @XmlElement
+	private List<MockELO> children = new ArrayList<MockELO>();
+
+    @XmlElement
+	private List<GeoImageCollector> geoImageCollectors = new ArrayList<GeoImageCollector>();
 
 	public MockELO() {}
 	public MockELO(int id, String title, String content) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
+	}
+
+	public MockELO(int id, String title) {
+		this.id = id;
+		this.title = title;
 	}
 
 	public String getTitle() {
@@ -47,24 +55,32 @@ public class MockELO implements ELO {
 		return id;
 	}
 
-	public String getContent() {
+	public Object getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(Object content) {
 		this.content = content;
 	}
 
-	public List<ELO> getChildren() {
+	public List<MockELO> getChildren() {
 		return children;
 	}
 	public void addChildELO(ELO elo) {
-		this.children.add(elo);
+		this.children.add((MockELO)elo);
 	}
-	public void setChildren(List<ELO> children) {
-		this.children = children;
+	public void setChildren(List<?extends ELO> children) {
+		this.children = (List<MockELO>)children;
 	}
 	public String toString() {
 		return "I am an MockELO. My ID is "+id+", my title is"+ title+" and my content is: "+content;
+	}
+
+	public List<GeoImageCollector> getGeoImageCollectors() {
+		return geoImageCollectors;
+	}
+
+	public void setGeoImageCollectors(List<GeoImageCollector> geoImageCollectors) {
+		this.geoImageCollectors = geoImageCollectors;
 	}
 }
