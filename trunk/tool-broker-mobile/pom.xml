@@ -14,6 +14,11 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>tool-broker-mobile-api</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -36,6 +41,65 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.pyx4me</groupId>
+				<artifactId>j2me-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wtkHome>${env.WTK_HOME}</wtkHome>
+					<proguard>false</proguard>
+					<obfuscate>false</obfuscate>
+					<jadAttributes>
+						<Created-By>Bartek Teodorczyk</Created-By>
+					</jadAttributes>
+					<archive>
+						<manifestEntries>
+							<url>${pom.url}</url>
+						</manifestEntries>
+					</archive>
+					<midlets>
+						<MIDlet>
+							<name>SimpleDemo</name>
+							<icon>/me2-icon.png</icon>
+							<class>org.microemu.midp.examples.simpledemo.SimpleDemoMIDlet</class>
+						</MIDlet>
+					</midlets>
+				</configuration>
+			</plugin>
+
+			<!--plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-antrun-plugin</artifactId>
+							<executions>
+							  <execution>
+								<id>compile</id>
+								<phase>compile</phase>
+								<configuration>
+								  <tasks>
+									<property name="compile_classpath" refid="maven.compile.classpath"/>
+									<property name="runtime_classpath" refid="maven.runtime.classpath"/>
+									<property name="test_classpath" refid="maven.test.classpath"/>
+									<property name="plugin_classpath" refid="maven.plugin.classpath"/>
+
+									<echo message="compile classpath: ${compile_classpath}"/>
+									<echo message="runtime classpath: ${runtime_classpath}"/>
+									<echo message="test classpath:    ${test_classpath}"/>
+									<echo message="plugin classpath:  ${plugin_classpath}"/>
+									<ant antfile="build.xml" target="j2mepolish" inheritRefs="true"/>
+								  </tasks>
+								</configuration>
+								<goals>
+								  <goal>run</goal>
+								</goals>
+							  </execution>
+							</executions>
+						  </plugin-->
 		</plugins>
 	</build>
 	<distributionManagement>
