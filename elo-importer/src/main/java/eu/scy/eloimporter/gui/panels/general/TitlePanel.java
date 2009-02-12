@@ -50,14 +50,16 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (TitlePanel.this.elo != null) {
-						IMetadataValueContainer value = TitlePanel.this.elo.getMetadata()
-								.getMetadataValueContainer(TitlePanel.this.titleKey);
+						IMetadataValueContainer value = TitlePanel.this.elo
+								.getMetadata().getMetadataValueContainer(
+										TitlePanel.this.titleKey);
 						if (this.oldLocale != null) {
 							value.deleteLanguage(this.oldLocale);
 						}
 						Locale locale = (Locale) InternalTitlePanel.this.localeChooser
 								.getSelectedItem();
-						String text = InternalTitlePanel.this.textField.getText();
+						String text = InternalTitlePanel.this.textField
+								.getText();
 						value.setValue(text, locale);
 						this.oldLocale = locale;
 					}
@@ -73,43 +75,48 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 			this.add(this.localeChooser);
 
 			this.textField = new JTextField();
-			this.textField.getDocument().addDocumentListener(new DocumentListener() {
+			this.textField.getDocument().addDocumentListener(
+					new DocumentListener() {
 
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					// not needed
-				}
+						@Override
+						public void changedUpdate(DocumentEvent e) {
+							// not needed
+						}
 
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					try {
-						this.updateEloTitle(e);
-					} catch (BadLocationException e1) {
-						e1.printStackTrace();
-					}
-				}
+						@Override
+						public void insertUpdate(DocumentEvent e) {
+							try {
+								this.updateEloTitle(e);
+							} catch (BadLocationException e1) {
+								e1.printStackTrace();
+							}
+						}
 
-				private void updateEloTitle(DocumentEvent e) throws BadLocationException {
-					String text = e.getDocument().getText(0, e.getDocument().getLength());
-					Locale locale = (Locale) InternalTitlePanel.this.localeChooser
-							.getSelectedItem();
-					if (TitlePanel.this.elo != null) {
-						IMetadataValueContainer value = TitlePanel.this.elo.getMetadata()
-								.getMetadataValueContainer(TitlePanel.this.titleKey);
-						value.deleteLanguage(locale);
-						value.setValue(text, locale);
-					}
-				}
+						private void updateEloTitle(DocumentEvent e)
+								throws BadLocationException {
+							String text = e.getDocument().getText(0,
+									e.getDocument().getLength());
+							Locale locale = (Locale) InternalTitlePanel.this.localeChooser
+									.getSelectedItem();
+							if (TitlePanel.this.elo != null) {
+								IMetadataValueContainer value = TitlePanel.this.elo
+										.getMetadata()
+										.getMetadataValueContainer(
+												TitlePanel.this.titleKey);
+								value.deleteLanguage(locale);
+								value.setValue(text, locale);
+							}
+						}
 
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					try {
-						this.updateEloTitle(e);
-					} catch (BadLocationException e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
+						@Override
+						public void removeUpdate(DocumentEvent e) {
+							try {
+								this.updateEloTitle(e);
+							} catch (BadLocationException e1) {
+								e1.printStackTrace();
+							}
+						}
+					});
 			c = new GridBagConstraints();
 			c.gridx = 1;
 			c.gridy = 0;
@@ -125,8 +132,8 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 			this.textField.repaint();
 		}
 
-		public void setSelectedLocaleIndex(int index) {
-			this.localeChooser.setSelectedIndex(index);
+		public void setSelectedLocale(Locale locale) {
+			this.localeChooser.setSelectedItem(locale);
 		}
 	}
 
@@ -178,7 +185,8 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 			TitlePanel.this.updateLayout();
 
 			Dimension oldSize = TitlePanel.this.getParent().getSize();
-			TitlePanel.this.getParent().setSize(oldSize.width + 1, oldSize.height + 1);
+			TitlePanel.this.getParent().setSize(oldSize.width + 1,
+					oldSize.height + 1);
 			TitlePanel.this.getParent().setSize(oldSize.width, oldSize.height);
 		}
 	}
@@ -193,7 +201,8 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 	public TitlePanel(EloImporterApplication app) {
 		this.application = app;
 		this.elo = this.application.getElo();
-		this.titleKey = this.application.getImporter().getTypeManager().getMetadataKey("title");
+		this.titleKey = this.application.getImporter().getTypeManager()
+				.getMetadataKey("title");
 		this.panelFactory = this;
 		this.setLayout(new GridLayout(0, 1));
 		this.button2Panel = new LinkedHashMap<JButton, JPanel>();
@@ -273,15 +282,17 @@ public class TitlePanel extends AbstractEloDisplayPanel implements PanelFactory 
 		this.button2Panel.clear();
 		this.initComponents();
 
-		IMetadataValueContainer value = elo.getMetadata().getMetadataValueContainer(this.titleKey);
+		IMetadataValueContainer value = elo.getMetadata()
+				.getMetadataValueContainer(this.titleKey);
 		String title = null;
 
 		JButton addButton = this.button2Panel.keySet().iterator().next();
-		InternalTitlePanel titlePanel = (InternalTitlePanel) this.button2Panel.get(addButton)
-				.getComponent(0);
+		InternalTitlePanel titlePanel = (InternalTitlePanel) this.button2Panel
+				.get(addButton).getComponent(0);
 		for (int i = 0; i < this.locales.length; i++) {
-			if (this.locales[i].getLanguage().equals(Locale.getDefault().getLanguage())) {
-				titlePanel.setSelectedLocaleIndex(i);
+			if (this.locales[i].getLanguage().equals(
+					Locale.getDefault().getLanguage())) {
+				titlePanel.setSelectedLocale(this.locales[i]);
 				title = (String) value.getValue(this.locales[i]);
 				break;
 			}
