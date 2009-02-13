@@ -350,12 +350,20 @@ public class ScyWindow extends CustomNode {
 	}
 
 	function resizeTheContent(){
-		if (scyContent instanceof Resizable){
-			var contentWidth = width - borderWidth - 2 * contentBorder - 1;
+        if (scyContent instanceof Resizable){
+            var contentWidth = width - borderWidth - 2 * contentBorder - 1;
 			var contentHeight = height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder;
 			var resizeableScyContent = scyContent as Resizable;
 			resizeableScyContent.width = contentWidth;
 			resizeableScyContent.height = contentHeight;
+
+            //TODO: take care of prefered minimum / maximum size of resizable scycontent
+            var factor: Number = java.lang.Math.min(width/resizeableScyContent.preferredWidth,height/resizeableScyContent.preferredHeight);
+            scyContent.scaleX = factor;
+            scyContent.scaleY = factor;
+            // moving scaled content to upper left corner
+            scyContent.translateX = (factor*resizeableScyContent.preferredWidth-resizeableScyContent.preferredWidth)/2;
+            scyContent.translateY = (factor*resizeableScyContent.preferredHeight-resizeableScyContent.preferredHeight)/2;
 		}
 	}
 
