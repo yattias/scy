@@ -1,4 +1,4 @@
-#summary This page is to be a collection of USE CASES, DISCUSSIONS, and RESOURCES related to the search capabilities of Roolo.
+#summary A collection of USE CASES, DISCUSSIONS, and RESOURCES related to the search capabilities of Roolo.
 
 
 *USE CASES*
