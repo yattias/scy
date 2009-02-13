@@ -28,6 +28,8 @@ public class MockELODAO implements ELODAO {
 		dummyList.add("http://scyzophrenia.ath.cx/bergen1.jpg");
 		dummyList.add("http://scyzophrenia.ath.cx/bergen2.jpg");
 		dummyList.add("http://scyzophrenia.ath.cx/bergen3.jpg");
+		dummyList.add("http://scyzophrenia.ath.cx/bergen4.jpg");
+		dummyList.add("http://scyzophrenia.ath.cx/bergen5.jpg");
 
 		GeoImageCollector gic = new GeoImageCollector("Dummy imagelist", dummyList);
 		GeoImageCollector gic2 = new GeoImageCollector("Dummy imagelist", dummyList);

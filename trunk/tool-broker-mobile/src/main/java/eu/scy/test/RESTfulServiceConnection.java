@@ -1,4 +1,4 @@
-package eu.scy.mobile.impl;
+package eu.scy.test;
 
 import javax.microedition.io.HttpConnection;
 import javax.microedition.io.Connector;
