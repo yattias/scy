@@ -1,4 +1,5 @@
 *What is this page about*:
+
 This page is to be a collection of USE CASES, DISCUSSIONS, and RESOURCES related to the search capabilities of Roolo. 
 
 
@@ -32,4 +33,3 @@ This page is to be a collection of USE CASES, DISCUSSIONS, and RESOURCES related
 Here are the links for Jackrabbit and Lucene's Nabble forums.
 Jackrabbit Nabble: http://www.nabble.com/Jackrabbit-f361.html
 Lucene Nabble: http://www.nabble.com/Lucene-f44.html
-
