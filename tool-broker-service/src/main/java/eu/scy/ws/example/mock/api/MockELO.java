@@ -70,6 +70,7 @@ public class MockELO implements ELO {
 		this.children.add((MockELO)elo);
 	}
 	public void setChildren(List<?extends ELO> children) {
+		//noinspection unchecked
 		this.children = (List<MockELO>)children;
 	}
 	public String toString() {
