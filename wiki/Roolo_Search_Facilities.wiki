@@ -35,5 +35,7 @@
   Apache has several forums (for their various projects) under www.Nabble.com. Each project has its unique URL and it's very simple to find them via google. For example if you're looking for Jackrabbit's Nabble forum just search for "Jackrabbit Nabble". The Same applies to Lucene of course. From my experience on the Jackrabbit forum, the forum works really well and they reply to your questions very promptly with detailed answers.
 
 Here are the links for Jackrabbit and Lucene's Nabble forums.
+
 Jackrabbit Nabble: http://www.nabble.com/Jackrabbit-f361.html
+
 Lucene Nabble: http://www.nabble.com/Lucene-f44.html
