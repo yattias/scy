@@ -8,9 +8,9 @@
 *DISCUSSIONS*
 
 - The search implementation will have 3 layers of abstraction
-  *Bottom*: Jcr/Lucene query language and search capabilities
-  *Middle*: The abstract layer allowing Roolo's clients to send search Roolo's content through
-  *Top*: The user interface where the user can define search criteria through
+  * Bottom *: Jcr/Lucene query language and search capabilities
+  * Middle *: The abstract layer allowing Roolo's clients to send search Roolo's content through
+  * Top *: The user interface where the user can define search criteria through
 
 - Roolo should accommodate 3 types of users
   - Agents
