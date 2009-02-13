@@ -16,11 +16,15 @@
 
 - Roolo should accommodate 3 types of users
   - Agents
+
   - Users (the interact with the search engine via a user interface)
+
   - Query extensions (these are agents who assist the users and extend the users' search criteria)
 
 - Jakob to look further into Jcr
+
 - Lars to write a proposal for the 3 layered search and invite *Ulrich*, *Stefan* and *Jorg* to add use cases. 
+
 - Rokham is to look further into Lucene.
 
 
