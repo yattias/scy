@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://maven.apache.org/POM/4.0.0">
-    <!-- @version $Revision: 98 $ ($Author: vlads $) $Date: 2007-04-20 20:05:31 -0400 (Fri, 20 Apr 2007) $ -->
+    <!-- @version $Revision: 2082 $ ($Author: vlads $) $Date: 2008-06-23 13:36:58 -0400 (Mon, 23 Jun 2008) $ -->
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.scy</groupId>
@@ -17,29 +17,8 @@
  		<name>SCY</name>
 	</organization>
 
-    <repositories>
-       <repository>
-            <id>pyx4me-web-release</id>
-            <url>http://www.pyx4me.com/maven2-release</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-
-    </repositories>
-
-	<pluginRepositories>
-        <pluginRepository>
-            <id>pyx4me-web</id>
-            <url>http://www.pyx4me.com/maven2</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <properties>
-        <me2Version>2.0.1</me2Version><!-- microemulator version -->
+        <me2Version>2.0.2</me2Version><!--me-version-->
 
         <wtk.home>${env.WTK_HOME}</wtk.home>
 
@@ -49,7 +28,7 @@
         <j2me.midlet.configuration>CLDC-1.1</j2me.midlet.configuration>
         <j2me.midlet.profile>MIDP-2.0</j2me.midlet.profile>
 
-        <!--
+        <!-- See other properties http://antenna.sourceforge.net/index.php#setup
         <wtk.bluetooth.enabled>true</wtk.bluetooth.enabled>
         <wtk.wma.enabled>true</wtk.wma.enabled>
         <wtk.wma.version>2.0</wtk.wma.version>
@@ -60,14 +39,6 @@
     </properties>
 
     <dependencies>
-
-
-		<dependency>
-			<groupId>org.microemu</groupId>
-			<artifactId>microemulator</artifactId>
-			<version>${me2Version}</version>
-			<scope>provided</scope>
-		</dependency>
         <dependency>
             <groupId>eu.scy</groupId>
             <artifactId>tool-broker-mobile-api</artifactId>
@@ -88,21 +59,29 @@
             <version>1.0</version>
 	        <systemPath>${basedir}/lib/json.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.sun.me.web</groupId>
+            <artifactId>request</artifactId>
+	        <classifier>jar</classifier>
+	        <scope>system</scope>
+            <version>1.0</version>
+	        <systemPath>${basedir}/lib/request.jar</systemPath>
+        </dependency>
 
-	    <!-- Uncomment for wma
-				<dependency>
-					<groupId>org.microemu</groupId>
-					<artifactId>microemu-jsr-120</artifactId>
-					<version>${me2Version}</version>
-					<scope>provided</scope>
-				</dependency>
-				-->
+        <!-- Uncomment for wma
+        <dependency>
+            <groupId>org.microemu</groupId>
+            <artifactId>microemu-jsr-120</artifactId>
+            <version>${me2Version}</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
 
         <!-- Uncomment for JSR-82
         <dependency>
             <groupId>net.sf.bluecove</groupId>
             <artifactId>bluecove</artifactId>
-            <version>1.2.2</version>
+            <version>2.0.2</version>
             <scope>provided</scope>
         </dependency>
         -->
@@ -121,16 +100,25 @@
 
     <build>
         <defaultGoal>install</defaultGoal>
-
         <plugins>
-
 		   <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.3</source>
                     <target>1.3</target>
+                    <compilerArguments>
+                        <bootclasspath>${settings.localRepository}/org/microemu/cldcapi11/${me2Version}/cldcapi11-${me2Version}.jar${path.separator}${settings.localRepository}/org/microemu/midpapi20/${me2Version}/midpapi20-${me2Version}.jar</bootclasspath>
+                    </compilerArguments>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.microemu</groupId>
+                        <artifactId>midpapi20</artifactId>
+                        <version>${me2Version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>com.pyx4me</groupId>
                 <artifactId>j2me-maven-plugin</artifactId>
@@ -144,7 +132,7 @@
                 <configuration>
                     <wtkHome>${env.WTK_HOME}</wtkHome>
                     <proguardInclude>proguard.conf</proguardInclude>
-                    <proguard>true</proguard>
+                    <proguard>false</proguard>
                     <obfuscate>true</obfuscate>
                     <jadAttributes>
                         <MIDlet-Vendor>${project.organization.name}</MIDlet-Vendor>
@@ -156,16 +144,56 @@
 						-->
                     </jadAttributes>
                     <midlets>
-						<!-- for each MIDlet entry-point, simply reiterate this section -->
                         <MIDlet>
-                            <name>SimpleApp</name>
-                            <icon>/pyx.png</icon>
-                            <class>eu.scy.SimpleMIDlet</class>
+                            <name>ScyMobileDemo</name>
+                            <icon>/scy.png</icon>
+                            <class>eu.scy.mobile.toolbroker.sample.SCYMobileDemo</class>
                         </MIDlet>
                     </midlets>
-					<libs>
-						<lib>${env.WTK_HOME}/lib/midpapi20.jar</lib>
-					</libs>
+                    <!-- If you are going to use ProGuard instead of WTK
+                    <useWtkLibs>false</useWtkLibs>
+                    <libs>
+                        <lib>${settings.localRepository}/org/microemu/cldcapi11/${me2Version}/cldcapi11-${me2Version}.jar</lib>
+                        <lib>${settings.localRepository}/org/microemu/midpapi20/${me2Version}/midpapi20-${me2Version}.jar</lib>
+                    </libs>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.microemu</groupId>
+                            <artifactId>microemulator</artifactId>
+                            <exclude>true</exclude>
+                        </dependency>
+                    </dependencies>
+                    -->
+					<assembly>
+						<inclusions>
+							<inclusion>
+								<groupId>eu.scy</groupId>
+								<artifactId>tool-broker-mobile-api</artifactId>
+							</inclusion>
+							<inclusion>
+								<groupId>eu.scy</groupId>
+								<artifactId>tool-broker-mobile</artifactId>
+							</inclusion>
+							<inclusion>
+								<groupId>org.json.me</groupId>
+								<artifactId>json</artifactId>
+								<classifier>jar</classifier>
+							</inclusion>
+							<inclusion>
+								<groupId>com.sun.me.web</groupId>
+								<artifactId>request</artifactId>
+								<classifier>jar</classifier>
+							</inclusion>
+						</inclusions>
+					</assembly>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.pyx4me</groupId>
+                <artifactId>obex-maven-plugin</artifactId>
+                <configuration>
+                    <jarfile>tool-broker-mobile-demoapp-1.0-SNAPSHOT-me.jar</jarfile>
                 </configuration>
             </plugin>
 
@@ -182,13 +210,13 @@
                             <tasks>
                                 <copy overwrite="true"
                                       file="${project.build.directory}/${project.build.finalName}-me.jar"
-                                      tofile="${project.build.directory}/site/tool-broker-mobile.jar"/>
+                                      tofile="${project.build.directory}/site/tool-broker-mobile-demoapp.jar"/>
                                 <copy overwrite="true"
                                       file="${project.build.directory}/${project.build.finalName}-me.jad"
-                                      tofile="${project.build.directory}/site/tool-broker-mobile.jad"/>
-                                <replace value="tool-broker-mobile.jar" token="${project.build.finalName}-me.jar"
+                                      tofile="${project.build.directory}/site/tool-broker-mobile-demoapp.jad"/>
+                                <replace value="tool-broker-mobile-demoapp.jar" token="${project.build.finalName}-me.jar"
                                          dir="${project.build.directory}/site">
-                                    <include name="tool-broker-mobile.jad"></include>
+                                    <include name="tool-broker-mobile-demoapp.jad"></include>
                                 </replace>
                             </tasks>
                         </configuration>
@@ -196,15 +224,7 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>com.pyx4me</groupId>
-                <artifactId>gammu-maven-plugin</artifactId>
-                <configuration>
-				    <gammurc>${env.HOME}/gammurc</gammurc>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
-</project>
 
+</project>
