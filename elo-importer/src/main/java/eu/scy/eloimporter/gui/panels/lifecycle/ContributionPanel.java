@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
@@ -302,24 +303,8 @@ public class ContributionPanel extends AbstractEloDisplayPanel implements
 	}
 
 	String generateRandomEntity() {
-		String[] letters = { "a", "b", "c", "d", "e", "f" };
-		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
-		int[] lengths = { 8, 4, 4, 4, 12 };
-		StringBuffer buffer = new StringBuffer();
-		Random rand = new Random();
-		for (int i = 0; i < lengths.length; i++) {
-			for (int j = 0; j < lengths[i]; j++) {
-				if (rand.nextInt(4) == 0) {
-					buffer.append(letters[rand.nextInt(letters.length)]);
-				} else {
-					buffer.append(numbers[rand.nextInt(numbers.length)]);
-				}
-			}
-			if (i != (lengths.length - 1)) {
-				buffer.append('-');
-			}
-		}
-		return buffer.toString();
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString();
 	}
 
 }
