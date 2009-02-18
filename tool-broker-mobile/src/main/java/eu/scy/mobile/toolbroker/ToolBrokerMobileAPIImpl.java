@@ -11,8 +11,8 @@ import eu.scy.mobile.toolbroker.model.User;
  */
 public class ToolBrokerMobileAPIImpl implements ToolBrokerMobileAPI {
 
-	private final String ELO_SERVICE_URL = "http://scyzophrenia.ath.cx:9998";
-	private final String USER_SERVICE_URL = "http://scyzophrenia.ath.cx:9998";
+	private final String ELO_SERVICE_URL = "http://129.177.24.191:9998";
+	private final String USER_SERVICE_URL = "http://129.177.24.191:9998";
 
 	private EloServiceClient eloService;
 

@@ -25,11 +25,11 @@ public class MockELODAO implements ELODAO {
 		MockELO imgElo = new MockELO(3, "I am an image collector ELO");
 
 		ArrayList<String> dummyList = new ArrayList<String>();
-		dummyList.add("http://scyzophrenia.ath.cx/bergen1.jpg");
-		dummyList.add("http://scyzophrenia.ath.cx/bergen2.jpg");
-		dummyList.add("http://scyzophrenia.ath.cx/bergen3.jpg");
-		dummyList.add("http://scyzophrenia.ath.cx/bergen4.jpg");
-		dummyList.add("http://scyzophrenia.ath.cx/bergen5.jpg");
+		dummyList.add("http://129.177.24.191/bergen1.jpg");
+		dummyList.add("http://129.177.24.191/bergen2.jpg");
+		dummyList.add("http://129.177.24.191/bergen3.jpg");
+		dummyList.add("http://129.177.24.191/bergen4.jpg");
+		dummyList.add("http://129.177.24.191/bergen5.jpg");
 
 		GeoImageCollector gic = new GeoImageCollector("Dummy imagelist", dummyList);
 		GeoImageCollector gic2 = new GeoImageCollector("Dummy imagelist", dummyList);
