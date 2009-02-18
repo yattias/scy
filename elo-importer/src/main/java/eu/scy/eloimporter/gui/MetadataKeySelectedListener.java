@@ -9,13 +9,14 @@ import javax.swing.event.TreeSelectionListener;
 
 import eu.scy.eloimporter.gui.panels.AbstractEloDisplayPanel;
 import eu.scy.eloimporter.gui.panels.content.ContentPanel;
-import eu.scy.eloimporter.gui.panels.contribution.ContributionPanel;
+import eu.scy.eloimporter.gui.panels.educational.FunctionalRolePanel;
 import eu.scy.eloimporter.gui.panels.general.AggregationLevelPanel;
 import eu.scy.eloimporter.gui.panels.general.DescriptionPanel;
 import eu.scy.eloimporter.gui.panels.general.GeneralPanel;
 import eu.scy.eloimporter.gui.panels.general.KeywordPanel;
 import eu.scy.eloimporter.gui.panels.general.LogicalRepresentationPanel;
 import eu.scy.eloimporter.gui.panels.general.TitlePanel;
+import eu.scy.eloimporter.gui.panels.lifecycle.ContributionPanel;
 import eu.scy.eloimporter.gui.panels.technical.TechnicalPanel;
 
 public final class MetadataKeySelectedListener implements TreeSelectionListener {
@@ -103,7 +104,15 @@ public final class MetadataKeySelectedListener implements TreeSelectionListener 
 			contributionPanel.setElo(this.application.getElo());
 			this.splitPane.setRightComponent(contributionPanel);
 			this.splitPane.setDividerLocation(dividerLocation);
-
+		}
+		if ("Functional Role".equals(e.getPath().getLastPathComponent()
+				.toString().trim())) {
+			int dividerLocation = this.splitPane.getDividerLocation();
+			FunctionalRolePanel functionalRolePanel = new FunctionalRolePanel(
+					this.application);
+			functionalRolePanel.setElo(this.application.getElo());
+			this.splitPane.setRightComponent(functionalRolePanel);
+			this.splitPane.setDividerLocation(dividerLocation);
 		} else {
 			System.out.println(e.getPath().getLastPathComponent());
 		}
