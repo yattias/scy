@@ -21,6 +21,14 @@
         </license>
     </licenses>
     
+    <distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+    </distributionManagement>
+    
     <repositories>
     </repositories>
 
@@ -37,7 +45,7 @@
             <scope>provided</scope>
         </dependency>        
         <dependency>
-            <groupId>eu.scy.collaborationservice</groupId>
+            <groupId>eu.scy</groupId>
             <artifactId>collaborationservice</artifactId>
             <version>1.0</version>
         </dependency>
