@@ -245,15 +245,7 @@ public class Nutpad extends JFrame implements CollaborationServiceClientInterfac
         sbo.setId("12345");
         sbo.setName("a nice name for the object");
         sbo.setDescription(editArea.getText());
-        documentSqlSpaceId = getCS().write(documentSqlSpaceId, HARD_CODED_TOOL_NAME, sbo); // if
-                                                                                           // documentSqlSpaceId
-                                                                                           // !=
-                                                                                           // null
-                                                                                           // this
-                                                                                           // will
-                                                                                           // update
-                                                                                           // the
-                                                                                           // tuple
+        documentSqlSpaceId = getCS().write(documentSqlSpaceId, HARD_CODED_TOOL_NAME, sbo); // if documentSqlSpaceId != null this will update the tuple
         if (documentSqlSpaceId != null) {
             JOptionPane.showMessageDialog(Nutpad.this, "Save OK");
         } else {
