@@ -269,4 +269,9 @@ public class Nutpad extends JFrame implements ICollaborationService {
     public void actionUponWrite(String username) {
     // TODO Auto-generated method stub
     }
+
+    public String write(String username, String status) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

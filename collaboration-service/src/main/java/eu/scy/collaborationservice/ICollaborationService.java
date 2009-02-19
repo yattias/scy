@@ -1,5 +1,7 @@
 package eu.scy.collaborationservice;
 
+import eu.scy.core.model.impl.ScyBaseObject;
+
 
 public interface ICollaborationService {
     
@@ -11,4 +13,6 @@ public interface ICollaborationService {
     
     void actionUponWrite(String username);
 	void actionUponDelete(String username);
+	public String write(String username, String status);
+	 
 }

@@ -122,4 +122,9 @@ public class AwarenessClient extends JFrame implements ICollaborationService {
         this.usersToWatch.put(username, true);
         refreshBuddyList();
     }
+
+    public String write(String username, String status) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

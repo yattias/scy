@@ -9,7 +9,7 @@ import eu.scy.tuple.TupleAdapter;
 
 public class CollaborationService implements ICollaborationService {
     
-    private static final Logger logger = Logger.getLogger(CollaborationService.class.getName());
+    public static final Logger logger = Logger.getLogger(CollaborationService.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private TupleAdapter tupleAdapter;
     private static ICollaborationService collaborationService;
