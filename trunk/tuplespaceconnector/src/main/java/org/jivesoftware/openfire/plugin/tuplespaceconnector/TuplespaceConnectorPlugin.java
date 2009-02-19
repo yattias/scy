@@ -1,4 +1,5 @@
-package eu.scy.collaborationservice.tuplespaceconnector;
+//package eu.scy.collaborationservice.tuplespaceconnector;
+package org.jivesoftware.openfire.plugin.tuplespaceconnector;
 
 import java.io.File;
 
@@ -12,14 +13,14 @@ import org.jivesoftware.openfire.session.Session;
 import org.xmpp.packet.Packet;
 
 
-public class TuplespaceConnector implements Plugin, PacketInterceptor {
+public class TuplespaceConnectorPlugin implements Plugin, PacketInterceptor {
 
-    private static final Logger logger = Logger.getLogger(TuplespaceConnector.class.getName());
+    private static final Logger logger = Logger.getLogger(TuplespaceConnectorPlugin.class.getName());
     private InterceptorManager interceptorManager;
-    private TupleSpaceConnectorSwitchboard tscs;
+    private static TupleSpaceConnector tsc;
     private static PluginManager pluginManager;
     
-    public TuplespaceConnector() {
+    public TuplespaceConnectorPlugin() {
         interceptorManager = InterceptorManager.getInstance();
     }
 
@@ -31,9 +32,8 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
         logger.debug("1");
         this.pluginManager = manager;
         logger.debug("2");
-        //this.tscs = TupleSpaceConnectorSwitchboard.getInstance();
-        this.tscs = new TupleSpaceConnectorSwitchboard();
-        logger.debug("TSCS: " + tscs);
+        this.tsc = TupleSpaceConnector.getInstance();
+        logger.debug("TSC: " + tsc);
     }
 
     public void destroyPlugin() {
@@ -42,7 +42,7 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
     }
     
     public String getName() {
-        return "tuplespaceConnector";
+        return "tuplespaceConnectorPlugin";
     }
     
     public static PluginManager getPluginManager() {
@@ -56,13 +56,13 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
             String id;
             if (packet.toString().contains("<ping xmlns=\"urn:xmpp:ping\"/>")) {
                 logger.debug("============= PING from user " + packet.getFrom() + " ============");
-                id = tscs.userPing(packet.getFrom().toString());
+                id = tsc.userPing(packet.getFrom().toString());
                 //id = userPing(packet.getFrom().toString());
                 logger.debug("got id: " + id);
             }
             else if (packet.toString().contains("<presence type=\"unavailable\" ")) {
                 logger.debug("============= UNAVAILABLE from user" + packet.getFrom() + " ============");     
-                id = tscs.userUnavailable(packet.getFrom().toString());
+                id = tsc.userUnavailable(packet.getFrom().toString());
                 //id = userUnavailable(packet.getFrom().toString());
                 logger.debug("got id: " + id);
             } else {
@@ -73,7 +73,7 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
     
     public String userPing(String jabberUser) {
         logger.debug("Attempting to write PING to CS");
-        String id = tscs.write(jabberUser, "ping");
+        String id = tsc.write(jabberUser, "ping");
         logger.debug("ID returned: " + id);
         return id;
     }
@@ -81,7 +81,7 @@ public class TuplespaceConnector implements Plugin, PacketInterceptor {
     
     public String userUnavailable(String jabberUser) {
         logger.debug("Attempting to write UNAVAILABLE to CS");
-        String id = tscs.write(jabberUser, "unavailable");
+        String id = tsc.write(jabberUser, "unavailable");
         logger.debug("ID returned: " + id);
         return id;
     }
