@@ -1,4 +1,4 @@
-package eu.scy.collaborationservice.liteclient;
+package eu.scy.liteclient;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -15,11 +15,11 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.CollaborationService;
-import eu.scy.collaborationservice.CollaborationServiceClientInterface;
+import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.tuple.TupleAdapter;
 
-public class AwarenessClient extends JFrame implements CollaborationServiceClientInterface {
+public class AwarenessClient extends JFrame implements ICollaborationService {
 
     private final static Logger logger = Logger.getLogger(AwarenessClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
@@ -29,7 +29,7 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
     private JPanel panel;
     private String userName;
     private String loginId;
-    private CollaborationService cs;
+    private TupleAdapter cs;
     private Timer loginTimer;
     private HashMap<String, Boolean> usersToWatch = new HashMap<String, Boolean>();
     
@@ -39,7 +39,7 @@ public class AwarenessClient extends JFrame implements CollaborationServiceClien
         logger.debug("Awareness is upon you.");
         
         userName = user;
-        cs = CollaborationService.createCollaborationService(userName, CollaborationService.AWARENESS_SERVICE_SPACE, this);
+        cs = TupleAdapter.createTupleAdapter(userName, TupleAdapter.AWARENESS_SERVICE_SPACE, this);
         signUp();
         
         // Set the frame characteristics

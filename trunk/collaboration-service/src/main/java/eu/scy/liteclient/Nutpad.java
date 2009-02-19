@@ -1,4 +1,4 @@
-package eu.scy.collaborationservice.liteclient;
+package eu.scy.liteclient;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,11 +27,11 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.CollaborationService;
-import eu.scy.collaborationservice.CollaborationServiceClientInterface;
+import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.tuple.TupleAdapter;
 
-public class Nutpad extends JFrame implements CollaborationServiceClientInterface {
+public class Nutpad extends JFrame implements ICollaborationService {
     
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(Nutpad.class.getName());
@@ -49,7 +49,7 @@ public class Nutpad extends JFrame implements CollaborationServiceClientInterfac
     private Action exitAction = new ExitAction();
     private Action awarenessClientAction = new AwarenessClientAction();
     
-    private CollaborationService cs;
+    private TupleAdapter cs;
     private AwarenessClient awarenessClient;
     private String documentSqlSpaceId = null;
     private String userName = INIT_USER_NAME;
@@ -254,10 +254,10 @@ public class Nutpad extends JFrame implements CollaborationServiceClientInterfac
         }
     }
     
-    private CollaborationService getCS() {
+    private TupleAdapter getCS() {
         if (cs == null || !userName.equals(userNameField.getText())) {
             userName = userNameField.getText();
-            cs = CollaborationService.createCollaborationService(userName, CollaborationService.COLLABORATION_SERVICE_SPACE, this);
+            cs = TupleAdapter.createTupleAdapter(userName, TupleAdapter.COLLABORATION_SERVICE_SPACE, this);
         }
         return cs;
     }
