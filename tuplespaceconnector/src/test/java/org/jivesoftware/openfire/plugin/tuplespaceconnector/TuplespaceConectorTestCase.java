@@ -1,4 +1,5 @@
-package eu.scy.collaborationservice.tuplespaceconnector;
+//package eu.scy.collaborationservice.tuplespaceconnector;
+package org.jivesoftware.openfire.plugin.tuplespaceconnector;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -24,7 +25,7 @@ public class TuplespaceConectorTestCase extends TestCase {
     
     public void testUserPing() {
         logger.debug("testing ping write");
-        TupleSpaceConnectorSwitchboard tscs = new TupleSpaceConnectorSwitchboard();
+        TupleSpaceConnector tscs = TupleSpaceConnector.getInstance();
         String id = tscs.userPing("asdf");
         assertNotNull(id);
     }

@@ -1,4 +1,5 @@
-package eu.scy.collaborationservice.tuplespaceconnector;
+//package eu.scy.collaborationservice.tuplespaceconnector;
+package org.jivesoftware.openfire.plugin.tuplespaceconnector;
 
 import org.apache.log4j.Logger;
 
@@ -7,22 +8,22 @@ import eu.scy.collaborationservice.CollaborationServiceClientInterface;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 
-public class TupleSpaceConnectorSwitchboard implements CollaborationServiceClientInterface {
+public class TupleSpaceConnector implements CollaborationServiceClientInterface {
     
-    private static final Logger logger = Logger.getLogger(TupleSpaceConnectorSwitchboard.class.getName());
+    private static final Logger logger = Logger.getLogger(TupleSpaceConnector.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private CollaborationService cs;
-    //private static TupleSpaceConnectorSwitchboard tupleSpaceConnectorSwitchboard = new TupleSpaceConnectorSwitchboard();
+    private static TupleSpaceConnector tupleSpaceConnectorSwitchboard = new TupleSpaceConnector();
 
 
-    public TupleSpaceConnectorSwitchboard() {
+    public TupleSpaceConnector() {
         logger.debug("TupleSpaceConnectorSwitchboard created");
     }
 
-//    public static TupleSpaceConnectorSwitchboard getInstance() {
-//        logger.debug("TupleSpaceConnectorSwitchboard: getInstance()");
-//        return tupleSpaceConnectorSwitchboard;
-//    }
+    public static TupleSpaceConnector getInstance() {
+        logger.debug("TupleSpaceConnectorSwitchboard: getInstance()");
+        return tupleSpaceConnectorSwitchboard;
+    }
 
 
     public void actionUponDelete(String username) {
