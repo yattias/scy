@@ -16,8 +16,8 @@ import eu.scy.core.model.impl.ScyBaseObject;
 public class CollaborationService implements Callback {
     
     private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
-    private static final String SERVER_IP = "129.240.212.15";
-    private static final int SERVER_PORT = 2525;
+    private static final String DEFAULT_SERVER_IP = "129.240.212.15";
+    private static final int DEFAULT_SERVER_PORT = 2525;
     public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
     public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
     
@@ -33,6 +33,10 @@ public class CollaborationService implements Callback {
     
     
     public static CollaborationService createCollaborationService(String userName, String sqlSpaceName, CollaborationServiceClientInterface csci) {
+        return createCollaborationService(DEFAULT_SERVER_IP, userName, sqlSpaceName, csci);
+    }
+    
+    public static CollaborationService createCollaborationService(String serverIpAddress, String userName, String sqlSpaceName, CollaborationServiceClientInterface csci) {
         CollaborationService cs = null;
         cs = new CollaborationService();
         cs.client = csci;
@@ -40,7 +44,7 @@ public class CollaborationService implements Callback {
         TupleSpace ts;
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
         try {
-            ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+            ts = new TupleSpace(serverIpAddress, DEFAULT_SERVER_PORT, sqlSpaceName);
             
             //setup the events that client will use
             ts.eventRegister(Command.WRITE, template, cs, true);
