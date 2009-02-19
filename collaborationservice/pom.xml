@@ -8,6 +8,14 @@
   <name>collaborationservice</name>
   <url>http://maven.apache.org</url>
   
+  <distributionManagement>
+	  <repository>
+		  <id>mvn_collide_releases</id>
+		  <name>Collide Internal Releases</name>
+		  <url>http://mvn.collide.info/content/repositories/releases</url>
+	  </repository>
+  </distributionManagement>
+  
   <repositories>
     <repository>
       <id>tels-repo-internal</id>
