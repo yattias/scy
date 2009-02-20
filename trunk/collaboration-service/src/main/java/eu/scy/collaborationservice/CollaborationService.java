@@ -71,7 +71,7 @@ public class CollaborationService implements ICollaborationService {
     private TupleAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
             logger.debug("Created Tuple Spaces");
-            tupleAdapter = TupleAdapter.createTupleAdapter(this.getClass().getName(), ICollaborationService.AWARENESS_SERVICE_SPACE, this);
+            tupleAdapter = TupleAdapter.createTupleAdapter(this.getClass().getName(), TupleAdapter.AWARENESS_SERVICE_SPACE, this);
         }
         return tupleAdapter;
     }
