@@ -4,7 +4,7 @@
   <groupId>eu.scy</groupId>
   <artifactId>collaboration-service</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>0.1</version>
   <name>collaboration-service</name>
   <url>http://maven.apache.org</url>
   
