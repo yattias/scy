@@ -14,9 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.*;
 import javax.swing.*;
 
 import eu.scy.colemo.server.uml.*;
@@ -29,8 +27,7 @@ import eu.scy.colemo.server.uml.*;
  */
 public class GraphicsDiagram extends JPanel implements MouseListener, ActionListener {
     private UmlDiagram umlDiagram;
-    //private MainFrame frame;
-    private Vector extend;
+    private List links;
     private Vector associate;
     private Hashtable components;
 
@@ -48,7 +45,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void setConnectMode(int connectMode) {
         this.connectMode = connectMode;
-        if(connectMode == CONNECT_MODE_OFF) {
+        if (connectMode == CONNECT_MODE_OFF) {
             //setTarget(null);
             //setSource(null);
         }
@@ -68,33 +65,26 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void setTarget(ConceptNode target) {
-        if(target == null) {
+        if (target == null) {
             System.out.println("Setting target to null");
         } else {
-            System.out.println("Setting target: " +target.getName());    
+            System.out.println("Setting target: " + target.getName());
         }
 
         this.target = target;
     }
 
     public ConceptNode getConceptMapNode(String id) {
-        Enumeration enumer = components.keys();
-        while(enumer.hasMoreElements()) {
-            Object key = enumer.nextElement();
-            System.out.println("----> Contains:" + key);
-        }
         return (ConceptNode) components.get(id);
     }
 
     public GraphicsDiagram(UmlDiagram umlDiagram) {
         this.umlDiagram = umlDiagram;
-        //this.frame = frame;
         this.setLayout(null);
         addMouseListener(this);
-        extend = new Vector();
+        links = new ArrayList();
         associate = new Vector();
         components = new Hashtable();
-        //setBackground(new Color(204, 204, 255));
     }
 
     public void addClass(UmlClass umlClass) {
@@ -117,7 +107,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         GraphicsConcept gClass = new GraphicsConcept(conceptMapNodeData, this);
         components.put(gClass.getUmlClass().getName(), gClass);
         this.add(gClass);
-        updatePopUpMenus();
+        //updatePopUpMenus();
         gClass.invalidate();
         gClass.validate();
         gClass.repaint();
@@ -127,31 +117,31 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         try {
             GraphicsLink gLink = new GraphicsLink(umlLink, this);
             components.put(gLink.getFrom().getUmlClass().getName() + gLink.getTo().getUmlClass().getName(), gLink);
-        extend.add(gLink);
-        gLink.paint(getGraphics());
-        } catch(Exception e) {
+            links.add(gLink);
+            //add(gLink.getLabelComponent());
+            gLink.paint(getGraphics());
+        } catch (Exception e) {
             System.out.println("Evil bug...");
         }
 
     }
 
-    public void addAssociation(UmlAssociation umlAssociation) {
+   /* public void addAssociation(UmlAssociation umlAssociation) {
         GraphicsAssociation gAss = new GraphicsAssociation(umlAssociation, this);
         components.put(gAss.getFrom().getUmlClass().getName() + gAss.getTo().getUmlClass().getName(), gAss);
         associate.add(gAss);
         gAss.paint(getGraphics());
-    }
+    }*/
 
     public void deleteClass(UmlClass umlClass) {
         ConceptNode gClass = (ConceptNode) components.remove(umlClass.getName());
-        updatePopUpMenus();
         this.remove(gClass);
         this.repaint();
     }
 
     public void deleteLink(UmlLink umlLink) {
         GraphicsLink gLink = (GraphicsLink) components.remove(umlLink.getFrom() + umlLink.getTo());
-        extend.remove(gLink);
+        links.remove(gLink);
         this.repaint();
     }
 
@@ -196,7 +186,6 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         findLink(oldName, gClass.getUmlClass().getName());
 
         gClass.layoutComponents();
-        updatePopUpMenus();
         gClass.invalidate();
         gClass.validate();
         gClass.repaint();
@@ -216,10 +205,10 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 if (components.get(oldName + gClass.getUmlClass().getName()) != null) {
                     if (components.get(oldName + gClass.getUmlClass().getName()) instanceof GraphicsLink) {
                         GraphicsLink gLink = (GraphicsLink) components.remove(oldName + gClass.getUmlClass().getName());
-                        extend.remove(gLink);
+                        links.remove(gLink);
 
                         components.put(newName + gClass.getUmlClass().getName(), gLink);
-                        extend.add(gLink);
+                        links.add(gLink);
                         gLink.paint(getGraphics());
                     } else if (components.get(oldName + gClass.getUmlClass().getName()) instanceof GraphicsAssociation) {
                         GraphicsAssociation gAss = (GraphicsAssociation) components.remove(oldName + gClass.getUmlClass().getName());
@@ -232,10 +221,10 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 } else if (components.get(gClass.getUmlClass().getName() + oldName) != null) {
                     if (components.get(gClass.getUmlClass().getName() + oldName) instanceof GraphicsLink) {
                         GraphicsLink gLink = (GraphicsLink) components.remove(gClass.getUmlClass().getName() + oldName);
-                        extend.remove(gLink);
+                        links.remove(gLink);
 
                         components.put(gClass.getUmlClass().getName() + newName, gLink);
-                        extend.add(gLink);
+                        links.add(gLink);
                         gLink.paint(getGraphics());
                     } else if (components.get(gClass.getUmlClass().getName() + oldName) instanceof GraphicsAssociation) {
                         GraphicsAssociation gAss = (GraphicsAssociation) components.remove(gClass.getUmlClass().getName() + oldName);
@@ -247,7 +236,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                     }
                 }
                 gClass.layoutComponents();
-                gClass.createPopUpMenu();
+                //gClass.createPopUpMenu();
                 gClass.invalidate();
                 gClass.validate();
                 gClass.repaint();
@@ -255,44 +244,39 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
     }
 
-    public void updatePopUpMenus() {
+    /*public void updatePopUpMenus() {
         for (Enumeration e = components.elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof ConceptNode) {
                 ConceptNode gClass = (ConceptNode) o;
-                gClass.createPopUpMenu();
             }
         }
 
-    }
+    } */
 
     public void paint(Graphics g) {
         super.paint(g);
         paintLinks(g);
-        paintAssociations(g);
+        //paintAssociations(g);
     }
 
     public void paintLinks(Graphics g) {
-        for (int i = 0; i < extend.size(); i++) {
-            GraphicsLink current = (GraphicsLink) extend.elementAt(i);
+        for (int i = 0; i < links.size(); i++) {
+            GraphicsLink current = (GraphicsLink) links.get(i);
             current.paint(g);
-        }
-    }
-
-    public void paintAssociations(Graphics g) {
-        for (int i = 0; i < associate.size(); i++) {
-            GraphicsAssociation current = (GraphicsAssociation) associate.elementAt(i);
-            current.paint(g);
+            add(current.getLabelComponent());
+            current.getLabelComponent().setBounds(current.getLabelComponentXPos(),current.getLabelComponentYPos(), 100,20);
+            current.getLabelComponent().revalidate();
         }
     }
 
     public void createPopUpMenus() {
-        Component[] components = getComponents();
+        /*Component[] components = getComponents();
         for (int i = 0; i < components.length; i++) {
             if (components[i] instanceof ConceptNode) {
                 ((ConceptNode) components[i]).createPopUpMenu();
             }
-        }
+        } */
     }
 
     public ConceptNode getClass(String name) {
@@ -345,14 +329,14 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             if (o instanceof UmlLink) {
                 addLink((UmlLink) o);
             }
-            if (o instanceof UmlAssociation) {
+            /*if (o instanceof UmlAssociation) {
                 addAssociation((UmlAssociation) o);
-            }
+            } */
         }
     }
 
     public void deleteClass(ConceptNode gClass) {
-       /* //Kalle opp alle klienter og spørre om de vil slette klassen
+        /* //Kalle opp alle klienter og spørre om de vil slette klassen
         //frame.getClient().getConnection().send(new StartVote());
         int n = JOptionPane.showConfirmDialog(frame, "The deletion of this class will affect" + "\n" +
                 "other classes and links with a relation to it." + "\n" +
@@ -427,17 +411,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void createMenu(MouseEvent e) {
         JPopupMenu menu = new JPopupMenu();
         JMenuItem addClass = new JMenuItem("Add concept");
-        //JMenuItem addAbstract = new JMenuItem("Add abstract class");
-        //JMenuItem addInterface = new JMenuItem("Add interface");
         addClass.addActionListener(this);
-        //addAbstract.addActionListener(this);
-        //addInterface.addActionListener(this);
-
         menu.add(addClass);
-        //menu.add(addAbstract);
-        //menu.add(addInterface);
-        menu.show(e.getComponent(),
-                e.getX(), e.getY());
+        menu.show(this, e.getX(), e.getY());
 
     }
 
@@ -445,11 +421,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         if (ae.getActionCommand().equals("Add concept")) {
             ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(umlDiagram, "c");
-        } /*else if (ae.getActionCommand().equals("Add abstract class")) {
-            getMainFrame().addClass(umlDiagram, "a");
-        } else if (ae.getActionCommand().equals("Add interface")) {
-            getMainFrame().addClass(umlDiagram, "i");
-        }   */
+        }
     }
 
     public void mousePressed(MouseEvent ae) {

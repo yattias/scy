@@ -55,7 +55,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     public static final int SOUTH = 3;
     private long time = System.currentTimeMillis();
     private GraphicsDiagram gDiagram;
-    private PopUpMenu popMenu;
+//    private PopUpMenu popMenu;
 
     private BufferedImage shadow = null;
     private boolean isSelected = false;
@@ -82,7 +82,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         this.umlClass = umlClass;
         this.gDiagram = gDiagram;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.setToolTipText(umlClass.getName() + " created by " + umlClass.getAuthor());
@@ -95,12 +94,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         arrowLeft = toolkit.createImage(arrowLeftURL);
         arrowDown = toolkit.createImage(arrowDownURL);
 
-        //setPreferredSize(new Dimension(200,200));
-
         setOpaque(false);
-        //setBounds(100, 100, 100, 100);
-        //topPanel.setBackground(Color.GREEN);
-
         layoutComponents();
 
     }
@@ -112,42 +106,12 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     }
 
     public void layoutComponents() {
-        String preName;
-
         nameLabel = new JLabel(getUmlClass().getName());//new ClassLabel(this, preName);
-
         this.removeAll();
-
-
         add(nameLabel);
-
         setBounds();
         nameLabel.setLocation(45, 45);
-
-        createPopUpMenu();
     }
-
-    public void createPopUpMenu() {
-        popMenu = new PopUpMenu(this);
-    }
-
-    /*public int getHeight() {
-        int height = 0;
-        Component[] components = getComponents();
-        for (int i = 0; i < components.length; i++) {
-            height += components[i].getHeight();
-        }
-        return height + paddingY;
-    } */
-
-    /* public int getWidth() {
-       int width = 0;
-       Component[] components = getComponents();
-       for (int i = 0; i < components.length; i++) {
-           width = components[i].getWidth() > width ? components[i].getWidth() : width;
-       }
-       return width + paddingX;
-   } */
 
     public UmlClass getUmlClass() {
         return umlClass;
@@ -429,9 +393,9 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     }
 
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == popMenu.deleteClass) {
+    /*    if (ae.getSource() == popMenu.deleteClass) {
             getGraphicsDiagram().deleteClass(this);
-        }
+        }*/
     }
 
     public String getClassName() {

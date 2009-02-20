@@ -134,7 +134,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
         //ApplicationController.getDefaultInstance().setMainFrame(this);
-        ApplicationController.getDefaultInstance().setClient(client);
+        //ApplicationController.getDefaultInstance().setClient(client);
 
         //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
         /*southPanel = new JPanel();

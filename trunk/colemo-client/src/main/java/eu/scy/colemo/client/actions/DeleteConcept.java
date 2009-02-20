@@ -1,6 +1,9 @@
 package eu.scy.colemo.client.actions;
 
 import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.client.ApplicationController;
+import eu.scy.actionlogging.logger.ActionLogger;
+import eu.scy.actionlogging.api.IActionLogger;
 
 import java.awt.event.ActionEvent;
 
@@ -18,5 +21,6 @@ public class DeleteConcept extends BaseAction{
 
     protected void performAction(ActionEvent e) {
         log.info("Deleting concept!");
+        //IActionLogger actionLogger = ApplicationController.getDefaultInstance().getToolBrokerAPI().getActionLogger();
     }
 }
