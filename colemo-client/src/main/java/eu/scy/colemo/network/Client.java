@@ -110,7 +110,7 @@ public class Client implements Receiver, Runnable {
             AssociateClass add = (AssociateClass) o;
             UmlAssociation umlAssociation = new UmlAssociation(add.getFrom(), add.getTo(), add.getUser());
             frame.getGraphicsDiagram().getUmlDiagram().addAssociation(umlAssociation);
-            frame.getGraphicsDiagram().addAssociation(umlAssociation);
+            //frame.getGraphicsDiagram().addAssociation(umlAssociation);
         }
         if (o instanceof AddField) {
             AddField add = (AddField) o;

@@ -27,22 +27,5 @@ public class AddConceptAction extends BaseAction {
         log.info("Adding concept....");
         ApplicationController.getDefaultInstance().getConnectionHandler().sendMessage("ADD CONCEPT!");
         ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram(), "c");
-
-
-        /*String name = JOptionPane.showInputDialog(this, "Please type name of new concept:");
-        if (name != null) {
-            try {
-                if (!ApplicationController.getDefaultInstance().getGraphicsDiagram().getUmlDiagram().nameExist(name)) {
-                    InetAddress address = null;
-                    Person person = null;
-                    AddClass addClass = new AddClass(name, "c", "", address, person);
-                    ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(addClass);
-                } else {
-                    JOptionPane.showMessageDialog(null, "This concept already exists!");
-                }
-            } catch (ClassNameAlreadyExistException e) {
-                e.printStackTrace();
-            }
-        } */
     }
 }

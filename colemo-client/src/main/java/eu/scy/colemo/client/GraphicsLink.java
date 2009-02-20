@@ -14,6 +14,8 @@ import java.awt.Point;
 
 import eu.scy.colemo.server.uml.UmlLink;
 
+import javax.swing.*;
+
 /**
  * @author Øystein
  *         <p/>
@@ -29,6 +31,11 @@ public class GraphicsLink {
     private Color color;
     private boolean dotted;
 
+    private Point fromConnectioPoint = null;
+    private Point toConnectionPoint = null;
+
+    private JLabel labelComponent = new JLabel("Link!");
+
     /**
      *
      */
@@ -43,8 +50,8 @@ public class GraphicsLink {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        Point fromConnectioPoint = from.getConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
-        Point toConnectionPoint = to.getConnectionPoint(findDirection(to.getCenterPoint(), from.getCenterPoint()));
+        fromConnectioPoint = from.getConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
+        toConnectionPoint = to.getConnectionPoint(findDirection(to.getCenterPoint(), from.getCenterPoint()));
 
         if (dotted) {
             g2d.setStroke(new BasicStroke(1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[]{6f}, 0f));
@@ -57,6 +64,44 @@ public class GraphicsLink {
         }
 
         drawArrow(g2d, (int) fromConnectioPoint.getX(), (int) fromConnectioPoint.getY(), (int) toConnectionPoint.getX(), (int) toConnectionPoint.getY(), 10, 11);
+
+    }
+
+    public int getLabelComponentXPos() {
+        if(fromConnectioPoint != null && toConnectionPoint != null) {
+            int max = 0;
+            int min = 0;
+            if(fromConnectioPoint.getX() > toConnectionPoint.getX()) {
+                max = (int) fromConnectioPoint.getX();
+                min = (int) toConnectionPoint.getX();
+            } else {
+                max = (int) toConnectionPoint.getX();
+                min = (int) fromConnectioPoint.getX();
+            }
+
+            return min + ((max - min) /2) - 50;
+        }
+
+        return 0;
+
+    }
+
+    public int getLabelComponentYPos() {
+        if(fromConnectioPoint != null && toConnectionPoint != null) {
+            int max = 0;
+            int min = 0;
+            if(fromConnectioPoint.getY() > toConnectionPoint.getY()) {
+                max = (int) fromConnectioPoint.getY();
+                min = (int) toConnectionPoint.getY();
+            } else {
+                max = (int) toConnectionPoint.getY();
+                min = (int) fromConnectioPoint.getY();
+            }
+
+            return min + ((max - min) /2) + 10;
+        }
+
+        return 0;
 
     }
 
@@ -126,5 +171,9 @@ public class GraphicsLink {
      */
     public ConceptNode getTo() {
         return to;
+    }
+
+    public JComponent getLabelComponent() {
+        return labelComponent;
     }
 }

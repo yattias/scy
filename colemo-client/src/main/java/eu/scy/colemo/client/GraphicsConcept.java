@@ -29,7 +29,7 @@ public class GraphicsConcept extends AbstractMapNode{
     public static final int NORTH=2;
     public static final int SOUTH=3;
     private long time = System.currentTimeMillis();
-    private PopUpMenu popMenu;
+    //private PopUpMenu popMenu;
 
     public GraphicsConcept(ConceptMapNodeData conceptMapNodeData,GraphicsDiagram gDiagram){
         super(gDiagram);
@@ -117,9 +117,9 @@ public class GraphicsConcept extends AbstractMapNode{
         //getGraphicsDiagram().deleteClass(this);
     }
 
-    public void showMenu(int x,int y) {
+    /*public void showMenu(int x,int y) {
         popMenu.show(this,x,y);
-    }
+    } */
     public void mousePressed(MouseEvent e) {
         /*if(e.getSource() instanceof FieldLabel) {
             setFieldsMaximized(!getUmlClass().showFields());
@@ -130,9 +130,9 @@ public class GraphicsConcept extends AbstractMapNode{
          */
         //MainFrame frame = getGraphicsDiagram().getMainFrame();
         //this.getGraphicsDiagram().getMainFrame().setSelected(this);
-        if(e.getModifiers() == InputEvent.BUTTON3_MASK){
+        /*if(e.getModifiers() == InputEvent.BUTTON3_MASK){
             showMenu(e.getX(),e.getY());
-        }
+        } */
     }
 
     public void mouseReleased(MouseEvent ae) {
@@ -181,9 +181,9 @@ public class GraphicsConcept extends AbstractMapNode{
     public void mouseMoved(MouseEvent arg0) {}
 
     public void actionPerformed(ActionEvent ae) {
-        if(ae.getSource()==popMenu.deleteClass){
+    /*    if(ae.getSource()==popMenu.deleteClass){
             //getGraphicsDiagram().deleteClass(this);
-        }
+        } */
     }
 
     public String getClassName() {

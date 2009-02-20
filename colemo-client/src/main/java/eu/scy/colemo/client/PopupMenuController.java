@@ -45,7 +45,7 @@ public class PopupMenuController {
             popupMenu.add(item);
         }
         
-        popupMenu.setVisible(true);
+        popupMenu.show(ApplicationController.getDefaultInstance().getGraphicsDiagram(), (int)point.getX(), (int)point.getY());
     }
 
 

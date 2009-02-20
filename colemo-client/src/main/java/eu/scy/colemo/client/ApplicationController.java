@@ -3,6 +3,7 @@ package eu.scy.colemo.client;
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.client.groups.ConnectionHandlerJGroups;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import javax.swing.*;
 
@@ -17,16 +18,14 @@ public class ApplicationController {
 
     private static ApplicationController defaultInstance;
 
-    
+    private ToolBrokerAPI toolBrokerAPI;
 
     private GraphicsDiagram graphicsDiagram;
-    //private MainFrame mainFrame;
 
     private ColemoPanel colemoPanel = null;
 
     private ConnectionHandler connectionHandler = null;
     private JApplet applet;
-    private Client client;
 
 
     public ConnectionHandler getConnectionHandler() {
@@ -65,32 +64,21 @@ public class ApplicationController {
         this.graphicsDiagram = graphicsDiagram;
     }
 
-    /*public MainFrame getMainFrame() {
-        return mainFrame;
+    public ToolBrokerAPI getToolBrokerAPI() {
+        return toolBrokerAPI;
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    } */
-
-    /*public Client getClient() {
-        return getMainFrame().getClient();
+    public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI) {
+        this.toolBrokerAPI = toolBrokerAPI;
     }
-      */
+
     public void connect() {
         connectionHandler = new ConnectionHandlerSqlSpaces();
-        //connectionHandler = new ConnectionHandlerJGroups();
         try {
             connectionHandler.initialize();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        connectionHandler.sendMessage("Henrik ROCKS!");
-
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     public ColemoPanel getColemoPanel() {

@@ -18,19 +18,13 @@ import java.net.InetAddress;
  */
 public class ColemoPanel extends JPanel {
 
-    
     private GraphicsDiagram gDiagram;
-    private JScrollPane scrollPane;
-
 
     public ColemoPanel() {
 
         initializeGUI();
         ApplicationController.getDefaultInstance().setColemoPanel(this);
         ApplicationController.getDefaultInstance().connect();
-
-        UmlDiagram diagram = gDiagram.getUmlDiagram();
-        //addNewConcept(diagram, "c");
 
     }
 
@@ -43,16 +37,11 @@ public class ColemoPanel extends JPanel {
     }
 
     private void initializeGUI() {
-        //setBackground(Color.blue);
         setLayout(new BorderLayout());
         gDiagram = new GraphicsDiagram(new UmlDiagram());
-        //gDiagram.setBackground(new Color(204, 204, 204));
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
         add(BorderLayout.CENTER, gDiagram);
-        //scrollPane = new JScrollPane(gDiagram);
-
-        //this.add(scrollPane, BorderLayout.CENTER);
     }
 
 
