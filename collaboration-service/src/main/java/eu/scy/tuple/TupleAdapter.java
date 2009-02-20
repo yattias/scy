@@ -17,8 +17,8 @@ import eu.scy.core.model.impl.ScyBaseObject;
 public class TupleAdapter implements Callback {
     
     private final static Logger logger = Logger.getLogger(TupleAdapter.class.getName());
-    private static final String SERVER_IP = "129.240.212.15";
-    private static final int SERVER_PORT = 2525;
+    public static final String SERVER_IP = "129.240.212.15";
+    public static final int SERVER_PORT = 2525;
     public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
     public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
     
