@@ -33,16 +33,15 @@ public class TupleAdapter implements Callback {
     }
     
     
-    public static TupleAdapter createTupleAdapter(String userName, String sqlSpaceName, ICollaborationService csci) {
+    public static TupleAdapter createTupleAdapter(String userName, String sqlSpaceName, ICollaborationService csi) {
         TupleAdapter cs = null;
         cs = new TupleAdapter();
-        cs.client = csci;
+        cs.client = csi;
         cs.userName = userName;
         TupleSpace ts;
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
         try {
-            ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
-            
+            ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);            
             //setup the events that client will use
             ts.eventRegister(Command.WRITE, template, cs, true);
             ts.eventRegister(Command.DELETE, template, cs, true);

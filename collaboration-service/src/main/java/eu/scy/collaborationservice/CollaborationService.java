@@ -12,14 +12,14 @@ public class CollaborationService implements ICollaborationService {
     public static final Logger logger = Logger.getLogger(CollaborationService.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private TupleAdapter tupleAdapter;
-    private static ICollaborationService collaborationService;
+    private static CollaborationService collaborationService;
 
 
     public CollaborationService() {
         logger.debug("Empty Constructor Collaboration created");
     }
 
-    public static ICollaborationService getInstance() {
+    public static CollaborationService getInstance() {
         if (collaborationService == null) {
             logger.debug("Created Tuple Spaces");
             collaborationService = new CollaborationService();
