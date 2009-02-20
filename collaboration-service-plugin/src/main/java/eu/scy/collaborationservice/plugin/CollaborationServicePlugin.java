@@ -1,4 +1,3 @@
-//package eu.scy.collaborationservice.tuplespaceconnector;
 package eu.scy.collaborationservice.plugin;
 
 import java.io.File;
@@ -13,13 +12,12 @@ import org.jivesoftware.openfire.session.Session;
 import org.xmpp.packet.Packet;
 
 import eu.scy.collaborationservice.CollaborationService;
-import eu.scy.collaborationservice.ICollaborationService;
 
 public class CollaborationServicePlugin implements Plugin, PacketInterceptor {
 
     private static final Logger logger = Logger.getLogger(CollaborationServicePlugin.class.getName());
     private InterceptorManager interceptorManager;
-    private static ICollaborationService collaborationService;
+    private static CollaborationService collaborationService;
     private static PluginManager pluginManager;
     
     public CollaborationServicePlugin() {

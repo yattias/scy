@@ -64,8 +64,8 @@
         </dependency>        
         <dependency>
             <groupId>eu.scy</groupId>
-            <artifactId>collaborationservice</artifactId>
-            <version>1.0</version>
+            <artifactId>collaboration-service</artifactId>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>info.collide</groupId>
@@ -114,7 +114,7 @@
                 <configuration>
                     <jspPackageName>eu.scy.collaborationservice.tuplespaceconnector.jsp</jspPackageName>
                 </configuration>
-            </plugin>            
+            </plugin>
         </plugins>
         
     </build>
