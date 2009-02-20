@@ -31,7 +31,6 @@
     
     <repositories>
     
-    
     <repository>
       <id>collide-releases</id>
       <url>http://mvn.collide.info/content/repositories/releases</url>
@@ -48,6 +47,14 @@
       </snapshots>
     </repository>
     
+    <repository>
+      <id>reucon</id>
+      <url>http://maven.reucon.com/public</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    
     </repositories>
 
     <dependencies>
@@ -59,8 +66,7 @@
         <dependency>
             <groupId>org.igniterealtime.openfire</groupId>
             <artifactId>openfire</artifactId>
-            <version>3.6.1</version>
-            <scope>provided</scope>
+            <version>3.6.3</version>
         </dependency>        
         <dependency>
             <groupId>eu.scy</groupId>
