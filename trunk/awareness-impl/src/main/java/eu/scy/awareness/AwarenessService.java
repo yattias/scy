@@ -1,5 +1,6 @@
 package eu.scy.awareness;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
@@ -23,10 +24,11 @@ public class AwarenessService implements IAwarenessService, org.jivesoftware.sma
     private AwarenessService() {        
     }
     
-    public AwarenessService createAwarenessService(String username, String password) {
+    
+    public static AwarenessService createAwarenessService(String username, String password) {
         AwarenessService as = new AwarenessService();
         as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
-        as.connection = new XMPPConnection(config);
+        as.connection = new XMPPConnection(as.config);
         try {
             as.connection.connect();
         } catch (XMPPException e) {
@@ -48,9 +50,14 @@ public class AwarenessService implements IAwarenessService, org.jivesoftware.sma
     }
     
     
-    public Collection getBuddies(String username) {
+    //TODO: return array should probably contain instances of scy users or somesuch
+    public ArrayList<String> getBuddies(String username) {
         Roster roster = this.connection.getRoster();
-        Collection<RosterEntry> buddies = roster.getEntries(); //TODO: Cant have RosterEntry in this collection, but something mor neutral
+        Collection<RosterEntry> rosterEntries = roster.getEntries();
+        ArrayList<String> buddies = new ArrayList<String>();
+        for (RosterEntry buddy:rosterEntries) {
+            buddies.add(buddy.getUser());
+        }
         return buddies;
     }
     
@@ -69,8 +76,11 @@ public class AwarenessService implements IAwarenessService, org.jivesoftware.sma
     public void setStatus(String username, String status) {
     }
 
-    public void processMessage(Chat arg0, Message arg1) {
-        // TODO Auto-generated method stub
+    
+    public void processMessage(Chat chat, Message message) {
+        if(message.getType() == Message.Type.chat) {
+            logger.debug(chat.getParticipant() + " says: " + message.getBody());          
+        }
     }
     
 }
