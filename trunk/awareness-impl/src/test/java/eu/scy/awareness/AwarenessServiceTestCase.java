@@ -37,19 +37,19 @@ public class AwarenessServiceTestCase extends TestCase {
         assertNotNull(as);
     }
     
-    
-    public void testGetBuddies(String username) {
-        setUpAwarenessService();
-        ArrayList<String> buddies = as.getBuddies("bling");
-        assertNotNull(buddies);
-        assertTrue(buddies.size() > 0);
-        assertEquals(buddies.get(0), "asdf");
-    }
+    // TODO: write this one so that it passes on all clients running a test
+//    public void testGetBuddies(String username) {
+//        setUpAwarenessService();
+//        ArrayList<String> buddies = as.getBuddies("bling");
+//        assertNotNull(buddies);
+//        assertTrue(buddies.size() > 0);
+//        assertEquals(buddies.get(0), "aperritano@wiki.intermedia.uio.no");
+//    }
     
     
     public void testSendMessage() {
         setUpAwarenessService();
-        as.sendMessage("thomasd", "hoy");
+        as.sendMessage("thomasd@wiki.intermedia.uio.no", "hoy");
         assertTrue(true);
     }
     
