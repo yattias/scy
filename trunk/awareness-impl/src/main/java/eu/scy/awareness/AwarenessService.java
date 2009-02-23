@@ -1,7 +1,10 @@
 package eu.scy.awareness;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
@@ -14,30 +17,49 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.awareness.api.IAwarenessService;
+import eu.scy.awareness.api.IAwarenessUser;
 
 
 public class AwarenessService implements IAwarenessService, MessageListener {
 
     private final static Logger logger = Logger.getLogger(AwarenessService.class.getName());
     private ConnectionConfiguration config;
-    private XMPPConnection connection;
+    private XMPPConnection xmppConnection;
+    private ArrayList<IAwarenessListener> awarenessListeners = new ArrayList<IAwarenessListener>();
+    private Roster roster;
+
     
-    private AwarenessService() {        
+    private AwarenessService() {    
+        
     }
-    
     
     public static AwarenessService createAwarenessService(String username, String password) {
         AwarenessService as = new AwarenessService();
-        as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
-        as.connection = new XMPPConnection(as.config);
+        
+        Properties props = new Properties();
         try {
-            as.connection.connect();
+            props.load(AwarenessService.class.getResourceAsStream("server.properties"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String address = props.getProperty("awareness.service.address");
+        String port = props.getProperty("awareness.service.port");
+        String name = props.getProperty("awareness.service.name");
+        
+        //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
+        as.config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
+        as.xmppConnection = new XMPPConnection(as.config);
+        try {
+            as.xmppConnection.connect();
         } catch (XMPPException e) {
             logger.error("Error during connect");
             e.printStackTrace();
         }
         try {
-            as.connection.login(username, password);
+            as.xmppConnection.login(username, password);
         } catch (XMPPException e) {
             logger.error("Error during login");
             e.printStackTrace();
@@ -47,31 +69,35 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     
 
     public void closeAwarenessService() {
-        connection.disconnect();
+        xmppConnection.disconnect();
     }
     
     
     //TODO: return array should probably contain instances of scy users or somesuch
-    public ArrayList<String> getBuddies(String username) {
-        Roster roster = this.connection.getRoster();
+    public ArrayList<IAwarenessUser> getBuddies(String username) {
+        roster = this.xmppConnection.getRoster();
         Collection<RosterEntry> rosterEntries = roster.getEntries();
-        ArrayList<String> buddies = new ArrayList<String>();
+        ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
         for (RosterEntry buddy:rosterEntries) {
-            buddies.add(buddy.getUser());
+            IAwarenessUser au = new AwarenessUser();
+            au.setName(buddy.getName());
+            au.setUsername(buddy.getUser());
+            au.setPresence(roster.getPresence(buddy.getUser()).toString());
+            buddies.add(au);
         }
         return buddies;
     }
     
     
     public void sendMessage(String recipient, String message) {
-        Chat chat = connection.getChatManager().createChat(recipient, this);
+        Chat chat = xmppConnection.getChatManager().createChat(recipient, (MessageListener) this);
         try {
             chat.sendMessage(message);
         } catch (XMPPException e) {
             logger.error("Error during sendMessage");
             e.printStackTrace();
         }
-    }
+    }    
     
     
     public void setStatus(String username, String status) {
@@ -80,8 +106,21 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     
     public void processMessage(Chat chat, Message message) {
         if(message.getType() == Message.Type.chat) {
-            logger.debug(chat.getParticipant() + " says: " + message.getBody());          
-        }
+            
+            logger.debug(chat.getParticipant() + " says: " + message.getBody());   
+            //process the events
+            for (IAwarenessListener al : awarenessListeners) {
+                if (al != null){
+                    RosterEntry entry = roster.getEntry(chat.getParticipant());
+                    AwarenessEvent awarenessEvent = new AwarenessEvent(this,entry.getName(),message.getBody());
+                    al.handleAwarenessEvent(awarenessEvent);
+               }// if
+            }// for
+        }// for
     }
+    
+    public void addAwarenessListener(IAwarenessListener awarenessListener){
+        awarenessListeners.add(awarenessListener);
+   }
     
 }
