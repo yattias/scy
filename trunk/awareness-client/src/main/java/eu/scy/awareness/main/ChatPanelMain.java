@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -20,12 +21,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.apache.commons.lang.ArrayUtils;
+
 import eu.scy.awareness.controller.ChatController;
 
 
@@ -33,10 +38,12 @@ public class ChatPanelMain extends JPanel {
 
     
     protected JList buddyList;
-    final JTextArea chatArea;
+    JTextArea chatArea;
     protected DefaultListModel buddlyListModel;
     protected JTextField sendMessageTextField;
     protected ChatController chatController;
+    private String username;
+    private String password;
     
     public ChatPanelMain() {
   
@@ -45,27 +52,36 @@ public class ChatPanelMain extends JPanel {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         } 
         catch (UnsupportedLookAndFeelException e) {
-           // handle exception
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        chatController = new ChatController();
         
+        LoginDialog loginDialog = new LoginDialog(null);
         
+        String[] loginStrings = loginDialog.showLoginDialog();
+        
+        if( !ArrayUtils.isEmpty(loginStrings) ) {
+            this.username = loginStrings[0];
+            this.password = loginStrings[1];
+        }
+        
+        chatController = new ChatController(this.username, this.password);
+        initGUI();
+        chatController.populateBuddyList();
+    }
+    
+    protected void initGUI() {
         this.add(createBuddyListPanel(), BorderLayout.WEST);
 
         chatArea = new JTextArea();
         
         chatArea.setEditable(false);
-        
+        chatController.registerChatArea(chatArea);
         
         this.add(createChatArea(), BorderLayout.CENTER);
         
@@ -77,7 +93,7 @@ public class ChatPanelMain extends JPanel {
         JPanel chatAreaPanel = new JPanel(new MigLayout("wrap 1"));
         
         JScrollPane chatAreaScroll = new JScrollPane(chatArea);
-        chatAreaScroll.setPreferredSize(new Dimension(250,250));
+        chatAreaScroll.setPreferredSize(new Dimension(225,250));
         
         chatAreaPanel.add(chatAreaScroll);
         
@@ -91,7 +107,9 @@ public class ChatPanelMain extends JPanel {
                 System.out.println("hey");
                 String oldText = chatArea.getText();
                 
-                chatArea.setText(oldText+"\nme: " + textfield.getText());
+                chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
+                
+                chatArea.setText(oldText+"me: " + textfield.getText() + "\n");
                 
             }});
         
@@ -111,7 +129,7 @@ public class ChatPanelMain extends JPanel {
         buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
         JScrollPane buddyListScroll = new JScrollPane(buddyList);
-        buddyListScroll.setPreferredSize(new Dimension(100,250));
+        buddyListScroll.setPreferredSize(new Dimension(150,250));
         
         buddyPanel.add(buddyListScroll);
         
@@ -214,7 +232,7 @@ public class ChatPanelMain extends JPanel {
             }});
         
         frame.getContentPane().add(pop);
-        frame.setSize(450, 300);
+        frame.setSize(500, 300);
         frame.setVisible(true);
         
         
