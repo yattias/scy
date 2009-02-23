@@ -1,6 +1,6 @@
 <plugin>
     <!-- Main plugin class -->
-    <class>org.jivesoftware.openfire.plugin.tuplespaceconnector.TuplespaceConnectorPlugin</class>
+    <class>eu.scy.collaborationservice.plugin.CollaborationServicePlugin</class>
     
     <!-- Plugin meta-data -->
     <name>${pom.name}</name>
