@@ -68,6 +68,7 @@ public class CollaborationService implements ICollaborationService {
         return id;
     }
     
+    
     private TupleAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
             logger.debug("Created Tuple Spaces");
