@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
@@ -15,7 +16,7 @@ import org.jivesoftware.smack.packet.Message;
 import eu.scy.awareness.api.IAwarenessService;
 
 
-public class AwarenessService implements IAwarenessService, org.jivesoftware.smack.MessageListener {
+public class AwarenessService implements IAwarenessService, MessageListener {
 
     private final static Logger logger = Logger.getLogger(AwarenessService.class.getName());
     private ConnectionConfiguration config;
