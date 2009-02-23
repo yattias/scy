@@ -1,7 +1,5 @@
 package eu.scy.awareness;
 
-import java.util.ArrayList;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -27,7 +25,7 @@ public class AwarenessServiceTestCase extends TestCase {
     
     private void setUpAwarenessService() {
         if (as == null) {
-            as = AwarenessService.createAwarenessService("bling", "vaffel");            
+            as = AwarenessService.createAwarenessService("talk2me", "talk2me");            
         }
     }
     
@@ -49,7 +47,7 @@ public class AwarenessServiceTestCase extends TestCase {
     
     public void testSendMessage() {
         setUpAwarenessService();
-        as.sendMessage("thomasd@wiki.intermedia.uio.no", "hoy");
+        as.sendMessage("aperritano@imediamac09.uio.no", "hoy");
         assertTrue(true);
     }
     
