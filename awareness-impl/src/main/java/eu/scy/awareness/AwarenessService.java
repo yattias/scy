@@ -16,6 +16,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
+import eu.scy.awareness.api.IAwarenessListener;
 import eu.scy.awareness.api.IAwarenessService;
 import eu.scy.awareness.api.IAwarenessUser;
 
