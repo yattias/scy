@@ -63,7 +63,7 @@
         <groupId>eu.scy</groupId>
         <artifactId>collaboration-service</artifactId>
         <version>0.1</version>
-    </dependency>      
+    </dependency>
   </dependencies>
   
   <build>
