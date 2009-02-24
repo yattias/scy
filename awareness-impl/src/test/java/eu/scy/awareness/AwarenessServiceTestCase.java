@@ -23,17 +23,17 @@ public class AwarenessServiceTestCase extends TestCase {
     }
     
     
-//    private void setUpAwarenessService() {
-//        if (as == null) {
-//            as = AwarenessService.createAwarenessService("talk2me", "talk2me");            
-//        }
-//    }
+    private void setUpAwarenessService() {
+        if (as == null) {
+            as = AwarenessService.createAwarenessService("talk2me", "talk2me");            
+        }
+    }
     
     
-//    public void testCreateAwarenessService() {
-//        setUpAwarenessService();
-//        assertNotNull(as);
-//    }
+    public void testCreateAwarenessService() {
+        setUpAwarenessService();
+        assertNotNull(as);
+    }
     
     // TODO: write this one so that it passes on all clients running a test
 //    public void testGetBuddies(String username) {
