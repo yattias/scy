@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy</groupId>
   <artifactId>awareness-api</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <name>awareness-api</name>
   <url>http://maven.apache.org</url>
   
