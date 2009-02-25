@@ -4,6 +4,7 @@
   <groupId>eu.scy</groupId>
   <artifactId>awareness-api</artifactId>
   <version>0.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>awareness-api</name>
   <url>http://maven.apache.org</url>
   
