@@ -4,6 +4,6 @@ import java.util.EventObject;
 
 public interface IAwarenessListener  {
     
-    public void handleAwarenessEvent(EventObject e);
+    public void handleAwarenessEvent(IAwarenessEvent e);
 
 }

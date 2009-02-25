@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 
 import eu.scy.awareness.AwarenessEvent;
 import eu.scy.awareness.AwarenessService;
+import eu.scy.awareness.api.IAwarenessEvent;
 import eu.scy.awareness.api.IAwarenessListener;
 import eu.scy.awareness.api.IAwarenessUser;
 
@@ -72,14 +73,12 @@ public class ChatController {
     public void registerChatArea(final JTextArea chatArea) {
         awarenessService.addAwarenessListener(new IAwarenessListener(){
 
-         
 
             @Override
-            public void handleAwarenessEvent(EventObject e) {
+            public void handleAwarenessEvent(IAwarenessEvent e) {
                 String oldText = chatArea.getText();
                 
                 chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
-                
                 
             }});
     }
