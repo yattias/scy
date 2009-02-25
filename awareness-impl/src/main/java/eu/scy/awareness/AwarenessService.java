@@ -30,8 +30,7 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     private Roster roster;
 
     
-    private AwarenessService() {    
-        
+    private AwarenessService() {        
     }
     
     public static AwarenessService createAwarenessService(String username, String password) {
