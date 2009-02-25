@@ -9,6 +9,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.api.IAwarenessService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 
@@ -56,4 +57,9 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return the notification service
      */
     public INotificationService getNotificationService();
+    
+    /**
+     * @return the awareness service
+     */
+    public IAwarenessService getAwarenessService();
 }
