@@ -14,6 +14,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.api.IAwarenessService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -42,6 +43,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private INotificationService notificationService;
     
     private SessionManager sessionManager;
+
+    private IAwarenessService awarenessService;
     
     
     @SuppressWarnings("unchecked")
@@ -56,6 +59,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         notificationService = (INotificationService) context.getBean("notificationService");
         
         sessionManager = (SessionManager) context.getBean("sessionManager");
+        awarenessService = (IAwarenessService) context.getBean("awarenessService");
     }
     
     /**
@@ -146,5 +150,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
             e.printStackTrace();
         }
         return null;
+    }
+
+    public IAwarenessService getAwarenessService() {
+        return awarenessService;
     }
 }
