@@ -1,6 +1,7 @@
 package eu.scy.awareness.controller;
 
 import java.util.ArrayList;
+import java.util.EventObject;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
@@ -8,7 +9,7 @@ import javax.swing.JTextArea;
 
 import eu.scy.awareness.AwarenessEvent;
 import eu.scy.awareness.AwarenessService;
-import eu.scy.awareness.IAwarenessListener;
+import eu.scy.awareness.api.IAwarenessListener;
 import eu.scy.awareness.api.IAwarenessUser;
 
 
@@ -71,11 +72,14 @@ public class ChatController {
     public void registerChatArea(final JTextArea chatArea) {
         awarenessService.addAwarenessListener(new IAwarenessListener(){
 
+         
+
             @Override
-            public void handleAwarenessEvent(AwarenessEvent e) {
+            public void handleAwarenessEvent(EventObject e) {
                 String oldText = chatArea.getText();
                 
                 chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
+                
                 
             }});
     }
