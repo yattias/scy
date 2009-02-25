@@ -89,7 +89,7 @@ public class ToolBrokerTest {
     
     @Test
     public void testNotificationRegistration() throws Exception {
-        toolBroker.getNotificationService().registerCallback(new INotificationCallback() {
+        toolBroker.getNotificationService().registerCallback("adam", new INotificationCallback() {
             
             @Override
             public void onNotification(INotification notification) {
