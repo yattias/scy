@@ -3,16 +3,23 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy</groupId>
   <artifactId>awareness-api</artifactId>
-  <version>0.3</version>
+  <version>0.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>awareness-api</name>
   <url>http://maven.apache.org</url>
   
   <distributionManagement>
-      <repository>
-          <id>mvn_collide_releases</id>
-          <name>Collide Internal Releases</name>
-          <url>http://mvn.collide.info/content/repositories/releases</url>
-      </repository>
+    <repository>
+      <id>mvn_collide_releases</id>
+      <name>Collide Internal Releases</name>
+      <url>http://mvn.collide.info/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>mvn_collide_snapshots</id>
+      <name>Collide Internal Snapshots</name>
+      <url>http://mvn.collide.info/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
     
   <repositories>
