@@ -17,6 +17,8 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.logger.Action;
+import eu.scy.awareness.api.IAwarenessService;
+import eu.scy.liteclient.AwarenessClient;
 import eu.scy.notification.api.INotification;
 import eu.scy.notification.api.INotificationCallback;
 import eu.scy.toolbroker.ToolBrokerImpl;
@@ -87,7 +89,7 @@ public class ToolBrokerTest {
     
     @Test
     public void testNotificationRegistration() throws Exception {
-        toolBroker.getNotificationService().registerCallback("Adam", new INotificationCallback() {
+        toolBroker.getNotificationService().registerCallback(new INotificationCallback() {
             
             @Override
             public void onNotification(INotification notification) {
@@ -95,6 +97,13 @@ public class ToolBrokerTest {
             }
             
         });
+    }
+    
+    
+    @Test
+    public void testGetAwarenessService() throws Exception {
+        IAwarenessService awarenessService = toolBroker.getAwarenessService();
+        Assert.assertNotNull("AwarenessService should not be null!", awarenessService);
     }
     
 }
