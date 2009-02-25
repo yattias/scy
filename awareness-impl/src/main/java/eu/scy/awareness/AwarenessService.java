@@ -106,18 +106,17 @@ public class AwarenessService implements IAwarenessService, MessageListener {
 
     
     public void processMessage(Chat chat, Message message) {
-        if(message.getType() == Message.Type.chat) {
-            
+        if (message.getType() == Message.Type.chat) {           
             logger.debug(chat.getParticipant() + " says: " + message.getBody());   
             //process the events
             for (IAwarenessListener al : awarenessListeners) {
                 if (al != null){
                     RosterEntry entry = roster.getEntry(chat.getParticipant());
-                    AwarenessEvent awarenessEvent = new AwarenessEvent(this,entry.getName(),message.getBody());
+                    AwarenessEvent awarenessEvent = new AwarenessEvent(this, entry.getName(), message.getBody());
                     al.handleAwarenessEvent(awarenessEvent);
-               }// if
-            }// for
-        }// for
+                }
+            }
+        }
     }
     
     public void addAwarenessListener(IAwarenessListener awarenessListener){
