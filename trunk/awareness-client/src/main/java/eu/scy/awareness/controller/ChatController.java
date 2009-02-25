@@ -1,13 +1,11 @@
 package eu.scy.awareness.controller;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 
-import eu.scy.awareness.AwarenessEvent;
 import eu.scy.awareness.AwarenessService;
 import eu.scy.awareness.api.IAwarenessEvent;
 import eu.scy.awareness.api.IAwarenessListener;
