@@ -5,22 +5,11 @@
 
 package eu.scy.elobrowser.tool.dataProcessTool;
 
-import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
-import com.scy.scyDataTool.dataTool.*;
+import eu.scy.tools.dataProcessTool.dataTool.*;
 
-import eu.scy.toolbroker.ToolBrokerImpl;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ComponentListener;
-import javafx.scene.layout.Resizable;
 import org.jdom.Element;
-import roolo.api.IRepository;
-import roolo.elo.JDomBasicELOFactory;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * Entry point of the data process visualization tool,

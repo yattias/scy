@@ -5,7 +5,7 @@
 
 package eu.scy.elobrowser.tool.dataProcessTool;
 
-import com.scy.scyDataTool.pdsELO.ProcessedDatasetELO;
+import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
