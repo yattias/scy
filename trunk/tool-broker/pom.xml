@@ -37,11 +37,16 @@
 			<version>0.1.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-	    <dependency>
-	        <groupId>eu.scy</groupId>
-	        <artifactId>awareness-api</artifactId>
-	        <version>0.2-SNAPSHOT</version>
-	    </dependency>
+	<dependency>
+		<groupId>eu.scy</groupId>
+		<artifactId>awareness-api</artifactId>
+		<version>0.2-SNAPSHOT</version>
+	</dependency>
+		<dependency>
+		<groupId>eu.scy</groupId>
+		<artifactId>awareness-impl</artifactId>
+		<version>0.2-SNAPSHOT</version>
+	</dependency>
 	</dependencies>
 	<build>
 		<plugins>
