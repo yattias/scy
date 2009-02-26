@@ -1,39 +1,37 @@
 package eu.scy.mobile.toolbroker.serializers.impl;
 
+import org.json.me.JSONObject;
+import org.json.me.JSONException;
 import eu.scy.mobile.toolbroker.model.ELO;
+import eu.scy.mobile.toolbroker.model.ELOTextContent;
 import eu.scy.mobile.toolbroker.serializers.JSONSerializer;
 import eu.scy.mobile.toolbroker.serializers.Serializers;
-import org.json.me.JSONArray;
-import org.json.me.JSONException;
-import org.json.me.JSONObject;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Created: 12.feb.2009 11:14:15
- *
- * TODO: The JSON marshalling in Jersey is having issues when posting back to the webservice.
- *
- * @author Bjørge Næss
+ * Created by IntelliJ IDEA.
+ * User: Bjørge Næss
+ * Date: 25.feb.2009
+ * Time: 13:49:57
+ * To change this template use File | Settings | File Templates.
  */
-
-public class ELOJSONSerializer extends JSONSerializer {
+public class ELOTextContentSerializer extends JSONSerializer {
     public String getLocalId() {
-        return "eu.scy.mobile.toolbroker.model.ELO";
+        return "eu.scy.mobile.toolbroker.model.ELOTextContent";
     }
     public String getRemoteId() {
-        return "eu.scy.ws.example.mock.api.ELO";
+        return "eu.scy.ws.example.mock.api.ELOTextContent";
     }
     public JSONObject serialize(Object o) {
-        ELO elo = (ELO) o;
+        ELOTextContent textContent = (ELOTextContent) o;
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("class", getRemoteId());
-            jsonObj.put("id", elo.getId());
-            jsonObj.put("title", elo.getTitle());
+            jsonObj.put("content", textContent.getContent());
 
-            Object content = elo.getContent();
+            Object content = textContent.getContent();
 
             JSONSerializer serializer = Serializers.getByLocalType(content.getClass().getName());
             if (serializer !=  null) jsonObj.put("content", serializer.serialize(content));
@@ -49,22 +47,17 @@ public class ELOJSONSerializer extends JSONSerializer {
     }
     public Object deserialize(JSONObject obj) {
 
-        ELO elo = new ELO();
+        ELOTextContent elo = new ELOTextContent();
 
         Enumeration keys = obj.keys();
         while (keys.hasMoreElements()) {
-
             String key = (String) keys.nextElement();
             Object value = null;
             try {
                 value = obj.get(key);
             } catch (JSONException e) {}
-
             Object decodedValue = deserializeValue(value);
-            if (key.equals("title")) elo.setTitle((String)decodedValue);
-            else if (key.equals("id")) elo.setId(Integer.parseInt(decodedValue.toString()));
-            else if (key.equals("children")) elo.setChildren((Vector) decodedValue);
-            else if (key.equals("content")) elo.setContent(decodedValue);
+            if (key.equals("content")) elo.setContent((String)decodedValue);
         }
         return elo;
     }
