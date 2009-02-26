@@ -5,6 +5,8 @@ import com.sun.me.web.request.ProgressInputStream;
 import com.sun.me.web.request.ProgressListener;
 import eu.scy.mobile.toolbroker.sample.localmodels.GeoImageCollector;
 import eu.scy.mobile.toolbroker.serializers.JSONSerializer;
+import eu.scy.mobile.toolbroker.serializers.Serializers;
+import eu.scy.mobile.toolbroker.model.ELO;
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -23,10 +25,18 @@ import java.util.Enumeration;
  *
  * @author Bjørge Næss
  */
-public class GeoImageJSONSerializer implements JSONSerializer, ProgressListener {
+public class GeoImageJSONSerializer extends JSONSerializer {
 	private GeoImageCollector instance;
 
-	public Object deserialize(JSONObject obj) {
+    public String getLocalId() {
+        return "eu.scy.mobile.toolbroker.sample.localmodels.GeoImageCollector";
+    }
+
+    public String getRemoteId() {
+        return "eu.scy.ws.example.mock.api.GeoImageCollector";
+    }
+
+    public Object deserialize(JSONObject obj) {
 		instance = new GeoImageCollector();
 
 		Enumeration keys = obj.keys();
@@ -43,7 +53,19 @@ public class GeoImageJSONSerializer implements JSONSerializer, ProgressListener 
 	}
 
 	public JSONObject serialize(Object o) {
-		return null;
+        System.out.println("o = " + o.getClass());
+        GeoImageCollector gic = (GeoImageCollector) o;
+        JSONObject jsonObj = new JSONObject();
+        /**/
+        try {
+            jsonObj.put("class", getRemoteId());
+            jsonObj.put("images", gic.getImages());
+            jsonObj.put("name", gic.getName());
+        } catch (JSONException e) {
+            System.err.println("Error occurred when serializing object "+o+": " + e);
+        }
+         /**/
+        return jsonObj;
 	}
 
 	private void deserializeKey(String key, Object value) {
@@ -54,49 +76,12 @@ public class GeoImageJSONSerializer implements JSONSerializer, ProgressListener 
 			for (int i = 0; i < jsonArr.length(); i++) {
 				try {
 					String location = jsonArr.getString(i);
-					Image image;
-					image = loadImage(location);
-					if (image != null)
-						instance.addImage(image);
+					instance.addImage(location);
 
 				} catch (JSONException e) {
 					e.printStackTrace();
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private Image loadImage(final String location) throws IOException {
-        HttpConnection conn = null;
-        InputStream is = null;
-        try {
-            conn = (HttpConnection) Connector.open(location);
-                        conn.setRequestProperty("accept", "image/*");
-
-            final int responseCode = conn.getResponseCode();
-            if (responseCode != HttpConnection.HTTP_OK) return null;
-
-            final int totalToReceive = conn.getHeaderFieldInt(Arg.CONTENT_LENGTH, 0);
-            is = new ProgressInputStream(conn.openInputStream(), totalToReceive, this, null, 1024);
-
-            final ByteArrayOutputStream bos = new ByteArrayOutputStream(Math.max(totalToReceive, 8192));
-            final byte[] buffer = new byte[4096];
-            for (int nread = is.read(buffer); nread >= 0; nread = is.read(buffer)) {
-                bos.write(buffer, 0, nread);
+                }
             }
-            return Image.createImage(new ByteArrayInputStream(bos.toByteArray()));
-        }  finally {
-            if (is != null) is.close();
-            if (conn != null) conn.close();
-        }
-    }
-
-	public void readProgress(Object o, int i, int i1) {
-	}
-
-	public void writeProgress(Object o, int i, int i1) {
+		}
 	}
 }

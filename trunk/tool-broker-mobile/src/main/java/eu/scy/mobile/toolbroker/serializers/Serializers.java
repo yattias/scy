@@ -1,7 +1,9 @@
 package eu.scy.mobile.toolbroker.serializers;
 
 import eu.scy.mobile.toolbroker.serializers.impl.ELOJSONSerializer;
+import eu.scy.mobile.toolbroker.serializers.impl.ELOTextContentSerializer;
 
+import java.util.Vector;
 import java.util.Hashtable;
 
 /**
@@ -13,20 +15,30 @@ public class Serializers {
 
 	private Serializers() {}
 
-	private static Hashtable Register = new Hashtable() {{
-		// Add new serializers here
-		put("elo", new ELOJSONSerializer());
-	}};
+	private static Vector Register = new Vector() {{
+		addElement(new ELOJSONSerializer());
+		addElement(new ELOTextContentSerializer());
+    }};
 
-	public static JSONSerializer get(String className) throws SerializerNotFoundException {
-		JSONSerializer serializer = (JSONSerializer) Register.get(className);
-		if (serializer == null) throw new SerializerNotFoundException("Serializer not found. Is it added to the list of serializers?");
-		return serializer;
+	public static JSONSerializer getByLocalType(String typeId) {
+        for (int i = 0; i < Register.size(); i++) {
+            JSONSerializer serializer = (JSONSerializer) Register.elementAt(i);
+            if (serializer.getLocalId().equals(typeId)) return serializer;
+        }
+        return null;
+	}
+	public static JSONSerializer getByRemoteType(String typeId) {
+        for (int i = 0; i < Register.size(); i++) {
+            JSONSerializer serializer = (JSONSerializer) Register.elementAt(i);
+            if (serializer.getRemoteId().equals(typeId)) return serializer;
+        }
+        return null;
 	}
 	/**
 	 * Register serializer for Class
-	 */
-	public static void add(String className, JSONSerializer s) {
-		Register.put(className, s);
+     * @param s Serializer object
+     */
+	public static void add(JSONSerializer s) {
+		Register.addElement(s);
 	}
 }

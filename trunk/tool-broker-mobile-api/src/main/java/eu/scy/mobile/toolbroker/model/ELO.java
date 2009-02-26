@@ -54,4 +54,13 @@ public class ELO {
 	public void setChildren(Vector children) {
 		this.children = children;
 	}
+
+    public String toString() {
+        return "ELO{" +
+                "title='" + title + '\'' +
+                ", content=" + content +
+                ", id=" + id +
+                ", children=" + children +
+                '}';
+    }
 }

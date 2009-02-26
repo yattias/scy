@@ -97,6 +97,13 @@ public class ServiceClient implements RequestListener {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+        finally {
+            try {
+                http.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 		return null;
 	}
 	public void postJSON(String path, JSONObject obj) {
@@ -106,29 +113,29 @@ public class ServiceClient implements RequestListener {
 
 		try {
 			http = (HttpConnection) Connector.open(baseUrl+path, Connector.READ_WRITE);
+			http.setRequestProperty("Content-type", "application/json");
 			http.setRequestProperty("Accept", "application/json");
 			http.setRequestMethod(HttpConnection.POST);
 
 			// Obtain a DataOutputStream object for the existing HTTP connection.
 			os = http.openDataOutputStream();
+            System.out.println("Posting content to "+http.getURL()+": " + obj);
 
-			System.out.println("Posting to " + http.getURL());
 			byte[] request_body = obj.toString().getBytes();
 
-			for( int i = 0; i < request_body.length; i++ ) {
+            for( int i = 0; i < request_body.length; i++ ) {
 				os.writeByte(request_body[i]);
 			}
 
-			is = new DataInputStream( http.openInputStream() );
+			is = new DataInputStream(http.openInputStream());
 
-			
 			// retrieve the response from server
 			int ch;
 			while( ( ch = is.read() ) != -1 ) {
 				responseMessage.append( (char)ch );
 			}
 
-			//return responseMessage.toString();
+            System.out.println("Response from post: "+responseMessage.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();

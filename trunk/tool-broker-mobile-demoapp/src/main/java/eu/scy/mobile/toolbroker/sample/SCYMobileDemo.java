@@ -4,6 +4,7 @@ import eu.scy.mobile.toolbroker.ToolBrokerMobileAPI;
 import eu.scy.mobile.toolbroker.ToolBrokerMobileAPIImpl;
 import eu.scy.mobile.toolbroker.serializers.Serializers;
 import eu.scy.mobile.toolbroker.model.ELO;
+import eu.scy.mobile.toolbroker.model.ELOTextContent;
 import eu.scy.mobile.toolbroker.sample.localmodels.GeoImageCollector;
 import eu.scy.mobile.toolbroker.sample.localmodels.serializers.GeoImageJSONSerializer;
 
@@ -31,7 +32,7 @@ public class SCYMobileDemo extends MIDlet implements CommandListener {
     }
 	protected void startApp() throws MIDletStateChangeException {
 		// Register serializer for GeoImageContent
-		Serializers.add("geoImageCollector", new GeoImageJSONSerializer());
+		Serializers.add(new GeoImageJSONSerializer());
 
 		toolBroker = new ToolBrokerMobileAPIImpl();
 		eloIdField = new TextField("Enter ELO Id", null, 2, TextField.NUMERIC);
@@ -54,20 +55,27 @@ public class SCYMobileDemo extends MIDlet implements CommandListener {
         }
 		eloName.setString(elo.getTitle());
 		editELOForm.append(eloName);
-		if (currentELO.getContent() instanceof GeoImageCollector) {
-			editELOForm.append("The content of this ELO is a image collector. Displaying images:");
-			GeoImageCollector content = (GeoImageCollector) currentELO.getContent();
-			Vector images = content.getImages();
-			for (int i = 0; i < images.size(); i++) {
-				Image img = (Image) images.elementAt(i);
-				ImageItem imgItem = new ImageItem(null, img, ImageItem.LAYOUT_DEFAULT, "Thumbnail", ImageItem.BUTTON);
-				editELOForm.append(imgItem);
-			}
-		}
-		else {
-			eloContent.setString(elo.getContent().toString());
-			editELOForm.append(eloContent);
-		}
+        Object content = currentELO.getContent();
+		if (content != null) {
+            if (content instanceof GeoImageCollector) {
+                editELOForm.append("The content of this ELO is a image collector. Displaying images:");
+                GeoImageCollector collector = (GeoImageCollector) content;
+                Vector images = collector.getImages();
+                for (int i = 0; i < images.size(); i++) {
+                    String location = (String) images.elementAt(i);
+                    Image img = collector.loadImage(location);
+                    ImageItem imgItem = new ImageItem(null, img, ImageItem.LAYOUT_DEFAULT, "Thumbnail", ImageItem.BUTTON);
+                    editELOForm.append(imgItem);
+                }
+            }
+            else {
+                eloContent.setString(content.toString());
+                editELOForm.append(eloContent);
+            }
+        }
+        else {
+            editELOForm.append("<no content>");
+        }
     }
 	private Form getMainForm() {
         if (mainForm == null) {
@@ -82,12 +90,13 @@ public class SCYMobileDemo extends MIDlet implements CommandListener {
 		if (command.getLabel().equals("Save")) {
 			currentELO.setTitle(eloName.getString());
 
-			if (currentELO.getContent() instanceof String)
-				currentELO.setContent(eloName.getString());
+            Object content = currentELO.getContent();
+			if (content instanceof ELOTextContent)
+				((ELOTextContent)content).setContent(eloContent.getString());
 			else
-				System.out.println("Unsupported content type");
+				System.out.println("Unsupported content type: "+ content.getClass());
 
-			System.out.println("Current ELO is"+currentELO);
+			System.out.println("Current ELO is "+currentELO.getContent().getClass());
 
 			toolBroker.updateELO(currentELO);
 		}
@@ -96,7 +105,7 @@ public class SCYMobileDemo extends MIDlet implements CommandListener {
 			System.out.println("ELO??");
 			currentELO = toolBroker.getELO(Integer.parseInt(eloIdField.getString()));
 			mainForm.setTicker(new Ticker("Congratulations! You just retrieved an ELO!"));
-			System.out.println("elo = " + currentELO.getContent());
+			System.out.println("elo = " + currentELO);
 			updateELOForm(currentELO);
 			getDisplay().setCurrent(editELOForm);
 		}
