@@ -1,9 +1,8 @@
 package eu.scy.ws.example.resources;
 
 import com.sun.jersey.spi.resource.Singleton;
-import eu.scy.ws.example.api.User;
-import eu.scy.ws.example.api.dao.DAOFactory;
-import eu.scy.ws.example.api.dao.UserDAO;
+import eu.scy.ws.example.mock.api.User;
+import eu.scy.ws.example.mock.dao.MockUserDAO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,8 +20,8 @@ import javax.ws.rs.core.Response;
 @Singleton
 @Path("/users")
 public class UserService {
-	private UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
-	private User loggedInUser; 
+	private MockUserDAO userDAO = new MockUserDAO();
+	private User loggedInUser;
 
 	/**
 	 *

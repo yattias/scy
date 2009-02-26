@@ -1,8 +1,6 @@
 package eu.scy.ws.example.mock.dao;
 
-import eu.scy.ws.example.api.User;
-import eu.scy.ws.example.api.dao.UserDAO;
-import eu.scy.ws.example.mock.api.MockUser;
+import eu.scy.ws.example.mock.api.User;
 
 import java.util.HashMap;
 
@@ -11,16 +9,16 @@ import java.util.HashMap;
  *
  * @author Bjørge Næss
  */
-public class MockUserDAO implements UserDAO {
-	private HashMap<Integer, MockUser> mockUsers;
+public class MockUserDAO {
+	private HashMap<Integer, User> mockUsers;
 
 	public MockUserDAO() {
-		mockUsers = new HashMap<Integer, MockUser>();
-		mockUsers.put(0, new MockUser(0, "scy", "scytastic", "Scy Student"));
-		mockUsers.put(1, new MockUser(1, "scywalker", "scybastic", "Scy Scywalker"));
-		mockUsers.put(2, new MockUser(2, "luke", "scywalker", "Luke Shoewalker"));
-		mockUsers.put(3, new MockUser(3, "scyzophrenic", "scinsane", "Peter Pan"));
-		mockUsers.put(3, new MockUser(3, "scy", "scy", "Scy global user"));
+		mockUsers = new HashMap<Integer, User>();
+		mockUsers.put(0, new User(0, "scy", "scytastic", "Scy Student"));
+		mockUsers.put(1, new User(1, "scywalker", "scybastic", "Scy Scywalker"));
+		mockUsers.put(2, new User(2, "luke", "scywalker", "Luke Shoewalker"));
+		mockUsers.put(3, new User(3, "scyzophrenic", "scinsane", "Peter Pan"));
+		mockUsers.put(3, new User(3, "scy", "scy", "Scy global user"));
 	}
 	public User getUser(Integer id) {
 		return mockUsers.get(id);
@@ -33,11 +31,11 @@ public class MockUserDAO implements UserDAO {
 		return null;
 	}
 
-	public void saveUser(MockUser user) {
+	public void saveUser(User user) {
 		mockUsers.put(user.getId(), user);
 	}
 
-	public void deleteUser(MockUser user) {
+	public void deleteUser(User user) {
 		mockUsers.remove(user.getId());
 	}
 }

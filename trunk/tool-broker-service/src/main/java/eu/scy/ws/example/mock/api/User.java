@@ -1,7 +1,5 @@
 package eu.scy.ws.example.mock.api;
 
-import eu.scy.ws.example.api.User;
-
 /**
  * Created: 10.feb.2009 10:41:33
  *
@@ -16,22 +14,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Produces("application/json")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "user")
-public class MockUser implements User {
+public class User {
 
 	private Integer id;
 	private transient String username;
 	private transient String password;
 	private String name;
 
-	public MockUser() {}
+	public User() {}
 
-	public MockUser(Integer id, String username, String password, String name) {
+	public User(Integer id, String username, String password, String name) {
 		this.id=id;
 		this.username=username;
 		this.password=password;
 		this.name = name;
 	}
-	public Integer getId() {
+
+    public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
