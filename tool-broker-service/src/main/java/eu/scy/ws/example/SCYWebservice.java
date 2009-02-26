@@ -38,10 +38,17 @@
 package eu.scy.ws.example;
 
 import com.sun.grizzly.http.SelectorThread;
+import com.sun.grizzly.tcp.StaticResourcesAdapter;
+import com.sun.grizzly.tcp.Adapter;
 import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
 
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +61,7 @@ public class SCYWebservice {
             try {
                 return Integer.parseInt(port);
             } catch (NumberFormatException e) {
-	            e.printStackTrace();
+                e.printStackTrace();
             }
         }
         return defaultPort;
@@ -82,8 +89,8 @@ public class SCYWebservice {
         SelectorThread threadSelector = startServer();
         System.out.println(String.format("Jersey app started with WADL available at %sapplication.wadl\nHit enter to stop it...", BASE_URI));
 
-	    //noinspection ResultOfMethodCallIgnored
-	    System.in.read();
+        //noinspection ResultOfMethodCallIgnored
+        System.in.read();
         threadSelector.stopEndpoint();
     }
 }

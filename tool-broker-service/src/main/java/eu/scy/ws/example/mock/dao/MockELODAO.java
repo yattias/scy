@@ -1,9 +1,8 @@
 package eu.scy.ws.example.mock.dao;
 
-import eu.scy.ws.example.api.ELO;
-import eu.scy.ws.example.api.dao.ELODAO;
 import eu.scy.ws.example.mock.api.GeoImageCollector;
-import eu.scy.ws.example.mock.api.MockELO;
+import eu.scy.ws.example.mock.api.ELO;
+import eu.scy.ws.example.mock.api.ELOTextContent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,39 +13,43 @@ import java.util.List;
  *
  * @author Bjørge Næss
  */
-public class MockELODAO implements ELODAO {
-	private HashMap<Integer, MockELO> mockELOS;
+public class MockELODAO {
+	private HashMap<Integer, ELO> mockELOS;
 	public MockELODAO() {
-		mockELOS = new HashMap<Integer, MockELO>();
-		add(new MockELO(0, "MockELO zero", "I am emerging as the zeroth learning object"));
-		add(new MockELO(1, "MockELO one", "I am emerging as the first learning object"));
-		add(new MockELO(2, "MockELO two", "I am emerging as the second learning object"));
+		mockELOS = new HashMap<Integer, ELO>();
+		add(new ELO(0, "ELO zero", new ELOTextContent("I am emerging as the zeroth learning object")));
+		add(new ELO(1, "ELO one", new ELOTextContent("I am emerging as the first learning object")));
+		add(new ELO(2, "ELO two", new ELOTextContent("I am emerging as the second learning object")));
 
-		MockELO imgElo = new MockELO(3, "I am an image collector ELO");
-
-		ArrayList<String> dummyList = new ArrayList<String>();
-		dummyList.add("http://129.177.24.191/bergen1.jpg");
-		dummyList.add("http://129.177.24.191/bergen2.jpg");
-		dummyList.add("http://129.177.24.191/bergen3.jpg");
-		dummyList.add("http://129.177.24.191/bergen4.jpg");
-		dummyList.add("http://129.177.24.191/bergen5.jpg");
-
-		GeoImageCollector gic = new GeoImageCollector("Dummy imagelist", dummyList);
-		GeoImageCollector gic2 = new GeoImageCollector("Dummy imagelist", dummyList);
-		imgElo.setContent(gic);
+		ELO imgElo = new ELO(3, "I am an image collector ELO");
 		add(imgElo);
 
-		ArrayList<GeoImageCollector> gclist = new ArrayList<GeoImageCollector>();
-		gclist.add(gic);
-		gclist.add(gic2);
-		getELO(1).setGeoImageCollectors(gclist);
+		ArrayList<String> imgList1 = new ArrayList<String>();
+		imgList1.add("http://localhost:9998/elos/image/bergen1.jpg");
+		imgList1.add("http://localhost:9998/elos/image/bergen2.jpg");
+		imgList1.add("http://localhost:9998/elos/image/bergen3.jpg");
+		imgList1.add("http://localhost:9998/elos/image/bergen4.jpg");
+		imgList1.add("http://localhost:9998/elos/image/bergen5.jpg");
 
-		add(new MockELO(4, "MockELO four", "I am emerging as the fourth learning object"));
-		add(new MockELO(5, "MockELO five", "I am emerging as the fifth learning object"));
-		add(new MockELO(6, "MockELO six", "I am emerging as the sixth learning object"));
-		add(new MockELO(7, "MockELO seven", "I am emerging as the seventh learning object"));
-		add(new MockELO(8, "MockELO eight", "I am emerging as the eighth learning object"));
-		add(new MockELO(9, "MockELO nine", "I am emerging as the ninth learning object"));
+		ArrayList<String> imgList2 = new ArrayList<String>();
+		imgList2.add("http://localhost:9998/elos/image/bergen5.jpg");
+		imgList2.add("http://localhost:9998/elos/image/bergen4.jpg");
+		imgList2.add("http://localhost:9998/elos/image/bergen3.jpg");
+		imgList2.add("http://localhost:9998/elos/image/bergen2.jpg");
+		imgList2.add("http://localhost:9998/elos/image/bergen1.jpg");
+
+		GeoImageCollector gic1 = new GeoImageCollector("Dummy Image Collector 1", imgList1);
+		GeoImageCollector gic2 = new GeoImageCollector("Dummy Image Collector 2", imgList2);
+
+		getELO(1).setContent(gic1);
+		getELO(3).setContent(gic2);
+
+		add(new ELO(4, "ELO four", new ELOTextContent("I am emerging as the fourth learning object")));
+		add(new ELO(5, "ELO five", new ELOTextContent("I am emerging as the fifth learning object")));
+		add(new ELO(6, "ELO six", new ELOTextContent("I am emerging as the sixth learning object")));
+		add(new ELO(7, "ELO seven", new ELOTextContent("I am emerging as the seventh learning object")));
+		add(new ELO(8, "ELO eight", new ELOTextContent("I am emerging as the eighth learning object")));
+		add(new ELO(9, "ELO nine", new ELOTextContent("I am emerging as the ninth learning object")));
 
 		// Make some of the ELOS children of the others
 		mockELOS.get(1).addChildELO(mockELOS.get(2));
@@ -56,12 +59,12 @@ public class MockELODAO implements ELODAO {
 		mockELOS.get(4).addChildELO(mockELOS.get(6));
 		mockELOS.get(8).addChildELO(mockELOS.get(9));
 	}
-	public MockELO getELO(Integer id) {
+	public ELO getELO(Integer id) {
 		return mockELOS.get(id);
 	}
 
 	public void saveELO(ELO elo) {
-		mockELOS.put(elo.getId(), (MockELO)elo);
+		mockELOS.put(elo.getId(), (ELO)elo);
 	}
 
 	public void deleteELO(ELO elo) {
@@ -71,7 +74,7 @@ public class MockELODAO implements ELODAO {
 	public List<ELO> getAll() {
 		return new ArrayList<ELO>(mockELOS.values());
 	}
-	private void add(MockELO elo) {
-		mockELOS.put(elo.getId(), (MockELO)elo);
+	private void add(ELO elo) {
+		mockELOS.put(elo.getId(), (ELO)elo);
 	}
 }

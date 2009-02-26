@@ -38,38 +38,41 @@
 package eu.scy.ws.example.config;
 
 import com.sun.jersey.api.json.JSONJAXBContext;
+import com.sun.jersey.api.json.JSONConfiguration;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
-import java.util.Arrays;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
+import eu.scy.ws.example.mock.api.ELO;
+import eu.scy.ws.example.mock.api.GeoImageCollector;
+import org.codehaus.jettison.mapped.MappedXMLInputFactory;
+import org.codehaus.jettison.mapped.MappedXMLOutputFactory;
+
 /**
- *
  * @author japod
  */
-@Provider
-public final class JAXBContextResolver implements ContextResolver<JAXBContext> {
-    
-    private final JAXBContext context;
-    
-    private final HashSet types;
 
-    private final Class[] cTypes = {};
+@Provider
+public class JAXBContextResolver implements ContextResolver<JAXBContext> {
+
+    private JAXBContext context;
+    private Class[] types = {ELO.class, GeoImageCollector.class, String.class};
+    private Map<String, String> map = new HashMap<String, String>() {{
+        put("http://scy.eu", "scy");
+        put("http://www.w3.org/2001/XMLSchema-instance", "xsi");
+        put("http://www.w3.org/2001/XMLSchema", "xs");
+    }};
 
     public JAXBContextResolver() throws Exception {
-        Map<String, Object> props = new HashMap<String, Object>();
-        props.put(JSONJAXBContext.JSON_NOTATION, JSONJAXBContext.JSONNotation.MAPPED);
-        props.put(JSONJAXBContext.JSON_ROOT_UNWRAPPING, Boolean.TRUE);
-        props.put(JSONJAXBContext.JSON_NON_STRINGS, new HashSet<String>(1){{add("number");}});
-        this.types = new HashSet<Class>(Arrays.asList(cTypes));
-        this.context = new JSONJAXBContext(cTypes, props);
+        context = new JSONJAXBContext(JSONConfiguration.natural().build(), types);
     }
-    
+
     public JAXBContext getContext(Class<?> objectType) {
-        return (types.contains(objectType)) ? context : null;
+        return (types[0].equals(objectType)) ? context : null;
     }
 }

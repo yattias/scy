@@ -11,6 +11,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "geoimagecollector")
+@XmlType(name = "geoimagecollector", namespace = "http://scy.eu")
 public class GeoImageCollector {
 
 	private String name;
