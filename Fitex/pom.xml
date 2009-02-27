@@ -25,12 +25,23 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <repositories>
+    <repositories>        
         <repository>
-            <id>collide-central</id>
-            <url>http://mvn.collide.info/content/repositories/central</url>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>        
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
+    
     <build>
         <plugins>
             <plugin>
