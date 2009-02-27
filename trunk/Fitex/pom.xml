@@ -10,6 +10,7 @@
     <name>Fitex</name>
     <url>http://maven.apache.org</url>
 
+    <!-- dist management -->
     <distributionManagement>
         <repository>
             <id>mvn_collide_releases</id>
