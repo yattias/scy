@@ -35,20 +35,20 @@ import java.io.Serializable;
  * Time: 10:20:00
  * To change this template use File | Settings | File Templates.
  */
-public class ConnectionHandlerJGroups  extends ReceiverAdapter implements ConnectionHandler {
+public class ConnectionHandlerJGroups extends ReceiverAdapter implements ConnectionHandler {
 
     //protected Logger log = Logger.getLogger("ConnectionHandlerJGroups");
 
     JChannel channel;
-    String user_name="scy";//System.getProperty("user.name", "n/a");
-    final List<Object> state=new LinkedList<Object>();
+    String user_name = "scy";//System.getProperty("user.name", "n/a");
+    final List<Object> state = new LinkedList<Object>();
 
     public void viewAccepted(View new_view) {
         System.out.println("** view: " + new_view);
     }
 
     public void receive(Message msg) {
-        String line=msg.getSrc() + ": " + msg.getObject();
+        String line = msg.getSrc() + ": " + msg.getObject();
         //log.info(String.valueOf(msg.getObject()));
         System.out.println(line);
 
@@ -58,18 +58,18 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
         Object obj = msg.getObject();
         processObject(obj);
 
-        synchronized(state) {
+        synchronized (state) {
             //state.add(line);
             state.add(obj);
         }
     }
 
     public byte[] getState() {
-        synchronized(state) {
+        synchronized (state) {
             try {
                 return Util.objectToByteBuffer(state);
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -78,23 +78,23 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
 
     public void setState(byte[] new_state) {
         try {
-            List<String> list=(List<String>)Util.objectFromByteBuffer(new_state);
-            synchronized(state) {
+            List<String> list = (List<String>) Util.objectFromByteBuffer(new_state);
+            synchronized (state) {
                 state.clear();
                 state.addAll(list);
             }
             System.out.println("received state (" + list.size() + " messages in chat history):");
-            for(String str: list) {
+            for (String str : list) {
                 System.out.println(str);
             }
         }
-        catch(Exception e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void initialize() throws Exception {
-        channel=new JChannel();
+        channel = new JChannel();
         channel.setReceiver(this);
         channel.connect("ColemoCluster");
         channel.getState(null, 10000);
@@ -107,30 +107,30 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
     }
 
     private void eventLoop() {
-        BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
-        while(true) {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
             try {
-                System.out.print("> "); System.out.flush();
-                String line=in.readLine().toLowerCase();
-                if(line.startsWith("quit") || line.startsWith("exit")) {
+                System.out.print("> ");
+                System.out.flush();
+                String line = in.readLine().toLowerCase();
+                if (line.startsWith("quit") || line.startsWith("exit")) {
                     break;
                 }
-                line="[" + user_name + "] " + line;
+                line = "[" + user_name + "] " + line;
                 sendMessage(line);
                 //Message msg=new Message(null, null, line);
                 //channel.send(msg);
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
 
-
     public void sendMessage(String message) {
         try {
-            Message msg=new Message(null, null, message);
+            Message msg = new Message(null, null, message);
             channel.send(msg);
         } catch (ChannelNotConnectedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -151,8 +151,8 @@ public class ConnectionHandlerJGroups  extends ReceiverAdapter implements Connec
         }
     }
 
-        public void processObject(Object o) {
-            MainFrame frame = null;//ApplicationController.getDefaultInstance().getMainFrame();
+    public void processObject(Object o) {
+        MainFrame frame = null;//ApplicationController.getDefaultInstance().getMainFrame();
 
         DefaultStyledDocument logDoc = frame.getChatPane().getLogDoc();
         if (o instanceof AddClass) {
