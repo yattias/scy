@@ -28,7 +28,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
     public void contextInitialized(final ServletContextEvent servletContextEvent) {
 
         new Thread() {
-            public void run() {
+            public void run() {                                                                                                                                                                                                                   
                 log.info("Initializing SQL SPACES SERVER");
                 //Configuration.getConfiguration().setDbUser("root");
                 //Configuration.getConfiguration().setDbPassword("root");
@@ -44,6 +44,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
 
                     Tuple templateTuple = new Tuple(String.class, Integer.class);
                     Tuple returnTuple = ts.take(templateTuple);
+                    System.out.println("Return tuple: " +returnTuple);
                     
 
                 } catch (TupleSpaceException e) {
