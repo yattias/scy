@@ -76,7 +76,7 @@
         </dependency>        
         <dependency>
             <groupId>eu.scy</groupId>
-            <artifactId>collaboration-service</artifactId>
+            <artifactId>collaboration-service-impl</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
