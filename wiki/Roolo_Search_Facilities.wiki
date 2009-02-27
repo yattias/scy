@@ -31,6 +31,12 @@
 
 *RESOURCES*
 
+- JCR search capabilities:
+  - This page talks about the parameters that can be set in Jackrabbit with regards to search. At the bottom, it also has some Jackrabbit's proprietary functionality, which cannot be found in the JSR 170 specification: http://wiki.apache.org/jackrabbit/Search  
+
+  - This page talks about how you can search Jackrabbit's content using JCR's indexing and search capabilities: http://wiki.apache.org/jackrabbit/IndexingConfiguration
+
+
 - Nabble forums:
   Apache has several forums (for their various projects) under www.Nabble.com. Each project has its unique URL and it's very simple to find them via google. For example if you're looking for Jackrabbit's Nabble forum just search for "Jackrabbit Nabble". The Same applies to Lucene of course. From my experience on the Jackrabbit forum, the forum works really well and they reply to your questions very promptly with detailed answers.
 
