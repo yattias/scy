@@ -15,6 +15,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.api.IAwarenessService;
+import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -45,6 +46,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private SessionManager sessionManager;
 
     private IAwarenessService awarenessService;
+
+    private ICollaborationService collaborationService;
     
     
     @SuppressWarnings("unchecked")
@@ -154,5 +157,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     public IAwarenessService getAwarenessService() {
         return awarenessService;
+    }
+    
+    public ICollaborationService getCollaborationService() {
+        return collaborationService;
     }
 }
