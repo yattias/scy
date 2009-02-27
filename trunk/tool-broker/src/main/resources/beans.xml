@@ -128,5 +128,7 @@
 
 	<bean id="awarenessService" class="eu.scy.awareness.AwarenessService">
 	</bean>
+	<bean id="collaborationService" class="eu.scy.collaborationservice.CollaborationService">
+	</bean>
 	
 </beans>
