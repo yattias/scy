@@ -9,16 +9,17 @@ import eu.scy.collaborationservice.ICollaborationService;
  * User: Bjørge Næss
  * Date: 27.feb.2009
  * Time: 13:41:28
- * To change this template use File | Settings | File Templates.
+ * CoLeMo controller that serves as a bridge between colemo and the SCY collaboration and awareness services.
  */
 public class SCYConnectionHandler implements ConnectionHandler {
     private ICollaborationService ics;
 
     public void sendMessage(String message) {
-
+        //ics.sendMessage(message);
     }
 
     public void sendObject(Object object) {
+        //ics.sendObject(object);
         
     }
 
@@ -27,6 +28,7 @@ public class SCYConnectionHandler implements ConnectionHandler {
     }
 
     public void cleanUp() {
+        //ics.cleanUp();
         
     }
 }

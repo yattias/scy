@@ -95,8 +95,8 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     public void initialize() throws Exception {
 
         System.out.println("initializing");
-        //tupleSpace = new TupleSpace("scy.collide.info", 2525, "AIRFORCE_ONE");
-        tupleSpace = new TupleSpace("localhost", 2525, "AIRFORCE_ONE");
+        tupleSpace = new TupleSpace("scy.collide.info", 2525, "AIRFORCE_ONE");
+        //tupleSpace = new TupleSpace("localhost", 2525, "AIRFORCE_ONE");
 
         //tupleSpace = new TupleSpace("129.240.212.15", 2525, "AIRFORCE_ONE");
         Tuple tmp = new Tuple(String.class, String.class);
