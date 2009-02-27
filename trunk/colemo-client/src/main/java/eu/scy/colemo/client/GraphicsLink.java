@@ -22,7 +22,7 @@ import javax.swing.*;
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
-public class GraphicsLink {
+public class GraphicsLink extends JComponent {
 
     private ConceptNode from;
     private ConceptNode to;
@@ -31,7 +31,7 @@ public class GraphicsLink {
     private Color color;
     private boolean dotted;
 
-    private Point fromConnectioPoint = null;
+    private Point fromConnectionPoint = null;
     private Point toConnectionPoint = null;
 
     private JLabel labelComponent = new JLabel("Link!");
@@ -48,9 +48,10 @@ public class GraphicsLink {
     }
 
     public void paint(Graphics g) {
+
         Graphics2D g2d = (Graphics2D) g;
 
-        fromConnectioPoint = from.getConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
+        fromConnectionPoint = from.getConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
         toConnectionPoint = to.getConnectionPoint(findDirection(to.getCenterPoint(), from.getCenterPoint()));
 
         if (dotted) {
@@ -63,46 +64,27 @@ public class GraphicsLink {
 
         }
 
-        drawArrow(g2d, (int) fromConnectioPoint.getX(), (int) fromConnectioPoint.getY(), (int) toConnectionPoint.getX(), (int) toConnectionPoint.getY(), 10, 11);
+        drawArrow(g2d, (int) fromConnectionPoint.getX(), (int) fromConnectionPoint.getY(), (int) toConnectionPoint.getX(), (int) toConnectionPoint.getY(), 10, 11);
+
+        paintLabel(g2d);
 
     }
 
-    public int getLabelComponentXPos() {
-        if(fromConnectioPoint != null && toConnectionPoint != null) {
-            int max = 0;
-            int min = 0;
-            if(fromConnectioPoint.getX() > toConnectionPoint.getX()) {
-                max = (int) fromConnectioPoint.getX();
-                min = (int) toConnectionPoint.getX();
-            } else {
-                max = (int) toConnectionPoint.getX();
-                min = (int) fromConnectioPoint.getX();
-            }
+    public void paintLabel(Graphics g) {
+        double fromX = from.getX() + (from.getWidth() / 2);
+        double fromY = from.getY() + (from.getHeight() / 2);
 
-            return min + ((max - min) /2) - 50;
-        }
+        double toX = to.getX() + (to.getWidth() / 2);
+        double toY = to.getY() + (to.getHeight() / 2);
 
-        return 0;
+        double halfwayX = (toX - fromX) / 2;
+        double halfwayY = (toY - fromY) / 2;
 
-    }
+        int lblPosX = (int)(toX-halfwayX);
+        int lblPosY = (int)(toY - halfwayY);
 
-    public int getLabelComponentYPos() {
-        if(fromConnectioPoint != null && toConnectionPoint != null) {
-            int max = 0;
-            int min = 0;
-            if(fromConnectioPoint.getY() > toConnectionPoint.getY()) {
-                max = (int) fromConnectioPoint.getY();
-                min = (int) toConnectionPoint.getY();
-            } else {
-                max = (int) toConnectionPoint.getY();
-                min = (int) fromConnectioPoint.getY();
-            }
-
-            return min + ((max - min) /2) + 10;
-        }
-
-        return 0;
-
+        labelComponent.setBounds(lblPosX-20, lblPosY-10, 40, 20);
+        labelComponent.paint(g);
     }
 
     public int findDirection(Point from, Point to) {
