@@ -74,6 +74,7 @@ public class ApplicationController {
 
     public void connect() {
         connectionHandler = new ConnectionHandlerSqlSpaces();
+        //connectionHandler = new SCYConnectionHandler();
         try {
             connectionHandler.initialize();
         } catch (Exception e) {
