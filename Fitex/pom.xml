@@ -10,7 +10,7 @@
     <name>Fitex</name>
     <url>http://maven.apache.org</url>
 
-    <!-- dist management -->
+    <!-- distributionManagement -->
     <distributionManagement>
         <repository>
             <id>mvn_collide_releases</id>
@@ -60,6 +60,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -73,6 +74,7 @@
                     </archive>
                 </configuration>
             </plugin>
+            -->
         </plugins>
         <resources>
             <resource>
