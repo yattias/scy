@@ -107,10 +107,12 @@ public class ChatPanelMain extends JPanel {
                 System.out.println("hey");
                 String oldText = chatArea.getText();
                 
-                chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
-                
-                chatArea.setText(oldText+"me: " + textfield.getText() + "\n");
-                
+                if( buddyList.getSelectedValue() == null ) {
+                    chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
+                } else {
+                    chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
+                    chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
+                }
             }});
         
         chatAreaPanel.add(sendMessageTextField, "growx");
