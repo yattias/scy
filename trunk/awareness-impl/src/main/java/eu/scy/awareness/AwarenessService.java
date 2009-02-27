@@ -30,9 +30,10 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     private Roster roster;
 
     
+     
     private AwarenessService() {        
     }
-    
+ 
     public static AwarenessService createAwarenessService(String username, String password) {
         AwarenessService as = new AwarenessService();
         
@@ -63,6 +64,7 @@ public class AwarenessService implements IAwarenessService, MessageListener {
         } catch (XMPPException e) {
             logger.error("Error during login");
             e.printStackTrace();
+            
         }
         return as;
     }
