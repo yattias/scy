@@ -57,6 +57,13 @@
       </snapshots>
     </repository>
     
+    <repository>
+      <id>reucon</id>
+      <url>http://maven.reucon.com/public</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   
   <dependencies>
@@ -77,6 +84,12 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.igniterealtime.smack</groupId>
+        <artifactId>smack</artifactId>
+        <version>3.0.4</version>
     </dependency>
 
 	<dependency>

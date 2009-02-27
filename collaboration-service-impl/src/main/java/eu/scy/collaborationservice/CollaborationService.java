@@ -1,80 +1,106 @@
-//package eu.scy.collaborationservice.tuplespaceconnector;
+
 package eu.scy.collaborationservice;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 
 import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.tuple.TupleAdapter;
 
 
 public class CollaborationService implements ICollaborationService {
     
-    public static final Logger logger = Logger.getLogger(CollaborationService.class.getName());
-    private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
-    private TupleAdapter tupleAdapter;
-    private static CollaborationService collaborationService;
-
-
-    public CollaborationService() {
-        logger.debug("Empty Constructor Collaboration created");
+    private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
+    private ConnectionConfiguration config;
+    private XMPPConnection xmppConnection;
+    
+    private CollaborationService() {        
     }
-
-    public static CollaborationService getInstance() {
-        if (collaborationService == null) {
-            logger.debug("Created Tuple Spaces");
-            collaborationService = new CollaborationService();
+ 
+    public static CollaborationService createAwarenessService(String username, String password) {
+        CollaborationService as = new CollaborationService();
+        
+        Properties props = new Properties();
+        try {
+            props.load(CollaborationService.class.getResourceAsStream("server.properties"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return collaborationService;
+
+        String address = props.getProperty("collaborationservice.address");
+        String port = props.getProperty("collaborationservice.port");
+        String name = props.getProperty("collaborationservice.name");
+        
+        //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
+        as.config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
+        as.xmppConnection = new XMPPConnection(as.config);
+        try {
+            as.xmppConnection.connect();
+        } catch (XMPPException e) {
+            logger.error("Error during connect");
+            e.printStackTrace();
+        }
+        try {
+            as.xmppConnection.login(username, password);
+        } catch (XMPPException e) {
+            logger.error("Error during login");
+            e.printStackTrace();
+            
+        }
+        return as;
+    }
+    
+
+    public void closeCollaborationService() {
+        xmppConnection.disconnect();
+    }
+    
+    
+    
+    public void sendMessage(String recipient, String message) {
+        Chat chat = xmppConnection.getChatManager().createChat(recipient, (MessageListener) this);
+        try {
+            chat.sendMessage(message);
+        } catch (XMPPException e) {
+            logger.error("Error during sendMessage");
+            e.printStackTrace();
+        }
     }
 
-
-    public void actionUponDelete(String username) {
+    @Override
+    public void create(ScyBaseObject scyBaseObject) {
         // TODO Auto-generated method stub
-    }
-    
-    public void actionUponWrite(String username) {
-        // TODO Auto-generated method stub
-    }
-    
-    
-    public String userPing(String jabberUser) {
-        logger.debug("Attempting to write PING to CS");
-        String id = write(jabberUser, "ping");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
-    
-    
-    public String userUnavailable(String jabberUser) {
-        logger.debug("Attempting to write UNAVAILABLE to CS");
-        String id = write(jabberUser, "unavailable");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
-    
-    
-    public String write(String username, String status) {
-        logger.debug("switchboard says it's about to write: " + username + "/" + status);
-        ScyBaseObject sbo = new ScyBaseObject();
-        sbo.setId("54321");
-        sbo.setName("a nice name for the object");
-        sbo.setDescription(status);
-        String id = getTupleAdapter().write(null, "openfire", sbo, DEFAULT_EXPIRATION_TIME); // if documentSqlSpaceId != null this will update the tuple
-        if (id != null) {
-            logger.debug("Write to CS ok");
-        } else {
-            logger.error("Trouble while writing to CS");
-        }
-        return id;
-    }
-    
-    
-    private TupleAdapter getTupleAdapter() {
-        if (tupleAdapter == null) {
-            logger.debug("Created Tuple Spaces");
-            tupleAdapter = TupleAdapter.createTupleAdapter(this.getClass().getName(), TupleAdapter.AWARENESS_SERVICE_SPACE, this);
-        }
-        return tupleAdapter;
+        
     }
 
+    @Override
+    public void delete(ScyBaseObject scyBaseObject) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void read(String id) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void update(ScyBaseObject scyBaseObject) {
+        // TODO Auto-generated method stub
+        
+    }    
+    
+    
+    
+    
 }

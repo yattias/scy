@@ -159,14 +159,14 @@ public class TupleAdapter implements Callback {
 
 
 	public void call(Command cmd, int seq, Tuple afterCmd, Tuple beforeCmd) {
-		switch (cmd) {
-		case WRITE:
-			client.actionUponWrite(afterCmd.getField(0).getValue().toString());
-			break;
-		case DELETE:
-			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
-			break;
-		}
+//		switch (cmd) {
+//		case WRITE:
+//			client.actionUponWrite(afterCmd.getField(0).getValue().toString());
+//			break;
+//		case DELETE:
+//			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
+//			break;
+//		}
 	}
 
 }
