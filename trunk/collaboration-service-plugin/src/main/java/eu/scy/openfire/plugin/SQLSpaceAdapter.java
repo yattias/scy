@@ -33,7 +33,7 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public static SQLSpaceAdapter createTupleAdapter(String userName, String sqlSpaceName, ICollaborationService csi) {
+    public static SQLSpaceAdapter createAdapter(String userName, String sqlSpaceName, ICollaborationService csi) {
         SQLSpaceAdapter cs = null;
         cs = new SQLSpaceAdapter();
         cs.client = csi;

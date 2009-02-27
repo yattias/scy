@@ -4,14 +4,14 @@ package eu.scy.openfire.plugin;
 import org.apache.log4j.Logger;
 
 import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.tuple.TupleAdapter;
+
 
 
 public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
     public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
-    private TupleAdapter tupleAdapter;
+    private SQLSpaceAdapter tupleAdapter;
     private static ScyCommunicationAdapter collaborationService;
 
 
@@ -69,10 +69,10 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     
-    private TupleAdapter getTupleAdapter() {
+    private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
             logger.debug("Created Tuple Spaces");
-            tupleAdapter = TupleAdapter.createTupleAdapter(this.getClass().getName(), TupleAdapter.AWARENESS_SERVICE_SPACE, this);
+            tupleAdapter = SQLSpaceAdapter.createTupleAdapter(this.getClass().getName(), SQLSpaceAdapter.AWARENESS_SERVICE_SPACE, this);
         }
         return tupleAdapter;
     }
