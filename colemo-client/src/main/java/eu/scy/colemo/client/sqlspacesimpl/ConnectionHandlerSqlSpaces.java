@@ -133,7 +133,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
     public void call(Command command, int i, Tuple tuple, Tuple tuple1) {
         System.out.println("i: " + i);
-        if (tuple != null && tuple.getFields().length == 6) {
+        if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {
             System.out.println("UPDATING CONCEPT FROM SERVER!");
             ObjectTranslator ot = new ObjectTranslator();
 
@@ -143,7 +143,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
 
             addNewNode(node);
-        } else if(tuple != null && tuple.getFields().length == 5) {
+        } else if(tuple != null && tuple.getFields().length == linkTemplate.getFields().length) {
             System.out.println("UPDATING LINK FROM SERVER!");
             ObjectTranslator ot = new ObjectTranslator();
             UmlLink link = (UmlLink) ot.getObject(tuple);
