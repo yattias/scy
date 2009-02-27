@@ -3,6 +3,7 @@ package eu.scy.openfire.plugin;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 
@@ -72,7 +73,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
             logger.debug("Created Tuple Spaces");
-            tupleAdapter = SQLSpaceAdapter.createTupleAdapter(this.getClass().getName(), SQLSpaceAdapter.AWARENESS_SERVICE_SPACE, this);
+            tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.AWARENESS_SERVICE_SPACE, (ICollaborationService) this);
         }
         return tupleAdapter;
     }
