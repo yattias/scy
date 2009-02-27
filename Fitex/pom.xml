@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.scy.tools.fitex</groupId>
-  <artifactId>Fitex</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0</version>
-  <name>Fitex</name>
-  <url>http://maven.apache.org</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy.tools.fitex</groupId>
+    <artifactId>Fitex</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <name>Fitex</name>
+    <url>http://maven.apache.org</url>
 
-   <repositories>
-    <repository>
-        <id>collide-central</id>
-        <url>http://mvn.collide.info/content/repositories/central</url>
-    </repository>
-  </repositories>
-  <build>
+    <distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>collide-central</id>
+            <url>http://mvn.collide.info/content/repositories/central</url>
+        </repository>
+    </repositories>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -33,47 +49,45 @@
                 </configuration>
             </plugin>
             <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>eu.scy.tools.fitex.GUI.MainInterface</mainClass>
-              <classpathPrefix>lib/</classpathPrefix>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>eu.scy.tools.fitex.GUI.MainInterface</mainClass>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
         <resources>
             <resource>
                 <directory>src/main/java/eu/scy/tools/fitex/analyseFn</directory>
-               <includes>
+                <includes>
                     <include>*.properties</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/java/eu/scy/tools/fitex/images</directory>
-               <includes>
+                <includes>
                     <include>*.gif</include>
                 </includes>
             </resource>
-    </resources>
+        </resources>
     </build>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>net.java.dev.swing-layout</groupId>
             <artifactId>swing-layout</artifactId>
             <version>1.0.2</version>
         </dependency>
-    
-    
-  </dependencies>
+    </dependencies>
 </project>
