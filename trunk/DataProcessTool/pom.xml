@@ -107,8 +107,8 @@
             <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>iText</groupId>
-            <artifactId>iText</artifactId>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
             <version>2.1.4</version>
         </dependency>
         <dependency>
