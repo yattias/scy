@@ -51,7 +51,6 @@ public class CollaborationService implements ICollaborationService {
         String port = props.getProperty("collaborationservice.port");
         String name = props.getProperty("collaborationservice.name");
         
-        //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
         
         xmppConnection = new XMPPConnection(config);
