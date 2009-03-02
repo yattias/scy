@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.CollaborationEvent;
-import eu.scy.collaborationservice.ICollaborationListener;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
 

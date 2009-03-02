@@ -4,7 +4,7 @@ package eu.scy.openfire.plugin;
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.openfire.botz.BotzConnection;
+//import org.jivesoftware.openfire.botz.BotzConnection;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.openfire.interceptor.InterceptorManager;
