@@ -1,4 +1,6 @@
-package eu.scy.mobile.toolbroker.model;
+package eu.scy.mobile.toolbroker.model.impl;
+
+import eu.scy.mobile.toolbroker.model.IELO;
 
 import java.util.Vector;
 
@@ -9,7 +11,7 @@ import java.util.Vector;
  */
 
 
-public class ELO {
+public class ELO implements IELO {
 	private String title;
 	private Object content;
 	private int id;
@@ -48,7 +50,7 @@ public class ELO {
 	public Vector getChildren() {
 		return children;
 	}
-	public void addChildELO(ELO elo) {
+	public void addChildELO(IELO elo) {
 		this.children.addElement(elo);
 	}
 	public void setChildren(Vector children) {

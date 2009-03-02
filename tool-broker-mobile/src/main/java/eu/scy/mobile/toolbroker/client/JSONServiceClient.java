@@ -16,17 +16,17 @@ import java.io.*;
  *
  * @author Bjørge Næss
  */
-public class ServiceClient implements RequestListener {
+public class JSONServiceClient implements RequestListener {
 	private String errorCode;
 	private String errorMessage;
 	protected HttpConnection http;
 	private String baseUrl;
 
-	public ServiceClient(String baseURL) {
+	public JSONServiceClient(String baseURL) {
 		this.baseUrl = baseURL;
 	}
 
-	private boolean isError(final Response response) {
+    private boolean isError(final Response response) {
 		boolean isError = false;
 		final Exception ex = response.getException();
 		if (ex != null) {

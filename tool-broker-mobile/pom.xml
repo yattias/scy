@@ -46,14 +46,6 @@
 	        <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.json.me</groupId>
-            <artifactId>json</artifactId>
-	        <classifier>jar</classifier>
-	        <scope>system</scope>
-            <version>1.0</version>
-	        <systemPath>${basedir}/lib/json.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.sun.me.web</groupId>
             <artifactId>request</artifactId>
 	        <classifier>jar</classifier>
@@ -158,11 +150,6 @@
 							<inclusion>
 								<groupId>eu.scy</groupId>
 								<artifactId>tool-broker-mobile-api</artifactId>
-							</inclusion>
-							<inclusion>
-								<groupId>org.json.me</groupId>
-								<artifactId>json</artifactId>
-								<classifier>jar</classifier>
 							</inclusion>
 							<inclusion>
 								<groupId>com.sun.me.web</groupId>

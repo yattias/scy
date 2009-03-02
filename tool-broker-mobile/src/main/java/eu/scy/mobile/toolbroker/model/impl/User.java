@@ -1,11 +1,13 @@
-package eu.scy.mobile.toolbroker.model;
+package eu.scy.mobile.toolbroker.model.impl;
+
+import eu.scy.mobile.toolbroker.model.IUser;
 
 /**
  * Created: 13.feb.2009 12:03:38
  *
  * @author Bjørge Næss
  */
-public class User {
+public class User implements IUser {
 	private Integer id;
 	private String username;
 	private String password;

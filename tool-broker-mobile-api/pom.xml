@@ -68,14 +68,14 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Uncomment for wma
-				<dependency>
-					<groupId>org.microemu</groupId>
-					<artifactId>microemu-jsr-120</artifactId>
-					<version>${me2Version}</version>
-					<scope>provided</scope>
-				</dependency>
-				-->
+        <!-- Uncomment for wma
+                  <dependency>
+                      <groupId>org.microemu</groupId>
+                      <artifactId>microemu-jsr-120</artifactId>
+                      <version>${me2Version}</version>
+                      <scope>provided</scope>
+                  </dependency>
+                  -->
 
 		<!-- Uncomment for JSR-82
 				<dependency>
@@ -126,6 +126,9 @@
 					<proguardInclude>proguard.conf</proguardInclude>
 					<proguard>false</proguard>
 					<obfuscate>true</obfuscate>
+
+                    <assembly>
+					</assembly>
 				</configuration>
 			</plugin>
 

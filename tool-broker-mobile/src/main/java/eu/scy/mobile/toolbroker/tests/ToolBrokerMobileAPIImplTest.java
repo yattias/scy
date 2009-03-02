@@ -1,7 +1,8 @@
 package eu.scy.mobile.toolbroker.tests;
 
-import eu.scy.mobile.toolbroker.ToolBrokerMobileAPIImpl;
-import eu.scy.mobile.toolbroker.model.ELO;
+import eu.scy.mobile.toolbroker.model.IELO;
+import eu.scy.mobile.toolbroker.IELOService;
+import eu.scy.mobile.toolbroker.client.EloServiceClient;
 
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -12,10 +13,11 @@ import javax.microedition.midlet.MIDletStateChangeException;
  * @author Bjørge Næss
  */
 public class ToolBrokerMobileAPIImplTest extends MIDlet {
-	private ToolBrokerMobileAPIImpl toolBroker;
+	private IELOService eloClient;
+    private final String ELO_SERVICE_URL = "http://129.177.24.191:9998";
 
 	public void testGetELO() {
-		ELO elo = toolBroker.getELO(1);
+		IELO elo = eloClient.getELO(1);
 		System.out.println("elo = " + elo);
 	}
 /*
@@ -24,7 +26,7 @@ public class ToolBrokerMobileAPIImplTest extends MIDlet {
 		assertNotNull(elo);
 	}*/
 	protected void startApp() throws MIDletStateChangeException {
-		toolBroker = new ToolBrokerMobileAPIImpl();
+		eloClient = new EloServiceClient(ELO_SERVICE_URL);
 		testGetELO();
 	}
 
