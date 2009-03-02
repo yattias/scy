@@ -2,13 +2,12 @@ package eu.scy.mobile.toolbroker.serializers.impl;
 
 import org.json.me.JSONObject;
 import org.json.me.JSONException;
-import eu.scy.mobile.toolbroker.model.ELO;
-import eu.scy.mobile.toolbroker.model.ELOTextContent;
-import eu.scy.mobile.toolbroker.serializers.JSONSerializer;
+import eu.scy.mobile.toolbroker.model.impl.TextContent;
+import eu.scy.mobile.toolbroker.model.ITextContent;
 import eu.scy.mobile.toolbroker.serializers.Serializers;
+import eu.scy.mobile.toolbroker.serializer.Serializer;
 
 import java.util.Enumeration;
-import java.util.Vector;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,15 +16,15 @@ import java.util.Vector;
  * Time: 13:49:57
  * To change this template use File | Settings | File Templates.
  */
-public class ELOTextContentSerializer extends JSONSerializer {
+public class ELOTextContentSerializer implements Serializer {
     public String getLocalId() {
-        return "eu.scy.mobile.toolbroker.model.ELOTextContent";
+        return "eu.scy.mobile.toolbroker.model.impl.TextContent";
     }
     public String getRemoteId() {
         return "eu.scy.ws.example.mock.api.ELOTextContent";
     }
-    public JSONObject serialize(Object o) {
-        ELOTextContent textContent = (ELOTextContent) o;
+    public Object serialize(Object o) {
+        ITextContent textContent = (ITextContent) o;
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("class", getRemoteId());
@@ -33,7 +32,7 @@ public class ELOTextContentSerializer extends JSONSerializer {
 
             Object content = textContent.getContent();
 
-            JSONSerializer serializer = Serializers.getByLocalType(content.getClass().getName());
+            Serializer serializer = Serializers.getByLocalType(content.getClass().getName());
             if (serializer !=  null) jsonObj.put("content", serializer.serialize(content));
             else {
                 System.err.println("Warning: No serializer found for content type. Encoded as string using toString()");
@@ -45,18 +44,20 @@ public class ELOTextContentSerializer extends JSONSerializer {
         }
         return jsonObj;
     }
-    public Object deserialize(JSONObject obj) {
+    public Object deserialize(Object obj) {
 
-        ELOTextContent elo = new ELOTextContent();
+        ITextContent elo = new TextContent();
 
-        Enumeration keys = obj.keys();
+        JSONObject jsonObj = (JSONObject) obj;
+
+        Enumeration keys = jsonObj.keys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             Object value = null;
             try {
-                value = obj.get(key);
+                value = jsonObj.get(key);
             } catch (JSONException e) {}
-            Object decodedValue = deserializeValue(value);
+            Object decodedValue = JSONUtil.deserializeValue(value);
             if (key.equals("content")) elo.setContent((String)decodedValue);
         }
         return elo;

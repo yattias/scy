@@ -52,14 +52,6 @@
 	        <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.json.me</groupId>
-            <artifactId>json</artifactId>
-	        <classifier>jar</classifier>
-	        <scope>system</scope>
-            <version>1.0</version>
-	        <systemPath>${basedir}/lib/json.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.sun.me.web</groupId>
             <artifactId>request</artifactId>
 	        <classifier>jar</classifier>
@@ -147,7 +139,7 @@
                         <MIDlet>
                             <name>ScyMobileDemo</name>
                             <icon>/scy.png</icon>
-                            <class>eu.scy.mobile.toolbroker.sample.SCYMobileDemo</class>
+                            <class>eu.scy.mobile.toolbroker.demo.SCYMobileDemo</class>
                         </MIDlet>
                     </midlets>
                     <!-- If you are going to use ProGuard instead of WTK

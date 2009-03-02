@@ -1,22 +1,21 @@
-package eu.scy.mobile.toolbroker.serializers;
+package eu.scy.mobile.toolbroker.serializers.impl;
 
 import org.json.me.JSONObject;
 import org.json.me.JSONException;
 import org.json.me.JSONArray;
+import eu.scy.mobile.toolbroker.serializer.Serializer;
+import eu.scy.mobile.toolbroker.serializers.Serializers;
 
 import java.util.Vector;
 
 /**
- * Created: 12.feb.2009 11:12:12
- *
- * @author Bjørge Næss
+ * Created by IntelliJ IDEA.
+ * User: Bjørge Næss
+ * Date: 02.mar.2009
+ * Time: 12:18:02
+ * To change this template use File | Settings | File Templates.
  */
-public abstract class JSONSerializer {
-    public abstract String getLocalId();
-    public abstract String getRemoteId();
-	public abstract Object deserialize(JSONObject obj);
-	public abstract JSONObject serialize(Object obj);
-
+public class JSONUtil {
     public static Object deserializeValue(Object value) {
         if (value instanceof JSONObject) {
             JSONObject jsonObj = (JSONObject) value;
@@ -26,7 +25,7 @@ public abstract class JSONSerializer {
             } catch (JSONException e) {
                 System.err.println("Warning: Missing property 'class' for JSON object "+value.toString());
             }
-            JSONSerializer s = Serializers.getByRemoteType(type);
+            Serializer s = Serializers.getByRemoteType(type);
             if (s == null) System.err.println("Warning: No serializer found for type "+type);
             else return s.deserialize(jsonObj);
         }

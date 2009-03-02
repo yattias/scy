@@ -1,23 +1,12 @@
-package eu.scy.mobile.toolbroker.sample.localmodels.serializers;
+package eu.scy.mobile.toolbroker.serializers.impl;
 
-import com.sun.me.web.request.Arg;
-import com.sun.me.web.request.ProgressInputStream;
-import com.sun.me.web.request.ProgressListener;
-import eu.scy.mobile.toolbroker.sample.localmodels.GeoImageCollector;
-import eu.scy.mobile.toolbroker.serializers.JSONSerializer;
-import eu.scy.mobile.toolbroker.serializers.Serializers;
-import eu.scy.mobile.toolbroker.model.ELO;
+import eu.scy.mobile.toolbroker.model.impl.GeoImageList;
+import eu.scy.mobile.toolbroker.model.IGeoImageList;
+import eu.scy.mobile.toolbroker.serializer.Serializer;
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
-import javax.microedition.io.Connector;
-import javax.microedition.io.HttpConnection;
-import javax.microedition.lcdui.Image;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Enumeration;
 
 /**
@@ -25,25 +14,27 @@ import java.util.Enumeration;
  *
  * @author Bjørge Næss
  */
-public class GeoImageJSONSerializer extends JSONSerializer {
-	private GeoImageCollector instance;
+public class GeoImageListSerializer implements Serializer {
+	private IGeoImageList instance;
 
     public String getLocalId() {
-        return "eu.scy.mobile.toolbroker.sample.localmodels.GeoImageCollector";
+        return "eu.scy.mobile.toolbroker.model.impl.GeoImageList";
     }
 
     public String getRemoteId() {
         return "eu.scy.ws.example.mock.api.GeoImageCollector";
     }
 
-    public Object deserialize(JSONObject obj) {
-		instance = new GeoImageCollector();
+    public Object deserialize(Object obj) {
+		instance = new GeoImageList();
 
-		Enumeration keys = obj.keys();
+        JSONObject jsonObj = (JSONObject) obj;
+
+		Enumeration keys = jsonObj.keys();
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
 			try {
-				Object theObj = obj.get(key);
+				Object theObj = jsonObj.get(key);
 				deserializeKey(key, theObj);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -52,9 +43,9 @@ public class GeoImageJSONSerializer extends JSONSerializer {
 		return instance;
 	}
 
-	public JSONObject serialize(Object o) {
+	public Object serialize(Object o) {
         System.out.println("o = " + o.getClass());
-        GeoImageCollector gic = (GeoImageCollector) o;
+        IGeoImageList gic = (IGeoImageList) o;
         JSONObject jsonObj = new JSONObject();
         /**/
         try {

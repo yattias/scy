@@ -2,9 +2,10 @@ package eu.scy.mobile.toolbroker.serializers;
 
 import eu.scy.mobile.toolbroker.serializers.impl.ELOJSONSerializer;
 import eu.scy.mobile.toolbroker.serializers.impl.ELOTextContentSerializer;
+import eu.scy.mobile.toolbroker.serializers.impl.GeoImageListSerializer;
+import eu.scy.mobile.toolbroker.serializer.Serializer;
 
 import java.util.Vector;
-import java.util.Hashtable;
 
 /**
  * Created: 11.feb.2009 14:01:54
@@ -18,18 +19,19 @@ public class Serializers {
 	private static Vector Register = new Vector() {{
 		addElement(new ELOJSONSerializer());
 		addElement(new ELOTextContentSerializer());
+		addElement(new GeoImageListSerializer());
     }};
 
-	public static JSONSerializer getByLocalType(String typeId) {
+	public static Serializer getByLocalType(String typeId) {
         for (int i = 0; i < Register.size(); i++) {
-            JSONSerializer serializer = (JSONSerializer) Register.elementAt(i);
+            Serializer serializer = (Serializer) Register.elementAt(i);
             if (serializer.getLocalId().equals(typeId)) return serializer;
         }
         return null;
 	}
-	public static JSONSerializer getByRemoteType(String typeId) {
+	public static Serializer getByRemoteType(String typeId) {
         for (int i = 0; i < Register.size(); i++) {
-            JSONSerializer serializer = (JSONSerializer) Register.elementAt(i);
+            Serializer serializer = (Serializer) Register.elementAt(i);
             if (serializer.getRemoteId().equals(typeId)) return serializer;
         }
         return null;
@@ -38,7 +40,7 @@ public class Serializers {
 	 * Register serializer for Class
      * @param s Serializer object
      */
-	public static void add(JSONSerializer s) {
+	public static void add(Serializer s) {
 		Register.addElement(s);
 	}
 }
