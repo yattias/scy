@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 public class CollaborationServiceTestCase extends TestCase {
     
     private static final Logger logger = Logger.getLogger(CollaborationServiceTestCase.class.getName());
-    private CollaborationService as;
+    private CollaborationService cs;
     
     
     public CollaborationServiceTestCase(String testName) {
@@ -24,15 +24,15 @@ public class CollaborationServiceTestCase extends TestCase {
     
     
     private void setUpAwarenessService() {
-        if (as == null) {
-            as = CollaborationService.createAwarenessService("bling", "vaffel");            
+        if (cs == null) {
+            cs = new CollaborationService();         
         }
     }
     
     
     public void testCreateAwarenessService() {
         setUpAwarenessService();
-        assertNotNull(as);
+        assertNotNull(cs);
     }
     
     // TODO: write this one so that it passes on all clients running a test
