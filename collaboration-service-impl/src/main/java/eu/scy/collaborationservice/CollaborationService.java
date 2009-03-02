@@ -3,6 +3,7 @@ package eu.scy.collaborationservice;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -11,20 +12,23 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketCollector;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.AndFilter;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
 import eu.scy.core.model.impl.ScyBaseObject;
 
 
-public class CollaborationService implements ICollaborationService {
+public class CollaborationService implements ICollaborationService, PacketListener {
     
     private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
     private CollaborationService cs;
@@ -32,6 +36,7 @@ public class CollaborationService implements ICollaborationService {
     private XMPPConnection xmppConnection;
     private Roster roster;
     private String groupName;
+    private ArrayList<ICollaborationListener> collaborationListeners = new ArrayList<ICollaborationListener>();
     
     public CollaborationService() {        
     }
@@ -60,8 +65,26 @@ public class CollaborationService implements ICollaborationService {
             
             
             xmppConnection.connect();
-            PacketFilter pf = new PacketTypeFilter(Message.class);
-            PacketCollector pc = xmppConnection.createPacketCollector(pf);
+//            PacketFilter pf = new PacketTypeFilter(Message.class);
+//            PacketCollector pc = xmppConnection.createPacketCollector(pf);
+            
+            PacketFilter scyFilter = new PacketFilter() {
+                public boolean accept(Packet packet) {
+                    
+                    Message mess = (Message)packet;
+                    return "scy".equals(mess.getProperty("groupId"));
+                }
+            };
+            
+            
+            PacketFilter andFilter = new AndFilter(new PacketTypeFilter(Message.class),scyFilter);
+
+
+         
+            xmppConnection.addPacketListener(this, andFilter);
+            
+            //PacketCollector pc = xmppConnection.createPacketCollector(scyPackets);
+            
             if( username == null || password == null ) {
                 xmppConnection.loginAnonymously();
             } else {
@@ -86,22 +109,22 @@ public class CollaborationService implements ICollaborationService {
 
             @Override
             public void entriesAdded(Collection<String> arg0) {
-               System.out.println("entriesAdded");
+               System.out.println("entriesAdded " + arg0);
             }
 
             @Override
             public void entriesDeleted(Collection<String> arg0) {
-                System.out.println("entriesDeleted");
+                System.out.println("entriesDeleted " + arg0);
             }
 
             @Override
             public void entriesUpdated(Collection<String> arg0) {
-                System.out.println("entriesUpdated");
+                System.out.println("entriesUpdated " + arg0 );
             }
 
             @Override
             public void presenceChanged(Presence arg0) {
-                System.out.println("presenceChanged");
+                System.out.println("presenceChanged " + arg0);
             }});
     }
 
@@ -134,6 +157,7 @@ public class CollaborationService implements ICollaborationService {
     public void sendPacket(Object objToSend,String message) {
         Message newMessage = new Message();
         newMessage.setBody(message);
+        newMessage.setProperty("groupId", "scy");
         newMessage.setProperty("group", groupName);
         newMessage.setProperty("customData", objToSend);
         xmppConnection.sendPacket(newMessage);
@@ -161,4 +185,18 @@ public class CollaborationService implements ICollaborationService {
         this.sendPacket(scyBaseObject,"update");
     }    
     
+    public void addCollaborationListener(ICollaborationListener collaborationListener){
+        collaborationListeners.add(collaborationListener);
+   }
+
+    @Override
+    public void processPacket(Packet arg0) {
+        for (ICollaborationListener cl : collaborationListeners) {
+            if (cl != null){
+                CollaborationEvent collaborationEvent = new CollaborationEvent(this, "name", "test");
+                cl.handleCollaborationEvent(collaborationEvent);
+            }
+        }
+        
+    }
 }
