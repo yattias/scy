@@ -4,21 +4,21 @@ package eu.scy.openfire.plugin;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.openfire.botz.BotzConnection;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.openfire.interceptor.InterceptorManager;
 import org.jivesoftware.openfire.interceptor.PacketInterceptor;
 import org.jivesoftware.openfire.interceptor.PacketRejectedException;
 import org.jivesoftware.openfire.session.Session;
+import org.jivesoftware.smack.packet.Presence;
 import org.xmpp.packet.Packet;
-
-import eu.scy.collaborationservice.ICollaborationService;
 
 public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
 
     private static final Logger logger = Logger.getLogger(ScyOpenFirePlugin.class.getName());
     private InterceptorManager interceptorManager;
-    private static IScyCommunicationAdapter collaborationService;
+    private static IScyCommunicationAdapter communicationsAdapter;
     private static PluginManager pluginManager;
     
     public ScyOpenFirePlugin() {
@@ -33,8 +33,20 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
         logger.debug("1");
         this.pluginManager = manager;
         logger.debug("2");
-        this.collaborationService = ScyCommunicationAdapter.getInstance();
-        logger.debug("TSC: " + collaborationService);
+        this.communicationsAdapter = ScyCommunicationAdapter.getInstance();
+        logger.debug("TSC: " + communicationsAdapter);
+//        
+//        BotzConnection bot = new BotzConnection(packetReceiver);
+//        try {
+//            // Create user and login
+//            bot.login("parrot");   
+//            Presence presence = new Presence();
+//            presence.setStatus("Online");
+//            bot.sendPacket(presence);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        
     }
 
     public void destroyPlugin() {
@@ -75,7 +87,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
     
     public String userPing(String jabberUser) {
         logger.debug("Attempting to write PING to CS");
-        String id = collaborationService.write(jabberUser, "ping");
+        String id = communicationsAdapter.write(jabberUser, "ping");
         logger.debug("ID returned: " + id);
         return id;
     }
@@ -83,7 +95,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
     
     public String userUnavailable(String jabberUser) {
         logger.debug("Attempting to write UNAVAILABLE to CS");
-        String id = collaborationService.write(jabberUser, "unavailable");
+        String id = communicationsAdapter.write(jabberUser, "unavailable");
         logger.debug("ID returned: " + id);
         return id;
     }

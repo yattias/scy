@@ -1,8 +1,12 @@
 //package eu.scy.collaborationservice.tuplespaceconnector;
 package eu.scy.openfire.plugin;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 
+import eu.scy.collaborationservice.CollaborationEvent;
+import eu.scy.collaborationservice.ICollaborationListener;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
 
@@ -13,7 +17,8 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private SQLSpaceAdapter tupleAdapter;
-    private static ScyCommunicationAdapter collaborationService;
+    private static ScyCommunicationAdapter communicator;
+    private ArrayList<IScyCommunicationListener> scyCommunicationListeners = new ArrayList<IScyCommunicationListener>();
 
 
     public ScyCommunicationAdapter() {
@@ -21,11 +26,11 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
 
     public static ScyCommunicationAdapter getInstance() {
-        if (collaborationService == null) {
+        if (communicator == null) {
             logger.debug("Created Tuple Spaces");
-            collaborationService = new ScyCommunicationAdapter();
+            communicator = new ScyCommunicationAdapter();
         }
-        return collaborationService;
+        return communicator;
     }
 
 
@@ -76,6 +81,17 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
             tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.AWARENESS_SERVICE_SPACE, (ICollaborationService) this);
         }
         return tupleAdapter;
+    }
+    
+    
+    public void sendCallBack(String something) { 
+    
+        for (IScyCommunicationListener cl : scyCommunicationListeners) {
+            if (cl != null){
+                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, something, something);
+                cl.handleCommunicationEvent(scyCommunicationEvent);
+            }
+        }
     }
 
 }
