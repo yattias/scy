@@ -1,6 +1,6 @@
 <plugin>
     <!-- Main plugin class -->
-    <class>eu.scy.collaborationservice.plugin.CollaborationServicePlugin</class>
+    <class>eu.scy.openfire.plugin.ScyOpenFirePlugin</class>
     
     <!-- Plugin meta-data -->
     <name>${pom.name}</name>
