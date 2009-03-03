@@ -64,40 +64,18 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
 
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {       
         if (!processed && incoming) {
-            //logger.debug(packet.toXML());
             logger.debug("packet intercepted");
-            String id;
             if (packet.toString().contains("<ping xmlns=\"urn:xmpp:ping\"/>")) {
                 logger.debug("============= PING from user " + packet.getFrom() + " ============");
-                id = userPing(packet.getFrom().toString());
-                //id = userPing(packet.getFrom().toString());
-                logger.debug("got id: " + id);
             }
             else if (packet.toString().contains("<presence type=\"unavailable\" ")) {
                 logger.debug("============= UNAVAILABLE from user" + packet.getFrom() + " ============");     
-                id = userUnavailable(packet.getFrom().toString());
-                //id = userUnavailable(packet.getFrom().toString());
-                logger.debug("got id: " + id);
             } else {
                 logger.debug("============== uninteresting packet =============");
-                logger.debug(packet.toString());
+                logger.debug(packet.toXML());
             }
         }
     }
-    
-    public String userPing(String jabberUser) {
-        logger.debug("Attempting to write PING to CS");
-        String id = communicationsAdapter.write(jabberUser, "ping");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
-    
-    
-    public String userUnavailable(String jabberUser) {
-        logger.debug("Attempting to write UNAVAILABLE to CS");
-        String id = communicationsAdapter.write(jabberUser, "unavailable");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
+
     
 }   

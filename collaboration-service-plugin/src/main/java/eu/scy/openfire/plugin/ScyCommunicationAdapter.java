@@ -40,37 +40,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     
-    public String userPing(String jabberUser) {
-        logger.debug("Attempting to write PING to CS");
-        String id = write(jabberUser, "ping");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
-    
-    
-    public String userUnavailable(String jabberUser) {
-        logger.debug("Attempting to write UNAVAILABLE to CS");
-        String id = write(jabberUser, "unavailable");
-        logger.debug("ID returned: " + id);
-        return id;
-    }
-    
-    
-    public String write(String username, String status) {
-        logger.debug("switchboard says it's about to write: " + username + "/" + status);
+    public ScyBaseObject getScyBaseObject(String description) {
         ScyBaseObject sbo = new ScyBaseObject();
         sbo.setId("54321");
         sbo.setName("a nice name for the object");
-        sbo.setDescription(status);
-        String id = getTupleAdapter().write(null, "openfire", sbo, DEFAULT_EXPIRATION_TIME); // if documentSqlSpaceId != null this will update the tuple
-        if (id != null) {
-            logger.debug("Write to CS ok");
-        } else {
-            logger.error("Trouble while writing to CS");
-        }
-        return id;
+        sbo.setDescription(description);
+        return sbo;
     }
-    
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
@@ -89,6 +65,37 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
                 cl.handleCommunicationEvent(scyCommunicationEvent);
             }
         }
+    }
+
+
+    @Override
+    public String create(ScyBaseObject sbo) {
+        logger.debug("create");
+        String id = getTupleAdapter().write(null, "openfire", sbo, DEFAULT_EXPIRATION_TIME); // if documentSqlSpaceId != null this will update the tuple
+        if (id != null) {
+            logger.debug("Create probably went ok");
+        } else {
+            logger.error("Trouble while creating");
+        }
+        return id;
+    }
+
+    @Override
+    public ScyBaseObject delete(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ScyBaseObject read(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String update(ScyBaseObject sbo, String id) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
