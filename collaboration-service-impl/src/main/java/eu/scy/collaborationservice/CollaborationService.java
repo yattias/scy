@@ -31,7 +31,6 @@ import eu.scy.core.model.impl.ScyBaseObject;
 public class CollaborationService implements ICollaborationService, PacketListener {
     
     private final static Logger logger = Logger.getLogger(CollaborationService.class.getName());
-    private CollaborationService cs;
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
     private Roster roster;
@@ -58,13 +57,13 @@ public class CollaborationService implements ICollaborationService, PacketListen
         
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
         
-        xmppConnection = new XMPPConnection(config);
+        this.xmppConnection = new XMPPConnection(config);
        
-        xmppConnection.DEBUG_ENABLED = true;
+        this.xmppConnection.DEBUG_ENABLED = true;
         try {
             
             
-            xmppConnection.connect();
+            this.xmppConnection.connect();
 //            PacketFilter pf = new PacketTypeFilter(Message.class);
 //            PacketCollector pc = xmppConnection.createPacketCollector(pf);
             
@@ -81,14 +80,14 @@ public class CollaborationService implements ICollaborationService, PacketListen
 
 
          
-            xmppConnection.addPacketListener(this, andFilter);
+            this.xmppConnection.addPacketListener(this, andFilter);
             
             //PacketCollector pc = xmppConnection.createPacketCollector(scyPackets);
             
             if( username == null || password == null ) {
-                xmppConnection.loginAnonymously();
+                this.xmppConnection.loginAnonymously();
             } else {
-                xmppConnection.login(username, password);
+                this.xmppConnection.login(username, password);
             }
         } catch (XMPPException e) {
             logger.error("Error during connect");
