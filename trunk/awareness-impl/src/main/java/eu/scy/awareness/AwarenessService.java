@@ -29,13 +29,10 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     private ArrayList<IAwarenessListener> awarenessListeners = new ArrayList<IAwarenessListener>();
     private Roster roster;
 
-    
-     
-    private AwarenessService() {        
+    public AwarenessService() {        
     }
  
-    public static AwarenessService createAwarenessService(String username, String password) {
-        AwarenessService as = new AwarenessService();
+    public void createAwarenessService(String username, String password) {
         
         Properties props = new Properties();
         try {
@@ -51,22 +48,21 @@ public class AwarenessService implements IAwarenessService, MessageListener {
         String name = props.getProperty("awareness.service.name");
         
         //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
-        as.config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
-        as.xmppConnection = new XMPPConnection(as.config);
+        config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
+        xmppConnection = new XMPPConnection(config);
         try {
-            as.xmppConnection.connect();
+            xmppConnection.connect();
         } catch (XMPPException e) {
             logger.error("Error during connect");
             e.printStackTrace();
         }
         try {
-            as.xmppConnection.login(username, password);
+            xmppConnection.login(username, password);
         } catch (XMPPException e) {
             logger.error("Error during login");
             e.printStackTrace();
             
         }
-        return as;
     }
     
 
