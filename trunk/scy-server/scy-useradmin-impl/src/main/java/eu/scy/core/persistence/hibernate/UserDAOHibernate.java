@@ -35,7 +35,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
                 .setLong("id", id)
                 .executeUpdate();
     }
-
+                                                                                                                                                                                                
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from UserImpl where userName like :username")
                 .setString("username", username)
