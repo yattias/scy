@@ -30,6 +30,11 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     }
 
+    public User getUser(String id) {
+        System.out.println("GETTING USER: " + id);
+        return null;
+    }
+
     /*public void deleteUser(Long id) {
         getSession().createQuery("delete from UserImpl where id = :id")
                 .setLong("id", id)
