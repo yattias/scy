@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Test
 public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTests {
-
+   /*
     private UserDAO userDAO;
 
     private User user = null;
@@ -96,4 +96,6 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         userDAO.getGroup(id);
 
     }
+
+    */
 }
