@@ -92,5 +92,5 @@ public interface UserDAO extends SCYBaseDAO{
      * removes the user from the system permanently
      * @param id
      */
-    void deleteUser(Long id);
+    public void deleteUser(Long id);
 }
