@@ -27,4 +27,5 @@ public class ScyCommunicationEvent extends EventObject {
     public String getMessage(){
         return message;
     }
+    
 }
