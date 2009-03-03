@@ -37,6 +37,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     } */
 
     public void deleteUser(String id) {
+        System.out.println("Deleting user : " + id);
         log.info("REALLY OUT DATED!");
     }
                                                                                                                                                                                                 
