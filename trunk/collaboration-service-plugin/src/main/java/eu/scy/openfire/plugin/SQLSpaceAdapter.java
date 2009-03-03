@@ -142,6 +142,18 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
+    private ScyBaseObject convertTupleToScyBaseObject(Tuple tuple) {
+        ScyBaseObject sbo = null;
+        if (tuple != null) {
+            sbo = new ScyBaseObject();
+            sbo.setId(tuple.getTupleID().toString());
+            sbo.setName("name is name is name");
+            sbo.setDescription("dezkriptchawn");
+        }
+        return sbo;
+    }
+    
+    
     private ArrayList<String> convertTupleToStringArray(Tuple tuple) {
         ArrayList<String> returnValues = null;
         if (tuple != null) {

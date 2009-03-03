@@ -6,15 +6,14 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.CollaborationService;
+import eu.scy.core.model.impl.ScyBaseObject;
 
 
 
-public class SQLSpaceAdapterTestCase extends TestCase {
+public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicationAdapter  {
     
     private static final Logger logger = Logger.getLogger(SQLSpaceAdapter.class.getName());
     private SQLSpaceAdapter sqlSpaceAdapter;
-    private ScyCommunicationAdapter communicationAdapter;
     
     
     public SQLSpaceAdapterTestCase(String testName) {
@@ -29,42 +28,61 @@ public class SQLSpaceAdapterTestCase extends TestCase {
     
     private SQLSpaceAdapter getSQLSpaceAdapter() {
         if (sqlSpaceAdapter == null) {
-            sqlSpaceAdapter = SQLSpaceAdapter.createAdapter("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, getScyCommunicationAdapter());         
+            sqlSpaceAdapter = SQLSpaceAdapter.createAdapter("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);         
         }
         return sqlSpaceAdapter;
-    }
-
-    
-    private ScyCommunicationAdapter getScyCommunicationAdapter() {
-        if (communicationAdapter == null) {
-            communicationAdapter = ScyCommunicationAdapter.getInstance();        
-        }
-        return communicationAdapter;
     }
     
     
     public void testCreateSQLSpaceAdapter() {
         assertNotNull(getSQLSpaceAdapter());
     }
-    
-    public void testScyCommunicationAdapter() {
-        assertNotNull(getScyCommunicationAdapter());
+
+
+
+    @Override
+    public void actionUponDelete(String username) {
+        // TODO Auto-generated method stub
+        
     }
+
+
+    @Override
+    public void actionUponWrite(String username) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public String create(ScyBaseObject sbo) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public ScyBaseObject delete(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public ScyBaseObject read(String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public String update(ScyBaseObject sbo, String id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
     
-    // TODO: write this one so that it passes on all clients running a test
-//    public void testGetBuddies(String username) {
-//        setUpAwarenessService();
-//        ArrayList<String> buddies = as.getBuddies("bling");
-//        assertNotNull(buddies);
-//        assertTrue(buddies.size() > 0);
-//        assertEquals(buddies.get(0), "aperritano@wiki.intermedia.uio.no");
-//    }
-    
-    
-//    public void testSendMessage() {
-//        setUpAwarenessService();
-//        as.sendMessage("aperritano@imediamac09.uio.no", "hoy");
-//        assertTrue(true);
-//    }
+
     
 }
