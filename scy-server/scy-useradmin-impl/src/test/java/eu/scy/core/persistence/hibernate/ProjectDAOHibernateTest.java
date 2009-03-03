@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Test
 public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextTests {
-    
+    /*
     private ProjectDAO projectDAO;
 
     protected String[] getConfigLocations() {
@@ -75,7 +75,7 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
         assertTrue(g.getId() != null);
         assertTrue(testProject.getGroups().contains(g));
     }
-
+ */
 }
 
 
