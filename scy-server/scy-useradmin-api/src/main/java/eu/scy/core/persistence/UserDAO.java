@@ -33,7 +33,6 @@ public interface UserDAO extends SCYBaseDAO{
      * @param project
      * @param group
      * @param user
-     * @return
      */
     public User addUser(Project project, Group group, User user);
 
