@@ -30,22 +30,13 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     }
 
-    public User getUser(String id) {
-        System.out.println("GETTING USER: " + id);
-        return null;
-    }
-
-    /*public void deleteUser(Long id) {
+    public void deleteUser(Long id) {
         getSession().createQuery("delete from UserImpl where id = :id")
                 .setLong("id", id)
                 .executeUpdate();
-    } */
-
-    public void deleteUser(String id) {
-        System.out.println("Deleting user : " + id);
-        log.info("REALLY OUT DATED!");
     }
-                                                                                                                                                                                                
+
+
     public User getUserByUsername(String username) {
         return (User) getSession().createQuery("from UserImpl where userName like :username")
                 .setString("username", username)
