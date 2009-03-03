@@ -4,8 +4,6 @@ package eu.scy.openfire.plugin;
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.openfire.botz.BotzConnection;
-import org.jivesoftware.openfire.botz.BotzPacketReceiver;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.openfire.interceptor.InterceptorManager;
@@ -15,6 +13,9 @@ import org.jivesoftware.openfire.session.Session;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.Presence;
+
+import eu.scy.openfire.plugin.botz.BotzConnection;
+import eu.scy.openfire.plugin.botz.BotzPacketReceiver;
 
 public class ScyOpenFirePlugin implements Plugin, PacketInterceptor {
     
