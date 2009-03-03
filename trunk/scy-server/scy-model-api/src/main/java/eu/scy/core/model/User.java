@@ -2,6 +2,8 @@ package eu.scy.core.model;
 
 import java.util.List;
 
+//import net.sf.sail.webapp.domain.User;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -9,7 +11,7 @@ import java.util.List;
  * Time: 05:49:08
  * A user in the SCY system.
  */
-public interface User extends ScyBase{
+public interface User extends net.sf.sail.webapp.domain.User{
 
     public String getUserName();
 

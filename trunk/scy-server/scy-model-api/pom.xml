@@ -39,6 +39,16 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- SAIL PORTAL -->
+
+        <dependency>
+            <groupId>net.sf.sail</groupId>
+            <artifactId>sail-webapp-all</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 
     <distributionManagement>
