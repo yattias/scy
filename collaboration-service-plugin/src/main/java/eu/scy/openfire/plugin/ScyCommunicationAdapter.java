@@ -18,7 +18,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     private ArrayList<IScyCommunicationListener> scyCommunicationListeners = new ArrayList<IScyCommunicationListener>();
 
 
-    public ScyCommunicationAdapter() {
+       public ScyCommunicationAdapter() {
         logger.debug("Empty Constructor Collaboration created");
     }
 
@@ -96,6 +96,12 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     public String update(ScyBaseObject sbo, String id) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+
+    @Override
+    public void addScyCommunicationListener(IScyCommunicationListener listener) {
+        this.scyCommunicationListeners.add(listener);
     }
 
 }
