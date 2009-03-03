@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 public class SQLSpaceAdapter implements Callback {
@@ -25,7 +24,7 @@ public class SQLSpaceAdapter implements Callback {
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     
-    private ICollaborationService client;
+    private IScyCommunicationAdapter client;
 
     
     
@@ -33,10 +32,10 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public static SQLSpaceAdapter createAdapter(String userName, String sqlSpaceName, ICollaborationService csi) {
+    public static SQLSpaceAdapter createAdapter(String userName, String sqlSpaceName, IScyCommunicationAdapter ca) {
         SQLSpaceAdapter cs = null;
         cs = new SQLSpaceAdapter();
-        cs.client = csi;
+        cs.client = ca;
         cs.userName = userName;
         TupleSpace ts;
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
@@ -159,14 +158,14 @@ public class SQLSpaceAdapter implements Callback {
 
 
 	public void call(Command cmd, int seq, Tuple afterCmd, Tuple beforeCmd) {
-//		switch (cmd) {
-//		case WRITE:
-//			client.actionUponWrite(afterCmd.getField(0).getValue().toString());
-//			break;
-//		case DELETE:
-//			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
-//			break;
-//		}
+		switch (cmd) {
+		case WRITE:
+			client.actionUponWrite(afterCmd.getField(0).getValue().toString());
+			break;
+		case DELETE:
+			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
+			break;
+		}
 	}
 
 }

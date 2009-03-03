@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 
@@ -75,15 +74,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
+            //TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be hardcoded here
+            tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);
             logger.debug("Created Tuple Spaces");
-            tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.AWARENESS_SERVICE_SPACE, (ICollaborationService) this);
         }
         return tupleAdapter;
     }
     
     
     public void sendCallBack(String something) { 
-    
         for (IScyCommunicationListener cl : scyCommunicationListeners) {
             if (cl != null){
                 ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, something, something);
