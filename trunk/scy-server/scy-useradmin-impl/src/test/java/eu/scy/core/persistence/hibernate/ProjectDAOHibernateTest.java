@@ -24,7 +24,8 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
     private ProjectDAO projectDAO;
 
     protected String[] getConfigLocations() {
-        return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
+        //return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
+        return null;
     }
 
     public ProjectDAO getProjectDAO() {

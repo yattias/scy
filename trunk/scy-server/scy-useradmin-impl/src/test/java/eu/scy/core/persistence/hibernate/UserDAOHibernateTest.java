@@ -36,7 +36,8 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
     }
 
     protected String[] getConfigLocations() {
-        return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
+        //return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
+        return null;
     }
 
     @BeforeTest
