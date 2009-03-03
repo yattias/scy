@@ -20,12 +20,12 @@ import java.util.List;
  */
 @Test
 public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextTests {
-
+    
     private ProjectDAO projectDAO;
 
     protected String[] getConfigLocations() {
-        //return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
-        return null;
+        return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
+        //return null;
     }
 
     public ProjectDAO getProjectDAO() {
