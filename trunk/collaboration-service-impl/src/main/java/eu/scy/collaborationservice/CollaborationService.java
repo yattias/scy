@@ -10,6 +10,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketCollector;
 import org.jivesoftware.smack.PacketListener;
@@ -39,7 +40,8 @@ public class CollaborationService implements ICollaborationService, PacketListen
     
     public CollaborationService() {        
     }
- 
+    
+
     public XMPPConnection connect(String username, String password, String groupName) {
         this.groupName = groupName;
         Properties props = new Properties();
@@ -64,6 +66,36 @@ public class CollaborationService implements ICollaborationService, PacketListen
             
             
             this.xmppConnection.connect();
+            this.xmppConnection.addConnectionListener(new ConnectionListener(){
+
+                @Override
+                public void connectionClosed() {
+                    System.out.println("collaboration server closed;");
+                    
+                }
+
+                @Override
+                public void connectionClosedOnError(Exception arg0) {
+                    System.out.println("collaboration server error closed;");
+                    
+                }
+
+                @Override
+                public void reconnectingIn(int arg0) {
+                    System.out.println("collaboration server reconnecting;");
+                    
+                }
+
+                @Override
+                public void reconnectionFailed(Exception arg0) {
+                    System.out.println("collaboration server reconnecting failed");                    
+                }
+
+                @Override
+                public void reconnectionSuccessful() {
+                    System.out.println("collaboration server reconnectings success");
+                    
+                }});
 //            PacketFilter pf = new PacketTypeFilter(Message.class);
 //            PacketCollector pc = xmppConnection.createPacketCollector(pf);
             
@@ -76,11 +108,11 @@ public class CollaborationService implements ICollaborationService, PacketListen
             };
             
             
-            PacketFilter andFilter = new AndFilter(new PacketTypeFilter(Message.class),scyFilter);
-
-
-         
-            this.xmppConnection.addPacketListener(this, andFilter);
+//            PacketFilter andFilter = new AndFilter(new PacketTypeFilter(Message.class),scyFilter);
+//
+//
+//         
+//            this.xmppConnection.addPacketListener(this, null);
             
             //PacketCollector pc = xmppConnection.createPacketCollector(scyPackets);
             
@@ -154,7 +186,9 @@ public class CollaborationService implements ICollaborationService, PacketListen
     }
 
     public void sendPacket(Object objToSend,String message) {
+        logger.error("sending packet from the collaboration service");
         Message newMessage = new Message();
+        newMessage.setTo("scy-bot");
         newMessage.setBody(message);
         newMessage.setProperty("groupId", "scy");
         newMessage.setProperty("group", groupName);
