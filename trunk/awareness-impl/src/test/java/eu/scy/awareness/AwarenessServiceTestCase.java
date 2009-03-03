@@ -25,7 +25,7 @@ public class AwarenessServiceTestCase extends TestCase {
     
     private void setUpAwarenessService() {
         if (as == null) {
-            as = AwarenessService.createAwarenessService("talk2me", "talk2me");            
+//            as = AwarenessService.createAwarenessService("talk2me", "talk2me");            
         }
     }
     
