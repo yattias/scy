@@ -18,7 +18,7 @@ public interface UserDAO extends SCYBaseDAO{
      * @param id
      * @return
      */
-    public User getUser(String id);
+    public User getUser(Long id);
 
 
     /**
@@ -93,5 +93,5 @@ public interface UserDAO extends SCYBaseDAO{
      * removes the user from the system permanently
      * @param id
      */
-    void deleteUser(String id);
+    void deleteUser(Long id);
 }
