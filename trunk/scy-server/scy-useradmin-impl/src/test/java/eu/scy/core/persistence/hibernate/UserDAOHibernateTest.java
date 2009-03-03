@@ -76,7 +76,7 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         User user = new UserImpl();
         user.setUserName(getUserDAO().getSecureUserName("hh"));
         user = (User) getUserDAO().save(user);
-        String userId = user.getId();
+        Long userId = user.getId();
         assert(userId != null);
         User loaded = getUserDAO().getUser(userId);
         assert(loaded != null);
