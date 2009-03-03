@@ -1,14 +1,14 @@
 package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.persistence.UserDAO;
-import eu.scy.core.model.*;
-import eu.scy.core.model.impl.UserRoleImpl;
 import eu.scy.core.model.impl.RoleImpl;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.*;
+
 import org.springframework.security.concurrent.SessionRegistryImpl;
 
 import java.util.*;
 import java.util.logging.Logger;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,17 +22,17 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
     private SessionRegistryImpl sessionRegistry;
 
-    public User getUser(String id) {
-        return (User) getSession().createQuery("From UserImpl where id like :id")
-                .setString("id", id)
+    public User getUser(Long id) {
+        return (User) getSession().createQuery("From UserImpl where id = :id")
+                .setLong("id", id)
                 .setMaxResults(1)
                 .uniqueResult();
 
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(Long id) {
         getSession().createQuery("delete from UserImpl where id = :id")
-                .setString("id", id)
+                .setLong("id", id)
                 .executeUpdate();
     }
 
@@ -44,14 +44,14 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     public User addUser(Project project, Group group, User user) {
         if (isExistingUsername(user)) {
-            user.setUserName(getSecureUserName(user.getUserName()));
+            user.getUserDetails().setUsername(getSecureUserName(user.getUserDetails().getUsername()));
         }
 
         if (project == null) project = getDefaultProject();
         if (group == null) group = getDefaultGroup();
 
-        user.setProject(project);
-        user.setGroup(group);
+        //user.setProject(project);
+        //user.setGroup(group);
         return (User) save(user);
     }
 
@@ -75,7 +75,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     public boolean isExistingUsername(User user) {
         User result = (User) getSession().createQuery("From UserImpl where userName = :username")
-                .setString("username", user.getUserName())
+                .setString("username", user.getUserDetails().getUsername())
                 .setMaxResults(1)
                 .uniqueResult();
         return result != null;
@@ -162,11 +162,12 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
             loadedRole = (Role) save(role);
         }
 
-        UserRole userRole = new UserRoleImpl();
+        /*UserRole userRole = new UserRoleImpl();
         userRole.setUser(user);
         userRole.setRole(loadedRole);
         save(userRole);
         user.getUserRoles().add(userRole);
+        */
         save(user);
     }
 
