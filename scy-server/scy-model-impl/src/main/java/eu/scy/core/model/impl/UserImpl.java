@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.LinkedList;
 
+import net.sf.sail.webapp.domain.authentication.MutableUserDetails;
+import net.sf.sail.webapp.domain.sds.SdsUser;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -17,7 +20,7 @@ import java.util.LinkedList;
 @Entity
 @Table (name = "user" )
 @org.hibernate.annotations.Proxy (proxyClass = User.class )
-public class UserImpl extends ScyBaseObject implements User {
+public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements User {
 
     private String userName;
     private String password;
@@ -130,4 +133,21 @@ public class UserImpl extends ScyBaseObject implements User {
         userSession.setUser(this);
     }
 
+    public MutableUserDetails getUserDetails() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void setUserDetails(MutableUserDetails mutableUserDetails) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    public void setSdsUser(SdsUser sdsUser) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Transient
+    public SdsUser getSdsUser() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
