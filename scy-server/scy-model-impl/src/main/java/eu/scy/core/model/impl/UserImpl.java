@@ -17,7 +17,7 @@ import net.sf.sail.webapp.domain.sds.SdsUser;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity
+@Entity (name = "eu.scy.core.model.impl.UserImpl")
 @Table (name = "user" )
 @org.hibernate.annotations.Proxy (proxyClass = User.class )
 public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements User {
