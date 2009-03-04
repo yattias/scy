@@ -30,10 +30,10 @@ public class AwarenessServiceTestCase extends TestCase {
     }
     
     
-    public void testCreateAwarenessService() {
-        setUpAwarenessService();
-        assertNotNull(as);
-    }
+//    public void testCreateAwarenessService() {
+//        setUpAwarenessService();
+//        assertNotNull(as);
+//    }
     
     // TODO: write this one so that it passes on all clients running a test
 //    public void testGetBuddies(String username) {
