@@ -32,11 +32,11 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
 
 
     public void actionUponDelete(String username) {
-        // TODO Auto-generated method stub
+        logger.debug("something was deleted in the tuple space");
     }
     
     public void actionUponWrite(String username) {
-        // TODO Auto-generated method stub
+        logger.debug("something was written in the tuple space");
     }
     
     
@@ -50,7 +50,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
-            //TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be hardcoded here
+            //TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be hardcoded here, but be passed from the openfire plugin
             tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);
             logger.debug("Created Tuple Spaces");
         }
@@ -71,37 +71,41 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     @Override
     public String create(ScyBaseObject sbo) {
         logger.debug("create");
-        String id = getTupleAdapter().write(null, "openfire", sbo, DEFAULT_EXPIRATION_TIME); // if documentSqlSpaceId != null this will update the tuple
-        if (id != null) {
-            logger.debug("Create probably went ok");
-        } else {
-            logger.error("Trouble while creating");
-        }
-        return id;
+        return getTupleAdapter().write("openfire", sbo);
     }
 
     @Override
-    public ScyBaseObject delete(String id) {
-        // TODO Auto-generated method stub
-        return null;
+    public String createWithExpiration(ScyBaseObject sbo, long expiration) {
+        logger.debug("create");
+        return getTupleAdapter().write("openfire", sbo, expiration);
+    }
+
+    @Override
+    public String delete(String id) {
+        logger.debug("create");
+        return getTupleAdapter().delete(id);
     }
 
     @Override
     public ScyBaseObject read(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.debug("read");
+        return getTupleAdapter().readById(id);
     }
 
     @Override
     public String update(ScyBaseObject sbo, String id) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.debug("update with expiration");
+        return getTupleAdapter().write(id, "openfire", sbo);
     }
 
+    @Override
+    public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration) {
+        logger.debug("update with expiration");
+        return getTupleAdapter().write(id, "openfire", sbo, expiration);
+    }
 
     @Override
     public void addScyCommunicationListener(IScyCommunicationListener listener) {
         this.scyCommunicationListeners.add(listener);
     }
-
 }

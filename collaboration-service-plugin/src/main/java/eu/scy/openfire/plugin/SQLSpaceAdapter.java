@@ -68,7 +68,6 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     public String write(String sqlSpaceId, String tool, ScyBaseObject object, long expiration) {
-        // sqlSpaceId == tupleId
         Tuple tuple = new Tuple(this.userName, tool, object.getId(), object.getClass().getName(), object.getName(), object.getDescription());
         if (expiration > 0) {
             tuple.setExpiration(expiration);
@@ -79,7 +78,6 @@ public class SQLSpaceAdapter implements Callback {
                 tid = this.tupleSpace.write(tuple);                
             } else {
                 tid = new TupleID(Long.valueOf(sqlSpaceId));
-                //tid = new TupleID(sqlSpaceId);
                 this.tupleSpace.update(tid, tuple);                
             }
         } catch (TupleSpaceException e) {
@@ -107,6 +105,17 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
+    public String delete(String id) {
+        Tuple returnTuple = null;
+        try {
+            returnTuple = tupleSpace.takeTupleById(new TupleID(id));
+        } catch (TupleSpaceException e) {
+            logger.error("Trouble while taking touple " + e);
+        }
+        return returnTuple == null ? null : returnTuple.getTupleID().toString();
+    }
+    
+    
     public ArrayList<String> take(String tool) {
         Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
         Tuple returnTuple = null;
@@ -120,14 +129,25 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public ArrayList<String> readById(String id) {
+//    public ArrayList<String> readById(String id) {
+//        Tuple returnTuple = null;
+//        try {
+//            returnTuple = tupleSpace.readTupleById(new TupleID(id));
+//        } catch (TupleSpaceException e) {
+//            logger.error("Trouble while reading touple " + e);
+//        }
+//        return convertTupleToStringArray(returnTuple);
+//    }
+
+    
+    public ScyBaseObject readById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while reading touple " + e);
         }
-        return convertTupleToStringArray(returnTuple);
+        return convertTupleToScyBaseObject(returnTuple);
     }
     
     
