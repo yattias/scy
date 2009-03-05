@@ -11,7 +11,7 @@ import eu.scy.core.model.impl.ScyBaseObject;
 
 public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
-    public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
+  public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private SQLSpaceAdapter tupleAdapter;
     private static ScyCommunicationAdapter communicator;
@@ -58,14 +58,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     
-    public void sendCallBack(String something) { 
-        for (IScyCommunicationListener cl : scyCommunicationListeners) {
-            if (cl != null){
-                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, something, something);
-                cl.handleCommunicationEvent(scyCommunicationEvent);
-            }
-        }
-    }
+ 
 
 
     @Override
@@ -108,4 +101,14 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     public void addScyCommunicationListener(IScyCommunicationListener listener) {
         this.scyCommunicationListeners.add(listener);
     }
+    
+      public void sendCallBack(String something) { 
+        for (IScyCommunicationListener cl : scyCommunicationListeners) {
+            if (cl != null){
+                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, something, something);
+                cl.handleCommunicationEvent(scyCommunicationEvent);
+            }
+        }
+    }
+
 }
