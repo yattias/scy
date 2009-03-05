@@ -19,4 +19,5 @@ public interface IScyCommunicationAdapter {
     public String update(ScyBaseObject sbo, String id);
     public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration);
     public String delete(String id);
+    public void sendCallBack(String something);
 }
