@@ -134,5 +134,12 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration) {
         // TODO Auto-generated method stub        
         return null;
+    }
+
+
+    @Override
+    public void sendCallBack(String something) {
+        // TODO Auto-generated method stub
+        
     }    
 }

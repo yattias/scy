@@ -84,5 +84,11 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration) {
         // TODO Auto-generated method stub        
         return null;
+    }
+
+    @Override
+    public void sendCallBack(String something) {
+        // TODO Auto-generated method stub
+        
     }    
 }
