@@ -18,7 +18,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.logger.Action;
 import eu.scy.awareness.api.IAwarenessService;
-import eu.scy.liteclient.AwarenessClient;
 import eu.scy.notification.api.INotification;
 import eu.scy.notification.api.INotificationCallback;
 import eu.scy.toolbroker.ToolBrokerImpl;
