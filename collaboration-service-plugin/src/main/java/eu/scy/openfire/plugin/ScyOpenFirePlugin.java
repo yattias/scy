@@ -21,8 +21,12 @@ import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Packet;
 
-import eu.scy.commons.packet.extension.ScyObjectExtensionProvider;
-import eu.scy.commons.packet.extension.ScyObjectPacketExtension;
+import eu.scy.communications.adapter.IScyCommunicationAdapter;
+import eu.scy.communications.adapter.IScyCommunicationListener;
+import eu.scy.communications.adapter.ScyCommunicationAdapter;
+import eu.scy.communications.adapter.ScyCommunicationEvent;
+import eu.scy.communications.packet.extension.ScyObjectExtensionProvider;
+import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 public class ScyOpenFirePlugin implements Plugin, Component, PacketInterceptor {
