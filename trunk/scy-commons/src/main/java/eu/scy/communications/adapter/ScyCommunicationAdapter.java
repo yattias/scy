@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapter;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.communications.message.ScyMessage;
 
 public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
@@ -35,12 +35,12 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         logger.debug("something was written in the tuple space");
     }
     
-    public ScyBaseObject getScyBaseObject(String description) {
-        ScyBaseObject sbo = new ScyBaseObject();
-        sbo.setId("54321");
-        sbo.setName("a nice name for the object");
-        sbo.setDescription(description);
-        return sbo;
+    public ScyMessage getScyMessage(String description) {
+        ScyMessage sm = new ScyMessage();
+        sm.setId("54321");
+        sm.setName("a nice name for the object");
+        sm.setDescription(description);
+        return sm;
     }
     
     private SQLSpaceAdapter getTupleAdapter() {
@@ -54,15 +54,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public String create(ScyBaseObject sbo) {
+    public String create(ScyMessage sm) {
         logger.debug("create");
-        return getTupleAdapter().write("openfire", sbo);
+        return getTupleAdapter().write("openfire", sm);
     }
     
     @Override
-    public String createWithExpiration(ScyBaseObject sbo, long expiration) {
+    public String createWithExpiration(ScyMessage sm, long expiration) {
         logger.debug("create");
-        return getTupleAdapter().write("openfire", sbo, expiration);
+        return getTupleAdapter().write("openfire", sm, expiration);
     }
     
     @Override
@@ -72,21 +72,21 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public ScyBaseObject read(String id) {
+    public ScyMessage read(String id) {
         logger.debug("read");
         return getTupleAdapter().readById(id);
     }
     
     @Override
-    public String update(ScyBaseObject sbo, String id) {
+    public String update(ScyMessage sm, String id) {
         logger.debug("update with expiration");
-        return getTupleAdapter().write(id, "openfire", sbo);
+        return getTupleAdapter().write(id, "openfire", sm);
     }
     
     @Override
-    public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration) {
+    public String updateWithExpiration(ScyMessage sm, String id, long expiration) {
         logger.debug("update with expiration");
-        return getTupleAdapter().write(id, "openfire", sbo, expiration);
+        return getTupleAdapter().write(id, "openfire", sm, expiration);
     }
     
     @Override

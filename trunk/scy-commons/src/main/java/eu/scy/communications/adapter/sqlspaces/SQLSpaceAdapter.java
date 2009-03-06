@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
+import eu.scy.communications.message.ScyMessage;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 public class SQLSpaceAdapter implements Callback {
@@ -54,17 +55,17 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public String write(String tool, ScyBaseObject object, long expiration) {
+    public String write(String tool, ScyMessage object, long expiration) {
         return write(null, tool, object, expiration);
     }
     
     
-    public String write(String tool, ScyBaseObject object) {
+    public String write(String tool, ScyMessage object) {
         return write(null, tool, object, 0);
     }
     
     
-    public String write(String sqlSpaceId, String tool, ScyBaseObject object) {
+    public String write(String sqlSpaceId, String tool, ScyMessage object) {
         return write(sqlSpaceId, tool, object, 0);
     }
     
@@ -141,14 +142,14 @@ public class SQLSpaceAdapter implements Callback {
 //    }
 
     
-    public ScyBaseObject readById(String id) {
+    public ScyMessage readById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while reading touple " + e);
         }
-        return convertTupleToScyBaseObject(returnTuple);
+        return convertTupleToScyMessage(returnTuple);
     }
     
     
@@ -163,15 +164,15 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    private ScyBaseObject convertTupleToScyBaseObject(Tuple tuple) {
-        ScyBaseObject sbo = null;
+    private ScyMessage convertTupleToScyMessage(Tuple tuple) {
+        ScyMessage sm = null;
         if (tuple != null) {
-            sbo = new ScyBaseObject();
-            sbo.setId(tuple.getTupleID().toString());
-            sbo.setName("name is name is name");
-            sbo.setDescription("dezkriptchawn");
+            sm = new ScyMessage();
+            sm.setId(tuple.getTupleID().toString());
+            sm.setName("name is name is name");
+            sm.setDescription("dezkriptchawn");
         }
-        return sbo;
+        return sm;
     }
     
     
