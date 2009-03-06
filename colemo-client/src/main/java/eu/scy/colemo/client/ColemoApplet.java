@@ -10,8 +10,7 @@ import java.awt.*;
  * User: Henrik
  * Date: 13.nov.2008
  * Time: 20:05:54
- * To change this template use File | Settings | File Templates.
- */
+*/
 public class ColemoApplet extends JApplet {
 
     public ColemoApplet() throws HeadlessException {

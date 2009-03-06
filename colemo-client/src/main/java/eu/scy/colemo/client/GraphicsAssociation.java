@@ -38,8 +38,8 @@ public class GraphicsAssociation {
 		Graphics2D g2d =(Graphics2D)g;
 		g2d.setStroke(new BasicStroke());
 		
-		Point fromConnectioPoint=from.getConnectionPoint(findDirection(from.getCenterPoint(),to.getCenterPoint()));
-		Point toConnectionPoint=to.getConnectionPoint(findDirection(to.getCenterPoint(),from.getCenterPoint()));
+		Point fromConnectioPoint=from.getLinkConnectionPoint(findDirection(from.getCenterPoint(),to.getCenterPoint()));
+		Point toConnectionPoint=to.getLinkConnectionPoint(findDirection(to.getCenterPoint(),from.getCenterPoint()));
 		g2d.drawLine((int)fromConnectioPoint.getX(),(int)fromConnectioPoint.getY(),(int)toConnectionPoint.getX(),(int)toConnectionPoint.getY());
 	}
 	

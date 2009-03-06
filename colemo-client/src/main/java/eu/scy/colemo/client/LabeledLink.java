@@ -10,6 +10,8 @@ public class LabeledLink extends JComponent {
     private String default_label = "Link";
     private Point from = new Point(0, 0);
     private Point to = new Point(100, 100);
+    private ConceptNode fromNode;
+    private ConceptNode toNode;
     private boolean bidirectional = false;
     private JTextField textField = new JTextField(default_label);
 
@@ -112,13 +114,21 @@ public class LabeledLink extends JComponent {
         this.textField = textField;
     }
 
-    public void setFrom(Point p) {
+    private void setFrom(Point p) {
         from = p;
         fixBounds();
     }
-    public void setTo(Point p) {
+
+    private Point getFrom() {
+        return from;
+    }
+
+    private void setTo(Point p) {
         to = p;
         fixBounds();
+    }
+    private Point getTo() {
+        return to;
     }
     public boolean isBidirectional() {
         return bidirectional;
@@ -194,5 +204,65 @@ public class LabeledLink extends JComponent {
 
         Dimension labelSize = textField.getSize();
         textField.setBounds(getWidth()/2-(labelSize.width/2), getHeight()/2-(labelSize.height/2), labelSize.width, labelSize.height);
+    }
+
+    public ConceptNode getToNode() {
+        return toNode;
+    }
+
+    public void setToNode(ConceptNode node) {
+        toNode = node;
+        update();
+    }
+
+    public ConceptNode getFromNode() {
+        return fromNode;
+    }
+
+    public void setFromNode(ConceptNode fromNode) {
+        this.fromNode = fromNode;
+        update();
+    }
+
+    public void update() {
+        // If we don't have both nodes, do nothing
+        if (fromNode == null || toNode == null) return;
+
+        int dir = findDirection(fromNode.getCenterPoint(), toNode.getCenterPoint());
+        setFrom(fromNode.getLinkConnectionPoint(dir));
+        setTo(toNode.getLinkConnectionPoint(-dir));
+    }
+
+    public int findDirection(Point from, Point to) {
+        double x = to.x - from.x;
+        double y = to.y - from.y;
+
+        if (Math.abs(x) > Math.abs(y)) {
+            if (from.getX() < to.getX()) {
+                if (Math.abs(from.getY() - to.getY()) < 100) {
+                    return ConceptNode.EAST;
+                }
+                else if (from.getY() > to.getY()) {
+                    return ConceptNode.NORTHEAST;
+                }
+                else
+                    return ConceptNode.SOUTHEAST;
+            } else {
+                if (Math.abs(from.getY() - to.getY()) < 100) {
+                    return ConceptNode.WEST;
+                }
+                else if (from.getY() > to.getY()) {
+                    return ConceptNode.NORTHWEST;
+                }
+                else
+                    return ConceptNode.SOUTHWEST;
+            }
+        } else {
+            if (from.getY() > to.getY()) {
+                return ConceptNode.NORTH;
+            } else {
+                return ConceptNode.SOUTH;
+            }
+        }
     }
 }

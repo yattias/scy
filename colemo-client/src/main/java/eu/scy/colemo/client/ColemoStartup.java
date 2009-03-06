@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Henrik
  * Date: 23.jan.2009
  * Time: 06:38:01
- * To change this template use File | Settings | File Templates.
  */
 public class ColemoStartup {
 
@@ -16,6 +15,7 @@ public class ColemoStartup {
         System.out.println("Starting colemo!");
 
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
 

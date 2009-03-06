@@ -112,7 +112,6 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         ObjectTranslator ot = new ObjectTranslator();
         synchronizeDiagramElements(allConcepts, ot);
         synchronizeDiagramElements(allLinks, ot);
-
     }
 
     private void synchronizeDiagramElements(Tuple[] allTuples, ObjectTranslator ot) {
