@@ -20,6 +20,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketExtensionFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 
 import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
@@ -37,11 +38,15 @@ public class CollaborationService implements ICollaborationService {
     
     public CollaborationService() {}
     
+    public XMPPConnection getConnection(){
+        return xmppConnection;
+    }
+    
     public XMPPConnection connect(String username, String password, String groupName) {
         this.groupName = groupName;
         Properties props = new Properties();
         try {
-            props.load(CollaborationService.class.getResourceAsStream("server.properties"));
+            props.load(CollaborationService.class.getResourceAsStream("collaboration.server.properties"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -65,7 +70,12 @@ public class CollaborationService implements ICollaborationService {
                 @Override
                 public void connectionClosed() {
                     System.out.println("collaboration server closed;");
-                    
+                    try {
+                        xmppConnection.connect();
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("collaboration server trying to reconnect;");
                 }
                 
                 @Override
@@ -117,15 +127,19 @@ public class CollaborationService implements ICollaborationService {
 
                 @Override
                 public void processPacket(Packet scyPacket) {
-                    ScyObjectPacketExtension eventPacketExtension =
-                        (ScyObjectPacketExtension) scyPacket.getExtension(
-                                ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
-
                     
-                    if (eventPacketExtension != null) {
+                    
+                    
+                   PacketExtension eventPacketExtension = scyPacket.getExtension(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
+                    
+                    if (eventPacketExtension != null &&  eventPacketExtension instanceof ScyObjectPacketExtension) {
                         for (ICollaborationListener cl : collaborationListeners) {
                             if (cl != null) {
-                                CollaborationEvent collaborationEvent = new CollaborationEvent(this, eventPacketExtension.getName(), eventPacketExtension.getDescription());
+                                ScyObjectPacketExtension scyExt =
+                                    (ScyObjectPacketExtension) eventPacketExtension;
+
+
+                                CollaborationEvent collaborationEvent = new CollaborationEvent(this, scyExt.getName(), scyExt.getDescription());
                                 cl.handleCollaborationEvent(collaborationEvent);
                             }// if
                         }// for
@@ -152,31 +166,33 @@ public class CollaborationService implements ICollaborationService {
     
     protected void setUpRoster(String groupName) {
         roster = xmppConnection.getRoster();
-        roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-        RosterGroup group = roster.getGroup(groupName);
-        logger.debug("Registered Groups: " + roster.getGroupCount() + " Entries: " + roster.getEntryCount());
-        roster.addRosterListener(new RosterListener() {
-            
-            @Override
-            public void entriesAdded(Collection<String> arg0) {
-                System.out.println("entriesAdded " + arg0);
-            }
-            
-            @Override
-            public void entriesDeleted(Collection<String> arg0) {
-                System.out.println("entriesDeleted " + arg0);
-            }
-            
-            @Override
-            public void entriesUpdated(Collection<String> arg0) {
-                System.out.println("entriesUpdated " + arg0);
-            }
-            
-            @Override
-            public void presenceChanged(Presence arg0) {
-                System.out.println("presenceChanged " + arg0);
-            }
-        });
+        if (roster != null) {
+            roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+            RosterGroup group = roster.getGroup(groupName);
+            logger.debug("Registered Groups: " + roster.getGroupCount() + " Entries: " + roster.getEntryCount());
+            roster.addRosterListener(new RosterListener() {
+                
+                @Override
+                public void entriesAdded(Collection<String> arg0) {
+                    System.out.println("entriesAdded " + arg0);
+                }
+                
+                @Override
+                public void entriesDeleted(Collection<String> arg0) {
+                    System.out.println("entriesDeleted " + arg0);
+                }
+                
+                @Override
+                public void entriesUpdated(Collection<String> arg0) {
+                    System.out.println("entriesUpdated " + arg0);
+                }
+                
+                @Override
+                public void presenceChanged(Presence arg0) {
+                    System.out.println("presenceChanged " + arg0);
+                }
+            });
+        }
     }
     
     public void closeCollaborationService() {
@@ -208,27 +224,26 @@ public class CollaborationService implements ICollaborationService {
     public void sendPacket(Object objToSend, String message) {
         logger.error("sending packet from the collaboration service");
         Message newMessage = new Message();
-        newMessage.setFrom(xmppConnection.getUser());
+        newMessage.setFrom("your mom");
         newMessage.setBody(message);
         newMessage.setProperty("groupId", "scy");
         newMessage.setProperty("group", groupName);
-        //newMessage.setProperty("customData", objToSend);
+        newMessage.setProperty("customData", objToSend);
         ScyObjectPacketExtension ext = new ScyObjectPacketExtension();
         ext.setScyBase((ScyBase) objToSend);
         newMessage.addExtension(ext);
         xmppConnection.sendPacket(newMessage);
+        
     }
     
     @Override
     public void create(ScyBaseObject scyBaseObject) {
         this.sendPacket(scyBaseObject, "create");
-        
     }
     
     @Override
     public void delete(ScyBaseObject scyBaseObject) {
         this.sendPacket(scyBaseObject, "delete");
-        
     }
     
     @Override
