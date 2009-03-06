@@ -23,6 +23,7 @@ import java.awt.event.MouseMotionListener;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.logging.Logger;
+import java.util.HashSet;
 import javax.swing.*;
 
 import org.jdesktop.swingx.graphics.ShadowRenderer;
@@ -76,7 +77,8 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     private URL arrowUpURL = getClass().getResource("arrowUp.png");
     private URL arrowLeftURL = getClass().getResource("arrowLeft.png");
     private URL arrowDownURL = getClass().getResource("arrowDown.png");
-
+    private HashSet<LabeledLink> inboundLinks = new HashSet<LabeledLink>();
+    private HashSet<LabeledLink> outboundLinks = new HashSet<LabeledLink>();
 
     public ConceptNode(UmlClass umlClass, GraphicsDiagram gDiagram) {
         this.umlClass = umlClass;
@@ -144,7 +146,7 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         shadow = renderer.createShadow(shadow);
 
         g2 = shadow.createGraphics();
-// The color does not matter, red is used for debugging
+        // The color does not matter, red is used for debugging
         g2.setColor(Color.RED);
         g2.setComposite(AlphaComposite.Clear);
         g2.fillRoundRect(shadowSize, shadowSize, w, h, arc, arc);
@@ -225,14 +227,12 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
             g2.drawImage(arrowDown, getWidth()/2, getHeight() - 20, this);
         }
 
-
         g2.dispose();
 
         nameLabel.setLocation((getWidth() / 2) - (nameLabel.getWidth() / 2), 30);
 
 
     }
-
 
     public void setSelected(boolean selected) {
         this.isSelected = selected;
@@ -309,6 +309,14 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
                 this.changePosition(e.getX() - (getWidth() / 2), e.getY() - (getHeight() / 2));
                 this.repaint();
                 getParent().repaint();
+
+                System.out.println("UPDATE LINKS");
+                for (LabeledLink link : outboundLinks) {
+                    link.setFrom(this.getCenterPoint());
+                }
+                for (LabeledLink link : inboundLinks) {
+                    link.setTo(this.getCenterPoint());
+                }
             }
         }
 
@@ -449,5 +457,12 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         this.validate();
         this.repaint();
 
+    }
+
+    public void addInboundLink(LabeledLink link) {
+        inboundLinks.add(link);
+    }
+    public void addOutboundLink(LabeledLink link) {
+        outboundLinks.add(link);
     }
 }
