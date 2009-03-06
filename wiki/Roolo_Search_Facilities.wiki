@@ -31,6 +31,8 @@
 
 *RESOURCES*
 
+- Lucene 2.4's changes: http://lucene.apache.org/java/2_4_0/changes/Changes.html#2.4.0.api_changes
+
 - JSR 170: Content Repository for JavaTM technology API
   The Java Content Repository specification 1.0.1 can be downloaded at: http://jcp.org/aboutJava/communityprocess/maintenance/jsr170/index.html
 
