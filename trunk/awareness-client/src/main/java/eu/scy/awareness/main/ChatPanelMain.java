@@ -109,6 +109,7 @@ public class ChatPanelMain extends JPanel {
                 
                 if( buddyList.getSelectedValue() == null ) {
                     chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
+                    chatController.sendMessage(null, textfield.getText());
                 } else {
                     chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
                     chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
