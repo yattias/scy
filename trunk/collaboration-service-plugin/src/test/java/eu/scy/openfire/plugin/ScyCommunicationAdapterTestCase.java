@@ -32,7 +32,19 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
         return sqlSpaceAdapter;
     }
     
-
+    private ScyBaseObject getScyBaseObject() {
+        ScyBaseObject sbo = new ScyBaseObject();
+        sbo.setId("1338");
+        sbo.setName("leeter that leet - test object");
+        sbo.setDescription("dezkript");
+        return sbo;
+    }
+    
+    public void testCreateTupleAdapter() {
+        assertNotNull(getTupleAdapter());
+    }
+    
+    
     @Override
     public void actionUponDelete(String username) {
         logger.info("Callback sez: Stuff deleted from sqlspaces");
