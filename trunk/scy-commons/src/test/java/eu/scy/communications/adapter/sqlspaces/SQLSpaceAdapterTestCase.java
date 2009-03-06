@@ -58,7 +58,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         id = getTupleAdapter().write("someTestCase", getScyMessage());
         assertNotNull(id);
         // read
-        ScyBaseObject sm = getTupleAdapter().readById(id);
+        ScyMessage sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         // delete
         id = getTupleAdapter().delete(id);
@@ -72,7 +72,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         id = getTupleAdapter().write("someTestCase", getScyMessage(), TWO_SECONDS);
         assertNotNull(id);
         // confirm tuple
-        ScyBaseObject sm = getTupleAdapter().readById(id);
+        ScyMessage sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         try {
             Thread.sleep(FOUR_SECONDS);
