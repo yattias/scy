@@ -1,4 +1,4 @@
-package eu.scy.commons.packet.extension;
+package eu.scy.communications.packet.extension;
 
 
 import org.jivesoftware.smack.packet.PacketExtension;
