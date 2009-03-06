@@ -8,6 +8,7 @@ import eu.scy.colemo.contributions.AddLink;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.ConceptNode;
 import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.communications.message.ScyMessage;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,6 +36,7 @@ public class ObjectTranslator {
     }
 
 
+    // TODO: refactor this one to handle a ScyMessage, not a Tuple
     public Object getObject(Tuple tuple) {
         Field[] fields = tuple.getFields();
 
@@ -101,5 +103,39 @@ public class ObjectTranslator {
         Field fromField = new Field(addLink.getFrom());
         Field toField = new Field(addLink.getTo());
         return new Tuple(userNameField, toolName, objectIdField, fromField, toField);
+    }
+    
+    
+    public ScyMessage getScyMessage(AddClass addClass) {
+        ScyMessage sm = new ScyMessage();
+        sm.setUserName("henrik@enovate.no");
+        sm.setToolName("Colemo");
+        sm.setId(String.valueOf(addClass.hashCode()));
+        sm.setObjectType(addClass.getClass().getName());
+        sm.setName(addClass.getName());
+        sm.setDescription("Some description");
+        return sm;
+    }
+    
+    
+    public ScyMessage getScyMessage(MoveClass moveClass) {
+        ScyMessage sm = new ScyMessage();
+        sm.setUserName("henrik@enovate.no");
+        sm.setToolName("Colemo");
+        sm.setId(moveClass.getUmlClass().getId());
+        sm.setObjectType(moveClass.getClass().getName());
+        sm.setName(moveClass.getUmlClass().getName());
+        sm.setDescription("" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY());
+        return sm;
+    }
+    
+    public ScyMessage getScyMessage(UmlLink addLink) {
+        ScyMessage sm = new ScyMessage();
+        sm.setUserName("henrik@enovate.no");
+        sm.setToolName("Colemo");
+        sm.setId(addLink.getId());
+        sm.setFrom(addLink.getFrom());
+        sm.setTo(addLink.getTo());
+        return sm;
     }
 }
