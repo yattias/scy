@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
+import eu.scy.communications.message.ScyMessage;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 
@@ -37,12 +38,12 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         return sqlSpaceAdapter;
     }
     
-    private ScyBaseObject getScyBaseObject() {
-        ScyBaseObject sbo = new ScyBaseObject();
-        sbo.setId("1337");
-        sbo.setName("a nice name for this test object");
-        sbo.setDescription("dezkript");
-        return sbo;
+    private ScyMessage getScyMessage() {
+        ScyMessage sm = new ScyMessage();
+        sm.setId("1337");
+        sm.setName("a nice name for this test object");
+        sm.setDescription("dezkript");
+        return sm;
     }
     
     
@@ -54,11 +55,11 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     public void testWriteReadDelete() {
         String id = null;
         // write
-        id = getTupleAdapter().write("someTestCase", getScyBaseObject());
+        id = getTupleAdapter().write("someTestCase", getScyMessage());
         assertNotNull(id);
         // read
-        ScyBaseObject sbo = getTupleAdapter().readById(id);
-        assertNotNull(sbo);
+        ScyBaseObject sm = getTupleAdapter().readById(id);
+        assertNotNull(sm);
         // delete
         id = getTupleAdapter().delete(id);
         assertNotNull(id);
@@ -68,11 +69,11 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     public void testWriteWithExpiration() {
         String id = null;
         // write with expiration
-        id = getTupleAdapter().write("someTestCase", getScyBaseObject(), TWO_SECONDS);
+        id = getTupleAdapter().write("someTestCase", getScyMessage(), TWO_SECONDS);
         assertNotNull(id);
         // confirm tuple
-        ScyBaseObject sbo = getTupleAdapter().readById(id);
-        assertNotNull(sbo);
+        ScyBaseObject sm = getTupleAdapter().readById(id);
+        assertNotNull(sm);
         try {
             Thread.sleep(FOUR_SECONDS);
         } catch (InterruptedException e) {
@@ -80,8 +81,8 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
             e.printStackTrace();
         }
         // confirm tuple has expired
-        sbo = getTupleAdapter().readById(id);
-        assertNull(sbo);
+        sm = getTupleAdapter().readById(id);
+        assertNull(sm);
     }
     
 
@@ -103,13 +104,13 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
 
 
     @Override
-    public String create(ScyBaseObject sbo) {
+    public String create(ScyMessage sm) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public String createWithExpiration(ScyBaseObject sbo, long expiration) {
+    public String createWithExpiration(ScyMessage sm, long expiration) {
         // TODO Auto-generated method stub        
         return null;
     }
@@ -121,19 +122,19 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     }
 
     @Override
-    public ScyBaseObject read(String id) {
+    public ScyMessage read(String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public String update(ScyBaseObject sbo, String id) {
+    public String update(ScyMessage sm, String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration) {
+    public String updateWithExpiration(ScyMessage sm, String id, long expiration) {
         // TODO Auto-generated method stub        
         return null;
     }

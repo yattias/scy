@@ -1,7 +1,6 @@
 package eu.scy.communications.adapter;
 
-import eu.scy.core.model.impl.ScyBaseObject;
-
+import eu.scy.communications.message.ScyMessage;
 
 
 public interface IScyCommunicationAdapter {
@@ -13,11 +12,11 @@ public interface IScyCommunicationAdapter {
 	void actionUponDelete(String username);
 	
 	// various CRUDs
-    public String create(ScyBaseObject sbo);
-    public String createWithExpiration(ScyBaseObject sbo, long expiration);
-    public ScyBaseObject read(String id);
-    public String update(ScyBaseObject sbo, String id);
-    public String updateWithExpiration(ScyBaseObject sbo, String id, long expiration);
+    public String create(ScyMessage sm);
+    public String createWithExpiration(ScyMessage sm, long expiration);
+    public ScyMessage read(String id);
+    public String update(ScyMessage sm, String id);
+    public String updateWithExpiration(ScyMessage sm, String id, long expiration);
     public String delete(String id);
     public void sendCallBack(String something);
 }
