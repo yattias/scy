@@ -43,6 +43,18 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     public static final int CONNECT_MODE_TOP = 3;
     public static final int CONNECT_MODE_BOTTOM = 4;
 
+
+    // directions - must be able to find opposite direction by multiplying with -1
+    public static final int NORTH = 2;
+    public static final int WEST = 1;
+    public static final int EAST = -1;
+    public static final int SOUTH = -2;
+    public static final int NORTHWEST = 3;
+    public static final int NORTHEAST = 4;
+    public static final int SOUTHWEST = -4;
+    public static final int SOUTHEAST = -3;
+
+    
     private Logger log = Logger.getLogger("GraphicsClass.class");
     private UmlClass umlClass;
     public JLabel nameLabel;
@@ -50,10 +62,8 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     public MethodLabel methodLabel;
     private int paddingX = 7;
     private int paddingY = 7;
-    public static final int WEST = 0;
-    public static final int EAST = 1;
-    public static final int NORTH = 2;
-    public static final int SOUTH = 3;
+
+
     private long time = System.currentTimeMillis();
     private GraphicsDiagram gDiagram;
 //    private PopUpMenu popMenu;
@@ -100,7 +110,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         layoutComponents();
 
     }
-
 
     public void setUmlClass(UmlClass umlClass) {
         this.umlClass = umlClass;
@@ -151,7 +160,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         g2.setComposite(AlphaComposite.Clear);
         g2.fillRoundRect(shadowSize, shadowSize, w, h, arc, arc);
         g2.dispose();
-
 
     }
 
@@ -231,7 +239,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
         nameLabel.setLocation((getWidth() / 2) - (nameLabel.getWidth() / 2), 30);
 
-
     }
 
     public void setSelected(boolean selected) {
@@ -310,12 +317,11 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
                 this.repaint();
                 getParent().repaint();
 
-                System.out.println("UPDATE LINKS");
                 for (LabeledLink link : outboundLinks) {
-                    link.setFrom(this.getCenterPoint());
+                    link.update();
                 }
                 for (LabeledLink link : inboundLinks) {
-                    link.setTo(this.getCenterPoint());
+                    link.update();
                 }
             }
         }
@@ -413,21 +419,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     public Point getCenterPoint() {
         return (new Point(this.getX() + (this.getWidth() / 2), this.getY() + (this.getHeight() / 2)));
     }
-
-    public Point getConnectionPoint(int point) {
-        switch (point) {
-            case ConceptNode.WEST:
-                return new Point(this.getX() - 2, (int) this.getCenterPoint().getY());
-            case ConceptNode.EAST:
-                return new Point(this.getX() + this.getWidth() + 2, (int) this.getCenterPoint().getY());
-            case ConceptNode.NORTH:
-                return new Point((int) this.getCenterPoint().getX(), this.getY() - 2);
-            case ConceptNode.SOUTH:
-                return new Point((int) this.getCenterPoint().getX(), this.getY() + this.getHeight() + 2);
-        }
-        return null;
-    }
-
     public void setFieldsMaximized(boolean fieldsMaximized) {
         umlClass.setShowFields(fieldsMaximized);
         layoutComponents();
@@ -460,9 +451,36 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
     }
 
     public void addInboundLink(LabeledLink link) {
+        link.setToNode(this);
         inboundLinks.add(link);
     }
     public void addOutboundLink(LabeledLink link) {
+        link.setFromNode(this);
         outboundLinks.add(link);
+    }
+
+    public Point getLinkConnectionPoint(int direction) {
+        Point center = this.getCenterPoint();
+        Rectangle bounds = getBounds();
+        switch (direction) {
+            case WEST:
+                return new Point(bounds.x - 2, center.y);
+            case EAST:
+                return new Point(bounds.x + bounds.width + 2, center.y);
+            case NORTH:
+                return new Point(center.x, bounds.y - 2);
+            case SOUTH:
+                return new Point(center.x, bounds.y + bounds.height + 2);
+            case NORTHEAST:
+                return new Point(bounds.x+bounds.width-2, bounds.y);
+            case NORTHWEST:
+                return new Point(bounds.x, bounds.y);
+            case SOUTHEAST:
+                return new Point(bounds.x+bounds.width-2, bounds.y+bounds.height-2);
+            case SOUTHWEST:
+                return new Point(bounds.x, bounds.y+bounds.height);
+            
+        }
+        return null;
     }
 }

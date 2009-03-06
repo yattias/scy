@@ -51,8 +51,8 @@ public class GraphicsLink extends JComponent {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        fromConnectionPoint = from.getConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
-        toConnectionPoint = to.getConnectionPoint(findDirection(to.getCenterPoint(), from.getCenterPoint()));
+        fromConnectionPoint = from.getLinkConnectionPoint(findDirection(from.getCenterPoint(), to.getCenterPoint()));
+        toConnectionPoint = to.getLinkConnectionPoint(findDirection(to.getCenterPoint(), from.getCenterPoint()));
 
         if (dotted) {
             g2d.setStroke(new BasicStroke(1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[]{6f}, 0f));
@@ -93,17 +93,18 @@ public class GraphicsLink extends JComponent {
 
         if (Math.abs(x) > Math.abs(y)) {
             if (from.getX() < to.getX()) {
-                return ConceptNode.EAST;
+//                return ConceptNode.EAST;
             } else {
-                return ConceptNode.WEST;
+  //              return ConceptNode.WEST;
             }
         } else {
             if (from.getY() > to.getY()) {
-                return ConceptNode.NORTH;
+    //            return ConceptNode.NORTH;
             } else {
-                return ConceptNode.SOUTH;
+      //          return ConceptNode.SOUTH;
             }
         }
+        return 0;
     }
 
     public boolean decideType() {
