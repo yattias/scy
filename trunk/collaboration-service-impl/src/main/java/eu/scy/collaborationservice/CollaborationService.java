@@ -22,7 +22,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
-import eu.scy.commons.packet.extension.ScyObjectPacketExtension;
+import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
 
