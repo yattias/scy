@@ -70,11 +70,6 @@ public class SQLSpaceAdapter implements Callback {
     
     
     public String write(String sqlSpaceId, ScyMessage scyMessage, long expiration) {
-        if (scyMessage == null) {
-            logger.debug("WTF");
-        } else {
-            logger.debug("!" + scyMessage.toString());
-        }
         String user = scyMessage.getUserName();
         String tool = scyMessage.getToolName();
         String id = scyMessage.getId();
