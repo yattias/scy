@@ -6,9 +6,7 @@
  */
 package eu.scy.colemo.client;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -36,6 +34,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     private ConceptNode source = null;
     private ConceptNode target = null;
+    private HashSet<LabeledLink> links = new HashSet<LabeledLink>();
 
     public int getConnectMode() {
         return connectMode;
@@ -112,6 +111,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void addLink(UmlLink umlLink) {
         try {
             LabeledLink link = new LabeledLink();
+            links.add(link);
             ConceptNode fromNode = getClass(umlLink.getFrom());
             ConceptNode toNode = getClass(umlLink.getTo());
             fromNode.addOutboundLink(link);
@@ -345,6 +345,21 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         menu.show(this, e.getX(), e.getY());
 
     }
+    public LabeledLink getNearestLink(Point p, int threshold) {
+        double nearestDist = Double.MAX_VALUE;
+        LabeledLink nearestLink = null;
+        for (LabeledLink link : links) {
+            double distance = link.getDistanceFromLine(p);
+
+            if (threshold > -1 && distance > threshold) continue;
+
+            if (distance < nearestDist) {
+                nearestDist = distance;
+                nearestLink = link;
+            }
+        }
+        return nearestLink;
+    }
 
     public void actionPerformed(ActionEvent ae) {
 
@@ -359,7 +374,11 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
     }
 
-    public void mouseClicked(MouseEvent arg0) {
+    public void mouseClicked(MouseEvent event) {
+        LabeledLink nearestLink = getNearestLink(event.getPoint(), 30);
+        if (nearestLink != null) {
+            nearestLink.requestFocus();
+        }
     }
 
     public void mouseEntered(MouseEvent arg0) {

@@ -449,6 +449,22 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
 
     }
 
+    public HashSet<LabeledLink> getOutboundLinks() {
+        return outboundLinks;
+    }
+
+    public void setOutboundLinks(HashSet<LabeledLink> outboundLinks) {
+        this.outboundLinks = outboundLinks;
+    }
+
+    public HashSet<LabeledLink> getInboundLinks() {
+        return inboundLinks;
+    }
+
+    public void setInboundLinks(HashSet<LabeledLink> inboundLinks) {
+        this.inboundLinks = inboundLinks;
+    }
+
     public void addInboundLink(LabeledLink link) {
         link.setToNode(this);
         inboundLinks.add(link);
