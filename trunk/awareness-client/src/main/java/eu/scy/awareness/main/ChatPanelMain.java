@@ -42,7 +42,7 @@ public class ChatPanelMain extends JPanel {
     protected DefaultListModel buddlyListModel;
     protected JTextField sendMessageTextField;
     protected ChatController chatController;
-    private String username;
+    private String username ;
     private String password;
     
     public ChatPanelMain() {
@@ -60,15 +60,16 @@ public class ChatPanelMain extends JPanel {
             e.printStackTrace();
         }
 
-        
-        LoginDialog loginDialog = new LoginDialog(null);
-        
-        String[] loginStrings = loginDialog.showLoginDialog();
-        
-        if( !ArrayUtils.isEmpty(loginStrings) ) {
-            this.username = loginStrings[0];
-            this.password = loginStrings[1];
-        }
+        //disable login right now
+//        LoginDialog loginDialog = new LoginDialog(null);
+//        
+//        String[] loginStrings = loginDialog.showLoginDialog();
+//        
+//        if( !ArrayUtils.isEmpty(loginStrings) ) {
+//            this.username = loginStrings[0];
+//            this.password = loginStrings[1];
+//        }
+//        
         
         chatController = new ChatController(this.username, this.password);
         initGUI();
