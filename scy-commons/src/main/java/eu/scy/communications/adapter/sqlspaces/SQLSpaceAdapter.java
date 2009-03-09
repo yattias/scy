@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.message.ScyMessage;
-import eu.scy.core.model.impl.ScyBaseObject;
 
 public class SQLSpaceAdapter implements Callback {
     
@@ -55,22 +54,22 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public String write(String tool, ScyMessage object, long expiration) {
-        return write(null, tool, object, expiration);
+    public String write(ScyMessage scyMessage, long expiration) {
+        return write(null, scyMessage, expiration);
     }
     
     
-    public String write(String tool, ScyMessage object) {
-        return write(null, tool, object, 0);
+    public String write(ScyMessage scyMessage) {
+        return write(null, scyMessage, 0);
     }
     
     
-    public String write(String sqlSpaceId, String tool, ScyMessage object) {
-        return write(sqlSpaceId, tool, object, 0);
+    public String write(String sqlSpaceId, ScyMessage scyMessage) {
+        return write(sqlSpaceId, scyMessage, 0);
     }
     
-    public String write(String sqlSpaceId, String tool, ScyBaseObject object, long expiration) {
-        Tuple tuple = new Tuple(this.userName, tool, object.getId(), object.getClass().getName(), object.getName(), object.getDescription());
+    public String write(String sqlSpaceId, ScyMessage scyMessage, long expiration) {        
+        Tuple tuple = new Tuple(scyMessage.getUserName(), scyMessage.getToolName(), scyMessage.getId(), scyMessage.getObjectType(), scyMessage.getName(), scyMessage.getDescription());
         if (expiration > 0) {
             tuple.setExpiration(expiration);
         }
