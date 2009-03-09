@@ -55,7 +55,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     public void testWriteReadDelete() {
         String id = null;
         // write
-        id = getTupleAdapter().write("someTestCase", getScyMessage());
+        id = getTupleAdapter().write(getScyMessage());
         assertNotNull(id);
         // read
         ScyMessage sm = getTupleAdapter().readById(id);
@@ -69,7 +69,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     public void testWriteWithExpiration() {
         String id = null;
         // write with expiration
-        id = getTupleAdapter().write("someTestCase", getScyMessage(), TWO_SECONDS);
+        id = getTupleAdapter().write(getScyMessage(), TWO_SECONDS);
         assertNotNull(id);
         // confirm tuple
         ScyMessage sm = getTupleAdapter().readById(id);
