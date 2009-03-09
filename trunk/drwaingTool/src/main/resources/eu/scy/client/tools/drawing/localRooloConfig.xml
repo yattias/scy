@@ -11,6 +11,8 @@
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager"/>
 		<property name="extensionManager" ref="localExtensionManager"/>
+		<property name="eloStoreDirectory" value="../eloStore"/>
+		<property name="storeElosInStoreDirectory" value="true"/>
 	</bean>
 
 	<bean name="localMetadataTypeManager" class="roolo.cms.repository.mock.MockMetadataTypeManager">
