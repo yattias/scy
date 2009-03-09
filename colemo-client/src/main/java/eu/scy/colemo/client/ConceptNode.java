@@ -161,6 +161,13 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         g2.fillRoundRect(shadowSize, shadowSize, w, h, arc, arc);
         g2.dispose();
 
+        for (LabeledLink link : outboundLinks) {
+            link.update();
+        }
+        for (LabeledLink link : inboundLinks) {
+            link.update();
+        }
+
     }
 
     public int getConnectMode() {
@@ -304,7 +311,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
         } else {
             if (getDragMode() == DRAGMODE_ON) {
 
-
                 if (e.getModifiers() != InputEvent.BUTTON3_MASK && !umlClass.isMove()) {
                     umlClass.setMove(true);
                     InetAddress adr = null;
@@ -316,13 +322,6 @@ public class ConceptNode extends JPanel implements Selectable, MouseListener, Ac
                 this.changePosition(e.getX() - (getWidth() / 2), e.getY() - (getHeight() / 2));
                 this.repaint();
                 getParent().repaint();
-
-                for (LabeledLink link : outboundLinks) {
-                    link.update();
-                }
-                for (LabeledLink link : inboundLinks) {
-                    link.update();
-                }
             }
         }
 
