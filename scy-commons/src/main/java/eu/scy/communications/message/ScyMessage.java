@@ -77,4 +77,15 @@ public class ScyMessage extends ScyBaseObject {
     }
    
     
+    public String toString() {
+        StringBuffer output = new StringBuffer();
+        output.append("userName: " + userName + "\n");
+        output.append("messagePurpose: " + messagePurpose + "\n");
+        output.append("from: " + from + "\n");
+        output.append("to: " + to + "\n");
+        output.append("toolName: " + toolName + "\n");
+        output.append("description: " + super.getDescription() + "\n");
+        return output.toString();
+    }
+    
 }

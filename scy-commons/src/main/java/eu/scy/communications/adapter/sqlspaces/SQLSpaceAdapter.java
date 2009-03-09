@@ -78,14 +78,10 @@ public class SQLSpaceAdapter implements Callback {
         String description = scyMessage.getDescription();
         String to = scyMessage.getTo();
         String from = scyMessage.getFrom();
-        Tuple tuple = new Tuple(user != null ? user : "", 
-                                tool != null ? tool : "", 
-                                id != null ? id : "",
-                                type != null ? type : "",
-                                name != null ? name : "",
-                                description != null ? description : "",
-                                to != null ? to : "", 
-                                from != null ? from : "");
+        //username, toolName, id, objectType, name, description, to, from, messagePurpose
+        //Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "");     
+
         if (expiration > 0) {
             tuple.setExpiration(expiration);
         }
