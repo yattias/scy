@@ -76,17 +76,18 @@ public class ScyMessage extends ScyBaseObject {
         this.messagePurpose = messagePurpose;
     }
    
-    
+   
+    @Override
     public String toString() {
         StringBuffer output = new StringBuffer();
         output.append("userName: " + userName + "\n");
         output.append("toolName: " + toolName + "\n");
-        output.append("name: " + super.getName() + "\n");
-        output.append("id: " + super.getId() + "\n");
         output.append("objectType: " + objectType + "\n");
         output.append("messagePurpose: " + messagePurpose + "\n");
         output.append("from: " + from + "\n");
         output.append("to: " + to + "\n");
+        output.append("name: " + super.getName() + "\n");
+        output.append("id: " + super.getId() + "\n");
         output.append("description: " + super.getDescription() + "\n");
         return output.toString();
     }
