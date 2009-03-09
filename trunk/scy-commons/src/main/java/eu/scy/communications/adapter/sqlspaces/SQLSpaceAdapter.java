@@ -53,14 +53,14 @@ public class SQLSpaceAdapter implements Callback {
         return cs;
     }
     
+
+    public String write(ScyMessage scyMessage) {
+        return write(null, scyMessage, 0);
+    }
+
     
     public String write(ScyMessage scyMessage, long expiration) {
         return write(null, scyMessage, expiration);
-    }
-    
-    
-    public String write(ScyMessage scyMessage) {
-        return write(null, scyMessage, 0);
     }
     
     
@@ -68,8 +68,29 @@ public class SQLSpaceAdapter implements Callback {
         return write(sqlSpaceId, scyMessage, 0);
     }
     
-    public String write(String sqlSpaceId, ScyMessage scyMessage, long expiration) {        
-        Tuple tuple = new Tuple(scyMessage.getUserName(), scyMessage.getToolName(), scyMessage.getId(), scyMessage.getObjectType(), scyMessage.getName(), scyMessage.getDescription());
+    
+    public String write(String sqlSpaceId, ScyMessage scyMessage, long expiration) {
+        if (scyMessage == null) {
+            logger.debug("WTF");
+        } else {
+            logger.debug("!" + scyMessage.toString());
+        }
+        String user = scyMessage.getUserName();
+        String tool = scyMessage.getToolName();
+        String id = scyMessage.getId();
+        String type = scyMessage.getObjectType();
+        String name = scyMessage.getName();
+        String description = scyMessage.getDescription();
+        String to = scyMessage.getTo();
+        String from = scyMessage.getFrom();
+        Tuple tuple = new Tuple(user != null ? user : "", 
+                                tool != null ? tool : "", 
+                                id != null ? id : "",
+                                type != null ? type : "",
+                                name != null ? name : "",
+                                description != null ? description : "",
+                                to != null ? to : "", 
+                                from != null ? from : "");
         if (expiration > 0) {
             tuple.setExpiration(expiration);
         }
