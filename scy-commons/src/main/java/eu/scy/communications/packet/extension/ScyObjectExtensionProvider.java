@@ -6,6 +6,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 
 
+
 public class ScyObjectExtensionProvider implements PacketExtensionProvider {
     
     
@@ -34,7 +35,7 @@ public class ScyObjectExtensionProvider implements PacketExtensionProvider {
                 }
             }
         }
-        return scyExt;
+        return (PacketExtension) scyExt;
 
     }
     
