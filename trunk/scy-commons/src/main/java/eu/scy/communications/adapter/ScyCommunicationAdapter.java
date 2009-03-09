@@ -10,7 +10,7 @@ import eu.scy.communications.message.ScyMessage;
 public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
     public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
-    private static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
+    public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
     private static ScyCommunicationAdapter communicator;
     private ArrayList<IScyCommunicationListener> scyCommunicationListeners = new ArrayList<IScyCommunicationListener>();
@@ -36,11 +36,11 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     public ScyMessage getScyMessage(String description) {
-        ScyMessage sm = new ScyMessage();
-        sm.setId("54321");
-        sm.setName("a nice name for the object");
-        sm.setDescription(description);
-        return sm;
+        ScyMessage scyMessage = new ScyMessage();
+        scyMessage.setId("54321");
+        scyMessage.setName("a nice name for the object");
+        scyMessage.setDescription(description);
+        return scyMessage;
     }
     
     private SQLSpaceAdapter getTupleAdapter() {
@@ -54,15 +54,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public String create(ScyMessage sm) {
+    public String create(ScyMessage scyMessage) {
         logger.debug("create");
-        return getTupleAdapter().write("openfire", sm);
+        return getTupleAdapter().write("openfire", scyMessage);
     }
     
     @Override
-    public String createWithExpiration(ScyMessage sm, long expiration) {
+    public String createWithExpiration(ScyMessage scyMessage, long expiration) {
         logger.debug("create");
-        return getTupleAdapter().write("openfire", sm, expiration);
+        return getTupleAdapter().write("openfire", scyMessage, expiration);
     }
     
     @Override
@@ -78,15 +78,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public String update(ScyMessage sm, String id) {
+    public String update(ScyMessage scyMessage, String id) {
         logger.debug("update with expiration");
-        return getTupleAdapter().write(id, "openfire", sm);
+        return getTupleAdapter().write(id, scyMessage);
     }
     
     @Override
-    public String updateWithExpiration(ScyMessage sm, String id, long expiration) {
+    public String updateWithExpiration(ScyMessage scyMessage, String id, long expiration) {
         logger.debug("update with expiration");
-        return getTupleAdapter().write(id, "openfire", sm, expiration);
+        return getTupleAdapter().write(id, scyMessage, expiration);
     }
     
     @Override
