@@ -114,6 +114,7 @@
     <orderEntry type="library" exported="" name="Maven: com.jhlabs:filters:2.0.235" level="project" />
     <orderEntry type="library" exported="" name="Maven: jgroups:jgroups-all:2.2.9.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: eu.scy:scy-commons:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.igniterealtime.openfire:openfire:3.6.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: jivesoftware:smackx:3.0.4" level="project" />
   </component>
 </module>

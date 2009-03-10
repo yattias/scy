@@ -16,11 +16,10 @@ public class ColemoStartup {
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
+        frame.setSize(800,700);
         frame.setVisible(true);
 
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(BorderLayout.CENTER, new ColemoPanel());
+        frame.setContentPane(new ColemoPanel());
 
     }
 

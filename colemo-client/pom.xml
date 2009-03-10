@@ -136,7 +136,6 @@
                     <execution> </execution>
                 </executions>
                 <configuration>
-                    <!--mainClass>eu.scy.colemo.client.Start</mainClass-->
                     <mainClass>eu.scy.colemo.client.ColemoStartup</mainClass>
                 </configuration>
             </plugin>
@@ -152,15 +151,6 @@
 
         </plugins>
         <resources>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/java/eu/scy/colemo/client</directory>
-                <targetPath>eu/scy/colemo/client</targetPath>
-                <includes>
-                    <include>*.gif</include>
-                    <include>*.png</include>
-                </includes>
-            </resource>
             <resource>
                 <directory>src/main/java</directory>
                 <targetPath>*.*</targetPath>

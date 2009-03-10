@@ -1,7 +1,5 @@
 package eu.scy.colemo.client;
 
-import eu.scy.colemo.network.Client;
-import eu.scy.colemo.client.groups.ConnectionHandlerJGroups;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 

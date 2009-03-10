@@ -1,13 +1,14 @@
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.server.uml.UmlLink;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.RoundRectangle2D;
 
-public class LabeledLink extends JComponent implements FocusListener {
+public class ConceptLink extends JComponent implements FocusListener {
     private String default_label = "Link";
     private Point from = new Point(0, 0);
     private Point to = new Point(100, 100);
@@ -16,46 +17,19 @@ public class LabeledLink extends JComponent implements FocusListener {
     private boolean bidirectional = false;
     private JTextField textField = new JTextField(default_label);
     private Color color;
+    private UmlLink model;
 
-    public LabeledLink() {
+    public ConceptLink(UmlLink link) {
+        model = link;
+
         setOpaque(false);
         setBackground(Color.cyan);
         setLayout(null);
         setFocusable(true);
-        setIgnoreRepaint(true);
         addFocusListener(this);
-        textField.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(default_label)) textField.setText("");
-                textField.setOpaque(true);
-                textField.setBorder(BorderFactory.createEtchedBorder());
-
-                Dimension prefsize = textField.getPreferredSize();
-                textField.setSize(prefsize.width + 20, prefsize.height);
-                fixBounds();
-            }
-
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().equals("")) textField.setText(default_label);
-                textField.setOpaque(false);
-                textField.setBorder(null);
-            }
-        });
-        textField.addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-                Dimension prefsize = textField.getPreferredSize();
-                textField.setSize(prefsize.width + 20, prefsize.height);
-                fixBounds();
-            }
-
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == 10) requestFocus();
-            }
-
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        TextFieldListener textFieldListener = new TextFieldListener(this);
+        textField.addFocusListener(textFieldListener);
+        textField.addKeyListener(textFieldListener);
         textField.setSize(textField.getPreferredSize());
         textField.setHorizontalAlignment(JTextField.CENTER);
         textField.setOpaque(false);
@@ -228,7 +202,9 @@ public class LabeledLink extends JComponent implements FocusListener {
 
     public void update() {
         // If we don't have both nodes, do nothing
-        if (fromNode == null || toNode == null) return;
+        if (fromNode == null || toNode == null) {
+            return;
+        }
 
         int dir = findDirection(fromNode.getCenterPoint(), toNode.getCenterPoint());
         setFrom(fromNode.getLinkConnectionPoint(dir));
@@ -275,12 +251,61 @@ public class LabeledLink extends JComponent implements FocusListener {
     public void focusGained(FocusEvent e) {
         setColor(Color.blue);
         repaint();
-        System.out.println("LabeledLink.focusGained");
+        System.out.println("ConceptLink.focusGained");
     }
 
     public void focusLost(FocusEvent e) {
         setColor(Color.black);
         repaint();
-        System.out.println("LabeledLink.focusLost");
+        System.out.println("ConceptLink.focusLost");
+    }
+
+    public UmlLink getModel() {
+        return model;
+    }
+
+    public void setModel(UmlLink model) {
+        this.model = model;
+    }
+
+    private static class TextFieldListener implements FocusListener, KeyListener {
+        private ConceptLink link;
+        TextFieldListener(ConceptLink link) {
+            this.link = link;
+        }
+
+        public void focusGained(FocusEvent e) {
+            JTextField textField = (JTextField) e.getSource();
+            if (textField.getText().equals(link.default_label)) textField.setText("");
+            textField.setOpaque(true);
+            textField.setBorder(BorderFactory.createEtchedBorder());
+
+            Dimension prefsize = textField.getPreferredSize();
+            textField.setSize(prefsize.width + 20, prefsize.height);
+            link.fixBounds();
+        }
+
+        public void focusLost(FocusEvent e) {
+            JTextField textField = (JTextField) e.getSource();
+            if (textField.getText().equals("")) textField.setText(link.default_label);
+            textField.setOpaque(false);
+            textField.setBorder(null);
+            link.getModel().setName(textField.getText());
+        }
+
+        public void keyTyped(KeyEvent e) {
+            JTextField textField = (JTextField) e.getSource();
+            Dimension prefsize = textField.getPreferredSize();
+            textField.setSize(prefsize.width + 20, prefsize.height);
+            link.fixBounds();
+        }
+
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == 10) link.requestFocus();
+        }
+
+        public void keyReleased(KeyEvent e) {
+
+        }
     }
 }
