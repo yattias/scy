@@ -8,7 +8,7 @@ public interface IScyCommunicationAdapter {
     public void addScyCommunicationListener(IScyCommunicationListener listener);
 
     // callback methods
-    void actionUponWrite(String username);
+    void actionUponWrite(ScyMessage scyMessage);
 	void actionUponDelete(String username);
 	
 	// various CRUDs

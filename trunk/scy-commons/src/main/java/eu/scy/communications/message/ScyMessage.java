@@ -15,6 +15,21 @@ public class ScyMessage extends ScyBaseObject {
 
     public ScyMessage() {
     }
+    
+    
+    public ScyMessage createScyMessage(String username, String toolName, String id, String objectType, String name, String description, String to, String from, String messagePurpose) {
+        ScyMessage sm = new ScyMessage();
+        sm.setUserName(userName);
+        sm.setToolName(toolName);
+        sm.setId(id);
+        sm.setObjectType(objectType);
+        sm.setName(name);
+        sm.setDescription(description);
+        sm.setTo(to);
+        sm.setFrom(from);
+        sm.setMessagePurpose(messagePurpose);
+        return sm;
+    }
 
     
     public String getUserName() {

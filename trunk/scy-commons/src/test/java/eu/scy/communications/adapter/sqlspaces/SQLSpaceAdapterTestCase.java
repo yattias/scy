@@ -94,7 +94,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
 
 
     @Override
-    public void actionUponWrite(String username) {
+    public void actionUponWrite(ScyMessage scyMessage) {
         logger.info("Callback sez: Stuff written to sqlspaces");
     }
 

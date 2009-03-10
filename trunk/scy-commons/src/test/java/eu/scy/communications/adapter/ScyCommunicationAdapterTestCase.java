@@ -53,7 +53,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
 
 
     @Override
-    public void actionUponWrite(String username) {
+    public void actionUponWrite(ScyMessage scyMessage) {
         logger.info("Callback sez: Stuff written to sqlspaces");
     }
 
