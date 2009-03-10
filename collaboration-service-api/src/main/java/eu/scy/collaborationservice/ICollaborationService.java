@@ -20,7 +20,7 @@ public interface ICollaborationService {
    * @return
    * @throws CollaborationServiceException
    */
-  public String create(ScyMessage scyMessage) throws CollaborationServiceException;
+  public void create(ScyMessage scyMessage) throws CollaborationServiceException;
   
   /**
    * Return a specific message based on id
@@ -39,7 +39,7 @@ public interface ICollaborationService {
    * @return 
    * @throws CollaborationServiceException
    */
-  public String update(ScyMessage scyMessage, String id) throws CollaborationServiceException;
+  public void update(ScyMessage scyMessage, String id) throws CollaborationServiceException;
   
   /**
    * Deletes the specified message
@@ -47,7 +47,7 @@ public interface ICollaborationService {
    * @param id of the object to delete
    * @throws CollaborationServiceException
    */
-  public String delete(String id) throws CollaborationServiceException;
+  public void delete(String id) throws CollaborationServiceException;
   
   
   /**
@@ -59,9 +59,18 @@ public interface ICollaborationService {
    */
   public void addCollaborationListener(ICollaborationServiceListener collaborationListener) throws CollaborationServiceException;
   
-  /**
-   * test method
-   */ 
-   public void sendCallBack(String something) throws CollaborationServiceException;
+   /**
+    * Connects to the collaboration service of the specific implementation
+    * 
+    * @param username
+    * @param password
+    * @throws CollaborationServiceException
+    */
+   public void connect(String username, String password) throws CollaborationServiceException;
+   
+   /**
+    * test method
+    */ 
+    public void sendCallBack(String something) throws CollaborationServiceException;
    
 }
