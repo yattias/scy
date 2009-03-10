@@ -19,6 +19,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     private SQLSpaceAdapter sqlSpaceAdapter;
     private static final long TWO_SECONDS = 2*1000;
     private static final long FOUR_SECONDS = 4*1000;
+    private static final long TEN_SECONDS = 10*1000;
     
     
     public SQLSpaceAdapterTestCase(String testName) {
@@ -68,22 +69,23 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     
     public void testWriteWithExpiration() {
         String id = null;
+        ScyMessage sm = getScyMessage();
+        sm.setExpiraton(TWO_SECONDS);
         // write with expiration
-        id = getTupleAdapter().write(getScyMessage(), TWO_SECONDS);
+        id = getTupleAdapter().write(sm);
         assertNotNull(id);
         // confirm tuple
-        ScyMessage sm = getTupleAdapter().readById(id);
+        sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         try {
-            Thread.sleep(FOUR_SECONDS);
+            Thread.sleep(TEN_SECONDS);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // confirm tuple has expired
         sm = getTupleAdapter().readById(id);
-        //FIXME
-        //assertNull(sm);
+        assertNull(sm);
     }
     
 
@@ -111,12 +113,6 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     }
 
     @Override
-    public String createWithExpiration(ScyMessage sm, long expiration) {
-        // TODO Auto-generated method stub        
-        return null;
-    }
-
-    @Override
     public String delete(String id) {
         // TODO Auto-generated method stub        
         return null;
@@ -130,12 +126,6 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
 
     @Override
     public String update(ScyMessage sm, String id) {
-        // TODO Auto-generated method stub        
-        return null;
-    }
-
-    @Override
-    public String updateWithExpiration(ScyMessage sm, String id, long expiration) {
         // TODO Auto-generated method stub        
         return null;
     }

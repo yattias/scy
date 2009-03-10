@@ -11,15 +11,16 @@ public class ScyMessage extends ScyBaseObject {
     private String to;
     private String from;
     private String messagePurpose;
+    private long expiraton;
     
 
     public ScyMessage() {
     }
     
     
-    public ScyMessage createScyMessage(String username, String toolName, String id, String objectType, String name, String description, String to, String from, String messagePurpose) {
+    public static ScyMessage createScyMessage(String username, String toolName, String id, String objectType, String name, String description, String to, String from, String messagePurpose, long expirationTime) {
         ScyMessage sm = new ScyMessage();
-        sm.setUserName(userName);
+        sm.setUserName(username);
         sm.setToolName(toolName);
         sm.setId(id);
         sm.setObjectType(objectType);
@@ -28,7 +29,25 @@ public class ScyMessage extends ScyBaseObject {
         sm.setTo(to);
         sm.setFrom(from);
         sm.setMessagePurpose(messagePurpose);
+        sm.setExpiraton(expirationTime);
         return sm;
+    }
+    
+    
+    @Override
+    public String toString() {
+        StringBuffer output = new StringBuffer();
+        output.append(" userName: " + userName + "\n");
+        output.append(" toolName: " + toolName + "\n");
+        output.append(" objectType: " + objectType + "\n");
+        output.append(" messagePurpose: " + messagePurpose + "\n");
+        output.append(" from: " + from + "\n");
+        output.append(" to: " + to + "\n");
+        output.append(" expiration: " + expiraton + "\n");
+        output.append(" name: " + super.getName() + "\n");
+        output.append(" id: " + super.getId() + "\n");
+        output.append(" description: " + super.getDescription() + "\n");
+        return output.toString();
     }
 
     
@@ -90,21 +109,14 @@ public class ScyMessage extends ScyBaseObject {
     public void setMessagePurpose(String messagePurpose) {
         this.messagePurpose = messagePurpose;
     }
-   
-   
-    @Override
-    public String toString() {
-        StringBuffer output = new StringBuffer();
-        output.append(" userName: " + userName + "\n");
-        output.append(" toolName: " + toolName + "\n");
-        output.append(" objectType: " + objectType + "\n");
-        output.append(" messagePurpose: " + messagePurpose + "\n");
-        output.append(" from: " + from + "\n");
-        output.append(" to: " + to + "\n");
-        output.append(" name: " + super.getName() + "\n");
-        output.append(" id: " + super.getId() + "\n");
-        output.append(" description: " + super.getDescription() + "\n");
-        return output.toString();
+       
+    public long getExpiraton() {
+        return expiraton;
     }
+    
+    public void setExpiraton(long expiraton) {
+        this.expiraton = expiraton;
+    }
+
     
 }

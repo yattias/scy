@@ -60,12 +60,6 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public String createWithExpiration(ScyMessage scyMessage, long expiration) {
-        logger.debug("createWithExpiration");
-        return getTupleAdapter().write(scyMessage, expiration);
-    }
-    
-    @Override
     public String delete(String id) {
         logger.debug("delete");
         return getTupleAdapter().delete(id);
@@ -81,12 +75,6 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     public String update(ScyMessage scyMessage, String id) {
         logger.debug("update");
         return getTupleAdapter().write(id, scyMessage);
-    }
-    
-    @Override
-    public String updateWithExpiration(ScyMessage scyMessage, String id, long expiration) {
-        logger.debug("update with expiration");
-        return getTupleAdapter().write(id, scyMessage, expiration);
     }
     
     @Override
