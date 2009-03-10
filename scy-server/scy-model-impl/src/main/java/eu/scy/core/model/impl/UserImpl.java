@@ -41,6 +41,7 @@ public class UserImpl implements User {
     @Column(name = "OPTLOCK")
     private Integer version = null;
 
+    @Transient
     private SdsUser sdsUser = null;
 
 
