@@ -11,30 +11,45 @@ public class ScyObjectExtensionProvider implements PacketExtensionProvider {
     
     
     public ScyObjectExtensionProvider() {
+        System.out.println("constructor scyobjectextensionprovider");
     }
     
     public PacketExtension parseExtension(XmlPullParser parser) throws Exception {
         ScyObjectPacketExtension scyExt = new ScyObjectPacketExtension();
-        boolean done = false;
-        StringBuffer buffer = new StringBuffer();;
-        while (!done) {
-            int eventType = parser.next();
-            if (eventType == XmlPullParser.START_TAG) {
-                if (parser.getName().equals("id")) { 
-                    scyExt.setId(parser.nextText());
-                }
-                else if (parser.getName().equals("description")) {                    
-                    scyExt.setDescription(parser.nextText());
-                }
-                else if (parser.getName().equals("name")) {                    
-                    scyExt.setName(parser.nextText());
-                }
-            } else if (eventType == XmlPullParser.END_TAG) {
-                if (parser.getName().equals(scyExt.getElementName())) {
-                    done = true;
+        
+        try {
+            boolean done = false;
+            StringBuffer buffer = new StringBuffer();;
+            while (!done) {
+                int eventType = parser.next();
+                if (eventType == XmlPullParser.START_TAG) {
+                    if ( parser.getName() != null && parser.getName().equals("id")) {
+                        String nt = parser.nextText();
+                        System.out.println(nt);
+                        scyExt.setId(nt);
+                        
+                    }
+                    else if (parser.getName() != null && parser.getName().equals("name")) {
+                        String nt = parser.nextText();
+                        System.out.println(nt);
+                        scyExt.setName(nt);
+                    }
+                    else if ( parser.getName() != null && parser.getName().equals("description")) {
+                        String nt = parser.nextText();
+                        System.out.println(nt);
+                        scyExt.setDescription(nt);
+                    }
+                } else if (eventType == XmlPullParser.END_TAG) {
+                    System.out.println( "name; + " + scyExt.getName() + " " + scyExt.getElementName());
+                    if (parser.getName().equals(scyExt.getElementName())) {
+                        done = true;
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
         return (PacketExtension) scyExt;
 
     }

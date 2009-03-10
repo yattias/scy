@@ -9,8 +9,8 @@ import eu.scy.core.model.ScyBase;
 
 public class ScyObjectPacketExtension extends PacketExtension implements org.jivesoftware.smack.packet.PacketExtension, ScyBase {
     
-    public static final String NAMESPACE = "http://scy.eu/scy-object";
-    public static final String ELEMENT_NAME = "scy-object";
+    public static final String NAMESPACE = "http://scy.eu/scyobject";
+    public static final String ELEMENT_NAME = "scyobject";
     private String description;
     private String name;
     private String id;
@@ -39,9 +39,9 @@ public class ScyObjectPacketExtension extends PacketExtension implements org.jiv
     public String toXML() {
         StringBuffer sb = new StringBuffer();
         sb.append("<" + ELEMENT_NAME + " xmlns=\"" + NAMESPACE + "\">");
-        sb.append("<id>").append(id).append("</id>");
-        sb.append("<name>").append(name).append("</name>");
-        sb.append("<description>").append(description).append("</description>");
+        sb.append("<id>").append(getId()).append("</id>");
+        sb.append("<name>").append(getName()).append("</name>");
+        sb.append("<description>").append(getDescription()).append("</description>");
         sb.append("</" + ELEMENT_NAME + ">");
         return sb.toString();
     }
