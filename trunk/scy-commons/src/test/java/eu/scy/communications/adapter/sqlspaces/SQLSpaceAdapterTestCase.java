@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.message.ScyMessage;
-import eu.scy.core.model.impl.ScyBaseObject;
 
 
 
