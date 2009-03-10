@@ -19,7 +19,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.URL;
 import java.net.InetAddress;
-import java.net.Inet4Address;
 import java.util.Vector;
 import javax.swing.*;
 
@@ -29,10 +28,8 @@ import eu.scy.colemo.agent.StartVote;
 import eu.scy.colemo.network.Client;
 import eu.scy.colemo.network.Person;
 
-import eu.scy.colemo.test.XMLFileViewer;
 import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
-import eu.scy.colemo.client.groups.ConnectionHandlerJGroups;
 
 /**
  * @author Øystein
@@ -214,10 +211,8 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         disconnect.setToolTipText("Disconnect & quit application");
 
         addDirectedConnection = new JToggleButton("Add Directed Connection");
-        addDirectedConnection.setAction(new eu.scy.colemo.client.actions.AddDirectedConnectionAction());
 
         addConnection = new JToggleButton("Add Connection");
-        addConnection.setAction(new eu.scy.colemo.client.actions.AddNonDirectedConnectionAction());
 
         //Legger actionListener til på knappene
         addClass.addActionListener(this);
@@ -267,8 +262,6 @@ southPanel.setPreferredSize(new Dimension(1000,300));
             save();
         } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Open diagram") {
             load();
-        } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Open XML") {
-            XMLFileViewer xml = new XMLFileViewer();
         } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Exit") {
             int i = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit the session?");
             if (i == 0) {

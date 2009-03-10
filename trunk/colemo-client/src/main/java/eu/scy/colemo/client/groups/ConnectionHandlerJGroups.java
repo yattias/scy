@@ -3,7 +3,6 @@ package eu.scy.colemo.client.groups;
 import org.jgroups.*;
 import org.jgroups.util.Util;
 import eu.scy.colemo.client.ConnectionHandler;
-import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.MainFrame;
 import eu.scy.colemo.contributions.*;
 import eu.scy.colemo.contributions.cmap.ConceptNode;
@@ -19,11 +18,9 @@ import eu.scy.colemo.agent.EndVote;
 import eu.scy.colemo.clientframework.ClientFrameworkHandler;
 
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Vector;
-import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -166,7 +163,7 @@ public class ConnectionHandlerJGroups extends ReceiverAdapter implements Connect
             ConceptNode add = (ConceptNode) o;
             ConceptMapNodeData conceptMapNodeData = new ConceptMapNodeData(add.getName());
             frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(conceptMapNodeData);
-            frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
+            //frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
         }
         if (o instanceof AddLink) {
             AddLink add = (AddLink) o;
@@ -214,7 +211,7 @@ public class ConnectionHandlerJGroups extends ReceiverAdapter implements Connect
         if (o instanceof DeleteAssociation) {
             DeleteAssociation delete = (DeleteAssociation) o;
             frame.getGraphicsDiagram().getUmlDiagram().deleteAssociation(delete.getUmlAssociation());
-            frame.getGraphicsDiagram().deleteAssociation(delete.getUmlAssociation());
+            //frame.getGraphicsDiagram().deleteAssociation(delete.getUmlAssociation());
         }
         if (o instanceof DeleteClass) {
             DeleteClass delete = (DeleteClass) o;
@@ -225,7 +222,7 @@ public class ConnectionHandlerJGroups extends ReceiverAdapter implements Connect
             Rename rename = (Rename) o;
             if (rename.getType().equals("class")) {
                 frame.getGraphicsDiagram().getUmlDiagram().renameClass(rename.getUmlClass(), rename.getNewName());
-                frame.getGraphicsDiagram().renameClass(rename.getUmlClass());
+                //frame.getGraphicsDiagram().renameClass(rename.getUmlClass());
             } else if (rename.getType().equals("field")) {
                 frame.getGraphicsDiagram().getUmlDiagram().renameField(rename.getUmlClass(), rename.getNewName(), rename.getOldName());
                 frame.getGraphicsDiagram().updateClass(rename.getUmlClass());
@@ -315,7 +312,7 @@ public class ConnectionHandlerJGroups extends ReceiverAdapter implements Connect
         if (o instanceof EndVote) {
             EndVote endVote = (EndVote) o;
             if (endVote.isDelete()) {
-                frame.getGraphicsDiagram().removeClass(frame.getGraphicsDiagram().getClass(endVote.getClas()));
+                //frame.getGraphicsDiagram().removeNode(frame.getGraphicsDiagram().getNode(endVote.getClas()));
             } else {
                 //JOptionPane.showMessageDialog(frame, "The majority of the users decided not to delete" + newline +
                 //        endVote.getClas() + newline + "Please consider discussing this with the others!");

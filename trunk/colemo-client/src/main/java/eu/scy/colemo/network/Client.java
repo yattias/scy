@@ -96,7 +96,7 @@ public class Client implements Receiver, Runnable {
             ConceptNode add = (ConceptNode) o;
             ConceptMapNodeData conceptMapNodeData = new ConceptMapNodeData(add.getName());
             frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(conceptMapNodeData);
-            frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
+            //frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
             frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserName() + " added the new class: \"" + add.getName().toUpperCase() + "\"" + newline);
         }
         if (o instanceof AddLink) {
@@ -146,7 +146,7 @@ public class Client implements Receiver, Runnable {
         if (o instanceof DeleteAssociation) {
             DeleteAssociation delete = (DeleteAssociation) o;
             frame.getGraphicsDiagram().getUmlDiagram().deleteAssociation(delete.getUmlAssociation());
-            frame.getGraphicsDiagram().deleteAssociation(delete.getUmlAssociation());
+            //frame.getGraphicsDiagram().deleteAssociation(delete.getUmlAssociation());
         }
         if (o instanceof DeleteClass) {
             DeleteClass delete = (DeleteClass) o;
@@ -157,7 +157,7 @@ public class Client implements Receiver, Runnable {
             Rename rename = (Rename) o;
             if (rename.getType().equals("class")) {
                 frame.getGraphicsDiagram().getUmlDiagram().renameClass(rename.getUmlClass(), rename.getNewName());
-                frame.getGraphicsDiagram().renameClass(rename.getUmlClass());
+                //frame.getGraphicsDiagram().renameClass(rename.getUmlClass());
             } else if (rename.getType().equals("field")) {
                 frame.getGraphicsDiagram().getUmlDiagram().renameField(rename.getUmlClass(), rename.getNewName(), rename.getOldName());
                 frame.getGraphicsDiagram().updateClass(rename.getUmlClass());
@@ -247,7 +247,7 @@ public class Client implements Receiver, Runnable {
         if (o instanceof EndVote) {
             EndVote endVote = (EndVote) o;
             if (endVote.isDelete()) {
-                frame.getGraphicsDiagram().removeClass(frame.getGraphicsDiagram().getClass(endVote.getClas()));
+                //frame.getGraphicsDiagram().removeNode(frame.getGraphicsDiagram().getNode(endVote.getClas()));
             } else {
                 JOptionPane.showMessageDialog(frame, "The majority of the users decided not to delete" + newline +
                         endVote.getClas() + newline + "Please consider discussing this with the others!");

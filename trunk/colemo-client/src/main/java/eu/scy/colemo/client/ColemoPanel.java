@@ -25,7 +25,6 @@ public class ColemoPanel extends JPanel {
         initializeGUI();
         ApplicationController.getDefaultInstance().setColemoPanel(this);
         ApplicationController.getDefaultInstance().connect();
-
     }
 
     public GraphicsDiagram getGraphicsDiagram() {
@@ -41,9 +40,8 @@ public class ColemoPanel extends JPanel {
         gDiagram = new GraphicsDiagram(new UmlDiagram());
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
-        add(BorderLayout.CENTER, gDiagram);
+        add(BorderLayout.CENTER, gDiagram);        
     }
-
 
     public void addNewConcept(UmlDiagram diagram, String type) {
 

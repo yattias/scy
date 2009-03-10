@@ -7,15 +7,12 @@
 package eu.scy.colemo.client;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
 import eu.scy.colemo.server.uml.*;
+import eu.scy.colemo.contributions.MoveClass;
 
 /**
  * @author Øystein
@@ -25,7 +22,9 @@ import eu.scy.colemo.server.uml.*;
  */
 public class GraphicsDiagram extends JPanel implements MouseListener, ActionListener {
     private UmlDiagram umlDiagram;
-    private Hashtable components;
+
+    private HashSet<ConceptLink> links = new HashSet<ConceptLink>();
+    private HashSet<ConceptNode> nodes = new HashSet<ConceptNode>();
 
     public static final int CONNECT_MODE_ON = 0;
     public static final int CONNECT_MODE_OFF = 1;
@@ -34,7 +33,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     private ConceptNode source = null;
     private ConceptNode target = null;
-    private HashSet<LabeledLink> links = new HashSet<LabeledLink>();
+
+    public GraphicsDiagram(UmlDiagram d) {
+        umlDiagram = d;
+        nodes = new HashSet<ConceptNode>();
+        setLayout(null);
+        addMouseListener(this);
+    }
 
     public int getConnectMode() {
         return connectMode;
@@ -42,10 +47,6 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void setConnectMode(int connectMode) {
         this.connectMode = connectMode;
-        if (connectMode == CONNECT_MODE_OFF) {
-            //setTarget(null);
-            //setSource(null);
-        }
     }
 
 
@@ -61,176 +62,95 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         return target;
     }
 
-    public void setTarget(ConceptNode target) {
-        if (target == null) {
-            System.out.println("Setting target to null");
-        } else {
-            System.out.println("Setting target: " + target.getName());
+    public void setTarget(ConceptNode node) {
+        if (node == null && target != null)
+            target.setFillColor(ConceptNode.defaultFillColor);
+
+        else if (node != null)
+            node.setFillColor(Color.yellow);
+
+        target = node;
+
+    }
+    public ConceptNode getNodeByClassId(String id) {
+        for (ConceptNode node : nodes) {
+            if (node.getModel().getId().equals(id)) return node;
         }
-
-        this.target = target;
+        return null;
     }
-
-    public ConceptNode getConceptMapNode(String id) {
-        return (ConceptNode) components.get(id);
-    }
-
-    public GraphicsDiagram(UmlDiagram umlDiagram) {
-        this.umlDiagram = umlDiagram;
-        this.setLayout(null);
-        addMouseListener(this);
-        components = new Hashtable();
-    }
-
-    public void addClass(UmlClass umlClass) {
-        ConceptNode gClass = new ConceptNode(umlClass, this);
-
-        components.put(gClass.getUmlClass().getId(), gClass);
-        System.out.println("Graphics diagram: ADDED " + umlClass.getName() + "; " + umlClass.getId() + " to components: " + components);
-        this.add(gClass);
-        //updatePopUpMenus();
-        gClass.invalidate();
-        gClass.validate();
-        gClass.repaint();
-        invalidate();
-        validate();
-        repaint();
-        SelectionController.getDefaultInstance().addSelectionControllerListnenr(gClass);
-    }
-
-    public void addConceptMapNodeData(ConceptMapNodeData conceptMapNodeData) {
-        GraphicsConcept gClass = new GraphicsConcept(conceptMapNodeData, this);
-        components.put(gClass.getUmlClass().getName(), gClass);
-        this.add(gClass);
-        //updatePopUpMenus();
-        gClass.invalidate();
-        gClass.validate();
-        gClass.repaint();
-    }
-
-    public void addLink(UmlLink umlLink) {
-        try {
-            LabeledLink link = new LabeledLink();
-            links.add(link);
-            ConceptNode fromNode = getClass(umlLink.getFrom());
-            ConceptNode toNode = getClass(umlLink.getTo());
-            fromNode.addOutboundLink(link);
-            toNode.addInboundLink(link);
-            add(link);
-        } catch (Exception e) {
-            System.out.println("Evil bug...");
-        }
-
-    }
-
-   /* public void addAssociation(UmlAssociation umlAssociation) {
-        GraphicsAssociation gAss = new GraphicsAssociation(umlAssociation, this);
-        components.put(gAss.getFrom().getUmlClass().getName() + gAss.getTo().getUmlClass().getName(), gAss);
-        associate.add(gAss);
-        gAss.paint(getGraphics());
-    }*/
-
-    public void deleteClass(UmlClass umlClass) {
-        ConceptNode gClass = (ConceptNode) components.remove(umlClass.getName());
-        this.remove(gClass);
-        this.repaint();
-    }
-
-    public void deleteLink(UmlLink umlLink) {
-        GraphicsLink gLink = (GraphicsLink) components.remove(umlLink.getFrom() + umlLink.getTo());
-        this.repaint();
-    }
-
-    public void deleteAssociation(UmlAssociation umlAssociation) {
-        GraphicsAssociation gAss = (GraphicsAssociation) components.remove(umlAssociation.getFrom() + umlAssociation.getTo());
-        this.repaint();
-    }
-
-    public void updateClass(UmlClass umlClass) {
-        ConceptNode gClass = (ConceptNode) components.get(umlClass.getId());
-        System.out.println("UPDATIN A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
-        if (umlClass.isMove()) {
-            gClass.setBackground(new Color(236, 236, 236));
-            gClass.setToolTipText("<html>" + umlClass.getName() + " created by " + umlClass.getAuthor() + ".<br>" +
-                    "A faded class represents a class being moved by another user." + "<br>" +
-                    "You can still manipulate this class, but you should not try to move it" + "<br>" +
-                    "since this can interfer with the other user!" + "</html>");
-        }
-        if (gClass != null) {
-
-
-            if (!umlClass.isMove()) {
-
-                gClass.setBackground(new Color(212, 208, 200));
-                gClass.setToolTipText(umlClass.getName() + " created by " + umlClass.getAuthor());
-            }
-            gClass.layoutComponents();
-            gClass.invalidate();
-            gClass.validate();
-            gClass.repaint();
-        }
-        this.repaint();
-    }
-
-    public void renameClass(UmlClass umlClass) {
-        //Hente ut evt linker og rename de
-        ConceptNode gClass = (ConceptNode) components.remove(umlClass.getName());
-        String oldName = umlClass.getName();
-
-        components.put(gClass.getUmlClass().getName(), gClass);
-
-        gClass.layoutComponents();
-        gClass.invalidate();
-        gClass.validate();
-        gClass.repaint();
-
-        this.repaint();
-
-    }
-
-
-    /*public void updatePopUpMenus() {
-        for (Enumeration e = components.elements(); e.hasMoreElements();) {
-            Object o = e.nextElement();
-            if (o instanceof ConceptNode) {
-                ConceptNode gClass = (ConceptNode) o;
-            }
-        }
-
-    } */
-
-    public void createPopUpMenus() {
-        /*Component[] components = getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof ConceptNode) {
-                ((ConceptNode) components[i]).createPopUpMenu();
-            }
-        } */
-    }
-
-    public ConceptNode getClass(String name) {
-        Component[] components = getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof ConceptNode) {
-                ConceptNode gc = (ConceptNode) components[i];
-                if (((ConceptNode) components[i]).getClassName().equals(name)) {
-                    return (ConceptNode) components[i];
-                }
-            }
+    public ConceptNode getNodeByClass(UmlClass cls) {
+        for (ConceptNode node : nodes) {
+            if (node.getModel().equals(cls)) return node;
         }
         return null;
     }
 
-    public Vector getAllClassNames() {
-        Vector classNames = new Vector();
+    public void addClass(UmlClass umlClass) {
+        ConceptNode node = new ConceptNode(umlClass);
 
-        Component[] components = getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof ConceptNode) {
-                classNames.add(((ConceptNode) components[i]).getClassName());
+        nodes.add(node);
+
+        add(node);
+
+        NodeConnectionListener listener = new NodeConnectionListener(this);
+        node.addMouseMotionListener(listener);
+        node.addMouseListener(listener);
+
+        layoutDiagram();
+    }
+
+    public void addLink(UmlLink umlLink) {
+        try {
+            ConceptLink link = new ConceptLink(umlLink);
+            links.add(link);
+            ConceptNode fromNode = getNodeByClassId(umlLink.getFrom());
+            ConceptNode toNode = getNodeByClassId(umlLink.getTo());
+            fromNode.addOutboundLink(link);
+            toNode.addInboundLink(link);
+            add(link);
+            repaint(link.getBounds());
+        } catch (Exception e) {
+            System.out.println("Evil bug... ®");
+        }
+    }   
+    private void layoutDiagram() {
+        for (ConceptNode node : nodes) {
+            UmlClass cls = node.getModel();
+            node.setBounds(cls.getX(), cls.getY(), 120, 70);
+        }
+        for (ConceptLink link: links) {
+            link.update();
+        }
+        repaint();
+    }
+    public void deleteClass(UmlClass umlClass) {
+        ConceptNode node = getNodeByClassId(umlClass.getId());
+        nodes.remove(node);
+        this.repaint();
+    }
+
+    public void deleteLink(UmlLink umlLink) {
+        //TODO: Implement this
+    }
+
+    public void updateClass(UmlClass umlClass) {
+        ConceptNode node = getNodeByClassId(umlClass.getId());
+        System.out.println("UPDATIN A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
+        if (umlClass.isMove()) {
+            node.setBackground(new Color(236, 236, 236));
+            node.setToolTipText("<html>" + umlClass.getName() + " created by " + umlClass.getAuthor() + ".<br>" +
+                    "A faded class represents a class being moved by another user." + "<br>" +
+                    "You can still manipulate this class, but you should not try to move it" + "<br>" +
+                    "since this can interfer with the other user!" + "</html>");
+        }
+        if (node != null) {
+
+            if (!umlClass.isMove()) {
+                node.setBackground(new Color(212, 208, 200));
+                node.setToolTipText(umlClass.getName() + " created by " + umlClass.getAuthor());
             }
         }
-        return classNames;
+        this.repaint();
     }
 
     public UmlDiagram getUmlDiagram() {
@@ -264,7 +184,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
     }
 
-    public void deleteClass(ConceptNode gClass) {
+    public void deleteNode(ConceptNode node) {
         /* //Kalle opp alle klienter og spørre om de vil slette klassen
         //frame.getClient().getConnection().send(new StartVote());
         int n = JOptionPane.showConfirmDialog(frame, "The deletion of this class will affect" + "\n" +
@@ -272,70 +192,17 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 "To continue press \"yes\" or to discuss it further press \"no\"", "DELETION WARNING!", JOptionPane.YES_NO_OPTION);
         if (n == 0) {
             if (frame.getClient() != null) {
-                frame.getClient().getConnection().send(new StartVote(frame.getClient().getConnection().getSocket().getLocalAddress(), frame.getClient().getPerson().getUserName(), gClass.getUmlClass().getName()));
+                frame.getClient().getConnection().send(new StartVote(frame.getClient().getConnection().getSocket().getLocalAddress(), frame.getClient().getPerson().getUserName(), node.getUmlClass().getName()));
             } else {
-                removeClass(gClass);
+                removeNode(node);
             }
         }
         */
     }
 
-    public void removeClass(ConceptNode gClass) {
-        /*//Client client = gClass.getGraphicsDiagram().getMainFrame().getClient();
-        //Client client = ApplicationController.getDefaultInstance().getClient();
-        Connection connection = client.getConnection();
-        InetAddress ip = connection.getSocket().getLocalAddress();
-
-        Vector components = umlDiagram.getComponents();
-        for (int i = 0; i < components.size(); i++) {
-            if (components.elementAt(i) instanceof UmlLink) {
-                UmlLink current = (UmlLink) components.elementAt(i);
-
-                if (current.getFrom().equals(gClass.getClassName()) || current.getTo().equals(gClass.getClassName())) {
-                    DeleteLink deleteLink = new DeleteLink(current, ip, client.getPerson());
-                    connection.send(deleteLink);
-                }
-            }
-            if (components.elementAt(i) instanceof UmlAssociation) {
-                UmlAssociation current = (UmlAssociation) components.elementAt(i);
-
-                if (current.getFrom().equals(gClass.getClassName()) || current.getTo().equals(gClass.getClassName())) {
-                    DeleteAssociation deleteAssociation = new DeleteAssociation(current, ip, client.getPerson());
-                    connection.send(deleteAssociation);
-                }
-            }
-        }
-
-        DeleteClass deleteClass = new DeleteClass(gClass.getUmlClass(), ip, client.getPerson());
-        connection.send(deleteClass);
-        */
+    public void deleteLinksForNode(ConceptNode node) {
+        // TODO: Remove links for the node in param
     }
-
-    public void deleteLinks(ConceptNode gClass) {
-        /*
-        Client client = ApplicationController.getDefaultInstance().getClient();
-        //gClass.getGraphicsDiagram().getMainFrame().getClient();
-        Connection connection = client.getConnection();
-        InetAddress ip = connection.getSocket().getLocalAddress();
-
-        Vector components = umlDiagram.getComponents();
-        for (int i = 0; i < components.size(); i++) {
-            if (components.elementAt(i) instanceof UmlLink) {
-                UmlLink current = (UmlLink) components.elementAt(i);
-                if (current.getFrom() == gClass.getClassName() || current.getTo() == gClass.getClassName()) {
-
-                    DeleteLink deleteLink = new DeleteLink(current, ip, client.getPerson());
-                    //gClass.getGraphicsDiagram().getMainFrame().getClient().getConnection().send(deleteLink);
-                    ApplicationController.getDefaultInstance().getClient().getConnection().send(deleteLink);
-                }
-            }
-        }
-        */
-    }
-
-    /*public MainFrame getMainFrame() {
-        return frame;
-    } */
 
     public void createMenu(MouseEvent e) {
         JPopupMenu menu = new JPopupMenu();
@@ -345,10 +212,10 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         menu.show(this, e.getX(), e.getY());
 
     }
-    public LabeledLink getNearestLink(Point p, int threshold) {
+    public ConceptLink getNearestLink(Point p, int threshold) {
         double nearestDist = Double.MAX_VALUE;
-        LabeledLink nearestLink = null;
-        for (LabeledLink link : links) {
+        ConceptLink nearestLink = null;
+        for (ConceptLink link : links) {
             double distance = link.getDistanceFromLine(p);
 
             if (threshold > -1 && distance > threshold) continue;
@@ -375,7 +242,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void mouseClicked(MouseEvent event) {
-        LabeledLink nearestLink = getNearestLink(event.getPoint(), 30);
+        ConceptLink nearestLink = getNearestLink(event.getPoint(), 30);
         if (nearestLink != null) {
             nearestLink.requestFocus();
         }
@@ -388,6 +255,91 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void mouseReleased(MouseEvent arg0) {
+    }
+
+    private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
+        private static GraphicsDiagram diagram;
+        NodeConnectionListener(GraphicsDiagram d) {
+            diagram = d;
+        }
+
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        public void mousePressed(MouseEvent e) {
+            ConceptNode node = (ConceptNode) e.getSource();
+            if (diagram.getConnectMode() == CONNECT_MODE_OFF && node.inConnectionArea(e.getPoint())) {
+                diagram.setSource(node);
+                diagram.setConnectMode(CONNECT_MODE_ON);
+            }
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (diagram.getTarget() != null && diagram.getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON) {
+                String fromId = diagram.getSource().getModel().getId();
+                String toId = diagram.getTarget().getModel().getId();
+
+                UmlLink link = new UmlLink(fromId, toId, "Bjørge :-)");
+
+                link.setId("ID-" + System.currentTimeMillis());
+                diagram.addLink(link);
+                ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
+                System.out.println("DONE CREATING LINK (Conceptnode)");
+                diagram.repaint();
+            }
+            else {
+                ConceptNode node = (ConceptNode) e.getSource();
+                UmlClass umlClass = node.getModel();
+                if (umlClass.isMove()) {
+                    umlClass.setMove(false);
+                    MoveClass movedClass = new MoveClass(umlClass, null, null);
+                    ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
+                }
+            }
+            diagram.setConnectMode(CONNECT_MODE_OFF);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            ConceptNode node = (ConceptNode) e.getSource();
+            if(diagram.getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON && !node.equals(diagram.getSource())) {
+                diagram.setTarget(node);
+            }
+        }
+
+        public void mouseExited(MouseEvent e) {
+            diagram.setTarget(null);
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            ConceptNode node = (ConceptNode) e.getSource();
+            if (diagram.getConnectMode() != CONNECT_MODE_ON) {
+                UmlClass umlClass = node.getModel();
+                umlClass.setMove(true);
+                int x = node.getX() + e.getX() - (node.getWidth() / 2);
+                int y = node.getY() + e.getY() - (node.getHeight() / 2);
+                node.setLocation(x, y);
+                umlClass.setX(x);
+                umlClass.setY(y);
+
+                // Uncomment for real-time moving
+                //MoveClass movedClass = new MoveClass(umlClass, null, null);
+                //ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
+            }
+            else {
+                ConceptNode target = diagram.getTarget();
+                if (target != null) {
+                    Point relPoint = node.getLocation();
+                    relPoint.translate(e.getX(), e.getY());
+                    int relX = (int)relPoint.getX() - target.getX();
+                    int relY = (int)relPoint.getY() - target.getY();
+                    target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
+                }
+            }
+        }
+
+        public void mouseMoved(MouseEvent e) {
+        }
     }
 
 }

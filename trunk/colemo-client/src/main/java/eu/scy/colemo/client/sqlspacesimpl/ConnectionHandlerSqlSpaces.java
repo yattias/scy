@@ -155,6 +155,8 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             Object newNOde = ot.getObject(allTuple);
             addNewNode(newNOde);
         }
+        //TODO: Find a better place for this
+        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0,0, 800, 700);
     }
 
     public void cleanUp() {
@@ -170,8 +172,6 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {
             System.out.println("UPDATING CONCEPT FROM SERVER!");
             ObjectTranslator ot = new ObjectTranslator();
-
-            UmlClass umlClass = null;
 
             System.out.println("CALL: Before add class");
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
