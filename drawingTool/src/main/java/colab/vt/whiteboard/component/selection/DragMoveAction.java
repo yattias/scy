@@ -11,7 +11,6 @@ import colab.vt.whiteboard.utils.ShiftLimitations;
 public class DragMoveAction extends AbstractDragEditAction
 {
 	private static final long serialVersionUID = 2445930855423336577L;
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DragMoveAction.class.getName());
 
 	private class MoveState

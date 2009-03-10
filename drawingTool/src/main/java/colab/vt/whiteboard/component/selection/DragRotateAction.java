@@ -11,7 +11,6 @@ import colab.vt.whiteboard.utils.ShiftLimitations;
 public class DragRotateAction extends AbstractDragEditAction
 {
 	private static final long serialVersionUID = 7591835346947549050L;
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DragRotateAction.class.getName());
 
 	private double xRotateCenter = 0;

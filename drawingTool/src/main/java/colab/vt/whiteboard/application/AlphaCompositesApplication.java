@@ -34,7 +34,6 @@ import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Composite;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -43,6 +42,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -58,7 +58,9 @@ import javax.swing.event.ChangeListener;
  * @author Romain Guy
  */
 public class AlphaCompositesApplication extends JFrame {
-    private CompositePainter painter;
+
+	private static final long serialVersionUID = -5623595427430639251L;
+	private CompositePainter painter;
     private JSlider opacity;
     private JComboBox composites;
     
@@ -112,7 +114,7 @@ public class AlphaCompositesApplication extends JFrame {
         try {
             Field ruleField = AlphaComposite.class.getDeclaredField(rule);
             AlphaComposite composite = AlphaComposite.getInstance(ruleField.getInt(null),
-                (float) opacity.getValue() / 100.0f);
+                opacity.getValue() / 100.0f);
             painter.setComposite(composite);
         } catch (SecurityException ex) {
             ex.printStackTrace();
@@ -126,7 +128,11 @@ public class AlphaCompositesApplication extends JFrame {
     }
     
     private final class CompositePainter extends JComponent {
-        private AlphaComposite composite = AlphaComposite.getInstance(
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -4284283673059626643L;
+		private AlphaComposite composite = AlphaComposite.getInstance(
             AlphaComposite.SRC, 0.5f);
 
         @Override

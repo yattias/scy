@@ -52,8 +52,7 @@ public class WhiteboardTagPointer extends WhiteboardSimpleShape
 	{
 		if (isLocationInTagBounds(mouseLocation))
 			return tooltip;
-		else
-			return null;
+		return null;
 	}
 	
 	boolean isLocationInTagBounds(Point location)

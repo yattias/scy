@@ -8,6 +8,8 @@ import colab.vt.whiteboard.component.WhiteboardContainer;
 
 public abstract class AbstractDragEditAction implements DragEditAction, Serializable
 {
+	private static final long serialVersionUID = -4199875337786244993L;
+
 	private WhiteboardPanel whiteboardPanel;
 	private WhiteboardContainer mainWhiteboardContainer;
 	private MouseEvent startMouseEvent;

@@ -24,11 +24,8 @@ import org.jdesktop.application.ApplicationActionMap;
 import org.springframework.util.StringUtils;
 
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -59,6 +56,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	private static final Logger logger = Logger.getLogger(DrawingToolFrame.class.getName());
 
 	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+	@SuppressWarnings("unused")
 	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
 	private IELOFactory<IMetadataKey> eloFactory;
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
@@ -66,7 +64,6 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	private WhiteboardPanel whiteboardPanel;
 	private String docName = "untitiled";
 	private IELO<IMetadataKey> elo = null;
-	private boolean whiteboardChanged = false;
 	private JMenuBar menuBar;
 	private JMenuItem closeDrawingMenuItem;
 	private JMenuItem savaAsDrawingMenuItem;
@@ -278,8 +275,8 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	public void loadDrawingAction()
 	{
 		IQuery query = null;
-		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(titleKey,
-					BasicSearchOperations.LESS, "n", null);
+//		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(titleKey,
+//					BasicSearchOperations.LESS, "n", null);
 //		query = metadataQuery;
 		List<ISearchResult> searchResults = repository.search(query);
 		URI[] drawingUris = new URI[searchResults.size()];
@@ -290,14 +287,14 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 					JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
 		if (drawingUri != null)
 		{
-			IELO<IMetadataKey> elo = repository.retrieveELO(drawingUri);
-			if (elo != null)
+			IELO<IMetadataKey> newElo = repository.retrieveELO(drawingUri);
+			if (newElo != null)
 			{
 				// URI docUri = elo.getUri();
 				// setDocName(docUri.getPath());
-				setDocName((String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue());
+				setDocName((String) newElo.getMetadata().getMetadataValueContainer(titleKey).getValue());
 				whiteboardPanel.deleteAllWhiteboardContainers();
-				whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(elo.getContent()
+				whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
 							.getXml()));
 			}
 		}
@@ -377,34 +374,29 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 
 	public void whiteboardContainerChanged(WhiteboardContainerChangedEvent arg0)
 	{
-		whiteboardChanged = true;
 	}
 
 	public void whiteboardContainerAdded(WhiteboardContainerChangedEvent arg0)
 	{
-		whiteboardChanged = true;
 	}
 
 	public void whiteboardContainerDeleted(WhiteboardContainerChangedEvent arg0)
 	{
-		whiteboardChanged = true;
 	}
 
 	public void whiteboardContainersCleared(WhiteboardContainerListChangedEvent arg0)
 	{
-		whiteboardChanged = true;
 	}
 
 	public void whiteboardContainersLoaded(WhiteboardContainerListChangedEvent arg0)
 	{
-		whiteboardChanged = false;
 	}
 
 	public void whiteboardPanelLoaded(WhiteboardContainerListChangedEvent arg0)
 	{
-		whiteboardChanged = false;
 	}
 
+	@SuppressWarnings("unused")
 	private IMetadataKey uriKey;
 	private IMetadataKey titleKey;
 	private IMetadataKey typeKey;

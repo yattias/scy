@@ -16,7 +16,6 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.ApplicationActionMap;
-import org.springframework.util.StringUtils;
 
 public class DrawingApplet extends javax.swing.JApplet
 {
@@ -28,15 +27,12 @@ public class DrawingApplet extends javax.swing.JApplet
 
 	private JMenuBar menuBar;
 	private JMenuItem newDrawingMenuItem;
-	private JMenuItem closeDrawingMenuItem;
 	private JMenuItem saveAsDrawingMenuItem;
 	private JMenuItem saveDrawingMenuItem;
 	private JMenuItem loadDrawingMenuItem;
 	private JMenu eloMenu;
 
 	private SpringRoloEloDrawingPanel whiteboardPanel;
-	private String docName = "untitiled";
-
 	/**
 	 * Auto-generated main method to display this JApplet inside a new JFrame.
 	 */
@@ -156,15 +152,6 @@ public class DrawingApplet extends javax.swing.JApplet
 		return null;
 	}
 	
-
-	private void setDocName(String docName)
-	{
-		this.docName = docName;
-		String windowTitle = "Drawing: ";
-		if (StringUtils.hasText(docName))
-			windowTitle += docName;
-		// setTitle(windowTitle);
-	}
 
 	@Action
 	public void newDrawingAction()
