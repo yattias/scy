@@ -1,5 +1,7 @@
 package eu.scy.colemo.client.sqlspacesimpl;
 
+import org.apache.log4j.Logger;
+
 import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.contributions.AddClass;
@@ -8,6 +10,11 @@ import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.contributions.AddLink;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.collaborationservice.CollaborationService;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.communications.adapter.ScyCommunicationAdapter;
+import eu.scy.communications.message.ScyMessage;
+import eu.scy.core.model.impl.ScyBaseObject;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.Tuple;
@@ -29,7 +36,9 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
     private Tuple conceptTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
     private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
-
+    public static final Logger logger = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
+    
+    
     public void sendMessage(String message) {
         try {
             System.out.println("Sending message: " + message);
@@ -45,7 +54,6 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
                 }
             }
 
-
             Tuple templateTuple = new Tuple(String.class, String.class, String.class, String.class, String.class);
             Tuple returnTuple = tupleSpace.read(templateTuple);
             if (returnTuple != null) {
@@ -57,8 +65,35 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         }
     }
 
-
+    
     public void sendObject(Object object) {
+        System.out.println("Sending object:" + object);
+        ScyCommunicationAdapter communicationAdapter = ScyCommunicationAdapter.getInstance();
+        ObjectTranslator translator = new ObjectTranslator();
+        ScyMessage sendMe = null;
+
+        if (object instanceof AddClass) {
+            AddClass addClass = (AddClass) object;
+            System.out.println("NAME: " + addClass.getName());
+            sendMe = translator.getScyMessage(addClass);
+        } else if (object instanceof MoveClass) {
+            MoveClass mc = (MoveClass) object;
+            mc.setId(mc.getUmlClass().getId());
+            System.out.println("moving class with id:  " + mc.getId() + " to position: " + mc.getUmlClass().getX() + ", " + mc.getUmlClass().getY());
+            sendMe = translator.getScyMessage(mc);
+        } else if (object instanceof UmlLink) {
+            UmlLink addLink = (UmlLink) object;
+            System.out.println("Adding link");
+            sendMe = translator.getScyMessage(addLink);
+        }        
+        
+        if (sendMe != null) {
+            logger.debug("Sending ScyMessage: \n" + sendMe.toString());
+            communicationAdapter.create(sendMe);
+        }
+    }
+
+    public void sendObject2(Object object) {
         try {
             System.out.println("Sending object:" + object);
             ObjectTranslator translator = new ObjectTranslator();
@@ -166,7 +201,6 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         } else if(node instanceof UmlLink) {
             UmlLink link = (UmlLink) node;
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
-
         }
     }
 }
