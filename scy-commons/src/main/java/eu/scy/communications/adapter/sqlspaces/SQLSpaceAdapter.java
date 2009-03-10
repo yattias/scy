@@ -151,6 +151,7 @@ public class SQLSpaceAdapter implements Callback {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
+            logger.error("got tuple " + returnTuple);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while reading touple " + e);
         }
@@ -170,14 +171,12 @@ public class SQLSpaceAdapter implements Callback {
     
     
     private ScyMessage convertTupleToScyMessage(Tuple tuple) {
-        ScyMessage sm = null;
-        if (tuple != null) {
-            sm = new ScyMessage();
-            sm.setId(tuple.getTupleID().toString());
-            sm.setName("name is name is name");
-            sm.setDescription("dezkriptchawn");
+        //username, toolName, id, objectType, name, description, to, from, messagePurpose
+        if (tuple == null) {
+            return null;
         }
-        return sm;
+        Field[] fields = tuple.getFields();
+        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0);
     }
     
     
