@@ -7,6 +7,7 @@
 
     <session-factory>
         <mapping package="eu.scy.core.model.impl"/>
+        <!--mapping package="net.sf.sail.webapp.domain.sds"/-->
 
         <mapping class="eu.scy.core.model.impl.UserImpl"/>
         <mapping class="eu.scy.core.model.impl.GroupImpl"/>
@@ -15,6 +16,13 @@
         <mapping class="eu.scy.core.model.impl.UserRoleImpl"/>
         <mapping class="eu.scy.core.model.impl.BuddyConnectionImpl"/>
         <mapping class="eu.scy.core.model.impl.UserSessionImpl"/>
+        <mapping class="eu.scy.core.model.impl.UserDetails"/>
+
+        <!--mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentUserDetails"/-->
+        <!--mapping class="net.sf.sail.webapp.domain.sds.SdsUser"/-->
+
+
+
 
     </session-factory>
 </hibernate-configuration>

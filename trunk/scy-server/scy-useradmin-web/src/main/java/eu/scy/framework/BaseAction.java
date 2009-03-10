@@ -2,9 +2,11 @@ package eu.scy.framework;
 
 import eu.scy.framework.ActionManager;
 import eu.scy.core.model.Project;
-import eu.scy.core.model.User;
+
 
 import java.util.logging.Logger;
+
+import net.sf.sail.webapp.domain.User;
 
 /**
  * Created by IntelliJ IDEA.

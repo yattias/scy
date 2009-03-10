@@ -1,9 +1,11 @@
 package eu.scy.listeners;
 
 import eu.scy.core.model.Project;
-import eu.scy.core.model.User;
-import eu.scy.core.model.impl.UserImpl;
+//import eu.scy.core.model.User;
+//import eu.scy.core.model.impl.UserImpl;
 import eu.scy.core.model.impl.ProjectImpl;
+import eu.scy.core.model.impl.UserImpl;
+import eu.scy.core.model.impl.UserDetails;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.framework.Constants;
@@ -18,6 +20,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
+import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
+import net.sf.sail.webapp.domain.User;
 
 /**
  * Created by IntelliJ IDEA.
@@ -150,26 +154,28 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
 
         }
 
-        UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
+        //UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
         User defaultGlobalAdmin = new UserImpl();
-        defaultGlobalAdmin.setUserName("scy");
-        defaultGlobalAdmin.setPassword("scy");
-        defaultGlobalAdmin.setFirstName("Darth");
-        defaultGlobalAdmin.setLastName("Vader");
-
+        UserDetails vaderDetails = new UserDetails();
+        vaderDetails.setUsername("scy");
+        vaderDetails.setPassword("scy");
+        vaderDetails.setFirstname("Darth");
+        vaderDetails.setLastname("Vader");
+        defaultGlobalAdmin.setUserDetails(vaderDetails);
+/*
         User lukeSkywalkekr = new UserImpl();
         lukeSkywalkekr.setUserName("luke");
         lukeSkywalkekr.setPassword("luke");
         lukeSkywalkekr.setFirstName("Luke");
         lukeSkywalkekr.setLastName("SCYWalker");
-
+  */
         //User defaultGlobalAdmin = (User) ctx.getBean("defaultGlobalAdmin");
         //User lukeSkywalker = (User) ctx.getBean("lukeSkywalker");
 
 
         if (defaultGlobalAdmin != null) {
             setupUser(defaultGlobalAdmin, ctx);
-            setupUser(lukeSkywalkekr, ctx);
+            //setupUser(lukeSkywalkekr, ctx);
 
         }
 
@@ -178,11 +184,12 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
 
     private static void setupUser(User userToBeSetup, XmlWebApplicationContext ctx) {
         UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
-        User theUser = userDAO.getUserByUsername(userToBeSetup.getUserName());
+        User theUser = userDAO.getUserByUsername(userToBeSetup.getUserDetails().getUsername());
             if (theUser == null) {
-                log.info("Adding user " + userToBeSetup.getUserName() + " - " + userToBeSetup.getName() + " - " + userToBeSetup.getLastName());
+                log.info("Adding user " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getEmailAddress());
 
-                userToBeSetup = userDAO.addUser(userToBeSetup.getProject(), userToBeSetup.getGroup(), userToBeSetup);
+                //userToBeSetup = userDAO.addUser(userToBeSetup.getProject(), userToBeSetup.getGroup(), userToBeSetup);
+                userToBeSetup = userDAO.addUser(null, null, userToBeSetup);
             }
 
     }

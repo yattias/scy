@@ -38,6 +38,7 @@
             /WEB-INF/loginservice-beans.xml,
             /WEB-INF/applicationContext-colemo.xml,
             /WEB-INF/applicationContext-userSessionBeans.xml,
+            /WEB-INF/sail-users.xml,
             classpath:/applicationContext-modelBeans.xml
         </param-value>
     </context-param>
