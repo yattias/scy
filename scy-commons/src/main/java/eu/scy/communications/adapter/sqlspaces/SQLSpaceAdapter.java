@@ -82,10 +82,11 @@ public class SQLSpaceAdapter implements Callback {
         //username, toolName, id, objectType, name, description, to, from, messagePurpose
         //Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "");     
-        logger.debug("Wrote tuple: " + tuple);
+        logger.debug("About to write tuple: " + tuple);
 
         if (expiration > 0) {
             tuple.setExpiration(expiration);
+            logger.debug("With expiration: " + expiration);
         }
         TupleID tid = null;
         try {
@@ -95,6 +96,7 @@ public class SQLSpaceAdapter implements Callback {
                 tid = new TupleID(Long.valueOf(sqlSpaceId));
                 this.tupleSpace.update(tid, tuple);                
             }
+            logger.debug("Wrote tuple with tid: " + tid.getID());
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing or updating touple " + e);
         }
