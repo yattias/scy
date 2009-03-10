@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 import net.sf.sail.webapp.domain.authentication.MutableUserDetails;
+import net.sf.sail.webapp.domain.authentication.impl.PersistentUserDetails;
 import net.sf.sail.webapp.domain.sds.SdsUser;
 
 /**
@@ -17,9 +18,9 @@ import net.sf.sail.webapp.domain.sds.SdsUser;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity (name = "eu.scy.core.model.impl.UserImpl")
-@Table (name = "user" )
-@org.hibernate.annotations.Proxy (proxyClass = User.class )
+@Entity(name = "eu.scy.core.model.impl.UserImpl")
+@Table(name = "user")
+@org.hibernate.annotations.Proxy(proxyClass = User.class)
 public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements User {
 
     private String userName;
@@ -35,6 +36,11 @@ public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements
     private List<UserSession> userSessions;
 
     private Project project;
+
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = UserDetails.class)
+    @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
+    private MutableUserDetails userDetails;
+
 
 
     @Column(name = "userName", nullable = false, unique = true)
@@ -100,7 +106,7 @@ public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements
 
     @OneToMany(targetEntity = UserRoleImpl.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<UserRole> getUserRoles() {
-        if(userRoles == null) {
+        if (userRoles == null) {
             userRoles = new LinkedList<UserRole>();
         }
         return userRoles;
@@ -134,11 +140,11 @@ public class UserImpl extends net.sf.sail.webapp.domain.impl.UserImpl implements
     }
 
     public MutableUserDetails getUserDetails() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return userDetails;
     }
 
     public void setUserDetails(MutableUserDetails mutableUserDetails) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.userDetails = mutableUserDetails;
     }
 
 
