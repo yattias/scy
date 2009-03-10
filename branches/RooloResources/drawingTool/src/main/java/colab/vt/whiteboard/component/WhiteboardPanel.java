@@ -42,7 +42,6 @@ import javax.print.attribute.DocAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
@@ -1059,8 +1058,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 			g2d.dispose();
 			return Printable.PAGE_EXISTS;
 		}
-		else
-			return Printable.NO_SUCH_PAGE;
+		return Printable.NO_SUCH_PAGE;
 	}
 
 	class PrintableWhiteboardPanel implements Doc

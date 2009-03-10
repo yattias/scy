@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class TransformUtils
 {
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(TransformUtils.class.getName());
 
 	private TransformUtils()

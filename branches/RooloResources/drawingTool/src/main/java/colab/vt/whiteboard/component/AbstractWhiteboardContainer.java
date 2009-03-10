@@ -153,8 +153,7 @@ public abstract class AbstractWhiteboardContainer implements WhiteboardContainer
 	{
 		if (showContainerToStringTootip)
 			return toString();
-		else
-			return null;
+		return null;
 	}
 
 	public WhiteboardPanel getWhiteboardPanel()
@@ -298,8 +297,7 @@ public abstract class AbstractWhiteboardContainer implements WhiteboardContainer
 			return scale;
 		if (scale < 0)
 			return -minimumTransformScale;
-		else
-			return minimumTransformScale;
+		return minimumTransformScale;
 	}
 
 	public void calculateScaleOffsetCompensation()

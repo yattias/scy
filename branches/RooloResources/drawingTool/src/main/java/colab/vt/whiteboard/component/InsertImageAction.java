@@ -16,7 +16,6 @@ public class InsertImageAction extends SimpleSelectionAction
 {
 	private static final long serialVersionUID = 3752188223736154889L;
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(InsertImageAction.class.getName());
 
 	private Cursor defaultCursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);

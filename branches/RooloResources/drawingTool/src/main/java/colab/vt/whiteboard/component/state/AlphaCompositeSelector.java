@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.JMenuItem;
@@ -34,7 +33,7 @@ public class AlphaCompositeSelector extends AbstractStateSelector implements  Ac
 	private void createSizesMenu()
 	{
 		sizesMenu = new JPopupMenu();
-		List<String> names = alphaComposites.getNames();
+//		List<String> names = alphaComposites.getNames();
 		for (String name : alphaComposites.getNames())
 		{
 			JMenuItem menuItem = sizesMenu.add(name);

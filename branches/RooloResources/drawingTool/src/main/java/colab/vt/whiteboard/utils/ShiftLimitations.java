@@ -39,9 +39,9 @@ public class ShiftLimitations
 			else
 				deltaY = delta;
 		}
-		x = xBegin + deltaX;
-		y = yBegin + deltaY;
-		return new Point(x, y);
+		int useX = xBegin + deltaX;
+		int useY = yBegin + deltaY;
+		return new Point(useX, useY);
 	}
 
 	public static Point getShiftLocationCross(int xBegin, int yBegin, int x, int y)
@@ -57,9 +57,9 @@ public class ShiftLimitations
 			deltaY = -delta;
 		else
 			deltaY = delta;
-		x = xBegin + deltaX;
-		y = yBegin + deltaY;
-		return new Point(x, y);
+		int useX = xBegin + deltaX;
+		int useY = yBegin + deltaY;
+		return new Point(useX, useY);
 	}
 
 }
