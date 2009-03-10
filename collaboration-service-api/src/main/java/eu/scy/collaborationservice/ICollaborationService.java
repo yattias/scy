@@ -1,5 +1,6 @@
 package eu.scy.collaborationservice;
 
+import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.ScyMessage;
 import eu.scy.core.model.impl.ScyBaseObject;
 
