@@ -31,7 +31,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         logger.debug("something was deleted in the tuple space");
     }
     
-    public void actionUponWrite(String username) {
+    public void actionUponWrite(ScyMessage scyMessage) {
         logger.debug("something was written in the tuple space");
     }
     
