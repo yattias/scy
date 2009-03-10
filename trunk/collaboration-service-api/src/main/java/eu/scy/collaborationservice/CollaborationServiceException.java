@@ -11,13 +11,13 @@ public class CollaborationServiceException extends Exception {
     private String badthing;
     
     public CollaborationServiceException() {
-        super(); // call superclass constructor
+        super();
         badthing = "There was an error in the collaboration service";
     }
     
     public CollaborationServiceException(String err) {
-        super(err); // call super class constructor
-        badthing = err; // save message
+        super(err);
+        badthing = err;
     }
 
     /**

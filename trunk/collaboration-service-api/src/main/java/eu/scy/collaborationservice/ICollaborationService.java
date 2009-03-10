@@ -27,8 +27,9 @@ public interface ICollaborationService {
    * 
    * @param id
    * @return
+   * @throws CollaborationServiceException
    */
-  public ScyMessage read(String id);
+  public ScyMessage read(String id) throws CollaborationServiceException;
   
   /**
    * Updates an object with the following id
@@ -36,16 +37,17 @@ public interface ICollaborationService {
    * @param scyMessage - update message
    * @param id - id of the object to update
    * @return 
+   * @throws CollaborationServiceException
    */
-  public String update(ScyMessage scyMessage, String id);
+  public String update(ScyMessage scyMessage, String id) throws CollaborationServiceException;
   
   /**
    * Deletes the specified message
    * 
    * @param id of the object to delete
-   *
+   * @throws CollaborationServiceException
    */
-  public String delete(String id);
+  public String delete(String id) throws CollaborationServiceException;
   
   
   /**
@@ -53,12 +55,13 @@ public interface ICollaborationService {
    * updates it notify all clients listening.
    * 
    * @param collaborationListener
+   * @throws CollaborationServiceException
    */
-  public void addCollaborationListener(ICollaborationServiceListener collaborationListener);
+  public void addCollaborationListener(ICollaborationServiceListener collaborationListener) throws CollaborationServiceException;
   
   /**
    * test method
    */ 
-   public void sendCallBack(String something);
+   public void sendCallBack(String something) throws CollaborationServiceException;
    
 }
