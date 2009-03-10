@@ -55,30 +55,20 @@ public class SQLSpaceAdapter implements Callback {
     
 
     public String write(ScyMessage scyMessage) {
-        return write(null, scyMessage, 0);
-    }
-
+        return write(null, scyMessage);
+    }    
     
-    public String write(ScyMessage scyMessage, long expiration) {
-        return write(null, scyMessage, expiration);
-    }
-    
-    
-    public String write(String sqlSpaceId, ScyMessage scyMessage) {
-        return write(sqlSpaceId, scyMessage, 0);
-    }
-    
-    
-    public String write(String sqlSpaceId, ScyMessage scyMessage, long expiration) {
-        String user = scyMessage.getUserName();
-        String tool = scyMessage.getToolName();
-        String id = scyMessage.getId();
-        String type = scyMessage.getObjectType();
-        String name = scyMessage.getName();
-        String description = scyMessage.getDescription();
-        String to = scyMessage.getTo();
-        String from = scyMessage.getFrom();
-        String purpose = scyMessage.getMessagePurpose();
+    public String write(String tupleId, ScyMessage sm) {
+        String user = sm.getUserName();
+        String tool = sm.getToolName();
+        String id = sm.getId();
+        String type = sm.getObjectType();
+        String name = sm.getName();
+        String description = sm.getDescription();
+        String to = sm.getTo();
+        String from = sm.getFrom();
+        String purpose = sm.getMessagePurpose();
+        long expiration = sm.getExpiraton();
         //username, toolName, id, objectType, name, description, to, from, messagePurpose
         //Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "");     
@@ -86,14 +76,14 @@ public class SQLSpaceAdapter implements Callback {
 
         if (expiration > 0) {
             tuple.setExpiration(expiration);
-            logger.debug("With expiration: " + expiration);
+            logger.debug(" ... with expiration: " + expiration);
         }
         TupleID tid = null;
         try {
-            if (sqlSpaceId == null) {
+            if (tupleId == null) {
                 tid = this.tupleSpace.write(tuple);                
             } else {
-                tid = new TupleID(Long.valueOf(sqlSpaceId));
+                tid = new TupleID(Long.valueOf(tupleId));
                 this.tupleSpace.update(tid, tuple);                
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());

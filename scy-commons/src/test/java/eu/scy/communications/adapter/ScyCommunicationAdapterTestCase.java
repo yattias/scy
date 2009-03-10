@@ -70,12 +70,6 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     }
 
     @Override
-    public String createWithExpiration(ScyMessage sm, long expiration) {
-        // TODO Auto-generated method stub        
-        return null;
-    }
-
-    @Override
     public String delete(String id) {
         // TODO Auto-generated method stub        
         return null;
@@ -89,12 +83,6 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
 
     @Override
     public String update(ScyMessage sm, String id) {
-        // TODO Auto-generated method stub        
-        return null;
-    }
-
-    @Override
-    public String updateWithExpiration(ScyMessage sm, String id, long expiration) {
         // TODO Auto-generated method stub        
         return null;
     }
