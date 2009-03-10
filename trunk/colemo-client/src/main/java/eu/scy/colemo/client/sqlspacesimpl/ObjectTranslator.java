@@ -19,6 +19,8 @@ import eu.scy.communications.message.ScyMessage;
  */
 public class ObjectTranslator {
 
+    private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
+    
     public Tuple translate(Object object) {
         return null;
 
@@ -107,35 +109,15 @@ public class ObjectTranslator {
     
     
     public ScyMessage getScyMessage(AddClass addClass) {
-        ScyMessage sm = new ScyMessage();
-        sm.setUserName("henrik@enovate.no");
-        sm.setToolName("Colemo");
-        sm.setId(String.valueOf(addClass.hashCode()));
-        sm.setObjectType(addClass.getClass().getName());
-        sm.setName(addClass.getName());
-        sm.setDescription("Some description");
-        return sm;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, DEFAULT_EXPIRATION_TIME);
     }
     
     
     public ScyMessage getScyMessage(MoveClass moveClass) {
-        ScyMessage sm = new ScyMessage();
-        sm.setUserName("henrik@enovate.no");
-        sm.setToolName("Colemo");
-        sm.setId(moveClass.getUmlClass().getId());
-        sm.setObjectType(moveClass.getClass().getName());
-        sm.setName(moveClass.getUmlClass().getName());
-        sm.setDescription("" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY());
-        return sm;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, DEFAULT_EXPIRATION_TIME);
     }
     
     public ScyMessage getScyMessage(UmlLink addLink) {
-        ScyMessage sm = new ScyMessage();
-        sm.setUserName("henrik@enovate.no");
-        sm.setToolName("Colemo");
-        sm.setId(addLink.getId());
-        sm.setFrom(addLink.getFrom());
-        sm.setTo(addLink.getTo());
-        return sm;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), null, null, "Some description", addLink.getTo(), addLink.getFrom(), null, DEFAULT_EXPIRATION_TIME);
     }
 }
