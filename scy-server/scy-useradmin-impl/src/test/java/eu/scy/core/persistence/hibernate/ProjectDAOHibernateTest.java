@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Test
 public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextTests {
-    /*
+
     private ProjectDAO projectDAO;
 
     protected String[] getConfigLocations() {
@@ -36,11 +36,12 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
         this.projectDAO = projectDAO;
     }
 
+
     @Test
     public void testBeanDefined() {
         assert (getProjectDAO() != null);
     }
-
+    /*
     @Test
     public void testSaveProject() {
         Project p = new ProjectImpl();

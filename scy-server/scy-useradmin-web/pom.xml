@@ -87,25 +87,6 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>target/resources</directory>
-                            <includes>
-                                <include>applets/*.jar</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/WEB-INF</exclude>
-                            </excludes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin-->
-
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -161,26 +142,7 @@
                                     <version>3.1.0-SNAPSHOT</version>
                                     <type>jar</type>
                                 </artifactItem>
-                                <!--artifactItem>
-                                    <artifactId>jgroups-all</artifactId>
-                                    <groupId>jgroups</groupId>
-                                    <version>2.2.9.1</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>concurrent</artifactId>
-                                    <groupId>concurrent</groupId>
-                                    <version>1.3.3</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>commons-logging</artifactId>
-                                    <groupId>commons-logging</groupId>
-                                    <version>1.1.1</version>
-                                    <type>jar</type>
-                                </artifactItem-->
                             </artifactItems>
-                            <!--outputDirectory>src/main/webapp/applets</outputDirectory-->
                             <outputDirectory>target/classes/applets/</outputDirectory>
 
                             <stripVersion>true</stripVersion>
@@ -190,49 +152,6 @@
                 </executions>
             </plugin>
 
-            <!--execution>
-                <id>copy-applet-for-jetty</id>
-                <phase>process-resources</phase>
-                <goals>
-                    <goal>copy</goal>
-                </goals>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <artifactId>colemo-client</artifactId>
-                            <groupId>colemo</groupId>
-                            <version>1.0-SNAPSHOT</version>
-                            <type>jar</type>
-                        </artifactItem>
-                        <artifactItem>
-                            <artifactId>colemo-model</artifactId>
-                            <groupId>colemo</groupId>
-                            <version>1.0-SNAPSHOT</version>
-                            <type>jar</type>
-                        </artifactItem>
-                        <artifactItem>
-                            <artifactId>scy-model-api</artifactId>
-                            <groupId>eu.scy</groupId>
-                            <version>1.0-SNAPSHOT</version>
-                            <type>jar</type>
-                        </artifactItem>
-                        <artifactItem>
-                            <artifactId>scy-model-impl</artifactId>
-                            <groupId>eu.scy</groupId>
-                            <version>1.0-SNAPSHOT</version>
-                            <type>jar</type>
-                        </artifactItem>
-                    </artifactItems>
-                    <outputDirectory>target/classes/applets/</outputDirectory>
-
-                    <stripVersion>true</stripVersion>
-                </configuration>
-
-            </execution-->
-
-
-            <!--/executions>
-            </plugin-->
         </plugins>
 
     </build>
@@ -369,6 +288,15 @@
             <artifactId>sqlspaces-commons</artifactId>
             <version>3.1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- SAIL PORTAL -->
+
+        <dependency>
+            <groupId>net.sf.sail</groupId>
+            <artifactId>sail-webapp-all</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
 
 
         <!-- TAPESTRY -->

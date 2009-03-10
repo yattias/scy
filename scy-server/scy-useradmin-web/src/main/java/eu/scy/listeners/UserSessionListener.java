@@ -134,8 +134,9 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
             User user = (User) securityContext.getAuthentication().getPrincipal();
             if (user != null && user.getUsername() != null) {
                 try {
-                    sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
-                } catch (LoginException e) {
+                    throw new RuntimeException("NOT IMPLEMENTED YET");
+                    //sessionDAO.loginUser(userDAO.getUserByUsername(user.getUsername()));
+                } catch (Exception e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 addUsername(user);
@@ -175,7 +176,8 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
                 User user = (User) auth.getPrincipal();
                 removeUsername(user);
                 log.info("** ** Logged user out: " + user.getUsername());
-                usd.logoutUser(dao.getUserByUsername(user.getUsername()));
+                //usd.logoutUser(dao.getUserByUsername(user.getUsername()));
+                throw new RuntimeException("NOT IMPLEMENTED YET!!");
             }
         }
     }

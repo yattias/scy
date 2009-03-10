@@ -24,15 +24,17 @@ public class EditUserPage extends ScyModelPage {
 
     public Object onSuccess() {
         getUserDAO().save(user);
-        Group g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
-
-        return null;
+        //Group g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
+        throw new RuntimeException("NOT IMPLEMENTED YET");
+        //return null;
     }
 
     public void loadModel() {
-        setModel(getUserDAO().getUser(getModelId()));
+        throw new RuntimeException("NOT IMPLEMENTED YET");
+        /*setModel(getUserDAO().getUser(getModelId()));
         log.info("Got model in EDIT USER PAGE: " + getModel());
         setUser((User) getModel());
+        */
     }
 
 
