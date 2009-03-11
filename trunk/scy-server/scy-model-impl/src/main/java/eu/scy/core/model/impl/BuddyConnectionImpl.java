@@ -19,7 +19,7 @@ public class BuddyConnectionImpl extends ScyBaseObject implements BuddyConnectio
     private User myself;
     private User buddy;
 
-    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public User getMyself() {
         return myself;
     }
@@ -28,7 +28,7 @@ public class BuddyConnectionImpl extends ScyBaseObject implements BuddyConnectio
         this.myself = myself;
     }
 
-    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public User getBuddy() {
         return buddy;
     }
