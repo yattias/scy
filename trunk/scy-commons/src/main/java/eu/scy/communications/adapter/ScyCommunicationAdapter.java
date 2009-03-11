@@ -27,12 +27,14 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         return communicator;
     }
     
-    public void actionUponDelete(String username) {
+    public void actionUponDelete(ScyMessage deletedScyMessage) {
         logger.debug("something was deleted in the tuple space");
+        sendCallBack(deletedScyMessage);
     }
     
-    public void actionUponWrite(ScyMessage scyMessage) {
+    public void actionUponWrite(ScyMessage writtenScyMessage) {
         logger.debug("something was written in the tuple space");
+        sendCallBack(writtenScyMessage);        
     }
     
     public ScyMessage getScyMessage(String description) {
@@ -82,10 +84,10 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         this.scyCommunicationListeners.add(listener);
     }
     
-    public void sendCallBack(String something) {
+    public void sendCallBack(ScyMessage scyMessage) {
         for (IScyCommunicationListener cl : scyCommunicationListeners) {
             if (cl != null) {
-                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, something, something);
+                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, scyMessage);
                 cl.handleCommunicationEvent(scyCommunicationEvent);
             }
         }
