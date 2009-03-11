@@ -13,6 +13,6 @@ import javax.persistence.Table;
  * To change this template use File | Settings | File Templates.
  */
 @Entity (name = "eu.scy.core.model.impl.UserDetails")
-@Table(name = "user_details")
+//Table(name = "user_details")
 public class UserDetails extends StudentUserDetails {
 }
