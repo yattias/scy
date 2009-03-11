@@ -87,6 +87,45 @@ public class ObjectTranslator {
 
     }
 
+    
+    public Object getObject2(ScyMessage scyMessage) {
+        
+        if (scyMessage.getObjectType().indexOf("AddClass") > 0) {
+            System.out.println("Creating new add class");
+            AddClass ac = new AddClass(scyMessage.getName(), scyMessage.getObjectType(), "HEI", null, null);
+            ac.setId(scyMessage.getId());
+            return ac;
+        }
+        else if (scyMessage.getObjectType().indexOf("MoveClass") > 0) {
+            System.out.println("Creating new MoveClass!");
+            String pos = scyMessage.getDescription();
+            String[] posArray = pos.split(",");
+            Integer xPos = new Integer(posArray[0]);
+            Integer yPos = new Integer(posArray[1]);
+
+            GraphicsDiagram diagram = ApplicationController.getDefaultInstance().getGraphicsDiagram();
+            ConceptNode node = diagram.getNodeByClassId(scyMessage.getId());
+
+            System.out.println("xpos = " + xPos);
+            System.out.println("Y = " + yPos);
+            node.setLocation(xPos, yPos);
+
+            UmlClass cls = node.getModel();
+            cls.setX(xPos);
+            cls.setY(yPos);
+
+            return new MoveClass(cls, null, null);
+        }
+        else if (scyMessage.getObjectType().indexOf("UmlLink") > 0) {
+            UmlLink link = new UmlLink(scyMessage.getFrom(), scyMessage.getTo(), "Henrik");
+            link.setId(scyMessage.getId());
+            return link;
+        }
+
+        return null;
+    }
+    
+    
     public Tuple getTuple(AddClass addClass) {
         Field userNameField = new Field("henrik@enovate.no");
         Field toolName = new Field("Colemo");
@@ -123,18 +162,15 @@ public class ObjectTranslator {
     
     
     public ScyMessage getScyMessage(AddClass addClass) {
-        //return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, DEFAULT_EXPIRATION_TIME);
-        return null;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, DEFAULT_EXPIRATION_TIME);
     }
     
     
     public ScyMessage getScyMessage(MoveClass moveClass) {
-        //return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, DEFAULT_EXPIRATION_TIME);
-        return null;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, DEFAULT_EXPIRATION_TIME);
     }
     
     public ScyMessage getScyMessage(UmlLink addLink) {
-        //return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), null, null, "Some description", addLink.getTo(), addLink.getFrom(), null, DEFAULT_EXPIRATION_TIME);
-        return null;
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, DEFAULT_EXPIRATION_TIME);
     }
 }

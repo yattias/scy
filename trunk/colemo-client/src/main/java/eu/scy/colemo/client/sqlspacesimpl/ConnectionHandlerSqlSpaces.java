@@ -1,25 +1,27 @@
 package eu.scy.colemo.client.sqlspacesimpl;
 
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Callback;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import org.apache.log4j.Logger;
 
-import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.client.ApplicationController;
+import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.contributions.AddClass;
-import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.contributions.BaseConceptMapNode;
-import eu.scy.colemo.contributions.AddLink;
+import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.collaborationservice.CollaborationService;
+import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
+import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.message.ScyMessage;
-import eu.scy.core.model.impl.ScyBaseObject;
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Callback;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +30,7 @@ import info.collide.sqlspaces.commons.Callback;
  * Time: 23:02:33
  * To change this template use File | Settings | File Templates.
  */
-public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
+public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback, ICollaborationServiceListener {
 
     private TupleSpace tupleSpace = null;
 
@@ -37,7 +39,19 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     private Tuple conceptTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
     private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
     public static final Logger logger = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
+    private ICollaborationService cs;
     
+    
+    public ConnectionHandlerSqlSpaces() {
+        try {
+            cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+            cs.addCollaborationListener(this);
+        } catch (CollaborationServiceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     
     public void sendMessage(String message) {
         try {
@@ -201,6 +215,24 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         } else if(node instanceof UmlLink) {
             UmlLink link = (UmlLink) node;
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
+        }
+    }
+
+
+    public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
+        logger.debug("got CollaborationServiceEvent");
+        ScyMessage sm = e.getScyMessage();
+        if (sm != null) {
+            logger.debug("UPDATING FROM SERVER!");
+            ObjectTranslator ot = new ObjectTranslator();
+            logger.debug("CALL: Before add class");
+            Object object = ot.getObject2(sm);
+            if (object instanceof BaseConceptMapNode) {
+                addNewNode((BaseConceptMapNode) object);                
+            }
+            if (object instanceof UmlLink) {
+                addNewNode((UmlLink) object);
+            }
         }
     }
 }
