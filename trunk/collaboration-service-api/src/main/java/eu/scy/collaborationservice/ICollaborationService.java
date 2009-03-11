@@ -57,7 +57,7 @@ public interface ICollaborationService {
    * @param collaborationListener
    * @throws CollaborationServiceException
    */
-  public void addCollaborationListener(ICollaborationServiceListener collaborationListener) throws CollaborationServiceException;
+  public void addCollaborationListener(ICollaborationServiceListener collaborationListener);
   
    /**
     * Connects to the collaboration service of the specific implementation
@@ -67,6 +67,16 @@ public interface ICollaborationService {
     * @throws CollaborationServiceException
     */
    public void connect(String username, String password) throws CollaborationServiceException;
+   
+   /**
+    * Connects to the collaboration service of the specific implementation
+    * 
+    * @param username
+    * @param password
+    * @param group
+    * @throws CollaborationServiceException
+    */
+   public void connect(String username, String password, String group) throws CollaborationServiceException;
    
    /**
     * test method
