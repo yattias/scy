@@ -3,8 +3,8 @@ package eu.scy.collaborationservice;
 import java.util.ArrayList;
 
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
-import eu.scy.communications.message.ScyMessage;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 
 /**
@@ -22,7 +22,7 @@ public interface ICollaborationService {
    * @return
    * @throws CollaborationServiceException
    */
-  public void create(ScyMessage scyMessage) throws CollaborationServiceException;
+  public void create(IScyMessage scyMessage) throws CollaborationServiceException;
   
   /**
    * Return a specific message based on id
@@ -31,7 +31,7 @@ public interface ICollaborationService {
    * @return
    * @throws CollaborationServiceException
    */
-  public ScyMessage read(String id) throws CollaborationServiceException;
+  public IScyMessage read(String id) throws CollaborationServiceException;
   
   /**
    * Updates an object with the following id
@@ -41,7 +41,7 @@ public interface ICollaborationService {
    * @return 
    * @throws CollaborationServiceException
    */
-  public void update(ScyMessage scyMessage, String id) throws CollaborationServiceException;
+  public void update(IScyMessage scyMessage, String id) throws CollaborationServiceException;
   
   /**
    * Deletes the specified message
@@ -83,13 +83,13 @@ public interface ICollaborationService {
    /**
     * test method
     */ 
-    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException;
+    public void sendCallBack(IScyMessage scyMessage) throws CollaborationServiceException;
 
     /**
      * 
      * @param message defining the query
      * @return list of messages containing the query result
      */
-    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage);
+    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage);
    
 }

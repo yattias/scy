@@ -9,7 +9,8 @@ import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 /**
  * Implementation of the collaboration service that is local and does  not use an server to 
@@ -52,7 +53,7 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     }
 
     @Override
-    public void create(ScyMessage scyMessage) throws CollaborationServiceException {
+    public void create(IScyMessage scyMessage) throws CollaborationServiceException {
         this.scyCommunicationAdapter.create(scyMessage);
     }
 
@@ -62,14 +63,14 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     }
 
     @Override
-    public ScyMessage read(String id) throws CollaborationServiceException {
-        ScyMessage read = this.scyCommunicationAdapter.read(id);
+    public IScyMessage read(String id) throws CollaborationServiceException {
+        IScyMessage read = this.scyCommunicationAdapter.read(id);
         //TODO call exeception
         return read;
     }
 
     @Override
-    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException {
+    public void sendCallBack(IScyMessage scyMessage) throws CollaborationServiceException {
         for (ICollaborationServiceListener cl : collaborationListeners) {
             if (cl != null) {
                 CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, scyMessage);
@@ -79,12 +80,12 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     }
 
     @Override
-    public void update(ScyMessage scyMessage, String id) throws CollaborationServiceException {
+    public void update(IScyMessage scyMessage, String id) throws CollaborationServiceException {
         this.scyCommunicationAdapter.update(scyMessage, id);
     }
     
     @Override
-    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage) {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
   
