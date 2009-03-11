@@ -202,7 +202,7 @@ public class SQLSpaceAdapter implements Callback {
             client.actionUponWrite(convertTupleToScyMessage(afterCmd));
 			break;
 		case DELETE:
-			client.actionUponDelete(beforeCmd.getField(0).getValue().toString());
+			client.actionUponDelete(convertTupleToScyMessage(beforeCmd));
 			break;
 		}
 	}

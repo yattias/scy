@@ -9,12 +9,12 @@ public interface IScyCommunicationAdapter {
 
     // callback methods
     void actionUponWrite(ScyMessage scyMessage);
-	void actionUponDelete(String username);
+	void actionUponDelete(ScyMessage scyMessage);
 	
 	// various CRUDs
     public String create(ScyMessage sm);
     public ScyMessage read(String id);
     public String update(ScyMessage sm, String id);
     public String delete(String id);
-    public void sendCallBack(String something);
+    public void sendCallBack(ScyMessage scyMessage);
 }

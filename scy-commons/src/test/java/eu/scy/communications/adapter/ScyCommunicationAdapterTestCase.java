@@ -47,7 +47,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     
     
     @Override
-    public void actionUponDelete(String username) {
+    public void actionUponDelete(ScyMessage scyMessage) {
         logger.info("Callback sez: Stuff deleted from sqlspaces");
     }
 
@@ -88,7 +88,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     }
 
     @Override
-    public void sendCallBack(String something) {
+    public void sendCallBack(ScyMessage scyMessage) {
         // TODO Auto-generated method stub
         
     }    

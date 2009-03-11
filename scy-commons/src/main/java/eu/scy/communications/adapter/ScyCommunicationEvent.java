@@ -2,30 +2,21 @@ package eu.scy.communications.adapter;
 
 import java.util.EventObject;
 
+import eu.scy.communications.message.ScyMessage;
+
 
 public class ScyCommunicationEvent extends EventObject {
 
-    private String message;
-    private String participant;
-
-    public ScyCommunicationEvent(Object source, String participant, String message){
-        super(source);
-        this.participant = participant;
-        this.message = message;
-    }
-
-    /* (non-Javadoc)
-     * @see eu.scy.awareness.IAwarenessEvent#getParticipant()
-     */
-    public String getParticipant() {
-        return participant;
-    }
+    private ScyMessage scyMessage;
     
-    /* (non-Javadoc)
-     * @see eu.scy.awareness.IAwarenessEvent#getMessage()
-     */
-    public String getMessage(){
-        return message;
+    public ScyCommunicationEvent(Object source, ScyMessage scyMessage){
+        super(source);
+        this.scyMessage = scyMessage;
+    }
+
+    
+    public ScyMessage getScyMessage() {
+        return scyMessage;
     }
     
 }
