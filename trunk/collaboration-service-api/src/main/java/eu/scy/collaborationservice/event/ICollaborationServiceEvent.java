@@ -1,5 +1,7 @@
 package eu.scy.collaborationservice.event;
 
+import eu.scy.communications.message.ScyMessage;
+
 /**
  * Event object for collaboration service listeners 
  * 
@@ -7,10 +9,7 @@ package eu.scy.collaborationservice.event;
  */
 public interface ICollaborationServiceEvent {
     
-    //TODO: refactor
-    public abstract String getParticipant();
-    
     //TODO: refactor 
-    public abstract String getMessage();
+    public abstract ScyMessage getScyMessage();
     
 }

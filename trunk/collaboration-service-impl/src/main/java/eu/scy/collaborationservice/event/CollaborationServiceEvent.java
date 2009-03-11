@@ -2,6 +2,8 @@ package eu.scy.collaborationservice.event;
 
 import java.util.EventObject;
 
+import eu.scy.communications.message.ScyMessage;
+
 /**
  * Implementation of the CollaborationServiceEvent inferace
  *  
@@ -10,8 +12,7 @@ import java.util.EventObject;
 public class CollaborationServiceEvent extends EventObject implements ICollaborationServiceEvent {
 
     private static final long serialVersionUID = 1L;
-    private String message;
-    private String participant;
+    private ScyMessage scyMessage;
 
     /**
      * constructor
@@ -20,19 +21,13 @@ public class CollaborationServiceEvent extends EventObject implements ICollabora
      * @param participant
      * @param message
      */
-    public CollaborationServiceEvent(Object source, String participant, String message){
+    public CollaborationServiceEvent(Object source, ScyMessage scyMessage){
         super(source);
-        this.participant = participant;
-        this.message = message;
     }
 
-    //TODO
-    public String getParticipant() {
-        return participant;
-    }
     
     //TODO
-    public String getMessage(){
-        return message;
+    public ScyMessage getScyMessage(){
+        return scyMessage;
     }
 }

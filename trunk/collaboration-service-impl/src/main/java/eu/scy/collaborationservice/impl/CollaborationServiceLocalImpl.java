@@ -31,7 +31,7 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
             public void handleCommunicationEvent(ScyCommunicationEvent e) {
                 //get the scy message and send back to the whos listening
                 try {
-                    sendCallBack(e.getMessage());
+                    sendCallBack(e.getScyMessage());
                 } catch (CollaborationServiceException e1) {
                     e1.printStackTrace();
                 }
@@ -70,10 +70,10 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     }
 
     @Override
-    public void sendCallBack(String something) throws CollaborationServiceException {
+    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException {
         for (ICollaborationServiceListener cl : collaborationListeners) {
             if (cl != null) {
-                CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, something, something);
+                CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, scyMessage);
                 cl.handleCollaborationServiceEvent(collaborationEvent);
             }// if
         }// for

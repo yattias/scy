@@ -149,8 +149,8 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
                                 ScyObjectPacketExtension scyExt =
                                     (ScyObjectPacketExtension) eventPacketExtension;
 
-
-                                CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, scyPacket.getFrom(), scyExt.getDescription());
+                                //FIXME
+                                CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, null);
                                 cl.handleCollaborationServiceEvent(collaborationEvent);
                             }// if
                         }// for
@@ -303,7 +303,7 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public void sendCallBack(String something) throws CollaborationServiceException {
+    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException {
     }
     
     @Override
