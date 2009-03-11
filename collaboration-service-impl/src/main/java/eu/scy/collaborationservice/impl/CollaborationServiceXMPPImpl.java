@@ -22,7 +22,6 @@ import org.jivesoftware.smack.filter.PacketExtensionFilter;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.xmpp.packet.Message;
 import org.xmpp.packet.PacketExtension;
 
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -33,7 +32,6 @@ import eu.scy.communications.message.ScyMessage;
 import eu.scy.communications.packet.extension.ScyObjectExtensionProvider;
 import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
-import eu.scy.core.model.impl.ScyBaseObject;
 
 public class CollaborationServiceXMPPImpl implements ICollaborationService {
     
