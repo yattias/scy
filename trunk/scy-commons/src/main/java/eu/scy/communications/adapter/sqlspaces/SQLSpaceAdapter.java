@@ -112,6 +112,23 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
+    public ArrayList<ScyMessage> readAll(ScyMessage scyMessage) {
+        Tuple tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+        Tuple returnTuple[] = null;
+        try {
+            returnTuple = this.tupleSpace.readAll(tupleTemplate);
+        } catch (TupleSpaceException e) {
+            logger.error("Trouble while reading touples " + e);
+            return null;
+        }
+        ArrayList<ScyMessage> messages = new ArrayList<ScyMessage>();
+        for (Tuple tuple : returnTuple) {
+            messages.add(convertTupleToScyMessage(tuple));
+        }
+        return messages;
+    }
+    
+    
     public String delete(String id) {
         Tuple returnTuple = null;
         try {

@@ -92,5 +92,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
             }
         }
     }
+
+    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+        logger.debug("doing query, mofo " + queryMessage);
+        if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
+            if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getName())) {
+                return getTupleAdapter().readAll(queryMessage);                
+            }
+        }
+        return null;
+    }
     
 }
