@@ -3,7 +3,7 @@ package eu.scy.communications.packet.extension.message;
 import org.dom4j.Element;
 import org.dom4j.QName;
 
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 
 

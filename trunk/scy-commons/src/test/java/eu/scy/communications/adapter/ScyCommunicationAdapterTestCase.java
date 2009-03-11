@@ -7,7 +7,8 @@ import junit.framework.TestSuite;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapter;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 
 
@@ -33,7 +34,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
         return sqlSpaceAdapter;
     }
     
-    private ScyMessage getScyMessage() {
+    private IScyMessage getScyMessage() {
         ScyMessage sm = new ScyMessage();
         sm.setId("1338");
         sm.setName("leeter that leet - test object");
@@ -47,13 +48,13 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     
     
     @Override
-    public void actionUponDelete(ScyMessage scyMessage) {
+    public void actionUponDelete(IScyMessage scyMessage) {
         logger.info("Callback sez: Stuff deleted from sqlspaces");
     }
 
 
     @Override
-    public void actionUponWrite(ScyMessage scyMessage) {
+    public void actionUponWrite(IScyMessage scyMessage) {
         logger.info("Callback sez: Stuff written to sqlspaces");
     }
 
@@ -64,7 +65,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
 
 
     @Override
-    public String create(ScyMessage sm) {
+    public String create(IScyMessage sm) {
         // TODO Auto-generated method stub        
         return null;
     }
@@ -76,19 +77,19 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
     }
 
     @Override
-    public ScyMessage read(String id) {
+    public IScyMessage read(String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public String update(ScyMessage sm, String id) {
+    public String update(IScyMessage sm, String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public void sendCallBack(ScyMessage scyMessage) {
+    public void sendCallBack(IScyMessage scyMessage) {
         // TODO Auto-generated method stub
         
     }    

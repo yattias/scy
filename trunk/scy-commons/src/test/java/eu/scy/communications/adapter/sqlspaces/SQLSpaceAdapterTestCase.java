@@ -9,7 +9,8 @@ import org.junit.Ignore;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 
 
@@ -59,7 +60,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         id = getTupleAdapter().write(getScyMessage());
         assertNotNull(id);
         // read
-        ScyMessage sm = getTupleAdapter().readById(id);
+        IScyMessage sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         // delete
         id = getTupleAdapter().delete(id);
@@ -69,7 +70,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     @Ignore
     public void testWriteWithExpiration() {
         String id = null;
-        ScyMessage sm = getScyMessage();
+        IScyMessage sm = getScyMessage();
         sm.setExpiraton(TWO_SECONDS);
         // write with expiration
         id = getTupleAdapter().write(sm);
@@ -90,13 +91,13 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     
 
     @Override
-    public void actionUponDelete(ScyMessage scyMessage) {
+    public void actionUponDelete(IScyMessage scyMessage) {
         logger.info("Callback sez: Stuff deleted from sqlspaces");
     }
 
 
     @Override
-    public void actionUponWrite(ScyMessage scyMessage) {
+    public void actionUponWrite(IScyMessage scyMessage) {
         logger.info("Callback sez: Stuff written to sqlspaces");
     }
 
@@ -107,7 +108,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
 
 
     @Override
-    public String create(ScyMessage sm) {
+    public String create(IScyMessage sm) {
         // TODO Auto-generated method stub        
         return null;
     }
@@ -119,20 +120,20 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     }
 
     @Override
-    public ScyMessage read(String id) {
+    public IScyMessage read(String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
     @Override
-    public String update(ScyMessage sm, String id) {
+    public String update(IScyMessage sm, String id) {
         // TODO Auto-generated method stub        
         return null;
     }
 
 
     @Override
-    public void sendCallBack(ScyMessage scyMessage) {
+    public void sendCallBack(IScyMessage scyMessage) {
         // TODO Auto-generated method stub
         
     }    

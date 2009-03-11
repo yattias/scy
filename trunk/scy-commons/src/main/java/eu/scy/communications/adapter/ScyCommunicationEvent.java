@@ -2,7 +2,7 @@ package eu.scy.communications.adapter;
 
 import java.util.EventObject;
 
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
 
 /**
  * Represents an event in the scycommunication layer
@@ -11,7 +11,7 @@ import eu.scy.communications.message.ScyMessage;
  */
 public class ScyCommunicationEvent extends EventObject {
 
-    private ScyMessage scyMessage;
+    private IScyMessage scyMessage;
    
     /**
      * Contructor
@@ -19,7 +19,7 @@ public class ScyCommunicationEvent extends EventObject {
      * @param source
      * @param scyMessage
      */
-    public ScyCommunicationEvent(Object source, ScyMessage scyMessage){
+    public ScyCommunicationEvent(Object source, IScyMessage scyMessage){
         super(source);
         this.scyMessage = scyMessage;
     }
@@ -30,7 +30,7 @@ public class ScyCommunicationEvent extends EventObject {
      * 
      * @return
      */
-    public ScyMessage getScyMessage() {
+    public IScyMessage getScyMessage() {
         return scyMessage;
     }
     
