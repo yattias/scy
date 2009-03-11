@@ -81,6 +81,6 @@ public interface ICollaborationService {
    /**
     * test method
     */ 
-    public void sendCallBack(String something) throws CollaborationServiceException;
+    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException;
    
 }
