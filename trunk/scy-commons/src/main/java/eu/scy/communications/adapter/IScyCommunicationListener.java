@@ -1,8 +1,17 @@
 package eu.scy.communications.adapter;
 
-
+/**
+ * Interface for handling scycommunication events
+ * 
+ * @author anthonyp
+ */
 public interface IScyCommunicationListener  {
-    
-    public void handleCommunicationEvent(ScyCommunicationEvent e);
+   
+    /**
+     * action handler for this event
+     * 
+     * @param scyCommunicationEvent
+     */
+    public void handleCommunicationEvent(ScyCommunicationEvent scyCommunicationEvent);
 
 }
