@@ -1,6 +1,7 @@
 package eu.scy.communications.adapter;
 
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 /**
  * The ScyCommunicationAdapter allows a coordinating server
@@ -23,14 +24,14 @@ public interface IScyCommunicationAdapter {
      * 
      * @param scyMessage
      */
-    void actionUponWrite(ScyMessage scyMessage);
+    void actionUponWrite(IScyMessage scyMessage);
     
     /**
      * performs an action upon delete
      * 
      * @param scyMessage
      */
-	void actionUponDelete(ScyMessage scyMessage);
+	void actionUponDelete(IScyMessage scyMessage);
 	
 	/**
 	 * Does a create operation
@@ -38,7 +39,7 @@ public interface IScyCommunicationAdapter {
 	 * @param scyMessage
 	 * @return
 	 */
-    public String create(ScyMessage scyMessage);
+    public String create(IScyMessage scyMessage);
     
     /**
      * Does a read operation
@@ -46,7 +47,7 @@ public interface IScyCommunicationAdapter {
      * @param id
      * @return
      */
-    public ScyMessage read(String id);
+    public IScyMessage read(String id);
     
     /**
      * Does an update operation
@@ -55,7 +56,7 @@ public interface IScyCommunicationAdapter {
      * @param id
      * @return
      */
-    public String update(ScyMessage sm, String id);
+    public String update(IScyMessage sm, String id);
     
     /**
      * Does a delete operation
@@ -70,5 +71,5 @@ public interface IScyCommunicationAdapter {
      * 
      * @param scyMessage
      */
-    public void sendCallBack(ScyMessage scyMessage);
+    public void sendCallBack(IScyMessage scyMessage);
 }

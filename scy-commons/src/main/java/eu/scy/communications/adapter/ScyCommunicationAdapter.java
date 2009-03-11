@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapter;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     
@@ -27,17 +28,17 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         return communicator;
     }
     
-    public void actionUponDelete(ScyMessage deletedScyMessage) {
+    public void actionUponDelete(IScyMessage deletedScyMessage) {
         logger.debug("something was deleted in the tuple space");
         sendCallBack(deletedScyMessage);
     }
     
-    public void actionUponWrite(ScyMessage writtenScyMessage) {
+    public void actionUponWrite(IScyMessage writtenScyMessage) {
         logger.debug("something was written in the tuple space");
         sendCallBack(writtenScyMessage);        
     }
     
-    public ScyMessage getScyMessage(String description) {
+    public IScyMessage getScyMessage(String description) {
         ScyMessage scyMessage = new ScyMessage();
         scyMessage.setId("54321");
         scyMessage.setName("a nice name for the object");
@@ -56,7 +57,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public String create(ScyMessage scyMessage) {
+    public String create(IScyMessage scyMessage) {
         logger.debug("create");
         return getTupleAdapter().write(scyMessage);
     }
@@ -68,13 +69,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     }
     
     @Override
-    public ScyMessage read(String id) {
+    public IScyMessage read(String id) {
         logger.debug("read");
         return getTupleAdapter().readById(id);
     }
     
     @Override
-    public String update(ScyMessage scyMessage, String id) {
+    public String update(IScyMessage scyMessage, String id) {
         logger.debug("update");
         return getTupleAdapter().write(id, scyMessage);
     }
@@ -84,7 +85,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         this.scyCommunicationListeners.add(listener);
     }
     
-    public void sendCallBack(ScyMessage scyMessage) {
+    public void sendCallBack(IScyMessage scyMessage) {
         for (IScyCommunicationListener cl : scyCommunicationListeners) {
             if (cl != null) {
                 ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, scyMessage);
@@ -93,7 +94,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         }
     }
 
-    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
         logger.debug("doing query, mofo " + queryMessage);
         if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
             if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getName())) {

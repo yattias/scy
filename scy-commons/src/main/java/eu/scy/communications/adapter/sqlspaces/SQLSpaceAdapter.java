@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 public class SQLSpaceAdapter implements Callback {
     
@@ -54,11 +55,11 @@ public class SQLSpaceAdapter implements Callback {
     }
     
 
-    public String write(ScyMessage scyMessage) {
+    public String write(IScyMessage scyMessage) {
         return write(null, scyMessage);
     }    
     
-    public String write(String tupleId, ScyMessage sm) {
+    public String write(String tupleId, IScyMessage sm) {
         String user = sm.getUserName();
         String tool = sm.getToolName();
         String id = sm.getId();
@@ -112,7 +113,7 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    public ArrayList<ScyMessage> readAll(ScyMessage scyMessage) {
+    public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {
         Tuple tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         Tuple returnTuple[] = null;
         try {
@@ -121,7 +122,7 @@ public class SQLSpaceAdapter implements Callback {
             logger.error("Trouble while reading touples " + e);
             return null;
         }
-        ArrayList<ScyMessage> messages = new ArrayList<ScyMessage>();
+        ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         for (Tuple tuple : returnTuple) {
             messages.add(convertTupleToScyMessage(tuple));
         }
@@ -164,7 +165,7 @@ public class SQLSpaceAdapter implements Callback {
 //    }
 
     
-    public ScyMessage readById(String id) {
+    public IScyMessage readById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
@@ -187,7 +188,7 @@ public class SQLSpaceAdapter implements Callback {
     }
     
     
-    private ScyMessage convertTupleToScyMessage(Tuple tuple) {
+    private IScyMessage convertTupleToScyMessage(Tuple tuple) {
         //username, toolName, id, objectType, name, description, to, from, messagePurpose
         if (tuple == null) {
             return null;
