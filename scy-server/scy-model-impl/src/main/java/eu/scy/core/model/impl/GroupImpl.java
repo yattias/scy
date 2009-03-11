@@ -26,7 +26,7 @@ public class GroupImpl extends ScyBaseObject implements Group {
     private Group parentGroup;
     private Project project;
 
-    @OneToMany(targetEntity = UserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     public List<User> getUsers() {
         if(users == null) {
             users = new LinkedList<User>();

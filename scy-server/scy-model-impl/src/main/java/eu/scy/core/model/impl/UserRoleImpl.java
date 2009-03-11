@@ -21,7 +21,7 @@ public class UserRoleImpl extends ScyBaseObject implements UserRole {
     private Role role;
 
 
-    @ManyToOne(targetEntity = UserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_primKey")
     public User getUser() {
         return user;

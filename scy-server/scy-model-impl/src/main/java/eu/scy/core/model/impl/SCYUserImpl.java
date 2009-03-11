@@ -16,10 +16,10 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity(name = "eu.scy.core.model.impl.UserImpl")
+@Entity(name = "eu.scy.core.model.impl.SCYUserImpl")
 @Table(name = "users")
 @org.hibernate.annotations.Proxy(proxyClass = User.class)
-public class UserImpl implements User {
+public class SCYUserImpl implements User {
 
     @Transient
     public static final String DATA_STORE_NAME = "users";
@@ -105,7 +105,7 @@ public class UserImpl implements User {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final UserImpl other = (UserImpl) obj;
+        final SCYUserImpl other = (SCYUserImpl) obj;
         if (this.sdsUser == null) {
             if (other.sdsUser != null)
                 return false;
