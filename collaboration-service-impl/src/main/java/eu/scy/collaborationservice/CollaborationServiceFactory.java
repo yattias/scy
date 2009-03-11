@@ -16,9 +16,9 @@ public class CollaborationServiceFactory {
     public static final String XMPP_STYLE = "XMPP_STYLE";
     public static final String LOCAL_STYLE = "LOCAL_STYLE";
     
-    private ICollaborationService collaborationService;
+    private static ICollaborationService collaborationService;
     
-    public ICollaborationService getCollaborationService(String style) throws CollaborationServiceException {
+    public static ICollaborationService getCollaborationService(String style) throws CollaborationServiceException {
         
         CollaborationServiceException collaborationServiceException = new CollaborationServiceException("unknown style of collaboration service");
         
