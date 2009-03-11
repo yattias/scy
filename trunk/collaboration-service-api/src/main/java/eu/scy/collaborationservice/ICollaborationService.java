@@ -1,5 +1,7 @@
 package eu.scy.collaborationservice;
 
+import java.util.ArrayList;
+
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.ScyMessage;
 import eu.scy.core.model.impl.ScyBaseObject;
@@ -82,5 +84,12 @@ public interface ICollaborationService {
     * test method
     */ 
     public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException;
+
+    /**
+     * 
+     * @param message defining the query
+     * @return list of messages containing the query result
+     */
+    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage);
    
 }

@@ -317,4 +317,9 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
         return new ScyMessage();
     }
 
+    @Override
+    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+        return null;
+    }
+
 }

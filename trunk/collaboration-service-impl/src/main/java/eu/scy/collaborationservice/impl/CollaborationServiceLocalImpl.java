@@ -10,7 +10,6 @@ import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.message.ScyMessage;
-import eu.scy.core.model.impl.ScyBaseObject;
 
 /**
  * Implementation of the collaboration service that is local and does  not use an server to 
@@ -82,6 +81,11 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     @Override
     public void update(ScyMessage scyMessage, String id) throws CollaborationServiceException {
         this.scyCommunicationAdapter.update(scyMessage, id);
+    }
+    
+    @Override
+    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+        return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
   
   
