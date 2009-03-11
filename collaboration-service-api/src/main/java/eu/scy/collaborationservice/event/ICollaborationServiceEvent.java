@@ -1,6 +1,6 @@
 package eu.scy.collaborationservice.event;
 
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
 
 /**
  * Event object for collaboration service listeners 
@@ -10,6 +10,6 @@ import eu.scy.communications.message.ScyMessage;
 public interface ICollaborationServiceEvent {
     
     //TODO: refactor 
-    public abstract ScyMessage getScyMessage();
+    public abstract IScyMessage getScyMessage();
     
 }

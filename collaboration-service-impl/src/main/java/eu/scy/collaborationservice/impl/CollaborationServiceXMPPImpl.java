@@ -28,9 +28,10 @@ import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
-import eu.scy.communications.message.ScyMessage;
-import eu.scy.communications.packet.extension.ScyObjectExtensionProvider;
-import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.communications.packet.extension.object.ScyObjectExtensionProvider;
+import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
 
 public class CollaborationServiceXMPPImpl implements ICollaborationService {
@@ -286,7 +287,7 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
   
     
     @Override
-    public void create(ScyMessage scyMessage) throws CollaborationServiceException {
+    public void create(IScyMessage scyMessage) throws CollaborationServiceException {
         this.sendPacket(scyMessage, "create");
     }
 
@@ -296,12 +297,12 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public void update(ScyMessage scyMessage, String id) throws CollaborationServiceException {
+    public void update(IScyMessage scyMessage, String id) throws CollaborationServiceException {
         this.sendPacket(scyMessage, "update");
     }
 
     @Override
-    public void sendCallBack(ScyMessage scyMessage) throws CollaborationServiceException {
+    public void sendCallBack(IScyMessage scyMessage) throws CollaborationServiceException {
     }
     
     @Override
@@ -310,13 +311,13 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public ScyMessage read(String id) throws CollaborationServiceException {
+    public IScyMessage read(String id) throws CollaborationServiceException {
         this.sendPacket(id, "read");
         return new ScyMessage();
     }
 
     @Override
-    public ArrayList<ScyMessage> doQuery(ScyMessage queryMessage) {
+    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage) {
         return null;
     }
 
