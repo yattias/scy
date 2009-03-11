@@ -26,7 +26,7 @@ public class ScyMessageExtensionProvider implements PacketExtensionProvider {
      * @return return the packet extension
      */
     public PacketExtension parseExtension(XmlPullParser parser) throws Exception {
-        ScyObjectPacketExtension scyExt = new ScyObjectPacketExtension();
+        ScyMessagePacketExtension scyExt = new ScyMessagePacketExtension();
         
         try {
             boolean done = false;
