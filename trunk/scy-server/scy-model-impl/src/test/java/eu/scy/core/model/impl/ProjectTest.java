@@ -1,7 +1,7 @@
 package eu.scy.core.model.impl;
 
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.SCYGroup;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -14,17 +14,17 @@ import org.testng.annotations.Test;
 @Test
 public class ProjectTest {
 
-    private Project project;
+    private SCYProject project;
 
 
     @BeforeTest
     private void initializeData() {
-        project = new ProjectImpl();
+        project = new SCYProjectImpl();
     }
 
     @Test
     public void testAddProjectLevelGroup() {
-        Group group = new GroupImpl();
+        SCYGroup group = new SCYGroupImpl();
         project.addGroup(group);
         assert(project.getGroups().contains(group));
     }

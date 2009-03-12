@@ -9,25 +9,25 @@ import java.util.List;
  * Time: 06:00:03
  * A group in the SCY system. Groups can be arranged hierarchically within projects and can contain users
  */
-public interface Group extends ScyBase{
+public interface SCYGroup extends ScyBase{
 
     public List<User> getUsers();
 
     public void setUsers(List<User> users);
 
-    public List<Group> getChildren();
+    public List<SCYGroup> getChildren();
 
-    public void setChildren(List<Group> children);
+    public void setChildren(List<SCYGroup> children);
 
-    public void addChild(Group group);
+    public void addChild(SCYGroup group);
 
-    public Group getParentGroup();
+    public SCYGroup getParentGroup();
 
-    public void setParentGroup(Group parentGroup);
+    public void setParentGroup(SCYGroup parentGroup);
 
-    public Project getProject();
+    public SCYProject getProject();
 
-    public void setProject(Project project);
+    public void setProject(SCYProject project);
 
     public void addUser(User user);
 }

@@ -169,12 +169,12 @@ public class SCYUserImpl implements User {
     private String firstName;
     private String lastName;
 
-    private Group group;
+    private SCYGroup group;
 
     private List<UserRole> userRoles;
     private List<UserSession> userSessions;
 
-    private Project project;
+    private SCYProject project;
 
     @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
     @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
@@ -223,23 +223,23 @@ public class SCYUserImpl implements User {
         this.lastName = lastName;
     }
 
-    @ManyToOne(targetEntity = ProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_primKey")
-    public Project getProject() {
+    public SCYProject getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(SCYProject project) {
         this.project = project;
     }
 
-    @ManyToOne(targetEntity = GroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYGroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_primKey")
-    public Group getGroup() {
+    public SCYGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(SCYGroup group) {
         this.group = group;
     }
 
