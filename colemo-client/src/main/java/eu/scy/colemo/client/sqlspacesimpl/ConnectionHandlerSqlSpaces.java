@@ -16,7 +16,7 @@ import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 /**
  * Created by IntelliJ IDEA.
