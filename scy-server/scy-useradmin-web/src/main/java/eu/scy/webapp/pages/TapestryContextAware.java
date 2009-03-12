@@ -6,15 +6,12 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentSource;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
-import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYProject;
 
 import eu.scy.core.model.ScyBase;
-import eu.scy.core.model.impl.ScyBaseObject;
-import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
-import eu.scy.framework.PageManagerImpl;
 import eu.scy.framework.PageManager;
 
 import java.util.logging.Logger;
@@ -33,7 +30,7 @@ public class TapestryContextAware {
     protected static Logger log = Logger.getLogger("BASE.class");
 
     @ApplicationState(create = false)
-    private Project currentProject;
+    private SCYProject currentProject;
     private ScyBase model;
 
     @Inject
@@ -67,11 +64,11 @@ public class TapestryContextAware {
         this.model = model;
     }
 
-    public Project getCurrentProject() {
+    public SCYProject getCurrentProject() {
         return currentProject;
     }
 
-    public void setCurrentProject(Project currentProject) {
+    public void setCurrentProject(SCYProject currentProject) {
         this.currentProject = currentProject;
     }
 

@@ -1,7 +1,7 @@
 package eu.scy.framework.actions;
 
 import eu.scy.framework.BaseAction;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYGroup;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,15 +13,15 @@ import eu.scy.core.model.Group;
 public class EditGroup extends BaseAction {
 
     public EditGroup() {
-        super.setName("Edit Group");
+        super.setName("Edit SCYGroup");
     }
 
     public Class getOperatesOn() {
-        return Group.class;
+        return SCYGroup.class;
     }
 
     protected Object doAction(Object model) {
-        Group group = (Group) model;
+        SCYGroup group = (SCYGroup) model;
         return group;
     }
 }

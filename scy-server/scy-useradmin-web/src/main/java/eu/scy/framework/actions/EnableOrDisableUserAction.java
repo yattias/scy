@@ -1,7 +1,7 @@
 package eu.scy.framework.actions;
 
 import eu.scy.framework.BaseAction;
-import eu.scy.core.model.impl.UserImpl;
+import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.User;
 
 /**
@@ -13,7 +13,7 @@ import eu.scy.core.model.User;
  */
 public class EnableOrDisableUserAction extends BaseAction {
     public Class getOperatesOn() {
-        return UserImpl.class;
+        return SCYUserImpl.class;
     }
 
     @Override

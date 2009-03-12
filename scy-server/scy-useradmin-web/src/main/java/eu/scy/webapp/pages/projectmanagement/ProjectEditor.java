@@ -2,10 +2,9 @@ package eu.scy.webapp.pages.projectmanagement;
 
 import eu.scy.webapp.pages.TapestryContextAware;
 import eu.scy.webapp.pages.Index;
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.impl.ProjectImpl;
-import eu.scy.core.model.impl.GroupImpl;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.SCYProjectImpl;
+import eu.scy.core.model.impl.SCYGroupImpl;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.annotations.InjectPage;
 
@@ -21,21 +20,21 @@ import java.util.logging.Logger;
 public class ProjectEditor extends TapestryContextAware {
     private static Logger log = Logger.getLogger("Index.class");
 
-    private ProjectImpl _project;
+    private SCYProjectImpl _project;
 
 
-    public ProjectImpl getProject() {
+    public SCYProjectImpl getProject() {
         return _project;
     }
 
-    public void setProject(ProjectImpl project) {
+    public void setProject(SCYProjectImpl project) {
         this._project = project;
     }
 
     @SetupRender
     private void init() {
         if (_project == null) {
-            _project = new ProjectImpl();
+            _project = new SCYProjectImpl();
             setProject(_project);
         }
     }
@@ -47,9 +46,9 @@ public class ProjectEditor extends TapestryContextAware {
     public Object onActionFromProjectEditorForm() {
         log.info("Action from project editor form!");
         if(getProject().getId() == null) {
-            //create new Project
+            //create new SCYProject
             //getProjectDAO().save(getProject());
-            Group g = new GroupImpl();
+            SCYGroup g = new SCYGroupImpl();
             g.setProject(getProject());
             g.setName(getProject().getName());
             //getUserDAO().save(g);

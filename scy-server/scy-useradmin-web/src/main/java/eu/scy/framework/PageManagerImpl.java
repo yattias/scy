@@ -1,13 +1,9 @@
 package eu.scy.framework;
 
-import eu.scy.core.model.Group;
-import eu.scy.core.model.ScyBase;
-import eu.scy.core.model.User;
-import eu.scy.core.model.impl.GroupImpl;
-import eu.scy.core.model.impl.UserImpl;
-import eu.scy.core.model.impl.ProjectImpl;
+import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.SCYProjectImpl;
 import eu.scy.webapp.pages.GroupOverview;
-import eu.scy.webapp.pages.ScyModelPage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,9 +37,9 @@ public class PageManagerImpl implements PageManager {
     }
 
     public PageManagerImpl() {
-        map.put(GroupImpl.class, "GroupOverview");
-        map.put(UserImpl.class, "EditUserPage");
-        map.put(ProjectImpl.class, "Index");
+        map.put(SCYGroupImpl.class, "GroupOverview");
+        map.put(SCYUserImpl.class, "EditUserPage");
+        map.put(SCYProjectImpl.class, "Index");
 
 
     }

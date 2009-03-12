@@ -8,9 +8,9 @@
     <session-factory>
         <mapping package="eu.scy.core.model.impl"/>
 
-        <mapping class="eu.scy.core.model.impl.UserImpl"/>
-        <mapping class="eu.scy.core.model.impl.GroupImpl"/>
-        <mapping class="eu.scy.core.model.impl.ProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
         <mapping class="eu.scy.core.model.impl.RoleImpl"/>
         <mapping class="eu.scy.core.model.impl.UserRoleImpl"/>
         <mapping class="eu.scy.core.model.impl.BuddyConnectionImpl"/>

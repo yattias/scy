@@ -1,8 +1,5 @@
 package eu.scy.core.persistence;
 
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik

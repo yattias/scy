@@ -1,7 +1,7 @@
 package eu.scy.core.persistence;
 
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.SCYGroup;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ public interface ProjectDAO extends SCYBaseDAO{
 
     public List getAllProjects();
 
-    public void createProject(Project project);
+    public void createProject(SCYProject project);
 
-    public List <Project> findProjectsByName(String name);
+    public List <SCYProject> findProjectsByName(String name);
 
-    public Project getProject(String projectId);
+    public SCYProject getProject(String projectId);
 
-    Group addGroupToProject(Project project, Group group);
+    SCYGroup addGroupToProject(SCYProject project, SCYGroup group);
 
 
 }

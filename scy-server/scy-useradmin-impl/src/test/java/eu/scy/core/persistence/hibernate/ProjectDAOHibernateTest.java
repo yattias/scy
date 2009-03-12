@@ -4,12 +4,8 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.testng.annotations.Test;
 import eu.scy.core.persistence.ProjectDAO;
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.impl.ProjectImpl;
-import eu.scy.core.model.impl.GroupImpl;
-
-import java.util.List;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.impl.SCYProjectImpl;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,20 +37,20 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
     public void testBeanDefined() {
         assert (getProjectDAO() != null);
     }
-    /*
+
     @Test
     public void testSaveProject() {
-        Project p = new ProjectImpl();
+        SCYProject p = new SCYProjectImpl();
         p.setName("test projejcct");
         assertNull(p.getId());
-        p = (Project) getProjectDAO().save(p);
+        p = (SCYProject) getProjectDAO().save(p);
         assertNotNull(p.getId());
     }
-
+    /*
     //Test
     public void testFindProjectsByName() {
         String projectName = "Henrik";
-        Project testProject = new ProjectImpl();
+        SCYProject testProject = new SCYProjectImpl();
         testProject.setName(projectName);
         getProjectDAO().save(testProject);
 
@@ -65,11 +61,11 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
 
     @Test
     public void testAddGroupToProject() {
-        Project testProject = new ProjectImpl();
+        SCYProject testProject = new SCYProjectImpl();
         getProjectDAO().save(testProject);
 
-        Group g = new GroupImpl();
-        g = (Group) getProjectDAO().save(g);
+        SCYGroup g = new SCYGroupImpl();
+        g = (SCYGroup) getProjectDAO().save(g);
         //testProject.addGroup(g);
         //g.setProject(testProject);
         getProjectDAO().addGroupToProject(testProject, g);

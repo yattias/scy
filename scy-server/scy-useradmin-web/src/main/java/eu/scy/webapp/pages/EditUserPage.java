@@ -1,7 +1,6 @@
 package eu.scy.webapp.pages;
 
 import eu.scy.core.model.User;
-import eu.scy.core.model.Group;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +23,7 @@ public class EditUserPage extends ScyModelPage {
 
     public Object onSuccess() {
         getUserDAO().save(user);
-        //Group g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
+        //SCYGroup g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
         throw new RuntimeException("NOT IMPLEMENTED YET");
         //return null;
     }
