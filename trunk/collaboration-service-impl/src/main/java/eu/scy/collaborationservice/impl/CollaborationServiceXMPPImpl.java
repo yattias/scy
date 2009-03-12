@@ -321,4 +321,10 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
         return null;
     }
 
+    @Override
+    public ArrayList<IScyMessage> synchronizeClientState(String clientName, String session) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
