@@ -179,6 +179,12 @@
 				</entry>
                 <entry>
 					<key>
+						<value>scy/simconfig</value>
+					</key>
+					<value>.scysimconfig</value>
+				</entry>
+                <entry>
+					<key>
 						<value>scy/pds</value>
 					</key>
 					<value>.scypds</value>
