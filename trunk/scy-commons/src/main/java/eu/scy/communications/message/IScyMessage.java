@@ -10,14 +10,18 @@ public interface IScyMessage extends ScyBase {
      * @return
      */
     public String getUserName();
-    
+
+
+
     /**
      * sets the user name
      * 
      * @param userName
      */
     public void setUserName(String userName);
-    
+
+
+
     /**
      * Gets the tool name
      * 

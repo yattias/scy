@@ -19,10 +19,13 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
     private String messagePurpose;
     private long expiraton;
     private String session;
-    
+
+
+
     public static final String MESSAGE_TYPE_QUERY = "QUERY";
     public static final String QUERY_TYPE_ALL = "ALL";
-    
+
+
     
     public ScyMessage() {
     }
