@@ -60,7 +60,7 @@ var newGroup = VBox {
                 var simquestWindow = SimQuestNode.createSimQuestWindow(roolo);
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow);
-                simquestWindow.openWindow(491,673);
+                //simquestWindow.openWindow(491,673);
             }
         },
         SwingButton{
