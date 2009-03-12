@@ -7,16 +7,18 @@ import org.apache.log4j.Logger;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.contributions.AddClass;
-import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.contributions.MoveClass;
-import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.communications.message.IScyMessage;
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,7 +39,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
     private ICollaborationService cs;
     //FIXME: this needs to come from the client, generated
     public static final String SESSIONID = "1";
-    
+
     public void sendMessage(String message) {
 //        try {
 //            System.out.println("Sending message: " + message);
@@ -64,12 +66,12 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 //        }
     }
 
-    
+
     public void sendObject(Object object) {
         System.out.println("Sending object:" + object);
-        
+
         ObjectTranslator translator = new ObjectTranslator();
-        ScyMessage sendMe = null;
+        IScyMessage sendMe = null;
 
         if (object instanceof AddClass) {
             AddClass addClass = (AddClass) object;
@@ -84,12 +86,13 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
             UmlLink addLink = (UmlLink) object;
             System.out.println("Adding link");
             sendMe = translator.getScyMessage(addLink);
-        }        
-        
+        }
+
         if (sendMe != null) {
             logger.debug("Sending ScyMessage: \n" + sendMe.toString());
             try {
-                cs.create(sendMe);
+                //cs.create(sendMe);
+                throw new CollaborationServiceException("THOMAS AND TONY FIX THIS EXCEPTION");
             } catch (CollaborationServiceException e) {
                 logger.error("Bummer. Create in CollaborationService failed somehow: \n" + e);
                 e.printStackTrace();
@@ -149,7 +152,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 //        Tuple [] allConcepts = tupleSpace.readAll(conceptTemplate);
 //        Tuple [] allLinks = tupleSpace.readAll(linkTemplate);
         ObjectTranslator ot = new ObjectTranslator();
-        
+
         ArrayList<ScyMessage> messages = new ArrayList<ScyMessage>();
         try {
             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
@@ -158,11 +161,11 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
         } catch (CollaborationServiceException e) {
             logger.error("CollaborationService failure: " + e);
             e.printStackTrace();
-        }       
-        
+        }
+
 //        synchronizeDiagramElements(allConcepts, ot);
 //        synchronizeDiagramElements(allLinks, ot);
-        synchronizeDiagramElements(messages, ot);        
+        synchronizeDiagramElements(messages, ot);
     }
 
 //    private void synchronizeDiagramElements(Tuple[] allTuples, ObjectTranslator ot) {
@@ -174,7 +177,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 //        //TODO: Find a better place for this
 //        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0,0, 800, 700);
 //    }
-    
+
     private void synchronizeDiagramElements(ArrayList<ScyMessage> messages, ObjectTranslator ot) {
         ScyMessage scyMessage;
         for (int i = 0; i < messages.size(); i++) {
@@ -183,9 +186,9 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
             addNewNode(newNOde);
         }
         //TODO: Find a better place for this
-        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0,0, 800, 700);
+        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0, 0, 800, 700);
     }
-    
+
 
     public void cleanUp() {
         //TODO: implement this in collaborationservice
@@ -219,7 +222,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
         if (node instanceof AddClass) {
             System.out.println("CALL: After add class");
             umlClass = new UmlClass(((AddClass) node).getName(), ((AddClass) node).getType(), ((AddClass) node).getAuthor());
-            umlClass.setId(((AddClass)node).getId());
+            umlClass.setId(((AddClass) node).getId());
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addClass(umlClass);
             //ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateUmlDiagram(ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram());
@@ -227,7 +230,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
             System.out.println("MOVE CLASS: " + ((MoveClass) node).getUmlClass().getName());
             MoveClass moveClass = (MoveClass) node;
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
-        } else if(node instanceof UmlLink) {
+        } else if (node instanceof UmlLink) {
             UmlLink link = (UmlLink) node;
             ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
         }
@@ -236,14 +239,14 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 
     public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
         logger.debug("got CollaborationServiceEvent");
-        ScyMessage sm = e.getScyMessage();
+        IScyMessage sm = e.getScyMessage();
         if (sm != null) {
             logger.debug("UPDATING FROM SERVER!");
             ObjectTranslator ot = new ObjectTranslator();
             logger.debug("CALL: Before add class");
             Object object = ot.getObject(sm);
             if (object instanceof BaseConceptMapNode) {
-                addNewNode((BaseConceptMapNode) object);                
+                addNewNode((BaseConceptMapNode) object);
             }
             if (object instanceof UmlLink) {
                 addNewNode((UmlLink) object);
