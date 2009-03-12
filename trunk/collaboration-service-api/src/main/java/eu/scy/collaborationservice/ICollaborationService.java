@@ -58,6 +58,7 @@ public interface ICollaborationService {
    * @param collaborationListener
    * @throws CollaborationServiceException
    */
+
   public void addCollaborationListener(ICollaborationServiceListener collaborationListener);
   
    /**
@@ -86,7 +87,7 @@ public interface ICollaborationService {
 
     /**
      * 
-     * @param message defining the query
+     * @param queryMessage defining the query
      * @return list of messages containing the query result
      */
     public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage);
