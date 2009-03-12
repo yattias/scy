@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.jdom.JDOMException;
 import roolo.api.IRepository;
 import roolo.api.search.ISearchResult;
 import roolo.elo.JDomBasicELOFactory;
@@ -45,8 +48,8 @@ import eu.scy.toolbroker.ToolBrokerImpl;
  * 
  */
 public class DataCollector extends JPanel implements ActionListener,
-IDataClient {
-    
+        IDataClient {
+
     private static final long serialVersionUID = -2306183502112904729L;
     private ISimQuestViewer simquestViewer;
     private JTextArea text = new JTextArea(5, 20);
@@ -60,82 +63,79 @@ IDataClient {
     private DataSet dataset;
     private Object eloTitle = "an unnamed SimQuest dataset";
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
-    
+
     public DataCollector(ISimQuestViewer simquestViewer) {
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables(
-        "name is not relevant");
+                "name is not relevant");
         setSelectedVariables(simquestViewer.getDataServer().getVariables(
-        "name is not relevant"));
-        
+                "name is not relevant"));
+
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
         dataAgent.add(simquestViewer.getDataServer().getVariables(
-        "name is not relevant"));
+                "name is not relevant"));
         simquestViewer.getDataServer().register(dataAgent);
-        
+
         // initialize user interface
         initGUI();
     }
-    
+
     private void initGUI() {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory
-                .createTitledBorder("SCY Dataset Collector"));
-        
+        setBorder(BorderFactory.createTitledBorder("SCY Dataset Collector"));
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
+
         JButton button = new JButton("select relevant variables");
         button.setActionCommand("configure");
         button.addActionListener(this);
         buttonPanel.add(button);
-        
+
         button = new JButton("add current datapoint");
         button.setActionCommand("adddata");
         button.addActionListener(this);
         buttonPanel.add(button);
-        
+
         //button = new JButton("save ELO");
         //button.setActionCommand("saveelo");
         //button.addActionListener(this);
         //buttonPanel.add(button);
-        
+
         checkbox = new JCheckBox("add datapoints continuosly");
         checkbox.setSelected(false);
         buttonPanel.add(checkbox);
-        
+
         //button = new JButton("clear data");
         //button.setActionCommand("cleardata");
         //button.addActionListener(this);
         // buttonPanel.add(button);
-        
+
         //button = new JButton("test");
         //button.setActionCommand("test");
         //button.addActionListener(this);
         //buttonPanel.add(button);
-        
+
         this.add(buttonPanel, BorderLayout.NORTH);
-        
+
         JScrollPane pane = new JScrollPane(text);
         this.add(pane, BorderLayout.CENTER);
     }
-    
+
     public void addCurrentDatapoint() {
         ModelVariable var;
         List<String> values = new LinkedList<String>();
-        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars
-        .hasNext();) {
+        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
             values.add(var.getValueString());
-            text.append(var.getExternalName() + ":" + var.getValueString()
-                    + " / ");
+            text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
         }
         text.append("\n");
         dataset.addRow(new DataSetRow(values));
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
         if (evt.getActionCommand().equals("adddata")) {
             addCurrentDatapoint();
@@ -144,40 +144,37 @@ IDataClient {
                     simquestViewer.getMainFrame(), this);
             dialog.setVisible(true);
         } else if (evt.getActionCommand().equals("test")) {
-        	// testing: creating a toolbroker instance
-        	toolBroker = new ToolBrokerImpl<IMetadataKey>();
+            // testing: creating a toolbroker instance
+            toolBroker = new ToolBrokerImpl<IMetadataKey>();
         } else if (evt.getActionCommand().equals("saveelo")) {
             // this is not used anymore; using the methods from
             // EloSimQuestWrapper instead
-            
-            
+
+
             // setup tool-broker-api
             configureSCYConnection();
-            
+
             // some debug outputs
-            System.out.println("DataCollector.actionPerformed(). toolBroker: "
-                    + toolBroker + "\n");
-            List<ISearchResult> searchResult = toolBroker.getRepository()
-            .search(null);
-            System.out
-            .println("DataCollector.actionPerformed(). search results:\n");
+            System.out.println("DataCollector.actionPerformed(). toolBroker: " + toolBroker + "\n");
+            List<ISearchResult> searchResult = toolBroker.getRepository().search(null);
+            System.out.println("DataCollector.actionPerformed(). search results:\n");
             for (ISearchResult result : searchResult) {
                 System.out.println(result.getUri().toString() + "\n");
             }
-            
+
             // ask for the title and possibly cancel here
-            eloTitle = JOptionPane.showInputDialog(simquestViewer.getMainFrame(), "What would be the ELO title?","...");
+            eloTitle = JOptionPane.showInputDialog(simquestViewer.getMainFrame(), "What would be the ELO title?", "...");
             if (eloTitle == null) {
                 // user pressed "cancel", stop here
                 return;
             }
-            
+
             // create the ELO
             IELO<IMetadataKey> elo = createELO();
-            
+
             // store the ELO
             IMetadata<IMetadataKey> resultMetadata = toolBroker.getRepository().addELO(elo);
-            // eloFactory.updateELOWithResult(elo, resultMetadata);
+        // eloFactory.updateELOWithResult(elo, resultMetadata);
         } else if (evt.getActionCommand().equals("cleardata")) {
             newELO();
         }
@@ -194,10 +191,9 @@ IDataClient {
         eloFactory = new JDomBasicELOFactory(metadataTypeManager);
         JDomBasicELOFactory<IMetadataKey> eloFactory = new JDomBasicELOFactory<IMetadataKey>(
                 metadataTypeManager);
-        repository = toolBroker
-        .getRepository();
+        repository = toolBroker.getRepository();
     }
-    
+
     private IELO<IMetadataKey> createELO() {
         IELO<IMetadataKey> elo = eloFactory.createELO();
         fillMetadata(elo);
@@ -207,7 +203,7 @@ IDataClient {
         // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
         return elo;
     }
-    
+
     private IContent createContent() {
         IContent content = new DataSetContent();
         content.setXml(new JDomStringConversion().xmlToString(dataset.toXML()));
@@ -218,75 +214,108 @@ IDataClient {
     public DataSet getDataSet() {
         return dataset;
     }
-    
+
+    public SimConfig getSimConfig() {
+        return new SimConfig(this);
+    }
+
+    public void setSimConfig(String xmlSimConfig) {
+        SimConfig config;
+        ModelVariable var;
+        try {
+            config = new SimConfig(xmlSimConfig);
+            if (config.getSimulationName().equals(getSimQuestViewer().getApplication().getTopic(0).getName())) {
+                for (Iterator<ModelVariable> variables = getSimulationVariables().iterator(); variables.hasNext();) {
+                    var = variables.next();
+                    // if the variable name cannot be found in the config, a nullpointerex. is thrown
+                    var.setValue(config.getVariables().get(var.getName()));
+                }
+            } else {
+                // the simulation names doesn't match
+                JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.",
+                    "Config file problem",
+                    JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.",
+                    "Parsing problem",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "Could not update the Simulation with this Configuration. Do they really match?",
+                    "Update problem",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        // TODO: call an update to the simulation interface here
+        // something like: simquestViewer.getDataServer().setData();
+    }
+
     private void fillMetadata(IELO<IMetadataKey> elo) {
         // TODO
         // setting some metadata, not complete yet
-        
+
         // setting the default language
         elo.setDefaultLanguage(Locale.ENGLISH);
-        
+
         // key: title
         // the title of the ELO, should be selected by the learner
-        IMetadataKey titleKey = metadataTypeManager
-        .getMetadataKey(RooloMetadataKeys.TITLE.getId());
-        elo.getMetadata().getMetadataValueContainer(titleKey).setValue(eloTitle );
+        IMetadataKey titleKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
+        elo.getMetadata().getMetadataValueContainer(titleKey).setValue(eloTitle);
         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(
                 eloTitle, Locale.ENGLISH);
-        
+
         // key: format
         // the thechnical format / media type
-        IMetadataKey typeKey = metadataTypeManager
-        .getMetadataKey(RooloMetadataKeys.TYPE.getId());
+        IMetadataKey typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
         elo.getMetadata().getMetadataValueContainer(typeKey).setValue(
-        "text/xml");
-        
+                "text/xml");
+
         // key: contribute_date
         // the creation date/time of this ELO
-        IMetadataKey dateCreatedKey = metadataTypeManager
-        .getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId());
+        IMetadataKey dateCreatedKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId());
         elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
                 new Long(System.currentTimeMillis()));
-        
-        
-        // try
-        // {
-        // // elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
-        // // new URI("roolo://somewhere/myMission.mission"));
-        // // elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-        // // new Contribute("my vcard", System.currentTimeMillis()));
-        // }
-        // catch (URISyntaxException e)
-        // {
-        // System.out.println(e.toString());
-        // }
-        
+
+
+    // try
+    // {
+    // // elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
+    // // new URI("roolo://somewhere/myMission.mission"));
+    // // elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
+    // // new Contribute("my vcard", System.currentTimeMillis()));
+    // }
+    // catch (URISyntaxException e)
+    // {
+    // System.out.println(e.toString());
+    // }
+
     }
-    
+
     public void updateClient() {
         if (checkbox.isSelected()) {
             addCurrentDatapoint();
         }
     }
-    
+
     public List<ModelVariable> getSimulationVariables() {
         return simulationVariables;
     }
-    
+
     public List<ModelVariable> getSelectedVariables() {
         return selectedVariables;
     }
-    
+
+    public ISimQuestViewer getSimQuestViewer() {
+        return simquestViewer;
+    }
+
     public void setSelectedVariables(List<ModelVariable> selection) {
         selectedVariables = selection;
         ModelVariable var;
         List<DataSetColumn> datasetvariables = new LinkedList<DataSetColumn>();
         List<DataSetHeader> datasetheaders = new LinkedList<DataSetHeader>();
-        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars
-        .hasNext();) {
+        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
             var = vars.next();
-            datasetvariables.add(new DataSetColumn(var.getName(), var
-                    .getExternalName(), "double"));
+            datasetvariables.add(new DataSetColumn(var.getName(), var.getExternalName(), "double"));
         }
         datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
         dataset = new DataSet(datasetheaders);
@@ -295,5 +324,4 @@ IDataClient {
             text.setText("");
         }
     }
-    
 }
