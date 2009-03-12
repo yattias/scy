@@ -1,8 +1,8 @@
 package eu.scy.core.model.impl;
 
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
-import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYProject;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,14 +17,14 @@ import java.util.LinkedList;
  */
 @Entity
 @Table (name = "scygroup")
-@org.hibernate.annotations.Proxy (proxyClass = Group.class )
-public class GroupImpl extends ScyBaseObject implements Group {
+@org.hibernate.annotations.Proxy (proxyClass = SCYGroup.class )
+public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
 
 
     private List<User> users;
-    private List <Group> children = new LinkedList<Group>();
-    private Group parentGroup;
-    private Project project;
+    private List <SCYGroup> children = new LinkedList<SCYGroup>();
+    private SCYGroup parentGroup;
+    private SCYProject project;
 
     @OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     public List<User> getUsers() {
@@ -38,41 +38,41 @@ public class GroupImpl extends ScyBaseObject implements Group {
         this.users = users;
     }
 
-    @OneToMany(targetEntity = GroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    public List<Group> getChildren() {
+    @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    public List<SCYGroup> getChildren() {
         if(children == null) {
-            children = new LinkedList<Group>();
+            children = new LinkedList<SCYGroup>();
         }
         return children;
     }
 
-    public void setChildren(List<Group> children) {
+    public void setChildren(List<SCYGroup> children) {
         this.children = children;
     }
 
-    public void addChild(Group group) {
+    public void addChild(SCYGroup group) {
         if(group != null) {
             getChildren().add(group);
         }
 
     }
 
-    @ManyToOne(targetEntity = GroupImpl.class)
-    public Group getParentGroup() {
+    @ManyToOne(targetEntity = SCYGroupImpl.class)
+    public SCYGroup getParentGroup() {
         return parentGroup;
     }
 
-    public void setParentGroup(Group parentGroup) {
+    public void setParentGroup(SCYGroup parentGroup) {
         this.parentGroup = parentGroup;
     }
 
-    @ManyToOne(targetEntity = ProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYProjectImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_primKey")
-    public Project getProject() {
+    public SCYProject getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(SCYProject project) {
         this.project = project;
     }
 

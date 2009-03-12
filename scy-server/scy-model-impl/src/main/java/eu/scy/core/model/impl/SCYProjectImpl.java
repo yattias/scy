@@ -1,7 +1,7 @@
 package eu.scy.core.model.impl;
 
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
 
 import javax.persistence.*;
@@ -17,21 +17,21 @@ import java.util.LinkedList;
  */
 @Entity
 @Table(name = "project")
-public class ProjectImpl extends ScyBaseObject implements Project {
+public class SCYProjectImpl extends ScyBaseObject implements SCYProject {
 
 
-    private List<Group> groups;
+    private List<SCYGroup> groups;
     private List<User>  users;
 
-    @OneToMany(targetEntity = GroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    public List<Group> getGroups() {
+    @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    public List<SCYGroup> getGroups() {
         if(groups == null) {
-            groups = new LinkedList<Group>();
+            groups = new LinkedList<SCYGroup>();
         }
         return groups;
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(List<SCYGroup> groups) {
         this.groups = groups;
     }
 
@@ -45,7 +45,7 @@ public class ProjectImpl extends ScyBaseObject implements Project {
         this.users = users;
     }
 
-    public void addGroup(Group group) {
+    public void addGroup(SCYGroup group) {
         if(group != null) {
             getGroups().add(group);
             group.setProject(this);

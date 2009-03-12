@@ -9,16 +9,16 @@ import java.util.List;
  * Time: 06:11:09
  * The project is the workspace for users. Information in a project will only be available for that project's users 
  */
-public interface Project extends ScyBase{
+public interface SCYProject extends ScyBase{
 
 
-    public List<Group> getGroups();
+    public List<SCYGroup> getGroups();
 
-    public void setGroups(List<Group> groups);
+    public void setGroups(List<SCYGroup> groups);
 
     public List<User> getUsers();
 
     public void setUsers(List<User> users);
 
-    public void addGroup(Group group);
+    public void addGroup(SCYGroup group);
 }

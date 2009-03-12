@@ -33,13 +33,13 @@ public interface User extends net.sf.sail.webapp.domain.User{
 
     public void setLastName(String lastName);
 
-    public Project getProject();
+    public SCYProject getProject();
 
-    public void setProject(Project project);
+    public void setProject(SCYProject project);
 
-    public Group getGroup();
+    public SCYGroup getGroup();
 
-    public void setGroup(Group group);
+    public void setGroup(SCYGroup group);
 
     public List<UserRole> getUserRoles();
 

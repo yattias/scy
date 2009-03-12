@@ -1,6 +1,6 @@
 package eu.scy.core.model.impl;
 
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,8 +19,8 @@ public class GroupTest {
 
      private static Logger log = Logger.getLogger("GroupTest.class");
 
-    private Group testGroup = null;
-    private Group childGroup = null;
+    private SCYGroup testGroup = null;
+    private SCYGroup childGroup = null;
 
     private User user1 ;
 
@@ -28,7 +28,7 @@ public class GroupTest {
 
     @BeforeTest
     private void initializeTest() {
-        testGroup = new GroupImpl();
+        testGroup = new SCYGroupImpl();
         testGroup.setName(GROUP_NAME);
 
         user1 = new SCYUserImpl();
@@ -58,7 +58,7 @@ public class GroupTest {
 
     @Test
     public void addChildGroupToGroup() {
-        childGroup = new GroupImpl();
+        childGroup = new SCYGroupImpl();
         testGroup.addChild(childGroup);
         assert(testGroup.getChildren().contains(childGroup));
     }
