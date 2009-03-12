@@ -9,7 +9,7 @@ import eu.scy.colemo.client.ConceptNode;
 import eu.scy.colemo.client.GraphicsDiagram;
 import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.server.uml.UmlClass;
-import eu.scy.communications.message.ScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 import java.awt.*;
 
