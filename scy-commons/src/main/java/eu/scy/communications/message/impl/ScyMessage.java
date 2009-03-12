@@ -18,6 +18,7 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
     private String from;
     private String messagePurpose;
     private long expiraton;
+    private String session;
     
     public static final String MESSAGE_TYPE_QUERY = "QUERY";
     public static final String QUERY_TYPE_ALL = "ALL";
@@ -41,7 +42,7 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
      * @param expirationTime
      * @return
      */
-    public static IScyMessage createScyMessage(String username, String toolName, String id, String objectType, String name, String description, String to, String from, String messagePurpose, long expirationTime) {
+    public static IScyMessage createScyMessage(String username, String toolName, String id, String objectType, String name, String description, String to, String from, String messagePurpose, long expirationTime, String session) {
         IScyMessage sm = new ScyMessage();
         sm.setUserName(username);
         sm.setToolName(toolName);
@@ -53,6 +54,7 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
         sm.setFrom(from);
         sm.setMessagePurpose(messagePurpose);
         sm.setExpiraton(expirationTime);
+        sm.setSession(session);
         return sm;
     }
     
@@ -70,6 +72,7 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
         output.append(" name: " + super.getName() + "\n");
         output.append(" id: " + super.getId() + "\n");
         output.append(" description: " + super.getDescription() + "\n");
+        output.append(" session: " + getSession() + "\n");
         return output.toString();
     }
 
@@ -170,6 +173,14 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
      */
     public void setExpiraton(long expiraton) {
         this.expiraton = expiraton;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
+
+    public String getSession() {
+        return session;
     }
 
     

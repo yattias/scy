@@ -69,10 +69,11 @@ public class SQLSpaceAdapter implements Callback {
         String to = sm.getTo();
         String from = sm.getFrom();
         String purpose = sm.getMessagePurpose();
+        String session = sm.getSession();
         long expiration = sm.getExpiraton();
-        //username, toolName, id, objectType, name, description, to, from, messagePurpose
+        //username, toolName, id, objectType, name, description, to, from, messagePurpose, session
         //Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
-        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "");     
+        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "", session != null ? session : "");     
         logger.debug("About to write tuple: " + tuple);
 
         if (expiration > 0) {
@@ -114,7 +115,14 @@ public class SQLSpaceAdapter implements Callback {
     
     
     public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {
-        Tuple tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+        
+        Tuple tupleTemplate;
+        if( scyMessage.getSession() != null ) {
+            tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, scyMessage.getSession());
+        } else {
+            tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
+        }
+       
         Tuple returnTuple[] = null;
         try {
             returnTuple = this.tupleSpace.readAll(tupleTemplate);
@@ -194,7 +202,7 @@ public class SQLSpaceAdapter implements Callback {
             return null;
         }
         Field[] fields = tuple.getFields();
-        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0);
+        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
     }
     
     

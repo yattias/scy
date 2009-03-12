@@ -26,7 +26,7 @@ public class ObjectTranslator {
 
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private static final Logger logger = Logger.getLogger(ObjectTranslator.class.getName());
-    
+   
     public Tuple translate(Object object) {
         return null;
 
@@ -164,15 +164,15 @@ public class ObjectTranslator {
     
     
     public ScyMessage getScyMessage(AddClass addClass) {
-        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0);
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
     
     
     public ScyMessage getScyMessage(MoveClass moveClass) {
-        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0);
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
     
     public ScyMessage getScyMessage(UmlLink addLink) {
-        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0);
+        return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
 }

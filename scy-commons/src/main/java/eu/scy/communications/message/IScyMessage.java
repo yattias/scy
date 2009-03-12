@@ -102,4 +102,18 @@ public interface IScyMessage extends ScyBase {
      */
     public void setExpiraton(long expiraton);
     
+    /**
+     * Sets the session this message is associated with
+     * 
+     * @param session
+     */
+    public void setSession(String session);
+
+    /**
+     * Gets the session this message is associated with
+     * 
+     * @return
+     */
+    public String getSession();
+    
 }

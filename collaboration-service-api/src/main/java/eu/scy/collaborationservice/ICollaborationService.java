@@ -91,5 +91,14 @@ public interface ICollaborationService {
      * @return list of messages containing the query result
      */
     public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage);
-   
+
+    /**
+     * Gives the complete set of ScyMessges which represent changes for this specific client
+     * 
+     * @param toolName - name of tool
+     * @param session -  id of session shared by client instances
+     * @return
+     */
+    public ArrayList<IScyMessage> synchronizeClientState(String toolName, String session);
+    
 }

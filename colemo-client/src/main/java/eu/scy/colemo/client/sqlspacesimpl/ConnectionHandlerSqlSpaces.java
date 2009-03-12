@@ -35,7 +35,8 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
     //private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
     private static final Logger logger = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
     private ICollaborationService cs;
-
+    //FIXME: this needs to come from the client, generated
+    public static final String SESSIONID = "1";
     
     public void sendMessage(String message) {
 //        try {
@@ -153,8 +154,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
         try {
             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
             cs.addCollaborationListener(this);
-            ScyMessage queryMessage = ScyMessage.createScyMessage("anthonjp", "Colemo", null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0);
-            messages = cs.doQuery(queryMessage);
+            messages = cs.synchronizeClientState("Colemo", SESSIONID);
         } catch (CollaborationServiceException e) {
             logger.error("CollaborationService failure: " + e);
             e.printStackTrace();
