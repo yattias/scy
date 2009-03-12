@@ -1,8 +1,6 @@
 package eu.scy.core.model.impl;
 
-import eu.scy.core.model.SCYProject;
-import eu.scy.core.model.SCYGroup;
-import eu.scy.core.model.User;
+import eu.scy.core.model.*;
 
 import javax.persistence.*;
 import java.util.List;

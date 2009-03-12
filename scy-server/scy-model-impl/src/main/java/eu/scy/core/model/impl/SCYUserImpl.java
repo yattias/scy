@@ -178,7 +178,7 @@ public class SCYUserImpl implements User {
 
     @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
     @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
-    private MutableUserDetails userDetails;
+    private SCYUserDetails userDetails;
 
 
 
@@ -283,7 +283,7 @@ public class SCYUserImpl implements User {
     }
 
     public void setUserDetails(MutableUserDetails mutableUserDetails) {
-        this.userDetails = mutableUserDetails;
+        this.userDetails = (SCYUserDetails) mutableUserDetails;
     }
 
 
