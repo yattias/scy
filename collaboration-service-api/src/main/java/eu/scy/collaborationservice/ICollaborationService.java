@@ -6,7 +6,6 @@ import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
-
 /**
  * Collaboration Service Interface
  * 
