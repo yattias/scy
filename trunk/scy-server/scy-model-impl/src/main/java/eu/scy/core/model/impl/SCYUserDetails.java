@@ -3,7 +3,6 @@ package eu.scy.core.model.impl;
 import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +11,7 @@ import javax.persistence.Table;
  * Time: 12:23:59
  * To change this template use File | Settings | File Templates.
  */
-@Entity (name = "eu.scy.core.model.impl.UserDetails")
+@Entity (name = "eu.scy.core.model.impl.SCYUserDetails")
 //Table(name = "user_details")
-public class UserDetails extends StudentUserDetails {
+public class SCYUserDetails extends StudentUserDetails {
 }

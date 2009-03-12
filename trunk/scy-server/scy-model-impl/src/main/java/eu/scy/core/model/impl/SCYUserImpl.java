@@ -176,7 +176,7 @@ public class SCYUserImpl implements User {
 
     private Project project;
 
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = UserDetails.class)
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
     @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
     private MutableUserDetails userDetails;
 
