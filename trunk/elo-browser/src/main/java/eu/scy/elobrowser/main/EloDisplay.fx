@@ -9,6 +9,7 @@ package eu.scy.elobrowser.main;
 import eu.scy.elobrowser.main.EloDisplay;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
+import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
 import eu.scy.elobrowser.tool.dataProcessTool.EloDataToolWrapper;
@@ -101,6 +102,11 @@ public class EloDisplay extends CustomNode {
 			eloTypeChar = "V";
 			eloColor = Color.BROWN;
 		}
+        else
+        if (EloSimQuestWrapper.scySimConfigType == eloType){
+			eloTypeChar = "C";
+			eloColor = Color.GREEN;
+		}
 		else
 		if (EloDataToolWrapper.scyPDSType == eloType){
 			eloTypeChar = "S";
@@ -130,13 +136,19 @@ public class EloDisplay extends CustomNode {
 			// ELO type PDS or DS => open with data process visualization tool
 			var dataToolNode = DataToolNode.createDataToolNode(roolo);
 			scyWindow.scyContent = dataToolNode;
-                    dataToolNode.loadElo(elo.getUri());
+            dataToolNode.loadElo(elo.getUri());
 		}else
 		if (EloTextpadWrapper.scyTextType == eloType){
 			// ELO type is TEXT => open with textpad tool
 			var textpadNode = TextpadNode.createTextpadNode(roolo);
 			scyWindow.scyContent = textpadNode;
-                    textpadNode.loadElo(elo.getUri());
+            textpadNode.loadElo(elo.getUri());
+		}else
+		if (EloSimQuestWrapper.scySimConfigType == eloType){
+			// ELO type is SimConfig => open with Simulator tool
+            var simquestNode = SimQuestNode.createSimQuestNode(roolo);
+            scyWindow.scyContent = simquestNode;
+            simquestNode.loadElo(elo.getUri());
 		}
 	}
 
