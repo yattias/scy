@@ -1,11 +1,11 @@
 package eu.scy.listeners;
 
-import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYProject;
 //import eu.scy.core.model.User;
-//import eu.scy.core.model.impl.UserImpl;
-import eu.scy.core.model.impl.ProjectImpl;
-import eu.scy.core.model.impl.UserImpl;
-import eu.scy.core.model.impl.UserDetails;
+//import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.SCYProjectImpl;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.SCYUserDetails;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.framework.Constants;
@@ -142,7 +142,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
     } */
 
     private static void setupDefaultProject(XmlWebApplicationContext ctx) {
-        Project defaultProject = new ProjectImpl();
+        SCYProject defaultProject = new SCYProjectImpl();
         defaultProject.setName("SCY-WARS");
         ProjectDAOHibernate projectDAO = (ProjectDAOHibernate) ctx.getBean("projectDAO");
         if (defaultProject != null) {
@@ -155,15 +155,15 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         }
 
         //UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
-        User defaultGlobalAdmin = new UserImpl();
-        UserDetails vaderDetails = new UserDetails();
+        User defaultGlobalAdmin = new SCYUserImpl();
+        SCYUserDetails vaderDetails = new SCYUserDetails();
         vaderDetails.setUsername("scy");
         vaderDetails.setPassword("scy");
         vaderDetails.setFirstname("Darth");
         vaderDetails.setLastname("Vader");
         defaultGlobalAdmin.setUserDetails(vaderDetails);
 /*
-        User lukeSkywalkekr = new UserImpl();
+        User lukeSkywalkekr = new SCYUserImpl();
         lukeSkywalkekr.setUserName("luke");
         lukeSkywalkekr.setPassword("luke");
         lukeSkywalkekr.setFirstName("Luke");

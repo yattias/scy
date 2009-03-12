@@ -6,7 +6,7 @@
 <!-- Use this file to setup a default project -->
 <beans>
 
-    <bean id="defaultProject" class="eu.scy.core.model.impl.ProjectImpl">
+    <bean id="defaultProject" class="eu.scy.core.model.impl.SCYProjectImpl">
         <property name="name" value="Default SCY project"/>
         <property name="groups">
             <list>
@@ -15,11 +15,11 @@
         </property>
     </bean>
 
-    <bean id="defaultProjectGroup" class="eu.scy.core.model.impl.GroupImpl">
+    <bean id="defaultProjectGroup" class="eu.scy.core.model.impl.SCYGroupImpl">
         <property name="name" value="SCY Default Group"/>
     </bean>
 
-    <bean id="defaultGlobalAdmin" class="eu.scy.core.model.impl.UserImpl">
+    <bean id="defaultGlobalAdmin" class="eu.scy.core.model.impl.SCYUserImpl">
         <property name="userName" value="scy"/>
         <property name="password" value="scy"/>
         <property name="firstName" value="Darth"/>
@@ -32,7 +32,7 @@
         </property>
     </bean>
 
-    <bean id="lukeSkywalker" class="eu.scy.core.model.impl.UserImpl">
+    <bean id="lukeSkywalker" class="eu.scy.core.model.impl.SCYUserImpl">
         <property name="userName" value="luke"/>
         <property name="password" value="luke"/>
         <property name="firstName" value="Luke"/>

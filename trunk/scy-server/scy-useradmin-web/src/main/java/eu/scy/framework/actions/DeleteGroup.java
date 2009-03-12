@@ -1,8 +1,7 @@
 package eu.scy.framework.actions;
 
-import eu.scy.framework.BaseAction;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.SCYProject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,12 +13,12 @@ import eu.scy.core.model.Project;
 public class DeleteGroup extends DeleteAction {
 
     public Class getOperatesOn() {
-        return Group.class;
+        return SCYGroup.class;
     }
 
     protected Object doAction(Object model) {
-        Group g = (Group) model;
-        Project p = g.getProject();
+        SCYGroup g = (SCYGroup) model;
+        SCYProject p = g.getProject();
         getActionManager().getUserDAOHibernate().deleteGroup(g.getId());
         return p;
     }

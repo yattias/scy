@@ -1,7 +1,7 @@
 package eu.scy.framework;
 
 import eu.scy.framework.ActionManager;
-import eu.scy.core.model.Project;
+import eu.scy.core.model.SCYProject;
 
 
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ public abstract class BaseAction {
     private String name;
     private ActionManager actionManager;
 
-    private Project project;
+    private SCYProject project;
     private User user;
     private Object userObject;
 
@@ -34,11 +34,11 @@ public abstract class BaseAction {
         this.userObject = userObject;
     }
 
-    public Project getProject() {
+    public SCYProject getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(SCYProject project) {
         this.project = project;
     }
 

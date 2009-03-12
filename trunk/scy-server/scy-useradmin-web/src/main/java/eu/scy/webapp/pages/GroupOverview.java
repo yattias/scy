@@ -1,9 +1,8 @@
 package eu.scy.webapp.pages;
 
 import eu.scy.core.persistence.GroupDAO;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYGroup;
 
-import eu.scy.webapp.pages.projectmanagement.ProjectEditor;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
 
@@ -54,7 +53,7 @@ public class GroupOverview extends ScyModelPage {
         setModel(groupDAO.getGroup(getModelId()));
     }
 
-    public Group getRootGroup() {
+    public SCYGroup getRootGroup() {
         return getGroupDAO().getRootGroup(getCurrentProject());
     }
 
@@ -71,7 +70,7 @@ public class GroupOverview extends ScyModelPage {
     }
 
     public List<User> getGroupMembers() {
-        Group group = (Group) getModel();
+        SCYGroup group = (SCYGroup) getModel();
         //return group.getUsers();
         throw new RuntimeException("NOT IMPLEMENTED!");
     }

@@ -1,9 +1,9 @@
 package eu.scy.framework.actions;
 
 import eu.scy.framework.BaseAction;
-import eu.scy.core.model.Group;
-import eu.scy.core.model.impl.UserImpl;
-import eu.scy.core.model.impl.UserDetails;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.SCYUserDetails;
 
 import net.sf.sail.webapp.domain.User;
 import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
@@ -23,13 +23,13 @@ public class AddMemberToGroupAction extends BaseAction {
     }
 
     public Class getOperatesOn() {
-        return Group.class;
+        return SCYGroup.class;
     }
 
     protected Object doAction(Object model) {
        log.info("Adding member to group:" + model);
-        User user = new UserImpl();
-        UserDetails userDetails = new UserDetails();
+        User user = new SCYUserImpl();
+        SCYUserDetails userDetails = new SCYUserDetails();
         userDetails.setFirstname("New User");
         userDetails.setLastname("New User");
         userDetails.setUsername(getActionManager().getUserDAOHibernate().getSecureUserName("NewUser"));
@@ -38,7 +38,7 @@ public class AddMemberToGroupAction extends BaseAction {
         user.setUserDetails(userDetails);
         user = (User) getActionManager().getUserDAOHibernate().save(user);
 
-        //getActionManager().getUserDAOHibernate().addUser(getProject(), (Group) model, user);
+        //getActionManager().getUserDAOHibernate().addUser(getProject(), (SCYGroup) model, user);
 
         return user;
     }

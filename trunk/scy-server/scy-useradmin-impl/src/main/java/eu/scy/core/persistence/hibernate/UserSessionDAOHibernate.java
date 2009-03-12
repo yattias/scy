@@ -23,7 +23,7 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     private ApplicationContext applicationContext;
 
     public UserSession loginUser(String userName, String password) throws LoginException{
-        User user = (User) getSession().createQuery("From UserImpl where userName like :username and password like :password")
+        User user = (User) getSession().createQuery("From SCYUserImpl where userName like :username and password like :password")
                 .setString("username", userName)
                 .setString("password", password)
                 .setMaxResults(1)

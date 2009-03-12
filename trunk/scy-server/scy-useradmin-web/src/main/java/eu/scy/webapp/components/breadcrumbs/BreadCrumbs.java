@@ -1,14 +1,13 @@
 package eu.scy.webapp.components.breadcrumbs;
 
 import eu.scy.webapp.pages.TapestryContextAware;
-import eu.scy.core.model.Project;
-import eu.scy.core.model.Group;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Collections;
 
 import org.apache.tapestry5.annotations.Parameter;
 
@@ -48,10 +47,10 @@ public class BreadCrumbs extends TapestryContextAware {
 
         List objectList = new LinkedList();
 
-        if(getModel() instanceof Project) {
-            addObjectsToSelect(objectList, (Project)getModel());
-        } else if (getModel() instanceof Group) {
-            addObjectsToSelect(objectList, (Group) getModel());
+        if(getModel() instanceof SCYProject) {
+            addObjectsToSelect(objectList, (SCYProject)getModel());
+        } else if (getModel() instanceof SCYGroup) {
+            addObjectsToSelect(objectList, (SCYGroup) getModel());
         } else if(getModel() instanceof User) {
             addObjectsToSelect(objectList, (User) getModel());
         }
@@ -60,11 +59,11 @@ public class BreadCrumbs extends TapestryContextAware {
     }
 
 
-    private void addObjectsToSelect(List objectList, Project project) {
+    private void addObjectsToSelect(List objectList, SCYProject project) {
         objectList.add(project);
     }
 
-    private void addObjectsToSelect(List objectList, Group group) {
+    private void addObjectsToSelect(List objectList, SCYGroup group) {
         addObjectsToSelect(objectList, group.getProject());
         objectList.add(group);
     }

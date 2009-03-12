@@ -34,7 +34,7 @@ public interface UserDAO extends SCYBaseDAO{
      * @param group
      * @param user
      */
-    public User addUser(Project project, Group group, User user);
+    public User addUser(SCYProject project, SCYGroup group, User user);
 
     public String getSecureUserName(String userName);
 
@@ -46,17 +46,17 @@ public interface UserDAO extends SCYBaseDAO{
 
     public Boolean loginUser(String username, String password);
 
-    public Project getDefaultProject();
+    public SCYProject getDefaultProject();
 
-    public Group getDefaultGroup();
+    public SCYGroup getDefaultGroup();
 
-    public List<UserSession> getStartedSessions(long startTime, long endTime, Project project);
+    public List<UserSession> getStartedSessions(long startTime, long endTime, SCYProject project);
 
-    public Long getNumberOfGroups(Project project);
+    public Long getNumberOfGroups(SCYProject project);
 
-    public Long getNumberOfUsers(Project project);
+    public Long getNumberOfUsers(SCYProject project);
 
-    public Long getNumberOfUsers(Group group);
+    public Long getNumberOfUsers(SCYGroup group);
 
     public Boolean getIsUserInRole(String role, User user);
 
@@ -85,7 +85,7 @@ public interface UserDAO extends SCYBaseDAO{
      * @param id
      * @return
      */
-    public Group getGroup(String id);
+    public SCYGroup getGroup(String id);
 
 
     /**

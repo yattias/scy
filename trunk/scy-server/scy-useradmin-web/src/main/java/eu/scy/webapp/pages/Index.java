@@ -27,10 +27,10 @@ public class Index extends ScyModelPage {
     @Inject
     private GroupDAO groupDAO;
 
-    private Project scyProject;
+    private SCYProject scyProject;
     private UserRole userRole;
 
-    private Group group;
+    private SCYGroup group;
 
 
     @InjectPage
@@ -46,18 +46,18 @@ public class Index extends ScyModelPage {
 
     public void loadModel() {
         setModel((ScyBaseObject) getProjectDAO().getProject(getModelId()));
-        setCurrentProject((Project) getModel());
+        setCurrentProject((SCYProject) getModel());
     }
 
-    public Project getScyProject() {
+    public SCYProject getScyProject() {
         return scyProject;
     }
 
-    public void setScyProject(Project scyProject) {
+    public void setScyProject(SCYProject scyProject) {
         this.scyProject = scyProject;
     }
 
-    public List<Project> getProjects() {
+    public List<SCYProject> getProjects() {
         return getProjectDAO().getAllProjects();
     }
 
@@ -77,21 +77,21 @@ public class Index extends ScyModelPage {
         this.groupDAO = groupDAO;
     }
 
-    public List<Group> getGroups() {
+    public List<SCYGroup> getGroups() {
         return getGroupDAO().getGroupsForProject(getCurrentProject());
     }
 
-    public Group getGroup() {
+    public SCYGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(SCYGroup group) {
         this.group = group;
     }
 
 
     Object onActionFromOpenGroup(String groupId) {
-        Group group = getGroupDAO().getGroup(groupId);
+        SCYGroup group = getGroupDAO().getGroup(groupId);
         log.info("** ** ** ** ** ** *Loading group :" + group.getName());
         groupOverview.setModelId(groupId);
         groupOverview.loadModel();
