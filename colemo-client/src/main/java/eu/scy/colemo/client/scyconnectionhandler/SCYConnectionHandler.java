@@ -1,7 +1,7 @@
 package eu.scy.colemo.client.scyconnectionhandler;
 
 import eu.scy.colemo.client.ConnectionHandler;
-import eu.scy.collaborationservice.CollaborationService;
+
 import eu.scy.collaborationservice.ICollaborationService;
 
 /**
@@ -24,7 +24,7 @@ public class SCYConnectionHandler implements ConnectionHandler {
     }
 
     public void initialize() throws Exception {
-        ics = CollaborationService.getInstance();
+        //ics = CollaborationService.getInstance();
     }
 
     public void cleanUp() {

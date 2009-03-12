@@ -10,8 +10,7 @@ import eu.scy.colemo.client.GraphicsDiagram;
 import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.communications.message.impl.ScyMessage;
-
-import java.awt.*;
+import eu.scy.communications.message.IScyMessage;
 
 import org.apache.log4j.Logger;
 
@@ -26,7 +25,7 @@ public class ObjectTranslator {
 
     private static final long DEFAULT_EXPIRATION_TIME = 30*1000;
     private static final Logger logger = Logger.getLogger(ObjectTranslator.class.getName());
-   
+
     public Tuple translate(Object object) {
         return null;
 
@@ -89,8 +88,8 @@ public class ObjectTranslator {
 //
 //    }
 
-    
-    public Object getObject(ScyMessage scyMessage) {
+
+    public Object getObject(IScyMessage scyMessage) {
         
         if (scyMessage.getObjectType().indexOf("AddClass") > 0) {
             logger.debug("Creating new add class");
@@ -126,8 +125,8 @@ public class ObjectTranslator {
 
         return null;
     }
-    
-    
+
+
 //    public Tuple getTuple(AddClass addClass) {
 //        Field userNameField = new Field("henrik@enovate.no");
 //        Field toolName = new Field("Colemo");
@@ -161,18 +160,18 @@ public class ObjectTranslator {
 //        System.out.println("fromField = " + fromField);
 //        return new Tuple(userNameField, toolName, objectIdField, fromField, toField);
 //    }
-    
-    
-    public ScyMessage getScyMessage(AddClass addClass) {
+
+
+    public IScyMessage getScyMessage(AddClass addClass) {
         return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
-    
-    
-    public ScyMessage getScyMessage(MoveClass moveClass) {
+
+
+    public IScyMessage getScyMessage(MoveClass moveClass) {
         return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
-    
-    public ScyMessage getScyMessage(UmlLink addLink) {
+
+    public IScyMessage getScyMessage(UmlLink addLink) {
         return ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, ConnectionHandlerSqlSpaces.SESSIONID);
     }
 }
