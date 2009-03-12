@@ -20,7 +20,6 @@ import java.util.LinkedList;
 @org.hibernate.annotations.Proxy (proxyClass = SCYGroup.class )
 public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
 
-
     private List<User> users;
     private List <SCYGroup> children = new LinkedList<SCYGroup>();
     private SCYGroup parentGroup;
@@ -80,7 +79,5 @@ public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
         if(user != null) {
             getUsers().add(user);
         }
-
     }
-
 }
