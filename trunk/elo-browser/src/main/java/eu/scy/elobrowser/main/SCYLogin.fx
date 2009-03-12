@@ -50,6 +50,8 @@ public class SCYLogin extends Group {
     var text : Text;
     var loginNode : ScyWindow;
     def maxOpacity = 0.9;
+    var preferredWidth = 250;
+    var preferredHeight = 140;
 
     public-init var mainContent : Node[] on replace {
         for (n in mainContent) {
