@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface User extends net.sf.sail.webapp.domain.User{
 
-    public String getUserName();
+    /*public String getUserName();
 
     public void setUserName(String userName);
 
@@ -37,10 +37,10 @@ public interface User extends net.sf.sail.webapp.domain.User{
 
     public void setProject(SCYProject project);
 
-    /*public SCYGroup getGroup();
+    public SCYGroup getGroup();
 
     public void setGroup(SCYGroup group);
-    */
+
     public List<UserRole> getUserRoles();
 
     public void setUserRoles(List<UserRole> userRoles);
@@ -52,4 +52,6 @@ public interface User extends net.sf.sail.webapp.domain.User{
     public void setUserSessions(List<UserSession> userSessions);
 
     public void addUserSession(UserSession userSession);
+
+    */
 }
