@@ -2,7 +2,7 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.SCYProject;
-import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.impl.*;
 import eu.scy.core.persistence.GroupDAO;
 
 import java.util.List;
@@ -21,11 +21,13 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
         if (project == null) {
             throw new RuntimeException("SCYProject not set - cannot create group");
         }
-        SCYGroup g = new SCYGroupImpl();
+        SCYGroup g = null;//new SCYGroupImpl();
+
         g.setProject(project);
         g.setName(name);
         g.setParentGroup(parent);
-        return (SCYGroup) save(g);
+        throw new RuntimeException("SOmething wrong here....");
+        //return (SCYGroup) save(g);
     }
 
     public SCYGroup getGroup(String id) {

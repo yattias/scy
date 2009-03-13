@@ -2,6 +2,7 @@ package eu.scy.framework.actions;
 
 import eu.scy.framework.BaseAction;
 import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.SCYUserDetails;
 
