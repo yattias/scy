@@ -34,7 +34,8 @@ public class SCYProjectImpl extends ScyBaseObject implements SCYProject {
     }
 
 
-    @OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    //OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "project", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Transient
     public List<User> getUsers() {
         return users;
     }
