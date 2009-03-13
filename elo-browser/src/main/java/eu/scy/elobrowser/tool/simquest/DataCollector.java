@@ -245,8 +245,8 @@ public class DataCollector extends JPanel implements ActionListener,
                     "Update problem",
                     JOptionPane.WARNING_MESSAGE);
         }
-        // TODO: call an update to the simulation interface here
-        // something like: simquestViewer.getDataServer().setData();
+        // trigger an update to all registered clients
+        simquestViewer.getDataServer().updateClients();
     }
 
     private void fillMetadata(IELO<IMetadataKey> elo) {
