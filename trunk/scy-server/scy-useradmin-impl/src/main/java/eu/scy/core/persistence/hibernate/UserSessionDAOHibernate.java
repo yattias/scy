@@ -23,12 +23,14 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     private ApplicationContext applicationContext;
 
     public UserSession loginUser(String userName, String password) throws LoginException{
-        User user = (User) getSession().createQuery("From SCYUserImpl where userName like :username and password like :password")
+        /*User user = (User) getSession().createQuery("From SCYUserImpl where userName like :username and password like :password")
                 .setString("username", userName)
                 .setString("password", password)
                 .setMaxResults(1)
                 .uniqueResult();
         return loginUser(user);
+        */
+        throw new RuntimeException("NOT IMPLEMENTED");
     }
     public UserSession loginUser(User user) throws LoginException {
         if(user == null) {
@@ -41,11 +43,12 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
         }
         session.setSessionStarted(System.currentTimeMillis());
         session.setSessionActive(true);
-        user.addUserSession(session);
+        //user.addUserSession(session);
 
         save(user);
         log.info("Found session...");
-        return session;
+        //return session;
+        throw new RuntimeException("NOT IMPLEMENTED");
     }
 
     public void logoutUser(User user) {
@@ -58,12 +61,14 @@ public class UserSessionDAOHibernate extends ScyBaseDAOHibernate implements User
     }
 
     public UserSession getActiveSession(User user) {
-        log.info("Getting active session for user: " + user.getUserName());
+        throw new RuntimeException("NOT IMPLEMENTED");
+        /*log.info("Getting active session for user: " + user.getUserName());
         return (UserSession) getSession().createQuery("From UserSessionImpl where user = :user and sessionActive = :sessionActiveFlag")
                 .setEntity("user", user)
                 .setBoolean("sessionActiveFlag", Boolean.TRUE)
                 .setMaxResults(1)
                 .uniqueResult();
+                */
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

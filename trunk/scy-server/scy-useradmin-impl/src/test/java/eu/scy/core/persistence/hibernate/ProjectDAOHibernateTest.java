@@ -5,7 +5,10 @@ import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.testng.annotations.Test;
 import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.model.SCYProject;
-import eu.scy.core.model.impl.SCYProjectImpl;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.*;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,8 +49,8 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
         p = (SCYProject) getProjectDAO().save(p);
         assertNotNull(p.getId());
     }
-    /*
-    //Test
+
+    @Test
     public void testFindProjectsByName() {
         String projectName = "Henrik";
         SCYProject testProject = new SCYProjectImpl();
@@ -72,7 +75,7 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
         assertTrue(g.getId() != null);
         assertTrue(testProject.getGroups().contains(g));
     }
- */
+ 
 }
 
 
