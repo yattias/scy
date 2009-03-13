@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface SCYGroup extends ScyBase{
 
-    public List<User> getUsers();
+    //public List<User> getUsers();
 
-    public void setUsers(List<User> users);
+    //public void setUsers(List<User> users);
 
     public List<SCYGroup> getChildren();
 
