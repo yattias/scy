@@ -4,7 +4,7 @@
 	<groupId>eu.scy</groupId>
 	<artifactId>collaboration-service-impl</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>collaboration-service-impl</name>
 	<url>http://maven.apache.org</url>
 
@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>eu.scy</groupId>
 			<artifactId>collaboration-service-api</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy</groupId>
