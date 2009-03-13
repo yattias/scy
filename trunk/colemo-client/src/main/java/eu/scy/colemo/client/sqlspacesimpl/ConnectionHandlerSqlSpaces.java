@@ -91,8 +91,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
         if (sendMe != null) {
             logger.debug("Sending ScyMessage: \n" + sendMe.toString());
             try {
-                //cs.create(sendMe);
-                throw new CollaborationServiceException("THOMAS AND TONY FIX THIS EXCEPTION");
+                cs.create(sendMe);
             } catch (CollaborationServiceException e) {
                 logger.error("Bummer. Create in CollaborationService failed somehow: \n" + e);
                 e.printStackTrace();
@@ -153,11 +152,11 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 //        Tuple [] allLinks = tupleSpace.readAll(linkTemplate);
         ObjectTranslator ot = new ObjectTranslator();
 
-        ArrayList<ScyMessage> messages = new ArrayList<ScyMessage>();
+        ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         try {
             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
             cs.addCollaborationListener(this);
-            //messages = cs.synchronizeClientState("Colemo", SESSIONID);
+            messages = cs.synchronizeClientState("Colemo", SESSIONID);
         } catch (CollaborationServiceException e) {
             logger.error("CollaborationService failure: " + e);
             e.printStackTrace();
@@ -178,10 +177,10 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
 //        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0,0, 800, 700);
 //    }
 
-    private void synchronizeDiagramElements(ArrayList<ScyMessage> messages, ObjectTranslator ot) {
+    private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, ObjectTranslator ot) {
         ScyMessage scyMessage;
         for (int i = 0; i < messages.size(); i++) {
-            scyMessage = messages.get(i);
+            scyMessage = (ScyMessage) messages.get(i);
             Object newNOde = ot.getObject(scyMessage);
             addNewNode(newNOde);
         }
