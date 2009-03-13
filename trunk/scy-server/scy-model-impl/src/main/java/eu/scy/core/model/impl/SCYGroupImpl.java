@@ -25,7 +25,9 @@ public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
     private SCYGroup parentGroup;
     private SCYProject project;
 
-    @OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+
+    //OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @Transient
     public List<User> getUsers() {
         if(users == null) {
             users = new LinkedList<User>();
@@ -36,6 +38,7 @@ public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
 
     @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<SCYGroup> getChildren() {
@@ -74,10 +77,10 @@ public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
     public void setProject(SCYProject project) {
         this.project = project;
     }
-
     public void addUser(User user) {
         if(user != null) {
             getUsers().add(user);
         }
     }
+
 }
