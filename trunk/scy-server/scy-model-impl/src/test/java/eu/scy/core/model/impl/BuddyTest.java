@@ -24,13 +24,13 @@ public class BuddyTest {
     @BeforeTest
     private void initialize() {
         me = new SCYUserImpl();
-        me.setUserName("myself");
+        //me.setUserName("myself");
 
         bestBuddy = new SCYUserImpl();
-        bestBuddy.setUserName("Best buddy");
+        //bestBuddy.setUserName("Best buddy");
 
         secondBestBuddy = new SCYUserImpl();
-        secondBestBuddy.setUserName("Second best buddy");
+        //secondBestBuddy.setUserName("Second best buddy");
     }
 
     public void testAddBuddy() {
