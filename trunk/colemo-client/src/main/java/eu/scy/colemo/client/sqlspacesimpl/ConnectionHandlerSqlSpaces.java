@@ -156,7 +156,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollabora
         ArrayList<ScyMessage> messages = new ArrayList<ScyMessage>();
         try {
             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-            //cs.addCollaborationListener(this);
+            cs.addCollaborationListener(this);
             //messages = cs.synchronizeClientState("Colemo", SESSIONID);
         } catch (CollaborationServiceException e) {
             logger.error("CollaborationService failure: " + e);
