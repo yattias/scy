@@ -20,12 +20,12 @@ import java.util.LinkedList;
 @org.hibernate.annotations.Proxy (proxyClass = SCYGroup.class )
 public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
 
-    //private List<User> users;
+    private List<User> users;
     private List <SCYGroup> children = new LinkedList<SCYGroup>();
     private SCYGroup parentGroup;
     private SCYProject project;
 
-    /*@OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "group", cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     public List<User> getUsers() {
         if(users == null) {
             users = new LinkedList<User>();
@@ -36,7 +36,7 @@ public class SCYGroupImpl extends ScyBaseObject implements SCYGroup {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-     */
+
     @OneToMany(targetEntity = SCYGroupImpl.class, mappedBy = "parentGroup", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     public List<SCYGroup> getChildren() {
         if(children == null) {

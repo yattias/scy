@@ -44,6 +44,8 @@ public class SCYUserImpl implements User {
     @Transient
     private SdsUser sdsUser = null;
 
+    private SCYUserDetails userDetails;
+
 
     /**
      * @return the id
@@ -154,7 +156,7 @@ public class SCYUserImpl implements User {
 
 
 
-
+    /*
 
 
 
@@ -169,7 +171,7 @@ public class SCYUserImpl implements User {
     private String firstName;
     private String lastName;
 
-    //private SCYGroup group;
+    private SCYGroup group;
 
     private List<UserRole> userRoles;
     private List<UserSession> userSessions;
@@ -233,7 +235,7 @@ public class SCYUserImpl implements User {
         this.project = project;
     }
 
-    /*@ManyToOne(targetEntity = SCYGroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = SCYGroupImpl.class, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_primKey")
     public SCYGroup getGroup() {
         return group;
@@ -242,7 +244,7 @@ public class SCYUserImpl implements User {
     public void setGroup(SCYGroup group) {
         this.group = group;
     }
-    */
+
     @OneToMany(targetEntity = UserRoleImpl.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<UserRole> getUserRoles() {
         if (userRoles == null) {
@@ -277,6 +279,8 @@ public class SCYUserImpl implements User {
         getUserSessions().add(userSession);
         userSession.setUser(this);
     }
+
+    */
 
     public MutableUserDetails getUserDetails() {
         return userDetails;
