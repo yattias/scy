@@ -49,18 +49,13 @@
 	</dependency>
 	<dependency>
 		<groupId>eu.scy</groupId>
-		<artifactId>collaboration-service-api</artifactId>
-		<version>0.1-SNAPSHOT</version>
-	</dependency>
-	<dependency>
-		<groupId>eu.scy</groupId>
 		<artifactId>collaboration-service-impl</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>0.2-SNAPSHOT</version>
 	</dependency>
 		<dependency>
 		<groupId>eu.scy</groupId>
 		<artifactId>collaboration-service-api</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>0.2-SNAPSHOT</version>
 	</dependency>
 	</dependencies>
 	<build>
