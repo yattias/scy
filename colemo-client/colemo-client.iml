@@ -100,13 +100,13 @@
     <orderEntry type="library" exported="" name="Maven: eu.scy:notification-api:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: eu.scy:awareness-api:0.2-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.igniterealtime.smack:smack:3.0.4" level="project" />
-    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service:0.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: info.collide:sqlspaces-client:3.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: info.collide:sqlspaces-commons:3.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.codehaus.woodstox:wstx-lgpl:3.2.7" level="project" />
     <orderEntry type="library" exported="" name="Maven: eu.scy:scy-sessionmanager-api:1.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service-api:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service-api:0.2-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: eu.scy:scy-commons:0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.igniterealtime.openfire:openfire:3.6.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: jivesoftware:smackx:3.0.4" level="project" />
@@ -116,7 +116,7 @@
     <orderEntry type="library" exported="" name="Maven: org.swinglabs:swingx:0.9.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.jhlabs:filters:2.0.235" level="project" />
     <orderEntry type="library" exported="" name="Maven: jgroups:jgroups-all:2.2.9.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service-impl:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: eu.scy:collaboration-service-impl:0.2-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: jivesoftware:smack:3.0.4" level="project" />
   </component>
 </module>
