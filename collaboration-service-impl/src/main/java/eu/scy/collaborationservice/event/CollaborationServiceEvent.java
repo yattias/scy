@@ -23,6 +23,7 @@ public class CollaborationServiceEvent extends EventObject implements ICollabora
      */
     public CollaborationServiceEvent(Object source, IScyMessage scyMessage){
         super(source);
+        this.scyMessage = scyMessage;
     }
 
     
