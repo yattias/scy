@@ -28,43 +28,13 @@ import java.util.ArrayList;
  * Time: 13:41:28
  * CoLeMo controller that serves as a bridge between colemo and the SCY collaboration and awareness services.
  */
-public class SCYConnectionHandler implements ConnectionHandler, ICollaborationServiceListener {
-    //private TupleSpace tupleSpace = null;
+public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollaborationServiceListener {
 
-    public static String MESSAGE_TYPE = "MESSAGE_TYPE";
 
-    //private Tuple conceptTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
-    //private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
     private static final Logger log = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
-    private ICollaborationService cs;
+    private ICollaborationService collaborationService;
     //FIXME: this needs to come from the client, generated
     public static final String SESSIONID = "1";
-
-    public void sendMessage(String message) {
-//        try {
-//            System.out.println("Sending message: " + message);
-//            if (tupleSpace != null) {
-//                Field typeField = new Field(MESSAGE_TYPE);
-//                Field messageField = new Field(message);
-//
-//                Tuple t = new Tuple(typeField, messageField);
-//                try {
-//                    tupleSpace.write(t);
-//                } catch (TupleSpaceException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            Tuple templateTuple = new Tuple(String.class, String.class, String.class, String.class, String.class);
-//            Tuple returnTuple = tupleSpace.read(templateTuple);
-//            if (returnTuple != null) {
-//                System.out.println("return tuple" + returnTuple + returnTuple.getField(0) + " " + returnTuple.getField(1));
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-    }
 
 
     public void sendObject(Object object) {
@@ -91,7 +61,7 @@ public class SCYConnectionHandler implements ConnectionHandler, ICollaborationSe
         if (sendMe != null) {
             log.debug("Sending ScyMessage: \n" + sendMe.toString());
             try {
-                cs.create(sendMe);
+                collaborationService.create(sendMe);
             } catch (CollaborationServiceException e) {
                 log.error("Bummer. Create in CollaborationService failed somehow: \n" + e);
                 e.printStackTrace();
@@ -99,83 +69,23 @@ public class SCYConnectionHandler implements ConnectionHandler, ICollaborationSe
         }
     }
 
-//    public void sendObject2(Object object) {
-//        try {
-//            System.out.println("Sending object:" + object);
-//            ObjectTranslator translator = new ObjectTranslator();
-//            Tuple sendMe = null;
-//            if (object instanceof AddClass) {
-//                AddClass addClass = (AddClass) object;
-//                System.out.println("NAME: " + addClass.getName());
-//                sendMe = translator.getTuple(addClass);
-//            } else if (object instanceof MoveClass) {
-//                MoveClass mc = (MoveClass) object;
-//                mc.setId(mc.getUmlClass().getId());
-//                System.out.println("moving class with id:  " + mc.getId() + " to position: " + mc.getUmlClass().getX() + ", " + mc.getUmlClass().getY());
-//                sendMe = translator.getTuple(mc);
-//            } else if (object instanceof UmlLink) {
-//                UmlLink addLink = (UmlLink) object;
-//                System.out.println("Adding link");
-//                sendMe = translator.getTuple(addLink);
-//            }
-//
-//            try {
-//                if (sendMe != null) {
-//                    tupleSpace.write(sendMe);
-//                }
-//
-//            } catch (TupleSpaceException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//    }
-
-
     public void initialize() throws Exception {
 
         log.debug("initializing");
-//        tupleSpace = new TupleSpace("scy.collide.info", 2525, "AIRFORCE_ONE");
-//        //tupleSpace = new TupleSpace("localhost", 2525, "AIRFORCE_ONE");
-//
-//        //tupleSpace = new TupleSpace("129.240.212.15", 2525, "AIRFORCE_ONE");
-//        Tuple tmp = new Tuple(String.class, String.class);
-//        //Tuple colemoBus = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
-//        Callback cb = this;
-//        int seqNo = tupleSpace.eventRegister(Command.WRITE, tmp, cb, false);
-//        int conceptSeq= tupleSpace.eventRegister(Command.WRITE, conceptTemplate, cb, false);
-//        int linkSeq = tupleSpace.eventRegister(Command.WRITE, linkTemplate, cb, false);
-//        //int seqNo = tupleSpace.eventRegister(Command.WRITE, tmp, cb, false);
-
-//        Tuple [] allConcepts = tupleSpace.readAll(conceptTemplate);
-//        Tuple [] allLinks = tupleSpace.readAll(linkTemplate);
         ObjectTranslator ot = new ObjectTranslator();
 
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         try {
-            cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-            cs.addCollaborationListener(this);
-            messages = cs.synchronizeClientState("Colemo", SESSIONID);
+            collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+            collaborationService.addCollaborationListener(this);
+            messages = collaborationService.synchronizeClientState("Colemo", SESSIONID);
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
             e.printStackTrace();
         }
 
-//        synchronizeDiagramElements(allConcepts, ot);
-//        synchronizeDiagramElements(allLinks, ot);
         synchronizeDiagramElements(messages, ot);
     }
-
-//    private void synchronizeDiagramElements(Tuple[] allTuples, ObjectTranslator ot) {
-//        for (int i = 0; i < allTuples.length; i++) {
-//            Tuple allTuple = allTuples[i];
-//            Object newNOde = ot.getObject(allTuple);
-//            addNewNode(newNOde);
-//        }
-//        //TODO: Find a better place for this
-//        ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0,0, 800, 700);
-//    }
 
     private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, ObjectTranslator ot) {
         if(messages == null) {
@@ -202,44 +112,9 @@ public class SCYConnectionHandler implements ConnectionHandler, ICollaborationSe
 //        }
     }
 
-//    public void call(Command command, int i, Tuple tuple, Tuple tuple1) {
-//        System.out.println("i: " + i);
-//        if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {
-//            System.out.println("UPDATING CONCEPT FROM SERVER!");
-//            ObjectTranslator ot = new ObjectTranslator();
-//
-//            System.out.println("CALL: Before add class");
-//            BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
-//
-//            addNewNode(node);
-//        } else if(tuple != null && tuple.getFields().length == linkTemplate.getFields().length) {
-//            System.out.println("UPDATING LINK FROM SERVER!");
-//            ObjectTranslator ot = new ObjectTranslator();
-//            UmlLink link = (UmlLink) ot.getObject(tuple);
-//            addNewNode(link);
-//        }
-//    }
-
-    private void addNewNode(Object node) {
-        UmlClass umlClass;
-        if (node instanceof AddClass) {
-            System.out.println("CALL: After add class");
-            umlClass = new UmlClass(((AddClass) node).getName(), ((AddClass) node).getType(), ((AddClass) node).getAuthor());
-            umlClass.setId(((AddClass) node).getId());
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addClass(umlClass);
-            //ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateUmlDiagram(ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram());
-        } else if (node instanceof MoveClass) {
-            System.out.println("MOVE CLASS: " + ((MoveClass) node).getUmlClass().getName());
-            MoveClass moveClass = (MoveClass) node;
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
-        } else if (node instanceof UmlLink) {
-            UmlLink link = (UmlLink) node;
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
-        }
-    }
-
-
+    /**
+     * Handles collaboration service events
+     */
     public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
         log.debug("got CollaborationServiceEvent");
         IScyMessage sm = e.getScyMessage();
@@ -248,12 +123,15 @@ public class SCYConnectionHandler implements ConnectionHandler, ICollaborationSe
             ObjectTranslator ot = new ObjectTranslator();
             log.debug("CALL: Before add class");
             Object object = ot.getObject(sm);
-            if (object instanceof BaseConceptMapNode) {
+            if ( sm.getObjectType().contains("AddClass")) {
                 addNewNode((BaseConceptMapNode) object);
-            }
-            if (object instanceof UmlLink) {
+            } else if (sm.getObjectType().contains("UmlLink")) {
                 addNewNode((UmlLink) object);
             }
         }
+    }
+
+    public void sendMessage(String message) {
+        System.out.println("SCYConnectionHandler.sendMessage()");
     }
 }
