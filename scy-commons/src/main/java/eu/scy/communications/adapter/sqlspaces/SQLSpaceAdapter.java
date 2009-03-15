@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
+import eu.scy.communications.adapter.IScyCommunicationListener;
+import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
@@ -22,43 +24,95 @@ public class SQLSpaceAdapter implements Callback {
     public static final int SERVER_PORT = 2525;
     public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
     public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
-    
+    public static final String WRITE = "WRITE";
+    public static final String DELETE = "DELETE";
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
-    
-    private IScyCommunicationAdapter client;
-
-    
+    private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
     
     public SQLSpaceAdapter() {
+        System.out.println("SQLSpaceAdapter.SQLSpaceAdapter()");
     }
     
-    
-    public static SQLSpaceAdapter createAdapter(String userName, String sqlSpaceName, IScyCommunicationAdapter ca) {
-        SQLSpaceAdapter cs = null;
-        cs = new SQLSpaceAdapter();
-        cs.client = ca;
-        cs.userName = userName;
-        TupleSpace ts;
+    /**
+     * intialize the tuple space
+     * 
+     * @param userName
+     * @param sqlSpaceName
+     */
+    public void initialize(String userName, String sqlSpaceName) {
+        logger.debug("Created Tuple Spaces");
+        this.userName = userName;
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
         try {
-            ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);            
-            //setup the events that client will use
-            ts.eventRegister(Command.WRITE, template, cs, true);
-            ts.eventRegister(Command.DELETE, template, cs, true);
+            Callback cb = this;
+            this.tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+            // setup the events that client will use
+            this.tupleSpace.eventRegister(Command.WRITE, template, cb, false);
+            this.tupleSpace.eventRegister(Command.DELETE, template, cb, false);
         } catch (TupleSpaceException e) {
             logger.error("Tupplespace pb " + e);
-            return null;
         }
-        cs.tupleSpace = ts;
-        return cs;
     }
     
-
+    // public SQLSpaceAdapter createAdapter(String userName, String
+    // sqlSpaceName, IScyCommunicationAdapter scyCommunicationAdapter) {
+    // if (sqlSpaceAdapter == null) {
+    // logger.debug("Created Tuple Spaces");
+    // this.sqlSpaceAdapter = new SQLSpaceAdapter();
+    // this.scyCommunicationAdapter = scyCommunicationAdapter;
+    // this.userName = userName;
+    // Tuple template = new Tuple(String.class, String.class, String.class,
+    // String.class, String.class, String.class);
+    // try {
+    // tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+    // //setup the events that client will use
+    // tupleSpace.eventRegister(Command.WRITE, template, this, true);
+    // tupleSpace.eventRegister(Command.DELETE, template, this, true);
+    // } catch (TupleSpaceException e) {
+    // logger.error("Tupplespace pb " + e);
+    // return null;
+    // }
+    // return sqlSpaceAdapter;
+    // }
+    // return sqlSpaceAdapter;
+    // }
+    // public static SQLSpaceAdapter createAdapter(String userName, String
+    // sqlSpaceName, IScyCommunicationAdapter ca) {
+    //        
+    // sqlSpaceAdapter = new SQLSpaceAdapter();
+    // cs.client = ca;
+    // cs.userName = userName;
+    // TupleSpace ts;
+    // Tuple template = new Tuple(String.class, String.class, String.class,
+    // String.class, String.class, String.class);
+    // try {
+    // ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+    // //setup the events that client will use
+    // ts.eventRegister(Command.WRITE, template, sqlSpaceAdapter, true);
+    // ts.eventRegister(Command.DELETE, template, sqlSpaceAdapter, true);
+    // } catch (TupleSpaceException e) {
+    // logger.error("Tupplespace pb " + e);
+    // return null;
+    // }
+    // cs.tupleSpace = ts;
+    // return sqlSpaceAdapter;
+    // }
+    
+    /**
+     * write
+     */
     public String write(IScyMessage scyMessage) {
         return write(null, scyMessage);
-    }    
+    }
     
+    /**
+     * write the tuple to a message
+     * 
+     * @param tupleId
+     * @param sm
+     * @return
+     */
     public String write(String tupleId, IScyMessage sm) {
         String user = sm.getUserName();
         String tool = sm.getToolName();
@@ -71,11 +125,14 @@ public class SQLSpaceAdapter implements Callback {
         String purpose = sm.getMessagePurpose();
         String session = sm.getSession();
         long expiration = sm.getExpiraton();
-        //username, toolName, id, objectType, name, description, to, from, messagePurpose, session
-        //Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
-        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "", session != null ? session : "");     
+        // username, toolName, id, objectType, name, description, to, from,
+        // messagePurpose, session
+        // Tuple tuple = new Tuple(String.class, tool, String.class,
+        // String.class, String.class, String.class, String.class, String.class,
+        // String.class);
+        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "", session != null ? session : "");
         logger.debug("About to write tuple: " + tuple);
-
+        
         if (expiration > 0) {
             tuple.setExpiration(expiration);
             logger.debug(" ... with expiration: " + expiration);
@@ -83,25 +140,33 @@ public class SQLSpaceAdapter implements Callback {
         TupleID tid = null;
         try {
             if (tupleId == null) {
-                tid = this.tupleSpace.write(tuple);                
+                tid = this.tupleSpace.write(tuple);
             } else {
                 tid = new TupleID(Long.valueOf(tupleId));
-                this.tupleSpace.update(tid, tuple);                
+                this.tupleSpace.update(tid, tuple);
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
+            // force callback SUPERHACK
+            call(Command.WRITE, 0, tuple, null);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing or updating touple " + e);
         }
         return String.valueOf(tid.getID());
     }
     
-    
+    /**
+     * reads a tuple from params
+     * 
+     * @param userName
+     * @param tool
+     * @return
+     */
     public ArrayList<String> read(String userName, String tool) {
         Tuple tuple;
         if (userName == null) {
-            tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);		    
+            tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
         } else {
-            tuple = new Tuple(userName, tool, String.class, String.class, String.class, String.class);          
+            tuple = new Tuple(userName, tool, String.class, String.class, String.class, String.class);
         }
         Tuple returnTuple = null;
         try {
@@ -113,16 +178,21 @@ public class SQLSpaceAdapter implements Callback {
         return convertTupleToStringArray(returnTuple);
     }
     
-    
+    /**
+     * Read all the tuples
+     * 
+     * @param scyMessage
+     * @return
+     */
     public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {
         
         Tuple tupleTemplate;
-        if( scyMessage.getSession() != null ) {
+        if (scyMessage.getSession() != null) {
             tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, scyMessage.getSession());
         } else {
             tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         }
-       
+        
         Tuple returnTuple[] = null;
         try {
             returnTuple = this.tupleSpace.readAll(tupleTemplate);
@@ -137,7 +207,12 @@ public class SQLSpaceAdapter implements Callback {
         return messages;
     }
     
-    
+    /**
+     * Delete tuple
+     * 
+     * @param id
+     * @return
+     */
     public String delete(String id) {
         Tuple returnTuple = null;
         try {
@@ -145,10 +220,17 @@ public class SQLSpaceAdapter implements Callback {
         } catch (TupleSpaceException e) {
             logger.error("Trouble while taking touple " + e);
         }
+        // force callback SUPERHACK
+        call(Command.DELETE, 0, returnTuple, null);
         return returnTuple == null ? null : returnTuple.getTupleID().toString();
     }
     
-    
+    /**
+     * take
+     * 
+     * @param tool
+     * @return
+     */
     public ArrayList<String> take(String tool) {
         Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
         Tuple returnTuple = null;
@@ -161,18 +243,12 @@ public class SQLSpaceAdapter implements Callback {
         return convertTupleToStringArray(returnTuple);
     }
     
-    
-//    public ArrayList<String> readById(String id) {
-//        Tuple returnTuple = null;
-//        try {
-//            returnTuple = tupleSpace.readTupleById(new TupleID(id));
-//        } catch (TupleSpaceException e) {
-//            logger.error("Trouble while reading touple " + e);
-//        }
-//        return convertTupleToStringArray(returnTuple);
-//    }
-
-    
+    /**
+     * Read by id
+     * 
+     * @param id
+     * @return
+     */
     public IScyMessage readById(String id) {
         Tuple returnTuple = null;
         try {
@@ -184,7 +260,12 @@ public class SQLSpaceAdapter implements Callback {
         return convertTupleToScyMessage(returnTuple);
     }
     
-    
+    /**
+     * Take by id
+     * 
+     * @param id
+     * @return
+     */
     public ArrayList<String> takeById(String id) {
         Tuple returnTuple = null;
         try {
@@ -195,16 +276,21 @@ public class SQLSpaceAdapter implements Callback {
         return convertTupleToStringArray(returnTuple);
     }
     
-    
+    /**
+     * Convert tuple to a scymessage
+     * 
+     * @param tuple to be converted
+     * @return
+     */
     private IScyMessage convertTupleToScyMessage(Tuple tuple) {
-        //username, toolName, id, objectType, name, description, to, from, messagePurpose
+        // username, toolName, id, objectType, name, description, to, from,
+        // messagePurpose
         if (tuple == null) {
             return null;
         }
         Field[] fields = tuple.getFields();
         return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
     }
-    
     
     private ArrayList<String> convertTupleToStringArray(Tuple tuple) {
         ArrayList<String> returnValues = null;
@@ -219,18 +305,39 @@ public class SQLSpaceAdapter implements Callback {
         }
         return returnValues;
     }
-
-
-	public void call(Command cmd, int seq, Tuple afterCmd, Tuple beforeCmd) {
-		switch (cmd) {
-		case WRITE:
-            //client.actionUponWrite(afterCmd.getField(0).getValue().toString());
-            client.actionUponWrite(convertTupleToScyMessage(afterCmd));
-			break;
-		case DELETE:
-			client.actionUponDelete(convertTupleToScyMessage(beforeCmd));
-			break;
-		}
-	}
-
+    
+    /**
+     * This is the sqlspaces callback
+     * 
+     */
+    public void call(Command cmd, int seq, Tuple afterCmd, Tuple beforeCmd) {
+        
+        SQLSpaceAdapterEvent sqlSpacesAdapterEvent = null;
+        
+        for (ISQLSpaceAdapterListener theListener : sqlSpaceAdapterListeners) {
+            if (theListener != null) {
+                
+                switch (cmd) {
+                    case WRITE:
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), WRITE);
+                        break;
+                    case DELETE:
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), DELETE);
+                        break;
+                }
+                
+                theListener.handleSQLSpacesEvent(sqlSpacesAdapterEvent);
+            }
+        }
+        
+    }
+    
+    /**
+     * Adds a listener
+     * 
+     * @param sqlSpacesAdapterListener
+     */
+    public void addSQLSpacesAdapterListener(ISQLSpaceAdapterListener sqlSpacesAdapterListener) {
+        this.sqlSpaceAdapterListeners.add(sqlSpacesAdapterListener);
+    }
 }
