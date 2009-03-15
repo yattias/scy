@@ -18,6 +18,13 @@ public class CollaborationServiceFactory {
     
     private static ICollaborationService collaborationService;
     
+    /**
+     * Factory method
+     * 
+     * @param style
+     * @return
+     * @throws CollaborationServiceException
+     */
     public static ICollaborationService getCollaborationService(String style) throws CollaborationServiceException {
         
         CollaborationServiceException collaborationServiceException = new CollaborationServiceException("unknown style of collaboration service");
