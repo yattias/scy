@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 
 import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.communications.message.IScyMessage;
@@ -42,6 +43,7 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
         return sm;
     }
     
+    @Ignore
     public void testCreateTupleAdapter() {
         assertNotNull(getTupleAdapter());
     }
