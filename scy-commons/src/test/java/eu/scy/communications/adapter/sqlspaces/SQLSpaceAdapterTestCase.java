@@ -26,9 +26,9 @@ public class SQLSpaceAdapterTestCase implements IScyCommunicationAdapter  {
     }
     
     
-    public static Test suite() {
-        return new TestSuite(SQLSpaceAdapterTestCase.class);
-    }
+//    public static Test suite() {
+//        return new TestSuite(SQLSpaceAdapterTestCase.class);
+//    }
     
     
     private SQLSpaceAdapter getTupleAdapter() {

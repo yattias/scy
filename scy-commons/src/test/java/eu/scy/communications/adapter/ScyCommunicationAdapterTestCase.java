@@ -22,9 +22,9 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     public ScyCommunicationAdapterTestCase(String testName) {
     }   
     
-    public static Test suite() {
-        return new TestSuite(ScyCommunicationAdapterTestCase.class);
-    }
+//    public static Test suite() {
+//        return new TestSuite(ScyCommunicationAdapterTestCase.class);
+//    }
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
