@@ -25,7 +25,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
     private TupleSpace tupleSpace = null;
 
-    public static String MESSAGE_TYPE = "MESSAGE_TYPE";
+    protected static String MESSAGE_TYPE = "MESSAGE_TYPE";
 
     private Tuple conceptTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
     private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
@@ -150,7 +150,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         }
     }
 
-    private void addNewNode(Object node) {
+    protected void addNewNode(Object node) {
         UmlClass umlClass;
         if (node instanceof AddClass) {
             System.out.println("CALL: After add class");
