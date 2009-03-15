@@ -43,11 +43,11 @@ public class ScyCommunicationAdapterTestCase extends TestCase implements IScyCom
         return sm;
     }
     
-    @Ignore
-    public void testCreateTupleAdapter() {
-        assertNotNull(getTupleAdapter());
-    }
-    
+//    @Ignore
+//    public void testCreateTupleAdapter() {
+//        assertNotNull(getTupleAdapter());
+//    }
+//    
     
     @Override
     public void actionUponDelete(IScyMessage scyMessage) {
