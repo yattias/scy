@@ -4,28 +4,29 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.communications.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapter;
+import eu.scy.communications.adapter.sqlspaces.SQLSpaceAdapterEvent;
+import eu.scy.communications.adapter.sqlspaces.SQLSpacesAdapterHelper;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
-public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
+/**
+ * TODO replace this with a helper for the singleton
+ * 
+ * 
+ * @author anthonyp
+ *
+ */
+public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSpaceAdapterListener {
     
     public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
     public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
-    private static ScyCommunicationAdapter communicator;
     private ArrayList<IScyCommunicationListener> scyCommunicationListeners = new ArrayList<IScyCommunicationListener>();
     
     public ScyCommunicationAdapter() {
         logger.debug("Empty Constructor Collaboration created");
-    }
-    
-    public static ScyCommunicationAdapter getInstance() {
-        if (communicator == null) {
-            logger.debug("Created Tuple Spaces");
-            communicator = new ScyCommunicationAdapter();
-        }
-        return communicator;
     }
     
     public void actionUponDelete(IScyMessage deletedScyMessage) {
@@ -38,19 +39,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         sendCallBack(writtenScyMessage);        
     }
     
-    public IScyMessage getScyMessage(String description) {
-        ScyMessage scyMessage = new ScyMessage();
-        scyMessage.setId("54321");
-        scyMessage.setName("a nice name for the object");
-        scyMessage.setDescription(description);
-        return scyMessage;
-    }
-    
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
             // TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be
             // hardcoded here, but be passed from the openfire plugin
-            tupleAdapter = SQLSpaceAdapter.createAdapter(this.getClass().getName(), SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);
+            tupleAdapter = SQLSpacesAdapterHelper.getInstance();
+            tupleAdapter.initialize(this.getClass().getName(), SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE);
+            tupleAdapter.addSQLSpacesAdapterListener(this);
             logger.debug("Created Tuple Spaces");
         }
         return tupleAdapter;
@@ -85,8 +80,12 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
         this.scyCommunicationListeners.add(listener);
     }
     
+    public ArrayList<IScyCommunicationListener> getScyCommunicationListeners() {
+        return this.scyCommunicationListeners;
+    }
+    
     public void sendCallBack(IScyMessage scyMessage) {
-        for (IScyCommunicationListener cl : scyCommunicationListeners) {
+        for (IScyCommunicationListener cl : this.scyCommunicationListeners) {
             if (cl != null) {
                 ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, scyMessage);
                 cl.handleCommunicationEvent(scyCommunicationEvent);
@@ -97,11 +96,20 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter {
     public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
         logger.debug("doing query, mofo " + queryMessage);
         if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
-            if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getName())) {
+            if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
                 return getTupleAdapter().readAll(queryMessage);                
             }
         }
         return null;
+    }
+
+    @Override
+    public void handleSQLSpacesEvent(SQLSpaceAdapterEvent sqlSpaceEvent) {
+        if( sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.WRITE)) {
+            this.actionUponWrite(sqlSpaceEvent.getScyMessage());
+        } else if(sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.DELETE)){
+            this.actionUponDelete(sqlSpaceEvent.getScyMessage());
+        }
     }
     
 }

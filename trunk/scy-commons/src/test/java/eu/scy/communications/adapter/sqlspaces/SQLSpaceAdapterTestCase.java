@@ -35,7 +35,7 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
-            sqlSpaceAdapter = SQLSpaceAdapter.createAdapter("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);         
+//            sqlSpaceAdapter = SQLSpaceAdapter.createAdapter("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);         
         }
         return sqlSpaceAdapter;
     }
