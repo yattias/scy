@@ -1,16 +1,17 @@
 package eu.scy.collaborationservice.impl;
 
+import java.util.ArrayList;
+
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
+import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
-
-import java.util.ArrayList;
 
 /**
  * Implementation of the collaboration service that is local and does not use an
@@ -23,8 +24,11 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<ICollaborationServiceListener> collaborationListeners = new ArrayList<ICollaborationServiceListener>();
     
+    /**
+     * Creates an instance of a local collaboration service
+     */
     public CollaborationServiceLocalImpl() {
-        this.scyCommunicationAdapter = ScyCommunicationAdapter.getInstance();
+        this.scyCommunicationAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.scyCommunicationAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
             
             @Override
@@ -53,7 +57,7 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     public void connect(String username, String password, String group) throws CollaborationServiceException {
     // TODO Auto-generated method stub
     }
-
+    
     @Override
     public void create(IScyMessage scyMessage) throws CollaborationServiceException {
         this.scyCommunicationAdapter.create(scyMessage);
@@ -63,14 +67,14 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     public void delete(String id) throws CollaborationServiceException {
         this.scyCommunicationAdapter.delete(id);
     }
-
+    
     @Override
     public IScyMessage read(String id) throws CollaborationServiceException {
         IScyMessage read = this.scyCommunicationAdapter.read(id);
         // TODO call exeception
         return read;
     }
-
+    
     @Override
     public void sendCallBack(IScyMessage scyMessage) throws CollaborationServiceException {
         for (ICollaborationServiceListener cl : collaborationListeners) {
@@ -94,7 +98,6 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     
     @Override
     public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
-        
         IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
         return this.scyCommunicationAdapter.doQuery(scyMessage);
     }
