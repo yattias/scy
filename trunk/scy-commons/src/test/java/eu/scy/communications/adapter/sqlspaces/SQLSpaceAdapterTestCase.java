@@ -48,47 +48,47 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         return sm;
     }
     
-    @Ignore
-    public void testCreateTupleAdapter() {
-        assertNotNull(getTupleAdapter());
-    }
-
-    
-    @Ignore
-    public void testWriteReadDelete() {
-        String id = null;
-        // write
-        id = getTupleAdapter().write(getScyMessage());
-        assertNotNull(id);
-        // read
-        IScyMessage sm = getTupleAdapter().readById(id);
-        assertNotNull(sm);
-        // delete
-        id = getTupleAdapter().delete(id);
-        assertNotNull(id);
-    }
-
-    @Ignore
-    public void testWriteWithExpiration() {
-        String id = null;
-        IScyMessage sm = getScyMessage();
-        sm.setExpiraton(TWO_SECONDS);
-        // write with expiration
-        id = getTupleAdapter().write(sm);
-        assertNotNull(id);
-        // confirm tuple
-        sm = getTupleAdapter().readById(id);
-        assertNotNull(sm);
-        try {
-            Thread.sleep(TEN_SECONDS);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // confirm tuple has expired
-        sm = getTupleAdapter().readById(id);
-        assertNull(sm);
-    }
+//    @Ignore
+//    public void testCreateTupleAdapter() {
+//        assertNotNull(getTupleAdapter());
+//    }
+//
+//    
+//    @Ignore
+//    public void testWriteReadDelete() {
+//        String id = null;
+//        // write
+//        id = getTupleAdapter().write(getScyMessage());
+//        assertNotNull(id);
+//        // read
+//        IScyMessage sm = getTupleAdapter().readById(id);
+//        assertNotNull(sm);
+//        // delete
+//        id = getTupleAdapter().delete(id);
+//        assertNotNull(id);
+//    }
+//
+//    @Ignore
+//    public void testWriteWithExpiration() {
+//        String id = null;
+//        IScyMessage sm = getScyMessage();
+//        sm.setExpiraton(TWO_SECONDS);
+//        // write with expiration
+//        id = getTupleAdapter().write(sm);
+//        assertNotNull(id);
+//        // confirm tuple
+//        sm = getTupleAdapter().readById(id);
+//        assertNotNull(sm);
+//        try {
+//            Thread.sleep(TEN_SECONDS);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        // confirm tuple has expired
+//        sm = getTupleAdapter().readById(id);
+//        assertNull(sm);
+//    }
     
 
     @Override
