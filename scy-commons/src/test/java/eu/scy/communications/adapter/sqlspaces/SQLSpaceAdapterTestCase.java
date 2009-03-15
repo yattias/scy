@@ -48,12 +48,13 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         return sm;
     }
     
-    
+    @Ignore
     public void testCreateTupleAdapter() {
         assertNotNull(getTupleAdapter());
     }
 
     
+    @Ignore
     public void testWriteReadDelete() {
         String id = null;
         // write
