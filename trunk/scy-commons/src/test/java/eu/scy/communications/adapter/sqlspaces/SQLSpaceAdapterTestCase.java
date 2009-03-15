@@ -1,7 +1,6 @@
 package eu.scy.communications.adapter.sqlspaces;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.log4j.Logger;
@@ -14,7 +13,7 @@ import eu.scy.communications.message.impl.ScyMessage;
 
 
 
-public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicationAdapter  {
+public class SQLSpaceAdapterTestCase implements IScyCommunicationAdapter  {
     
     private static final Logger logger = Logger.getLogger(SQLSpaceAdapter.class.getName());
     private SQLSpaceAdapter sqlSpaceAdapter;
@@ -24,7 +23,6 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
     
     
     public SQLSpaceAdapterTestCase(String testName) {
-        super(testName);
     }
     
     
@@ -48,10 +46,10 @@ public class SQLSpaceAdapterTestCase extends TestCase implements IScyCommunicati
         return sm;
     }
     
-//    @Ignore
-//    public void testCreateTupleAdapter() {
+    @Ignore
+    public void testCreateTupleAdapter() {
 //        assertNotNull(getTupleAdapter());
-//    }
+    }
 //
 //    
 //    @Ignore
