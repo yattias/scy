@@ -26,6 +26,7 @@ public class SQLSpaceAdapter implements Callback {
     public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
     public static final String WRITE = "WRITE";
     public static final String DELETE = "DELETE";
+    public static final String UPDATE = "UPDATE";
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
@@ -43,61 +44,19 @@ public class SQLSpaceAdapter implements Callback {
     public void initialize(String userName, String sqlSpaceName) {
         logger.debug("Created Tuple Spaces");
         this.userName = userName;
-        Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
+        Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         try {
             Callback cb = this;
             this.tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
             // setup the events that client will use
             this.tupleSpace.eventRegister(Command.WRITE, template, cb, false);
             this.tupleSpace.eventRegister(Command.DELETE, template, cb, false);
+            this.tupleSpace.eventRegister(Command.UPDATE, template, cb, false);
         } catch (TupleSpaceException e) {
             logger.error("Tupplespace pb " + e);
         }
     }
     
-    // public SQLSpaceAdapter createAdapter(String userName, String
-    // sqlSpaceName, IScyCommunicationAdapter scyCommunicationAdapter) {
-    // if (sqlSpaceAdapter == null) {
-    // logger.debug("Created Tuple Spaces");
-    // this.sqlSpaceAdapter = new SQLSpaceAdapter();
-    // this.scyCommunicationAdapter = scyCommunicationAdapter;
-    // this.userName = userName;
-    // Tuple template = new Tuple(String.class, String.class, String.class,
-    // String.class, String.class, String.class);
-    // try {
-    // tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
-    // //setup the events that client will use
-    // tupleSpace.eventRegister(Command.WRITE, template, this, true);
-    // tupleSpace.eventRegister(Command.DELETE, template, this, true);
-    // } catch (TupleSpaceException e) {
-    // logger.error("Tupplespace pb " + e);
-    // return null;
-    // }
-    // return sqlSpaceAdapter;
-    // }
-    // return sqlSpaceAdapter;
-    // }
-    // public static SQLSpaceAdapter createAdapter(String userName, String
-    // sqlSpaceName, IScyCommunicationAdapter ca) {
-    //        
-    // sqlSpaceAdapter = new SQLSpaceAdapter();
-    // cs.client = ca;
-    // cs.userName = userName;
-    // TupleSpace ts;
-    // Tuple template = new Tuple(String.class, String.class, String.class,
-    // String.class, String.class, String.class);
-    // try {
-    // ts = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
-    // //setup the events that client will use
-    // ts.eventRegister(Command.WRITE, template, sqlSpaceAdapter, true);
-    // ts.eventRegister(Command.DELETE, template, sqlSpaceAdapter, true);
-    // } catch (TupleSpaceException e) {
-    // logger.error("Tupplespace pb " + e);
-    // return null;
-    // }
-    // cs.tupleSpace = ts;
-    // return sqlSpaceAdapter;
-    // }
     
     /**
      * write
@@ -147,7 +106,7 @@ public class SQLSpaceAdapter implements Callback {
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
             // force callback SUPERHACK
-            call(Command.WRITE, 0, tuple, null);
+//            call(Command.WRITE, 0, tuple, null);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing or updating touple " + e);
         }
@@ -220,10 +179,11 @@ public class SQLSpaceAdapter implements Callback {
         } catch (TupleSpaceException e) {
             logger.error("Trouble while taking touple " + e);
         }
-        // force callback SUPERHACK
-        call(Command.DELETE, 0, returnTuple, null);
+     
         return returnTuple == null ? null : returnTuple.getTupleID().toString();
     }
+    
+   
     
     /**
      * take
@@ -323,6 +283,9 @@ public class SQLSpaceAdapter implements Callback {
                         break;
                     case DELETE:
                         sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), DELETE);
+                        break;
+                    case UPDATE:
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), UPDATE);
                         break;
                 }
                 
