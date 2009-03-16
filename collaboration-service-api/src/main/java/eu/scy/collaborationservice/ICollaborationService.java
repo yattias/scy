@@ -6,6 +6,7 @@ import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
+
 /**
  * Collaboration Service Interface
  * 
@@ -58,7 +59,6 @@ public interface ICollaborationService {
    * @param collaborationListener
    * @throws CollaborationServiceException
    */
-
   public void addCollaborationListener(ICollaborationServiceListener collaborationListener);
   
    /**
@@ -87,10 +87,10 @@ public interface ICollaborationService {
 
     /**
      * 
-     * @param queryMessage defining the query
+     * @param message defining the query
      * @return list of messages containing the query result
      */
-    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage);
+    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage);
 
     /**
      * Gives the complete set of ScyMessges which represent changes for this specific client

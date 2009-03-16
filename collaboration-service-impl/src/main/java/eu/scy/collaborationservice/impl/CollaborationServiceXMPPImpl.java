@@ -317,14 +317,14 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage) {
+    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
         return null;
     }
 
     @Override
-    public ArrayList<IScyMessage> synchronizeClientState(String clientName, String session) {
-        // TODO Auto-generated method stub
-        return null;
+    public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
+        IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+        return this.doQuery(scyMessage);
     }
 
 }
