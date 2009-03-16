@@ -50,12 +50,11 @@
   </repositories>
   
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>    
+ <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.5</version>
+</dependency>   
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -66,11 +65,17 @@
         <artifactId>smack</artifactId>
         <version>3.0.4</version>
     </dependency>
+        
     <dependency>
         <groupId>eu.scy</groupId>
         <artifactId>awareness-api</artifactId>
         <version>0.2-SNAPSHOT</version>
     </dependency>
+      <dependency>
+    <groupId>jivesoftware</groupId>
+    <artifactId>smackx</artifactId>
+    <version>3.0.4</version>
+</dependency>
   </dependencies>
   
   <build>

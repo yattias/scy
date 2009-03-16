@@ -32,8 +32,8 @@ public class LoginDialog extends JDialog implements ActionListener {
         panel.add(new JLabel("Password:"));
         panel.add(passwordField, "wrap");
         
-        usernameField.setText("aperritano@imediamac09.uio.no");
-        passwordField.setText("aperritano");
+        usernameField.setText("obama");
+        passwordField.setText("obama");
         
         JButton submit = new JButton("Submit");
         submit.addActionListener(this);
