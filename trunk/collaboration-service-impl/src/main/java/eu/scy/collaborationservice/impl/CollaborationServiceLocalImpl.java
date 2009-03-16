@@ -92,7 +92,7 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     
 
     @Override
-    public ArrayList<IScyMessage> doQuery(ScyMessage queryMessage) {
+    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
     
