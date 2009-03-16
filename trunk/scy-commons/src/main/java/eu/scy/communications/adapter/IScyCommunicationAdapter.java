@@ -33,6 +33,13 @@ public interface IScyCommunicationAdapter {
      */
 	void actionUponDelete(IScyMessage scyMessage);
 	
+	   /**
+     * performs an action upon update
+     * 
+     * @param scyMessage
+     */
+    void actionUponUpdate(IScyMessage scyMessage);
+	
 	/**
 	 * Does a create operation
 	 * 
