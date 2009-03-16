@@ -29,14 +29,19 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         logger.debug("Empty Constructor Collaboration created");
     }
     
-    public void actionUponDelete(IScyMessage deletedScyMessage) {
+    public void actionUponDelete(IScyMessage scyMessage) {
         logger.debug("something was deleted in the tuple space");
-        sendCallBack(deletedScyMessage);
+        sendCallBack(scyMessage);
     }
     
-    public void actionUponWrite(IScyMessage writtenScyMessage) {
+    public void actionUponWrite(IScyMessage scyMessage) {
         logger.debug("something was written in the tuple space");
-        sendCallBack(writtenScyMessage);        
+        sendCallBack(scyMessage);        
+    }
+    
+    public void actionUponUpdate(IScyMessage scyMessage) {
+        logger.debug("something was been updated in the tuple space");
+        sendCallBack(scyMessage);        
     }
     
     private SQLSpaceAdapter getTupleAdapter() {
@@ -109,6 +114,8 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
             this.actionUponWrite(sqlSpaceEvent.getScyMessage());
         } else if(sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.DELETE)){
             this.actionUponDelete(sqlSpaceEvent.getScyMessage());
+        }  else if(sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.UPDATE)){
+            this.actionUponUpdate(sqlSpaceEvent.getScyMessage());
         }
     }
     
