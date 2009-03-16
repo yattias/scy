@@ -32,6 +32,13 @@ public class AwarenessService implements IAwarenessService, MessageListener {
     public AwarenessService() {        
     }
  
+    public boolean isConnected() {
+       if( xmppConnection != null)
+           return xmppConnection.isConnected();
+       
+       return false;
+    }
+    
     public void createAwarenessService(String username, String password) {
         
         Properties props = new Properties();

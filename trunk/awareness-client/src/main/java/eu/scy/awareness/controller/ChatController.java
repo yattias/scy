@@ -10,10 +10,13 @@ import eu.scy.awareness.AwarenessService;
 import eu.scy.awareness.api.IAwarenessEvent;
 import eu.scy.awareness.api.IAwarenessListener;
 import eu.scy.awareness.api.IAwarenessUser;
-import eu.scy.collaborationservice.CollaborationService;
-import eu.scy.collaborationservice.ICollaborationEvent;
-import eu.scy.collaborationservice.ICollaborationListener;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.collaborationservice.CollaborationServiceFactory;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
+import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 
 public class ChatController {
@@ -22,7 +25,7 @@ public class ChatController {
     private String password;
     private String username;
     private AwarenessService awarenessService;
-    private CollaborationService cs;
+    private ICollaborationService cs;
     
     public ChatController() {
        populateBuddyList();
@@ -39,8 +42,14 @@ public class ChatController {
          //awarenessService.createAwarenessService(username, password);
          
          System.out.println("collaboration service starting");
-         cs = new CollaborationService();
-         cs.connect("biden", "biden", "colermo");
+         
+         try {
+             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.XMPP_STYLE);
+             cs.connect("biden", "biden", "colermo");
+        } catch (CollaborationServiceException e) {
+            e.printStackTrace();
+        }
+         
         
          System.out.println("collaboration starting");
     }
@@ -76,11 +85,15 @@ public class ChatController {
         //send a message to the collaboration server
         System.out.println("sending message to CS");
         
-        ScyBaseObject scy = new ScyBaseObject();
+        IScyMessage scy = new ScyMessage();
         scy.setDescription("this is a scy");
         scy.setId("6");
         scy.setName("im scy");
-        cs.create(scy);
+        try {
+            cs.create(scy);
+        } catch (CollaborationServiceException e) {
+            e.printStackTrace();
+        }
     }
     
     public void receiveMessage() {
@@ -107,14 +120,14 @@ public class ChatController {
                 
             }});
         
-        cs.addCollaborationListener(new ICollaborationListener() {
+        cs.addCollaborationListener(new ICollaborationServiceListener() {
             
 
             @Override
-            public void handleCollaborationEvent(ICollaborationEvent e) {
+            public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
                 System.out.println("Collaboration Event called Chat controller" + e);
                 String oldText = chatArea.getText();
-                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
+//                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
             }
          });
     }
