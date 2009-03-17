@@ -137,17 +137,13 @@ CREATE TABLE `userrole` (
   `primKey` varchar(55) NOT NULL,
   `name` varchar(255) default NULL,
   `role_primKey` varchar(55) default NULL,
-  `user_primKey` varchar(55) default NULL,
+  `user_primKey` bigint default NULL,
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`primKey`),
   KEY `FKF02B8EC1B2838F17` (`role_primKey`),
   KEY `FKF02B8EC1F6A440C1` (`user_primKey`),
-  KEY `FKF02B8EC1C8AD9AE3` (`role_primKey`),
-  KEY `FKF02B8EC1CCE9A0D` (`user_primKey`),
   CONSTRAINT `FKF02B8EC1B2838F17` FOREIGN KEY (`role_primKey`) REFERENCES `role` (`primKey`),
-  CONSTRAINT `FKF02B8EC1C8AD9AE3` FOREIGN KEY (`role_primKey`) REFERENCES `role` (`primKey`),
-  CONSTRAINT `FKF02B8EC1CCE9A0D` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`),
-  CONSTRAINT `FKF02B8EC1F6A440C1` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
+  CONSTRAINT `FKF02B8EC1F6A440C1` FOREIGN KEY (`user_primKey`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
