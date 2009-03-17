@@ -2,6 +2,7 @@ package eu.scy.core.model.impl;
 
 import eu.scy.core.model.*;
 import net.sf.sail.webapp.domain.authentication.MutableUserDetails;
+import net.sf.sail.webapp.domain.authentication.impl.PersistentUserDetails;
 import net.sf.sail.webapp.domain.sds.SdsUser;
 
 import javax.persistence.*;
@@ -122,7 +123,8 @@ public class SCYUserImpl implements User {
     }
 
 
-    @OneToMany(targetEntity = SCYUserDetails.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
+    @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
     public MutableUserDetails getUserDetails() {
         return userDetails;
     }
