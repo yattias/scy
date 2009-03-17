@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface User extends net.sf.sail.webapp.domain.User{
 
-    /*public String getUserName();
+    public String getUserName();
 
     public void setUserName(String userName);
 
@@ -53,5 +53,5 @@ public interface User extends net.sf.sail.webapp.domain.User{
 
     public void addUserSession(UserSession userSession);
 
-    */
+
 }
