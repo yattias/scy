@@ -142,4 +142,119 @@ public class SCYUserImpl implements User {
     public SdsUser getSdsUser() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+
+
+     private String userName;
+    private String password;
+    private String enabled;
+
+    private String firstName;
+    private String lastName;
+
+    private SCYGroup group;
+
+    private List<UserRole> userRoles;
+    private List<UserSession> userSessions;
+
+    private SCYProject project;
+
+
+    @Transient
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    @Transient
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    @Transient
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
+    }
+    @Transient
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    @Transient
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+
+    @Transient
+    public SCYProject getProject() {
+        return project;
+    }
+
+    public void setProject(SCYProject project) {
+        this.project = project;
+    }
+
+    @Transient
+    public SCYGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(SCYGroup group) {
+        this.group = group;
+    }
+
+    @Transient
+    public List<UserRole> getUserRoles() {
+        if (userRoles == null) {
+            userRoles = new LinkedList<UserRole>();
+        }
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public void addRole(String rolename) {
+        UserRole role = new UserRoleImpl();
+        role.setName(rolename);
+        role.setUser(this);
+
+        getUserRoles().add(role);
+
+    }
+
+    @Transient
+    public List<UserSession> getUserSessions() {
+        return userSessions;
+    }
+
+    public void setUserSessions(List<UserSession> userSessions) {
+        this.userSessions = userSessions;
+    }
+
+    public void addUserSession(UserSession userSession) {
+        getUserSessions().add(userSession);
+        userSession.setUser(this);
+    }
+
+
+
 }
