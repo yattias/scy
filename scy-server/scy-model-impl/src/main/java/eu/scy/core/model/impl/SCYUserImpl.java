@@ -45,6 +45,8 @@ public class SCYUserImpl implements User {
     @Transient
     private SdsUser sdsUser = null;
 
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
+    @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
     private SCYUserDetails userDetails;
 
 
@@ -123,8 +125,6 @@ public class SCYUserImpl implements User {
     }
 
 
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = SCYUserDetails.class)
-    @JoinColumn(name = COLUMN_NAME_USER_DETAILS_FK, nullable = false, unique = true)
     public MutableUserDetails getUserDetails() {
         return userDetails;
     }
