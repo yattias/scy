@@ -295,7 +295,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 				setDocName((String) newElo.getMetadata().getMetadataValueContainer(titleKey).getValue());
 				whiteboardPanel.deleteAllWhiteboardContainers();
 				whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
-							.getXml()));
+							.getXmlString()));
 			}
 		}
 	}

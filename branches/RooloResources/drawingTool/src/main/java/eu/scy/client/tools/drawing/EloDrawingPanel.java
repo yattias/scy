@@ -184,7 +184,7 @@ public class EloDrawingPanel extends JPanel
 			setDocName(titleObject3.toString());
 			whiteboardPanel.deleteAllWhiteboardContainers();
 			whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
-						.getXml()));
+						.getXmlString()));
 			elo = newElo;
 			sendELOLoadedChangedListener();
 		}

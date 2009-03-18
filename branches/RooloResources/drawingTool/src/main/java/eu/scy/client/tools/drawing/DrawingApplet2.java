@@ -263,7 +263,7 @@ public class DrawingApplet2 extends javax.swing.JApplet implements
 				setDocName((String) newElo.getMetadata().getMetadataValueContainer(titleKey).getValue());
 				whiteboardPanel.deleteAllWhiteboardContainers();
 				whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
-							.getXml()));
+							.getXmlString()));
 			}
 		}
 	}
