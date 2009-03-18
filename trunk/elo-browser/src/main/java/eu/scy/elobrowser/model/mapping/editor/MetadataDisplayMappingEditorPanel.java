@@ -109,7 +109,7 @@ public class MetadataDisplayMappingEditorPanel extends javax.swing.JPanel
          .add(layout.createSequentialGroup()
             .addContainerGap()
             .add(layout.createParallelGroup(GroupLayout.LEADING)
-               .add(mappingScrollPane, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+               .add(mappingScrollPane, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                .add(layout.createSequentialGroup()
                   .add(mappingTypeLabel)
                   .addPreferredGap(LayoutStyle.RELATED)
@@ -179,8 +179,8 @@ public class MetadataDisplayMappingEditorPanel extends javax.swing.JPanel
 				String maximum = (String) mappingTableModel.getValueAt(r, 3);
 				if (StringUtils.hasText(minimum) && StringUtils.hasText(maximum))
 				{
-					double minimumValue = Double.parseDouble(minimum);
-					double maximumValue = Double.parseDouble(maximum);
+					float minimumValue = Float.parseFloat(minimum);
+					float maximumValue = Float.parseFloat(maximum);
 					mapping = new BasicMapping(displayProperty, key, minimumValue, maximumValue);
 				}
 				else

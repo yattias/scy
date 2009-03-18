@@ -16,17 +16,15 @@ import eu.scy.elobrowser.model.mapping.DisplayMapping;
 import eu.scy.elobrowser.model.mapping.DisplayProperty;
 import eu.scy.scywindows.ScyDesktop;
 import java.lang.Math;
+import java.lang.Object;
 import java.lang.System;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import javafx.scene.CustomNode;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import roolo.elo.api.IMetadata;
 
@@ -35,63 +33,64 @@ import roolo.elo.api.IMetadata;
  */
 
 public class ResultView extends CustomNode {
-	public var roolo:Roolo;
-	public var resultViewModel:ResultViewModel;
+	public var roolo: Roolo;
+	public var resultViewModel: ResultViewModel;
 	public var xOffset = 50;
 	public var yOffset = 50;
 	public var zOffset = 16;
 	public var xSize = 200 on replace {
-		placeEloDisplays()};
+		placeEloDisplays()
+   };
 	public var ySize = 200 on replace {
-		placeEloDisplays()};
+		placeEloDisplays()
+   };
 	public var zSize = 48;
 	public var nrOfElos = 40;
 	public var displayEloMappings: List on replace {
-		placeEloDisplays()};
+		placeEloDisplays()
+   };
    
-	var eloDisplays:EloDisplay[];
+	var eloDisplays: EloDisplay[];
    
 	public override function create(): Node {
-		Group
-      {
-            content: [
-/*			content	Rectangle {
-					x: 0,
-					y: 0
-					width: bind xSize + 2 * xOffset,
-					height: bind ySize + 2 * xOffset
-					fill: null;
-					stroke: Color.BLACK;
-				},
-				Rectangle
-	    {
-					x: xOffset,
-					y: yOffset
-					arcHeight: 150
-					arcWidth: 150
-					width: bind xSize,
-					height: bind ySize
-					effect: DropShadow {
-						radius: 50;
-					},
-					fill: Color.color(0.5,0.5,0.5,0.1)
-				},*/
-                for (i in [1..nrOfElos]) {
-                    var relevance = 1.0 * i / nrOfElos;
-                    var eloDisplay = EloDisplay
-	       {
+      Group {
+         content: [
+            /*			content	Rectangle {
+             x: 0,
+             y: 0
+             width: bind xSize + 2 * xOffset,
+             height: bind ySize + 2 * xOffset
+             fill: null;
+             stroke: Color.BLACK;
+             },
+             Rectangle
+             {
+             x: xOffset,
+             y: yOffset
+             arcHeight: 150
+             arcWidth: 150
+             width: bind xSize,
+             height: bind ySize
+             effect: DropShadow {
+             radius: 50;
+             },
+             fill: Color.color(0.5,0.5,0.5,0.1)
+             },*/
+            for (i in [1..nrOfElos]) {
+               var relevance: Number = 1.0 * i / nrOfElos;
+               var eloDisplay = EloDisplay {
 						title: "elo {i}";
 						translateX: calculateX(relevance);
 						translateY: calculateY(1 - relevance);
 						radius: calculateZ(relevance);
 						visible: false;
-						roolo:roolo;
-	       }
+						roolo: roolo;
+               }
 	       insert eloDisplay into eloDisplays;
 					eloDisplay;
 				}
 			]
-    }
+      }
 	}
 
 	public function newDisplayEloMappings(displayEloMappings: List) {
@@ -102,17 +101,18 @@ public class ResultView extends CustomNode {
 		System.out.println("Nr of eloDisplay to place {displayEloMappings.size()}");
 		for (eloDisplay in eloDisplays) {
 			eloDisplay.translateX = calculateX(0);
-			eloDisplay.translateY = calculateY(0);
-			eloDisplay.radius = calculateZ(0);
+			eloDisplay.translateY = calculateY(0.0);
+			eloDisplay.radius = calculateZ(0.0);
 			eloDisplay.visible = false;
 		}
 		var i = 0;
 		var displayEloMappingIterator = displayEloMappings.iterator();
 
-      while(
+      while
+      (
 		displayEloMappingIterator.hasNext()){
 			var displayEloMapping =
-			displayEloMappingIterator.next() as DisplayEloMapping;
+         displayEloMappingIterator.next() as DisplayEloMapping;
 			System.out.println("placing eloDisplay {i}, {displayEloMapping.getElo().getUri()}");
 			var eloDisplay = eloDisplays[i];
 			if (eloDisplay == null){
@@ -122,10 +122,11 @@ public class ResultView extends CustomNode {
 			eloDisplay.elo = displayEloMapping.getElo();
 			eloDisplay.eloType = displayEloMapping.getEloType();
 			var displayMappingIterator = displayEloMapping.getDisplayMappings().iterator();
-         while(
+         while
+         (
 			displayMappingIterator.hasNext()){
 				var displayMapping =
-				displayMappingIterator.next() as DisplayMapping;
+            displayMappingIterator.next() as DisplayMapping;
 				System.out.println("- setting property, {displayMapping}");
 				if (displayMapping.getValue() == null)
 				continue;
@@ -145,7 +146,7 @@ public class ResultView extends CustomNode {
 			//         System.out.println("- x:{eloDisplay.translateX}, y:{eloDisplay.translateY}, size:{eloDisplay.radius}, eloType:{eloDisplay.eloType}");
 			//		   System.out.println("- image:{eloDisplay.image}, url:{eloDisplay.image.url}, width:{eloDisplay.image.width}, ");
 			eloDisplay.visible = true;
-				ScyDesktop.getScyDesktop().addScyWindow(eloDisplay.eloWindow);
+         ScyDesktop.getScyDesktop().addScyWindow(eloDisplay.eloWindow);
          ++i;
 		}
 
@@ -154,8 +155,9 @@ public class ResultView extends CustomNode {
 	public function resultsChanged(combinedSearchResults : CombinedSearchResult[]) {
       //       var combinedSearchResults = resultViewModel.combinedSearchResults;
       System.out.println("Nr of eloDisplay to place {combinedSearchResults.size()}");
-		for (j in [0..(
-			nrOfElos - 1)]) {
+		for (j in [0..
+         (
+      nrOfElos - 1)]) {
 			eloDisplays[j].visible = false;
 		}
 		var i = 0;
@@ -197,7 +199,7 @@ public class ResultView extends CustomNode {
 		var metadata = roolo.repository.retrieveMetadata(uri);
 		if (metadata == null)
 		{
-	  System.out.println("there is no metadata for {uri}");
+         System.out.println("there is no metadata for {uri}");
 			var elo = roolo.repository.retrieveELO(uri);
 			if (elo != null)
 			{
@@ -205,13 +207,13 @@ public class ResultView extends CustomNode {
 			}
 	  else
 			{
-	    System.out.println("there is no elo for {uri}");
+            System.out.println("there is no elo for {uri}");
 			}
 		}
       return getTitleOutEloMetadata(metadata);
 	}
 	function getTitleOutEloMetadata(metadata:IMetadata): String {
-		var title =null;
+		var title = null;
 		if (metadata != null)
 		{
 			title = metadata.getMetadataValueContainer(roolo.titleKey).getValue() as String;
@@ -233,8 +235,8 @@ public class ResultView extends CustomNode {
    
 	function getTitleFromUri(uri:URI): String {
 		var uriString = uri.toString();
-		var lastSlashPos =  uriString.lastIndexOf('/');
-		var lastPointPos =  uriString.lastIndexOf('.');
+		var lastSlashPos = uriString.lastIndexOf('/');
+		var lastPointPos = uriString.lastIndexOf('.');
       return uriString.substring(lastSlashPos + 1, lastPointPos);
 	}
    
@@ -246,14 +248,16 @@ function run() {
 		title: "ResultView test"
 		width: 300
 		height: 300
-		onClose: function()  {
-            java.lang.System.exit( 0 );
+		onClose: function() {
+         java.lang.System.exit( 0 );
 		}
 		visible: true
 
 		scene: Scene {
-			content: [ResultView{}]
+			content: [
+            ResultView{
+         }]
 		}
  
-    }
+   }
 }

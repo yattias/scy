@@ -16,8 +16,8 @@ public class DisplayMappingList
 {
 	private static final Logger logger = Logger.getLogger(DisplayMappingList.class);
 	private final List<BasicDisplayMapping> displayMappings = new ArrayList<BasicDisplayMapping>();
-	private double minimum = Double.MAX_VALUE;
-	private double maximum = Double.MIN_VALUE;
+	private float minimum = Float.MAX_VALUE;
+	private float maximum = Float.MIN_VALUE;
 
 	public void addBasicDisplayMapping(BasicDisplayMapping basicDisplayMapping)
 	{
@@ -40,13 +40,13 @@ public class DisplayMappingList
 		range(minimum, maximum);
 	}
 
-	public void range(double rangeMinimum, double rangeMaximum)
+	public void range(float rangeMinimum, float rangeMaximum)
 	{
 //		logger.debug("range from " + rangeMinimum + " - " + maximum);
 		for (BasicDisplayMapping basicDisplayMapping : displayMappings)
 		{
-			double rangedValue = (basicDisplayMapping.getValue() - minimum) / (maximum - minimum);
-			rangedValue = Math.min(1.0, Math.max(0.0, rangedValue));
+			float rangedValue = (basicDisplayMapping.getValue() - minimum) / (maximum - minimum);
+			rangedValue = Math.min(1.0f, Math.max(0.0f, rangedValue));
 //			logger.debug("original value:" + basicDisplayMapping.getValue() + ", rangedValue:" + rangedValue);
 			basicDisplayMapping.setValue(rangedValue);
 		}

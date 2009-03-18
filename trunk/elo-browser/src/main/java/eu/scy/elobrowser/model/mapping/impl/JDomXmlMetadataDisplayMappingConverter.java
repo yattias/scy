@@ -82,9 +82,9 @@ public class JDomXmlMetadataDisplayMappingConverter implements XmlMetadataDispla
 				mapping = new BasicMapping(displayPropperty, metadataKey);
 			} else
 			{
-				double minimum = Double.parseDouble(minimumString);
+				float minimum = Float.parseFloat(minimumString);
 				String maximumString = root.getChildTextNormalize(XmlNames.maximum);
-				double maximum = Double.parseDouble(maximumString);
+				float maximum = Float.parseFloat(maximumString);
 				mapping = new BasicMapping(displayPropperty, metadataKey, minimum, maximum);
 			}
 			mappings.add(mapping);
