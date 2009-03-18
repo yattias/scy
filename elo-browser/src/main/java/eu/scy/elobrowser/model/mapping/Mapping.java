@@ -20,7 +20,7 @@ public interface Mapping
 	
 	public boolean isAutoRanging();
 	
-	public double getMinimum();
+	public float getMinimum();
 	
-	public double getMaximum();
+	public float getMaximum();
 }

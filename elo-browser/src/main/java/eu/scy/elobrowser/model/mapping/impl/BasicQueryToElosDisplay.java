@@ -96,12 +96,12 @@ public class BasicQueryToElosDisplay implements QueryToElosDisplay
       List<DisplayMapping> displayMappings = new ArrayList<DisplayMapping>();
       for (Mapping mapping : mappings)
       {
-         Double displayValue = null;
+         Float displayValue = null;
          Object value = elo.getMetadata().getMetadataValueContainer(mapping.getMetadataKey()).getValue();
          if (value instanceof Number)
          {
             Number numberValue = (Number) value;
-            displayValue = new Double(numberValue.doubleValue());
+            displayValue = new Float(numberValue.floatValue());
          }
          BasicDisplayMapping basicDisplayMapping = new BasicDisplayMapping(mapping.getDisplayPropperty(), displayValue);
          displayMappings.add(basicDisplayMapping);

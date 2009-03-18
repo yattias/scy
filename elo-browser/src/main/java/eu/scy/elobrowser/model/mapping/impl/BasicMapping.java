@@ -18,8 +18,8 @@ public class BasicMapping implements Mapping
 	private DisplayProperty displayPropperty;
 	private IMetadataKey metadataKey;
 	private boolean autoRanging;
-	private double minimum;
-	private double maximum;
+	private float minimum;
+	private float maximum;
 
 	public BasicMapping(DisplayProperty displayPropperty, IMetadataKey metadataKey)
 	{
@@ -30,7 +30,7 @@ public class BasicMapping implements Mapping
 		this.maximum = -1;
 	}
 
-	public BasicMapping(DisplayProperty displayPropperty, IMetadataKey metadataKey, double minimum, double maximum)
+	public BasicMapping(DisplayProperty displayPropperty, IMetadataKey metadataKey, float minimum, float maximum)
 	{
 		this.displayPropperty = displayPropperty;
 		this.metadataKey = metadataKey;
@@ -65,13 +65,13 @@ public class BasicMapping implements Mapping
 	}
 
 	@Override
-	public double getMinimum()
+	public float getMinimum()
 	{
 		return minimum;
 	}
 
 	@Override
-	public double getMaximum()
+	public float getMaximum()
 	{
 		return maximum;
 	}
@@ -86,7 +86,7 @@ public class BasicMapping implements Mapping
 		this.displayPropperty = displayPropperty;
 	}
 
-	public void setMaximum(double maximum)
+	public void setMaximum(float maximum)
 	{
 		this.maximum = maximum;
 	}
@@ -96,7 +96,7 @@ public class BasicMapping implements Mapping
 		this.metadataKey = metadataKey;
 	}
 
-	public void setMinimum(double minimum)
+	public void setMinimum(float minimum)
 	{
 		this.minimum = minimum;
 	}

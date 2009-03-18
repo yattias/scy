@@ -13,5 +13,5 @@ public interface DisplayMapping
 
 	public DisplayProperty getDisplayProperty();
 
-	public Double getValue();
+	public Float getValue();
 }

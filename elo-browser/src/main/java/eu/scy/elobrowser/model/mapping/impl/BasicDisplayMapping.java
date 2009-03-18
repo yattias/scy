@@ -15,9 +15,9 @@ public class BasicDisplayMapping implements DisplayMapping
 {
 
 	private final DisplayProperty displayProperty;
-	private Double value;
+	private Float value;
 
-	public BasicDisplayMapping(DisplayProperty displayProperty, Double value)
+	public BasicDisplayMapping(DisplayProperty displayProperty, Float value)
 	{
 		this.displayProperty = displayProperty;
 		this.value = value;
@@ -36,12 +36,12 @@ public class BasicDisplayMapping implements DisplayMapping
 	}
 
 	@Override
-	public Double getValue()
+	public Float getValue()
 	{
 		return value;
 	}
 
-	public void setValue(Double value)
+	public void setValue(Float value)
 	{
 		this.value = value;
 	}
