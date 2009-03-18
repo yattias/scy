@@ -5,27 +5,32 @@
 
 package eu.scy.elobrowser.tool.chat;
 
-import eu.scy.collaborationservice.CollaborationService;
-import eu.scy.collaborationservice.CollaborationServiceClientInterface;
-import eu.scy.core.model.impl.ScyBaseObject;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import eu.scy.colemo.client.ConnectionHandler;
+import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.collaborationservice.CollaborationServiceFactory;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
+import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.core.model.impl.ScyBaseObject;
+
 /**
  *
  * @author lars
  */
-public class ChatPanel extends JPanel implements CollaborationServiceClientInterface {
+public class ChatPanel extends JPanel implements ConnectionHandler, ICollaborationServiceListener {
 
     private static final long serialVersionUID = 1L;
 	private static final String HARD_CODED_TOOL_NAME = "Spiffy Awareness Client";
@@ -39,7 +44,7 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
     private String userName = "jeremyt";
     private String loginId;
 
-    private CollaborationService cs;
+    private ICollaborationService collaborationService;
 
     private Timer loginTimer;
 
@@ -70,7 +75,12 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
         this.add(scrollingText, BorderLayout.CENTER);
         this.setVisible(true);
 
-        this.cs = CollaborationService.createCollaborationService(this.userName, CollaborationService.AWARENESS_SERVICE_SPACE, this);
+        try {
+            this.collaborationService = collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+        } catch (CollaborationServiceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         this.signUp();
 
         this.loginTimer = new Timer();
@@ -79,22 +89,23 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
 
     private void signUp() {
         //logger.debug("SAC signing up");
-        this.loginId = cs.write(HARD_CODED_TOOL_NAME, getTemporarySbo(), LOGIN_KEEPALIVE_DURATION + 2000);
+        //this.loginId = cs.write(HARD_CODED_TOOL_NAME, getTemporarySbo(), LOGIN_KEEPALIVE_DURATION + 2000);
+        //this.loginId = collaborationService.write(this.userName, "online");
     }
 
     private void generateBuddyList() {
-        //logger.debug("SAC refreshes buddylist every " + LOGIN_KEEPALIVE_DURATION);
-        String outputToTextArea = "";
-        String status;
-        for (String user : usersToWatch.keySet()) {
-            if (cs.read(user, HARD_CODED_TOOL_NAME) != null) {
-                status = "online";
-            } else {
-                status = "offline";
-            }
-        	outputToTextArea = outputToTextArea + user + "\t" + status + "\n";
-        }
-        textArea.setText(outputToTextArea);
+//        //logger.debug("SAC refreshes buddylist every " + LOGIN_KEEPALIVE_DURATION);
+//        String outputToTextArea = "";
+//        String status;
+//        for (String user : usersToWatch.keySet()) {
+//            if (cs.read(user, HARD_CODED_TOOL_NAME) != null) {
+//                status = "online";
+//            } else {
+//                status = "offline";
+//            }
+//        	outputToTextArea = outputToTextArea + user + "\t" + status + "\n";
+//        }
+//        textArea.setText(outputToTextArea);
     }
 
 
@@ -124,7 +135,8 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
     private class LoginTimer extends TimerTask {
         public void run() {
             System.out.println("renewing signup");
-            cs.write(loginId, HARD_CODED_TOOL_NAME, getTemporarySbo(), LOGIN_KEEPALIVE_DURATION + 2000);
+            //cs.write(loginId, HARD_CODED_TOOL_NAME, getTemporarySbo(), LOGIN_KEEPALIVE_DURATION + 2000);
+            //collaborationService.write(userName, "online");
         }
     }
 
@@ -136,7 +148,8 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
 //    }
 
     private void signOff() {
-        cs.takeById(this.loginId);
+        //cs.takeById(this.loginId);
+        //collaborationService.write(userName, "offline");
     }
 
     private ScyBaseObject getTemporarySbo() {
@@ -164,5 +177,35 @@ public class ChatPanel extends JPanel implements CollaborationServiceClientInter
 
     public void DELETE_ME_QUICKLY() {
         this.usersToWatch.put("janad", true);
+    }
+
+    @Override
+    public void cleanUp() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void initialize() throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void sendMessage(String arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void sendObject(Object arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void handleCollaborationServiceEvent(ICollaborationServiceEvent arg0) {
+        // TODO Auto-generated method stub
+        
     }
 }
