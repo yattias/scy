@@ -9,7 +9,6 @@ import javax.persistence.*;
  * User: Henrik
  * Date: 03.mar.2009
  * Time: 12:23:59
- * To change this template use File | Settings | File Templates.
  */
 @Entity (name = "eu.scy.core.model.impl.SCYUserDetails")
 @Table(name = "user_details")
