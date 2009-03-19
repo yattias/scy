@@ -20,7 +20,6 @@ import org.xmpp.packet.Presence;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
