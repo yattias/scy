@@ -28,10 +28,11 @@ import java.util.Date;
 @Test
 public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTests {
 
+    public final static String USER_NAME = "IGetKnockedDownButIGetUpAgainYouNeverGonnaGetMeDown";
+
     private UserDAO userDAO;
 
     private User user = null;
-    private SCYUserDetails details = null;
 
     public UserDAO getUserDAO() {
         return userDAO;
@@ -48,26 +49,12 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
     @Override
     protected void onSetUpBeforeTransaction() throws Exception {
         super.onSetUpBeforeTransaction();
-        this.user = new SCYUserImpl();
-        this.details = new SCYUserDetails();
-        details.setPassword("ImALoserBabySoWhyDontYouKillMe");
-        details.setUsername("IGetKnockedDownButIGetUpAgainYouNeverGonnaGetMeDown");
-        details.setFirstname("Henrik");
-        details.setLastname("Schralaffenland");
-        details.setSignupdate(new Date());
-        details.setGender(Gender.MALE);
-        details.setBirthday(new Date());
-        details.setNumberOfLogins(1);
-        details.setLastLoginTime(new Date());
-        details.setAccountAnswer("MeatLoaf");
-        details.setAccountQuestion("DoYouLikeIt??");
-        user.setUserDetails(details);
+        this.user = createNewUser(USER_NAME);
     }
 
     @AfterTest
     protected void onTearDownAfterTransaction() throws Exception {
         super.onTearDownAfterTransaction();
-        this.details = null;
         this.user = null;
     }
 
@@ -75,31 +62,10 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
     @Test
     public void testAddUserDetails() {
         userDAO.save(user);
-        //this.user = new SCYUserImpl();
-        //this.user.setUserDetails(details);
-        //details = (SCYUserDetails) getUserDAO().save(details);
+        SCYUserDetails details = (SCYUserDetails) user.getUserDetails();
         assert(details.getId() != null);
     }
 
-
-    /*@Test
-    public void testGetUserInRole() {
-        user = new SCYUserImpl();
-        SCYUserDetails details = new SCYUserDetails();
-
-        //user.setUserName("H_IS_COOL" + System.currentTimeMillis());
-        user = (User) userDAO.save(user);
-        getUserDAO().addRole(user, "ROLE_ADMIN");
-        String userRole = "ROLE_ADMIN";
-        getUserDAO().save(user);
-        assert(user.getId() != null);
-        GrantedAuthority[]  userRoles = user.getUserDetails().getAuthorities();//getUserRoles();
-        assert (userRoles != null );
-        assert (userRoles.length > 0);
-        GrantedAuthority first = (GrantedAuthority) userRoles[0];
-        assert(first.getAuthority().equals("ROLE_ADMIN"));
-    }
-    */
     @Test
     public void testGetUser() {
         user = (User) getUserDAO().save(user);
@@ -117,8 +83,6 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         assert(group.getId() != null);
 
         String id = group.getId();
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++UserDAOHibernateTest.testDeleteGroup " + id);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++UserDAOHibernateTest.testDeleteGroup " + id);
 
         userDAO.deleteGroup(id);
         assertNull(userDAO.getGroup(id));
@@ -126,6 +90,91 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
 
     }
+
+    public void testDeleteUser() {
+        user = (User) getUserDAO().save(user);
+        Long userId = user.getId();
+
+        User found = getUserDAO().getUser(userId);
+        assertNotNull(found);
+
+        getUserDAO().deleteUser(user.getId());
+        User foundAfterDelete = (User) getUserDAO().getUser(userId);
+        assertNull(foundAfterDelete);
+    }
+
+    public void testGetUserByUsername() {
+        getUserDAO().save(user);
+        assertNull(getUserDAO().getUserByUsername("Hi"));
+        assertNotNull(getUserDAO().getUserByUsername(USER_NAME));
+    }
+
+    public void testGetSecureUsername() {
+        getUserDAO().save(user);
+
+        String userNameSuggestion = getUserDAO().getSecureUserName(USER_NAME);
+        assertEquals(userNameSuggestion, USER_NAME + 1);
+
+        User newUser = createNewUser(userNameSuggestion);
+
+        getUserDAO().save(newUser);
+
+        
+        String newUserNameSuggestion = getUserDAO().getSecureUserName(USER_NAME);
+        assertEquals(newUserNameSuggestion, USER_NAME + 2);
+
+
+    }
+
+    public void testGetUsers() {
+        User userOne = createNewUser("USER_1");
+        getUserDAO().save(userOne);
+
+        User userTwo = createNewUser("USER_2");
+        getUserDAO().save(userTwo);
+
+        List users = getUserDAO().getUsers();
+        assert(users.contains(userOne));
+        assert(users.contains(userTwo));
+    }
+
+    public void testGetUsersAfterDelete() {
+        User user1 = createAndSaveUser();
+        User user2 = createAndSaveUser();
+        User user3 = createAndSaveUser();
+
+        assertTrue(getUserDAO().getUsers().size() == 3);
+        getUserDAO().deleteUser(user1.getId());
+        assertTrue(getUserDAO().getUsers().size() ==2);
+
+    }
+
+
+    private User createAndSaveUser() {
+        User returnUser = createNewUser(getUserDAO().getSecureUserName(USER_NAME));
+        getUserDAO().save(returnUser);
+        return returnUser;
+    }
+
+    private User createNewUser(String userNameSuggestion) {
+        User newUser = new SCYUserImpl();
+        SCYUserDetails newDetails = new SCYUserDetails();
+        newDetails.setPassword("ImALoserBabySoWhyDontYouKillMe");
+        newDetails.setUsername(userNameSuggestion);
+        newDetails.setFirstname("Henrik");
+        newDetails.setLastname("Schralaffenland");
+        newDetails.setSignupdate(new Date());
+        newDetails.setGender(Gender.MALE);
+        newDetails.setBirthday(new Date());
+        newDetails.setNumberOfLogins(1);
+        newDetails.setLastLoginTime(new Date());
+        newDetails.setAccountAnswer("MeatLoaf");
+        newDetails.setAccountQuestion("DoYouLikeIt??");
+        newUser.setUserDetails(newDetails);
+        return newUser;
+    }
+
+
 
 
 }

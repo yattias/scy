@@ -38,7 +38,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
 
     public User getUserByUsername(String username) {
-        return (User) getSession().createQuery("from SCYUserImpl where userName like :username")
+        return (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
                 .setString("username", username)
                 .uniqueResult();
     }
@@ -62,7 +62,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         String suggestion = userName;
         while (!found) {
             suggestion = userName + counter;
-            User result = (User) getSession().createQuery("from SCYUserImpl where userName = :suggestion")
+            User result = (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username = :suggestion")
                     .setString("suggestion", suggestion)
                     .setMaxResults(1)
                     .uniqueResult();
@@ -85,7 +85,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public List getUsers() {
-        return getSession().createQuery("from SCYUserImpl order by userName ")
+        return getSession().createQuery("from SCYUserImpl user order by user.userDetails.username")
                 .list();
     }
 
