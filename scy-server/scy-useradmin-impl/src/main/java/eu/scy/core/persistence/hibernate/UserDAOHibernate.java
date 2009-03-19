@@ -9,6 +9,10 @@ import eu.scy.core.model.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sf.sail.webapp.domain.authentication.MutableGrantedAuthority;
+import net.sf.sail.webapp.dao.authentication.GrantedAuthorityDao;
+import org.springframework.beans.factory.annotation.Required;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +24,15 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
 
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
+
+    private GrantedAuthorityDao<MutableGrantedAuthority> grantedAuthorityDao;
+
+    @Required
+    public void setGrantedAuthorityDao(
+            GrantedAuthorityDao<MutableGrantedAuthority> grantedAuthorityDao) {
+        this.grantedAuthorityDao = grantedAuthorityDao;
+    }
+    
 
     public User getUser(Long id) {
         log.finest("Getting user with id: " + id);
