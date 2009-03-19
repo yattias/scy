@@ -12,7 +12,7 @@ import java.util.List;
  * A user in the SCY system.
  */
 public interface User extends net.sf.sail.webapp.domain.User{
-
+    /*
     public String getUserName();
 
     public void setUserName(String userName);
@@ -52,6 +52,6 @@ public interface User extends net.sf.sail.webapp.domain.User{
     public void setUserSessions(List<UserSession> userSessions);
 
     public void addUserSession(UserSession userSession);
-
+    */
 
 }
