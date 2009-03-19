@@ -26,6 +26,10 @@ public class ColemoActionWrapper {
         System.out.println("Connecting!");
     }
 
+    public void cleanUp() {
+        colemoPanel.cleanUp();
+    }
+
     public void createNewConcept() {
         colemoPanel.addNewConcept(null, "c");
     }
