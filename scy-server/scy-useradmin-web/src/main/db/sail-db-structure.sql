@@ -4,7 +4,7 @@ create table users (
     id bigint not null auto_increment,
     OPTLOCK integer,
     sds_user_fk bigint null unique,
-    user_details_fk bigint not null unique,
+    user_details_fk bigint null unique,
     primary key (id)
 ) type=InnoDB;
 
@@ -24,13 +24,6 @@ create table user_details (
     primary key (id)
 ) type=InnoDB;
 
-create table user_details_related_to_roles (
-        user_details_fk bigint not null,
-        granted_authorities_fk bigint not null,
-        primary key (user_details_fk, granted_authorities_fk)
-    ) type=InnoDB;
-
-
 DROP TABLE IF EXISTS sds_users;
 create table sds_users (
     id bigint not null auto_increment,
@@ -40,6 +33,21 @@ create table sds_users (
     OPTLOCK integer,
     primary key (id)
 ) type=InnoDB;
+
+
+create table granted_authorities (
+    id bigint not null auto_increment,
+    authority varchar(255) not null unique,
+    OPTLOCK integer,
+    primary key (id)
+) type=InnoDB;
+
+create table user_details_related_to_roles (
+    user_details_fk bigint not null,
+    granted_authorities_fk bigint not null,
+    primary key (user_details_fk, granted_authorities_fk)
+) type=InnoDB;
+
 
 
 
@@ -61,6 +69,7 @@ alter table users
         add constraint FK6A68E08E3B038C2
         foreign key (user_details_fk)
         references user_details (id);
+
 
 
 
