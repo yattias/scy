@@ -2,9 +2,9 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.impl.RoleImpl;
+import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.*;
 
-import org.springframework.security.concurrent.SessionRegistryImpl;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -20,10 +20,10 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
 
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
-    private SessionRegistryImpl sessionRegistry;
 
     public User getUser(Long id) {
-        return (User) getSession().createQuery("From SCYUserImpl where id = :id")
+        log.finest("Getting user with id: " + id);
+        return (User) getSession().createQuery("from SCYUserImpl where id = :id")
                 .setLong("id", id)
                 .setMaxResults(1)
                 .uniqueResult();

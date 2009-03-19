@@ -17,7 +17,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@Entity(name = "eu.scy.core.model.impl.SCYUserImpl")
+@Entity(name = "SCYUserImpl")
 @Table(name = "users")
 @org.hibernate.annotations.Proxy(proxyClass = User.class)
 public class SCYUserImpl implements User {
