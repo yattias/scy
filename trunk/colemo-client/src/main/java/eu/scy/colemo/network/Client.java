@@ -89,7 +89,7 @@ public class Client implements Receiver, Runnable {
             UmlClass umlClass = new UmlClass(add.getName(), add.getType(), add.getAuthor());
             frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
             frame.getGraphicsDiagram().addClass(umlClass);
-            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserName() + " added the new class: \"" + add.getName().toUpperCase() + "\"" + newline);
+            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserDetails().getUsername() + " added the new class: \"" + add.getName().toUpperCase() + "\"" + newline);
         }
         if (o instanceof ConceptNode) {
             log.info("CONCEPT NODE!!");
@@ -97,14 +97,14 @@ public class Client implements Receiver, Runnable {
             ConceptMapNodeData conceptMapNodeData = new ConceptMapNodeData(add.getName());
             frame.getGraphicsDiagram().getUmlDiagram().addDiagramData(conceptMapNodeData);
             //frame.getGraphicsDiagram().addConceptMapNodeData(conceptMapNodeData);
-            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserName() + " added the new class: \"" + add.getName().toUpperCase() + "\"" + newline);
+            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserDetails().getUsername()+ " added the new class: \"" + add.getName().toUpperCase() + "\"" + newline);
         }
         if (o instanceof AddLink) {
             AddLink add = (AddLink) o;
             UmlLink umlLink = new UmlLink(add.getFrom(), add.getTo(), add.getUser());
             frame.getGraphicsDiagram().getUmlDiagram().addLink(umlLink);
             frame.getGraphicsDiagram().addLink(umlLink);
-            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserName() + " made \"" + add.getFrom().toUpperCase() + "\" a subclass of \"" + add.getTo().toUpperCase() + "\"" + newline);
+            frame.getChatPane().addAgentText("Agent >: " + add.getPerson().getUserDetails().getUsername() + " made \"" + add.getFrom().toUpperCase() + "\" a subclass of \"" + add.getTo().toUpperCase() + "\"" + newline);
         }
         if (o instanceof AssociateClass) {
             AssociateClass add = (AssociateClass) o;
@@ -177,7 +177,7 @@ public class Client implements Receiver, Runnable {
             String input = (String) chat.getInput();
             Person person = (Person) chat.getPerson();
             try {
-                frame.getChatPane().addChatText(person.getUserName() + " > " + input + newline);
+                frame.getChatPane().addChatText(person.getUserDetails().getUsername() + " > " + input + newline);
             }
             catch (Exception e) {
                 System.out.println("FEIL: " + e);
@@ -203,7 +203,7 @@ public class Client implements Receiver, Runnable {
             Person person = logon.getPerson();
 
             try {
-                frame.getChatPane().addServerText("System > " + person.getUserName() + " has logged on\n");
+                frame.getChatPane().addServerText("System > " + person.getUserDetails().getUsername()+ " has logged on\n");
             }
             catch (Exception e) {
 
