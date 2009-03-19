@@ -5,20 +5,49 @@
 
 package eu.scy.elobrowser.tool.dataProcessTool;
 
+import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.collaborationservice.CollaborationServiceFactory;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
+import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.communications.message.IScyMessage;
 import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
+import roolo.elo.content.dataset.DataSetHeader;
+import roolo.elo.content.dataset.DataSetRow;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import roolo.elo.JDomStringConversion;
 
 /**
  * Entry point of the data process visualization tool,
  * interface between the tool and ToolBrokerAPI
  * @author Marjolaine
  */
-public class DataToolPanel extends JPanel  {
+public class DataToolPanel extends JPanel implements ICollaborationServiceListener {
+    /* tool name*/
+    public static final  String TOOL_NAME = "DataProcessTool";
+    /* object type dataset header*/
+    public static final String TYPE_DATASET_HEADER = "datasetheader";
+    /* object type dataset row*/
+    public static final String TYPE_DATASET_ROW = "datasetrow";
+
+
     /* data process visualization tool */
     private MainDataToolPanel dataProcessVisualizationTool;
+
+    /* id dataset creation */
+    private long idDataset;
+
+    /* collaboration service*/
+    private ICollaborationService collaborationService;
+    /* simulator Tool Name */
+    private String simulatorName = "simulator";
+    /* SessionID*/
+     private  String sessionID = "42";
     
 
     /* Constructor data Tool panel - blank */
@@ -29,6 +58,11 @@ public class DataToolPanel extends JPanel  {
         this.add(this.dataProcessVisualizationTool, BorderLayout.CENTER);
         setSize(MainDataToolPanel.PANEL_WIDTH, MainDataToolPanel.PANEL_HEIGHT);
         setPreferredSize(getSize());
+        try{
+            initCollaborationService();
+        }catch(CollaborationServiceException e){
+            this.dataProcessVisualizationTool.displayError("Error during initializing Collaboration Service : "+e);
+        }
     }
 
     /* resize */
@@ -52,5 +86,49 @@ public class DataToolPanel extends JPanel  {
         return this.dataProcessVisualizationTool.getPDS();
     }
 
-   
+    /* initialize model with header*/
+    public void initializeHeader(DataSetHeader header){
+        idDataset = this.dataProcessVisualizationTool.createDataset("simquest dataset", header);
+        repaint();
+    }
+
+    /* update model with datarow*/
+    public void updateDataRow(DataSetRow row){
+        this.dataProcessVisualizationTool.addData(idDataset, row);
+        repaint();
+    }
+
+    /* initialization Collaboration Service*/
+    private void initCollaborationService() throws CollaborationServiceException {
+        collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+        collaborationService.synchronizeClientState(TOOL_NAME, sessionID);
+        collaborationService.addCollaborationListener(this);
+    }
+
+    @Override
+    public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
+        IScyMessage scyMessage = e.getScyMessage();
+        if(scyMessage.getToolName() != null && scyMessage.getToolName().equals(simulatorName)){
+            String description = scyMessage.getDescription();
+            if (scyMessage.getObjectType().equals(TYPE_DATASET_HEADER)){
+                try{
+                    DataSetHeader header = new DataSetHeader(description);
+                    initializeHeader(header);
+                }catch(JDOMException ex){
+                    this.dataProcessVisualizationTool.displayError("Error parsing header : "+ex);
+                    return;
+                }
+            }else if (scyMessage.getObjectType().equals(TYPE_DATASET_ROW)){
+                try{
+                    DataSetRow row = new DataSetRow(new JDomStringConversion().stringToXml(description));
+                    updateDataRow(row);
+                }catch(JDOMException ex){
+                    this.dataProcessVisualizationTool.displayError("Error parsing row : "+ex);
+                    return;
+                }
+            }
+        }
+    }
+
+
 }
