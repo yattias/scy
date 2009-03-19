@@ -11,8 +11,17 @@
         <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+        <!--mapping class="eu.scy.core.model.impl.RoleImpl"/-->
+        <!--mapping class="eu.scy.core.model.impl.UserRoleImpl"/-->
 
         <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
+        <!--mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclEntry" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclSid" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclTargetObject" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclTargetObjectIdentity" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" /-->
+
 
         <!--mapping package="eu.scy.core.model.impl"/-->
         <!--mapping package="net.sf.sail.webapp.domain.sds"/-->
