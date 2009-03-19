@@ -1,15 +1,11 @@
 package eu.scy.core.persistence.hibernate;
 
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.AfterTest;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
-import org.acegisecurity.GrantedAuthority;
 import org.telscenter.sail.webapp.domain.authentication.Gender;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.User;
-import eu.scy.core.model.UserRole;
-import eu.scy.core.model.Role;
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.SCYGroupImpl;
@@ -17,6 +13,8 @@ import eu.scy.core.model.impl.SCYUserDetails;
 
 import java.util.List;
 import java.util.Date;
+
+import net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,6 +27,8 @@ import java.util.Date;
 public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTests {
 
     public final static String USER_NAME = "IGetKnockedDownButIGetUpAgainYouNeverGonnaGetMeDown";
+    public final static String STUDENT_USER_ROLE = "STUDENT_USER";
+    public final static String TEACHER_USER_ROLE = "TEACHER_USER";
 
     private UserDAO userDAO;
 
@@ -149,6 +149,27 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
     }
 
+    public void testGetUserRole() {
+        User daUser = createNewUser(getUserDAO().getSecureUserName(USER_NAME));
+        getUserDAO().save(daUser);
+        Long id = daUser.getId();
+
+        User loaded = (User) getUserDAO().getUser(id);
+        assert(loaded.getUserDetails().getAuthorities().length == 1);
+    }
+
+    public void testGetAllUserRoles() {
+        User daUser = createNewUser(getUserDAO().getSecureUserName(USER_NAME));
+        PersistentGrantedAuthority teacherAuth = new PersistentGrantedAuthority();
+        teacherAuth.setAuthority(TEACHER_USER_ROLE);
+        daUser.getUserDetails().addAuthority(teacherAuth);
+        getUserDAO().save(daUser);
+
+        User loaded = getUserDAO().getUser(daUser.getId());
+        assert(loaded.getUserDetails().getAuthorities().length == 2);
+
+    }
+
 
     private User createAndSaveUser() {
         User returnUser = createNewUser(getUserDAO().getSecureUserName(USER_NAME));
@@ -171,6 +192,13 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         newDetails.setAccountAnswer("MeatLoaf");
         newDetails.setAccountQuestion("DoYouLikeIt??");
         newUser.setUserDetails(newDetails);
+
+        PersistentGrantedAuthority persistentGrantedAuthority = new PersistentGrantedAuthority();
+        persistentGrantedAuthority.setAuthority(STUDENT_USER_ROLE);
+        newUser.getUserDetails().addAuthority(persistentGrantedAuthority);
+
+
+
         return newUser;
     }
 
