@@ -2,7 +2,8 @@ package eu.scy.colemo.client.scyconnectionhandler;
 
 import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.client.ApplicationController;
-import eu.scy.colemo.client.sqlspacesimpl.ObjectTranslator;
+import eu.scy.colemo.client.sqlspacesimpl.IMessageTranslator;
+import eu.scy.colemo.client.sqlspacesimpl.MessageTranslator;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
 import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.MoveClass;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjï¿½rge Nï¿½ss
  * Date: 27.feb.2009
  * Time: 13:41:28
  * CoLeMo controller that serves as a bridge between colemo and the SCY collaboration and awareness services.
@@ -40,7 +41,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     public void sendObject(Object object) {
         System.out.println("Sending object:" + object);
 
-        ObjectTranslator translator = new ObjectTranslator();
+        MessageTranslator translator = new MessageTranslator();
         IScyMessage sendMe = null;
 
         if (object instanceof AddClass) {
@@ -72,7 +73,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     public void initialize() throws Exception {
 
         log.debug("initializing");
-        ObjectTranslator ot = new ObjectTranslator();
+        IMessageTranslator ot = new MessageTranslator();
 
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         try {
@@ -87,7 +88,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         synchronizeDiagramElements(messages, ot);
     }
 
-    private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, ObjectTranslator ot) {
+    private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, IMessageTranslator ot) {
         if(messages == null) {
             log.info("Messages are null");
             return;
@@ -120,7 +121,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         IScyMessage sm = e.getScyMessage();
         if (sm != null) {
             log.debug("UPDATING FROM SERVER!");
-            ObjectTranslator ot = new ObjectTranslator();
+            IMessageTranslator ot = new MessageTranslator();
             log.debug("CALL: Before add class");
             Object object = ot.getObject(sm);
             if ( sm.getObjectType().contains("AddClass")) {

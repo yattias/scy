@@ -61,7 +61,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     public void sendObject(Object object) {
         try {
             System.out.println("Sending object:" + object);
-            ObjectTranslator translator = new ObjectTranslator();
+            MessageTranslator translator = new MessageTranslator();
             Tuple sendMe = null;
             if (object instanceof AddClass) {
                 AddClass addClass = (AddClass) object;
@@ -109,12 +109,12 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
         Tuple [] allConcepts = tupleSpace.readAll(conceptTemplate);
         Tuple [] allLinks = tupleSpace.readAll(linkTemplate);
-        ObjectTranslator ot = new ObjectTranslator();
+        MessageTranslator ot = new MessageTranslator();
         synchronizeDiagramElements(allConcepts, ot);
         synchronizeDiagramElements(allLinks, ot);
     }
 
-    private void synchronizeDiagramElements(Tuple[] allTuples, ObjectTranslator ot) {
+    private void synchronizeDiagramElements(Tuple[] allTuples, MessageTranslator ot) {
         for (int i = 0; i < allTuples.length; i++) {
             Tuple allTuple = allTuples[i];
             Object newNOde = ot.getObject(allTuple);
@@ -134,7 +134,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         System.out.println("i: " + i);
         if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {
             System.out.println("UPDATING CONCEPT FROM SERVER!");
-            ObjectTranslator ot = new ObjectTranslator();
+            MessageTranslator ot = new MessageTranslator();
 
             UmlClass umlClass = null;
 
@@ -144,7 +144,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             addNewNode(node);
         } else if(tuple != null && tuple.getFields().length == linkTemplate.getFields().length) {
             System.out.println("UPDATING LINK FROM SERVER!");
-            ObjectTranslator ot = new ObjectTranslator();
+            MessageTranslator ot = new MessageTranslator();
             UmlLink link = (UmlLink) ot.getObject(tuple);
             addNewNode(link);
         }

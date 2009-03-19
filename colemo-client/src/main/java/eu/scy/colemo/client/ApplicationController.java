@@ -1,9 +1,9 @@
 package eu.scy.colemo.client;
 
-import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javax.swing.JApplet;
 
-import javax.swing.*;
+import eu.scy.colemo.client.scyconnectionhandler.SCYConnectionHandler;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * Created by IntelliJ IDEA.
@@ -71,8 +71,8 @@ public class ApplicationController {
     }
 
     public void connect() {
-        connectionHandler = new ConnectionHandlerSqlSpaces();
-        //connectionHandler = new SCYConnectionHandler();
+        //connectionHandler = new ConnectionHandlerSqlSpaces();
+        connectionHandler = new SCYConnectionHandler();
         try {
             connectionHandler.initialize();
         } catch (Exception e) {
