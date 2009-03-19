@@ -2,7 +2,6 @@ package eu.scy.colemo.client.scyconnectionhandler;
 
 import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.client.ApplicationController;
-import eu.scy.colemo.client.sqlspacesimpl.IMessageTranslator;
 import eu.scy.colemo.client.sqlspacesimpl.MessageTranslator;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
 import eu.scy.colemo.contributions.AddClass;
@@ -41,22 +40,22 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     public void sendObject(Object object) {
         System.out.println("Sending object:" + object);
 
-        MessageTranslator translator = new MessageTranslator();
+        MessageTranslator mt = new MessageTranslator();
         IScyMessage sendMe = null;
 
         if (object instanceof AddClass) {
             AddClass addClass = (AddClass) object;
             System.out.println("NAME: " + addClass.getName());
-            sendMe = translator.getScyMessage(addClass);
+            sendMe = mt.getScyMessage(addClass);
         } else if (object instanceof MoveClass) {
             MoveClass mc = (MoveClass) object;
             mc.setId(mc.getUmlClass().getId());
             System.out.println("moving class with id:  " + mc.getId() + " to position: " + mc.getUmlClass().getX() + ", " + mc.getUmlClass().getY());
-            sendMe = translator.getScyMessage(mc);
+            sendMe = mt.getScyMessage(mc);
         } else if (object instanceof UmlLink) {
             UmlLink addLink = (UmlLink) object;
             System.out.println("Adding link");
-            sendMe = translator.getScyMessage(addLink);
+            sendMe = mt.getScyMessage(addLink);
         }
 
         if (sendMe != null) {
@@ -73,7 +72,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     public void initialize() throws Exception {
 
         log.debug("initializing");
-        IMessageTranslator ot = new MessageTranslator();
+        MessageTranslator ot = new MessageTranslator();
 
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         try {
@@ -88,7 +87,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         synchronizeDiagramElements(messages, ot);
     }
 
-    private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, IMessageTranslator ot) {
+    private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, MessageTranslator ot) {
         if(messages == null) {
             log.info("Messages are null");
             return;
@@ -121,9 +120,9 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         IScyMessage sm = e.getScyMessage();
         if (sm != null) {
             log.debug("UPDATING FROM SERVER!");
-            IMessageTranslator ot = new MessageTranslator();
+            MessageTranslator mt = new MessageTranslator();
             log.debug("CALL: Before add class");
-            Object object = ot.getObject(sm);
+            Object object = mt.getObject(sm);
             if ( sm.getObjectType().contains("AddClass")) {
                 addNewNode((BaseConceptMapNode) object);
             } else if (sm.getObjectType().contains("UmlLink")) {
