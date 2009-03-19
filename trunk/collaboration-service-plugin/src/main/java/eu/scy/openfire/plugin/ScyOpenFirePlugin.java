@@ -14,10 +14,6 @@ import org.jivesoftware.openfire.interceptor.PacketInterceptor;
 import org.jivesoftware.openfire.interceptor.PacketRejectedException;
 import org.jivesoftware.openfire.session.Session;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.xmpp.component.Component;
-import org.xmpp.component.ComponentException;
-import org.xmpp.component.ComponentManager;
-import org.xmpp.packet.JID;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.PacketExtension;
 import org.xmpp.packet.Presence;
@@ -25,8 +21,9 @@ import org.xmpp.packet.Presence;
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
+import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
-import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
+import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.openfire.plugin.botz.BotzConnection;
 
@@ -48,7 +45,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
         
         providerManager.addExtensionProvider(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE, ScyObjectPacketExtension.class);
         
-        this.communicationsAdapter = ScyCommunicationAdapter.getInstance();
+        this.communicationsAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.communicationsAdapter.addScyCommunicationListener(this);
     }
     
