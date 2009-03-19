@@ -1,5 +1,6 @@
 package eu.scy.elobrowser.tool.simquest;
 
+import eu.scy.collaborationservice.CollaborationServiceException;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -9,8 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,12 +20,10 @@ import javax.swing.JTextArea;
 
 import org.jdom.JDOMException;
 import roolo.api.IRepository;
-import roolo.api.search.ISearchResult;
 import roolo.elo.JDomBasicELOFactory;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.RooloMetadataKeys;
@@ -39,13 +36,14 @@ import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import javax.swing.JToggleButton;
 
 /**
  * This class collects datapoints from a SimQuest simulation and stores them as
  * an ELO.
- * 
+ *
  * @author Lars Bollen
- * 
+ *
  */
 public class DataCollector extends JPanel implements ActionListener,
         IDataClient {
@@ -63,8 +61,13 @@ public class DataCollector extends JPanel implements ActionListener,
     private DataSet dataset;
     private Object eloTitle = "an unnamed SimQuest dataset";
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+    private JToggleButton sandboxbutton;
+    private DatasetSandbox sandbox = null;
 
     public DataCollector(ISimQuestViewer simquestViewer) {
+        // initialize user interface
+        initGUI();
+
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables(
@@ -77,9 +80,6 @@ public class DataCollector extends JPanel implements ActionListener,
         dataAgent.add(simquestViewer.getDataServer().getVariables(
                 "name is not relevant"));
         simquestViewer.getDataServer().register(dataAgent);
-
-        // initialize user interface
-        initGUI();
     }
 
     private void initGUI() {
@@ -103,6 +103,12 @@ public class DataCollector extends JPanel implements ActionListener,
         //button.setActionCommand("saveelo");
         //button.addActionListener(this);
         //buttonPanel.add(button);
+
+        sandboxbutton = new JToggleButton("sandbox");
+        sandboxbutton.setSelected(false);
+        sandboxbutton.setActionCommand("sandbox");
+        sandboxbutton.addActionListener(this);
+        buttonPanel.add(sandboxbutton);
 
         checkbox = new JCheckBox("add datapoints continuosly");
         checkbox.setSelected(false);
@@ -133,7 +139,11 @@ public class DataCollector extends JPanel implements ActionListener,
             text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
         }
         text.append("\n");
-        dataset.addRow(new DataSetRow(values));
+        DataSetRow newRow = new DataSetRow(values);
+        dataset.addRow(newRow);
+        if (sandboxbutton.isSelected()) {
+            sandbox.sendDataSetRow(newRow);
+        }
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -147,41 +157,41 @@ public class DataCollector extends JPanel implements ActionListener,
             // testing: creating a toolbroker instance
             toolBroker = new ToolBrokerImpl<IMetadataKey>();
         } else if (evt.getActionCommand().equals("saveelo")) {
-            // this is not used anymore; using the methods from
-            // EloSimQuestWrapper instead
-
-
-            // setup tool-broker-api
-            configureSCYConnection();
-
-            // some debug outputs
-            System.out.println("DataCollector.actionPerformed(). toolBroker: " + toolBroker + "\n");
-            List<ISearchResult> searchResult = toolBroker.getRepository().search(null);
-            System.out.println("DataCollector.actionPerformed(). search results:\n");
-            for (ISearchResult result : searchResult) {
-                System.out.println(result.getUri().toString() + "\n");
-            }
-
-            // ask for the title and possibly cancel here
-            eloTitle = JOptionPane.showInputDialog(simquestViewer.getMainFrame(), "What would be the ELO title?", "...");
-            if (eloTitle == null) {
-                // user pressed "cancel", stop here
-                return;
-            }
-
-            // create the ELO
-            IELO<IMetadataKey> elo = createELO();
-
-            // store the ELO
-            IMetadata<IMetadataKey> resultMetadata = toolBroker.getRepository().addELO(elo);
-        // eloFactory.updateELOWithResult(elo, resultMetadata);
+//            // this is not used anymore; using the methods from
+//            // EloSimQuestWrapper instead
+//            // setup tool-broker-api
+//            configureSCYConnection();
+//            // some debug outputs
+//            System.out.println("DataCollector.actionPerformed(). toolBroker: " + toolBroker + "\n");
+//            List<ISearchResult> searchResult = toolBroker.getRepository().search(null);
+//            System.out.println("DataCollector.actionPerformed(). search results:\n");
+//            for (ISearchResult result : searchResult) {
+//                System.out.println(result.getUri().toString() + "\n");
+//            }
+//            // ask for the title and possibly cancel here
+//            eloTitle = JOptionPane.showInputDialog(simquestViewer.getMainFrame(), "What would be the ELO title?", "...");
+//            if (eloTitle == null) {
+//                // user pressed "cancel", stop here
+//                return;
+//            }
+//            // create the ELO
+//            IELO<IMetadataKey> elo = createELO();
+//            // store the ELO
+//            IMetadata<IMetadataKey> resultMetadata = toolBroker.getRepository().addELO(elo);
         } else if (evt.getActionCommand().equals("cleardata")) {
             newELO();
+        } else if (evt.getActionCommand().equals("sandbox")) {
+            if (sandboxbutton.isSelected()) {
+                initSandbox();
+            }
         }
     }
 
     public void newELO() {
         dataset.removeAll();
+        if (sandbox != null) {
+            sandbox.clear();
+        }
         text.setText("");
     }
 
@@ -233,8 +243,8 @@ public class DataCollector extends JPanel implements ActionListener,
             } else {
                 // the simulation names doesn't match
                 JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.",
-                    "Config file problem",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Config file problem",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (JDOMException ex) {
             JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.",
@@ -319,9 +329,23 @@ public class DataCollector extends JPanel implements ActionListener,
         }
         datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
         dataset = new DataSet(datasetheaders);
-        // TODO is this check neccessary?
+        if (sandboxbutton.isSelected()) {
+            initSandbox();
+        }
+
         if (text != null) {
             text.setText("");
+        }
+    }
+
+    private void initSandbox() {
+        try { // init the sandbox
+            sandbox = new DatasetSandbox(this);
+            text.append("sandbox initialised.\n");
+        } catch (CollaborationServiceException ex) {
+            text.append("could not initialise sandbox.\n");
+            text.append(ex.getMessage() + "\n");
+            sandboxbutton.setSelected(false);
         }
     }
 }
