@@ -143,7 +143,7 @@ public class SCYUserImpl implements User {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-
+     /*
 
      private String userName;
     private String password;
@@ -256,5 +256,5 @@ public class SCYUserImpl implements User {
     }
 
 
-
+*/
 }
