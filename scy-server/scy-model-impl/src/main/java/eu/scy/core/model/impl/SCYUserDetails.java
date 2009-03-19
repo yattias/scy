@@ -15,18 +15,6 @@ import javax.persistence.*;
 @Table(name = "user_details")
 public class SCYUserDetails extends StudentUserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = null;
-    
-    public Long getId() {
-        return id;
-    }
-
-    @SuppressWarnings("unused")
-    private void setId(Long id) {
-        this.id = id;
-    }
 
 
 }
