@@ -44,15 +44,18 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     private ArrayList<IScyMessage> scyMessages;
     private String userName;
     
+    
     public static void main(String[] args) {
         new NutpadCollaborationServiceTestClient();
     }
     
+
     public NutpadCollaborationServiceTestClient() {
         
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BorderLayout(0,0));
-        
+        contentPanel.setLayout(new BorderLayout(0, 0));
+
+        // build the toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.add(openCSAction);
         toolBar.add(saveToCollaborationServiceAction);
@@ -60,26 +63,22 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         toolBar.addSeparator();
         toolBar.add(exitAction);
         
-        
+        // define props for the edit area
         editArea = new JTextArea(15, 80);
         editArea.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
         editArea.setEditable(false);
         JScrollPane scrollingText = new JScrollPane(editArea);
         
-     
         contentPanel.add(toolBar, BorderLayout.NORTH);
         contentPanel.add(scrollingText, BorderLayout.CENTER);
         
         JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = menuBar.add(new JMenu("File"));
-
         
         setContentPane(contentPanel);
         
-        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("$$ NutPad");
+        setTitle("NutPad makes you happy");
         setPreferredSize(new Dimension(550, 650));
         pack();
         setLocationRelativeTo(null);
@@ -89,69 +88,63 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         
     }
     
-    public void initialize() {
-        
-        //generate UUID each instance of the tool will be unique username
-        UUID uuid = UUID.randomUUID();
-
-        userName = uuid.toString();
-        
+    public void initialize() {    
+        // generate UUID each instance of the tool will be unique username
+        UUID uuid = UUID.randomUUID();        
+        userName = uuid.toString();        
         try {
+            // init the collaboration service
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+            collaborationService.addCollaborationListener(this);            
         } catch (CollaborationServiceException e) {
+            logger.error("Failed to init collaboration service: " + e);
             e.printStackTrace();
-        }
-        collaborationService.addCollaborationListener(this);
-        
+        }        
     }
-    
     
     class OpenFromCollaborationServiceAction extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
         
         public OpenFromCollaborationServiceAction() {
-            super("sychronize w/cs");
+            super("Synchronize with collab.service");
+            logger.debug("sychronizing with collaboration service");
             putValue(MNEMONIC_KEY, new Integer('2'));
         }
         
         public void actionPerformed(ActionEvent e) {
+            // get nutpad-specific messages which also belong to this session
             scyMessages = collaborationService.synchronizeClientState("NUTPAD", SESSIONID);
+            logger.debug("got " + scyMessages.size() + " messages for this tool and session");
             
-            
-            Date date = new java.util.Date(System.currentTimeMillis());
-
+            Date date = new java.util.Date(System.currentTimeMillis());            
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
             
-            //update textarea
-            editArea.append("sychronizing....." + ts + "\n");
+            // update textarea
+            editArea.append("sychronizing..... " + ts + "\n");
             StringBuffer sb = new StringBuffer();
-            for (IScyMessage scyMessage : scyMessages) {
-               
-                sb.append("------ Description: ").append(scyMessage.toString() +"\n");
+            for (IScyMessage scyMessage : scyMessages) {                
+                sb.append("------ ScyMessage ------\n").append(scyMessage.toString() + "\n");
                 editArea.append(sb.toString());
                 editArea.setCaretPosition(editArea.getText().length());
-            }
-            
+            }            
         }
     }
-
     
     class ClearEditAreaAction extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
         
         public ClearEditAreaAction() {
-            super("clear edit area");
+            super("Clear edit area");
             putValue(MNEMONIC_KEY, new Integer('3'));
         }
         
         public void actionPerformed(ActionEvent e) {
-            //clear textarea
+            // clear textarea
             editArea.setText("");
         }
     }
-
     
     class SaveToCollaborationServiceAction extends AbstractAction {
         
@@ -163,17 +156,15 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         }
         
         public void actionPerformed(ActionEvent e) {
-            //create pop up 
-
-            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadCollaborationServiceTestClient.this,userName, HARD_CODED_TOOL_NAME, "create", SESSIONID );
-            
+            // create pop up            
+            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadCollaborationServiceTestClient.this, userName, HARD_CODED_TOOL_NAME, "create", SESSIONID);            
             String[] messageStrings = d.showDialog();
-
             
-            //or create message
-            IScyMessage mess =ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4],messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], 0, messageStrings[10]);
+            // or create message
+            IScyMessage scyMessage = ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], 0, messageStrings[10]);
             try {
-                collaborationService.create(mess);
+                // pass scyMessage to collaboration service for storing
+                collaborationService.create(scyMessage);
             } catch (CollaborationServiceException e1) {
                 e1.printStackTrace();
             }
@@ -198,13 +189,12 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     @Override
     public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
         IScyMessage scyMessage = e.getScyMessage();
-        if( e.getScyMessage().getUserName() != null ) {
+        if (e.getScyMessage().getUserName() != null) {
             
             Date date = new java.util.Date(System.currentTimeMillis());
-
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
             editArea.append("\n-------- new message --------- " + ts + "\n" + e.getScyMessage().toString());
-            editArea.setCaretPosition(editArea.getText().length());            
+            editArea.setCaretPosition(editArea.getText().length());
         }
         
     }
