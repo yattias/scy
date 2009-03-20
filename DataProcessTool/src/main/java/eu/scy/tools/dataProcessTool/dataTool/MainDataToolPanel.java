@@ -24,6 +24,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -115,6 +116,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     /** Creates new form MainDataToolPanel */
     public MainDataToolPanel() {
         super();
+        locale = new Locale("en", "GB");
         initComponents();
         initDat();
     }
@@ -122,7 +124,6 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     /** Creates new form MainDataToolPanel */
     public MainDataToolPanel(ScyApplet applet, long dbKeyMission, long dbKeyUser) {
         super();
-        System.out.println("constructor : initialisation locale");
         locale = new Locale("en", "GB");
         initComponents();
         initDat(applet, dbKeyMission, dbKeyUser);
@@ -134,12 +135,12 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         locale = Locale.getDefault();
         locale = new Locale("en", "GB");
         try{
-            this.bundle = ResourceBundle.getBundle("Bundle", locale);
+            this.bundle = ResourceBundle.getBundle("DataToolBundle" , locale);
         }catch(MissingResourceException e){
           try{
               // par defaut on prend l'anglais
               locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("Bundle");
+              bundle = ResourceBundle.getBundle("DataToolBundle", locale);
           }catch (MissingResourceException e2){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             System.out.println("ERREUR lors du chargement de l'applet, la langue spécifiée "+locale+" n'existe pas : "+e);
@@ -147,6 +148,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             return;
             }
         }
+        
         initScyApplet();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
         // noyau
@@ -167,12 +169,12 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         locale = Locale.getDefault();
         locale = new Locale("en", "GB");
         try{
-            this.bundle = ResourceBundle.getBundle("Bundle", locale);
+            this.bundle = ResourceBundle.getBundle("DataToolBundle", locale);
         }catch(MissingResourceException e){
           try{
               // par defaut on prend l'anglais
               locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("Bundle");
+              bundle = ResourceBundle.getBundle("DataToolBundle", locale);
           }catch (MissingResourceException e2){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             System.out.println("ERREUR lors du chargement de l'applet, la langue spécifiée "+locale+" n'existe pas : "+e);
@@ -201,10 +203,12 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     }
     /* retourne un message selon cle*/
     public String getBundleString(String key){
-        String s = "";
+       String s = "";
+       
         try{
             s = this.bundle.getString(key);
         }catch(Exception e){
+            System.out.println("getBundleString "+e);
             try{
                 String msg = this.bundle.getString("ERROR_KEY");
                 msg = ScyUtilities.replace(msg, 0, key);
@@ -214,6 +218,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
              }
         }
         return s;
+
     }
 
     /* affichage des erreurs*/
@@ -1045,15 +1050,17 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     }
 
     public void resizePanel(){
-        this.borderPanel.setSize(this.getWidth(), this.getHeight());
-        this.menuBar.setSize(this.getWidth(), this.menuBar.getHeight());
-        this.panelDataProcess.setBounds(0, this.menuBar.getHeight(), this.getWidth()*2/3,this.getHeight()-this.menuBar.getHeight() );
-        this.scrollPaneDataOrganizer.setBounds(0, 0, panelDataProcess.getWidth(), panelDataProcess.getHeight());
-        this.panelDataVisualizer.setBounds(this.panelDataProcess.getWidth(), this.menuBar.getHeight(), this.getWidth()/3, this.getHeight()-this.menuBar.getHeight());
-        int oldDiv = splitPane.getDividerLocation();
-        this.splitPane.setBounds(0, this.menuBar.getHeight(), this.getWidth(), this.getHeight()-this.menuBar.getHeight());
-        splitPane.setDividerLocation(oldDiv);
-        repaint();
+        if(this.borderPanel != null){
+            this.borderPanel.setSize(this.getWidth(), this.getHeight());
+            this.menuBar.setSize(this.getWidth(), this.menuBar.getHeight());
+            this.panelDataProcess.setBounds(0, this.menuBar.getHeight(), this.getWidth()*2/3,this.getHeight()-this.menuBar.getHeight() );
+            this.scrollPaneDataOrganizer.setBounds(0, 0, panelDataProcess.getWidth(), panelDataProcess.getHeight());
+            this.panelDataVisualizer.setBounds(this.panelDataProcess.getWidth(), this.menuBar.getHeight(), this.getWidth()/3, this.getHeight()-this.menuBar.getHeight());
+            int oldDiv = splitPane.getDividerLocation();
+            this.splitPane.setBounds(0, this.menuBar.getHeight(), this.getWidth(), this.getHeight()-this.menuBar.getHeight());
+            splitPane.setDividerLocation(oldDiv);
+            repaint();
+        }
     }
     public Element getPDS(){
         return this.controller.getPDS(getDataSetTabbedPane().getSelectedDataset());
