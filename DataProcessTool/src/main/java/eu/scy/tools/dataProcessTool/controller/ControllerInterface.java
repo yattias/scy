@@ -87,4 +87,11 @@ public interface ControllerInterface {
 
     /* mise à jour dataset apres sort */
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v);
+
+    /* creation d'un dataset avec l'en tete - 1 ligne de données */
+    public CopexReturn createDataset(String name, String[] headers, ArrayList v);
+
+    /* ajout d'une ligne de données */
+    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v);
+
 }

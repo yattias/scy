@@ -24,6 +24,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -220,8 +222,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             int erreur = JOptionPane.showConfirmDialog(this ,dr.getText() , title,JOptionPane.OK_CANCEL_OPTION);
             if (erreur == JOptionPane.OK_OPTION)
 		return true;
-
-
+    
 	}else if (dr.isError()){
             JOptionPane.showMessageDialog(this ,dr.getText() , title,JOptionPane.ERROR_MESSAGE);
 
@@ -231,6 +232,12 @@ public class MainDataToolPanel extends javax.swing.JPanel {
 
 	}
         return false;
+    }
+
+    /* affichage des erreurs*/
+    public boolean  displayError(String msgError) {
+        return displayError(new CopexReturn(msgError, false), getBundleString("TITLE_DIALOG_ERROR"));
+
     }
 
     public  ImageIcon getCopexImage(String img){
@@ -1163,6 +1170,67 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         }
         Dataset nds = (Dataset)v.get(0);
         getDataSetTabbedPane().updateDataset(nds, true);
+    }
+
+    /*creation d'une nouvelle table avec un header donné  */
+    private long createDataset(String dsName, String[] headers){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.createDataset(dsName,headers, v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return -1;
+        }
+        Dataset ds = (Dataset)v.get(0);
+        this.listDataSet.add(ds);
+        DataTable dt = new DataTable(this, ds);
+        this.dataSetTabbedPane.addTab(ds.getName(),dt );
+        repaint();
+        return ds.getDbKey() ;
+    }
+    /*creation d'une nouvelle table avec un header donné  */
+    public long createDataset(String dsName, roolo.elo.content.dataset.DataSetHeader header){
+        String headers[] = new String[header.getColumnCount()];
+        List<roolo.elo.content.dataset.DataSetColumn> listColumns = header.getColumns();
+        int nbCol = listColumns.size() ;
+        for (int i=0; i<nbCol; i++){
+            headers[i] = listColumns.get(i).getDescription() ;
+        }
+        return createDataset(dsName, headers);
+    }
+
+     /* ajout d'une ligne de données   */
+    public void addData(long dbKeyDs,roolo.elo.content.dataset.DataSetRow row ){
+        List<String> listValues = row.getValues() ;
+        int nbV = listValues.size() ;
+        Double[] values = new Double[nbV];
+        for (int i=0; i<nbV; i++){
+            double d = 0;
+            try{
+                d = Double.parseDouble(listValues.get(i));
+            }catch(NumberFormatException e){
+                
+            }
+            values[i] = d ;
+        }
+        addData(dbKeyDs, values);
+    }
+
+
+    /* ajout d'une ligne de données   */
+    private void addData(long dbKeyDs, Double[] values){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.addData(dbKeyDs, values,  v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return ;
+        }
+        Dataset nds = (Dataset)v.get(0);
+        int id = getIdDataset(dbKeyDs);
+        if (id != -1){
+            listDataSet.set(id, nds) ;
+        }
+        getDataSetTabbedPane().updateDataset(nds, true);
+        repaint();
     }
 
 }

@@ -840,6 +840,66 @@ public class ControllerApplet implements ControllerInterface{
         return new CopexReturn();
     }
 
+    /* creation d'un dataset avec l'en tete - 1 ligne de données */
+    @Override
+    public CopexReturn createDataset(String name, String[] headers, ArrayList v){
+        int nbCol = headers.length;
+        int nbRows = 1;
+        ArrayList<DataOperation> listOp = new ArrayList();
+        ArrayList<Visualization> listVis = new ArrayList();
+        Data[][] data = new Data[nbRows][nbCol];
+        DataHeader[] tabHeader = new DataHeader[nbCol] ;
+        for (int i=0; i<nbCol; i++){
+            tabHeader[i] = new DataHeader(idDataHeader++, headers[i], i);
+        }
+        // creation ds
+        Dataset ds = new Dataset(idDataSet++, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        this.listDataSet.add(ds);
+        v.add(ds.clone());
+        return new CopexReturn();
+    }
+
+    /* retourne le dataset correspodant - null sinon */
+    private Dataset getDataset(long dbKey){
+        int nb = listDataSet.size() ;
+        for (int i=0; i<nb; i++){
+            if(listDataSet.get(i).getDbKey() == dbKey)
+                return listDataSet.get(i);
+        }
+        return null;
+    }
+    /* ajout d'une ligne de données */
+    @Override
+    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v){
+        Dataset ds = getDataset(dbKeyDs);
+        if (ds == null)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_ADD_DATA"), false);
+        int id = getIdDataset(ds);
+        if(id == -1)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_ADD_DATA"), false);
+        if(values.length != ds.getNbCol())
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_ADD_DATA"), false);
+        ArrayList v2 = new ArrayList();
+        // insertion en avnt derniere position
+        int idBefore = ds.getNbRows();
+        CopexReturn cr = insertData(ds, false, 1, idBefore, v2) ;
+        if(cr.isError())
+            return cr;
+        // créé les valeurs
+        ds = listDataSet.get(id);
+        int idRow = ds.getNbRows() - 2;
+        if (idRow <0)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_ADD_DATA"), false);
+        for (int i=0; i<values.length; i++){
+            v2 = new ArrayList();
+            cr = updateData(ds, idRow, i, values[i], v2);
+            if(cr.isError())
+                return cr;
+        }
+        v.add(listDataSet.get(id).clone());
+        return new CopexReturn() ;
+    }
+
    
 
 }
