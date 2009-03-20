@@ -66,7 +66,7 @@
       <artifactId>javafxrt</artifactId>
       <version>1.1</version>
       <scope>system</scope>
-      <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxrt.jar</systemPath>
+      <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxrt.jars</systemPath>
     </dependency>
     <dependency>
       <groupId>net.java.dev.openjfx</groupId>
@@ -163,19 +163,25 @@
     <dependency>
       <groupId>elo-impl</groupId>
       <artifactId>elo-impl</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.1.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
+      <groupId>elo-api</groupId>
+      <artifactId>elo-api</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
       <groupId>roolo-api</groupId>
       <artifactId>roolo-api</artifactId>
-      <version>0.2.0-SNAPSHOT</version>
+      <version>0.3.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>roolo-mock</groupId>
       <artifactId>roolo-mock</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
