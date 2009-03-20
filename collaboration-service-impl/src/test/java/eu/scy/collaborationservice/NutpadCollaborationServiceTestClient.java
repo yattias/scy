@@ -36,6 +36,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     
     private JTextArea editArea;
     private Action openCSAction = new OpenFromCollaborationServiceAction();
+    private Action clearEditAreaAction = new ClearEditAreaAction();
     private Action saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
     private Action exitAction = new ExitAction();
     
@@ -55,6 +56,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         JToolBar toolBar = new JToolBar();
         toolBar.add(openCSAction);
         toolBar.add(saveToCollaborationServiceAction);
+        toolBar.add(clearEditAreaAction);
         toolBar.addSeparator();
         toolBar.add(exitAction);
         
@@ -62,6 +64,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         editArea = new JTextArea(15, 80);
         editArea.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         editArea.setFont(new Font("monospaced", Font.PLAIN, 14));
+        editArea.setEditable(false);
         JScrollPane scrollingText = new JScrollPane(editArea);
         
      
@@ -127,10 +130,28 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
                
                 sb.append("------ Description: ").append(scyMessage.toString() +"\n");
                 editArea.append(sb.toString());
+                editArea.setCaretPosition(editArea.getText().length());
             }
             
         }
     }
+
+    
+    class ClearEditAreaAction extends AbstractAction {
+        
+        private static final long serialVersionUID = -5599432544551421021L;
+        
+        public ClearEditAreaAction() {
+            super("clear edit area");
+            putValue(MNEMONIC_KEY, new Integer('3'));
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+            //clear textarea
+            editArea.setText("");
+        }
+    }
+
     
     class SaveToCollaborationServiceAction extends AbstractAction {
         
@@ -182,10 +203,8 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
             Date date = new java.util.Date(System.currentTimeMillis());
 
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-
-            
             editArea.append("\n-------- new message --------- " + ts + "\n" + e.getScyMessage().toString());
-            
+            editArea.setCaretPosition(editArea.getText().length());            
         }
         
     }
