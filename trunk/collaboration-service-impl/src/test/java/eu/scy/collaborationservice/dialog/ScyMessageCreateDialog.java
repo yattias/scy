@@ -14,11 +14,9 @@ import net.miginfocom.swing.MigLayout;
 
 public class ScyMessageCreateDialog extends JDialog implements ActionListener {
     
-    
     private JTextField name = new JTextField(25);
     private JTextField id = new JTextField(25);
     private JTextField description = new JTextField(25);
-    
     
     private JTextField userName = new JTextField(25);
     private JTextField toolName = new JTextField(25);
@@ -47,9 +45,9 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
         this.toolName.setText(hardCodedToolName);
         initialize();
     }
-
+    
     public void initialize() {
-       allTextsPanel = new JPanel(new MigLayout());
+        allTextsPanel = new JPanel(new MigLayout());
         
         allTextsPanel.add(new JLabel("name:"));
         allTextsPanel.add(name, "wrap");
@@ -78,21 +76,22 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
         submit.addActionListener(this);
         
         allTextsPanel.add(new JLabel(""));
-        allTextsPanel.add(submit,"right");
+        allTextsPanel.add(submit, "right");
         add(allTextsPanel);
         setResizable(false);
         pack();
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
-    public void actionPerformed(ActionEvent e){
-        if(e.getActionCommand().equals("Submit")){
+    
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Submit")) {
             this.setVisible(false);
         }
     }
     
     public String[] showDialog() {
         setVisible(true);
-        String[] s = { name.getText(), id.getText(), description.getText(), userName.getText(), toolName.getText(), objectType.getText(), to.getText(), from.getText(), messagePurpose.getText(), expiraton.getText(), session.getText()  };
+        String[] s = { name.getText(), id.getText(), description.getText(), userName.getText(), toolName.getText(), objectType.getText(), to.getText(), from.getText(), messagePurpose.getText(), expiraton.getText(), session.getText() };
         return s;
     }
 }
