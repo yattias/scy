@@ -1,6 +1,6 @@
 package eu.scy.awareness;
 
-import eu.scy.awareness.api.IAwarenessUser;
+import eu.scy.awareness.IAwarenessUser;
 
 public class AwarenessUser implements IAwarenessUser {
     
