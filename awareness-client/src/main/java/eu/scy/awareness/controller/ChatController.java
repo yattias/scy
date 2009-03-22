@@ -6,10 +6,10 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 
-import eu.scy.awareness.AwarenessService;
-import eu.scy.awareness.api.IAwarenessEvent;
-import eu.scy.awareness.api.IAwarenessListener;
-import eu.scy.awareness.api.IAwarenessUser;
+import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.impl.AwarenessServiceXMPPImpl;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
@@ -24,7 +24,7 @@ public class ChatController {
     private DefaultListModel buddyList = new DefaultListModel();
     private String password;
     private String username;
-    private AwarenessService awarenessService;
+    private AwarenessServiceXMPPImpl awarenessService;
     private ICollaborationService cs;
     
     public ChatController() {
@@ -35,7 +35,7 @@ public class ChatController {
         this.username = username;
         this.password = password;
 
-         awarenessService = new AwarenessService(); 
+         awarenessService = new AwarenessServiceXMPPImpl(); 
            
          //just working with the collaboration service right now
          //System.out.println("awareness starting");
@@ -109,17 +109,17 @@ public class ChatController {
     }
     
     public void registerChatArea(final JTextArea chatArea) {
-        awarenessService.addAwarenessListener(new IAwarenessListener(){
-
-
-            @Override
-            public void handleAwarenessEvent(IAwarenessEvent e) {
-                String oldText = chatArea.getText();
-                
-                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
-                
-            }});
-        
+//        awarenessService.addAwarenessListener(new IAwarenessPresenceListener(){
+//
+//
+//            @Override
+//            public void handleAwarenessEvent(IAwarenessEvent e) {
+//                String oldText = chatArea.getText();
+//                
+//                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
+//                
+//            }});
+//        
         cs.addCollaborationListener(new ICollaborationServiceListener() {
             
 
