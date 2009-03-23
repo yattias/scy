@@ -212,7 +212,7 @@ public class EloDrawingActionWrapper {
 		}
 		else
 		{
-			elo.getContent().setXml(
+			elo.getContent().setXmlString(
 						jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
@@ -245,7 +245,7 @@ public class EloDrawingActionWrapper {
 				logger.log(Level.WARNING, "failed to create uri", e);
 			}
 			IContent content = eloFactory.createContent();
-			content.setXml(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
+			content.setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			elo.setContent(content);
 			IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
