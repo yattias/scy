@@ -1,8 +1,10 @@
 package eu.scy.awareness;
 
 import eu.scy.awareness.event.IAwarePresenceEvent;
+import eu.scy.awareness.event.IAwarenessEvent;
 import eu.scy.awareness.event.IAwarenessListEvent;
 import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
 
@@ -15,6 +17,15 @@ public class AwarenessServiceLocalTestClient {
    
         try {
             IAwarenessService awarenessService = AwarenessServiceFactory.getAwarenessService(AwarenessServiceFactory.MOCK_STYLE);
+            
+            
+            awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener(){
+
+                @Override
+                public void handleAwarenessMessageEvent(IAwarenessEvent e) {
+                    System.out.println(".handleAwarenessMessageEvent()");
+                    System.out.println( "user: " +e.getUser() + " " + e.getMessage());
+                }});
             
             awarenessService.addAwarenessListListener(new IAwarenessListListener(){
 
@@ -42,6 +53,7 @@ public class AwarenessServiceLocalTestClient {
             awarenessService.setPresence("obama", IAwarePresenceEvent.ONLINE);
             awarenessService.removeBuddy("mccain");
             
+            awarenessService.sendMessage("obama", "howdy!");
             
             
         } catch (AwarenessServiceException e) {
