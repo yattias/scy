@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Locale;
 import org.jdom.JDOMException;
 import org.jdom.output.XMLOutputter;
-import roolo.elo.content.dataset.DataSetRow;
+
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 /**
  *
