@@ -57,10 +57,10 @@ public class SimQuestNode extends CustomNode, Resizable {
 		setScyWindowTitle();
     }
 
-	function setScyWindowTitle(){
+	function setScyWindowTitle(prefix:String){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Dataset: {eloSimQuestWrapper.getDocName()}";
+		scyWindow.title = prefix + eloSimQuestWrapper.getDocName()};
 		var eloUri = eloSimQuestWrapper.getEloUri();
 		if (eloUri != null)
         scyWindow.id = eloUri.toString()
@@ -84,48 +84,46 @@ public class SimQuestNode extends CustomNode, Resizable {
                                     label:"New"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.newAction();
-										setScyWindowTitle();
+										setScyWindowTitle("DataSet: ");
                                     }
                                 }
                                 CommandText{
                                     label:"Load Config"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.loadSimConfigAction();
-                                        setScyWindowTitle();
+                                        setScyWindowTitle("Config: ");
                                     }
                                 }
                                 CommandText{
                                     label:"Save DataSet"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.saveDataSetAction();
-										setScyWindowTitle();
+										setScyWindowTitle("DataSet: ");
                                     }
                                 }
                                 CommandText{
                                     label:"SaveAs DataSet"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.saveAsDataSetAction();
-										setScyWindowTitle();
+										setScyWindowTitle("DataSet: ");
                                     }
                                 }
                                 CommandText{
                                     label:"Save Config"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.saveSimConfigAction();
-										setScyWindowTitle();
+										setScyWindowTitle("Config: ");
                                     }
                                 }
                                 CommandText{
                                     label:"SaveAs Config"
                                     clickAction:function( e: MouseEvent ):Void {
                                         eloSimQuestWrapper.saveAsSimConfigAction();
-										setScyWindowTitle();
+										setScyWindowTitle("Config: ");
                                     }
                                 }
                             ]
                         }
-                        //SwingComponent.wrap(simquestViewer.getUIasJPanel())
-                        //SwingComponent.wrap(new JLabel("blabla"))
                         SwingComponent.wrap(simquestPanel)
                     ]
                 }
