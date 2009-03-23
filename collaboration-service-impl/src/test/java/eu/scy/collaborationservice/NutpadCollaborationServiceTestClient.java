@@ -71,12 +71,8 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         JScrollPane scrollingText = new JScrollPane(editArea);
         
         contentPanel.add(toolBar, BorderLayout.NORTH);
-        contentPanel.add(scrollingText, BorderLayout.CENTER);
-        
-        JMenuBar menuBar = new JMenuBar();
-        
-        setContentPane(contentPanel);
-        
+        contentPanel.add(scrollingText, BorderLayout.CENTER);        
+        setContentPane(contentPanel);        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("NutPad makes you happy");
         setPreferredSize(new Dimension(550, 650));
@@ -95,7 +91,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         try {
             // init the collaboration service
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-            collaborationService.addCollaborationListener(this);            
+            collaborationService.addCollaborationListener(this);
         } catch (CollaborationServiceException e) {
             logger.error("Failed to init collaboration service: " + e);
             e.printStackTrace();
