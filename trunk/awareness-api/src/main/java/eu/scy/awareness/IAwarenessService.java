@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
 /**
@@ -62,6 +63,14 @@ public interface IAwarenessService {
      * @param awarenessListListener
      */
     public void addAwarenessListListener(IAwarenessListListener awarenessListListener);
+    
+    
+    /**
+     * adds a message listener
+     * 
+     * @param awarenessListListener
+     */
+    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener);
     
     /**
      * Add buddy
