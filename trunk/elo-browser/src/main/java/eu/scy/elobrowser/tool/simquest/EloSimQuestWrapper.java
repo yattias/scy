@@ -50,6 +50,7 @@ public class EloSimQuestWrapper {
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
+    private IMetadataKey usesRelationKey;
     private IMetadataKey authorKey;
     private JDomStringConversion jdomStringConversion = new JDomStringConversion();
     private DataCollector dataCollector;
@@ -103,6 +104,8 @@ public class EloSimQuestWrapper {
         logger.info("retrieved key " + dateCreatedKey.getId());
         missionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId());
         logger.info("retrieved key " + missionKey.getId());
+        usesRelationKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.RELATION_USES.getId());
+        logger.info("retrieved key " + usesRelationKey.getId());
         authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
         logger.info("retrieved key " + authorKey.getId());
     }
@@ -196,7 +199,7 @@ public class EloSimQuestWrapper {
         if (eloDataSet == null) {
             saveAsDataSetAction();
         } else {
-            eloDataSet.getContent().setXml(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
+            eloDataSet.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
             IMetadata<IMetadataKey> resultMetadata = repository.updateELO(eloDataSet);
             eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
         }
@@ -219,11 +222,17 @@ public class EloSimQuestWrapper {
                         new URI("roolo://somewhere/myMission.mission"));
                 eloDataSet.getMetadata().getMetadataValueContainer(authorKey).setValue(
                         new Contribute("my vcard", System.currentTimeMillis()));
+                if (eloSimConfig!=null) {
+                    eloDataSet.getMetadata().getMetadataValueContainer(usesRelationKey).setValue(eloSimConfig.getUri());
+                }
             } catch (URISyntaxException e) {
                 logger.log(Level.WARNING, "failed to create uri", e);
             }
+
+            
+
             IContent content = eloFactory.createContent();
-            content.setXml(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
+            content.setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
             eloDataSet.setContent(content);
             IMetadata<IMetadataKey> resultMetadata = repository.addELO(eloDataSet);
             eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
@@ -238,7 +247,7 @@ public class EloSimQuestWrapper {
         if (eloSimConfig == null) {
             saveAsDataSetAction();
         } else {
-            eloSimConfig.getContent().setXml(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
+            eloSimConfig.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
             IMetadata<IMetadataKey> resultMetadata = repository.updateELO(eloSimConfig);
             eloFactory.updateELOWithResult(eloSimConfig, resultMetadata);
         }
@@ -265,7 +274,7 @@ public class EloSimQuestWrapper {
                 logger.log(Level.WARNING, "failed to create uri", e);
             }
             IContent content = eloFactory.createContent();
-            content.setXml(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
+            content.setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
             eloSimConfig.setContent(content);
             IMetadata<IMetadataKey> resultMetadata = repository.addELO(eloSimConfig);
             eloFactory.updateELOWithResult(eloSimConfig, resultMetadata);
