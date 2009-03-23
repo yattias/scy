@@ -11,13 +11,12 @@ import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
-import roolo.elo.content.dataset.DataSetHeader;
-import roolo.elo.content.dataset.DataSetRow;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
