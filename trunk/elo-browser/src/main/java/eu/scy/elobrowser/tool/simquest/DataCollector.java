@@ -1,6 +1,10 @@
 package eu.scy.elobrowser.tool.simquest;
 
 import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -27,11 +31,6 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.RooloMetadataKeys;
-import roolo.elo.content.DataSetContent;
-import roolo.elo.content.dataset.DataSet;
-import roolo.elo.content.dataset.DataSetColumn;
-import roolo.elo.content.dataset.DataSetHeader;
-import roolo.elo.content.dataset.DataSetRow;
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
@@ -204,22 +203,22 @@ public class DataCollector extends JPanel implements ActionListener,
         repository = toolBroker.getRepository();
     }
 
-    private IELO<IMetadataKey> createELO() {
-        IELO<IMetadataKey> elo = eloFactory.createELO();
-        fillMetadata(elo);
-        elo.setContent(createContent());
-        System.out.println(elo.getXml().toString());
-        // updateEloWithNewMetadata(elo, eloMetadata);
-        // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
-        return elo;
-    }
+//    private IELO<IMetadataKey> createELO() {
+//        IELO<IMetadataKey> elo = eloFactory.createELO();
+//        fillMetadata(elo);
+//        elo.setContent(createContent());
+//        System.out.println(elo.getXml().toString());
+//        // updateEloWithNewMetadata(elo, eloMetadata);
+//        // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
+//        return elo;
+//    }
 
-    private IContent createContent() {
-        IContent content = new DataSetContent();
-        content.setXml(new JDomStringConversion().xmlToString(dataset.toXML()));
-        content.setLanguages(dataset.getLanguages());
-        return content;
-    }
+//    private IContent createContent() {
+//        IContent content = new DataSetContent();
+//        content.setXml(new JDomStringConversion().xmlToString(dataset.toXML()));
+//        content.setLanguages(dataset.getLanguages());
+//        return content;
+//    }
 
     public DataSet getDataSet() {
         return dataset;
