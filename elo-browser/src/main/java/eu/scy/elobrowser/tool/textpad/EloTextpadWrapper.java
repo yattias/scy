@@ -185,7 +185,7 @@ public class EloTextpadWrapper {
         if (elo == null) {
             saveAsTextpadAction();
         } else {
-            elo.getContent().setXml(textarea.getText());
+            elo.getContent().setXmlString(textarea.getText());
             IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
             eloFactory.updateELOWithResult(elo, resultMetadata);
         }
@@ -212,7 +212,7 @@ public class EloTextpadWrapper {
                 logger.log(Level.WARNING, "failed to create uri", e);
             }
             IContent content = eloFactory.createContent();
-            content.setXml(textarea.getText());
+            content.setXmlString(textarea.getText());
             elo.setContent(content);
             IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
             eloFactory.updateELOWithResult(elo, resultMetadata);
