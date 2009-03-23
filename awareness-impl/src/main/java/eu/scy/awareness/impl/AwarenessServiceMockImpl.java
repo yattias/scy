@@ -8,17 +8,20 @@ import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.AwarenessEvent;
 import eu.scy.awareness.event.AwarenessListEvent;
 import eu.scy.awareness.event.AwarenessPresenceEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessListEvent;
 import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
 public class AwarenessServiceMockImpl implements IAwarenessService {
     
     private List<IAwarenessListListener> awarenessListListeners = new ArrayList<IAwarenessListListener>();
     private List<IAwarenessPresenceListener> awarenessPresenceListeners = new ArrayList<IAwarenessPresenceListener>();
+    private List<IAwarenessMessageListener> awarenessMessageListeners = new ArrayList<IAwarenessMessageListener>();
     private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
     
     public AwarenessServiceMockImpl() {
@@ -37,6 +40,11 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     @Override
     public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
         this.awarenessPresenceListeners.add(awarenessPresenceListener);
+    }
+    
+    @Override
+    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener) {
+        this.awarenessMessageListeners.add(awarenessMessageListener);
     }
     
     @Override
@@ -95,9 +103,13 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     }
     
     @Override
-    public void sendMessage(String recipient, String message) throws AwarenessServiceException {
-    // TODO Auto-generated method stub
-    
+    public void sendMessage(String username, String message) throws AwarenessServiceException {
+        //pretend to send message quick and dirty 
+        
+        //tell every one that a message was send
+        for (IAwarenessMessageListener ll : awarenessMessageListeners) {
+            ll.handleAwarenessMessageEvent(new AwarenessEvent(this, username, message));
+        }
     }
     
     @Override
@@ -139,5 +151,5 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
         }
         
     }
-    
+
 }

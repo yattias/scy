@@ -22,6 +22,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.AwarenessEvent;
 import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
 
@@ -175,6 +176,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     @Override
     public void setPresence(String username, String presence) throws AwarenessServiceException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessListListener) {
         // TODO Auto-generated method stub
         
     }
