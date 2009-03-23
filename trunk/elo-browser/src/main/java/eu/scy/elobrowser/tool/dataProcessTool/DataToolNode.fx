@@ -9,7 +9,6 @@ package eu.scy.elobrowser.tool.dataProcessTool;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.dataProcessTool.EloDataToolWrapper;
 import eu.scy.scywindows.ScyWindow;
-import java.awt.Dimension;
 import java.net.URI;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
