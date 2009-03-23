@@ -15,7 +15,7 @@ import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.MetadataSingleLanguageValueAccessor;
-import roolo.elo.content.StringContent;
+import roolo.elo.content.BasicContent;
 
 /**
  *
@@ -83,7 +83,7 @@ public class BasicMappingElo implements MappingElo,Cloneable
 	@Override
 	public IELO getElo()
 	{
-		elo.setContent(new StringContent(xmlMetadataDisplayMappingConverter.toXmlString(metadataDisplayMapping)));
+		elo.setContent(new BasicContent(xmlMetadataDisplayMappingConverter.toXmlString(metadataDisplayMapping)));
 		return elo;
 	}
 
