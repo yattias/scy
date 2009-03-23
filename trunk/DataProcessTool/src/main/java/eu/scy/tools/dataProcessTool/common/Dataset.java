@@ -5,6 +5,10 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.controller.ScyMath;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
 import java.util.ArrayList;
@@ -16,10 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
-import roolo.elo.content.dataset.DataSet;
-import roolo.elo.content.dataset.DataSetColumn;
-import roolo.elo.content.dataset.DataSetHeader;
-import roolo.elo.content.dataset.DataSetRow;
 
 /**
  * données + operations
@@ -277,19 +277,19 @@ public class Dataset implements Cloneable{
         // creation of the ELO
         // DATASET
         // headers
-        List<roolo.elo.content.dataset.DataSetHeader> headers = new LinkedList<roolo.elo.content.dataset.DataSetHeader>() ;
+        List<DataSetHeader> headers = new LinkedList<DataSetHeader>() ;
         List<DataSetColumn> variables = new LinkedList<DataSetColumn>();
         for (int j=0; j<nbC; j++){
             DataSetColumn dsCol = new DataSetColumn(getDataHeader(j) == null ?"" : getDataHeader(j).getValue(), "", "double") ;
             variables.add(dsCol);
         }
-        roolo.elo.content.dataset.DataSetHeader header = new DataSetHeader(variables, locale);
+        DataSetHeader header = new DataSetHeader(variables, locale);
         headers.add(header);
         // rows
         List<eu.scy.tools.dataProcessTool.pdsELO.Data> listIgnoredData = new LinkedList<eu.scy.tools.dataProcessTool.pdsELO.Data>();
 
         // => dataset
-        roolo.elo.content.dataset.DataSet ds = new DataSet(headers);
+        DataSet ds = new DataSet(headers);
 
         for (int i=0; i<nbR; i++){
             List<String> values = new LinkedList<String>();

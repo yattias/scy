@@ -6,6 +6,10 @@
 package eu.scy.tools.dataProcessTool.controller;
 
 import java.util.ArrayList;
+
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.db.*;
 import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
@@ -188,12 +192,12 @@ public class ControllerAppletDB implements ControllerInterface{
     }
 
    /* retourne un dataset construit à partir d'un ELO dataset */
-    private Dataset getDataset(roolo.elo.content.dataset.DataSet eloDs, String name){
+    private Dataset getDataset(DataSet eloDs, String name){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
         ArrayList<Visualization> listVisualization = new ArrayList();
         // header
-        roolo.elo.content.dataset.DataSetHeader header =  eloDs.getHeader(getLocale()) ;
+        DataSetHeader header =  eloDs.getHeader(getLocale()) ;
         if (header == null)
             header = eloDs.getHeaders().get(0);
         int nbCols = header.getColumnCount() ;
@@ -202,7 +206,7 @@ public class ControllerAppletDB implements ControllerInterface{
             dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), i) ;
         }
         // data
-        List<roolo.elo.content.dataset.DataSetRow> listRows = eloDs.getValues() ;
+        List<DataSetRow> listRows = eloDs.getValues() ;
         int nbRows = listRows.size() ;
         Data[][] data = new Data[nbRows][nbCols];
         for (int i=0; i<nbRows; i++){
@@ -745,9 +749,9 @@ public class ControllerAppletDB implements ControllerInterface{
         String name = "ELO";
         Dataset ds;
         if (isDatasetType(xmlString)){
-            roolo.elo.content.dataset.DataSet eloDs ;
+            DataSet eloDs ;
             try{
-            eloDs = new roolo.elo.content.dataset.DataSet(xmlString) ;
+            eloDs = new DataSet(xmlString) ;
             }catch(JDOMException e){
                 return new CopexReturn(""+e, false);
             }
@@ -775,8 +779,8 @@ public class ControllerAppletDB implements ControllerInterface{
         ArrayList<DataOperation> listOperation = new ArrayList();
         ArrayList<Visualization> listVisualization = new ArrayList();
         // header
-        roolo.elo.content.dataset.DataSet eloDs = eloPDS.getDataset();
-        roolo.elo.content.dataset.DataSetHeader header =  eloDs.getHeader(getLocale()) ;
+        DataSet eloDs = eloPDS.getDataset();
+        DataSetHeader header =  eloDs.getHeader(getLocale()) ;
         if (header == null)
             header = eloDs.getHeaders().get(0);
         int nbCols = header.getColumnCount() ;
@@ -785,7 +789,7 @@ public class ControllerAppletDB implements ControllerInterface{
             dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), i) ;
         }
         // data
-        List<roolo.elo.content.dataset.DataSetRow> listRows = eloDs.getValues() ;
+        List<DataSetRow> listRows = eloDs.getValues() ;
         int nbRows = listRows.size() ;
         Data[][] data = new Data[nbRows][nbCols];
         for (int i=0; i<nbRows; i++){

@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import roolo.elo.content.dataset.*;
+
+import eu.scy.elo.contenttype.dataset.DataSet;
 import roolo.elo.JDomStringConversion ;
 
 /**
