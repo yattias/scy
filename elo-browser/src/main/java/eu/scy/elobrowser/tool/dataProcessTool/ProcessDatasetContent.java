@@ -83,7 +83,7 @@ public class ProcessDatasetContent implements IContent, Cloneable {
     }
 
     @Override
-    public void setXml(String arg0) {
+    public void setXmlString(String arg0) {
         try {
             pds = new ProcessedDatasetELO(arg0);
         } catch (JDOMException e) {
@@ -103,6 +103,11 @@ public class ProcessDatasetContent implements IContent, Cloneable {
 
     @Override
     public long getSize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getXmlString() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
