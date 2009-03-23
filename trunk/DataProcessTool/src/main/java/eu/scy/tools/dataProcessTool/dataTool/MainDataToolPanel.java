@@ -11,6 +11,9 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.db.ScyApplet;
 import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.controller.ControllerApplet;
@@ -1195,9 +1198,9 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         return ds.getDbKey() ;
     }
     /*creation d'une nouvelle table avec un header donné  */
-    public long createDataset(String dsName, roolo.elo.content.dataset.DataSetHeader header){
+    public long createDataset(String dsName, DataSetHeader header){
         String headers[] = new String[header.getColumnCount()];
-        List<roolo.elo.content.dataset.DataSetColumn> listColumns = header.getColumns();
+        List<DataSetColumn> listColumns = header.getColumns();
         int nbCol = listColumns.size() ;
         for (int i=0; i<nbCol; i++){
             headers[i] = listColumns.get(i).getDescription() ;
@@ -1206,7 +1209,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     }
 
      /* ajout d'une ligne de données   */
-    public void addData(long dbKeyDs,roolo.elo.content.dataset.DataSetRow row ){
+    public void addData(long dbKeyDs,DataSetRow row ){
         List<String> listValues = row.getValues() ;
         int nbV = listValues.size() ;
         Double[] values = new Double[nbV];
