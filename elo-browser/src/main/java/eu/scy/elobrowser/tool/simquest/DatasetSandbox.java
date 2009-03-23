@@ -5,10 +5,14 @@ import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import roolo.elo.JDomStringConversion;
-import roolo.elo.content.dataset.DataSetRow;
 
 /**
  *
@@ -27,13 +31,20 @@ public class DatasetSandbox {
         sendDataRows();
     }
 
-    void clear() {
-        //TODO empty the session
+    public void clear() {
+        List<IScyMessage> messages = collaborationService.synchronizeClientState("simulator", SESSIONID);
+        for(IScyMessage message : messages) {
+            System.out.println("DatasetSandbax deleting: "+message.getId());
+            try {
+                collaborationService.delete(message.getId());
+            } catch (CollaborationServiceException ex) {
+                Logger.getLogger(DatasetSandbox.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        collaborationService.synchronizeClientState("simulator", SESSIONID);
     }
 
     private void send(IScyMessage message) {
@@ -57,7 +68,7 @@ public class DatasetSandbox {
         IScyMessage datarowmessage = ScyMessage.createScyMessage(
                 "lars@simulator",  //username
                 "simulator", //toolName
-                "1234", //id
+                UUID.randomUUID().toString(), //id
                 "datasetrow", //objectType
                 "some name", //name
                 new JDomStringConversion().xmlToString(row.toXML()), //description
@@ -74,7 +85,7 @@ public class DatasetSandbox {
         IScyMessage headermessage = ScyMessage.createScyMessage(
                 "lars@simulator",  //username
                 "simulator", //toolName
-                "1234", //id
+                UUID.randomUUID().toString(), //id
                 "datasetheader", //objectType
                 "some name", //name
                 new JDomStringConversion().xmlToString(datacollector.getDataSet().getHeader(Locale.ENGLISH).toXML()), //description
