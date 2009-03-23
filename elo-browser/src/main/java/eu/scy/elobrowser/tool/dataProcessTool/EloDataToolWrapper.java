@@ -219,7 +219,7 @@ public class EloDataToolWrapper {
 		}
 		else
 		{
-			elo.getContent().setXml(jdomStringConversion.xmlToString(dataToolPanel.getPDS()));
+			elo.getContent().setXmlString(jdomStringConversion.xmlToString(dataToolPanel.getPDS()));
 			IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
 		}
@@ -251,7 +251,7 @@ public class EloDataToolWrapper {
 				logger.log(Level.WARNING, "failed to create uri", e);
 			}
 			IContent content = eloFactory.createContent();
-			content.setXml(jdomStringConversion.xmlToString(dataToolPanel.getPDS()));
+			content.setXmlString(jdomStringConversion.xmlToString(dataToolPanel.getPDS()));
 			elo.setContent(content);
 			IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
