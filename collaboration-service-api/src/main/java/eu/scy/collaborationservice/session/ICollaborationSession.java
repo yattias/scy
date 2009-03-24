@@ -1,4 +1,4 @@
-package eu.scy.collaborationservice;
+package eu.scy.collaborationservice.session;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
