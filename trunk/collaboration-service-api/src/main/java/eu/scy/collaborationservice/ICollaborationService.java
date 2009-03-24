@@ -3,6 +3,7 @@ package eu.scy.collaborationservice;
 import java.util.ArrayList;
 
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.message.IScyMessage;
 
 
@@ -109,8 +110,5 @@ public interface ICollaborationService {
      * @return ICollaborationSession
      */
     public ICollaborationSession createSession(String toolName, String userName);
-    
-    
-    
     
 }
