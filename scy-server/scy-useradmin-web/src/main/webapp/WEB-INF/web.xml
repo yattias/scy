@@ -34,11 +34,11 @@
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            /WEB-INF/applicationContext-roolo.xml,
+            <!--/WEB-INF/applicationContext-roolo.xml,-->
             /WEB-INF/loginservice-beans.xml,
-            /WEB-INF/applicationContext-colemo.xml,
-            /WEB-INF/applicationContext-userSessionBeans.xml,
-            /WEB-INF/sail-users.xml,
+            <!--/WEB-INF/applicationContext-colemo.xml,-->
+            <!--/WEB-INF/applicationContext-userSessionBeans.xml,-->
+            <!--/WEB-INF/sail-users.xml,-->
             classpath:/applicationContext-modelBeans.xml
         </param-value>
     </context-param>
@@ -90,23 +90,23 @@
 		- Dispatcher servlet definition for HTTP remoting via Hessian, Burlap, and
 		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
 	-->
-	<servlet>
+	<!--servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet-->
 
 	<!--
 		- Dispatcher servlet mapping for HTTP remoting via Hessian, Burlap, and
 		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
 	-->
-	<servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/remoting/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 
 
-    <servlet>
+    <!--servlet>
         <servlet-name>AjaxServlet</servlet-name>
         <servlet-class>org.apache.activemq.web.AjaxServlet</servlet-class>
     </servlet>
@@ -114,7 +114,7 @@
     <servlet-mapping>
         <servlet-name>AjaxServlet</servlet-name>
         <url-pattern>/amq/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping-->
 
 
     <!-- LISTENERS -->
@@ -131,13 +131,13 @@
         <listener-class>eu.scy.listeners.ColemoStartupListener</listener-class>
     </listener-->
 
-    <listener>
+    <!--listener>
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
     </listener>
 
     <listener>
         <listener-class>eu.scy.listeners.SQLSpaceStartupListener</listener-class>
-    </listener> 
+    </listener--> 
 
 
     <resource-ref>

@@ -38,8 +38,7 @@ public class EditUserPage extends ScyModelPage {
 
 
     public Boolean getDisabled() {
-        if(getUser().getEnabled() == null || getUser().getEnabled().equals("0") ) return true;
-        return false;
+        return getUser().getUserDetails().isEnabled();
     }
 }
 
