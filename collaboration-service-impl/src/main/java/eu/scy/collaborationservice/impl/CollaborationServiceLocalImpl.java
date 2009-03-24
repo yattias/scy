@@ -109,4 +109,10 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
         return null;
     }
     
+    @Override
+    public ICollaborationSession joinSession(String session, String userName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }
