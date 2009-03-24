@@ -18,7 +18,7 @@
 	
 	<!-- Begin Agent Definitions -->
 	<bean name="dispatcher" class="eu.scy.agents.impl.elo.ELOAgentDispatcher">
-		<property name="repository" ref="mockRepository" />
+		<!--property name="repository" ref="mockRepository" /-->
 		<property name="beforeAgents">
 			<list>
 				<!-- <ref bean="graphConverterAgent" />  -->
@@ -29,7 +29,7 @@
 		<property name="afterAgents">
 			<list>
 				<!--<ref bean="testAfterAgent" /> -->
-				<ref bean="misspellingProcessEloAgent" />
+				<!--ref bean="misspellingProcessEloAgent" /-->
 			</list>
 		</property>
 		<property name="notificationAgents">
@@ -47,9 +47,9 @@
 	<!--<bean name="testAfterAgent" class="eu.scy.agents.roolo.elo.TestAfterAgent">
 	</bean>-->
 
-	<bean name="misspellingNotificationAgent"
+	<!--bean name="misspellingNotificationAgent"
 		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent">
-	</bean>
+	</beanmisspellingProcessEloAgent-->
 
 	<!-- <bean name="drawAnalyserAgent" class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
 		<property name="formatKey" ref="formatKey" />
@@ -62,9 +62,9 @@
 		<property name="tagPointerCountKey" ref="tagPointerCountKey" />
 	</bean>  -->
 
-	<bean name="misspellingAgent" class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" />
+	<!--bean name="misspellingAgent" class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" /-->
 
-	<bean name="misspellingProcessEloAgent" class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO" /> 
+	<!--bean name="misspellingProcessEloAgent" class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO" /--> 
 
 <!-- End Agent Definitions! -->
 
