@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
 
 
 /**
@@ -100,5 +99,18 @@ public interface ICollaborationService {
      * @return
      */
     public ArrayList<IScyMessage> synchronizeClientState(String toolName, String session);
+    
+    
+    /**
+     * Creates and returns an instance of ICollaborationSession
+     * 
+     * @param toolName - name of tool
+     * @param userName - user name
+     * @return ICollaborationSession
+     */
+    public ICollaborationSession createSession(String toolName, String userName);
+    
+    
+    
     
 }
