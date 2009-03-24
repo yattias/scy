@@ -5,6 +5,7 @@ import eu.scy.core.persistence.hibernate.UserSessionDAOHibernate;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.security.auth.login.LoginException;
 import java.util.logging.Logger;
 
 /**
@@ -25,12 +26,13 @@ public class AuthenticationHandler {
     public void setUserSessionManagerDAO(UserSessionDAOHibernate userSessionManagerDAO) {
         this.userSessionManagerDAO = userSessionManagerDAO;
     }
-     */
+    */
 
     @WebMethod(operationName = "login" )
     public String login(String userName, String password) {
-        log.info("Logging in : " + userName);
-        //userSessionManagerDAO.loginUser();
+        log.info("----- --------  Logging in : " + userName);
+
+            //userSessionManagerDAO.loginUser(userName, password);
         return "";
 
     }
