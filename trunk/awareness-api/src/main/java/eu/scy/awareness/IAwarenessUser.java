@@ -1,5 +1,11 @@
 package eu.scy.awareness;
 
+/**
+ * Temporay user for aware service
+ * 
+ * @author anthonyp
+ *
+ */
 public interface IAwarenessUser {
 
     public void setUsername(String username) ;
