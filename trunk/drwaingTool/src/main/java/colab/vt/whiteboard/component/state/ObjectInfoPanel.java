@@ -1,7 +1,6 @@
 package colab.vt.whiteboard.component.state;
 
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;

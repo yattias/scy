@@ -15,7 +15,6 @@ import colab.vt.whiteboard.component.WhiteboardContainer;
 public class DragScaleAction extends AbstractDragEditAction
 {
 	private static final long serialVersionUID = -5619656756065989132L;
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(DragScaleAction.class.getName());
 
 	private class ScaleState

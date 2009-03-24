@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.security.AccessControlException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -49,7 +47,6 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 			WhiteboardContainerChangedListener, WhiteboardContainerListChangedListener
 {
 	private static final long serialVersionUID = 3865830959160769161L;
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(WhiteboardApp.class.getName());
 
 	private JMenuItem helpMenuItem;
@@ -509,42 +506,6 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 	{
 		// TODO Auto-generated method stub
 
-	}
-
-	private String xmlToString(Element element)
-	{
-		StringWriter stringWriter = new StringWriter();
-		long startTime = System.currentTimeMillis();
-		try
-		{
-			xmlOutputter.output(element, stringWriter);
-		}
-		catch (IOException e)
-		{
-			logger.log(Level.WARNING, "problems converting jdom status to string", e);
-		}
-		long outputterTime = System.currentTimeMillis();
-		String xmlString = stringWriter.toString();
-		long stringTime = System.currentTimeMillis();
-		long outputterMillis = outputterTime - startTime;
-		long stringMillis = stringTime - outputterTime;
-		// System.out.println("outputter:" + outputterMillis + ", toString:" + stringMillis);
-		return xmlString;
-	}
-
-	private Element stringToXml(String string)
-	{
-		StringReader stringReader = new StringReader(string);
-		try
-		{
-			Document doc = builder.build(stringReader);
-			return doc.getRootElement();
-		}
-		catch (Exception e)
-		{
-			logger.log(Level.WARNING, "problems converting string status to jdom", e);
-			return null;
-		}
 	}
 
 }

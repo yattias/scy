@@ -29,7 +29,6 @@ import colab.vt.whiteboard.component.WhiteboardContainer;
 public class ContainerInfoPanel extends javax.swing.JPanel implements ChangeListener
 {
 	private static final long serialVersionUID = 932890035330093654L;
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ContainerInfoPanel.class.getName());
 
 	private WhiteboardContainer whiteboardContainer = null;

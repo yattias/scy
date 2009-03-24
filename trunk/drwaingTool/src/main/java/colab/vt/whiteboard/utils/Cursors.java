@@ -68,11 +68,8 @@ public class Cursors
 			}
 			return image;
 		}
-		else
-		{
-			// System.out.println("Failed to find url for " + name);
-			return null;
-		}
+		// System.out.println("Failed to find url for " + name);
+		return null;
 	}
 
 	public static String getCursorLocation()
