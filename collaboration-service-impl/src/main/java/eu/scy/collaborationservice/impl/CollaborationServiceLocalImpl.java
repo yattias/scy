@@ -6,6 +6,7 @@ import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
@@ -100,6 +101,12 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
         IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
         return this.scyCommunicationAdapter.doQuery(scyMessage);
+    }
+
+    @Override
+    public ICollaborationSession createSession(String toolName, String userName) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
