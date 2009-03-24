@@ -1,6 +1,5 @@
 package eu.scy.client.tools.drawing;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,7 +30,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
-
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
@@ -44,6 +42,7 @@ public class EloDrawingPanel extends JPanel
 	private static final String scyDrawType = "scy/drawing";
 
 	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+	@SuppressWarnings("unused")
 	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
 	private IELOFactory<IMetadataKey> eloFactory;
 	private IMetadataKey uriKey;
@@ -57,6 +56,7 @@ public class EloDrawingPanel extends JPanel
 	private WhiteboardPanel whiteboardPanel;
 	private String docName = "untitiled";
 	private IELO<IMetadataKey> elo = null;
+	@SuppressWarnings("unused")
 	private boolean whiteboardChanged = false;
 	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
 
@@ -126,8 +126,7 @@ public class EloDrawingPanel extends JPanel
 	{
 		if (elo == null)
 			return null;
-		else
-			return (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH);
+		return (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH);
 	}
 
 	private void setDocName(String docName)
@@ -175,17 +174,17 @@ public class EloDrawingPanel extends JPanel
 						.toString();
 			if (!scyDrawType.equals(eloType))
 				throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
-			IMetadata metadata = newElo.getMetadata();
+			IMetadata<IMetadataKey> metadata = newElo.getMetadata();
 			IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
 			// TODO fixe the locale problem!!!
-			Object titleObject = metadataValueContainer.getValue();
-			Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
+//			Object titleObject = metadataValueContainer.getValue();
+//			Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
 			Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
 			
 			setDocName(titleObject3.toString());
 			whiteboardPanel.deleteAllWhiteboardContainers();
 			whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
-						.getXml()));
+						.getXmlString()));
 			elo = newElo;
 			sendELOLoadedChangedListener();
 		}
@@ -200,7 +199,7 @@ public class EloDrawingPanel extends JPanel
 		}
 		else
 		{
-			elo.getContent().setXml(
+			elo.getContent().setXmlString(
 						jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
@@ -233,7 +232,7 @@ public class EloDrawingPanel extends JPanel
 				logger.log(Level.WARNING, "failed to create uri", e);
 			}
 			IContent content = eloFactory.createContent();
-			content.setXml(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
+			content.setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			elo.setContent(content);
 			IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);

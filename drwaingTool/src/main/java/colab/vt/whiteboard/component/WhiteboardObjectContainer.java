@@ -41,8 +41,7 @@ public class WhiteboardObjectContainer extends AbstractWhiteboardContainer
 					event.getY()));
 		if (tooltipText != null)
 			return tooltipText;
-		else
-			return super.getToolTipText(event);
+		return super.getToolTipText(event);
 	}
 
 	@Override

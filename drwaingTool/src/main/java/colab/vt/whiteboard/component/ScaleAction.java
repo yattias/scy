@@ -2,17 +2,14 @@ package colab.vt.whiteboard.component;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.logging.Logger;
 
 public abstract class ScaleAction extends SimpleSelectionAction
 {
 	private static final long serialVersionUID = 8552498781649511783L;
 
-	private final double maximumDelta = 0.1;
-	private final int maximumIterations = 10;
+//	private final double maximumDelta = 0.1;
+//	private final int maximumIterations = 10;
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ScaleAction.class.getName());
@@ -20,17 +17,17 @@ public abstract class ScaleAction extends SimpleSelectionAction
 	private Cursor moveCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
 
 	// move values
-	private int xBegin;
-	private int yBegin;
-	private double xOffset;
-	private double yOffset;
+//	private int xBegin;
+//	private int yBegin;
+//	private double xOffset;
+//	private double yOffset;
 	// scale values
 	private double initialXScale;
 	private double initialYScale;
-	private Rectangle2D objectRectangle;
+//	private Rectangle2D objectRectangle;
 	private double centerX = 0;
 	private double centerY = 0;
-	private Point2D transformedCenter;
+//	private Point2D transformedCenter;
 	private double initialXLength = 1;
 	private double initialYLength = 1;
 
@@ -56,7 +53,7 @@ public abstract class ScaleAction extends SimpleSelectionAction
 		// scale values
 		initialXScale = whiteboardContainer.getXScale();
 		initialYScale = whiteboardContainer.getYScale();
-		objectRectangle = whiteboardContainer.getContentBounds();
+//		objectRectangle = whiteboardContainer.getContentBounds();
 //		centerX = objectRectangle.getCenterX() + whiteboardObjectContainer.getXOffset();
 //		centerY = objectRectangle.getCenterY() + whiteboardObjectContainer.getYOffset();
 //		transformedCenter = getScaledCenterPoint(initialXScale, initialYScale);
@@ -92,22 +89,22 @@ public abstract class ScaleAction extends SimpleSelectionAction
 		return true;
 	}
 
-	private Point2D getScaledCenterPoint(double scaleX, double scaleY)
-	{
-		AffineTransform affineTransform = new AffineTransform();
-		affineTransform.scale(scaleX, scaleY);
-		Point2D point = new Point2D.Double(centerX, centerY);
-		Point2D transformedPoint = new Point2D.Double();
-		affineTransform.transform(point, transformedPoint);
-		return transformedPoint;
-	}
-
-	private Point2D transformPoint(AffineTransform affineTransform, Point2D point2D, String label)
-	{
-		Point2D transformedPoint = new Point2D.Double();
-		affineTransform.transform(point2D, transformedPoint);
-		System.out.println(label + "=" + transformedPoint);
-		return transformedPoint;
-	}
+//	private Point2D getScaledCenterPoint(double scaleX, double scaleY)
+//	{
+//		AffineTransform affineTransform = new AffineTransform();
+//		affineTransform.scale(scaleX, scaleY);
+//		Point2D point = new Point2D.Double(centerX, centerY);
+//		Point2D transformedPoint = new Point2D.Double();
+//		affineTransform.transform(point, transformedPoint);
+//		return transformedPoint;
+//	}
+//
+//	private Point2D transformPoint(AffineTransform affineTransform, Point2D point2D, String label)
+//	{
+//		Point2D transformedPoint = new Point2D.Double();
+//		affineTransform.transform(point2D, transformedPoint);
+//		System.out.println(label + "=" + transformedPoint);
+//		return transformedPoint;
+//	}
 
 }

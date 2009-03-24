@@ -29,7 +29,6 @@ public class DrawingApp extends SingleFrameApplication implements
 
 	private JMenuBar menuBar;
 	private JMenuItem newDrawingMenuItem;
-	private JMenuItem closeDrawingMenuItem;
 	private JMenuItem saveAsDrawingMenuItem;
 	private JMenuItem saveDrawingMenuItem;
 	private JMenuItem loadDrawingMenuItem;

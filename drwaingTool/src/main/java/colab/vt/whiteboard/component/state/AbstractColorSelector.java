@@ -31,6 +31,7 @@ public abstract class AbstractColorSelector extends AbstractStateSelector
 		super(whiteboardPanel, length);
 	}
 
+	@Override
 	public Element getStatus()
 	{
 		Element status = super.getStatus();
@@ -38,6 +39,7 @@ public abstract class AbstractColorSelector extends AbstractStateSelector
 		return status;
 	}
 
+	@Override
 	public void setStatus(Element status)
 	{
 		super.setStatus(status);

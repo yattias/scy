@@ -206,14 +206,11 @@ public class TagPointerAction extends SimpleShapeAction implements PopupMenuList
 			TagDefinition tagDef = new TagDefinition(tag, color, tooltip);
 			return new TagLevel(name, tagDef);
 		}
-		else
-		{
-			// it contains a list of tagLevels
-			Color color = XmlUtils.getColorValueFromXmlTag(tagLevel, XmlNames.color);
-			String tooltip = tagLevel.getChildText(XmlNames.tooltip);
-			List<TagLevel> tagLevels = setTagLevels(tagLevel);
-			return new TagLevel(name, color, tooltip, tagLevels);
-		}
+		// it contains a list of tagLevels
+		Color color = XmlUtils.getColorValueFromXmlTag(tagLevel, XmlNames.color);
+		String tooltip = tagLevel.getChildText(XmlNames.tooltip);
+		List<TagLevel> tagLevels = setTagLevels(tagLevel);
+		return new TagLevel(name, color, tooltip, tagLevels);
 	}
 
 	@Override
