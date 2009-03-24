@@ -36,6 +36,7 @@
             /WEB-INF/applicationContext-hibernate.xml,
             <!--/WEB-INF/applicationContext-roolo.xml,-->
             /WEB-INF/loginservice-beans.xml,
+            /WEB-INF/applicationContext-mobileRepositoryService.xml,
             <!--/WEB-INF/applicationContext-colemo.xml,-->
             <!--/WEB-INF/applicationContext-userSessionBeans.xml,-->
             <!--/WEB-INF/sail-users.xml,-->
