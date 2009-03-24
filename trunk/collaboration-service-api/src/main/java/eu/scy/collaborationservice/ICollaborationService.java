@@ -111,4 +111,13 @@ public interface ICollaborationService {
      */
     public ICollaborationSession createSession(String toolName, String userName);
     
+    /**
+     * Return a 
+     * 
+     * @param session - session to join
+     * @param userName - user who wants to join
+     * @return ICollaborationSession - session which was joined
+     */
+    public ICollaborationSession joinSession(String session, String userName);
+    
 }
