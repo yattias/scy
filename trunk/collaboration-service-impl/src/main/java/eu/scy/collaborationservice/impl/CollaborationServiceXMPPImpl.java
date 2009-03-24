@@ -28,6 +28,7 @@ import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectExtensionProvider;
@@ -325,6 +326,12 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
         IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
         return this.doQuery(scyMessage);
+    }
+
+    @Override
+    public ICollaborationSession createSession(String arg0, String arg1) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
