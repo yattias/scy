@@ -27,8 +27,13 @@ public class RepositoryService {
 
     public void doTheBartMan(String bartManString) {
         log.info("KICKING OFF WITH THIS FUNKY MESSAGE: " + bartManString);
-        IELO elo = null;//new HyperELO(bartManString);
-        repository.addELO(elo);
+        try {
+            IELO elo = null;//new HyperELO(bartManString);
+            repository.addELO(elo);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @XmlTransient 
