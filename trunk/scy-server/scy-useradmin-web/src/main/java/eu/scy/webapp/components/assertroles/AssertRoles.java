@@ -36,9 +36,10 @@ public class AssertRoles extends TapestryContextAware {
         String legalRoles[] = roles.split(",");
         for (int i = 0; i < legalRoles.length; i++) {
             String legalRole = legalRoles[i];
-            if (getUserDAO().getIsUserInRole(legalRole, getCurrentUser())) {
+            /*if (getUserDAO().getIsUserInRole(legalRole, getCurrentUser())) {
                 return true;
-            }
+            } */
+            throw new RuntimeException("NOT IMPLEMENTED");
         }
 
         return false;

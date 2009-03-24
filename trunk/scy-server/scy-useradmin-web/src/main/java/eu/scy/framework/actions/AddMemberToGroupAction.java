@@ -6,9 +6,6 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.SCYUserDetails;
 
-import net.sf.sail.webapp.domain.User;
-import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
-
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +14,7 @@ import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
  * Time: 22:26:19
  * To change this template use File | Settings | File Templates.
  */
-public class AddMemberToGroupAction extends BaseAction {
+public class    AddMemberToGroupAction extends BaseAction {
 
     public AddMemberToGroupAction() {
         super.setName("Add group member");

@@ -69,13 +69,14 @@ public class BreadCrumbs extends TapestryContextAware {
     }
 
  private void addObjectsToSelect(List objectList, User user) {
-        addObjectsToSelect(objectList, user.getGroup());
-        objectList.add(user);
+     throw new RuntimeException("NOT IMPLEMENTED");
+     //addObjectsToSelect(objectList, user.getGroup());
+       // objectList.add(user);
     }
 
     public String getTitle() {
         if(getCurrentObject() == null) return "null";
-        if(getCurrentObject() instanceof User) return ((User)currentObject).getFirstName();
+        if(getCurrentObject() instanceof User) return ((User)currentObject).getUserDetails().getUsername();
         else return getCurrentObject().getName();
     }
 

@@ -20,23 +20,27 @@ public class EnableOrDisableUserAction extends BaseAction {
     public String getName() {
         User model = (User) getUserObject();
         if (model != null) {
-            if (model.getEnabled() != null && model.getEnabled().equals("1")) return "Disable";
+            if (model.getUserDetails().isEnabled() ){
             return "Enable";
         } else {
             return "Hei";
         }
+        }
+        return "";
 
 
     }
 
     protected Object doAction(Object model) {
-        User user = (User) model;
-        if (user.getEnabled() != null && user.getEnabled().equals("0")) {
-            user.setEnabled("1");
+        /*User user = (User) model;
+        if (user.getUserDetails().isEnabled()) {
+            user.getUserDetails().
         } else {
             user.setEnabled("0");
         }
         user = (User) getActionManager().getUserDAOHibernate().save(user);
         return user;
+        */
+        throw new RuntimeException("NOT IMPLEMENTED YET!");
     }
 }
