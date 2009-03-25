@@ -234,6 +234,7 @@ public class DataSetTabbedPane extends ScyTabbedPane{
         listDataTable.get(id).updateDataset(ds, reload);
     }
 
+    
     /* creation d'une nouvelle operation */
     public void createOperation(Dataset ds, DataOperation operation){
         int id = getIdDataTable(ds);

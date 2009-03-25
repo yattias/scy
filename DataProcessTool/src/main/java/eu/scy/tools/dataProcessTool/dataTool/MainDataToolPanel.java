@@ -27,8 +27,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -1099,6 +1097,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         if (id != -1){
             listDataSet.set(id, nds) ;
         }
+        int newId = idBefore + nb-1;
         getDataSetTabbedPane().updateDataset(nds, true);
     }
 
@@ -1240,7 +1239,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             listDataSet.set(id, nds) ;
         }
         getDataSetTabbedPane().updateDataset(nds, true);
-        repaint();
+        getDataVisTabbedPane().updateDataset(nds, true);
     }
 
 }

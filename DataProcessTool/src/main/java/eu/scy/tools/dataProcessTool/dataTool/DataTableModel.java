@@ -66,7 +66,7 @@ public class DataTableModel extends AbstractTableModel {
     // derniere colonne vide pour inserer des operations
     // derniere ligne vide pour inserer des operations
     private void loadData(){
-         datas = this.dataset.getData();
+        datas = this.dataset.getData();
         tabHeader = this.dataset.getListDataHeader() ;
         listOperationsOnCols = new ArrayList();
         listOperationsOnRows = new ArrayList();
@@ -488,6 +488,8 @@ public class DataTableModel extends AbstractTableModel {
             loadData();
         this.fireTableStructureChanged();
     }
+
+    
 
     /* creation d'une nouvelle operation */
     public void createOperation(Dataset ds, DataOperation operation){
