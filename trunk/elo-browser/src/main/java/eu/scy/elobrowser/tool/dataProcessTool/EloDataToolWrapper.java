@@ -203,7 +203,7 @@ public class EloDataToolWrapper {
 			Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
 
 			setDocName(titleObject3.toString());
-			this.dataToolPanel.loadELO(newElo.getContent().getXml());
+			this.dataToolPanel.loadELO(newElo.getContent().getXmlString());
 			elo = newElo;
 			sendELOLoadedChangedListener();
 		}
