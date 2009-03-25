@@ -25,9 +25,10 @@ import org.xmpp.packet.Presence;
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
+import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
-import eu.scy.communications.packet.extension.ScyObjectExtensionProvider;
-import eu.scy.communications.packet.extension.ScyObjectPacketExtension;
+import eu.scy.communications.packet.extension.object.ScyObjectExtensionProvider;
+import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.openfire.plugin.botz.BotzConnection;
 import eu.scy.openfire.plugin.botz.BotzPacketReceiver;
@@ -53,7 +54,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
         
         providerManager.addExtensionProvider(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE, new ScyObjectExtensionProvider());
         
-        this.communicationsAdapter = ScyCommunicationAdapter.getInstance();
+        this.communicationsAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.communicationsAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
             
             @Override
@@ -63,7 +64,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
                 m.setTo("biden@imediamac09.uio.no/Smack");
                 m.setFrom(componentJID.toString());
                 m.setSubject("Message to set");
-                m.setBody("i is watching you; callback happened: " + e.getMessage());
+                m.setBody("i is watching you; callback happened: " + e.getScyMessage());
                 ScyBaseObject scyObject = new ScyBaseObject();
                 scyObject.setId("mom");
                 scyObject.setName("mom");
@@ -167,8 +168,6 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
         // logger.debug("extension; " + extension.toString());
         System.out.println("processing SCY Packet");
         this.processScyPacket(extension);
-    
-        
     }
     
     @Override
@@ -189,8 +188,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
             System.out.println(packet.toXML());
             PacketExtension extension = (PacketExtension) packet.getExtension(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
             this.processScyPacket(extension);
-        }
-        
+        }        
     }
     
     
@@ -203,7 +201,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
             System.out.println("name " + scyExt.getName());
             System.out.println("description " + scyExt.getDescription());
             System.out.println("id " + scyExt.getId());
-            communicationsAdapter.sendCallBack("send something");
+            //communicationsAdapter.sendCallBack("send something");
         }
     }
     
