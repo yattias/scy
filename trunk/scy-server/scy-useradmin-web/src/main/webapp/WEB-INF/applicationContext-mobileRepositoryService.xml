@@ -31,7 +31,6 @@
 
 
     <bean id="repositoryService" class="eu.scy.webservices.mobileservice.RepositoryService">
-        <property name="repository" ref="mockRepository"/>
     </bean>
 
     <jaxws:endpoint id="repositoryServiceWebService" implementor="#repositoryService" address="/RepositoryService"/>

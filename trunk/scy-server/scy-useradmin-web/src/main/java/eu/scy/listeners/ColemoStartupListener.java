@@ -1,22 +1,18 @@
 package eu.scy.listeners;
 
-
-
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContext;
-
+import eu.scy.colemo.server.network.Server;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import eu.scy.colemo.server.network.Server;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
  * Date: 10.nov.2008
  * Time: 08:36:08
- * To change this template use File | Settings | File Templates.
  */
 public class ColemoStartupListener implements ServletContextListener {
 
