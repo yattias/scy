@@ -186,7 +186,7 @@ public class EloSimQuestWrapper {
             setDocName(titleObject3.toString());
             //TODO: adapt to simquest
             //whiteboardPanel.deleteAllWhiteboardContainers();
-            dataCollector.setSimConfig(newElo.getContent().getXml());
+            dataCollector.setSimConfig(newElo.getContent().getXmlString());
             //whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
             //			.getXml()));
             eloSimConfig = newElo;
