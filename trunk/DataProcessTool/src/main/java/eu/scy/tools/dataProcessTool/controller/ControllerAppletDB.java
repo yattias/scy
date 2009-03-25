@@ -511,7 +511,8 @@ public class ControllerAppletDB implements ControllerInterface{
             data.setValue(value);
             this.listDataSet.get(id).setData(data, rowIndex, colIndex);
         }
-
+    // recalcule des operations
+        this.listDataSet.get(id).calculateOperation();
         // en v[0] : le nouveau dataset
         v.add(this.listDataSet.get(id).clone());
         return new CopexReturn();

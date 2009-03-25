@@ -22,8 +22,6 @@ import eu.scy.tools.dataProcessTool.utilities.DataTableRenderer;
 import eu.scy.tools.dataProcessTool.utilities.CellEditorTextField ;
 import java.awt.FontMetrics;
 import javax.swing.DefaultCellEditor;
-import javax.swing.DropMode;
-import javax.swing.table.TableColumn;
 
 /**
  * table which represents the dataset and the operations
@@ -377,8 +375,10 @@ public class DataTable extends JTable implements MouseListener{
                 listNo.add(cellsSel.get(i)[1]-1);
             }else if (isValueLastCol(cellsSel.get(i)[0], cellsSel.get(i)[1])){
                 listNo.add(cellsSel.get(i)[0]-1);
+                isOnCol = false;
             }
         }
+        System.out.println("isOnCol : "+isOnCol);
         owner.createOperation(dataset, type, isOnCol, listNo);
     }
     /* somme */
@@ -426,10 +426,11 @@ public class DataTable extends JTable implements MouseListener{
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds ;
         this.tableModel.updateDataset(ds, reload);
-        revalidate();
-        repaint();
+        resizeColumn(); 
+        this.revalidate();
+        this.repaint();
     }
-
+   
     /* creation d'une nouvelle operation */
     public void createOperation(Dataset ds, DataOperation operation){
         this.dataset = ds;
