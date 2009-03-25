@@ -174,7 +174,7 @@ public class EloTextpadWrapper {
             Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
 
             setDocName(titleObject3.toString());
-            textarea.setText(newElo.getContent().getXml());
+            textarea.setText(newElo.getContent().getXmlString());
             elo = newElo;
            sendELOLoadedChangedListener();
         }
