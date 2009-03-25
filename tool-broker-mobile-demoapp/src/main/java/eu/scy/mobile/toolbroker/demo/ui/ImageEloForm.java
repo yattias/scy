@@ -3,6 +3,8 @@ package eu.scy.mobile.toolbroker.demo.ui;
 import eu.scy.mobile.toolbroker.demo.model.ImageELO;
 
 import javax.microedition.lcdui.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -40,8 +42,24 @@ public class ImageEloForm extends Form {
 		update();
 	}
 
+	public ImageItem getImageField() {
+		return imageField;
+	}
+
+	public TextField getTitleField() {
+		return titleField;
+	}
+
+	public TextField getCommentField() {
+		return commentField;
+	}
+
 	private void update() {
-		imageField.setImage(elo.getImage());
+		try {
+			imageField.setImage(Image.createImage(new ByteArrayInputStream(elo.getImage())));
+		} catch (IOException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
 		titleField.setString(elo.getTitle());
 		commentField.setString(elo.getComment());
 	}

@@ -8,9 +8,8 @@ package eu.scy.mobile.toolbroker.serializer;
  * To change this template use File | Settings | File Templates.
  */
 public interface Serializer {
-    String getLocalId();
 
-    String getRemoteId();
+    String getXsiType();
 
     Object deserialize(Object obj);
 

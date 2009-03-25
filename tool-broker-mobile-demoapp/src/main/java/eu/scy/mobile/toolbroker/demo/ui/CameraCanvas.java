@@ -77,11 +77,11 @@ public class CameraCanvas extends Canvas {
 		}
 	}
 
-	public Image capture() {
+	public byte[] capture() {
 		try {
 			// Get the image.
-			byte[] raw = videoControl.getSnapshot(null);
-			return Image.createImage(raw, 0, raw.length);
+			//byte[] raw = videoControl.getSnapshot(null);
+			return videoControl.getSnapshot("encoding=jpeg");
 		}
 		catch (MediaException me) {
 			me.printStackTrace();

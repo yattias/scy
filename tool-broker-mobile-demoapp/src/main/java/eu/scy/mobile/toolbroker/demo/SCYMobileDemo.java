@@ -1,14 +1,18 @@
 package eu.scy.mobile.toolbroker.demo;
 
+import eu.scy.mobile.toolbroker.demo.client.RepositoryService;
+import eu.scy.mobile.toolbroker.demo.client.RepositoryService_Stub;
+import eu.scy.mobile.toolbroker.demo.model.EloConverter;
 import eu.scy.mobile.toolbroker.demo.model.ImageELO;
 import eu.scy.mobile.toolbroker.demo.ui.CameraCanvas;
+import eu.scy.mobile.toolbroker.demo.ui.GlobalCommands;
 import eu.scy.mobile.toolbroker.demo.ui.ImageEloForm;
 import eu.scy.mobile.toolbroker.demo.ui.MainForm;
-import eu.scy.mobile.toolbroker.demo.ui.GlobalCommands;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
+import java.rmi.RemoteException;
 
 /**
  * Created: 11.feb.2009 12:23:07
@@ -73,17 +77,33 @@ public class SCYMobileDemo extends MIDlet implements CommandListener {
 		}
 		else if (command.equals(CameraCanvas.CMD_CAPTURE)) {
 
-			Image i = cameraCanvas.capture();
+			byte[] img = cameraCanvas.capture();
 
 			ImageELO elo = new ImageELO();
-			elo.setImage(i);
+			elo.setImage(img);
 
 			getDisplay().setCurrent(createEloForm(elo));
 		}
 		else if (command.equals(ImageEloForm.CMD_SAVE)) {
-			Alert a = new Alert("Image saved", "The image was sendt to your desktop! Please go there for more happy times!", null, null);
+			Alert a = new Alert("Image saved");
+			ImageELO elo = eloForm.getElo();
+			elo.setTitle(eloForm.getTitleField().getString());
+			elo.setComment(eloForm.getCommentField().getString());
+			/**/
+			try {
+				RepositoryService repositoryService = new RepositoryService_Stub();
+				String response = repositoryService.saveELO(EloConverter.convert(elo));
+				a.setString("The image was sendt to your desktop! Please go there for more happy times!\n\n" +
+						"Response from server is: "+response);
+			} catch (RemoteException e) {
+				a.setTitle("Error");
+				a.setString("An error occurred while saving: "+e.getMessage());
+				e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			}
+			/**/
 			a.setTimeout(Alert.FOREVER);
 			getDisplay().setCurrent(a);
+
 		}
 		else if (command.equals(GlobalCommands.CMD_CANCEL)) {
 			getDisplay().setCurrent(createMainForm());

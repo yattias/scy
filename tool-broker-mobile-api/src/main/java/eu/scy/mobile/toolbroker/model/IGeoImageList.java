@@ -20,5 +20,5 @@ public interface IGeoImageList {
 
     void setImages(Vector images);
 
-    void addImage(String image);
+    void addImage(Image image);
 }
