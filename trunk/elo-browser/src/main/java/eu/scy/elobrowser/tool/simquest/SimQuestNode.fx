@@ -50,17 +50,17 @@ public class SimQuestNode extends CustomNode, Resizable {
     var eloSimQuestWrapper:EloSimQuestWrapper;
 
 	public var scyWindow:ScyWindow on replace {
-		setScyWindowTitle()};
+		setScyWindowTitle("")};
 
     public function loadElo(uri:URI){
         eloSimQuestWrapper.loadElo(uri);
-		setScyWindowTitle();
+		setScyWindowTitle("SimConfig: ");
     }
 
 	function setScyWindowTitle(prefix:String){
 		if (scyWindow == null)
-		return;
-		scyWindow.title = prefix + eloSimQuestWrapper.getDocName()};
+            return;
+		scyWindow.title = "{prefix}{eloSimQuestWrapper.getDocName()}";
 		var eloUri = eloSimQuestWrapper.getEloUri();
 		if (eloUri != null)
         scyWindow.id = eloUri.toString()
