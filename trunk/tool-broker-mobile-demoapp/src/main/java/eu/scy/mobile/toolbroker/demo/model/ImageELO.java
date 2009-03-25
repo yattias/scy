@@ -1,7 +1,5 @@
 package eu.scy.mobile.toolbroker.demo.model;
 
-import javax.microedition.lcdui.Image;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Bjørge Næss
@@ -12,7 +10,7 @@ import javax.microedition.lcdui.Image;
 public class ImageELO {
 	private String title;
 	private String comment;
-	private Image image;
+	private byte[] image;
 
 	public String getTitle() {
 		return title;
@@ -30,11 +28,11 @@ public class ImageELO {
 		this.comment = comment;
 	}
 
-	public Image getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Image image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 }

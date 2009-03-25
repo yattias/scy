@@ -3,9 +3,11 @@ package eu.scy.mobile.toolbroker;
 /**
  * Created by IntelliJ IDEA.
  * User: Bjørge Næss
- * Date: 02.mar.2009
- * Time: 11:22:59
+ * Date: 13.mar.2009
+ * Time: 12:46:40
  * To change this template use File | Settings | File Templates.
  */
-public interface IUserService extends ServiceClient {
+public interface ServiceClient {
+	public String getURI();
+	public byte[] getRawData(String path);
 }
