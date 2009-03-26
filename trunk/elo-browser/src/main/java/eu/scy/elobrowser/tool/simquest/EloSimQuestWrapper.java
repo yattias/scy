@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.scy.elobrowser.tool.simquest;
 
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
@@ -34,7 +30,7 @@ import roolo.elo.metadata.keys.Contribute;
 
 /**
  *
- * @author sikkenj
+ * @author Lars Bollen
  */
 public class EloSimQuestWrapper {
 
@@ -207,7 +203,7 @@ public class EloSimQuestWrapper {
 
     public void saveAsDataSetAction() {
         logger.fine("save as dataset");
-        String datasetName = JOptionPane.showInputDialog("Enter dataset name:", docName);
+        String datasetName = JOptionPane.showInputDialog("Enter DataSet name:", docName);
         if (StringUtils.hasText(datasetName)) {
             setDocName(datasetName);
             eloDataSet = eloFactory.createELO();
@@ -245,7 +241,7 @@ public class EloSimQuestWrapper {
     public void saveSimConfigAction() {
         logger.fine("save simconfig");
         if (eloSimConfig == null) {
-            saveAsDataSetAction();
+            saveAsSimConfigAction();
         } else {
             eloSimConfig.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
             IMetadata<IMetadataKey> resultMetadata = repository.updateELO(eloSimConfig);
@@ -255,7 +251,7 @@ public class EloSimQuestWrapper {
 
     public void saveAsSimConfigAction() {
         logger.fine("save as simconfig");
-        String datasetName = JOptionPane.showInputDialog("Enter simconfig name:", docName);
+        String datasetName = JOptionPane.showInputDialog("Enter SimConfig name:", docName);
         if (StringUtils.hasText(datasetName)) {
             setDocName(datasetName);
             eloSimConfig = eloFactory.createELO();
@@ -284,12 +280,6 @@ public class EloSimQuestWrapper {
         }
     }
 
-    // @Action
-    // public void closeDrawingAction()
-    // {
-    // this.dispose();
-    // }
-    //
     public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository) {
         this.repository = repository;
     }
