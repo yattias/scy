@@ -1,10 +1,12 @@
 package eu.scy.communications.adapter.scycommunication;
 
+import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.Ignore;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
@@ -21,16 +23,20 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
 
     
     
-    public ScyCommunicationAdapterTestCase(String testName) {
+    public ScyCommunicationAdapterTestCase() {
     }   
+
     
-//    public static Test suite() {
-//        return new TestSuite(ScyCommunicationAdapterTestCase.class);
-//    }
+    public static Test suite() { 
+        return new JUnit4TestAdapter(ScyCommunicationAdapterTestCase.class); 
+    }
+    
+    
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
-//            sqlSpaceAdapter = SQLSpaceAdapter.createAdapter("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE, this);         
+            sqlSpaceAdapter = new SQLSpaceAdapter();
+            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE);     
         }
         return sqlSpaceAdapter;
     }
@@ -43,9 +49,10 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
         return sm;
     }
     
-    @Ignore
+    
+    @org.junit.Test
     public void testCreateTupleAdapter() {
-//        assertNotNull(getTupleAdapter());
+        assertNotNull(getTupleAdapter());
     }
     
     
