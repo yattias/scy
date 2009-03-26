@@ -18,9 +18,19 @@ public class CollaborationSession implements ICollaborationSession {
     public static final long DEFAULT_SESSION_EXPIRATION_TIME = 60*60*1000; // one hour
 
     private String id;
+    private String persistenceId;
     private String toolName;
     private String userName;
+
     
+    public String getPersistenceId() {
+        return persistenceId;
+    }
+    
+    @Override
+    public void setPersistenceId(String persistenceId) {
+        this.persistenceId = persistenceId;
+    }
     
     public String getUserName() {
         return userName;
@@ -30,18 +40,17 @@ public class CollaborationSession implements ICollaborationSession {
         this.userName = userName;
     }
 
-    public String getToolName() {
-        return toolName;
-    }
-    
-    public void setToolName(String toolName) {
+    @Override
+    public void setTool(String toolName) {
         this.toolName = toolName;
     }
 
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -70,12 +79,6 @@ public class CollaborationSession implements ICollaborationSession {
 
     @Override
     public void renew() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setTool(String arg0) {
         // TODO Auto-generated method stub
         
     }
