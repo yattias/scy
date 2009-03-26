@@ -64,6 +64,8 @@ public class SQLSpaceAdapterTestCase {
         // delete
         id = getTupleAdapter().delete(id);
         assertNotNull(id);
+        sm = getTupleAdapter().readById(id);
+        assertNull(sm);
     }
 
 
