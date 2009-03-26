@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
@@ -39,7 +40,7 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     private MainDataToolPanel dataProcessVisualizationTool;
 
     /* id dataset creation */
-    private long idDataset;
+    private long idDataset = -1;
 
     /* collaboration service*/
     private ICollaborationService collaborationService;
@@ -100,13 +101,17 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* initialization Collaboration Service*/
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        collaborationService.synchronizeClientState(TOOL_NAME, sessionID);
+        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(TOOL_NAME, sessionID);
+        if (scyMessages != null){
+            for (IScyMessage scyMessage : scyMessages) {
+                readMessage(scyMessage);
+            }
+        }
         collaborationService.addCollaborationListener(this);
     }
 
-    @Override
-    public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
-        IScyMessage scyMessage = e.getScyMessage();
+    /**/
+    private void readMessage(IScyMessage scyMessage){
         if(scyMessage.getToolName() != null && scyMessage.getToolName().equals(simulatorName)){
             String description = scyMessage.getDescription();
             if (scyMessage.getObjectType().equals(TYPE_DATASET_HEADER)){
@@ -127,6 +132,11 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
                 }
             }
         }
+    }
+    @Override
+    public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
+        IScyMessage scyMessage = e.getScyMessage();
+        readMessage(scyMessage);
     }
 
 
