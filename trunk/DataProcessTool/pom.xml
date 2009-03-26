@@ -25,6 +25,7 @@
     </distributionManagement>
 
     <repositories>
+        <!--
         <repository>
             <id>tels-repo-internal</id>
             <name>TELS Center internal repository</name>
@@ -41,6 +42,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        -->
         <repository>
             <id>collide-releases</id>
             <url>http://mvn.collide.info/content/repositories/releases</url>
