@@ -130,6 +130,10 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         }
     }
 
+    public void joinSession(String sessionId) {
+        System.out.println("NOT IMPLEMENTED!!");
+    }
+
     public void call(Command command, int i, Tuple tuple, Tuple tuple1) {
         System.out.println("i: " + i);
         if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {

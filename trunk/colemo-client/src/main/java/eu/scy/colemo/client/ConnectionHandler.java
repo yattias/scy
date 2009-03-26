@@ -17,4 +17,6 @@ public interface ConnectionHandler {
     void initialize() throws Exception;
 
     void cleanUp();
+
+    void joinSession(String sessionId);
 }

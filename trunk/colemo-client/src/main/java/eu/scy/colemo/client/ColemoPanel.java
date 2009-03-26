@@ -65,6 +65,18 @@ public class ColemoPanel extends JPanel {
         repaint();
     }
 
+
+    public void joinSession() {
+        String name = JOptionPane.showInputDialog(this, "Please type name of session:");
+        if (name != null) {
+                ApplicationController.getDefaultInstance().getConnectionHandler().joinSession(name);
+        }
+        invalidate();
+        validate();
+        repaint();
+    }
+
+
     public void cleanUp() {
         ApplicationController.getDefaultInstance().getConnectionHandler().cleanUp();
     }

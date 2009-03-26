@@ -209,7 +209,19 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         JMenuItem addClass = new JMenuItem("Add concept");
         addClass.addActionListener(this);
         menu.add(addClass);
+        JMenuItem saveElo = new JMenuItem("Save ELO");
+        saveElo.addActionListener(this);
+        menu.add(saveElo);
+        JMenuItem joinNewSession = new JMenuItem("Join new session");
+        joinNewSession.addActionListener(this);
+        menu.add(joinNewSession);
+
+
         menu.show(this, e.getX(), e.getY());
+
+
+
+
 
     }
     public ConceptLink getNearestLink(Point p, int threshold) {
@@ -232,7 +244,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         if (ae.getActionCommand().equals("Add concept")) {
             ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(umlDiagram, "c");
+        } else if(ae.getActionCommand().equals("Save ELO")) {
+            ApplicationController.getDefaultInstance().saveELO();
+        } else if(ae.getActionCommand().equals("Join new session")) {
+            ApplicationController.getDefaultInstance().getColemoPanel().joinSession();
         }
+
+
     }
 
     public void mousePressed(MouseEvent ae) {
@@ -255,6 +273,20 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void mouseReleased(MouseEvent arg0) {
+    }
+
+    public void clearAll() {
+        links.clear();
+        nodes.clear();
+        /*Iterator it = nodes.iterator();
+        while (it.hasNext()) {
+            Component component = (Component) it.next();
+            remove(component);
+        } */
+        removeAll();
+        invalidate();
+        validate();
+        repaint();
     }
 
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
@@ -342,4 +374,19 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
     }
 
+    public HashSet<ConceptLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(HashSet<ConceptLink> links) {
+        this.links = links;
+    }
+
+    public HashSet<ConceptNode> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(HashSet<ConceptNode> nodes) {
+        this.nodes = nodes;
+    }
 }

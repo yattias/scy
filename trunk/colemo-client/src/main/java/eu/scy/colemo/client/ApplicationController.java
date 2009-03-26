@@ -5,6 +5,8 @@ import javax.swing.JApplet;
 import eu.scy.colemo.client.scyconnectionhandler.SCYConnectionHandler;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
+import java.util.Iterator;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -86,5 +88,10 @@ public class ApplicationController {
 
     public void setColemoPanel(ColemoPanel colemoPanel) {
         this.colemoPanel = colemoPanel;
+    }
+
+    public void saveELO() {
+        ConceptMapExporter.getDefaultInstance().createXML();
+        
     }
 }
