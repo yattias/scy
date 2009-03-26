@@ -11,11 +11,9 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.communications.adapter.IScyCommunicationAdapter;
-import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
+
 
 public class SQLSpaceAdapter implements Callback {
     
@@ -31,8 +29,9 @@ public class SQLSpaceAdapter implements Callback {
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
     
+    
     public SQLSpaceAdapter() {
-        System.out.println("SQLSpaceAdapter.SQLSpaceAdapter()");
+        logger.debug("SQLSpaceAdapter.SQLSpaceAdapter()");
     }
     
     /**
@@ -84,11 +83,6 @@ public class SQLSpaceAdapter implements Callback {
         String purpose = sm.getMessagePurpose();
         String session = sm.getSession();
         long expiration = sm.getExpiraton();
-        // username, toolName, id, objectType, name, description, to, from,
-        // messagePurpose, session
-        // Tuple tuple = new Tuple(String.class, tool, String.class,
-        // String.class, String.class, String.class, String.class, String.class,
-        // String.class);
         Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "", session != null ? session : "");
         logger.debug("About to write tuple: " + tuple);
         
@@ -105,37 +99,12 @@ public class SQLSpaceAdapter implements Callback {
                 this.tupleSpace.update(tid, tuple);
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
-            // force callback SUPERHACK
-//            call(Command.WRITE, 0, tuple, null);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing or updating touple " + e);
         }
         return String.valueOf(tid.getID());
     }
-    
-    /**
-     * reads a tuple from params
-     * 
-     * @param userName
-     * @param tool
-     * @return
-     */
-    public ArrayList<String> read(String userName, String tool) {
-        Tuple tuple;
-        if (userName == null) {
-            tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
-        } else {
-            tuple = new Tuple(userName, tool, String.class, String.class, String.class, String.class);
-        }
-        Tuple returnTuple = null;
-        try {
-            returnTuple = this.tupleSpace.read(tuple);
-        } catch (TupleSpaceException e) {
-            logger.error("Trouble while reading touple " + e);
-            return null;
-        }
-        return convertTupleToStringArray(returnTuple);
-    }
+
     
     /**
      * Read all the tuples
@@ -143,14 +112,19 @@ public class SQLSpaceAdapter implements Callback {
      * @param scyMessage
      * @return
      */
-    public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {
+    public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {        
+        Field f1 = scyMessage.getUserName() == null ? new Field(String.class) : new Field(scyMessage.getUserName());
+        Field f2 = scyMessage.getToolName() == null ? new Field(String.class) : new Field(scyMessage.getToolName());
+        Field f3 = new Field(String.class);
+        Field f4 = new Field(String.class);
+        Field f5 = new Field(String.class);
+        Field f6 = new Field(String.class);
+        Field f7 = new Field(String.class);
+        Field f8 = new Field(String.class);
+        Field f9 = new Field(String.class);
+        Field f10 = scyMessage.getSession() == null ? new Field(String.class) : new Field(scyMessage.getSession());
         
-        Tuple tupleTemplate;
-        if (scyMessage.getSession() != null) {
-            tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, scyMessage.getSession());
-        } else {
-            tupleTemplate = new Tuple(String.class, scyMessage.getToolName(), String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
-        }
+        Tuple tupleTemplate = new Tuple(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10);
         
         Tuple returnTuple[] = null;
         try {
@@ -159,6 +133,7 @@ public class SQLSpaceAdapter implements Callback {
             logger.error("Trouble while reading touples " + e);
             return null;
         }
+        
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         for (Tuple tuple : returnTuple) {
             messages.add(convertTupleToScyMessage(tuple));
@@ -178,36 +153,16 @@ public class SQLSpaceAdapter implements Callback {
             returnTuple = tupleSpace.takeTupleById(new TupleID(id));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while taking touple " + e);
-        }
-     
+        }     
         return returnTuple == null ? null : returnTuple.getTupleID().toString();
-    }
-    
-   
-    
-    /**
-     * take
-     * 
-     * @param tool
-     * @return
-     */
-    public ArrayList<String> take(String tool) {
-        Tuple tuple = new Tuple(String.class, tool, String.class, String.class, String.class, String.class);
-        Tuple returnTuple = null;
-        try {
-            returnTuple = tupleSpace.take(tuple);
-        } catch (TupleSpaceException e) {
-            logger.error("Trouble while taking touple " + e);
-            return null;
-        }
-        return convertTupleToStringArray(returnTuple);
-    }
+    }    
+
     
     /**
      * Read by id
      * 
      * @param id
-     * @return
+     * @return IScyMessage
      */
     public IScyMessage readById(String id) {
         Tuple returnTuple = null;
@@ -224,16 +179,16 @@ public class SQLSpaceAdapter implements Callback {
      * Take by id
      * 
      * @param id
-     * @return
+     * @return IScyMessage
      */
-    public ArrayList<String> takeById(String id) {
+    public IScyMessage takeById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.takeTupleById(new TupleID(id));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while take touple " + e);
         }
-        return convertTupleToStringArray(returnTuple);
+        return convertTupleToScyMessage(returnTuple);
     }
     
     /**
@@ -243,28 +198,14 @@ public class SQLSpaceAdapter implements Callback {
      * @return
      */
     private IScyMessage convertTupleToScyMessage(Tuple tuple) {
-        // username, toolName, id, objectType, name, description, to, from,
-        // messagePurpose
         if (tuple == null) {
             return null;
         }
         Field[] fields = tuple.getFields();
-        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
+        //FIXME: ultra-hack! over-writing id on the way back in order to add the tuple id. this needs to be solved differently.
+        return ScyMessage.createScyMessage((String) fields[0].getValue(), tuple.getTupleID().toString(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
     }
-    
-    private ArrayList<String> convertTupleToStringArray(Tuple tuple) {
-        ArrayList<String> returnValues = null;
-        if (tuple != null) {
-            returnValues = new ArrayList<String>();
-            Field field;
-            returnValues.add(String.valueOf(tuple.getTupleID()));
-            for (int i = 0; i < tuple.getFields().length; i++) {
-                field = tuple.getFields()[i];
-                returnValues.add(field.getValue().toString());
-            }
-        }
-        return returnValues;
-    }
+
     
     /**
      * This is the sqlspaces callback
@@ -287,8 +228,7 @@ public class SQLSpaceAdapter implements Callback {
                     case UPDATE:
                         sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), UPDATE);
                         break;
-                }
-                
+                }             
                 theListener.handleSQLSpacesEvent(sqlSpacesAdapterEvent);
             }
         }

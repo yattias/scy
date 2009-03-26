@@ -102,7 +102,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         logger.debug("doing query, mofo " + queryMessage);
         if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
             if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
-                return getTupleAdapter().readAll(queryMessage);                
+                return getTupleAdapter().readAll(queryMessage);
             }
         }
         return null;
