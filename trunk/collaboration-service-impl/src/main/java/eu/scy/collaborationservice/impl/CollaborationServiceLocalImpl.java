@@ -1,11 +1,17 @@
 package eu.scy.collaborationservice.impl;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import org.apache.log4j.Logger;
 
 import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.collaborationservice.session.CollaborationSession;
+import eu.scy.collaborationservice.session.CollaborationSessionFactory;
 import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.adapter.IScyCommunicationListener;
 import eu.scy.communications.adapter.ScyCommunicationAdapter;
@@ -22,8 +28,11 @@ import eu.scy.communications.message.impl.ScyMessage;
  */
 public class CollaborationServiceLocalImpl implements ICollaborationService {
     
+    private static final Logger logger = Logger.getLogger(CollaborationServiceLocalImpl.class.getName());
+    
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<ICollaborationServiceListener> collaborationListeners = new ArrayList<ICollaborationServiceListener>();
+    
     
     /**
      * Creates an instance of a local collaboration service
@@ -99,20 +108,52 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     
     @Override
     public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
-        IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+        IScyMessage scyMessage = ScyMessage.createScyMessage("CollaborationServiceSystemUser", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
         return this.scyCommunicationAdapter.doQuery(scyMessage);
     }
 
     @Override
     public ICollaborationSession createSession(String toolName, String userName) {
-        // TODO Auto-generated method stub
-        return null;
+        ICollaborationSession collaborationSession = CollaborationSessionFactory.getCollaborationSession(null, toolName, userName);
+        IScyMessage message = collaborationSession.convertToScyMessage();
+        try {
+            this.create(message);
+        } catch (CollaborationServiceException e) {
+            logger.error("Failed to create ScyMessage: " + message.toString());
+            e.printStackTrace();
+        }
+        return collaborationSession;
     }
     
     @Override
-    public ICollaborationSession joinSession(String session, String userName) {
-        // TODO Auto-generated method stub
-        return null;
+    public ICollaborationSession joinSession(String session, String userName, String toolName) {
+        ICollaborationSession iCollaborationSession = null;
+        if (sessionExists(session, userName)) {
+            logger.warn(userName + " is already member of session " + session);
+        } 
+        else if (sessionExists(session, null)) {
+            iCollaborationSession = createSession(toolName, userName);
+            logger.debug(userName + " is now a member of session " + session);
+        } else {
+            logger.error("could not find session: " + session);
+        }
+        return iCollaborationSession;
+    }    
+    
+    @Override
+    public boolean sessionExists(String session, String userName) {
+        return getSessions(session, userName, null).size() > 0;
     }
     
+    @Override
+    public ArrayList<ICollaborationSession> getSessions(String session, String userName, String toolName) {
+        IScyMessage scyMessage = ScyMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
+        ArrayList<IScyMessage> messages = this.doQuery(scyMessage);
+        ArrayList<ICollaborationSession> sessions = new ArrayList<ICollaborationSession>();
+        for (IScyMessage message : messages) {
+            sessions.add(CollaborationSessionFactory.getCollaborationSession(message));
+        }
+        return sessions;
+    }
+
 }

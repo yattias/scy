@@ -4,20 +4,51 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
 
 
 
 /**
- * Collaboration Session
+ * CollaborationSession
  * 
  * @author thomasd
  */
 public class CollaborationSession implements ICollaborationSession {
+    
+    public static final long DEFAULT_SESSION_EXPIRATION_TIME = 60*60*1000; // one hour
+
+    private String id;
+    private String toolName;
+    private String userName;
+    
+    
+    public String getUserName() {
+        return userName;
+    }
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getToolName() {
+        return toolName;
+    }
+    
+    public void setToolName(String toolName) {
+        this.toolName = toolName;
+    }
+
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public void expire() {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub        
     }
 
     @Override
@@ -30,6 +61,29 @@ public class CollaborationSession implements ICollaborationSession {
     public ArrayList<IScyMessage> getUsers() {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    @Override
+    public IScyMessage convertToScyMessage() {
+        return ScyMessage.createScyMessage(userName, toolName, String.valueOf(this.hashCode()), this.getClass().getName(), "some name", "some description", null, null, null, CollaborationSession.DEFAULT_SESSION_EXPIRATION_TIME, this.getId());
+    }
+
+    @Override
+    public void renew() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setTool(String arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setUser(String arg0) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
