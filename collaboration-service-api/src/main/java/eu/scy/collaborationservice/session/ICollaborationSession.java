@@ -66,6 +66,13 @@ public interface ICollaborationSession {
     public void setId(String id);
 
     /**
+     * Returns the id of the sessions as found in the persistence layer
+     * 
+     * @return string
+     */
+    public String getPersistenceId();
+    
+    /**
      * Stores the id of the sessions as found in the persistence layer
      * 
      * @param persistenceId
