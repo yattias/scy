@@ -150,10 +150,16 @@ public class SQLSpaceAdapter implements Callback {
     public String delete(String id) {
         Tuple returnTuple = null;
         try {
-            returnTuple = tupleSpace.takeTupleById(new TupleID(id));
-        } catch (TupleSpaceException e) {
-            logger.error("Trouble while taking touple " + e);
+            Long.parseLong(id);
+            try {
+                returnTuple = tupleSpace.takeTupleById(new TupleID(id));
+            } catch (TupleSpaceException e2) {
+                logger.error("Trouble while taking touple " + e2);
+            }     
+        } catch (NumberFormatException e1) {
+            logger.error("Somebody seems to think a non-number is a number " + e1);
         }     
+
         return returnTuple == null ? null : returnTuple.getTupleID().toString();
     }    
 
