@@ -19,17 +19,35 @@ public class CollaborationSessionFactory {
     /**
      * Factory method
      * 
+     * @param sessionId
      * @param toolName
      * @param userName
+     * 
      * @return ICollaborationSession
      */
-    public static ICollaborationSession getCollaborationSession(String id, String toolName, String userName) {
+    public static ICollaborationSession getCollaborationSession(String sessionId, String toolName, String userName) {
+        return getCollaborationSession(sessionId, toolName, userName, null);
+    }
+    
+    
+    /**
+     * Factory method
+     * 
+     * @param sessionId
+     * @param toolName
+     * @param userName
+     * @param persistenceId
+     * 
+     * @return ICollaborationSession
+     */
+    public static ICollaborationSession getCollaborationSession(String sessionId, String toolName, String userName, String persistenceId) {
         ICollaborationSession session = new CollaborationSession();
-        if (id == null) {
+        if (sessionId == null) {
             session.setId(UUID.randomUUID().toString());            
         } else {
-            session.setId(id);   
+            session.setId(sessionId);
         }
+        session.setPersistenceId(persistenceId);
         session.setTool(toolName);
         session.setUser(userName);
         return session;
