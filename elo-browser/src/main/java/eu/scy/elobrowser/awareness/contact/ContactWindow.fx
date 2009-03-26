@@ -187,11 +187,11 @@ public class ContactWindow extends CustomNode{
         proportional: true;
         stops: [
             Stop{
-                color: Color.GREEN;
+                color: Color.LIGHTSTEELBLUE;
                 offset: 0.0;
             },
             Stop{
-                color: Color.DARKOLIVEGREEN;
+                color: Color.LIGHTBLUE;
                 offset: 1.0;
             }]
 

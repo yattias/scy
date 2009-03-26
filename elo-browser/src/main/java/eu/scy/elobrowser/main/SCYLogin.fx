@@ -73,6 +73,7 @@ public class SCYLogin extends Group {
 
     public-init var mainContent : Node[] on replace {
         for (n in mainContent) {
+            n.visible = false;
             n.opacity = 0.0;
         }
     }
@@ -193,8 +194,13 @@ public class SCYLogin extends Group {
                 time: 1s
                 values: [
                     // FIXME there must be a better way ...
-                    mainContent[0].opacity => 1.0
-                    mainContent[1].opacity => 1.0
+                    // Nodes are draggable when opaque, so set visible = false too
+             
+                    for (n in mainContent){
+                    n.visible = true;
+                    n.opacity => 1.0
+//                    mainContent[1].opacity => 1.0
+                    }
                 ]
             }
         } into t;
