@@ -25,26 +25,44 @@ import org.jfxtras.scene.layout.Row;
 
 class SlackyInterpolator extends SimpleInterpolator {
 
-    override function curve(x: Number) : Number {
-        if (x >= 0 and x <= 0.2) {
-            return 11.61 * Math.pow(x,3) + 0.04 * x;
-        } else
-        if (x > 0.2 and x <= 0.3) {
-            return  -12.5 * Math.pow(x,3) + 14.46 * Math.pow(x,2) - 2.86 * x + 0.19;
-        } else
-        if (x > 0.3 and x <= 0.5) {
-            return  -2.23 * Math.pow(x,3) + 5.22 * Math.pow(x,2) - 0.08 * x - 0.08;
-        } else
-        if (x > 0.5 and x <= 0.7) {
-            return  -58.48 * Math.pow(x,3) + 89.6 * Math.pow(x,2) - 42.27 * x + 6.95;
-        } else
-        if (x > 0.7 and x <= 0.8) {
-            return  212.5 * Math.pow(x,3) - 479.46 * Math.pow(x,2) + 356.07 * x - 86;
+    // the amplitude of the wave
+    // controls how far out the object can go from it's final stopping point.
+    public-init var amplitude:Number = 1.0;
+    // determines the weight of the object
+    // makes the wave motion go longer and farther
+    public-init var mass:Number = 0.058;
+    // the stiffness of the wave motion / spring
+    // makes the motion shorter and more snappy
+    public-init var stiffness:Number = 12.0;
+    // makes the wave motion be out of phase, so that the object
+    // doesn't end up on the final resting spot.
+    // this variable is usually never changed
+    public-init var phase:Number = 0.0;
+
+    // if this should do a normal spring or a bounce motion
+    public-init var bounce:Boolean = false;
+
+
+    // internal variables used for calcuations
+    var pulsation:Number;
+
+    init {
+        this.pulsation = Math.sqrt(stiffness / mass);
+    }
+
+
+    // the actual spring equation
+    override public function curve(t: Number) : Number {
+        var t2 = -Math.cos(pulsation*t+phase+Math.PI) * (1-t) * amplitude ;
+        // use the absolute value of the distance if doing a bounces
+        if(bounce) {
+            return 1-Math.abs(t2);
         } else {
-            return  -50.89 * Math.pow(x,3) + 152.68 * Math.pow(x,2) - 149.64 * x + 48.86;
+            return 1-t2;
         }
     }
-}
+    }
+
 
 public class SCYLogin extends Group {
     var text : Text;
