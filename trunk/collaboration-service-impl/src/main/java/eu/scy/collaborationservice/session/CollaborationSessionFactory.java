@@ -61,7 +61,7 @@ public class CollaborationSessionFactory {
      * @return ICollaborationSession
      */
     public static ICollaborationSession getCollaborationSession(IScyMessage scyMessage) {
-        return getCollaborationSession(scyMessage.getSession(), scyMessage.getToolName(), scyMessage.getUserName());
+        return getCollaborationSession(scyMessage.getSession(), scyMessage.getToolName(), scyMessage.getUserName(), scyMessage.getId());
     }
 
 }
