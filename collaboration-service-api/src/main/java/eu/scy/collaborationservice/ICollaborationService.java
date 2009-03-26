@@ -99,8 +99,7 @@ public interface ICollaborationService {
      * @param session -  id of session shared by client instances
      * @return
      */
-    public ArrayList<IScyMessage> synchronizeClientState(String toolName, String session);
-    
+    public ArrayList<IScyMessage> synchronizeClientState(String toolName, String session);    
     
     /**
      * Creates and returns an instance of ICollaborationSession
@@ -112,12 +111,31 @@ public interface ICollaborationService {
     public ICollaborationSession createSession(String toolName, String userName);
     
     /**
-     * Return a 
+     * Return an instance of ICollaborationSession 
      * 
      * @param session - session to join
      * @param userName - user who wants to join
+     * @param toolName - tool user is using as client
      * @return ICollaborationSession - session which was joined
      */
-    public ICollaborationSession joinSession(String session, String userName);
+    public ICollaborationSession joinSession(String session, String userName, String toolName);
+        
+    /**
+     * 
+     * @param session - session
+     * @param userName - userName
+     * @return boolean
+     */
+    public boolean sessionExists(String session, String userName);
+    
+    /**
+     * Returns all sessions matching the supplied params
+     * 
+     * @param session - session
+     * @param userName - userName
+     * @param toolName - userName
+     * @return ArrayList<ICollaborationSession>
+     */
+    public boolean getSessions(String session, String userName, String toolName);
     
 }

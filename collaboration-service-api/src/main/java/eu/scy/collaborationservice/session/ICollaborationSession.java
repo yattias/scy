@@ -19,7 +19,12 @@ public interface ICollaborationSession {
      * 
      */
     public void expire();
-
+    
+    /**
+     * Renews the session, putting off expiration time
+     * 
+     */
+    public void renew();    
     
     /**
      * Get time of session expiration
@@ -36,5 +41,28 @@ public interface ICollaborationSession {
      * 
      */
     public ArrayList<IScyMessage> getUsers();
+    
+    /**
+     * set user
+     * 
+     * @param userName
+     */
+    public void setUser(String userName);
+
+    
+    /**
+     * set tool
+     * 
+     * @param toolName
+     */
+    public void setTool(String toolName);
+
+    
+    /**
+     * set id
+     * 
+     * @param id
+     */
+    public void setId(String id);
 
 }
