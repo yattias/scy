@@ -152,5 +152,18 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
         }
         return sessions;
     }
+    
+    
+    public void cleanSession(String sessionId) {
+        ArrayList<ICollaborationSession> sessions = getSessions(sessionId, null, null);
+        for (ICollaborationSession collaborationSession : sessions) {
+            try {
+                this.delete(collaborationSession.getPersistenceId());
+            } catch (CollaborationServiceException e) {
+                logger.error("Trouble while deleting session: " + e);
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
