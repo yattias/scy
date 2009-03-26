@@ -101,7 +101,7 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* initialization Collaboration Service*/
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(TOOL_NAME, sessionID);
+        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(simulatorName, sessionID);
         if (scyMessages != null){
             for (IScyMessage scyMessage : scyMessages) {
                 readMessage(scyMessage);
