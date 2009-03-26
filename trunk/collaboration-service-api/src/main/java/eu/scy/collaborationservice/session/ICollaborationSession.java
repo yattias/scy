@@ -64,5 +64,10 @@ public interface ICollaborationSession {
      * @param id
      */
     public void setId(String id);
-
+    
+    /**
+     * Returns a scyMessge version of the collaboration service
+     * 
+     */
+    public IScyMessage convertToScyMessage();
 }
