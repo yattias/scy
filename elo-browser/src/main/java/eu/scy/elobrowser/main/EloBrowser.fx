@@ -6,18 +6,24 @@
 
 package eu.scy.elobrowser.main;
 
+import eu.scy.elobrowser.awareness.contact.OnlineState;
+import eu.scy.elobrowser.awareness.contact.WindowSize;
 import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.main.SCYLogin;
 import eu.scy.elobrowser.notification.GrowlFX;
 import eu.scy.elobrowser.tool.chat.ChatNode;
+import eu.scy.elobrowser.tool.colemo.*;
+import eu.scy.elobrowser.awareness.contact.Contact;
+import eu.scy.elobrowser.awareness.contact.ContactFrame;
+import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
+import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
-import eu.scy.elobrowser.tool.colemo.*;
-import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
@@ -234,10 +240,12 @@ var eloBrowserControl= ScyWindow{
 }
 eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
+insert contactWindow into scyDesktop.desktop.content;
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
-        resultView
+        resultView,
+        contactWindow
     ]
 }
 
@@ -246,6 +254,75 @@ var growl = GrowlFX {
     translateY: bind stage.height - 120;
     opacity: 0;
 }
+
+ def contactWindow = ContactWindow{
+            contacts: bind getContacts();
+        };
+
+ function getContacts():ContactFrame[]{
+           def contact1 = ContactFrame{
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission"; 
+                imageURL: "img/Manske.jpg";
+                name: "Sven Manske";
+                onlineState: OnlineState.ONLINE;
+                progress: 1.0;
+            };
+
+        };
+
+        def contact2 = ContactFrame{
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Another Mission";
+                imageURL: "img/Giemza.jpg";
+                name: "Adam G";
+                onlineState: OnlineState.AWAY;
+                progress: 0.1;
+            };
+            x: 300;
+
+        };
+
+        def contact3 = ContactFrame{
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission";
+                imageURL: "img/Weinbrenner.jpg";
+                name: "Stefan W.";
+                onlineState: OnlineState.ONLINE;
+                progress: 0.7;
+            };
+
+        };
+
+        def contact4 = ContactFrame{
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission";
+                imageURL: "img/Gerling.jpg";
+                name: "Philip G.";
+                onlineState: OnlineState.ONLINE;
+                progress: 0.5;
+            };
+
+        };
+
+        def contact5 = ContactFrame{
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission";
+                imageURL: "img/Calendar.png";
+                name: "Sascha N.";
+                onlineState: OnlineState.OFFLINE;
+                progress: 0.3;
+            };
+
+        };
+
+        return ([contact1,contact5,contact2,contact3,contact4] as ContactFrame[]);
+    };
 
 
 stage = Stage {
@@ -277,6 +354,7 @@ stage = Stage {
                     resultView
 					scyDesktop.desktop
                     growl
+//                    contactWindow
 				]
 			}
 		]
