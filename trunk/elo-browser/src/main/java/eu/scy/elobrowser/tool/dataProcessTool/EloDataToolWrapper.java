@@ -58,7 +58,9 @@ public class EloDataToolWrapper {
 	private DataToolPanel dataToolPanel;
 	private String docName = untitledDocName;
 	private IELO<IMetadataKey> elo = null;
+    private URI usesEloURI = null;
 	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+    private IMetadataKey usesRelationKey;
 
 	public EloDataToolWrapper(DataToolPanel dataToolPanel){
 		this.dataToolPanel = dataToolPanel;
@@ -111,6 +113,8 @@ public class EloDataToolWrapper {
 		logger.info("retrieved key " + missionKey.getId());
 		authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
 		logger.info("retrieved key " + authorKey.getId());
+        usesRelationKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.RELATION_USES.getId());
+        logger.info("retrieved key " + usesRelationKey.getId());
 	}
 
 	public void setEloFactory(IELOFactory<IMetadataKey> eloFactory)
@@ -205,6 +209,7 @@ public class EloDataToolWrapper {
 			setDocName(titleObject3.toString());
 			this.dataToolPanel.loadELO(newElo.getContent().getXmlString());
 			elo = newElo;
+            usesEloURI = elo.getUri(); // needed to store the uses relation when saving
 			sendELOLoadedChangedListener();
 		}
          
@@ -229,7 +234,7 @@ public class EloDataToolWrapper {
 	{
 		logger.fine("save as dataProcess");
 		String drawingName = JOptionPane.showInputDialog("Enter process dataset name:", docName);
-		if (StringUtils.hasText(drawingName))
+        if (StringUtils.hasText(drawingName))
 		{
 			setDocName(drawingName);
 			elo = eloFactory.createELO();
@@ -245,6 +250,9 @@ public class EloDataToolWrapper {
 							new URI("roolo://somewhere/myMission.mission"));
 				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
 							new Contribute("my vcard", System.currentTimeMillis()));
+                if (usesEloURI !=null) {
+                    elo.getMetadata().getMetadataValueContainer(usesRelationKey).setValue(usesEloURI);
+                }
 			}
 			catch (URISyntaxException e)
 			{
