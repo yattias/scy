@@ -8,7 +8,6 @@ import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.server.uml.UmlClass;
 
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -36,11 +35,17 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     //FIXME: this needs to come from the client, generated
     public static final String SESSIONID = "1";
 
+    private String sessionId = SESSIONID;
+
+
+
+
 
     public void sendObject(Object object) {
         System.out.println("Sending object:" + object);
 
         MessageTranslator mt = new MessageTranslator();
+        mt.setSessionId(getSessionId());
         IScyMessage sendMe = null;
 
         if (object instanceof AddClass) {
@@ -70,7 +75,12 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     }
 
     public void initialize() throws Exception {
+        joinSession(SESSIONID);
+   }
 
+    public void joinSession(String sessionId) {
+        this.sessionId = sessionId;
+        ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
         log.debug("initializing");
         MessageTranslator ot = new MessageTranslator();
 
@@ -78,7 +88,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         try {
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
             collaborationService.addCollaborationListener(this);
-            messages = collaborationService.synchronizeClientState("Colemo", SESSIONID);
+            messages = collaborationService.synchronizeClientState("Colemo", sessionId);
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
             e.printStackTrace();
@@ -133,5 +143,13 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
 
     public void sendMessage(String message) {
         System.out.println("SCYConnectionHandler.sendMessage()");
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

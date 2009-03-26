@@ -29,7 +29,15 @@ public class MessageTranslator implements IMessageTranslator {
     private static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private static final Logger logger = Logger.getLogger(MessageTranslator.class.getName());
 
-    /* (non-Javadoc)
+    private String sessionId = null;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }/* (non-Javadoc)
      * @see eu.scy.colemo.client.sqlspacesimpl.IMessageTranslator#translate(java.lang.Object)
      */
     public Tuple translate(Object object) {
@@ -178,15 +186,15 @@ public class MessageTranslator implements IMessageTranslator {
         IScyMessage message = null;
         if (object instanceof AddClass) {
             AddClass addClass = (AddClass) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, SCYConnectionHandler.SESSIONID);            
+            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, getSessionId());
         }
         else if (object instanceof MoveClass) {
             MoveClass moveClass = (MoveClass) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, SCYConnectionHandler.SESSIONID);
+            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, getSessionId());
         }
         else if (object instanceof AddLink) {
             AddLink addLink = (AddLink) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, SCYConnectionHandler.SESSIONID);
+            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, getSessionId());
         }
         return message;
     }
