@@ -215,7 +215,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
                 msg = ScyUtilities.replace(msg, 0, key);
                 displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
             }catch(Exception e2){
-                displayError(new CopexReturn("Aucun message trouvé !", false) ,"ERROR");
+                displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
              }
         }
         return s;
