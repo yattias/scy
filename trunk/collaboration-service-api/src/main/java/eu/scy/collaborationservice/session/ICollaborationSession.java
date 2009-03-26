@@ -64,6 +64,13 @@ public interface ICollaborationSession {
      * @param id
      */
     public void setId(String id);
+
+    /**
+     * Stores the id of the sessions as found in the persistence layer
+     * 
+     * @param persistenceId
+     */
+    public void setPersistenceId(String persistenceId);
     
     /**
      * Returns a scyMessge version of the collaboration service
