@@ -121,7 +121,7 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
             });
 
             ProviderManager providerManager = ProviderManager.getInstance();
-            providerManager.addExtensionProvider(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE, new ScyObjectExtensionProvider());
+//            providerManager.addExtensionProvider(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE, new ScyObjectExtensionProvider());
 //            xmppConnection.addPacketListener(new PacketListener(){
 //
 //                @Override
@@ -157,9 +157,9 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
                 }// processPacket
 
                     
-                }},  new PacketExtensionFilter(ScyObjectPacketExtension.ELEMENT_NAME,
-                    ScyObjectPacketExtension.NAMESPACE));
-//            
+                }},  null);
+//            new PacketExtensionFilter(ScyObjectPacketExtension.ELEMENT_NAME,
+//            ScyObjectPacketExtension.NAMESPACE)
             if (username == null || password == null) {
                 this.xmppConnection.loginAnonymously();
             } else {
