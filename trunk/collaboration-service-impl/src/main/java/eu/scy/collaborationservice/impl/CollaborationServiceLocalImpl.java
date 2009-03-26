@@ -1,16 +1,13 @@
 package eu.scy.collaborationservice.impl;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
 import eu.scy.collaborationservice.CollaborationServiceException;
-import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
-import eu.scy.collaborationservice.session.CollaborationSession;
 import eu.scy.collaborationservice.session.CollaborationSessionFactory;
 import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.adapter.IScyCommunicationListener;
@@ -91,8 +88,8 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
             if (cl != null) {
                 CollaborationServiceEvent collaborationEvent = new CollaborationServiceEvent(this, scyMessage);
                 cl.handleCollaborationServiceEvent(collaborationEvent);
-            }// if
-        }// for
+            }
+        }
     }
     
     @Override

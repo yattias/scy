@@ -23,6 +23,7 @@ public class CollaborationSession implements ICollaborationSession {
     private String userName;
 
     
+    @Override
     public String getPersistenceId() {
         return persistenceId;
     }
@@ -45,7 +46,6 @@ public class CollaborationSession implements ICollaborationSession {
         this.toolName = toolName;
     }
 
-    @Override
     public String getId() {
         return id;
     }
