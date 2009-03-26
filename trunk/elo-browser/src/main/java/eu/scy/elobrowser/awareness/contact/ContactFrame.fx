@@ -235,7 +235,7 @@ public class ContactFrame extends CustomNode{
         frame.onMouseEntered = function(evt:MouseEvent):Void{
             frame.stroke = Color.BLACK;  
             frame.strokeDashArray = [3.0,3.0];
-            frame.fill = Color.LIGHTGREEN;
+            frame.fill = Color.LIGHTSKYBLUE;
             frame.effect = Lighting{
                 light: DistantLight { azimuth: -135
                 }

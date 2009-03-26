@@ -200,6 +200,7 @@ metadataDisplayMappingWindow.openWindow(188, 223);
 scyDesktop.addScyWindow(metadataDisplayMappingWindow);
 scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
+
 var eloBrowserControl= ScyWindow{
     translateX:10;
     translateY:10;
@@ -238,16 +239,25 @@ var eloBrowserControl= ScyWindow{
         ]
     }
 }
+ def contactWindow = ContactWindow{
+            contacts: bind getContacts();
+        };
+        
 eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
 insert contactWindow into scyDesktop.desktop.content;
+contactWindow.translateX = 5;
+contactWindow.translateY = 5;
+
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
-        resultView,
-        contactWindow
+        contactWindow,
+        resultView
     ]
 }
+
+
 
 var growl = GrowlFX {
     translateX: bind (stage.width / 2) - 200;
@@ -255,9 +265,6 @@ var growl = GrowlFX {
     opacity: 0;
 }
 
- def contactWindow = ContactWindow{
-            contacts: bind getContacts();
-        };
 
  function getContacts():ContactFrame[]{
            def contact1 = ContactFrame{
@@ -351,10 +358,10 @@ stage = Stage {
 			Group{
 				content:[
                     loginGroup
+                    contactWindow
                     resultView
 					scyDesktop.desktop
                     growl
-//                    contactWindow
 				]
 			}
 		]
