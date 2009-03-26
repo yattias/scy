@@ -111,7 +111,7 @@ public interface ICollaborationService {
     public ICollaborationSession createSession(String toolName, String userName);
     
     /**
-     * Return an instance of ICollaborationSession 
+     * Return an instance of ICollaborationSession if the user is not member and session exists
      * 
      * @param session - session to join
      * @param userName - user who wants to join
@@ -136,6 +136,6 @@ public interface ICollaborationService {
      * @param toolName - userName
      * @return ArrayList<ICollaborationSession>
      */
-    public boolean getSessions(String session, String userName, String toolName);
+    public ArrayList<ICollaborationSession> getSessions(String session, String userName, String toolName);
     
 }
