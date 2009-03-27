@@ -94,6 +94,7 @@ public class RepositoryService {
 		return me;
 	}
 
+    @XmlTransient
     public RooloManager getRooloManager() {
         return rooloManager;
     }
