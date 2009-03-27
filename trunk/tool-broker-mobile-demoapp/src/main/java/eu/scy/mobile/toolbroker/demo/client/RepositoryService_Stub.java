@@ -17,7 +17,7 @@ public class RepositoryService_Stub implements RepositoryService, javax.xml.rpc.
 
 	public RepositoryService_Stub() {
 		_propertyNames = new String[] {ENDPOINT_ADDRESS_PROPERTY};
-		_propertyValues = new Object[] {"http://localhost:8080/scy-useradmin-web/services/RepositoryService"};
+		_propertyValues = new Object[] {"http://129.177.24.191:8080/scy-useradmin-web/services/RepositoryService"};
 	}
 
 	public void _setProperty(String name, Object value) {

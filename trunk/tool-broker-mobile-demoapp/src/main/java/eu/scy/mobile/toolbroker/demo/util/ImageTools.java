@@ -1,4 +1,4 @@
-package eu.scy.mobile.toolbroker.demo;
+package eu.scy.mobile.toolbroker.demo.util;
 
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.Graphics;
