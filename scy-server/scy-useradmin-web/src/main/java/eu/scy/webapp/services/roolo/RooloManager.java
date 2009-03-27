@@ -5,6 +5,7 @@ import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.api.IRepository;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Locale;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,10 +19,16 @@ import java.net.URISyntaxException;
  */
 public class RooloManager {
 
+    @XmlTransient
     private IELOFactory eloFactory;
+
+    @XmlTransient
     private IMetadataTypeManager metadataTypeManager;
+
+    @XmlTransient
     private IRepository repository;
 
+    @XmlTransient
     public IELOFactory getEloFactory() {
         return eloFactory;
     }
@@ -30,6 +37,7 @@ public class RooloManager {
         this.eloFactory = eloFactory;
     }
 
+    @XmlTransient
     public IMetadataTypeManager getMetadataTypeManager() {
         return metadataTypeManager;
     }
@@ -38,6 +46,7 @@ public class RooloManager {
         this.metadataTypeManager = metadataTypeManager;
     }
 
+    @XmlTransient
     public IRepository getRepository() {
         return repository;
     }
