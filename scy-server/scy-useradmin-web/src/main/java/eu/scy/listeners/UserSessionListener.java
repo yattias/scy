@@ -40,7 +40,7 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
     public static final String COUNT_KEY = "userCounter";
     public static final String USERS_KEY = "userNames";
     public static final String EVENT_KEY = HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY;
-    private final transient Log log = LogFactory.getLog(UserSessionListener.class);
+    //private final transient Log log = LogFactory.getLog(UserSessionListener.class);
     private transient ServletContext servletContext;
     private int counter;
     private static Set users;
@@ -68,9 +68,6 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
         counter++;
         servletContext.setAttribute(COUNT_KEY, Integer.toString(counter));
 
-        if (log.isDebugEnabled()) {
-            log.debug("User Count: " + counter);
-        }
     }
 
     synchronized void decrementUserCounter() {
@@ -83,10 +80,6 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
         }
 
         servletContext.setAttribute(COUNT_KEY, Integer.toString(counter));
-
-        if (log.isDebugEnabled()) {
-            log.debug("User Count: " + counter);
-        }
     }
 
     synchronized void addUsername(Object user) {
@@ -94,12 +87,6 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
 
         if (users == null) {
             users = new HashSet();
-        }
-
-        if (log.isDebugEnabled()) {
-            if (users.contains(user)) {
-                log.debug("User already logged in, adding anyway...");
-            }
         }
 
         users.add(user);
@@ -140,8 +127,6 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 addUsername(user);
-                log.info("** *** ** USER LOGGED IN: " + user.getUsername());
-                log.info("Creating new session for user: " + event.getSession().getId());
             }
 
         }
@@ -175,8 +160,6 @@ public class UserSessionListener implements ServletContextListener, HttpSessionA
             if (auth != null && (auth.getPrincipal() instanceof User)) {
                 User user = (User) auth.getPrincipal();
                 removeUsername(user);
-                log.info("** ** Logged user out: " + user.getUsername());
-                //usd.logoutUser(dao.getUserByUsername(user.getUsername()));
                 throw new RuntimeException("NOT IMPLEMENTED YET!!");
             }
         }
