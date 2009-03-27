@@ -6,6 +6,9 @@
 
 package eu.scy.elobrowser.main;
 
+import eu.scy.elobrowser.awareness.contact.Contact;
+import eu.scy.elobrowser.awareness.contact.ContactFrame;
+import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
 import eu.scy.elobrowser.main.EloSpecWidget;
@@ -16,9 +19,6 @@ import eu.scy.elobrowser.main.SCYLogin;
 import eu.scy.elobrowser.notification.GrowlFX;
 import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.colemo.*;
-import eu.scy.elobrowser.awareness.contact.Contact;
-import eu.scy.elobrowser.awareness.contact.ContactFrame;
-import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
@@ -29,6 +29,7 @@ import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.RadialGradient;
@@ -43,15 +44,15 @@ import javafx.stage.Stage;
  */
 
 
-var roolo= Roolo.getRoolo();
-var stage:Stage;
+var roolo = Roolo.getRoolo();
+var stage: Stage;
 var scyDesktop = ScyDesktop.getScyDesktop();
 
 var newGroup = VBox {
-    translateX:5
-    translateY:5;
-    spacing:3;
-    content:[
+    translateX: 5
+    translateY: 5;
+    spacing: 3;
+    content: [
         SwingButton{
             text: "Drawing"
             action: function() {
@@ -67,6 +68,7 @@ var newGroup = VBox {
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow);
                 //simquestWindow.openWindow(491,673);
+
             }
         },
         SwingButton{
@@ -107,7 +109,7 @@ var newGroup = VBox {
             }
         }
 
-         SwingButton{
+        SwingButton{
             text: "OSLO picture viewer"
             action: function() {
                 var shelfWindow = DisplayShelf.createScyDisplayShelf(roolo);
@@ -117,19 +119,19 @@ var newGroup = VBox {
             }
         }
     ]
-   }
+}
 
-var newScyWindow= ScyWindow{
-    translateX:10;
-    translateY:150;
-	opacity:0.75;
-    title:"New"
-    color:Color.BLUEVIOLET
-    scyContent:newGroup
-    allowClose:false;
-    allowResize:true;
-    allowMinimize:true;
-   };
+var newScyWindow = ScyWindow{
+    translateX: 10;
+    translateY: 150;
+	opacity: 0.75;
+    title: "New"
+    color: Color.BLUEVIOLET
+    scyContent: newGroup
+    allowClose: false;
+    allowResize: true;
+    allowMinimize: true;
+};
 newScyWindow.openWindow(150, 230);
 scyDesktop.addScyWindow(newScyWindow);
 
@@ -143,7 +145,7 @@ var metadataDisplayMappingWidget = MetadataDisplayMappingWidget{
 }
 
 var resultView = ResultView{
-    roolo:roolo;
+    roolo: roolo;
     xSize: bind
         stage.width - 200 as Integer;
     ySize: bind
@@ -154,28 +156,28 @@ function doSearch(){
     var query1 = queryEntry1.getSearchQuery();
     System.out.println("Query 1: {query1.toString()}");
     var displayEloMappings = roolo.queryToElosDisplay.getDisplayEloMapping(metadataDisplayMappingWidget.getMappingElo(),query1);
-   System.out.println("Query 1: {query1.toString()}\nNr of elos {displayEloMappings.size()}");
-   resultView.newDisplayEloMappings(displayEloMappings);
+    System.out.println("Query 1: {query1.toString()}\nNr of elos {displayEloMappings.size()}");
+    resultView.newDisplayEloMappings(displayEloMappings);
 }
 
 var searchButton = SwingButton{
     text: "Search"
-    action: function()  {
-      doSearch();
+    action: function() {
+        doSearch();
     }
 }
 
 var queryWindow = ScyWindow{
-    title:"Query"
-    eloType:"Search"
-    color:Color.BLUE;
-    allowClose:true;
-    closeIsHide:true;
-    allowResize:false;
-    width:270;
-    height:160;
+    title: "Query"
+    eloType: "Search"
+    color: Color.BLUE;
+    allowClose: true;
+    closeIsHide: true;
+    allowResize: false;
+    width: 270;
+    height: 160;
     scyContent: Group{
-        content:[queryEntry1]
+        content: [queryEntry1]
     }
 }
 queryWindow.openWindow(270, 160);
@@ -184,16 +186,16 @@ scyDesktop.addScyWindow(queryWindow);
 scyDesktop.hideScyWindow(queryWindow);
 
 var metadataDisplayMappingWindow = ScyWindow{
-    title:"Display mapping"
-    eloType:"Search"
-    color:Color.BLUE;
-    allowClose:true;
-    closeIsHide:true;
-    allowResize:false;
-    width:188;
-    height:223;
+    title: "Display mapping"
+    eloType: "Search"
+    color: Color.BLUE;
+    allowClose: true;
+    closeIsHide: true;
+    allowResize: false;
+    width: 188;
+    height: 223;
     scyContent: Group{
-        content:[metadataDisplayMappingWidget]
+        content: [metadataDisplayMappingWidget]
     }
 }
 metadataDisplayMappingWindow.openWindow(188, 223);
@@ -201,47 +203,47 @@ scyDesktop.addScyWindow(metadataDisplayMappingWindow);
 scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
 
-var eloBrowserControl= ScyWindow{
-    translateX:10;
-    translateY:10;
-    title:"Search"
-    eloType:"Search"
-    color:Color.BLUE;
-    allowClose:false;
-    allowResize:false;
-    allowMinimize:true;
-    width:100;
-    height:130;
-	opacity:0.75;
+var eloBrowserControl = ScyWindow{
+    translateX: 10;
+    translateY: 10;
+    title: "Search"
+    eloType: "Search"
+    color: Color.BLUE;
+    allowClose: false;
+    allowResize: false;
+    allowMinimize: true;
+    width: 100;
+    height: 130;
+	opacity: 0.75;
     scyContent: VBox{
-        translateX:5
-        translateY:5;
-        spacing:3;
-        content:[
+        translateX: 5
+        translateY: 5;
+        spacing: 3;
+        content: [
             SwingButton {
                 text: "Search"
                 action: function() {
-               doSearch();
+                    doSearch();
                 }
             }
             SwingButton {
                 text: "Query"
                 action: function() {
-               scyDesktop.activateScyWindow(queryWindow);
+                    scyDesktop.activateScyWindow(queryWindow);
                 }
             }
             SwingButton {
                 text: "Mapping"
                 action: function() {
-               scyDesktop.activateScyWindow(metadataDisplayMappingWindow);
+                    scyDesktop.activateScyWindow(metadataDisplayMappingWindow);
                 }
             }
         ]
     }
 }
- def contactWindow = ContactWindow{
-            contacts: bind getContacts();
-        };
+def contactWindow = ContactWindow{
+    contacts: bind getContacts();
+};
         
 eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
@@ -266,72 +268,82 @@ var growl = GrowlFX {
 }
 
 
- function getContacts():ContactFrame[]{
-           def contact1 = ContactFrame{
-            size: WindowSize.NORMAL;
-            contact: Contact{
-                currentMission: "Testmission"; 
-                imageURL: "img/Manske.jpg";
-                name: "Sven Manske";
-                onlineState: OnlineState.ONLINE;
-                progress: 1.0;
-            };
-
+function getContacts():ContactFrame[]{
+    def contact1 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Manske.jpg";
+            name: "Sven Manske";
+            onlineState: OnlineState.ONLINE;
+            progress: 1.0;
         };
 
-        def contact2 = ContactFrame{
-            size: WindowSize.NORMAL;
-            contact: Contact{
-                currentMission: "Another Mission";
-                imageURL: "img/Giemza.jpg";
-                name: "Adam G";
-                onlineState: OnlineState.AWAY;
-                progress: 0.1;
-            };
-            x: 300;
-
-        };
-
-        def contact3 = ContactFrame{
-            size: WindowSize.NORMAL;
-            contact: Contact{
-                currentMission: "Testmission";
-                imageURL: "img/Weinbrenner.jpg";
-                name: "Stefan W.";
-                onlineState: OnlineState.ONLINE;
-                progress: 0.7;
-            };
-
-        };
-
-        def contact4 = ContactFrame{
-            size: WindowSize.NORMAL;
-            contact: Contact{
-                currentMission: "Testmission";
-                imageURL: "img/Gerling.jpg";
-                name: "Philip G.";
-                onlineState: OnlineState.ONLINE;
-                progress: 0.5;
-            };
-
-        };
-
-        def contact5 = ContactFrame{
-            size: WindowSize.NORMAL;
-            contact: Contact{
-                currentMission: "Testmission";
-                imageURL: "img/Calendar.png";
-                name: "Sascha N.";
-                onlineState: OnlineState.OFFLINE;
-                progress: 0.3;
-            };
-
-        };
-
-        return ([contact1,contact5,contact2,contact3,contact4] as ContactFrame[]);
     };
 
+    def contact2 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Another Mission";
+            imageURL: "img/Giemza.jpg";
+            name: "Adam G";
+            onlineState: OnlineState.AWAY;
+            progress: 0.1;
+        };
+        x: 300;
 
+    };
+
+    def contact3 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Weinbrenner.jpg";
+            name: "Stefan W.";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.7;
+        };
+
+    };
+
+    def contact4 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Gerling.jpg";
+            name: "Philip G.";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.5;
+        };
+
+    };
+
+    def contact5 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Calendar.png";
+            name: "Sascha N.";
+            onlineState: OnlineState.OFFLINE;
+            progress: 0.3;
+        };
+
+    };
+
+    return ([contact1,contact5,contact2,contact3,contact4] as ContactFrame[]);
+};
+
+var edgesManager: EdgesManager = EdgesManager {
+};
+
+                    /* oops.. hardcoded.
+   var lineButton = SwingButton {
+                        translateX: 200;
+                        translateY: 500;
+                        onMousePressed: function(e:MouseEvent) {
+                            edgesManager.createEdge((scyDesktop.desktop.content[0] as ScyWindow),(scyDesktop.desktop.content[1] as ScyWindow),"haha");
+                        }
+*/
 stage = Stage {
 
 	title: "SCY Lab (FX)"
@@ -348,15 +360,18 @@ stage = Stage {
             stops: [
                 Stop {
                     offset: 0
-                color: Color.web("#bdd1ef")},
+                    color: Color.web("#bdd1ef")
+                },
                 Stop {
                     offset: 1
-                color: Color.web("#ebf3ff")}
+                    color: Color.web("#ebf3ff")
+                }
             ]
         }
 		content: [
 			Group{
-				content:[
+				content: [
+                    edgesManager
                     loginGroup
                     contactWindow
                     resultView
@@ -364,7 +379,8 @@ stage = Stage {
                     growl
 				]
 			}
-		]
-
-	}
+        ]
+	} 
 }
+    
+
