@@ -79,7 +79,7 @@ var newGroup = VBox {
             }
         },
         SwingButton{
-            text: "Cool(emo)"
+            text: "SCYMapper"
             action: function() {
                 var colemoWIndow = ColemoNode.createColemoWindow(roolo);
                 colemoWIndow.allowResize = true;
