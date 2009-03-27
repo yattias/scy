@@ -82,7 +82,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <configuration>
-                    <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
                     <finalName>scy-model-api</finalName>
                     <attach>true</attach>
                 </configuration>
@@ -489,25 +488,25 @@
         <dependency>
         	<groupId>roolo-api</groupId>
         	<artifactId>roolo-api</artifactId>
-        	<version>0.2.0</version>
+        	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>roolo-mock</groupId>
         	<artifactId>roolo-mock</artifactId>
-        	<version>0.2.0</version>
+        	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>elo-api</groupId>
         	<artifactId>elo-api</artifactId>
-        	<version>0.0.1</version>
+        	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>elo-impl</groupId>
         	<artifactId>elo-impl</artifactId>
-        	<version>0.0.1</version>
+        	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
