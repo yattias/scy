@@ -13,6 +13,7 @@ import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.elobrowser.tool.simquest.DatasetSandbox;
 import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
 
@@ -28,13 +29,10 @@ import roolo.elo.JDomStringConversion;
  * @author Marjolaine
  */
 public class DataToolPanel extends JPanel implements ICollaborationServiceListener {
-    /* tool name*/
-    public static final  String TOOL_NAME = "DataProcessTool";
     /* object type dataset header*/
     public static final String TYPE_DATASET_HEADER = "datasetheader";
     /* object type dataset row*/
     public static final String TYPE_DATASET_ROW = "datasetrow";
-
 
     /* data process visualization tool */
     private MainDataToolPanel dataProcessVisualizationTool;
@@ -45,9 +43,9 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* collaboration service*/
     private ICollaborationService collaborationService;
     /* simulator Tool Name */
-    private String simulatorName = "simulator";
+    private String simulatorName = DatasetSandbox.TOOL_NAME;
     /* SessionID*/
-     private  String sessionID = "42";
+    private  String sessionID = DatasetSandbox.SESSION_ID;
     
 
     /* Constructor data Tool panel - blank */
