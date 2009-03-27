@@ -213,7 +213,6 @@ public class SQLSpaceAdapter implements Callback {
             return null;
         }
         Field[] fields = tuple.getFields();
-        logger.debug("converting scymessage from tuple: " + tuple.getTupleID().toString());
         //FIXME: ultra-hack! over-writing id on the way back in order to add the tuple id. this needs to be solved differently.
         return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), tuple.getTupleID().toString(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
     }
@@ -235,7 +234,7 @@ public class SQLSpaceAdapter implements Callback {
                         sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), WRITE);
                         break;
                     case DELETE:
-                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), DELETE);
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(beforeCmd), DELETE);
                         break;
                     case UPDATE:
                         sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), UPDATE);
