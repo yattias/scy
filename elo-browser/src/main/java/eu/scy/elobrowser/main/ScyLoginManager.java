@@ -20,7 +20,7 @@ public class ScyLoginManager {
 
     public Integer login(String username, String password) {
         ToolBrokerAPI toolBroker = new ToolBrokerImpl();
-        SessionManager sessioManager = toolBroker.getUserSession(username, password);
+        //SessionManager sessioManager = toolBroker.getUserSession(username, password);
 //        if(sessioManager == null)  {
 //            System.out.println("LOGIN FAILED!!");
 //            return LOGIN_FAILED;
