@@ -50,7 +50,7 @@ public class CollaborationServiceTestCase {
     
     
     @org.junit.Test
-    public void testDelete() {
+    public void testDeleteSingleSession() {
         String user = "thomasd";
         String tool = "Leatherman";
         String sessionId = "session mambo number five";
@@ -77,6 +77,34 @@ public class CollaborationServiceTestCase {
         assertNotNull(sessions);
         assertTrue(sessions.size() == numberOfSessions - 1);
     }
+    
+
+    @org.junit.Test
+    public void testCleanSession() {
+        String user = "thomasd";
+        String tool = "Leatherman";
+        String sessionId = "session mambo number five";
+        IScyMessage message = ScyMessage.createScyMessage(user, tool, String.valueOf(this.hashCode()), this.getClass().getName(), "some name", "some description", null, null, null, CollaborationSession.DEFAULT_SESSION_EXPIRATION_TIME, sessionId);
+        assertNotNull(message);
+        try {
+            getCS().create(message);
+            getCS().create(message);
+        } catch (CollaborationServiceException e) {
+            logger.error("Failed to create. " + e);
+            e.printStackTrace();
+        }
+        ArrayList<ICollaborationSession> sessions = getCS().getSessions(sessionId, user, tool);
+        assertNotNull(sessions);
+        int numberOfSessions = sessions.size(); 
+        assertTrue(numberOfSessions == 2);
+        getCS().cleanSession(sessionId);
+        sessions = getCS().getSessions(sessionId, user, tool);
+        assertNotNull(sessions);
+        assertTrue(sessions.size() == 0);
+    }
+    
+    // session mambo number five
+    
     
     // TODO: write this one so that it passes on all clients running a test
 //    public void testGetBuddies(String username) {
