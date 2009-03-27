@@ -99,7 +99,6 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     }
 
     public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
-        logger.debug("doing query, mofo " + queryMessage);
         if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
             if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
                 return getTupleAdapter().readAll(queryMessage);
