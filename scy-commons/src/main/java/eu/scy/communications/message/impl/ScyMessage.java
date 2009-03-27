@@ -1,5 +1,7 @@
 package eu.scy.communications.message.impl;
 
+import org.apache.log4j.Logger;
+
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.core.model.impl.ScyBaseObject;
 
@@ -20,12 +22,11 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
     private long expiraton;
     private String session;
 
-
-
     public static final String MESSAGE_TYPE_QUERY = "QUERY";
     public static final String QUERY_TYPE_ALL = "ALL";
-
-
+    
+    private final static Logger logger = Logger.getLogger(ScyMessage.class.getName());
+    
     
     public ScyMessage() {
     }
@@ -58,6 +59,7 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
         sm.setMessagePurpose(messagePurpose);
         sm.setExpiraton(expirationTime);
         sm.setSession(session);
+        logger.debug("created scy message: " + sm.toString());
         return sm;
     }
     
