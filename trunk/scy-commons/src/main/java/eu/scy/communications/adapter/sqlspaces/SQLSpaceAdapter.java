@@ -153,6 +153,7 @@ public class SQLSpaceAdapter implements Callback {
             Long.parseLong(id);
             try {
                 returnTuple = tupleSpace.takeTupleById(new TupleID(id));
+                logger.debug("Deleted tuple with id: " + id);
             } catch (TupleSpaceException e2) {
                 logger.error("Trouble while taking touple " + e2);
             }     
