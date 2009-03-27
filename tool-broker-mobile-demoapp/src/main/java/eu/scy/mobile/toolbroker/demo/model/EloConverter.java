@@ -1,9 +1,9 @@
 package eu.scy.mobile.toolbroker.demo.model;
 
-import com.sun.midp.io.Base64;
-import eu.scy.mobile.toolbroker.demo.client.MobileELO;
+//import com.sun.midp.io.Base64;
 
-import java.io.IOException;
+import eu.scy.mobile.toolbroker.demo.client.MobileELO;
+import eu.scy.mobile.toolbroker.demo.util.Base64;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,18 +17,15 @@ public class EloConverter {
 		ImageELO ie = new ImageELO();
 		ie.setTitle(me.getTitle());
 		ie.setComment(me.getDescription());
-		try {
-			ie.setImage(Base64.decode(me.getB64Image()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ie.setImage(Base64.decode(me.getB64Image()));
 		return ie;
 	}
 	public static MobileELO convert(ImageELO ie) {
 		MobileELO me = new MobileELO();
 		me.setDescription(ie.getComment());
 		me.setTitle(ie.getTitle());
-		me.setB64Image(Base64.encode(ie.getImage(), 0, ie.getImage().length));
+		//System.out.println(Base64.encode(ie.getImage()));
+		me.setB64Image("b64im");
 		return me;
 	}
 
