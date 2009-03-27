@@ -78,7 +78,7 @@ public class RepositoryService {
             }
 
             IContent content = getRooloManager().getEloFactory().createContent();
-            content.setXmlString("<melo><name>" + melo.getTitle() + "</name<description>" + melo.getDescription() + "</description></xml>");
+            content.setXmlString("<melo><name>" + melo.getTitle() + "</name<description>" + melo.getDescription() + "</description></melo>");
             elo.setContent(content);
             IMetadata<IMetadataKey> resultMetadata = getRooloManager().getRepository().addELO(elo);
             getRooloManager().getEloFactory().updateELOWithResult(elo, resultMetadata);
