@@ -135,7 +135,9 @@ public class DataCollector extends JPanel implements ActionListener,
             if (sandboxbutton.isSelected()) {
                 initSandbox();
             } else {
+                sandbox.clear();
                 sandbox = null;
+                text.append("sandbox cleaned and disconnected.\n");
             }
         }
     }
