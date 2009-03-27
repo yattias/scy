@@ -138,4 +138,13 @@ public interface ICollaborationService {
      */
     public ArrayList<ICollaborationSession> getSessions(String session, String userName, String toolName);
     
+    /**
+     * Removes all sessions which match sessionId
+     * 
+     * @param session - sessionId
+     * 
+     * @return void
+     */
+    public void cleanSession(String sessionId);
+    
 }
