@@ -210,9 +210,8 @@ public class SQLSpaceAdapter implements Callback {
         }
         Field[] fields = tuple.getFields();
         logger.debug("converting scymessage from tuple: " + tuple.getTupleID().toString());
-        logger.debug("fields[0].getValue(): " + fields[0].getValue());
         //FIXME: ultra-hack! over-writing id on the way back in order to add the tuple id. this needs to be solved differently.
-        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
+        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), tuple.getTupleID().toString(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
     }
 
     
