@@ -59,7 +59,6 @@ public class ScyMessage extends ScyBaseObject implements IScyMessage {
         sm.setMessagePurpose(messagePurpose);
         sm.setExpiraton(expirationTime);
         sm.setSession(session);
-        logger.debug("created scy message: " + sm.toString());
         return sm;
     }
     
