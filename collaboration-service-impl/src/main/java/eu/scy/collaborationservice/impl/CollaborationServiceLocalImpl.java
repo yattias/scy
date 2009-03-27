@@ -135,7 +135,7 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
             logger.error("could not find session: " + session);
         }
         return iCollaborationSession;
-    }    
+    }
     
     @Override
     public boolean sessionExists(String session, String userName) {
