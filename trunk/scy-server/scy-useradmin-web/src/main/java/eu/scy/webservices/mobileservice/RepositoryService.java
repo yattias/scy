@@ -72,7 +72,7 @@ public class RepositoryService {
             try {
                 elo.getMetadata().getMetadataValueContainer(getRooloManager().getMetadataTypeManager().getMetadataKey(RooloMetadataKeys.MISSION.getId())).setValue(new URI("roolo://somewhere/myMission.mission"));
                 elo.getMetadata().getMetadataValueContainer(getRooloManager().getMetadataTypeManager().getMetadataKey(RooloMetadataKeys.AUTHOR.getId())).setValue(new Contribute("my vcard", System.currentTimeMillis()));
-                elo.getMetadata().getMetadataValueContainer(getRooloManager().getMetadataTypeManager().getMetadataKey(RooloMetadataKeys.TYPE.getId())).setValue("scy/conceptMap");
+                elo.getMetadata().getMetadataValueContainer(getRooloManager().getMetadataTypeManager().getMetadataKey(RooloMetadataKeys.TYPE.getId())).setValue("scy/melo");
             } catch (URISyntaxException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
