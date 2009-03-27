@@ -6,13 +6,18 @@
   <artifactId>elo-browser</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>elo-browser</name>
-
+  <packaging>jar</packaging>
+  <url>http://scy.collide.info/</url>
   <licenses>
     <license>
       <name>lgpl</name>
     </license>
   </licenses>
-
+  <properties>
+      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
+     <env.JAVAFX_HOME>C:\Program Files\JavaFX\javafx-sdk1.1</env.JAVAFX_HOME>
+      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
+  </properties>
   <distributionManagement>
     <repository>
       <id>mvn_collide_releases</id>
@@ -66,7 +71,7 @@
       <artifactId>javafxrt</artifactId>
       <version>1.1</version>
       <scope>system</scope>
-      <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxrt.jars</systemPath>
+      <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxrt.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.java.dev.openjfx</groupId>
@@ -163,25 +168,25 @@
     <dependency>
       <groupId>elo-impl</groupId>
       <artifactId>elo-impl</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.4.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>elo-api</groupId>
       <artifactId>elo-api</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.4.0-SNAPSHOT</version>
     </dependency>
     
     <dependency>
       <groupId>roolo-api</groupId>
       <artifactId>roolo-api</artifactId>
-      <version>0.3.0-SNAPSHOT</version>
+      <version>0.4.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>roolo-mock</groupId>
       <artifactId>roolo-mock</artifactId>
-      <version>0.3.0-SNAPSHOT</version>
+      <version>0.4.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -197,11 +202,17 @@
     </dependency>
 
     <dependency>
+      <groupId>colemo</groupId>
+      <artifactId>colemo-model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+ <!--   <dependency>
       <groupId>net.java.dev.openjfx</groupId>
       <artifactId>javafxrt</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-
+-->
     <dependency>
       <groupId>eu.scy</groupId>
       <artifactId>drawingTool</artifactId>
@@ -226,11 +237,23 @@
       <artifactId>collaboration-service-impl</artifactId>
       <version>0.2-SNAPSHOT</version>
     </dependency>
-    
+
     <dependency>
       <groupId>eu.scy.tools.dataProcessTool</groupId>
       <artifactId>DataProcessTool</artifactId>
-      <version>1.0-SNAPSHOT</version>      
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jfxtras</groupId>
+      <artifactId>jfxtras</artifactId>
+      <version>0.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>jnlp</artifactId>
+      <version>0.1</version>
     </dependency>
 
   </dependencies>
@@ -278,8 +301,9 @@
                 </path>
                 <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="javafxc.classpath" name="javafxc"/>
                 <mkdir dir="target/classes"/>
-                <javafxc destdir="target/classes" compilerclasspathref="javafxc.classpath" debug="true" verbose="true">
+                <javafxc destdir="target/classes" compilerclasspathref="javafxc.classpath">
                   <src path="src/main/java"/>
+                  <classpath refid="maven.compile.classpath"/>
                   <classpath refid="javafx.classpath"/>
                 </javafxc>
               </tasks>
@@ -290,6 +314,72 @@
           </execution>
         </executions>
       </plugin>
+
+
+       <plugin>
+        <groupId>org.codehaus.mojo.webstart</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <executions>
+           <execution>
+              <goals>
+                 <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+              </goals>
+           </execution>
+        </executions>
+        <configuration>
+           <!--outputDirectory></outputDirectory--> <!-- not required?? -->
+
+           <!--
+           Set to true to exclude all transitive dependencies. Default is false.
+           -->
+           <excludeTransitive>false</excludeTransitive>
+
+           <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+           <libPath>lib</libPath>
+
+           <!-- JNLP generation -->
+           <jnlp>
+             <!-- default values -->
+             <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+             <inputTemplate>src/main/jnlp/template.vm</inputTemplate> <!-- relative to inputTemplateResourcePath -->
+             <outputFile>scylab.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+             <!-- used to automatically identify the jar containing the main class. -->
+             <!-- this is perhaps going to change -->
+             <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
+           </jnlp>
+
+
+            <sign>
+             <keypass>scylab</keypass>  
+             <storepass>scylab</storepass> 
+             <alias>scykeystore</alias>
+             <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+             <verify>true</verify>
+             <keystoreConfig>
+               <delete>false</delete>
+               <gen>false</gen>      
+             </keystoreConfig>
+
+           </sign>
+
+
+
+           <!-- BUILDING PROCESS -->
+
+           <pack200>false</pack200>
+           <gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+           <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+           <outputJarVersions>false</outputJarVersions>
+
+           <!--install>false</install--> <!-- not yet supported -->
+           <verbose>false</verbose>
+
+        </configuration>
+      </plugin>
+
+
+
     </plugins>
   </build>
 </project>
