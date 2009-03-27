@@ -132,8 +132,9 @@ public class ColemoNode extends CustomNode {
 		colemoPanel.setPreferredSize(new Dimension(2000,2000));
 		var colemoActionWrapper= new ColemoActionWrapper(colemoPanel);
         
-		//colemoActionWrapper.setRepository(roolo.repository);
-		//colemoActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
+		colemoActionWrapper.setRepository(roolo.repository);
+        colemoActionWrapper.setEloFactory(roolo.eloFactory);
+		colemoActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
 		//colemoActionWrapper.setEloFactory(roolo.eloFactory);
 		return ColemoNode{
 			colemoPanel:colemoPanel;
