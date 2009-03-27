@@ -7,9 +7,7 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import java.util.Iterator;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,7 +29,7 @@ public class ConceptMapExporter {
         return defaultInstance;
     }
 
-    public void createXML() {
+    public String createXML() {
         Document xmldoc = createXMLDocument();
         Element root = xmldoc.createElement("conceptmap");
         xmldoc.appendChild(root);
@@ -65,7 +63,7 @@ public class ConceptMapExporter {
             links.appendChild(linkElement);
         }
 
-        createXMLFile(xmldoc);
+        return createXMLString(xmldoc);
     }
 
     private Document createXMLDocument() {
@@ -81,6 +79,28 @@ public class ConceptMapExporter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String createXMLString(Document xmlDocument) {
+        try {
+            return createXMLStringFromDocument(xmlDocument);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return null;
+    }
+
+    private String createXMLStringFromDocument(Document xmlDocument) throws IOException {
+        OutputFormat of = new OutputFormat("XML", "ISO-8859-1", true);
+        of.setIndent(1);
+        of.setIndenting(true);
+        //of.setDoctype(null, "projectConfiguration.dtd");
+        StringWriter sw = new StringWriter();
+
+        XMLSerializer serializer = new XMLSerializer(sw, of);
+        serializer.asDOMSerializer();
+        serializer.serialize(xmlDocument.getDocumentElement());
+        return sw.toString();
     }
 
     private File createXMLFile(Document xmldoc) {

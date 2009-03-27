@@ -1,6 +1,12 @@
 package eu.scy.colemo.client.actions;
 
+import eu.scy.colemo.client.ApplicationController;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+
 import java.awt.event.ActionEvent;
+
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +21,9 @@ public class SaveConceptMapToXML extends BaseAction{
     }
 
     protected void performAction(ActionEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        ToolBrokerAPI toolBroker = ApplicationController.getDefaultInstance().getToolBrokerAPI();
+        IRepository repository = toolBroker.getRepository();
+        //IELO elo  = toolBroker.getRepository().
+
     }
 }
