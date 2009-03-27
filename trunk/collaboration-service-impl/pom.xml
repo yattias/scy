@@ -23,23 +23,6 @@
 	</distributionManagement>
 
 	<repositories>
-		<repository>
-			<id>tels-repo-internal</id>
-			<name>TELS Center internal repository</name>
-			<url>http://repo.telscenter.org/internal/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-
-		<repository>
-			<id>tels-repo-internal-snapshot</id>
-			<name>TELS Center internal snapshot repository</name>
-			<url>http://repo.telscenter.org/internal_snapshot/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
 
 		<repository>
 			<id>collide-releases</id>
