@@ -341,15 +341,21 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public ArrayList<ICollaborationSession> getSessions(String arg0, String arg1, String arg2) {
+    public ArrayList<ICollaborationSession> getSessions(String session, String userName, String toolName) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public boolean sessionExists(String arg0, String arg1) {
+    public boolean sessionExists(String session, String userName) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public void cleanSession(String sessionId) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
