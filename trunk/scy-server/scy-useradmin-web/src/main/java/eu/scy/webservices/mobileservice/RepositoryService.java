@@ -7,6 +7,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlElement;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.logging.Logger;
@@ -34,6 +35,7 @@ public class RepositoryService {
 
     private static Logger log = Logger.getLogger("RepositoryService.class");
 
+    @XmlElement(type=Object.class)
     private RooloManager rooloManager;
 
 
@@ -94,7 +96,7 @@ public class RepositoryService {
 		return me;
 	}
 
-    @XmlTransient
+    @XmlTransient  
     public RooloManager getRooloManager() {
         return rooloManager;
     }
