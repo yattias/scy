@@ -135,8 +135,12 @@ public class SQLSpaceAdapter implements Callback {
         }
         
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
-        for (Tuple tuple : returnTuple) {
-            messages.add(convertTupleToScyMessage(tuple));
+        if (returnTuple != null && returnTuple.length > 0) {            
+            for (Tuple tuple : returnTuple) {
+                messages.add(convertTupleToScyMessage(tuple));
+            }
+        } else {
+            logger.error("readAll found no tuples matching " + scyMessage.toString());
         }
         return messages;
     }
