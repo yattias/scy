@@ -2,8 +2,8 @@ package eu.scy.collaborationservice.session;
 
 import java.util.UUID;
 
-import eu.scy.collaborationservice.impl.CollaborationServiceLocalImpl;
-import eu.scy.collaborationservice.impl.CollaborationServiceXMPPImpl;
+import org.apache.log4j.Logger;
+
 import eu.scy.communications.message.IScyMessage;
 
 /**
@@ -15,6 +15,8 @@ import eu.scy.communications.message.IScyMessage;
  *
  */
 public class CollaborationSessionFactory {
+    
+    private final static Logger logger = Logger.getLogger(CollaborationSessionFactory.class.getName());
 
     /**
      * Factory method

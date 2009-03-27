@@ -68,7 +68,6 @@ public class CollaborationServiceTestCase {
         assertTrue(numberOfSessions > 0);
         ICollaborationSession session = (CollaborationSession) sessions.get(0);
         try {
-            logger.debug("Session persistence id: " + session.getPersistenceId());
             getCS().delete(session.getPersistenceId());
         } catch (CollaborationServiceException e) {
             logger.error("Failed to delete. Odd. " + e);
@@ -76,9 +75,7 @@ public class CollaborationServiceTestCase {
         }
         sessions = getCS().getSessions(sessionId, user, tool);
         assertNotNull(sessions);
-        logger.debug("numberOfSessions: " + numberOfSessions);
-        logger.debug("sessions.size: " + sessions.size());
-        //assertTrue(sessions.size() == numberOfSessions - 1);
+        assertTrue(sessions.size() == numberOfSessions - 1);
     }
     
     // TODO: write this one so that it passes on all clients running a test
