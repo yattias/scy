@@ -38,6 +38,15 @@ public class RepositoryService {
     @XmlElement(type=Object.class)
     private RooloManager rooloManager;
 
+    
+    @WebMethod
+    public String saveData(@WebParam String title, @WebParam String b64) {
+        MobileELO me = new MobileELO();
+        me.setTitle(title);
+        me.setDescription("no description");
+        me.setB64Image(b64);
+        return saveELO(me);
+    }
 
 	@WebMethod
     public String saveELO(@WebParam MobileELO elo) {
@@ -47,17 +56,17 @@ public class RepositoryService {
 			
         //repository.addELO(EloConverter.convert(elo));
 		String fname = "c:\\" +elo.getTitle()+".jpg";
-		File f = new File(fname);
-		try {
-			InputStream in = new ByteArrayInputStream(elo.getImage());
-			BufferedImage image = ImageIO.read(in);
-			FileOutputStream fos = new FileOutputStream(f);
-			ImageIO.write(image, "jpeg", fos);
-			in.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
+//		File f = new File(fname);
+//		try {
+//			InputStream in = new ByteArrayInputStream(elo.getImage());
+//			BufferedImage image = ImageIO.read(in);
+//			FileOutputStream fos = new FileOutputStream(f);
+//			ImageIO.write(image, "jpeg", fos);
+//			in.close();
+//			fos.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//		}
         storeEloToRoolo(elo);
 		return "Image saved to "+ fname+". The highest level of fakeness is reached!";
 	}
