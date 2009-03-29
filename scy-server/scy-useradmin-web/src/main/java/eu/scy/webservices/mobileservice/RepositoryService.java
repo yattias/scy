@@ -92,7 +92,9 @@ public class RepositoryService {
 	@WebMethod
     public MobileELO getELO(@WebParam int id) {
         MobileELO me = new MobileELO();
-		me.setTitle("Hello. Me ELO. You ELO?");
+		me.setTitle("TestELO");
+		me.setDescription("Hello. Me ELO. You ELO?");
+		me.setB64Image("THISISTHEBASE64IMAGEENCODED;)TFA");
 		return me;
 	}
 
