@@ -321,8 +321,8 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
     }
 
     @Override
-    public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
-        IScyMessage scyMessage = ScyMessage.createScyMessage("anthonjp", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+    public ArrayList<IScyMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser) {
+        IScyMessage scyMessage = ScyMessage.createScyMessage(null, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
         return this.doQuery(scyMessage);
     }
 

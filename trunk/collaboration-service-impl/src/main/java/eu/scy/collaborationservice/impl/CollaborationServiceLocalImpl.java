@@ -104,9 +104,20 @@ public class CollaborationServiceLocalImpl implements ICollaborationService {
     }
     
     @Override
-    public ArrayList<IScyMessage> synchronizeClientState(String client, String session) {
-        IScyMessage scyMessage = ScyMessage.createScyMessage("CollaborationServiceSystemUser", client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        return this.scyCommunicationAdapter.doQuery(scyMessage);
+    public ArrayList<IScyMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
+        //would have been nice to do a precise query, instead of filtering away userName afterwards
+        IScyMessage scyMessage = ScyMessage.createScyMessage(null, client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+        ArrayList<IScyMessage> messages = this.scyCommunicationAdapter.doQuery(scyMessage);
+        if (includeChangesByUser) {
+            return messages;
+        }
+        ArrayList<IScyMessage> messagesFiltered = new ArrayList<IScyMessage>();
+        for (IScyMessage iScyMessage : messages) {
+            if (!userName.equals(iScyMessage.getUserName())) {
+                messagesFiltered.add(iScyMessage);
+            }
+        }
+        return messagesFiltered;
     }
 
     @Override
