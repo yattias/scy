@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DataCollector extends Activity {
-    /** Called when the activity is first created. */
 
 	public static final String PICTURE = "PICTURE";
 	
@@ -78,6 +77,7 @@ public class DataCollector extends Activity {
         	
         });
         
+        // if change the display orientation we check if a picture is being passed inside the saved state
         if(savedInstanceState != null && savedInstanceState.containsKey(PICTURE)) {
         	Log.d("DataCollector->onCreate", "contains key? " + Boolean.toString(savedInstanceState.containsKey(PICTURE)));
         	picture = (Bitmap) savedInstanceState.get(PICTURE);
@@ -87,13 +87,14 @@ public class DataCollector extends Activity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	SubMenu subMenu = menu.addSubMenu("Exit");
-    	
+    	// we create only one menu entry called exit to close the application
+    	menu.addSubMenu("Exit");
     	return super.onCreateOptionsMenu(menu);
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	// if the exit menu has been selected, we call finish() to shutdown the activity
     	if("Exit".equals(item.getTitle())) {
     		finish();
     	}
@@ -103,7 +104,8 @@ public class DataCollector extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
-    	Log.d("DataCollector->onSaveInstanceState", "Saving picture to bundle");
+    	Log.d("DataCollector", "Saving picture to bundle");
+    	// here we store the bitmap into the state to restore it on rotation change
     	outState.putParcelable(PICTURE, picture);
     }
     
@@ -120,12 +122,21 @@ public class DataCollector extends Activity {
     	}
     }
     
+    /**
+     * Updates the ImageView preview with the current picture.
+     */
     private void updatePreview() {
     	if(picture != null) {
     		preview.setImageBitmap(picture);
     	}
     }
 
+    /**
+     * Shows a nice dialog with a title, a message and a "Ok" button.
+     * 
+     * @param title
+     * @param message
+     */
 	private void showDialog(String title, String message) {
 		AlertDialog alertDialog = new AlertDialog.Builder(DataCollector.this).create();
 		alertDialog.setTitle(title);
@@ -145,7 +156,10 @@ public class DataCollector extends Activity {
     private static final String NAMESPACE = "http://mobileservice.webservices.scy.eu/";
     private static final String URL = "http://192.168.178.30:8080/scy-useradmin-web/services/RepositoryService";
      
-    void saveELO() {
+    /**
+     * Method to save the picture and the title into the web service.
+     */
+    private void saveELO() {
         try {
         	// get title
         	String t = title.getText().toString();
@@ -170,14 +184,21 @@ public class DataCollector extends Activity {
             
             title.setText("");
             preview.setImageBitmap(null);
+            picture = null;
             // handle result
-//            Object result = envelope.getResponse();
+            //  Object result = envelope.getResponse();
         } catch (Exception e) {
             Log.d("DataCollector->SOAP", e.getMessage());
             showDialog("Error", e.toString());
         }
     }
 
+    /**
+     * This method converts an bitmap into an byte array, containing a JPEG image.
+     * @param bitmap
+     * @return
+     * @throws IOException
+     */
 	private byte[] getBitmapAsByteArray(Bitmap bitmap) throws IOException {
 		// Serialize to a byte array
 		ByteArrayOutputStream bos = new ByteArrayOutputStream() ;
