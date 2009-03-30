@@ -38,9 +38,14 @@ public class ColemoPanel extends JPanel {
     private void initializeGUI() {
         setLayout(new BorderLayout());
         gDiagram = new GraphicsDiagram(new UmlDiagram());
+        SCYMapperToolbar toolBar = new SCYMapperToolbar();
+
+
 
         ApplicationController.getDefaultInstance().setGraphicsDiagram(gDiagram);
-        add(BorderLayout.CENTER, gDiagram);        
+        add(BorderLayout.NORTH, toolBar);
+        add(BorderLayout.CENTER, gDiagram);
+        SelectionController.getDefaultInstance().addSelectionControllerListnenr(toolBar);
     }
 
     public void addNewConcept(UmlDiagram diagram, String type) {

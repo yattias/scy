@@ -12,12 +12,17 @@ import java.awt.event.ActionEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class DeleteConcept extends BaseAction{
+    public DeleteConcept(String name) {
+        super(name);
+    }
+
     public Class getOperateson() {
         return UmlClass.class;
     }
 
     protected void performAction(ActionEvent e) {
         log.info("Deleting concept!");
+
         //IActionLogger actionLogger = ApplicationController.getDefaultInstance().getToolBrokerAPI().getActionLogger();
     }
 }

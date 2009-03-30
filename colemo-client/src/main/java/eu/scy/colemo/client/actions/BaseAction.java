@@ -16,6 +16,9 @@ public abstract class BaseAction extends AbstractAction {
 
     protected Logger log = Logger.getLogger("BaseAction.class");
 
+    public BaseAction(String name) {
+        setTitle(name);
+    }
 
 
     public void setTitle(String title) {

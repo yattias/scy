@@ -263,6 +263,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         ConceptLink nearestLink = getNearestLink(event.getPoint(), 30);
         if (nearestLink != null) {
             nearestLink.requestFocus();
+            SelectionController.getDefaultInstance().setSelected(nearestLink);
         }
     }
 
