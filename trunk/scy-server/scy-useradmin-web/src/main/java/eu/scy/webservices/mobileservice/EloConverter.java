@@ -1,7 +1,11 @@
 package eu.scy.webservices.mobileservice;
 
-import roolo.elo.api.IELO;
 import roolo.elo.BasicELO;
+import roolo.elo.api.IELO;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +16,24 @@ import roolo.elo.BasicELO;
  */
 public class EloConverter {
 	public static IELO convert(MobileELO elo) {
-		return new BasicELO();
+		String fname = "c:\\" + elo.getTitle() + ".jpg";
+		File f = new File(fname);
+		try {
+			InputStream in = new ByteArrayInputStream(elo.getImage());
+			BufferedImage image = ImageIO.read(in);
+			FileOutputStream fos = new FileOutputStream(f);
+			ImageIO.write(image, "jpeg", fos);
+			in.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BasicELO basicELO = new BasicELO();
+
+		//ImageContent ic = new ImageContent(elo.getTitle(), elo.getDescription(), elo.getImage());
+
+		//basicELO.setContent(ic);
+		return basicELO;
 	}
 	public static MobileELO convert(IELO elo) {
 		return new MobileELO();
