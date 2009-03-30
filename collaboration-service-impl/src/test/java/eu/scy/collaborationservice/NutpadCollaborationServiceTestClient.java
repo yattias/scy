@@ -113,7 +113,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         public void actionPerformed(ActionEvent e) {
 
             // get nutpad-specific messages which also belong to this session
-            scyMessages = collaborationService.synchronizeClientState(HARD_CODED_TOOL_NAME, collaborationSession.getId());
+            scyMessages = collaborationService.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, collaborationSession.getId(), true);
             logger.debug("got " + scyMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + collaborationSession.getId());
             
             Date date = new java.util.Date(System.currentTimeMillis());            
