@@ -6,9 +6,7 @@
 
 package eu.scy.elobrowser.awareness.contact;
 
-import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.elobrowser.awareness.contact.ContactFrame;
-import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.awareness.contact.MessageWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
@@ -16,8 +14,11 @@ import java.lang.Object;
 import java.lang.System;
 import javafx.animation.SimpleInterpolator;
 import javafx.animation.Timeline;
+import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +29,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.Scene;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -86,19 +90,6 @@ public class ContactWindow extends CustomNode{
                         sender: "Anonymous";
                         receiver: contact.contact.name;
                         opacity: 0.0;
-                        //FIXME worked without overriding
-//                        override public function closeWindow():Void{
-//                            Timeline{
-//                                keyFrames: [at (0.2s){this.opacity => 0.0 tween SimpleInterpolator.LINEAR}];
-//
-//                            }.play();
-//                            blocksMouse=false;
-//                            delete messageWindow from content;
-//                        };
-//                        override public function create():Node{
-//                            return createNode();
-//                        }
-
                     }
                         insert messageWindow into content;
                     messageWindow.visible = true;
@@ -122,25 +113,6 @@ public class ContactWindow extends CustomNode{
             };
 
             var lastClickContact: Long = 0;
-
-//            contact.frame.onMouseClicked = function(evt:MouseEvent):Void{
-//                if(evt.button == MouseButton.SECONDARY){
-//                    var messageWindow = MessageWindow{
-//                        //FIXME replace with variable username;
-//                        sender: "Anonymous";
-//                        receiver: contact.contact.name;
-//                        opacity: 0.0;
-//                    }
-//                        insert messageWindow into content;
-//                    messageWindow.visible = true;
-//                    Timeline {
-//
-//                        keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
-//                    }.play();
-//                }
-//            };
-
-
         }
     };
 
@@ -167,13 +139,15 @@ public class ContactWindow extends CustomNode{
             count++;
         }
     }
+    
     public function frameResize():Void{
-        Timeline{
+        Timeline{ 
             keyFrames: [at (0.3s){frame.height => (((
                 (sizeof visibleContacts)
                 /  2) as Integer) * visibleContacts[0].height) + 2 * offset + 8 tween SimpleInterpolator.LINEAR},
                     at (0.3s){frame.width =>
                 (2 * visibleContacts[0].width) + 2 * offset + 8 tween SimpleInterpolator.LINEAR}];
+//                at (0.3s){background.opacity => backgroundOpacity tween SimpleInterpolator.LINEAR}];
         }.play();
     };
 
@@ -197,10 +171,148 @@ public class ContactWindow extends CustomNode{
 
     };
 
+    def windowBackgroundColor = Color.WHITE;
+    def controlColor = Color.WHITE;
+	def controlLength = 18;
+	def controlStrokeWidth = 4;
+	def closeCrossInset = 4;
+    def controlStrokeDashArray = [0.0,7.0];
+    def controlStrokeDashOffset = 0;
+
+    def iconSize = 16;
+
+	def borderWidth = 4;
+	def topLeftBlockSize = 17;
+	def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
+    def closeColor = Color.WHITE;
+    def closeMouseOverEffect: Effect = Glow{
+        level: 1
+    }
+    var lineOffsetY = 3;
+	var lineWidth = 1;
+	var contentBorder = 2;
+    def closeStrokeWidth = 2;
+    var color = Color.LIGHTSKYBLUE;
+//    var windowEffect = Effect;
+
+     public var background:Group = Group{ // the white background of the window
+        def width = bind frame.width;
+        def height = bind frame.height;
+					content: [
+                        Rectangle { // top part until the arc
+							x: 0,
+							y: 0
+							width: bind width,
+							height: bind height - controlLength
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						},
+                        Rectangle { // bottom left part until the arc
+							x: bind controlLength,
+							y: bind height - controlLength
+							width: bind width - controlLength,
+							height: bind controlLength
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						},
+                        Arc { // the bottom left rotate arc part
+							centerX: controlLength,
+							centerY: bind height - controlLength,
+							radiusX: controlLength,
+							radiusY: controlLength
+							startAngle: 180,
+							length: 90
+							type: ArcType.ROUND
+							strokeWidth: borderWidth
+							fill: windowBackgroundColor
+							stroke: windowBackgroundColor
+						}
+					]
+                    visible:true;
+				};
+
+    public var frameborder = Group{
+        def width = bind frame.width;
+        def height = bind frame.height;
+
+
+        content: [
+                background,
+                Line { // the left border line
+					startX: 0,
+					startY: bind height - controlLength - borderWidth / 2 - closeStrokeWidth / 2
+					endX: 0,
+					endY: 0
+					strokeWidth: borderWidth
+					stroke: bind color
+				}
+                Line { // the top border line
+					startX: 0,
+					startY: 0
+					endX: bind width,
+					endY: 0
+					strokeWidth: borderWidth
+					stroke: bind color
+				}
+                Line { // the right border line
+					startX: bind width,
+					startY: 0
+					endX: bind width,
+					endY: bind height,
+					strokeWidth: borderWidth
+					stroke: bind color
+//					effect: bind windowEffect
+				}
+                Line { // the bottom border line
+					startX: bind width,
+					startY: bind height
+					endX: bind controlLength + borderWidth / 2 + closeStrokeWidth / 2,
+					endY: bind height,
+					strokeWidth: borderWidth
+					stroke: bind color
+//					effect: bind windowEffect
+				}
+                Arc { // the bottom left "disabled" rotate arc
+					centerX: controlLength,
+					centerY: bind height - controlLength,
+					radiusX: controlLength,
+					radiusY: controlLength
+					startAngle: 180,
+					length: 90
+					type: ArcType.OPEN
+					fill: Color.TRANSPARENT
+					strokeWidth: borderWidth
+					stroke: bind color
+					//effect:bind windowEffect
+
+                } 
+                Group{ // the content
+                    blocksMouse: true;
+                    cursor: Cursor.DEFAULT;
+                    translateX: borderWidth / 2 + 1 + contentBorder
+                    translateY: iconSize + topLeftBlockSize / 2 + 1 + contentBorder
+                    clip: Rectangle {
+                        x: 0,
+                        y: 0
+                        width: bind width - borderWidth - 2 * contentBorder - 1,
+                        height: bind height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder
+                        fill: Color.BLACK
+                    }
+//                    content: bind scyContent
+                    onMousePressed: function( e: MouseEvent ):Void {
+                    }
+                }]
+        
+    }
+
 
     public var frame: Rectangle = Rectangle{
-        stroke: Color.BLACK;
-        fill: gradient;
+//        stroke: Color.BLACK;
+        stroke: Color.TRANSPARENT;
+//        fill: gradient;
+        fill: Color.TRANSPARENT;
         arcHeight: 20;
         arcWidth: 20;
         opacity: 0.7;
@@ -210,25 +322,44 @@ public class ContactWindow extends CustomNode{
         width: (2 * visibleContacts[0].width) + 2 * offset;
 
         onMouseEntered: function(evt:MouseEvent):Void{
+            requestFocus();
+            toFront();
+            focused = true;
             if  (visibleContacts[0].size == WindowSize.SMALL){
                 frameResize();
                 for (contact in visibleContacts){
                     contact.expandName();
                 }
+                Timeline{
+                keyFrames: [at (0.3s){background.opacity => 1.0 tween SimpleInterpolator.LINEAR}]
+                }.play();
+
                 actualizePositions();
             }
         };
         onMouseExited: function(evt:MouseEvent):Void{
+            focused = false;
             if  (visibleContacts[0].size == WindowSize.HOVER and not dragging){
                 frameResize();
                 for (contact in visibleContacts){
                     contact.reduce();
                 }
+                 Timeline{
+                keyFrames: [at (0.3s){background.opacity => 0.0 tween SimpleInterpolator.LINEAR}]
+                }.play();
                 actualizePositions();
+                toBack();
             }
         };
         onMouseReleased: function(evt:MouseEvent):Void{
             delete ghostImage from content;
+//            if  (visibleContacts[0].size == WindowSize.HOVER and not dragging){
+//                frameResize();
+//                for (contact in visibleContacts){
+//                    contact.reduce();
+//                }
+//                actualizePositions();
+//            }
         }
 
         //        //For window-dragging-support
@@ -266,7 +397,7 @@ public class ContactWindow extends CustomNode{
         };
     };
 
-    public var content: Node[] = [frame,visibleContacts];
+    public var content: Node[] = [frame,frameborder,visibleContacts];
 
     override public function create():
     Node{
@@ -283,52 +414,6 @@ public class ContactWindow extends CustomNode{
     function run(__ARGS__ : String[]){
 
         
-    
-
-//
-//        def contactWindow = ContactWindow{
-//            contacts: bind getContacts();
-//        };
-
-    //Buttons for testing purpose only
-
-        //       def button =  SwingButton {
-        //            text: "Change online state";
-        //            translateX: 400;
-        //            translateY: 20;
-        //            action: function() {
-        //contact5.contact.onlineState = OnlineState.AWAY;
-        //            }
-        //        }
-
-        //        def expandButton = SwingButton{
-        //            text: "expand Text";
-        //            translateX: 300;
-        //            translateY: 200;
-        //            onMouseClicked: function(evt: MouseEvent):Void {
-        //                for (contactFrame in contactWindow.visibleContacts) {
-        //                    if (contactFrame.size != WindowSize.NORMAL){
-        //                        contactFrame.expand();
-        //                    }
-        //                }
-        //                contactWindow.actualizePositions();
-        //            };
-        //
-        //        }
-
-        //        def reduceButton = SwingButton{
-        //            text: "reduce Text";
-        //            translateX: 300;
-        //            translateY: 300;
-        //            onMouseClicked: function(evt: MouseEvent):Void {
-        //                for (contactFrame in contactWindow.visibleContacts) {
-        //                    if (contactFrame.size != WindowSize.SMALL){
-        //                        contactFrame.reduce();
-        //                    }
-        //                }
-        //                contactWindow.actualizePositions();
-        //            };
-        //        }
 
         Stage {
             title: "Contact"
