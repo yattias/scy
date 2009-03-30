@@ -40,7 +40,7 @@ public class ScyEdgeLayer extends CustomNode {
         var foobar = bind  if( Math.abs(node1.translateX - node2.translateX) < 100)
               then 0
               else
-        Math.toDegrees(java.lang.Math.atan((node1.translateY  -  node2.translateY) / (node1.translateX - node2.translateX)));
+        Math.toDegrees(edge.gradientAngle);
         transforms: bind javafx.scene.transform.Transform.rotate(foobar, displaytext.x, displaytext.y);
            /*java.lang.Math.toDegrees((java.lang.Math.abs(node1.x  -  node2.x) / 2) /
             (java.lang.Math.sqrt(

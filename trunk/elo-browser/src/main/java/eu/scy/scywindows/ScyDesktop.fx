@@ -13,7 +13,6 @@ import java.lang.System;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Sequences;
 

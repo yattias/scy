@@ -11,6 +11,7 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.elobrowser.main.EdgesManager;
 import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
 import eu.scy.elobrowser.main.ResultView;
@@ -267,7 +268,6 @@ var growl = GrowlFX {
     opacity: 0;
 }
 
-
 function getContacts():ContactFrame[]{
     def contact1 = ContactFrame{
         size: WindowSize.NORMAL;
@@ -278,7 +278,6 @@ function getContacts():ContactFrame[]{
             onlineState: OnlineState.ONLINE;
             progress: 1.0;
         };
-
     };
 
     def contact2 = ContactFrame{
@@ -291,7 +290,6 @@ function getContacts():ContactFrame[]{
             progress: 0.1;
         };
         x: 300;
-
     };
 
     def contact3 = ContactFrame{
@@ -344,6 +342,8 @@ var edgesManager: EdgesManager = EdgesManager {
                             edgesManager.createEdge((scyDesktop.desktop.content[0] as ScyWindow),(scyDesktop.desktop.content[1] as ScyWindow),"haha");
                         }
 */
+
+
 stage = Stage {
 
 	title: "SCY Lab (FX)"
