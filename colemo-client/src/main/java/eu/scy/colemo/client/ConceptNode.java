@@ -47,7 +47,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
     private HashSet<ConceptLink> inboundLinks = new HashSet<ConceptLink>();
     private HashSet<ConceptLink> outboundLinks = new HashSet<ConceptLink>();
     private UmlClass model;
-    public  final static Color defaultFillColor = new Color(255, 102, 0, 100);
+    public  final static Color defaultFillColor = Color.white;//new Color(255, 102, 0, 100);
     private Color fillColor;
 
     public ConceptNode(UmlClass umlClass) {
@@ -58,6 +58,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
         addMouseListener(this);
         addMouseMotionListener(this);
 
+        //nameField = new JTextField(model.getId());
         nameField = new JTextField(model.getName());
         nameField.setOpaque(false);
         nameField.setBorder(null);
@@ -109,7 +110,6 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
         else c = getFillColor();
         g2.setColor(c);
         g2.fillRoundRect(0, 0, bounds.width - 2, bounds.height - 2, arc, arc);
-
         // Draw the current active connection area
         if (getActiveConnectionArea() != CONNECTION_AREA_NONE) {
             g2.setColor(new Color(200, 200, 200, 200));
