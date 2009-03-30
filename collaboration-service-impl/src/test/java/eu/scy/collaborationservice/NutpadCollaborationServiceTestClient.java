@@ -24,6 +24,8 @@ import org.apache.log4j.Logger;
 import eu.scy.collaborationservice.dialog.ScyMessageCreateDialog;
 import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
+import eu.scy.collaborationservice.session.CollaborationSession;
+import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
@@ -32,7 +34,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadCollaborationServiceTestClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "NUTPAD";
-    private static final String SESSIONID = "NUTPAD_SESSION";
+    private static final String HARD_CODED_USER_NAME = "thomasd";
     
     private JTextArea editArea;
     private Action openCSAction = new OpenFromCollaborationServiceAction();
@@ -41,8 +43,8 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     private Action exitAction = new ExitAction();
     
     private ICollaborationService collaborationService;
+    private ICollaborationSession collaborationSession;
     private ArrayList<IScyMessage> scyMessages;
-    private String userName;
     
     
     public static void main(String[] args) {
@@ -85,13 +87,13 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
     }
     
     public void initialize() {    
-        // generate UUID each instance of the tool will be unique username
-        UUID uuid = UUID.randomUUID();        
-        userName = uuid.toString();        
         try {
             // init the collaboration service
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+            // add listner in order to get callbacks on stuff that's happening
             collaborationService.addCollaborationListener(this);
+            //create new session
+            collaborationSession = collaborationService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         } catch (CollaborationServiceException e) {
             logger.error("Failed to init collaboration service: " + e);
             e.printStackTrace();
@@ -109,9 +111,10 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         }
         
         public void actionPerformed(ActionEvent e) {
+
             // get nutpad-specific messages which also belong to this session
-            scyMessages = collaborationService.synchronizeClientState("NUTPAD", SESSIONID);
-            logger.debug("got " + scyMessages.size() + " messages for this tool and session");
+            scyMessages = collaborationService.synchronizeClientState(HARD_CODED_TOOL_NAME, collaborationSession.getId());
+            logger.debug("got " + scyMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + collaborationSession.getId());
             
             Date date = new java.util.Date(System.currentTimeMillis());            
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
@@ -153,11 +156,11 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements ICol
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadCollaborationServiceTestClient.this, userName, HARD_CODED_TOOL_NAME, "create", SESSIONID);            
+            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadCollaborationServiceTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", collaborationSession.getId());            
             String[] messageStrings = d.showDialog();
             
             // or create message
-            IScyMessage scyMessage = ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], 0, messageStrings[10]);
+            IScyMessage scyMessage = ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], CollaborationSession.DEFAULT_SESSION_EXPIRATION_TIME, messageStrings[10]);
             try {
                 // pass scyMessage to collaboration service for storing
                 collaborationService.create(scyMessage);
