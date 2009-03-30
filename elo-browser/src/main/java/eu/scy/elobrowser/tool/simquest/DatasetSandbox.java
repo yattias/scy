@@ -3,16 +3,11 @@ package eu.scy.elobrowser.tool.simquest;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
-import eu.scy.collaborationservice.impl.CollaborationServiceLocalImpl;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import roolo.elo.JDomStringConversion;
 
 /**
