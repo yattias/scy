@@ -47,7 +47,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
     private HashSet<ConceptLink> inboundLinks = new HashSet<ConceptLink>();
     private HashSet<ConceptLink> outboundLinks = new HashSet<ConceptLink>();
     private UmlClass model;
-    public  final static Color defaultFillColor = Color.white;//new Color(255, 102, 0, 100);
+    public final static Color defaultFillColor = Color.white;//new Color(255, 102, 0, 100);
     private Color fillColor;
 
     public ConceptNode(UmlClass umlClass) {
@@ -118,6 +118,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 
         g2.dispose();
     }
+
     public void setSelected(boolean selected) {
         this.isSelected = selected;
     }
@@ -172,6 +173,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
     }
 
     public void mousePressed(MouseEvent e) {
+        SelectionController.getDefaultInstance().setSelected(getModel());
 
     }
 
@@ -218,6 +220,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
         }
         return null;
     }
+
     public void mouseMoved(MouseEvent e) {
         Point p = e.getPoint();
         if (inConnectionArea(e.getPoint())) {
@@ -238,7 +241,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
         Rectangle bounds = getBounds();
         connectionAreas.put(CONNECTION_EDGE_NORTH, new Rectangle(15, 0, bounds.width - 30, 8));
         connectionAreas.put(CONNECTION_EDGE_EAST, new Rectangle(bounds.width - 8, 15, 8, bounds.height - 30));
-        connectionAreas.put(CONNECTION_EDGE_SOUTH, new Rectangle(15, bounds.height-8, bounds.width - 30, 8));
+        connectionAreas.put(CONNECTION_EDGE_SOUTH, new Rectangle(15, bounds.height - 8, bounds.width - 30, 8));
         connectionAreas.put(CONNECTION_EDGE_WEST, new Rectangle(0, 15, 8, bounds.height - 30));
     }
 
@@ -252,12 +255,14 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
     public Boolean inConnectionPoint(Point p, int connectPoint) {
         return connectionAreas.get(connectPoint).contains(p);
     }
+
     public int getConnectionEdge(Point p) {
         return connectionAreas.get(CONNECTION_EDGE_SOUTH).contains(p) ? CONNECTION_EDGE_SOUTH :
-                   connectionAreas.get(CONNECTION_EDGE_NORTH).contains(p) ? CONNECTION_EDGE_NORTH :
-                   connectionAreas.get(CONNECTION_EDGE_EAST).contains(p) ? CONNECTION_EDGE_EAST :
-                   connectionAreas.get(CONNECTION_EDGE_WEST).contains(p) ? CONNECTION_EDGE_WEST : -1 ;
+                connectionAreas.get(CONNECTION_EDGE_NORTH).contains(p) ? CONNECTION_EDGE_NORTH :
+                        connectionAreas.get(CONNECTION_EDGE_EAST).contains(p) ? CONNECTION_EDGE_EAST :
+                                connectionAreas.get(CONNECTION_EDGE_WEST).contains(p) ? CONNECTION_EDGE_WEST : -1;
     }
+
     public void focusGained(FocusEvent e) {
         setSelected(true);
         repaint();
@@ -266,6 +271,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
     public void setModel(UmlClass umlClass) {
         model = umlClass;
     }
+
     public UmlClass getModel() {
         return model;
     }

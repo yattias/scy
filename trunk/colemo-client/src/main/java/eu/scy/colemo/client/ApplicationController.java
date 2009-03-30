@@ -43,7 +43,7 @@ public class ApplicationController {
     
 
 
-    public ConnectionHandler getConnectionHandler() {
+    public ConnectionHandler getConnectionHandler() {              
         return connectionHandler;
     }
 

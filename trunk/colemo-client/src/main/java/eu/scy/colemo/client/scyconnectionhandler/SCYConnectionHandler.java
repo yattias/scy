@@ -12,6 +12,7 @@ import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
+import eu.scy.collaborationservice.session.ICollaborationSession;
 import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
@@ -32,6 +33,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
 
     private static final Logger log = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
     private ICollaborationService collaborationService;
+    private ICollaborationSession collaborationSession;
     //FIXME: this needs to come from the client, generated
     public static final String SESSIONID = "1";
 
@@ -81,14 +83,16 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     public void joinSession(String sessionId) {
         this.sessionId = sessionId;
         ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
-        log.debug("initializing");
+        log.info("initializing session: " + sessionId);
         MessageTranslator ot = new MessageTranslator();
 
         ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
         try {
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
             collaborationService.addCollaborationListener(this);
-            messages = collaborationService.synchronizeClientState("Colemo", sessionId);
+            collaborationSession = collaborationService.createSession("SCYMapper", "Henrik");
+            messages = collaborationService.synchronizeClientState("Henrik","SCYMapper", collaborationSession.getId(), true);
+
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
             e.printStackTrace();
@@ -112,7 +116,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0, 0, 800, 700);
     }
 
-
+                                                                                                                                                                            
     public void cleanUp() {
         //TODO: implement this in collaborationservice
 //        try {

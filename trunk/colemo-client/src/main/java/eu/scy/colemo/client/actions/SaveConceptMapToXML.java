@@ -16,6 +16,10 @@ import roolo.elo.api.IELO;
  * To change this template use File | Settings | File Templates.
  */
 public class SaveConceptMapToXML extends BaseAction{
+    public SaveConceptMapToXML(String name) {
+        super(name);
+    }
+
     public Class getOperateson() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
