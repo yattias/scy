@@ -21,6 +21,9 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import org.apache.cxf.common.util.Base64Utility;
+import org.apache.cxf.common.util.Base64Exception;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -41,7 +44,7 @@ public class RepositoryService {
         log.info("KICKING OFF WITH THIS FUNKY MOBILE ELO: " + elo);
 
         //repository.addELO(EloConverter.convert(elo));
-		String fname = "c:\\" +elo.getTitle()+".jpg";
+		/*String fname = "c:\\" +elo.getTitle()+".jpg";
 		File f = new File(fname);
 		try {
 			InputStream in = new ByteArrayInputStream(elo.getImage());
@@ -50,11 +53,13 @@ public class RepositoryService {
 			ImageIO.write(image, "jpeg", fos);
 			in.close();
 			fos.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
+		*/
         storeEloToRoolo(elo);
-		return "Image saved to "+ fname+". The highest level of fakeness is reached!";
+		return "HES";//"Image saved to "+ fname+". The highest level of fakeness is reached!";
 	}
 	@WebMethod(action = "getELO")
     public MobileELO getELO(@WebParam int id) {
@@ -77,7 +82,7 @@ public class RepositoryService {
 
 	@XmlTransient
 	private void storeEloToRoolo(MobileELO melo) {
-		System.out.println("rooloManager = " + rooloManager);
+		log.info("rooloManager = " + rooloManager);
 		if (rooloManager.getEloFactory() != null) {
 			IELO elo = rooloManager.getEloFactory().createELO();
 			elo.setDefaultLanguage(Locale.ENGLISH);
@@ -94,7 +99,12 @@ public class RepositoryService {
 
 			IContent content = rooloManager.getEloFactory().createContent();
 			content.setXmlString("<melo><name>" + melo.getTitle() + "</name<description>" + melo.getDescription() + "</description><image encoding=\"base64\">" + melo.getB64Image() + "</image></melo>");
-			elo.setContent(content);
+            try {
+                content.setBytes(Base64Utility.decode(melo.getB64Image()));
+            } catch (Base64Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            elo.setContent(content);
 			IMetadata<IMetadataKey> resultMetadata = rooloManager.getRepository().addELO(elo);
 			rooloManager.getEloFactory().updateELOWithResult(elo, resultMetadata);
 
