@@ -18,15 +18,12 @@ public class MobileELO {
 
 	public MobileELO() {
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 	@XmlTransient
 	public byte[] getImage() {
 		try {
@@ -36,7 +33,6 @@ public class MobileELO {
 		}
 		return null;
 	}
-
 	public void setImage(byte[] image) {
 		this.b64Image = Base64Utility.encode(image);
 	}
@@ -50,11 +46,9 @@ public class MobileELO {
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	@Override
 	public String toString() {
 		return "MobileELO{" +
