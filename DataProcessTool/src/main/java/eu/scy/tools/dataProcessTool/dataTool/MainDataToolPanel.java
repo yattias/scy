@@ -897,7 +897,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         }
         Visualization vis = new Visualization(-1, name, type, tabNo, true) ;
         if (type.getCode() == DataConstants.VIS_GRAPH){
-            ParamGraph paramGraph = new ParamGraph(header1.getValue(), header2.getValue(), -10, 10, 1, -10,10,1);
+            ParamGraph paramGraph = new ParamGraph(header1.getValue(), header2.getValue(), -10, 10,  -10,10,1,1);
             vis = new Graph(-1, name, type, tabNo, true, paramGraph, null);
         }
         ArrayList v = new ArrayList();
@@ -1240,6 +1240,27 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         }
         getDataSetTabbedPane().updateDataset(nds, true);
         getDataVisTabbedPane().updateDataset(nds, true);
+    }
+
+    /* maj para graph */
+    public void setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
+        CopexReturn cr = this.controller.setParamGraph(dbKeyDs, dbKeyVis,x_min, x_max, deltaX, y_min, y_max, deltaY);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return ;
+        }
+        int idDs = getIdDataset(dbKeyDs);
+        if (idDs == -1)
+            return;
+        Dataset ds = listDataSet.get(idDs);
+        int idVis = ds.getIdVisualization(dbKeyVis);
+        if (idVis == -1)
+            return;
+        Visualization vis = ds.getListVisualization().get(idVis);
+        if( vis instanceof Graph){
+            ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
+            ((Graph)vis).setParamGraph(paramGraph);
+        }
     }
 
 }

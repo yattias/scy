@@ -34,6 +34,10 @@ public class GraphPanel extends javax.swing.JPanel {
     // PROPERTY
     /* owner */
     private MainDataToolPanel owner;
+    /* dataset */
+    private long dbKeydDs;
+     /* visulization */
+    private long dbKeyVis;
     /* données */
     private Data[][] datas;
 
@@ -60,10 +64,18 @@ public class GraphPanel extends javax.swing.JPanel {
 
     
     /** Creates new form GraphPanel */
-    public GraphPanel(MainDataToolPanel owner, Data[][] datas, ArrayList<FunctionModel> listFunctionModel) {
+    public GraphPanel(MainDataToolPanel owner, long dbKeyDs,long dbKeyVis, Data[][] datas, ArrayList<FunctionModel> listFunctionModel, double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y) {
         super();
+        this.dbKeydDs = dbKeyDs ;
+        this.dbKeyVis = dbKeyVis ;
         this.owner  =owner;
         this.datas = datas ;
+        this.x_min = x_min;
+        this.x_max = x_max;
+        this.delta_x = delta_x;
+        this.y_min = y_min;
+        this.y_max = y_max;
+        this.delta_y = delta_y ;
         initComponents();
         bleu.setIcon(owner.getCopexImage("bleu_up.gif"));
         bleu.setSelectedIcon(owner.getCopexImage("bleu_dn.gif"));
@@ -71,9 +83,16 @@ public class GraphPanel extends javax.swing.JPanel {
         vert.setSelectedIcon(owner.getCopexImage("vert_dn.gif"));
         noir.setIcon(owner.getCopexImage("noir_up.gif"));
         noir.setSelectedIcon(owner.getCopexImage("noir_dn.gif"));
+        
         // functionSelector.setVisible(false);
         // recuperation de tous les parametres pour les traitements ulterieurs
         recupererParametresZdT();
+        this.xmin.setText(x_min+"");
+        this.xmax.setText(x_max+"");
+        this.deltaX.setText(delta_x+"");
+        this.ymin.setText(y_min+"");
+        this.ymax.setText(y_max+"");
+        this.deltaY.setText(delta_y+"");
         width = 400;
         height = 400;
         zoneDeTrace = new DrawPanel(owner, this, datas, x_min, x_max, delta_x, y_min, y_max, width, height) ;
@@ -209,6 +228,7 @@ public class GraphPanel extends javax.swing.JPanel {
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }*/
+        owner.setParamGraph(dbKeydDs, dbKeyVis, x_min, x_max, delta_x, y_min, y_max, delta_y);
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(x_min, x_max, delta_x, y_min, y_max, delta_y) ;
         
