@@ -47,7 +47,6 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* SessionID*/
     private  String sessionID = DatasetSandbox.SESSION_ID;
     
-
     /* Constructor data Tool panel - blank */
     public DataToolPanel() {
         super();
@@ -59,7 +58,8 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
         try{
             initCollaborationService();
         }catch(CollaborationServiceException e){
-            this.dataProcessVisualizationTool.displayError("Error during initializing Collaboration Service : "+e);
+            //this.dataProcessVisualizationTool.displayError("Error during initializing Collaboration Service : "+e);
+            System.out.println("Error during initializing Collaboration Service: "+e);
         }
     }
 
@@ -67,14 +67,11 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     private void resizePanel(){
         System.out.println("resize data tool panel : "+this.getWidth()+", "+this.getHeight());
     }
-
     
     /* load ELO into data process tool */
     public void loadELO(String xmlContent){
         this.dataProcessVisualizationTool.loadELO(xmlContent);
     }
-
- 
 
     public void newElo(){
         this.dataProcessVisualizationTool.createTable("NEW");
@@ -100,9 +97,16 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
         ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(simulatorName, sessionID);
-        if (scyMessages != null){
-            for (IScyMessage scyMessage : scyMessages) {
-                readMessage(scyMessage);
+        // find the header message first
+        for (IScyMessage message : scyMessages) {
+            if (message.getObjectType().equals(TYPE_DATASET_HEADER)) {
+                readMessage(message);
+            }
+        }
+        // add all value messages now
+        for (IScyMessage message : scyMessages) {
+            if (message.getObjectType().equals(TYPE_DATASET_ROW)) {
+                readMessage(message);
             }
         }
         collaborationService.addCollaborationListener(this);
@@ -117,7 +121,8 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
                     DataSetHeader header = new DataSetHeader(description);
                     initializeHeader(header);
                 }catch(JDOMException ex){
-                    this.dataProcessVisualizationTool.displayError("Error parsing header : "+ex);
+                    //this.dataProcessVisualizationTool.displayError("Error parsing header : "+ex);
+                    System.out.println("Error parsing header: "+ex);
                     return;
                 }
             }else if (scyMessage.getObjectType().equals(TYPE_DATASET_ROW)){
@@ -125,7 +130,8 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
                     DataSetRow row = new DataSetRow(new JDomStringConversion().stringToXml(description));
                     updateDataRow(row);
                 }catch(JDOMException ex){
-                    this.dataProcessVisualizationTool.displayError("Error parsing row : "+ex);
+                    //this.dataProcessVisualizationTool.displayError("Error parsing row : "+ex);
+                    System.out.println("Error parsing row: "+ex);
                     return;
                 }
             }
@@ -136,6 +142,5 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
         IScyMessage scyMessage = e.getScyMessage();
         readMessage(scyMessage);
     }
-
-
+    
 }
