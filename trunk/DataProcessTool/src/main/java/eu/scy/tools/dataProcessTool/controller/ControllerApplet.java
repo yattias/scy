@@ -328,13 +328,18 @@ public class ControllerApplet implements ControllerInterface{
 
     /* retourne l'indice du dataset -1 sinon */
     private int getIdDataset(Dataset ds){
+        return getIdDataset(ds.getDbKey());
+    }
+     /* retourne l'indice du dataset -1 sinon */
+    private int getIdDataset(long dbKeyDs){
         int nb = this.listDataSet.size();
         for (int i=0; i<nb; i++){
-            if (listDataSet.get(i).getDbKey() == ds.getDbKey())
+            if (listDataSet.get(i).getDbKey() == dbKeyDs)
                 return i;
         }
         return -1;
     }
+
 
     /* retourne l'indice de l'operation du dataset -1 sinon */
     private int getIdOperation(Dataset ds, DataOperation operation){
@@ -904,6 +909,25 @@ public class ControllerApplet implements ControllerInterface{
         v.add(listDataSet.get(id).clone());
         return new CopexReturn() ;
     }
+
+    /*mise à jour des param */
+    @Override
+    public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
+        int idDs = getIdDataset(dbKeyDs);
+        if (idDs == -1)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
+        Dataset ds = this.listDataSet.get(idDs);
+        int idVis = ds.getIdVisualization(dbKeyVis);
+        if (idVis == -1)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
+        Visualization vis = ds.getListVisualization().get(idVis);
+        if (vis instanceof Graph){
+            ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
+            ((Graph)vis).setParamGraph(paramGraph);
+        }
+        return new CopexReturn();
+    }
+
 
    
 

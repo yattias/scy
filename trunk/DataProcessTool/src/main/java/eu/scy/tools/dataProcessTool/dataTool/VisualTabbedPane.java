@@ -12,6 +12,7 @@ import eu.scy.tools.dataProcessTool.common.FunctionModel;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.common.Graph ;
+import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.utilities.CloseTab;
 import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
@@ -265,7 +266,10 @@ public class VisualTabbedPane extends ScyTabbedPane{
                 datas[i][1] = ds.getData(i, id2);
             }
             ArrayList<FunctionModel> listFunctionModel = ((Graph)vis).getListFunctionModel() ;
-            GraphPanel gPanel = new GraphPanel(owner, datas, listFunctionModel) ;
+            ParamGraph pg = ((Graph)vis).getParamGraph() ;
+            GraphPanel gPanel = new GraphPanel(owner, ds.getDbKey(), vis.getDbKey(), datas, listFunctionModel,
+                    pg.getX_min(), pg.getX_max(), pg.getDeltaX(),
+                    pg.getY_min(), pg.getY_max(), pg.getDeltaY()) ;
             cGraph = new CopexGraph(vis, gPanel) ;
         }
           if (cGraph == null)
