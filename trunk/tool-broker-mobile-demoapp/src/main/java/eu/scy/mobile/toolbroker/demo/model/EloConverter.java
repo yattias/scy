@@ -1,7 +1,5 @@
 package eu.scy.mobile.toolbroker.demo.model;
 
-//import com.sun.midp.io.Base64;
-
 import eu.scy.mobile.toolbroker.demo.client.MobileELO;
 import eu.scy.mobile.toolbroker.demo.util.Base64;
 
@@ -24,8 +22,7 @@ public class EloConverter {
 		MobileELO me = new MobileELO();
 		me.setDescription(ie.getComment());
 		me.setTitle(ie.getTitle());
-		//System.out.println(Base64.encode(ie.getImage()));
-		me.setB64Image("b64im");
+		me.setB64Image(new String(Base64.encode(ie.getImage())));
 		return me;
 	}
 
