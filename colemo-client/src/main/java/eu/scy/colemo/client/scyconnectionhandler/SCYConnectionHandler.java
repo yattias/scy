@@ -35,9 +35,9 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     private ICollaborationService collaborationService;
     private ICollaborationSession collaborationSession;
     //FIXME: this needs to come from the client, generated
-    public static final String SESSIONID = "1";
+    //public static final String SESSIONID = "1";
 
-    private String sessionId = SESSIONID;
+    //private String sessionId = SESSIONID;
 
 
 
@@ -47,7 +47,7 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         System.out.println("Sending object:" + object);
 
         MessageTranslator mt = new MessageTranslator();
-        mt.setSessionId(getSessionId());
+        mt.setSessionId(collaborationSession.getId());
         IScyMessage sendMe = null;
 
         if (object instanceof AddClass) {
@@ -77,11 +77,10 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
     }
 
     public void initialize() throws Exception {
-        joinSession(SESSIONID);
+        joinSession(null);
    }
 
     public void joinSession(String sessionId) {
-        this.sessionId = sessionId;
         ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
         log.info("initializing session: " + sessionId);
         MessageTranslator ot = new MessageTranslator();
@@ -90,9 +89,14 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         try {
             collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
             collaborationService.addCollaborationListener(this);
-            collaborationSession = collaborationService.createSession("SCYMapper", "Henrik");
+            if (sessionId == null) {
+                collaborationSession = collaborationService.createSession("SCYMapper", "Henrik");                
+            } else {
+                collaborationSession = collaborationService.joinSession(sessionId, "Henrik", "SCYMapper"); 
+            }
+            log.debug("joined session: " + collaborationSession.getId());
             messages = collaborationService.synchronizeClientState("Henrik","SCYMapper", collaborationSession.getId(), true);
-
+            log.debug("got ###: " + messages.size() + " messages");
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
             e.printStackTrace();
@@ -147,13 +151,5 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
 
     public void sendMessage(String message) {
         System.out.println("SCYConnectionHandler.sendMessage()");
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 }
