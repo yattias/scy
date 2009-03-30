@@ -56,7 +56,13 @@ public interface ICollaborationSession {
      * @param toolName
      */
     public void setTool(String toolName);
-
+    
+    /**
+     * get id
+     * 
+     * @return session id
+     */
+    public String getId();
     
     /**
      * set id
