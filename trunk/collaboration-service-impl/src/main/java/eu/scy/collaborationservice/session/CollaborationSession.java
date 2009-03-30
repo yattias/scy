@@ -45,7 +45,8 @@ public class CollaborationSession implements ICollaborationSession {
     public void setTool(String toolName) {
         this.toolName = toolName;
     }
-
+    
+    @Override
     public String getId() {
         return id;
     }
