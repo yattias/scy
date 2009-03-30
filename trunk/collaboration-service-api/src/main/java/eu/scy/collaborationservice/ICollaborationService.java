@@ -95,11 +95,14 @@ public interface ICollaborationService {
     /**
      * Gives the complete set of ScyMessges which represent changes for this specific client
      * 
+     * @param userName - name of user
      * @param toolName - name of tool
      * @param session -  id of session shared by client instances
-     * @return
+     * @param includeChangesByUser - true if the return should include changes done by the user 
+     * 
+     * @return arrayList
      */
-    public ArrayList<IScyMessage> synchronizeClientState(String toolName, String session);    
+    public ArrayList<IScyMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser);    
     
     /**
      * Creates and returns an instance of ICollaborationSession
