@@ -6,14 +6,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
