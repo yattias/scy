@@ -44,9 +44,9 @@ public class BasicMappingElo implements MappingElo,Cloneable
 		// TODO remove elo!=null check!
 		if (elo!=null)
 			content = elo.getContent();
-		if (content != null)
+		if (content != null && content.getXmlString()!=null)
 		{
-			metadataDisplayMapping = xmlMetadataDisplayMappingConverter.fromXmlString(content.getXml());
+			metadataDisplayMapping = xmlMetadataDisplayMappingConverter.fromXmlString(content.getXmlString());
 		} 
 		else
 		{
