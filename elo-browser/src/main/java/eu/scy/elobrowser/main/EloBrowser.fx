@@ -129,8 +129,9 @@ var newGroup = VBox {
 }
 
 var newScyWindow = ScyWindow{
-    translateX: 300;
-    translateY: 150;
+//    translateX: 300;
+    translateX: (stageWidth-100)/2;
+    translateY: 300;
 	opacity: 0.75;
     title: "New"
     color: Color.BLUEVIOLET
@@ -211,8 +212,9 @@ scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
 
 var eloBrowserControl = ScyWindow{
-    translateX: 300;
-    translateY: 10;
+//    translateX: 300;
+    translateY: 160;
+    translateX: (stageWidth-100)/2;
     title: "Search"
     eloType: "Search"
     color: Color.BLUE;
@@ -329,7 +331,7 @@ function getContacts():ContactFrame[]{
             onlineState: OnlineState.AWAY;
             progress: 0.1;
         };
-        x: 300;
+//        x: 300;
     };
 
     def contact3 = ContactFrame{
