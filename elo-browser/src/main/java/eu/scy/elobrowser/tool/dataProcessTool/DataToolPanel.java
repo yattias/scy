@@ -45,7 +45,9 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* simulator Tool Name */
     private String simulatorName = DatasetSandbox.TOOL_NAME;
     /* SessionID*/
-    private  String sessionID = DatasetSandbox.SESSION_ID;
+    private String sessionID = DatasetSandbox.SESSION_ID;
+    private String userName = DatasetSandbox.USER_NAME;
+
     
     /* Constructor data Tool panel - blank */
     public DataToolPanel() {
@@ -96,7 +98,7 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* initialization Collaboration Service*/
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(simulatorName, sessionID);
+        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(userName, simulatorName, sessionID, false);
         // find the header message first
         for (IScyMessage message : scyMessages) {
             if (message.getObjectType().equals(TYPE_DATASET_HEADER)) {
