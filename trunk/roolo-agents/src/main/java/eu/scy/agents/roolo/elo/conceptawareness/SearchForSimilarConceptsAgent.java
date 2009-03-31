@@ -100,7 +100,8 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 			}
 
 			INotification notification = new Notification();
-			notification.addProperty("users", relatedUserList.toString());
+			notification
+					.addProperty("users", relatedUserList.toString().trim());
 			notification.addProperty("target", "awareness");
 			notification.addProperty("eloUri", elo.getUri().toString());
 			NotificationSender sender = new NotificationSender();
