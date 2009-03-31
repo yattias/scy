@@ -482,6 +482,14 @@ public class ScyWindow extends CustomNode {
 			newRotate = 45 * Math.round(newRotate  /  45);
 		}
 		rotate = newRotate;
+
+        // quick & dirty for the demo: if the content is the Simulator Tool,
+        // pass the rotation value to it
+        // in future versions, we may add an interface "RotationAware" that
+        // indicates a tool`s interest in rotation values
+        if (scyContent instanceof eu.scy.elobrowser.tool.simquest.SimQuestNode) {
+            (scyContent as eu.scy.elobrowser.tool.simquest.SimQuestNode).doRotate(rotate);
+        }
 		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
 
     }
