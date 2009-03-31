@@ -50,7 +50,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     /* decale le tabbed pane de la visualisation */
     private static final int DECAL_VISUAL = 50;
     /* MODE DEBUG */
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
 
     //PROPERTY
     /* locale */
@@ -186,7 +186,6 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         initScyApplet();
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
         // noyau
-        System.out.println("appel au noyau");
        this.controller = new ControllerAppletDB(applet, this, dbKeyMission, dbKeyUser) ;
         CopexReturn cr = this.controller.load();
         if (cr.isError()){
@@ -901,7 +900,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             vis = new Graph(-1, name, type, tabNo, true, paramGraph, null);
         }
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.createVisualization(ds, vis, v) ;
+        CopexReturn cr = this.controller.createVisualization(ds, vis,true, v) ;
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return ;
@@ -1244,11 +1243,13 @@ public class MainDataToolPanel extends javax.swing.JPanel {
 
     /* maj para graph */
     public void setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
-        CopexReturn cr = this.controller.setParamGraph(dbKeyDs, dbKeyVis,x_min, x_max, deltaX, y_min, y_max, deltaY);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.setParamGraph(dbKeyDs, dbKeyVis,true, x_min, x_max, deltaX, y_min, y_max, deltaY, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return ;
         }
+        Visualization vis = (Visualization)v.get(0);
         int idDs = getIdDataset(dbKeyDs);
         if (idDs == -1)
             return;
@@ -1256,11 +1257,9 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         int idVis = ds.getIdVisualization(dbKeyVis);
         if (idVis == -1)
             return;
-        Visualization vis = ds.getListVisualization().get(idVis);
-        if( vis instanceof Graph){
-            ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
-            ((Graph)vis).setParamGraph(paramGraph);
-        }
+        ds.getListVisualization().set(idVis, vis);
+        getDataSetTabbedPane().updateDataset(ds, false);
+        getDataVisTabbedPane().updateVisualization(vis);
     }
 
 }

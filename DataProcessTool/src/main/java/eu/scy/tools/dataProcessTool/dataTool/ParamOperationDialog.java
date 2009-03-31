@@ -82,8 +82,6 @@ public class ParamOperationDialog extends javax.swing.JDialog {
         int w = maxWitdhLabel+20 ;
         w = Math.max(200,w);
         int h = ((maxWitdhLabel + (nbParam*60)+50)/maxWitdhLabel +1)*30 ;
-        System.out.println("w : "+w);
-        System.out.println("h : "+h);
         panelParam.setSize(w, h);
         panelParam.setPreferredSize(getSize());
         buttonPanel.setSize(w,60);

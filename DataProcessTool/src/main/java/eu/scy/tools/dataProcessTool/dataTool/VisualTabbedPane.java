@@ -223,6 +223,22 @@ public class VisualTabbedPane extends ScyTabbedPane{
            setSelectedIndex(selIndex);
     }
 
+    /* mise à jour du dataset */
+    public void updateVisualization(Visualization v){
+        Visualization vis = getSelectedVisualization();
+        if (vis != null){
+            int id = getIdVisualizationTab(vis);
+            vis = v ;
+            if (id != -1){
+                this.listGraph.get(id).setGraph(v);
+                if(this.listGraph.get(id).getGraphComponent() instanceof GraphPanel && vis instanceof Graph){
+                    ParamGraph pg = ((Graph)vis).getParamGraph() ;
+                    ((GraphPanel)(this.listGraph.get(id).getGraphComponent())).setParameters(pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY());;
+                }
+            }
+        }
+    }
+
     /* affichage d'une visualisation */
     public void display(Dataset ds, Visualization vis, boolean create){
         TypeVisualization type = vis.getType() ;

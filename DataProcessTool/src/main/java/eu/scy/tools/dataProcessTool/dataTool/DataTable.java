@@ -378,7 +378,6 @@ public class DataTable extends JTable implements MouseListener{
                 isOnCol = false;
             }
         }
-        System.out.println("isOnCol : "+isOnCol);
         owner.createOperation(dataset, type, isOnCol, listNo);
     }
     /* somme */
@@ -516,8 +515,6 @@ public class DataTable extends JTable implements MouseListener{
            widthTot += (max+10);
         }
          int height = this.getRowCount() * getRowHeight() ;
-         System.out.println("widthTot : "+widthTot);
-         System.out.println("height : "+height);
          setSize(widthTot, height);
          setPreferredSize(getSize());
         repaint();
