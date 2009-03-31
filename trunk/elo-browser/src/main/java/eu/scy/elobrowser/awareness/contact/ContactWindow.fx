@@ -208,8 +208,8 @@ public class ContactWindow extends CustomNode{
 							fill: windowBackgroundColor
 							stroke: windowBackgroundColor
 						},
-                        Rectangle { // bottom left part until the arc
-							x: bind controlLength,
+                        Rectangle { // bottom right part until the arc
+							x: 0,
 							y: bind height - controlLength
 							width: bind width - controlLength,
 							height: bind controlLength
@@ -217,13 +217,13 @@ public class ContactWindow extends CustomNode{
 							fill: windowBackgroundColor
 							stroke: windowBackgroundColor
 						},
-                        Arc { // the bottom left rotate arc part
-							centerX: controlLength,
-							centerY: bind height - controlLength,
-							radiusX: controlLength,
-							radiusY: controlLength
-							startAngle: 180,
-							length: 90
+                        Arc { // the bottom right rotate arc part
+							centerX: bind (width - (controlLength + borderWidth / 2 + closeStrokeWidth / 2)),
+                            centerY: bind (height - controlLength - borderWidth/2 - closeStrokeWidth/2),
+                            radiusX: controlLength,
+                            radiusY: controlLength
+                            startAngle: 270,
+                            length: 90,
 							type: ArcType.ROUND
 							strokeWidth: borderWidth
 							fill: windowBackgroundColor
@@ -236,13 +236,12 @@ public class ContactWindow extends CustomNode{
     public var frameborder = Group{
         def width = bind frame.width;
         def height = bind frame.height;
-
-
+       
         content: [
                 background,
                 Line { // the left border line
 					startX: 0,
-					startY: bind height - controlLength - borderWidth / 2 - closeStrokeWidth / 2
+					startY: bind height,
 					endX: 0,
 					endY: 0
 					strokeWidth: borderWidth
@@ -260,33 +259,29 @@ public class ContactWindow extends CustomNode{
 					startX: bind width,
 					startY: 0
 					endX: bind width,
-					endY: bind height,
-					strokeWidth: borderWidth
-					stroke: bind color
-//					effect: bind windowEffect
+					endY: bind (height - controlLength - borderWidth/2 - closeStrokeWidth/2),
+					strokeWidth: borderWidth,
+					stroke: bind color,
 				}
                 Line { // the bottom border line
-					startX: bind width,
-					startY: bind height
-					endX: bind controlLength + borderWidth / 2 + closeStrokeWidth / 2,
+					startX: 0,
+					startY: bind height,
+					endX: bind (width - (controlLength + borderWidth / 2 + closeStrokeWidth / 2)),
 					endY: bind height,
-					strokeWidth: borderWidth
-					stroke: bind color
-//					effect: bind windowEffect
+					strokeWidth: borderWidth;
+					stroke: bind color;
 				}
                 Arc { // the bottom left "disabled" rotate arc
-					centerX: controlLength,
-					centerY: bind height - controlLength,
+					centerX: bind (width - (controlLength + closeStrokeWidth / 2)+ closeStrokeWidth / 2 ),
+					centerY: bind (height - controlLength - closeStrokeWidth/2+ closeStrokeWidth / 2 ),
 					radiusX: controlLength,
 					radiusY: controlLength
-					startAngle: 180,
-					length: 90
+					startAngle: 270,
+                    length: 90,
 					type: ArcType.OPEN
-					fill: Color.TRANSPARENT
+					fill: Color.TRANSPARENT;
 					strokeWidth: borderWidth
 					stroke: bind color
-					//effect:bind windowEffect
-
                 } 
                 Group{ // the content
                     blocksMouse: true;
