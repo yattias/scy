@@ -27,6 +27,7 @@ import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
+import eu.scy.elobrowser.tool.drawing.DrawingToolScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.DummyScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
@@ -64,6 +65,10 @@ var scyWindowContentCreator = ScyWindowContentCreator{
     scyWindowContentFactories: [
         DummyScyWindowContentFactory{
         }
+        DrawingToolScyWindowContentFactory{
+            roolo:roolo;
+        }
+
     ];
 };
 
@@ -74,28 +79,28 @@ var anchor1 = Anchor{
     xPos: 20;
     yPos: 20;
     color: Color.BLUE;
-    eloUri: new URI("test://anchor1");
+    eloUri: new URI("roolo://memory/4/crappy_balanc.scydraw");
 }
 var anchor2 = Anchor{
     title: "2";
     xPos: 60;
     yPos: 20;
     color: Color.GREEN;
-    eloUri: new URI("test://anchor2");
+    eloUri: new URI("test://anchor2.test");
 }
 var anchor3 = Anchor{
     title: "3";
     xPos: 20;
     yPos: 60;
     color: Color.RED;
-    eloUri: new URI("test://anchor3");
+    eloUri: new URI("test://anchor3.test");
 }
 var anchor4 = Anchor{
     title: "4";
     xPos: 60;
     yPos: 60;
     color: Color.ORANGE;
-    eloUri: new URI("test://anchor4");
+    eloUri: new URI("test://anchor4.test");
 }
 anchor1.nextAnchors=[anchor2,anchor3,anchor4];
 anchor2.nextAnchors=[anchor1,anchor3,anchor4];
@@ -187,7 +192,7 @@ var newGroup = VBox {
 
 var newScyWindow = ScyWindow{
 //    translateX: 300;
-    translateX: (stage.width-100)/2;
+    translateX: 30;
     translateY: 300;
 	opacity: 0.75;
     title: "New"
