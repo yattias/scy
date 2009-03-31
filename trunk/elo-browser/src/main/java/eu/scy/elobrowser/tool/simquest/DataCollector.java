@@ -55,6 +55,7 @@ public class DataCollector extends JPanel implements ActionListener,
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
+    private BalanceSlider balanceSlider;
 
     public DataCollector(ISimQuestViewer simquestViewer) {
         // initialize user interface
@@ -72,6 +73,8 @@ public class DataCollector extends JPanel implements ActionListener,
         dataAgent.add(simquestViewer.getDataServer().getVariables(
                 "name is not relevant"));
         simquestViewer.getDataServer().register(dataAgent);
+
+        balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
     }
 
     private void initGUI() {
@@ -105,6 +108,11 @@ public class DataCollector extends JPanel implements ActionListener,
 
         JScrollPane pane = new JScrollPane(text);
         this.add(pane, BorderLayout.CENTER);
+    }
+
+    public void setRotation(double angle) {
+        balanceSlider.setRotationAngle(angle);
+        //System.out.println("DataCollector.setRotation(): "+angle);
     }
 
     public void addCurrentDatapoint() {

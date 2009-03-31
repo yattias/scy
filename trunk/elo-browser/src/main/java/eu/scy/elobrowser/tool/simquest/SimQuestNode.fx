@@ -52,6 +52,11 @@ public class SimQuestNode extends CustomNode, Resizable {
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle("")};
 
+   public function doRotate(angle:Number){
+		//System.out.println("SimQuestNode.doRotate: {angle}");
+        eloSimQuestWrapper.getDataCollector().setRotation(angle);
+	}
+
     public function loadElo(uri:URI){
         eloSimQuestWrapper.loadElo(uri);
 		setScyWindowTitle("SimConfig: ");
