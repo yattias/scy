@@ -9,8 +9,6 @@ package eu.scy.scywindows;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
-import eu.scy.scywindows.ScyWindowAttribute;
-import eu.scy.scywindows.TestAttribute;
 import java.awt.Dimension;
 import java.lang.Math;
 import java.lang.Object;
@@ -45,7 +43,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Sequences;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
@@ -56,8 +53,6 @@ import javax.swing.JTree;
 
  // place your code here
 public class ScyWindow extends CustomNode {
-	 def scyWindowAttributeDevider = 3.0;
-
 	public var title = "???";
 	public var eloType = "?123";
 	public var color = Color.GREEN;
@@ -80,7 +75,6 @@ public class ScyWindow extends CustomNode {
 		}
     };
 	public var scyContent: Node= null;
-    public var scyWindowAttributes:ScyWindowAttribute[] on replace {placeAttributes()};
     public var allowRotate = true;
     public var allowResize = true;
     public var allowClose = true;
@@ -168,10 +162,10 @@ public class ScyWindow extends CustomNode {
     var minimizeHighLighted = false;
     var unminimizeHighLighted = false;
 
-    public var minimumHeight: Number = 50 on replace{
+    public var minimumHeight: Number = 100 on replace{
         minimumHeight = Math.max(minimumHeight, topLeftBlockSize + controlLength + borderWidth);
     }
-    public var minimumWidth: Number = 70 on replace{
+    public var minimumWidth: Number = 100 on replace{
         minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
     }
 
@@ -185,18 +179,6 @@ public class ScyWindow extends CustomNode {
     public function addEdge(edge:ScyEdgeLayer):Void {
         insert edge into edges;
     }
-
-    function placeAttributes(){
-		 var sortedScyWindowAttributes = Sequences.sort(scyWindowAttributes,null) as ScyWindowAttribute[];
-		 var x = 0.0;
-       for (scyWindowAttribute in reverse sortedScyWindowAttributes){
-           scyWindowAttribute.translateX = x;
-           x += scyWindowAttribute.boundsInLocal.width;
-			  x += scyWindowAttributeDevider;
-       }
-
-    }
-
 
 
     function lighterColorElement(elementValue:Number):Number{
@@ -950,11 +932,6 @@ public class ScyWindow extends CustomNode {
                         closeHighLighted = false;
                     }
 				}
-                Group{ // the scy window attributes
-                    translateY:-borderWidth/2;
-                    content: scyWindowAttributes,
-                }
-
 			]
 			onMousePressed: function( e: MouseEvent ):Void {
 				startDragging(e);
@@ -1259,13 +1236,8 @@ function run() {
         allowResize: false;
         allowRotate: true;
 		//setScyContent:setEloContent;
-		translateX: 200
-		translateY: 200
-           scyWindowAttributes: [
-            TestAttribute{
-            }
-
-           ]
+        translateX: 200
+        translateY: 200
     }
     scyDesktop.addScyWindow(eloWindow);
 

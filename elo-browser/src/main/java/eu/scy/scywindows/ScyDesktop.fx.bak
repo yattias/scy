@@ -13,7 +13,6 @@ import java.lang.System;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.util.Sequences;
 
@@ -154,47 +153,12 @@ public class ScyDesktop{
 		return null as ScyWindow;
  	}
 
-    public function getScyWindows():ScyWindow[]{
-        var scyWindows: ScyWindow[];
-        for (window in desktop.content){
-            if (window instanceof ScyWindow){
-                insert window as ScyWindow into scyWindows;
-            }
-        }
-        return scyWindows;
-    }
-
-
     function desktopContainsWindow(scyWindow:ScyWindow) : Boolean{
         for (window in desktop.content){
             if (window == scyWindow)
             return true;
         }
 		return false;
-    }
-
-    public function checkVisibilityScyWindows(showIt: function(ScyWindow):Boolean){
-        for (window in desktop.content){
-            checkVisibilityScyWindow(window,showIt);
-        }
-        for (window in minimizedWindows){
-            checkVisibilityScyWindow(window,showIt);
-        }
-    }
-
-    function checkVisibilityScyWindow(node:Node,showIt: function(ScyWindow):Boolean){
-        if (node instanceof ScyWindow){
-            var scyWindow = node as ScyWindow;
-            var newVisible = showIt(scyWindow);
-            if (newVisible != scyWindow.visible){
-                if (newVisible){
-                    showScyWindow(scyWindow)
-                }
-                    else {
-                    hideScyWindow(scyWindow);
-                }
-            }
-        }
     }
 
 }
