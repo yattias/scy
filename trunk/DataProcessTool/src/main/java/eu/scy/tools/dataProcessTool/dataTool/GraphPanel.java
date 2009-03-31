@@ -390,6 +390,17 @@ public class GraphPanel extends javax.swing.JPanel {
         // faire apparaitre les parametres pour l'utilisateur
         repaint() ;
     }
+
+    /* maj des parametres */
+    public void setParameters(double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
+        setXMin(""+x_min);
+        setYMin(""+y_min);
+        setYMax(""+x_max);
+        setYMax(""+x_max);
+        this.deltaX.setText(""+deltaX);
+        this.deltaY.setText(""+deltaY);
+        recupererParametresZdT();
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.

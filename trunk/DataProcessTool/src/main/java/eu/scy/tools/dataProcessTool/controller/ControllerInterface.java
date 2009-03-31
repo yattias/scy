@@ -63,7 +63,7 @@ public interface ControllerInterface {
     public CopexReturn deleteVisualization(Dataset ds, Visualization vis);
 
     /* creation d'une visualization - renvoit en v[0] le nouveua dataset et en v[1] l'objet visualization */
-    public CopexReturn createVisualization(Dataset ds, Visualization vis, ArrayList v) ;
+    public CopexReturn createVisualization(Dataset ds, Visualization vis, boolean findAxisParam, ArrayList v) ;
 
     /* update nom graphe */
     public CopexReturn updateVisualizationName(Dataset ds, Visualization vis, String newName);
@@ -94,6 +94,6 @@ public interface ControllerInterface {
     /* ajout d'une ligne de données */
     public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v);
     /*mise à jour des param */
-    public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY);
+    public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, boolean findAxisParam, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY, ArrayList v);
 
 }

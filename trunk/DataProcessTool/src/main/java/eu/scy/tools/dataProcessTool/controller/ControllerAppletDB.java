@@ -555,8 +555,9 @@ public class ControllerAppletDB implements ControllerInterface{
     }
 
     /* creation d'une visualization - renvoit en v[0] le nouveua dataset et en v[1] l'objet visualization */
+    // TODO enregistrement BD
     @Override
-    public CopexReturn createVisualization(Dataset ds, Visualization vis, ArrayList v){
+    public CopexReturn createVisualization(Dataset ds, Visualization vis, boolean findAxisParam, ArrayList v){
         int id = getIdDataset(ds);
         if (id == -1)
             return new CopexReturn(applet.getBundleString("MSG_ERROR_CREATE_GRAPH"), false);
@@ -566,6 +567,14 @@ public class ControllerAppletDB implements ControllerInterface{
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
+        if (vis instanceof Graph && findAxisParam){
+           v2 = new ArrayList();
+           cr = findAxisParam(ds, ((Graph)vis), v2);
+           if(cr.isError())
+               return cr;
+           ParamGraph pg = (ParamGraph)(v2.get(0));
+           ((Graph)vis).setParamGraph(pg);
+       }
         // memoire
         vis.setDbKey(dbKey);
         listDataSet.get(id).getListVisualization().add(vis);
@@ -1088,6 +1097,18 @@ public class ControllerAppletDB implements ControllerInterface{
             if(cr.isError())
                 return cr;
         }
+        if (ds.getListVisualization() != null){
+            for (int i=0; i<ds.getListVisualization().size(); i++){
+                if (ds.getListVisualization().get(i) instanceof Graph){
+                    v2 = new ArrayList();
+                    cr = findAxisParam(ds, (Graph)ds.getListVisualization().get(i), v2);
+                    if(cr.isError())
+                        return cr;
+                    ParamGraph pg = (ParamGraph)(v2.get(0));
+                    ((Graph)(ds.getListVisualization().get(i))).setParamGraph(pg);
+                }
+            }
+        }
         v.add(listDataSet.get(id).clone());
         return new CopexReturn() ;
     }
@@ -1095,7 +1116,7 @@ public class ControllerAppletDB implements ControllerInterface{
     /*mise à jour des param */
     // TODO enregistrement base
     @Override
-    public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
+    public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, boolean findAxisParam, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY, ArrayList v){
         int idDs = getIdDataset(dbKeyDs);
         if (idDs == -1)
             return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
@@ -1107,7 +1128,60 @@ public class ControllerAppletDB implements ControllerInterface{
         if (vis instanceof Graph){
             ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
             ((Graph)vis).setParamGraph(paramGraph);
+            if (findAxisParam){
+                ArrayList v2 = new ArrayList();
+                CopexReturn cr = findAxisParam(ds, ((Graph)vis), v2);
+                if(cr.isError())
+                    return cr;
+                ParamGraph pg = (ParamGraph)(v2.get(0));
+                ((Graph)vis).setParamGraph(pg);
+            }
         }
+        v.add(vis.clone());
+        return new CopexReturn();
+    }
+
+     /*recherche des axes */
+    private CopexReturn findAxisParam(Dataset ds, Graph vis, ArrayList v){
+        int[] tabNo = vis.getTabNo();
+        double[] listX;
+        double[] listY;
+        if (vis.isOnCol()){
+            listX = new double[ds.getNbRows()];
+            listY = new double[ds.getNbRows()];
+            for (int i=0; i<ds.getNbRows(); i++){
+                listX[i] = ds.getData(i, tabNo[0]) == null ? 0 : ds.getData(i, tabNo[0]).getValue();
+                listY[i] = ds.getData(i, tabNo[1]) == null ? 0 : ds.getData(i, tabNo[1]).getValue();
+            }
+        }else{
+            // TODO
+            listX = new double[0];
+            listY = new double[0];
+        }
+        double minX = 0;
+        double minY = 0;
+        double maxX = 0;
+        double maxY = 0 ;
+        for (int i=0; i<listX.length; i++){
+            if (listX[i] < minX)
+                minX = listX[i];
+            if (listX[i] > maxX)
+                maxX = listX[i];
+            if (listY[i] < minY)
+                minY = listY[i];
+            if (listY[i] > maxY)
+                maxY = listY[i];
+        }
+        // +/- 10%
+        double  x_min  = minX + minX/10 ;
+        double  y_min  = minY +minY/10 ;
+        double  x_max  = maxX +maxX/10 ;
+        double  y_max  = maxY +maxY/10;
+        double deltaX = (x_max - x_min) / 10 ;
+        double deltaY = (y_max - y_min) / 10 ;
+        ParamGraph pg = new ParamGraph(vis.getParamGraph().getX_name(), vis.getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
+
+        v.add(pg);
         return new CopexReturn();
     }
 
