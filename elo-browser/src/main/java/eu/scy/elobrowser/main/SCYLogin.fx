@@ -198,8 +198,7 @@ public class SCYLogin extends Group {
              
                     for (n in mainContent){
                     n.visible = true;
-                    n.opacity => 1.0
-//                    mainContent[1].opacity => 1.0
+                    n.opacity => 1.0 tween SimpleInterpolator.LINEAR;
                     }
                 ]
             }

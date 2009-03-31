@@ -11,6 +11,9 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.elobrowser.properties.PropertiesWindow;
+import eu.scy.elobrowser.search.SearchWindow;
+import eu.scy.elobrowser.missionmap.MissionMapWindow;
 import eu.scy.elobrowser.main.EdgesManager;
 import eu.scy.elobrowser.main.EloSpecWidget;
 import eu.scy.elobrowser.main.MetadataDisplayMappingWidget;
@@ -18,6 +21,7 @@ import eu.scy.elobrowser.main.ResultView;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.main.SCYLogin;
 import eu.scy.elobrowser.notification.GrowlFX;
+import eu.scy.elobrowser.properties.PropertiesWindow;
 import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
@@ -30,7 +34,6 @@ import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.RadialGradient;
@@ -48,6 +51,9 @@ import javafx.stage.Stage;
 var roolo = Roolo.getRoolo();
 var stage: Stage;
 var scyDesktop = ScyDesktop.getScyDesktop();
+
+def stageWidth = 1024;
+def stageHeight = 768;
 
 var newGroup = VBox {
     translateX: 5
@@ -123,7 +129,7 @@ var newGroup = VBox {
 }
 
 var newScyWindow = ScyWindow{
-    translateX: 10;
+    translateX: 300;
     translateY: 150;
 	opacity: 0.75;
     title: "New"
@@ -205,7 +211,7 @@ scyDesktop.hideScyWindow(metadataDisplayMappingWindow);
 
 
 var eloBrowserControl = ScyWindow{
-    translateX: 10;
+    translateX: 300;
     translateY: 10;
     title: "Search"
     eloType: "Search"
@@ -249,12 +255,18 @@ def contactWindow = ContactWindow{
 eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
 insert contactWindow into scyDesktop.desktop.content;
+insert searchWindow into scyDesktop.desktop.content;
+insert propertiesWindow into scyDesktop.desktop.content;
+insert missionMapWindow into scyDesktop.desktop.content;
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
+        propertiesWindow,
+        searchWindow,
+        missionMapWindow,
         contactWindow,
         resultView
     ]
@@ -331,24 +343,41 @@ function getContacts():ContactFrame[]{
     return ([contact1,contact5,contact2,contact3,contact4] as ContactFrame[]);
 };
 
-var edgesManager: EdgesManager = EdgesManager {
+def edgesManager: EdgesManager = EdgesManager {
 };
 
-                    /* oops.. hardcoded.
-   var lineButton = SwingButton {
-                        translateX: 200;
-                        translateY: 500;
-                        onMousePressed: function(e:MouseEvent) {
-                            edgesManager.createEdge((scyDesktop.desktop.content[0] as ScyWindow),(scyDesktop.desktop.content[1] as ScyWindow),"haha");
-                        }
-*/
+def propertiesWindow: PropertiesWindow = PropertiesWindow{
+    width:200;
+    height:60;
+    translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
+    translateY : bind contactWindow.translateY;
+    //TODO insert content
+//    content:
+}
 
+def missionMapWindow: MissionMapWindow = MissionMapWindow{
+    width:200;
+    height:60;
+    translateX :bind( (stage.scene.width - missionMapWindow.width) - contactWindow.translateX);
+    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
+    //TODO insert MissionMap here (as a Node), then fix the size
+//    content:
+}
+
+def searchWindow: SearchWindow = SearchWindow{
+    width:200;
+    height:60;
+    translateX :bind(contactWindow.translateX);
+    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
+    //TODO insert content
+//    content:
+}
 
 stage = Stage {
 
 	title: "SCY Lab (FX)"
-	width: 1024
-	height: 768
+	width: bind stageWidth;
+	height: bind stageHeight;
 	scene: Scene {
         fill: RadialGradient {
             centerX: 1200
@@ -373,6 +402,9 @@ stage = Stage {
 				content: [
                     edgesManager
                     loginGroup
+                    propertiesWindow
+                    searchWindow
+                    missionMapWindow
                     contactWindow
                     resultView
 					scyDesktop.desktop
