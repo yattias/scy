@@ -1,6 +1,20 @@
 package eu.scy.webservices.mobileservice;
 
-import java.awt.Image;
+import com.sun.xml.messaging.saaj.util.ByteInputStream;
+import eu.scy.webapp.services.roolo.RooloManager;
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.metadata.keys.Contribute;
+
+import javax.imageio.ImageIO;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,25 +23,11 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import com.sun.xml.messaging.saaj.util.ByteInputStream;
-
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.RooloMetadataKeys;
-import roolo.elo.metadata.keys.Contribute;
-import eu.scy.webapp.services.roolo.RooloManager;
-
 /**
- * Created by IntelliJ IDEA. User: Henrik Date: 24.mar.2009 Time: 10:45:45
+ * Created by IntelliJ IDEA.
+ * User: Henrik
+ * Date: 24.mar.2009
+ * Time: 10:45:45
  */
 
 @WebService
@@ -51,7 +51,7 @@ public class RepositoryService {
 
 		return saveELO(me);
 	}
-	
+
 	/*
 	 * Just a small test method to write out the image as JPEG to the harddrive
 	 */
@@ -73,21 +73,8 @@ public class RepositoryService {
 	@WebMethod(action = "saveELO")
 	public String saveELO(@WebParam MobileELO elo) {
 		log.info("KICKING OFF WITH THIS FUNKY MOBILE ELO: " + elo);
-
-		// repository.addELO(EloConverter.convert(elo));
-		/*
-		 * String fname = "c:\\" +elo.getTitle()+".jpg"; File f = new
-		 * File(fname); try { InputStream in = new
-		 * ByteArrayInputStream(elo.getImage()); BufferedImage image =
-		 * ImageIO.read(in); FileOutputStream fos = new FileOutputStream(f);
-		 * ImageIO.write(image, "jpeg", fos); in.close(); fos.close();
-		 * 
-		 * } catch (IOException e) { e.printStackTrace(); //To change body of
-		 * catch statement use File | Settings | File Templates. }
-		 */
-		storeEloToRoolo(elo);
-		return "HES";// "Image saved to "+
-						// fname+". The highest level of fakeness is reached!";
+		IELO iElo = storeEloToRoolo(elo);
+		return "Your picture was successfully saved to: " + iElo.getUri();
 	}
 
 	@WebMethod(action = "getELO")
@@ -110,7 +97,7 @@ public class RepositoryService {
 	}
 
 	@XmlTransient
-	private void storeEloToRoolo(MobileELO melo) {
+	private IELO storeEloToRoolo(MobileELO melo) {
 		if (rooloManager.getEloFactory() != null) {
 			IELO elo = rooloManager.getEloFactory().createELO();
 			elo.setDefaultLanguage(Locale.ENGLISH);
@@ -154,7 +141,9 @@ public class RepositoryService {
 					.getRepository().addELO(elo);
 			rooloManager.getEloFactory().updateELOWithResult(elo,
 					resultMetadata);
+			return elo;
 
 		}
+		return null;
 	}
 }
