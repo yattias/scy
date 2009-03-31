@@ -11,7 +11,8 @@ import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.Object;
 import java.lang.System;
-import javafx.scene.CustomNode;
+import java.net.URI;
+import javafx.scene.CustomNode; 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,11 +20,9 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+ 
 /**
  * @author pg
  */
@@ -35,13 +34,37 @@ public class PictureViewerNode extends CustomNode {
     public var img: Image = Image{
         url: "{__DIR__}image.jpg";
     }
+
+    public-init var eloPictureActionWrapper:EloPictureWrapper;
+    public var scyWindow: ScyWindow on replace {
+        setScyWindowTitle();
+    };
+
+    public function loadElo(uri:URI) {
+            eloPictureActionWrapper.loadElo(uri);
+        setScyWindowTitle();
+    }
+
+    function setScyWindowTitle() {
+        if(scyWindow == null)
+        return
+        scyWindow.title = "Pictureviewer";
+        var eloUri = eloPictureActionWrapper.getEloUri();
+        if(eloUri != null)
+        scyWindow.id = eloUri.toString()
+        else
+        scyWindow.id = "";
+
+
+    }
+
     var viewer: ImageView = ImageView {
         image: img;
         translateX: 5;
         translateY: 25;
         
     }
-    public var strokeRectangle: Rectangle = Rectangle {
+    var strokeRectangle: Rectangle = Rectangle {
         height: bind img.height + 2;
         width: bind img.width + 2;
         translateX: bind viewer.translateX - 1;
@@ -92,9 +115,6 @@ public class PictureViewerNode extends CustomNode {
                 descriptionText
             ]
         };
-        System.out.println("..");
-        System.out.println(img);
-        System.out.println(img.url);
         return g;
     }
 
@@ -116,7 +136,14 @@ public class PictureViewerNode extends CustomNode {
 }
 
 public function createPictureViewerNode(roolo:Roolo):PictureViewerNode {
+    //start picturewieverwrapper
+    var eloPictureActionWrapper = new EloPictureWrapper();
+    eloPictureActionWrapper.setRepository(roolo.repository);
+    eloPictureActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
+    eloPictureActionWrapper.setEloFactory(roolo.eloFactory);
     return PictureViewerNode {
+        eloPictureActionWrapper:eloPictureActionWrapper;
+
     };
 }
 
@@ -126,12 +153,15 @@ public function createPictureViewerWindow(roolo:Roolo):ScyWindow{
 }
 
 public function createPictureViewerWindow(pictureViewerNode:PictureViewerNode):ScyWindow {
-    var textpadWindow = ScyWindow{
+    var pictureWindow = ScyWindow{
         color: Color.PINK
         title: "PictureViewer"
         scyContent: pictureViewerNode;
         cache: true;
     }
+    pictureWindow.openWindow(300,360);
+    pictureViewerNode.scyWindow = pictureWindow;
+    return pictureWindow;
     
 }
 
