@@ -19,6 +19,8 @@ public class DatasetSandbox {
     private ICollaborationService collaborationService;
     public static String SESSION_ID = "datasetsandbox";
     public static String TOOL_NAME = "simulator";
+    public static String USER_NAME = "scy_user";
+
 
     DatasetSandbox(DataCollector datacollector) throws CollaborationServiceException {
         this.datacollector = datacollector;
@@ -34,7 +36,7 @@ public class DatasetSandbox {
 
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        collaborationService.synchronizeClientState(TOOL_NAME, SESSION_ID);
+        collaborationService.synchronizeClientState(USER_NAME, TOOL_NAME, SESSION_ID, false);
     }
 
     private void send(IScyMessage message) {
