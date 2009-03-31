@@ -10,5 +10,6 @@ import javax.microedition.lcdui.Command;
  * To change this template use File | Settings | File Templates.
  */
 public final class GlobalCommands {
+	public static final Command CMD_EXIT = new Command("Exit SCY", Command.EXIT, 0);
 	public static final Command CMD_CANCEL = new Command("Cancel", Command.CANCEL, 0);
 }

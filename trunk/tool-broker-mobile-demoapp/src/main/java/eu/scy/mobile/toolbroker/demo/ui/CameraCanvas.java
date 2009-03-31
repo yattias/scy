@@ -45,14 +45,13 @@ import java.io.IOException;
 
 public class CameraCanvas extends Canvas {
 	private VideoControl videoControl;
-	public static final Command CMD_CAPTURE = new Command("Take photo", Command.OK, 0);
+	public static final Command CMD_CAPTURE = new Command("Capture", Command.OK, 0);
 
 	public CameraCanvas() {
 
 		try {
 			Player mPlayer = Manager.createPlayer("capture://video");
 			mPlayer.realize();
-
 
 			videoControl = (VideoControl) mPlayer.getControl("VideoControl");
 			int width = getWidth();
@@ -78,13 +77,14 @@ public class CameraCanvas extends Canvas {
 	}
 
 	public byte[] capture() {
+		DoCapture capturer = new DoCapture();
+		Thread t = new Thread(capturer);
+		t.start();
 		try {
-			// Get the image.
-			//byte[] raw = videoControl.getSnapshot(null);
-			return videoControl.getSnapshot("encoding=jpeg");
-		}
-		catch (MediaException me) {
-			me.printStackTrace();
+			t.join();
+			return capturer.getCaptured();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -95,5 +95,24 @@ public class CameraCanvas extends Canvas {
 		g.setColor(0x00ff00);
 		g.drawRect(0, 0, width - 1, height - 1);
 		g.drawRect(1, 1, width - 3, height - 3);
+	}
+	private class DoCapture implements Runnable {
+
+		private byte[] captured = null;
+
+		public void run() {
+			try {
+				// Get the image.
+				//byte[] raw = videoControl.getSnapshot(null);
+				captured = videoControl.getSnapshot("encoding=jpeg");
+			}
+			catch (MediaException me) {
+				me.printStackTrace();
+			}
+		}
+
+		public byte[] getCaptured() {
+			return captured;
+		}
 	}
 }
