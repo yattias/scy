@@ -62,6 +62,10 @@ public class EloSimQuestWrapper {
         this.dataCollector = dc;
     }
 
+    public DataCollector getDataCollector() {
+        return dataCollector;
+    }
+
     public void addELOLoadedChangedListener(
             ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener) {
         if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener)) {
