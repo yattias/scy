@@ -1,6 +1,6 @@
 package eu.scy.mobile.toolbroker.demo.model;
 
-import eu.scy.mobile.toolbroker.demo.client.MobileELO;
+import eu.scy.mobile.toolbroker.demo.client.stubs.MobileELO;
 import eu.scy.mobile.toolbroker.demo.util.Base64;
 
 /**

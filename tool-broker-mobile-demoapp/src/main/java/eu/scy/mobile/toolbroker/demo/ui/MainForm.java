@@ -34,6 +34,6 @@ public class MainForm extends Form {
 			System.err.println("Unable to create background image");
 			e.printStackTrace();
 		}
-		append("Please select from the menu.");
+		append("Welcome to the SCY mobile data collector");
 	}
 }
