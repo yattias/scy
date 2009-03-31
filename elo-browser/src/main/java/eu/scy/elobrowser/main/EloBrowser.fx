@@ -251,6 +251,34 @@ var eloBrowserControl = ScyWindow{
 def contactWindow = ContactWindow{
     contacts: bind getContacts();
 };
+
+def propertiesWindow: PropertiesWindow = PropertiesWindow{
+    width:200;
+    height:60;
+    translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
+    translateY : bind contactWindow.translateY;
+    //TODO insert content
+//    content:
+}
+
+def missionMapWindow: MissionMapWindow = MissionMapWindow{
+    width:200;
+    height:60;
+    translateX :bind( (stage.scene.width - missionMapWindow.width) - contactWindow.translateX);
+    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
+    //TODO insert MissionMap here (as a Node), then fix the size
+//    content:
+}
+
+def searchWindow: SearchWindow = SearchWindow{
+    width:200;
+    height:60;
+    translateX :bind(contactWindow.translateX);
+    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
+    //TODO insert content
+//    content:
+}
+
         
 eloBrowserControl.openWindow(100, 130);
 scyDesktop.addScyWindow(eloBrowserControl);
@@ -346,32 +374,6 @@ function getContacts():ContactFrame[]{
 def edgesManager: EdgesManager = EdgesManager {
 };
 
-def propertiesWindow: PropertiesWindow = PropertiesWindow{
-    width:200;
-    height:60;
-    translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
-    translateY : bind contactWindow.translateY;
-    //TODO insert content
-//    content:
-}
-
-def missionMapWindow: MissionMapWindow = MissionMapWindow{
-    width:200;
-    height:60;
-    translateX :bind( (stage.scene.width - missionMapWindow.width) - contactWindow.translateX);
-    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
-    //TODO insert MissionMap here (as a Node), then fix the size
-//    content:
-}
-
-def searchWindow: SearchWindow = SearchWindow{
-    width:200;
-    height:60;
-    translateX :bind(contactWindow.translateX);
-    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
-    //TODO insert content
-//    content:
-}
 
 stage = Stage {
 
