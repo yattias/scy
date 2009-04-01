@@ -259,6 +259,7 @@ scyDesktop.addScyWindow(newScyWindow);
 
 
 def contactWindow = ContactWindow{
+    scyDesktop:this.scyDesktop;
     contacts: bind getContacts();
 };
 
@@ -296,6 +297,7 @@ insert contactWindow into scyDesktop.desktop.content;
 insert searchWindow into scyDesktop.desktop.content;
 insert propertiesWindow into scyDesktop.desktop.content;
 insert missionMapWindow into scyDesktop.desktop.content;
+
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
