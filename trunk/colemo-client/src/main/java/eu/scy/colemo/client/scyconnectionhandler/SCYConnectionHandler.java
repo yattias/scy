@@ -6,8 +6,8 @@ import eu.scy.colemo.client.sqlspacesimpl.MessageTranslator;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
 import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.MoveClass;
-import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.colemo.server.uml.UmlClass;
 
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -20,7 +20,6 @@ import eu.scy.communications.message.impl.ScyMessage;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,6 +40,26 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
     private String sessionId = SESSIONID;
     public static final String USER_NAME = "ScyMappingForPeace";
 
+
+    public void updateObject(Object object) {
+        MessageTranslator mt = new MessageTranslator();
+        mt.setSessionId(collaborationSession.getId());
+        IScyMessage sendMe = null;
+        try {
+            if (object instanceof AddClass) {
+                AddClass addClass = (AddClass) object;
+                System.out.println("NAME: " + addClass.getName());
+                sendMe = mt.getScyMessage(addClass);
+                collaborationService.update(sendMe, sendMe.getId());
+            } else if (object instanceof UmlClass) {
+                log.info("UPDATING CONCEPT : " + object);
+                sendMe = mt.getScyMessage(object);
+                collaborationService.update(sendMe, sendMe.getId());
+            }
+        } catch (CollaborationServiceException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendObject(Object object) {
         System.out.println("Sending object:" + object);
@@ -113,7 +132,7 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
             scyMessage = (ScyMessage) messages.get(i);
             Object newNOde = ot.getObject(scyMessage);
             log.info("NODE: " + newNOde);
-            addNewNode(newNOde);
+            processNode(newNOde);
         }
         //TODO: Find a better place for this
         ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0, 0, 800, 700);
@@ -141,13 +160,16 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
             Object object = mt.getObject(sm);
             log.info("OBJECT IS: " + object);
             if (sm.getObjectType().contains("AddClass")) {
-                addNewNode(object);
+                processNode(object);
             } else if (sm.getObjectType().contains("UmlLink")) {
-                addNewNode(object);
+                processNode(object);
             } else if (sm.getObjectType().contains("MoveClass")) {
                 log.debug("ADDING A MOVE CLASS!");
-                addNewNode(object);
+                processNode(object);
                 log.debug("MOVE CLASS WAS ADDED!");
+            } else if (sm.getObjectType().contains("UmlClass")) {
+                log.debug("A concept has been updated - updating diagram");
+                processNode(object);
             }
         }
     }

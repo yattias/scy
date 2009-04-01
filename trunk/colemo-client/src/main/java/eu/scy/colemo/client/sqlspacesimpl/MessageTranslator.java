@@ -139,6 +139,11 @@ public class MessageTranslator implements IMessageTranslator {
             UmlLink link = new UmlLink(scyMessage.getFrom(), scyMessage.getTo(), "Henrik");
             link.setId(scyMessage.getId());
             return link;
+        } else if (scyMessage.getObjectType().indexOf("UmlClass") > 0) {
+            log.info("******************************SCY MESSAGES SAYS NAME: " + scyMessage.getName());
+            UmlClass concept = new UmlClass(scyMessage.getName(), "c", "Henrik");
+            concept.setId(scyMessage.getId());
+            return concept;
         }
 
         //log.info("Could not translate scyMessage: " + scyMessage);
@@ -202,6 +207,9 @@ public class MessageTranslator implements IMessageTranslator {
         } else if (object instanceof UmlLink) {
             UmlLink umlLink = (UmlLink) object;
             message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlLink.getId(), umlLink.getClass().getName(), umlLink.getClass().getName(), "Some description", umlLink.getTo(), umlLink.getFrom(), null, 0, getSessionId());
+        } else if (object instanceof UmlClass) {
+            UmlClass umlClass = (UmlClass) object;
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlClass.getId(), umlClass.getClass().getName(), umlClass.getName(), "Some description", null, null, null, 0, getSessionId());
         } else {
             log.warn("Did not manage to create scy message from object: " + object);
         }

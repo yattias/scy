@@ -5,7 +5,6 @@ import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.contributions.BaseConceptMapNode;
-import eu.scy.colemo.contributions.AddLink;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.UmlLink;
 import info.collide.sqlspaces.client.TupleSpace;
@@ -58,6 +57,11 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+
+
+    public void updateObject(Object object) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
@@ -121,7 +125,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         for (int i = 0; i < allTuples.length; i++) {
             Tuple allTuple = allTuples[i];
             Object newNOde = ot.getObject(allTuple);
-            addNewNode(newNOde);
+            processNode(newNOde);
         }
     }
 
@@ -148,16 +152,16 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             System.out.println("CALL: Before add class");
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
 
-            addNewNode(node);
+            processNode(node);
         } else if(tuple != null && tuple.getFields().length == linkTemplate.getFields().length) {
             System.out.println("UPDATING LINK FROM SERVER!");
             MessageTranslator ot = new MessageTranslator();
             UmlLink link = (UmlLink) ot.getObject(tuple);
-            addNewNode(link);
+            processNode(link);
         }
     }
 
-    protected void addNewNode(Object node) {
+    protected void processNode(Object node) {
         if(node == null) {
             log.error("NODE IS NULL!!");
             return;
@@ -177,6 +181,10 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             } else if(node instanceof UmlLink) {
                 UmlLink link = (UmlLink) node;
                 ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
+
+            } else if(node instanceof UmlClass) {
+                UmlClass concept = (UmlClass) node;
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateConcept(concept);
 
             } else {
                 log.warn("DO NOT KNOW HOW TO HANDLE OBJECTS OF TYPE " + node.getClass().getName());
