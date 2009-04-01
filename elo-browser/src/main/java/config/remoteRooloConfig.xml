@@ -4,10 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-	<alias name="httpInvokerRepositoryProxy" alias="repository"/>
+	<alias name="metadataAddingRepository" alias="repository"/>
 	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager"/>
 	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager"/>
 
+    <bean name="metadataAddingRepository" class="eu.scy.elobrowser.tbi_hack.AddGeneralMetadataRepositoryWrapper">
+		<property name="repository" ref="httpInvokerRepositoryProxy"/>
+		<property name="metadataTypeManager" ref="httpInvokerMetadataTypeManagerProxy"/>
+	</bean>
 
 	<!-- Resolves ${...} placeholders from client.properties -->
 	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
