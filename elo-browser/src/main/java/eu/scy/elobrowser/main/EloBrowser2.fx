@@ -77,11 +77,13 @@ var scyWindowStyler = ScyWindowStyler{
     roolo:roolo;
 }
 
+var scyWindowControl: ScyWindowControl;
+
 var missionAnchor = Anchor{
     title: "M";
     xPos: 140;
     yPos: 40;
-    eloUri: new URI("test://mission.jpg");
+    eloUri: new URI("roolo://memory/21/mission.scydraw");
 }
 
 var backgroundAnchor = Anchor{
@@ -97,7 +99,7 @@ var simulationAnchor = Anchor{
     xPos: 100;
     yPos: 60;
     color: Color.BLUE;
-    eloUri: new URI("test://simulation.scysimconfig");
+    eloUri: new URI("roolo://memory/20/review_simulation.scysimconfig");
 }
 
 var mappingAnchor = Anchor{
@@ -180,6 +182,7 @@ var newGroup = VBox {
                 var drawingWindow = DrawingNode.createDrawingWindow(roolo);
                 scyDesktop.addScyWindow(drawingWindow);
                 drawingWindow.openWindow(414, 377);
+                scyWindowControl.addOtherScyWindow(drawingWindow);
             }
         }
         SwingButton{
@@ -189,7 +192,7 @@ var newGroup = VBox {
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow);
                 //simquestWindow.openWindow(491,673);
-
+                scyWindowControl.addOtherScyWindow(simquestWindow);
             }
         },
         SwingButton{
@@ -199,6 +202,7 @@ var newGroup = VBox {
                 textpadWindow.allowResize = true;
                 scyDesktop.addScyWindow(textpadWindow);
                 textpadWindow.openWindow(263,256);
+                scyWindowControl.addOtherScyWindow(textpadWindow);
             }
         },
         SwingButton{
@@ -208,6 +212,7 @@ var newGroup = VBox {
                 colemoWIndow.allowResize = true;
                 scyDesktop.addScyWindow(colemoWIndow);
                 colemoWIndow.openWindow(600,300);
+                scyWindowControl.addOtherScyWindow(colemoWIndow);
             }
         }
 
@@ -218,6 +223,7 @@ var newGroup = VBox {
                 chatWindow.allowResize = true;
                 scyDesktop.addScyWindow(chatWindow);
                 chatWindow.openWindow(323,289);
+                scyWindowControl.addOtherScyWindow(chatWindow);
             }
         }
         SwingButton{
@@ -227,6 +233,7 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(dataToolWindow);
                 dataToolWindow.allowResize = true;
                 dataToolWindow.openWindow(300,600);
+                scyWindowControl.addOtherScyWindow(dataToolWindow);
             }
         }
 
@@ -237,6 +244,7 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(shelfWindow);
                 shelfWindow.allowResize = false;
                 shelfWindow.openWindow(600,300);
+                scyWindowControl.addOtherScyWindow(shelfWindow);
             }
         }
     ]
@@ -431,7 +439,7 @@ stage = Stage {
 	}
 }
 
-var scyWindowControl = ScyWindowControl{
+scyWindowControl = ScyWindowControl{
     scyWindowContentCreator: scyWindowContentCreator;
     scyDesktop: scyDesktop;
     missionModel: missionModel;

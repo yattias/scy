@@ -86,7 +86,7 @@ public class AnchorDisplay extends CustomNode {
       cursor = Cursor.HAND;
       var titleDisplay = Text {
          font: titleFont,
-         x: 0,
+         x: 1,
          y: 0,
          fill: bind titleColor,
          content: bind title
