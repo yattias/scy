@@ -197,11 +197,23 @@
 					</key>
 					<value>.scypds</value>
 				</entry>
-                <entry>
+            <entry>
 					<key>
 						<value>scy/text</value>
 					</key>
 					<value>.scytext</value>
+				</entry>
+            <entry>
+					<key>
+						<value>scy/image</value>
+					</key>
+					<value>.jpg</value>
+				</entry>
+            <entry>
+					<key>
+						<value>scy/mapping</value>
+					</key>
+					<value>.scymapping</value>
 				</entry>
 			</map>
 		</property>
