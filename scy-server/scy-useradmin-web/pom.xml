@@ -519,19 +519,19 @@
         <dependency>
         	<groupId>eu.scy</groupId>
         	<artifactId>agent-api</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
+        	<version>0.0.2-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>eu.scy</groupId>
         	<artifactId>agent-impl</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
+        	<version>0.0.2-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>roolo-agents</groupId>
         	<artifactId>roolo-agents</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
+        	<version>0.0.2-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
 
