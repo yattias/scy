@@ -877,7 +877,7 @@ public class ControllerAppletDB implements ControllerInterface{
                 tabNo = new int[2];
                 tabNo[0] = g.getX_axis();
                 tabNo[1] = g.getY_axis();
-                ParamGraph paramGraph = new ParamGraph(g.getXName(), g.getYName(), g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY());
+                ParamGraph paramGraph = new ParamGraph(g.getXName(), g.getYName(), g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), true);
                 ArrayList<FunctionModel> listFunctionModel  = null;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> lfm = g.getListFunctionModel();
                 if (lfm != null){
@@ -1071,7 +1071,7 @@ public class ControllerAppletDB implements ControllerInterface{
     
     /* ajout d'une ligne de données */
     @Override
-    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v){
+    public CopexReturn addData(long dbKeyDs, Double[] values, boolean autoScale, ArrayList v){
         Dataset ds = getDataset(dbKeyDs);
         if (ds == null)
             return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_ADD_DATA"), false);
@@ -1097,7 +1097,7 @@ public class ControllerAppletDB implements ControllerInterface{
             if(cr.isError())
                 return cr;
         }
-        if (ds.getListVisualization() != null){
+        if (ds.getListVisualization() != null && autoScale){
             for (int i=0; i<ds.getListVisualization().size(); i++){
                 if (ds.getListVisualization().get(i) instanceof Graph){
                     v2 = new ArrayList();
@@ -1126,7 +1126,7 @@ public class ControllerAppletDB implements ControllerInterface{
             return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
         Visualization vis = ds.getListVisualization().get(idVis);
         if (vis instanceof Graph){
-            ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
+            ParamGraph paramGraph = new ParamGraph(((Graph)vis).getParamGraph().getX_name(), ((Graph)vis).getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY,((Graph)vis).getParamGraph().isAutoscale());
             ((Graph)vis).setParamGraph(paramGraph);
             if (findAxisParam){
                 ArrayList v2 = new ArrayList();
@@ -1179,9 +1179,28 @@ public class ControllerAppletDB implements ControllerInterface{
         double  y_max  = maxY +maxY/10;
         double deltaX = (x_max - x_min) / 10 ;
         double deltaY = (y_max - y_min) / 10 ;
-        ParamGraph pg = new ParamGraph(vis.getParamGraph().getX_name(), vis.getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY);
+        ParamGraph pg = new ParamGraph(vis.getParamGraph().getX_name(), vis.getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
 
         v.add(pg);
+        return new CopexReturn();
+    }
+
+     /* maj autoscale*/
+    // TODO enregistrement BD
+    @Override
+    public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v){
+        int idDs = getIdDataset(dbKeyDs);
+        if (idDs == -1)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
+        Dataset ds = this.listDataSet.get(idDs);
+        int idVis = ds.getIdVisualization(dbKeyVis);
+        if (idVis == -1)
+            return new CopexReturn(viewInterface.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
+        Visualization vis = ds.getListVisualization().get(idVis);
+        if (vis instanceof Graph){
+            ((Graph)vis).getParamGraph().setAutoscale(autoScale);
+        }
+        v.add(vis);
         return new CopexReturn();
     }
 

@@ -50,6 +50,7 @@ public class GraphPanel extends javax.swing.JPanel {
     private Double y_min ;
     private Double y_max ;
     private Double delta_y ;
+    private boolean autoScale;
     // parametres de la zone graphique
     //private Graphics g ;
     private int width ;
@@ -64,7 +65,7 @@ public class GraphPanel extends javax.swing.JPanel {
 
     
     /** Creates new form GraphPanel */
-    public GraphPanel(MainDataToolPanel owner, long dbKeyDs,long dbKeyVis, Data[][] datas, ArrayList<FunctionModel> listFunctionModel, double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y) {
+    public GraphPanel(MainDataToolPanel owner, long dbKeyDs,long dbKeyVis, Data[][] datas, ArrayList<FunctionModel> listFunctionModel, double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y, boolean autoScale) {
         super();
         this.dbKeydDs = dbKeyDs ;
         this.dbKeyVis = dbKeyVis ;
@@ -76,6 +77,7 @@ public class GraphPanel extends javax.swing.JPanel {
         this.y_min = y_min;
         this.y_max = y_max;
         this.delta_y = delta_y ;
+        this.autoScale = autoScale;
         initComponents();
         bleu.setIcon(owner.getCopexImage("bleu_up.gif"));
         bleu.setSelectedIcon(owner.getCopexImage("bleu_dn.gif"));
@@ -228,7 +230,7 @@ public class GraphPanel extends javax.swing.JPanel {
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }*/
-        owner.setParamGraph(dbKeydDs, dbKeyVis, x_min, x_max, delta_x, y_min, y_max, delta_y);
+        
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(x_min, x_max, delta_x, y_min, y_max, delta_y) ;
         
@@ -401,7 +403,15 @@ public class GraphPanel extends javax.swing.JPanel {
         this.deltaY.setText(""+deltaY);
         recupererParametresZdT();
     }
-    
+    /* maj autoscale*/
+    private void setAutoScaling(){
+        owner.setAutoScale(this.dbKeydDs, this.dbKeyVis, this.cbAutoScaling.isSelected());
+    }
+
+    /* mise à jour echelle automatique */
+    public boolean isAutomaticScale(){
+        return this.cbAutoScaling.isSelected() ;
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -451,6 +461,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         deltaY = new javax.swing.JTextField();
+        cbAutoScaling = new javax.swing.JCheckBox();
         buttonRefresh = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         bleu = new javax.swing.JRadioButton();
@@ -805,6 +816,15 @@ public class GraphPanel extends javax.swing.JPanel {
 
         jPanel7.add(jPanel13);
 
+        cbAutoScaling.setSelected(this.autoScale);
+        cbAutoScaling.setText(owner.getBundleString("LABEL_AUTOSCALING"));
+        cbAutoScaling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAutoScalingActionPerformed(evt);
+            }
+        });
+        jPanel7.add(cbAutoScaling);
+
         buttonRefresh.setText(owner.getBundleString("BUTTON_REFRESH"));
         buttonRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -974,13 +994,19 @@ public class GraphPanel extends javax.swing.JPanel {
 
     private void buttonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRefreshActionPerformed
         this.recupererParametresZdT();
+        owner.setParamGraph(dbKeydDs, dbKeyVis, isAutomaticScale(), x_min, x_max, delta_x, y_min, y_max, delta_y);
         this.zoneDeTrace.repaint();
     }//GEN-LAST:event_buttonRefreshActionPerformed
+
+    private void cbAutoScalingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAutoScalingActionPerformed
+        setAutoScaling();
+    }//GEN-LAST:event_cbAutoScalingActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton bleu;
     private javax.swing.JButton buttonRefresh;
+    private javax.swing.JCheckBox cbAutoScaling;
     private javax.swing.JLabel coordX;
     private javax.swing.JLabel coordY;
     private javax.swing.JTextField deltaX;
