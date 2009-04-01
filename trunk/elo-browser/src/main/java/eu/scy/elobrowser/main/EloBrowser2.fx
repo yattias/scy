@@ -22,6 +22,7 @@ import eu.scy.elobrowser.missionmap.MissionMapWindow;
 import eu.scy.elobrowser.notification.GrowlFX;
 import eu.scy.elobrowser.properties.PropertiesWindow;
 import eu.scy.elobrowser.search.SearchWindow;
+import eu.scy.elobrowser.tbi_hack.ActiveAnchorTransferer;
 import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
@@ -167,10 +168,17 @@ anchor4.nextAnchors=[anchor1,anchor2,anchor3];
 var missionModel = MissionModel{
 //    anchors: [anchor1,anchor2,anchor3,anchor4]
     anchors: [missionAnchor,backgroundAnchor,simulationAnchor,mappingAnchor,reportAnchor]
+    activeAnchor:missionAnchor;
 }
 for (anchor in missionModel.anchors){
     anchor.color = scyWindowStyler.getScyColor(anchor.eloUri);
 }
+
+ActiveAnchorTransferer{
+    roolo:roolo
+    activeAnchor: bind missionModel.activeAnchor
+}
+
 
 
 var missionMap = MissionMap{
@@ -464,6 +472,7 @@ scyWindowControl = ScyWindowControl{
 missionMap.scyWindowControl=scyWindowControl;
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
+scyWindowControl.positionWindows();
 
 stage;
 

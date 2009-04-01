@@ -4,9 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-	<alias name="localRepository" alias="repository"/>
+	<alias name="metadataAddingRepository" alias="repository"/>
 	<alias name="localMetadataTypeManager" alias="metadataTypeManager"/>
 	<alias name="localExtensionManager" alias="extensionManager"/>
+
+	<bean name="metadataAddingRepository" class="eu.scy.elobrowser.tbi_hack.AddGeneralMetadataRepositoryWrapper">
+		<property name="repository" ref="localRepository"/>
+		<property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+	</bean>
 
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager"/>
@@ -26,6 +31,7 @@
 				<ref bean="missionKey"/>
                 <ref bean="usesRelationKey"/>
                 <ref bean="authorKey"/>
+                <ref bean="annotatesRelationKey"/>
 
 				<ref bean="lineCountKey"/>
 				<ref bean="rectangleCountKey"/>
@@ -91,7 +97,7 @@
 	</bean>
     <bean name="usesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
 		<constructor-arg index="0" value='uses'/>
-		<constructor-arg index="1" value='/lom/relation/[kind="uses"]'/>
+		<constructor-arg index="1" value='/lom/relationU/[kind="uses"]'/>
 		<constructor-arg index="2" value="UNIVERSAL"/>
 		<constructor-arg index="3" value="LIST"/>
 		<constructor-arg index="4" ref="defaultUriValidator"/>
@@ -102,6 +108,13 @@
 		<constructor-arg index="2" value="UNIVERSAL"/>
 		<constructor-arg index="3" value="LIST"/>
 		<constructor-arg index="4" ref="defaultContributeValidator"/>
+	</bean>
+    <bean name="annotatesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value='annotates'/>
+		<constructor-arg index="1" value='/lom/relationA/[kind="annotates"]'/>
+		<constructor-arg index="2" value="UNIVERSAL"/>
+		<constructor-arg index="3" value="SINGLE"/>
+		<constructor-arg index="4" ref="defaultUriValidator"/>
 	</bean>
 
 	<bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
