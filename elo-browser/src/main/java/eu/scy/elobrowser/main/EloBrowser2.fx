@@ -38,6 +38,7 @@ import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import eu.scy.scywindows.ScyWindowControl;
+import eu.scy.scywindows.ScyWindowStyler;
 import java.net.URI;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.Group;
@@ -72,6 +73,52 @@ var scyWindowContentCreator = ScyWindowContentCreator{
     ];
 };
 
+var scyWindowStyler = ScyWindowStyler{
+    roolo:roolo;
+}
+
+var missionAnchor = Anchor{
+    title: "M";
+    xPos: 140;
+    yPos: 40;
+    eloUri: new URI("test://mission.jpg");
+}
+
+var backgroundAnchor = Anchor{
+    title: "B";
+    xPos: 100;
+    yPos: 20;
+    color: Color.BLUE;
+    eloUri: new URI("test://background.jpg");
+}
+
+var simulationAnchor = Anchor{
+    title: "S";
+    xPos: 100;
+    yPos: 60;
+    color: Color.BLUE;
+    eloUri: new URI("test://simulation.scysimconfig");
+}
+
+var mappingAnchor = Anchor{
+    title: "C";
+    xPos: 60;
+    yPos: 40;
+    color: Color.BLUE;
+    eloUri: new URI("test://mapping.scymapping");
+}
+
+var reportAnchor = Anchor{
+    title: "R";
+    xPos: 20;
+    yPos: 40;
+    color: Color.BLUE;
+    eloUri: new URI("test://report.jpg");
+}
+missionAnchor.nextAnchors = [backgroundAnchor,simulationAnchor];
+backgroundAnchor.nextAnchors = [mappingAnchor];
+simulationAnchor.nextAnchors = [mappingAnchor];
+mappingAnchor.nextAnchors = [reportAnchor];
 
 
 var anchor1 = Anchor{
@@ -108,8 +155,13 @@ anchor3.nextAnchors=[anchor1,anchor2,anchor4];
 anchor4.nextAnchors=[anchor1,anchor2,anchor3];
 
 var missionModel = MissionModel{
-    anchors: [anchor1,anchor2,anchor3,anchor4]
+//    anchors: [anchor1,anchor2,anchor3,anchor4]
+    anchors: [missionAnchor,backgroundAnchor,simulationAnchor,mappingAnchor,reportAnchor]
 }
+for (anchor in missionModel.anchors){
+    anchor.color = scyWindowStyler.getScyColor(anchor.eloUri);
+}
+
 
 var missionMap = MissionMap{
     missionModel: missionModel

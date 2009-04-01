@@ -60,6 +60,7 @@ public class ScyWindow extends CustomNode {
 
 	public var title = "???";
 	public var eloType = "?123";
+    public var iconCharacter = "?";
 	public var color = Color.GREEN;
 	public var backgroundColor = color.WHITE;
 	public var width: Number = 100 on replace{
@@ -726,7 +727,7 @@ public class ScyWindow extends CustomNode {
 							font: eloTypeFont
 							x: eloTypeFont.size / 4 - 1,
 							y: eloTypeFont.size - 1
-							content: bind eloType.substring(0, 1)
+							content: bind iconCharacter.substring(0, 1)
 							fill: Color.WHITE
 						}
 					]

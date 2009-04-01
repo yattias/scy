@@ -27,6 +27,7 @@ public class ScyWindowControl{
     public var missionModel: MissionModel;
     public var missionMap: MissionMap;
     public var scyWindowContentCreator: ScyWindowContentCreator;
+    public var scyWindowStyler: ScyWindowStyler;
     public var scyDesktop: ScyDesktop;
     public var stage: Stage;
 
@@ -74,6 +75,7 @@ public class ScyWindowControl{
                     ]
                 }
             }
+            scyWindowStyler.style(scyWindow, anchor.eloUri);
         }
         return scyWindow;
     }
