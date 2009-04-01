@@ -7,12 +7,15 @@
 package eu.scy.colemo.client;
 
 import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.contributions.AddClass;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashSet;
 import java.util.HashMap;
 import javax.swing.*;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Øystein
@@ -21,6 +24,7 @@ import javax.swing.*;
  *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class ConceptNode extends JComponent implements FocusListener, MouseListener, MouseMotionListener {
+    private static final Logger log = Logger.getLogger(ConceptNode.class.getName());
 
     public static final int CONNECTION_AREA_NONE = -1;
     public static final int CONNECTION_EDGE_EAST = 0;
@@ -73,6 +77,11 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 
         setFillColor(defaultFillColor);
         setConnectionAreas();
+    }
+
+    public void update() {
+        log.info("MOdel name is: " + getModel().getName());
+        nameField.setText(getModel().getName());
     }
 
     @Override
@@ -160,6 +169,12 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 
     public void focusLost(FocusEvent e) {
         setSelected(false);
+        if(e.getComponent().equals(nameField)) {
+            log.info("Lost focus on field: " + nameField.getText());
+
+        }
+
+        log.info("FOCUS LOST!");
         repaint();
     }
 
@@ -270,6 +285,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 
     public void setModel(UmlClass umlClass) {
         model = umlClass;
+        update();
     }
 
     public UmlClass getModel() {
@@ -302,6 +318,8 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
             textField.setOpaque(false);
             textField.setBorder(null);
             node.getModel().setName(textField.getText());
+            ApplicationController.getDefaultInstance().getConnectionHandler().updateObject(node.getModel());
+
         }
 
         public void keyTyped(KeyEvent e) {

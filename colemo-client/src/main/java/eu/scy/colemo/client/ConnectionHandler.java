@@ -12,6 +12,8 @@ public interface ConnectionHandler {
 
     void sendMessage(String message);
 
+    void updateObject(Object object);
+
     void sendObject(Object object);
 
     void initialize() throws Exception;

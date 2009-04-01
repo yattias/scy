@@ -294,6 +294,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         repaint();
     }
 
+    public void updateConcept(UmlClass concept) {
+        log.info("************************** A CONCEPT HAS BEEN RENAMED: " + concept.getName());
+        log.info("CONCEPT:ID: " + concept.getId());
+        ConceptNode node = getNodeByClassId(concept.getId());
+        node.setModel(concept);
+    }
+
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
         private static GraphicsDiagram diagram;
         NodeConnectionListener(GraphicsDiagram d) {
