@@ -33,55 +33,38 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 
 	private static final String USER = "similarEloAgent";
 	private IMetadataTypeManager<Key> metadataTypeManager;
-	private static HashMap<String, String> userMap = new HashMap<String, String>();
-
-	static {
-		userMap.put("e3457b7e-73c4-418b-8cc2-b8534f01eee1", "adam");
-		userMap.put("6903ce4b-6643-4bb2-9ba7-123a19e05e5d", "henrik");
-		userMap.put("4270398a-90e5-4588-8182-85c62832d377", "florian");
-		userMap.put("5ee4d993-c938-4bc8-91db-cc5e6433c5dc", "lars");
-	}
+	private HashMap<URI, Double> score;
 
 	public SearchForSimilarConceptsAgent() {
 		super("SearchForSimilarConceptsAgent");
 		metadataTypeManager = getMetadataTypeManager();
+		score = new HashMap<URI, Double>();
 	}
 
 	public SearchForSimilarConceptsAgent(ToolBrokerAPI<Key> toolBroker) {
 		super("SearchForSimilarConceptsAgent", toolBroker);
 		metadataTypeManager = getMetadataTypeManager();
+		score = new HashMap<URI, Double>();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doRun() {
 		try {
 			Tuple tuple = getTupleSpace().waitToTake(
 					new Tuple("scymapper", Long.class, String.class));
-			String eloUri = (String) tuple.getField(2).getValue();
+			URI eloUri = new URI((String) tuple.getField(2).getValue());
 
 			IRepository<IELO<Key>, Key> repository = getRepository();
-			IELO<Key> elo = repository.retrieveELO(new URI(eloUri));
+			IELO<Key> elo = repository.retrieveELO(eloUri);
 			IMetadata<Key> metadata = elo.getMetadata();
 
-			Key nodeLabelKey = metadataTypeManager.getMetadataKey("nodeLabel");
-			IMetadataValueContainer values = metadata
-					.getMetadataValueContainer(nodeLabelKey);
-
-			List<String> nodeLabels = (List<String>) values.getValueList();
-			Set<URI> hits = new HashSet<URI>();
-
-			for (String nodeLabel : nodeLabels) {
-				IQuery query = new BasicMetadataQuery<Key>(nodeLabelKey,
-						BasicSearchOperations.EQUALS, nodeLabel, null);
-				List<ISearchResult> results = repository.search(query);
-				for (ISearchResult result : results) {
-					hits.add(result.getUri());
-				}
-			}
+			Set<URI> hits = searchForRelatedElos(eloUri, repository, metadata);
 
 			Set<String> relatedUsers = new HashSet<String>();
 			for (URI hitUri : hits) {
+				if (score.get(hitUri) < 0.6) {
+					continue;
+				}
 				IMetadata<Key> hitMetadata = repository
 						.retrieveMetadata(hitUri);
 				IMetadataValueContainer value = hitMetadata
@@ -95,8 +78,8 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 
 			StringBuffer relatedUserList = new StringBuffer();
 			for (String relatedUser : relatedUsers) {
-				relatedUserList.append(userMap.get(relatedUser));
-				relatedUserList.append(" ");
+				relatedUserList.append(relatedUser);
+				relatedUserList.append(";");
 			}
 
 			INotification notification = new Notification();
@@ -111,5 +94,68 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private Set<URI> searchForRelatedElos(URI originalEloUri,
+			IRepository<IELO<Key>, Key> repository, IMetadata<Key> metadata) {
+
+		Set<URI> hits = new HashSet<URI>();
+
+		double maxScore = -1;
+
+		Key nodeLabelKey = metadataTypeManager.getMetadataKey("nodeLabel");
+		IMetadataValueContainer nodeValues = metadata
+				.getMetadataValueContainer(nodeLabelKey);
+		List<String> nodeLabels = (List<String>) nodeValues.getValueList();
+		for (String nodeLabel : nodeLabels) {
+			IQuery query = new BasicMetadataQuery<Key>(nodeLabelKey,
+					BasicSearchOperations.EQUALS, nodeLabel, null);
+			List<ISearchResult> results = repository.search(query);
+			for (ISearchResult result : results) {
+				hits.add(result.getUri());
+
+				Double oldScore = score.get(result.getUri());
+				if (oldScore == null) {
+					oldScore = 0.0;
+				}
+				score.put(result.getUri(), oldScore + 1);
+				if (maxScore < oldScore + 1.0) {
+					maxScore = oldScore + 1.0;
+				}
+			}
+		}
+
+		Key linkLabelKey = metadataTypeManager.getMetadataKey("linkLabel");
+		IMetadataValueContainer linkValues = metadata
+				.getMetadataValueContainer(linkLabelKey);
+		List<String> linkLabels = (List<String>) linkValues.getValueList();
+		for (String linkLabel : linkLabels) {
+			IQuery query = new BasicMetadataQuery<Key>(linkLabelKey,
+					BasicSearchOperations.EQUALS, linkLabel, null);
+			List<ISearchResult> results = repository.search(query);
+			for (ISearchResult result : results) {
+				hits.add(result.getUri());
+
+				Double oldScore = score.get(result.getUri());
+				if (oldScore == null) {
+					oldScore = 0.0;
+				}
+				score.put(result.getUri(), oldScore + 1);
+				if (maxScore < oldScore + 1.0) {
+					maxScore = oldScore + 1.0;
+				}
+			}
+		}
+
+		for (URI hit : score.keySet()) {
+			Double hitScore = score.get(hit);
+			hitScore = hitScore / maxScore;
+			score.put(hit, hitScore);
+		}
+
+		hits.remove(originalEloUri);
+		score.remove(originalEloUri);
+		return hits;
 	}
 }
