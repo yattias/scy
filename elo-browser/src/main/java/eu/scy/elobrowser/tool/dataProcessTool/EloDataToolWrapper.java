@@ -7,6 +7,7 @@ package eu.scy.elobrowser.tool.dataProcessTool;
 
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
+import eu.scy.elobrowser.main.user.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -249,7 +250,7 @@ public class EloDataToolWrapper {
 				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
 							new URI("roolo://somewhere/myMission.mission"));
 				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-							new Contribute("my vcard", System.currentTimeMillis()));
+							new Contribute(User.instance.getUsername(), System.currentTimeMillis()));
                 if (usesEloURI !=null) {
                     elo.getMetadata().getMetadataValueContainer(usesRelationKey).setValue(usesEloURI);
                 }
