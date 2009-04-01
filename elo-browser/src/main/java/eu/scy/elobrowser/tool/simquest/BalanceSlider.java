@@ -38,10 +38,9 @@ public class BalanceSlider {
     }
 
     public void setRotationAngle(double angle) {
-        if ((angle < -5.0) || (angle > 5.0)) {
-            step = angle / 180;
-        } else {
-            // if angle is too small, stop sliding;
+        step = Math.sin(Math.toRadians(angle)) / 5;
+        if (Math.abs(step) < 0.005) {
+            // if the inclination is very small, stop moving
             step = 0.0;
         }
     }
