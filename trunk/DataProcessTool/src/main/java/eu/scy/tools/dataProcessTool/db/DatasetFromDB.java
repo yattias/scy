@@ -705,7 +705,7 @@ public class DatasetFromDB {
                 deltaY = Float.parseFloat(s);
             }catch(NumberFormatException e){
             }
-            param = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY);
+            param = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY, true);
 
         }
         v.add(param);

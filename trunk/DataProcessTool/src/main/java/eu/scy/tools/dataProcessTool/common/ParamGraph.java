@@ -27,9 +27,11 @@ public class ParamGraph implements Cloneable{
     private double deltaX ;
     /* delta Y */
     private double deltaY;
+    /*autoscale*/
+    private boolean autoscale;
 
     // CONSTRUCTOR 
-    public ParamGraph(String x_name, String y_name, double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY) {
+    public ParamGraph(String x_name, String y_name, double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
         this.x_name = x_name;
         this.y_name = y_name;
         this.x_min = x_min;
@@ -38,6 +40,7 @@ public class ParamGraph implements Cloneable{
         this.y_max = y_max;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
+        this.autoscale = autoscale;
     }
 
     public double getDeltaX() {
@@ -104,6 +107,14 @@ public class ParamGraph implements Cloneable{
         this.y_name = y_name;
     }
 
+    public boolean isAutoscale() {
+        return autoscale;
+    }
+
+    public void setAutoscale(boolean autoscale) {
+        this.autoscale = autoscale;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
@@ -126,6 +137,7 @@ public class ParamGraph implements Cloneable{
             param.setY_max(y_maxC);
             param.setDeltaX(deltaXC);
             param.setDeltaY(deltayC);
+            param.setAutoscale(this.autoscale);
 
             return param;
         } catch (CloneNotSupportedException e) {

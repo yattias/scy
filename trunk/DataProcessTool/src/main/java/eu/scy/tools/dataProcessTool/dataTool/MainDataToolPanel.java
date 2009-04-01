@@ -896,7 +896,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         }
         Visualization vis = new Visualization(-1, name, type, tabNo, true) ;
         if (type.getCode() == DataConstants.VIS_GRAPH){
-            ParamGraph paramGraph = new ParamGraph(header1.getValue(), header2.getValue(), -10, 10,  -10,10,1,1);
+            ParamGraph paramGraph = new ParamGraph(header1.getValue(), header2.getValue(), -10, 10,  -10,10,1,1, true);
             vis = new Graph(-1, name, type, tabNo, true, paramGraph, null);
         }
         ArrayList v = new ArrayList();
@@ -1227,7 +1227,8 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     /* ajout d'une ligne de données   */
     private void addData(long dbKeyDs, Double[] values){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.addData(dbKeyDs, values,  v);
+        boolean autoScale = getDataVisTabbedPane().isAutoScale();
+        CopexReturn cr = this.controller.addData(dbKeyDs, values,  autoScale, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return ;
@@ -1242,9 +1243,9 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     }
 
     /* maj para graph */
-    public void setParamGraph(long dbKeyDs, long dbKeyVis, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
+    public void setParamGraph(long dbKeyDs, long dbKeyVis, boolean autoScale, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.setParamGraph(dbKeyDs, dbKeyVis,true, x_min, x_max, deltaX, y_min, y_max, deltaY, v);
+        CopexReturn cr = this.controller.setParamGraph(dbKeyDs, dbKeyVis,autoScale, x_min, x_max, deltaX, y_min, y_max, deltaY, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return ;
@@ -1260,6 +1261,25 @@ public class MainDataToolPanel extends javax.swing.JPanel {
         ds.getListVisualization().set(idVis, vis);
         getDataSetTabbedPane().updateDataset(ds, false);
         getDataVisTabbedPane().updateVisualization(vis);
+    }
+
+    /* maj autoscale */
+    public void setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.setAutoScale(dbKeyDs, dbKeyVis,autoScale,  v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return ;
+        }
+        Visualization vis = (Visualization)v.get(0);
+        int idDs = getIdDataset(dbKeyDs);
+        if (idDs == -1)
+            return;
+        Dataset ds = listDataSet.get(idDs);
+        int idVis = ds.getIdVisualization(dbKeyVis);
+        if (idVis == -1)
+            return;
+        ds.getListVisualization().set(idVis, vis);
     }
 
 }

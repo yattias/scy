@@ -205,7 +205,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
     /* mise à jour du dataset => on enleve tout et on affiche les graphes du nouveau dataset*/
     public void updateDataset(Dataset ds, boolean sameDs){
         int selIndex = getSelectedIndex() ;
-        int nb = listGraph.size();
+       int nb = listGraph.size();
         for (int i=nb-1; i>-1; i--){
             remove(i);
         }
@@ -222,6 +222,8 @@ public class VisualTabbedPane extends ScyTabbedPane{
        if (sameDs && selIndex >=0 && selIndex < listVis.size())
            setSelectedIndex(selIndex);
     }
+
+    
 
     /* mise à jour du dataset */
     public void updateVisualization(Visualization v){
@@ -285,7 +287,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
             ParamGraph pg = ((Graph)vis).getParamGraph() ;
             GraphPanel gPanel = new GraphPanel(owner, ds.getDbKey(), vis.getDbKey(), datas, listFunctionModel,
                     pg.getX_min(), pg.getX_max(), pg.getDeltaX(),
-                    pg.getY_min(), pg.getY_max(), pg.getDeltaY()) ;
+                    pg.getY_min(), pg.getY_max(), pg.getDeltaY(), pg.isAutoscale()) ;
             cGraph = new CopexGraph(vis, gPanel) ;
         }
           if (cGraph == null)
@@ -294,6 +296,13 @@ public class VisualTabbedPane extends ScyTabbedPane{
                 addTab(vis.getName(), cGraph);
             else
                 setCurrentTab(cGraph);
+    }
+
+    public boolean isAutoScale(){
+        if(this.activGraph != null && activGraph.getGraphComponent() instanceof GraphPanel){
+            return ((GraphPanel)activGraph.getGraphComponent()).isAutomaticScale() ;
+        }
+        return false;
     }
 
    

@@ -92,8 +92,9 @@ public interface ControllerInterface {
     public CopexReturn createDataset(String name, String[] headers, ArrayList v);
 
     /* ajout d'une ligne de données */
-    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v);
+    public CopexReturn addData(long dbKeyDs, Double[] values, boolean autoScale, ArrayList v);
     /*mise à jour des param */
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, boolean findAxisParam, double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY, ArrayList v);
-
+    /* maj autoscale*/
+    public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v);
 }
