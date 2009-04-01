@@ -13,6 +13,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Callback;
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,6 +30,8 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
     private Tuple conceptTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
     private Tuple linkTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
+
+    private static final Logger log = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
 
     public void sendMessage(String message) {
         try {
@@ -155,22 +158,33 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     }
 
     protected void addNewNode(Object node) {
-        UmlClass umlClass;
-        if (node instanceof AddClass) {
-            System.out.println("CALL: After add class");
-            umlClass = new UmlClass(((AddClass) node).getName(), ((AddClass) node).getType(), ((AddClass) node).getAuthor());
-            umlClass.setId(((AddClass)node).getId());
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addClass(umlClass);
-            //ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateUmlDiagram(ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram());
-        } else if (node instanceof MoveClass) {
-            System.out.println("MOVE CLASS: " + ((MoveClass) node).getUmlClass().getName());
-            MoveClass moveClass = (MoveClass) node;
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
-        } else if(node instanceof UmlLink) {
-            UmlLink link = (UmlLink) node;
-            ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
+        if(node == null) {
+            log.error("NODE IS NULL!!");
+            return;
+        }
+        try {
+            UmlClass umlClass;
+            if (node instanceof AddClass) {
+                umlClass = new UmlClass(((AddClass) node).getName(), ((AddClass) node).getType(), ((AddClass) node).getAuthor());
+                umlClass.setId(((AddClass)node).getId());
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().getUmlDiagram().addDiagramData(umlClass);
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addClass(umlClass);
+                log.info("Added UML class: " + umlClass.getName());
+            } else if (node instanceof MoveClass) {
+                log.debug("MOVE CLASS: " + ((MoveClass) node).getUmlClass().getName());
+                MoveClass moveClass = (MoveClass) node;
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
+            } else if(node instanceof UmlLink) {
+                UmlLink link = (UmlLink) node;
+                ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
 
+            } else {
+                log.warn("DO NOT KNOW HOW TO HANDLE OBJECTS OF TYPE " + node.getClass().getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            log.info("EVERYTHING IS DONE!");
         }
     }
 }

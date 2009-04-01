@@ -204,13 +204,13 @@
                     <include>*.png</include>
                 </includes>
             </resource>
-            <!--resource>
+            <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>*.*</targetPath>
+                <!--targetPath>*.*</targetPath-->
                 <includes>
-                    <include>log4j.properties</include>
+                    <include>*.properties</include>
                 </includes>
-            </resource-->
+            </resource>
         </resources>
 
     </build>
