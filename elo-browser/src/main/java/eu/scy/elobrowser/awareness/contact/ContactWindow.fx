@@ -10,6 +10,8 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.MessageWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyWindow;
 import java.lang.Object;
 import java.lang.System;
 import javafx.animation.SimpleInterpolator;
@@ -41,6 +43,7 @@ import javafx.stage.Stage;
 
 public class ContactWindow extends CustomNode{
 
+    public var scyDesktop: ScyDesktop; 
     public var offset: Number = 10;
 
     public var dragging: Boolean = false;
@@ -85,18 +88,45 @@ public class ContactWindow extends CustomNode{
                 }
                 if(evt.secondaryButtonDown){
                     System.out.println("Secondary Mouse Button Down");
+                    if (not contact.isChatting){
+                    contact.isChatting = true;
                     var messageWindow: MessageWindow = MessageWindow{
                         //FIXME replace with variable username;
                         sender: "Anonymous";
                         receiver: contact.contact.name;
                         opacity: 0.0;
                     }
-                        insert messageWindow into content;
-                    messageWindow.visible = true;
-                    Timeline {
+                    var scyMessageWindow:ScyWindow = ScyWindow{
+                        translateY: 300;
+                        opacity: 0.75;
+                        title: "Chat with {messageWindow.receiver}"
+                        id:"Chat{messageWindow.receiver}";
+                        color: Color.BLUE
+                        scyContent: messageWindow
+                        allowClose: true;
+                        allowResize: true;
+                        allowMinimize: true;
+                    }
 
+                    scyMessageWindow.openWindow(messageWindow.width, messageWindow.height);
+                    scyDesktop.addScyWindow(scyMessageWindow);
+//                        insert messageWindow into content;
+                    messageWindow.visible = true;
+                    Timeline{
                         keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
                     }.play();
+
+                    } else {
+                        def scyWindow:ScyWindow = scyDesktop.findScyWindow("Chat{contact.contact.name}");
+                        scyDesktop.activateScyWindow(scyWindow);
+                        scyDesktop.showScyWindow(scyWindow);
+                        scyWindow.toFront();
+//                        scyWindow.showFrom(scyWindow.translateX, scyWindow.translateY);
+//                        scyWindow.width = (scyWindow.scyContent as MessageWindow).width;
+//                        scyWindow.height = (scyWindow.scyContent as MessageWindow).height;
+                    }
+
+
                 }
             };
 

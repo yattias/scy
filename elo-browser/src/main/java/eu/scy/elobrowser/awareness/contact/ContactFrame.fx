@@ -42,6 +42,7 @@ import eu.scy.elobrowser.awareness.contact.WindowSize;
 public class ContactFrame extends CustomNode{
 
     public var contact: Contact;
+    public var isChatting:Boolean = false;
     public var size: WindowSize;
     public var imageSize: Number = 64;
     //    def width =  bind calculateFrameWidth;
@@ -101,8 +102,8 @@ public class ContactFrame extends CustomNode{
 
     def progressLabel: Text = Text{
         content: "{(contact.progress * 100)}%";
-        fill: Color.LIGHTGRAY;
-        effect: DropShadow{
+        fill: Color.GRAY;
+        effect: DropShadow{ color:Color.BLACK;
         };
         x: bind progressBarBorder.x;
         y: bind progressBarBorder.y;
@@ -112,8 +113,6 @@ public class ContactFrame extends CustomNode{
         textOrigin: TextOrigin.TOP;
         translateX: bind (progressBarBorder.width - progressLabel.boundsInLocal.width) / 2 + 12;
         translateY: bind (progressBarBorder.height - progressLabel.boundsInLocal.height) / 2 + 12;
-
-
     };
 
     var scaleProgress: Scale = Scale{
@@ -137,30 +136,6 @@ public class ContactFrame extends CustomNode{
         width: 80;
         height: 80;
     };
-
-    //   bound function calculateFrameWidth(): Number{
-    //        if (size == WindowSize.NORMAL){
-    //            return 100;
-    //        }
-    //      else {
-    //            return 80;
-    //        }
-    //    };
-    //
-    //    bound function calculateFrameHeight():Number{
-    //        if (size == WindowSize.NORMAL){
-    //            return 140;
-    //        }
-    //      else {
-    //            if (size == WindowSize.HOVER) {
-    //                return 100;
-    //            }
-    //            else {
-    //                return 80;
-    //            };
-    //        }
-    //    };
-
 
     public def image = ImageView{
         x: bind frame.x + ((frame.width - imageSize) / 3) + 4;
@@ -235,12 +210,16 @@ public class ContactFrame extends CustomNode{
         frame.onMouseEntered = function(evt:MouseEvent):Void{
             frame.stroke = Color.BLACK;  
             frame.strokeDashArray = [3.0,3.0];
-            frame.fill = Color.LIGHTSKYBLUE;
-            frame.effect = Lighting{
-                light: DistantLight { azimuth: -135
-                }
-                surfaceScale: 5
+            def color = Color{
+                opacity:0.3;
             }
+            frame.fill = color.WHITE;
+            
+//            frame.effect = Lighting{
+//                light: DistantLight { azimuth: -135
+//                }
+//                surfaceScale: 5
+//            }
 
         };
 

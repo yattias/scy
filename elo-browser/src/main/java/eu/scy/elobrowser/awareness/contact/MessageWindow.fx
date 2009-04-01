@@ -51,27 +51,31 @@ public class MessageWindow extends CustomNode {
 //    public function closeWindow():Void{};
 
 
-   public def gradient: LinearGradient = LinearGradient{
-        proportional: true;
-        stops: [
-            Stop{
-                color: Color.LIGHTSTEELBLUE;
-                offset: 0.0;
-            },
-            Stop{
-                color: Color.LIGHTBLUE;
-                offset: 1.0;
-            }]
 
-    };
+
+//   public def gradient: LinearGradient = LinearGradient{
+//        proportional: true;
+//        stops: [
+//            Stop{
+//                color: Color.LIGHTSTEELBLUE;
+//                offset: 0.0;
+//            },
+//            Stop{
+//                color: Color.LIGHTBLUE;
+//                offset: 1.0;
+//            }]
+//
+//    };
 
     def frame: Rectangle = Rectangle{
-        stroke: Color.BLACK;
-        fill: gradient;
+//        stroke: Color.BLACK;
+//        fill: gradient;
+        stroke: Color.TRANSPARENT;
+        fill: Color.TRANSPARENT;
         arcHeight: 20;
         arcWidth: 20;
         opacity: 0.7;
-        effect: windowEffectQueue;
+//        effect: windowEffectQueue;
 //        stroke: Color.BLACK;
         //        fill: Color.GREEN;
         //        arcHeight: 20;
@@ -83,36 +87,36 @@ public class MessageWindow extends CustomNode {
         x: bind this.x;
         y: bind this.y;
 
-        onMousePressed: function(evt:MouseEvent) {
-            tempX = frame.x;
-            tempY = frame.y;
-            cursor=Cursor.MOVE;
-
-        };
-
-        onMouseDragged: function(evt:MouseEvent){
-            if (transparentDragging) then {
-                this.opacity=0.4;
-            }
-            this.x = tempX + evt.dragX;
-            this.y = tempY + evt.dragY;
-            textarea.translateX = textField.translateX;
-            textarea.translateY = this.header.y + 20;
-        };
-
-        onMouseReleased: function(evt:MouseEvent):Void{
-            if (transparentDragging) then {
-                this.opacity=1.0;
-                this.frame.opacity=initialOpacity;
-            }
-            else {
-            };
-            cursor=Cursor.DEFAULT;
-        };
+//        onMousePressed: function(evt:MouseEvent) {
+//            tempX = frame.x;
+//            tempY = frame.y;
+//            cursor=Cursor.MOVE;
+//
+//        };
+//
+//        onMouseDragged: function(evt:MouseEvent){
+//            if (transparentDragging) then {
+//                this.opacity=0.4;
+//            }
+//            this.x = tempX + evt.dragX;
+//            this.y = tempY + evt.dragY;
+//            textarea.translateX = textField.translateX;
+//            textarea.translateY =  20;
+//        };
+//
+//        onMouseReleased: function(evt:MouseEvent):Void{
+//            if (transparentDragging) then {
+//                this.opacity=1.0;
+//                this.frame.opacity=initialOpacity;
+//            }
+//            else {
+//            };
+//            cursor=Cursor.DEFAULT;
+//        };
     };
 
     init{
-        effect = windowEffectQueue;
+//        effect = windowEffectQueue;
         //        mask();
         blocksMouse = true;
         swingTextArea.setSize(300, 300);
@@ -121,7 +125,7 @@ public class MessageWindow extends CustomNode {
         swingTextArea.setAutoscrolls(true);
         swingTextArea.setVisible(true);
         textarea.translateX = textField.translateX;
-        textarea.translateY = this.header.y + 20;
+        textarea.translateY = 20;
 //        this.effect=opacity;
 
     };
@@ -130,16 +134,15 @@ public class MessageWindow extends CustomNode {
 
     };
 
-
-    def header: Text = Text{
-        x: bind(this.x + (frame.width - 300) / 2);
-        y: bind (this.y + 20);
-        content: "Chat with {receiver}";
-    }
+//    def header: Text = Text{
+//        x: bind(this.x + (frame.width - 300) / 2);
+//        y: bind (this.y + 20);
+//        content: "Chat with {receiver}";
+//    }
 
     public var textField: SwingTextField =  SwingTextField {
         width: 300;
-        translateX: bind header.x;
+        translateX: bind (this.x + (frame.width - 300) / 2);
         translateY: bind (textarea.translateY + textarea.height + 10);
         columns: 100;
         text: "Send a Message to {receiver}";
@@ -152,36 +155,36 @@ public class MessageWindow extends CustomNode {
     def sendButton = SwingButton {
         translateX: bind textField.translateX;
         translateY: bind textField.translateY + 40;
-        blocksMouse: true;
+//        blocksMouse: true;
         text: "Send!";
         action: function() {
             sendMessage();
         }
     };
     
-    def closeButton: SwingButton = SwingButton {
-        translateX: bind sendButton.translateX + sendButton.width + 20;
-        translateY: bind sendButton.translateY;
-        blocksMouse: true;
-        text: "Close!";
-        action: function() {
-            closeWindow();
-        }
-    };
+//    def closeButton: SwingButton = SwingButton {
+//        translateX: bind sendButton.translateX + sendButton.width + 20;
+//        translateY: bind sendButton.translateY;
+//        blocksMouse: true;
+//        text: "Close!";
+//        action: function() {
+//            closeWindow();
+//        }
+//    };
 
 
-    public function closeWindow():Void{
-        Timeline{
-            keyFrames: [at (0.2s){this.opacity => 0.0 tween SimpleInterpolator.LINEAR}];
-
-        }.play();
-            //            this.visible = false;
-        blocksMouse=false;
+//    public function closeWindow():Void{
+//        Timeline{
+//            keyFrames: [at (0.2s){this.opacity => 0.0 tween SimpleInterpolator.LINEAR}];
+//
+//        }.play();
+//            //            this.visible = false;
+//        blocksMouse=false;
 //        delete this from content;
 //        this.unmask();
 
 
-    };
+//    };
 
     public var swingTextArea: JTextArea  = new JTextArea();
     public var scrollPane: JScrollPane = new JScrollPane(swingTextArea);
@@ -232,7 +235,8 @@ public class MessageWindow extends CustomNode {
         }
     };
 
-    var content: Node[] = [frame,textField,textarea,sendButton, closeButton, header];
+//    var content: Node[] = [frame,textField,textarea,sendButton, closeButton, header];
+    var content: Node[] = [frame,textField,textarea,sendButton];
 
     
 //    public function createNode():
