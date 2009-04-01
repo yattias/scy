@@ -66,11 +66,11 @@ public class SimQuestNode extends CustomNode, Resizable {
 		if (scyWindow == null)
             return;
 		scyWindow.title = "{prefix}{eloSimQuestWrapper.getDocName()}";
-		var eloUri = eloSimQuestWrapper.getEloUri();
-		if (eloUri != null)
-        scyWindow.id = eloUri.toString()
-		else
-        scyWindow.id = "";
+//		var eloUri = eloSimQuestWrapper.getEloUri();
+//		if (eloUri != null)
+//        scyWindow.id = eloUri.toString()
+//		else
+//        scyWindow.id = "";
 	}
 
     public override function create(): Node {
