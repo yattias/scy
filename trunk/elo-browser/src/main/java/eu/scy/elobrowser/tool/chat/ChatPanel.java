@@ -203,6 +203,12 @@ public class ChatPanel extends JPanel implements ConnectionHandler, ICollaborati
         
     }
 
+    //@Override
+    public void joinSession(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
     @Override
     public void handleCollaborationServiceEvent(ICollaborationServiceEvent arg0) {
         // TODO Auto-generated method stub
