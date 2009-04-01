@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.elobrowser.main;
 
-import eu.scy.sessionmanager.SessionManager;
+import eu.scy.elobrowser.main.user.User;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
@@ -20,6 +19,8 @@ public class ScyLoginManager {
 
     public Integer login(String username, String password) {
         ToolBrokerAPI toolBroker = new ToolBrokerImpl();
+        User.instance.setUsername(username);
+        User.instance.setPassword(password);
         //SessionManager sessioManager = toolBroker.getUserSession(username, password);
 //        if(sessioManager == null)  {
 //            System.out.println("LOGIN FAILED!!");
@@ -28,5 +29,4 @@ public class ScyLoginManager {
 
         return LOGIN_OK;
     }
-
 }

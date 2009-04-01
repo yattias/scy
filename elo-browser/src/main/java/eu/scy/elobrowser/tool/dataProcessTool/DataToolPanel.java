@@ -13,6 +13,7 @@ import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.elobrowser.main.user.User;
 import eu.scy.elobrowser.tool.simquest.DatasetSandbox;
 import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
@@ -98,7 +99,7 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     /* initialization Collaboration Service*/
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(userName, simulatorName, sessionID, false);
+        ArrayList<IScyMessage> scyMessages = collaborationService.synchronizeClientState(User.instance.getUsername(), simulatorName, sessionID, true);
         // find the header message first
         for (IScyMessage message : scyMessages) {
             if (message.getObjectType().equals(TYPE_DATASET_HEADER)) {
