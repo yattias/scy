@@ -188,6 +188,7 @@ public class MessageTranslator implements IMessageTranslator {
      * @see eu.scy.colemo.client.sqlspacesimpl.IMessageTranslator#getScyMessage(eu.scy.colemo.contributions.AddClass)
      */
     public IScyMessage getScyMessage(Object object) {
+        log.debug("Creating scy message of object: " + object);
         IScyMessage message = null;
         if (object instanceof AddClass) {
             AddClass addClass = (AddClass) object;
@@ -198,6 +199,11 @@ public class MessageTranslator implements IMessageTranslator {
         } else if (object instanceof AddLink) {
             AddLink addLink = (AddLink) object;
             message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, getSessionId());
+        } else if (object instanceof UmlLink) {
+            UmlLink umlLink = (UmlLink) object;
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlLink.getId(), umlLink.getClass().getName(), umlLink.getClass().getName(), "Some description", umlLink.getTo(), umlLink.getFrom(), null, 0, getSessionId());
+        } else {
+            log.warn("Did not manage to create scy message from object: " + object);
         }
         return message;
     }
