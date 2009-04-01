@@ -1,5 +1,7 @@
 package eu.scy.colemo.client;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,6 +15,8 @@ public class ColemoStartup {
 
     public static void main(String [] args) {
         System.out.println("Starting colemo!");
+
+        //PropertyConfigurator.configure("resources/log4j.properties");
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

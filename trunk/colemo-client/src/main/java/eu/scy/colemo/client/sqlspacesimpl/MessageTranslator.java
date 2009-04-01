@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 public class MessageTranslator implements IMessageTranslator {
 
     private static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
-    private static final Logger logger = Logger.getLogger(MessageTranslator.class.getName());
+    private static final Logger log = Logger.getLogger(MessageTranslator.class.getName());
 
     private String sessionId = null;
 
@@ -108,14 +108,14 @@ public class MessageTranslator implements IMessageTranslator {
      * @see eu.scy.colemo.client.sqlspacesimpl.IMessageTranslator#getObject(eu.scy.communications.message.IScyMessage)
      */
     public Object getObject(IScyMessage scyMessage) {
-
+        log.info("Creating object from SCYMessage: " + scyMessage.getObjectType());
         if (scyMessage.getObjectType().indexOf("AddClass") > 0) {
-            logger.debug("Creating new add class");
+            log.debug("Creating new add class");
             AddClass ac = new AddClass(scyMessage.getName(), scyMessage.getObjectType(), "HEI", null, null);
             ac.setId(scyMessage.getId());
             return ac;
         } else if (scyMessage.getObjectType().indexOf("MoveClass") > 0) {
-            logger.debug("Creating new MoveClass!");
+            log.debug("Creating new MoveClass!");
             String pos = scyMessage.getDescription();
             String[] posArray = pos.split(",");
             Integer xPos = new Integer(posArray[0]);
@@ -124,8 +124,8 @@ public class MessageTranslator implements IMessageTranslator {
             GraphicsDiagram diagram = ApplicationController.getDefaultInstance().getGraphicsDiagram();
             ConceptNode node = diagram.getNodeByClassId(scyMessage.getId());
             if (node != null) {
-                logger.debug("xpos = " + xPos);
-                logger.debug("Y = " + yPos);
+                log.debug("xpos = " + xPos);
+                log.debug("Y = " + yPos);
                 node.setLocation(xPos, yPos);
 
                 UmlClass cls = node.getModel();
@@ -141,13 +141,15 @@ public class MessageTranslator implements IMessageTranslator {
             return link;
         }
 
+        //log.info("Could not translate scyMessage: " + scyMessage);
+
         return null;
     }
 
 
     public Tuple getTuple(AddClass addClass) {
-        Field userNameField = new Field("henrik@enovate.no");
-        Field toolName = new Field("Colemo");
+        Field userNameField = new Field(SCYConnectionHandler.USER_NAME);
+        Field toolName = new Field(ApplicationController.TOOL_NAME);
         Field objectIdField = new Field(String.valueOf(addClass.hashCode()));
         Field objectType = new Field(addClass.getClass().getName());
         Field objectName = new Field(addClass.getName());
@@ -158,8 +160,8 @@ public class MessageTranslator implements IMessageTranslator {
 
     //
     public Tuple getTuple(MoveClass moveClass) {
-        Field userNameField = new Field("henrik@enovate.no");
-        Field toolName = new Field("Colemo");
+        Field userNameField = new Field(SCYConnectionHandler.USER_NAME);
+        Field toolName = new Field(ApplicationController.TOOL_NAME);
         Field objectIdField = new Field(moveClass.getUmlClass().getId());
         Field objectType = new Field(moveClass.getClass().getName());
         Field objectName = new Field(moveClass.getUmlClass().getName());
@@ -171,8 +173,8 @@ public class MessageTranslator implements IMessageTranslator {
     //
     public Tuple getTuple(UmlLink addLink) {
 
-        Field userNameField = new Field("henrik@enovate.no");
-        Field toolName = new Field("Colemo");
+        Field userNameField = new Field(SCYConnectionHandler.USER_NAME);
+        Field toolName = new Field(ApplicationController.TOOL_NAME);
         Field objectIdField = new Field(addLink.getId());
         Field fromField = new Field(addLink.getFrom());
         Field toField = new Field(addLink.getTo());
@@ -189,13 +191,13 @@ public class MessageTranslator implements IMessageTranslator {
         IScyMessage message = null;
         if (object instanceof AddClass) {
             AddClass addClass = (AddClass) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, getSessionId());
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, String.valueOf(addClass.hashCode()), addClass.getClass().getName(), addClass.getName(), "Some description", null, null, null, 0, getSessionId());
         } else if (object instanceof MoveClass) {
             MoveClass moveClass = (MoveClass) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, getSessionId());
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, moveClass.getUmlClass().getId(), moveClass.getClass().getName(), moveClass.getUmlClass().getName(), "" + moveClass.getUmlClass().getX() + "," + moveClass.getUmlClass().getY(), null, null, null, 0, getSessionId());
         } else if (object instanceof AddLink) {
             AddLink addLink = (AddLink) object;
-            message = ScyMessage.createScyMessage("henrik@enovate.no", "Colemo", addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, getSessionId());
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, getSessionId());
         }
         return message;
     }

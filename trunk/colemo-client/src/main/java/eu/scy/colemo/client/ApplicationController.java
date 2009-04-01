@@ -39,6 +39,8 @@ public class ApplicationController {
     private IMetadataTypeManager metadataTypeManager;
     private IRepository repository;
 
+    public static String TOOL_NAME = "SCYMapper"; 
+
 
     
 

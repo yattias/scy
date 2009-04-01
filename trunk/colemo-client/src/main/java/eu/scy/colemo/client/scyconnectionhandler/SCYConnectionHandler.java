@@ -20,6 +20,7 @@ import eu.scy.communications.message.impl.ScyMessage;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,19 +29,17 @@ import java.util.ArrayList;
  * Time: 13:41:28
  * CoLeMo controller that serves as a bridge between colemo and the SCY collaboration and awareness services.
  */
-public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollaborationServiceListener {
+public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements ConnectionHandler, ICollaborationServiceListener {
 
 
     private static final Logger log = Logger.getLogger(ConnectionHandlerSqlSpaces.class.getName());
     private ICollaborationService collaborationService;
     private ICollaborationSession collaborationSession;
     //FIXME: this needs to come from the client, generated
-    //public static final String SESSIONID = "1";
+    public static final String SESSIONID = "SCYMapper-Session";
 
-    //private String sessionId = SESSIONID;
-
-
-
+    private String sessionId = SESSIONID;
+    public static final String USER_NAME = "ScyMappingForPeace";
 
 
     public void sendObject(Object object) {
@@ -50,63 +49,62 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         mt.setSessionId(collaborationSession.getId());
         IScyMessage sendMe = null;
 
-        if (object instanceof AddClass) {
-            AddClass addClass = (AddClass) object;
-            System.out.println("NAME: " + addClass.getName());
-            sendMe = mt.getScyMessage(addClass);
-        } else if (object instanceof MoveClass) {
-            MoveClass mc = (MoveClass) object;
-            mc.setId(mc.getUmlClass().getId());
-            System.out.println("moving class with id:  " + mc.getId() + " to position: " + mc.getUmlClass().getX() + ", " + mc.getUmlClass().getY());
-            sendMe = mt.getScyMessage(mc);
-        } else if (object instanceof UmlLink) {
-            UmlLink addLink = (UmlLink) object;
-            System.out.println("Adding link");
-            sendMe = mt.getScyMessage(addLink);
-        }
-
-        if (sendMe != null) {
-            log.debug("Sending ScyMessage: \n" + sendMe.toString());
-            try {
+        try {
+            if (object instanceof AddClass) {
+                AddClass addClass = (AddClass) object;
+                System.out.println("NAME: " + addClass.getName());
+                sendMe = mt.getScyMessage(addClass);
                 collaborationService.create(sendMe);
-            } catch (CollaborationServiceException e) {
-                log.error("Bummer. Create in CollaborationService failed somehow: \n" + e);
-                e.printStackTrace();
+            } else if (object instanceof MoveClass) {
+                MoveClass mc = (MoveClass) object;
+                mc.setId(mc.getUmlClass().getId());
+                sendMe = mt.getScyMessage(mc);
+                collaborationService.update(sendMe, mc.getId());
+            } else if (object instanceof UmlLink) {
+                UmlLink addLink = (UmlLink) object;
+                sendMe = mt.getScyMessage(addLink);
+                collaborationService.create(sendMe);
             }
+        } catch (CollaborationServiceException e) {
+            e.printStackTrace();
         }
     }
 
     public void initialize() throws Exception {
-        joinSession(null);
-   }
+        joinSession();
 
-    public void joinSession(String sessionId) {
+    }
+
+    public void joinSession() {
+        setSessionId(SESSIONID);
+        log.info("JOINING SESSION " + sessionId + " NOW!");
         ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
-        log.info("initializing session: " + sessionId);
-        MessageTranslator ot = new MessageTranslator();
 
-        ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
+
         try {
-            collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-            collaborationService.addCollaborationListener(this);
-            if (sessionId == null) {
-                collaborationSession = collaborationService.createSession("SCYMapper", "Henrik");                
-            } else {
-                collaborationSession = collaborationService.joinSession(sessionId, "Henrik", "SCYMapper"); 
-            }
-            log.debug("joined session: " + collaborationSession.getId());
-            messages = collaborationService.synchronizeClientState("Henrik","SCYMapper", collaborationSession.getId(), true);
-            log.debug("got ###: " + messages.size() + " messages");
+            initializeCollaborationService();
+            MessageTranslator ot = new MessageTranslator();
+            ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
+            collaborationService.joinSession(getSessionId(), USER_NAME, ApplicationController.TOOL_NAME);
+            messages = collaborationService.synchronizeClientState(USER_NAME, ApplicationController.TOOL_NAME, getSessionId(), true);
+            log.info("got ###: " + messages.size() + " messages");
+            synchronizeDiagramElements(messages, ot);
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
             e.printStackTrace();
         }
 
-        synchronizeDiagramElements(messages, ot);
+
+    }
+
+    private void initializeCollaborationService() throws CollaborationServiceException {
+        collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
+        collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
+        collaborationService.addCollaborationListener(this);
     }
 
     private void synchronizeDiagramElements(ArrayList<IScyMessage> messages, MessageTranslator ot) {
-        if(messages == null) {
+        if (messages == null) {
             log.info("Messages are null");
             return;
         }
@@ -114,13 +112,14 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
         for (int i = 0; i < messages.size(); i++) {
             scyMessage = (ScyMessage) messages.get(i);
             Object newNOde = ot.getObject(scyMessage);
+            log.info("NODE: " + newNOde);
             addNewNode(newNOde);
         }
         //TODO: Find a better place for this
         ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0, 0, 800, 700);
     }
 
-                                                                                                                                                                            
+
     public void cleanUp() {
         //TODO: implement this in collaborationservice
 //        try {
@@ -134,22 +133,34 @@ public class SCYConnectionHandler  extends ConnectionHandlerSqlSpaces implements
      * Handles collaboration service events
      */
     public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
-        log.debug("got CollaborationServiceEvent");
         IScyMessage sm = e.getScyMessage();
         if (sm != null) {
-            log.debug("UPDATING FROM SERVER!");
+            log.debug("UPDATING FROM SERVER: " + sm.getObjectType());
             MessageTranslator mt = new MessageTranslator();
             log.debug("CALL: Before add class");
             Object object = mt.getObject(sm);
-            if ( sm.getObjectType().contains("AddClass")) {
-                addNewNode((BaseConceptMapNode) object);
+            log.info("OBJECT IS: " + object);
+            if (sm.getObjectType().contains("AddClass")) {
+                addNewNode(object);
             } else if (sm.getObjectType().contains("UmlLink")) {
-                addNewNode((UmlLink) object);
+                addNewNode(object);
+            } else if (sm.getObjectType().contains("MoveClass")) {
+                log.debug("ADDING A MOVE CLASS!");
+                addNewNode(object);
+                log.debug("MOVE CLASS WAS ADDED!");
             }
         }
     }
 
     public void sendMessage(String message) {
         System.out.println("SCYConnectionHandler.sendMessage()");
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

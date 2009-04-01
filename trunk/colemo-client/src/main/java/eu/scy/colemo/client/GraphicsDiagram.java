@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import eu.scy.colemo.server.uml.*;
 import eu.scy.colemo.contributions.MoveClass;
+import org.apache.log4j.Logger;
 
 /**
  * @author Øystein
@@ -22,6 +23,8 @@ import eu.scy.colemo.contributions.MoveClass;
  */
 public class GraphicsDiagram extends JPanel implements MouseListener, ActionListener {
     private UmlDiagram umlDiagram;
+
+    private static final Logger log = Logger.getLogger(GraphicsDiagram.class.getName());
 
     private HashSet<ConceptLink> links = new HashSet<ConceptLink>();
     private HashSet<ConceptNode> nodes = new HashSet<ConceptNode>();
@@ -74,6 +77,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
     public ConceptNode getNodeByClassId(String id) {
         for (ConceptNode node : nodes) {
+            log.info("CHECKING: " + node.getModel().getId() + " with: " + id);
             if (node.getModel().getId().equals(id)) return node;
         }
         return null;
@@ -135,7 +139,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void updateClass(UmlClass umlClass) {
         ConceptNode node = getNodeByClassId(umlClass.getId());
-        System.out.println("UPDATIN A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
+        log.info("UPDATING A CLASS: " + umlClass.getId() + " name. " + umlClass.getName());
         if (umlClass.isMove()) {
             node.setBackground(new Color(236, 236, 236));
             node.setToolTipText("<html>" + umlClass.getName() + " created by " + umlClass.getAuthor() + ".<br>" +
@@ -318,7 +322,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 link.setId("ID-" + System.currentTimeMillis());
                 diagram.addLink(link);
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
-                System.out.println("DONE CREATING LINK (Conceptnode)");
+                log.info("DONE CREATING LINK (Conceptnode)");
                 diagram.repaint();
             }
             else {
