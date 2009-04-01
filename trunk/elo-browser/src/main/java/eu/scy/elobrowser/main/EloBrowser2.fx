@@ -28,6 +28,8 @@ import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.DrawingToolScyWindowContentFactory;
+import eu.scy.elobrowser.tool.simquest.SimQuestScyWindowContentFactory;
+import eu.scy.elobrowser.tool.dataProcessTool.DataProcessToolScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.DummyScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
@@ -69,7 +71,12 @@ var scyWindowContentCreator = ScyWindowContentCreator{
         DrawingToolScyWindowContentFactory{
             roolo:roolo;
         }
-
+        SimQuestScyWindowContentFactory{
+            roolo:roolo;
+        }
+        DataProcessToolScyWindowContentFactory{
+            roolo:roolo;
+        }
     ];
 };
 
