@@ -35,6 +35,7 @@ import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
 import eu.scy.elobrowser.tool.missionmap.MissionMap;
 import eu.scy.elobrowser.tool.missionmap.MissionModel;
+import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
@@ -189,9 +190,9 @@ var newGroup = VBox {
                 var drawingWindow = DrawingNode.createDrawingWindow(roolo);
                 scyDesktop.addScyWindow(drawingWindow);
                 drawingWindow.openWindow(414, 377);
-                scyWindowControl.addOtherScyWindow(drawingWindow);
+                scyWindowControl.addOtherScyWindow(drawingWindow, true);
             }
-        }
+        },
         SwingButton{
             text: "Simulator"
             action: function() {
@@ -199,7 +200,7 @@ var newGroup = VBox {
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow);
                 //simquestWindow.openWindow(491,673);
-                scyWindowControl.addOtherScyWindow(simquestWindow);
+                scyWindowControl.addOtherScyWindow(simquestWindow, true);
             }
         },
         SwingButton{
@@ -209,7 +210,7 @@ var newGroup = VBox {
                 textpadWindow.allowResize = true;
                 scyDesktop.addScyWindow(textpadWindow);
                 textpadWindow.openWindow(263,256);
-                scyWindowControl.addOtherScyWindow(textpadWindow);
+                scyWindowControl.addOtherScyWindow(textpadWindow, true);
             }
         },
         SwingButton{
@@ -219,10 +220,9 @@ var newGroup = VBox {
                 colemoWIndow.allowResize = true;
                 scyDesktop.addScyWindow(colemoWIndow);
                 colemoWIndow.openWindow(600,300);
-                scyWindowControl.addOtherScyWindow(colemoWIndow);
+                scyWindowControl.addOtherScyWindow(colemoWIndow, true);
             }
-        }
-
+        },
         SwingButton{
             text: "BuddyList"
             action: function() {
@@ -230,9 +230,9 @@ var newGroup = VBox {
                 chatWindow.allowResize = true;
                 scyDesktop.addScyWindow(chatWindow);
                 chatWindow.openWindow(323,289);
-                scyWindowControl.addOtherScyWindow(chatWindow);
+                scyWindowControl.addOtherScyWindow(chatWindow, true);
             }
-        }
+        },
         SwingButton{
             text: "Data Process Tool"
             action: function() {
@@ -240,10 +240,18 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(dataToolWindow);
                 dataToolWindow.allowResize = true;
                 dataToolWindow.openWindow(300,600);
-                scyWindowControl.addOtherScyWindow(dataToolWindow);
+                scyWindowControl.addOtherScyWindow(dataToolWindow, true);
             }
-        }
-
+        },
+        SwingButton{
+            text: "Picture Viewer"
+            action: function() {
+                var picViewWindow = PictureViewerNode.createPictureViewerWindow(roolo);
+                scyDesktop.addScyWindow(picViewWindow);
+                picViewWindow.allowResize = true;
+                scyWindowControl.addOtherScyWindow(picViewWindow, true);
+            }
+        },
         SwingButton{
             text: "OSLO picture viewer"
             action: function() {
@@ -251,7 +259,7 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(shelfWindow);
                 shelfWindow.allowResize = false;
                 shelfWindow.openWindow(600,300);
-                scyWindowControl.addOtherScyWindow(shelfWindow);
+                scyWindowControl.addOtherScyWindow(shelfWindow, true);
             }
         }
     ]
@@ -269,7 +277,7 @@ var newScyWindow = ScyWindow{
     allowResize: true;
     allowMinimize: true;
 };
-newScyWindow.openWindow(150, 230);
+newScyWindow.openWindow(150, 300);
 scyDesktop.addScyWindow(newScyWindow);
 
 

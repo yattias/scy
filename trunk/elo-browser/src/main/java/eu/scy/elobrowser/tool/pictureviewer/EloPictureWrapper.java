@@ -6,35 +6,38 @@ package eu.scy.elobrowser.tool.pictureviewer;
 
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
-import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.RooloMetadataKeys;
-import roolo.elo.metadata.keys.Contribute;
 import javax.swing.JTextArea;
+import javax.swing.text.DateFormatter;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
-import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.metadata.keys.Contribute;
 
 public class EloPictureWrapper { 
 
-	public static final String scyTextType = "scy/text";
+	public static final String scyMeloType = "scy/melo";
     private static final Logger logger = Logger.getLogger(EloPictureWrapper.class.getName());
     public static final String untitledDocName = "untitled";
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
@@ -46,12 +49,17 @@ public class EloPictureWrapper {
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
     private IMetadataKey authorKey;
+    private IMetadataKey descriptionKey;
     private JTextArea textarea;
-    private String pictureName = untitledDocName;
     private IELO<IMetadataKey> elo = null;
     private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+    private Image image;
+    private String title;
+    private String description;
+    private String author;
+    private long dateCreated;
 
-    public EloPictureWrapper( ) {
+    public EloPictureWrapper() {
     }
 
     public void addELOLoadedChangedListener(
@@ -94,6 +102,8 @@ public class EloPictureWrapper {
         logger.info("retrieved key " + missionKey.getId());
         authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
         logger.info("retrieved key " + authorKey.getId());
+        descriptionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.DESCRIPTION.getId());
+        logger.info("retrieved key " + descriptionKey.getId());
     }
 
     public void setEloFactory(IELOFactory<IMetadataKey> eloFactory) {
@@ -114,19 +124,6 @@ public class EloPictureWrapper {
         } else {
             return (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH);
         }
-    }
-
-    private void setPictureName(String pictureName) {
-        this.pictureName = this.pictureName;
-        String windowTitle = "Dataset: ";
-        if (StringUtils.hasText(this.pictureName)) {
-            windowTitle += this.pictureName;
-        }
-    // setTitle(windowTitle);
-    }
-
-    public String getPictureName() {
-        return pictureName;
     }
 
 /*
@@ -158,24 +155,46 @@ public class EloPictureWrapper {
 		}
 	}
 */
+
+    public void loadPictureAction() {
+		IQuery query = null;
+		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(typeKey,
+					BasicSearchOperations.EQUALS, scyMeloType, null);
+		query = metadataQuery;
+		List<ISearchResult> searchResults = repository.search(query);
+		URI[] drawingUris = new URI[searchResults.size()];
+		int i = 0;
+		for (ISearchResult searchResult : searchResults)
+			drawingUris[i++] = searchResult.getUri();
+		URI drawingUri = (URI) JOptionPane.showInputDialog(null, "Select picture", "Select picture",
+					JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
+		if (drawingUri != null)
+		{
+			loadElo(drawingUri);
+		}
+	}
+
     public void loadElo(URI eloUri) {
         logger.info("Trying to load elo " + eloUri);
         IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
-            if (!scyTextType.equals(eloType)) {
+            if (!scyMeloType.equals(eloType)) {
                 throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
             }
             IMetadata metadata = newElo.getMetadata();
-            IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-            // TODO fixe the locale problem!!!
-            Object titleObject = metadataValueContainer.getValue();
-            Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-            Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
+            title = metadata.getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH).toString();
+            description = metadata.getMetadataValueContainer(descriptionKey).getValue(Locale.ENGLISH).toString();
+            Contribute c = (Contribute) metadata.getMetadataValueContainer(authorKey).getValue();
+            author = c.getVCard();
+            dateCreated = (Long) metadata.getMetadataValueContainer(dateCreatedKey).getValue();
+            try {
+                BufferedImage img = ImageIO.read(new ByteArrayInputStream(newElo.getContent().getBytes()));
 
-            setPictureName(titleObject3.toString());
-            //textarea.setText(newElo.getContent().getXmlString());
-            //TODO: load picture here?!
+                image = (Image) Image.fromBufferedImage(img);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             elo = newElo;
            sendELOLoadedChangedListener();
         }
@@ -234,6 +253,26 @@ public class EloPictureWrapper {
     //
     public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository) {
         this.repository = repository;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDateCreatedString() {
+        return DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(new Date(dateCreated));
     }
 
 }
