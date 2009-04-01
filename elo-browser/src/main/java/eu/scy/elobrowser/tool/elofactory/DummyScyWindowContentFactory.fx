@@ -6,6 +6,9 @@
 
 package eu.scy.elobrowser.tool.elofactory;
 
+import eu.scy.elobrowser.tool.elofactory.DummyScyWindowContent;
+import eu.scy.elobrowser.tool.elofactory.ScyWindowContentFactory;
+import eu.scy.scywindows.ScyWindow;
 import java.net.URI;
 import javafx.scene.Node;
 
@@ -18,7 +21,7 @@ public class DummyScyWindowContentFactory extends ScyWindowContentFactory {
         return 1;
     }
 
-    public override function getScyWindowContent(eloUri:URI):Node{
+    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
         return DummyScyWindowContent{
             label:eloUri.toString();
         }

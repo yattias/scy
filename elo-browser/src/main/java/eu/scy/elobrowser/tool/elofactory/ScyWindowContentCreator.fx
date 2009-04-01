@@ -6,6 +6,8 @@
 
 package eu.scy.elobrowser.tool.elofactory;
 
+import eu.scy.elobrowser.tool.elofactory.ScyWindowContentFactory;
+import eu.scy.scywindows.ScyWindow;
 import java.net.URI;
 import javafx.scene.Node;
 
@@ -16,7 +18,7 @@ import javafx.scene.Node;
 public class ScyWindowContentCreator {
     public var scyWindowContentFactories: ScyWindowContentFactory[];
 
-    public function getScyWindowContent(eloUri:URI):Node{
+    public function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
         var scyWindowContent: Node = null;
         var maxSuitability = 0;
         var useScyWindowContentFactory: ScyWindowContentFactory = null;
@@ -28,7 +30,7 @@ public class ScyWindowContentCreator {
             }
         }
         if (useScyWindowContentFactory != null){
-            scyWindowContent = useScyWindowContentFactory.getScyWindowContent(eloUri);
+            scyWindowContent = useScyWindowContentFactory.getScyWindowContent(eloUri,scyWindow);
         }
         return scyWindowContent;
     }

@@ -7,7 +7,9 @@
 package eu.scy.elobrowser.tool.drawing;
 
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentFactory;
+import eu.scy.scywindows.ScyWindow;
 import java.net.URI;
 import javafx.scene.Node;
 
@@ -25,8 +27,9 @@ public class DrawingToolScyWindowContentFactory  extends ScyWindowContentFactory
         return 0;
     }
 
-    public override function getScyWindowContent(eloUri:URI):Node{
+    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
         var drawingNode = DrawingNode.createDrawingNode(roolo);
+        drawingNode.scyWindow = scyWindow;
         drawingNode.loadElo(eloUri);
         return drawingNode;
     }

@@ -61,19 +61,17 @@ public class ScyWindowControl{
     function getScyWindow(anchor:Anchor):ScyWindow{
         var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri.toString());
         if (scyWindow == null){
-            var content = scyWindowContentCreator.getScyWindowContent(anchor.eloUri);
-            if (content != null){
-                scyWindow = ScyWindow{
+             scyWindow = ScyWindow{
                     id: anchor.eloUri.toString();
                     title: anchor.title;
                     color: anchor.color;
-                    scyContent: content;
-//                    translateX: 100;
-                    //                    translateY: 100;
                     scyWindowAttributes: [
                         missionMap.getAnchorAttribute(anchor)
                     ]
                 }
+            var content = scyWindowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
+            if (content != null){
+                scyWindow.scyContent = content;
             }
             scyWindowStyler.style(scyWindow, anchor.eloUri);
         }
