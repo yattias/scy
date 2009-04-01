@@ -10,6 +10,7 @@ import eu.scy.client.tools.drawing.MyPropertyPlaceholderConfigurer;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
 import eu.scy.elobrowser.model.mapping.QueryToElosDisplay;
+import eu.scy.elobrowser.tbi_hack.AddGeneralMetadataRepositoryWrapper;
 import java.lang.IllegalStateException;
 import java.lang.Object;
 import java.lang.System;
@@ -43,6 +44,7 @@ public class Roolo {
    public var metadataTypeManager :IMetadataTypeManager;
    public var extensionManager: IExtensionManager;
    public var eloFactory: IELOFactory;
+   public var metadataAddingRepository:AddGeneralMetadataRepositoryWrapper;
    
    public var idKey:IMetadataKey;
    public var titleKey:IMetadataKey;
@@ -127,6 +129,8 @@ public class Roolo {
       }
       repository =
       getSpringBean("repository") as IRepository;
+      metadataAddingRepository =
+      getSpringBean("metadataAddingRepository") as AddGeneralMetadataRepositoryWrapper;
       metadataTypeManager =
       getSpringBean("metadataTypeManager") as IMetadataTypeManager;
       extensionManager =

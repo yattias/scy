@@ -86,10 +86,11 @@ public class AnchorDisplay extends CustomNode {
       cursor = Cursor.HAND;
       var titleDisplay = Text {
          font: titleFont,
-         x: 1,
+         x: 0,
          y: 0,
          fill: bind titleColor,
-         content: bind title
+         content: bind title,
+         translateX:1;
       }
       titleDisplay.x = anchor.xPos + (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
       titleDisplay.y = anchor.yPos + (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 1;

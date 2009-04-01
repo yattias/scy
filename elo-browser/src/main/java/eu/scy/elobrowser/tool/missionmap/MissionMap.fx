@@ -38,6 +38,12 @@ public class MissionMap extends CustomNode {
     var anchorMap = new HashMap();
     var anchorLinks: AnchorLink[];
 
+    postinit{
+        if (missionModel.activeAnchor!=null){
+           getAnchorDisplay(missionModel.activeAnchor).selected = true;
+        }
+    }
+
     public override function create(): Node {
         anchorDisplays = createAnchorDisplays();
         anchorLinks = createAnchorLinks();
@@ -65,15 +71,20 @@ public class MissionMap extends CustomNode {
             for (toAnchor in fromAnchor.anchor.nextAnchors){
                 AnchorLink{
                     fromAnchor: fromAnchor;
-                    toAnchor: anchorMap.get(toAnchor) as AnchorDisplay;
+                    toAnchor: getAnchorDisplay(toAnchor);
                 }
             }
         }
     }
 
+    function getAnchorDisplay(anchor:Anchor):AnchorDisplay{
+        return anchorMap.get(anchor) as AnchorDisplay;
+    }
+
+
     public function anchorSelected(anchorDisplay:AnchorDisplay){
         if (missionModel.activeAnchor != null){
-            var selectedAnchorDisplay = anchorMap.get(missionModel.activeAnchor) as AnchorDisplay;
+            var selectedAnchorDisplay = getAnchorDisplay(missionModel.activeAnchor);
             if (selectedAnchorDisplay == anchorDisplay){
             // already selected, but do reposition the windows again
                 scyWindowControl.positionWindows();
