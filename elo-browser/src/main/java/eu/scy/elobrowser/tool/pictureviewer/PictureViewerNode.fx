@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.lang.Math;
  
 /**
  * @author pg
@@ -29,8 +30,11 @@ import javafx.stage.Stage;
 
 public class PictureViewerNode extends CustomNode {
 
-    var title: String = "a great picture.";
-    var description: String = "bla bla bla\nbla blala bla";
+    var title: String;
+    var description: String;
+    var author: String;
+    var dateCreatedString: String;
+
     public var img: Image = Image{
         url: "{__DIR__}image.jpg";
     }
@@ -97,8 +101,34 @@ public class PictureViewerNode extends CustomNode {
 
     var descriptionText: Text = Text {
         content: bind description;
-        translateX: 77;
+        translateX: 85;
         translateY: strokeRectangle.height + strokeRectangle.translateY + 15;
+    }
+
+    var authorTextTitle: Text = Text {
+        content: "Author: ";
+        translateX: 5;
+        translateY: descriptionText.layoutBounds.height + descriptionText.translateY + 15;;
+        style: "font-weight: bold"
+    };
+
+    var authorText: Text = Text {
+        content: bind author;
+        translateX: 85;
+        translateY: descriptionText.layoutBounds.height + descriptionText.translateY + 15;
+    }
+
+    var dateCreatedTextTitle: Text = Text {
+        content: "Creation Date: ";
+        translateX: 5;
+        translateY: authorText.layoutBounds.height + authorText.translateY + 15;;
+        style: "font-weight: bold"
+    };
+
+    var dateCreatedText: Text = Text {
+        content: bind dateCreatedString;
+        translateX: 85;
+        translateY: authorText.layoutBounds.height + authorText.translateY + 15;
     }
 
 
@@ -112,7 +142,11 @@ public class PictureViewerNode extends CustomNode {
                 titleText,
                 viewer,
                 descriptionTextTitle,
-                descriptionText
+                descriptionText,
+                authorTextTitle,
+                authorText,
+                dateCreatedTextTitle,
+                dateCreatedText
             ]
         };
         return g;
@@ -141,9 +175,14 @@ public function createPictureViewerNode(roolo:Roolo):PictureViewerNode {
     eloPictureActionWrapper.setRepository(roolo.repository);
     eloPictureActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
     eloPictureActionWrapper.setEloFactory(roolo.eloFactory);
+    eloPictureActionWrapper.loadPictureAction();
     return PictureViewerNode {
-        eloPictureActionWrapper:eloPictureActionWrapper;
-
+        eloPictureActionWrapper: eloPictureActionWrapper;
+        img: eloPictureActionWrapper.getImage();
+        title: eloPictureActionWrapper.getTitle();
+        description: eloPictureActionWrapper.getDescription();
+        author: eloPictureActionWrapper.getAuthor();
+        dateCreatedString: eloPictureActionWrapper.getDateCreatedString();
     };
 }
 
@@ -159,7 +198,15 @@ public function createPictureViewerWindow(pictureViewerNode:PictureViewerNode):S
         scyContent: pictureViewerNode;
         cache: true;
     }
-    pictureWindow.openWindow(300,360);
+    var height = pictureViewerNode.dateCreatedText.translateY + 50;
+    var width = pictureViewerNode.img.width;
+    width = Math.max(width, pictureViewerNode.titleText.boundsInParent.maxX);
+    width = Math.max(width, pictureViewerNode.descriptionText.boundsInParent.maxX);
+    width = Math.max(width, pictureViewerNode.authorText.boundsInParent.maxX);
+    width = Math.max(width, pictureViewerNode.dateCreatedText.boundsInParent.maxX);
+    width += 30;
+    pictureWindow.openWindow(width,height);
+
     pictureViewerNode.scyWindow = pictureWindow;
     return pictureWindow;
     

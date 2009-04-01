@@ -43,8 +43,16 @@ public class ScyWindowControl{
     }
     var otherWindows:ScyWindow[];
 
-    public function addOtherScyWindow(otherWindow:ScyWindow){
+    public function addOtherScyWindow(otherWindow:ScyWindow, autoLocate: Boolean){
+        if (autoLocate) {
+            otherWindow.translateX = (otherWindow.scene.width - otherWindow.layoutBounds.width) / 2 - otherWindow.layoutBounds.minX;
+            otherWindow.translateY = (otherWindow.scene.height - otherWindow.layoutBounds.height) / 2 - otherWindow.layoutBounds.minY;
+        }
         insert otherWindow into otherWindows;
+    }
+
+    public function addOtherScyWindow(otherWindow:ScyWindow){
+        addOtherScyWindow(otherWindow, false);
     }
 
 

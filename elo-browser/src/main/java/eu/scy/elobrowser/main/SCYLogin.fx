@@ -68,8 +68,8 @@ public class SCYLogin extends Group {
     var text : Text;
     var loginNode : ScyWindow;
     def maxOpacity = 0.9;
-    var preferredWidth = 250;
-    var preferredHeight = 140;
+    var preferredWidth = 280;
+    var preferredHeight = 180;
 
     public-init var mainContent : Node[] on replace {
         for (n in mainContent) {
@@ -105,8 +105,8 @@ public class SCYLogin extends Group {
                 translateX: bind (scene.width - loginNode.layoutBounds.width) / 2 - loginNode.layoutBounds.minX
                 translateY: bind (scene.height - loginNode.layoutBounds.height) / 2 - loginNode.layoutBounds.minY
                 opacity:0.0;
-                width: 90;
-                height: 90;
+                width: 70;
+                height: 70;
                 title:"Login"
                 color:Color.BLUEVIOLET
 
@@ -118,9 +118,9 @@ public class SCYLogin extends Group {
                 loginGroup = Grid {
                     width: 50
                     height: 50
-                    growRows: [0.9]
-                    growColumns: [0.9]
-                    border: 10
+                    growRows: [0.6]
+                    growColumns: [0.6]
+                    border: 20
                     rows: [
                         Row {
                             cells: [
@@ -167,12 +167,12 @@ public class SCYLogin extends Group {
                     ]
                 }
                 allowClose:false;
-                allowResize:true;
+                allowResize:false;
                 allowRotate:false;
             }
 
         ];
-		  loginNode.openWindow(90, 90);
+		  loginNode.openWindow(100, 100);
         startLoginAnimation();
     }
 
@@ -223,8 +223,8 @@ public class SCYLogin extends Group {
             keyFrames: KeyFrame {
                 time: 0.5s
                 values: [
-                    loginNode.width => 250 tween interpol
-                    loginNode.height => 140 tween interpol
+                    loginNode.width => 290 tween interpol
+                    loginNode.height => 160 tween interpol
                 ]
                 action: function() {
                     t[2].play();
