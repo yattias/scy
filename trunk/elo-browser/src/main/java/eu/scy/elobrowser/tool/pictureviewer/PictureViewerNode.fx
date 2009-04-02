@@ -7,12 +7,13 @@
 package eu.scy.elobrowser.tool.pictureviewer;
 
 import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.tool.pictureviewer.EloPictureWrapper;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.scywindows.ScyWindow;
+import java.lang.Math;
 import java.lang.Object;
-import java.lang.System;
 import java.net.URI;
-import javafx.scene.CustomNode; 
+import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,9 +21,11 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.lang.Math;
  
 /**
  * @author pg
@@ -39,13 +42,13 @@ public class PictureViewerNode extends CustomNode {
         url: "{__DIR__}image.jpg";
     }
 
-    public-init var eloPictureActionWrapper:EloPictureWrapper;
+    public-init var eloPictureActionWrapper: EloPictureWrapper;
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };
 
     public function loadElo(uri:URI) {
-            eloPictureActionWrapper.loadElo(uri);
+        eloPictureActionWrapper.loadElo(uri);
         setScyWindowTitle();
     }
 
@@ -63,18 +66,23 @@ public class PictureViewerNode extends CustomNode {
     }
 
     var viewer: ImageView = ImageView {
-        image: img;
+        image: bind img;
+        fitWidth: 500;
+        fitHeight: 500 * img.height / img.width;
+        preserveRatio: true;
         translateX: 5;
         translateY: 25;
-        
     }
+
     var strokeRectangle: Rectangle = Rectangle {
-        height: bind img.height + 2;
-        width: bind img.width + 2;
-        translateX: bind viewer.translateX - 1;
-        translateY: bind viewer.translateY - 1;
         stroke: Color.BLACK;
+        strokeWidth: 2;
+        height: bind viewer.fitHeight;
+        width: bind viewer.fitWidth;
+        translateX: bind viewer.translateX;
+        translateY: bind viewer.translateY;
         fill: Color.TRANSPARENT;
+        
 
     }
 
@@ -82,7 +90,7 @@ public class PictureViewerNode extends CustomNode {
         content: "Title: ";
         translateX: 5;
         translateY: 15;
-        style: "font-weight: bold"
+        font: Font.font("", FontWeight.BOLD, 12);
     };
 
 
@@ -95,42 +103,43 @@ public class PictureViewerNode extends CustomNode {
     var descriptionTextTitle: Text = Text {
         content: "Description: ";
         translateX: 5;
-        translateY: strokeRectangle.height + strokeRectangle.translateY + 15;;
-        style: "font-weight: bold"
+        translateY: bind strokeRectangle.height + strokeRectangle.translateY + 15;
+        font: Font.font("", FontWeight.BOLD, 12);
     };
 
     var descriptionText: Text = Text {
         content: bind description;
         translateX: 85;
-        translateY: strokeRectangle.height + strokeRectangle.translateY + 15;
+        translateY: bind descriptionTextTitle.translateY;
     }
 
     var authorTextTitle: Text = Text {
         content: "Author: ";
         translateX: 5;
-        translateY: descriptionText.layoutBounds.height + descriptionText.translateY + 15;;
-        style: "font-weight: bold"
+        translateY: bind descriptionText.translateY + 13;
+        font: Font.font("", FontWeight.BOLD, 12);
     };
 
     var authorText: Text = Text {
         content: bind author;
         translateX: 85;
-        translateY: descriptionText.layoutBounds.height + descriptionText.translateY + 15;
+        translateY: bind authorTextTitle.translateY;
     }
 
     var dateCreatedTextTitle: Text = Text {
         content: "Creation Date: ";
+        font: Font.font("", FontWeight.BOLD, 12);
         translateX: 5;
-        translateY: authorText.layoutBounds.height + authorText.translateY + 15;;
-        style: "font-weight: bold"
+        translateY: bind authorText.translateY + 13;
     };
-
     var dateCreatedText: Text = Text {
         content: bind dateCreatedString;
         translateX: 85;
-        translateY: authorText.layoutBounds.height + authorText.translateY + 15;
+        translateY: bind dateCreatedTextTitle.translateY;
     }
 
+    init {
+    }
 
 
     public override function create():Node {
@@ -146,7 +155,8 @@ public class PictureViewerNode extends CustomNode {
                 authorTextTitle,
                 authorText,
                 dateCreatedTextTitle,
-                dateCreatedText
+                dateCreatedText,
+                strokeRectangle
             ]
         };
         return g;
@@ -165,6 +175,7 @@ public class PictureViewerNode extends CustomNode {
             url: url;
         }
         viewer.image = newImage;
+
     }
 
 }
@@ -199,7 +210,7 @@ public function createPictureViewerWindow(pictureViewerNode:PictureViewerNode):S
         cache: true;
     }
     var height = pictureViewerNode.dateCreatedText.translateY + 50;
-    var width = pictureViewerNode.img.width;
+    var width = pictureViewerNode.viewer.fitWidth;
     width = Math.max(width, pictureViewerNode.titleText.boundsInParent.maxX);
     width = Math.max(width, pictureViewerNode.descriptionText.boundsInParent.maxX);
     width = Math.max(width, pictureViewerNode.authorText.boundsInParent.maxX);
