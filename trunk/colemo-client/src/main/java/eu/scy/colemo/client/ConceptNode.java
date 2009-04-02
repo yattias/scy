@@ -79,6 +79,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 
 	public void update() {
 		nameField.setText(getModel().getName());
+        repaint();
 	}
 
 	@Override
