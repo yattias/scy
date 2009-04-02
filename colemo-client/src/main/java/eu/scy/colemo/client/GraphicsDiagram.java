@@ -10,6 +10,7 @@ import eu.scy.colemo.contributions.MoveClass;
 import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.uml.UmlLink;
+import eu.scy.colemo.client.figures.LabelArrow;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
