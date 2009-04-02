@@ -32,5 +32,6 @@ public class FlipLink extends BaseAction{
         link.setToNode(fromNode);
 
         ApplicationController.getDefaultInstance().getColemoPanel().revalidate();
+        ApplicationController.getDefaultInstance().getConnectionHandler().updateObject(link.getModel());
     }
 }

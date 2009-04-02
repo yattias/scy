@@ -120,6 +120,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             ConceptLink link = getLinkByClassId(umlLink.getId());
             log.info("LINKNAME: " + umlLink.getName()); 
             link.setModel(umlLink);
+            
         } else {
             log.info("**** CREATING NEW LINK");
             try {
@@ -345,7 +346,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
                 UmlLink link = new UmlLink(fromId, toId, "Bjørge :-)");
 
-                link.setId("ID-" + System.currentTimeMillis());
+                link.setId("" + System.currentTimeMillis());
                 diagram.addLink(link);
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
                 diagram.repaint();
