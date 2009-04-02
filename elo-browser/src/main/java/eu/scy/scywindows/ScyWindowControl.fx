@@ -19,7 +19,7 @@ import eu.scy.scywindows.window_positions.WindowPositionerCenter;
 import eu.scy.scywindows.WindowPositioner;
 import java.lang.Math;
 import java.net.URI;
-import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.util.Sequences;
 import roolo.api.search.ISearchResult;
@@ -43,6 +43,7 @@ public class ScyWindowControl{
     public var width:Number= 400 on replace {sizeChanged()};
     public var height:Number = 300 on replace {sizeChanged()};
 //    public var size:Point2D on replace {sizeChanged()};
+    public var forbiddenNodes:Node[];
 
     def interWindowSpace = 20.0;
 
@@ -55,6 +56,7 @@ public class ScyWindowControl{
         height: bind height;
 //        width: bind size.x;
 //        height: bind size.y;
+        forbiddenNodes: bind forbiddenNodes
     }
     var otherWindows:ScyWindow[];
     var relatedWindows:ScyWindow[];

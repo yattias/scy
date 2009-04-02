@@ -521,6 +521,12 @@ scyWindowControl = ScyWindowControl{
     scyWindowStyler:scyWindowStyler;
     roolo: roolo;
     edgesManager: edgesManager;
+    forbiddenNodes:[
+        contactWindow,
+        propertiesWindow,
+        missionMapWindow,
+        searchWindow
+    ];
     width: bind stage.scene.width;
     height: bind stage.scene.height;
 //    size: bind Point2D{
