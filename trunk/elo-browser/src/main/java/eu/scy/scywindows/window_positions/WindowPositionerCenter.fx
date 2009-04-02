@@ -22,6 +22,7 @@ public class WindowPositionerCenter extends WindowPositioner {
     public override var height = 200.0 on replace {
         calculateInternals()
     };
+//    public override var forbiddenAreas:Rectangle2D[];
 
     var centerX = 0.0;
     var centerY = 0.0;
@@ -172,6 +173,9 @@ public class WindowPositionerCenter extends WindowPositioner {
 
     function correctWindowPositions(){
         var usedRects:Rectangle2D[];
+        for (node in forbiddenNodes){
+            insert node.boundsInParent into usedRects;
+            };
         for (windowPosition in linkedWindowPositions){
             correctWindowPosition(usedRects,windowPosition);
             insert windowPosition.rectangle into usedRects;

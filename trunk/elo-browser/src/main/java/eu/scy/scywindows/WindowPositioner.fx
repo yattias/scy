@@ -7,6 +7,7 @@
 package eu.scy.scywindows;
 
 import eu.scy.scywindows.ScyWindow;
+import javafx.scene.Node;
 
 /**
  * @author sikkenj
@@ -15,6 +16,7 @@ import eu.scy.scywindows.ScyWindow;
 public abstract class WindowPositioner {
     public var width;
     public var height;
+    public var forbiddenNodes:Node[];
     public abstract function clearWindows():Void;
     public abstract function setCenterWindow(window:ScyWindow):Void;
     public abstract function addLinkedWindow(window:ScyWindow, direction:Number):Void;
