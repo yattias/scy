@@ -1,9 +1,6 @@
 package eu.scy.colemo.client;
 
-import eu.scy.colemo.client.actions.BaseAction;
-import eu.scy.colemo.client.actions.SetConceptProperties;
-import eu.scy.colemo.client.actions.DeleteConcept;
-import eu.scy.colemo.client.actions.FlipLink;
+import eu.scy.colemo.client.actions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +17,16 @@ public class ActionController {
 
     private static ActionController deaultInstance = null;
 
+    private List commonActions = new ArrayList();
     private List actions = new ArrayList();
 
     private ActionController() {
+
+        addCommonAction(new CreateNewConcept());
+        addCommonAction(new SaveELO());
+        addCommonAction(new ClearSessionAction());
+
+
         SetConceptProperties setConceptProperties = new SetConceptProperties("Properties");
         add(setConceptProperties);
         DeleteConcept deleteConcept = new DeleteConcept("Delete");
@@ -33,6 +37,14 @@ public class ActionController {
     public static ActionController getDefaultInstance() {
         if(deaultInstance == null) deaultInstance = new ActionController();
         return deaultInstance;
+    }
+
+    public void addCommonAction(SCYMapperAction scyMapperAction) {
+        commonActions.add(scyMapperAction);
+    }
+
+    public List getCommonActions() {
+        return commonActions;
     }
 
     public void add(BaseAction action) {

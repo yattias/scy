@@ -12,26 +12,13 @@ import java.util.logging.Logger;
  * Time: 06:18:54
  * To change this template use File | Settings | File Templates.
  */
-public abstract class BaseAction extends AbstractAction {
-
-    protected Logger log = Logger.getLogger("BaseAction.class");
+public abstract class BaseAction extends SCYMapperAction {
 
     public BaseAction(String name) {
         setTitle(name);
     }
 
 
-    public void setTitle(String title) {
-        super.putValue(AbstractAction.NAME, title);
-    }
-
     public abstract Class getOperateson();
 
-    public void actionPerformed(ActionEvent e) {
-        log.info("Performing action: " + getClass().getName());
-        performAction(e);
-        log.info("Action performed");
-    }
-
-    protected abstract void performAction(ActionEvent e) ;
 }
