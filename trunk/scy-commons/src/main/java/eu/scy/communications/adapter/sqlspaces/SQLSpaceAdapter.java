@@ -96,11 +96,14 @@ public class SQLSpaceAdapter implements Callback {
                 tid = this.tupleSpace.write(tuple);
             } else {
                 tid = new TupleID(Long.valueOf(tupleId));
+                logger.info("Trying to update tuple: [" + tid + "] " + tuple);
                 this.tupleSpace.update(tid, tuple);
+                logger.info("Done updating!");
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
         } catch (TupleSpaceException e) {
-            logger.error("Trouble while writing or updating touple " + e);
+            //logger.error("Trouble while writing or updating touple " + e);
+            e.printStackTrace();
         }
         return String.valueOf(tid.getID());
     }
