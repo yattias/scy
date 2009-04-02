@@ -12,6 +12,7 @@ import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
 import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
+import eu.scy.elobrowser.tool.colemo.ColemoActionWrapper;
 import eu.scy.elobrowser.tool.dataProcessTool.EloDataToolWrapper;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.textpad.EloTextpadWrapper;
@@ -116,6 +117,11 @@ public class EloDisplay extends CustomNode {
 		if (EloTextpadWrapper.scyTextType == eloType){
 			eloTypeChar = "T";
 			eloColor = Color.YELLOW;
+		}
+        else
+		if (ColemoActionWrapper.scyMappingType == eloType){
+			eloTypeChar = "C";
+			eloColor = Color.BLUE;
 		}
 
 		eloWindow.eloType = eloTypeChar;
