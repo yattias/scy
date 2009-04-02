@@ -6,6 +6,7 @@
  */
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.client.figures.Arrow;
 import eu.scy.colemo.server.uml.UmlClass;
 import org.apache.log4j.Logger;
 
@@ -32,16 +33,6 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 	private int activeConnectionPoint = CONNECTION_AREA_NONE;
 	private HashMap<Integer, Rectangle> connectionAreas;
 
-	// directions - must be able to get the opposite direction by multiplying with -1
-	public static final int NORTH = 2;
-	public static final int WEST = 1;
-	public static final int EAST = -1;
-	public static final int SOUTH = -2;
-	public static final int NORTHWEST = 3;
-	public static final int NORTHEAST = 4;
-	public static final int SOUTHWEST = -4;
-	public static final int SOUTHEAST = -3;
-
 	private JTextField nameField;
 
 	private boolean isSelected = false;
@@ -49,9 +40,8 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 	private HashSet<ConceptLink> inboundLinks = new HashSet<ConceptLink>();
 	private HashSet<ConceptLink> outboundLinks = new HashSet<ConceptLink>();
 	private UmlClass model;
-	public final static Color defaultFillColor = Color.white;//new Color(255, 102, 0, 100);
+	public final static Color defaultFillColor = Color.white;
 	private Color fillColor;
-	private LabelArrow tempLink;
 
 	public ConceptNode(UmlClass umlClass) {
 
@@ -223,21 +213,21 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 		Point center = this.getCenterPoint();
 		Rectangle bounds = getBounds();
 		switch (direction) {
-			case WEST:
+			case Arrow.WEST:
 				return new Point(bounds.x - 2, center.y);
-			case EAST:
+			case Arrow.EAST:
 				return new Point(bounds.x + bounds.width + 2, center.y);
-			case NORTH:
+			case Arrow.NORTH:
 				return new Point(center.x, bounds.y - 2);
-			case SOUTH:
+			case Arrow.SOUTH:
 				return new Point(center.x, bounds.y + bounds.height + 2);
-			case NORTHEAST:
+			case Arrow.NORTHEAST:
 				return new Point(bounds.x + bounds.width - 2, bounds.y);
-			case NORTHWEST:
+			case Arrow.NORTHWEST:
 				return new Point(bounds.x, bounds.y);
-			case SOUTHEAST:
+			case Arrow.SOUTHEAST:
 				return new Point(bounds.x + bounds.width - 2, bounds.y + bounds.height - 2);
-			case SOUTHWEST:
+			case Arrow.SOUTHWEST:
 				return new Point(bounds.x, bounds.y + bounds.height);
 
 		}
