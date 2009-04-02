@@ -37,13 +37,13 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
     //FIXME: this needs to come from the client, generated
     public static final String SESSIONID = "SCYMapper-Session";
 
-    private String sessionId = SESSIONID;
+   // private String sessionId = null;//SESSIONID;
     public static final String USER_NAME = "ScyMappingForPeace";
 
 
     public void updateObject(Object object) {
         MessageTranslator mt = new MessageTranslator();
-        mt.setSessionId(collaborationSession.getId());
+        mt.setSessionId(SESSIONID);
         IScyMessage sendMe = null;
         try {
             if (object instanceof AddClass) {
@@ -69,7 +69,7 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
         System.out.println("Sending object:" + object);
 
         MessageTranslator mt = new MessageTranslator();
-        mt.setSessionId(collaborationSession.getId());
+        mt.setSessionId(SESSIONID);
         IScyMessage sendMe = null;
 
         try {
@@ -99,18 +99,17 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
     }
 
     public void joinSession() {
-        setSessionId(SESSIONID);
-        log.info("JOINING SESSION " + sessionId + " NOW!");
+        //setSessionId(SESSIONID);
+        //log.debug("JOINING SESSION " + sessionId + " NOW!");
         ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
+        MessageTranslator ot = new MessageTranslator();
 
 
         try {
             initializeCollaborationService();
-            MessageTranslator ot = new MessageTranslator();
-            ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
-            collaborationService.joinSession(getSessionId(), USER_NAME, ApplicationController.TOOL_NAME);
-            messages = collaborationService.synchronizeClientState(USER_NAME, ApplicationController.TOOL_NAME, getSessionId(), true);
-            log.info("got ###: " + messages.size() + " messages");
+            //collaborationService.joinSession(getSessionId(), USER_NAME, ApplicationController.TOOL_NAME);
+            ArrayList<IScyMessage> messages = collaborationService.synchronizeClientState(USER_NAME, ApplicationController.TOOL_NAME, SESSIONID, true);
+            log.debug("got ###: " + messages.size() + " messages from session: " + SESSIONID);
             synchronizeDiagramElements(messages, ot);
         } catch (CollaborationServiceException e) {
             log.error("CollaborationService failure: " + e);
@@ -122,7 +121,16 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
 
     private void initializeCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
+        collaborationSession = collaborationService.joinSession(SESSIONID, USER_NAME, ApplicationController.TOOL_NAME);
+
+        if (collaborationSession == null) {
+            log.info("No session ongoing, need to create one for SCYMapper");
+            collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
+        } else {
+            log.info("Joined existing session.");
+        }
+
+        //setSessionId(collaborationSession.getId());
         collaborationService.addCollaborationListener(this);
     }
 
@@ -135,7 +143,8 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
         for (int i = 0; i < messages.size(); i++) {
             scyMessage = (ScyMessage) messages.get(i);
             Object newNOde = ot.getObject(scyMessage);
-            log.info("NODE: " + newNOde);
+            log.info("SYNCHRONIZING: " + scyMessage.getObjectType());
+            //log.info("NODE: " + newNOde);
             processNode(newNOde);
         }
         //TODO: Find a better place for this
@@ -182,11 +191,12 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
         System.out.println("SCYConnectionHandler.sendMessage()");
     }
 
-    public String getSessionId() {
+/*    public String getSessionId() {
         return sessionId;
     }
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
+    */
 }
