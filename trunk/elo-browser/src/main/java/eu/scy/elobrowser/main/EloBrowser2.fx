@@ -26,12 +26,11 @@ import eu.scy.elobrowser.search.SearchWindow;
 import eu.scy.elobrowser.tbi_hack.ActiveAnchorTransferer;
 import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.colemo.*;
+import eu.scy.elobrowser.tool.dataProcessTool.DataProcessToolScyWindowContentFactory;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.DrawingToolScyWindowContentFactory;
-import eu.scy.elobrowser.tool.simquest.SimQuestScyWindowContentFactory;
-import eu.scy.elobrowser.tool.dataProcessTool.DataProcessToolScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.DummyScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
@@ -39,6 +38,7 @@ import eu.scy.elobrowser.tool.missionmap.MissionMap;
 import eu.scy.elobrowser.tool.missionmap.MissionModel;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
+import eu.scy.elobrowser.tool.simquest.SimQuestScyWindowContentFactory;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
@@ -46,6 +46,7 @@ import eu.scy.scywindows.ScyWindowControl;
 import eu.scy.scywindows.ScyWindowStyler;
 import java.net.URI;
 import javafx.ext.swing.SwingButton;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -191,7 +192,9 @@ var activeAnchorTransferer = ActiveAnchorTransferer{
 
 var missionMap = MissionMap{
     missionModel: missionModel
-    translateX:bind (stage.width-100)/2;
+    translateX:-10;
+    translateY:-10;
+    //translateX:bind (stage.width-100)/2;
 }
 
 
@@ -312,12 +315,12 @@ def propertiesWindow: PropertiesWindow = PropertiesWindow{
 }
 
 def missionMapWindow: MissionMapWindow = MissionMapWindow{
-    width:200;
-    height:60;
+    width:160;
+    height:80;
     translateX :bind( (stage.scene.width - missionMapWindow.width) - contactWindow.translateX);
-    translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
+    translateY : bind( (stage.scene.height - missionMapWindow.height) - contactWindow.translateY);
     //TODO insert MissionMap here (as a Node), then fix the size
-//    content:
+    content:missionMap
 }
 
 def searchWindow: SearchWindow = SearchWindow{
@@ -365,7 +368,7 @@ var loginGroup = SCYLogin {
         contactWindow,
         changeOnlineState,
        // resultView
-        missionMap
+        //missionMap
     ]
 }
 
@@ -501,7 +504,7 @@ stage = Stage {
                     contactWindow
                     //resultView
 					scyDesktop.desktop
-                    missionMap
+                   // missionMap
                     growl,
 				]
 			}
@@ -517,7 +520,13 @@ scyWindowControl = ScyWindowControl{
     stage: stage;
     scyWindowStyler:scyWindowStyler;
     roolo: roolo;
-    edgesManager:edgesManager;
+    edgesManager: edgesManager;
+    width: bind stage.scene.width;
+    height: bind stage.scene.height;
+//    size: bind Point2D{
+//        x: stage.scene.width
+//        y: stage.scene.height
+//        };
 };
 missionMap.scyWindowControl=scyWindowControl;
 activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
