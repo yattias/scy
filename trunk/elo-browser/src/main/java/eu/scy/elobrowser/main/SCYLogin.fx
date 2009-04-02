@@ -179,15 +179,15 @@ public class SCYLogin extends Group {
     public function loginNodeDisappear() {
         var t : Timeline[];
             insert Timeline { // 0, login node fade out
-            keyFrames: KeyFrame {
+            keyFrames: [KeyFrame {
                 time: 1s
                 values: [
                     loginNode.opacity => 0.0 tween Interpolator.EASEBOTH
                 ]
                 action: function() {
-                    t[1].play();
+                    t[1].play(); loginNode.visible = false;
                 }
-            }
+            } ]
         } into t;
             insert Timeline {// 1, other nodes fade in
             keyFrames: KeyFrame {

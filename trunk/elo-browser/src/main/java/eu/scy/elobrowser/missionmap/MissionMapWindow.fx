@@ -104,22 +104,22 @@ public class MissionMapWindow extends CustomNode{
         def height = bind frame.height;
 					content: [
                         Rectangle { // top part until the arc
-							x: 0,
-							y: 0
-							width: bind width,
-							height: bind height - controlLength
-							strokeWidth: borderWidth
-							fill: windowBackgroundColor
-							stroke: windowBackgroundColor
-						},
-                        Rectangle { // bottom left part until the arc
 							x: bind controlLength,
-							y: bind height - controlLength
+							y: 0
 							width: bind width - controlLength,
-							height: bind controlLength
-							strokeWidth: borderWidth
-							fill: windowBackgroundColor
-							stroke: windowBackgroundColor
+							height: controlLength,
+							strokeWidth: borderWidth,
+							fill: windowBackgroundColor,
+							stroke: windowBackgroundColor,
+						},
+                        Rectangle { // bottom right part until the arc
+							x: 0,
+							y: bind controlLength,
+							width: bind width,
+							height: bind height - controlLength,
+							strokeWidth: borderWidth,
+							fill: windowBackgroundColor,
+							stroke: windowBackgroundColor;
 						},
                         Arc { // the bottom left rotate arc part
 							centerX: controlLength,

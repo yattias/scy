@@ -351,6 +351,22 @@ insert missionMapWindow into scyDesktop.desktop.content;
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
+//
+//def changeOnlineState = SwingButton {
+//    translateX:200;
+//    translateY:400;
+//    text: "change online state";
+//    action: function() {
+//        System.out.println("sizeof visibleContacts(before): { sizeof contactWindow.visibleContacts}");
+//        contactWindow.contacts[2].contact.onlineState = OnlineState.AWAY;
+//        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE;
+//        contactWindow.actualizePositions();
+//        contactWindow.frameResize();
+//        System.out.println("sizeof visible after lablalba: { sizeof contactWindow.visibleContacts}");
+//    }
+//
+//}
+//insert changeOnlineState into scyDesktop.desktop.content;
 
 def changeOnlineState = SwingButton {
     translateX:200;
@@ -359,7 +375,7 @@ def changeOnlineState = SwingButton {
     action: function() {
         System.out.println("sizeof visibleContacts(before): { sizeof contactWindow.visibleContacts}");
         contactWindow.contacts[2].contact.onlineState = OnlineState.AWAY;
-        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE; 
+        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE;
         contactWindow.actualizePositions();
         contactWindow.frameResize();
         System.out.println("sizeof visible after lablalba: { sizeof contactWindow.visibleContacts}");
@@ -374,7 +390,7 @@ var loginGroup = SCYLogin {
         searchWindow,
         missionMapWindow,
         contactWindow,
-        changeOnlineState,
+//        changeOnlineState,
        // resultView
         //missionMap
     ]
@@ -382,10 +398,12 @@ var loginGroup = SCYLogin {
 
 
 
-var growl = GrowlFX {
+def growl = GrowlFX {
     translateX: bind (stage.width / 2) - 200;
     translateY: bind stage.height - 120;
     opacity: 0;
+    //TODO Check this out, if initially false?
+//    visible: false;
 }
 
 function getContacts():ContactFrame[]{
