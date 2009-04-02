@@ -6,8 +6,10 @@
 
 package eu.scy.elobrowser.main;
 
+import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.scywindows.ScyEdgeLayer;
 import eu.scy.scywindows.ScyWindow;
+import java.lang.System;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,6 +20,7 @@ import javafx.scene.Node;
 
 public class EdgesManager extends CustomNode {
     var nodes: Node[];
+    public var contactWindow:ContactWindow; 
     public var edgeLayers: ScyEdgeLayer[];
 
     override function create():Node {
@@ -26,16 +29,21 @@ public class EdgesManager extends CustomNode {
         }
     }
 
-    public function createEdge(node1:ScyWindow, node2:ScyWindow,text:String) {
-        var newEdge = ScyEdgeLayer {
+    public function createEdge(window1:ScyWindow, window2:ScyWindow,text:String):Void{
+        var newEdge:ScyEdgeLayer = ScyEdgeLayer {
             caption: text;
-            node1: node1;
-            node2: node2;
+            node1: window1;
+            node2: window2;
+//            visible: bind (newEdge.node1.visible and newEdge.node2.visible);
+            visible: bind (contactWindow.visible and contactWindow.opacity == 1.0);
         }
-        node1.addEdge(newEdge);
-        node2.addEdge(newEdge);
+        System.out.println("newEdge.node1.visible: {newEdge.node1.visible}");
+        System.out.println("newEdge.node2.visible: {newEdge.node2.visible}");
+        window2.addEdge(newEdge);
+        window2.addEdge(newEdge);
         insert newEdge into edgeLayers;
         insert newEdge into nodes;
+        newEdge.repaint();
     }
 
     public function deleteEdge(edgeLayer:ScyEdgeLayer):Void {

@@ -475,9 +475,9 @@ function getContacts():ContactFrame[]{
 };
 
 
-def edgesManager: EdgesManager = EdgesManager {
-};
-
+def edgesManager: EdgesManager = EdgesManager {contactWindow: contactWindow;
+}; 
+ 
 stage = Stage {
 
 	title: "SCY Lab (FX)"

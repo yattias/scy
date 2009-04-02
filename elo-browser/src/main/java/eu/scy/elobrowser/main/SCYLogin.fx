@@ -185,7 +185,8 @@ public class SCYLogin extends Group {
                     loginNode.opacity => 0.0 tween Interpolator.EASEBOTH
                 ]
                 action: function() {
-                    t[1].play(); loginNode.visible = false;
+                    t[1].play();
+                    loginNode.visible = false;
                 }
             } ]
         } into t;
@@ -216,6 +217,10 @@ public class SCYLogin extends Group {
                 values: loginNode.opacity => maxOpacity
                 action: function() {
                     t[1].play();
+                       for (n in mainContent) {
+                            n.visible = false;
+                            n.opacity = 0.0;
+                         }
                 }
             }
         } into t;
@@ -251,6 +256,10 @@ public class SCYLogin extends Group {
                 time: 1s
                 action: function() {
                     t[1].play();
+                    for (n in mainContent) {
+                            n.visible = false;
+                            n.opacity = 0.0;
+                         }
                 }
             }
         } into t;

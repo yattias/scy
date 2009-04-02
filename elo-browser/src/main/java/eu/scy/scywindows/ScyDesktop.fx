@@ -8,7 +8,6 @@ package eu.scy.scywindows;
 
 import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.scywindows.ScyDesktop;
-import eu.scy.scywindows.ScyEdge;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.System;
 import javafx.scene.effect.DropShadow;
@@ -26,10 +25,10 @@ import javafx.util.Sequences;
 
 public class ScyDesktop{
     public var desktop: Group = Group{
-    };
+    } ;
     public var minimizedWindows: ScyWindow[];
-    var isLinking = false; //true if an edge is dragged to another edge
-    var newEdge: ScyEdge; //new edge not saved in windows
+//    var isLinking = false; //true if an edge is dragged to another edge
+//    var newEdge: ScyEdge; //new edge not saved in windows
     var idCount = 0;
     var windowOffsetStep = 10;
     var activeWindow: ScyWindow;
@@ -49,7 +48,6 @@ public class ScyDesktop{
     public var draggedContact: Contact;
 
 	init{
-
 		println("ScyDesktop created");
 	}
 
@@ -143,6 +141,7 @@ public class ScyDesktop{
 			println("cannot show scyWindow {scyWindow.id}, because it is not hided");
 			return;
 		}
+      
         scyWindow.visible = true;
 		delete minimizedWindows[index];
 		addToDesktop(scyWindow);

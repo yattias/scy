@@ -26,6 +26,7 @@ public class ScyEdgeLayer extends CustomNode {
 
     var displaytext: Text =
     Text {
+        visible: bind edge.visible;
         content: bind caption;
         x: bind (edge.startX+edge.endX) /2;
         y: bind (edge.startY+edge.endY) /2;
@@ -54,6 +55,7 @@ public class ScyEdgeLayer extends CustomNode {
             node1: bind this.node1;
             node2: bind this.node2;
         };
+        edge.repaint();
     }
 
     override function create():Node {
