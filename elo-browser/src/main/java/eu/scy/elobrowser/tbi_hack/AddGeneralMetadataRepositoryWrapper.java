@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.elobrowser.tbi_hack;
 
 import eu.scy.elobrowser.main.user.User;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IQuery;
@@ -22,13 +23,45 @@ import roolo.elo.metadata.keys.Contribute;
  *
  * @author sikkenj
  */
-public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> implements IRepository<IELO<K>, K>{
+public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> implements IRepository<IELO<K>, K>
+{
+
 	 private String userId;
 	 private URI anchorEloUri;
 	 private IRepository<IELO<K>, K> repository;
 	 private IMetadataTypeManager<K> metadataTypeManager;
+	 private boolean sendEloSavedEvents = false;
+	 private K uriKey;
 	 private K authorKey;
 	 private K annotatesRelationKey;
+	 private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
+
+	 public void addEloSavedListener(EloSavedListener eloSavedListener)
+	 {
+		  if (!eloSavedListeners.contains(eloSavedListener))
+		  {
+				eloSavedListeners.add(eloSavedListener);
+		  }
+	 }
+
+	 public void removeEloSavedListener(EloSavedListener eloSavedListener)
+	 {
+		  if (eloSavedListeners.contains(eloSavedListener))
+		  {
+				eloSavedListeners.remove(eloSavedListener);
+		  }
+	 }
+
+	 private void sendEloSavedEvent(URI eloURI)
+	 {
+		  if (sendEloSavedEvents)
+		  {
+				for (EloSavedListener eloSavedListener : eloSavedListeners)
+				{
+					 eloSavedListener.eloSaved(eloURI);
+				}
+		  }
+	 }
 
 	 public void setAnchorEloUri(URI anchorEloUri)
 	 {
@@ -48,26 +81,39 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 	 public void setMetadataTypeManager(IMetadataTypeManager<K> metadataTypeManager)
 	 {
 		  this.metadataTypeManager = metadataTypeManager;
+		  uriKey = metadataTypeManager.getMetadataKey("uri");
 		  authorKey = metadataTypeManager.getMetadataKey("author");
 		  annotatesRelationKey = metadataTypeManager.getMetadataKey("annotates");
 		  System.out.println("AddGeneralMetadataRepositoryWrapper found:\n- authorKey: " + authorKey + "\n-annotatesRelationKey: " + annotatesRelationKey);
 	 }
 
+	 public void setSendEloSavedEvents(boolean sendEloSavedEvents)
+	 {
+		  this.sendEloSavedEvents = sendEloSavedEvents;
+	 }
+
 	 private void addGeneralMetadata(IELO<K> elo)
 	 {
 		  if (StringUtils.hasLength(userId))
-				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId,System.currentTimeMillis()));
-		  else
-				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(User.instance.getUsername(),System.currentTimeMillis()));
-		  if (anchorEloUri!=null)
+		  {
+				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId, System.currentTimeMillis()));
+		  } else
+		  {
+				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(User.instance.getUsername(), System.currentTimeMillis()));
+		  }
+		  if (anchorEloUri != null)
+		  {
 				elo.getMetadata().getMetadataValueContainer(annotatesRelationKey).setValue(anchorEloUri);
+		  }
 	 }
 
 	 @Override
 	 public IMetadata<K> addELO(IELO<K> elo)
 	 {
 		  addGeneralMetadata(elo);
-		  return repository.addELO(elo);
+		  IMetadata<K> metadata = repository.addELO(elo);
+		  sendEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+		  return metadata;
 	 }
 
 	 @Override

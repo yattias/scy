@@ -95,7 +95,7 @@ public class WindowPositionerCenter extends WindowPositioner {
     }
 
     public override function addLinkedWindow(window:ScyWindow, direction:Number){
-//       println("addLinkedWindow({window.title},{direction})");
+       //println("addLinkedWindow({window.title},{direction})");
        var linkedWindowPosition = WindowPosition{
             window:window;
             preferredDirection:direction;
@@ -104,7 +104,7 @@ public class WindowPositionerCenter extends WindowPositioner {
     }
 
     public override function addOtherWindow(window:ScyWindow){
-//        println("addOtherWindow({window.title})");
+        //println("addOtherWindow({window.title})");
         var otherWindowPosition = WindowPosition{
             window:window;
         };

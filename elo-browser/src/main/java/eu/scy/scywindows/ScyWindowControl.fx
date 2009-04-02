@@ -6,6 +6,7 @@
 
 package eu.scy.scywindows;
 
+import eu.scy.elobrowser.main.EdgesManager;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
@@ -37,6 +38,7 @@ public class ScyWindowControl{
     public var scyDesktop: ScyDesktop;
     public var stage: Stage;
     public var roolo:Roolo;
+    public var edgesManager:EdgesManager;
 
     def interWindowSpace = 20.0;
 
@@ -63,6 +65,10 @@ public class ScyWindowControl{
 
     public function addOtherScyWindow(otherWindow:ScyWindow){
         addOtherScyWindow(otherWindow, false);
+    }
+
+    public function newEloSaved(eloUri : URI){
+        positionWindows();
     }
 
 
@@ -198,9 +204,12 @@ public class ScyWindowControl{
         println("Query: {query.toString()}, results: {results.size()}");
         for (r in results){
             var result = r as ISearchResult;
+            var metadata = roolo.repository.retrieveMetadata(result.getUri());
+            var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
             var scyWindow = getScyWindow(result.getUri());
             scyDesktop.addScyWindow(scyWindow);
             insert scyWindow into relatedWindows;
+            println("added related elo {result.getUri()}");
         }
     }
 

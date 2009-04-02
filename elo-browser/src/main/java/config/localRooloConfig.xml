@@ -11,6 +11,7 @@
 	<bean name="metadataAddingRepository" class="eu.scy.elobrowser.tbi_hack.AddGeneralMetadataRepositoryWrapper">
 		<property name="repository" ref="localRepository"/>
 		<property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+		<property name="sendEloSavedEvents" value="true"/>
 	</bean>
 
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
