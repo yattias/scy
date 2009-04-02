@@ -118,9 +118,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     public void addLink(UmlLink umlLink) {
         if (getLinkByClassId(umlLink.getId()) != null) {
             ConceptLink link = getLinkByClassId(umlLink.getId());
-            log.info("LINKNAME: " + umlLink.getName()); 
+            log.info("LINKNAME: " + umlLink.getName());
             link.setModel(umlLink);
-            
+
         } else {
             log.info("**** CREATING NEW LINK");
             try {
@@ -243,6 +243,10 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         joinNewSession.addActionListener(this);
         menu.add(joinNewSession);
 
+        JMenuItem cleanSession = new JMenuItem("Cleanup session");
+        cleanSession.addActionListener(this);
+        menu.add(cleanSession);
+
 
         menu.show(this, e.getX(), e.getY());
 
@@ -273,6 +277,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             ApplicationController.getDefaultInstance().saveELO();
         } else if (ae.getActionCommand().equals("Join new session")) {
             ApplicationController.getDefaultInstance().getColemoPanel().joinSession();
+        } else if (ae.getActionCommand().equals("Cleanup session")) {
+            ApplicationController.getDefaultInstance().getConnectionHandler().cleanUp();
         }
 
 
@@ -317,7 +323,12 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public void updateConcept(UmlClass concept) {
         ConceptNode node = getNodeByClassId(concept.getId());
-        node.setModel(concept);
+        if (node != null) {
+            node.setModel(concept);
+        } else {
+            log.warn("NODE FOR CONCEPT : " + concept.getName() + " DOES NOT EXIST!");
+        }
+
     }
 
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {

@@ -133,6 +133,18 @@ public class MessageTranslator implements IMessageTranslator {
                 cls.setY(yPos);
 
                 return new MoveClass(cls, null, null);
+            } else {
+                log.info("NODE WAS NULL - need to create one!");
+                UmlClass concept = new UmlClass(scyMessage.getName(), "c", "Henrik");
+                concept.setX(xPos);
+                concept.setY(yPos);
+                concept.setId(scyMessage.getId());
+
+                //ConceptNode newNode = new ConceptNode(concept);
+                diagram.addClass(concept);
+
+
+
             }
 
         } else if (scyMessage.getObjectType().indexOf("UmlLink") > 0) {

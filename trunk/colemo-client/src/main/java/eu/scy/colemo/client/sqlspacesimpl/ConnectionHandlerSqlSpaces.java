@@ -124,7 +124,9 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     private void synchronizeDiagramElements(Tuple[] allTuples, MessageTranslator ot) {
         for (int i = 0; i < allTuples.length; i++) {
             Tuple allTuple = allTuples[i];
+            log.info("Synchronizing: -------------------------------------------------------------------------------------------");
             Object newNOde = ot.getObject(allTuple);
+            log.info("------------------------------------------------------------------------------------------- Synchronizing: " + newNOde);
             processNode(newNOde);
         }
     }
