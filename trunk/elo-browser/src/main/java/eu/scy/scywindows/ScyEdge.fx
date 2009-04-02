@@ -18,18 +18,21 @@ import javafx.scene.shape.Line;
 
 public class ScyEdge extends Line{
 
-    public var node1: ScyWindow;
-    public var node2: ScyWindow;
-    def node1CenterX:Number = bind node1.translateX + node1.width / 2;
-    def node1CenterY:Number = bind node1.translateY + node1.height / 2;
-    def node2CenterX:Number = bind node2.translateX + node2.width / 2;
-    def node2CenterY:Number = bind node2.translateY + node2.height / 2;
+//    public var node1: ScyWindow;
+//    public var node2: ScyWindow;
+    public var node1: ScyWindow on replace{repaint()};
+    public var node2: ScyWindow on replace{repaint()};
+    
+    def node1CenterX:Number = bind (node1.translateX + node1.width / 2);
+    def node1CenterY:Number = bind (node1.translateY + node1.height / 2);
+    def node2CenterX:Number = bind (node2.translateX + node2.width / 2);
+    def node2CenterY:Number = bind (node2.translateY + node2.height / 2);
 
-    public var scyEdgeLayer: ScyEdge;
+    public var scyEdgeLayer: ScyEdge; 
     public var gradient:Number;
 //    Calculating atan costs performance
     public var gradientAngle:Number;
-    
+
 
     postinit{
         repaint();
