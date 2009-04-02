@@ -131,6 +131,11 @@ public class ChatPanel extends JPanel implements ConnectionHandler, ICollaborati
         
     }
 
+    @Override
+    public void updateObject(Object arg0) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
     private class LoginTimer extends TimerTask {
         public void run() {
