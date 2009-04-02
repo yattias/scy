@@ -1,6 +1,7 @@
 package eu.scy.colemo.client;
 
 import eu.scy.colemo.client.actions.BaseAction;
+import eu.scy.colemo.client.actions.SCYMapperAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +19,17 @@ public class SCYMapperToolbar extends JToolBar implements SelectionControllerLis
 
     public SCYMapperToolbar() {
         setPreferredSize(new Dimension(200,40));
+        List commonActions = ActionController.getDefaultInstance().getCommonActions();
+        addCommonActions(commonActions);
     }
 
     public void selectionPerformed(Object selected) {
         removeAll();
+        List commonActions = ActionController.getDefaultInstance().getCommonActions();
         List baseActions = ActionController.getDefaultInstance().getActions(selected);
-        //setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+
+        addCommonActions(commonActions);
 
         for (int i = 0; i < baseActions.size(); i++) {
             BaseAction baseAction = (BaseAction) baseActions.get(i);
@@ -36,6 +42,15 @@ public class SCYMapperToolbar extends JToolBar implements SelectionControllerLis
         validate();
         repaint();
 
+    }
+
+    private void addCommonActions(List commonActions) {
+        for (int i = 0; i < commonActions.size(); i++) {
+            SCYMapperAction scyMapperAction = (SCYMapperAction) commonActions.get(i);
+            JButton button = new JButton(scyMapperAction);
+            button.revalidate();
+            add(button);
+        }
     }
 
 
