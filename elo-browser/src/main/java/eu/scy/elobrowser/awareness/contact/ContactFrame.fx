@@ -12,7 +12,6 @@ import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.light.DistantLight;
 import javafx.scene.effect.Lighting;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -140,10 +139,10 @@ public class ContactFrame extends CustomNode{
     public def image = ImageView{
         x: bind frame.x + ((frame.width - imageSize) / 3) + 4;
         y: bind frame.y + 4;
-        effect: DropShadow{
-            color: Color.BLACK;
-            radius: 10;
-        };
+//        effect: DropShadow{
+//            color: Color.BLACK;
+//            radius: 10;
+//        };
         image: Image{
 
             width: 64;

@@ -105,7 +105,7 @@ public class SearchWindow extends CustomNode{
 					content: [
                         Rectangle { // top part until the arc
 							x: 0,
-							y: 0
+							y: controlLength,
 							width: bind width,
 							height: bind height - controlLength
 							strokeWidth: borderWidth
@@ -113,8 +113,8 @@ public class SearchWindow extends CustomNode{
 							stroke: windowBackgroundColor
 						},
                         Rectangle { // bottom left part until the arc
-							x: bind controlLength,
-							y: bind height - controlLength
+							x: 0,
+							y: 0,
 							width: bind width - controlLength,
 							height: bind controlLength
 							strokeWidth: borderWidth
@@ -123,7 +123,7 @@ public class SearchWindow extends CustomNode{
 						},
                         Arc { // the bottom left rotate arc part
                             centerX: bind (width - (controlLength + closeStrokeWidth / 2)+ closeStrokeWidth / 2 ),
-                            centerY: bind height - controlLength,,
+                            centerY: controlLength,,
                             radiusX: controlLength,
                             radiusY: controlLength
                             startAngle: 0,
