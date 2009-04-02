@@ -87,6 +87,13 @@ public class DataTableModel extends AbstractTableModel {
             nbRows += datas.length;
             if (datas.length > 0)
                 nbCols += datas[0].length;
+            else{
+                nbCols += tabHeader.length;
+                nbRows += 1;
+            }
+        }else{
+            nbCols += tabHeader.length;
+            nbRows += 1;
         }
         // construction de la table :
         this.tabData = new Object[nbRows][nbCols];
@@ -106,6 +113,7 @@ public class DataTableModel extends AbstractTableModel {
                 this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :this.datas[i][j].getValue();
             }
         }
+        
         // operations
         // => operations sur les colonnes (donc en ligne)
         int nbO = this.listOperationsOnCols.size();
