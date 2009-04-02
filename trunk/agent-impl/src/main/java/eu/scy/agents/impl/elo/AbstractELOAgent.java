@@ -6,18 +6,26 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.agents.api.elo.IELOFilterAgent;
 import eu.scy.agents.impl.AbstractAgent;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public abstract class AbstractELOAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractAgent implements IELOFilterAgent<T, K> {
 
+	private ToolBrokerAPI<IMetadataKey> toolBroker;
 	private IMetadataTypeManager<IMetadataKey> typeManger;
 
 	protected IMetadataTypeManager<IMetadataKey> getMetadataTypeManager() {
 		if (typeManger == null) {
-			typeManger = new ToolBrokerImpl<IMetadataKey>()
-					.getMetaDataTypeManager();
+			if (toolBroker == null) {
+				toolBroker = new ToolBrokerImpl<IMetadataKey>();
+			}
+			typeManger = toolBroker.getMetaDataTypeManager();
 		}
 		return typeManger;
+	}
+
+	protected void setToolBroker(ToolBrokerAPI<IMetadataKey> toolBroker) {
+		this.toolBroker = toolBroker;
 	}
 
 }
