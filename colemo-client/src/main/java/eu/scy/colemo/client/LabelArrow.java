@@ -141,6 +141,7 @@ public class LabelArrow extends JComponent implements FocusListener {
 
 	private void fixBounds() {
 		Dimension labelSize = textField.getSize();
+		if (labelSize.width < 50) labelSize.width = 50;
 		int w, x, h, y;
 		if (to.x < from.x) {
 			x = to.x;
