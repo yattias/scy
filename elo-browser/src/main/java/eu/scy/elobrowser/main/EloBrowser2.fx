@@ -10,6 +10,7 @@ package eu.scy.elobrowser.main;
  * @author sikkenj
  */
 
+import java.lang.System;
 import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.ContactWindow;
@@ -339,6 +340,22 @@ insert missionMapWindow into scyDesktop.desktop.content;
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
+
+def changeOnlineState = SwingButton {
+    translateX:200;
+    translateY:400;
+    text: "change online state";
+    action: function() {
+        System.out.println("sizeof visibleContacts(before): { sizeof contactWindow.visibleContacts}");
+        contactWindow.contacts[2].contact.onlineState = OnlineState.AWAY;
+        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE; 
+        contactWindow.actualizePositions();
+        contactWindow.frameResize();
+        System.out.println("sizeof visible after lablalba: { sizeof contactWindow.visibleContacts}");
+    }
+
+}
+insert changeOnlineState into scyDesktop.desktop.content;
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
@@ -346,6 +363,7 @@ var loginGroup = SCYLogin {
         searchWindow,
         missionMapWindow,
         contactWindow,
+        changeOnlineState,
        // resultView
         missionMap
     ]
@@ -364,10 +382,10 @@ function getContacts():ContactFrame[]{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Testmission";
-            imageURL: "img/Manske.jpg";
-            name: "Sven Manske";
+            imageURL: "img/Giemza.png";
+            name: "Adam G.";
             onlineState: OnlineState.ONLINE;
-            progress: 1.0;
+            progress: 0.78;
         };
     };
 
@@ -375,10 +393,10 @@ function getContacts():ContactFrame[]{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Another Mission";
-            imageURL: "img/Giemza.jpg";
-            name: "Adam G";
-            onlineState: OnlineState.AWAY;
-            progress: 0.1;
+            imageURL: "img/Wouter.png";
+            name: "Wouter v. J.";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.745;
         };
 //        x: 300;
     };
@@ -387,9 +405,9 @@ function getContacts():ContactFrame[]{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Testmission";
-            imageURL: "img/Weinbrenner.jpg";
-            name: "Stefan W.";
-            onlineState: OnlineState.ONLINE;
+            imageURL: "img/Lazonder.png";
+            name: "Ard L.";
+            onlineState: OnlineState.AWAY;
             progress: 0.7;
         };
 
@@ -399,8 +417,8 @@ function getContacts():ContactFrame[]{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Testmission";
-            imageURL: "img/Gerling.jpg";
-            name: "Philip G.";
+            imageURL: "img/Wasson.png";
+            name: "Barbara W.";
             onlineState: OnlineState.ONLINE;
             progress: 0.5;
         };
@@ -411,20 +429,42 @@ function getContacts():ContactFrame[]{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Testmission";
-            imageURL: "img/Calendar.png";
-            name: "Sascha N.";
-            onlineState: OnlineState.OFFLINE;
-            progress: 0.3;
+            imageURL: "img/Lejeune.png";
+            name: "Anne L.";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.2;
         };
 
     };
 
-    return ([contact1,contact5,contact2,contact3,contact4] as ContactFrame[]);
+    def contact6 = ContactFrame {
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission";
+                imageURL: "img/Kluge.png";
+                name: "Anders K.";
+                onlineState: OnlineState.ONLINE;
+                progress: 0.01;
+        };
+    }
+
+    def contact7 = ContactFrame {
+            size: WindowSize.NORMAL;
+            contact: Contact{
+                currentMission: "Testmission";
+                imageURL: "img/DHam.png";
+                name: "Cedric D.";
+                onlineState: OnlineState.ONLINE;
+                progress: 0.4;
+        };
+    }
+
+    return ([contact1,contact2,contact4,contact5, contact6] as ContactFrame[]);
 };
+
 
 def edgesManager: EdgesManager = EdgesManager {
 };
-
 
 stage = Stage {
 
@@ -462,7 +502,7 @@ stage = Stage {
                     //resultView
 					scyDesktop.desktop
                     missionMap
-                    growl
+                    growl,
 				]
 			}
         ]
