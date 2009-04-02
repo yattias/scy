@@ -50,6 +50,7 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 		  this.metadataTypeManager = metadataTypeManager;
 		  authorKey = metadataTypeManager.getMetadataKey("author");
 		  annotatesRelationKey = metadataTypeManager.getMetadataKey("annotates");
+		  System.out.println("AddGeneralMetadataRepositoryWrapper found:\n- authorKey: " + authorKey + "\n-annotatesRelationKey: " + annotatesRelationKey);
 	 }
 
 	 private void addGeneralMetadata(IELO<K> elo)

@@ -80,6 +80,7 @@ public class ScyWindow extends CustomNode {
 			resizeTheContent()
 		}
     };
+    public var widthHeightProportion:Number = -1.0;
 	public var scyContent: Node= null;
     public var scyWindowAttributes:ScyWindowAttribute[] on replace {placeAttributes()};
     public var allowRotate = true;

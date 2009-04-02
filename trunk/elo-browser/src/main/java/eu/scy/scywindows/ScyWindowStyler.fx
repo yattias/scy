@@ -81,8 +81,11 @@ public class ScyWindowStyler {
 
     public function style(window:ScyWindow,uri:URI){
         var type = roolo.extensionManager.getType(uri);
-        window.color = getScyColor(type);
-        window.iconCharacter = getScyIconCharacter(type);
+        var color = getScyColor(type);
+        var ch = getScyIconCharacter(type);
+        window.color = color;
+        window.iconCharacter = ch;
+        println("styled {uri} -> {type}, color:{color}, icon:{ch}");
     }
 
     public function style(window:ScyWindow,elo:IELO){

@@ -6,17 +6,23 @@
 
 package eu.scy.scywindows;
 
-import eu.scy.scywindows.ScyDesktop;
-import eu.scy.scywindows.ScyWindow;
-import eu.scy.scywindows.window_positions.WindowPositionerCenter;
+import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
 import eu.scy.elobrowser.tool.missionmap.MissionMap;
 import eu.scy.elobrowser.tool.missionmap.MissionModel;
+import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyWindow;
+import eu.scy.scywindows.ScyWindowStyler;
+import eu.scy.scywindows.window_positions.WindowPositionerCenter;
+import eu.scy.scywindows.WindowPositioner;
 import java.lang.Math;
 import java.net.URI;
 import javafx.stage.Stage;
 import javafx.util.Sequences;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.elo.api.IMetadataKey;
 
 /**
  * @author sikkenj
@@ -30,6 +36,7 @@ public class ScyWindowControl{
     public var scyWindowStyler: ScyWindowStyler;
     public var scyDesktop: ScyDesktop;
     public var stage: Stage;
+    public var roolo:Roolo;
 
     def interWindowSpace = 20.0;
 
@@ -42,6 +49,9 @@ public class ScyWindowControl{
         height: bind stage.height - 26;
     }
     var otherWindows:ScyWindow[];
+    var relatedWindows:ScyWindow[];
+    var titleKey:IMetadataKey;
+
 
     public function addOtherScyWindow(otherWindow:ScyWindow, autoLocate: Boolean){
         if (autoLocate) {
@@ -77,7 +87,8 @@ public class ScyWindowControl{
                         missionMap.getAnchorAttribute(anchor)
                     ]
                 }
-            var content = scyWindowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
+           applyMetadataAttributes(scyWindow,anchor.eloUri);
+           var content = scyWindowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
             if (content != null){
                 scyWindow.scyContent = content;
             }
@@ -85,6 +96,46 @@ public class ScyWindowControl{
         }
         return scyWindow;
     }
+
+    function getScyWindow(eloUri:URI):ScyWindow{
+        var scyWindow: ScyWindow = scyDesktop.findScyWindow(eloUri.toString());
+        if (scyWindow == null){
+             scyWindow = ScyWindow{
+                    id: eloUri.toString();
+//                    title: anchor.title;
+                }
+             applyMetadataAttributes(scyWindow,eloUri);
+            var content = scyWindowContentCreator.getScyWindowContent(eloUri,scyWindow);
+            if (content != null){
+                scyWindow.scyContent = content;
+            }
+            scyWindowStyler.style(scyWindow, eloUri);
+        }
+        return scyWindow;
+    }
+
+    function applyMetadataAttributes(scyWindow:ScyWindow,eloUri:URI){
+        var metadata = roolo.repository.retrieveMetadata(eloUri);
+        if (metadata==null){
+            println("Couldn't find elo {eloUri}");
+            return;
+        }
+        var tk = getTitleKey();
+        if (metadata.metadataKeyExists(tk)){
+            var title = metadata.getMetadataValueContainer(tk).getValue();
+            if (title!=null){
+                scyWindow.title = title as String;
+            }
+        }
+    }
+
+    function getTitleKey():IMetadataKey{
+        if (titleKey==null){
+            titleKey = roolo.metadataTypeManager.getMetadataKey("title");
+        }
+        return titleKey;
+    }
+
 
     function isRelevantScyWindow(scyWindow:ScyWindow):Boolean{
         if (scyWindow.id != null){
@@ -96,6 +147,9 @@ public class ScyWindowControl{
                 if (scyWindowUri == anchor.eloUri){
                     return true;
                 }
+            }
+            if (Sequences.indexOf(relatedWindows, scyWindow)>=0){
+                return true;
             }
             if (Sequences.indexOf(otherWindows, scyWindow)>=0){
                 return true;
@@ -114,11 +168,42 @@ public class ScyWindowControl{
             var anchorDirection = getAnchorDirection(anchor);
             windowPositioner.addLinkedWindow(scyWindow, anchorDirection);
         }
+        findRelatedWindows();
+        for (window in relatedWindows){
+            windowPositioner.addOtherWindow(window);
+        }
         for (window in otherWindows){
             windowPositioner.addOtherWindow(window);
         }
         windowPositioner.positionWindows();
     }
+
+    function findRelatedWindows(){
+        delete relatedWindows;
+        for (relationName in activeAnchor.relationNames){
+            findRelatedWindows(relationName);
+        }
+
+    }
+
+    function findRelatedWindows(relationName:String){
+        var relationKey = roolo.metadataTypeManager.getMetadataKey(relationName);
+        if (relationKey==null){
+            println("couldn't find the metadataKey named: {relationName}");
+            var keys = roolo.getKeys();
+            return;
+        }
+        var query = new BasicMetadataQuery(relationKey,"EQUALS",activeAnchor.eloUri,null);
+        var results = roolo.repository.search(query);
+        println("Query: {query.toString()}, results: {results.size()}");
+        for (r in results){
+            var result = r as ISearchResult;
+            var scyWindow = getScyWindow(result.getUri());
+            scyDesktop.addScyWindow(scyWindow);
+            insert scyWindow into relatedWindows;
+        }
+    }
+
 
     function getAnchorDirection(anchor:Anchor):Number{
         return Math.atan2(anchor.yPos-activeAnchor.yPos , anchor.xPos-activeAnchor.xPos);
