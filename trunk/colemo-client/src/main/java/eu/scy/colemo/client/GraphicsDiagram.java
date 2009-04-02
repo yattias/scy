@@ -75,6 +75,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         target = node;
 
     }
+
     public ConceptNode getNodeByClassId(String id) {
         for (ConceptNode node : nodes) {
             log.info("CHECKING: " + node.getModel().getId() + " with: " + id);
@@ -82,12 +83,23 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         }
         return null;
     }
+
     public ConceptNode getNodeByClass(UmlClass cls) {
         for (ConceptNode node : nodes) {
             if (node.getModel().equals(cls)) return node;
         }
         return null;
     }
+
+
+    public ConceptLink getLinkByClassId(String id) {
+        for (ConceptLink link : links) {
+            log.info("CHECKING: " + link.getModel().getId() + " with: " + id);
+            if (link.getModel().getId().equals(id)) return link;
+        }
+        return null;
+    }
+
 
     public void addClass(UmlClass umlClass) {
         ConceptNode node = new ConceptNode(umlClass);
@@ -104,29 +116,39 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void addLink(UmlLink umlLink) {
-        try {
-            ConceptLink link = new ConceptLink(umlLink);
-            links.add(link);
-            ConceptNode fromNode = getNodeByClassId(umlLink.getFrom());
-            ConceptNode toNode = getNodeByClassId(umlLink.getTo());
-            fromNode.addOutboundLink(link);
-            toNode.addInboundLink(link);
-            add(link);
-            repaint(link.getBounds());
-        } catch (Exception e) {
-            System.out.println("Evil bug... ®");
+        if (getLinkByClassId(umlLink.getId()) != null) {
+            ConceptLink link = getLinkByClassId(umlLink.getId());
+            log.info("LINKNAME: " + umlLink.getName()); 
+            link.setModel(umlLink);
+        } else {
+            log.info("**** CREATING NEW LINK");
+            try {
+                ConceptLink link = new ConceptLink(umlLink);
+                links.add(link);
+                ConceptNode fromNode = getNodeByClassId(umlLink.getFrom());
+                ConceptNode toNode = getNodeByClassId(umlLink.getTo());
+                fromNode.addOutboundLink(link);
+                toNode.addInboundLink(link);
+                add(link);
+                repaint(link.getBounds());
+            } catch (Exception e) {
+                System.out.println("Evil bug... ®");
+            }
         }
-    }   
+
+    }
+
     private void layoutDiagram() {
         for (ConceptNode node : nodes) {
             UmlClass cls = node.getModel();
             node.setBounds(cls.getX(), cls.getY(), 120, 70);
         }
-        for (ConceptLink link: links) {
+        for (ConceptLink link : links) {
             link.update();
         }
         repaint();
     }
+
     public void deleteClass(UmlClass umlClass) {
         ConceptNode node = getNodeByClassId(umlClass.getId());
         nodes.remove(node);
@@ -224,10 +246,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         menu.show(this, e.getX(), e.getY());
 
 
-
-
-
     }
+
     public ConceptLink getNearestLink(Point p, int threshold) {
         double nearestDist = Double.MAX_VALUE;
         ConceptLink nearestLink = null;
@@ -248,9 +268,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         if (ae.getActionCommand().equals("Add concept")) {
             ApplicationController.getDefaultInstance().getColemoPanel().addNewConcept(umlDiagram, "c");
-        } else if(ae.getActionCommand().equals("Save ELO")) {
+        } else if (ae.getActionCommand().equals("Save ELO")) {
             ApplicationController.getDefaultInstance().saveELO();
-        } else if(ae.getActionCommand().equals("Join new session")) {
+        } else if (ae.getActionCommand().equals("Join new session")) {
             ApplicationController.getDefaultInstance().getColemoPanel().joinSession();
         }
 
@@ -295,14 +315,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void updateConcept(UmlClass concept) {
-        log.info("************************** A CONCEPT HAS BEEN RENAMED: " + concept.getName());
-        log.info("CONCEPT:ID: " + concept.getId());
         ConceptNode node = getNodeByClassId(concept.getId());
         node.setModel(concept);
     }
 
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
         private static GraphicsDiagram diagram;
+
         NodeConnectionListener(GraphicsDiagram d) {
             diagram = d;
         }
@@ -328,12 +347,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
                 link.setId("ID-" + System.currentTimeMillis());
                 diagram.addLink(link);
-                log.debug("****** ADDING LINK *********************************************");
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
-                log.info("DONE CREATING LINK (Conceptnode)");
                 diagram.repaint();
-            }
-            else {
+            } else {
                 ConceptNode node = (ConceptNode) e.getSource();
                 UmlClass umlClass = node.getModel();
                 if (umlClass.isMove()) {
@@ -347,7 +363,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         public void mouseEntered(MouseEvent e) {
             ConceptNode node = (ConceptNode) e.getSource();
-            if(diagram.getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON && !node.equals(diagram.getSource())) {
+            if (diagram.getConnectMode() == GraphicsDiagram.CONNECT_MODE_ON && !node.equals(diagram.getSource())) {
                 diagram.setTarget(node);
             }
         }
@@ -370,14 +386,13 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 // Uncomment for real-time moving
                 //MoveClass movedClass = new MoveClass(umlClass, null, null);
                 //ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
-            }
-            else {
+            } else {
                 ConceptNode target = diagram.getTarget();
                 if (target != null) {
                     Point relPoint = node.getLocation();
                     relPoint.translate(e.getX(), e.getY());
-                    int relX = (int)relPoint.getX() - target.getX();
-                    int relY = (int)relPoint.getY() - target.getY();
+                    int relX = (int) relPoint.getX() - target.getX();
+                    int relY = (int) relPoint.getY() - target.getY();
                     target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
                 }
             }
