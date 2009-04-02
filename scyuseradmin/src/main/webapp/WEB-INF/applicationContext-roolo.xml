@@ -23,6 +23,9 @@
 				<ref bean="dateLastModifiedKey"/>
 				<ref bean="missionKey"/>
 				<ref bean="authorKey"/>
+              <ref bean="annotatesRelationKey"/>
+              <ref bean="usesRelationKey"/>
+			  
 				<ref bean="testStringListKey"/>
 			</list>
 		</property>
@@ -77,7 +80,22 @@
 					<constructor-arg index="3" value="LIST"/>
 					<constructor-arg index="4" ref="defaultContributeValidator"/>
 				</bean>
+    <bean name="usesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value='uses'/>
+		<constructor-arg index="1" value='/lom/relationU/[kind="uses"]'/>
+		<constructor-arg index="2" value="UNIVERSAL"/>
+		<constructor-arg index="3" value="LIST"/>
+		<constructor-arg index="4" ref="defaultUriValidator"/>
+	</bean>
+    <bean name="annotatesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value='annotates'/>
+		<constructor-arg index="1" value='/lom/relationA/[kind="annotates"]'/>
+		<constructor-arg index="2" value="UNIVERSAL"/>
+		<constructor-arg index="3" value="SINGLE"/>
+		<constructor-arg index="4" ref="defaultUriValidator"/>
+	</bean>
 
+	
 				<bean name="testStringListKey" class="roolo.cms.metadata.keys.StringMetadataKey">
 					<constructor-arg index="0" value='testStringList'/>
 					<constructor-arg index="1" value='/test/list'/>
@@ -102,6 +120,42 @@
 						<value>scy/drawing</value>
 					</key>
 					<value>.scydraw</value>
+				</entry>
+                <entry>
+					<key>
+						<value>scy/dataset</value>
+					</key>
+					<value>.scydataset</value>
+				</entry>
+                <entry>
+					<key>
+						<value>scy/simconfig</value>
+					</key>
+					<value>.scysimconfig</value>
+				</entry>
+                <entry>
+					<key>
+						<value>scy/pds</value>
+					</key>
+					<value>.scypds</value>
+				</entry>
+            <entry>
+					<key>
+						<value>scy/text</value>
+					</key>
+					<value>.scytext</value>
+				</entry>
+            <entry>
+					<key>
+						<value>scy/image</value>
+					</key>
+					<value>.jpg</value>
+				</entry>
+            <entry>
+					<key>
+						<value>scy/mapping</value>
+					</key>
+					<value>.scymapping</value>
 				</entry>
 			</map>
 		</property>
