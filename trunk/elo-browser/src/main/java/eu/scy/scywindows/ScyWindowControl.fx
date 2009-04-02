@@ -207,8 +207,11 @@ public class ScyWindowControl{
             var metadata = roolo.repository.retrieveMetadata(result.getUri());
             var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
             var scyWindow = getScyWindow(result.getUri());
+            edgesManager.createEdge(activeAnchorWindow,scyWindow,relationName);
             scyDesktop.addScyWindow(scyWindow);
+
             insert scyWindow into relatedWindows;
+
             println("added related elo {result.getUri()}");
         }
     }
