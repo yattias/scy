@@ -6,14 +6,17 @@
  */
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.contributions.MoveClass;
+import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.server.uml.UmlDiagram;
+import eu.scy.colemo.server.uml.UmlLink;
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-
-import eu.scy.colemo.server.uml.*;
-import eu.scy.colemo.contributions.MoveClass;
-import org.apache.log4j.Logger;
+import java.util.HashSet;
+import java.util.Vector;
 
 /**
  * @author Øystein
@@ -37,8 +40,9 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     private ConceptNode source = null;
     private ConceptNode target = null;
 
+
     public GraphicsDiagram(UmlDiagram d) {
-        umlDiagram = d;
+	    umlDiagram = d;
         nodes = new HashSet<ConceptNode>();
         setLayout(null);
         addMouseListener(this);
@@ -333,10 +337,16 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
         private static GraphicsDiagram diagram;
+	    private LabelArrow tempLink;
 
-        NodeConnectionListener(GraphicsDiagram d) {
+	    NodeConnectionListener(GraphicsDiagram d) {
             diagram = d;
-        }
+		    tempLink = new LabelArrow();
+		    tempLink.setLineStyle(LabelArrow.STYLE_DASHED);
+		    tempLink.setColor(new Color(100, 100, 100));
+		    tempLink.setVisible(false);
+		    diagram.add(tempLink);
+	    }
 
         public void mouseClicked(MouseEvent e) {
 
@@ -371,6 +381,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 }
             }
             diagram.setConnectMode(CONNECT_MODE_OFF);
+	        tempLink.setVisible(false);
         }
 
         public void mouseEntered(MouseEvent e) {
@@ -382,6 +393,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         public void mouseExited(MouseEvent e) {
             diagram.setTarget(null);
+	        tempLink.setVisible(false);
         }
 
         public void mouseDragged(MouseEvent e) {
@@ -399,14 +411,20 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 //MoveClass movedClass = new MoveClass(umlClass, null, null);
                 //ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
             } else {
-                ConceptNode target = diagram.getTarget();
-                if (target != null) {
-                    Point relPoint = node.getLocation();
-                    relPoint.translate(e.getX(), e.getY());
-                    int relX = (int) relPoint.getX() - target.getX();
-                    int relY = (int) relPoint.getY() - target.getY();
-                    target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
-                }
+	            Point relPoint = node.getLocation();
+	            relPoint.translate(e.getX(), e.getY());
+
+	            // Draw temp arrow
+	            tempLink.setFrom(node.getLinkConnectionPoint(tempLink.findDirection(node.getCenterPoint(), relPoint)));
+	            tempLink.setVisible(true);
+	            tempLink.setTo(relPoint);
+
+	            ConceptNode target = diagram.getTarget();
+	            if (target != null) {
+		            int relX = (int) relPoint.getX() - target.getX();
+		            int relY = (int) relPoint.getY() - target.getY();
+		            target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
+	            }
             }
         }
 
