@@ -196,6 +196,10 @@ public class ControllerApplet implements ControllerInterface{
                 data[i][j] = new Data(-1, value, i, j, false);
             }
         }
+        if(nbRows == 0){
+            nbRows = 1;
+            data = new Data[1][nbCols];
+        }
         // creation du dataset
         Dataset ds = new Dataset(idDataSet++, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
         return ds;
