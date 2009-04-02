@@ -99,15 +99,11 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
     }
 
     public void joinSession() {
-        //setSessionId(SESSIONID);
-        //log.debug("JOINING SESSION " + sessionId + " NOW!");
         ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
         MessageTranslator ot = new MessageTranslator();
 
-
         try {
             initializeCollaborationService();
-            //collaborationService.joinSession(getSessionId(), USER_NAME, ApplicationController.TOOL_NAME);
             ArrayList<IScyMessage> messages = collaborationService.synchronizeClientState(USER_NAME, ApplicationController.TOOL_NAME, SESSIONID, true);
             log.debug("got ###: " + messages.size() + " messages from session: " + SESSIONID);
             synchronizeDiagramElements(messages, ot);
@@ -125,12 +121,11 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
 
         if (collaborationSession == null) {
             log.info("No session ongoing, need to create one for SCYMapper");
-            collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
+            //collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
         } else {
             log.info("Joined existing session.");
         }
 
-        //setSessionId(collaborationSession.getId());
         collaborationService.addCollaborationListener(this);
     }
 
@@ -142,8 +137,9 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
         ScyMessage scyMessage;
         for (int i = 0; i < messages.size(); i++) {
             scyMessage = (ScyMessage) messages.get(i);
+            log.info("____________________________________________________ CREATING OBJECT!");
             Object newNOde = ot.getObject(scyMessage);
-            log.info("SYNCHRONIZING: " + scyMessage.getObjectType());
+            log.info("----------------------------------------------------SYNCHRONIZING: " + scyMessage.getObjectType());
             //log.info("NODE: " + newNOde);
             processNode(newNOde);
         }
@@ -153,12 +149,8 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
 
 
     public void cleanUp() {
-        //TODO: implement this in collaborationservice
-//        try {
-//            tupleSpace.takeAll(conceptTemplate);
-//        } catch (TupleSpaceException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
+        collaborationService.cleanSession(SESSIONID);
+        ApplicationController.getDefaultInstance().getGraphicsDiagram().clearAll();
     }
 
     /**
