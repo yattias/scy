@@ -10,7 +10,6 @@ package eu.scy.elobrowser.main;
  * @author sikkenj
  */
 
-import java.lang.System;
 import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.ContactWindow;
@@ -48,7 +47,6 @@ import eu.scy.scywindows.ScyWindowControl;
 import eu.scy.scywindows.ScyWindowStyler;
 import java.net.URI;
 import javafx.ext.swing.SwingButton;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -368,21 +366,6 @@ contactWindow.translateY = 5;
 //}
 //insert changeOnlineState into scyDesktop.desktop.content;
 
-def changeOnlineState = SwingButton {
-    translateX:200;
-    translateY:400;
-    text: "change online state";
-    action: function() {
-        System.out.println("sizeof visibleContacts(before): { sizeof contactWindow.visibleContacts}");
-        contactWindow.contacts[2].contact.onlineState = OnlineState.AWAY;
-        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE;
-        contactWindow.actualizePositions();
-        contactWindow.frameResize();
-        System.out.println("sizeof visible after lablalba: { sizeof contactWindow.visibleContacts}");
-    }
-
-}
-insert changeOnlineState into scyDesktop.desktop.content;
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
