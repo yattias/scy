@@ -65,12 +65,14 @@ public class ContactWindow extends CustomNode{
 
     init{
         actualizePositions();
+        frameResize();
         for (contact in contacts){
 
             contact.frame.onMousePressed = function(evt:MouseEvent):Void{
                 if (evt.primaryButtonDown){
                     System.out.println("Primary Mouse Button Down");
                     dragging = true;
+                    scyDesktop.draggedContact = contact.contact;
                     ghostImage = ImageView{
                         opacity: 0.3;
                         x: contact.image.x;
@@ -89,35 +91,35 @@ public class ContactWindow extends CustomNode{
                 if(evt.secondaryButtonDown){
                     System.out.println("Secondary Mouse Button Down");
                     if (not contact.isChatting){
-                    contact.isChatting = true;
-                    var messageWindow: MessageWindow = MessageWindow{
+                        contact.isChatting = true;
+                        var messageWindow: MessageWindow = MessageWindow{
                         //FIXME replace with variable username;
-                        sender: "Anonymous";
-                        receiver: contact.contact.name;
-                        opacity: 0.0;
-                    }
-                    var scyMessageWindow:ScyWindow = ScyWindow{
-                        translateY: 300;
-                        opacity: 0.75;
-                        title: "Chat with {messageWindow.receiver}"
-                        id:"Chat{messageWindow.receiver}";
-                        color: Color.BLUE
-                        scyContent: messageWindow
-                        allowClose: true;
-                        allowResize: true;
-                        allowMinimize: true;
-                    }
+                            sender: "Anonymous";
+                            receiver: contact.contact.name;
+                            opacity: 0.0;
+                        }
+                        var scyMessageWindow: ScyWindow = ScyWindow{
+                            translateY: 300;
+                            opacity: 0.75;
+                            title: "Chat with {messageWindow.receiver}"
+                            id: "Chat{messageWindow.receiver}";
+                            color: Color.BLUE
+                            scyContent: messageWindow
+                            allowClose: true;
+                            allowResize: true;
+                            allowMinimize: true;
+                        }
 
-                    scyMessageWindow.openWindow(messageWindow.width, messageWindow.height);
-                    scyDesktop.addScyWindow(scyMessageWindow);
-//                        insert messageWindow into content;
-                    messageWindow.visible = true;
-                    Timeline{
-                        keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
-                    }.play();
+                        scyMessageWindow.openWindow(messageWindow.width, messageWindow.height);
+                        scyDesktop.addScyWindow(scyMessageWindow);
+                        //                        insert messageWindow into content;
+                        messageWindow.visible = true;
+                        Timeline{
+                            keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
+                        }.play();
 
                     } else {
-                        def scyWindow:ScyWindow = scyDesktop.findScyWindow("Chat{contact.contact.name}");
+                        def scyWindow: ScyWindow = scyDesktop.findScyWindow("Chat{contact.contact.name}");
                         scyDesktop.activateScyWindow(scyWindow);
                         scyDesktop.showScyWindow(scyWindow);
                         scyWindow.toFront();
@@ -131,12 +133,18 @@ public class ContactWindow extends CustomNode{
             };
 
             contact.onMouseReleased = function(evt:MouseEvent):Void{
+                if(scyDesktop.contactDragging) {
+                    scyDesktop.contactDragging = false;
+                }
+
                 dragging = false;
                 delete ghostImage from content;
                 ghostImage.visible = false;
+                scyDesktop.draggedContact = null;
             };
             contact.onMouseDragged= function(evt:MouseEvent):Void{
                 if (dragging) {
+                    scyDesktop.contactDragging = true;
                     ghostImage.translateX = evt.dragX;
                     ghostImage.translateY = evt.dragY;
                 }
@@ -174,7 +182,7 @@ public class ContactWindow extends CustomNode{
         Timeline{ 
             keyFrames: [at (0.3s){frame.height => (((
                 (sizeof visibleContacts)
-                /  2) as Integer) * visibleContacts[0].height) + 2 * offset + 8 tween SimpleInterpolator.LINEAR},
+                /  2) as Integer) * visibleContacts[0].height) + 2 * offset + 8 + ((sizeof visibleContacts) mod 2 * visibleContacts[0].height) tween SimpleInterpolator.LINEAR},
                     at (0.3s){frame.width =>
                 (2 * visibleContacts[0].width) + 2 * offset + 8 tween SimpleInterpolator.LINEAR}];
 //                at (0.3s){background.opacity => backgroundOpacity tween SimpleInterpolator.LINEAR}];

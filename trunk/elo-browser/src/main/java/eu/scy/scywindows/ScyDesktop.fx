@@ -6,6 +6,7 @@
 
 package eu.scy.scywindows;
 
+import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyEdge;
 import eu.scy.scywindows.ScyWindow;
@@ -43,7 +44,12 @@ public class ScyDesktop{
     //      color: Color.BLACK
     //			}
     var inactiveWindowEffect: Effect = null;
+
+    public var contactDragging: Boolean = false;
+    public var draggedContact: Contact;
+
 	init{
+
 		println("ScyDesktop created");
 	}
 

@@ -27,6 +27,7 @@ import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
+import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
@@ -60,6 +61,17 @@ var newGroup = VBox {
     translateY: 5;
     spacing: 3;
     content: [
+        SwingButton {
+            text: "Picture";  
+            action: function() {
+                var pictureWindow = PictureViewerNode.createPictureViewerWindow(roolo);
+                pictureWindow.allowResize = true;
+                scyDesktop.addScyWindow(pictureWindow);
+                pictureWindow.openWindow(390,300);
+            }
+
+        }
+
         SwingButton{
             text: "Drawing"
             action: function() {
@@ -375,7 +387,6 @@ function getContacts():ContactFrame[]{
 
 def edgesManager: EdgesManager = EdgesManager {
 };
-
 
 stage = Stage {
 
