@@ -17,6 +17,8 @@ import roolo.elo.api.IMetadataTypeManager;
  */
 public class ColemoActionWrapper {
 
+    public static final String scyMappingType = "scy/mapping";
+
     private ColemoPanel colemoPanel;
     private IRepository repository;
     private IELOFactory eloFactory;
