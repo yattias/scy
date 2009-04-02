@@ -62,6 +62,8 @@ import javafx.stage.Stage;
 //def stageWidth = 1024;
 //def stageHeight = 768;
 
+def annotatesRelationName = "annotates";
+
 var roolo = Roolo.getRoolo();
 var stage: Stage;
 var scyDesktop = ScyDesktop.getScyDesktop();
@@ -93,6 +95,7 @@ var missionAnchor = Anchor{
     xPos: 140;
     yPos: 40;
     eloUri: new URI("roolo://memory/21/mission.scydraw");
+    relationNames: [annotatesRelationName]
 }
 
 var backgroundAnchor = Anchor{
@@ -101,6 +104,7 @@ var backgroundAnchor = Anchor{
     yPos: 20;
     color: Color.BLUE;
     eloUri: new URI("test://background.jpg");
+    relationNames: [annotatesRelationName]
 }
 
 var simulationAnchor = Anchor{
@@ -109,6 +113,7 @@ var simulationAnchor = Anchor{
     yPos: 60;
     color: Color.BLUE;
     eloUri: new URI("roolo://memory/20/review_simulation.scysimconfig");
+    relationNames: [annotatesRelationName]
 }
 
 var mappingAnchor = Anchor{
@@ -117,6 +122,7 @@ var mappingAnchor = Anchor{
     yPos: 40;
     color: Color.BLUE;
     eloUri: new URI("test://mapping.scymapping");
+    relationNames: [annotatesRelationName]
 }
 
 var reportAnchor = Anchor{
@@ -125,6 +131,7 @@ var reportAnchor = Anchor{
     yPos: 40;
     color: Color.BLUE;
     eloUri: new URI("test://report.jpg");
+    relationNames: [annotatesRelationName]
 }
 missionAnchor.nextAnchors = [backgroundAnchor,simulationAnchor];
 backgroundAnchor.nextAnchors = [mappingAnchor];
@@ -468,6 +475,8 @@ scyWindowControl = ScyWindowControl{
     missionModel: missionModel;
     missionMap: missionMap;
     stage: stage;
+    scyWindowStyler:scyWindowStyler;
+    roolo: roolo;
 };
 missionMap.scyWindowControl=scyWindowControl;
 
