@@ -22,7 +22,7 @@ public class UmlLink extends AbstractDiagramData implements Serializable {
 	 * 
 	 */
 	public UmlLink(String from, String to, String createdBy) {
-		super(from + "-" + to);
+		super("");
 		this.from = from;
 		this.to = to;
 		this.createdBy = createdBy;
