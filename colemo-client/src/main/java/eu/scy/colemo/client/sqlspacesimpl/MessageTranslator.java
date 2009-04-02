@@ -138,6 +138,7 @@ public class MessageTranslator implements IMessageTranslator {
         } else if (scyMessage.getObjectType().indexOf("UmlLink") > 0) {
             UmlLink link = new UmlLink(scyMessage.getFrom(), scyMessage.getTo(), "Henrik");
             link.setId(scyMessage.getId());
+            link.setName(scyMessage.getName());
             return link;
         } else if (scyMessage.getObjectType().indexOf("UmlClass") > 0) {
             log.info("******************************SCY MESSAGES SAYS NAME: " + scyMessage.getName());
@@ -206,7 +207,7 @@ public class MessageTranslator implements IMessageTranslator {
             message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, addLink.getId(), addLink.getClass().getName(), addLink.getClass().getName(), "Some description", addLink.getTo(), addLink.getFrom(), null, 0, getSessionId());
         } else if (object instanceof UmlLink) {
             UmlLink umlLink = (UmlLink) object;
-            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlLink.getId(), umlLink.getClass().getName(), umlLink.getClass().getName(), "Some description", umlLink.getTo(), umlLink.getFrom(), null, 0, getSessionId());
+            message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlLink.getId(), umlLink.getClass().getName(), umlLink.getName(), "Some description", umlLink.getTo(), umlLink.getFrom(), null, 0, getSessionId());
         } else if (object instanceof UmlClass) {
             UmlClass umlClass = (UmlClass) object;
             message = ScyMessage.createScyMessage(SCYConnectionHandler.USER_NAME, ApplicationController.TOOL_NAME, umlClass.getId(), umlClass.getClass().getName(), umlClass.getName(), "Some description", null, null, null, 0, getSessionId());

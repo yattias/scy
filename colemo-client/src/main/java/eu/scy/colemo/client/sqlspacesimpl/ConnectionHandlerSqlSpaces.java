@@ -180,6 +180,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
                 ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
             } else if(node instanceof UmlLink) {
                 UmlLink link = (UmlLink) node;
+                log.info("*** **** *** UPDATING LINK!!! RETURNED FROM SERVER!");
                 ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
 
             } else if(node instanceof UmlClass) {

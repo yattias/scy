@@ -209,6 +209,12 @@ public class ConceptLink extends JComponent implements FocusListener {
         int dir = findDirection(fromNode.getCenterPoint(), toNode.getCenterPoint());
         setFrom(fromNode.getLinkConnectionPoint(dir));
         setTo(toNode.getLinkConnectionPoint(-dir));
+        textField.setText(model.getName());
+        fixBounds();
+        invalidate();
+        validate();
+        repaint();
+
     }
 
     public int findDirection(Point from, Point to) {
@@ -266,7 +272,10 @@ public class ConceptLink extends JComponent implements FocusListener {
 
     public void setModel(UmlLink model) {
         this.model = model;
+        update();
     }
+
+
 
     private static class TextFieldListener implements FocusListener, KeyListener {
         private ConceptLink link;
@@ -291,6 +300,8 @@ public class ConceptLink extends JComponent implements FocusListener {
             textField.setOpaque(false);
             textField.setBorder(null);
             link.getModel().setName(textField.getText());
+            ApplicationController.getDefaultInstance().getConnectionHandler().updateObject(link.getModel());
+
         }
 
         public void keyTyped(KeyEvent e) {
