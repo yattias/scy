@@ -18,13 +18,12 @@ import javafx.scene.Node;
 
 public class EdgesManager extends CustomNode {
     var nodes: Node[];
-
+    public var edgeLayers: ScyEdgeLayer[];
 
     override function create():Node {
         return Group {
             content: bind nodes;
         }
-
     }
 
     public function createEdge(node1:ScyWindow, node2:ScyWindow,text:String) {
@@ -35,9 +34,13 @@ public class EdgesManager extends CustomNode {
         }
         node1.addEdge(newEdge);
         node2.addEdge(newEdge);
+        insert newEdge into edgeLayers;
         insert newEdge into nodes;
-
     }
 
+    public function deleteEdge(edgeLayer:ScyEdgeLayer):Void {
+        delete edgeLayer from edgeLayers;
+        delete edgeLayer from nodes;
+    }
 
 }
