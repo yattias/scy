@@ -177,12 +177,10 @@
             <id>collide-releases</id>
             <url>http://mvn.collide.info/content/repositories/releases</url>
         </repository>
-
         <repository>
             <id>collide-snapshots</id>
             <url>http://mvn.collide.info/content/repositories/snapshots</url>
         </repository>
-
         <repository>
             <id>tels-repo-internal</id>
             <name>TELS Center internal repository</name>
@@ -195,6 +193,14 @@
             <id>tels-repo-internal-snapshot</id>
             <name>TELS Center internal snapshot repository</name>
             <url>http://repo.telscenter.org/internal_snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>cc-repo-internal</id>
+            <name>Concord Consortium Internal</name>
+            <url>http://source.concord.org/maven2/internal_snapshot/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
