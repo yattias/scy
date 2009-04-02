@@ -63,6 +63,7 @@ import javafx.stage.Stage;
 //def stageHeight = 768;
 
 def annotatesRelationName = "annotates";
+def usesRelationName = "uses";
 
 var roolo = Roolo.getRoolo();
 var stage: Stage;
@@ -113,7 +114,7 @@ var simulationAnchor = Anchor{
     yPos: 60;
     color: Color.BLUE;
     eloUri: new URI("roolo://memory/20/review_simulation.scysimconfig");
-    relationNames: [annotatesRelationName]
+    relationNames: [annotatesRelationName,usesRelationName]
 }
 
 var mappingAnchor = Anchor{
@@ -181,11 +182,10 @@ for (anchor in missionModel.anchors){
     anchor.color = scyWindowStyler.getScyColor(anchor.eloUri);
 }
 
-ActiveAnchorTransferer{
+var activeAnchorTransferer = ActiveAnchorTransferer{
     roolo:roolo
     activeAnchor: bind missionModel.activeAnchor
 }
-
 
 
 var missionMap = MissionMap{
@@ -477,8 +477,10 @@ scyWindowControl = ScyWindowControl{
     stage: stage;
     scyWindowStyler:scyWindowStyler;
     roolo: roolo;
+    edgesManager:edgesManager;
 };
 missionMap.scyWindowControl=scyWindowControl;
+activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
 scyWindowControl.positionWindows();

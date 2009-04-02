@@ -85,7 +85,7 @@ public class ScyWindowStyler {
         var ch = getScyIconCharacter(type);
         window.color = color;
         window.iconCharacter = ch;
-        println("styled {uri} -> {type}, color:{color}, icon:{ch}");
+//        println("styled {uri} -> {type}, color:{color}, icon:{ch}");
     }
 
     public function style(window:ScyWindow,elo:IELO){
