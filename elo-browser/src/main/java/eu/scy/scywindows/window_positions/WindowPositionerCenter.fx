@@ -135,7 +135,7 @@ public class WindowPositionerCenter extends WindowPositioner {
         else if (direction > topRightAngle and direction <= bottomRightAngle){
             // at the right
             x = xMax;
-            y = centerY + (centerX - xMax) * Math.tan(direction);
+            y = centerY - (centerX - xMax) * Math.tan(direction);
         }
         else if (direction > bottomRightAngle and direction <= bottomLeftAngle){
             // at the bottom
@@ -145,7 +145,7 @@ public class WindowPositionerCenter extends WindowPositioner {
         else {
             // at the left
             x = xMin;
-            y = centerY + (centerX - xMin) * Math.tan(direction);
+            y = centerY - (centerX - xMin) * Math.tan(direction);
         };
         windowPosition.usedDirection = direction;
         calculateWindowPosition(windowPosition,x,y,w,h);
