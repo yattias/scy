@@ -2,6 +2,7 @@ package eu.scy.colemo.client.actions;
 
 import eu.scy.colemo.client.ApplicationController;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -15,6 +16,7 @@ public class SaveELO extends SCYMapperAction{
 
     public SaveELO() {
         setTitle("Save");
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("save.png")));
     }
 
     protected void performAction(ActionEvent e) {

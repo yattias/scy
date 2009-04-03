@@ -2,6 +2,7 @@ package eu.scy.colemo.client.actions;
 
 import eu.scy.colemo.client.ApplicationController;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -15,6 +16,7 @@ public class CreateNewConcept extends SCYMapperAction{
 
     public CreateNewConcept() {
         setTitle("New Concept");
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("new.png")));
     }
 
     protected void performAction(ActionEvent e) {

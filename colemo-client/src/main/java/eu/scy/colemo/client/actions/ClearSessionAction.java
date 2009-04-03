@@ -1,10 +1,10 @@
 package eu.scy.colemo.client.actions;
 
+import eu.scy.colemo.client.ApplicationController;
 import org.apache.log4j.Logger;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
-
-import eu.scy.colemo.client.ApplicationController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,6 +19,7 @@ public class ClearSessionAction extends SCYMapperAction{
 
     public ClearSessionAction() {
         setTitle("Clear");
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("clear.png")));
     }
 
     protected void performAction(ActionEvent e) {

@@ -5,7 +5,6 @@ import eu.scy.colemo.client.actions.SCYMapperAction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -34,6 +33,7 @@ public class SCYMapperToolbar extends JToolBar implements SelectionControllerLis
         for (int i = 0; i < baseActions.size(); i++) {
             BaseAction baseAction = (BaseAction) baseActions.get(i);
             JButton button = new JButton(baseAction);
+	        button.setIcon((Icon)baseAction.getValue(AbstractAction.SMALL_ICON));
             button.revalidate();
             add(button);
         }
@@ -48,6 +48,7 @@ public class SCYMapperToolbar extends JToolBar implements SelectionControllerLis
         for (int i = 0; i < commonActions.size(); i++) {
             SCYMapperAction scyMapperAction = (SCYMapperAction) commonActions.get(i);
             JButton button = new JButton(scyMapperAction);
+	        button.setIcon((Icon) scyMapperAction.getValue(AbstractAction.SMALL_ICON));
             button.revalidate();
             add(button);
         }

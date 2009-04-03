@@ -5,6 +5,7 @@ import eu.scy.colemo.client.SelectionController;
 import eu.scy.colemo.client.ConceptNode;
 import eu.scy.colemo.client.ApplicationController;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 public class FlipLink extends BaseAction{
     public FlipLink() {
         super("Flip link");
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("flip.png")));
     }
 
     public Class getOperateson() {
