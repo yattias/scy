@@ -6,35 +6,32 @@
 
 package eu.scy.elobrowser.tool.simquest;
 
-import sqv.SimQuestViewer;
 import eu.scy.elobrowser.main.Roolo;
-import eu.scy.elobrowser.tool.drawing.EloDrawingActionWrapper;
+import eu.scy.elobrowser.tool.simquest.DataCollector;
+import eu.scy.elobrowser.tool.simquest.EloSimQuestWrapper;
+import eu.scy.elobrowser.tool.simquest.SimQuestNode;
+import eu.scy.elobrowser.ui.CommandText;
 import eu.scy.scywindows.ScyWindow;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.lang.Object;
+import java.lang.System;
 import java.net.URI;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import java.lang.System;
-import eu.scy.elobrowser.tool.simquest.DataCollector;
-import java.awt.BorderLayout;
-import javafx.scene.paint.Color;
+import sqv.SimQuestViewer;
 import utils.FileName;
-import javafx.scene.layout.Resizable;
 
 /**
  * @author sikkenj
@@ -137,47 +134,6 @@ public class SimQuestNode extends CustomNode, Resizable {
     }
 }
 
-    class CommandText extends CustomNode {
-        public var label="label";
-        public var clickAction:function(e: MouseEvent):Void;
-        var color = Color.color(0.34,0.34,0.34);
-        var hoverColor = Color.BLACK;
-        var textFont =  Font {
-            size: 11}
-        var text:Text;
-
-        public override function create(): Node {
-            return Group {
-                content: [
-                    Rectangle {
-                        x: 0,
-                        y: 0
-                        width: 55,
-                        height: 17
-                        arcHeight:5
-                        arcWidth:5
-                        fill: Color.color(0.9,0.9,0.9)
-                    }
-                    text = Text{
-                        translateX:8;
-                        translateY:12;
-                        font:textFont
-                        content: bind label
-                        fill:color
-                    }
-                ]
-                onMouseEntered: function( e: MouseEvent ):Void {
-                    text.fill = hoverColor;
-                }
-                onMouseExited: function( e: MouseEvent ):Void {
-                    text.fill = color;
-                }
-                onMouseClicked: function( e: MouseEvent ):Void {
-                    if (clickAction != null) clickAction(e);
-                }
-        };
-        }
-    }
 
     public function createSimQuestNode(roolo:Roolo):SimQuestNode{
         // the flag "false" configures the SQV for memory usage (instead of disk usage)

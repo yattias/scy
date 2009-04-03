@@ -5,11 +5,14 @@
  */
 
 package eu.scy.elobrowser.tool.colemo;
+import eu.scy.colemo.client.ColemoPanel;
 import eu.scy.elobrowser.main.Roolo;
-import javafx.scene.CustomNode;
+import eu.scy.elobrowser.tool.colemo.ColemoActionWrapper;
+import eu.scy.elobrowser.tool.colemo.ColemoNode;
+import eu.scy.elobrowser.ui.CommandText;
 import eu.scy.scywindows.ScyWindow;
 import java.awt.Dimension;
-import java.net.URI;
+import java.lang.Object;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
@@ -19,11 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import eu.scy.colemo.client.ColemoPanel;
 
 
 public class ColemoNode extends CustomNode {
@@ -84,47 +83,6 @@ public class ColemoNode extends CustomNode {
    }
 }
 
-	class CommandText extends CustomNode {
-		public var label="label";
-		public var clickAction:function(e: MouseEvent):Void;
-		var color = Color.color(0.34,0.34,0.34);
-		var hoverColor = Color.BLACK;
-		var textFont =  Font {
-			size: 11}
-		var text:Text;
-
-		public override function create(): Node {
-			return Group {
-				content: [
-					Rectangle {
-						x: 0,
-						y: 0
-						width: 55,
-						height: 17
-						arcHeight:5
-						arcWidth:5
-						fill: Color.color(0.9,0.9,0.9)
-					}
-					text = Text{
-						translateX:8;
-						translateY:12;
-						font:textFont
-						content: bind label
-						fill:color
-					}
-				]
-				onMouseEntered: function( e: MouseEvent ):Void {
-					text.fill = hoverColor;
-				}
-				onMouseExited: function( e: MouseEvent ):Void {
-					text.fill = color;
-				}
-				onMouseClicked: function( e: MouseEvent ):Void {
-					if (clickAction != null) clickAction(e);
-				}
-      };
-		}
-	}
 
 	public function createColemoNode(roolo:Roolo):ColemoNode{
 		var colemoPanel= new ColemoPanel();
