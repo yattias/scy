@@ -14,15 +14,15 @@ public interface IProcessingAgent<K extends IMetadataKey> extends IAgent,
 	public void run();
 
 	/**
-	 * Get the repository to retrieve, search and alter elos.
+	 * Set the MetadataTypeManger.
+	 */
+	public void setMetadataTypeManager(IMetadataTypeManager<K> typeManager);
+
+	/**
+	 * Set the repository to retrieve, search and alter elos.
 	 * 
 	 * @return
 	 */
-	public IRepository<IELO<K>, K> getRepository();
-
-	/**
-	 * Get the MetadataTypeManger.
-	 */
-	public IMetadataTypeManager<K> getMetadataTypeManager();
+	public void setRepository(IRepository<IELO<K>, K> repo);
 
 }
