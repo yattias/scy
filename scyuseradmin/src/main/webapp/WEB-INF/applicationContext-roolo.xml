@@ -158,6 +158,12 @@
 					</key>
 					<value>.scymapping</value>
 				</entry>
+            <entry>
+					<key>
+						<value>scy/melo</value>
+					</key>
+					<value>.melo</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
