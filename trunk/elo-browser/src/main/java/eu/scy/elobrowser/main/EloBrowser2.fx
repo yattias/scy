@@ -533,7 +533,7 @@ activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
 var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
     eloSavedAction : scyWindowControl.newEloSaved;
 }
-
+eloSavedNotificationCatcher.register();
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
 scyWindowControl.positionWindows();

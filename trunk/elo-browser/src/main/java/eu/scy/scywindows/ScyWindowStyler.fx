@@ -29,6 +29,7 @@ public class ScyWindowStyler {
     public def imageType = "scy/image";
     public def textType = "scy/text";
     public def mappingType = "scy/mapping";
+    public def meloType = "scy/melo";
 
     public def scyGreen = Color.web("#8db800");
     public def scyPurple = Color.web("#7243db");
@@ -48,6 +49,8 @@ public class ScyWindowStyler {
             return scyBlue
         else if (type==imageType)
             return scyOrange
+        else if (type==meloType)
+            return scyOrange
         else if (type==textType)
             return scyGreen
         else
@@ -66,6 +69,8 @@ public class ScyWindowStyler {
         else if (type==textType)
             return "T"
         else if (type==imageType)
+            return "I"
+        else if (type==meloType)
             return "I"
         else if (type==mappingType)
             return "M"
