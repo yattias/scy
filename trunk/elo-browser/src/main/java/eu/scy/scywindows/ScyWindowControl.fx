@@ -195,8 +195,10 @@ public class ScyWindowControl{
         windowPositioner.positionWindows();
     }
 
+    var usedEdgeSourceWindows:ScyWindow[]; // TODO, don't use a "global" variable for it
     function findRelatedWindows(){
         delete relatedWindows;
+        delete usedEdgeSourceWindows;
         for (relationName in activeAnchor.relationNames){
             findRelatedWindows(relationName);
         }
@@ -218,7 +220,10 @@ public class ScyWindowControl{
             var metadata = roolo.repository.retrieveMetadata(result.getUri());
             var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
             var scyWindow = getScyWindow(result.getUri());
-            edgesManager.createEdge(activeAnchorWindow,scyWindow,relationName);
+            if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow)<0){
+                edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
+                insert scyWindow into usedEdgeSourceWindows;
+            }
             scyDesktop.addScyWindow(scyWindow);
 
             insert scyWindow into relatedWindows;
