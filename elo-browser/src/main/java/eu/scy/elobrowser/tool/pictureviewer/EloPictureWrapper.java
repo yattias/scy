@@ -50,7 +50,6 @@ public class EloPictureWrapper {
     private IMetadataKey missionKey;
     private IMetadataKey authorKey;
     private IMetadataKey descriptionKey;
-    private JTextArea textarea;
     private IELO<IMetadataKey> elo = null;
     private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
     private Image image;
