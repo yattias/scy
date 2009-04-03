@@ -142,10 +142,9 @@ public class EloDataToolWrapper {
 	private void setDocName(String docName)
 	{
 		this.docName = docName;
-		String windowTitle = "Data Process Visualization Tool : ";
+		String windowTitle = "Dataset: ";
 		if (StringUtils.hasText(docName))
 			windowTitle += docName;
-		// setTitle(windowTitle);
 	}
 
    public String getDocName()

@@ -38,18 +38,13 @@ public class DataToolNode extends CustomNode {
 
    public function loadElo(uri:URI){
       eloDataToolWrapper.loadElo(uri);
-		setScyWindowTitle();
+	  setScyWindowTitle();
    }
 
 	function setScyWindowTitle(){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Process Dataset: {eloDataToolWrapper.getDocName()}";
-		var eloUri = eloDataToolWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+		scyWindow.title = "Dataset: {eloDataToolWrapper.getDocName()}";		
 	}
 
    public override function create(): Node {
