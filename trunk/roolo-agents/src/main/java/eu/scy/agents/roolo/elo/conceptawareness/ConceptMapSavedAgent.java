@@ -56,20 +56,21 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	public void processElo(T elo) {
 		registerKeys();
 
-		if(elo == null) {
-			System.err.println("ConceptMapSavedAgent->processElo: received ELO was null");
+		if (elo == null) {
 			return;
 		}
-		
+
 		IMetadata<K> metadata = elo.getMetadata();
 		IContent content = elo.getContent();
 		try {
-			if (content.getXmlString() != null) {
+			if ((content != null) || (metadata != null)) {
+
 				enrichMetadata(metadata, content.getXmlString());
+
+				TupleSpace ts = getTupleSpace();
+				ts.write(new Tuple("scymapper", System.currentTimeMillis(), elo
+						.getUri().toString()));
 			}
-			TupleSpace ts = getTupleSpace();
-			ts.write(new Tuple("scymapper", System.currentTimeMillis(), elo
-					.getUri().toString()));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		} catch (JDOMException e) {
@@ -82,6 +83,9 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	@SuppressWarnings("unchecked")
 	private void enrichMetadata(IMetadata<K> metadata, String xmlString)
 			throws JDOMException, IOException {
+		if (xmlString == null) {
+			return;
+		}
 		StringReader stringReader = new StringReader(xmlString);
 		SAXBuilder builder = new SAXBuilder();
 		Document xmlDocument = builder.build(stringReader);
