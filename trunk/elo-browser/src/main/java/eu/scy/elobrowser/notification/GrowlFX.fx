@@ -76,7 +76,9 @@ public class GrowlFX extends CustomNode, INotificationCallback {
     }
 
     override function onNotification(notification :INotification) {
-        if(notification.getProperties().contains("errors")) {
+        println("XXX -> Notification received...");
+        var props = notification.getProperties();
+        if(props.containsKey("errors")) {
             var errnum = notification.getProperty("errors");
             println("Received errors: {errnum}");
             FX.deferAction(function() :Void {
@@ -86,10 +88,10 @@ public class GrowlFX extends CustomNode, INotificationCallback {
                 }
                 fadein.playFromStart();
             });
-        } else if (notification.getProperties().contains("initCollaboration")) {
+        } else if (props.containsKey("initCollaboration")) {
             var userForCollaboration = notification.getProperty("username");
             FX.deferAction(function() :Void {
-                var result = JOptionPane.showConfirmDialog(null, "Do you want to start collaboration with {userForCollaboration}?", "Collaborartion Request", JOptionPane.OK_CANCEL_OPTION);
+                var result = JOptionPane.showConfirmDialog(null, "Do you want to start collaboration with {userForCollaboration}?", "Collaborartion Request", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
                     var colemoWIndow = ColemoNode.createColemoWindow(roolo);
                     colemoWIndow.allowResize = true;
@@ -98,14 +100,13 @@ public class GrowlFX extends CustomNode, INotificationCallback {
                     scyWindowControl.addOtherScyWindow(colemoWIndow, true);
                 }
             });
-        } else if (notification.getProperties().contains("initCollaboration")) {
-
         }
     }
 
     public function register() :Void {
        var notificationService = new NotificationService("scy.collide.info", 2525, "notifications");
        notificationService.registerCallback(User.instance.getUsername(), this);
+       println("Registered callback for {User.instance.getUsername()}");
     }
 
 

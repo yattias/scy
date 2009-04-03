@@ -29,8 +29,9 @@ public class CollaborationNotifier {
                 n.addProperty("initCollaboration", Boolean.toString(true));
                 n.addProperty("username", User.instance.getUsername());
                 // ONLY FOR TESTING PURPOSE, MUST BE COMMENTED OUT
-                notificationsender.send(User.instance.getUsername(), tool, n);
-//                notificationsender.send(username, tool, n);
+                //notificationsender.send(User.instance.getUsername(), tool, n);
+                notificationsender.send(username, tool, n);
+                System.out.println("Notification send...");
             }
 
         }.start();

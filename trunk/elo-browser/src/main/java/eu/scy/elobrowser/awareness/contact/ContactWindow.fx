@@ -10,6 +10,7 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.MessageWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.elobrowser.notification.hack.CollaborationNotifier;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.Object;
@@ -36,6 +37,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import eu.scy.elobrowser.tool.colemo.ColemoWindow;
 
 /**
  * @author Sven
@@ -134,9 +136,14 @@ public class ContactWindow extends CustomNode{
 
             contact.onMouseReleased = function(evt:MouseEvent):Void{
                 if(scyDesktop.contactDragging) {
+                    if(scyDesktop.targetWindow != null) {
+                        if(scyDesktop.targetWindow instanceof ColemoWindow) {
+                            println("Contact {scyDesktop.draggedContact.name} dropped on Colemo window!");
+                            CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
+                        }
+                    }
                     scyDesktop.contactDragging = false;
                 }
-
                 dragging = false;
                 delete ghostImage from content;
                 ghostImage.visible = false;

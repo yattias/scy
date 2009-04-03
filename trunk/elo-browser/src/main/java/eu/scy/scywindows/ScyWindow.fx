@@ -64,32 +64,14 @@ public class ScyWindow extends CustomNode {
     public var contactDragging: Boolean = bind scyDesktop.contactDragging on replace {
     }
 
-
     public def funkyColoredLayer: Rectangle = Rectangle {
         //blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
-        width: bind (if (scyDesktop.contactDragging) this.width else 0 );
-        height: bind (if (scyDesktop.contactDragging) this.height else 0 );
+        //width: bind (if (scyDesktop.contactDragging) this.width else 0 );
+        //height: bind (if (scyDesktop.contactDragging) this.height else 0 );
+        width: bind this.width;
+        height: bind this.height;
         fill: Color.TRANSPARENT;
         stroke: Color.TRANSPARENT;
-
-        onMouseReleased: function(evt:MouseEvent){
-            if (scyDesktop.contactDragging){
-                contactDragging = false;
-//              blocksMouse = false;
-                circleLayer.visible = false;
-                //save the contact here?
-                println("XXXXXXXXXXXXXXX");
-                println("Dropping user: {scyDesktop.draggedContact.name}");
-                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
-
-            }
-            println("XXXXXXXXXXXXXXX");
-            scyContent.visible = true;
-            funkyColoredLayer.fill = Color.TRANSPARENT;
-            //scyContent.scaleX = 1.0;
-            //scyContent.scaleY = 1.0;
-
-        }
     }
 
     public def circleLayer: Circle = Circle {
@@ -127,10 +109,6 @@ public class ScyWindow extends CustomNode {
                 ]
             }.play();
         }
-        onMouseReleased: function(e:MouseEvent):Void {
-            println("ZZZZZZZZZZZZ");
-        }
-
     }
 
     public def draggingLayer: Rectangle = Rectangle{
@@ -140,13 +118,13 @@ public class ScyWindow extends CustomNode {
         fill: Color.TRANSPARENT;
         stroke: Color.TRANSPARENT;
         onMouseEntered: function(evt:MouseEvent){
-         //scyContent.scaleX = 0.0;
+            //scyContent.scaleX = 0.0;
             //scyContent.scaleY = 0.0;
             scyContent.visible = false;
             this.hoveredContact = scyDesktop.draggedContact;
             funkyColoredLayer.fill = this.color;
             circleLayer.visible = true;
-            println("MICHIAA!!!");
+            scyDesktop.targetWindow = this;
         }
         onMouseExited: function(evt:MouseEvent){
             //scyContent.scaleX = 1.0;
@@ -155,28 +133,9 @@ public class ScyWindow extends CustomNode {
             this.hoveredContact = null;
             funkyColoredLayer.fill = Color.TRANSPARENT;
             circleLayer.visible = false;
-        }
-        onMouseReleased: function(evt:MouseEvent){
-            if (scyDesktop.contactDragging){
-                contactDragging = false;
-//              blocksMouse = false;
-                circleLayer.visible = false;
-                //save the contact here?
-                println("XXXXXXXXXXXXXXX");
-                println("Dropping user: {scyDesktop.draggedContact.name}");
-                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
-
-            }
-            println("XXXXXXXXXXXXXXX");
-            scyContent.visible = true;
-            funkyColoredLayer.fill = Color.TRANSPARENT;
-            //scyContent.scaleX = 1.0;
-            //scyContent.scaleY = 1.0;
-
+            scyDesktop.targetWindow = null;
         }
     };
-
-
 
 	def scyWindowAttributeDevider = 3.0;
 

@@ -44,8 +44,10 @@ public class ScyDesktop{
     //			}
     var inactiveWindowEffect: Effect = null;
 
+    // for drag and drop collaboration
     public var contactDragging: Boolean = false;
     public var draggedContact: Contact;
+    public var targetWindow: ScyWindow;
 
 	init{
 		println("ScyDesktop created");
