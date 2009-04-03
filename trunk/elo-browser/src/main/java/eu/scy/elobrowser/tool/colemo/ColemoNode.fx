@@ -83,7 +83,7 @@ public class ColemoNode extends CustomNode {
 	}
 
 	public function createColemoWindow(colemoNode:ColemoNode):ScyWindow{
-        var colemoWindow = ScyWindow{
+        var colemoWindow = ColemoWindow{
 			color:Color.YELLOWGREEN
 			title:"Colemo-app"
 			scyContent: colemoNode
