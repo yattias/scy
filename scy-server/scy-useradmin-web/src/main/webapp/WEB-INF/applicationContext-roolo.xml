@@ -99,7 +99,11 @@
 		class="eu.scy.agents.roolo.elo.conceptawareness.ConceptMapSavedAgent" />
 
 	<bean name="similaritySearchAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent" />
+		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent">
+		<property name="localRepository" ref="localRepository" />
+		<property name="metadataTypeManager" ref="
+			localMetadataTypeManager" />
+	</bean>
 
 	<!--  Notify the elo browser of new elos -->
 	<bean name="notifiyEloBrowserAgent"
