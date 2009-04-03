@@ -53,28 +53,6 @@ public class ColemoNode extends CustomNode {
                translateY:5;
                spacing:5;
                content:[
-                  HBox{
-                     translateX:5;
-                     spacing:5;
-                     content:[
-                        CommandText{
-                           label:"New session"
-                           clickAction:function( e: MouseEvent ):Void {
-                              colemoActionWrapper.connect();
-										setScyWindowTitle();
-                           }
-                        }
-
-                        CommandText{
-                           label:"New Concept"
-                           clickAction:function( e: MouseEvent ):Void {
-                              colemoActionWrapper.createNewConcept();
-										setScyWindowTitle();
-                           }
-                        }
-
-                     ]
-                  }
                   SwingComponent.wrap(colemoPanel)
                ]
             }
