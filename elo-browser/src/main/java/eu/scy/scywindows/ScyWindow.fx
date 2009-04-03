@@ -211,6 +211,7 @@ public class ScyWindow extends CustomNode {
     };
     public var allowRotate = true;
     public var allowResize = true;
+    public var allowDragging = true;
     public var allowClose = true;
     public var allowMinimize = true;
     public var closeIsHide = false;
@@ -1136,10 +1137,14 @@ public class ScyWindow extends CustomNode {
 
 			]
 			onMousePressed: function( e: MouseEvent ):Void {
-				startDragging(e);
+             if (allowDragging) {
+                startDragging(e);
+             }
 			}
 			onMouseDragged: function( e: MouseEvent ):Void {
+			if (allowDragging) {
 				doDrag(e);
+             }
 			}
 		};;
 	}
