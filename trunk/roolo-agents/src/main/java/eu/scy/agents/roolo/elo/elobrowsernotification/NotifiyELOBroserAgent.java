@@ -22,7 +22,13 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 
 	@Override
 	public void processElo(T elo) {
+		if (elo == null) {
+			return;
+		}
 		INotification notification = new Notification();
+		if (elo.getUri() == null) {
+			return;
+		}
 		notification.addProperty("eloUri", elo.getUri().toString());
 		notification.addProperty("target", "elobrowser");
 		sender.send("roolo", "roolo", notification);
