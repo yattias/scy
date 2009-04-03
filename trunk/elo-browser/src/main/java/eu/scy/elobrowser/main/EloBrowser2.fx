@@ -20,6 +20,7 @@ import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.main.SCYLogin;
 import eu.scy.elobrowser.missionmap.MissionMapWindow;
 import eu.scy.elobrowser.notification.GrowlFX;
+import eu.scy.elobrowser.notification.EloSavedNotificationCatcher;
 import eu.scy.elobrowser.properties.PropertiesWindow;
 import eu.scy.elobrowser.search.SearchWindow;
 import eu.scy.elobrowser.tbi_hack.ActiveAnchorTransferer;
@@ -30,8 +31,6 @@ import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.DrawingToolScyWindowContentFactory;
-import eu.scy.elobrowser.tool.colemo.ColemoScyWindowContentFactory;
-import eu.scy.elobrowser.tool.textpad.TextpadScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.DummyScyWindowContentFactory;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentCreator;
 import eu.scy.elobrowser.tool.missionmap.Anchor;
@@ -41,6 +40,7 @@ import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestNode;
 import eu.scy.elobrowser.tool.simquest.SimQuestScyWindowContentFactory;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
+import eu.scy.elobrowser.tool.textpad.TextpadScyWindowContentFactory;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import eu.scy.scywindows.ScyWindowControl;
@@ -530,6 +530,10 @@ scyWindowControl = ScyWindowControl{
 };
 missionMap.scyWindowControl=scyWindowControl;
 activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
+var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
+    eloSavedAction : scyWindowControl.newEloSaved;
+}
+
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
 scyWindowControl.positionWindows();
