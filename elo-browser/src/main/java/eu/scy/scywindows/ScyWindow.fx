@@ -566,6 +566,10 @@ public class ScyWindow extends CustomNode {
 		height =Math.max(minimumHeight,originalH + difH);
 		translateX = originalX - difX;
 		translateY = originalY - difY;
+        for(edge in edges) {
+            edge.repaint();
+        } 
+        
 //		var newSceneTopLeft = localToScene(0,0);
 //		System.out.println("resized {title}, angle: {rotate}, difW: {difW}, difH: {difH}, difX: {difX}, difY: {difY}, dtlX:{sceneTopLeft.x-newSceneTopLeft.x}, dtlY:{sceneTopLeft.y-newSceneTopLeft.y}");
 
