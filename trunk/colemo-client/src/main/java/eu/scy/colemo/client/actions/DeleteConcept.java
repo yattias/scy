@@ -4,6 +4,7 @@ import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.client.SelectionController;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 public class DeleteConcept extends BaseAction{
     public DeleteConcept(String name) {
         super(name);
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("delete.png")));
     }
 
     public Class getOperateson() {
