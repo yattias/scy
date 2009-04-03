@@ -33,7 +33,7 @@ public class EloSavedNotificationCatcher extends INotificationCallback{
         if (target=="elobrowser"){
             var savedEloUri = notification.getProperty("eloUri");
             if (savedEloUri!=null){
-                println("received a notification of elo saved uri: {savedEloUri}")
+                println("received a notification of elo saved uri: {savedEloUri}");
                 eloUri = new URI(savedEloUri);
                 if (eloSavedAction!=null){
                      FX.deferAction(function() :Void {
