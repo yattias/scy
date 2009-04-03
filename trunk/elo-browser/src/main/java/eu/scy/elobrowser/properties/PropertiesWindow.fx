@@ -6,6 +6,7 @@
 
 package eu.scy.elobrowser.properties;
 
+import eu.scy.elobrowser.awareness.contact.Contact;
 import java.lang.Object;
 import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
@@ -13,7 +14,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
@@ -21,6 +26,9 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -29,8 +37,8 @@ import javafx.stage.Stage;
 
 public class PropertiesWindow extends CustomNode{
 
-    public var content:Node;
-
+//    public var content:Node;
+    public var user:Contact;
     public var width:Number;
     public var height:Number;
 
@@ -38,6 +46,57 @@ public class PropertiesWindow extends CustomNode{
     public var offset: Number = 10;
 
     var lastClick: Long;   //For the doubleClickListener
+
+    public var imageSize: Number = 64;
+
+    public def image = ImageView{
+//        effect: DropShadow{
+//            color: Color.BLACK;
+//            radius: 10;
+//        };
+        translateY:-15;
+        image: Image{
+
+            width: 64;
+            height: 64;
+            preserveRatio: false;
+            url: "{__DIR__}{user.imageURL}";
+           
+        };
+        cache: true;
+    };
+
+    public var userDataView: HBox = HBox{
+            translateX: 10;
+            translateY: 25;
+            content: [image,
+            VBox{content: [Text{
+                content:"Your Name: ";
+                font:Font.font("",FontWeight.BOLD,12);
+            }, Text{
+                content:"Your State: ";
+                font:Font.font("",FontWeight.BOLD,12);
+            }, Text{
+                content:"Current Mission: ";
+                font:Font.font("",FontWeight.BOLD,12);
+            }, Text{
+                content:"Progress: ";
+                font:Font.font("",FontWeight.BOLD,12);
+            }]}, VBox{content: [Text{
+                content:"{user.name}";
+                font:Font.font("",FontWeight.REGULAR,12);
+            }, Text{
+                content:"{user.onlineState}";
+                font:Font.font("",FontWeight.REGULAR,12);
+            }, Text{
+                content:"{user.currentMission}";
+                font:Font.font("",FontWeight.REGULAR,12);
+            }, Text{
+                content:"{user.progress*100}%";
+                font:Font.font("",FontWeight.REGULAR,12);
+            }]}
+                ]
+    }
 
     init{
 //        visible = false;
@@ -56,9 +115,9 @@ public class PropertiesWindow extends CustomNode{
 //                keyFrames: [at (0.3s){contact.x => goalX tween SimpleInterpolator.LINEAR; },
 //                at (0.3s){contact.y => goalY tween SimpleInterpolator.LINEAR}];
 //            }.play();
-           
+
         }
-    
+
 
     public function frameResize():Void{
 //        Timeline{
@@ -225,11 +284,13 @@ public class PropertiesWindow extends CustomNode{
 
     };
 
+
+
     override public function create():
     Node{
         actualizePositions();
         return Group{
-            content: bind [frame,frameborder,content];
+            content: bind [frame,frameborder,userDataView];
         };
     }
 }

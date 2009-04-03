@@ -322,13 +322,17 @@ def contactWindow = ContactWindow{
 };
 
 def propertiesWindow: PropertiesWindow = PropertiesWindow{
-    width:200;
-    height:60;
+    width:280;
+    height:80;
     translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
     translateY : bind contactWindow.translateY;
-    //TODO insert content
-//    content:
-}
+    user:Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Giemza.png";
+            name: "Adam";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.78;};
+    }
 
 def missionMapWindow: MissionMapWindow = MissionMapWindow{
     width:160;
@@ -389,16 +393,16 @@ var loginGroup = SCYLogin {
 }
 
 function getContacts():ContactFrame[]{
-    def contact1 = ContactFrame{
-        size: WindowSize.NORMAL;
-        contact: Contact{
-            currentMission: "Testmission";
-            imageURL: "img/Giemza.png";
-            name: "Adam";
-            onlineState: OnlineState.ONLINE;
-            progress: 0.78;
-        };
-    };
+//    def contact1 = ContactFrame{
+//        size: WindowSize.NORMAL;
+//        contact: Contact{
+//            currentMission: "Testmission";
+//            imageURL: "img/Giemza.png";
+//            name: "Adam";
+//            onlineState: OnlineState.ONLINE;
+//            progress: 0.78;
+//        };
+//    };
 
     def contact2 = ContactFrame{
         size: WindowSize.NORMAL;
@@ -470,7 +474,8 @@ function getContacts():ContactFrame[]{
         };
     }
 
-    return ([contact1,contact2,contact4,contact5, contact6] as ContactFrame[]);
+//    return ([contact1,contact2,contact4,contact5, contact6] as ContactFrame[]);
+    return ([contact2,contact4,contact5, contact6] as ContactFrame[]);
 };
 
 
