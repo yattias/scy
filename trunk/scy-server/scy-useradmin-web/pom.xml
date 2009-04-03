@@ -300,6 +300,12 @@
             <groupId>net.sf.sail</groupId>
             <artifactId>sail-webapp-all</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>elo-impl</artifactId>
+            		<groupId>elo-impl</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -492,25 +498,25 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-        	<groupId>roolo-api</groupId>
+        	<groupId>org.roolo</groupId>
         	<artifactId>roolo-api</artifactId>
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>roolo-mock</groupId>
+        	<groupId>org.roolo</groupId>
         	<artifactId>roolo-mock</artifactId>
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>elo-api</groupId>
+        	<groupId>org.roolo</groupId>
         	<artifactId>elo-api</artifactId>
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>elo-impl</groupId>
+        	<groupId>org.roolo</groupId>
         	<artifactId>elo-impl</artifactId>
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
