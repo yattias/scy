@@ -1,15 +1,13 @@
 package eu.scy.colemo.client;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import com.sun.org.apache.xerces.internal.dom.DocumentImpl;
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
 import java.util.Iterator;
 import java.io.*;
 
 import eu.scy.colemo.server.uml.UmlLink;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.XMLStreamException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,8 +20,11 @@ public class ConceptMapExporter {
 
     private static ConceptMapExporter defaultInstance;
 
-    private ConceptMapExporter() {
+    private XMLStreamWriter xtw;
+    private StringWriter sw;
 
+    private ConceptMapExporter() {
+        initialize();
     }
 
     public static ConceptMapExporter getDefaultInstance() {
@@ -31,77 +32,105 @@ public class ConceptMapExporter {
         return defaultInstance;
     }
 
+    public void initialize() {
+        try {
+            System.out.println("INITIALIZING....");
+            sw = new StringWriter();
+            XMLOutputFactory xof = XMLOutputFactory.newInstance();
+            xtw = xof.createXMLStreamWriter(sw);
+        } catch (XMLStreamException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
     public String createXML() {
-        Document xmldoc = createXMLDocument();
-        Element root = createRootElement(xmldoc);
-        xmldoc.appendChild(root);
+        try {
 
-        Iterator nodeIterator = getNodeIterator();
-        parseNodes(xmldoc, root, nodeIterator);
+            createDocumentStart();
 
-        Iterator linkIterator = getLinkIterator();
-        parseLinks(xmldoc, root, linkIterator);
+            Iterator nodeIterator = getNodeIterator();
+            parseNodes(nodeIterator);
 
-        return createXMLString(xmldoc);
+            Iterator linkIterator = getLinkIterator();
+            parseLinks(linkIterator);
+
+
+            createDocumentEnd();
+
+        } catch (XMLStreamException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+        return sw.toString();
+
+
+        //return createXMLString(xmldoc);
     }
 
-    public Element createRootElement(Document xmldoc) {
-        Element root = xmldoc.createElement("conceptmap");
-        return root;
+    private void createDocumentEnd() throws XMLStreamException {
+        System.out.println("CREATING DOCUMNENT END!");
+        xtw.writeEndElement();
+        xtw.writeEndDocument();
+        xtw.flush();
+        xtw.close();
     }
 
-    public void parseLinks(Document xmldoc, Element root, Iterator linkIterator) {
+    private void createDocumentStart() throws XMLStreamException {
+        System.out.println("CREATING DOCUMENT START!");
+        xtw.writeStartDocument();
+        xtw.writeStartElement("conceptmap");
+    }
 
-        Element links = createElement(xmldoc, "links");
-        root.appendChild(links);
+
+    public String createXML(Iterator nodes, Iterator links) {
+        try {
+            createDocumentStart();
+
+            parseNodes(nodes);
+            parseLinks(links);
+
+            createDocumentEnd();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+
+        return sw.toString();
+    }
+
+
+    public void parseLinks(Iterator linkIterator) throws XMLStreamException {
+        xtw.writeStartElement("links");
+
         while (linkIterator.hasNext()) {
             ConceptLink conceptLink = (ConceptLink) linkIterator.next();
             UmlLink link = (UmlLink) conceptLink.getModel();
             System.out.println("ADDING: " + link.getTo());
-            Element linkElement = createElement(xmldoc, "link");
-            linkElement.setAttribute("id", link.getId());
-            linkElement.setAttribute("to", link.getTo());
-            linkElement.setAttribute("from", link.getFrom());
-            linkElement.setAttribute("label", link.getName());
-            links.appendChild(linkElement);
+            xtw.writeStartElement("link");
+            if(link.getId() != null) xtw.writeAttribute("id", link.getId());
+            xtw.writeAttribute("to", link.getTo());
+            xtw.writeAttribute("from", link.getFrom());
+            xtw.writeAttribute("label", link.getName());
         }
+        xtw.writeEndElement();
     }
 
-    public void parseNodes(Document xmldoc, Element root, Iterator nodeIteratget) {
-        Element nodes = createElement(xmldoc, "nodes");
-        root.appendChild(nodes);
-
-
+    public void parseNodes(Iterator nodeIteratget) throws XMLStreamException {
+        xtw.writeStartElement("nodes");
         while (nodeIteratget.hasNext()) {
+            xtw.writeStartElement("node");
             ConceptNode conceptNode = (ConceptNode) nodeIteratget.next();
-            System.out.println("ADDING: " + conceptNode.getModel().getName());
-            Element conceptNodeElement = createElement(xmldoc, "node");
-            conceptNodeElement.setAttribute("id", conceptNode.getModel().getId());
-            conceptNodeElement.setAttribute("name", conceptNode.getModel().getName());
-            conceptNodeElement.setAttribute("xpos", String.valueOf(conceptNode.getX()));
-            conceptNodeElement.setAttribute("ypos", String.valueOf(conceptNode.getY()));
-            System.out.println("Created element");
-            nodes.appendChild(conceptNodeElement);
-            System.out.println("ADDED NODE");
+            xtw.writeAttribute("id", conceptNode.getModel().getId());
+            xtw.writeAttribute("name", conceptNode.getModel().getName());
+            xtw.writeAttribute("xpos", String.valueOf(conceptNode.getX()));
+            xtw.writeAttribute("ypos", String.valueOf(conceptNode.getY()));
+            xtw.writeEndElement();
         }
+        xtw.writeEndElement();
     }
 
-    public Document createXMLDocument() {
-        Document xmldoc = new DocumentImpl();
-        return xmldoc;
-    }
 
-    private Element createElement(Document xmlDoc, String id) {
-        System.out.println("Creating element : " + id);
-        try {
-            return xmlDoc.createElement(String.valueOf(id));
-        } catch(Exception e)  {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String createXMLString(Document xmlDocument) {
+    /*public String createXMLString(Document xmlDocument) {
         try {
             return createXMLStringFromDocument(xmlDocument);
         } catch (IOException e) {
@@ -109,7 +138,8 @@ public class ConceptMapExporter {
         }
         return null;
     }
-
+    */
+    /*
     private String createXMLStringFromDocument(Document xmlDocument) throws IOException {
         OutputFormat of = new OutputFormat();
         of.setIndent(1);
@@ -120,7 +150,7 @@ public class ConceptMapExporter {
         XMLSerializer serializer = new XMLSerializer(sw, of);
         serializer.asDOMSerializer();
         serializer.serialize(xmlDocument.getDocumentElement());
-        String xml= sw.toString();
+        String xml = sw.toString();
 
         xml = xml.substring(xml.indexOf("<conceptmap>"), xml.length());
         System.out.println(xml);
@@ -157,7 +187,7 @@ public class ConceptMapExporter {
 
         return outputFile;
     }
-
+     */
 
     public Iterator getNodeIterator() {
         return ApplicationController.getDefaultInstance().getGraphicsDiagram().getNodes().iterator();
