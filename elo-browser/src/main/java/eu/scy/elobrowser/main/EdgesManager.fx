@@ -34,8 +34,8 @@ public class EdgesManager extends CustomNode {
             caption: text;
             node1: window1;
             node2: window2;
-//            visible: bind (newEdge.node1.visible and newEdge.node2.visible);
-            visible: bind (contactWindow.visible and contactWindow.opacity == 1.0);
+            visible: bind (newEdge.node1.visible and newEdge.node2.visible and newEdge.node1.opacity == 1.0 and newEdge.node2.opacity == 1.0);
+//            visible: bind (contactWindow.visible and contactWindow.opacity == 1.0);
         }
         System.out.println("newEdge.node1.visible: {newEdge.node1.visible}");
         System.out.println("newEdge.node2.visible: {newEdge.node2.visible}");
