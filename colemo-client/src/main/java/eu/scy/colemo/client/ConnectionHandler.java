@@ -16,6 +16,8 @@ public interface ConnectionHandler {
 
     void sendObject(Object object);
 
+    void deleteObject(Object object);
+
     void initialize() throws Exception;
 
     void cleanUp();

@@ -67,7 +67,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
 
     public void sendObject(Object object) {
         try {
-            System.out.println("Sending object:" + object);
+            log.info("===================> Sending object:" + object);
             MessageTranslator translator = new MessageTranslator();
             Tuple sendMe = null;
             if (object instanceof AddClass) {
@@ -96,6 +96,11 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+
+    @Override
+    public void deleteObject(Object object) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
@@ -144,14 +149,13 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
     }
 
     public void call(Command command, int i, Tuple tuple, Tuple tuple1) {
-        System.out.println("i: " + i);
         if (tuple != null && tuple.getFields().length == conceptTemplate.getFields().length) {
-            System.out.println("UPDATING CONCEPT FROM SERVER!");
+            log.debug("UPDATING CONCEPT FROM SERVER!");
             MessageTranslator ot = new MessageTranslator();
 
             UmlClass umlClass = null;
 
-            System.out.println("CALL: Before add class");
+            log.debug("CALL: Before add class");
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
 
             processNode(node);
@@ -182,7 +186,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
                 ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().updateClass(moveClass.getUmlClass());
             } else if(node instanceof UmlLink) {
                 UmlLink link = (UmlLink) node;
-                log.info("*** **** *** UPDATING LINK!!! RETURNED FROM SERVER!");
+                log.info("*** **** *** UPDATING LINK!!! RETURNED FROM SERVER! - LINK NAME: " + link.getName());
                 ApplicationController.getDefaultInstance().getColemoPanel().getGraphicsDiagram().addLink(link);
 
             } else if(node instanceof UmlClass) {

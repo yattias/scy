@@ -33,6 +33,16 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 	private int activeConnectionPoint = CONNECTION_AREA_NONE;
 	private HashMap<Integer, Rectangle> connectionAreas;
 
+	// directions - must be able to get the opposite direction by multiplying with -1
+	public static final int NORTH = 2;
+	public static final int WEST = 1;
+	public static final int EAST = -1;
+	public static final int SOUTH = -2;
+	public static final int NORTHWEST = 3;
+	public static final int NORTHEAST = 4;
+	public static final int SOUTHWEST = -4;
+	public static final int SOUTHEAST = -3;
+
 	private JTextField nameField;
 
 	private boolean isSelected = false;
@@ -304,6 +314,7 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 		NameFieldListener(ConceptNode n) {
 			node = n;
 		}
+
 
 		public void focusGained(FocusEvent e) {
 		}

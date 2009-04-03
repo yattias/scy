@@ -1,7 +1,6 @@
 package eu.scy.colemo.client;
 
 import eu.scy.colemo.server.uml.UmlLink;
-import eu.scy.colemo.client.figures.LabelArrow;
 
 import java.awt.*;
 import java.awt.event.FocusListener;
@@ -11,11 +10,13 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 
 	private ConceptNode fromNode;
 	private ConceptNode toNode;
+	private boolean bidirectional = false;
 
-	private UmlLink model;
+	private Color color;
+	//private UmlLink model;
 
 	public ConceptLink(UmlLink link) {
-		model = link;
+		setModel(link);
 
 		setOpaque(false);
 		setBackground(Color.cyan);
@@ -51,15 +52,15 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 		int dir = findDirection(fromNode.getCenterPoint(), toNode.getCenterPoint());
 		setFrom(fromNode.getLinkConnectionPoint(dir));
 		setTo(toNode.getLinkConnectionPoint(-dir));
-		setLabel(model.getName());
+		getTextField().setText(((UmlLink)getModel()).getName());
 		repaint();
 	}
-	public UmlLink getModel() {
+	/*public UmlLink getModel() {
 		return model;
 	}
 
 	public void setModel(UmlLink model) {
 		this.model = model;
 		update();
-	}
+	}*/
 }
