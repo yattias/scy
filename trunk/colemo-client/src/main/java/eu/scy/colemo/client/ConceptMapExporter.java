@@ -33,13 +33,45 @@ public class ConceptMapExporter {
 
     public String createXML() {
         Document xmldoc = createXMLDocument();
-        Element root = xmldoc.createElement("conceptmap");
+        Element root = createRootElement(xmldoc);
         xmldoc.appendChild(root);
-        Element nodes = createElement(xmldoc, "nodes");
-        root.appendChild(nodes);
+
+        Iterator nodeIterator = getNodeIterator();
+        parseNodes(xmldoc, root, nodeIterator);
+
+        Iterator linkIterator = getLinkIterator();
+        parseLinks(xmldoc, root, linkIterator);
+
+        return createXMLString(xmldoc);
+    }
+
+    public Element createRootElement(Document xmldoc) {
+        Element root = xmldoc.createElement("conceptmap");
+        return root;
+    }
+
+    public void parseLinks(Document xmldoc, Element root, Iterator linkIterator) {
+
         Element links = createElement(xmldoc, "links");
         root.appendChild(links);
-        Iterator nodeIteratget = ApplicationController.getDefaultInstance().getGraphicsDiagram().getNodes().iterator();
+        while (linkIterator.hasNext()) {
+            ConceptLink conceptLink = (ConceptLink) linkIterator.next();
+            UmlLink link = (UmlLink) conceptLink.getModel();
+            System.out.println("ADDING: " + link.getTo());
+            Element linkElement = createElement(xmldoc, "link");
+            linkElement.setAttribute("id", link.getId());
+            linkElement.setAttribute("to", link.getTo());
+            linkElement.setAttribute("from", link.getFrom());
+            linkElement.setAttribute("label", link.getName());
+            links.appendChild(linkElement);
+        }
+    }
+
+    public void parseNodes(Document xmldoc, Element root, Iterator nodeIteratget) {
+        Element nodes = createElement(xmldoc, "nodes");
+        root.appendChild(nodes);
+
+
         while (nodeIteratget.hasNext()) {
             ConceptNode conceptNode = (ConceptNode) nodeIteratget.next();
             System.out.println("ADDING: " + conceptNode.getModel().getName());
@@ -52,24 +84,9 @@ public class ConceptMapExporter {
             nodes.appendChild(conceptNodeElement);
             System.out.println("ADDED NODE");
         }
-        
-        Iterator linkIterator = ApplicationController.getDefaultInstance().getGraphicsDiagram().getLinks().iterator();
-        while (linkIterator.hasNext()) {
-            ConceptLink conceptLink = (ConceptLink) linkIterator.next();
-            UmlLink link = (UmlLink) conceptLink.getModel();
-            System.out.println("ADDING: " + link.getTo());
-            Element linkElement = createElement(xmldoc, "link");
-            linkElement.setAttribute("id", link.getId());
-            linkElement.setAttribute("to", link.getTo());
-            linkElement.setAttribute("from", link.getFrom());
-            linkElement.setAttribute("label", link.getName());
-            links.appendChild(linkElement);
-        }
-
-        return createXMLString(xmldoc);
     }
 
-    private Document createXMLDocument() {
+    public Document createXMLDocument() {
         Document xmldoc = new DocumentImpl();
         return xmldoc;
     }
@@ -84,7 +101,7 @@ public class ConceptMapExporter {
         return null;
     }
 
-    private String createXMLString(Document xmlDocument) {
+    public String createXMLString(Document xmlDocument) {
         try {
             return createXMLStringFromDocument(xmlDocument);
         } catch (IOException e) {
@@ -94,7 +111,7 @@ public class ConceptMapExporter {
     }
 
     private String createXMLStringFromDocument(Document xmlDocument) throws IOException {
-        OutputFormat of = new OutputFormat("XML", "ISO-8859-1", true);
+        OutputFormat of = new OutputFormat();
         of.setIndent(1);
         of.setIndenting(true);
         //of.setDoctype(null, "projectConfiguration.dtd");
@@ -103,7 +120,11 @@ public class ConceptMapExporter {
         XMLSerializer serializer = new XMLSerializer(sw, of);
         serializer.asDOMSerializer();
         serializer.serialize(xmlDocument.getDocumentElement());
-        return sw.toString();
+        String xml= sw.toString();
+
+        xml = xml.substring(xml.indexOf("<conceptmap>"), xml.length());
+        System.out.println(xml);
+        return xml;
     }
 
     private File createXMLFile(Document xmldoc) {
@@ -138,4 +159,11 @@ public class ConceptMapExporter {
     }
 
 
+    public Iterator getNodeIterator() {
+        return ApplicationController.getDefaultInstance().getGraphicsDiagram().getNodes().iterator();
+    }
+
+    public Iterator getLinkIterator() {
+        return ApplicationController.getDefaultInstance().getGraphicsDiagram().getLinks().iterator();
+    }
 }

@@ -1,6 +1,6 @@
 package eu.scy.colemo.client;
 
-import javax.swing.JApplet;
+import javax.swing.*;
 
 import eu.scy.colemo.client.scyconnectionhandler.SCYConnectionHandler;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -14,6 +14,7 @@ import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.api.*;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.api.IRepository;
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,6 +24,8 @@ import roolo.api.IRepository;
  * To change this template use File | Settings | File Templates.
  */
 public class ApplicationController {
+
+    private static final Logger log = Logger.getLogger(ApplicationController.class.getName());
 
     private static ApplicationController defaultInstance;
 
@@ -39,13 +42,10 @@ public class ApplicationController {
     private IMetadataTypeManager metadataTypeManager;
     private IRepository repository;
 
-    public static String TOOL_NAME = "SCYMapper"; 
+    public static String TOOL_NAME = "SCYMapper";
 
 
-    
-
-
-    public ConnectionHandler getConnectionHandler() {              
+    public ConnectionHandler getConnectionHandler() {
         return connectionHandler;
     }
 
@@ -53,12 +53,11 @@ public class ApplicationController {
         this.connectionHandler = connectionHandler;
     }
 
-    
+
     public static ApplicationController getDefaultInstance() {
-        if(defaultInstance == null) defaultInstance = new ApplicationController();
+        if (defaultInstance == null) defaultInstance = new ApplicationController();
         return defaultInstance;
     }
-
 
 
     private ApplicationController() {
@@ -108,30 +107,40 @@ public class ApplicationController {
     }
 
     public void saveELO() {
-        ConceptMapExporter.getDefaultInstance().createXML();
-        if(getEloFactory() != null) {
-            IELO elo = getEloFactory().createELO();
-            elo.setDefaultLanguage(Locale.ENGLISH);
-            elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId())).setValue(new Long(System.currentTimeMillis()));
+        String name = JOptionPane.showInputDialog(this, "Please type name of ELO :");
+        if (name != null) {
 
 
-            try {
-                elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId())).setValue(new URI("roolo://somewhere/myMission.mission"));
-                elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId())).setValue(new Contribute("my vcard", System.currentTimeMillis()));
-                elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId())).setValue("scy/conceptMap");
-            } catch (URISyntaxException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            ConceptMapExporter.getDefaultInstance().createXML();
+            if (getEloFactory() != null) {
+                IELO elo = getEloFactory().createELO();
+                elo.setDefaultLanguage(Locale.ENGLISH);
+                elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId())).setValue(new Long(System.currentTimeMillis()));
+
+
+                try {
+                    elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId())).setValue(name);
+                    elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId())).setValue(new URI("roolo://somewhere/myMission.mission"));
+                    elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId())).setValue(new Contribute("my vcard", System.currentTimeMillis()));
+                    elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId())).setValue("scy/scymapping");
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+                IContent content = eloFactory.createContent();
+                content.setXmlString(ConceptMapExporter.getDefaultInstance().createXML());
+                //content.
+                elo.setContent(content);
+                IMetadata<IMetadataKey> resultMetadata = getRepository().addELO(elo);
+                eloFactory.updateELOWithResult(elo, resultMetadata);
+
             }
-
-            IContent content = eloFactory.createContent();
-            content.setXmlString(ConceptMapExporter.getDefaultInstance().createXML());
-            //content.
-            elo.setContent(content);
-            IMetadata<IMetadataKey> resultMetadata = getRepository().addELO(elo);
-            eloFactory.updateELOWithResult(elo, resultMetadata);
-
         }
-        
+    }
+
+    public void loadELO(URI eloUri) {
+        log.info("Loading elo: " + eloUri);
+
     }
 
     public IELOFactory getEloFactory() {
