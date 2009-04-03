@@ -36,18 +36,13 @@ public class ColemoNode extends CustomNode {
 
         
    public function loadElo(uri:URI){
-      colemoActionWrapper.loadElo(uri);
-		setScyWindowTitle();
+       colemoActionWrapper.loadElo(uri);
+       setScyWindowTitle();
    }
 
 	function setScyWindowTitle(){
 		if (scyWindow == null)  return;
-		scyWindow.title = "Colemo-window";
-		var eloUri = null;//colemoActionWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+		scyWindow.title = "SCYMapper";
 	}
 
    public override function create(): Node {
