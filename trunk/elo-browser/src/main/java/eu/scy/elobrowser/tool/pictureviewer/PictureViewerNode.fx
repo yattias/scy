@@ -187,7 +187,7 @@ public function createPictureViewerNode(roolo:Roolo, eloUri: URI):PictureViewerN
     eloPictureActionWrapper.setRepository(roolo.repository);
     eloPictureActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
     eloPictureActionWrapper.setEloFactory(roolo.eloFactory);
-    if (eloUri != null) {
+    if (eloUri == null) {
         eloPictureActionWrapper.loadPictureAction();
     } else {
         eloPictureActionWrapper.loadElo(eloUri);
