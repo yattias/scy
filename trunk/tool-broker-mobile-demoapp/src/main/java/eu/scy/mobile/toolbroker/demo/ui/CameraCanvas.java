@@ -46,21 +46,23 @@ import java.io.IOException;
 public class CameraCanvas extends Canvas {
 	private VideoControl videoControl;
 	public static final Command CMD_CAPTURE = new Command("Capture", Command.OK, 0);
+	private Player mediaPlayer;
 
 	public CameraCanvas() {
 
 		try {
-			Player mPlayer = Manager.createPlayer("capture://video");
-			mPlayer.realize();
+			mediaPlayer = Manager.createPlayer("capture://video");
+			mediaPlayer.realize();
+			mediaPlayer.prefetch();
 
-			videoControl = (VideoControl) mPlayer.getControl("VideoControl");
+			videoControl = (VideoControl) mediaPlayer.getControl("VideoControl");
 			int width = getWidth();
 			int height = getHeight();
 
 			videoControl.initDisplayMode(VideoControl.USE_DIRECT_VIDEO, this);
 			videoControl.setDisplayLocation(2, 2);
 			videoControl.setDisplaySize(width - 4, height - 4);
-			mPlayer.start();
+			mediaPlayer.start();
 			videoControl.setVisible(true);
 
 		} catch (IOException e) {
@@ -108,6 +110,15 @@ public class CameraCanvas extends Canvas {
 			}
 			catch (MediaException me) {
 				me.printStackTrace();
+			}
+			finally {
+				try {
+					mediaPlayer.stop();
+				} catch (MediaException e) {
+					e.printStackTrace();
+				}
+				mediaPlayer.deallocate();
+				mediaPlayer.close();
 			}
 		}
 
