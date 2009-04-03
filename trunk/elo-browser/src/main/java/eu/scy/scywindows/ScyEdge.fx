@@ -33,7 +33,11 @@ public class ScyEdge extends Line{
 //    Calculating atan costs performance
     public var gradientAngle:Number;
 
-
+    //stupid workarround:
+    var test1 = bind node1.translateX on replace { repaint() };
+    var test2 = bind node1.translateY on replace { repaint() };
+    var test3 = bind node2.translateX on replace { repaint() };
+    var test4 = bind node2.translateY on replace { repaint() };
     postinit{
         repaint();
     }
@@ -164,6 +168,7 @@ public class ScyEdge extends Line{
 //            }
 //
 //}
+// OLD WORKING CODE IS BELOW:
         
         if (startX - endX !=0){
         gradient = (startY - endY)/(startX - endX);

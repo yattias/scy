@@ -53,7 +53,7 @@ public class ColemoActionWrapper {
     public void setRepository(IRepository repository) {
         this.repository = repository;
         
-        ApplicationController.getDefaultInstance().setRepository(repository);
+        //ApplicationController.getDefaultInstance().setRepository(repository);
 
     }
 
@@ -63,7 +63,7 @@ public class ColemoActionWrapper {
 
     public void setEloFactory(IELOFactory eloFactory) {
         this.eloFactory = eloFactory;
-        ApplicationController.getDefaultInstance().setEloFactory(eloFactory);
+        //ApplicationController.getDefaultInstance().setEloFactory(eloFactory);
     }
 
     public IMetadataTypeManager getMetadataTypeManager() {
@@ -72,7 +72,7 @@ public class ColemoActionWrapper {
 
     public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
         this.metadataTypeManager = metadataTypeManager;
-        ApplicationController.getDefaultInstance().setMetadataTypeManager(metadataTypeManager);
+        //ApplicationController.getDefaultInstance().setMetadataTypeManager(metadataTypeManager);
     }
 
     

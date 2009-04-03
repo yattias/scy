@@ -349,13 +349,17 @@ insert missionMapWindow into scyDesktop.desktop.content;
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
+def edgesManager: EdgesManager = EdgesManager {contactWindow: contactWindow;
+};
+
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
         propertiesWindow,
         searchWindow,
         missionMapWindow,
-        contactWindow
+        contactWindow,
+        edgesManager
        // resultView
         //missionMap
     ]
@@ -457,9 +461,7 @@ function getContacts():ContactFrame[]{
 };
 
 
-def edgesManager: EdgesManager = EdgesManager {contactWindow: contactWindow;
-}; 
- 
+
 stage = Stage {
 
 	title: "SCY Lab (FX)"
@@ -487,8 +489,9 @@ stage = Stage {
 		content: [
 			Group{
 				content: [
-                    edgesManager
+                    
                     loginGroup
+                    edgesManager,
                     propertiesWindow
                     searchWindow
                     missionMapWindow

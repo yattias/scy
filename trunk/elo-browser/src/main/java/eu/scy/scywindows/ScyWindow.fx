@@ -536,9 +536,10 @@ public class ScyWindow extends CustomNode {
 		translateX = originalX + difX;
 		translateY = originalY + difY;
         //		System.out.println("dragged {title}, difX: {difX}, difY: {difY}, maxDifX:{maxDifX}, maxDifY: {maxDifY}");
+        /* done by a hack in the edges now
         for(edge in edges) {
             edge.repaint();
-        }
+        } */
     }
 
 	function doResize(e: MouseEvent) {
