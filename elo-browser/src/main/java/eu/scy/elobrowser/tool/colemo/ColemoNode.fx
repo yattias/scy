@@ -33,6 +33,11 @@ public class ColemoNode extends CustomNode {
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle()};
 
+        
+   public function loadElo(uri:URI){
+      colemoActionWrapper.loadElo(uri);
+		setScyWindowTitle();
+   }
 
 
 	function setScyWindowTitle(){
