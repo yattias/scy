@@ -15,8 +15,8 @@ import eu.scy.elobrowser.tool.missionmap.MissionModel;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import eu.scy.scywindows.ScyWindowStyler;
-import eu.scy.scywindows.window_positions.WindowPositionerCenter;
 import eu.scy.scywindows.WindowPositioner;
+import eu.scy.scywindows.window_positions.WindowPositionerCenterMinimized;
 import java.lang.Math;
 import java.net.URI;
 import javafx.scene.Node;
@@ -51,7 +51,7 @@ public class ScyWindowControl{
         activeAnchorChanged()
     };
     var activeAnchorWindow: ScyWindow;
-    var windowPositioner: WindowPositioner = WindowPositionerCenter{
+    var windowPositioner: WindowPositioner = WindowPositionerCenterMinimized{
         width: bind width;
         height: bind height;
 //        width: bind size.x;

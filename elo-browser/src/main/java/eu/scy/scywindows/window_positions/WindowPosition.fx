@@ -21,6 +21,7 @@ public class WindowPosition {
     public var y:Number;
     public var width:Number;
     public var height:Number;
+    public var minimized:Boolean;
     public var rectangle:Rectangle2D;
     public var intersection:Number;
     public var correctionCount:Integer;
@@ -33,6 +34,7 @@ public class WindowPosition {
         y = windowPosition.y;
         width = windowPosition.width;
         height = windowPosition.height;
+        minimized = windowPosition.minimized;
         rectangle = windowPosition.rectangle;
         intersection = windowPosition.intersection;
         correctionCount = windowPosition.correctionCount;
