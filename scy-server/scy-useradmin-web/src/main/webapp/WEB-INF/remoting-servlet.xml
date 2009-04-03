@@ -38,9 +38,9 @@
 
 	<!-- HTTP invoker exporter for the RoOLO extension manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-	<bean name="/sessionManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!--bean name="/sessionManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="sessionManager"/>
 		<property name="serviceInterface" value="eu.scy.sessionmanager.SessionManager"/>
-	</bean>
+	</bean-->
 
 </beans>
