@@ -25,6 +25,7 @@
 				<ref bean="authorKey"/>
               <ref bean="annotatesRelationKey"/>
               <ref bean="usesRelationKey"/>
+                <ref bean="descriptionKey"/>
 			  
 				<ref bean="testStringListKey"/>
 			</list>
