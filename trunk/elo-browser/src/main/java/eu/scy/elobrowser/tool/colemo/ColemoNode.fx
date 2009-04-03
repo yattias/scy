@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.net.URI;
 
 
 public class ColemoNode extends CustomNode {
@@ -38,7 +39,6 @@ public class ColemoNode extends CustomNode {
       colemoActionWrapper.loadElo(uri);
 		setScyWindowTitle();
    }
-
 
 	function setScyWindowTitle(){
 		if (scyWindow == null)  return;
