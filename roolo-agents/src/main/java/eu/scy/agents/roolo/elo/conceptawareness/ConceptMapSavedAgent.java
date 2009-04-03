@@ -25,7 +25,6 @@ import roolo.elo.api.metadata.MetadataValueCount;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.value.validators.StringValidator;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
@@ -74,7 +73,7 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		} catch (JDOMException e) {
-			e.printStackTrace();
+			System.err.println("could not parse xml");// e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -119,8 +118,4 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		}
 	}
 
-	@Override
-	protected void setToolBroker(ToolBrokerAPI<IMetadataKey> toolBroker) {
-		super.setToolBroker(toolBroker);
-	}
 }

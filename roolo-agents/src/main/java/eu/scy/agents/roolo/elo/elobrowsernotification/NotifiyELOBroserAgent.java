@@ -7,8 +7,6 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 import eu.scy.notification.Notification;
 import eu.scy.notification.NotificationSender;
 import eu.scy.notification.api.INotification;
-import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> implements ICommunicationAgent<K> {
@@ -16,8 +14,7 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 	private NotificationSender sender;
 
 	public NotifiyELOBroserAgent() {
-		sender = new NotificationSender("scy.collide.info", 2525,
-				"notifications");
+		sender = new NotificationSender();
 	}
 
 	@Override
@@ -34,10 +31,10 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 		sender.send("roolo", "roolo", notification);
 	}
 
-	@Override
-	public ToolBrokerAPI<K> getToolBrokerAPI() {
-		return new ToolBrokerImpl<K>();
-	}
+	// @Override
+	// public ToolBrokerAPI<K> getToolBrokerAPI() {
+	// return new ToolBrokerImpl<K>();
+	// }
 
 	@Override
 	public void run() {
