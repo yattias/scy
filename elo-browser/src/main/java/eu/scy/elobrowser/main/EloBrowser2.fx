@@ -381,6 +381,9 @@ def growl = GrowlFX {
     translateX: bind (stage.width / 2) - 200;
     translateY: bind stage.height - 120;
     opacity: 0;
+    roolo: roolo;
+    scyDesktop: scyDesktop;
+    scyWindowControl: scyWindowControl;
     //TODO Check this out, if initially false?
 //    visible: false;
 }
