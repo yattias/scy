@@ -1,20 +1,5 @@
 package eu.scy.webservices.mobileservice;
 
-import com.sun.xml.messaging.saaj.util.ByteInputStream;
-import eu.scy.webapp.services.roolo.RooloManager;
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.RooloMetadataKeys;
-import roolo.elo.metadata.keys.Contribute;
-
-import javax.imageio.ImageIO;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +8,26 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import roolo.elo.api.IContent;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.metadata.keys.Contribute;
+
+import com.sun.xml.messaging.saaj.util.ByteInputStream;
+
+import eu.scy.webapp.services.roolo.RooloManager;
+
 /**
- * Created by IntelliJ IDEA.
- * User: Henrik
- * Date: 24.mar.2009
- * Time: 10:45:45
+ * Created by IntelliJ IDEA. User: Henrik Date: 24.mar.2009 Time: 10:45:45
  */
 
 @WebService
@@ -47,7 +47,7 @@ public class RepositoryService {
 		me.setDescription(description);
 		me.setB64Image(b64);
 
-//		saveImage(me);
+		// saveImage(me);
 
 		return saveELO(me);
 	}
@@ -73,7 +73,7 @@ public class RepositoryService {
 	@WebMethod(action = "saveELO")
 	public String saveELO(@WebParam MobileELO elo) {
 		log.info("KICKING OFF WITH THIS FUNKY MOBILE ELO: " + elo);
-		IELO iElo = storeEloToRoolo(elo);
+		IELO<IMetadataKey> iElo = storeEloToRoolo(elo);
 		return "Your picture was successfully saved to: " + iElo.getUri();
 	}
 
@@ -97,9 +97,9 @@ public class RepositoryService {
 	}
 
 	@XmlTransient
-	private IELO storeEloToRoolo(MobileELO melo) {
+	private IELO<IMetadataKey> storeEloToRoolo(MobileELO melo) {
 		if (rooloManager.getEloFactory() != null) {
-			IELO elo = rooloManager.getEloFactory().createELO();
+			IELO<IMetadataKey> elo = rooloManager.getEloFactory().createELO();
 			elo.setDefaultLanguage(Locale.ENGLISH);
 			elo.getMetadata().getMetadataValueContainer(
 					rooloManager.getMetadataTypeManager().getMetadataKey(
@@ -128,21 +128,15 @@ public class RepositoryService {
 						rooloManager.getMetadataTypeManager().getMetadataKey(
 								RooloMetadataKeys.DESCRIPTION.getId()))
 						.setValue(melo.getDescription());
-			} catch (URISyntaxException e) {
-				log.severe(e.getMessage()); // To change body of catch statement
-											// use File | Settings | File
-											// Templates.
+				IContent content = rooloManager.getEloFactory().createContent();
+				content.setBytes(melo.getImage());
+				elo.setContent(content);
+				IMetadata<IMetadataKey> resultMetadata = rooloManager.getRepository().addELO(elo);
+				rooloManager.getEloFactory().updateELOWithResult(elo, resultMetadata);
+				return elo;
+			} catch (Exception e) {
+				log.severe(e.getMessage());
 			}
-
-			IContent content = rooloManager.getEloFactory().createContent();
-			content.setBytes(melo.getImage());
-			elo.setContent(content);
-			IMetadata<IMetadataKey> resultMetadata = rooloManager
-					.getRepository().addELO(elo);
-			rooloManager.getEloFactory().updateELOWithResult(elo,
-					resultMetadata);
-			return elo;
-
 		}
 		return null;
 	}
