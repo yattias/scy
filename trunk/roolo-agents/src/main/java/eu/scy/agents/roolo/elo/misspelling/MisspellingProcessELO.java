@@ -18,7 +18,7 @@ public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		}
 		try {
 			IContent content = elo.getContent();
-			if (content != null) {
+			if (content != null && content.getXmlString() != null) {
 				TupleSpace ts = getTupleSpace();
 				ts.write(new Tuple("misspellings", elo.getUri().toString(),
 						System.currentTimeMillis(), content.getXmlString()));
