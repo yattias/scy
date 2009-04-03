@@ -11,25 +11,24 @@ import eu.scy.agents.api.IPersistentStorage;
  * @author fschulz
  */
 public class AbstractAgent implements IAgent {
-    
-    private TupleSpace tupleSpace;
-    
-    public AbstractAgent() {
-        try {
-            tupleSpace = new TupleSpace();
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Override
-    public IPersistentStorage getPersistentStorage() {
-        return new PersistentStorage();
-    }
-    
-    @Override
-    public TupleSpace getTupleSpace() {
-        return tupleSpace;
-    }
-    
+
+	private TupleSpace tupleSpace;
+
+	public AbstractAgent() {
+		try {
+			tupleSpace = new TupleSpace();
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public IPersistentStorage getPersistentStorage() {
+		return new PersistentStorage();
+	}
+
+	@Override
+	public TupleSpace getTupleSpace() {
+		return tupleSpace;
+	}
 }
