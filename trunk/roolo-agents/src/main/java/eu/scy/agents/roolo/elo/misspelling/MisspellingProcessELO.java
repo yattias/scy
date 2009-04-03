@@ -12,6 +12,9 @@ public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 
 	@Override
 	public void processElo(T elo) {
+		if (elo == null) {
+			return;
+		}
 		try {
 			TupleSpace ts = getTupleSpace();
 			ts.write(new Tuple("misspellings", elo.getUri().toString(), System
