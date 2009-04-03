@@ -43,6 +43,8 @@ public class LabelArrow extends Arrow implements FocusListener {
 	private void updateWidth() {
 		Dimension prefsize = textField.getPreferredSize();
 
+		prefsize.width += 20;
+
 		setMinWidth(prefsize.width);
 		setMinHeight(prefsize.height);
 
@@ -83,9 +85,6 @@ public class LabelArrow extends Arrow implements FocusListener {
 		}
 
 		public void keyTyped(KeyEvent e) {
-			JTextField textField = (JTextField) e.getSource();
-			Dimension prefsize = textField.getPreferredSize();
-			textField.setSize(prefsize.width + 20, prefsize.height);
 			arrow.updateWidth();
 		}
 
