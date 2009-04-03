@@ -33,6 +33,7 @@
                 <ref bean="usesRelationKey"/>
                 <ref bean="authorKey"/>
                 <ref bean="annotatesRelationKey"/>
+                <ref bean="descriptionKey"/>
 
 				<ref bean="lineCountKey"/>
 				<ref bean="rectangleCountKey"/>
