@@ -291,6 +291,12 @@ var newGroup = VBox {
                 scyWindowControl.addOtherScyWindow(shelfWindow, true);
             }
         }
+        SwingButton{
+            text: "Import picture"
+            action: function() {
+                roolo.pictureImporter.importPicture();
+            }
+        }
     ]
 }
 
@@ -537,7 +543,8 @@ activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
 var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
     eloSavedAction : scyWindowControl.newEloSaved;
 }
-eloSavedNotificationCatcher.register();
+//eloSavedNotificationCatcher.register();
+//growl.register();
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
 scyWindowControl.positionWindows();

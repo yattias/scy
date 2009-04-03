@@ -38,6 +38,7 @@ import roolo.elo.metadata.keys.Contribute;
 public class EloPictureWrapper { 
 
 	public static final String scyMeloType = "scy/melo";
+	public static final String scyImageType = "scy/image";
     private static final Logger logger = Logger.getLogger(EloPictureWrapper.class.getName());
     public static final String untitledDocName = "untitled";
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
@@ -178,14 +179,16 @@ public class EloPictureWrapper {
         IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
-            if (!scyMeloType.equals(eloType)) {
+            if (!scyMeloType.equals(eloType) && !scyImageType.equals(eloType)) {
                 throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
             }
             IMetadata metadata = newElo.getMetadata();
             title = metadata.getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH).toString();
+				if (scyMeloType.equals(eloType)){
             description = metadata.getMetadataValueContainer(descriptionKey).getValue(Locale.ENGLISH).toString();
             Contribute c = (Contribute) metadata.getMetadataValueContainer(authorKey).getValue();
             author = c.getVCard();
+				}
             dateCreated = (Long) metadata.getMetadataValueContainer(dateCreatedKey).getValue();
             try {
                 BufferedImage img = ImageIO.read(new ByteArrayInputStream(newElo.getContent().getBytes()));
