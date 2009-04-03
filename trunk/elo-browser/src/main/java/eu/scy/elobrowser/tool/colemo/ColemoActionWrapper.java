@@ -6,6 +6,7 @@
 package eu.scy.elobrowser.tool.colemo;
 
 import eu.scy.colemo.client.*;
+import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -26,6 +27,10 @@ public class ColemoActionWrapper {
     
     ColemoActionWrapper(ColemoPanel colemoPanel) {
         this.colemoPanel = colemoPanel;
+    }
+
+    public void loadElo(URI eloUri) {
+        ApplicationController.getDefaultInstance().loadElo(eloUri);
     }
 
     public void connect(){
