@@ -75,6 +75,7 @@ public class ContactFrame extends CustomNode{
         height: 15;
         fill: Color.TRANSPARENT;
         stroke: Color.BLACK;
+        cache:true;
     }
 
     def progressBarFill: Rectangle = Rectangle{
@@ -96,6 +97,7 @@ public class ContactFrame extends CustomNode{
         effect: Lighting{
             
         }
+        cache:true;
 
     };
 
@@ -112,6 +114,7 @@ public class ContactFrame extends CustomNode{
         textOrigin: TextOrigin.TOP;
         translateX: bind (progressBarBorder.width - progressLabel.boundsInLocal.width) / 2 + 12;
         translateY: bind (progressBarBorder.height - progressLabel.boundsInLocal.height) / 2 + 12;
+        cache:true;
     };
 
     var scaleProgress: Scale = Scale{
@@ -134,6 +137,7 @@ public class ContactFrame extends CustomNode{
         stroke: Color.TRANSPARENT;
         width: 80;
         height: 80;
+//        cache:true;
     };
 
     public def image = ImageView{
@@ -150,6 +154,7 @@ public class ContactFrame extends CustomNode{
             preserveRatio: false;
             url: "{__DIR__}{contact.imageURL}";
         };
+        cache: true;
     };
 
     public function selectStateImage():String{
@@ -176,6 +181,7 @@ public class ContactFrame extends CustomNode{
 //            url: "{__DIR__}bulb_green_x64.png";
 
         };
+        cache: true;
     };
 
     def nameLabel = Text{
@@ -183,6 +189,7 @@ public class ContactFrame extends CustomNode{
         x: bind image.x;
         y: bind image.y + image.image.height + 15;
         scaleY: 0.0;
+        cache:true;
     };
 
 
@@ -192,6 +199,7 @@ public class ContactFrame extends CustomNode{
         x: bind image.x;
         y: bind nameLabel.y + 15;
         scaleY: 0.0;
+        cache:true;
     };
 
     def missionLabel = Text{
@@ -199,6 +207,7 @@ public class ContactFrame extends CustomNode{
         x: bind image.x;
         y: bind stateLabel.y + 15;
         scaleY: 0.0;
+        cache:true;
     };
 
     

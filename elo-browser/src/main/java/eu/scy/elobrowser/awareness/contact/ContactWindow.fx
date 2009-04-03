@@ -243,6 +243,7 @@ public class ContactWindow extends CustomNode{
      public var background:Group = Group{ // the white background of the window
         def width = bind frame.width;
         def height = bind frame.height;
+        cache:true;
 					content: [
                         Rectangle { // top part until the arc
 							x: 0,
@@ -349,6 +350,7 @@ public class ContactWindow extends CustomNode{
 
 
     public var frame: Rectangle = Rectangle{
+        cache:true;
 //        stroke: Color.BLACK;
         stroke: Color.TRANSPARENT;
 //        fill: gradient;
