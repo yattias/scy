@@ -6,12 +6,16 @@
 
 package eu.scy.elobrowser.notification;
 
+import eu.scy.elobrowser.main.Roolo;
+import eu.scy.elobrowser.main.user.User;
+import eu.scy.elobrowser.tool.colemo.ColemoNode;
 import eu.scy.notification.api.INotification;
 import eu.scy.notification.api.INotificationCallback;
 import eu.scy.notification.NotificationService;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.lang.FX;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.Group;
@@ -20,6 +24,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javax.swing.JOptionPane;
+import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyWindowControl;
 
 /**
  * @author Giemza
@@ -35,10 +42,15 @@ public class GrowlFX extends CustomNode, INotificationCallback {
 
     public var height = 50;
 
+    public var roolo :Roolo;
+
+    public var scyDesktop :ScyDesktop;
+
+    public var scyWindowControl :ScyWindowControl;
+
     var content : Group;
 
     public override function create(): Node {
-        notificationService.registerCallback("adam", this);
         content = Group {
             content: [Rectangle {
                     x: 10,
@@ -65,17 +77,37 @@ public class GrowlFX extends CustomNode, INotificationCallback {
     }
 
     override function onNotification(notification :INotification) {
-        var errnum = notification.getProperty("errors");
-        println("Received errors: {errnum}");
-        
-        FX.deferAction(function() :Void {
-            text = "You have {errnum} errors in your last saved text!";
-            if(fadein.running) {
-                fadein.stop();
-            }
-            fadein.playFromStart();
-        });
+        if(notification.getProperties().contains("errors")) {
+            var errnum = notification.getProperty("errors");
+            println("Received errors: {errnum}");
+            FX.deferAction(function() :Void {
+                text = "You have {errnum} errors in your last saved text!";
+                if(fadein.running) {
+                    fadein.stop();
+                }
+                fadein.playFromStart();
+            });
+        } else if (notification.getProperties().contains("initCollaboration")) {
+            var userForCollaboration = notification.getProperty("username");
+            FX.deferAction(function() :Void {
+                var result = JOptionPane.showConfirmDialog(null, "Do you want to start collaboration with {userForCollaboration}?", "Collaborartion Request", JOptionPane.OK_CANCEL_OPTION);
+                if(result == JOptionPane.OK_OPTION) {
+                    var colemoWIndow = ColemoNode.createColemoWindow(roolo);
+                    colemoWIndow.allowResize = true;
+                    scyDesktop.addScyWindow(colemoWIndow);
+                    colemoWIndow.openWindow(600,300);
+                    scyWindowControl.addOtherScyWindow(colemoWIndow, true);
+                }
+            });
+        } else if (notification.getProperties().contains("initCollaboration")) {
+
+        }
     }
+
+    public function register() :Void {
+        notificationService.registerCallback(User.instance.getUsername(), this);
+    }
+
 
     var fadein = Timeline {
         keyFrames: [

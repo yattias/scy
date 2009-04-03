@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.lang.Math;
 import java.lang.Object;
 import java.lang.System;
+import java.lang.Thread;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -52,6 +53,7 @@ import javafx.util.Sequences;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import eu.scy.elobrowser.notification.hack.CollaborationNotifier;
 
 /**
  * @author sikken
@@ -64,11 +66,30 @@ public class ScyWindow extends CustomNode {
 
 
     public def funkyColoredLayer: Rectangle = Rectangle {
-        blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
+        //blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
         width: bind (if (scyDesktop.contactDragging) this.width else 0 );
         height: bind (if (scyDesktop.contactDragging) this.height else 0 );
         fill: Color.TRANSPARENT;
         stroke: Color.TRANSPARENT;
+
+        onMouseReleased: function(evt:MouseEvent){
+            if (scyDesktop.contactDragging){
+                contactDragging = false;
+//              blocksMouse = false;
+                circleLayer.visible = false;
+                //save the contact here?
+                println("XXXXXXXXXXXXXXX");
+                println("Dropping user: {scyDesktop.draggedContact.name}");
+                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
+
+            }
+            println("XXXXXXXXXXXXXXX");
+            scyContent.visible = true;
+            funkyColoredLayer.fill = Color.TRANSPARENT;
+            //scyContent.scaleX = 1.0;
+            //scyContent.scaleY = 1.0;
+
+        }
     }
 
     public def circleLayer: Circle = Circle {
@@ -106,6 +127,10 @@ public class ScyWindow extends CustomNode {
                 ]
             }.play();
         }
+        onMouseReleased: function(e:MouseEvent):Void {
+            println("ZZZZZZZZZZZZ");
+        }
+
     }
 
     public def draggingLayer: Rectangle = Rectangle{
@@ -121,7 +146,7 @@ public class ScyWindow extends CustomNode {
             this.hoveredContact = scyDesktop.draggedContact;
             funkyColoredLayer.fill = this.color;
             circleLayer.visible = true;
-
+            println("MICHIAA!!!");
         }
         onMouseExited: function(evt:MouseEvent){
             //scyContent.scaleX = 1.0;
@@ -134,12 +159,15 @@ public class ScyWindow extends CustomNode {
         onMouseReleased: function(evt:MouseEvent){
             if (scyDesktop.contactDragging){
                 contactDragging = false;
-//            blocksMouse = false;
-            //save the contact here?
-            circleLayer.visible = false;
-
+//              blocksMouse = false;
+                circleLayer.visible = false;
+                //save the contact here?
+                println("XXXXXXXXXXXXXXX");
+                println("Dropping user: {scyDesktop.draggedContact.name}");
+                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
 
             }
+            println("XXXXXXXXXXXXXXX");
             scyContent.visible = true;
             funkyColoredLayer.fill = Color.TRANSPARENT;
             //scyContent.scaleX = 1.0;
@@ -147,6 +175,8 @@ public class ScyWindow extends CustomNode {
 
         }
     };
+
+
 
 	def scyWindowAttributeDevider = 3.0;
 
@@ -1098,8 +1128,9 @@ public class ScyWindow extends CustomNode {
                         color: Color.BLACK
                         radius: 10
                     }
-
-
+                    onMouseReleased: function( e: MouseEvent ):Void {
+                        println("G entered");
+                    }
                 }
 
 

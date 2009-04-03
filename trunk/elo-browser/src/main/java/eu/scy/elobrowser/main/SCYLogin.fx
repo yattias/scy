@@ -22,6 +22,7 @@ import org.jfxtras.scene.layout.Cell;
 import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
+import eu.scy.elobrowser.notification.GrowlFX;
 
 class SlackyInterpolator extends SimpleInterpolator {
 
@@ -70,6 +71,8 @@ public class SCYLogin extends Group {
     def maxOpacity = 0.9;
     var preferredWidth = 280;
     var preferredHeight = 180;
+
+    public var growlFX :GrowlFX;
 
     public-init var mainContent : Node[] on replace {
         for (n in mainContent) {
@@ -200,8 +203,12 @@ public class SCYLogin extends Group {
                     for (n in mainContent){
                     n.visible = true;
                     n.opacity => 1.0 tween SimpleInterpolator.LINEAR;
-                    }
+                    },
                 ]
+                action: function() {
+                    growlFX.register();
+                }
+
             }
         } into t;
         t[0].play();
