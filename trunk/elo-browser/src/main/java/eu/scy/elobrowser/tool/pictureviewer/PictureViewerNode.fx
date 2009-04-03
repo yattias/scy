@@ -180,13 +180,18 @@ public class PictureViewerNode extends CustomNode {
 
 }
 
-public function createPictureViewerNode(roolo:Roolo):PictureViewerNode {
+
+public function createPictureViewerNode(roolo:Roolo, eloUri: URI):PictureViewerNode {
     //start picturewieverwrapper
     var eloPictureActionWrapper = new EloPictureWrapper();
     eloPictureActionWrapper.setRepository(roolo.repository);
     eloPictureActionWrapper.setMetadataTypeManager(roolo.metadataTypeManager);
     eloPictureActionWrapper.setEloFactory(roolo.eloFactory);
-    eloPictureActionWrapper.loadPictureAction();
+    if (eloUri != null) {
+        eloPictureActionWrapper.loadPictureAction();
+    } else {
+        eloPictureActionWrapper.loadElo(eloUri);
+    }
     return PictureViewerNode {
         eloPictureActionWrapper: eloPictureActionWrapper;
         img: eloPictureActionWrapper.getImage();
@@ -195,6 +200,10 @@ public function createPictureViewerNode(roolo:Roolo):PictureViewerNode {
         author: eloPictureActionWrapper.getAuthor();
         dateCreatedString: eloPictureActionWrapper.getDateCreatedString();
     };
+}
+
+public function createPictureViewerNode(roolo:Roolo):PictureViewerNode {
+    return createPictureViewerNode(roolo, null);
 }
 
 
