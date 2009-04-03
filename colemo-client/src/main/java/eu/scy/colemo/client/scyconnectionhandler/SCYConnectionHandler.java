@@ -58,8 +58,14 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
                 sendMe = mt.getScyMessage(object);
                 collaborationService.update(sendMe, sendMe.getId());
             } else if (object instanceof UmlLink) {
-                log.info("UPDATING LINK : " + object);
-                sendMe = mt.getScyMessage(object);
+	            UmlLink link = (UmlLink) object;
+	            System.out.println("");
+	            System.out.println("");
+	            System.out.println("######################### NAME: " + link.getName());
+	            System.out.println("");
+	            System.out.println("");
+	            log.info("UPDATING LINK : " + link);
+                sendMe = mt.getScyMessage(link);
                 log.info("UPDATING LINK : " + sendMe);
                 collaborationService.update(sendMe, sendMe.getId());
             }
