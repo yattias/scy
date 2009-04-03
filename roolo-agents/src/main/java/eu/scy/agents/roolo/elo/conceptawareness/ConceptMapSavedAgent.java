@@ -56,6 +56,11 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	public void processElo(T elo) {
 		registerKeys();
 
+		if(elo == null) {
+			System.err.println("ConceptMapSavedAgent->processElo: received ELO was null");
+			return;
+		}
+		
 		IMetadata<K> metadata = elo.getMetadata();
 		IContent content = elo.getContent();
 		try {
