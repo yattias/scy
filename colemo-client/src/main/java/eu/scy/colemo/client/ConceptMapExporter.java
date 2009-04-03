@@ -61,11 +61,10 @@ public class ConceptMapExporter {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
+        String xml = sw.toString();
 
-        return sw.toString();
-
-
-        //return createXMLString(xmldoc);
+        xml = xml.substring(xml.indexOf("<conceptmap>"), xml.length());
+        return xml;
     }
 
     private void createDocumentEnd() throws XMLStreamException {
@@ -95,7 +94,10 @@ public class ConceptMapExporter {
             e.printStackTrace();
         }
 
-        return sw.toString();
+        String xml = sw.toString();
+
+        xml = xml.substring(xml.indexOf("<conceptmap>"), xml.length());
+        return xml;
     }
 
 
@@ -130,64 +132,6 @@ public class ConceptMapExporter {
     }
 
 
-    /*public String createXMLString(Document xmlDocument) {
-        try {
-            return createXMLStringFromDocument(xmlDocument);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return null;
-    }
-    */
-    /*
-    private String createXMLStringFromDocument(Document xmlDocument) throws IOException {
-        OutputFormat of = new OutputFormat();
-        of.setIndent(1);
-        of.setIndenting(true);
-        //of.setDoctype(null, "projectConfiguration.dtd");
-        StringWriter sw = new StringWriter();
-
-        XMLSerializer serializer = new XMLSerializer(sw, of);
-        serializer.asDOMSerializer();
-        serializer.serialize(xmlDocument.getDocumentElement());
-        String xml = sw.toString();
-
-        xml = xml.substring(xml.indexOf("<conceptmap>"), xml.length());
-        System.out.println(xml);
-        return xml;
-    }
-
-    private File createXMLFile(Document xmldoc) {
-        File outputFile = null;
-        try {
-            File tempdirectory = new File(System.getProperty("user.home"));
-            System.out.println("tempDi:" + tempdirectory);
-            outputFile = File.createTempFile("assessmentXMLoutput", ".xml", tempdirectory);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        //for debugging
-        try {
-            FileOutputStream fos = new FileOutputStream(outputFile.getAbsolutePath());
-            OutputFormat of = new OutputFormat("XML", "ISO-8859-1", true);
-            of.setIndent(1);
-            of.setIndenting(true);
-            //of.setDoctype(null, "projectConfiguration.dtd");
-            XMLSerializer serializer = new XMLSerializer(fos, of);
-            serializer.asDOMSerializer();
-            serializer.serialize(xmldoc.getDocumentElement());
-            fos.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-        System.out.println("WROTE FILE: " + outputFile.getAbsolutePath());
-
-        return outputFile;
-    }
-     */
 
     public Iterator getNodeIterator() {
         return ApplicationController.getDefaultInstance().getGraphicsDiagram().getNodes().iterator();

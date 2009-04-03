@@ -23,6 +23,7 @@ public class ActionController {
     private ActionController() {
 
         addCommonAction(new CreateNewConcept());
+        addCommonAction(new LoadEloAction());
         addCommonAction(new SaveELO());
         addCommonAction(new ClearSessionAction());
 

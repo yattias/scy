@@ -3,10 +3,13 @@ package eu.scy.colemo.client;
 import javax.swing.*;
 
 import eu.scy.colemo.client.scyconnectionhandler.SCYConnectionHandler;
+import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.List;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -14,6 +17,11 @@ import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.api.*;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.api.IRepository;
+import roolo.api.search.IQuery;
+import roolo.api.search.IMetadataQuery;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,7 +50,11 @@ public class ApplicationController {
     private IMetadataTypeManager metadataTypeManager;
     private IRepository repository;
 
+
+
     public static String TOOL_NAME = "SCYMapper";
+
+    public static final String SCYMAPPER_TYPE = "scy/scymapping";
 
 
     public ConnectionHandler getConnectionHandler() {
@@ -109,9 +121,6 @@ public class ApplicationController {
     public void saveELO() {
         String name = JOptionPane.showInputDialog(this, "Please type name of ELO :");
         if (name != null) {
-
-
-            ConceptMapExporter.getDefaultInstance().createXML();
             if (getEloFactory() != null) {
                 IELO elo = getEloFactory().createELO();
                 elo.setDefaultLanguage(Locale.ENGLISH);
@@ -138,8 +147,73 @@ public class ApplicationController {
         }
     }
 
-    public void loadELO(URI eloUri) {
-        log.info("Loading elo: " + eloUri);
+    public void loadElo(URI eloUri) {
+        IMetadataKey typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+        log.info("Trying to load elo " + eloUri);
+        IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
+        if (newElo != null) {
+            String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
+            if (!SCYMAPPER_TYPE.equals(eloType))
+                throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
+            IMetadata metadata = newElo.getMetadata();
+            String xml = newElo.getContent().getXmlString();
+
+            List concepts = ConceptMapLoader.getDefaultInstance().parseConcepts(xml);
+            List links = ConceptMapLoader.getDefaultInstance().parseLinks(xml);
+
+            getGraphicsDiagram().clearAll();
+
+            for (int i = 0; i < concepts.size(); i++) {
+                UmlClass umlClass = (UmlClass) concepts.get(i);
+                getGraphicsDiagram().addClass(umlClass);
+            }
+
+            for (int i = 0; i < links.size(); i++) {
+                UmlLink umlLink = (UmlLink) links.get(i);
+                getGraphicsDiagram().addLink(umlLink);
+            }
+
+
+            log.info("XML:" + xml);
+            /*IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
+            // TODO fixe the locale problem!!!
+            Object titleObject = metadataValueContainer.getValue();
+            Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
+            Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
+            */
+            /*
+            setDocName(titleObject3.toString());
+            whiteboardPanel.deleteAllWhiteboardContainers();
+            whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
+                    .getXmlString()));
+            elo = newElo;
+            sendELOLoadedChangedListener();
+            */
+        }
+
+    }
+
+    public void load() {
+        if (metadataTypeManager != null) {
+            IMetadataKey typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+
+            IQuery query = null;
+            IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(typeKey,
+                    BasicSearchOperations.EQUALS, SCYMAPPER_TYPE, null);
+            query = metadataQuery;
+            List<ISearchResult> searchResults = repository.search(query);
+            URI[] drawingUris = new URI[searchResults.size()];
+            int i = 0;
+            for (ISearchResult searchResult : searchResults)
+                drawingUris[i++] = searchResult.getUri();
+            URI drawingUri = (URI) JOptionPane.showInputDialog(null, "Select concept map", "Select concept map",
+                    JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
+            if (drawingUri != null) {
+                loadElo(drawingUri);
+            }
+        } else {
+            log.info("LOAD ELO FROM DISK!");
+        }
 
     }
 
