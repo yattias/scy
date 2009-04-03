@@ -1,14 +1,12 @@
 package eu.scy.colemo.client.actions;
 
-import eu.scy.colemo.client.actions.BaseAction;
-import eu.scy.colemo.client.propertyeditors.ConceptPropertyEditor;
 import eu.scy.colemo.client.SelectionController;
+import eu.scy.colemo.client.propertyeditors.ConceptPropertyEditor;
 import eu.scy.colemo.server.uml.UmlClass;
-import eu.scy.core.model.impl.ScyBaseObject;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +18,7 @@ import java.awt.*;
 public class SetConceptProperties extends BaseAction {
     public SetConceptProperties(String name) {
         super(name);
+	    putValue(AbstractAction.SMALL_ICON, new ImageIcon(getClass().getResource("properties.png")));
     }
 
     public Class getOperateson() {
