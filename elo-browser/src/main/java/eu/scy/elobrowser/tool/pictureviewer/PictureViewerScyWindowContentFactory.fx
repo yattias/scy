@@ -22,9 +22,8 @@ public class PictureViewerScyWindowContentFactory extends ScyWindowContentFactor
     }
 
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-        var pictureViewerNode = PictureViewerNode.createPictureViewerNode(roolo);
+        var pictureViewerNode = PictureViewerNode.createPictureViewerNode(roolo, eloUri);
         pictureViewerNode.scyWindow = scyWindow;
-        pictureViewerNode.loadElo(eloUri);
         return pictureViewerNode;
     }
 
