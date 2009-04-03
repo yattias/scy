@@ -122,7 +122,7 @@ var simulationAnchor = Anchor{
     yPos: 60;
     color: Color.BLUE;
     eloUri: new URI("roolo://memory/20/review_simulation.scysimconfig");
-    relationNames: [annotatesRelationName,usesRelationName]
+    relationNames: [usesRelationName,annotatesRelationName]
 }
 
 var mappingAnchor = Anchor{
