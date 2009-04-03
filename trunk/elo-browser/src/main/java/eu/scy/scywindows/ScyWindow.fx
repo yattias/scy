@@ -193,8 +193,8 @@ public class ScyWindow extends CustomNode {
 	public var closedAction: function(ScyWindow):Void;
 
 	// status variables
-	var isMinimized = false;
-	var isClosed = true;
+	public-read var isMinimized = false;
+	public-read var isClosed = true;
 	var isAnimating = false;
 
 	// layout constants
@@ -212,7 +212,7 @@ public class ScyWindow extends CustomNode {
 
 	def borderWidth = 4;
 	def topLeftBlockSize = 17;
-	def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
+	public def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
     def closeColor = Color.WHITE;
     def closeMouseOverEffect: Effect = Glow{
         level: 1
@@ -672,6 +672,29 @@ public class ScyWindow extends CustomNode {
 //		}
 
 	}
+
+    public function setMinimized(newMinimized:Boolean){
+        isClosed = false;
+        if (newMinimized!=isMinimized){
+            if (newMinimized){
+                originalTranslateX = translateX;
+                originalTranslateY = translateY;
+                originalWidth = width;
+                originalHeight = height;
+                width = minimumWidth;
+                height = closedHeight;
+                isMinimized = true;
+            }
+            else{
+                translateX = originalTranslateX;
+                translateY = originalTranslateY;
+                width = originalWidth;
+                height = originalHeight;
+                isMinimized = false;
+            }
+        }
+    }
+
 
 	function getScyContent(scyCont:Node): Node {
 		if (scyCont != null)
