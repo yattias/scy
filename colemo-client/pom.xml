@@ -206,9 +206,8 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <!--targetPath>*.*</targetPath-->
                 <includes>
-                    <include>*.properties</include>
+                    <include>**/*.*</include>
                 </includes>
             </resource>
         </resources>

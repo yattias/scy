@@ -1,7 +1,5 @@
 package eu.scy.colemo.client.actions;
 
-import org.apache.log4j.Logger;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
