@@ -151,7 +151,7 @@ public class Client implements Receiver, Runnable {
         if (o instanceof DeleteClass) {
             DeleteClass delete = (DeleteClass) o;
             frame.getGraphicsDiagram().getUmlDiagram().deleteClass(delete.getUmlClass());
-            frame.getGraphicsDiagram().deleteClass(delete.getUmlClass());
+            frame.getGraphicsDiagram().deleteConcept(delete.getUmlClass());
         }
         if (o instanceof Rename) {
             Rename rename = (Rename) o;

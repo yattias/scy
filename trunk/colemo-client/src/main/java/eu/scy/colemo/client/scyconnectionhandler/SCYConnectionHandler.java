@@ -6,8 +6,10 @@ import eu.scy.colemo.client.sqlspacesimpl.MessageTranslator;
 import eu.scy.colemo.client.sqlspacesimpl.ConnectionHandlerSqlSpaces;
 import eu.scy.colemo.contributions.AddClass;
 import eu.scy.colemo.contributions.MoveClass;
+import eu.scy.colemo.contributions.BaseConceptMapNode;
 import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.server.uml.UmlClass;
+import eu.scy.colemo.server.uml.AbstractDiagramData;
 
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -94,6 +96,19 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
         }
     }
 
+
+    public void deleteObject(Object object) {
+        try {
+            if(object instanceof AbstractDiagramData) {
+                collaborationService.delete(((AbstractDiagramData)object).getId());
+            } else if (object instanceof BaseConceptMapNode) {
+                collaborationService.delete(((BaseConceptMapNode)object).getId());
+            }
+        } catch (CollaborationServiceException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
     public void initialize() throws Exception {
         joinSession();
 
@@ -122,7 +137,6 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
 
         if (collaborationSession == null) {
             log.info("No session ongoing, need to create one for SCYMapper");
-            //collaborationSession = collaborationService.createSession(ApplicationController.TOOL_NAME, USER_NAME);
         } else {
             log.info("Joined existing session.");
         }

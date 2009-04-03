@@ -9,6 +9,8 @@ import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import java.util.Iterator;
 import java.io.*;
 
+import eu.scy.colemo.server.uml.UmlLink;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -54,12 +56,13 @@ public class ConceptMapExporter {
         Iterator linkIterator = ApplicationController.getDefaultInstance().getGraphicsDiagram().getLinks().iterator();
         while (linkIterator.hasNext()) {
             ConceptLink conceptLink = (ConceptLink) linkIterator.next();
-            System.out.println("ADDING: " + conceptLink.getModel().getTo());
+            UmlLink link = (UmlLink) conceptLink.getModel();
+            System.out.println("ADDING: " + link.getTo());
             Element linkElement = createElement(xmldoc, "link");
-            linkElement.setAttribute("id", conceptLink.getModel().getId());
-            linkElement.setAttribute("to", conceptLink.getModel().getTo());
-            linkElement.setAttribute("from", conceptLink.getModel().getFrom());
-            linkElement.setAttribute("label", conceptLink.getModel().getName());
+            linkElement.setAttribute("id", link.getId());
+            linkElement.setAttribute("to", link.getTo());
+            linkElement.setAttribute("from", link.getFrom());
+            linkElement.setAttribute("label", link.getName());
             links.appendChild(linkElement);
         }
 

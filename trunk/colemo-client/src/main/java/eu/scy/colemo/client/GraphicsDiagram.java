@@ -43,7 +43,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
 
     public GraphicsDiagram(UmlDiagram d) {
-	    umlDiagram = d;
+        umlDiagram = d;
         nodes = new HashSet<ConceptNode>();
         setLayout(null);
         addMouseListener(this);
@@ -99,8 +99,8 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     public ConceptLink getLinkByClassId(String id) {
         for (ConceptLink link : links) {
-            log.info("CHECKING: " + link.getModel().getId() + " with: " + id);
-            if (link.getModel().getId().equals(id)) return link;
+            log.info("CHECKING: " + ((UmlLink)link.getModel()).getId() + " with: " + id);
+            if (((UmlLink)link.getModel()).getId().equals(id)) return link;
         }
         return null;
     }
@@ -155,10 +155,16 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
         repaint();
     }
 
-    public void deleteClass(UmlClass umlClass) {
+    public void deleteConcept(UmlClass umlClass) {
         ConceptNode node = getNodeByClassId(umlClass.getId());
-        nodes.remove(node);
-        this.repaint();
+        if (node == null) {
+            log.info("NODE WAS NULL, could not find...");
+        } else {
+            log.info("Removing node:" + umlClass.getName());
+            nodes.remove(node);
+            this.repaint();
+        }
+
     }
 
     public void deleteLink(UmlLink umlLink) {
@@ -338,16 +344,16 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
     private final static class NodeConnectionListener implements MouseListener, MouseMotionListener {
         private static GraphicsDiagram diagram;
-	    private LabelArrow tempLink;
+        private LabelArrow tempLink;
 
-	    NodeConnectionListener(GraphicsDiagram d) {
+        NodeConnectionListener(GraphicsDiagram d) {
             diagram = d;
-		    tempLink = new LabelArrow();
-		    tempLink.setLineStyle(LabelArrow.STYLE_DASHED);
-		    tempLink.setColor(new Color(100, 100, 100));
-		    tempLink.setVisible(false);
-		    diagram.add(tempLink);
-	    }
+            tempLink = new LabelArrow();
+            tempLink.setLineStyle(LabelArrow.STYLE_DASHED);
+            tempLink.setColor(new Color(100, 100, 100));
+            tempLink.setVisible(false);
+            diagram.add(tempLink);
+        }
 
         public void mouseClicked(MouseEvent e) {
 
@@ -367,6 +373,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 String toId = diagram.getTarget().getModel().getId();
 
                 UmlLink link = new UmlLink(fromId, toId, "Bjørge :-)");
+                link.setName("Unnamed");
 
                 link.setId("" + System.currentTimeMillis());
                 diagram.addLink(link);
@@ -382,7 +389,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 }
             }
             diagram.setConnectMode(CONNECT_MODE_OFF);
-	        tempLink.setVisible(false);
+            tempLink.setVisible(false);
         }
 
         public void mouseEntered(MouseEvent e) {
@@ -394,7 +401,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
 
         public void mouseExited(MouseEvent e) {
             diagram.setTarget(null);
-	        tempLink.setVisible(false);
+            tempLink.setVisible(false);
         }
 
         public void mouseDragged(MouseEvent e) {
@@ -412,20 +419,20 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 //MoveClass movedClass = new MoveClass(umlClass, null, null);
                 //ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(movedClass);
             } else {
-	            Point relPoint = node.getLocation();
-	            relPoint.translate(e.getX(), e.getY());
+                Point relPoint = node.getLocation();
+                relPoint.translate(e.getX(), e.getY());
 
-	            // Draw temp arrow
-	            tempLink.setFrom(node.getLinkConnectionPoint(tempLink.findDirection(node.getCenterPoint(), relPoint)));
-	            tempLink.setVisible(true);
-	            tempLink.setTo(relPoint);
+                // Draw temp arrow
+                tempLink.setFrom(node.getLinkConnectionPoint(tempLink.findDirection(node.getCenterPoint(), relPoint)));
+                tempLink.setVisible(true);
+                tempLink.setTo(relPoint);
 
-	            ConceptNode target = diagram.getTarget();
-	            if (target != null) {
-		            int relX = (int) relPoint.getX() - target.getX();
-		            int relY = (int) relPoint.getY() - target.getY();
-		            target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
-	            }
+                ConceptNode target = diagram.getTarget();
+                if (target != null) {
+                    int relX = (int) relPoint.getX() - target.getX();
+                    int relY = (int) relPoint.getY() - target.getY();
+                    target.setActiveConnectionPoint(target.getConnectionEdge(new Point(relX, relY)));
+                }
             }
         }
 
