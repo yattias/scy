@@ -195,12 +195,6 @@
 				</entry>
                 <entry>
 					<key>
-						<value>scy/mapping</value>
-					</key>
-					<value>.scymapping</value>
-				</entry>
-                <entry>
-					<key>
 						<value>scy/dataset</value>
 					</key>
 					<value>.scydataset</value>
