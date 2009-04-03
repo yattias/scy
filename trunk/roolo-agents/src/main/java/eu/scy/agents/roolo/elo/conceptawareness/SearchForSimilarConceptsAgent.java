@@ -18,7 +18,6 @@ import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
@@ -26,26 +25,32 @@ import eu.scy.agents.impl.AbstractProcessingAgent;
 import eu.scy.notification.Notification;
 import eu.scy.notification.NotificationSender;
 import eu.scy.notification.api.INotification;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		AbstractProcessingAgent<Key> {
 
 	private static final String USER = "similarEloAgent";
-	private IMetadataTypeManager<Key> metadataTypeManager;
+	// private IMetadataTypeManager<Key> metadataTypeManager;
 	private HashMap<URI, Double> score;
+
+	// private IRepository<IELO<Key>, Key> repository;
+
+	// public SearchForSimilarConceptsAgent() {
+	// super("SearchForSimilarConceptsAgent");
+	// // metadataTypeManager = getMetadataTypeManager();
+	// score = new HashMap<URI, Double>();
+	// }
 
 	public SearchForSimilarConceptsAgent() {
 		super("SearchForSimilarConceptsAgent");
-		metadataTypeManager = getMetadataTypeManager();
 		score = new HashMap<URI, Double>();
 	}
 
-	public SearchForSimilarConceptsAgent(ToolBrokerAPI<Key> toolBroker) {
-		super("SearchForSimilarConceptsAgent", toolBroker);
-		metadataTypeManager = getMetadataTypeManager();
-		score = new HashMap<URI, Double>();
-	}
+	// SearchForSimilarConceptsAgent(ToolBrokerAPI<Key> toolBroker) {
+	// super("SearchForSimilarConceptsAgent", toolBroker);
+	// metadataTypeManager = getMetadataTypeManager();
+	// score = new HashMap<URI, Double>();
+	// }
 
 	@Override
 	protected void doRun() {
@@ -54,7 +59,6 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 					new Tuple("scymapper", Long.class, String.class));
 			URI eloUri = new URI((String) tuple.getField(2).getValue());
 
-			IRepository<IELO<Key>, Key> repository = getRepository();
 			IELO<Key> elo = repository.retrieveELO(eloUri);
 			IMetadata<Key> metadata = elo.getMetadata();
 
