@@ -59,8 +59,9 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		IMetadata<K> metadata = elo.getMetadata();
 		IContent content = elo.getContent();
 		try {
-			enrichMetadata(metadata, content.getXmlString());
-
+			if (content.getXmlString() != null) {
+				enrichMetadata(metadata, content.getXmlString());
+			}
 			TupleSpace ts = getTupleSpace();
 			ts.write(new Tuple("scymapper", System.currentTimeMillis(), elo
 					.getUri().toString()));
