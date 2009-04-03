@@ -1,10 +1,13 @@
 package eu.scy.colemo.client;
 
+import eu.scy.colemo.client.figures.LabelArrow;
 import eu.scy.colemo.server.uml.UmlLink;
 
 import java.awt.*;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
 
-public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
+public class ConceptLink extends LabelArrow implements FocusListener {
 	public static final String DEFAULT_LABEL = "Link";
 
 	private ConceptNode fromNode;
@@ -13,6 +16,7 @@ public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
 
 	private Color color;
 	private UmlLink model;
+	private ConceptLink link;
 
 	public ConceptLink(UmlLink link) {
 		setModel(link);
@@ -21,6 +25,7 @@ public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
 		setBackground(Color.cyan);
 		setLayout(null);
 		setFocusable(true);
+		addFocusListener(new UpdateLinkListener(this));
 	}
 
 	public ConceptNode getToNode() {
@@ -29,6 +34,7 @@ public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
 
 	public void setToNode(ConceptNode node) {
 		toNode = node;
+		getModel().setTo(toNode.getModel().getId());
 		update();
 	}
 
@@ -38,6 +44,7 @@ public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
 
 	public void setFromNode(ConceptNode fromNode) {
 		this.fromNode = fromNode;
+		getModel().setFrom(fromNode.getModel().getId());
 		update();
 	}
 
@@ -60,5 +67,18 @@ public class ConceptLink extends eu.scy.colemo.client.figures.LabelArrow {
 	public void setModel(UmlLink model) {
 		this.model = model;
 		update();
+	}
+	private class UpdateLinkListener implements FocusListener {
+		public UpdateLinkListener(ConceptLink conceptLink) {
+			link = conceptLink;
+		}
+
+		public void focusGained(FocusEvent e) {
+		}
+
+		public void focusLost(FocusEvent e) {
+			link.getModel().setName(link.getLabel());
+			ApplicationController.getDefaultInstance().getConnectionHandler().updateObject(link.getModel());
+		}
 	}
 }

@@ -40,10 +40,14 @@ public class LabelArrow extends Arrow implements FocusListener {
 		updateWidth();
 	}
 
+	public String getLabel() {
+		return textField.getText();
+	}
+
 	private void updateWidth() {
 		Dimension prefsize = textField.getPreferredSize();
 
-		prefsize.width += 20;
+		prefsize.width += 10;
 
 		setMinWidth(prefsize.width);
 		setMinHeight(prefsize.height);
