@@ -34,4 +34,10 @@
 		<property name="eloFactory" ref="eloFactory"/>
 	</bean>
 
+	<bean name="pictureImporter" class="eu.scy.elobrowser.tool.pictureviewer.PictureImporter">
+		<property name="repository" ref="repository"/>
+		<property name="metadataTypeManager" ref="metadataTypeManager"/>
+		<property name="eloFactory" ref="eloFactory"/>
+	</bean>
+	
 </beans>

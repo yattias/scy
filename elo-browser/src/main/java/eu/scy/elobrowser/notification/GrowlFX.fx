@@ -34,7 +34,6 @@ import eu.scy.scywindows.ScyWindowControl;
 
 public class GrowlFX extends CustomNode, INotificationCallback {
 
-    var notificationService = new NotificationService("scy.collide.info", 2525, "notifications");
 
     var text :String;
 
@@ -105,7 +104,8 @@ public class GrowlFX extends CustomNode, INotificationCallback {
     }
 
     public function register() :Void {
-        notificationService.registerCallback(User.instance.getUsername(), this);
+       var notificationService = new NotificationService("scy.collide.info", 2525, "notifications");
+       notificationService.registerCallback(User.instance.getUsername(), this);
     }
 
 

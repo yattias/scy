@@ -11,6 +11,7 @@ import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.model.mapping.MappingEloFactory;
 import eu.scy.elobrowser.model.mapping.QueryToElosDisplay;
 import eu.scy.elobrowser.tbi_hack.AddGeneralMetadataRepositoryWrapper;
+import eu.scy.elobrowser.tool.pictureviewer.PictureImporter;
 import java.lang.IllegalStateException;
 import java.lang.Object;
 import java.lang.System;
@@ -54,6 +55,8 @@ public class Roolo {
    
    public var mappingEloFactory:MappingEloFactory;
    public var queryToElosDisplay:QueryToElosDisplay;
+
+   public var pictureImporter:PictureImporter;
    
    // private attribute keys:IMetadataKey[];
    
@@ -193,6 +196,8 @@ public class Roolo {
       getSpringBean("mappingEloFactory") as MappingEloFactory;
       queryToElosDisplay =
       getSpringBean("queryToElosDisplay") as QueryToElosDisplay;
+      pictureImporter =
+      getSpringBean("pictureImporter") as PictureImporter;
    }
    
    
