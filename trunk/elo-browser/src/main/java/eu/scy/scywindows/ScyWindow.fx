@@ -72,21 +72,41 @@ public class ScyWindow extends CustomNode {
     }
 
     public def circleLayer: Circle = Circle {
-        stroke: Color.BLACK;
+        //stroke: Color.BLACK;
+        stroke: bind lighterColor(color);
         fill: Color.TRANSPARENT;
-        strokeWidth: 1;
+        strokeWidth: 5;
         centerX: bind funkyColoredLayer.width / 2;
         centerY: bind funkyColoredLayer.height / 2 + 10;
-        radius: bind funkyColoredLayer.width / 4;
+        radius: 30;
         visible: false;
         onMouseEntered:function(e:MouseEvent):Void {
-            circleLayer.strokeWidth = 3;
+            Timeline {
+                keyFrames : [
+                    KeyFrame {
+                        time : 0.1s
+                        values : [
+                            circleLayer.strokeWidth => 8 tween Interpolator.LINEAR,
+                            circleLayer.radius => 50 tween Interpolator.LINEAR
+                        ]
+                    }
+                ]
+            }.play();
         }
         onMouseExited:function(e:MouseEvent):Void {
-            circleLayer.strokeWidth = 1;
+            Timeline {
+                keyFrames : [
+                    KeyFrame {
+                        time : 0.1s
+                        values : [
+                            circleLayer.strokeWidth => 5 tween Interpolator.LINEAR,
+                            circleLayer.radius => 30 tween Interpolator.LINEAR
+                        ]
+                    }
+                ]
+            }.play();
         }
     }
-
 
     public def draggingLayer: Rectangle = Rectangle{
         blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
@@ -1042,7 +1062,18 @@ public class ScyWindow extends CustomNode {
                     content: scyWindowAttributes,
                 },
                 draggingLayer,
-                circleLayer
+                Group {
+                    content: [circleLayer]
+                    effect: DropShadow {
+                        offsetX: 3
+                        offsetY: 3
+                        color: Color.BLACK
+                        radius: 10
+                    }
+
+
+                }
+
 
 			]
 			onMousePressed: function( e: MouseEvent ):Void {
