@@ -349,31 +349,13 @@ insert missionMapWindow into scyDesktop.desktop.content;
 contactWindow.translateX = 5;
 contactWindow.translateY = 5;
 
-//
-//def changeOnlineState = SwingButton {
-//    translateX:200;
-//    translateY:400;
-//    text: "change online state";
-//    action: function() {
-//        System.out.println("sizeof visibleContacts(before): { sizeof contactWindow.visibleContacts}");
-//        contactWindow.contacts[2].contact.onlineState = OnlineState.AWAY;
-//        contactWindow.contacts[1].contact.onlineState = OnlineState.ONLINE;
-//        contactWindow.actualizePositions();
-//        contactWindow.frameResize();
-//        System.out.println("sizeof visible after lablalba: { sizeof contactWindow.visibleContacts}");
-//    }
-//
-//}
-//insert changeOnlineState into scyDesktop.desktop.content;
-
 var loginGroup = SCYLogin {
     mainContent: [
         scyDesktop.desktop,
         propertiesWindow,
         searchWindow,
         missionMapWindow,
-        contactWindow,
-//        changeOnlineState,
+        contactWindow
        // resultView
         //missionMap
     ]
