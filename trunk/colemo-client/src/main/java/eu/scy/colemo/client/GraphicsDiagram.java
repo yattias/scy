@@ -376,7 +376,6 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 link.setName("Unnamed");
 
                 link.setId("" + System.currentTimeMillis());
-                diagram.addLink(link);
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);
                 diagram.repaint();
             } else {
