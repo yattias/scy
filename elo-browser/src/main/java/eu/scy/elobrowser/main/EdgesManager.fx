@@ -39,7 +39,7 @@ public class EdgesManager extends CustomNode {
         }
         System.out.println("newEdge.node1.visible: {newEdge.node1.visible}");
         System.out.println("newEdge.node2.visible: {newEdge.node2.visible}");
-        window2.addEdge(newEdge);
+        window1.addEdge(newEdge);
         window2.addEdge(newEdge);
         insert newEdge into edgeLayers;
         insert newEdge into nodes;
