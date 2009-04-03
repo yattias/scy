@@ -206,6 +206,7 @@ public class SCYLogin extends Group {
                     },
                 ]
                 action: function() {
+                    println("SCYLogin -> Calling GrowlFX to register ABC");
                     growlFX.register();
                 }
 

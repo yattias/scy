@@ -362,7 +362,20 @@ contactWindow.translateY = 5;
 def edgesManager: EdgesManager = EdgesManager {contactWindow: contactWindow;
 };
 
+def growl = GrowlFX {
+    translateX: bind (stage.width / 2) - 200;
+    translateY: bind stage.height - 120;
+    opacity: 0;
+    roolo: roolo;
+    scyDesktop: scyDesktop;
+    scyWindowControl: scyWindowControl;
+    //TODO Check this out, if initially false?
+//    visible: false;
+}
+
 var loginGroup = SCYLogin {
+    growlFX: growl;
+
     mainContent: [
         scyDesktop.desktop,
         propertiesWindow,
@@ -375,26 +388,13 @@ var loginGroup = SCYLogin {
     ]
 }
 
-
-
-def growl = GrowlFX {
-    translateX: bind (stage.width / 2) - 200;
-    translateY: bind stage.height - 120;
-    opacity: 0;
-    roolo: roolo;
-    scyDesktop: scyDesktop;
-    scyWindowControl: scyWindowControl;
-    //TODO Check this out, if initially false?
-//    visible: false;
-}
-
 function getContacts():ContactFrame[]{
     def contact1 = ContactFrame{
         size: WindowSize.NORMAL;
         contact: Contact{
             currentMission: "Testmission";
             imageURL: "img/Giemza.png";
-            name: "Adam G.";
+            name: "Adam";
             onlineState: OnlineState.ONLINE;
             progress: 0.78;
         };
@@ -405,7 +405,7 @@ function getContacts():ContactFrame[]{
         contact: Contact{
             currentMission: "Another Mission";
             imageURL: "img/Wouter.png";
-            name: "Wouter v. J.";
+            name: "Wouter";
             onlineState: OnlineState.ONLINE;
             progress: 0.745;
         };
@@ -417,7 +417,7 @@ function getContacts():ContactFrame[]{
         contact: Contact{
             currentMission: "Testmission";
             imageURL: "img/Lazonder.png";
-            name: "Ard L.";
+            name: "Ard";
             onlineState: OnlineState.AWAY;
             progress: 0.7;
         };
@@ -429,7 +429,7 @@ function getContacts():ContactFrame[]{
         contact: Contact{
             currentMission: "Testmission";
             imageURL: "img/Wasson.png";
-            name: "Barbara W.";
+            name: "Barbara";
             onlineState: OnlineState.ONLINE;
             progress: 0.5;
         };
@@ -441,7 +441,7 @@ function getContacts():ContactFrame[]{
         contact: Contact{
             currentMission: "Testmission";
             imageURL: "img/Lejeune.png";
-            name: "Anne L.";
+            name: "Anne";
             onlineState: OnlineState.ONLINE;
             progress: 0.2;
         };
@@ -453,7 +453,7 @@ function getContacts():ContactFrame[]{
             contact: Contact{
                 currentMission: "Testmission";
                 imageURL: "img/Kluge.png";
-                name: "Anders K.";
+                name: "Anders";
                 onlineState: OnlineState.ONLINE;
                 progress: 0.01;
         };
@@ -464,7 +464,7 @@ function getContacts():ContactFrame[]{
             contact: Contact{
                 currentMission: "Testmission";
                 imageURL: "img/DHam.png";
-                name: "Cedric D.";
+                name: "Cedric";
                 onlineState: OnlineState.ONLINE;
                 progress: 0.4;
         };
