@@ -205,7 +205,9 @@ public class MessageWindow extends CustomNode, ChatReceiver {
     }
 
     override public function receiveMessage(user:String, text:String ) : Void {
-        addChatRow(user, text);
+        FX.deferAction(function() :Void {
+            addChatRow(user, text);
+        });
     }
 
     function addChatRow(chatter:String, message: String):Void{
