@@ -19,6 +19,8 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 
 	@Override
 	public void processElo(T elo) {
+		System.err.println("************************ Notify desktop *****************");
+		
 		if (elo == null) {
 			return;
 		}

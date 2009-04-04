@@ -54,7 +54,7 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
-
+		System.err.println("********************** concept map elo saved ***************");
 		if (elo == null) {
 			return;
 		}

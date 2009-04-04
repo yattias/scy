@@ -26,6 +26,7 @@ public class MisspellingNotificationAgent<K extends IMetadataKey> extends
 							Integer.class));
 			String uri = (String) t.getField(1).getValue();
 			Integer numberOfErrors = (Integer) t.getField(3).getValue();
+			String user = (String) t.getField(4).getValue();
 			getTupleSpace().write(
 					new Tuple("notification", "misspelling", uri,
 							numberOfErrors));
@@ -36,10 +37,10 @@ public class MisspellingNotificationAgent<K extends IMetadataKey> extends
 			INotification notification = new Notification();
 			notification.addProperty("errors", "" + numberOfErrors);
 			notification.addProperty("target", "misspellings");
-			sender.send("adam", "textpad", notification);
+			sender.send(user, "textpad", notification);
 		} catch (TupleSpaceException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
+
 }
