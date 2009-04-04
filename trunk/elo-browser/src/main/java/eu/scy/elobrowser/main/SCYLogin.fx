@@ -125,7 +125,10 @@ public class SCYLogin extends Group {
                         loginButton.enabled = entry.length()>0;
                      }
 
-                   }
+                }
+                
+                //var passwordfield = TextBox {}
+                var passwordfield = SwingPasswordField {}
 
                 scyContent:
                 loginGroup = Grid {
