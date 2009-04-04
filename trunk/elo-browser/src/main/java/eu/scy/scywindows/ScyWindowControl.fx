@@ -155,7 +155,6 @@ public class ScyWindowControl{
         return titleKey;
     }
 
-
     function isRelevantScyWindow(scyWindow:ScyWindow):Boolean{
         if (scyWindow.id != null){
             var scyWindowUri = new URI(scyWindow.id);
@@ -203,6 +202,9 @@ public class ScyWindowControl{
         findRelatedWindows();
         for (window in relatedWindows){
             windowPositioner.addOtherWindow(window);
+            if (not onlyNewWindows){
+               insert window into placedWindows;
+            }
         }
         for (window in otherWindows){
             windowPositioner.addOtherWindow(window);
@@ -255,6 +257,24 @@ public class ScyWindowControl{
             }
         }
     }
+
+    function addRelatedWindow(eloUri:URI, relationName:String){
+         if (not activeAnchor.eloUri.equals(eloUri)){
+            //var metadata = roolo.repository.retrieveMetadata(eloUri);
+            //var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
+            var scyWindow = getScyWindow(eloUri);
+            if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow)<0){
+                edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
+                insert scyWindow into usedEdgeSourceWindows;
+            }
+            scyDesktop.addScyWindow(scyWindow);
+
+            insert scyWindow into relatedWindows;
+
+            println("added related elo {eloUri}");
+         }
+    }
+
 
 
     function getAnchorDirection(anchor:Anchor):Number{

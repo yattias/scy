@@ -386,7 +386,7 @@ function registerNotifications(){
 var loginGroup = SCYLogin {
     growlFX: growl;
 
-//    register: registerNotifications;
+    register: registerNotifications;
 
     mainContent: [
         scyDesktop.desktop,
