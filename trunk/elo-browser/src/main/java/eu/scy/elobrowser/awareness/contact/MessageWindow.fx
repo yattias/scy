@@ -197,7 +197,7 @@ public class MessageWindow extends CustomNode, ChatReceiver {
     public var textarea = SwingComponent.wrap(scrollPane);
 
     function sendMessage(): Void {
-        con.sendMessage(sender, textField.text);
+        con.sendMessage(receiver, textField.text);
         addChatRow(sender, textField.text);
         textField.text="";
     }

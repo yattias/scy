@@ -47,6 +47,7 @@ public class ChatConnector implements Callback {
 
     @Override
     public void call(Command cmd, int seq, Tuple afterTuple, Tuple beforeTuple) {
+        System.out.println("Received message: " + afterTuple);
         recv.receiveMessage(afterTuple.getField(0).getValue().toString(), afterTuple.getField(2).getValue().toString());
     }
 
