@@ -81,6 +81,7 @@ public class SCYLogin extends Group {
             n.opacity = 0.0;
         }
     }
+    public var register : function():Void;
 
     var loginGroup : Node;
     var loginButton: SwingButton;
@@ -169,6 +170,10 @@ public class SCYLogin extends Group {
                                             loginNodeDisappear();
                                         } else {
                                             startLoginAnimation();
+                                            if (register!=null){
+                                               register();
+                                            }
+
                                         }
 
 
@@ -214,10 +219,10 @@ public class SCYLogin extends Group {
                     n.opacity => 1.0 tween SimpleInterpolator.LINEAR;
                     },
                 ]
-                action: function() {
-                    println("SCYLogin -> Calling GrowlFX to register ABC");
-                    growlFX.register();
-                }
+//                action: function() {
+//                    println("SCYLogin -> Calling GrowlFX to register ABC");
+//                    growlFX.register();
+//                }
 
             }
         } into t;

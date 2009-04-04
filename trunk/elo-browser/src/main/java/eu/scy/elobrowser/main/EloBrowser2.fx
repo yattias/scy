@@ -377,8 +377,15 @@ def growl = GrowlFX {
 //    visible: false;
 }
 
+function registerNotifications(){
+   eloSavedNotificationCatcher.register();
+   growl.register();
+}
+
 var loginGroup = SCYLogin {
     growlFX: growl;
+
+    register: registerNotifications;
 
     mainContent: [
         scyDesktop.desktop,
@@ -551,8 +558,6 @@ activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
 var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
     eloSavedAction : scyWindowControl.newEloSaved;
 }
-//eloSavedNotificationCatcher.register();
-//growl.register();
 
 scyWindowControl.addOtherScyWindow(newScyWindow);
 scyWindowControl.positionWindows();
