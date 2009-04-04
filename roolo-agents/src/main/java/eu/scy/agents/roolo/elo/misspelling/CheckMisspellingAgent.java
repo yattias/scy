@@ -38,7 +38,7 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 			getTupleSpace().eventRegister(
 					Command.WRITE,
 					new Tuple("misspellings", String.class, Long.class,
-							String.class), new Callback() {
+							String.class, String.class), new Callback() {
 
 						@Override
 						public void call(Command command, int seq, Tuple after,
@@ -48,7 +48,8 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 									.getValue();
 							content = content.replaceAll("<[^>]*>", "");
 							String uri = (String) after.getField(1).getValue();
-							checkMispelling(uri, content);
+							String user = (String) after.getField(4).getValue();
+							checkMispelling(uri, content, user);
 						}
 					}, true);
 		} catch (IOException e) {
@@ -64,14 +65,14 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 		done = true;
 	}
 
-	private void checkMispelling(String uri, String content) {
+	private void checkMispelling(String uri, String content, String user) {
 		int numOfErrors = spellChecker.checkSpelling(new StringWordTokenizer(
 				content));
 		if (numOfErrors > 0) {
 			try {
 				getTupleSpace().write(
 						new Tuple("misspellings", uri, System
-								.currentTimeMillis(), numOfErrors));
+								.currentTimeMillis(), numOfErrors, user));
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}

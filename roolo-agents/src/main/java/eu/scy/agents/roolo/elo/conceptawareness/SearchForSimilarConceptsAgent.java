@@ -29,7 +29,7 @@ import eu.scy.notification.api.INotification;
 public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		AbstractProcessingAgent<Key> {
 
-	private static final String USER = "similarEloAgent";
+	// private static final String USER = "similarEloAgent";
 	// private IMetadataTypeManager<Key> metadataTypeManager;
 	private HashMap<URI, Double> score;
 
@@ -57,6 +57,8 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		try {
 			Tuple tuple = getTupleSpace().waitToTake(
 					new Tuple("scymapper", Long.class, String.class));
+			System.err.println("################ " + tuple);
+
 			URI eloUri = new URI((String) tuple.getField(2).getValue());
 
 			IELO<Key> elo = repository.retrieveELO(eloUri);
@@ -86,13 +88,20 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 				relatedUserList.append(";");
 			}
 
+			Key authorKey = metadataTypeManager.getMetadataKey("author");
+			IMetadataValueContainer authorContainer = metadata
+					.getMetadataValueContainer(authorKey);
+			Contribute author = (Contribute) authorContainer.getValue();
+			String user = author.getVCard();
+
 			INotification notification = new Notification();
 			notification
 					.addProperty("users", relatedUserList.toString().trim());
 			notification.addProperty("target", "awareness");
 			notification.addProperty("eloUri", elo.getUri().toString());
 			NotificationSender sender = new NotificationSender();
-			sender.send(USER, "searchSimilarElosAgent", notification);
+			sender.send(user, "searchSimilarElosAgent", notification);
+			System.err.println();
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
