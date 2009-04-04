@@ -60,10 +60,11 @@ public class ScyWindowControl{
     }
     var otherWindows:ScyWindow[];
     var relatedWindows:ScyWindow[];
+    var placedWindows:ScyWindow[];
     var titleKey:IMetadataKey;
 
     function sizeChanged(){
-        positionWindows();
+        positionWindows(false);
     }
 
     public function addOtherScyWindow(otherWindow:ScyWindow, autoLocate: Boolean){
@@ -80,7 +81,7 @@ public class ScyWindowControl{
     }
 
     public function newEloSaved(eloUri : URI){
-        positionWindows();
+        positionWindows(false);
     }
 
 
@@ -177,21 +178,41 @@ public class ScyWindowControl{
         return false;
     }
 
-    public function positionWindows(){
+     public function positionWindows(){
+       positionWindows(false);
+    }
+
+     public function positionWindows(onlyNewWindows:Boolean){
+       if (not onlyNewWindows){
+         delete placedWindows;
+       }
         windowPositioner.clearWindows();
         windowPositioner.setCenterWindow(activeAnchorWindow);
+       if (not onlyNewWindows){
+         insert activeAnchorWindow into placedWindows;
+         }
         for (anchor in activeAnchor.nextAnchors){
             var scyWindow = getScyWindow(anchor);
             scyDesktop.addScyWindow(scyWindow);
             var anchorDirection = getAnchorDirection(anchor);
             windowPositioner.addLinkedWindow(scyWindow, anchorDirection);
-        }
+             if (not onlyNewWindows){
+               insert scyWindow into placedWindows;
+            }
+       }
         findRelatedWindows();
         for (window in relatedWindows){
             windowPositioner.addOtherWindow(window);
         }
         for (window in otherWindows){
             windowPositioner.addOtherWindow(window);
+            if (not onlyNewWindows){
+               insert window into placedWindows;
+            }
+
+        }
+        if (onlyNewWindows){
+           windowPositioner.setFixedWindows(placedWindows);
         }
         windowPositioner.positionWindows();
     }
@@ -218,18 +239,20 @@ public class ScyWindowControl{
         println("Query: {query.toString()}, results: {results.size()}");
         for (r in results){
             var result = r as ISearchResult;
-            var metadata = roolo.repository.retrieveMetadata(result.getUri());
-            var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
-            var scyWindow = getScyWindow(result.getUri());
-            if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow)<0){
-                edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
-                insert scyWindow into usedEdgeSourceWindows;
+            if (not activeAnchor.eloUri.equals(result.getUri())){
+               var metadata = roolo.repository.retrieveMetadata(result.getUri());
+               var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
+               var scyWindow = getScyWindow(result.getUri());
+               if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow)<0){
+                   edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
+                   insert scyWindow into usedEdgeSourceWindows;
+               }
+               scyDesktop.addScyWindow(scyWindow);
+
+               insert scyWindow into relatedWindows;
+
+               println("added related elo {result.getUri()}");
             }
-            scyDesktop.addScyWindow(scyWindow);
-
-            insert scyWindow into relatedWindows;
-
-            println("added related elo {result.getUri()}");
         }
     }
 
