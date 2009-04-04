@@ -33,7 +33,7 @@ import eu.scy.elobrowser.awareness.contact.MessageWindow;
  * @author Sven
  */
 
-public class MessageWindow extends CustomNode {
+public class MessageWindow extends CustomNode, ChatReceiver {
 
 
     public var width: Number = 350;
@@ -49,7 +49,7 @@ public class MessageWindow extends CustomNode {
     var tempY: Number;
     var transparentDragging: Boolean = true;
 //    public function closeWindow():Void{};
-
+    var con: ChatConnector;
 
 
 
@@ -128,6 +128,8 @@ public class MessageWindow extends CustomNode {
         textarea.translateY = 20;
 //        this.effect=opacity;
 
+        con = new ChatConnector(this, sender);
+
     };
 
     postinit {
@@ -194,18 +196,25 @@ public class MessageWindow extends CustomNode {
 
     public var textarea = SwingComponent.wrap(scrollPane);
 
-    function sendMessage():Void{
+    function sendMessage(): Void {
+        con.sendMessage(sender, textField.text);
+        addChatRow(sender, textField.text);
+        textField.text="";
+    }
+
+    override public function receiveMessage(user:String, text:String ) : Void {
+        addChatRow("{user}", "{text}");
+    }
+
+    function addChatRow(user:String, message: String):Void{
         messages = swingTextArea.getText();
         if (messages == ""){
-            swingTextArea.setText("{sender}: {textField.text}");
-
-        }else {
+            swingTextArea.setText("{user}: {message}");
+        } else {
             if (textField.text != ""){
-                swingTextArea.setText("{messages}\n{sender}: {textField.text}");
-
+                swingTextArea.setText("{messages}\n{user}: {message}");
             }
         }
-        textField.text="";
     }
 
     def maskLayer: Rectangle =

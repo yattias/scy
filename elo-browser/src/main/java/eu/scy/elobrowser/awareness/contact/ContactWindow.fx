@@ -45,7 +45,7 @@ import eu.scy.elobrowser.main.user.User;
  * @author Sven
  */
 
-public class ContactWindow extends CustomNode{
+public class ContactWindow extends CustomNode {
 
     public var scyDesktop: ScyDesktop; 
     public var offset: Number = 10;
@@ -97,7 +97,6 @@ public class ContactWindow extends CustomNode{
                     if (not contact.isChatting){
                         contact.isChatting = true;
                         var messageWindow: MessageWindow = MessageWindow{
-                        //FIXME replace with variable username;
                             sender: User.instance.getUsername();
                             receiver: contact.contact.name;
                             opacity: 0.0;
@@ -450,8 +449,6 @@ public class ContactWindow extends CustomNode{
             content: bind content;
         };
     }
-
-
 
 }
 
