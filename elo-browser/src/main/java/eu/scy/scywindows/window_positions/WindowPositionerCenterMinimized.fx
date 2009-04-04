@@ -11,6 +11,7 @@ import eu.scy.scywindows.ScyWindow;
 import eu.scy.scywindows.WindowPositioner;
 import java.lang.Math;
 import javafx.geometry.Rectangle2D;
+import javafx.util.Sequences;
 
 /**
  * @author sikkenj
@@ -44,16 +45,22 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
     var centerWindowPosition:WindowPosition;
     var linkedWindowPositions:WindowPosition[];
     var otherWindowPositions:WindowPosition[];
+    var fixedWindows:ScyWindow[];
 
-    def horizontalInterWindowSpace = 20.0;
-    def verticalInterWindowSpace = 30.0;
+    def horizontalLeftWindowSpace = 7;
+	 def horizontalRightWindowSpace = 13;
+	 def verticalAboveWindowSpace = 25.0;
+	 def verticalUnderWindowSpace = 10.0;
+    def horizontalInterWindowSpace = horizontalLeftWindowSpace + horizontalRightWindowSpace;
+    def verticalInterWindowSpace = verticalAboveWindowSpace + verticalUnderWindowSpace;
+
     def topCompensation = 20;
     def rightCompensation = 10;
 
     def maxCorrectionTries = 20;
     def maxRandomTries = 10;
     def deltaDirection = Math.PI/100;
-    def noIntersection = 1e-3;
+    def noIntersection = 10;
 
 
     function calculateInternals(){
@@ -87,31 +94,46 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         centerWindowPosition = null;
         delete linkedWindowPositions;
         delete otherWindowPositions;
+        delete fixedWindows;
     }
 
 
     public override function setCenterWindow(window:ScyWindow){
-        centerWindowPosition = WindowPosition{
-            window:window;
-        };
+       centerWindowPosition = createNewWindowPosition(window);
     }
 
     public override function addLinkedWindow(window:ScyWindow, direction:Number){
-       //println("addLinkedWindow({window.title},{direction})");
-       var linkedWindowPosition = WindowPosition{
-            window:window;
-            preferredDirection:direction;
-        };
+//       println("addLinkedWindow({window.title},{direction})");
+       var linkedWindowPosition = createNewWindowPosition(window);
+       linkedWindowPosition.preferredDirection=direction;
         insert linkedWindowPosition into linkedWindowPositions;
     }
 
     public override function addOtherWindow(window:ScyWindow){
-        //println("addOtherWindow({window.title})");
-        var otherWindowPosition = WindowPosition{
-            window:window;
-        };
+//        println("addOtherWindow({window.title})");
+        var otherWindowPosition = createNewWindowPosition(window);
         insert otherWindowPosition into otherWindowPositions;
     }
+
+    function createNewWindowPosition(window:ScyWindow):WindowPosition{
+       WindowPosition{
+            window:window;
+            currentDirection:calculateDirection(window);
+            x: window.translateX;
+            y: window.translateY;
+            width: window.width;
+            height: window.height;
+        };
+    }
+
+    public override function setFixedWindows(fixedWindows:ScyWindow[]):Void{
+       this.fixedWindows = fixedWindows;
+    }
+
+    function isFixedWindow(windowPosition:WindowPosition):Boolean{
+       return Sequences.indexOf(fixedWindows, windowPosition.window)>=0;
+    }
+
 
     public override function positionWindows():Void{
         centerWindowPosition.minimized = false;
@@ -130,11 +152,15 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
     }
 
     function calculateWindowPosition(windowPosition:WindowPosition, direction:Number,w:Number,h:Number){
+       if (isFixedWindow(windowPosition)){
+         calculateWindowPosition(windowPosition,windowPosition.x,windowPosition.y,windowPosition.width,windowPosition.height);
+       }
+       else{
         var x = xMin;
         var y = yMin;
         if (direction >= topLeftAngle and direction <= topRightAngle){
             // at the top
-            x = centerX + (centerY - yMin) * - Math.tan(Math.PI   /   2   -   direction);
+               x = centerX - (centerY - yMin) * Math.tan(Math.PI   /   2   -   direction);
             y = yMin ;
         }
         else if (direction > topRightAngle and direction <= bottomRightAngle){
@@ -144,7 +170,7 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         }
         else if (direction > bottomRightAngle and direction <= bottomLeftAngle){
             // at the bottom
-            x = centerX + (centerY - yMax) * - Math.tan(Math.PI   /   2   -   direction);
+               x = centerX - (centerY - yMax) * Math.tan(Math.PI   /   2   -   direction);
             y = yMax
         }
         else {
@@ -153,7 +179,10 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
             y = centerY - (centerX - xMin) * Math.tan(direction);
         };
         windowPosition.useDirection = direction;
+           var checkDirection =  Math.atan2(y-centerY , x-centerX);
+   //        println("result angle diff {direction-checkDirection}");
         calculateWindowPosition(windowPosition,x,y,w,h);
+    }
     }
 
     function calculateWindowPosition(windowPosition:WindowPosition, x:Number,y:Number,w:Number,h:Number){
@@ -162,12 +191,13 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         windowPosition.x = x - windowPosition.width/2;
         windowPosition.y = y - windowPosition.height/2;
         var rectHeight = windowPosition.height;
-        if (windowPosition.minimized and windowPosition.window.isMinimized){
-        rectHeight = windowPosition.window.closedHeight;
+        if (windowPosition.minimized and (windowPosition.window.isMinimized or windowPosition.window.isClosed)){
+           var closedHeight = windowPosition.window.closedHeight;
+            rectHeight = closedHeight;
         }
         windowPosition.rectangle = Rectangle2D{
-            minX:windowPosition.x-horizontalInterWindowSpace/2
-            minY:windowPosition.y-verticalInterWindowSpace/2
+            minX:windowPosition.x-horizontalLeftWindowSpace
+            minY:windowPosition.y-verticalAboveWindowSpace
             width:windowPosition.width+horizontalInterWindowSpace
             height:rectHeight+verticalInterWindowSpace
         }
@@ -184,6 +214,7 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         for (node in forbiddenNodes){
             insert node.boundsInParent into usedRects;
             };
+        insert centerWindowPosition.rectangle into usedRects;
         for (windowPosition in linkedWindowPositions){
             correctWindowPosition(usedRects,windowPosition);
             insert windowPosition.rectangle into usedRects;
@@ -195,6 +226,10 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
     }
 
     function correctWindowPosition(usedRects:Rectangle2D[],windowPosition:WindowPosition):Void{
+       if (isFixedWindow(windowPosition)){
+          return;
+       }
+
         windowPosition.intersection = calculateIntersection(usedRects,windowPosition.rectangle);
         if (windowPosition.intersection<=noIntersection){
 //            println("no intersection for {windowPosition.window.title}");
@@ -207,7 +242,26 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
             windowPosition.copyFrom(bestNearByPosition);
             return;
         }
-        var bestPosition = findBestRandomPosition(usedRects,bestNearByPosition);
+        var bestFoundPosition = WindowPosition.clone(bestNearByPosition);
+        // try on the current direction
+        var bestNearCurrentPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.currentDirection);
+        if (bestNearCurrentPosition.intersection<=noIntersection){
+//            println("no intersection for {windowPosition.window.title}");
+            windowPosition.copyFrom(bestNearCurrentPosition);
+            return;
+        }
+        // try near by the current position
+        bestNearCurrentPosition = findBestNearByPosition(usedRects,bestNearCurrentPosition);
+        if (bestNearCurrentPosition.intersection<=noIntersection){
+//            println("improved intersection of {windowPosition.window.title} form {windowPosition.intersection} to nearby {bestNearByPosition.intersection} ({windowPosition.usedDirection} -> {bestNearByPosition.usedDirection} in {bestNearByPosition.correctionCount} tries)");
+            windowPosition.copyFrom(bestNearCurrentPosition);
+            return;
+        }
+        if (bestNearByPosition.intersection>bestNearCurrentPosition.intersection){
+           bestFoundPosition = WindowPosition.clone(bestNearCurrentPosition);
+        }
+        // try the random way
+        var bestPosition = findBestRandomPosition(usedRects,bestFoundPosition);
 //        println("improved intersection of {windowPosition.window.title} form {windowPosition.intersection} to random {bestPosition.intersection} ({windowPosition.usedDirection} -> {bestPosition.usedDirection} in {bestPosition.correctionCount} tries)");
         windowPosition.copyFrom(bestPosition);
     }
@@ -287,24 +341,38 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
 
 
     function applyWindowPositions(){
-        applyWindowPosition(centerWindowPosition);
+        applyWindowPosition(centerWindowPosition,false);
         for (windowPosition in linkedWindowPositions){
-            applyWindowPosition(windowPosition);
+            applyWindowPosition(windowPosition,true);
         }
         for (windowPosition in otherWindowPositions){
-            applyWindowPosition(windowPosition);
+            applyWindowPosition(windowPosition,true);
         }
     }
 
-    function applyWindowPosition(windowPosition:WindowPosition){
+    function applyWindowPosition(windowPosition:WindowPosition, minimize:Boolean){
+       windowPosition.currentDirection = windowPosition.useDirection;
+       if (isFixedWindow(windowPosition)){
+          return;
+       }
        windowPosition.window.translateX = windowPosition.x;
        windowPosition.window.translateY = windowPosition.y;
-//       windowPosition.window.setMinimized(windowPosition.minimized);
        if (not windowPosition.minimized){
            windowPosition.window.openWindow(windowPosition.window.width, windowPosition.window.height);
        }
-       windowPosition.window.width = windowPosition.width;
-       windowPosition.window.height = windowPosition.height;
-    }
+       else {
+          //windowPosition.window.setMinimized(true);
+       }
 
-}
+           windowPosition.window.width = windowPosition.width;
+           windowPosition.window.height = windowPosition.height;
+//       }
+       //windowPosition.window.setMinimized(windowPosition.minimized);
+//		 if (windowPosition.window instanceof AnchorWindow){
+//			var anchorWindow = windowPosition.window as AnchorWindow;
+//			anchorWindow.rect = windowPosition.rectangle;
+//			var offsetPoint = anchorWindow.localToParent(0, 0);
+//			anchorWindow.xRectOffset = offsetPoint.x;
+//			anchorWindow.yRectOffset = offsetPoint.y;
+		 }
+    }

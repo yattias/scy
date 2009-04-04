@@ -112,6 +112,9 @@ public class WindowPositionerCenter extends WindowPositioner {
         insert otherWindowPosition into otherWindowPositions;
     }
 
+    public override function setFixedWindows(fixedWindows:ScyWindow[]):Void{
+    }
+
     public override function positionWindows():Void{
         calculateWindowPosition(centerWindowPosition,centerX,centerY,centerWidth, centerHeight);
         for (windowPosition in linkedWindowPositions){

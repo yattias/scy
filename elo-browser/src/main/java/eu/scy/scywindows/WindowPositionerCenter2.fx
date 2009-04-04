@@ -109,6 +109,9 @@ public class WindowPositionerCenter2 extends WindowPositioner{
         addLinkedWindow(window,currentDirection);
     }
 
+    public override function setFixedWindows(fixedWindows:ScyWindow[]):Void{
+    }
+
     public override function positionWindows():Void{
 
     }

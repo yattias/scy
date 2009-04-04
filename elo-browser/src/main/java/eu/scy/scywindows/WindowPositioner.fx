@@ -21,6 +21,7 @@ public abstract class WindowPositioner {
     public abstract function setCenterWindow(window:ScyWindow):Void;
     public abstract function addLinkedWindow(window:ScyWindow, direction:Number):Void;
     public abstract function addOtherWindow(window:ScyWindow):Void;
+    public abstract function setFixedWindows(fixedWindows:ScyWindow[]):Void;
 
     public abstract function positionWindows():Void;
 
