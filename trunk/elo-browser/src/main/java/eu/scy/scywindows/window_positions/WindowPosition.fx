@@ -16,7 +16,8 @@ import javafx.geometry.Rectangle2D;
 public class WindowPosition {
     public var window:ScyWindow;
     public var preferredDirection:Number;
-    public var usedDirection:Number;
+    public var currentDirection:Number;
+    public var useDirection:Number;
     public var x:Number;
     public var y:Number;
     public var width:Number;
@@ -29,7 +30,8 @@ public class WindowPosition {
     public function copyFrom(windowPosition:WindowPosition){
         window = windowPosition.window;
         preferredDirection = windowPosition.preferredDirection;
-        usedDirection = windowPosition.usedDirection;
+        currentDirection = windowPosition.currentDirection;
+        useDirection = windowPosition.useDirection;
         x = windowPosition.x;
         y = windowPosition.y;
         width = windowPosition.width;
