@@ -20,8 +20,9 @@
 		<property name="beforeAgents">
 			<list>
 				<!--  <ref bean="graphConverterAgent" /> -->
-				<ref bean="drawAnalyserAgent" />
+				<!--<ref bean="drawAnalyserAgent" />-->
 				<!--  <ref bean="obwiousAgent" /> -->
+				<ref bean="enrichConceptMapAgent" />
 			</list>
 		</property>
 		<property name="afterAgents">
@@ -77,16 +78,19 @@
 		class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO">
 	</bean>
 
-	<bean name="drawAnalyserAgent" class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
-		<property name="formatKey" ref="formatKey" />
-		<property name="lineCountKey" ref="lineCountKey" />
-		<property name="rectangleCountKey" ref="rectangleCountKey" />
-		<property name="ovalCountKey" ref="ovalCountKey" />
-		<property name="freehandCountKey" ref="freehandCountKey" />
-		<property name="textCountKey" ref="textCountKey" />
-		<property name="imageCountKey" ref="imageCountKey" />
-		<property name="tagPointerCountKey" ref="tagPointerCountKey" />
-	</bean>
+
+	<!--
+		<bean name="drawAnalyserAgent"
+		class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
+		<property name="formatKey" ref="formatKey" /> <property
+		name="lineCountKey" ref="lineCountKey" /> <property
+		name="rectangleCountKey" ref="rectangleCountKey" /> <property
+		name="ovalCountKey" ref="ovalCountKey" /> <property
+		name="freehandCountKey" ref="freehandCountKey" /> <property
+		name="textCountKey" ref="textCountKey" /> <property
+		name="imageCountKey" ref="imageCountKey" /> <property
+		name="tagPointerCountKey" ref="tagPointerCountKey" /> </bean>
+	-->
 
 	<!--  misspelling agents  -->
 	<bean name="misspellingAgent"
@@ -98,6 +102,11 @@
 	<!--  Search for similar concept maps agents -->
 	<bean name="conceptMapSavedAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.ConceptMapSavedAgent">
+		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
+	</bean>
+
+	<bean name="enrichConceptMapAgent"
+		class="eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
 	</bean>
 
@@ -329,7 +338,7 @@
 				</entry>
 				<entry>
 					<key>
-						<value>scy/conceptMap</value>
+						<value>scy/mapping</value>
 					</key>
 					<value>.scymapper</value>
 				</entry>
