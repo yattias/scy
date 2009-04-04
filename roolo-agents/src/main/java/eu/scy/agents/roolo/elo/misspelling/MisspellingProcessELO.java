@@ -24,15 +24,14 @@ public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		}
 
 		IMetadata<K> metadata = elo.getMetadata();
-		// if (metadata != null) {
-		// IMetadataValueContainer type = metadata
-		// .getMetadataValueContainer((K) metadataTypeManager
-		// .getMetadataKey("type"));
-		// if ((!"scy/text".equals(type.getValue())) &&
-		// (!"text/plain".equals(type.getValue()))) {
-		// return;
-		// }
-		// }
+		if (metadata != null) {
+			IMetadataValueContainer type = metadata
+					.getMetadataValueContainer((K) metadataTypeManager
+							.getMetadataKey("type"));
+			if (!"scy/text".equals(type.getValue())) {
+				return;
+			}
+		}
 
 		IMetadataKey authorKey = metadataTypeManager.getMetadataKey("author");
 		IMetadataValueContainer authorContainer = metadata
