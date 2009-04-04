@@ -61,14 +61,14 @@ public class PictureViewerNode extends CustomNode {
         scyWindow.id = eloUri.toString()
         else
         scyWindow.id = "";
-
+ 
 
     }
 
     var viewer: ImageView = ImageView {
         image: bind img;
-        fitWidth: 500;
-        fitHeight: 500 * img.height / img.width;
+        fitWidth: bind if(img.width > img.height) { 500 } else { 500 * img.height / img.width };
+        fitHeight: bind if((img.width < 500) and (img.height < 500)) { 500 * img.height / img.width} else { 500 };
         preserveRatio: true;
         translateX: 5;
         translateY: 25;
@@ -134,11 +134,22 @@ public class PictureViewerNode extends CustomNode {
     };
     var dateCreatedText: Text = Text {
         content: bind dateCreatedString;
-        translateX: 85;
+        translateX: 93;
         translateY: bind dateCreatedTextTitle.translateY;
     }
 
     init {
+       /* if((img.width < 500) and (img.height < 500)) {
+            if(img.width > img.height) {
+                viewer.fitWidth = 500;
+                viewer.fitHeight = 500 * img.height / img.width;
+            }
+            else {
+                viewer.fitHeight = 500;
+                viewer.fitWidth = 500 * img.width / img.height;
+            }
+        } */
+
     }
 
 
