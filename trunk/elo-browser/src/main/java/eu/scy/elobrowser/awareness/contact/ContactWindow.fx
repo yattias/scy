@@ -10,7 +10,9 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.MessageWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.elobrowser.main.user.User;
 import eu.scy.elobrowser.notification.hack.CollaborationNotifier;
+import eu.scy.elobrowser.tool.colemo.ColemoWindow;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import java.lang.Object;
@@ -37,7 +39,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import eu.scy.elobrowser.tool.colemo.ColemoWindow;
+import eu.scy.elobrowser.main.user.User;
 
 /**
  * @author Sven
@@ -96,7 +98,7 @@ public class ContactWindow extends CustomNode{
                         contact.isChatting = true;
                         var messageWindow: MessageWindow = MessageWindow{
                         //FIXME replace with variable username;
-                            sender: "Anonymous";
+                            sender: User.instance.getUsername();
                             receiver: contact.contact.name;
                             opacity: 0.0;
                         }
