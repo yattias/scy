@@ -34,7 +34,7 @@ public class ChatConnector implements Callback {
         this.recv = recv;
         this.user = user;
         ts = new TupleSpace("scy.collide.info", 2525, "TFA_CHAT_SPACE");
-        ts.eventRegister(Command.WRITE, new Tuple(String.class, user, String.class), this, false);
+        ts.eventRegister(Command.WRITE, new Tuple(String.class, user, String.class), this, true);
     }
 
     public void sendMessage(String receiver, String message) {
