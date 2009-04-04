@@ -38,7 +38,7 @@ public class MessageWindow extends CustomNode {
 
     public var width: Number = 350;
     def initialOpacity: Number = 0.7;
-    public var height: Number = 450;
+    public var height: Number = 215;
     public var x: Number = 0 ;
     public var y: Number = 0 ;
     public var receiver: String;
@@ -119,7 +119,7 @@ public class MessageWindow extends CustomNode {
 //        effect = windowEffectQueue;
         //        mask();
         blocksMouse = true;
-        swingTextArea.setSize(300, 300);
+        swingTextArea.setSize(300, 100);
         //        swingTextArea.setContentType("text");
         swingTextArea.setEditable(false);
         swingTextArea.setAutoscrolls(true);
@@ -145,7 +145,6 @@ public class MessageWindow extends CustomNode {
         translateX: bind (this.x + (frame.width - 300) / 2);
         translateY: bind (textarea.translateY + textarea.height + 10);
         columns: 100;
-        text: "Send a Message to {receiver}";
         editable: true;
         action: function():Void{
             sendMessage();
@@ -154,7 +153,7 @@ public class MessageWindow extends CustomNode {
 
     def sendButton = SwingButton {
         translateX: bind textField.translateX;
-        translateY: bind textField.translateY + 40;
+        translateY: bind textField.translateY + 26;
 //        blocksMouse: true;
         text: "Send!";
         action: function() {
@@ -256,7 +255,7 @@ public class MessageWindow extends CustomNode {
         textarea.visible = true;
         swingTextArea.setLineWrap(true);
         scrollPane.setAutoscrolls(true);
-        textarea.height=300;
+        textarea.height=100;
         textarea.width=300;
         return Group{
             content: bind content;
