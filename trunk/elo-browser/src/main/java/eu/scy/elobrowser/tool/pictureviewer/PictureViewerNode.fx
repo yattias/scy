@@ -67,8 +67,8 @@ public class PictureViewerNode extends CustomNode {
 
     var viewer: ImageView = ImageView {
         image: bind img;
-        fitWidth: bind if(img.width > img.height) { 500 } else { 500 * img.height / img.width };
-        fitHeight: bind if((img.width < 500) and (img.height < 500)) { 500 * img.height / img.width} else { 500 };
+      //  fitWidth: bind if(img.width > img.height) { 500 } else { 500 * img.height / img.width };
+      //  fitHeight: bind if(img.width < img.height) { 500 * img.width / img.height} else { 500 };
         preserveRatio: true;
         translateX: 5;
         translateY: 25;
@@ -139,7 +139,7 @@ public class PictureViewerNode extends CustomNode {
     }
 
     init {
-       /* if((img.width < 500) and (img.height < 500)) {
+        if((img.width < 500) and (img.height < 500)) {
             if(img.width > img.height) {
                 viewer.fitWidth = 500;
                 viewer.fitHeight = 500 * img.height / img.width;
@@ -148,7 +148,7 @@ public class PictureViewerNode extends CustomNode {
                 viewer.fitHeight = 500;
                 viewer.fitWidth = 500 * img.width / img.height;
             }
-        } */
+        } 
 
     }
 
@@ -186,6 +186,16 @@ public class PictureViewerNode extends CustomNode {
             url: url;
         }
         viewer.image = newImage;
+        if((img.width < 500) and (img.height < 500)) {
+            if(img.width > img.height) {
+                viewer.fitWidth = 500;
+                viewer.fitHeight = 500 * img.height / img.width;
+            }
+            else {
+                viewer.fitHeight = 500;
+                viewer.fitWidth = 500 * img.width / img.height;
+            }
+        }
 
     }
 
