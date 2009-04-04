@@ -45,7 +45,7 @@ import eu.scy.elobrowser.main.user.User;
  * @author Sven
  */
 
-public class ContactWindow extends CustomNode {
+public class ContactWindow extends CustomNode, ChatInitiator {
 
     public var scyDesktop: ScyDesktop; 
     public var offset: Number = 10;
@@ -53,6 +53,7 @@ public class ContactWindow extends CustomNode {
     public var dragging: Boolean = false;
 
     public var messageWindowInstanciated: Boolean = false;
+
 
     public var contacts: ContactFrame[];
     public var visibleContacts = bind contacts[contact|contact.contact.onlineState != OnlineState.OFFLINE] on replace {
@@ -66,12 +67,13 @@ public class ContactWindow extends CustomNode {
 
     var ghostImage: ImageView;
 
+    var chatConnector: ChatConnector;
 
     init{
         actualizePositions();
         frameResize();
+        chatConnector = new ChatConnector(this, User.instance.getUsername());
         for (contact in contacts){
-
             contact.frame.onMousePressed = function(evt:MouseEvent):Void{
                 if (evt.primaryButtonDown){
                     System.out.println("Primary Mouse Button Down");
@@ -94,44 +96,7 @@ public class ContactWindow extends CustomNode {
                 }
                 if(evt.secondaryButtonDown){
                     System.out.println("Secondary Mouse Button Down");
-                    if (not contact.isChatting){
-                        contact.isChatting = true;
-                        var messageWindow: MessageWindow = MessageWindow{
-                            sender: User.instance.getUsername();
-                            receiver: contact.contact.name;
-                            opacity: 0.0;
-                        }
-                        var scyMessageWindow: ScyWindow = ScyWindow{
-                            translateY: 300;
-                            opacity: 0.75;
-                            title: "Chat with {messageWindow.receiver}"
-                            id: "Chat{messageWindow.receiver}";
-                            color: Color.BLUE
-                            scyContent: messageWindow
-                            allowClose: true;
-                            allowResize: true;
-                            allowMinimize: true;
-                        }
-
-                        scyMessageWindow.openWindow(messageWindow.width, messageWindow.height);
-                        scyDesktop.addScyWindow(scyMessageWindow);
-                        //                        insert messageWindow into content;
-                        messageWindow.visible = true;
-                        Timeline{
-                            keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
-                        }.play();
-
-                    } else {
-                        def scyWindow: ScyWindow = scyDesktop.findScyWindow("Chat{contact.contact.name}");
-                        scyDesktop.activateScyWindow(scyWindow);
-                        scyDesktop.showScyWindow(scyWindow);
-                        scyWindow.toFront();
-//                        scyWindow.showFrom(scyWindow.translateX, scyWindow.translateY);
-//                        scyWindow.width = (scyWindow.scyContent as MessageWindow).width;
-//                        scyWindow.height = (scyWindow.scyContent as MessageWindow).height;
-                    }
-
-
+                    startChat(contact.contact.name);
                 }
             };
 
@@ -185,7 +150,61 @@ public class ContactWindow extends CustomNode {
             count++;
         }
     }
-    
+
+    override public function startChat(contactName: String) : Void {
+        startChat(contactName, null);
+    }
+
+    override public function startChat(contactName: String, initialMessage: String) : Void {
+        for (contact in contacts) {
+            if (contact.contact.name == contactName) {
+                if (not contact.isChatting){
+                        contact.isChatting = true;
+                        var messageWindow: MessageWindow = MessageWindow{
+                            sender: User.instance.getUsername();
+                            receiver: contact.contact.name;
+                            opacity: 0.0;
+                            con: chatConnector;
+                        }
+                        var scyMessageWindow: ScyWindow = ScyWindow{
+                            translateY: 300;
+                            opacity: 0.75;
+                            title: "Chat with {messageWindow.receiver}"
+                            id: "Chat{messageWindow.receiver}";
+                            color: Color.BLUE
+                            scyContent: messageWindow
+                            allowClose: true;
+                            allowResize: true;
+                            allowMinimize: true;
+                        }
+                        chatConnector.addChatReceiver(messageWindow, contactName);
+                        if (initialMessage != null) {
+                            messageWindow.addChatRow(contactName, initialMessage);
+                        }
+                        scyMessageWindow.openWindow(messageWindow.width, messageWindow.height);
+                        scyDesktop.addScyWindow(scyMessageWindow);
+                        //                        insert messageWindow into content;
+                        messageWindow.visible = true;
+                        Timeline{
+                            keyFrames: [at (0.2s){messageWindow.opacity => 1.0 tween SimpleInterpolator.LINEAR}];
+                        }.play();
+
+                    } else {
+                        def scyWindow: ScyWindow = scyDesktop.findScyWindow("Chat{contact.contact.name}");
+                        scyDesktop.activateScyWindow(scyWindow);
+                        scyDesktop.showScyWindow(scyWindow);
+                        scyWindow.toFront();
+//                        scyWindow.showFrom(scyWindow.translateX, scyWindow.translateY);
+//                        scyWindow.width = (scyWindow.scyContent as MessageWindow).width;
+//                        scyWindow.height = (scyWindow.scyContent as MessageWindow).height;
+                    }
+            }
+
+        }
+
+    }
+
+
     public function frameResize():Void{
         Timeline{ 
             keyFrames: [at (0.3s){frame.height => (((
