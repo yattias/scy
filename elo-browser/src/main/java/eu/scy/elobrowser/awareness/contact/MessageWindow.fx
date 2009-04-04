@@ -49,7 +49,7 @@ public class MessageWindow extends CustomNode, ChatReceiver {
     var tempY: Number;
     var transparentDragging: Boolean = true;
 //    public function closeWindow():Void{};
-    var con: ChatConnector;
+    public var con: ChatConnector;
 
 
 
@@ -127,9 +127,6 @@ public class MessageWindow extends CustomNode, ChatReceiver {
         textarea.translateX = textField.translateX;
         textarea.translateY = 20;
 //        this.effect=opacity;
-
-        con = new ChatConnector(this, sender);
-
     };
 
     postinit {
@@ -210,7 +207,7 @@ public class MessageWindow extends CustomNode, ChatReceiver {
         });
     }
 
-    function addChatRow(chatter:String, message: String):Void{
+    public function addChatRow(chatter:String, message: String):Void{
         messages = swingTextArea.getText();
         if (messages == ""){
             swingTextArea.setText("{chatter}: {message}");

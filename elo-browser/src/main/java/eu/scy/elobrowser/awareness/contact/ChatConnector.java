@@ -10,6 +10,8 @@ import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Callback.Command;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,14 +26,17 @@ import java.util.logging.Logger;
  */
 public class ChatConnector implements Callback {
 
-    private ChatReceiver recv;
+    private Map<String, ChatReceiver> recvs;
 
     private String user;
 
     private TupleSpace ts;
 
-    public ChatConnector(ChatReceiver recv, String user) throws TupleSpaceException {
-        this.recv = recv;
+    private ChatInitiator initiator;
+
+    public ChatConnector(ChatInitiator initiator, String user) throws TupleSpaceException {
+        this.initiator = initiator;
+        this.recvs = new HashMap<String, ChatReceiver>();
         this.user = user;
         ts = new TupleSpace("scy.collide.info", 2525, "TFA_CHAT_SPACE");
         ts.eventRegister(Command.WRITE, new Tuple(String.class, user, String.class), this, true);
@@ -45,10 +50,21 @@ public class ChatConnector implements Callback {
         }
     }
 
+    public void addChatReceiver(ChatReceiver cr, String name) {
+        recvs.put(name, cr);
+    }
+
     @Override
     public void call(Command cmd, int seq, Tuple afterTuple, Tuple beforeTuple) {
         System.out.println("Received message: " + afterTuple);
-        recv.receiveMessage(afterTuple.getField(0).getValue().toString(), afterTuple.getField(2).getValue().toString());
+        String sender = afterTuple.getField(0).getValue().toString();
+        String text = afterTuple.getField(2).getValue().toString();
+        ChatReceiver cr = recvs.get(sender);
+        if (cr != null) {
+            cr.receiveMessage(sender, text);
+        } else {
+            initiator.startChat(sender, text);
+        }
     }
 
 }
