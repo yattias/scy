@@ -46,6 +46,16 @@
             <groupId>net.sf.sail</groupId>
             <artifactId>sail-webapp-all</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>elo-api</artifactId>
+            		<groupId>elo-api</groupId>
+            	</exclusion>
+            	<exclusion>
+            		<artifactId>elo-impl</artifactId>
+            		<groupId>elo-impl</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
 
