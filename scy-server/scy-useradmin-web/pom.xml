@@ -284,7 +284,7 @@
 
         <dependency>
             <groupId>info.collide</groupId>
-            <artifactId>sqlspaces-server</artifactId>
+            <artifactId>sqlspaces-server-web</artifactId>
             <version>3.1.0-SNAPSHOT</version>
         </dependency>
 
