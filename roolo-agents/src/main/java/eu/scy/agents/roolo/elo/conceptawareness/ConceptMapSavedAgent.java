@@ -64,7 +64,7 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 			IMetadataValueContainer type = metadata
 					.getMetadataValueContainer((K) metadataTypeManager
 							.getMetadataKey("type"));
-			if (!"scy/conceptMap".equals(type.getValue())) {
+			if (!"scy/mapping".equals(type.getValue())) {
 				return;
 			}
 		}
