@@ -305,6 +305,10 @@
             		<artifactId>elo-impl</artifactId>
             		<groupId>elo-impl</groupId>
             	</exclusion>
+            	<exclusion>
+            		<artifactId>elo-api</artifactId>
+            		<groupId>elo-api</groupId>
+            	</exclusion>
             </exclusions>
         </dependency>
 
