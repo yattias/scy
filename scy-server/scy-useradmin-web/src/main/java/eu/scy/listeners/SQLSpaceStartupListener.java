@@ -36,7 +36,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
                 Configuration.getConfiguration().setMysqlPort(3306);
                 Configuration.getConfiguration().setMysqlSchema("scysqlspaces");
                 Configuration.getConfiguration().setDbUser("scysqlspaces");
-                Configuration.getConfiguration().setDbPassword("scysqlspaces");
+                Configuration.getConfiguration().setDbPassword("scy");
                 Configuration.getConfiguration().setWebPort(8200);
                 Configuration.getConfiguration().setWebEnabled(true);
                 Configuration.getConfiguration().setWebServicesEnabled(false);
