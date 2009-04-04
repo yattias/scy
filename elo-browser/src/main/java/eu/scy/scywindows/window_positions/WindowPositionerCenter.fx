@@ -148,15 +148,26 @@ public class WindowPositionerCenter extends WindowPositioner {
             x = xMin;
             y = centerY - (centerX - xMin) * Math.tan(direction);
         };
-        windowPosition.usedDirection = direction;
+        windowPosition.useDirection = direction;
         calculateWindowPosition(windowPosition,x,y,w,h);
     }
 
     function calculateWindowPosition(windowPosition:WindowPosition, x:Number,y:Number,w:Number,h:Number){
         windowPosition.width = Math.max(w,windowPosition.window.minimumWidth);
         windowPosition.height = Math.max(h,windowPosition.window.minimumHeight);
+		  if (windowPosition.window.widthHeightProportion>0.0){
+			  if (windowPosition.window.widthHeightProportion>1.0){
+				windowPosition.width = windowPosition.height/windowPosition.window.widthHeightProportion;
+			  }
+			  else {
+				windowPosition.height = windowPosition.width/windowPosition.window.widthHeightProportion;
+			  }
+		  }
+
         windowPosition.x = x - windowPosition.width/2;
         windowPosition.y = y - windowPosition.height/2;
+//        windowPosition.x = x - w/2;
+//        windowPosition.y = y - h/2;
         windowPosition.rectangle = Rectangle2D{
             minX:windowPosition.x-horizontalInterWindowSpace/2
             minY:windowPosition.y-verticalInterWindowSpace/2
@@ -206,8 +217,8 @@ public class WindowPositionerCenter extends WindowPositioner {
 
     function findBestNearByPosition(usedRects:Rectangle2D[],windowPosition:WindowPosition):WindowPosition{
         var bestNearByPosition = windowPosition;
-        var nearByMinusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.usedDirection-deltaDirection);
-        var nearByPlusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.usedDirection+deltaDirection);
+        var nearByMinusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.useDirection-deltaDirection);
+        var nearByPlusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.useDirection+deltaDirection);
         if (nearByMinusPosition.intersection>bestNearByPosition.intersection and nearByPlusPosition.intersection>bestNearByPosition.intersection){
             return bestNearByPosition;
         }
@@ -220,7 +231,7 @@ public class WindowPositionerCenter extends WindowPositioner {
        }
        var correctCount = maxCorrectionTries;
        while (bestNearByPosition.intersection>noIntersection and correctCount>0){
-           var newNearByPosition = calculateNewWindowPosition(usedRects,bestNearByPosition,bestNearByPosition.usedDirection+deltaFactor*deltaDirection);
+           var newNearByPosition = calculateNewWindowPosition(usedRects,bestNearByPosition,bestNearByPosition.useDirection+deltaFactor*deltaDirection);
            if (newNearByPosition.intersection>bestNearByPosition.intersection){
                return bestNearByPosition;
            }

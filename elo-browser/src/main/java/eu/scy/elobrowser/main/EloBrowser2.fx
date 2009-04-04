@@ -559,6 +559,7 @@ activeAnchorTransferer.eloSavedAction = scyWindowControl.newEloSaved;
 var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
     eloSavedAction : scyWindowControl.newEloSaved;
 }
+loginGroup.scyWindowControl = scyWindowControl;
 
 scyDesktop.addScyWindow(newScyWindow);
 scyWindowControl.addOtherScyWindow(newScyWindow);

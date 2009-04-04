@@ -152,7 +152,7 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
             x = xMin;
             y = centerY - (centerX - xMin) * Math.tan(direction);
         };
-        windowPosition.usedDirection = direction;
+        windowPosition.useDirection = direction;
         calculateWindowPosition(windowPosition,x,y,w,h);
     }
 
@@ -214,8 +214,8 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
 
     function findBestNearByPosition(usedRects:Rectangle2D[],windowPosition:WindowPosition):WindowPosition{
         var bestNearByPosition = windowPosition;
-        var nearByMinusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.usedDirection-deltaDirection);
-        var nearByPlusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.usedDirection+deltaDirection);
+        var nearByMinusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.useDirection-deltaDirection);
+        var nearByPlusPosition = calculateNewWindowPosition(usedRects,windowPosition,windowPosition.useDirection+deltaDirection);
         if (nearByMinusPosition.intersection>bestNearByPosition.intersection and nearByPlusPosition.intersection>bestNearByPosition.intersection){
             return bestNearByPosition;
         }
@@ -228,7 +228,7 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
        }
        var correctCount = maxCorrectionTries;
        while (bestNearByPosition.intersection>noIntersection and correctCount>0){
-           var newNearByPosition = calculateNewWindowPosition(usedRects,bestNearByPosition,bestNearByPosition.usedDirection+deltaFactor*deltaDirection);
+           var newNearByPosition = calculateNewWindowPosition(usedRects,bestNearByPosition,bestNearByPosition.useDirection+deltaFactor*deltaDirection);
            if (newNearByPosition.intersection>bestNearByPosition.intersection){
                return bestNearByPosition;
            }

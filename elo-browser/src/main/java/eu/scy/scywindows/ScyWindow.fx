@@ -669,11 +669,11 @@ public class ScyWindow extends CustomNode {
 	}
 
     public function setMinimized(newMinimized:Boolean){
-        isClosed = false;
+ //       isClosed = false;
         if (newMinimized!=isMinimized){
             if (newMinimized){
-                originalTranslateX = translateX;
-                originalTranslateY = translateY;
+//                originalTranslateX = translateX;
+//                originalTranslateY = translateY;
                 originalWidth = width;
                 originalHeight = height;
                 width = minimumWidth;
@@ -681,8 +681,8 @@ public class ScyWindow extends CustomNode {
                 isMinimized = true;
             }
             else{
-                translateX = originalTranslateX;
-                translateY = originalTranslateY;
+//                translateX = originalTranslateX;
+//                translateY = originalTranslateY;
                 width = originalWidth;
                 height = originalHeight;
                 isMinimized = false;

@@ -1,7 +1,10 @@
 package eu.scy.elobrowser.main;
 
+import eu.scy.elobrowser.main.ScyLoginManager;
+import eu.scy.elobrowser.notification.GrowlFX;
+import eu.scy.elobrowser.ui.SwingPasswordField;
 import eu.scy.scywindows.ScyWindow;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.scywindows.ScyWindowControl;
 import java.lang.Math;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -10,23 +13,19 @@ import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.control.TextBox;
 import javafx.scene.effect.DropShadow;
-import javafx.ext.swing.SwingComponent;
 import javafx.scene.effect.Reflection;
 import javafx.scene.Group;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javax.swing.JPasswordField;
 import org.jfxtras.scene.layout.Cell;
 import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
-import eu.scy.elobrowser.ui.SwingPasswordField;
-import eu.scy.elobrowser.notification.GrowlFX;
-import javafx.scene.input.KeyEvent;
 
 class SlackyInterpolator extends SimpleInterpolator {
 
@@ -85,6 +84,7 @@ public class SCYLogin extends Group {
         }
     }
     public var register : function():Void;
+    public var scyWindowControl:ScyWindowControl;
 
     var loginGroup : Node;
     var loginButton: SwingButton;
@@ -210,6 +210,7 @@ public class SCYLogin extends Group {
                 action: function() {
                     t[1].play();
                     loginNode.visible = false;
+                   scyWindowControl.positionWindows();
                 }
             } ]
         } into t;
@@ -225,10 +226,10 @@ public class SCYLogin extends Group {
                     n.opacity => 1.0 tween SimpleInterpolator.LINEAR;
                     },
                 ]
-//                action: function() {
+                action: function() {
 //                    println("SCYLogin -> Calling GrowlFX to register ABC");
 //                    growlFX.register();
-//                }
+                }
 
             }
         } into t;
