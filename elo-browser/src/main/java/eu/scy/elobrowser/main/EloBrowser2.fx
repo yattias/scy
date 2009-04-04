@@ -116,7 +116,7 @@ var backgroundAnchor = Anchor{
     xPos: 100;
     yPos: 20;
     color: Color.BLUE;
-    eloUri: new URI("test://background.jpg");
+    eloUri: new URI("test://background.png");
     relationNames: [annotatesRelationName]
 }
 
@@ -143,7 +143,7 @@ var reportAnchor = Anchor{
     xPos: 20;
     yPos: 40;
     color: Color.BLUE;
-    eloUri: new URI("test://report.jpg");
+    eloUri: new URI("test://report.png");
     relationNames: [annotatesRelationName]
 }
 missionAnchor.nextAnchors = [backgroundAnchor,simulationAnchor];
@@ -301,6 +301,7 @@ var newGroup = VBox {
 }
 
 var newScyWindow = ScyWindow{
+   id:"new://new.new"
 //    translateX: 300;
     translateX: 30;
     translateY: 300;
@@ -385,7 +386,7 @@ function registerNotifications(){
 var loginGroup = SCYLogin {
     growlFX: growl;
 
-    register: registerNotifications;
+//    register: registerNotifications;
 
     mainContent: [
         scyDesktop.desktop,
@@ -559,7 +560,9 @@ var eloSavedNotificationCatcher = EloSavedNotificationCatcher{
     eloSavedAction : scyWindowControl.newEloSaved;
 }
 
+scyDesktop.addScyWindow(newScyWindow);
 scyWindowControl.addOtherScyWindow(newScyWindow);
+scyWindowControl.activeAnchorChanged();
 scyWindowControl.positionWindows();
 
 stage;

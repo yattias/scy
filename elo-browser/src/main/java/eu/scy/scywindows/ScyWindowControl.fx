@@ -75,6 +75,7 @@ public class ScyWindowControl{
     }
 
     public function addOtherScyWindow(otherWindow:ScyWindow){
+       println("addOtherScyWindow, id:{otherWindow.id}");
         addOtherScyWindow(otherWindow, false);
     }
 
@@ -83,7 +84,7 @@ public class ScyWindowControl{
     }
 
 
-    function activeAnchorChanged(){
+    public function activeAnchorChanged(){
         activeAnchorWindow = getScyWindow(activeAnchor);
         if (activeAnchorWindow != null){
             scyDesktop.addScyWindow(activeAnchorWindow);
