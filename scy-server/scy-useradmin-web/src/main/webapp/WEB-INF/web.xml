@@ -128,9 +128,9 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <listener>
+    <!-- listener>
         <listener-class>eu.scy.listeners.UserSessionListener</listener-class>
-    </listener>
+    </listener-->
 
     <!--listener>
         <listener-class>eu.scy.listeners.ColemoStartupListener</listener-class>
