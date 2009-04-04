@@ -23,6 +23,7 @@ import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
 import eu.scy.elobrowser.notification.GrowlFX;
+import javafx.scene.input.KeyEvent;
 
 class SlackyInterpolator extends SimpleInterpolator {
 
@@ -82,6 +83,7 @@ public class SCYLogin extends Group {
     }
 
     var loginGroup : Node;
+    var loginButton: SwingButton;
 
     init  {
         content = [
@@ -113,7 +115,13 @@ public class SCYLogin extends Group {
                 title:"Login"
                 color:Color.BLUEVIOLET
 
-                var usernamefield = TextBox {}
+                var usernamefield:TextBox = TextBox {
+                    onKeyTyped: function( e: KeyEvent ):Void {
+                        var entry = usernamefield.text.trim();
+                        loginButton.enabled = entry.length()>0;
+                     }
+
+                   }
 
                 var passwordfield = TextBox {}
 
@@ -149,11 +157,12 @@ public class SCYLogin extends Group {
                             cells: Cell {
                                 columnSpan: 2
                                 horizontalAlignment: HorizontalAlignment.CENTER
-                                content: SwingButton {
+                                content: loginButton = SwingButton {
+                                   enabled:false;
                                     text: "Ok"
                                     action: function() {
                                         var sm = new ScyLoginManager();
-                                        var username = usernamefield.text;
+                                        var username = usernamefield.text.trim();
                                         var password = passwordfield.text;
                                         var loginResult = sm.login(username, password);
                                         if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
