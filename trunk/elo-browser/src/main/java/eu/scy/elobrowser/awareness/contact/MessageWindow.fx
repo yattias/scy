@@ -197,23 +197,23 @@ public class MessageWindow extends CustomNode, ChatReceiver {
     public var textarea = SwingComponent.wrap(scrollPane);
 
     function sendMessage(): Void {
-        con.sendMessage(receiver, textField.text);
-        addChatRow(sender, textField.text);
-        textField.text="";
+        if (textField.text != "") {
+            con.sendMessage(receiver, textField.text);
+            addChatRow(sender, textField.text);
+            textField.text="";
+        }
     }
 
     override public function receiveMessage(user:String, text:String ) : Void {
-        addChatRow("{user}", "{text}");
+        addChatRow(user, text);
     }
 
-    function addChatRow(user:String, message: String):Void{
+    function addChatRow(chatter:String, message: String):Void{
         messages = swingTextArea.getText();
         if (messages == ""){
-            swingTextArea.setText("{user}: {message}");
+            swingTextArea.setText("{chatter}: {message}");
         } else {
-            if (textField.text != ""){
-                swingTextArea.setText("{messages}\n{user}: {message}");
-            }
+            swingTextArea.setText("{messages}\n{chatter}: {message}");
         }
     }
 
