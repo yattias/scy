@@ -51,18 +51,28 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
-		registerKeys();
 
 		if (elo == null) {
 			return;
 		}
 
 		IMetadata<K> metadata = elo.getMetadata();
+		if (metadata != null) {
+			IMetadataValueContainer type = metadata
+					.getMetadataValueContainer((K) metadataTypeManager
+							.getMetadataKey("type"));
+			if (!"scy/conceptMap".equals(type.getValue())) {
+				return;
+			}
+		}
+
+		registerKeys();
 		IContent content = elo.getContent();
 		try {
-			if ((content != null) || (metadata != null)) {
+			if ((content != null) && (metadata != null)) {
 
 				enrichMetadata(metadata, content.getXmlString());
 
@@ -90,6 +100,11 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		Document xmlDocument = builder.build(stringReader);
 
 		Element rootElement = xmlDocument.getRootElement();
+		if (rootElement != null) {
+			if (!"conceptmap".equals(rootElement.getName())) {
+				return;
+			}
+		}
 
 		Element nodesElement = rootElement.getChild("nodes");
 		List<Element> nodes = nodesElement.getChildren("node");
