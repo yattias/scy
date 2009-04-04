@@ -10,6 +10,7 @@ import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.control.TextBox;
 import javafx.scene.effect.DropShadow;
+import javafx.ext.swing.SwingComponent;
 import javafx.scene.effect.Reflection;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,10 +19,12 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javax.swing.JPasswordField;
 import org.jfxtras.scene.layout.Cell;
 import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
+import eu.scy.elobrowser.ui.SwingPasswordField;
 import eu.scy.elobrowser.notification.GrowlFX;
 import javafx.scene.input.KeyEvent;
 
@@ -124,8 +127,6 @@ public class SCYLogin extends Group {
 
                    }
 
-                var passwordfield = TextBox {}
-
                 scyContent:
                 loginGroup = Grid {
                     width: 50
@@ -186,6 +187,8 @@ public class SCYLogin extends Group {
                 allowClose:false;
                 allowResize:false;
                 allowRotate:false;
+                allowMinimize:false;
+                allowDragging:false;
             }
 
         ];
