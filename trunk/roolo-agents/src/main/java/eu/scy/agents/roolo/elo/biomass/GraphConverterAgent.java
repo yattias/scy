@@ -67,7 +67,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 		if (content == null) {
 			return;
 		}
-		StringReader reader = new StringReader(content.getXml());
+		StringReader reader = new StringReader(content.getXmlString());
 		SAXBuilder builder = new SAXBuilder();
 		try {
 			Element rootElement = builder.build(reader).getRootElement();
