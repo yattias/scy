@@ -15,6 +15,9 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
+		if(elo == null) {
+			return;
+		}
 		IMetadata<K> metadata = elo.getMetadata();
 		if (metadata != null) {
 			IMetadataValueContainer type = metadata
