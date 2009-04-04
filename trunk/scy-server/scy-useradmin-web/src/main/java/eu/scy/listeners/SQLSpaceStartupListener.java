@@ -31,16 +31,16 @@ public class SQLSpaceStartupListener implements ServletContextListener {
             public void run() {                                                                                                                                                                                                                   
                 log.info("Initializing SQL SPACES SERVER");
                 Configuration.getConfiguration().setLogLevel(Level.INFO);
-                Configuration.getConfiguration().setDbType(Configuration.Database.MYSQL);
-                Configuration.getConfiguration().setMysqlHost("localhost");
-                Configuration.getConfiguration().setMysqlPort(3306);
-                Configuration.getConfiguration().setMysqlSchema("scysqlspaces");
-                Configuration.getConfiguration().setDbUser("scysqlspaces");
-                Configuration.getConfiguration().setDbPassword("scy");
-                Configuration.getConfiguration().setWebPort(8200);
-                Configuration.getConfiguration().setWebEnabled(true);
-                Configuration.getConfiguration().setWebServicesEnabled(false);
-                Configuration.getConfiguration().setWebRoot("/home/hudson/sqls");
+                Configuration.getConfiguration().setDbType(Configuration.Database.HSQL);
+//                Configuration.getConfiguration().setMysqlHost("localhost");
+//                Configuration.getConfiguration().setMysqlPort(3306);
+//                Configuration.getConfiguration().setMysqlSchema("scysqlspaces");
+//                Configuration.getConfiguration().setDbUser("scysqlspaces");
+//                Configuration.getConfiguration().setDbPassword("scy");
+//                Configuration.getConfiguration().setWebPort(8200);
+//                Configuration.getConfiguration().setWebEnabled(true);
+//                Configuration.getConfiguration().setWebServicesEnabled(false);
+//                Configuration.getConfiguration().setWebRoot("/home/hudson/sqls");
                 Server.startServer();
 
                 try {
