@@ -11,6 +11,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -154,43 +155,64 @@ public class DataCollector extends Activity {
 	private static final String SOAP_ACTION = "saveData";
     private static final String METHOD_NAME = "saveData";
     private static final String NAMESPACE = "http://mobileservice.webservices.scy.eu/";
-    private static final String URL = "http://192.168.178.30:8080/scy-useradmin-web/services/RepositoryService";
+    private static final String URL = "http://scy.collide.info:8080/scy-useradmin-web/services/RepositoryService";
+//    private static final String URL = "http://134.91.34.218:8080/scy-useradmin-web/services/RepositoryService";
      
     /**
      * Method to save the picture and the title into the web service.
      */
     private void saveELO() {
-        try {
-        	// get title
-        	String t = title.getText().toString();
-        	
-        	// get picture as base64 encoded String
-        	byte[] picArray = getBitmapAsByteArray(picture);
-        	String pic = Base64.encode(picArray);
-
-        	// set-up SOAP message
-            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            request.addProperty("title", t);
-            request.addProperty("description", "-");
-            request.addProperty("b64image", pic);
-     
-            // set-up transport and send
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            envelope.setOutputSoapObject(request);
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-            androidHttpTransport.call(SOAP_ACTION, envelope);
-     
-            showDialog("Success", "The photo has been stored successfully!");
-            
-            title.setText("");
-            preview.setImageBitmap(null);
-            picture = null;
-            // handle result
-            //  Object result = envelope.getResponse();
-        } catch (Exception e) {
-            Log.d("DataCollector->SOAP", e.getMessage());
-            showDialog("Error", e.toString());
-        }
+    	final ProgressDialog pd = ProgressDialog.show(this, "Please wait...", "Your ELO is being uploaded!");
+    	
+    	Thread uploadThread = new Thread("UploadThread") {
+    		@Override
+    		public void run() {
+    			try {
+    				// get title
+    				String t = title.getText().toString();
+    				
+    				// get picture as base64 encoded String
+    				byte[] picArray = getBitmapAsByteArray(picture);
+    				String pic = Base64.encode(picArray);
+    				
+    				// set-up SOAP message
+    				SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+    				request.addProperty("title", t);
+    				request.addProperty("description", "-");
+    				request.addProperty("b64image", pic);
+    				
+    				// set-up transport and send
+    				SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+    				envelope.setOutputSoapObject(request);
+    				HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+    				androidHttpTransport.call(SOAP_ACTION, envelope);
+    				
+    				DataCollector.this.runOnUiThread(new Runnable() {
+						public void run() {
+							pd.dismiss();
+							showDialog("Success", "The photo has been stored successfully!");
+							title.setText("");
+							preview.setImageBitmap(null);
+						}
+    				});
+    				
+    				picture = null;
+    				// handle result
+    				//  Object result = envelope.getResponse();
+    				
+    				// remove progress dialog
+    			} catch (final Exception e) {
+    				Log.d("DataCollector->SOAP", e.getMessage());
+    				DataCollector.this.runOnUiThread(new Runnable() {
+						public void run() {
+							pd.dismiss();
+							showDialog("Error", e.toString());
+						}
+    				});
+    			}
+    		}
+    	};
+    	uploadThread.start();
     }
 
     /**
