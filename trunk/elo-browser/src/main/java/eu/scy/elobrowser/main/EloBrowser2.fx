@@ -105,6 +105,8 @@ var scyWindowStyler = ScyWindowStyler{
 
 var scyWindowControl: ScyWindowControl;
 
+var contentGroup : Group;
+
 var missionAnchor = Anchor{
     title: "M";
     xPos: 140;
@@ -322,8 +324,10 @@ var chatConnector = new ChatConnector();
 
 def contactWindow = ContactWindow{
     scyDesktop:this.scyDesktop;
-    contacts: bind getContacts();
     chatConnector: chatConnector;
+    contacts: getContacts()[0..<4];
+    visible: false;
+    opacity: 0.0;
 };
 
 def propertiesWindow: PropertiesWindow = PropertiesWindow{
@@ -331,12 +335,6 @@ def propertiesWindow: PropertiesWindow = PropertiesWindow{
     height:80;
     translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
     translateY : bind contactWindow.translateY;
-    user:Contact{
-            currentMission: "Testmission";
-            imageURL: "img/Giemza.png";
-            name: "Adam";
-            onlineState: OnlineState.ONLINE;
-            progress: 0.78;};
     }
 
 def missionMapWindow: MissionMapWindow = MissionMapWindow{
@@ -382,14 +380,7 @@ def growl = GrowlFX {
 //    visible: false;
 }
 
-function registerNotifications(){
-   println("*********** Registering notifications after login **********");
-   eloSavedNotificationCatcher.register();
-   growl.register();
-   chatConnector.register(User.instance.getUsername());
-}
-
-var loginGroup = SCYLogin {
+var loginGroup : SCYLogin = SCYLogin {
 
     register: registerNotifications;
 
@@ -398,24 +389,62 @@ var loginGroup = SCYLogin {
         propertiesWindow,
         searchWindow,
         missionMapWindow,
-        contactWindow,
         edgesManager
        // resultView
         //missionMap
     ]
 }
 
+
+function registerNotifications() : Void {
+   println("*********** Registering notifications after login **********");
+   var userName = User.instance.getUsername();
+
+   eloSavedNotificationCatcher.register();
+   growl.register();
+   chatConnector.register(userName);
+   var contacts = getContacts();
+   var myContact : ContactFrame;
+   for (contact in contacts) {
+       if (contact.contact.name.equals(userName)) {
+           delete contact from contacts;
+           myContact = contact;
+       }
+   }
+   println("Logged in user: {myContact}");
+   println("Other users: {contacts}");
+
+   //FX.deferAction(function() :Void {
+        propertiesWindow.user = myContact.contact;
+        var newContactWindow = ContactWindow{
+            scyDesktop:this.scyDesktop;
+            chatConnector: chatConnector;
+            contacts: contacts;
+            visible: false;
+            opacity: 0.0;
+        };
+        print("Now in contacts: ");
+        for (contact in contacts) {
+            print("{contact.contact.name} ");
+        }
+        println("");
+        loginGroup.insertComponent(newContactWindow);
+        delete contactWindow from contentGroup.content;
+        insert newContactWindow into contentGroup.content;
+   //});
+}
+
 function getContacts():ContactFrame[]{
-//    def contact1 = ContactFrame{
-//        size: WindowSize.NORMAL;
-//        contact: Contact{
-//            currentMission: "Testmission";
-//            imageURL: "img/Giemza.png";
-//            name: "Adam";
-//            onlineState: OnlineState.ONLINE;
-//            progress: 0.78;
-//        };
-//    };
+    def contact1 = ContactFrame{
+        size: WindowSize.NORMAL;
+        contact: Contact{
+            currentMission: "Testmission";
+            imageURL: "img/Giemza.png";
+            name: "Adam";
+            onlineState: OnlineState.ONLINE;
+            progress: 0.78;
+        };
+    };
 
     def contact2 = ContactFrame{
         size: WindowSize.NORMAL;
@@ -487,8 +516,8 @@ function getContacts():ContactFrame[]{
         };
     }
 
-//    return ([contact1,contact2,contact4,contact5, contact6] as ContactFrame[]);
-    return ([contact2,contact4,contact5, contact6] as ContactFrame[]);
+    return ([contact1,contact2,contact4,contact5, contact6] as ContactFrame[]);
+//    return ([contact2,contact4,contact5, contact6] as ContactFrame[]);
 };
 
 
@@ -518,9 +547,8 @@ stage = Stage {
             ]
         }
 		content: [
-			Group{
+			contentGroup = Group{
 				content: [
-                    
                     loginGroup
                     edgesManager,
                     propertiesWindow

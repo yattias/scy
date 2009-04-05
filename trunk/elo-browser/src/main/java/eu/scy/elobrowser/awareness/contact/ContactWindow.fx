@@ -56,7 +56,10 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
     public var chatConnector: ChatConnector;
 
-    public var contacts: ContactFrame[];
+    public var contacts: ContactFrame[] on replace {
+        updateContacts();
+        actualizePositions();
+    };
     public var visibleContacts = bind contacts[contact|contact.contact.onlineState != OnlineState.OFFLINE] on replace {
         actualizePositions();
     };
@@ -74,6 +77,10 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
         chatConnector.setChatInitiator(this);
 
+        updateContacts();
+    };
+
+    public function updateContacts() : Void {
         for (contact in contacts){
             contact.frame.onMousePressed = function(evt:MouseEvent):Void{
                 if (evt.primaryButtonDown){
@@ -126,7 +133,9 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
             var lastClickContact: Long = 0;
         }
-    };
+
+}
+
 
     postinit {
         for (contact in visibleContacts){

@@ -76,11 +76,14 @@ public class SCYLogin extends Group {
     def maxOpacity = 0.9;
     var preferredWidth = 280;
     var preferredHeight = 180;
-
+    var firstAssignment = true;
     public-init var mainContent : Node[] on replace {
-        for (n in mainContent) {
-            n.visible = false;
-            n.opacity = 0.0;
+        if (firstAssignment) {
+            firstAssignment = false;
+                for (n in mainContent) {
+                n.visible = false;
+                n.opacity = 0.0;
+            }
         }
     }
     public var register : function():Void;
@@ -88,6 +91,10 @@ public class SCYLogin extends Group {
 
     var loginGroup : Node;
     var loginButton: SwingButton;
+
+    public function insertComponent(newComp : Node) {
+        insert newComp into mainContent;
+    }
 
     init  {
         content = [
