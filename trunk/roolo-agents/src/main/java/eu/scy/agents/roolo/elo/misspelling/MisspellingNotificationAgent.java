@@ -14,6 +14,7 @@ public class MisspellingNotificationAgent<K extends IMetadataKey> extends
 	private NotificationSender sender;
 
 	public MisspellingNotificationAgent() {
+		super("NotifyAboutMisspellings");
 		sender = new NotificationSender();
 	}
 
@@ -23,13 +24,14 @@ public class MisspellingNotificationAgent<K extends IMetadataKey> extends
 		try {
 			t = getTupleSpace().waitToTake(
 					new Tuple("misspellings", String.class, Long.class,
-							Integer.class));
+							Integer.class, String.class));
 			String uri = (String) t.getField(1).getValue();
 			Integer numberOfErrors = (Integer) t.getField(3).getValue();
 			String user = (String) t.getField(4).getValue();
-			getTupleSpace().write(
-					new Tuple("notification", "misspelling", uri,
-							numberOfErrors));
+
+			// getTupleSpace().write(
+			// new Tuple("notification", "misspelling", uri,
+			// numberOfErrors));
 			System.out
 					.println("***************** your document " + uri + " has "
 							+ numberOfErrors + " spelling errors ********** ");
