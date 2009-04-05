@@ -38,7 +38,19 @@ import javafx.stage.Stage;
 public class PropertiesWindow extends CustomNode{
 
 //    public var content:Node;
-    public var user:Contact;
+    public var user:Contact on replace oldValue {
+        image.image = Image {
+            width: 64;
+            height: 64;
+            preserveRatio: false;
+            url: "{__DIR__}{user.imageURL}";
+        }
+        userNameText.content = "{user.name}";
+        userStateText.content = "{user.onlineState}";
+        userMissionText.content = "{user.currentMission}";
+        userProgressText.content = "{user.progress*100}%";
+    }
+
     public var width:Number;
     public var height:Number;
 
@@ -56,15 +68,30 @@ public class PropertiesWindow extends CustomNode{
 //        };
         translateY:-15;
         image: Image{
-
             width: 64;
             height: 64;
             preserveRatio: false;
-            url: "{__DIR__}{user.imageURL}";
-           
+            url: "{__DIR__}img/DHam.png";
         };
         cache: true;
     };
+
+    var userNameText = Text {
+        content:"x";
+        font:Font.font("",FontWeight.REGULAR,12);
+    }
+    var userStateText = Text{
+        content:"x";
+        font:Font.font("",FontWeight.REGULAR,12);
+    }
+    var userMissionText = Text{
+        content:"x";
+        font:Font.font("",FontWeight.REGULAR,12);
+    }
+    var userProgressText =Text{
+        content:"x";
+        font:Font.font("",FontWeight.REGULAR,12);
+    }
 
     public var userDataView: HBox = HBox{
             translateX: 10;
@@ -82,19 +109,9 @@ public class PropertiesWindow extends CustomNode{
             }, Text{
                 content:"Progress: ";
                 font:Font.font("",FontWeight.BOLD,12);
-            }]}, VBox{content: [Text{
-                content:"{user.name}";
-                font:Font.font("",FontWeight.REGULAR,12);
-            }, Text{
-                content:"{user.onlineState}";
-                font:Font.font("",FontWeight.REGULAR,12);
-            }, Text{
-                content:"{user.currentMission}";
-                font:Font.font("",FontWeight.REGULAR,12);
-            }, Text{
-                content:"{user.progress*100}%";
-                font:Font.font("",FontWeight.REGULAR,12);
-            }]}
+            }]}, VBox{content: [
+            userNameText, userStateText, userMissionText, userProgressText
+            ]}
                 ]
     }
 
