@@ -66,7 +66,8 @@
 				<ref bean="textCountKey" />
 				<ref bean="imageCountKey" />
 				<ref bean="tagPointerCountKey" />
-
+				<ref bean="nodeLabel" />
+				<ref bean="linkLabel" />
 				<ref bean="testStringListKey" />
 			</list>
 		</property>
@@ -276,6 +277,24 @@
 		<constructor-arg index="4" ref="defaultLongValidator" />
 	</bean>
 
+	<bean name="nodeLabel" class="roolo.elo.metadata.keys.StringMetadataKey">
+		<constructor-arg index="0" value="nodeLabel" />
+		<constructor-arg index="1"
+			value="/agentdata/conceptmaps/nodeLabel" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+
+	<bean name="linkLabel" class="roolo.elo.metadata.keys.StringMetadataKey">
+		<constructor-arg index="0" value="linkLabel" />
+		<constructor-arg index="1"
+			value="/agentdata/conceptmaps/linkLabel" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+
 	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
 
 	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
@@ -335,12 +354,6 @@
 						<value>scy/melo</value>
 					</key>
 					<value>.melo</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/mapping</value>
-					</key>
-					<value>.scymapper</value>
 				</entry>
 			</map>
 		</property>
