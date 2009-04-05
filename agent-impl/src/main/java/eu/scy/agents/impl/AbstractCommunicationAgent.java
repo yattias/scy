@@ -8,9 +8,9 @@ public abstract class AbstractCommunicationAgent<K extends IMetadataKey>
 
 	protected boolean done;
 
-	public AbstractCommunicationAgent() {
+	public AbstractCommunicationAgent(String threadName) {
 		done = false;
-		Thread t = new Thread(this);
+		Thread t = new Thread(this, threadName);
 		t.start();
 	}
 
