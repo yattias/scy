@@ -26,6 +26,8 @@ import org.jfxtras.scene.layout.Cell;
 import org.jfxtras.scene.layout.Grid;
 import org.jfxtras.scene.layout.HorizontalAlignment;
 import org.jfxtras.scene.layout.Row;
+import eu.scy.elobrowser.awareness.contact.ChatConnector;
+import eu.scy.elobrowser.main.user.User;
 
 class SlackyInterpolator extends SimpleInterpolator {
 
@@ -74,8 +76,6 @@ public class SCYLogin extends Group {
     def maxOpacity = 0.9;
     var preferredWidth = 280;
     var preferredHeight = 180;
-
-    public var growlFX :GrowlFX;
 
     public-init var mainContent : Node[] on replace {
         for (n in mainContent) {
@@ -170,14 +170,14 @@ public class SCYLogin extends Group {
                                         var username = usernamefield.text.trim();
                                         var password = passwordfield.text;
                                         var loginResult = sm.login(username, password);
+                                        if (register!=null){
+                                            println("################# Calling to register ################");
+                                            register();
+                                        }
                                         if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
                                             loginNodeDisappear();
                                         } else {
                                             startLoginAnimation();
-                                            if (register!=null){
-                                               register();
-                                            }
-
                                         }
 
 
@@ -226,11 +226,6 @@ public class SCYLogin extends Group {
                     n.opacity => 1.0 tween SimpleInterpolator.LINEAR;
                     },
                 ]
-                action: function() {
-//                    println("SCYLogin -> Calling GrowlFX to register ABC");
-//                    growlFX.register();
-                }
-
             }
         } into t;
         t[0].play();

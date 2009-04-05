@@ -15,6 +15,7 @@ import eu.scy.elobrowser.awareness.contact.ContactFrame;
 import eu.scy.elobrowser.awareness.contact.ContactWindow;
 import eu.scy.elobrowser.awareness.contact.OnlineState;
 import eu.scy.elobrowser.awareness.contact.WindowSize;
+import eu.scy.elobrowser.awareness.contact.ChatConnector;
 import eu.scy.elobrowser.main.EdgesManager;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.main.SCYLogin;
@@ -55,6 +56,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import eu.scy.elobrowser.main.user.User;
 
 
 
@@ -316,10 +318,12 @@ var newScyWindow = ScyWindow{
 newScyWindow.openWindow(150, 300);
 scyDesktop.addScyWindow(newScyWindow);
 
+var chatConnector = new ChatConnector();
 
 def contactWindow = ContactWindow{
     scyDesktop:this.scyDesktop;
     contacts: bind getContacts();
+    chatConnector: chatConnector;
 };
 
 def propertiesWindow: PropertiesWindow = PropertiesWindow{
@@ -379,12 +383,13 @@ def growl = GrowlFX {
 }
 
 function registerNotifications(){
+   println("*********** Registering notifications after login **********");
    eloSavedNotificationCatcher.register();
    growl.register();
+   chatConnector.register(User.instance.getUsername());
 }
 
 var loginGroup = SCYLogin {
-    growlFX: growl;
 
     register: registerNotifications;
 
