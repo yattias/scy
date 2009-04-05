@@ -84,10 +84,6 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 	@SuppressWarnings("unchecked")
 	private void enrichMetadata(IMetadata<K> metadata, String xmlString)
 			throws JDOMException, IOException {
-		System.err.println("***** enriching metadata ******");
-		System.err.println("-------------------------");
-		System.err.println(xmlString);
-		System.err.println("-------------------------");
 		if (xmlString == null) {
 			return;
 		}
@@ -96,37 +92,37 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 		Document xmlDocument = builder.build(stringReader);
 
 		Element rootElement = xmlDocument.getRootElement();
-		// if (rootElement != null) {
-		// if (!"conceptmap".equals(rootElement.getName())) {
-		// return;
-		// }
-		// }
+		if (rootElement == null) {
+			return;
+		}
 
 		Element nodesElement = rootElement.getChild("nodes");
-		List<Element> nodes = nodesElement.getChildren("node");
-		Set<String> nodeLabels = new HashSet<String>();
-		IMetadataValueContainer nodeValue = metadata
-				.getMetadataValueContainer((K) nodeLabelKey);
-		for (Element node : nodes) {
-			String nodeLabel = node.getAttributeValue("name");
-			if (!nodeLabels.contains(nodeLabel)) {
-				System.err.println("adding nodelabel " + nodeLabel);
-				nodeValue.addValue(nodeLabel);
-				nodeLabels.add(nodeLabel);
+		if (nodesElement != null) {
+			List<Element> nodes = nodesElement.getChildren("node");
+			Set<String> nodeLabels = new HashSet<String>();
+			IMetadataValueContainer nodeValue = metadata
+					.getMetadataValueContainer((K) nodeLabelKey);
+			for (Element node : nodes) {
+				String nodeLabel = node.getAttributeValue("name");
+				if (!nodeLabels.contains(nodeLabel)) {
+					nodeValue.addValue(nodeLabel);
+					nodeLabels.add(nodeLabel);
+				}
 			}
 		}
 
 		Element linksElement = rootElement.getChild("links");
-		List<Element> links = linksElement.getChildren("link");
-		IMetadataValueContainer linkValue = metadata
-				.getMetadataValueContainer((K) linkLabelKey);
-		Set<String> linkLabels = new HashSet<String>();
-		for (Element link : links) {
-			String linkLabel = link.getAttributeValue("label");
-			if (!linkLabels.contains(linkLabel)) {
-				System.err.println("adding linklabel " + linkLabel);
-				linkValue.addValue(linkLabel);
-				linkLabels.add(linkLabel);
+		if (linksElement != null) {
+			List<Element> links = linksElement.getChildren("link");
+			IMetadataValueContainer linkValue = metadata
+					.getMetadataValueContainer((K) linkLabelKey);
+			Set<String> linkLabels = new HashSet<String>();
+			for (Element link : links) {
+				String linkLabel = link.getAttributeValue("label");
+				if (!linkLabels.contains(linkLabel)) {
+					linkValue.addValue(linkLabel);
+					linkLabels.add(linkLabel);
+				}
 			}
 		}
 	}
