@@ -11,15 +11,11 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import roolo.elo.api.I18nType;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.MetadataValueCount;
-import roolo.elo.metadata.keys.StringMetadataKey;
-import roolo.elo.metadata.value.validators.StringValidator;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
 
 public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
@@ -29,29 +25,12 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 	private IMetadataKey linkLabelKey;
 
 	public EnrichConceptMapAgent() {
-	}
 
-	private void registerKeys() {
-		nodeLabelKey = new StringMetadataKey("nodeLabel",
-				"/agentdata/conceptmaps/nodeLabel", I18nType.UNIVERSAL,
-				MetadataValueCount.LIST, new StringValidator());
-		if (!getMetadataTypeManager().isMetadataKeyRegistered(nodeLabelKey)) {
-			getMetadataTypeManager().registerMetadataKey(nodeLabelKey);
-		}
-
-		linkLabelKey = new StringMetadataKey("linkLabel",
-				"/agentdata/conceptmaps/linkLabel", I18nType.UNIVERSAL,
-				MetadataValueCount.LIST, new StringValidator());
-		if (!getMetadataTypeManager().isMetadataKeyRegistered(linkLabelKey)) {
-			getMetadataTypeManager().registerMetadataKey(linkLabelKey);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
-		System.err
-				.println("********************** concept map elo saved ***************");
 		if (elo == null) {
 			return;
 		}
@@ -61,12 +40,13 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 			IMetadataValueContainer type = metadata
 					.getMetadataValueContainer((K) metadataTypeManager
 							.getMetadataKey("type"));
-			if (!"scy/mapping".equals(type.getValue())) {
+			if (!"scy/scymapping".equals(type.getValue())) {
 				return;
 			}
 		}
 
-		registerKeys();
+		System.err.println("enriched concept map elo");
+
 		IContent content = elo.getContent();
 		try {
 			if ((content != null) && (metadata != null)) {
@@ -87,6 +67,9 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 		if (xmlString == null) {
 			return;
 		}
+		nodeLabelKey = metadataTypeManager.getMetadataKey("nodeLabel");
+		linkLabelKey = metadataTypeManager.getMetadataKey("linkLabel");
+
 		StringReader stringReader = new StringReader(xmlString);
 		SAXBuilder builder = new SAXBuilder();
 		Document xmlDocument = builder.build(stringReader);

@@ -15,7 +15,7 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
-		if(elo == null) {
+		if (elo == null) {
 			return;
 		}
 		IMetadata<K> metadata = elo.getMetadata();
@@ -23,10 +23,14 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 			IMetadataValueContainer type = metadata
 					.getMetadataValueContainer((K) metadataTypeManager
 							.getMetadataKey("type"));
-			if (!"scy/mapping".equals(type.getValue())) {
+			if (!"scy/scymapping".equals(type.getValue())) {
 				return;
 			}
 		}
+
+		System.err
+				.println("concept map elo saved");
+
 		try {
 			TupleSpace ts = getTupleSpace();
 			ts.write(new Tuple("scymapper", System.currentTimeMillis(), elo
