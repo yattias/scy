@@ -54,6 +54,7 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
     public var messageWindowInstanciated: Boolean = false;
 
+    public var chatConnector: ChatConnector;
 
     public var contacts: ContactFrame[];
     public var visibleContacts = bind contacts[contact|contact.contact.onlineState != OnlineState.OFFLINE] on replace {
@@ -67,12 +68,12 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
     var ghostImage: ImageView;
 
-    var chatConnector: ChatConnector;
-
     init{
         actualizePositions();
         frameResize();
-        chatConnector = new ChatConnector(this, User.instance.getUsername());
+
+        chatConnector.setChatInitiator(this);
+
         for (contact in contacts){
             contact.frame.onMousePressed = function(evt:MouseEvent):Void{
                 if (evt.primaryButtonDown){
@@ -156,6 +157,7 @@ public class ContactWindow extends CustomNode, ChatInitiator {
     }
 
     override public function startChat(contactName: String, initialMessage: String) : Void {
+        println(".... startChat with {contactName} .......");
         for (contact in contacts) {
             if (contact.contact.name == contactName) {
                 if (not contact.isChatting){
