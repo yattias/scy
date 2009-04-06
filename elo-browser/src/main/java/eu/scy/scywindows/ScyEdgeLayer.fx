@@ -30,6 +30,7 @@ public class ScyEdgeLayer extends CustomNode {
         content: bind caption;
         x: bind (edge.startX+edge.endX) /2;
         y: bind (edge.startY+edge.endY) /2;
+        fill:bind node1.color;
         /* total idiotischer ansatz :) */
         //mal was anderes:
         // var angle = bind toDegrees(java.lang.Math.atan((node1.y  -  node2.y) / (node1.x - node2.x)));
@@ -54,6 +55,7 @@ public class ScyEdgeLayer extends CustomNode {
         edge = ScyEdge{
             node1: bind this.node1;
             node2: bind this.node2;
+            stroke: bind node1.color;
         };
         edge.repaint();
     }

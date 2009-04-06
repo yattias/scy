@@ -286,10 +286,12 @@ public class ScyWindowControl{
         for (relationName in activeAnchor.relationNames){
             var relationKey = roolo.metadataTypeManager.getMetadataKey(relationName);
             if (relationKey!=null){
-               var relationValue = metadata.getMetadataValueContainer(relationKey).getValue();
-               if (activeAnchor.eloUri.equals(relationValue)){
-                  addRelatedWindow(eloUri,relationName);
-                  return;
+               if (metadata.metadataKeyExists(relationKey)){
+                  var relationValue = metadata.getMetadataValueContainer(relationKey).getValue();
+                  if (activeAnchor.eloUri.equals(relationValue)){
+                     addRelatedWindow(eloUri,relationName);
+                     return;
+                  }
                }
              }
         }

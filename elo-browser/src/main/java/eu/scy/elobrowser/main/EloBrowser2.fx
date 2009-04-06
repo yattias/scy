@@ -111,7 +111,7 @@ var missionAnchor = Anchor{
     title: "M";
     xPos: 140;
     yPos: 40;
-    eloUri: new URI("roolo://memory/21/mission.scydraw");
+    eloUri: new URI("roolo://memory/1/mission.jpg");
     relationNames: [annotatesRelationName]
 }
 
@@ -129,7 +129,7 @@ var simulationAnchor = Anchor{
     xPos: 100;
     yPos: 60;
     color: Color.BLUE;
-    eloUri: new URI("roolo://memory/20/review_simulation.scysimconfig");
+    eloUri: new URI("roolo://memory/7/review_sim_config.scysimconfig");
     relationNames: [usesRelationName,annotatesRelationName]
 }
 
