@@ -121,6 +121,20 @@ public class GrowlFX extends CustomNode, INotificationCallback {
                     scyWindowControl.addOtherScyWindow(colemoWIndow, true);
                 }
             });
+        } else if (props.containsKey("target")) {
+            var target = props.get("target");
+            if(props.containsKey("users")) {
+                var usersString :String = props.get("users") as String;
+                var users :String[] = usersString.split(";");
+                println("Possible collaboration partners: {users}");
+                FX.deferAction(function() :Void {
+                    text = "Possible collaboration partners: {users}";
+                    if(fadein.running) {
+                        fadein.stop();
+                    }
+                    fadein.playFromStart();
+                });
+            }
         }
     }
 
