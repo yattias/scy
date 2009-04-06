@@ -13,10 +13,11 @@ import javafx.scene.Node;
 public class ColemoScyWindowContentFactory extends ScyWindowContentFactory {
     public var roolo:Roolo;
     public def eloType = "scy/scymapping";
+    public def eloTypeReview = "scy";
 
     public override function getSuitability(eloUri:URI):Integer{
         var type = roolo.extensionManager.getType(eloUri);
-        if (type==eloType) return 5;
+        if (type==eloType or type==eloTypeReview) return 5;
         return 0;
     }
 

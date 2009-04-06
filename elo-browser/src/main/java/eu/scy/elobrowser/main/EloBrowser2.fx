@@ -121,7 +121,7 @@ var backgroundAnchor = Anchor{
     xPos: 100;
     yPos: 20;
     color: Color.BLUE;
-    eloUri: new URI("test://background.png");
+    eloUri: new URI("roolo://memory/17/background.jpg");
     relationNames: [annotatesRelationName]
 }
 
@@ -139,7 +139,7 @@ var mappingAnchor = Anchor{
     xPos: 60;
     yPos: 40;
     color: Color.BLUE;
-    eloUri: new URI("test://mapping.scymapping");
+    eloUri: new URI("roolo://memory/9/test_map.scy");
     relationNames: [annotatesRelationName]
 }
 
@@ -148,7 +148,7 @@ var reportAnchor = Anchor{
     xPos: 20;
     yPos: 40;
     color: Color.BLUE;
-    eloUri: new URI("test://report.png");
+    eloUri: new URI("roolo://memory/16/report.jpg");
     relationNames: [annotatesRelationName]
 }
 missionAnchor.nextAnchors = [backgroundAnchor,simulationAnchor];
