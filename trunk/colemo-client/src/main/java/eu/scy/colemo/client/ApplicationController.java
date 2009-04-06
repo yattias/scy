@@ -137,7 +137,9 @@ public class ApplicationController {
                 }
 
                 IContent content = eloFactory.createContent();
-                content.setXmlString(ConceptMapExporter.getDefaultInstance().createXML());
+                String eloXML = ConceptMapExporter.getDefaultInstance().createXML();
+                log.debug("XML CONTENTS: " + eloXML);
+                content.setXmlString(eloXML);
                 //content.
                 elo.setContent(content);
                 IMetadata<IMetadataKey> resultMetadata = getRepository().addELO(elo);
