@@ -221,6 +221,10 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
 
     function correctWindowPositions(){
         var usedRects:Rectangle2D[];
+        insert Rectangle2D{
+           minX:0, minY:0,width:160,height:160
+        } into usedRects;
+
         for (node in forbiddenNodes){
             insert node.boundsInParent into usedRects;
             };
