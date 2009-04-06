@@ -388,7 +388,7 @@ def growl = GrowlFX {
 
 var loginGroup : SCYLogin = SCYLogin {
 
-//    register: registerNotifications;
+    register: registerNotifications;
 
     mainContent: [
         scyDesktop.desktop,
