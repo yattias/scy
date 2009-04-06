@@ -115,6 +115,7 @@ public class ConceptMapExporter {
             xtw.writeAttribute("to", link.getTo());
             xtw.writeAttribute("from", link.getFrom());
             xtw.writeAttribute("label", link.getName());
+            xtw.writeEndElement();
         }
         xtw.writeEndElement();
     }
