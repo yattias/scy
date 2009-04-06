@@ -57,6 +57,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.elobrowser.main.user.User;
+import javafx.scene.shape.Rectangle;
 
 
 
