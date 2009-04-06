@@ -24,7 +24,7 @@ public class ColemoScyWindowContentFactory extends ScyWindowContentFactory {
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
         var colemoNode = ColemoNode.createColemoNode(roolo);
         colemoNode.scyWindow = scyWindow;
-        colemoNode.loadElo(eloUri);
+        //colemoNode.loadElo(eloUri);
         return colemoNode;
     }
 
