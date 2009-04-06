@@ -1,5 +1,7 @@
 package eu.scy.colemo.client.sqlspacesimpl;
 
+import javax.swing.SwingUtilities;
+
 import eu.scy.colemo.client.ConnectionHandler;
 import eu.scy.colemo.client.ApplicationController;
 import eu.scy.colemo.contributions.AddClass;
@@ -158,13 +160,23 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             log.debug("CALL: Before add class");
             BaseConceptMapNode node = (BaseConceptMapNode) ot.getObject(tuple);
 
-            processNode(node);
+            processNodeOnUIThread(node);
         } else if(tuple != null && tuple.getFields().length == linkTemplate.getFields().length) {
             System.out.println("UPDATING LINK FROM SERVER!");
             MessageTranslator ot = new MessageTranslator();
             UmlLink link = (UmlLink) ot.getObject(tuple);
-            processNode(link);
+            processNodeOnUIThread(link);
         }
+    }
+    
+    private void processNodeOnUIThread(final Object node) {
+    	SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				processNode(node);
+			}
+        });
     }
 
     protected void processNode(Object node) {
