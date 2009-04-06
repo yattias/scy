@@ -58,7 +58,7 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
     def rightCompensation = 10;
 
     def maxCorrectionTries = 20;
-    def maxRandomTries = 10;
+    def maxRandomTries = 50;
     def deltaDirection = Math.PI/100;
     def noIntersection = 10;
 
@@ -186,15 +186,25 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
     }
 
     function calculateWindowPosition(windowPosition:WindowPosition, x:Number,y:Number,w:Number,h:Number){
-        windowPosition.width = Math.max(w,windowPosition.window.minimumWidth);
-        windowPosition.height = Math.max(h,windowPosition.window.minimumHeight);
-        windowPosition.x = x - windowPosition.width/2;
-        windowPosition.y = y - windowPosition.height/2;
-        var rectHeight = windowPosition.height;
-        if (windowPosition.minimized and (windowPosition.window.isMinimized or windowPosition.window.isClosed)){
-           var closedHeight = windowPosition.window.closedHeight;
-            rectHeight = closedHeight;
-        }
+       var rectHeight :Number;
+       if (isFixedWindow(windowPosition)){
+           windowPosition.width = windowPosition.window.width;
+           windowPosition.height = windowPosition.window.height;
+           windowPosition.x = windowPosition.window.translateX;
+           windowPosition.y = windowPosition.window.translateX;
+           rectHeight = windowPosition.height;
+       }
+       else{
+           windowPosition.width = Math.max(w,windowPosition.window.minimumWidth);
+           windowPosition.height = Math.max(h,windowPosition.window.minimumHeight);
+           windowPosition.x = x - windowPosition.width/2;
+           windowPosition.y = y - windowPosition.height/2;
+           rectHeight = windowPosition.height;
+           if (windowPosition.minimized and (windowPosition.window.isMinimized or windowPosition.window.isClosed)){
+              var closedHeight = windowPosition.window.closedHeight;
+               rectHeight = closedHeight;
+           }
+       }
         windowPosition.rectangle = Rectangle2D{
             minX:windowPosition.x-horizontalLeftWindowSpace
             minY:windowPosition.y-verticalAboveWindowSpace
@@ -264,6 +274,9 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         var bestPosition = findBestRandomPosition(usedRects,bestFoundPosition);
 //        println("improved intersection of {windowPosition.window.title} form {windowPosition.intersection} to random {bestPosition.intersection} ({windowPosition.usedDirection} -> {bestPosition.usedDirection} in {bestPosition.correctionCount} tries)");
         windowPosition.copyFrom(bestPosition);
+        if (windowPosition.intersection>noIntersection){
+            println("failed to position {windowPosition.window.title}, insection {windowPosition.intersection}");
+        }
     }
 
     function findBestNearByPosition(usedRects:Rectangle2D[],windowPosition:WindowPosition):WindowPosition{

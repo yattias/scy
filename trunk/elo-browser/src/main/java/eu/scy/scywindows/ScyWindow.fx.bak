@@ -7,12 +7,17 @@
 package eu.scy.scywindows;
 
 import colab.vt.whiteboard.component.WhiteboardPanel;
+import eu.scy.elobrowser.awareness.contact.Contact;
 import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyEdgeLayer;
 import eu.scy.scywindows.ScyWindow;
+import eu.scy.scywindows.ScyWindowAttribute;
+import eu.scy.scywindows.TestAttribute;
 import java.awt.Dimension;
 import java.lang.Math;
 import java.lang.Object;
 import java.lang.System;
+import java.lang.Thread;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,6 +39,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
@@ -43,9 +49,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Sequences;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import eu.scy.elobrowser.notification.hack.CollaborationNotifier;
 
 /**
  * @author sikken
@@ -53,8 +61,128 @@ import javax.swing.JTree;
 
  // place your code here
 public class ScyWindow extends CustomNode {
+    public var contactDragging: Boolean = bind scyDesktop.contactDragging on replace {
+    }
+
+
+    public def funkyColoredLayer: Rectangle = Rectangle {
+        //blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
+        width: bind (if (scyDesktop.contactDragging) this.width else 0 );
+        height: bind (if (scyDesktop.contactDragging) this.height else 0 );
+        fill: Color.TRANSPARENT;
+        stroke: Color.TRANSPARENT;
+
+        onMouseReleased: function(evt:MouseEvent){
+            if (scyDesktop.contactDragging){
+                contactDragging = false;
+//              blocksMouse = false;
+                circleLayer.visible = false;
+                //save the contact here?
+                println("XXXXXXXXXXXXXXX");
+                println("Dropping user: {scyDesktop.draggedContact.name}");
+                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
+
+            }
+            println("XXXXXXXXXXXXXXX");
+            scyContent.visible = true;
+            funkyColoredLayer.fill = Color.TRANSPARENT;
+            //scyContent.scaleX = 1.0;
+            //scyContent.scaleY = 1.0;
+
+        }
+    }
+
+    public def circleLayer: Circle = Circle {
+        //stroke: Color.BLACK;
+        stroke: bind lighterColor(color);
+        fill: Color.TRANSPARENT;
+        strokeWidth: 5;
+        centerX: bind funkyColoredLayer.width / 2;
+        centerY: bind funkyColoredLayer.height / 2 + 10;
+        radius: 30;
+        visible: false;
+        onMouseEntered:function(e:MouseEvent):Void {
+            Timeline {
+                keyFrames : [
+                    KeyFrame {
+                        time : 0.1s
+                        values : [
+                            circleLayer.strokeWidth => 8 tween Interpolator.LINEAR,
+                            circleLayer.radius => 50 tween Interpolator.LINEAR
+                        ]
+                    }
+                ]
+            }.play();
+        }
+        onMouseExited:function(e:MouseEvent):Void {
+            Timeline {
+                keyFrames : [
+                    KeyFrame {
+                        time : 0.1s
+                        values : [
+                            circleLayer.strokeWidth => 5 tween Interpolator.LINEAR,
+                            circleLayer.radius => 30 tween Interpolator.LINEAR
+                        ]
+                    }
+                ]
+            }.play();
+        }
+        onMouseReleased: function(e:MouseEvent):Void {
+            println("ZZZZZZZZZZZZ");
+        }
+
+    }
+
+    public def draggingLayer: Rectangle = Rectangle{
+        blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
+        width: bind (if (scyDesktop.contactDragging) this.width else 0 );
+        height: bind (if (scyDesktop.contactDragging) this.height else 0 );
+        fill: Color.TRANSPARENT;
+        stroke: Color.TRANSPARENT;
+        onMouseEntered: function(evt:MouseEvent){
+         //scyContent.scaleX = 0.0;
+            //scyContent.scaleY = 0.0;
+            scyContent.visible = false;
+            this.hoveredContact = scyDesktop.draggedContact;
+            funkyColoredLayer.fill = this.color;
+            circleLayer.visible = true;
+            println("MICHIAA!!!");
+        }
+        onMouseExited: function(evt:MouseEvent){
+            //scyContent.scaleX = 1.0;
+            //scyContent.scaleY = 1.0;
+            scyContent.visible = true;
+            this.hoveredContact = null;
+            funkyColoredLayer.fill = Color.TRANSPARENT;
+            circleLayer.visible = false;
+        }
+        onMouseReleased: function(evt:MouseEvent){
+            if (scyDesktop.contactDragging){
+                contactDragging = false;
+//              blocksMouse = false;
+                circleLayer.visible = false;
+                //save the contact here?
+                println("XXXXXXXXXXXXXXX");
+                println("Dropping user: {scyDesktop.draggedContact.name}");
+                CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
+
+            }
+            println("XXXXXXXXXXXXXXX");
+            scyContent.visible = true;
+            funkyColoredLayer.fill = Color.TRANSPARENT;
+            //scyContent.scaleX = 1.0;
+            //scyContent.scaleY = 1.0;
+
+        }
+    };
+
+
+
+	def scyWindowAttributeDevider = 3.0;
+
 	public var title = "???";
 	public var eloType = "?123";
+    public var iconCharacter = "?";
 	public var color = Color.GREEN;
 	public var backgroundColor = color.WHITE;
 	public var width: Number = 100 on replace{
@@ -63,6 +191,8 @@ public class ScyWindow extends CustomNode {
 			resizeTheContent()
 		}
     };
+
+    public var hoveredContact: Contact;
 	public var height: Number = 100 on replace{
 		if (not isAnimating){
 			if (isClosed or isMinimized){
@@ -74,9 +204,14 @@ public class ScyWindow extends CustomNode {
 			resizeTheContent()
 		}
     };
+    public var widthHeightProportion: Number = -1.0;
 	public var scyContent: Node= null;
+    public var scyWindowAttributes: ScyWindowAttribute[] on replace {
+        placeAttributes()
+    };
     public var allowRotate = true;
     public var allowResize = true;
+    public var allowDragging = true;
     public var allowClose = true;
     public var allowMinimize = true;
     public var closeIsHide = false;
@@ -89,8 +224,8 @@ public class ScyWindow extends CustomNode {
 	public var closedAction: function(ScyWindow):Void;
 
 	// status variables
-	var isMinimized = false;
-	var isClosed = true;
+	public-read var isMinimized = false;
+	public-read var isClosed = true;
 	var isAnimating = false;
 
 	// layout constants
@@ -108,7 +243,7 @@ public class ScyWindow extends CustomNode {
 
 	def borderWidth = 4;
 	def topLeftBlockSize = 17;
-	def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
+	public def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
     def closeColor = Color.WHITE;
     def closeMouseOverEffect: Effect = Glow{
         level: 1
@@ -162,10 +297,10 @@ public class ScyWindow extends CustomNode {
     var minimizeHighLighted = false;
     var unminimizeHighLighted = false;
 
-    public var minimumHeight: Number = 100 on replace{
+    public var minimumHeight: Number = 50 on replace{
         minimumHeight = Math.max(minimumHeight, topLeftBlockSize + controlLength + borderWidth);
     }
-    public var minimumWidth: Number = 100 on replace{
+    public var minimumWidth: Number = 70 on replace{
         minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
     }
 
@@ -174,11 +309,24 @@ public class ScyWindow extends CustomNode {
 			height = closedHeight;
 		}
 		resizeTheContent();
-	}
+   	}
 
     public function addEdge(edge:ScyEdgeLayer):Void {
         insert edge into edges;
     }
+
+    function placeAttributes(){
+        var sortedScyWindowAttributes =
+        Sequences.sort(scyWindowAttributes,null) as ScyWindowAttribute[];
+        var x = 0.0;
+        for (scyWindowAttribute in reverse sortedScyWindowAttributes){
+            scyWindowAttribute.translateX = x;
+            x += scyWindowAttribute.boundsInLocal.width;
+            x += scyWindowAttributeDevider;
+        }
+
+    }
+
 
 
     function lighterColorElement(elementValue:Number):Number{
@@ -419,9 +567,10 @@ public class ScyWindow extends CustomNode {
 		translateX = originalX + difX;
 		translateY = originalY + difY;
         //		System.out.println("dragged {title}, difX: {difX}, difY: {difY}, maxDifX:{maxDifX}, maxDifY: {maxDifY}");
+        /* done by a hack in the edges now
         for(edge in edges) {
             edge.repaint();
-        }
+        } */
     }
 
 	function doResize(e: MouseEvent) {
@@ -448,6 +597,10 @@ public class ScyWindow extends CustomNode {
 		height =Math.max(minimumHeight,originalH + difH);
 		translateX = originalX - difX;
 		translateY = originalY - difY;
+        for(edge in edges) {
+            edge.repaint();
+        } 
+        
 //		var newSceneTopLeft = localToScene(0,0);
 //		System.out.println("resized {title}, angle: {rotate}, difW: {difW}, difH: {difH}, difX: {difX}, difY: {difY}, dtlX:{sceneTopLeft.x-newSceneTopLeft.x}, dtlY:{sceneTopLeft.y-newSceneTopLeft.y}");
 
@@ -464,6 +617,14 @@ public class ScyWindow extends CustomNode {
 			newRotate = 45 * Math.round(newRotate  /  45);
 		}
 		rotate = newRotate;
+
+        // quick & dirty for the demo: if the content is the Simulator Tool,
+        // pass the rotation value to it
+        // in future versions, we may add an interface "RotationAware" that
+        // indicates a tool`s interest in rotation values
+        if (scyContent instanceof eu.scy.elobrowser.tool.simquest.SimQuestNode) {
+            (scyContent as eu.scy.elobrowser.tool.simquest.SimQuestNode).doRotate(rotate);
+        }
 		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
 
     }
@@ -547,6 +708,29 @@ public class ScyWindow extends CustomNode {
 //		}
 
 	}
+
+    public function setMinimized(newMinimized:Boolean){
+        isClosed = false;
+        if (newMinimized!=isMinimized){
+            if (newMinimized){
+                originalTranslateX = translateX;
+                originalTranslateY = translateY;
+                originalWidth = width;
+                originalHeight = height;
+                width = minimumWidth;
+                height = closedHeight;
+                isMinimized = true;
+            }
+            else{
+                translateX = originalTranslateX;
+                translateY = originalTranslateY;
+                width = originalWidth;
+                height = originalHeight;
+                isMinimized = false;
+            }
+        }
+    }
+
 
 	function getScyContent(scyCont:Node): Node {
 		if (scyCont != null)
@@ -667,7 +851,7 @@ public class ScyWindow extends CustomNode {
                         height: bind height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder
                         fill: Color.BLACK
                     }
-                    content: bind scyContent
+                    content: bind [scyContent, funkyColoredLayer]
                     onMousePressed: function( e: MouseEvent ):Void {
                         activate();
                     }
@@ -700,7 +884,7 @@ public class ScyWindow extends CustomNode {
 							font: eloTypeFont
 							x: eloTypeFont.size / 4 - 1,
 							y: eloTypeFont.size - 1
-							content: bind eloType.substring(0, 1)
+							content: bind iconCharacter.substring(0, 1)
 							fill: Color.WHITE
 						}
 					]
@@ -932,12 +1116,35 @@ public class ScyWindow extends CustomNode {
                         closeHighLighted = false;
                     }
 				}
+                Group{ // the scy window attributes
+                    translateY: -borderWidth / 2;
+                    content: scyWindowAttributes,
+                },
+                draggingLayer,
+                Group {
+                    content: [circleLayer]
+                    effect: DropShadow {
+                        offsetX: 3
+                        offsetY: 3
+                        color: Color.BLACK
+                        radius: 10
+                    }
+                    onMouseReleased: function( e: MouseEvent ):Void {
+                        println("G entered");
+                    }
+                }
+
+
 			]
 			onMousePressed: function( e: MouseEvent ):Void {
-				startDragging(e);
+             if (allowDragging) {
+                startDragging(e);
+             }
 			}
 			onMouseDragged: function( e: MouseEvent ):Void {
+			if (allowDragging) {
 				doDrag(e);
+             }
 			}
 		};;
 	}
@@ -1236,8 +1443,13 @@ function run() {
         allowResize: false;
         allowRotate: true;
 		//setScyContent:setEloContent;
-        translateX: 200
-        translateY: 200
+		translateX: 200
+		translateY: 200
+        scyWindowAttributes: [
+            TestAttribute{
+            }
+
+        ]
     }
     scyDesktop.addScyWindow(eloWindow);
 

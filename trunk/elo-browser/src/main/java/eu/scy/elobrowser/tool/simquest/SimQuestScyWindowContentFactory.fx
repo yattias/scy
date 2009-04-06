@@ -22,6 +22,7 @@ public class SimQuestScyWindowContentFactory extends ScyWindowContentFactory {
 
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
         var simQuestNode = SimQuestNode.createSimQuestNode(roolo);
+		  scyWindow.widthHeightProportion = 1.5;
         simQuestNode.scyWindow = scyWindow;
         simQuestNode.loadElo(eloUri);
         return simQuestNode;

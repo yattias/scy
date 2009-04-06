@@ -702,3 +702,237 @@ INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as 
 INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
 03.04.2009 15:26:37 info.collide.sqlspaces.client.TupleSpace <init>
 INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+3-apr-2009 19:15:34 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+3-apr-2009 19:15:35 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:39:02 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 9:39:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:39:09 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:46:14 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:46:14 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:47:01 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 9:47:01 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:47:04 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:52:29 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:52:29 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:52:40 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 9:52:40 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 9:52:42 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 10:24:54 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 10:24:54 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 10:25:33 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 10:25:33 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 10:25:35 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 10:36:06 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:39:09 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:39:10 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:39:13 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:47:33 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:47:34 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:51:52 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:51:53 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 10:59:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 10:59:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 11:30:48 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 11:30:49 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to scy.collide.info:2525 - exception: java.net.ConnectException: Connection refused: connect
+4-apr-2009 11:35:00 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 11:35:00 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 11:40:25 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 11:40:25 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 11:56:10 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 11:56:10 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 12:00:20 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 12:00:20 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 12:02:15 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 12:02:16 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 12:02:23 info.collide.sqlspaces.client.ResponseThread run
+SEVERE: Connection lost! Exiting ...
+4-apr-2009 12:02:23 info.collide.sqlspaces.client.ResponseThread run
+SEVERE: Connection lost! Exiting ...
+4-apr-2009 12:07:28 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 12:07:28 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 12:24:44 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 12:24:45 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 12:28:58 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 12:28:58 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 15:35:18 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 15:35:18 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 15:37:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 15:37:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 15:39:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 15:39:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 15:40:37 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 15:40:37 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 17:56:33 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 17:56:33 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 17:58:21 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null
+4-apr-2009 18:02:29 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 18:02:30 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 18:02:42 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null
+4-apr-2009 18:16:34 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 18:16:34 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 18:23:37 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 18:23:38 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 18:26:31 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [TFA_CHAT_SPACE] as null
+4-apr-2009 18:29:30 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 18:29:30 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 18:29:34 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [TFA_CHAT_SPACE] as null
+4-apr-2009 18:31:00 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+4-apr-2009 18:31:00 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+4-apr-2009 18:31:03 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [TFA_CHAT_SPACE] as null
+4-apr-2009 18:33:45 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null
+5-apr-2009 11:24:28 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:27:17 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:27:18 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:29:45 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:38:33 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:38:33 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:38:54 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:54:22 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 11:54:22 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:04:13 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:04:13 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:07:03 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:21:24 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:21:24 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:28:46 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:28:46 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:43:14 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:43:14 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:53:42 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 12:53:42 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 13:03:18 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 13:03:18 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 14:09:25 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 14:09:25 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 14:25:54 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 14:25:54 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:26:35 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:26:35 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:43:11 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:43:11 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:58:27 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+5-apr-2009 15:58:27 info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: Unknown Host: scy.collide.info - exception: java.net.UnknownHostException: scy.collide.info
+6-apr-2009 8:43:55 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+6-apr-2009 8:43:56 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+6-apr-2009 8:44:52 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null
+6-apr-2009 8:48:52 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+6-apr-2009 8:48:52 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+6-apr-2009 8:49:00 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null
+6-apr-2009 8:52:06 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [actionlogging] as null
+6-apr-2009 8:52:07 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [notifications] as null
+6-apr-2009 8:52:16 info.collide.sqlspaces.client.TupleSpace <init>
+INFO: Connecting to 134.91.34.197:2525 in XML mode to spaces [COLLABORATION_SERVICE_SPACE] as null

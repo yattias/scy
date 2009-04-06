@@ -37,6 +37,8 @@ public class PictureImporter
 	 private IMetadataKey descriptionKey;
 	 private String scyType = "scy/image";
 
+	 private File defaultParent = null;
+
 	 public void setEloFactory(IELOFactory<IMetadataKey> eloFactory)
 	 {
 		  this.eloFactory = eloFactory;
@@ -67,6 +69,7 @@ public class PictureImporter
 		  JFileChooser chooser = new JFileChooser();
 		  ExtensionFileFilter filter = new ExtensionFileFilter("jpg", "images");
 		  chooser.setFileFilter(filter);
+		  chooser.setCurrentDirectory(defaultParent);
 		  int returnVal = chooser.showOpenDialog(null);
 		  if (returnVal == JFileChooser.APPROVE_OPTION)
 		  {
@@ -75,6 +78,7 @@ public class PictureImporter
 				File selectedFile = chooser.getSelectedFile();
 				try
 				{
+					defaultParent = chooser.getCurrentDirectory();
 					 String name = selectedFile.getName();
 					 int pointPos = name.indexOf('.');
 					 if (pointPos >= 0)
