@@ -111,7 +111,8 @@ public class ContactWindow extends CustomNode, ChatInitiator {
             contact.onMouseReleased = function(evt:MouseEvent):Void{
                 if(scyDesktop.contactDragging) {
                     if(scyDesktop.targetWindow != null) {
-                        if(scyDesktop.targetWindow instanceof ColemoWindow) {
+                        //if(scyDesktop.targetWindow instanceof ColemoWindow) {
+                        if(scyDesktop.targetWindow.id.endsWith(".scy") or scyDesktop.targetWindow.id.endsWith(".scymapping")) {
                             println("Contact {scyDesktop.draggedContact.name} dropped on Colemo window!");
                             CollaborationNotifier.notify(scyDesktop.draggedContact.name, "SCYMapper");
                         }
