@@ -39,10 +39,6 @@ public class DrawingNode extends CustomNode {
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle()};
 
-   init{
-       swingComponent.cache = true;
-   }
-
 
    public function loadElo(uri:URI){
       eloDrawingActionWrapper.loadElo(uri);
@@ -59,8 +55,6 @@ public class DrawingNode extends CustomNode {
 		else
 			scyWindow.id = "";
 	};
-
-   public var swingComponent:SwingComponent = SwingComponent.wrap(whiteboardPanel);
 
    public override function create(): Node {
       return Group {
@@ -104,7 +98,7 @@ public class DrawingNode extends CustomNode {
                         }
                      ]
                   }
-                  swingComponent
+                   SwingComponent.wrap(whiteboardPanel)
                ]
             }
          ]
