@@ -112,7 +112,7 @@ var missionAnchor = Anchor{
     title: "M";
     xPos: 140;
     yPos: 40;
-    eloUri: new URI("roolo://memory/1/mission.jpg");
+    eloUri: new URI("roolo://memory/18/Mission_statement1.jpg");
     relationNames: [annotatesRelationName]
 }
 
