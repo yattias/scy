@@ -136,13 +136,15 @@ public class SimQuestNode extends CustomNode, Resizable {
 
 
     public function createSimQuestNode(roolo:Roolo):SimQuestNode{
+        var fileUri = new URI("http://scy.collide.info/balance.sqzx");
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
         var simquestViewer = new SimQuestViewer(false);
-        var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
+        //var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
+        //fileUri = fileName.toURI();
         //var fileName = new FileName("E:/netbeans-workspaces/elo-browser/src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
         //var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/co2house_0.9.sqzx");
-        System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileName.toURI().getPath().toString()}");
-        simquestViewer.setFile(fileName.toURI());
+        System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileUri.getPath().toString()}");
+        simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
 
         var simquestPanel = new JPanel();
@@ -172,7 +174,7 @@ public class SimQuestNode extends CustomNode, Resizable {
         	info.append("Simulation could not be loaded.\n");
         	info.append("Probably the simulation file was not found,\n");
         	info.append("it was expected at:\n");
-        	info.append(fileName.toURI().getPath().toString());
+        	info.append(fileUri.getPath().toString());
             simquestPanel.add(info);
         }
 
