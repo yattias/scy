@@ -301,6 +301,12 @@ var newGroup = VBox {
                 roolo.pictureImporter.importPicture();
             }
         }
+        SwingButton{
+            text: "Import melo"
+            action: function() {
+                roolo.meloImporter.importPicture();
+            }
+        }
     ]
 }
 
@@ -382,7 +388,7 @@ def growl = GrowlFX {
 
 var loginGroup : SCYLogin = SCYLogin {
 
-    register: registerNotifications;
+//    register: registerNotifications;
 
     mainContent: [
         scyDesktop.desktop,

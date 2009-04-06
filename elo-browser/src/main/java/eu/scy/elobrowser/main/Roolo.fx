@@ -57,6 +57,7 @@ public class Roolo {
    public var queryToElosDisplay:QueryToElosDisplay;
 
    public var pictureImporter:PictureImporter;
+   public var meloImporter:PictureImporter;
    
    // private attribute keys:IMetadataKey[];
    
@@ -198,6 +199,8 @@ public class Roolo {
       getSpringBean("queryToElosDisplay") as QueryToElosDisplay;
       pictureImporter =
       getSpringBean("pictureImporter") as PictureImporter;
+      meloImporter =
+      getSpringBean("meloImporter") as PictureImporter;
    }
    
    

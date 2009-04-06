@@ -81,7 +81,18 @@ public class ScyWindowControl{
     }
 
     public function newEloSaved(eloUri : URI){
-        positionWindows(false);
+       println("newEloSaved: {eloUri}");
+       var eloType = roolo.extensionManager.getType(eloUri);
+       if ("scy/melo"==eloType){
+          var eloWindow = getScyWindow(eloUri);
+          scyDesktop.addScyWindow(eloWindow);
+          addOtherScyWindow(eloWindow);
+          positionWindows(true);
+       }
+       else{
+          addRelatedWindow(eloUri);
+          positionWindows(true);
+        }
     }
 
 
@@ -182,6 +193,7 @@ public class ScyWindowControl{
     }
 
      public function positionWindows(onlyNewWindows:Boolean){
+        var newPlacedWindows:ScyWindow[];
        if (not onlyNewWindows){
          delete placedWindows;
        }
@@ -190,6 +202,7 @@ public class ScyWindowControl{
        if (not onlyNewWindows){
          insert activeAnchorWindow into placedWindows;
          }
+         insert activeAnchorWindow into newPlacedWindows;
         for (anchor in activeAnchor.nextAnchors){
             var scyWindow = getScyWindow(anchor);
             scyDesktop.addScyWindow(scyWindow);
@@ -198,6 +211,7 @@ public class ScyWindowControl{
              if (not onlyNewWindows){
                insert scyWindow into placedWindows;
             }
+            insert scyWindow into newPlacedWindows;
        }
         findRelatedWindows();
         for (window in relatedWindows){
@@ -205,18 +219,27 @@ public class ScyWindowControl{
             if (not onlyNewWindows){
                insert window into placedWindows;
             }
+            insert window into newPlacedWindows;
         }
         for (window in otherWindows){
             windowPositioner.addOtherWindow(window);
             if (not onlyNewWindows){
                insert window into placedWindows;
             }
-
+            insert window into newPlacedWindows;
         }
         if (onlyNewWindows){
            windowPositioner.setFixedWindows(placedWindows);
         }
         windowPositioner.positionWindows();
+       if (onlyNewWindows){
+           for (window in newPlacedWindows){
+              if (Sequences.indexOf(placedWindows,window)<0){
+                 insert window into placedWindows;
+              }
+           }
+       }
+
     }
 
     var usedEdgeSourceWindows:ScyWindow[]; // TODO, don't use a "global" variable for it
@@ -257,6 +280,22 @@ public class ScyWindowControl{
             }
         }
     }
+
+    function addRelatedWindow(eloUri:URI){
+         var metadata = roolo.repository.retrieveMetadata(eloUri);
+        for (relationName in activeAnchor.relationNames){
+            var relationKey = roolo.metadataTypeManager.getMetadataKey(relationName);
+            if (relationKey!=null){
+               var relationValue = metadata.getMetadataValueContainer(relationKey).getValue();
+               if (activeAnchor.eloUri.equals(relationValue)){
+                  addRelatedWindow(eloUri,relationName);
+                  return;
+               }
+             }
+        }
+
+    }
+
 
     function addRelatedWindow(eloUri:URI, relationName:String){
          if (not activeAnchor.eloUri.equals(eloUri)){

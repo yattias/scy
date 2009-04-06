@@ -27,6 +27,7 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 {
 
 	private final static Logger logger = Logger.getLogger(AddGeneralMetadataRepositoryWrapper.class);
+	private final static String meloType = "scy/melo";
 	private String userId;
 	private URI anchorEloUri;
 	private IRepository<IELO<K>, K> repository;
@@ -34,6 +35,7 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 	private boolean sendEloSavedEvents = false;
 	private K uriKey;
 	private K authorKey;
+	private K typeKey;
 	private K annotatesRelationKey;
 	private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
 
@@ -84,6 +86,7 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 		this.metadataTypeManager = metadataTypeManager;
 		uriKey = getMetadataKey("uri");
 		authorKey = getMetadataKey("author");
+		typeKey = getMetadataKey("type");
 		annotatesRelationKey = getMetadataKey("annotates");
 //		  System.out.println("AddGeneralMetadataRepositoryWrapper found:\n- authorKey: " + authorKey + "\n-annotatesRelationKey: " + annotatesRelationKey);
 	}
@@ -113,7 +116,10 @@ public class AddGeneralMetadataRepositoryWrapper<K extends IMetadataKey> impleme
 		{
 			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(User.instance.getUsername(), System.currentTimeMillis()));
 		}
-		if (anchorEloUri != null && annotatesRelationKey != null)
+		boolean addAnnotesRelation = true;
+		Object eloType = elo.getMetadata().getMetadataValueContainer(authorKey).getValue();
+		addAnnotesRelation = meloType.equals(eloType);
+		if (addAnnotesRelation && anchorEloUri != null && annotatesRelationKey != null)
 		{
 			elo.getMetadata().getMetadataValueContainer(annotatesRelationKey).setValue(anchorEloUri);
 		}
