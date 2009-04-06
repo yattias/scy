@@ -39,7 +39,7 @@ public class GrowlFX extends CustomNode, INotificationCallback {
 
     var text :String;
 
-    public var width = 400;
+    public var width = 500;
 
     public var height = 50;
 
@@ -97,6 +97,7 @@ public class GrowlFX extends CustomNode, INotificationCallback {
     }
 
     override function onNotification(notification :INotification) {
+        this.showTime = DEFAULT_SHOW_TIME;
         println("XXX -> Notification received...");
         var props = notification.getProperties();
         if(props.containsKey("errors")) {
