@@ -391,6 +391,8 @@ var loginGroup : SCYLogin = SCYLogin {
 
     register: registerNotifications;
 
+    growl: growl;
+
     mainContent: [
         scyDesktop.desktop,
         propertiesWindow,
