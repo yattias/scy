@@ -134,7 +134,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
             log.info("Synchronizing: -------------------------------------------------------------------------------------------");
             Object newNOde = ot.getObject(allTuple);
             log.info("------------------------------------------------------------------------------------------- Synchronizing: " + newNOde);
-            processNode(newNOde);
+            processNodeOnUIThread(newNOde);
         }
     }
 
@@ -169,7 +169,7 @@ public class ConnectionHandlerSqlSpaces implements ConnectionHandler, Callback {
         }
     }
     
-    private void processNodeOnUIThread(final Object node) {
+    protected void processNodeOnUIThread(final Object node) {
     	SwingUtilities.invokeLater(new Runnable() {
 
 			@Override

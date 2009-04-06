@@ -162,7 +162,7 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
             Object newNOde = ot.getObject(scyMessage);
             log.info("----------------------------------------------------SYNCHRONIZING: " + scyMessage.getObjectType());
             //log.info("NODE: " + newNOde);
-            processNode(newNOde);
+            processNodeOnUIThread(newNOde);
         }
         //TODO: Find a better place for this
         ApplicationController.getDefaultInstance().getColemoPanel().setBounds(0, 0, 800, 700);
@@ -186,16 +186,16 @@ public class SCYConnectionHandler extends ConnectionHandlerSqlSpaces implements 
             Object object = mt.getObject(sm);
             log.info("OBJECT IS: " + object);
             if (sm.getObjectType().contains("AddClass")) {
-                processNode(object);
+            	processNodeOnUIThread(object);
             } else if (sm.getObjectType().contains("UmlLink")) {
-                processNode(object);
+            	processNodeOnUIThread(object);
             } else if (sm.getObjectType().contains("MoveClass")) {
                 log.debug("ADDING A MOVE CLASS!");
-                processNode(object);
+                processNodeOnUIThread(object);
                 log.debug("MOVE CLASS WAS ADDED!");
             } else if (sm.getObjectType().contains("UmlClass")) {
                 log.debug("A concept has been updated - updating diagram");
-                processNode(object);
+                processNodeOnUIThread(object);
             }
         }
     }
