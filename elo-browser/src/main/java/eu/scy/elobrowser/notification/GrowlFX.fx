@@ -12,9 +12,12 @@ import eu.scy.elobrowser.tool.colemo.ColemoNode;
 import eu.scy.notification.api.INotification;
 import eu.scy.notification.api.INotificationCallback;
 import eu.scy.notification.NotificationService;
+import eu.scy.scywindows.ScyDesktop;
+import eu.scy.scywindows.ScyWindowControl;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.lang.Duration;
 import javafx.lang.FX;
 import javafx.scene.CustomNode;
 import javafx.scene.effect.DropShadow;
@@ -24,9 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javax.swing.JOptionPane;
-import eu.scy.scywindows.ScyDesktop;
-import eu.scy.scywindows.ScyWindowControl;
 
 /**
  * @author Giemza
@@ -48,6 +50,10 @@ public class GrowlFX extends CustomNode, INotificationCallback {
     public var scyWindowControl :ScyWindowControl;
 
     var content : Group;
+
+    def DEFAULT_SHOW_TIME = 6s;
+
+    var showTime : Duration;
 
     public override function create(): Node {
         content = Group {
@@ -73,6 +79,21 @@ public class GrowlFX extends CustomNode, INotificationCallback {
             radius: 15
         }
         return content;
+    }
+
+    public function showMessage(message : String) : Void {
+        showMessage(message, DEFAULT_SHOW_TIME);
+    }
+
+    public function showMessage(message : String, showTime : Duration) : Void {
+        this.showTime = showTime;
+        FX.deferAction(function() :Void {
+            text = message;
+            if(fadein.running) {
+                fadein.stop();
+            }
+            fadein.playFromStart();
+        });
     }
 
     override function onNotification(notification :INotification) {
@@ -120,7 +141,7 @@ public class GrowlFX extends CustomNode, INotificationCallback {
                 ]
             },
             KeyFrame {
-                time: 6s
+                time: bind showTime;
                 action: function() {
                     fadeout.playFromStart();
                 }

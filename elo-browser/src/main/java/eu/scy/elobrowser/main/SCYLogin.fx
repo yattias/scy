@@ -4,8 +4,10 @@ import eu.scy.elobrowser.main.ScyLoginManager;
 import eu.scy.elobrowser.notification.GrowlFX;
 import eu.scy.elobrowser.ui.SwingPasswordField;
 import eu.scy.scywindows.ScyWindow;
+import eu.scy.notification.Notification;
 import eu.scy.scywindows.ScyWindowControl;
 import java.lang.Math;
+import javax.swing.JOptionPane;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.SimpleInterpolator;
@@ -77,6 +79,9 @@ public class SCYLogin extends Group {
     var preferredWidth = 280;
     var preferredHeight = 180;
     var firstAssignment = true;
+
+    public-init var growl: GrowlFX;
+
     public-init var mainContent : Node[] on replace {
         if (firstAssignment) {
             firstAssignment = false;
@@ -176,15 +181,27 @@ public class SCYLogin extends Group {
                                         var sm = new ScyLoginManager();
                                         var username = usernamefield.text.trim();
                                         var password = passwordfield.text;
-                                        var loginResult = sm.login(username, password);
-                                        if (register!=null){
-                                            println("################# Calling to register ################");
-                                            register();
+                                        // dirty hack, to be deleted after review
+                                        var allowedUsers = ["Adam", "Anders", "Anne", "Barbara", "Wouter"];
+                                        var allowed = false;
+                                        for (user in allowedUsers) {
+                                            if (user.equals(username)) {
+                                                allowed = true;
+                                            }
                                         }
-                                        if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
-                                            loginNodeDisappear();
+                                        if (allowed) {
+                                            var loginResult = sm.login(username, password);
+                                            if (register!=null){
+                                                println("################# Calling to register ################");
+                                                register();
+                                            }
+                                            if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
+                                                loginNodeDisappear();
+                                            } else {
+                                                startLoginAnimation();
+                                            }
                                         } else {
-                                            startLoginAnimation();
+                                            growl.showMessage("User '{username}' could not be found!", 3s);
                                         }
 
 
