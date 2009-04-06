@@ -44,6 +44,7 @@ public class ConceptMapExporter {
     }
 
     public String createXML() {
+        initialize();
         try {
 
             createDocumentStart();
@@ -83,6 +84,7 @@ public class ConceptMapExporter {
 
 
     public String createXML(Iterator nodes, Iterator links) {
+        initialize();
         try {
             createDocumentStart();
 
