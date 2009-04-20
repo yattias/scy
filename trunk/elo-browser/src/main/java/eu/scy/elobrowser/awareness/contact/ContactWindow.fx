@@ -67,8 +67,6 @@ public class ContactWindow extends CustomNode, ChatInitiator {
     var lineNumbers: Number = bind ((
     (sizeof visibleContacts) / 2) as Integer);
 
-    var lastClick: Long;   //For the doubleClickListener
-
     var ghostImage: ImageView;
 
     init{
@@ -445,9 +443,10 @@ public class ContactWindow extends CustomNode, ChatInitiator {
 
 
         onMousePressed: function(evt:MouseEvent):Void{
-            if (evt.button == MouseButton.PRIMARY){
-                if ((System.currentTimeMillis() - lastClick) < 400 and (System.currentTimeMillis() - lastClick) > 1){
-                    if  (visibleContacts[0].size == WindowSize.HOVER){
+
+            if (evt.clickCount == 2) {
+                //doubleclick-action
+                  if  (visibleContacts[0].size == WindowSize.HOVER){
                         frameResize();
                         for (contact in visibleContacts){
                             contact.expand();
@@ -461,13 +460,7 @@ public class ContactWindow extends CustomNode, ChatInitiator {
                         }
                         actualizePositions();
                     }
-
-                    lastClick = 0;
-                }
-                else {
-                    lastClick = System.currentTimeMillis();
-                }
-            };
+            }
         };
     };
 
