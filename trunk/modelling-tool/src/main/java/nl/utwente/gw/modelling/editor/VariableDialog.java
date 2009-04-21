@@ -172,10 +172,10 @@ private JButton makeButton(String s) {
    * and released) on a component.
    */
   public void mouseClicked(MouseEvent e) {
-      if ((javax.swing.JList)e.getSource() == infoList) {                           // Ist source=infoList
-          //if (e.getClickCount()==2) {                                   // Wurde doppelt geklickt?      
+      if ((javax.swing.JList)e.getSource() == infoList) {                           
+          //if (e.getClickCount()==2) {                                         
           // single click is okay...
-          String selected = (infoList.getSelectedValue()==null?"":(String)infoList.getSelectedValue());    // Ausgewählte Größe merken
+          String selected = (infoList.getSelectedValue()==null?"":(String)infoList.getSelectedValue());
           paste(selected, valueField);
       }
   }
