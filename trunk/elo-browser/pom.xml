@@ -16,7 +16,7 @@
     </licenses>
     <properties>
       <!-- ###### TO BE ADAPTED LOCALLY ###### -->
-        <env.JAVAFX_HOME>C:\Program Files\JavaFX\javafx-sdk1.1</env.JAVAFX_HOME>
+        <env.JAVAFX_HOME>E:\tools\javafx-sdk1.1</env.JAVAFX_HOME>
       <!-- ###### TO BE ADAPTED LOCALLY ###### -->
     </properties>
     <distributionManagement>
@@ -71,50 +71,36 @@
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxrt</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxrt.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxc</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/shared/javafxc.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>toolchain</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/shared/toolchain.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxgui</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/desktop/javafxgui.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/desktop/javafx-swing.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>Scenario</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/desktop/Scenario.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>websvc</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>${env.JAVAFX_HOME}/lib/desktop/websvc.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -151,6 +137,12 @@
         <dependency>
             <groupId>eu.scy</groupId>
             <artifactId>tool-broker-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.utwente</groupId>
+            <artifactId>modeleditor</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
