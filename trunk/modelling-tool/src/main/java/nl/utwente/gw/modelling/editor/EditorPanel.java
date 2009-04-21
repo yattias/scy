@@ -19,7 +19,7 @@ public class EditorPanel extends JPanel {
 	private Model dModel;
   private Rectangle rDrag = null;
   private int startX, startY;   // The starting position of the mouse.
-  public javax.swing.Timer rtimer; // timer
+  //public javax.swing.Timer rtimer; // timer
   private String tip = null;
   private int tip_x,tip_y;
   private Font tip_font = new Font("Arial", Font.PLAIN, 10); // label font  
@@ -28,13 +28,6 @@ public EditorPanel() {
     super();
     setLayout(null);
     setModel(null);
-    // tooltip messages timer
-    class JDTAP implements java.awt.event.ActionListener {
-      public void actionPerformed(ActionEvent evt) {
-        jmsTimerActionPerformed(evt);
-      }
-    }    
-    rtimer = new javax.swing.Timer(2000, new JDTAP());
   }
   //---------------------------------------------------------------------------
   public void setModel(Model m) {
@@ -50,8 +43,11 @@ public EditorPanel() {
   }
   //-------------------------------------------------------------------------
 
+//TODO: is this method needed?
 public Dimension getPreferredSize() {
-    return JTools.getSysResourceSize("EditorCanvas");
+    //return JTools.getSysResourceSize("EditorCanvas");
+	return new Dimension(800,800);
+	
   }
   //-------------------------------------------------------------------------
   // paint
@@ -145,7 +141,7 @@ public void paintComponent(Graphics g) {
       tip_y = y;
       //System.out.println("setTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
       this.repaint();
-      rtimer.start();
+      //rtimer.start();
     }
   }
   //-------------------------------------------------------------------------
@@ -167,6 +163,7 @@ public void paintComponent(Graphics g) {
    */
   public void jmsTimerActionPerformed(ActionEvent e) {
     clearTip();
-    rtimer.stop();
-  }  
+    //rtimer.stop();
+  }
+  
 }

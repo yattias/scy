@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Enumeration;
 
+import nl.utwente.gw.modelling.editor.EditorToolbar;
 import nl.utwente.gw.modelling.editor.ModelEditor;
 import nl.utwente.gw.modelling.model.Model;
 
@@ -50,33 +51,33 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 		// Press Button1
 		if ((e.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
 			switch (editor.getCurrentAction()) {
-			case ModelEditor.A_CURSOR:
+			case EditorToolbar.CURSOR:
 				actionCursor(x, y, e.isControlDown());
 				break;
-			case ModelEditor.A_DELETE:
+			case EditorToolbar.DELETE:
 				actionDelete(x, y);
 				break;
-			case ModelEditor.A_STOCK:
+			case EditorToolbar.STOCK:
 				actionCreateNode(new JdStock(model.getFreeName(JdFigure.STOCK),
 						x, y), x, y);
 				break;
-			case ModelEditor.A_AUX:
+			case EditorToolbar.AUX:
 				actionCreateNode(new JdAux(model.getFreeName(JdFigure.AUX), x,
 						y), x, y);
 				break;
-			case ModelEditor.A_CONSTANT:
+			case EditorToolbar.CONSTANT:
 				actionCreateNode(new JdConst(model
 						.getFreeName(JdFigure.CONSTANT), x, y), x, y);
 				break;
-			case ModelEditor.A_DATASET:
+			case EditorToolbar.DATASET:
 				actionCreateNode(new JdDataset(model
 						.getFreeName(JdFigure.DATASET), x, y), x, y);
 				break;
-			case ModelEditor.A_FLOW:
+			case EditorToolbar.FLOW:
 				actionCreateLink(new JdFlow(model.getFreeName(JdFigure.FLOW)),
 						x, y);
 				break;
-			case ModelEditor.A_RELATION:
+			case EditorToolbar.RELATION:
 				actionCreateLink(new JdRelation(model
 						.getFreeName(JdFigure.RELATION), editor
 						.allowQualitative()), x, y);
@@ -88,12 +89,14 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
 	public void mouseDragged(MouseEvent evt) {
 		// if (!allowDrag) { e.consume(); return; }
+		
+		
 		switch (editor.getCurrentAction()) {
-		case ModelEditor.A_CURSOR:
+		case EditorToolbar.CURSOR:
 			actionDragCursor(evt.getX(), evt.getY());
 			break;
-		case ModelEditor.A_FLOW:
-		case ModelEditor.A_RELATION:
+		case EditorToolbar.FLOW:
+		case EditorToolbar.RELATION:
 			actionDragLink(evt.getX(), evt.getY());
 			break;
 		}
@@ -102,11 +105,11 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 
 	public void mouseReleased(MouseEvent evt) {
 		switch (editor.getCurrentAction()) {
-	      case ModelEditor.A_CURSOR:
+	      case EditorToolbar.CURSOR:
 	    	  actionEndCursor();
 	    	  break;
-	      case ModelEditor.A_FLOW:
-	      case ModelEditor.A_RELATION:
+	      case EditorToolbar.FLOW:
+	      case EditorToolbar.RELATION:
 	    	  actionEndLink();
 	    	  break;
 	    }
