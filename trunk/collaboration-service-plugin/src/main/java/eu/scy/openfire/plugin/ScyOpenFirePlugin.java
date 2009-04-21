@@ -2,6 +2,7 @@
 package eu.scy.openfire.plugin;
 
 import java.io.File;
+import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.openfire.PacketRouter;
@@ -13,127 +14,62 @@ import org.jivesoftware.openfire.interceptor.PacketInterceptor;
 import org.jivesoftware.openfire.interceptor.PacketRejectedException;
 import org.jivesoftware.openfire.session.Session;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.xmpp.component.Component;
-import org.xmpp.component.ComponentException;
-import org.xmpp.component.ComponentManager;
-import org.xmpp.component.ComponentManagerFactory;
-import org.xmpp.packet.JID;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.PacketExtension;
 import org.xmpp.packet.Presence;
 
 import eu.scy.communications.adapter.IScyCommunicationAdapter;
 import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.adapter.ScyCommunicationAdapter;
 import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.communications.adapter.ScyCommunicationEvent;
-import eu.scy.communications.packet.extension.object.ScyObjectExtensionProvider;
-import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.communications.message.IScyMessage;
+import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.communications.packet.extension.message.ScyMessagePacketExtension;
 import eu.scy.openfire.plugin.botz.BotzConnection;
-import eu.scy.openfire.plugin.botz.BotzPacketReceiver;
 
-public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
+public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommunicationListener {
+    
     private static final Logger logger = Logger.getLogger(ScyOpenFirePlugin.class.getName());
-    private static IScyCommunicationAdapter communicationsAdapter;
+    private IScyCommunicationAdapter communicationsAdapter;
     private static PluginManager pluginManager;
     private String serviceName;
     private XMPPServer xmppServer;
     private PacketRouter packetRouter;
-    private JID componentJID;
-    private ComponentManager componentManager;
-    private boolean isComponentReady;
     private InterceptorManager interceptorManager;
+    private BotzConnection bot;
     
     public ScyOpenFirePlugin() {
         xmppServer = XMPPServer.getInstance();
-        
         ProviderManager providerManager = ProviderManager.getInstance();
-        this.componentManager = ComponentManagerFactory.getComponentManager();
         this.interceptorManager = InterceptorManager.getInstance();
         
-        providerManager.addExtensionProvider(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE, new ScyObjectExtensionProvider());
+        providerManager.addExtensionProvider(ScyMessagePacketExtension.ELEMENT_NAME, ScyMessagePacketExtension.NAMESPACE, ScyMessagePacketExtension.class);
         
-        this.communicationsAdapter = ScyCommunicationAdapterHelper.getInstance();
-        this.communicationsAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
-            
-            @Override
-            public void handleCommunicationEvent(ScyCommunicationEvent e) {
-                System.out.println("---------- handleCommunicationEvent ----------");
-                org.xmpp.packet.Message m = new org.xmpp.packet.Message();
-                m.setTo("biden@imediamac09.uio.no/Smack");
-                m.setFrom(componentJID.toString());
-                m.setSubject("Message to set");
-                m.setBody("i is watching you; callback happened: " + e.getScyMessage());
-                ScyBaseObject scyObject = new ScyBaseObject();
-                scyObject.setId("mom");
-                scyObject.setName("mom");
-                scyObject.setDescription("what");
-                PacketExtension scye = new ScyObjectPacketExtension();
-                ((ScyObjectPacketExtension) scye).setScyBase(scyObject);
-                m.addExtension(scye);
-                sendPacket(m);
-                System.out.println("---------- sent ----------");
-            }
-        });
-        
-    }
-    
-    /**
-     * Initializes the component.
-     * 
-     * @param jid
-     *            the jid of the component
-     * @param componentManager
-     *            instance of the componentManager
-     * @throws ComponentException
-     *             thrown if there are issues initializing this component
-     */
-    public void initialize(JID jid, ComponentManager componentManager) throws ComponentException {
-        this.componentJID = jid;
+        communicationsAdapter = ScyCommunicationAdapterHelper.getInstance();
+        this.communicationsAdapter.addScyCommunicationListener(this);
     }
     
     public void initializePlugin(PluginManager pluginManager, File pluginDirectory) {
-        
         this.pluginManager = pluginManager;
-        
         this.interceptorManager.addInterceptor(this);
-        System.out.println("register component name");
-        System.out.println("Connections make you happy.");
-        // this.interceptorManager.e(this);
+        System.out.println("communication is the key");
         
-       
-        System.out.println("TSC: " + communicationsAdapter);
-        
+        bot = new BotzConnection();
         try {
-            componentManager.addComponent(getName(), this);
-        } catch (ComponentException e1) {
-            e1.printStackTrace();
-        }
-    }
-    
-    /**
-     * Used to send a packet with this component
-     * 
-     * @param packet
-     *            the package to send
-     */
-    public void sendPacket(Packet packet) {
-        try {
-            componentManager.sendPacket(this, packet);
+            // Create user and login
+            logger.debug("scy bot loggin in");
+            bot.login("scybot");
+            Presence presence = new Presence();
+            presence.setStatus("SCYBot is watching you");
+            bot.sendPacket(presence);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }
     
     public void destroyPlugin() {
         interceptorManager.removeInterceptor(this);
-        try {
-            componentManager.removeComponent(this.getName());
-            componentManager = null;
-        } catch (Exception e) {
-            componentManager.getLog().error(e);
-        }
     }
     
     public String getName() {
@@ -144,66 +80,64 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, Component {
         return pluginManager;
     }
     
-    /**
-     * Returns JID for this component
-     * 
-     * @return the jid for this component
-     */
-    public JID getComponentJID() {
-        return componentJID;
+    public void processScyPacket(PacketExtension extension) {
+        try {
+            System.out.println("checking if scy packet");
+            if (extension != null) {
+                ScyMessagePacketExtension scyExt = new ScyMessagePacketExtension(extension.getElement());
+                System.out.println("processing SCY Packet");
+                // ScyObjectPacketExtension scyExt = (ScyObjectPacketExtension)
+                // extension;
+                System.out.println("============== scy message packet =============");
+                System.out.println("name " + scyExt.getName());
+                System.out.println("description " + scyExt.getDescription());
+                System.out.println("id " + scyExt.getId());
+//                communicationsAdapter.actionUponWrite(scyExt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
     
-    @Override
-    public String getDescription() {
-        return "collaboration service plugin";
-    }
-    
-    @Override
-    public void processPacket(Packet packet) {
-        System.out.println("collaboration-service-processing-packet");
-        System.out.println(packet.toXML());
-        System.out.println("============== instance of message =============");
-        System.out.println("extracting element");
-        PacketExtension extension = (PacketExtension) packet.getExtension(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
-        // logger.debug("extension; " + extension.toString());
-        System.out.println("processing SCY Packet");
-        this.processScyPacket(extension);
-    }
-    
-    @Override
-    public void shutdown() {
-        isComponentReady = false;
-    }
-    
-    @Override
-    public void start() {
-        isComponentReady = true;
-    }
-
     @Override
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {
         if (!processed && incoming) {
-            System.out.println("====== intercepting-packet ============");
-            System.out.println("====== packet ============");
-            System.out.println(packet.toXML());
-            PacketExtension extension = (PacketExtension) packet.getExtension(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
-            this.processScyPacket(extension);
-        }        
-    }
-    
-    
-    public void processScyPacket(PacketExtension extension){
-        System.out.println("checking if scy packet");
-        if (extension != null && extension instanceof ScyObjectPacketExtension) {
-            System.out.println("processing SCY Packet");
-            ScyObjectPacketExtension scyExt = (ScyObjectPacketExtension) extension;
-            System.out.println("============== scy message packet =============");
-            System.out.println("name " + scyExt.getName());
-            System.out.println("description " + scyExt.getDescription());
-            System.out.println("id " + scyExt.getId());
-            //communicationsAdapter.sendCallBack("send something");
+            if (!packet.getFrom().getNode().equals(bot.getUsername())) {
+                System.out.println("====== intercepting-packet ============");
+                System.out.println("====== packet ============");
+                System.out.println(packet.toXML());
+                PacketExtension extension = (PacketExtension) packet.getExtension(ScyMessagePacketExtension.ELEMENT_NAME, ScyMessagePacketExtension.NAMESPACE);
+                this.processScyPacket(extension);
+            } else {
+                System.out.println("Packet from bot");
+            }
+            
         }
+        
     }
     
+    @Override
+    public void handleCommunicationEvent(ScyCommunicationEvent e) {
+        System.out.println("---------- handleCommunicationEvent ----------");
+        org.xmpp.packet.Message m = new org.xmpp.packet.Message();
+        m.setTo("biden@imediamac09.uio.no/Smack");
+        try {
+            m.setFrom(bot.getUsername() + "@" + bot.getHostName() + "/" + bot.getResource());
+        } catch (UnknownHostException e1) {
+            e1.printStackTrace();
+        }
+        m.setSubject("Message to set");
+        m.setBody("i is watching you; callback happened: " + e.getScyMessage());
+//        IScyMessage scyObject = new ScyMessage();
+//        scyObject.setId("666");
+//        scyObject.setName("mr.component");
+//        scyObject.setDescription("call back from mr. component");
+//        PacketExtension scye = new ScyObjectPacketExtension();
+//        ((ScyObjectPacketExtension) scye).setScyBase(scyObject);
+//        m.addExtension(scye);
+        bot.sendPacket(m);
+        System.out.println("---------- sent ----------");
+    }
     
 }
