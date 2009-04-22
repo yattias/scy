@@ -1,0 +1,123 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">lines</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/2/lines.scydraw</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/drawing</format>
+      <customElements>
+        <dateCreated>1237370305332</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>my vcard</entity>
+        <date>
+          <dateTime>2009-03-18T10:58:25.332+0100</dateTime>
+        </date>
+      </contribute>
+    </lifecycle>
+  </lom>
+</metadata>
+<content languageIndependend="true" contentType="xml">
+<whiteboard>
+  <whiteboardContainers>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-1393f37e:1201904531b:-8000">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-1393f37e:1201904531b:-8000">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+        <locked>false</locked>
+        <creationTime>1237370295099</creationTime>
+      </container>
+      <content>
+        <line>
+          <xBegin>89</xBegin>
+          <yBegin>64</yBegin>
+          <xEnd>29</xEnd>
+          <yEnd>110</yEnd>
+        </line>
+      </content>
+    </whiteboardContainer>
+    <whiteboardContainer type="objectContainer" id="6c603d8681dcdb9f:-1393f37e:1201904531b:-7fff">
+      <container type="objectContainer" id="6c603d8681dcdb9f:-1393f37e:1201904531b:-7fff">
+        <xOffset>0.0</xOffset>
+        <yOffset>0.0</yOffset>
+        <rotation>0.0</rotation>
+        <xScale>1.0</xScale>
+        <yScale>1.0</yScale>
+        <xShear>0.0</xShear>
+        <yShear>0.0</yShear>
+        <penSize>1.0</penSize>
+        <lineColor>
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+          <alpha>255</alpha>
+        </lineColor>
+        <fillColor>
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+          <alpha>0</alpha>
+        </fillColor>
+        <scaleIndependentPenSize>false</scaleIndependentPenSize>
+        <locked>false</locked>
+        <creationTime>1237370295771</creationTime>
+      </container>
+      <content>
+        <line>
+          <xBegin>115</xBegin>
+          <yBegin>91</yBegin>
+          <xEnd>52</xEnd>
+          <yEnd>149</yEnd>
+        </line>
+      </content>
+    </whiteboardContainer>
+  </whiteboardContainers>
+</whiteboard>
+</content>
+<resources>
+</resources>
+</elo>

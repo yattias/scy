@@ -1,0 +1,278 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>colemo</groupId>
+    <artifactId>colemo-client</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>colemo-client</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+
+        <dependency>
+            <groupId>colemo</groupId>
+            <artifactId>colemo-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>tool-broker</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+        
+
+        <!-- SQL SPACES -->
+
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-client</artifactId>
+            <version>3.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-commons</artifactId>
+            <version>3.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- JGROUPS -->
+
+        <dependency>
+            <groupId>jgroups</groupId>
+            <artifactId>jgroups-all</artifactId>
+            <version>2.2.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>concurrent</groupId>
+            <artifactId>concurrent</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <!-- SAIL STUFF -->
+        <dependency>
+            <groupId>net.sf.sail</groupId>
+            <artifactId>sail-webapp-all</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>elo-api</artifactId>
+                    <groupId>elo-api</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>elo-impl</artifactId>
+                    <groupId>elo-impl</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.sail</groupId>
+            <artifactId>sail-data-emf</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>elo-api</artifactId>
+                    <groupId>elo-api</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>elo-impl</artifactId>
+                    <groupId>elo-impl</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        
+        <dependency>
+            <groupId>org.concord</groupId>
+            <artifactId>apple-support</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.concord</groupId>
+            <artifactId>swing</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-commons</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>collaboration-service-api</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>collaboration-service-impl</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>elo-api</groupId>
+            <artifactId>elo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>elo-impl</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+
+                <executions>
+                    <execution></execution>
+                </executions>
+                <configuration>
+                    <mainClass>eu.scy.colemo.client.ColemoStartup</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <targetPath>*.*</targetPath>
+                <includes>
+                    <include>*.gif</include>
+                    <include>*.png</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+
+    </build>
+
+    <!-- REPOSITORIES -->
+    <repositories>
+        <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>tels-repo-internal</id>
+            <name>TELS Center internal repository</name>
+            <url>http://repo.telscenter.org/internal/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>tels-repo-internal-snapshot</id>
+            <name>TELS Center internal snapshot repository</name>
+            <url>http://repo.telscenter.org/internal_snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>concord-repo-internal-snapshot</id>
+            <name>concord internal repository snapshot</name>
+            <url>
+                http://source.concord.org/maven2/internal_snapshot/
+            </url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

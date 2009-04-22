@@ -1,0 +1,7 @@
+<html t:type="border/ScyLabBorder" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+<div t:type="tools/appletwrapper/AppletWrapper" codeBase="literal:/scy-useradmin-web/applets"
+        code="literal:eu.scy.colemo.client.ColemoApplet.class"
+        archive="literal:colemo-client.jar, colemo-model.jar, scy-model-api.jar, scy-model-impl.jar, swingx.jar, sqlspaces-client.jar, sqlspaces-commons.jar"
+        width="literal:1" height="literal:1"/>
+</html>
