@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+  http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <bean id="logInbound" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+    <bean id="logOutbound" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+        <cxf:inInterceptors>
+            <ref bean="logInbound"/>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+            <ref bean="logOutbound"/>
+        </cxf:outInterceptors>
+        <cxf:inFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </cxf:inFaultInterceptors>
+    </cxf:bus>
+
+
+    <bean id="repositoryService" class="eu.scy.webservices.mobileservice.RepositoryService">
+        <property name="rooloManager" ref="rooloManager"/>
+    </bean>
+
+    <jaxws:endpoint id="repositoryServiceWebService" implementor="#repositoryService" address="/RepositoryService"/>
+
+    <!--bean id="loginService" class="eu.scy.loginservice.AuthenticationHandler">
+    </bean>
+
+    <jaxws:endpoint id="loginWebService" implementor="#loginService" address="/LoginService"/-->
+
+
+</beans>
