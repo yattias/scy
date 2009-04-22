@@ -1,0 +1,391 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy</groupId>
+    <artifactId>elo-browser</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>elo-browser</name>
+    <packaging>jar</packaging>
+    <url>http://scy.collide.info/</url>
+    <licenses>
+        <license>
+            <name>lgpl</name>
+        </license>
+    </licenses>
+    <properties>
+      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
+        <env.JAVAFX_HOME>E:\tools\javafx-sdk1.1</env.JAVAFX_HOME>
+      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
+    </properties>
+    <distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>tels-repo-internal</id>
+            <name>TELS Center internal repository</name>
+            <url>http://repo.telscenter.org/internal/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>tels-repo-internal-snapshot</id>
+            <name>TELS Center internal snapshot repository</name>
+            <url>http://repo.telscenter.org/internal_snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxrt</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxc</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>toolchain</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxgui</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>Scenario</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>websvc</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-client</artifactId>
+            <version>3.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>tool-broker</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.utwente</groupId>
+            <artifactId>modeleditor</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.swing-layout</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.utwente</groupId>
+            <artifactId>simquestviewer</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>colab.vt</groupId>
+            <artifactId>whiteboard</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>colemo</groupId>
+            <artifactId>colemo-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>colemo</groupId>
+            <artifactId>colemo-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+ <!--   <dependency>
+      <groupId>net.java.dev.openjfx</groupId>
+      <artifactId>javafxrt</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+-->
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>drawingTool</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-commons</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>collaboration-service-api</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>collaboration-service-impl</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.tools.dataProcessTool</groupId>
+            <artifactId>DataProcessTool</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jfxtras</groupId>
+            <artifactId>jfxtras</artifactId>
+            <version>0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>jnlp</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <targetPath>config</targetPath>
+                <directory>src/main/java/config</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>client.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+            <!--
+            <phase>process-test-sources</phase>
+            -->
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Compiling JavaFX test sources</echo>
+                                <property name="javafx.home" value="${env.JAVAFX_HOME}"/>
+                                <path id="javafxc.classpath">
+                                    <fileset dir="${javafx.home}">
+                                        <include name="**/javafxrt.jar"/>
+                                        <include name="**/javafxc.jar"/>
+                                        <include name="**/toolchain.jar"/>
+                                    </fileset>
+                                </path>
+                                <path id="javafx.classpath">
+                                    <fileset dir="${javafx.home}">
+                                        <include name="**/javafxrt.jar"/>
+                                        <include name="**/javafxc.jar"/>
+                                        <include name="**/toolchain.jar"/>
+                                        <include name="**/javafxgui.jar"/>
+                                        <include name="**/javafx-swing.jar"/>
+                                        <include name="**/Scenario.jar"/>
+                                        <include name="**/websvc.jar"/>
+                                    </fileset>
+                                </path>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="javafxc.classpath" name="javafxc"/>
+                                <mkdir dir="target/classes"/>
+                                <javafxc destdir="target/classes" compilerclasspathref="javafxc.classpath">
+                                    <src path="src/main/java"/>
+                                    <classpath refid="maven.compile.classpath"/>
+                                    <classpath refid="javafx.classpath"/>
+                                </javafxc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+           <!--outputDirectory></outputDirectory--> <!-- not required?? -->
+
+           <!--
+           Set to true to exclude all transitive dependencies. Default is false.
+           -->
+                    <excludeTransitive>false</excludeTransitive>
+
+           <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+                    <libPath>lib</libPath>
+
+           <!-- JNLP generation -->
+                    <jnlp>
+             <!-- default values -->
+             <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+                        <inputTemplate>src/main/jnlp/template.vm</inputTemplate> <!-- relative to inputTemplateResourcePath -->
+                        <outputFile>scylab.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+             <!-- used to automatically identify the jar containing the main class. -->
+             <!-- this is perhaps going to change -->
+                        <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
+                    </jnlp>
+
+
+                    <sign>
+                        <keypass>scylab</keypass>
+                        <storepass>scylab</storepass>
+                        <alias>scykeystore</alias>
+                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+                        <verify>true</verify>
+                        <keystoreConfig>
+                            <delete>false</delete>
+                            <gen>false</gen>
+                        </keystoreConfig>
+
+                    </sign>
+
+
+
+           <!-- BUILDING PROCESS -->
+
+                    <pack200>false</pack200>
+                    <gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+           <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+                    <outputJarVersions>false</outputJarVersions>
+
+           <!--install>false</install--> <!-- not yet supported -->
+                    <verbose>false</verbose>
+
+                </configuration>
+            </plugin>
+
+
+
+        </plugins>
+    </build>
+</project>
