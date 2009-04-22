@@ -87,7 +87,7 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.scy</groupId>
-			<artifactId>agent-impl</artifactId>
+			<artifactId>agent-base</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
