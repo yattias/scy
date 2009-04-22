@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.utwente</groupId>
+	<artifactId>modeleditor</artifactId>
+	<name>Modelling Tool</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<description>Modelling Tool for System Dynamics models and for qualitative models, usable standalone and within SCYLab</description>
+	<developers>
+		<developer>
+			<id>lars</id>
+			<name>Lars Bollen</name>
+			<email>larsbollen@gmail.com</email>
+			<url>www.utwente.nl</url>
+			<organization>University of Twende</organization>
+			<organizationUrl>www.utwente.nl</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+	
+	<issueManagement>
+		<system>JIRA@Enovate</system>
+		<url>https://base.enovate.no</url>
+	</issueManagement>
+	
+	<distributionManagement>
+        <repository>
+            <id>mvn_collide_releases</id>
+            <name>Collide Internal Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>mvn_collide_snapshots</id>
+            <name>Collide Internal Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+	
+	<repositories>
+		<repository>
+			<id>collide-releases</id>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>collide-snapshots</id>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>nl.utwente</groupId>
+			<artifactId>colab.resources</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.utwente</groupId>
+			<artifactId>colab.um</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

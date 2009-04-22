@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<alias name="httpInvokerRepositoryProxy" alias="repository"/>
+	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager"/>
+	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager"/>
+
+
+	<!-- Resolves ${...} placeholders from client.properties -->
+	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<bean id="propertyConfigurer" class="eu.scy.client.tools.drawing.MyPropertyPlaceholderConfigurer">
+		<property name="location"><value>client.properties</value></property>
+		<property name="systemPropertiesMode" value="2"/>
+	</bean>
+
+	<!-- Proxy for the HTTP-invoker-exported repository -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerRepositoryProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://${serverName}:${httpPort}${contextPath}/remoting/repository-httpinvoker</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.api.IRepository</value>
+		</property>
+		<!--
+		Comment the following in to use Apache Commons HttpClient instead of the JDK's
+		standard HttpURLConnection (as used by the default SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+		<property name="httpInvokerRequestExecutor">
+			<bean class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+		</property>
+ 		-->
+	</bean>
+
+	<!-- Proxy for the HTTP-invoker-exported metadata type manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerMetadataTypeManagerProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://${serverName}:${httpPort}${contextPath}/remoting/metadataTypeManager-httpinvoker</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.elo.api.IMetadataTypeManager</value>
+		</property>
+		<!--
+		Comment the following in to use Apache Commons HttpClient instead of the JDK's
+		standard HttpURLConnection (as used by the default SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+		<property name="httpInvokerRequestExecutor">
+			<bean class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+		</property>
+ 		-->
+	</bean>
+
+	<!-- Proxy for the HTTP-invoker-exported extension manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerExtensionManagerProxy" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://${serverName}:${httpPort}${contextPath}/remoting/extensionManager-httpinvoker</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.api.IExtensionManager</value>
+		</property>
+		<!--
+		Comment the following in to use Apache Commons HttpClient instead of the JDK's
+		standard HttpURLConnection (as used by the default SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+		<property name="httpInvokerRequestExecutor">
+			<bean class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+		</property>
+ 		-->
+	</bean>
+
+</beans>
