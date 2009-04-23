@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy</groupId>
-	<artifactId>common</artifactId>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>parent</artifactId>
 	<name>common</name>
 	<packaging>pom</packaging>
 	<version>9.5.0-SNAPSHOT</version>
@@ -16,6 +16,7 @@
 		<module>collaboration-service-api</module>
 		<module>scy-commons</module>
 		<module>scy-model-api</module>
+		<module>scy-model-impl</module>
 		<module>notification-api</module>
 		<module>notification-impl</module>	
 		<module>scy-sessionmanager-api</module>
