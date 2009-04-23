@@ -1,36 +1,17 @@
-<?xml version="1.0"?>
-<project>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.scy</groupId>
-    <artifactId>scy-model-api</artifactId>
-    <name>scy-model-api</name>
-    <version>1.0-SNAPSHOT</version>
-    <url>http://maven.apache.org</url>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <optimize>true</optimize>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
-                    <finalName>scy-model-api</finalName>
-                    <attach>true</attach>
-                </configuration>
-            </plugin>
-
-
-        </plugins>
-    </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>scy-model-api</artifactId>
+	<version>9.5.0-SNAPSHOT</version>
+	<name>scy-model-api</name>
+	<packaging>jar</packaging>
+	
+	<parent>
+		<artifactId>common</artifactId>
+		<groupId>eu.scy</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent>
 
     <dependencies>
         <dependency>
@@ -57,35 +38,6 @@
             	</exclusion>
             </exclusions>
         </dependency>
-
-
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>mvn_collide_releases</id>
-            <name>Collide Internal Releases</name>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
-            <name>Collide Internal Snapshots</name>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </repository>
-
-    </repositories>
 
 </project>

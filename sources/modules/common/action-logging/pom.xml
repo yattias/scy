@@ -1,25 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy</groupId>
-	<artifactId>action-logger</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>action-logging</artifactId>
+	<version>9.5.0-SNAPSHOT</version>
+	<name>action-logging</name>
+	<packaging>jar</packaging>
+	
+	<parent>
+		<artifactId>common</artifactId>
+		<groupId>eu.scy</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent>
+	
 	<dependencies>
 		<dependency>
-			<groupId>eu.scy</groupId>
+			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>9.5.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -30,31 +28,5 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>collide-releases</id>
-			<url>http://mvn.collide.info/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>collide-snapshots</id>
-			<url>http://mvn.collide.info/content/repositories/snapshots</url>
-		</repository>
-		<repository>
-			<id>snapshots-tels</id>
-			<url>http://repo.telscenter.org/internal_snapshot</url>
-		</repository>
-	</repositories>
-	<distributionManagement>
-		<repository>
-			<id>mvn_collide_releases</id>
-			<name>Collide Internal Releases</name>
-			<url>http://mvn.collide.info/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>mvn_collide_snapshots</id>
-			<name>Collide Internal Snapshots</name>
-			<url>http://mvn.collide.info/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+	
 </project>
