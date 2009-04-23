@@ -103,7 +103,10 @@
 	</dependencies>
 
 	<modules>
+		<!-- 
+		 -->
 		<module>../common</module>
-		<!-- <module>tools</module>  -->
+		<module>tools</module>
+		<module>desktop</module>
 	</modules>
 </project>

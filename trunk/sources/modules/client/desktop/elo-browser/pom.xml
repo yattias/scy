@@ -2,69 +2,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.desktop</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent> 	
+ 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.scy</groupId>
     <artifactId>elo-browser</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>elo-browser</name>
     <packaging>jar</packaging>
-    <url>http://scy.collide.info/</url>
+
     <licenses>
         <license>
             <name>lgpl</name>
         </license>
     </licenses>
+ 
     <properties>
       <!-- ###### TO BE ADAPTED LOCALLY ###### -->
-        <env.JAVAFX_HOME>E:\tools\javafx-sdk1.1</env.JAVAFX_HOME>
+      <!--   <env.JAVAFX_HOME>c:\Programs\Develop\javafx-sdk1.1</env.JAVAFX_HOME>  -->
       <!-- ###### TO BE ADAPTED LOCALLY ###### -->
     </properties>
-    <distributionManagement>
-        <repository>
-            <id>mvn_collide_releases</id>
-            <name>Collide Internal Releases</name>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
-            <name>Collide Internal Snapshots</name>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>tels-repo-internal</id>
-            <name>TELS Center internal repository</name>
-            <url>http://repo.telscenter.org/internal/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>tels-repo-internal-snapshot</id>
-            <name>TELS Center internal snapshot repository</name>
-            <url>http://repo.telscenter.org/internal_snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -123,27 +83,27 @@
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-impl</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.client.desktop</groupId>
             <artifactId>tool-broker</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>tool-broker-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>nl.utwente</groupId>
-            <artifactId>modeleditor</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>scydynamics</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
@@ -183,21 +143,21 @@
         </dependency>
 
         <dependency>
-            <groupId>colab.vt</groupId>
-            <artifactId>whiteboard</artifactId>
-            <version>1.0</version>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>drawingtool</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>colemo</groupId>
-            <artifactId>colemo-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>scymapper</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>colemo</groupId>
+            <groupId>eu.scy.client.tools</groupId>
             <artifactId>colemo-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
  <!--   <dependency>
@@ -206,35 +166,30 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 -->
-        <dependency>
-            <groupId>eu.scy</groupId>
-            <artifactId>drawingTool</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>scy-commons</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>collaboration-service-api</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>collaboration-service-impl</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy.tools.dataProcessTool</groupId>
-            <artifactId>DataProcessTool</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>dataprocesstool</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
