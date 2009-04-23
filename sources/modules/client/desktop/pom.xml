@@ -8,10 +8,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy.client.tools</groupId>
+	<groupId>eu.scy.client.desktop</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<name>SCY client tools</name>
+	<name>SCY client desktop</name>
 	<url>http://www.scy-net.eu</url>
 
 	<dependencies>
@@ -20,10 +20,14 @@
 
 	<modules>
 		<module>../../common</module>
-		<module>drawingtool</module>
+		<module>tool-broker</module>
+		<!--
 		<module>fitex</module>
 		<module>dataprocesstool</module>
 		<module>colemo-model</module>
-		<module>scymapper</module>
+			<module>dataprocesstool</module> <module>fitex</module>
+			<module>scydynamics</module> <module>scymapper</module>
+			<module>colemo-model</module>
+		-->
 	</modules>
 </project>

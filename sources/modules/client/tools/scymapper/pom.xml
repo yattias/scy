@@ -1,43 +1,47 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent> 	
+ 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>colemo</groupId>
-    <artifactId>colemo-client</artifactId>
+    <artifactId>scymapper</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>colemo-client</name>
-    <url>http://maven.apache.org</url>
+
     <dependencies>
 
         <dependency>
-            <groupId>colemo</groupId>
+            <groupId>${pom.groupId}</groupId>
             <artifactId>colemo-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>eu.scy</groupId>
+         <dependency>
+            <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>eu.scy</groupId>
+         <dependency>
+            <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-impl</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>tool-broker-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.client.desktop</groupId>
             <artifactId>tool-broker</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
@@ -145,22 +149,22 @@
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>scy-commons</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>collaboration-service-api</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.common</groupId>
             <artifactId>collaboration-service-impl</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
 
@@ -220,59 +224,5 @@
         </resources>
 
     </build>
-
-    <!-- REPOSITORIES -->
-    <repositories>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>tels-repo-internal</id>
-            <name>TELS Center internal repository</name>
-            <url>http://repo.telscenter.org/internal/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>tels-repo-internal-snapshot</id>
-            <name>TELS Center internal snapshot repository</name>
-            <url>http://repo.telscenter.org/internal_snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>concord-repo-internal-snapshot</id>
-            <name>concord internal repository snapshot</name>
-            <url>
-                http://source.concord.org/maven2/internal_snapshot/
-            </url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>mvn_collide_releases</id>
-            <name>Collide Internal Releases</name>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
-            <name>Collide Internal Snapshots</name>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 
 </project>
