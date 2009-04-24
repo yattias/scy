@@ -2,12 +2,57 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.scy</groupId>
-    <artifactId>scy-server</artifactId>
+    <groupId>eu.scy.server</groupId>
+    <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>9.5.0-SNAPSHOT</version>
     <name>scy-server</name>
-    <url>http://maven.apache.org</url>
+    <url>http://www.scy-net.eu</url>
+	
+	<repositories>
+		<repository>
+			<id>collide-releases</id>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>collide-snapshots</id>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>fhg-maven</id>
+			<url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>reucon</id>
+			<url>http://maven.reucon.com/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>mvn_collide_releases</id>
+			<name>Collide Internal Releases</name>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>mvn_collide_snapshots</id>
+			<name>Collide Internal Snapshots</name>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -32,13 +77,14 @@
     </build>
 
     <modules>
-        <module>scy-model-api</module>
-        <module>scy-model-impl</module>
+        <module>../common</module>
         <module>scy-useradmin-api</module>
         <module>scy-useradmin-impl</module>
-        <module>scy-useradmin-web</module>
         <module>scy-loginservice-webservice-impl</module>
-        <module>scy-sessionmanager-api</module>
+		<!--
+        <module>scy-useradmin-web</module>
         <module>scy-sessionmanager-impl</module>
+        <module>collaboration-service-plugin</module>
+		-->
     </modules>
 </project>
