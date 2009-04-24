@@ -10,7 +10,7 @@
  
 	<modelVersion>4.0.0</modelVersion>
 	<name>agents-impl</name>
-	<artifactId>roolo-agents</artifactId>
+	<artifactId>agents-impl</artifactId>
 	<description></description>
 
 	<dependencies>
