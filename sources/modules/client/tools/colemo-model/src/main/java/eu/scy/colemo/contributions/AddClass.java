@@ -10,7 +10,6 @@ import java.net.InetAddress;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
  *
  */
 public class AddClass extends BaseConceptMapNode implements Serializable,Contribution{

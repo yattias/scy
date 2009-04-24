@@ -10,7 +10,6 @@ package eu.scy.colemo.server.uml;
 import java.io.Serializable;
 
 /**
- * @author Øystein
 *
  */
 public class UmlLink extends AbstractDiagramData implements Serializable {

@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.net.InetAddress;
 
 /**
- * @author Øystein
  *
  */
 public class AddLink extends BaseConceptMapNode implements Serializable, Contribution {

@@ -12,7 +12,6 @@ import java.net.InetAddress;
 import eu.scy.colemo.server.uml.UmlClass;
 
 /**
- * @author Øystein
  *
  * 
  */

@@ -11,8 +11,7 @@ import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
- *
+  *
  * 
  */
 public class DeleteClass implements Serializable,Contribution{

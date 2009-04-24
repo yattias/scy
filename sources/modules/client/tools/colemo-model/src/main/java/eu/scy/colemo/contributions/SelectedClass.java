@@ -11,7 +11,6 @@ import java.io.Serializable;
 import eu.scy.colemo.server.uml.UmlClass;
 
 /**
- * @author Øystein
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
