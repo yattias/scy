@@ -84,12 +84,6 @@
         <module>scy-sessionmanager-impl</module>
         <module>collaboration-service-plugin</module>
         <module>scy-useradmin-web</module>
-		<!--
-		-->
     </modules>
-    
-    <properties>
-        <filter.file>scy-useradmin-web/src/main/filters/filter.properties</filter.file>
-    </properties>
     
 </project>

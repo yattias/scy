@@ -67,7 +67,9 @@
                 <configuration>
                     <archiveClasses>true</archiveClasses>
                     <filters>
+                    <!-- this file reference is relative to the directory where maven is started
                         <filter>${filter.file}</filter>
+                     -->
                     </filters>
                     <webResources>
                         <resource>
@@ -220,21 +222,6 @@
             <artifactId>scy-sessionmanager-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
-
-        <!-- COLEMO -->
-<!-- 
-        <dependency>
-            <groupId>colemo</groupId>
-            <artifactId>colemo-server</artifactId>
-            <version>${colemo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>colemo</groupId>
-            <artifactId>colemo-model</artifactId>
-            <version>${colemo.version}</version>
-        </dependency>
- -->
 
         <!-- SQL SPACES -->
 
