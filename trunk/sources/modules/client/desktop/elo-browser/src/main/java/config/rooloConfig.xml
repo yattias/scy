@@ -28,7 +28,7 @@
 		<property name="metadataTypeManager" ref="metadataTypeManager"/>
 	</bean>
 
-	<bean name="drawingTool" class="eu.scy.client.tools.drawing.EloDrawingPanel" scope="prototype">
+	<bean name="drawingtool" class="eu.scy.client.tools.drawing.EloDrawingPanel" scope="prototype">
 		<property name="repository" ref="repository"/>
 		<property name="metadataTypeManager" ref="metadataTypeManager"/>
 		<property name="eloFactory" ref="eloFactory"/>
