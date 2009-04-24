@@ -50,14 +50,14 @@
 		<version>${pom.version}</version>
 	</dependency>
 	<dependency>
-		<groupId>eu.scy</groupId>
+		<groupId>eu.scy.common</groupId>
 		<artifactId>awareness-impl</artifactId>
-		<version>0.2-SNAPSHOT</version>
+		<version>${pom.version}</version>
 	</dependency>
 	<dependency>
-		<groupId>eu.scy</groupId>
+		<groupId>eu.scy.common</groupId>
 		<artifactId>collaboration-service-impl</artifactId>
-		<version>0.2-SNAPSHOT</version>
+		<version>${pom.version}</version>
 	</dependency>
 		<dependency>
 		<groupId>eu.scy.common</groupId>
