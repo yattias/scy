@@ -103,15 +103,15 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <artifactId>colemo-client</artifactId>
-                                    <groupId>colemo</groupId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <artifactId>scymapper</artifactId>
+                                    <groupId>eu.scy.client.tools</groupId>
+                                    <version>${pom.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <artifactId>colemo-model</artifactId>
-                                    <groupId>colemo</groupId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <groupId>eu.scy.client.tools</groupId>
+                                    <version>${pom.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
@@ -121,14 +121,14 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <artifactId>scy-model-api</artifactId>
-                                    <groupId>eu.scy</groupId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <groupId>eu.scy.common</groupId>
+                                    <version>${pom.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <artifactId>scy-model-impl</artifactId>
-                                    <groupId>eu.scy</groupId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <groupId>eu.scy.common</groupId>
+                                    <version>${pom.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
