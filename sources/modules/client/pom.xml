@@ -108,5 +108,6 @@
 		<module>../common</module>
 		<module>tools</module>
 		<module>desktop</module>
+		<module>utilities</module>
 	</modules>
 </project>

@@ -52,8 +52,7 @@ public class ELOImporter {
 		this.extensionManager.registerExtension("text/xml", "xml");
 		this.extensionManager.registerExtension("text/plain", "txt");
 
-		this.eloFactory = new JDomBasicELOFactory(this.typeManager,
-				this.typeManager.getMetadataKey("uri"));
+		this.eloFactory = new JDomBasicELOFactory(this.typeManager);
 
 		this.fillLocales();
 	}

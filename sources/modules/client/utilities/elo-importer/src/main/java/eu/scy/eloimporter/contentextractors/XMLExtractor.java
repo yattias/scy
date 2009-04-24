@@ -11,7 +11,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import roolo.elo.api.IContent;
-import roolo.elo.content.StringContent;
+import roolo.elo.content.BasicContent;
 
 public class XMLExtractor implements IContentExtractor {
 
@@ -31,6 +31,6 @@ public class XMLExtractor implements IContentExtractor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new StringContent(writer.toString().trim());
+		return new BasicContent(writer.toString().trim());
 	}
 }

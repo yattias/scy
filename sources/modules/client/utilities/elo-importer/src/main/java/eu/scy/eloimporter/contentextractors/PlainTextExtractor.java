@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import roolo.elo.api.IContent;
-import roolo.elo.content.StringContent;
+import roolo.elo.content.BasicContent;
 
 public class PlainTextExtractor implements IContentExtractor {
     
@@ -25,6 +25,6 @@ public class PlainTextExtractor implements IContentExtractor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new StringContent(buffer.toString());
+        return new BasicContent(buffer.toString());
     }
 }

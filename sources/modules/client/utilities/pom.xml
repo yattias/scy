@@ -8,10 +8,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy.client.tools</groupId>
+	<groupId>eu.scy.client.utilities</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<name>SCY client tools</name>
+	<name>SCY client utilities</name>
 	<url>http://www.scy-net.eu</url>
 
 	<dependencies>
@@ -19,10 +19,6 @@
 	</dependencies>
 
 	<modules>
-		<module>drawingtool</module>
-		<module>fitex</module>
-		<module>dataprocesstool</module>
-		<module>colemo-model</module>
-		<module>scymapper</module>
+		<module>elo-importer</module>
 	</modules>
 </project>
