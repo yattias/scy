@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent> 	
+ 
    <modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.client</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>9.5.0-SNAPSHOT</version>
 	<name>SCY client</name>
 	<url>http://www.scy-net.eu</url>
 		 
@@ -46,51 +52,7 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>mvn_collide_releases</id>
-			<name>Collide Internal Releases</name>
-			<url>http://mvn.collide.info/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>mvn_collide_snapshots</id>
-			<name>Collide Internal Snapshots</name>
-			<url>http://mvn.collide.info/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<repositories>
-		<repository>
-			<id>tels-repo-internal</id>
-			<name>TELS Center internal repository</name>
-			<url>http://repo.telscenter.org/internal/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>tels-repo-internal-snapshot</id>
-			<name>TELS Center internal snapshot repository</name>
-			<url>http://repo.telscenter.org/internal_snapshot/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>collide-releases</id>
-			<url>http://mvn.collide.info/content/repositories/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>collide-snapshots</id>
-			<url>http://mvn.collide.info/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
@@ -103,9 +65,6 @@
 	</dependencies>
 
 	<modules>
-		<!-- 
-		 -->
-		<module>../common</module>
 		<module>tools</module>
 		<module>desktop</module>
 		<module>utilities</module>
