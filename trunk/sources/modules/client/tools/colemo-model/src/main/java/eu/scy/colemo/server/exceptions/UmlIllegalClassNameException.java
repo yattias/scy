@@ -7,7 +7,6 @@
 package eu.scy.colemo.server.exceptions;
 
 /**
- * @author Øystein
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates

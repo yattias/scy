@@ -6,7 +6,6 @@
 package eu.scy.colemo.server.exceptions;
 
 /**
- * @author Øystein
  *
  * 
  */

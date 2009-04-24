@@ -12,8 +12,7 @@ import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
- *
+  *
  * 
  */
 public class DeleteField implements Serializable,Contribution{

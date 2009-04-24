@@ -13,7 +13,6 @@ import eu.scy.colemo.server.uml.UmlClass;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates

@@ -12,8 +12,7 @@ import eu.scy.colemo.server.uml.UmlLink;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
- *
+  *
  * 
  */
 public class DeleteLink implements Serializable,Contribution{

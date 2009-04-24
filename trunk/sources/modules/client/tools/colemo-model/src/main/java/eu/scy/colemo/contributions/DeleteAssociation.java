@@ -12,7 +12,6 @@ import eu.scy.colemo.server.uml.UmlAssociation;
 import eu.scy.colemo.network.Person;
 
 /**
- * @author Øystein
  *
  * 
  */
