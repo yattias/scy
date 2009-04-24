@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>scymapper</artifactId>
     <packaging>jar</packaging>
+    <name>scy mapper</name>
 
     <dependencies>
 
