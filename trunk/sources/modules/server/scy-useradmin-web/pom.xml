@@ -173,52 +173,8 @@
             <name>T5Components Maven Repository</name>
             <url>http://87.193.218.134:8080/t5components/maven-repository</url>
         </repository>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>tels-repo-internal</id>
-            <name>TELS Center internal repository</name>
-            <url>http://repo.telscenter.org/internal/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>tels-repo-internal-snapshot</id>
-            <name>TELS Center internal snapshot repository</name>
-            <url>http://repo.telscenter.org/internal_snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>cc-repo-internal</id>
-            <name>Concord Consortium Internal</name>
-            <url>http://source.concord.org/maven2/internal_snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-			<id>fhg-maven</id>
-			<url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
-			<releases>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-		</repository>
-        
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>tapestry-snapshots</id>
@@ -540,13 +496,13 @@
         </dependency>
         <dependency>
         	<groupId>eu.scy.agents</groupId>
-        	<artifactId>agent-impl</artifactId>
+        	<artifactId>agents-base</artifactId>
         	<version>${pom.version}</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
         	<groupId>eu.scy.agents</groupId>
-        	<artifactId>roolo-agents</artifactId>
+        	<artifactId>agents-impl</artifactId>
         	<version>${pom.version}</version>
         	<scope>compile</scope>
         </dependency>
