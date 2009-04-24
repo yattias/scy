@@ -1,6 +1,6 @@
 package eu.scy.listeners;
 
-import eu.scy.colemo.server.network.Server;
+//import eu.scy.colemo.server.network.Server;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -24,9 +24,9 @@ public class ColemoStartupListener implements ServletContextListener {
             public void run() {
                 log.info("Initializing COLEMO SERVER");
                 WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext());
-                Server colemoServer = (Server) wac.getBean("colemoserver");
-                colemoServer.run();
-                log.info("COLEMO SERVER STARTED");
+//                Server colemoServer = (Server) wac.getBean("colemoserver");
+//                colemoServer.run();
+//                log.info("COLEMO SERVER STARTED");
             }
 
         }.start();
