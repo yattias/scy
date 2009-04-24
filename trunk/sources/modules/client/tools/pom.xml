@@ -24,5 +24,6 @@
 		<module>dataprocesstool</module>
 		<module>colemo-model</module>
 		<module>scymapper</module>
+		<module>scydynamics</module>
 	</modules>
 </project>
