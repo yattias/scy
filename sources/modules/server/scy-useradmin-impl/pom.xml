@@ -126,7 +126,7 @@
 
     <build>
         <filters>
-            <filter>${filter.file}</filter>
+            <filter>${filter.test.file}</filter>
         </filters>
         <testResources>
             <testResource>
@@ -170,6 +170,6 @@
     </build>
 
     <properties>
-        <filter.file>src/test/resources/sample_filter_rename_me.properties</filter.file>
+        <filter.test.file>src/test/resources/sample_filter_rename_me.properties</filter.test.file>
     </properties>
 </project>
