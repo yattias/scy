@@ -14,9 +14,9 @@
 
 
     <build>
-        <filters>
+        <!--filters>
             <filter>${filter.file}</filter>
-        </filters>
+        </filters-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -516,6 +516,6 @@
         <slf4j.version>1.5.0</slf4j.version>
         <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>
-        <filter.file>src/main/filters/sample_filter_rename_me.properties</filter.file>
+        <!--filter.file>src/main/filters/sample_filter_rename_me.properties</filter.file-->
     </properties>
 </project>
