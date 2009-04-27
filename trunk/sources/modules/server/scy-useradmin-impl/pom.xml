@@ -170,6 +170,6 @@
     </build>
 
     <properties>
-        <filter.file>src/test/resources/filter.properties</filter.file>
+        <filter.file>src/test/resources/sample_filter_rename_me.properties</filter.file>
     </properties>
 </project>
