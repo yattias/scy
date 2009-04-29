@@ -129,8 +129,8 @@
     <bean id="jdbcUserService" class="org.springframework.security.userdetails.jdbc.JdbcDaoImpl">
         <property name="rolePrefix" value="ROLE_"/>
         <property name="dataSource" ref="dataSource"/>
-        <property name="usersByUsernameQuery" value="SELECT userName, password, 1 from user where userName = ?"/>
-        <property name="authoritiesByUsernameQuery" value="SELECT username, 'USER' FROM user WHERE username = ?"/>
+        <property name="usersByUsernameQuery" value="SELECT userName, passwordmmm, 1 from user_details where username = ?"/>
+        <property name="authoritiesByUsernameQuery" value="SELECT username, FROM user_details WHERE username = ?"/>
     </bean>
 
     <bean id="sessionRegistry" class="org.springframework.security.concurrent.SessionRegistryImpl"/>
@@ -140,7 +140,7 @@
             <value>com.mysql.jdbc.Driver</value>
         </property>
         <property name="url">
-            <value>jdbc:mysql://${db.host}/scyuseradmin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round</value>
+            <value>jdbc:mysql://${db.host}/scy?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round</value>
         </property>
         <property name="username">
             <value>${db.user_name}</value>

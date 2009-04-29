@@ -30,7 +30,7 @@ public class GroupOverview extends ScyModelPage {
     @Inject
     private GroupDAO groupDAO;
 
-    @Inject
+    /*Inject
     private User newUser;
 
     public User getNewUser() {
@@ -40,7 +40,7 @@ public class GroupOverview extends ScyModelPage {
     public void setNewUser(User newUser) {
         this.newUser = newUser;
     }
-
+    */
     public GroupDAO getGroupDAO() {
         return groupDAO;
     }

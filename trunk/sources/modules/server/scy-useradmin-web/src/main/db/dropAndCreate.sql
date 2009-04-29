@@ -1,6 +1,6 @@
 BEGIN;
 
-drop database scyuseradmin;
-create database scyuseradmin;
+drop database scy;
+create database scy;
 
-use scyuseradmin;
+use scy;

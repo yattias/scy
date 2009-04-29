@@ -2,7 +2,7 @@
 	<Valve className="org.apache.catalina.valves.AccessLogValve"
 		prefix="scy_access" suffix=".log" disableProxyCaching="false" resolveHosts="true"
 		pattern="%h %u %t %T &quot;%r&quot; %s %b"/>
-	<Resource name="jdbc/scyuseradmin" auth="Container" type="javax.sql.DataSource"
+	<Resource name="jdbc/scy" auth="Container" type="javax.sql.DataSource"
 		factory="org.apache.commons.dbcp.BasicDataSourceFactory"
 		initialSize="5"
 		maxActive="75"
@@ -13,7 +13,7 @@
 		password="${db.password}"
         driverClassName="com.mysql.jdbc.Driver"
 		defaultAutoCommit="false"
-		url="jdbc:mysql://${db.host}/scyuseradmin?autoReconnect=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round"
+		url="jdbc:mysql://${db.host}/scy?autoReconnect=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round"
 		removeAbandoned="true"
 		removeAbandonedTimeout="150"
 		defaultTransactionIsolation="READ_COMMITTED"
