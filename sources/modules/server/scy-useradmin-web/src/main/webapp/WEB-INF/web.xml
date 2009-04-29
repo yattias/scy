@@ -34,9 +34,9 @@
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            /WEB-INF/applicationContext-roolo.xml,
-            /WEB-INF/loginservice-beans.xml,
-            /WEB-INF/applicationContext-mobileRepositoryService.xml,
+            <!--/WEB-INF/applicationContext-roolo.xml,-->
+            <!--/WEB-INF/loginservice-beans.xml,-->
+            <!--/WEB-INF/applicationContext-mobileRepositoryService.xml,-->
             <!--/WEB-INF/applicationContext-colemo.xml,-->
             <!--/WEB-INF/applicationContext-userSessionBeans.xml,-->
             <!--/WEB-INF/sail-users.xml,-->
@@ -120,9 +120,9 @@
 
     <!-- LISTENERS -->
 
-    <listener>
+    <!--listener>
         <listener-class>eu.scy.listeners.SQLSpaceStartupListener</listener-class>
-    </listener>
+    </listener-->
     
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -143,7 +143,7 @@
 
 
     <resource-ref>
-        <res-ref-name>jdbc/scyuseradmin</res-ref-name>
+        <res-ref-name>jdbc/scy</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>

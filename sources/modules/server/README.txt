@@ -5,7 +5,7 @@ This directory contains the server for the SCY Project.
 == USAGE ==
 
 1. Set up MySQl (you could use setup.sql in this directory)
-	* Create a user who has all rights on the database scyuseradmin (for SCY user management)
+	* Create a user who has all rights on the database scy (for SCY user management)
 	* Create a user who has all rights on the database sqlspaces (for SQLSpaces)
 
 2. Configure the SCY server
