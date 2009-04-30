@@ -97,6 +97,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     }
 
+    
     public List getUsers() {
         return getSession().createQuery("from SCYUserImpl user order by user.userDetails.username")
                 .list();
