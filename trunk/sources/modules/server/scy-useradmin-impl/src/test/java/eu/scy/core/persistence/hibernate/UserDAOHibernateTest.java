@@ -170,6 +170,12 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
     }
 
+    public void testIsExistingUsername() {
+        String userN = getUserDAO().getSecureUserName(USER_NAME);
+        assertTrue(!userN.equals(USER_NAME));
+
+    }
+
 
     private User createAndSaveUser() {
         User returnUser = createNewUser(getUserDAO().getSecureUserName(USER_NAME));
@@ -201,6 +207,8 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
 
         return newUser;
     }
+
+
 
 
 
