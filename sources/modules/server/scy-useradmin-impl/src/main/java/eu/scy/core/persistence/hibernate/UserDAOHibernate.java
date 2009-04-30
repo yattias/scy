@@ -88,7 +88,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public boolean isExistingUsername(User user) {
-        User result = (User) getSession().createQuery("select details.user from SCYUserDetails details where details.username = :username")
+        User result = (User) getSession().createQuery("from SCYUserImpl where userDetails.username = :username")
                 .setString("username", user.getUserDetails().getUsername())
                 .setMaxResults(1)
                 .uniqueResult();
