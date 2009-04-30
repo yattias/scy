@@ -1,6 +1,7 @@
 package eu.scy.listeners;
 
 import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.User;
 //import eu.scy.core.model.User;
 //import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.SCYProjectImpl;
@@ -20,8 +21,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
-import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
-import net.sf.sail.webapp.domain.User;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -142,6 +142,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
     } */
 
     private static void setupDefaultProject(XmlWebApplicationContext ctx) {
+        log.info("*** **** **** **** SETTING UP DEFAULT PROJECT!");
         SCYProject defaultProject = new SCYProjectImpl();
         defaultProject.setName("SCY-WARS");
         ProjectDAOHibernate projectDAO = (ProjectDAOHibernate) ctx.getBean("projectDAO");
@@ -189,7 +190,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
                 log.info("Adding user " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getEmailAddress());
 
                 //userToBeSetup = userDAO.addUser(userToBeSetup.getProject(), userToBeSetup.getGroup(), userToBeSetup);
-                //userToBeSetup = userDAO.addUser(null, null, userToBeSetup);
+                userToBeSetup = userDAO.addUser(null, null, userToBeSetup);
             }
 
     }
