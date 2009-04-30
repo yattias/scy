@@ -16,11 +16,13 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContext;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
+import org.telscenter.sail.webapp.domain.authentication.Gender;
 
 
 /**
@@ -162,6 +164,12 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         vaderDetails.setPassword("scy");
         vaderDetails.setFirstname("Darth");
         vaderDetails.setLastname("Vader");
+        vaderDetails.setSignupdate(new Date());
+        vaderDetails.setGender(Gender.MALE);
+        vaderDetails.setBirthday(new Date());
+        vaderDetails.setNumberOfLogins(0);
+        vaderDetails.setAccountQuestion("Who are you");
+        vaderDetails.setAccountAnswer("vader");
         defaultGlobalAdmin.setUserDetails(vaderDetails);
 /*
         User lukeSkywalkekr = new SCYUserImpl();
