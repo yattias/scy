@@ -136,9 +136,9 @@
         <listener-class>eu.scy.listeners.ColemoStartupListener</listener-class>
     </listener-->
 
-    <!--listener>
+    <listener>
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
-    </listener-->
+    </listener>
 
 
 
