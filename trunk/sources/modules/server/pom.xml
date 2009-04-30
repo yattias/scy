@@ -41,7 +41,7 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.0-beta-1</version>
                 <configuration>
-                    <url>http://localhost:8080/manager</url>
+                    <url>http://134.91.34.200:8080/manager</url>
                     <server>nightly-server</server>
                 </configuration>
             </plugin>
