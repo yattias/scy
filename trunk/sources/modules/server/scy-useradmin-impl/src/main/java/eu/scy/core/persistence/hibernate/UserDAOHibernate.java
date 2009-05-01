@@ -51,9 +51,11 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
 
     public User getUserByUsername(String username) {
-        return (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
+        User user =  (User) getSession().createQuery("from SCYUserImpl user where user.userDetails.username like :username")
                 .setString("username", username)
                 .uniqueResult();
+        log.info("FOUND USER: " + user + " from username: "+ username);
+        return user;
     }
 
     public User addUser(SCYProject project, SCYGroup group, User user) {
