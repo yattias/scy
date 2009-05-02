@@ -37,7 +37,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
 //                Configuration.getConfiguration().setMysqlSchema("scysqlspaces");
 //                Configuration.getConfiguration().setDbUser("scysqlspaces");
 //                Configuration.getConfiguration().setDbPassword("scy");
-//                Configuration.getConfiguration().setWebPort(8200);
+                Configuration.getConfiguration().setWebPort(8200);
 //                Configuration.getConfiguration().setWebEnabled(true);
 //                Configuration.getConfiguration().setWebServicesEnabled(false);
 //                Configuration.getConfiguration().setWebRoot("/home/hudson/sqls");

@@ -34,7 +34,7 @@
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            <!--/WEB-INF/applicationContext-roolo.xml,-->
+            /WEB-INF/applicationContext-roolo.xml,
             <!--/WEB-INF/loginservice-beans.xml,-->
             <!--/WEB-INF/applicationContext-mobileRepositoryService.xml,-->
             <!--/WEB-INF/applicationContext-colemo.xml,-->
@@ -91,20 +91,20 @@
 		- Dispatcher servlet definition for HTTP remoting via Hessian, Burlap, and
 		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
 	-->
-	<!--servlet>
+	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
-	</servlet-->
+	</servlet>
 
 	<!--
 		- Dispatcher servlet mapping for HTTP remoting via Hessian, Burlap, and
 		- Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
 	-->
-	<!--servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/remoting/*</url-pattern>
-	</servlet-mapping-->
+	</servlet-mapping>
 
 
     <!--servlet>
@@ -120,9 +120,9 @@
 
     <!-- LISTENERS -->
 
-    <!--listener>
+    <listener>
         <listener-class>eu.scy.listeners.SQLSpaceStartupListener</listener-class>
-    </listener-->
+    </listener>
     
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
