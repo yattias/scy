@@ -1,6 +1,7 @@
 package eu.scy.presence;
 
 import eu.scy.presence.impl.PresenceModuleMockImpl;
+import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 
 
 /**
@@ -37,7 +38,7 @@ public class PresenceModuleFactory {
             //maybe intialization?
             return presenceModule;
         } else if(style.equals(XMPP_STYLE)){
-//        	presenceModule = new PresenceModuleXMPPImpl();
+        	presenceModule = new PresenceModuleXMPPImpl();
             //maybe intialization?
             return presenceModule;
         } else {

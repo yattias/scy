@@ -13,6 +13,7 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
@@ -34,7 +35,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
     private ArrayList<IPresenceListener> presenceListeners = new ArrayList<IPresenceListener>();
     private Roster roster;
 
-    public PresenceModuleXMPPImpl() {        
+    public PresenceModuleXMPPImpl() {  
     }
  
     public boolean isConnected() {
@@ -158,20 +159,24 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
 
     @Override
     public List<String> getGroups() throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        return null;
+        roster = this.xmppConnection.getRoster();
+        Collection<RosterGroup> rosterGroups = roster.getGroups();
+        ArrayList<String> groups = new ArrayList<String>();
+        for (RosterGroup group:rosterGroups) {
+            groups.add(group.getName());
+        }
+        return groups;
+        
     }
 
     @Override
-    public List<String> getGroups(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        return null;
+    public List<String> getGroups(String userName) throws PresenceModuleException {
+        return null;        
     }
 
     @Override
     public void getPresence(String arg0) throws PresenceModuleException {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
