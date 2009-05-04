@@ -1,6 +1,5 @@
 package eu.scy.presence;
 
-import eu.scy.awareness.IAwarenessUser;
 
 public class PresenceUser implements IPresenceUser {
     

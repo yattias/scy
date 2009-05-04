@@ -1,13 +1,11 @@
 package eu.scy.presence;
 
-import eu.scy.awareness.impl.AwarenessServiceMockImpl;
 import eu.scy.presence.impl.PresenceModuleMockImpl;
-import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 
 
 /**
  * Class that implememts the factory design pattern. Gives the ability
- * to create many different awareness services that implement the standard interfaces and
+ * to create many different presence module that implement the standard interfaces and
  * have an efficient way to access them
  * 
  * @author anthonyp
@@ -25,14 +23,14 @@ public class PresenceModuleFactory {
      * 
      * @param style
      * @return
-     * @throws AwarenessServiceException
+     * @throws PresenceModuleException
      */
-    public static IPresenceModule getAwarenessService(String style) throws PresenceModuleException {
+    public static IPresenceModule getPresenceModule(String style) throws PresenceModuleException {
         
-    	PresenceModuleException awarenessException = new PresenceModuleException("unknown style of awareness service");
+    	PresenceModuleException presenceException = new PresenceModuleException("unknown style of presence module");
         
         if(style == null)
-            throw awarenessException;
+            throw presenceException;
         
         if( style.equals(MOCK_STYLE)){
             presenceModule = new PresenceModuleMockImpl();
@@ -44,7 +42,7 @@ public class PresenceModuleFactory {
             return presenceModule;
         } else {
             //we dont know this style
-            throw awarenessException;
+            throw presenceException;
         }
     }
     
