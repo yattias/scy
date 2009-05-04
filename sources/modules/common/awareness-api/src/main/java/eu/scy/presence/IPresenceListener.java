@@ -14,6 +14,6 @@ public interface IPresenceListener  {
      * 
      * @param e
      */
-    public void handleAwarenessPresenceEvent(IPresenceStatusEvent e);
+    public void handlePresenceEvent(IPresenceStatusEvent e);
 
 }
