@@ -1,6 +1,5 @@
 package eu.scy.presence.event;
 
-import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.presence.IPresenceStatusEvent;
 
 

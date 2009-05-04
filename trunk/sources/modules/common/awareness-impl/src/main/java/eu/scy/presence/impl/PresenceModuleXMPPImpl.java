@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -16,22 +17,21 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
-import eu.scy.awareness.AwarenessServiceException;
-import eu.scy.awareness.AwarenessUser;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.event.AwarenessEvent;
-import eu.scy.awareness.event.IAwarenessListListener;
-import eu.scy.awareness.event.IAwarenessMessageListener;
-import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.presence.IPresenceListListener;
+import eu.scy.presence.IPresenceListener;
+import eu.scy.presence.IPresenceModule;
+import eu.scy.presence.IPresenceUser;
+import eu.scy.presence.PresenceModuleException;
+import eu.scy.presence.PresenceUser;
+import eu.scy.presence.event.PresenceEvent;
 
 
-public class PresenceModuleXMPPImpl implements IAwarenessService, MessageListener {
+public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener {
 
     private final static Logger logger = Logger.getLogger(PresenceModuleXMPPImpl.class.getName());
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    private ArrayList<IAwarenessPresenceListener> awarenessListeners = new ArrayList<IAwarenessPresenceListener>();
+    private ArrayList<IPresenceListener> presenceListeners = new ArrayList<IPresenceListener>();
     private Roster roster;
 
     public PresenceModuleXMPPImpl() {        
@@ -44,7 +44,7 @@ public class PresenceModuleXMPPImpl implements IAwarenessService, MessageListene
        return false;
     }
     
-    public void createAwarenessService(String username, String password) {
+    public void createPresenceModule(String username, String password) {
         
         Properties props = new Properties();
         try {
@@ -55,9 +55,9 @@ public class PresenceModuleXMPPImpl implements IAwarenessService, MessageListene
             e.printStackTrace();
         }
 
-        String address = props.getProperty("awareness.service.address");
-        String port = props.getProperty("awareness.service.port");
-        String name = props.getProperty("awareness.service.name");
+        String address = props.getProperty("presence.service.address");
+        String port = props.getProperty("presence.service.port");
+        String name = props.getProperty("presence.service.name");
         
         //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
@@ -78,18 +78,18 @@ public class PresenceModuleXMPPImpl implements IAwarenessService, MessageListene
     }
     
 
-    public void closeAwarenessService() {
+    public void closePresenceModule() {
         xmppConnection.disconnect();
     }
     
     
     //TODO: return array should probably contain instances of scy users or somesuch
-    public ArrayList<IAwarenessUser> getBuddies(String username) {
+    public ArrayList<IPresenceUser> getBuddies(String username) {
         roster = this.xmppConnection.getRoster();
         Collection<RosterEntry> rosterEntries = roster.getEntries();
-        ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
+        ArrayList<IPresenceUser> buddies = new ArrayList<IPresenceUser>();
         for (RosterEntry buddy:rosterEntries) {
-            IAwarenessUser au = new AwarenessUser();
+            IPresenceUser au = new PresenceUser();
             au.setName(buddy.getName());
             au.setUsername(buddy.getUser());
             au.setPresence(roster.getPresence(buddy.getUser()).toString());
@@ -118,72 +118,91 @@ public class PresenceModuleXMPPImpl implements IAwarenessService, MessageListene
         if (message.getType() == Message.Type.chat) {           
             logger.debug(chat.getParticipant() + " says: " + message.getBody());   
             //process the events
-            for (IAwarenessPresenceListener al : awarenessListeners) {
+            for (IPresenceListener al : presenceListeners) {
                 if (al != null){
                     RosterEntry entry = roster.getEntry(chat.getParticipant());
-                    AwarenessEvent awarenessEvent = new AwarenessEvent(this, entry.getName(), message.getBody());
-//                    al.handleAwarenessEvent(awarenessEvent);
+                    PresenceEvent presenceEvent = new PresenceEvent(this, entry.getName(), message.getBody());
+                    //al.handlePresenceEvent(presenceEvent);
                 }
             }
         }
     }
     
-    public void addAwarenessListener(IAwarenessPresenceListener awarenessListener){
-        awarenessListeners.add(awarenessListener);
+    public void addPresenceListener(IPresenceListener presenceListener){
+        presenceListeners.add(presenceListener);
    }
 
     @Override
-    public void addAwarenessListListener(IAwarenessListListener awarenessListListener) {
+    public void addBuddy(String arg0) throws PresenceModuleException {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+    public void addListListener(IPresenceListListener arg0) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void addBuddy(String buddy) throws AwarenessServiceException {
+    public void addStatusListener(IPresenceListener arg0) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void joinSession(String session) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void leaveSession(String session) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void removeBuddy(String buddy) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public ArrayList<String> getBuddies() throws AwarenessServiceException {
+    public List<String> getBuddies() throws PresenceModuleException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void setPresence(String username, String presence) throws AwarenessServiceException {
+    public List<String> getGroups() throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getGroups(String arg0) throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void getPresence(String arg0) throws PresenceModuleException {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessListListener) {
+    public void getStatus(String arg0) throws PresenceModuleException {
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public void joinGroup(String arg0) throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void leaveGroup(String arg0) throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removeBuddy(String arg0) throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setPresence(String arg0, String arg1) throws PresenceModuleException {
+        // TODO Auto-generated method stub
+        
+    }
+
     
 }

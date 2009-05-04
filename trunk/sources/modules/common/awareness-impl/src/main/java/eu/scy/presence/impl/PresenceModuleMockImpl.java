@@ -1,11 +1,8 @@
 package eu.scy.presence.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-
-import eu.scy.presence.IPresenceEvent;
 import eu.scy.presence.IPresenceListEvent;
 import eu.scy.presence.IPresenceListListener;
 import eu.scy.presence.IPresenceListener;
@@ -14,7 +11,6 @@ import eu.scy.presence.IPresenceStatusEvent;
 import eu.scy.presence.IPresenceUser;
 import eu.scy.presence.PresenceModuleException;
 import eu.scy.presence.PresenceUser;
-import eu.scy.presence.event.PresenceEvent;
 import eu.scy.presence.event.PresenceListEvent;
 import eu.scy.presence.event.PresenceStatusEvent;
 
