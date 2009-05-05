@@ -7,6 +7,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
 
 import java.util.List;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 import net.sf.sail.webapp.domain.User;
@@ -73,6 +74,7 @@ public class GroupOverview extends ScyModelPage {
         SCYGroup group = (SCYGroup) getModel();
         //return group.getUsers();
         //throw new RuntimeException("NOT IMPLEMENTED!");
+        return Collections.EMPTY_LIST;
     }
 
     @InjectPage
