@@ -28,6 +28,7 @@ public class SQLSpaceStartupListener implements ServletContextListener {
     public void contextInitialized(final ServletContextEvent servletContextEvent) {
 
         new Thread() {
+            @Override
             public void run() {                                                                                                                                                                                                                   
                 log.info("Initializing SQL SPACES SERVER");
                 Configuration.getConfiguration().setLogLevel(Level.INFO);
@@ -37,10 +38,10 @@ public class SQLSpaceStartupListener implements ServletContextListener {
 //                Configuration.getConfiguration().setMysqlSchema("scysqlspaces");
 //                Configuration.getConfiguration().setDbUser("scysqlspaces");
 //                Configuration.getConfiguration().setDbPassword("scy");
-//                Configuration.getConfiguration().setWebPort(8200);
-//                Configuration.getConfiguration().setWebEnabled(true);
-//                Configuration.getConfiguration().setWebServicesEnabled(false);
-//                Configuration.getConfiguration().setWebRoot("/home/hudson/sqls");
+                Configuration.getConfiguration().setWebPort(8081);
+                Configuration.getConfiguration().setWebEnabled(true);
+                Configuration.getConfiguration().setWebServicesEnabled(false);
+                Configuration.getConfiguration().setWebRoot("/home/scy/sqls");
                 Server.startServer();
 
                 try {
