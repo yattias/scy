@@ -34,7 +34,7 @@
             /WEB-INF/applicationContext-security.xml,
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            /WEB-INF/applicationContext-roolo.xml,
+            <!--/WEB-INF/applicationContext-roolo.xml,-->
             <!--/WEB-INF/loginservice-beans.xml,-->
             <!--/WEB-INF/applicationContext-mobileRepositoryService.xml,-->
             <!--/WEB-INF/applicationContext-colemo.xml,-->

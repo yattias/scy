@@ -8,7 +8,7 @@
 <t:grid source="groupMembers" row="currentUser" exclude="id, name, enabled">
     <t:parameter name="usernamecell">
         <t:if test="currentUser">
-            <a t:type="links/SelectObjectLink" model="currentUser">${currentUser.userName}</a>
+            <a t:type="links/SelectObjectLink" model="currentUser">${currentUser.userDetails.username}</a>
         </t:if>
     </t:parameter>
 

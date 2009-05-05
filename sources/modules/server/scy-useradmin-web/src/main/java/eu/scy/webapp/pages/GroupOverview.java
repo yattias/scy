@@ -71,8 +71,8 @@ public class GroupOverview extends ScyModelPage {
 
     public List<User> getGroupMembers() {
         SCYGroup group = (SCYGroup) getModel();
-        //return group.getUsers();
-        throw new RuntimeException("NOT IMPLEMENTED!");
+        return group.getUsers();
+        //throw new RuntimeException("NOT IMPLEMENTED!");
     }
 
     @InjectPage
