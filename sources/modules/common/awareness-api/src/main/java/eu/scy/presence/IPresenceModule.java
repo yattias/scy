@@ -21,6 +21,13 @@ public interface IPresenceModule {
      */
     public List<String> getBuddies() throws PresenceModuleException;
    
+    /**
+     * Get all the buddies
+     * 
+     * @return all buddies for given user
+     * 
+     */
+    public List<String> getBuddies(String userName) throws PresenceModuleException;
     
     /**
      * sets the presence of the user. TODO: use an enum
