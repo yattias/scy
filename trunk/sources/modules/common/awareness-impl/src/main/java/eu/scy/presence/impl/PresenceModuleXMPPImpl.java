@@ -73,8 +73,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
             xmppConnection.login(username, password);
         } catch (XMPPException e) {
             logger.error("Error during login");
-            e.printStackTrace();
-            
+            e.printStackTrace();            
         }
     }
     
@@ -83,18 +82,15 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
         xmppConnection.disconnect();
     }
     
-    
+        
     //TODO: return array should probably contain instances of scy users or somesuch
-    public ArrayList<IPresenceUser> getBuddies(String username) {
+    public List<String> getBuddies(String username) {
         roster = this.xmppConnection.getRoster();
         Collection<RosterEntry> rosterEntries = roster.getEntries();
-        ArrayList<IPresenceUser> buddies = new ArrayList<IPresenceUser>();
+        ArrayList<String> buddies = new ArrayList<String>();
         for (RosterEntry buddy:rosterEntries) {
-            IPresenceUser au = new PresenceUser();
-            au.setName(buddy.getName());
-            au.setUsername(buddy.getUser());
-            au.setPresence(roster.getPresence(buddy.getUser()).toString());
-            buddies.add(au);
+            logger.debug("buddy: " + buddy.getName());
+            buddies.add(buddy.getName());
         }
         return buddies;
     }
@@ -153,8 +149,17 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
 
     @Override
     public List<String> getBuddies() throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        return null;
+        roster = this.xmppConnection.getRoster();
+        Collection<RosterEntry> rosterEntries = roster.getEntries();
+        ArrayList<String> buddies = new ArrayList<String>();
+        for (RosterEntry buddy:rosterEntries) {
+//            IPresenceUser au = new PresenceUser();
+//            au.setName(buddy.getName());
+//            au.setUsername(buddy.getUser());
+//            au.setPresence(roster.getPresence(buddy.getUser()).toString());
+            buddies.add(buddy.getName());
+        }
+        return buddies;
     }
 
     @Override
@@ -162,7 +167,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
         roster = this.xmppConnection.getRoster();
         Collection<RosterGroup> rosterGroups = roster.getGroups();
         ArrayList<String> groups = new ArrayList<String>();
-        for (RosterGroup group:rosterGroups) {
+       for (RosterGroup group:rosterGroups) {
             groups.add(group.getName());
         }
         return groups;
@@ -171,7 +176,15 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
 
     @Override
     public List<String> getGroups(String userName) throws PresenceModuleException {
-        return null;        
+//      roster = this.xmppConnection.getRoster().g;
+//      roster = this.xmppConnection.getRoster();
+//        Collection<RosterGroup> rosterGroups = roster.getGroups();
+//        ArrayList<String> groups = new ArrayList<String>();
+//        for (RosterGroup group:rosterGroups) {
+//            groups.add(group.getName());
+//        }
+//        return groups;    
+        return null;
     }
 
     @Override
