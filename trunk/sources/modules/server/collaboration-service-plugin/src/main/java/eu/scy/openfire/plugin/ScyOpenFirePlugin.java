@@ -36,7 +36,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     private XMPPServer xmppServer;
     private PacketRouter packetRouter;
     private InterceptorManager interceptorManager;
-    private BotzConnection bot;
+    //private BotzConnection bot;
     
     public ScyOpenFirePlugin() {
         xmppServer = XMPPServer.getInstance();
@@ -54,14 +54,13 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
         this.interceptorManager.addInterceptor(this);
         System.out.println("communication is the key");
         
-        bot = new BotzConnection();
+        //bot = new BotzConnection();
         try {
             // Create user and login
-            logger.debug("scy bot loggin in");
-            bot.login("scybot");
-            Presence presence = new Presence();
-            presence.setStatus("SCYBot is watching you");
-            bot.sendPacket(presence);
+            //bot.login("scybot");
+            //Presence presence = new Presence();
+            //presence.setStatus("SCYBot is watching you");
+            //bot.sendPacket(presence);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,16 +102,18 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     @Override
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {
         if (!processed && incoming) {
-            if (!packet.getFrom().getNode().equals(bot.getUsername())) {
-                System.out.println("====== intercepting-packet ============");
-                System.out.println("====== packet ============");
-                System.out.println(packet.toXML());
-                PacketExtension extension = (PacketExtension) packet.getExtension(ScyMessagePacketExtension.ELEMENT_NAME, ScyMessagePacketExtension.NAMESPACE);
-                this.processScyPacket(extension);
-            } else {
-                System.out.println("Packet from bot");
-            }
-            
+            System.out.println("====== intercepting-packet ============");
+            System.out.println("====== packet ============");
+            System.out.println(packet.toXML());
+//            if (!packet.getFrom().getNode().equals(bot.getUsername())) {
+//                System.out.println("====== intercepting-packet ============");
+//                System.out.println("====== packet ============");
+//                System.out.println(packet.toXML());
+//                PacketExtension extension = (PacketExtension) packet.getExtension(ScyMessagePacketExtension.ELEMENT_NAME, ScyMessagePacketExtension.NAMESPACE);
+//                this.processScyPacket(extension);
+//            } else {
+//                System.out.println("Packet from bot");
+//            }            
         }
         
     }
@@ -120,15 +121,15 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     @Override
     public void handleCommunicationEvent(ScyCommunicationEvent e) {
         System.out.println("---------- handleCommunicationEvent ----------");
-        org.xmpp.packet.Message m = new org.xmpp.packet.Message();
-        m.setTo("biden@imediamac09.uio.no/Smack");
-        try {
-            m.setFrom(bot.getUsername() + "@" + bot.getHostName() + "/" + bot.getResource());
-        } catch (UnknownHostException e1) {
-            e1.printStackTrace();
-        }
-        m.setSubject("Message to set");
-        m.setBody("i is watching you; callback happened: " + e.getScyMessage());
+//        org.xmpp.packet.Message m = new org.xmpp.packet.Message();
+//        m.setTo("biden@imediamac09.uio.no/Smack");
+//        try {
+//            m.setFrom(bot.getUsername() + "@" + bot.getHostName() + "/" + bot.getResource());
+//        } catch (UnknownHostException e1) {
+//            e1.printStackTrace();
+//        }
+//        m.setSubject("Message to set");
+//        m.setBody("i is watching you; callback happened: " + e.getScyMessage());
 //        IScyMessage scyObject = new ScyMessage();
 //        scyObject.setId("666");
 //        scyObject.setName("mr.component");
@@ -136,8 +137,8 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
 //        PacketExtension scye = new ScyObjectPacketExtension();
 //        ((ScyObjectPacketExtension) scye).setScyBase(scyObject);
 //        m.addExtension(scye);
-        bot.sendPacket(m);
-        System.out.println("---------- sent ----------");
+//        bot.sendPacket(m);
+//        System.out.println("---------- sent ----------");
     }
     
 }
