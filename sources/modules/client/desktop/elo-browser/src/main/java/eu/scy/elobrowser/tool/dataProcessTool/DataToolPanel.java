@@ -14,7 +14,7 @@ import eu.scy.communications.message.IScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.elobrowser.main.user.User;
-import eu.scy.elobrowser.tool.simquest.DatasetSandbox;
+import eu.scy.client.tools.scysimulator.DatasetSandbox;
 import javax.swing.JPanel;
 import eu.scy.tools.dataProcessTool.dataTool.*;
 
