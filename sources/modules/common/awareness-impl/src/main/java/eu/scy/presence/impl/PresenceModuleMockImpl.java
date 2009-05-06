@@ -48,7 +48,7 @@ public class PresenceModuleMockImpl implements IPresenceModule {
         
         // tell everyone is listening
         for (IPresenceListListener ll : awarenessListListeners) {
-            ll.handleAwarenessListEvent(new PresenceListEvent(this, username, IPresenceListEvent.ADD));
+            ll.handlePresenceListEvent(new PresenceListEvent(this, username, IPresenceListEvent.ADD));
         }
         
     }
@@ -71,7 +71,7 @@ public class PresenceModuleMockImpl implements IPresenceModule {
         
         // tell everyone is listening
         for (IPresenceListListener ll : awarenessListListeners) {
-            ll.handleAwarenessListEvent(new PresenceListEvent(this, username, IPresenceListEvent.REMOVE));
+            ll.handlePresenceListEvent(new PresenceListEvent(this, username, IPresenceListEvent.REMOVE));
         }
     }
    
@@ -93,7 +93,7 @@ public class PresenceModuleMockImpl implements IPresenceModule {
                 // fire the listen
                 // tell everyone is listening
                 for (IPresenceListener ll : awarenessPresenceListeners) {
-                    ll.handleAwarenessPresenceEvent(new PresenceStatusEvent(this, username, "changed presence", presence, au.getStatus()));
+                    ll.handlePresenceEvent(new PresenceStatusEvent(this, username, "changed presence", presence, au.getStatus()));
                 }
                 
             }
@@ -108,7 +108,7 @@ public class PresenceModuleMockImpl implements IPresenceModule {
                 // fire the listen
                 // tell everyone is listening
                 for (IPresenceListener ll : awarenessPresenceListeners) {
-                    ll.handleAwarenessPresenceEvent(new PresenceStatusEvent(this, username, "changed status", au.getPresence(), status));
+                    ll.handlePresenceEvent(new PresenceStatusEvent(this, username, "changed status", au.getPresence(), status));
                 }
                 
             }
@@ -127,43 +127,5 @@ public class PresenceModuleMockImpl implements IPresenceModule {
         this.awarenessPresenceListeners.add(awarenessPresenceListener);
     }
     
-
-
-	@Override
-	public List<String> getGroups(String userName)
-			throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getGroups() throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void getPresence(String username) throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getStatus(String username) throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void joinGroup(String groupName) throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void leaveGroup(String groupName) throws PresenceModuleException {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
