@@ -1,6 +1,5 @@
 package eu.scy.elobrowser.tool.scydynamics;
 
-import eu.scy.elobrowser.tool.simquest.*;
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.net.URI;

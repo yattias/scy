@@ -1,4 +1,4 @@
-package eu.scy.elobrowser.tool.scydynamics;
+package eu.scy.elobrowser.tool.scysimulator;
 
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.elofactory.ScyWindowContentFactory;
@@ -10,9 +10,9 @@ import javafx.scene.Node;
  * @author lars bollen
  */
 
-public class ScyDynamicsScyWindowContentFactory extends ScyWindowContentFactory {
+public class SimQuestScyWindowContentFactory extends ScyWindowContentFactory {
     public var roolo:Roolo;
-    public def eloType = "scy/model";
+    public def eloType = "scy/simconfig";
 
     public override function getSuitability(eloUri:URI):Integer{
         var type = roolo.extensionManager.getType(eloUri);
@@ -21,10 +21,11 @@ public class ScyDynamicsScyWindowContentFactory extends ScyWindowContentFactory 
     }
 
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-        var scyDynamicsNode = ScyDynamicsNode.createScyDynamicsNode(roolo);
-		scyDynamicsNode.scyWindow = scyWindow;
-        scyDynamicsNode.loadElo(eloUri);
-        return scyDynamicsNode;
+        var simQuestNode = SimQuestNode.createSimQuestNode(roolo);
+		  scyWindow.widthHeightProportion = 1.5;
+        simQuestNode.scyWindow = scyWindow;
+        simQuestNode.loadElo(eloUri);
+        return simQuestNode;
     }
 
 }

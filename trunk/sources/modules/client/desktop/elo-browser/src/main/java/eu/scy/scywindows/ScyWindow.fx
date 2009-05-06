@@ -581,8 +581,8 @@ public class ScyWindow extends CustomNode {
         // pass the rotation value to it
         // in future versions, we may add an interface "RotationAware" that
         // indicates a tool`s interest in rotation values
-        if (scyContent instanceof eu.scy.elobrowser.tool.simquest.SimQuestNode) {
-            (scyContent as eu.scy.elobrowser.tool.simquest.SimQuestNode).doRotate(rotate);
+        if (scyContent instanceof eu.scy.elobrowser.tool.scysimulator.SimQuestNode) {
+            (scyContent as eu.scy.elobrowser.tool.scysimulator.SimQuestNode).doRotate(rotate);
         }
 		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
 

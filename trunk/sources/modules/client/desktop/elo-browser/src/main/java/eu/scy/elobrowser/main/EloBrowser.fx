@@ -28,7 +28,7 @@ import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
-import eu.scy.elobrowser.tool.simquest.SimQuestNode;
+import eu.scy.elobrowser.tool.scysimulator.SimQuestNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
