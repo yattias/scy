@@ -29,7 +29,10 @@ public class PresenceModuleXMPPTestCase {
         if (presenceModule == null) {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
-                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
+                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("thomasd", "fiskefor");
                 //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);
             } catch (PresenceModuleException e) {
                 logger.error("presence noodle test case bummer");
@@ -47,11 +50,34 @@ public class PresenceModuleXMPPTestCase {
             //groups = (ArrayList<String>) presenceModule.getGroups("thomasd");
             groups = (ArrayList<String>) presenceModule.getGroups();
         } catch (PresenceModuleException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         assertNotNull(groups);
+        logger.debug("groups.size: " + groups.size());
         assertTrue(groups.size() > 0);
+    }
+    
+    
+    @org.junit.Test
+    public void testGetBuddies() {
+        ArrayList<String> buddies = null;
+        try {
+            buddies = (ArrayList<String>) presenceModule.getBuddies();
+        } catch (PresenceModuleException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(buddies);
+        assertTrue(buddies.size() > 0);
+
+    
+        buddies = null;
+        try {
+            buddies = (ArrayList<String>) presenceModule.getBuddies(); //TODO: should be getBuddies("userName")
+        } catch (PresenceModuleException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(buddies);
+        assertTrue(buddies.size() > 0);    
     }
     
     
