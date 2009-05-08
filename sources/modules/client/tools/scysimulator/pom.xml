@@ -54,8 +54,8 @@
 			<version>9.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>elo-browser</artifactId>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>collaboration-service-impl</artifactId>
 			<version>9.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
