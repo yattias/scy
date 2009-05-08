@@ -6,7 +6,6 @@ import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
-import eu.scy.elobrowser.main.user.User;
 import java.util.Iterator;
 import java.util.Locale;
 import roolo.elo.JDomStringConversion;
@@ -37,7 +36,8 @@ public class DatasetSandbox {
 
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        collaborationService.synchronizeClientState(User.instance.getUsername(), TOOL_NAME, SESSION_ID, true);
+        // TODO: Username needs to be fetched from the user management
+        collaborationService.synchronizeClientState("User", TOOL_NAME, SESSION_ID, true);
     }
 
     private void send(IScyMessage message) {
