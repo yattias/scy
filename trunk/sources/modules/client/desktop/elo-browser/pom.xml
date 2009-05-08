@@ -3,11 +3,11 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
  
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>eu.scy.client.desktop</groupId>
-		<version>9.5.0-SNAPSHOT</version>
-	</parent> 	
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.desktop</groupId>
+        <version>9.5.0-SNAPSHOT</version>
+    </parent>
  
     <modelVersion>4.0.0</modelVersion>
     <artifactId>elo-browser</artifactId>
@@ -20,12 +20,6 @@
         </license>
     </licenses>
  
-    <properties>
-      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
-      <!--   <env.JAVAFX_HOME>c:\Programs\Develop\javafx-sdk1.1</env.JAVAFX_HOME>  -->
-      <!-- ###### TO BE ADAPTED LOCALLY ###### -->
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
@@ -240,38 +234,15 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-            <!--
-            <phase>process-test-sources</phase>
-            -->
                         <phase>compile</phase>
                         <configuration>
                             <tasks>
                                 <echo>Compiling JavaFX test sources</echo>
-                                <property name="javafx.home" value="${env.JAVAFX_HOME}"/>
-                                <path id="javafxc.classpath">
-                                    <fileset dir="${javafx.home}">
-                                        <include name="**/javafxrt.jar"/>
-                                        <include name="**/javafxc.jar"/>
-                                        <include name="**/toolchain.jar"/>
-                                    </fileset>
-                                </path>
-                                <path id="javafx.classpath">
-                                    <fileset dir="${javafx.home}">
-                                        <include name="**/javafxrt.jar"/>
-                                        <include name="**/javafxc.jar"/>
-                                        <include name="**/toolchain.jar"/>
-                                        <include name="**/javafxgui.jar"/>
-                                        <include name="**/javafx-swing.jar"/>
-                                        <include name="**/Scenario.jar"/>
-                                        <include name="**/websvc.jar"/>
-                                    </fileset>
-                                </path>
-                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="javafxc.classpath" name="javafxc"/>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
                                 <mkdir dir="target/classes"/>
-                                <javafxc destdir="target/classes" compilerclasspathref="javafxc.classpath">
+                                <javafxc destdir="target/classes" compilerclasspathref="maven.compile.classpath">
                                     <src path="src/main/java"/>
                                     <classpath refid="maven.compile.classpath"/>
-                                    <classpath refid="javafx.classpath"/>
                                 </javafxc>
                             </tasks>
                         </configuration>
@@ -281,13 +252,12 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <plugin>
                 <groupId>org.codehaus.mojo.webstart</groupId>
                 <artifactId>webstart-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
                             <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
                         </goals>
@@ -302,7 +272,7 @@
                     <excludeTransitive>false</excludeTransitive>
 
            <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <libPath>lib</libPath>
+                    <!--<libPath>lib</libPath>-->
 
            <!-- JNLP generation -->
                     <jnlp>
@@ -314,7 +284,6 @@
              <!-- this is perhaps going to change -->
                         <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
                     </jnlp>
-
 
                     <sign>
                         <keypass>scylab</keypass>
@@ -328,8 +297,7 @@
                         </keystoreConfig>
 
                     </sign>
-
-
+                    <unsign>true</unsign>
 
            <!-- BUILDING PROCESS -->
 
@@ -344,9 +312,6 @@
 
                 </configuration>
             </plugin>
-
-
-
         </plugins>
     </build>
 </project>
