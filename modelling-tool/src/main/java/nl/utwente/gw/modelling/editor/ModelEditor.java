@@ -74,6 +74,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	private JdCursors cursors;
 	//private int lastCursor;
 	private EditorToolbar toolbar;
+	private SimulationToolbar simtoolbar;
+	private FileToolbar filetoolbar;
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
@@ -82,6 +84,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		aSelection = new JdSelection();
 		// aPopups = new JdPopups(this);
 		// aEditorVT = e;
+		
 		initComponents();
 		setNewModel();
 		//for (int i = 0; i < 9; i++)
@@ -103,10 +106,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 //		aScrollPane.getViewport().add(aCanvas);
 		// simulation control toolbar
 		toolbar = new EditorToolbar();
-
+		simtoolbar = new SimulationToolbar(this);
+		filetoolbar = new FileToolbar(this);
 		// top
 		setLayout(new BorderLayout());
 		add(toolbar, BorderLayout.WEST);
+		add(simtoolbar, BorderLayout.EAST);
+		add(filetoolbar, BorderLayout.NORTH);
 		add(aCanvas, BorderLayout.CENTER);
 		
 		//add(aScrollPane, BorderLayout.CENTER);
@@ -203,11 +209,14 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// access XmModel
 	// ---------------------------------------------------------------------------
 	public void setNewModel() {
+		aCanvas.removeMouseListener(mouseListener);
+		aCanvas.removeMouseMotionListener(mouseListener);
 		aModel = new Model();
+		aModel.setMethod("euler");
 		aCanvas.setModel(aModel);
 		//aControl.setModel(aModel);
 		//JTools.setToolBarEnabled(toolbar, true);
-		mouseListener = new EditorMouseListener(this, aModel);
+		mouseListener = new EditorMouseListener(this, aModel);		
 		aCanvas.addMouseListener(mouseListener);
 		aCanvas.addMouseMotionListener(mouseListener);
 	}
