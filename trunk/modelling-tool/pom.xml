@@ -4,8 +4,8 @@
 	<groupId>nl.utwente</groupId>
 	<artifactId>modeleditor</artifactId>
 	<name>Modelling Tool</name>
-	<version>0.0.1-SNAPSHOT</version>
 	<description>Modelling Tool for System Dynamics models and for qualitative models, usable standalone and within SCYLab</description>
+	
 	<developers>
 		<developer>
 			<id>lars</id>
@@ -20,44 +20,13 @@
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-	
-	<issueManagement>
-		<system>JIRA@Enovate</system>
-		<url>https://base.enovate.no</url>
-	</issueManagement>
-	
-	<distributionManagement>
-        <repository>
-            <id>mvn_collide_releases</id>
-            <name>Collide Internal Releases</name>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
-            <name>Collide Internal Snapshots</name>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-	
-	<repositories>
-		<repository>
-			<id>collide-releases</id>
-			<url>http://mvn.collide.info/content/repositories/releases</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>collide-snapshots</id>
-			<url>http://mvn.collide.info/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-	</repositories>
+		
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>9.5.0-SNAPSHOT</version>
+	</parent> 
+		
 	<dependencies>
 		<dependency>
 			<groupId>nl.utwente</groupId>
@@ -69,28 +38,26 @@
 			<artifactId>colab.um</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+		<dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+       		<groupId>org.nfunk</groupId>
+			<artifactId>jep</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+       		<groupId>nl.utwente</groupId>
+			<artifactId>simquestviewer</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+       		<groupId>ptolemy</groupId>
+			<artifactId>plot</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<inherited>true</inherited>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	
 </project>
