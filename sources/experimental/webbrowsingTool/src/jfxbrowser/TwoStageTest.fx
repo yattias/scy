@@ -44,7 +44,7 @@ public class TwoStageTest extends CustomNode{
 
     var reloadPageButton:SwingButton = SwingButton{
         text:"reload saved Page";
-        translateX:100;
+        translateX:150;
         
         action: function():Void{
             var storedPageBrowser = BrowserComponent{};
@@ -53,10 +53,8 @@ public class TwoStageTest extends CustomNode{
                 scene:Scene{
                     content: [storedPageBrowser]
                 }
-                
             }
         }
-
     }
 
 
