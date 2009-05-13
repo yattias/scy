@@ -5,21 +5,21 @@ import info.collide.sqlspaces.commons.Tuple;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 
-public class ActionLogger implements IActionLogger {
+public class ActionLogger /*extends ScyBaseDAOHibernate */ implements IActionLogger {
     
     //default settings:
-    private String host = "127.0.0.1";
-    private int port = 2525;
-    private String space = "actionlogging";
+    //private String host = "127.0.0.1";
+    //private int port = 2525;
+    //private String space = "actionlogging";
     //
-    private TupleSpace ts = null;
+    //private TupleSpace ts = null;
     
     /**
      * simple constructor for an actionlogger
      * @param user	user throwing actions (NOT! the tool)
      */
     public ActionLogger() {
-        connect();
+        //connect();
     }
     
     /**
@@ -30,23 +30,24 @@ public class ActionLogger implements IActionLogger {
      * @param user	user throwing actions (NOT! the tool)
      */
     public ActionLogger(String host, int port, String space) {
-        this.host = host;
+        /*this.host = host;
         this.port = port;
         this.space = space;
         connect();
+        */
     }
     
     /**
      * creates a connection to the SQLSPaces server
      */
     private void connect() {
-        try {
+        /*try {
             ts = new TupleSpace(host, port, space);
             System.out.println("actionlogger verbunden");
         }
         catch(Exception e) {
             e.printStackTrace();
-        }
+        } */
     }
     
     /**
@@ -55,13 +56,14 @@ public class ActionLogger implements IActionLogger {
      * @param action IAction thrown
      */
     public void log(String username, String tool, IAction action) {
-        Tuple message = new Tuple(username, tool, System.currentTimeMillis(), action.getXML());
+        /*Tuple message = new Tuple(username, tool, System.currentTimeMillis(), action.getXML());
         try {
             ts.write(message);
         }
         catch(Exception e) {
             e.printStackTrace();
         }
+        */
     }
     
 }
