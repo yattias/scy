@@ -4,7 +4,7 @@
 	<groupId>eu.scy</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>9.5.0-SNAPSHOT</version>
+	<version>9.5.1-SNAPSHOT</version>
 	<name>scy</name>
 	<url>http://www.scy-net.eu</url>
 	<repositories>
