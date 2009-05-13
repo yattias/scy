@@ -18,6 +18,11 @@
 			<version>${pom.version}</version>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
@@ -25,6 +30,48 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring-release-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring-release-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-release-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.0.5</version>
+            <scope>test</scope>
+        </dependency>
+
 	</dependencies>
+
+    <build>
+        <filters>
+            <filter>${filter.test.file}</filter>
+        </filters>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+    </build>
+
+    <properties>
+        <filter.test.file>src/test/resources/filter.properties</filter.test.file>
+    </properties>
+    
 	
 </project>

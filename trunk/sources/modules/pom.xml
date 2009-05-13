@@ -95,4 +95,8 @@
 		<module>client</module>
 		<module>server</module>
 	</modules>
+
+    <properties>
+        <spring-release-version>2.5.5</spring-release-version>
+    </properties>
 </project>
