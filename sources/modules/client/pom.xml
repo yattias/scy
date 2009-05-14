@@ -67,6 +67,6 @@
 	<modules>
 		<module>tools</module>
 		<module>desktop</module>
-		<module>utilities</module>
+		<module>misc</module>
 	</modules>
 </project>
