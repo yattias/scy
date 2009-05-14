@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -17,13 +19,12 @@ import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.SharedGroupManager;
 
 import eu.scy.presence.IPresenceListListener;
 import eu.scy.presence.IPresenceListener;
 import eu.scy.presence.IPresenceModule;
-import eu.scy.presence.IPresenceUser;
 import eu.scy.presence.PresenceModuleException;
-import eu.scy.presence.PresenceUser;
 import eu.scy.presence.event.PresenceEvent;
 
 
@@ -41,7 +42,6 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
     public boolean isConnected() {
        if( xmppConnection != null)
            return xmppConnection.isConnected();
-       
        return false;
     }
     
@@ -62,6 +62,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
         
         //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
+        //config = new ConnectionConfiguration("imediamac09.uio.no", 5275, "eclipse");
         xmppConnection = new XMPPConnection(config);
         try {
             xmppConnection.connect();
@@ -128,7 +129,34 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
     public void addPresenceListener(IPresenceListener presenceListener){
         presenceListeners.add(presenceListener);
    }
+    
 
+    public Map<String, String> getStatusForUsersInGroup(String groupName) {
+        roster = this.xmppConnection.getRoster();        
+        ArrayList<RosterGroup> groups = new ArrayList<RosterGroup>(roster.getGroups()); 
+        ArrayList<RosterEntry> usersInGroup = new ArrayList<RosterEntry>(); 
+        HashMap<String, String> users = null;
+        for (RosterGroup group : groups) {
+            if (groupName.equals(group.getName())) {
+                users = new HashMap<String, String>();
+                usersInGroup = new ArrayList<RosterEntry>(group.getEntries()); 
+                if (usersInGroup != null && usersInGroup.size() > 0) {
+                    for (RosterEntry rosterEntry : usersInGroup) {
+                        logger.debug("group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + roster.getPresence(rosterEntry.getName()).toString());
+                        users.put(rosterEntry.getName(), roster.getPresence(rosterEntry.getName()).toString());
+                    }
+                    return users;
+                } else {
+                    logger.debug("no entries in group " + groupName);
+                    return null;
+                }
+            }
+        }
+        logger.debug("no group named " + groupName);
+        return null;
+    }
+
+    
     @Override
     public void addBuddy(String arg0) throws PresenceModuleException {
         // TODO Auto-generated method stub
@@ -167,7 +195,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
         roster = this.xmppConnection.getRoster();
         Collection<RosterGroup> rosterGroups = roster.getGroups();
         ArrayList<String> groups = new ArrayList<String>();
-       for (RosterGroup group:rosterGroups) {
+        for (RosterGroup group:rosterGroups) {
             groups.add(group.getName());
         }
         return groups;
