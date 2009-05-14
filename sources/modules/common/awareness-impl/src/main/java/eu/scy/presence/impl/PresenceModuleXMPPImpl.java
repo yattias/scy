@@ -131,6 +131,15 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
    }
     
 
+    /**
+     * This method will return status: unavailable for all users which the currently logged in user 
+     * (the one who opened the xmppconnection) does not subscribe to presence data for. It is not enough 
+     * to be member of the same group, or for the logged in user to be admin in group or even admin 
+     * one the xmpp server.
+     * 
+     * @param groupName - name of group to check
+     * @return Map of usernames and online status, both as String
+     */
     public Map<String, String> getStatusForUsersInGroup(String groupName) {
         roster = this.xmppConnection.getRoster();        
         ArrayList<RosterGroup> groups = new ArrayList<RosterGroup>(roster.getGroups()); 
