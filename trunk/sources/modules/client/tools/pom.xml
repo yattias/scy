@@ -25,5 +25,6 @@
 		<module>colemo-model</module>
 		<module>scymapper</module>
 		<module>scydynamics</module>
+		<module>scysimulator</module>
 	</modules>
 </project>
