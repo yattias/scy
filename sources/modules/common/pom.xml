@@ -12,6 +12,7 @@
 	<artifactId>parent</artifactId>
 	<name>common</name>
 	<packaging>pom</packaging>
+    <version>9.5.1-SNAPSHOT</version>
 	<description>scy-common metamodule</description>
 
 	<modules>
