@@ -1,17 +1,11 @@
 package eu.scy.presence;
 
-import static org.junit.Assert.*;
+import eu.scy.presence.impl.PresenceModuleXMPPImpl;
+import org.apache.log4j.Logger;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-
-import com.sun.source.tree.AssertTree;
-
-import eu.scy.presence.IPresenceModule;
-import eu.scy.presence.PresenceModuleException;
-import eu.scy.presence.PresenceModuleFactory;
-import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 
 
 public class PresenceModuleXMPPTestCase {
