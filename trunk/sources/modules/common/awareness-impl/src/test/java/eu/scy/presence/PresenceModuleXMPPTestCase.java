@@ -1,11 +1,14 @@
 package eu.scy.presence;
 
-import eu.scy.presence.impl.PresenceModuleXMPPImpl;
-import org.apache.log4j.Logger;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+
+import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 
 
 public class PresenceModuleXMPPTestCase {
@@ -24,9 +27,9 @@ public class PresenceModuleXMPPTestCase {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
                 ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("b1", "b1");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("thomasd", "fiskefor");
                 //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);
             } catch (PresenceModuleException e) {
                 logger.error("presence noodle test case bummer");
@@ -36,19 +39,28 @@ public class PresenceModuleXMPPTestCase {
         assertNotNull(presenceModule);
     }
     
+    @org.junit.Test
+    public void testGetStatusForUsersInGroup() {      
+        HashMap<String, String> users = new HashMap<String, String>();
+        users = (HashMap<String, String>) ((PresenceModuleXMPPImpl) presenceModule).getStatusForUsersInGroup("everybody");     
+        assertNotNull(users);
+        logger.debug("users: " + users);
+        assertTrue(users.size() > 5);      
+    }
+    
     
     @org.junit.Test
     public void testGetGroups() {      
         ArrayList<String> groups = null;
         try {
             //groups = (ArrayList<String>) presenceModule.getGroups("thomasd");
-            groups = (ArrayList<String>) presenceModule.getGroups();
+            groups = new ArrayList<String>(presenceModule.getGroups());
         } catch (PresenceModuleException e) {
             e.printStackTrace();
-        }
+        }        
         assertNotNull(groups);
         logger.debug("groups.size: " + groups.size());
-        assertTrue(groups.size() > 0);
+        assertTrue(groups.size() > 0);      
     }
     
     
@@ -56,22 +68,15 @@ public class PresenceModuleXMPPTestCase {
     public void testGetBuddies() {
         ArrayList<String> buddies = null;
         try {
-            buddies = (ArrayList<String>) presenceModule.getBuddies();
+            buddies = new ArrayList<String>(presenceModule.getBuddies());
         } catch (PresenceModuleException e) {
             e.printStackTrace();
         }
         assertNotNull(buddies);
+        logger.debug("buddies.size: " + buddies.size());
         assertTrue(buddies.size() > 0);
 
-    
-        buddies = null;
-        try {
-            buddies = (ArrayList<String>) presenceModule.getBuddies(); //TODO: should be getBuddies("userName")
-        } catch (PresenceModuleException e) {
-            e.printStackTrace();
-        }
-        assertNotNull(buddies);
-        assertTrue(buddies.size() > 0);    
+        //TODO: should also test getBuddies("userName")
     }
     
     
