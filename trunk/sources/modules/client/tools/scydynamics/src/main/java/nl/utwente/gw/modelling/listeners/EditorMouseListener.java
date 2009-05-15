@@ -211,6 +211,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 			model.addObject(aNode, true);
 			editor.setModelChanged();
 			editor.selectObject(aNode, false);
+			editor.getActionLogger().logAddAction(aNode, editor.getModelXML());
 		}
 	}
 
@@ -500,6 +501,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 	              ((JdAux) fOver).setExprType(JdNode.EXPR_QUALITATIVE);
 	          }
 	          fLink.setFigure2(fOver);
+	          editor.getActionLogger().logAddAction(fLink, editor.getModelXML());
 	          //editor.sendLogEventAddObject(fLink);
 	        } else
 	          model.removeObjectAndRelations(fLink);

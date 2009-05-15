@@ -38,7 +38,7 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		add(createButton(FLOW, "EdFlow.gif"));
 		add(createButton(RELATION, "EdRelation.gif"));
 		add(createButton(AUX, "EdAux.gif"));
-		add(createButton(DATASET, "EdDataset.gif"));
+		//add(createButton(DATASET, "EdDataset.gif"));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
 	}

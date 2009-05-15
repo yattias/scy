@@ -46,9 +46,8 @@ public EditorPanel() {
 //TODO: is this method needed?
 public Dimension getPreferredSize() {
     //return JTools.getSysResourceSize("EditorCanvas");
-	return new Dimension(800,800);
-	
-  }
+	return new Dimension(400,400);
+ }
   //-------------------------------------------------------------------------
   // paint
   //-------------------------------------------------------------------------

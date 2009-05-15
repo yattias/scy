@@ -38,6 +38,8 @@ import java.awt.Color;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import nl.utwente.gw.modelling.logging.ActionLogger;
+
 public class Model {
   //---------------------------------------------------------------------------
   // variables
@@ -48,15 +50,17 @@ public class Model {
   private String method;
   private String name = "model";
   private boolean bQualitative = true; // allow qualitative modelling?
+  private ActionLogger logger;
   //-------------------------------------------------------------------------
   // creation
   //-------------------------------------------------------------------------
-  public Model() {
+  public Model(ActionLogger logger) {
+	  this.logger = logger;
     setDefaultTimes();
   }
   //-------------------------------------------------------------------------
-  public Model(boolean allowQualitative) {
-    this();
+  public Model(ActionLogger logger, boolean allowQualitative) {
+    this(logger);
     bQualitative=allowQualitative;
   }
   //-------------------------------------------------------------------------
@@ -104,11 +108,15 @@ public class Model {
         JdColor.registerColor(aObj.getLabelColor());
     }
     objs.put(aObj.getLabel(), aObj);
+    // this has to be logged in the EditorMouseListener
+    // because of the "adding link in progress problem"
+    //logger.logAddAction(aObj);
   }
   //-------------------------------------------------------------------------
   public void removeObject(JdObject aObj) {
     JdColor.freeColor(aObj.getLabelColor());
     objs.remove(aObj.getLabel());
+    logger.logDeleteAction(aObj, this.getXmModel().toString());
   }
   //-------------------------------------------------------------------------
   public void renameObject(String oldName, String newName) {
@@ -460,7 +468,7 @@ public class Model {
           stock_var.setColor(s.getLabelColor());
           JxmVarSpec stock_vs = new JxmVarSpec(s.getLabel(),stock_var,stock_spec);
           m.addVarSpec(stock_vs);
-          m.addStock(new JxmStock(s.getLabel(),s.getPoint1(),s.getPoint2(),s.getLabelPosStr(),s.getColor(),s.getLabelColor()));
+          m.addStock(new JxmStock(s.getLabel(),s.getPoint1(),s.getPoint2(),s.getLabelPosStr(),s.getColor(),s.getLabelColor(), s.getID()));
           break;
         case JdFigure.AUX:
           JdAux a = (JdAux) o;
@@ -478,7 +486,7 @@ public class Model {
           aux_var.setColor(a.getLabelColor());
           JxmVarSpec var_vs = new JxmVarSpec(a.getLabel(),aux_var,aux_spec);
           m.addVarSpec(var_vs);
-          m.addAux(new JxmAux(a.getLabel(),a.getPoint1(),a.getPoint2(),a.getLabelPosStr(),a.getColor(),a.getLabelColor()));
+          m.addAux(new JxmAux(a.getLabel(),a.getPoint1(),a.getPoint2(),a.getLabelPosStr(),a.getColor(),a.getLabelColor(), a.getID()));
           break;
         case JdFigure.CONSTANT:
           JdConst c = (JdConst) o;
@@ -488,7 +496,7 @@ public class Model {
           const_var.setColor(c.getLabelColor());
           JxmVarSpec const_vs = new JxmVarSpec(c.getLabel(),const_var,const_spec);
           m.addVarSpec(const_vs);
-          m.addConst(new JxmConst(c.getLabel(),c.getPoint1(),c.getPoint2(),c.getLabelPosStr(),c.getColor(),c.getLabelColor()));
+          m.addConst(new JxmConst(c.getLabel(),c.getPoint1(),c.getPoint2(),c.getLabelPosStr(),c.getColor(),c.getLabelColor(), c.getID()));
           break;
         case JdFigure.DATASET:
           JdDataset d = (JdDataset) o;
@@ -498,21 +506,21 @@ public class Model {
           dataset_var.setColor(d.getLabelColor());
           JxmVarSpec dataset_vs = new JxmVarSpec(d.getLabel(),dataset_var,dataset_spec);
           m.addVarSpec(dataset_vs);
-          m.addDataset(new JxmDataset(d.getLabel(),d.getPoint1(),d.getPoint2(),d.getLabelPosStr(),d.getColor(),d.getLabelColor()));
+          m.addDataset(new JxmDataset(d.getLabel(),d.getPoint1(),d.getPoint2(),d.getLabelPosStr(),d.getColor(),d.getLabelColor(), d.getID()));
           break;
         case JdFigure.FLOW:
           JdFlow aFlow = (JdFlow) o;
           String sf1=null,sf2=null;
           if (aFlow.getFigure1()!=null) sf1 = (aFlow.getFigure1().isObject()) ? ((JdObject) aFlow.getFigure1()).getLabel() : null;
           if (aFlow.getFigure2()!=null) sf2 = (aFlow.getFigure2().isObject()) ? ((JdObject) aFlow.getFigure2()).getLabel() : null;
-          m.addFlow(new JxmFlow(aFlow.getLabel(), aFlow.getPoint1(), aFlow.getPoint2(), aFlow.getCtrlPoint1(), sf1, sf2, aFlow.getFlowTypeStr(),aFlow.getColor()));
+          m.addFlow(new JxmFlow(aFlow.getLabel(), aFlow.getPoint1(), aFlow.getPoint2(), aFlow.getCtrlPoint1(), sf1, sf2, aFlow.getFlowTypeStr(),aFlow.getColor(), aFlow.getID()));
           break;
         case JdFigure.RELATION:
           JdRelation aRel = (JdRelation) o;
           String sr1=null,sr2=null;
           if (aRel.getFigure1()!=null) sr1 = (aRel.getFigure1().isObject()) ? ((JdObject) aRel.getFigure1()).getLabel() : ((JdSubObject) aRel.getFigure1()).getParent().getLabel();
           if (aRel.getFigure2()!=null) sr2 = (aRel.getFigure2().isObject()) ? ((JdObject) aRel.getFigure2()).getLabel() : ((JdSubObject) aRel.getFigure2()).getParent().getLabel();
-          m.addRelation(new JxmRelation(aRel.getLabel(), aRel.getPoint1(), aRel.getPoint2(), aRel.getCtrlPoint1(), aRel.getCtrlPoint2(), sr1, sr2,aRel.getColor(),aRel.getRelationType()));
+          m.addRelation(new JxmRelation(aRel.getLabel(), aRel.getPoint1(), aRel.getPoint2(), aRel.getCtrlPoint1(), aRel.getCtrlPoint2(), sr1, sr2,aRel.getColor(),aRel.getRelationType(), aRel.getID()));
           break;
       }
     }
@@ -539,6 +547,7 @@ public class Model {
       aStock.setColor(stock.getColor());
       aStock.setLabelPosStr(stock.getLabel());
       aStock.setLabelColor(stock.getLabelColor());
+      aStock.setID(stock.getID());
       JxmSpecStock specstock = (JxmSpecStock) (m.getVarSpecs().get(stock.getSymbol())).getSpec();
       if (specstock!=null) {
         aStock.setExpr(specstock.getInitial());
@@ -551,6 +560,7 @@ public class Model {
       aAux.setColor(aux.getColor());
       aAux.setLabelPosStr(aux.getLabel());
       aAux.setLabelColor(aux.getLabelColor());
+      aAux.setID(aux.getID());
       JxmSpecAux specaux = (JxmSpecAux) (m.getVarSpecs().get(aux.getSymbol())).getSpec();
       if (specaux!=null) {
         aAux.setExpr(specaux.getExpr());
@@ -571,6 +581,7 @@ public class Model {
       aConst.setColor(con.getColor());
       aConst.setLabelPosStr(con.getLabel());
       aConst.setLabelColor(aConst.getLabelColor());
+      aConst.setID(con.getID());
       JxmSpecConst specconst = (JxmSpecConst) (m.getVarSpecs().get(con.getSymbol())).getSpec();
       if (specconst!=null) {
         aConst.setExpr(specconst.getExpr());
@@ -583,6 +594,8 @@ public class Model {
       aDataset.setColor(dataset.getColor());
       aDataset.setLabelPosStr(dataset.getLabel());
       aDataset.setLabelColor(aDataset.getLabelColor());
+      aDataset.setID(dataset.getID());
+
       JxmSpecDataset specdataset = (JxmSpecDataset) (m.getVarSpecs().get(dataset.getSymbol())).getSpec();
       if (specdataset!=null) {
         aDataset.setDsName(specdataset.getDsName());
@@ -603,6 +616,7 @@ public class Model {
       aFlow.setFigure1(getObjectOfName(h,flow.getStart()));
       aFlow.setFigure2(getObjectOfName(h,flow.getEnd()));
       aFlow.setColor(flow.getColor());
+      aFlow.setID(flow.getID());
       aFlow.updateSubobjects();
       h.put(aFlow.getLabel(),aFlow);
     }
@@ -617,6 +631,7 @@ public class Model {
       JdObject o2 = getObjectOfName(h,rel.getEnd());
       if (o2!=null) { if (o2.isFlow()) aRel.setFigure2(((JdFlow) o2).getFlowCtrl()); else aRel.setFigure2(o2); }
       aRel.setColor(rel.getColor());
+      aRel.setID(rel.getID());
       if (bQualitative) aRel.setRelationType(rel.getType());
       aRel.updateHandles();
       h.put(aRel.getLabel(),aRel);
