@@ -1,12 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.server</groupId>
+		<version>9.5.1-SNAPSHOT</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy</groupId>
 	<artifactId>scy-hub</artifactId>
-	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
 	<name>scy-hub</name>
-	<url>http://maven.apache.org</url>
+	<description>Server component that will handle messages between clients and server
+		components</description>
+	<organization>
+		<name>InterMedia, University of Oslo</name>
+	</organization>
+	<packaging>jar</packaging>
 
 	<distributionManagement>
 		<repository>
@@ -23,7 +33,6 @@
 	</distributionManagement>
 
 	<repositories>
-
 		<repository>
 			<id>collide-releases</id>
 			<url>http://mvn.collide.info/content/repositories/releases</url>
@@ -31,7 +40,6 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-
 		<repository>
 			<id>collide-snapshots</id>
 			<url>http://mvn.collide.info/content/repositories/snapshots</url>
@@ -39,8 +47,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-
-
 		<repository>
 			<id>reucon</id>
 			<url>http://maven.reucon.com/public</url>
@@ -48,7 +54,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-			<repository>
+		<repository>
 			<id>reucon</id>
 			<url>http://www.ibiblio.org/maven/public</url>
 			<snapshots>
@@ -58,35 +64,26 @@
 	</repositories>
 
 	<dependencies>
-
-
 		<dependency>
 			<groupId>jivesoftware</groupId>
 			<artifactId>whack</artifactId>
 			<version>1.0</version>
-	
 		</dependency>
-		
 		<dependency>
 			<groupId>xpp3</groupId>
 			<artifactId>xpp3</artifactId>
-			<version>1.1.4c</version></dependency>
+			<version>1.1.4c</version>
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.5.1</version>
-			
 		</dependency>
-	
 		<dependency>
 			<groupId>jivesoftware</groupId>
 			<artifactId>stringprep</artifactId>
 			<version>1.0</version>
 		</dependency>
-
-
-
-
 	</dependencies>
 
 	<build>
