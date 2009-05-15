@@ -1,4 +1,4 @@
-package edu.scy.scyhub;
+package eu.scy.scyhub;
 
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentException;
