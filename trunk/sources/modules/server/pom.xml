@@ -59,6 +59,7 @@
         <module>scy-sessionmanager-impl</module>
         <module>collaboration-service-plugin</module>
         <module>scy-useradmin-web</module>
+        <module>scy-hub</module>
     </modules>
 
 
