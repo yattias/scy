@@ -1,4 +1,5 @@
 package nl.utwente.gw.modelling.editor;
+
 import colab.um.JColab;
 import colab.um.draw.JdCursors;
 import colab.um.draw.JdFigure;
@@ -12,6 +13,7 @@ import colab.um.parser.JParserException;
 import colab.um.parser.JParserExpr;
 import colab.um.tools.JTools;
 import colab.um.xml.model.JxmModel;
+
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
@@ -28,11 +30,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import nl.utwente.gw.modelling.listeners.EditorMouseListener;
+import nl.utwente.gw.modelling.logging.ActionLogger;
 import nl.utwente.gw.modelling.model.Model;
 
 /**
@@ -40,7 +46,8 @@ import nl.utwente.gw.modelling.model.Model;
  * 
  *@author CoLoS group, UM
  */
-public class ModelEditor extends JPanel implements AdjustmentListener, ActionListener {
+public class ModelEditor extends JPanel implements AdjustmentListener,
+		ActionListener {
 	static final long serialVersionUID = -8181842250058665865L;
 	// ---------------------------------------------------------------------------
 	// constants
@@ -55,76 +62,103 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	public final static int LNK_NOT_FREE = 6;
 	public final static int LNK_DATASET = 7;
 	public final static int LNK_NO_STOCK_ENDS = 8;
-	
+
 	// ---------------------------------------------------------------------------
 	// variables
 	// ---------------------------------------------------------------------------
 	// private JvtEditor aEditorVT;
 	private JdPopups aPopups;
 	private Model aModel = null;
-	//private JdControlStandalone aControl;
+	// private JdControlStandalone aControl;
 	private JdSelection aSelection;
 	private EditorPanel aCanvas;
 	private JScrollPane aScrollPane;
 	private String userMessage = null;
-	//private String[] lnkMsg = new String[9];
-	//private boolean fixAction = false;
+	// private String[] lnkMsg = new String[9];
+	// private boolean fixAction = false;
 	private EditorMouseListener mouseListener;
 	private int currentCursor;
 	private JdCursors cursors;
-	//private int lastCursor;
+	// private int lastCursor;
 	private EditorToolbar toolbar;
+	private SimulationToolbar simtoolbar;
+	private FileToolbar filetoolbar;
+	private ActionLogger logger;
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
 		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
-		//aControl = new JdControlStandalone(this);
+		logger = new ActionLogger("lars");
+
+		// aControl = new JdControlStandalone(this);
 		aSelection = new JdSelection();
 		// aPopups = new JdPopups(this);
 		// aEditorVT = e;
 		initComponents();
 		setNewModel();
-		//for (int i = 0; i < 9; i++)
-		//	lnkMsg[i] = JTools.getAppResourceString("editorLnkMsg" + i);
+		// for (int i = 0; i < 9; i++)
+		// lnkMsg[i] = JTools.getAppResourceString("editorLnkMsg" + i);
+	}
+
+	public ActionLogger getActionLogger() {
+		return logger;
 	}
 
 	// -------------------------------------------------------------------------
 	private void initComponents() {
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent evt) {
+				JTabbedPane pane = (JTabbedPane) evt.getSource();
+				((ChangeListener) pane.getSelectedComponent())
+						.stateChanged(evt);
+			}
+		});
+
+		JPanel editorTab = new EditorTab(this);
+		this.aCanvas = ((EditorTab) editorTab).getEditorPanel();
+		this.toolbar = ((EditorTab) editorTab).getToolbar();
+		JPanel graphTab = new GraphTab(this);
+		JPanel tableTab = new TableTab(this);
+
+		tabbedPane.addTab("model", editorTab);
+		tabbedPane.addTab("graph", EditorIcons.getImageIcon("Graph16.gif"), graphTab);
+		tabbedPane.addTab("table", EditorIcons.getImageIcon("Table16.gif"), tableTab);
+
+		this.setLayout(new BorderLayout());
+		this.add(tabbedPane, BorderLayout.CENTER);
+
 		// canvas area panel
-		aCanvas = new EditorPanel();
-//		aScrollPane = new JScrollPane();
-//		aScrollPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-//		aScrollPane
-//		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-//		aScrollPane
-//		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-//		aScrollPane.getVerticalScrollBar().addAdjustmentListener(this);
-//		aScrollPane.getHorizontalScrollBar().addAdjustmentListener(this);
-//		aScrollPane.getViewport().add(aCanvas);
+
+		// aScrollPane = new JScrollPane();
+		// aScrollPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+		// aScrollPane
+		// .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		// aScrollPane
+		// .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		// aScrollPane.getVerticalScrollBar().addAdjustmentListener(this);
+		// aScrollPane.getHorizontalScrollBar().addAdjustmentListener(this);
+		// aScrollPane.getViewport().add(aCanvas);
 		// simulation control toolbar
-		toolbar = new EditorToolbar();
 
 		// top
-		setLayout(new BorderLayout());
-		add(toolbar, BorderLayout.WEST);
-		add(aCanvas, BorderLayout.CENTER);
-		
-		//add(aScrollPane, BorderLayout.CENTER);
+
+		// add(aScrollPane, BorderLayout.CENTER);
 		// register DEL key
-		//		this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(
-		//				KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		//		this.registerKeyboardAction(this, "copy", KeyStroke.getKeyStroke(
-		//				KeyEvent.VK_C, ActionEvent.CTRL_MASK, false),
-		//				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		//		this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(
-		//				KeyEvent.VK_V, ActionEvent.CTRL_MASK, false),
-		//				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		//		this.registerKeyboardAction(this, "cut", KeyStroke.getKeyStroke(
-		//				KeyEvent.VK_X, ActionEvent.CTRL_MASK, false),
-		//				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		//		this.registerKeyboardAction(this, "all", KeyStroke.getKeyStroke(
-		//				KeyEvent.VK_A, ActionEvent.CTRL_MASK, false),
-		//				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(
+		// KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// this.registerKeyboardAction(this, "copy", KeyStroke.getKeyStroke(
+		// KeyEvent.VK_C, ActionEvent.CTRL_MASK, false),
+		// JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(
+		// KeyEvent.VK_V, ActionEvent.CTRL_MASK, false),
+		// JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// this.registerKeyboardAction(this, "cut", KeyStroke.getKeyStroke(
+		// KeyEvent.VK_X, ActionEvent.CTRL_MASK, false),
+		// JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// this.registerKeyboardAction(this, "all", KeyStroke.getKeyStroke(
+		// KeyEvent.VK_A, ActionEvent.CTRL_MASK, false),
+		// JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -132,33 +166,33 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// ---------------------------------------------------------------------------
 	public void destroyEditor() {
 		MouseMotionListener[] mmls = this
-		.getListeners(MouseMotionListener.class);
+				.getListeners(MouseMotionListener.class);
 		for (int i = 0; i < mmls.length; i++)
 			try {
 				this.removeMouseMotionListener(mmls[i]);
 			} catch (Exception ex) {
 				System.err
-				.println("JdEditor->destroyEditor removeMouseMotionListener exception: "
-						+ ex);
+						.println("JdEditor->destroyEditor removeMouseMotionListener exception: "
+								+ ex);
 			}
-			MouseListener[] mls = this.getListeners(MouseListener.class);
-			for (int i = 0; i < mls.length; i++)
-				try {
-					this.removeMouseListener(mls[i]);
-				} catch (Exception ex) {
-					System.err
-					.println("JdEditor->destroyEditor removeMouseListener exception: "
-							+ ex);
-				}
-				aScrollPane.getVerticalScrollBar().removeAdjustmentListener(this);
-				aScrollPane.getHorizontalScrollBar().removeAdjustmentListener(this);
-				this.resetKeyboardActions();
-				aModel = null;
-				aPopups = null;
-				//aControl = null;
-				aSelection = null;
-				aCanvas = null;
-				aScrollPane = null;
+		MouseListener[] mls = this.getListeners(MouseListener.class);
+		for (int i = 0; i < mls.length; i++)
+			try {
+				this.removeMouseListener(mls[i]);
+			} catch (Exception ex) {
+				System.err
+						.println("JdEditor->destroyEditor removeMouseListener exception: "
+								+ ex);
+			}
+		aScrollPane.getVerticalScrollBar().removeAdjustmentListener(this);
+		aScrollPane.getHorizontalScrollBar().removeAdjustmentListener(this);
+		this.resetKeyboardActions();
+		aModel = null;
+		aPopups = null;
+		// aControl = null;
+		aSelection = null;
+		aCanvas = null;
+		aScrollPane = null;
 	}
 
 	// ---------------------------------------------------------------------------
@@ -172,7 +206,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	public EditorPanel getCanvas() {
 		return aCanvas;
 	}
-	
+
 	public int getCurrentAction() {
 		return toolbar.getCurrentAction();
 	}
@@ -181,21 +215,21 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		return "editor";
 	}
 
-	//TODO
+	// TODO
 	public boolean stockEnds() {
-		//		return aEditorVT.stockEnds();
+		// return aEditorVT.stockEnds();
 		return true;
 	}
 
-	//TODO
+	// TODO
 	public boolean allowQualitative() {
-		//		return aEditorVT.allowQualitative();
+		// return aEditorVT.allowQualitative();
 		return true;
 	}
 
-	//TODO
+	// TODO
 	public boolean defaultQualitative() {
-		//		return aEditorVT.defaultQualitative();
+		// return aEditorVT.defaultQualitative();
 		return true;
 	}
 
@@ -203,10 +237,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// access XmModel
 	// ---------------------------------------------------------------------------
 	public void setNewModel() {
-		aModel = new Model();
+		aCanvas.removeMouseListener(mouseListener);
+		aCanvas.removeMouseMotionListener(mouseListener);
+		aModel = new Model(logger);
+		aModel.setMethod("euler");
 		aCanvas.setModel(aModel);
-		//aControl.setModel(aModel);
-		//JTools.setToolBarEnabled(toolbar, true);
+		// aControl.setModel(aModel);
+		// JTools.setToolBarEnabled(toolbar, true);
 		mouseListener = new EditorMouseListener(this, aModel);
 		aCanvas.addMouseListener(mouseListener);
 		aCanvas.addMouseMotionListener(mouseListener);
@@ -228,16 +265,16 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			// aModel = new JdModel(aEditorVT.allowQualitative());
 			aModel.setXmModel(m);
 			aCanvas.setModel(aModel);
-			//aControl.setModel(aModel);
-			//JTools.setToolBarEnabled(aToolbar, true);
+			// aControl.setModel(aModel);
+			// JTools.setToolBarEnabled(aToolbar, true);
 			// setAction("EditorCursorTB",JdControl.A_CURSOR);
 		} else {
 			aModel = null;
 			aCanvas.setModel(null);
-			//aControl.setModel(null);
+			// aControl.setModel(null);
 			aCanvas.removeMouseListener(mouseListener);
 			// aCanvas.removeMouseMotionListener(this);
-			//JTools.setToolBarEnabled(toolbar, false);
+			// JTools.setToolBarEnabled(toolbar, false);
 		}
 		// aEditorVT.changeModelEq();
 	}
@@ -255,67 +292,67 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// ---------------------------------------------------------------------------
 	// TODO
 	// public void clearStatusMsg() { aEditorVT.showStatusMsg("",false); }
-	//	public void clearStatusMsg() {
-	//		System.out.println("JdEditorStandalone.showStatusMsg().");
-	//	}
+	// public void clearStatusMsg() {
+	// System.out.println("JdEditorStandalone.showStatusMsg().");
+	// }
 	//
-	//	// public void showStatusMsg(int i) {
-	//	// aEditorVT.showStatusMsg(lnkMsg[i],false); }
-	//	public void showStatusMsg(int i) {
-	//		System.out.println("JdEditorStandalone.showStatusMsg(): " + i);
-	//	}
+	// // public void showStatusMsg(int i) {
+	// // aEditorVT.showStatusMsg(lnkMsg[i],false); }
+	// public void showStatusMsg(int i) {
+	// System.out.println("JdEditorStandalone.showStatusMsg(): " + i);
+	// }
 	//
-	//	// public void showStatusMsg(int i, boolean b) {
-	//	// aEditorVT.showStatusMsg(lnkMsg[i],b); }
-	//	public void showStatusMsg(int i, boolean b) {
-	//		System.out.println("JdEditorStandalone.showStatusMsg(): " + i + " / "
-	//				+ b);
-	//	}
+	// // public void showStatusMsg(int i, boolean b) {
+	// // aEditorVT.showStatusMsg(lnkMsg[i],b); }
+	// public void showStatusMsg(int i, boolean b) {
+	// System.out.println("JdEditorStandalone.showStatusMsg(): " + i + " / "
+	// + b);
+	// }
 	//
-	//	// public void showStatusMsg(String s, boolean b) {
-	//	// aEditorVT.showStatusMsg(s,b); }
-	//	public void showStatusMsg(String s, boolean b) {
-	//		System.out.println("JdEditorStandalone.showStatusMsg(): " + s + " / "
-	//				+ b);
-	//	}
+	// // public void showStatusMsg(String s, boolean b) {
+	// // aEditorVT.showStatusMsg(s,b); }
+	// public void showStatusMsg(String s, boolean b) {
+	// System.out.println("JdEditorStandalone.showStatusMsg(): " + s + " / "
+	// + b);
+	// }
 
 	// -------------------------------------------------------------------------
-	//	public void showRuntimeValue() {
-	//		JdObject o = aControl.getMouseOverObject();
-	//		if (o == null) {
-	//			showStatusMsg("", false);
-	//			return;
-	//		} else {
-	//			String oLabel = o.getLabel();
-	//			String oExpr = o.getExpr();
-	//			String s = JTools.hasValue(oExpr) ? (oLabel + " (" + oExpr + ")")
-	//					: oLabel;
-	//			// TODO
-	//			// Double oValue = aEditorVT.getRuntimeVariableValue(oLabel);
-	//			Double oValue = null;
-	//			String tip;
-	//			if (oValue == null) {
-	//				tip = oExpr;
-	//			} else if (oValue.isNaN()) {
-	//				tip = "?";
-	//				s += (" = " + tip);
-	//			} else if (oValue.isInfinite()) {
-	//				tip = "\u221E";
-	//				s += (" = " + tip);
-	//			} else {
-	//				tip = JTools.formatDouble(oValue.doubleValue(), 5, 7);
-	//				s += " = " + oValue;
-	//			}
-	//			showStatusMsg(s, false);
-	//			if (JTools.hasValue(tip)) {
-	//				int x = (int) o.getBounds().getCenterX();
-	//				int y = o.getBounds().y;
-	//				// System.out.println("showRuntimeValue " + tip + ", x=" +
-	//				// String.valueOf(x) + ", y=" + String.valueOf(y));
-	//				aCanvas.setTip(tip, x, y); // -8: move up a bit
-	//			}
-	//		}
-	//	}
+	// public void showRuntimeValue() {
+	// JdObject o = aControl.getMouseOverObject();
+	// if (o == null) {
+	// showStatusMsg("", false);
+	// return;
+	// } else {
+	// String oLabel = o.getLabel();
+	// String oExpr = o.getExpr();
+	// String s = JTools.hasValue(oExpr) ? (oLabel + " (" + oExpr + ")")
+	// : oLabel;
+	// // TODO
+	// // Double oValue = aEditorVT.getRuntimeVariableValue(oLabel);
+	// Double oValue = null;
+	// String tip;
+	// if (oValue == null) {
+	// tip = oExpr;
+	// } else if (oValue.isNaN()) {
+	// tip = "?";
+	// s += (" = " + tip);
+	// } else if (oValue.isInfinite()) {
+	// tip = "\u221E";
+	// s += (" = " + tip);
+	// } else {
+	// tip = JTools.formatDouble(oValue.doubleValue(), 5, 7);
+	// s += " = " + oValue;
+	// }
+	// showStatusMsg(s, false);
+	// if (JTools.hasValue(tip)) {
+	// int x = (int) o.getBounds().getCenterX();
+	// int y = o.getBounds().y;
+	// // System.out.println("showRuntimeValue " + tip + ", x=" +
+	// // String.valueOf(x) + ", y=" + String.valueOf(y));
+	// aCanvas.setTip(tip, x, y); // -8: move up a bit
+	// }
+	// }
+	// }
 
 	// -------------------------------------------------------------------------
 	// Syntax checking of models and expresions
@@ -330,21 +367,30 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			return false;
 		boolean b = false;
 		if (name == null) {
-//			userMessage = JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-			System.out.println("ModelEditor.isValidName(). invalid variable name.");
+			// userMessage =
+			// JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
+			System.out
+					.println("ModelEditor.isValidName(). invalid variable name.");
 		} else if (name.length() < 1) {
-//			userMessage = JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-			System.out.println("ModelEditor.isValidName(). invalid variable name.");
+			// userMessage =
+			// JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
+			System.out
+					.println("ModelEditor.isValidName(). invalid variable name.");
 		} else if (aModel.hasObjectOfName(name)) {
-//			userMessage = JTools.getAppResourceString("editorMsgDuplicateVariableName", name);
-			System.out.println("ModelEditor.isValidName(). invalid variable name.");
+			// userMessage =
+			// JTools.getAppResourceString("editorMsgDuplicateVariableName",
+			// name);
+			System.out
+					.println("ModelEditor.isValidName(). invalid variable name.");
 		} else if (JParserExpr.isToken(name)) {
-//			userMessage = JTools.getAppResourceString("editorMsgReservedWord",name);
-			System.out.println("ModelEditor.isValidName(). invalid variable name.");
+			// userMessage =
+			// JTools.getAppResourceString("editorMsgReservedWord",name);
+			System.out
+					.println("ModelEditor.isValidName(). invalid variable name.");
 		} else
 			b = true;
-		//		if (!b)
-		//			showStatusMsg(userMessage, true);
+		// if (!b)
+		// showStatusMsg(userMessage, true);
 		return b;
 	}
 
@@ -392,10 +438,16 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			case JdFigure.DATASET:
 				if (!o.isSpecified()) {
 					if (b) {
-						//errMsg = JTools.getAppResourceString("editorMsgVariableUndefined", o.getLabel());
-						//userMessage = JTools.getAppResourceString("editorMsgUnableToSimulateModel")+ "\n" + errMsg;
+						// errMsg =
+						// JTools.getAppResourceString("editorMsgVariableUndefined",
+						// o.getLabel());
+						// userMessage =
+						// JTools.getAppResourceString("editorMsgUnableToSimulateModel")+
+						// "\n" + errMsg;
 						// showStatusMsg(errMsg, true);
-						System.out.println("ModelEditor.checkModel(): undefined variable: "+o.getLabel());
+						System.out
+								.println("ModelEditor.checkModel(): undefined variable: "
+										+ o.getLabel());
 						System.out.println("...cannot run model.");
 						b = false;
 					}
@@ -425,12 +477,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 				}
 				o.setSpecified(b2);
 				if (!b2 && !b) {
-					//errMsg = JTools.getAppResourceString("editorMsgVariableExpressionError", o.getLabel());
-					//userMessage = JTools.getAppResourceString("editorMsgUnableToSimulateModel")+ "\n" + errMsg + "\n";
-					//if (parser.getErrorMessage() != null)
-					//	userMessage += JTools.getAppResourceString("editorMsgExpressionError", parser.getErrorMessage());
+					// errMsg =
+					// JTools.getAppResourceString("editorMsgVariableExpressionError",
+					// o.getLabel());
+					// userMessage =
+					// JTools.getAppResourceString("editorMsgUnableToSimulateModel")+
+					// "\n" + errMsg + "\n";
+					// if (parser.getErrorMessage() != null)
+					// userMessage +=
+					// JTools.getAppResourceString("editorMsgExpressionError",
+					// parser.getErrorMessage());
 					// showStatusMsg(errMsg,true);
-					System.out.println("ModelEditor.checkModel(). invalid expresion in "+o.getLabel());
+					System.out
+							.println("ModelEditor.checkModel(). invalid expresion in "
+									+ o.getLabel());
 					System.out.println("...unable to run model.");
 					if (parser.getErrorMessage() != null) {
 						System.out.println(parser.getErrorMessage());
@@ -502,7 +562,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			if (parser.getErrorMessage() != null) {
 				System.out.println(parser.getErrorMessage());
 			} else {
-				System.out.println(vName);				
+				System.out.println(vName);
 			}
 			return false;
 		}
@@ -510,9 +570,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		if (b && vLinks != null && bUseAllLinks) {
 			Vector<String> vExpr = parser.getExprVars(aExpr);
 			if (vExpr.isEmpty() && !vLinks.isEmpty()) {
-				//userMessage = JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
-				//				showStatusMsg(userMessage, true);
-				System.out.println("ModelEditor.checkExpr(): not all linked variables used. 1");
+				// userMessage =
+				// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
+				// showStatusMsg(userMessage, true);
+				System.out
+						.println("ModelEditor.checkExpr(): not all linked variables used. 1");
 				return false;
 			}
 			// create vector of linked variables in lowercase
@@ -527,9 +589,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			for (int i = 0; i < v1.size(); i++) {
 				String aVar = v1.elementAt(i);
 				if (v2.indexOf(aVar) < 0) {
-					//userMessage = JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
-					//					showStatusMsg(userMessage, true);
-					System.out.println("ModelEditor.checkExpr(): not all linked variables used. 2");
+					// userMessage =
+					// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
+					// showStatusMsg(userMessage, true);
+					System.out
+							.println("ModelEditor.checkExpr(): not all linked variables used. 2");
 					return false;
 				}
 			}
@@ -538,9 +602,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			for (int i = 0; i < v2.size(); i++) {
 				String aVar = v1.elementAt(i);
 				if (v1.indexOf(aVar) < 0) {
-					//userMessage = JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
-					//					showStatusMsg(userMessage, true);
-					System.out.println("ModelEditor.checkExpr(): not all linked variables used. 3");
+					// userMessage =
+					// JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
+					// showStatusMsg(userMessage, true);
+					System.out
+							.println("ModelEditor.checkExpr(): not all linked variables used. 3");
 					return false;
 				}
 			}
@@ -566,25 +632,24 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// ---------------------------------------------------------------------------
 	// set/get editor action
 	// ---------------------------------------------------------------------------
-	//	private void setAction(String aCmd, int a) {
-	//		JTools.setToolBarToggleButtonSelected(aToolbar, aCmd);
-	//		//aControl.setAction(a);
-	//	}
+	// private void setAction(String aCmd, int a) {
+	// JTools.setToolBarToggleButtonSelected(aToolbar, aCmd);
+	// //aControl.setAction(a);
+	// }
 
 	// -------------------------------------------------------------------------
-	//public void setFixAction(boolean b) {
-		//fixAction = b;
-		// aEditorVT.setFixAction(b);
-	//}
+	// public void setFixAction(boolean b) {
+	// fixAction = b;
+	// aEditorVT.setFixAction(b);
+	// }
 
 	// -------------------------------------------------------------------------
-	//	public void restoreAction() {
-	//		if (!fixAction && !"cursor".equals(eAction))
-	//			setAction("cursor");
-	//	}
+	// public void restoreAction() {
+	// if (!fixAction && !"cursor".equals(eAction))
+	// setAction("cursor");
+	// }
 
 	// -------------------------------------------------------------------------
-	
 
 	// ---------------------------------------------------------------------------
 	// selection: undo/copy/paste/cut
@@ -615,7 +680,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	}
 
 	public void saveModel() {
-		//aSelection.saveModel(this);
+		// aSelection.saveModel(this);
 	}
 
 	public void clearSaveFirstModel() {
@@ -708,8 +773,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		JdObject o = aModel.getObjectOfName(s);
 		aSelection.selectObject(o, false);
 		updateCanvas();
-		//		if (bEvent)
-		//			sendVisualToolEvent("SelectObject", s);
+		// if (bEvent)
+		// sendVisualToolEvent("SelectObject", s);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -722,7 +787,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// public void setModelChanged() { aEditorVT.setModelChecked(false); }
 	// TODO
 	public void setModelChanged() {
-		//System.out.println("JdEditorStandalone.setModelChanged() called.");
+		// System.out.println("JdEditorStandalone.setModelChanged() called.");
 	}
 
 	// TODO
@@ -770,9 +835,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// public void showSpecDialog() { aEditorVT.showSpecDialog(); }
 	// TODO
 	public void showSpecDialog(JdFigure figure, java.awt.Point position) {
-		//System.out.println("JdEditorStandalone.showSpecDialog() called. doing nothing...");
-		java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
-		VariableDialog vdialog = new VariableDialog(frame, position, figure, aModel);
+		// System.out.println("JdEditorStandalone.showSpecDialog() called. doing nothing...");
+		java.awt.Frame frame = javax.swing.JOptionPane
+				.getFrameForComponent(this);
+		VariableDialog vdialog = new VariableDialog(frame, position, figure,
+				this);
 		vdialog.setVisible(true);
 		aCanvas.updateUI();
 	}
@@ -781,47 +848,49 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 	// aEditorVT.updateSpecDialog(bCheck); }
 	// TODO
 	public void updateSpecDialog(boolean bCheck) {
-		//System.out.println("JdEditorStandalone.updateSpecDialog() called.");
-//		String noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelNone");
-//		if (aModel==null) { wSpec.loadProperties(null,noSpecMsg); return; }
-//		String oldObject = wSpec.getLastVarName();
-//		if (bCheck && !wSpec.allowChange()) {
-//			wSpec.vtwShowWindow();
-//			aEditor.selectObject(oldObject, true);
-//			return;
-//		}
-//		Hashtable<String,Object> h = null;
-//		Vector<String> vsel = aEditor.getSelectedObjects();
-//		int nsel = vsel.size();
-//		if (nsel<1) { // none selected
-//			h = null;
-//			noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelNone");
-//		} else if (nsel>1) { // multiple selection
-//			h = null;
-//			noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelMultiple");
-//		} else { // only one object selected
-//			String newObject = vsel.firstElement();
-//			JdObject o = aModel.getObjectOfName(newObject);
-//			if (o.isFlow()) {
-//				noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelFlow");
-//			} else if (o.isNode()) {
-//				JdNode fNode = (JdNode) o;
-//				h = fNode.getProperties();
-//				Vector<String> vl = JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,false));
-//				h.put("linked", vl);
-//				h.put("linkedColors", aModel.getObjectsLabelColors(vl));
-//				if (o.isAux()) {
-//					h.put("linkedRel", JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,true)));
-//				}
-//			} else if (o.isRelation()) {
-//				noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelRelation");
-//				JdRelation r = (JdRelation) o;
-//				if (r.canBeQualitative()) h = o.getProperties();
-//			}
-//		}
-//		wSpec.loadProperties(h,noSpecMsg);
+		// System.out.println("JdEditorStandalone.updateSpecDialog() called.");
+		// String noSpecMsg =
+		// JTools.getAppResourceString("EditorSpecMsgSelNone");
+		// if (aModel==null) { wSpec.loadProperties(null,noSpecMsg); return; }
+		// String oldObject = wSpec.getLastVarName();
+		// if (bCheck && !wSpec.allowChange()) {
+		// wSpec.vtwShowWindow();
+		// aEditor.selectObject(oldObject, true);
+		// return;
+		// }
+		// Hashtable<String,Object> h = null;
+		// Vector<String> vsel = aEditor.getSelectedObjects();
+		// int nsel = vsel.size();
+		// if (nsel<1) { // none selected
+		// h = null;
+		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelNone");
+		// } else if (nsel>1) { // multiple selection
+		// h = null;
+		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelMultiple");
+		// } else { // only one object selected
+		// String newObject = vsel.firstElement();
+		// JdObject o = aModel.getObjectOfName(newObject);
+		// if (o.isFlow()) {
+		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelFlow");
+		// } else if (o.isNode()) {
+		// JdNode fNode = (JdNode) o;
+		// h = fNode.getProperties();
+		// Vector<String> vl =
+		// JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,false));
+		// h.put("linked", vl);
+		// h.put("linkedColors", aModel.getObjectsLabelColors(vl));
+		// if (o.isAux()) {
+		// h.put("linkedRel",
+		// JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,true)));
+		// }
+		// } else if (o.isRelation()) {
+		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelRelation");
+		// JdRelation r = (JdRelation) o;
+		// if (r.canBeQualitative()) h = o.getProperties();
+		// }
+		// }
+		// wSpec.loadProperties(h,noSpecMsg);
 	}
-
 
 	// ---------------------------------------------------------------------------
 	public void deleteFigure(String name, boolean bEvent) {
@@ -836,8 +905,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		clearSelectedObjects();
 		setModelChanged();
 		checkModel();
-		//		if (bEvent)
-		//			sendVisualToolEvent("DeleteFigure", name);
+		// if (bEvent)
+		// sendVisualToolEvent("DeleteFigure", name);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -881,7 +950,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 		o.setProperties(h);
 		Hashtable<String, Object> ho = o.getProperties();
 		ho.put("oldLabel", oldName);
-		//		sendVisualToolEvent("ChangeObjectEvent", ho);
+		// sendVisualToolEvent("ChangeObjectEvent", ho);
 		aCanvas.repaint();
 		// rename JdModel key
 		String newName = h.containsKey("label") ? (String) h.get("label")
@@ -903,85 +972,85 @@ public class ModelEditor extends JPanel implements AdjustmentListener, ActionLis
 			setModelChanged();
 	}
 
-
 	public void setCursor(int newCursor) {
-		if (currentCursor!=newCursor) {
+		if (currentCursor != newCursor) {
 			this.getCanvas().setCursor(cursors.getCursor(newCursor));
-			//lastCursor = currentCursor;
+			// lastCursor = currentCursor;
 			currentCursor = newCursor;
 		}
 	}
 
-	//	// ---------------------------------------------------------------------------
-	//	// VT events
-	//	// ---------------------------------------------------------------------------
-	//	public void sendVisualToolEvent(String type, Object data) {
-	//		if ("MouseEvent".equals(type)) {
-	//			MouseEvent me = (MouseEvent) data;
-	//			// do not send right-button events
-	//			if (me.isPopupTrigger()
-	//					|| me.getModifiers() == InputEvent.BUTTON3_MASK)
-	//				return;
-	//		}
-	//		// aEditorVT.sendVisualToolEvent(type,"JdEditor",data);
-	//	}
+	// //
+	// ---------------------------------------------------------------------------
+	// // VT events
+	// //
+	// ---------------------------------------------------------------------------
+	// public void sendVisualToolEvent(String type, Object data) {
+	// if ("MouseEvent".equals(type)) {
+	// MouseEvent me = (MouseEvent) data;
+	// // do not send right-button events
+	// if (me.isPopupTrigger()
+	// || me.getModifiers() == InputEvent.BUTTON3_MASK)
+	// return;
+	// }
+	// // aEditorVT.sendVisualToolEvent(type,"JdEditor",data);
+	// }
 	//
-	//	// ---------------------------------------------------------------------------
-	//	public void receiveVisualToolEvent(ColabEvent e) {
-	//		String type = (String) e.values.get("typeVT");
-	//		// Object source = (Object) e.values.get("source");
-	//		Object data = e.values.get("data");
-	//		if ("MouseEvent".equals(type)) {
-	//			aControl.doMouseEvent((MouseEvent) data);
-	//		} else if ("ActionEvent".equals(type)) {
-	//			jCmdItemActionPerformed((ActionEvent) data);
-	//		} else if ("DeleteFigure".equals(type)) {
-	//			deleteFigure((String) data, false);
-	//		} else if ("DeleteSelection".equals(type)) {
-	//			//aSelection.deleteSelection(this);
-	//		} else if ("SelectAll".equals(type)) {
-	//			selectAllObjects();
-	//		} else if ("SelectObject".equals(type)) {
-	//			selectObject((String) data, false);
-	//		} else if ("UpdateSpecDialog".equals(type)) {
-	//			updateSpecDialog(((Boolean) data).booleanValue());
-	//		} else if ("ChangeObjectEvent".equals(type)) {
-	//			Hashtable<String, Object> h = (Hashtable<String, Object>) data;
-	//			setFigureProperties((String) h.get("oldLabel"), h);
-	//			updateSpecDialog(false);
-	//		} else if ("AdjustmentEvent".equals(type)) {
-	//			Hashtable h = (Hashtable) data;
-	//			int adjValue = Integer.parseInt((String) h.get("value"));
-	//			if ("horizontal".equals((String) h.get("orientation")))
-	//				aScrollPane.getHorizontalScrollBar().setValue(adjValue);
-	//			else
-	//				aScrollPane.getVerticalScrollBar().setValue(adjValue);
-	//		}
-	//	}
-
-
+	// //
+	// ---------------------------------------------------------------------------
+	// public void receiveVisualToolEvent(ColabEvent e) {
+	// String type = (String) e.values.get("typeVT");
+	// // Object source = (Object) e.values.get("source");
+	// Object data = e.values.get("data");
+	// if ("MouseEvent".equals(type)) {
+	// aControl.doMouseEvent((MouseEvent) data);
+	// } else if ("ActionEvent".equals(type)) {
+	// jCmdItemActionPerformed((ActionEvent) data);
+	// } else if ("DeleteFigure".equals(type)) {
+	// deleteFigure((String) data, false);
+	// } else if ("DeleteSelection".equals(type)) {
+	// //aSelection.deleteSelection(this);
+	// } else if ("SelectAll".equals(type)) {
+	// selectAllObjects();
+	// } else if ("SelectObject".equals(type)) {
+	// selectObject((String) data, false);
+	// } else if ("UpdateSpecDialog".equals(type)) {
+	// updateSpecDialog(((Boolean) data).booleanValue());
+	// } else if ("ChangeObjectEvent".equals(type)) {
+	// Hashtable<String, Object> h = (Hashtable<String, Object>) data;
+	// setFigureProperties((String) h.get("oldLabel"), h);
+	// updateSpecDialog(false);
+	// } else if ("AdjustmentEvent".equals(type)) {
+	// Hashtable h = (Hashtable) data;
+	// int adjValue = Integer.parseInt((String) h.get("value"));
+	// if ("horizontal".equals((String) h.get("orientation")))
+	// aScrollPane.getHorizontalScrollBar().setValue(adjValue);
+	// else
+	// aScrollPane.getVerticalScrollBar().setValue(adjValue);
+	// }
+	// }
 
 	// ---------------------------------------------------------------------------
 	public void adjustmentValueChanged(AdjustmentEvent e) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
 		h
-		.put(
-				"orientation",
-				(e.getAdjustable().getOrientation() == Adjustable.HORIZONTAL) ? "horizontal"
-						: "vertical");
+				.put(
+						"orientation",
+						(e.getAdjustable().getOrientation() == Adjustable.HORIZONTAL) ? "horizontal"
+								: "vertical");
 		h.put("value", String.valueOf(e.getValue()));
-		//		sendVisualToolEvent("AdjustmentEvent", h);
+		// sendVisualToolEvent("AdjustmentEvent", h);
 	}
 
 	// ---------------------------------------------------------------------------
 	public void actionPerformed(ActionEvent e) {
 		String aCmd = e.getActionCommand();
 		if ("delete".equals(aCmd)) {
-			//aSelection.deleteSelection(this);
-			//			sendVisualToolEvent("DeleteSelection", "DeleteSelection");
+			// aSelection.deleteSelection(this);
+			// sendVisualToolEvent("DeleteSelection", "DeleteSelection");
 		} else if ("all".equals(aCmd)) {
 			selectAllObjects();
-			//			sendVisualToolEvent("SelectAll", "SelectAll");
+			// sendVisualToolEvent("SelectAll", "SelectAll");
 		} else if ("copy".equals(aCmd)) {
 			copySelection();
 			// aEditorVT.sendVisualToolEvent("ActionEvent", e, aCmd);
