@@ -26,7 +26,8 @@ public class PresenceModuleXMPPTestCase {
         if (presenceModule == null) {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
-                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("berzerk", "berzerk");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("b1", "b1");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
