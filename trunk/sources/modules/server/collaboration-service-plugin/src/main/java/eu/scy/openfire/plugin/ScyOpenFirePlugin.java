@@ -52,7 +52,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     public void initializePlugin(PluginManager pluginManager, File pluginDirectory) {
         this.pluginManager = pluginManager;
         this.interceptorManager.addInterceptor(this);
-        System.out.println("communication is the key");
+        logger.debug("==== Communication is Le Key ====");
         
         //bot = new BotzConnection();
         try {
@@ -81,16 +81,16 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     
     public void processScyPacket(PacketExtension extension) {
         try {
-            System.out.println("checking if scy packet");
+            logger.debug("checking if scy packet");
             if (extension != null) {
                 ScyMessagePacketExtension scyExt = new ScyMessagePacketExtension(extension.getElement());
-                System.out.println("processing SCY Packet");
+                logger.debug("processing SCY Packet");
                 // ScyObjectPacketExtension scyExt = (ScyObjectPacketExtension)
                 // extension;
-                System.out.println("============== scy message packet =============");
-                System.out.println("name " + scyExt.getName());
-                System.out.println("description " + scyExt.getDescription());
-                System.out.println("id " + scyExt.getId());
+                logger.debug("============== scy message packet =============");
+                logger.debug("name " + scyExt.getName());
+                logger.debug("description " + scyExt.getDescription());
+                logger.debug("id " + scyExt.getId());
 //                communicationsAdapter.actionUponWrite(scyExt);
             }
         } catch (Exception e) {
@@ -101,26 +101,29 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     
     @Override
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {
+        // a packet asking for presence subsription from thomasd to test looks like this:
+        // <presence to="test@wiki.intermedia.uio.no" type="subscribe" from="thomasd@wiki.intermedia.uio.no/imediamac10-3"/>
         if (!processed && incoming) {
-            System.out.println("====== intercepting-packet ============");
-            System.out.println("====== packet ============");
-            System.out.println(packet.toXML());
+            logger.debug("= packet incoming/unprocessed");
+            logger.debug(packet.toXML());
 //            if (!packet.getFrom().getNode().equals(bot.getUsername())) {
-//                System.out.println("====== intercepting-packet ============");
-//                System.out.println("====== packet ============");
-//                System.out.println(packet.toXML());
+//                logger.debug("====== intercepting-packet ============");
+//                logger.debug("====== packet ============");
+//                logger.debug(packet.toXML());
 //                PacketExtension extension = (PacketExtension) packet.getExtension(ScyMessagePacketExtension.ELEMENT_NAME, ScyMessagePacketExtension.NAMESPACE);
 //                this.processScyPacket(extension);
 //            } else {
-//                System.out.println("Packet from bot");
+//                logger.debug("Packet from bot");
 //            }            
+        } else if (processed && !incoming) {
+            logger.debug("= packet outgoing/processed");
+            logger.debug(packet.toXML());
         }
-        
     }
     
     @Override
     public void handleCommunicationEvent(ScyCommunicationEvent e) {
-        System.out.println("---------- handleCommunicationEvent ----------");
+        logger.debug("---------- handleCommunicationEvent ----------");
 //        org.xmpp.packet.Message m = new org.xmpp.packet.Message();
 //        m.setTo("biden@imediamac09.uio.no/Smack");
 //        try {
@@ -138,7 +141,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
 //        ((ScyObjectPacketExtension) scye).setScyBase(scyObject);
 //        m.addExtension(scye);
 //        bot.sendPacket(m);
-//        System.out.println("---------- sent ----------");
+//        logger.debug("---------- sent ----------");
     }
     
 }
