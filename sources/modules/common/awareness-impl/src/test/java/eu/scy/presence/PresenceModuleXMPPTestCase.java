@@ -27,11 +27,14 @@ public class PresenceModuleXMPPTestCase {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
-                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("berzerk", "berzerk");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("berzerk", "berzerk");
+                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("bender", "bender");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("b1", "b1");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
                 //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);
+                
+                initListeners();
             } catch (PresenceModuleException e) {
                 logger.error("presence noodle test case bummer");
                 e.printStackTrace();
@@ -40,6 +43,18 @@ public class PresenceModuleXMPPTestCase {
         assertNotNull(presenceModule);
     }
     
+    
+    private void initListeners() {
+       presenceModule.addStatusListener(new  IPresenceListener(){
+    
+           @Override
+           public void handlePresenceEvent(IPresenceStatusEvent e) {
+               logger.debug(e.getStatus());            
+           }
+       });        
+    }
+
+
     @org.junit.Test
     public void testGetStatusForUsersInGroup() {      
         HashMap<String, String> users = new HashMap<String, String>();

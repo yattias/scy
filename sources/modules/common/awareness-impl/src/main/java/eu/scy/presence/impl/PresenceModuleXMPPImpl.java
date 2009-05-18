@@ -16,9 +16,11 @@ import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
+import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.SharedGroupManager;
 
 import eu.scy.presence.IPresenceListListener;
@@ -26,9 +28,10 @@ import eu.scy.presence.IPresenceListener;
 import eu.scy.presence.IPresenceModule;
 import eu.scy.presence.PresenceModuleException;
 import eu.scy.presence.event.PresenceEvent;
+import eu.scy.presence.event.PresenceStatusEvent;
 
 
-public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener {
+public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener, RosterListener {
 
     private final static Logger logger = Logger.getLogger(PresenceModuleXMPPImpl.class.getName());
     private ConnectionConfiguration config;
@@ -141,17 +144,20 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
      * @return Map of usernames and online status, both as String
      */
     public Map<String, String> getStatusForUsersInGroup(String groupName) {
-        roster = this.xmppConnection.getRoster();        
+        roster = this.xmppConnection.getRoster();
+        roster.addRosterListener(this);
         ArrayList<RosterGroup> groups = new ArrayList<RosterGroup>(roster.getGroups()); 
         ArrayList<RosterEntry> usersInGroup = new ArrayList<RosterEntry>(); 
         HashMap<String, String> users = null;
+        logger.debug("roster for user: " + this.xmppConnection.getUser());
         for (RosterGroup group : groups) {
             if (groupName.equals(group.getName())) {
                 users = new HashMap<String, String>();
                 usersInGroup = new ArrayList<RosterEntry>(group.getEntries()); 
                 if (usersInGroup != null && usersInGroup.size() > 0) {
                     for (RosterEntry rosterEntry : usersInGroup) {
-                        logger.debug("group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + roster.getPresence(rosterEntry.getName()).toString());
+                        logger.debug("1 group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + roster.getPresence(rosterEntry.getName()).toString());
+                        //logger.debug("2 group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + rosterEntry.getStatus());
                         users.put(rosterEntry.getName(), roster.getPresence(rosterEntry.getName()).toString());
                     }
                     return users;
@@ -256,7 +262,36 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener 
     @Override
     public void setPresence(String arg0, String arg1) throws PresenceModuleException {
         // TODO Auto-generated method stub
+
         
+    }
+
+    @Override
+    public void entriesAdded(Collection<String> arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void entriesDeleted(Collection<String> arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void presenceChanged(Presence presence) {
+        for (IPresenceListener pl : presenceListeners) {
+            
+            pl.handlePresenceEvent(new PresenceStatusEvent(this, presence.getFrom(), presence.getStatus(), null, null));
+            
+        }
+//        logger.debug("something changed " + arg0.toString());        
     }
 
     
