@@ -2,9 +2,14 @@ package nl.utwente.gw.modelling.editor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.HashMap;
+
+import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+
+import colab.um.tools.JTools;
 
 
 public class EditorToolbar extends JToolBar implements ActionListener {
@@ -31,21 +36,23 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		super(JToolBar.VERTICAL);
 		setFloatable(false);
 		buttonMap = new HashMap<String, JToggleButton>();
-		add(createButton(CURSOR, "EdCursor.gif"));
-		add(createButton(DELETE, "EdDelete.gif"));
-		add(createButton(CONSTANT, "EdConstant.gif"));
-		add(createButton(STOCK, "EdStock.gif"));
-		add(createButton(FLOW, "EdFlow.gif"));
-		add(createButton(RELATION, "EdRelation.gif"));
-		add(createButton(AUX, "EdAux.gif"));
+		add(createButton(CURSOR, "EditorCursorTB", "cursor"));
+		add(createButton(DELETE, "EditorDeleteTB", "delete"));
+		add(createButton(CONSTANT, "EditorConstantTB", "constant"));
+		add(createButton(STOCK, "EditorStockTB", "stock"));
+		add(createButton(FLOW, "EditorFlowTB", "flow"));
+		add(createButton(RELATION, "EditorRelationTB", "relation"));
+		add(createButton(AUX, "EditorAuxTB", "auxiliary"));
 		//add(createButton(DATASET, "EdDataset.gif"));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
 	}
 
-	private JToggleButton createButton(int cmd, String icon) {
-		JToggleButton button = new JToggleButton(EditorIcons.getImageIcon(icon));
+	private JToggleButton createButton(int cmd, String icon, String tooltip) {
+		URL url = JTools.getSysResourceImage(icon);
+		JToggleButton button = new JToggleButton(new ImageIcon(url));
 		button.setActionCommand(cmd+"");
+		button.setToolTipText(tooltip);
 		button.addActionListener(this);
 		button.setSelected(false);
 		buttonMap.put(cmd+"", button);
@@ -59,6 +66,12 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		buttonMap.get(currentAction+"").setSelected(false);
 		currentAction = Integer.valueOf(evt.getActionCommand()).intValue();		
+	}
+
+	public void toCursorAction() {
+		buttonMap.get(currentAction+"").setSelected(false);
+		buttonMap.get(CURSOR+"").setSelected(true);
+		currentAction = CURSOR;
 	}
 	
 }

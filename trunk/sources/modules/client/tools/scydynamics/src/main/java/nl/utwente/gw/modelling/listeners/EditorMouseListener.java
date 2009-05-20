@@ -88,9 +88,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseDragged(MouseEvent evt) {
-		// if (!allowDrag) { e.consume(); return; }
-		
-		
+		// if (!allowDrag) { e.consume(); return; }		
 		switch (editor.getCurrentAction()) {
 		case EditorToolbar.CURSOR:
 			actionDragCursor(evt.getX(), evt.getY());
@@ -114,7 +112,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 	    	  break;
 	    }
 	    allowDrag=false;
-	    //editor.restoreAction();
 	    evt.consume();
 	}
 
@@ -141,11 +138,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	public void setAction(int action) {
 		editor.setCursor(action);
@@ -211,6 +206,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 			model.addObject(aNode, true);
 			editor.setModelChanged();
 			editor.selectObject(aNode, false);
+			editor.getEditorToolbar().toCursorAction();
 			editor.getActionLogger().logAddAction(aNode, editor.getModelXML());
 		}
 	}
@@ -284,6 +280,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 		fStart = getObjectAt(x, y);
 		if (fStart != null) {
 			editor.deleteFigure(((JdObject) fStart).getLabel(), false);
+			editor.getEditorToolbar().toCursorAction();
 		}
 	}
 
@@ -501,6 +498,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
 	              ((JdAux) fOver).setExprType(JdNode.EXPR_QUALITATIVE);
 	          }
 	          fLink.setFigure2(fOver);
+	          editor.getEditorToolbar().toCursorAction();
 	          editor.getActionLogger().logAddAction(fLink, editor.getModelXML());
 	          //editor.sendLogEventAddObject(fLink);
 	        } else
