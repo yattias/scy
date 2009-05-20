@@ -65,6 +65,14 @@
             <version>2.1_3</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.acegisecurity</groupId>
+            <artifactId>acegi-security</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+        
+
 
     </dependencies>
 
