@@ -1,31 +1,24 @@
 package eu.scy.listeners;
 
+import eu.scy.core.persistence.UserDAO;
+import eu.scy.core.persistence.UserSessionDAO;
+import org.springframework.security.Authentication;
+import org.springframework.security.AuthenticationTrustResolver;
+import org.springframework.security.AuthenticationTrustResolverImpl;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.User;
-import org.springframework.security.AuthenticationTrustResolver;
-import org.springframework.security.AuthenticationTrustResolverImpl;
-import org.springframework.security.Authentication;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionAttributeListener;
-import javax.security.auth.login.LoginException;
-import java.util.Set;
+import javax.servlet.http.HttpSessionBindingEvent;
 import java.util.HashSet;
-
-import eu.scy.core.persistence.UserDAO;
-import eu.scy.core.persistence.UserSessionDAO;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.

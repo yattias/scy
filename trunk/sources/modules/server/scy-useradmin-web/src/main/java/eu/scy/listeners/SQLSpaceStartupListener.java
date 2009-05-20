@@ -1,8 +1,5 @@
 package eu.scy.listeners;
 
-import org.apache.log4j.Logger;
-
-
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
 
@@ -13,6 +10,7 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.Configuration;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +20,7 @@ import java.util.logging.Level;
  * To change this template use File | Settings | File Templates.
  */
 public class SQLSpaceStartupListener implements ServletContextListener {
-    private Logger log = Logger.getLogger(ColemoStartupListener.class);
+    private Logger log = Logger.getLogger("ColemoStartupListener.class");
 
 
     public void contextInitialized(final ServletContextEvent servletContextEvent) {

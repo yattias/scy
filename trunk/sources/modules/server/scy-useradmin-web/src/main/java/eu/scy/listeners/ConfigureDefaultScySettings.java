@@ -17,8 +17,9 @@ import javax.servlet.ServletContext;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-import org.apache.log4j.Logger;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -33,7 +34,7 @@ import org.telscenter.sail.webapp.domain.authentication.Gender;
  * To change this template use File | Settings | File Templates.
  */
 public class ConfigureDefaultScySettings implements ServletContextListener {
-    private static Logger log = Logger.getLogger(ConfigureDefaultScySettings.class);
+    private static Logger log = Logger.getLogger("ConfigureDefaultScySettings.class");
     private ServletContext context;
 
 
@@ -41,15 +42,15 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
 
         context = event.getServletContext();
 
-        if (log.isDebugEnabled()) {
-            log.debug("contextInitialized...");
+        if (log.isLoggable(Level.FINEST)) {
+            log.fine("contextInitialized...");
         }
 
         String daoType = context.getInitParameter(Constants.DAO_TYPE);
 
         // if daoType is not specified, use DAO as default
         if (daoType == null) {
-            log.warn("No 'daoType' Context Parameter supplied in web.xml, using default (hibernate)");
+            log.log(Level.WARNING, "No 'daoType' Context Parameter supplied in web.xml, using default (hibernate)");
             daoType = Constants.DAO_TYPE_HIBERNATE;
         }
 
@@ -66,16 +67,16 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         context.setAttribute(Constants.CONFIG, config);
 
         // output the retrieved values for the Init and Context Parameters
-        if (log.isDebugEnabled()) {
-            log.debug("daoType: " + daoType);
-            log.debug("populating drop-downs...");
+        if (log.isLoggable(Level.FINEST)) {
+            log.fine("daoType: " + daoType);
+            log.fine("populating drop-downs...");
         }
 
         setupContext(context);
 
         // output the retrieved values for the Init and Context Parameters
-        if (log.isDebugEnabled()) {
-            log.debug("Initialization complete [OK]");
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Initialization complete [OK]");
         }
     }
 
@@ -100,8 +101,8 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
                 for (int i = 0; i < files.length; i++) {
                     files[i] = files[i].trim();
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("Spring context files: " + configLocations);
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("Spring context files: " + configLocations);
                 }
 
                 ctx.setConfigLocations(files);
@@ -114,7 +115,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
             // get list of possible roles
 //	        context.setAttribute(Constants.AVAILABLE_ROLES, mgr.getAllRoles());
         } catch (Exception e) {
-            log.error("Error populating drop-downs failed!", e);
+            log.warning("Error populating drop-downs failed!");
 
         }
     }
@@ -126,7 +127,6 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
             //setupDefaultRoles(ctx);
 
         } catch (Exception e) {
-            log.error(e);
             e.printStackTrace();
         }
     }

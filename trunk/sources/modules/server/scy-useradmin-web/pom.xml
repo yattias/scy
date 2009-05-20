@@ -207,11 +207,11 @@
             <artifactId>scy-useradmin-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-loginservice-webservice-impl</artifactId>
             <version>${pom.version}</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-sessionmanager-api</artifactId>
@@ -252,6 +252,18 @@
             		<artifactId>elo-api</artifactId>
             		<groupId>elo-api</groupId>
             	</exclusion>
+            	<exclusion>
+            		<artifactId>log4j</artifactId>
+            		<groupId>log4j</groupId>
+            	</exclusion>
+                <exclusion>
+                    <groupId>net.sf.sail</groupId>
+                    <artifactId>qti-bindings</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -263,6 +275,27 @@
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-core</artifactId>
             <version>${tapestry-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tapestry</groupId>
+                    <artifactId>tapestry-ioc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-ioc</artifactId>
+            <version>${tapestry-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.tapestry</groupId>
@@ -296,24 +329,50 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
             <version>${spring-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring-release-version}</version>
-        </dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            
+        </dependency-->
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring-release-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>2.0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            
         </dependency>
 
 
@@ -336,13 +395,17 @@
                     <groupId>cglib</groupId>
                     <artifactId>cglib</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
         <!-- ACTIVEMQ -->
 
 
-        <dependency>
+        <!--dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-web</artifactId>
             <version>5.1.0</version>
@@ -364,7 +427,7 @@
                     <groupId>org.apache.activemq</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
 
 
         <dependency>
@@ -423,7 +486,7 @@
 
         <!-- LOGGING, NECESSARY FOR TOMCAT -->
 
-        <dependency>
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -451,7 +514,9 @@
             <artifactId>log4j-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
-        </dependency>
+        </dependency-->
+
+        
         <dependency>
         	<groupId>org.roolo</groupId>
         	<artifactId>roolo-api</artifactId>
@@ -476,18 +541,32 @@
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-webmvc</artifactId>
         	<version>${spring-release-version}</version>
         	<type>jar</type>
         	<scope>compile</scope>
-        </dependency>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            
+        </dependency-->
         <dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>agent-api</artifactId>
         	<version>${pom.version}</version>
         	<scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            
         </dependency>
         <dependency>
         	<groupId>eu.scy.agents</groupId>
@@ -519,9 +598,9 @@
 
     <properties>
         <tapestry-release-version>5.0.15</tapestry-release-version>
-        <spring-release-version>2.5.5</spring-release-version>
+        <spring-release-version>2.5.6</spring-release-version>
         <cxf.version>2.1</cxf.version>
-        <slf4j.version>1.5.0</slf4j.version>
+        <slf4j.version>1.5.6</slf4j.version>
         <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>
         <filter.file>src/main/filters/filter.properties</filter.file>
