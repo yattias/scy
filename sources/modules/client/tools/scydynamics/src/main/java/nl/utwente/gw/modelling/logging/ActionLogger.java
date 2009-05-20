@@ -1,5 +1,7 @@
 package nl.utwente.gw.modelling.logging;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -9,7 +11,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.jdom.Content;
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
@@ -28,6 +33,7 @@ public class ActionLogger {
 	private String mission = "mission1";
 	private Element attributes;
 	private static SimpleDateFormat ISO8601FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+	private SAXBuilder saxBuilder = new SAXBuilder();
 
 	public ActionLogger(String user) {
 		this.user = user;
@@ -65,11 +71,22 @@ public class ActionLogger {
 		element.addContent(prop);
 	}
 	
-	public void addProperty(Element element, String name, String value, String modelString) {
+	public void addProperty(Element element, String name, String value, String subElementString) {
 		Element prop = new Element("property");
 		prop.setAttribute("name", name);
-		prop.setAttribute("value", value);
-		//prop.setText(modelString);
+		prop.setAttribute("value", value);	
+		try {
+			Document doc = saxBuilder.build(new StringReader(subElementString));
+			doc.getRootElement();
+			prop.addContent(doc.getRootElement().detach());
+		} catch (JDOMException e) {
+			System.out.println("ActionLogger.addProperty(). JDomException caught when adding model.");
+			//e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("ActionLogger.addProperty(). IOException caught when adding model.");
+			//e.printStackTrace();
+		}
+		
 		element.addContent(prop);
 	}
 	
@@ -125,7 +142,6 @@ public class ActionLogger {
 			break;
 		}
 		addProperty(attributes, "model", "", modelString);
-		logfilehandler.writeAction(action);
 		logfilehandler.writeAction(action);
 	}
 	
@@ -217,6 +233,8 @@ public class ActionLogger {
 	public void logLoadAction(String modelString) {
 		action = createBasicAction("load_model");
 		attributes = new Element("attributes");
+		
+		
 		addProperty(attributes, "model", "", modelString);
 		action.addContent(attributes);
 		logfilehandler.writeAction(action);	

@@ -23,9 +23,12 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -84,10 +87,12 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 	private SimulationToolbar simtoolbar;
 	private FileToolbar filetoolbar;
 	private ActionLogger logger;
+	private JTools jtools;
+	private EditorTab editorTab;
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
-		new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
+		jtools = new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
 		logger = new ActionLogger("lars");
 
 		// aControl = new JdControlStandalone(this);
@@ -103,8 +108,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 	public ActionLogger getActionLogger() {
 		return logger;
 	}
-
-	// -------------------------------------------------------------------------
+	
 	private void initComponents() {
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -115,15 +119,15 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 			}
 		});
 
-		JPanel editorTab = new EditorTab(this);
+		editorTab = new EditorTab(this);
 		this.aCanvas = ((EditorTab) editorTab).getEditorPanel();
 		this.toolbar = ((EditorTab) editorTab).getToolbar();
 		JPanel graphTab = new GraphTab(this);
 		JPanel tableTab = new TableTab(this);
 
-		tabbedPane.addTab("model", editorTab);
-		tabbedPane.addTab("graph", EditorIcons.getImageIcon("Graph16.gif"), graphTab);
-		tabbedPane.addTab("table", EditorIcons.getImageIcon("Table16.gif"), tableTab);
+		tabbedPane.addTab("model", new ImageIcon(JTools.getSysResourceImage("JvtEditor")), editorTab);
+		tabbedPane.addTab("graph", new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);
+		tabbedPane.addTab("table", new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);
 
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
@@ -1063,5 +1067,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 		}
 	}
 	// ---------------------------------------------------------------------------
+
+	public EditorToolbar getEditorToolbar() {
+		return this.editorTab.getEditorToolbar();		
+	}
 
 }
