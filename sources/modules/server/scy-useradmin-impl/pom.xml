@@ -195,7 +195,7 @@
 
         <!-- LOGGING, NECESSARY FOR TOMCAT -->
 
-        <dependency>
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -223,7 +223,7 @@
             <artifactId>log4j-over-slf4j</artifactId>
             <version>${slf4j.version}</version>
             <scope>runtime</scope>
-        </dependency>
+        </dependency-->
 
 
     </dependencies>
@@ -276,6 +276,6 @@
 
     <properties>
         <filter.test.file>src/test/resources/filter.properties</filter.test.file>
-        <slf4j.version>1.5.5</slf4j.version>
+        <!--slf4j.version>1.5.5</slf4j.version-->
     </properties>
 </project>
