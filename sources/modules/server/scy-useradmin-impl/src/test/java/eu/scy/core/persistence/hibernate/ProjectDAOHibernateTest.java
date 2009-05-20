@@ -1,12 +1,12 @@
 package eu.scy.core.persistence.hibernate;
 
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.SCYProject;
+import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.impl.SCYProjectImpl;
+import eu.scy.core.persistence.ProjectDAO;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.testng.annotations.Test;
-import eu.scy.core.persistence.ProjectDAO;
-import eu.scy.core.model.SCYProject;
-import eu.scy.core.model.SCYGroup;
-import eu.scy.core.model.impl.*;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextT
     private ProjectDAO projectDAO;
 
     protected String[] getConfigLocations() {
+        //return null;
         return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
         //return null;
     }
