@@ -43,6 +43,8 @@ import eu.scy.elobrowser.tool.scysimulator.SimQuestNode;
 import eu.scy.elobrowser.tool.scysimulator.SimQuestScyWindowContentFactory;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.elobrowser.tool.textpad.TextpadScyWindowContentFactory;
+import eu.scy.elobrowser.tool.calculator.CalculatorNode;
+import eu.scy.elobrowser.tool.calculator.CalculatorScyWindowContentFactory;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
 import eu.scy.scywindows.ScyWindowControl;
@@ -95,6 +97,9 @@ var scyWindowContentCreator = ScyWindowContentCreator{
             roolo: roolo;
         }
         PictureViewerScyWindowContentFactory{
+            roolo: roolo;
+        }
+        CalculatorScyWindowContentFactory{
             roolo: roolo;
         }
     ];
@@ -245,6 +250,16 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(textpadWindow);
                 textpadWindow.openWindow(263,256);
                 scyWindowControl.addOtherScyWindow(textpadWindow, true);
+            }
+        },
+        SwingButton{
+            text: "Calculator"
+            action: function() {
+                var calculatorWindow = CalculatorNode.createCalculatorWindow(roolo);
+                calculatorWindow.allowResize = true;
+                scyDesktop.addScyWindow(calculatorWindow);
+                calculatorWindow.openWindow(300,450);
+                scyWindowControl.addOtherScyWindow(calculatorWindow, true);
             }
         },
         SwingButton{
