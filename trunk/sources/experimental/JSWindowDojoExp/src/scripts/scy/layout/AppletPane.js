@@ -1,10 +1,10 @@
 dojo.provide("scy.layout.AppletPane");
 dojo.experimental("scy.layout.AppletPane");
 
-dojo.require("dojox.layout.FloatingPane");
+dojo.require("scy.layout.SCYPane");
 
 dojo.declare("scy.layout.AppletPane",
-	[ dojox.layout.FloatingPane ],
+	[ scy.layout.SCYPane ],
 	{
 	// summary:
 	//		A non-modal Floating window.
@@ -16,31 +16,23 @@ dojo.declare("scy.layout.AppletPane",
 	//
     postCreate: function() {
         this.inherited(arguments);
+        if (dojo.isFF) {
+            //this.bgIframe.destroy();
+        }
+        this.applet = dojo.query("object", this.containerNode)[0];
 
     },
 	bringToTop: function(){
-		// summary: bring this FloatingPane above all other panes
-		var windows = dojo.filter(
-			this._allFPs,
-			function(i){
-				return i !== this;
-			},
-		this);
-		windows.sort(function(a, b){
-			return a.domNode.style.zIndex - b.domNode.style.zIndex;
-		});
-		windows.push(this);
-
-        // Loop through the other windows in the page
-		dojo.forEach(windows, function(w, x){
-            if (w.declaredClass == "scy.layout.SCYPane" && w.bgIframe) {
-                // deattach the background iframe from this window
-                // so that this window appears on top of it
-                w.bgIframe.destroy();
-            }
-			w.domNode.style.zIndex = this._startZ + (x * 2);
-			dojo.removeClass(w.domNode, "dojoxFloatingPaneFg");
-		}, this);
-		dojo.addClass(this.domNode, "dojoxFloatingPaneFg");
-	}
+        this.inherited(arguments);
+        if (dojo.isFF) {
+            this._hideApplet();
+            setTimeout(dojo.hitch(this, "_showApplet"), 1);
+        }
+	},
+    _showApplet: function() {
+        this.applet.style.visibility="visible";
+    },
+    _hideApplet: function() {
+        this.applet.style.visibility="hidden";
+    }
 });
