@@ -23,6 +23,12 @@
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-commons</artifactId>
             <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.igniterealtime.openfire</groupId>
+                    <artifactId>openfire</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

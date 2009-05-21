@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>scy-useradmin-web</artifactId>
     <packaging>war</packaging>
-    <name>scy-useradmin-web Tapestry 5 Application</name>
+    <name>scy-useradmin-web</name>
 
 
     <build>
@@ -89,69 +89,6 @@
                 </configuration>
             </plugin>
 
-            <!--plugin>
-                <groupId>org.codehaus.mojo</groupId>
-
-                <artifactId>dependency-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-applet</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <artifactId>scymapper</artifactId>
-                                    <groupId>eu.scy.client.tools</groupId>
-                                    <version>${pom.version}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>colemo-model</artifactId>
-                                    <groupId>eu.scy.client.tools</groupId>
-                                    <version>${pom.version}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.swinglabs</groupId>
-                                    <artifactId>swingx</artifactId>
-                                    <version>0.9.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>scy-model-api</artifactId>
-                                    <groupId>eu.scy.common</groupId>
-                                    <version>${pom.version}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>scy-model-impl</artifactId>
-                                    <groupId>eu.scy.common</groupId>
-                                    <version>${pom.version}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>sqlspaces-client</artifactId>
-                                    <groupId>info.collide</groupId>
-                                    <version>3.1.0-SNAPSHOT</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <artifactId>sqlspaces-commons</artifactId>
-                                    <groupId>info.collide</groupId>
-                                    <version>3.1.0-SNAPSHOT</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>target/classes/applets/</outputDirectory>
-
-                            <stripVersion>true</stripVersion>
-                        </configuration>
-
-                    </execution>
-                </executions>
-            </plugin-->
 
         </plugins>
 
@@ -207,11 +144,6 @@
             <artifactId>scy-useradmin-impl</artifactId>
             <version>${pom.version}</version>
         </dependency>
-        <!--dependency>
-            <groupId>${pom.groupId}</groupId>
-            <artifactId>scy-loginservice-webservice-impl</artifactId>
-            <version>${pom.version}</version>
-        </dependency-->
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-sessionmanager-api</artifactId>
@@ -239,7 +171,7 @@
 
         <!-- SAIL PORTAL -->
 
-        <dependency>
+        <!--dependency>
             <groupId>net.sf.sail</groupId>
             <artifactId>sail-webapp-all</artifactId>
             <version>0.1.0-SNAPSHOT</version>
@@ -265,7 +197,7 @@
                     <artifactId>spring-webmvc</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
 
 
 
@@ -325,55 +257,13 @@
 
         <!-- SPRING -->
 
-        <!--dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
+            <artifactId>spring-webmvc</artifactId>
             <version>${spring-release-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency-->
-
-        <!--dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring-release-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-            
-        </dependency-->
-
-        <!--dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring-release-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>2.0.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-            
-        </dependency-->
+
 
 
         <!-- HIBERNATE -->
