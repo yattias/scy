@@ -15,24 +15,24 @@
 
 	<!-- HTTP invoker exporter for the RoOLO repository -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-	<bean name="/repository-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!--bean name="/repository-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="repository"/>
 		<property name="serviceInterface" value="roolo.api.IRepository"/>
-	</bean>
+	</bean-->
 
 	<!-- HTTP invoker exporter for the RoOLO metadata type manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-	<bean name="/metadataTypeManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!--bean name="/metadataTypeManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="metadataTypeManager"/>
 		<property name="serviceInterface" value="roolo.elo.api.IMetadataTypeManager"/>
-	</bean>
+	</bean-->
 
 	<!-- HTTP invoker exporter for the RoOLO extension manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-	<bean name="/extensionManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!--bean name="/extensionManager-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="extensionManager"/>
 		<property name="serviceInterface" value="roolo.api.IExtensionManager"/>
-	</bean>
+	</bean-->
 
 	<!-- the RoOLO ELOFactory should be accessed remotely, it can run locally -->
 
