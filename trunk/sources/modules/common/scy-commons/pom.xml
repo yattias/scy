@@ -14,11 +14,12 @@
 	</parent> 	
 
 	<dependencies>
-		<!--dependency>
+		<dependency>
 			<groupId>org.igniterealtime.openfire</groupId>
 			<artifactId>openfire</artifactId>
 			<version>3.6.3</version>
-		</dependency-->
+            <scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.igniterealtime.smack</groupId>
 			<artifactId>smack</artifactId>
