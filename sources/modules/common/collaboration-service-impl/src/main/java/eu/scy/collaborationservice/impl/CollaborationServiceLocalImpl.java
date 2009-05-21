@@ -6,14 +6,14 @@ import org.apache.log4j.Logger;
 
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.collaborationservice.adapter.IScyCommunicationListener;
+import eu.scy.collaborationservice.adapter.ScyCommunicationAdapter;
+import eu.scy.collaborationservice.adapter.ScyCommunicationAdapterHelper;
+import eu.scy.collaborationservice.adapter.ScyCommunicationEvent;
 import eu.scy.collaborationservice.event.CollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.collaborationservice.session.CollaborationSessionFactory;
 import eu.scy.collaborationservice.session.ICollaborationSession;
-import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.adapter.ScyCommunicationAdapter;
-import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
-import eu.scy.communications.adapter.ScyCommunicationEvent;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
 
