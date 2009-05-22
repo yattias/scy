@@ -1,5 +1,7 @@
 package eu.scy.presence;
 
+import java.util.Collection;
+
 /**
  * Interface for general awareness events
  * 
@@ -12,7 +14,7 @@ public interface IPresenceEvent {
      * Gets the user
      * @return
      */
-   public String getUser();
+   public Collection<String> getUser();
    
    /**
     * Gets the message associated with this event
@@ -20,5 +22,12 @@ public interface IPresenceEvent {
     * @return
     */
    public String getMessage();
+   
+   /**
+    * Returns the type of event
+    * 
+    * @return
+    */
+   public String getEventType();
     
 }
