@@ -2,8 +2,6 @@ package eu.scy.presence;
 
 import java.util.List;
 
-import eu.scy.awareness.event.IAwarenessMessageListener;
-
 
 /**
  * Presence Service Interface
@@ -63,20 +61,12 @@ public interface IPresenceModule {
      */
     public void getStatus(String username) throws PresenceModuleException;
     
-    
-    /**
-     * adds a presence status listener
-     * 
-     * @param awarenessPresenceListener
-     */
-    public void addStatusListener(IPresenceListener awarenessPresenceListener);
-    
     /**
      * adds a buddy list listener
      * 
      * @param awarenessListListener
      */
-    public void addListListener(IPresenceListListener awarenessListListener);
+    public void addRosterListener(IPresenceRosterListener rosterListener);
     
    
     /**
@@ -85,7 +75,7 @@ public interface IPresenceModule {
      * @param buddy
      * @throws PresenceModuleException
      */
-    public void addBuddy(String buddy) throws PresenceModuleException;
+    public void addBuddy(String buddy, String group) throws PresenceModuleException;
     
     /**
      * remove buddy
@@ -101,7 +91,7 @@ public interface IPresenceModule {
      * @param groupName
      * @throws PresenceModuleException
      */
-    public void joinGroup(String groupName) throws PresenceModuleException;
+    public void joinGroup(String groupName, String userName) throws PresenceModuleException;
     
     /**
      * leaves a group
@@ -109,7 +99,7 @@ public interface IPresenceModule {
      * @param groupName
      * @throws PresenceModuleException
      */
-    public void leaveGroup(String groupName) throws PresenceModuleException;
+    public void leaveGroup(String groupName, String userName) throws PresenceModuleException;
     
     /**
      * get all the groups with this user
