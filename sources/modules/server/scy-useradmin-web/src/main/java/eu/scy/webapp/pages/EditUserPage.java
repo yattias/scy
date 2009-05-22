@@ -1,6 +1,7 @@
 package eu.scy.webapp.pages;
 
 import eu.scy.core.model.User;
+import eu.scy.core.model.SCYGroup;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,18 +23,21 @@ public class EditUserPage extends ScyModelPage {
     }
 
     public Object onSuccess() {
+        log.info("SUCCESS!! -SAVING USER!!!!");
         getUserDAO().save(user);
-        //SCYGroup g = getUserDAO().getUserByUsername(user.getUserName()).getGroup();
-        throw new RuntimeException("NOT IMPLEMENTED YET");
+        setUser(user);
+        return EditUserPage.class;
+        //return getUserDAO().getUserByUsername(user.getUserDetails().getUsername());
+        //throw new RuntimeException("NOT IMPLEMENTED YET");
         //return null;
     }
 
     public void loadModel() {
-        throw new RuntimeException("NOT IMPLEMENTED YET");
-        /*setModel(getUserDAO().getUser(getModelId()));
-        log.info("Got model in EDIT USER PAGE: " + getModel());
-        setUser((User) getModel());
-        */
+        //throw new RuntimeException("NOT IMPLEMENTED YET");
+        setUser(getUserDAO().getUser(new Long(getModelId())));
+        //log.info("Got model in EDIT USER PAGE: " + getModel());
+        //setUser((User) getModel());
+
     }
 
 
