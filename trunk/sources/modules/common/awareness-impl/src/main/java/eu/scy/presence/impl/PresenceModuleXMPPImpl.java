@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
@@ -20,23 +21,24 @@ import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smackx.SharedGroupManager;
 
 import eu.scy.presence.IPresenceListListener;
 import eu.scy.presence.IPresenceListener;
 import eu.scy.presence.IPresenceModule;
+import eu.scy.presence.IPresenceRosterEvent;
+import eu.scy.presence.IPresenceRosterListener;
 import eu.scy.presence.PresenceModuleException;
-import eu.scy.presence.event.PresenceEvent;
-import eu.scy.presence.event.PresenceStatusEvent;
+import eu.scy.presence.event.PresenceRosterEvent;
 
 
-public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener, RosterListener {
+public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener, RosterListener, PacketListener {
 
     private final static Logger logger = Logger.getLogger(PresenceModuleXMPPImpl.class.getName());
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    private ArrayList<IPresenceListener> presenceListeners = new ArrayList<IPresenceListener>();
+    private ArrayList<IPresenceRosterListener> rosterListeners = new ArrayList<IPresenceRosterListener>();
     private Roster roster;
 
     public PresenceModuleXMPPImpl() {  
@@ -63,6 +65,10 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         String port = props.getProperty("presence.service.port");
         String name = props.getProperty("presence.service.name");
         
+        if( username == null && password == null ){
+	        username = props.getProperty("presence.service.username");
+	        password = props.getProperty("presence.service.password");
+        }
         //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
         //config = new ConnectionConfiguration("imediamac09.uio.no", 5275, "eclipse");
@@ -75,14 +81,22 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         }
         try {
             xmppConnection.login(username, password);
+           
         } catch (XMPPException e) {
             logger.error("Error during login");
             e.printStackTrace();            
         }
+        initListeners();
     }
     
 
-    public void closePresenceModule() {
+    private void initListeners() {
+    	this.xmppConnection.addPacketListener(this, null);
+    	this.xmppConnection.getRoster().addRosterListener(this);
+		
+	}
+
+	public void closePresenceModule() {
         xmppConnection.disconnect();
     }
     
@@ -104,6 +118,16 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         Chat chat = xmppConnection.getChatManager().createChat(recipient, (MessageListener) this);
         try {
             chat.sendMessage(message);
+            
+            List<String> users = new ArrayList<String>();
+            users.add(chat.getParticipant());
+            //update the listeners
+            for (IPresenceRosterListener al : rosterListeners) {
+                if (al != null){
+                    RosterEntry entry = roster.getEntry(chat.getParticipant());
+                    al.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, message,IPresenceRosterEvent.MESSAGE_SENT));
+                }
+            }
         } catch (XMPPException e) {
             logger.error("Error during sendMessage");
             e.printStackTrace();
@@ -117,23 +141,19 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
     
     public void processMessage(Chat chat, Message message) {
         if (message.getType() == Message.Type.chat) {           
-            logger.debug(chat.getParticipant() + " says: " + message.getBody());   
+            logger.debug(chat.getParticipant() + " says: " + message.getBody());
+            List<String> users = new ArrayList<String>();
+            users.add(chat.getParticipant());
             //process the events
-            for (IPresenceListener al : presenceListeners) {
+            for (IPresenceRosterListener al : rosterListeners) {
                 if (al != null){
-                    RosterEntry entry = roster.getEntry(chat.getParticipant());
-                    PresenceEvent presenceEvent = new PresenceEvent(this, entry.getName(), message.getBody());
-                    //al.handlePresenceEvent(presenceEvent);
+                    
+                    al.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, message.getBody(),IPresenceRosterEvent.MESSAGE_RECEIVED));
                 }
             }
         }
     }
     
-    public void addPresenceListener(IPresenceListener presenceListener){
-        presenceListeners.add(presenceListener);
-   }
-    
-
     /**
      * This method will return status: unavailable for all users which the currently logged in user 
      * (the one who opened the xmppconnection) does not subscribe to presence data for. It is not enough 
@@ -173,20 +193,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
 
     
     @Override
-    public void addBuddy(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void addListListener(IPresenceListListener arg0) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void addStatusListener(IPresenceListener arg0) {
-        // TODO Auto-generated method stub
+    public void addBuddy(String userName, String group) throws PresenceModuleException {
         
     }
 
@@ -231,68 +238,93 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
     }
 
     @Override
-    public void getPresence(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
+    public void getPresence(String user) throws PresenceModuleException {
+    	this.xmppConnection.getRoster().getPresence(user);
     }
 
     @Override
     public void getStatus(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
         
     }
 
-    @Override
-    public void joinGroup(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void leaveGroup(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
     public void removeBuddy(String arg0) throws PresenceModuleException {
-        // TODO Auto-generated method stub
+       
         
     }
 
     @Override
-    public void setPresence(String arg0, String arg1) throws PresenceModuleException {
-        // TODO Auto-generated method stub
-
+    public void setPresence(String userName, String group) throws PresenceModuleException {
         
     }
 
+    
+    //-- smack
     @Override
-    public void entriesAdded(Collection<String> arg0) {
-        // TODO Auto-generated method stub
-        
+    public void entriesAdded(Collection<String> users) {
+    	for (IPresenceRosterListener rl : rosterListeners) {
+            if (rl != null){
+                rl.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, null,IPresenceRosterEvent.ADDED));
+            }
+        }
     }
 
     @Override
-    public void entriesDeleted(Collection<String> arg0) {
-        // TODO Auto-generated method stub
-        
+    public void entriesDeleted(Collection<String> users) {
+    	for (IPresenceRosterListener rl : rosterListeners) {
+            if (rl != null){
+                rl.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, null,IPresenceRosterEvent.DELETED));
+            }
+        }
     }
 
     @Override
-    public void entriesUpdated(Collection<String> arg0) {
-        // TODO Auto-generated method stub
-        
+    public void entriesUpdated(Collection<String> users) {
+    	for (IPresenceRosterListener rl : rosterListeners) {
+            if (rl != null){
+                rl.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, null,IPresenceRosterEvent.UPDATED));
+            }
+        }
     }
 
     @Override
     public void presenceChanged(Presence presence) {
-        for (IPresenceListener pl : presenceListeners) {
-            
-            pl.handlePresenceEvent(new PresenceStatusEvent(this, presence.getFrom(), presence.getStatus(), null, null));
-            
+    	 List<String> users = new ArrayList<String>();
+         users.add(presence.getFrom());
+    	
+    	for (IPresenceRosterListener rl : rosterListeners) {
+            if (rl != null){
+                rl.handlePresenceRosterEvent(new PresenceRosterEvent(this, users, presence.getStatus(),IPresenceRosterEvent.UPDATED));
+            }
         }
-//        logger.debug("something changed " + arg0.toString());        
     }
+
+
+	
+	/**
+	 * Processes a packet
+	 */
+    @Override
+	public void processPacket(Packet packet) {
+		logger.debug(packet.getFrom() + " " + packet.getTo() + " " + packet.getPacketID());
+	}
+
+	@Override
+	public void addRosterListener(IPresenceRosterListener rosterListener) {
+		this.rosterListeners.add(rosterListener);
+	}
+
+	@Override
+	public void joinGroup(String groupName, String userName)
+			throws PresenceModuleException {
+		
+	}
+
+	@Override
+	public void leaveGroup(String groupName, String userName)
+			throws PresenceModuleException {
+	}
 
     
 }
