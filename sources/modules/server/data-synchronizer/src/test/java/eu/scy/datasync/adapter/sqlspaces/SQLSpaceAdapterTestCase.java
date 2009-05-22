@@ -47,6 +47,10 @@ public class SQLSpaceAdapterTestCase {
         return sm;
     }
     
+    @org.junit.Test
+    public void doNothingForNow() {
+    }
+    
     @Ignore
     public void testCreateTupleAdapter() {
         assertNotNull(getTupleAdapter());
