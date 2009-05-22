@@ -135,6 +135,7 @@
         <module>collaboration-service-plugin</module>
         <module>scy-useradmin-web</module>
         <module>scy-hub</module>
+        <module>data-synchronizer</module>
     </modules>
 
     <properties>
