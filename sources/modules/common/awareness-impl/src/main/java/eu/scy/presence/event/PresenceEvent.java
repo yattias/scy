@@ -1,20 +1,22 @@
 package eu.scy.presence.event;
 
+import java.util.Collection;
 import java.util.EventObject;
 
 import eu.scy.presence.IPresenceEvent;
 
-
-
 public class PresenceEvent extends EventObject implements IPresenceEvent {
 
-    private String message;
-    private String user;
+	private static final long serialVersionUID = 1L;
+	private String message;
+    private Collection<String> users;
+	private String eventType;
 
-    public PresenceEvent(Object source, String user, String message){
+    public PresenceEvent(Object source, Collection<String> users, String message, String eventType){
         super(source);
-        this.user = user;
+        this.users = users;
         this.message = message;
+        this.eventType = eventType;
     }
 
     @Override
@@ -22,10 +24,15 @@ public class PresenceEvent extends EventObject implements IPresenceEvent {
        return this.message;
     }
 
-    @Override
-    public String getUser() {
-        return this.user;
-    }
+	@Override
+	public Collection<String> getUser() {
+		return this.users;
+	}
+
+	@Override
+	public String getEventType() {
+		return this.eventType;
+	}
 
    
 }
