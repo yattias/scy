@@ -2,7 +2,6 @@
 package eu.scy.openfire.plugin;
 
 import java.io.File;
-import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.openfire.PacketRouter;
@@ -16,16 +15,12 @@ import org.jivesoftware.openfire.session.Session;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.PacketExtension;
-import org.xmpp.packet.Presence;
 
-import eu.scy.communications.adapter.IScyCommunicationAdapter;
-import eu.scy.communications.adapter.IScyCommunicationListener;
-import eu.scy.communications.adapter.ScyCommunicationAdapterHelper;
-import eu.scy.communications.adapter.ScyCommunicationEvent;
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.collaborationservice.adapter.IScyCommunicationAdapter;
+import eu.scy.collaborationservice.adapter.IScyCommunicationListener;
+import eu.scy.collaborationservice.adapter.ScyCommunicationAdapterHelper;
+import eu.scy.collaborationservice.adapter.ScyCommunicationEvent;
 import eu.scy.communications.packet.extension.message.ScyMessagePacketExtension;
-import eu.scy.openfire.plugin.botz.BotzConnection;
 
 public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommunicationListener {
     
