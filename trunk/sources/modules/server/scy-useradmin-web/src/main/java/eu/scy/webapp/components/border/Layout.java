@@ -11,6 +11,7 @@ import eu.scy.webapp.pages.ScyModelPage;
 import eu.scy.core.persistence.UserSessionDAO;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.User;
 import eu.scy.framework.ActionManager;
 import eu.scy.framework.BaseAction;
 import eu.scy.framework.PageManager;
@@ -140,7 +141,12 @@ public class Layout extends TapestryContextAware {
             Object theObject = action.actionPerformed(scyBaseObject);
             String pageId = getPageManager().getPageIdForObject(theObject);
             ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
+            if(theObject instanceof ScyBase) {
             comp.setModelId(((ScyBase) theObject).getId());
+            } else if(theObject instanceof User) {
+                comp.setModelId(String.valueOf(((User)theObject).getId()));
+            }
+
             return comp;
         }
         return null;

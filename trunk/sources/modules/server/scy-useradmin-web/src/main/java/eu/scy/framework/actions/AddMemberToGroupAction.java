@@ -6,6 +6,10 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.model.impl.SCYUserDetails;
 
+import java.util.Date;
+
+import org.telscenter.sail.webapp.domain.authentication.Gender;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +36,12 @@ public class    AddMemberToGroupAction extends BaseAction {
         userDetails.setLastname("New User");
         userDetails.setUsername(getActionManager().getUserDAOHibernate().getSecureUserName("NewUser"));
         userDetails.setPassword("default");
-        //userDetails.setAccountNonLocked(true);
+        userDetails.setSignupdate(new Date());
+        userDetails.setAccountQuestion("What is your name");
+        userDetails.setAccountAnswer("New User");
+        userDetails.setBirthday(new Date());
+        userDetails.setGender(Gender.MALE);
+        userDetails.setNumberOfLogins(0);
         user.setUserDetails(userDetails);
         user = (User) getActionManager().getUserDAOHibernate().save(user);
 
