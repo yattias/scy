@@ -1,11 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.utwente</groupId>
-	<artifactId>modeleditor</artifactId>
-	<name>Modelling Tool</name>
-	<description>Modelling Tool for System Dynamics models and for qualitative models, usable standalone and within SCYLab</description>
 	
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>9.5.1-SNAPSHOT</version>
+	</parent> 
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>scydynamics</artifactId>
+	<name>SCYDynamics modelling tool</name>
+	<description>Modelling Tool for System Dynamics models and for qualitative models, usable standalone and within SCYLab</description>
+		
 	<developers>
 		<developer>
 			<id>lars</id>
@@ -20,13 +26,7 @@
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-		
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>eu.scy.client.tools</groupId>
-		<version>9.5.1-SNAPSHOT</version>
-	</parent> 
-		
+			
 	<dependencies>
 		<dependency>
 			<groupId>nl.utwente</groupId>
