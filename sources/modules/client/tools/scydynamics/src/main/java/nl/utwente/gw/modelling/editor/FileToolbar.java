@@ -69,8 +69,8 @@ public class FileToolbar extends JToolBar implements ActionListener {
 				xmlModel = JxmModel.readStringXML(new XMLOutputter(Format
 						.getPrettyFormat()).outputString(modelElement));
 				editor.setXmModel(xmlModel);
+				this.setFilename(filename);
 				editor.getActionLogger().logLoadAction(editor.getModelXML());
-
 			} else {
 				throw new JDOMException(
 						"Couldn't find <model> element in file " + filename);
