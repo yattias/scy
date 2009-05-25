@@ -143,12 +143,6 @@
         </dependency>
         
         <dependency>
-            <groupId>nl.utwente</groupId>
-            <artifactId>simquestviewer</artifactId>
-            <version>1.0.6</version>
-        </dependency>
-
-        <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>scymapper</artifactId>
             <version>${pom.version}</version>
