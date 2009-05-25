@@ -24,8 +24,6 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
-import eu.scy.presence.IPresenceListListener;
-import eu.scy.presence.IPresenceListener;
 import eu.scy.presence.IPresenceModule;
 import eu.scy.presence.IPresenceRosterEvent;
 import eu.scy.presence.IPresenceRosterListener;
