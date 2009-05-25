@@ -104,21 +104,21 @@ public class SimquestModel extends Element {
 				parseEquation(equation, node.getExpr());
 				code.addContent(equation);
 			} else if (node.getType() == JdFigure.STOCK) {
-				Vector<JdAux> incomingAuxs = getIncomingAuxs((JdStock) node);
-				Vector<JdAux> outgoingAuxs = getOutgoingAuxs((JdStock) node);
+				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
+				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
 				equation = new Element("equation");
 				equation.addContent(new Element("variable").setText(node
 						.getLabel()
 						+ "_dot"));
 
 				String expression = new String();
-				for (JdAux aux : incomingAuxs) {
+				for (JdFigure fig : incomingFigs) {
 					// incoming auxs are added to the stock's _dot
-					expression = expression + "+" + aux.getLabel();
+					expression = expression + "+" + fig.getProperties().get("label");
 				}
-				for (JdAux aux : outgoingAuxs) {
+				for (JdFigure fig : outgoingFigs) {
 					// outgoing auxs are substracted from the stocks's _dot
-					expression = expression + "-" + aux.getLabel();
+					expression = expression + "-" + fig.getProperties().get("label");
 				}
 				parseEquation(equation, expression);
 				code.addContent(equation);
@@ -129,8 +129,8 @@ public class SimquestModel extends Element {
 		this.addContent(computationalModel);
 	}
 
-	private Vector<JdAux> getOutgoingAuxs(JdStock stock) {
-		Vector<JdAux> list = new Vector<JdAux>();
+	private Vector<JdFigure> getOutgoingFigs(JdStock stock) {
+		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
 				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent())
@@ -142,13 +142,13 @@ public class SimquestModel extends Element {
 		return list;
 	}
 
-	private Vector<JdAux> getIncomingAuxs(JdStock stock) {
-		Vector<JdAux> list = new Vector<JdAux>();
+	private Vector<JdFigure> getIncomingFigs(JdStock stock) {
+		Vector<JdFigure> list = new Vector<JdFigure>();
 		for (JdRelation rel : model.getRelations()) {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
 				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent())
 						.getFigure2() == stock) {
-					list.add((JdAux) rel.getFigure1());
+					list.add((JdFigure) rel.getFigure1());
 				}
 			}
 		}
