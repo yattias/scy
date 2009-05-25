@@ -41,27 +41,27 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-commons</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>drawingtool</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>collaboration-service-api</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>collaboration-service-impl</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
-			<version>1.0.6</version>
+			<version>1.0.9</version>
 		</dependency>
 	</dependencies>
 </project>
