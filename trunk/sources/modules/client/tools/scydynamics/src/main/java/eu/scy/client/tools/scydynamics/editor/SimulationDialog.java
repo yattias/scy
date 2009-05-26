@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 
@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import nl.utwente.gw.modelling.model.Model;
+
+import eu.scy.client.tools.scydynamics.model.Model;
 
 public class SimulationDialog extends javax.swing.JDialog implements
 		java.awt.event.ActionListener {

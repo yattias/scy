@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import colab.um.JColab;
 import colab.um.draw.JdCursors;
@@ -40,9 +40,10 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import nl.utwente.gw.modelling.listeners.EditorMouseListener;
-import nl.utwente.gw.modelling.logging.ActionLogger;
-import nl.utwente.gw.modelling.model.Model;
+import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
+import eu.scy.client.tools.scydynamics.logging.ActionLogger;
+import eu.scy.client.tools.scydynamics.model.Model;
+
 
 /**
  * Graphical editor of System Dynamics (SD) models

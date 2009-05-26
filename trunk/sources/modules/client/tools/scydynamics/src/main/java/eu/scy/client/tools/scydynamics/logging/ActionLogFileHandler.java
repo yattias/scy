@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.logging;
+package eu.scy.client.tools.scydynamics.logging;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

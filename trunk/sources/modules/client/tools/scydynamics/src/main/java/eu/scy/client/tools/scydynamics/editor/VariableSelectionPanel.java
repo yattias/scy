@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
+import eu.scy.client.tools.scydynamics.model.Model;
 
-import nl.utwente.gw.modelling.model.Model;
 
 public class VariableSelectionPanel extends JPanel {
 

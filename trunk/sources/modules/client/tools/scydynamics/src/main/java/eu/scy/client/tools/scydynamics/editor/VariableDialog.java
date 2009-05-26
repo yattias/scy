@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 
-import nl.utwente.gw.modelling.model.Model;
 
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdLink;
+import eu.scy.client.tools.scydynamics.model.Model;
 
 public class VariableDialog extends javax.swing.JDialog implements
 		java.awt.event.ActionListener, java.awt.event.MouseListener {

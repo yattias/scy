@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.logging;
+package eu.scy.client.tools.scydynamics.logging;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -241,7 +241,7 @@ public class ActionLogger {
 	}
 
 	public void logActivateWindow(String window) {
-		action = createBasicAction("activate_windows");
+		action = createBasicAction("activate_window");
 		attributes = new Element("attributes");
 		addProperty(attributes, "window", window);
 		action.addContent(attributes);
@@ -249,7 +249,7 @@ public class ActionLogger {
 	}
 
 	public void logActivateWindow(String window, String id) {
-		action = createBasicAction("activate_windows");
+		action = createBasicAction("activate_window");
 		attributes = new Element("attributes");
 		addProperty(attributes, "window", window);
 		addProperty(attributes, "id", id);

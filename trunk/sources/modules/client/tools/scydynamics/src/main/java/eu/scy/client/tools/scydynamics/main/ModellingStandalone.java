@@ -1,13 +1,13 @@
-package nl.utwente.gw.modelling.main;
+package eu.scy.client.tools.scydynamics.main;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 
 import javax.swing.*;
-import nl.utwente.gw.modelling.editor.ModelEditor;
 import colab.um.JColab;
 import colab.um.tools.JTools;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 
 public class ModellingStandalone extends JFrame {
 
