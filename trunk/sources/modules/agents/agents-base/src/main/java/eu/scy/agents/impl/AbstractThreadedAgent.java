@@ -2,6 +2,7 @@ package eu.scy.agents.impl;
 
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.Timer;
@@ -29,13 +30,22 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 			throw new RuntimeException(e);
 		}
 		new Timer().schedule(new TimerTask() {
+			TupleID tupleId = null;
+
 			@Override
 			public void run() {
 				try {
-					getTupleSpace().write(
-							AgentProtocol.getAliveTuple(getName(), status));
+					if (tupleId == null) {
+						tupleId = getTupleSpace().write(
+								AgentProtocol.getAliveTuple(getName(), status));
+					} else {
+						getTupleSpace().update(tupleId,
+								AgentProtocol.getAliveTuple(getName(), status));
+					}
 				} catch (TupleSpaceException e) {
-					throw new RuntimeException(e);
+					// print stacktrace and wait for manager to restart the
+					// agent.
+					e.printStackTrace();
 				}
 			}
 		}, AgentProtocol.ALIVE_INTERVAL);
