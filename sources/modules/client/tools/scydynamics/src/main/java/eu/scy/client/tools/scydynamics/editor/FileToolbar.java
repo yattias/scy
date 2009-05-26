@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
@@ -27,10 +27,10 @@ import org.jdom.output.XMLOutputter;
 
 import colab.um.tools.JTools;
 import colab.um.xml.model.JxmModel;
+import eu.scy.client.tools.scydynamics.model.SimquestModel;
 
 import utils.XmlUtilities;
 
-import nl.utwente.gw.modelling.model.SimquestModel;
 
 public class FileToolbar extends JToolBar implements ActionListener {
 

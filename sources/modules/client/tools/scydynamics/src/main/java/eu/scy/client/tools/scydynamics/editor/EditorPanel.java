@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 import colab.um.draw.JdObject;
 import colab.um.tools.JTools;
 import java.awt.Color;
@@ -11,7 +11,8 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 
-import nl.utwente.gw.modelling.model.Model;
+import eu.scy.client.tools.scydynamics.model.Model;
+
 
 public class EditorPanel extends JPanel {
   

@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.listeners;
+package eu.scy.client.tools.scydynamics.listeners;
 import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
@@ -6,9 +6,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Enumeration;
 
-import nl.utwente.gw.modelling.editor.EditorToolbar;
-import nl.utwente.gw.modelling.editor.ModelEditor;
-import nl.utwente.gw.modelling.model.Model;
 
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
@@ -23,6 +20,9 @@ import colab.um.draw.JdObject;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
 import colab.um.draw.JdSubObject;
+import eu.scy.client.tools.scydynamics.editor.EditorToolbar;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import eu.scy.client.tools.scydynamics.model.Model;
 
 public class EditorMouseListener implements MouseListener, MouseMotionListener {
 

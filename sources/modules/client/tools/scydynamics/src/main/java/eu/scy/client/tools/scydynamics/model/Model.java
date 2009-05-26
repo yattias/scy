@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.model;
+package eu.scy.client.tools.scydynamics.model;
 
 
 import colab.um.draw.JdAux;
@@ -38,7 +38,8 @@ import java.awt.Color;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import nl.utwente.gw.modelling.logging.ActionLogger;
+import eu.scy.client.tools.scydynamics.logging.ActionLogger;
+
 
 public class Model {
   //---------------------------------------------------------------------------

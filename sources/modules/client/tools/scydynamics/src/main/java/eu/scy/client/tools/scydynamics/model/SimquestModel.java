@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.model;
+package eu.scy.client.tools.scydynamics.model;
 
 import java.util.Date;
 import java.util.Vector;

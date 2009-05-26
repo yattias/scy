@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,9 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import eu.scy.client.tools.scydynamics.model.Model;
+import eu.scy.client.tools.scydynamics.model.SimquestModel;
+
 import sqv.Interface;
 import sqv.ModelVariable;
 import sqv.data.DataServer;
@@ -25,8 +28,6 @@ import sqv.widgets.Curve;
 import sqv.widgets.GraphWidget;
 import sqv.widgets.VariableRef;
 
-import nl.utwente.gw.modelling.model.Model;
-import nl.utwente.gw.modelling.model.SimquestModel;
 
 public class SimulationToolbar extends JToolBar implements ActionListener {
 

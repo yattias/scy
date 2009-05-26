@@ -1,4 +1,4 @@
-package nl.utwente.gw.modelling.editor;
+package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import nl.utwente.gw.modelling.model.SimquestModel;
+import eu.scy.client.tools.scydynamics.model.SimquestModel;
+
 
 import sqv.Interface;
 import sqv.ModelVariable;
