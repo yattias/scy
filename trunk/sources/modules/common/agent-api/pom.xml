@@ -32,6 +32,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>notification-api</artifactId>
+			<version>9.5.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>

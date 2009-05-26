@@ -1,28 +1,24 @@
 package eu.scy.agents.api;
 
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 
-public interface IProcessingAgent<K extends IMetadataKey> extends IAgent,
-		Runnable {
+public interface IProcessingAgent<K extends IMetadataKey> extends
+		IThreadedAgent {
 
-	/**
-	 * Run the agent.
+	/*
+	 * Return an instance of the toolbroker api.
+	 * 
+	 * @return
 	 */
-	public void run();
-
-	/**
+	// public ToolBrokerAPI<K> getToolBrokerAPI();
+	/*
 	 * Set the MetadataTypeManger.
 	 */
-	public void setMetadataTypeManager(IMetadataTypeManager<K> typeManager);
-
-	/**
+	// public void setMetadataTypeManager(IMetadataTypeManager<K> typeManager);
+	/*
 	 * Set the repository to retrieve, search and alter elos.
 	 * 
 	 * @return
 	 */
-	public void setRepository(IRepository<IELO<K>, K> repo);
-
+	// public void setRepository(IRepository<IELO<K>, K> repo);
 }
