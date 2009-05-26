@@ -12,6 +12,10 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
+	protected ConceptMapSavedAgent() {
+		super("ConceptMapSavedAgent");
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {
@@ -28,8 +32,7 @@ public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 			}
 		}
 
-		System.err
-				.println("concept map elo saved");
+		System.err.println("concept map elo saved");
 
 		try {
 			TupleSpace ts = getTupleSpace();

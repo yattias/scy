@@ -25,7 +25,7 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 	private IMetadataKey linkLabelKey;
 
 	public EnrichConceptMapAgent() {
-
+		super("EnrichConceptMapAgent");
 	}
 
 	@SuppressWarnings("unchecked")

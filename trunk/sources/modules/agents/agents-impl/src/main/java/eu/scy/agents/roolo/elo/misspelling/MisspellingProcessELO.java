@@ -14,6 +14,10 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
+	protected MisspellingProcessELO(String name) {
+		super("MisspellingProcessELO");
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(T elo) {

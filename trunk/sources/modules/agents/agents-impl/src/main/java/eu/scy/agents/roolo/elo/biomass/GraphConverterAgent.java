@@ -34,6 +34,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 	private int[] edgeValues;
 
 	public GraphConverterAgent() {
+		super("GraphConverter");
 		this.nodes = new LinkedHashMap<String, Node>();
 		this.edgeValues = new int[6];
 		for (int i = 0; i < this.edgeValues.length; i++) {
