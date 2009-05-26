@@ -11,6 +11,10 @@ public abstract class AbstractELOAgent<T extends IELO<K>, K extends IMetadataKey
 
 	protected IMetadataTypeManager<IMetadataKey> metadataTypeManager;
 
+	protected AbstractELOAgent(String name) {
+		super(name);
+	}
+
 	protected IMetadataTypeManager<IMetadataKey> getMetadataTypeManager() {
 		return metadataTypeManager;
 	}
