@@ -17,6 +17,10 @@ import eu.scy.agents.impl.AbstractAgent;
 public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractAgent implements IELOFilterAgent<T, K> {
 
+	public DrawingAnalyserAgent() {
+		super("DrawingAnalyserAgent");
+	}
+
 	private static final String scyDrawType = "scy/drawing";
 	private static final String contentTagName = "content";
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();

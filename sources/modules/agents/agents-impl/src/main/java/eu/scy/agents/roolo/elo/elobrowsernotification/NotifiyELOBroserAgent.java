@@ -7,6 +7,7 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 import eu.scy.notification.Notification;
 import eu.scy.notification.NotificationSender;
 import eu.scy.notification.api.INotification;
+import eu.scy.notification.api.INotificationSender;
 
 public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> implements ICommunicationAgent<K> {
@@ -14,6 +15,7 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 	private NotificationSender sender;
 
 	public NotifiyELOBroserAgent() {
+		super("NotifiyELOBroserAgent");
 		sender = new NotificationSender();
 	}
 
@@ -44,6 +46,37 @@ public class NotifiyELOBroserAgent<T extends IELO<K>, K extends IMetadataKey>
 	@Override
 	public void run() {
 		// agent is only activated on process elo.
+	}
+
+	@Override
+	public INotificationSender getNotificationSender() {
+		return sender;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return true;
+	}
+
+	@Override
+	public boolean isSuspended() {
+		return false;
+	}
+
+	@Override
+	public void resume() {
+	}
+
+	@Override
+	public void start() {
+	}
+
+	@Override
+	public void stop() {
+	}
+
+	@Override
+	public void suspend() {
 	}
 
 }
