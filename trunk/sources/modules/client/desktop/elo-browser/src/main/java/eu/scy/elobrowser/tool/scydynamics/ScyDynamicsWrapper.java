@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import nl.utwente.gw.modelling.editor.ModelEditor;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
