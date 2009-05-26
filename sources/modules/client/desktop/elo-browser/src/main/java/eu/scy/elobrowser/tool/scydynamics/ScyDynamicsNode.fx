@@ -1,6 +1,6 @@
 package eu.scy.elobrowser.tool.scydynamics;
 
-import nl.utwente.gw.modelling.editor.ModelEditor;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.ui.CommandText;
 import eu.scy.scywindows.ScyWindow;
