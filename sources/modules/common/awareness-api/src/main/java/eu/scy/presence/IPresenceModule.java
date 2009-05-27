@@ -64,11 +64,20 @@ public interface IPresenceModule {
     /**
      * adds a buddy list listener
      * 
-     * @param awarenessListListener
+     * @param rosterListener
      */
     public void addRosterListener(IPresenceRosterListener rosterListener);
     
-   
+
+    /**
+     * adds a packet listener
+     * 
+     * @param packetListener
+     */
+    public void addPacketListener(IPresencePacketListener packetListener);
+
+    
+    
     /**
      * Add buddy
      * 
