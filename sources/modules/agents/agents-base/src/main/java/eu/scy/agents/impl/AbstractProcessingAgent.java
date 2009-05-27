@@ -10,9 +10,4 @@ public abstract class AbstractProcessingAgent<K extends IMetadataKey> extends
 		super(threadName);
 	}
 
-	// @Override
-	// public ToolBrokerAPI<K> getToolBrokerAPI() {
-	// return new ToolBrokerImpl<K>();
-	// }
-
 }

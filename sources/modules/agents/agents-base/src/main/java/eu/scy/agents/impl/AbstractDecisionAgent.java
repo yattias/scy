@@ -10,9 +10,4 @@ public abstract class AbstractDecisionAgent<K extends IMetadataKey> extends
 		super(name);
 	}
 
-	// @Override
-	// public ToolBrokerAPI<K> getToolBrokerAPI() {
-	// return new ToolBrokerImpl<K>();
-	// }
-
 }
