@@ -31,9 +31,6 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent
 		Integer numberOfErrors = (Integer) trigger.getField(3).getValue();
 		String user = (String) trigger.getField(4).getValue();
 
-		// System.out.println("***************** your document " + uri + " has "
-		// + numberOfErrors + " spelling errors ********** ");
-
 		INotification notification = new Notification();
 		notification.addProperty("errors", "" + numberOfErrors);
 		notification.addProperty("target", "misspellings");

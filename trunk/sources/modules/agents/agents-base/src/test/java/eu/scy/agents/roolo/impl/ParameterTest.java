@@ -4,9 +4,7 @@
 package eu.scy.agents.roolo.impl;
 
 import static org.junit.Assert.assertEquals;
-import info.collide.sqlspaces.server.Server;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,18 +18,11 @@ public class ParameterTest {
 
 	private IParameter parameters;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
 	public void setUp() throws Exception {
 		parameters = new Parameter();
 	}
 
-	/**
-	 * Test method for
-	 * {@link eu.scy.agents.roolo.impl.PersistentStorage#get(java.lang.String)}.
-	 */
 	@Test
 	public void testGetPut() {
 		parameters.set("Test1", 5);
