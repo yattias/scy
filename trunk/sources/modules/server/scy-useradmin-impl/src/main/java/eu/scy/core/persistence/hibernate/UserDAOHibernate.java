@@ -3,6 +3,7 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.impl.RoleImpl;
 import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.UserGroupConnectionImpl;
 import eu.scy.core.model.*;
 
 
@@ -66,8 +67,9 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         if (project == null) project = getDefaultProject();
         if (group == null) group = getDefaultGroup();
 
-        //user.setProject(project);
-        //user.setGroup(group);
+        UserGroupConnection connection = new UserGroupConnectionImpl(user, group);
+        save(connection);
+
         log.info("SAVING USER: " + user.getUserDetails().getUsername());
         return (User) save(user);
     }

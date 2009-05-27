@@ -2,6 +2,7 @@ package eu.scy.core.persistence;
 
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.SCYProject;
+import net.sf.sail.webapp.domain.User;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface GroupDAO extends SCYBaseDAO{
     public SCYGroup getRootGroup(SCYProject project);
 
     public List <SCYGroup> getGroupsForProject(SCYProject project);
+
+    public List <User> getUsers(SCYGroup group);
 }

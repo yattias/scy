@@ -5,13 +5,18 @@
 <t:actionlink t:id="editGroup" context="model.id">Edit</t:actionlink>
 <t:actionlink t:id="deleteGroup" context="model.id">Delete</t:actionlink>
 
-<t:grid source="groupMembers" row="currentUser" exclude="id, name, enabled">
-    <t:parameter name="usernamecell">
-        <t:if test="currentUser">
-            <a t:type="links/SelectObjectLink" model="currentUser">${currentUser.userDetails.username}</a>
-        </t:if>
-    </t:parameter>
+    <table>
+        <t:loop source="groupMembers" value="currentUser">
+            <tr>
+                <td>
+                    <t:actionlink t:id="openUser" context="currentUser.id">${currentUser.userDetails.username}</t:actionlink>
+                </td>
+                <td>
+                    ${currentUser.userDetails.emailAddress}
+                </td>
+            </tr>
+        </t:loop>
+    </table>
 
-</t:grid>
 
 </html>

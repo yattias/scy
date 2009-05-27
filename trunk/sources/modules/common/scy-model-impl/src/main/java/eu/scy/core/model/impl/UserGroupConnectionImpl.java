@@ -5,6 +5,8 @@ import eu.scy.core.model.User;
 import eu.scy.core.model.SCYGroup;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +15,9 @@ import javax.persistence.ManyToOne;
  * Time: 20:08:54
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table(name = "usergroupconnection")
+@org.hibernate.annotations.Proxy (proxyClass = UserGroupConnection.class )
 public class UserGroupConnectionImpl extends ScyBaseObject implements UserGroupConnection {
 
     private User user;
