@@ -15,6 +15,9 @@
 		<name>InterMedia, University of Oslo</name>
 	</organization>
 	<packaging>openfire-plugin</packaging>
+	<!--
+	<packaging>jar</packaging>
+	-->
 	<url>http://maven.reucon.com/projects/public/maven-openfire-plugin</url>
 
 	<prerequisites>
