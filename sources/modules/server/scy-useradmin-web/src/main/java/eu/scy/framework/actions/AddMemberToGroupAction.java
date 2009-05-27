@@ -45,7 +45,7 @@ public class    AddMemberToGroupAction extends BaseAction {
         user.setUserDetails(userDetails);
         user = (User) getActionManager().getUserDAOHibernate().save(user);
 
-        //getActionManager().getUserDAOHibernate().addUser(getProject(), (SCYGroup) model, user);
+        getActionManager().getUserDAOHibernate().addUser(getProject(), (SCYGroup) model, user);
 
         return user;
     }

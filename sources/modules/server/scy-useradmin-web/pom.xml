@@ -44,15 +44,16 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.11</version>
+                <version>6.1.14</version>
                 <configuration>
                     <requestLog implementation="org.mortbay.jetty.NCSARequestLog">
                         <append>true</append>
@@ -487,7 +488,7 @@
     </reporting>
 
     <properties>
-        <tapestry-release-version>5.0.15</tapestry-release-version>
+        <tapestry-release-version>5.1.0.5</tapestry-release-version>
         <slf4j.version>1.5.6</slf4j.version>
         <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>

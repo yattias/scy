@@ -72,9 +72,7 @@ public class GroupOverview extends ScyModelPage {
 
     public List<User> getGroupMembers() {
         SCYGroup group = (SCYGroup) getModel();
-        //return group.getUsers();
-        //throw new RuntimeException("NOT IMPLEMENTED!");
-        return Collections.EMPTY_LIST;
+        return getGroupDAO().getUsers(group);
     }
 
     @InjectPage
@@ -90,6 +88,14 @@ public class GroupOverview extends ScyModelPage {
     Object onActionFromDeleteGroup(String groupId) {
         getUserDAO().deleteGroup(groupId);
         return null;
+    }
+
+
+    Object onActionFromOpenUser(String userId) {
+        log.info("USER ID: " + userId);
+        editUserPage.setModelId(userId);
+        editUserPage.loadModel();
+        return editUserPage;
     }
 
 

@@ -11,6 +11,7 @@
         <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
         <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+        <mapping class="eu.scy.core.model.impl.UserGroupConnectionImpl"/>
         <!--mapping class="eu.scy.core.model.impl.RoleImpl"/-->
         <!--mapping class="eu.scy.core.model.impl.UserRoleImpl"/-->
 

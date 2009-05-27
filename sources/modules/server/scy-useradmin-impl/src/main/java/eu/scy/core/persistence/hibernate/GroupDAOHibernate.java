@@ -2,11 +2,13 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.SCYProject;
+import net.sf.sail.webapp.domain.User;
 import eu.scy.core.model.impl.*;
 import eu.scy.core.persistence.GroupDAO;
 
 import java.util.List;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +18,8 @@ import java.util.Collections;
  * To change this template use File | Settings | File Templates.
  */
 public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
+
+    private static Logger log = Logger.getLogger("GroupDAOHibernate.class");
 
     public SCYGroup createGroup(SCYProject project, String name, SCYGroup parent) {
         if (project == null) {
@@ -51,6 +55,14 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
                     .list();
         }
         return Collections.EMPTY_LIST;
+    }
+
+    public List <User> getUsers(SCYGroup group) {
+        List returnList =  getSession().createQuery("select connection.user from UserGroupConnectionImpl connection where connection.group = :group")
+                .setEntity("group", group)
+                .list();
+        log.info("FOUND " + returnList.size() + " USERS FOR GROUP: " + group.getName());
+        return returnList;
     }
 
 
