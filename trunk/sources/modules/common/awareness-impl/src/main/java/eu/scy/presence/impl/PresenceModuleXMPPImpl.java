@@ -24,10 +24,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 
-import eu.scy.presence.IPresenceModule;
-import eu.scy.presence.IPresenceRosterEvent;
-import eu.scy.presence.IPresenceRosterListener;
-import eu.scy.presence.PresenceModuleException;
+import eu.scy.presence.*;
 import eu.scy.presence.event.PresenceRosterEvent;
 
 
@@ -313,7 +310,12 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
 		this.rosterListeners.add(rosterListener);
 	}
 
-	@Override
+    @Override
+    public void addPacketListener(IPresencePacketListener packetListener) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public void joinGroup(String groupName, String userName)
 			throws PresenceModuleException {
 		
