@@ -11,6 +11,23 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
 
+/**
+ * Notifies the agent that checks for misspellings that something checkworthy
+ * has been saved to the roolo.
+ * 
+ * ELO saved -> ("misspellings", <EloURI>:String(), <TS>:Long,
+ * <EloContent>:String, <User>:String)
+ * 
+ * +<EloURI>: the uri of the elo that has been saved. <br />
+ * +<TS>: timestamp <br />
+ * +<EloContent>: the textual content of the elo. <br />
+ * +<User>:the user that saved this elo. <br />
+ * 
+ * @author fschulz
+ * 
+ * @param <T>
+ * @param <K>
+ */
 public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 

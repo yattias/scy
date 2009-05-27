@@ -1,13 +1,22 @@
 package eu.scy.agents.impl;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.ICommunicationAgent;
+import eu.scy.notification.NotificationSender;
+import eu.scy.notification.api.INotificationSender;
 
-public abstract class AbstractCommunicationAgent<K extends IMetadataKey>
-		extends AbstractThreadedAgent implements ICommunicationAgent<K> {
+public abstract class AbstractCommunicationAgent extends AbstractThreadedAgent
+		implements ICommunicationAgent {
+
+	private INotificationSender notificationSender;
 
 	public AbstractCommunicationAgent(String threadName) {
 		super(threadName);
+		notificationSender = new NotificationSender();
+	}
+
+	@Override
+	public INotificationSender getNotificationSender() {
+		return notificationSender;
 	}
 
 }
