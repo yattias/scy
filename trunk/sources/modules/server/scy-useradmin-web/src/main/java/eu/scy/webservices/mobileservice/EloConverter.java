@@ -9,8 +9,7 @@ import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
- * Date: 24.mar.2009
+  * Date: 24.mar.2009
  * Time: 12:53:10
  * To change this template use File | Settings | File Templates.
  */
