@@ -39,7 +39,7 @@ public class EditorTab extends JPanel implements ChangeListener {
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		editor.getActionLogger().logActivateWindow("model");
+		editor.getActionLogger().logActivateWindow("model", null, this);
 	}
 
 	public EditorToolbar getToolbar() {

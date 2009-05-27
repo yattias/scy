@@ -38,7 +38,7 @@ import java.awt.Color;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import eu.scy.client.tools.scydynamics.logging.ActionLogger;
+import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 
 
 public class Model {
@@ -51,16 +51,16 @@ public class Model {
   private String method;
   private String name = "model";
   private boolean bQualitative = true; // allow qualitative modelling?
-  private ActionLogger logger;
+  private IModellingLogger logger;
   //-------------------------------------------------------------------------
   // creation
   //-------------------------------------------------------------------------
-  public Model(ActionLogger logger) {
+  public Model(IModellingLogger logger) {
 	  this.logger = logger;
     setDefaultTimes();
   }
   //-------------------------------------------------------------------------
-  public Model(ActionLogger logger, boolean allowQualitative) {
+  public Model(IModellingLogger logger, boolean allowQualitative) {
     this(logger);
     bQualitative=allowQualitative;
   }

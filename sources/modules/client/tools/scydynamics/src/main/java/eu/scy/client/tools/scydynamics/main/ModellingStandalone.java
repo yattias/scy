@@ -17,12 +17,12 @@ public class ModellingStandalone extends JFrame {
 	private static final long serialVersionUID = -3066655673856117223L;
 	private ModelEditor editor;
 
-	public ModellingStandalone() {
+	public ModellingStandalone(boolean log) {
 		super("Modelling standalone alpha");
 		this.addWindowListener(new WindowEventHandler());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);		
-		editor = new ModelEditor();
+		editor = new ModelEditor(log);
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		this.getContentPane().add(editor, BorderLayout.CENTER);
@@ -32,7 +32,11 @@ public class ModellingStandalone extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new ModellingStandalone();
+		if ((args.length > 0) && args[0].equals("log")) {
+			new ModellingStandalone(true);
+		} else {
+			new ModellingStandalone(false);
+		}
 	}
 	
 	class WindowEventHandler extends WindowAdapter {

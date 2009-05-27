@@ -1,5 +1,7 @@
 package eu.scy.client.tools.scydynamics.logging;
 
+import java.awt.Component;
+import java.awt.IllegalComponentStateException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -7,6 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import javax.swing.JPanel;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -24,7 +27,7 @@ import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
 
-public class ActionLogger {
+public class FileActionLogger implements IModellingLogger {
 
 	private ActionLogFileHandler logfilehandler;
 	private String filename;
@@ -35,7 +38,7 @@ public class ActionLogger {
 	private static SimpleDateFormat ISO8601FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	private SAXBuilder saxBuilder = new SAXBuilder();
 
-	public ActionLogger(String user) {
+	public FileActionLogger(String user) {
 		this.user = user;
 		logfilehandler = new ActionLogFileHandler(getFileName());
 		ISO8601FORMAT.setTimeZone(TimeZone.getDefault());
@@ -60,18 +63,21 @@ public class ActionLogger {
 		  return result; 
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#close()
+	 */
 	public void close() {
 		logfilehandler.close();
 	}
 	
-	public void addProperty(Element element, String name, String value) {
+	private void addProperty(Element element, String name, String value) {
 		Element prop = new Element("property");
 		prop.setAttribute("name", name);
 		prop.setAttribute("value", value);
 		element.addContent(prop);
 	}
 	
-	public void addProperty(Element element, String name, String value, String subElementString) {
+	private void addProperty(Element element, String name, String value, String subElementString) {
 		Element prop = new Element("property");
 		prop.setAttribute("name", name);
 		prop.setAttribute("value", value);	
@@ -90,6 +96,9 @@ public class ActionLogger {
 		element.addContent(prop);
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logAddAction(colab.um.draw.JdFigure, java.lang.String)
+	 */
 	public void logAddAction(JdFigure object, String modelString) {
 		switch (object.getType()) {
 		case JdFigure.AUX:
@@ -145,6 +154,9 @@ public class ActionLogger {
 		logfilehandler.writeAction(action);
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logDeleteAction(colab.um.draw.JdFigure, java.lang.String)
+	 */
 	public void logDeleteAction(JdFigure object, String modelString) {
 		switch (object.getType()) {
 		case JdFigure.AUX:
@@ -197,6 +209,9 @@ public class ActionLogger {
 		return basic;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logRenameAction(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public void logRenameAction(String id, String oldName, String newName) {
 		action = createBasicAction("rename_element");
 		attributes = new Element("attributes");
@@ -207,6 +222,9 @@ public class ActionLogger {
 		logfilehandler.writeAction(action);
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logChangeSpecification(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public void logChangeSpecification(String id, String expression, String unit) {
 		action = createBasicAction("change_specification");
 		attributes = new Element("attributes");
@@ -217,11 +235,17 @@ public class ActionLogger {
 		logfilehandler.writeAction(action);
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logSimpleAction(java.lang.String)
+	 */
 	public void logSimpleAction(String type) {
 		action = createBasicAction(type);
 		logfilehandler.writeAction(action);
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logInspectVariablesAction(java.lang.String, java.lang.String)
+	 */
 	public void logInspectVariablesAction(String type, String selectedVariables) {
 		action = createBasicAction(type);
 		attributes = new Element("attributes");
@@ -230,31 +254,38 @@ public class ActionLogger {
 		logfilehandler.writeAction(action);
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logLoadAction(java.lang.String)
+	 */
 	public void logLoadAction(String modelString) {
 		action = createBasicAction("load_model");
-		attributes = new Element("attributes");
-		
-		
+		attributes = new Element("attributes");	
 		addProperty(attributes, "model", "", modelString);
 		action.addContent(attributes);
 		logfilehandler.writeAction(action);	
 	}
 
-	public void logActivateWindow(String window) {
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logActivateWindow(java.lang.String, java.lang.String, java.awt.Component)
+	 */
+	public void logActivateWindow(String window, String id, Component comp) {
 		action = createBasicAction("activate_window");
 		attributes = new Element("attributes");
 		addProperty(attributes, "window", window);
+		if (id!=null) addProperty(attributes, "id", id);
+		try {		
+		addProperty(attributes, "x", comp.getLocationOnScreen().x+"");
+		addProperty(attributes, "y", comp.getLocationOnScreen().y+"");
+		addProperty(attributes, "w", comp.getWidth()+"");
+		addProperty(attributes, "h", comp.getHeight()+"");				
+		} catch (IllegalComponentStateException ex) {
+			addProperty(attributes, "x", "0");
+			addProperty(attributes, "y", "0");
+			addProperty(attributes, "w", "0");
+			addProperty(attributes, "h", "0");				
+		}
 		action.addContent(attributes);
-		logfilehandler.writeAction(action);	
-	}
-
-	public void logActivateWindow(String window, String id) {
-		action = createBasicAction("activate_window");
-		attributes = new Element("attributes");
-		addProperty(attributes, "window", window);
-		addProperty(attributes, "id", id);
-		action.addContent(attributes);
-		logfilehandler.writeAction(action);			
+		logfilehandler.writeAction(action);
 	}
 	
 }
