@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
  * Date: 24.mar.2009
  * Time: 12:52:36
   */
