@@ -5,6 +5,7 @@ import java.util.List;
 import eu.scy.presence.IPresenceModule;
 import eu.scy.presence.IPresenceRosterListener;
 import eu.scy.presence.PresenceModuleException;
+import eu.scy.presence.IPresencePacketListener;
 
 public class PresenceModuleMockImpl implements IPresenceModule {
 
@@ -12,7 +13,12 @@ public class PresenceModuleMockImpl implements IPresenceModule {
 	public void addRosterListener(IPresenceRosterListener rosterListener) {
 	}
 
-	@Override
+    @Override
+    public void addPacketListener(IPresencePacketListener packetListener) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
 	public List<String> getBuddies() throws PresenceModuleException {
 		// TODO Auto-generated method stub
 		return null;
