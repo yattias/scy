@@ -41,21 +41,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
-import eu.scy.client.tools.scydynamics.logging.ActionLogger;
+import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
+import eu.scy.client.tools.scydynamics.logging.FileActionLogger;
+import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 
-/**
- * Graphical editor of System Dynamics (SD) models
- * 
- *@author CoLoS group, UM
- */
 public class ModelEditor extends JPanel implements AdjustmentListener,
 		ActionListener {
 	static final long serialVersionUID = -8181842250058665865L;
-	// ---------------------------------------------------------------------------
-	// constants
-	// ---------------------------------------------------------------------------
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;
 	public final static int LNK_LOOP = 1;
@@ -67,46 +61,39 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 	public final static int LNK_DATASET = 7;
 	public final static int LNK_NO_STOCK_ENDS = 8;
 
-	// ---------------------------------------------------------------------------
-	// variables
-	// ---------------------------------------------------------------------------
-	// private JvtEditor aEditorVT;
 	private JdPopups aPopups;
 	private Model aModel = null;
-	// private JdControlStandalone aControl;
 	private JdSelection aSelection;
 	private EditorPanel aCanvas;
 	private JScrollPane aScrollPane;
 	private String userMessage = null;
-	// private String[] lnkMsg = new String[9];
-	// private boolean fixAction = false;
 	private EditorMouseListener mouseListener;
 	private int currentCursor;
 	private JdCursors cursors;
-	// private int lastCursor;
 	private EditorToolbar toolbar;
-	private SimulationToolbar simtoolbar;
-	private FileToolbar filetoolbar;
-	private ActionLogger logger;
+	private IModellingLogger logger;
 	private JTools jtools;
 	private EditorTab editorTab;
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
+		//default: no logging
+		this(false);
+	}
+	
+	public ModelEditor(boolean log) {
+		if (log) {
+			logger = new FileActionLogger(System.getProperty("user.name"));
+		} else {
+			logger = new DevNullActionLogger();
+		}
 		jtools = new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
-		logger = new ActionLogger("lars");
-
-		// aControl = new JdControlStandalone(this);
 		aSelection = new JdSelection();
-		// aPopups = new JdPopups(this);
-		// aEditorVT = e;
 		initComponents();
 		setNewModel();
-		// for (int i = 0; i < 9; i++)
-		// lnkMsg[i] = JTools.getAppResourceString("editorLnkMsg" + i);
 	}
 
-	public ActionLogger getActionLogger() {
+	public IModellingLogger getActionLogger() {
 		return logger;
 	}
 	
@@ -120,6 +107,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 			}
 		});
 
+		this.setLayout(new BorderLayout());
+		this.add(tabbedPane, BorderLayout.CENTER);
+		
 		editorTab = new EditorTab(this);
 		this.aCanvas = ((EditorTab) editorTab).getEditorPanel();
 		this.toolbar = ((EditorTab) editorTab).getToolbar();
@@ -130,9 +120,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 		tabbedPane.addTab("graph", new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);
 		tabbedPane.addTab("table", new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);
 
-		this.setLayout(new BorderLayout());
-		this.add(tabbedPane, BorderLayout.CENTER);
-
+		
 		// canvas area panel
 
 		// aScrollPane = new JScrollPane();

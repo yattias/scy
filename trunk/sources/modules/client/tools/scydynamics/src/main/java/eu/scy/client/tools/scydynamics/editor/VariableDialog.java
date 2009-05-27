@@ -32,7 +32,7 @@ public class VariableDialog extends javax.swing.JDialog implements
 	public VariableDialog(java.awt.Frame owner, java.awt.Point position,
 			JdFigure figure, ModelEditor editor) {
 		super(owner, false);
-		editor.getActionLogger().logActivateWindow("specification", figure.getID());
+		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
 		this.setLocation(position);
 		this.figure = figure;
 		this.props = figure.getProperties();

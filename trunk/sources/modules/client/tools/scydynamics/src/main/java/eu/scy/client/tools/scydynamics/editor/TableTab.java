@@ -41,25 +41,6 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 	private SimulationSettingsPanel simulationPanel;
 	private SimquestModel sqModel;
 	private JTable table;
-	
-	Object[][] data = {
-		    {"Mary", "Campione",
-		     "Snowboarding", new Integer(5), new Boolean(false)},
-		    {"Alison", "Huml",
-		     "Rowing", new Integer(3), new Boolean(true)},
-		    {"Kathy", "Walrath",
-		     "Knitting", new Integer(2), new Boolean(false)},
-		    {"Sharon", "Zakhour",
-		     "Speed reading", new Integer(20), new Boolean(true)},
-		    {"Philip", "Milne",
-		     "Pool", new Integer(10), new Boolean(false)}
-		};
-	
-	String[] columnNames = {"First Name",
-            "Last Name",
-            "Sport",
-            "# of Years",
-            "Vegetarian"};
 	private SimulationTableModel tableModel;
 	private JScrollPane scrollPane;
 	
@@ -97,7 +78,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 	public void stateChanged(ChangeEvent e) {
 		variablePanel.updateVariables();
 		simulationPanel.updateSettings();
-		editor.getActionLogger().logActivateWindow("table");
+		editor.getActionLogger().logActivateWindow("table", null, this);
 	}
 
 	@Override
@@ -150,7 +131,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 			for (String varname : variablePanel.getSelectedVariables()) {
 				variableIdList = variableIdList.concat(editor.getModel().getObjectOfName(varname).getID()+", ");
 			}
-			editor.getActionLogger().logInspectVariablesAction("inspect_table", variableIdList);
+			editor.getActionLogger().logInspectVariablesAction("inspect_table", variableIdList.substring(0, variableIdList.length()-2));
 			
 		}
 	}

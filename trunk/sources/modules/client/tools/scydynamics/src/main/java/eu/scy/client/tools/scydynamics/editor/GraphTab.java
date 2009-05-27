@@ -75,7 +75,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener  
 	public void stateChanged(ChangeEvent e) {
 		variablePanel.updateVariables();
 		simulationPanel.updateSettings();
-		editor.getActionLogger().logActivateWindow("graph");
+		editor.getActionLogger().logActivateWindow("graph", null, this);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener  
 			for (String varname : variablePanel.getSelectedVariables()) {
 				variableIdList = variableIdList.concat(editor.getModel().getObjectOfName(varname).getID()+", ");
 			}
-			editor.getActionLogger().logInspectVariablesAction("inspect_gaph", variableIdList);					
+			editor.getActionLogger().logInspectVariablesAction("inspect_gaph", variableIdList.substring(0, variableIdList.length()-2));					
 		}
 	}
 
