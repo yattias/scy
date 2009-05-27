@@ -8,41 +8,41 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.util.TreeMap;
 
 import eu.scy.agents.api.IAgentFactory;
+import eu.scy.agents.api.IParameter;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.Parameter;
 
 public class AgentManager implements Callback {
 
-	private static AgentManager me = null;
+	// private static AgentManager me = null;
 	private TupleSpace tupleSpace;
+	private IParameter parameters;
 
-	public static AgentManager getInstance() {
-		if (me == null) {
-			try {
-				me = new AgentManager();
-			} catch (TupleSpaceException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return me;
-	}
+	// public static AgentManager getInstance() {
+	// if (me == null) {
+	// try {
+	// me = new AgentManager();
+	// } catch (TupleSpaceException e) {
+	// throw new RuntimeException(e);
+	// }
+	// }
+	// return me;
+	// }
 
 	private TreeMap<String, IAgentFactory> agentFactories;
 	private TreeMap<String, Long> agentAlive;
 
-	private AgentManager() throws TupleSpaceException {
+	public AgentManager() {
 		agentFactories = new TreeMap<String, IAgentFactory>();
 		agentAlive = new TreeMap<String, Long>();
-		initTupleSpace();
-		tupleSpace.eventRegister(Command.WRITE, AgentProtocol
-				.getAliveTupleTemplate(), this, true);
-	}
-
-	private void initTupleSpace() {
 		try {
 			tupleSpace = new TupleSpace();
+			tupleSpace.eventRegister(Command.WRITE,
+					AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
 		} catch (TupleSpaceException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(
+					"TupleSpace could not be accessed. Agent manager won't work",
+					e);
 		}
 	}
 
@@ -87,20 +87,41 @@ public class AgentManager implements Callback {
 		}
 	}
 
+	public void killAgent(String name) {
+		try {
+			tupleSpace.write(AgentProtocol.getKillTuple(name));
+		} catch (TupleSpaceException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	void dispose() {
-		me = null;
+		try {
+			tupleSpace.disconnect();
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void call(Command command, int seq, Tuple afterTuple,
 			Tuple beforeTuple) {
-		if (AgentProtocol.getAliveTupleTemplate().matches(afterTuple)) {
-			String agentName = (String) afterTuple.getField(2).getValue();
-			// Status status = Status.valueOf((String) afterTuple.getField(3)
-			// .getValue());
-			long aliveTS = (Long) afterTuple.getField(4).getValue();
-			// long lastAliveTS = aliveTS -
-			agentAlive.put(agentName, aliveTS);
+		if (AgentProtocol.ALIVE_TUPLE_TEMPLATE.matches(afterTuple)) {
+			if ((Command.WRITE == command) || (Command.UPDATE == command)) {
+				String agentName = (String) afterTuple.getField(2).getValue();
+				// Status status = Status.valueOf((String)
+				// afterTuple.getField(3)
+				// .getValue());
+				long aliveTS = afterTuple.getLastModificationTimestamp();
+				agentAlive.put(agentName, aliveTS);
+			} else if (Command.DELETE == command) {
+				String agentId = (String) beforeTuple.getField(2).getValue();
+				startAgent(agentId);
+			}
 		}
+	}
+
+	public void setParameter(String name, Object parameter) {
+		parameters.set(name, parameter);
 	}
 }

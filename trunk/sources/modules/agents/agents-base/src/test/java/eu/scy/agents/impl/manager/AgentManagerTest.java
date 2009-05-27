@@ -15,6 +15,7 @@ import eu.scy.agents.impl.ThreadedAgentMock;
 public class AgentManagerTest {
 
 	private static ThreadedAgentMock mockAgent;
+	private static AgentManager agentManager;
 
 	@BeforeClass
 	public static void setUp() {
@@ -22,7 +23,8 @@ public class AgentManagerTest {
 			Server.startServer();
 		}
 
-		AgentManager.getInstance().setAgentFactory(new IAgentFactory() {
+		agentManager = new AgentManager();
+		agentManager.setAgentFactory(new IAgentFactory() {
 			@Override
 			public IThreadedAgent create(IParameter params) {
 				mockAgent = new ThreadedAgentMock();
@@ -38,18 +40,18 @@ public class AgentManagerTest {
 
 	@AfterClass
 	public static void tearDown() {
+		agentManager.dispose();
 		Server.stopServer();
-		AgentManager.getInstance().dispose();
 	}
 
 	@Test
 	public void testStartStopAgent() throws InterruptedException {
-		AgentManager.getInstance().startAgent(ThreadedAgentMock.NAME);
+		agentManager.startAgent(ThreadedAgentMock.NAME);
 
 		Thread.sleep(5000);
 
 		assertTrue("Agent not started", mockAgent.isRunning());
-		AgentManager.getInstance().stopAgent(ThreadedAgentMock.NAME);
+		agentManager.stopAgent(ThreadedAgentMock.NAME);
 
 		Thread.sleep(5000);
 
@@ -58,12 +60,12 @@ public class AgentManagerTest {
 
 	@Test
 	public void testSuspendResumeAgent() throws InterruptedException {
-		AgentManager.getInstance().suspendAgent(ThreadedAgentMock.NAME);
+		agentManager.suspendAgent(ThreadedAgentMock.NAME);
 
 		Thread.sleep(5000);
 
 		assertTrue("Agent not suspended", mockAgent.isSuspended());
-		AgentManager.getInstance().resumeAgent(ThreadedAgentMock.NAME);
+		agentManager.resumeAgent(ThreadedAgentMock.NAME);
 
 		Thread.sleep(5000);
 
