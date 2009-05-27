@@ -29,7 +29,7 @@ public class ActionLogFileHandler {
 	private File logFile;
 	private OutputStream out;
 	private BufferedOutputStream bout;
-	protected final static int BUF_SIZE = 1024 * 512;
+	protected final static int BUF_SIZE = 1 * 512;
 	private OutputStreamWriter write;
 	private Transformer trans;
 

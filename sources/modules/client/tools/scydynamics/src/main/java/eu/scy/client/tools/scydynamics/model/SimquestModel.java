@@ -41,7 +41,7 @@ public class SimquestModel extends Element {
 		Element header = new Element("header");
 		header.addContent(new Element("name").setText("name of model"));
 		header.addContent(new Element("format").setText("version1.0"));
-		header.addContent(new Element("creator").setText("lars"));
+		header.addContent(new Element("creator").setText(System.getProperty("user.name")));
 		header.addContent(new Element("description")
 				.setText("some description"));
 		header.addContent(new Element("timestamp").setText(new Date()
