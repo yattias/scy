@@ -143,9 +143,10 @@ public class UserDAOHibernateTest extends AbstractTransactionalSpringContextTest
         User user2 = createAndSaveUser();
         User user3 = createAndSaveUser();
 
-        assertTrue(getUserDAO().getUsers().size() == 3);
+        Long userId = user1.getId();
+
         getUserDAO().deleteUser(user1.getId());
-        assertTrue(getUserDAO().getUsers().size() ==2);
+        assertTrue(getUserDAO().getUser(userId ) ==  null);
 
     }
 

@@ -101,6 +101,9 @@
     </dependencies>
 
     <build>
+        <filters>
+            <filter>${user.dir}/${filter.file}</filter>
+        </filters>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -139,7 +142,8 @@
     </modules>
 
     <properties>
-        <cxf.version>2.1</cxf.version>    
+        <cxf.version>2.1</cxf.version>
+        <filter.file>src/main/filters/serverfilter.properties</filter.file>
     </properties>
 
 </project>
