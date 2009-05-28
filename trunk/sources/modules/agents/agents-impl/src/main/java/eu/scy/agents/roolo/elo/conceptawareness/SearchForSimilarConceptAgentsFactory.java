@@ -13,14 +13,14 @@ public class SearchForSimilarConceptAgentsFactory implements IAgentFactory {
 	@Override
 	public IThreadedAgent create(IParameter params) {
 		SearchForSimilarConceptsAgent<IMetadataKey> agent = new SearchForSimilarConceptsAgent<IMetadataKey>();
-		agent
+		/*agent
 				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
 						.get(IParameter.ELO_REPOSITORY));
 		agent
 				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
 						.get(IParameter.METADATA_TYPE_MANAGER));
-
-		return agent;
+        */
+        throw new RuntimeException("DID NOT BUILD -> HENRIK COMMENTED IT OUT!");
 	}
 
 	@Override
