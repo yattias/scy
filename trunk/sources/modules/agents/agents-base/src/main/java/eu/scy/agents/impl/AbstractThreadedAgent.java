@@ -156,7 +156,6 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		triggerParameter = afterTuple;
 	}
 
-    
 	public boolean isKilled() {
 		return status == Status.Killed;
 	}

@@ -6,6 +6,9 @@ import eu.scy.agents.api.IParameter;
 
 public class Parameter implements IParameter {
 
+	public static String ELO_REPOSITORY = "repository";
+	public static String METADATA_TYPE_MANAGER = "metadataTypeManager";
+
 	private HashMap<String, Object> paramMap;
 
 	public Parameter() {

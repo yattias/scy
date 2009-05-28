@@ -6,6 +6,7 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.IAgentFactory;
 import eu.scy.agents.api.IParameter;
 import eu.scy.agents.api.IThreadedAgent;
+import eu.scy.agents.impl.Parameter;
 
 public class SearchForSimilarConceptAgentsFactory implements IAgentFactory {
 
@@ -13,14 +14,13 @@ public class SearchForSimilarConceptAgentsFactory implements IAgentFactory {
 	@Override
 	public IThreadedAgent create(IParameter params) {
 		SearchForSimilarConceptsAgent<IMetadataKey> agent = new SearchForSimilarConceptsAgent<IMetadataKey>();
-		/*agent
-				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
-						.get(IParameter.ELO_REPOSITORY));
 		agent
 				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
-						.get(IParameter.METADATA_TYPE_MANAGER));
-        */
-        throw new RuntimeException("DID NOT BUILD -> HENRIK COMMENTED IT OUT!");
+						.get(Parameter.ELO_REPOSITORY));
+		agent
+				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
+						.get(Parameter.METADATA_TYPE_MANAGER));
+		throw new RuntimeException("DID NOT BUILD -> HENRIK COMMENTED IT OUT!");
 	}
 
 	@Override
