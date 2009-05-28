@@ -32,7 +32,7 @@
       <groupId>${pom.groupId}</groupId>
       <artifactId>awareness-api</artifactId>
       <version>${pom.version}</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>jivesoftware</groupId>
       <artifactId>smackx</artifactId>

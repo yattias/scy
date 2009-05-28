@@ -1,4 +1,4 @@
-package eu.scy.presence.event;
+package eu.scy.presence;
 
 import java.util.Collection;
 
