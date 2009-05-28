@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project>
-    
- 
+
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.server</groupId>
@@ -13,6 +12,7 @@
     <name>scy-useradmin-api</name>
 
     <dependencies>
+    
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-api</artifactId>
@@ -30,36 +30,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-
+        
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <optimize>true</optimize>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <!--outputDirectory>/absolute/path/to/the/output/directory</outputDirectory-->
-                    <finalName>scy-model-api</finalName>
-                    <attach>true</attach>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
