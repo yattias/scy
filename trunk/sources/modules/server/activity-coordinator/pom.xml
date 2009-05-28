@@ -8,7 +8,6 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scy</groupId>
 	<artifactId>activity-coordinator</artifactId>
 	<name>activity-coordinator</name>
 	<description>Server component that will handles messages for collaboration and activity context</description>
