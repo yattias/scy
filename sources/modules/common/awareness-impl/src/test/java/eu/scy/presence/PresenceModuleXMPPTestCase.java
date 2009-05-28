@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.filter.AndFilter;
+import org.jivesoftware.smack.filter.FromContainsFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 
@@ -21,19 +26,19 @@ public class PresenceModuleXMPPTestCase {
     }
     
 
-//    @org.junit.Before
+    @org.junit.Before
     public void presenceModuleSetup() {
+        logger.debug("presenceModuleSetup");
         if (presenceModule == null) {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("berzerk", "berzerk");
-                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("bender", "bender");
+                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("bender", "bender");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("b1", "b1");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
                 //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
-                //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);
-                
+                //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);            
                 initListeners();
             } catch (PresenceModuleException e) {
                 logger.error("presence noodle test case bummer");
@@ -45,21 +50,32 @@ public class PresenceModuleXMPPTestCase {
     
     
     private void initListeners() {
-       presenceModule.addRosterListener(new  IPresenceRosterListener(){
-    
-		@Override
-		public void handlePresenceRosterEvent(IPresenceRosterEvent e) {
-			logger.debug("Users " + e.getUser() + " Message" + e.getMessage() + " EventType" + e.getEventType());
-		}
-       });        
+//        presenceModule.addRosterListener(new  IPresenceRosterListener(){
+//            @Override
+//            public void handlePresenceRosterEvent(IPresenceRosterEvent e) {
+//                logger.debug("Users " + e.getUser() + " Message" + e.getMessage() + " EventType: " + e.getEventType());
+//            }
+//           });
+        
+//        PacketFilter filter = new AndFilter(new PacketTypeFilter(Message.class), new FromContainsFilter(PresenceModuleXMPPImpl.OPENFIRE_SYSTEM_JID));
+
+        presenceModule.addPacketListener(new IPresencePacketListener(){
+            @Override
+            public void handlePresencePacketEvent(IPresencePacketEvent e) {
+                logger.debug("User: " + e.getUser() + " Message: " + e.getMessage() + " EventType: " + e.getEventType());
+            }
+        });        
     }
+    
     
     @org.junit.Test
     public void runNoTest() {}
 
-//    @org.junit.Test
+    
+    //@org.junit.Test
     public void testListeners() {
-    	 while (true) {
+        logger.debug("running...");
+        while (true) {
              try {
                  Thread.sleep(500);
              } catch (InterruptedException e) {
@@ -68,6 +84,7 @@ public class PresenceModuleXMPPTestCase {
          }
     }
 
+    
 //    @org.junit.Test
     public void testGetStatusForUsersInGroup() {      
         HashMap<String, String> users = new HashMap<String, String>();
