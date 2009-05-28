@@ -55,7 +55,7 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 
 			}
 		} catch (JDOMException e) {
-			System.err.println("could not parse xml");// e.printStackTrace();
+			System.err.println("could not parse xml: " + e.getMessage());// e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
