@@ -49,8 +49,11 @@ public class ColemoPanel extends JPanel {
     }
 
     public void addNewConcept(UmlDiagram diagram, String type) {
-
-        String name = JOptionPane.showInputDialog(this, "Please type name of new concept:");
+    	String name = JOptionPane.showInputDialog(this, "Please type name of new concept:");
+    	this.addNewConcept(diagram, type, name);
+    }
+    	
+    public void addNewConcept(UmlDiagram diagram, String type, String name) {
         if (name != null) {
             try {
                 if (!gDiagram.getUmlDiagram().nameExist(name)) {
