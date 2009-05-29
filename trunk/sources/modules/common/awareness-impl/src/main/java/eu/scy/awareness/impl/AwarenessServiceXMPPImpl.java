@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
@@ -65,13 +65,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         try {
             xmppConnection.connect();
         } catch (XMPPException e) {
-            logger.error("Error during connect");
+            logger.severe("Error during connect");
             e.printStackTrace();
         }
         try {
             xmppConnection.login(username, password);
         } catch (XMPPException e) {
-            logger.error("Error during login");
+            logger.severe("Error during login");
             e.printStackTrace();
             
         }
@@ -104,7 +104,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         try {
             chat.sendMessage(message);
         } catch (XMPPException e) {
-            logger.error("Error during sendMessage");
+            logger.severe("Error during sendMessage");
             e.printStackTrace();
         }
     }    
@@ -116,7 +116,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     
     public void processMessage(Chat chat, Message message) {
         if (message.getType() == Message.Type.chat) {           
-            logger.debug(chat.getParticipant() + " says: " + message.getBody());   
+            logger.fine(chat.getParticipant() + " says: " + message.getBody());
             //process the events
             for (IAwarenessPresenceListener al : awarenessListeners) {
                 if (al != null){
