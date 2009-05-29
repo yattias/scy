@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
@@ -89,14 +89,14 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         try {
             xmppConnection.connect();
         } catch (XMPPException e) {
-            logger.error("Error during connect");
+            logger.severe("Error during connect");
             e.printStackTrace();
         }
         try {
             xmppConnection.login(username, password);
             
         } catch (XMPPException e) {
-            logger.error("Error during login");
+            logger.severe("Error during login");
             e.printStackTrace();            
         }
         initListeners();
@@ -119,7 +119,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         Collection<RosterEntry> rosterEntries = roster.getEntries();
         ArrayList<String> buddies = new ArrayList<String>();
         for (RosterEntry buddy:rosterEntries) {
-            logger.debug("buddy: " + buddy.getName());
+            logger.fine("buddy: " + buddy.getName());
             buddies.add(buddy.getName());
         }
         return buddies;
@@ -140,7 +140,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
                 }
             }
         } catch (XMPPException e) {
-            logger.error("Error during sendMessage");
+            logger.severe("Error during sendMessage");
             e.printStackTrace();
         }
     }    
@@ -152,7 +152,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
     
     public void processMessage(Chat chat, Message message) {
         if (message.getType() == Message.Type.chat) {           
-            logger.debug(chat.getParticipant() + " says: " + message.getBody());
+            logger.fine(chat.getParticipant() + " says: " + message.getBody());
             List<String> users = new ArrayList<String>();
             users.add(chat.getParticipant());
             //process the events
@@ -179,25 +179,25 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         ArrayList<RosterGroup> groups = new ArrayList<RosterGroup>(roster.getGroups()); 
         ArrayList<RosterEntry> usersInGroup = new ArrayList<RosterEntry>(); 
         HashMap<String, String> users = null;
-        logger.debug("roster for user: " + this.xmppConnection.getUser());
+        logger.fine("roster for user: " + this.xmppConnection.getUser());
         for (RosterGroup group : groups) {
             if (groupName.equals(group.getName())) {
                 users = new HashMap<String, String>();
                 usersInGroup = new ArrayList<RosterEntry>(group.getEntries()); 
                 if (usersInGroup != null && usersInGroup.size() > 0) {
                     for (RosterEntry rosterEntry : usersInGroup) {
-                        logger.debug("1 group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + roster.getPresence(rosterEntry.getName()).toString());
+                        logger.fine("1 group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + roster.getPresence(rosterEntry.getName()).toString());
                         //logger.debug("2 group " + groupName + " has member: " + rosterEntry.getName() + ", status: " + rosterEntry.getStatus());
                         users.put(rosterEntry.getName(), roster.getPresence(rosterEntry.getName()).toString());
                     }
                     return users;
                 } else {
-                    logger.debug("no entries in group " + groupName);
+                    logger.fine("no entries in group " + groupName);
                     return null;
                 }
             }
         }
-        logger.debug("no group named " + groupName);
+        logger.fine("no group named " + groupName);
         return null;
     }
     
@@ -319,7 +319,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
         for (IPresencePacketListener pl : packetListeners) {
             if (pl != null){
                 if (OPENFIRE_SYSTEM_JID.equals(packet.getFrom())) {
-                    logger.debug("=== for agent smith only ===");
+                    logger.fine("=== for agent smith only ===");
                     // the body of the packet is a presence update forwarded to agentsmith from thematrix
                     pl.handlePresencePacketEvent(new PresencePacketEvent(this, null, ((Message) packet).getBody(), IPresencePacketEvent.MESSAGE_RECEIVED));                    
                 } else {
