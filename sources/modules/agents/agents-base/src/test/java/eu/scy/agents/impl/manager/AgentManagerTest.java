@@ -1,6 +1,7 @@
 package eu.scy.agents.impl.manager;
 
 import static org.junit.Assert.assertTrue;
+import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.server.Server;
 
 import org.junit.AfterClass;
@@ -20,6 +21,7 @@ public class AgentManagerTest {
 	@BeforeClass
 	public static void setUp() {
 		if (!Server.isRunning()) {
+			Configuration.getConfiguration().setSSLEnabled(false);
 			Server.startServer();
 		}
 
@@ -48,12 +50,12 @@ public class AgentManagerTest {
 	public void testStartStopAgent() throws InterruptedException {
 		agentManager.startAgent(ThreadedAgentMock.NAME);
 
-		Thread.sleep(5000);
+		Thread.sleep(1000);
 
 		assertTrue("Agent not started", mockAgent.isRunning());
 		agentManager.stopAgent(ThreadedAgentMock.NAME);
 
-		Thread.sleep(5000);
+		Thread.sleep(1000);
 
 		assertTrue("agent not stopped", !mockAgent.isRunning());
 	}
@@ -62,12 +64,12 @@ public class AgentManagerTest {
 	public void testSuspendResumeAgent() throws InterruptedException {
 		agentManager.suspendAgent(ThreadedAgentMock.NAME);
 
-		Thread.sleep(5000);
+		Thread.sleep(1000);
 
 		assertTrue("Agent not suspended", mockAgent.isSuspended());
 		agentManager.resumeAgent(ThreadedAgentMock.NAME);
 
-		Thread.sleep(5000);
+		Thread.sleep(1000);
 
 		assertTrue("agent not resumed", !mockAgent.isSuspended());
 	}
