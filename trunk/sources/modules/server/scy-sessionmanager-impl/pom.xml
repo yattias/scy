@@ -55,4 +55,8 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <filter.file>src/main/filters/serverfilter.properties</filter.file>
+    </properties>
+
 </project>
