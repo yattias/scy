@@ -102,7 +102,7 @@
 
     <build>
         <filters>
-            <filter>${user.dir}/${filter.file}</filter>
+            <filter>${filter.file}</filter>
         </filters>
         <plugins>
             <plugin>
@@ -143,7 +143,7 @@
 
     <properties>
         <cxf.version>2.1</cxf.version>
-        <filter.file>src/main/filters/serverfilter.properties</filter.file>
+        <filter.file>${user.dir}/src/main/filters/serverfilter.properties</filter.file>
     </properties>
 
 </project>
