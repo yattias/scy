@@ -275,7 +275,7 @@
     </build>
 
     <properties>
-        <filter.test.file>src/test/resources/filter.properties</filter.test.file>
+        <filter.test.file>src/main/filters/serverfilter.properties</filter.test.file>       
         <!--slf4j.version>1.5.5</slf4j.version-->
     </properties>
 </project>
