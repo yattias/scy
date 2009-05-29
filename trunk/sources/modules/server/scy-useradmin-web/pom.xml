@@ -229,10 +229,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring-release-version}</version>
         </dependency>
-
-
 
 
         <!-- HIBERNATE -->
