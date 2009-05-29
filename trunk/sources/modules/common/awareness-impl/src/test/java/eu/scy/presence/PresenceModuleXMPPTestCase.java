@@ -1,101 +1,95 @@
 package eu.scy.presence;
 
+import eu.scy.presence.impl.PresenceModuleXMPPImpl;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.apache.log4j.Logger;
-import org.jivesoftware.smack.filter.AndFilter;
-import org.jivesoftware.smack.filter.FromContainsFilter;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.filter.PacketTypeFilter;
-import org.jivesoftware.smack.packet.Message;
-
-import eu.scy.presence.impl.PresenceModuleXMPPImpl;
+import java.util.logging.Logger;
 
 
 public class PresenceModuleXMPPTestCase {
 
-    
+
     private static final Logger logger = Logger.getLogger(PresenceModuleXMPPTestCase.class.getName());
-    IPresenceModule presenceModule = null;        
-    
+    IPresenceModule presenceModule = null;
+
     public PresenceModuleXMPPTestCase() {
     }
-    
+
 
     @org.junit.Before
     public void presenceModuleSetup() {
-        logger.debug("presenceModuleSetup");
+        logger.fine("presenceModuleSetup");
         if (presenceModule == null) {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
                 ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
                 initListeners();
             } catch (PresenceModuleException e) {
-                logger.error("presence noodle test case bummer");
+                logger.severe("presence noodle test case bummer");
                 e.printStackTrace();
             }
         }
         assertNotNull(presenceModule);
     }
-    
-    
+
+
     private void initListeners() {
-        presenceModule.addPacketListener(new IPresencePacketListener(){
+        presenceModule.addPacketListener(new IPresencePacketListener() {
             @Override
             public void handlePresencePacketEvent(IPresencePacketEvent e) {
-                logger.debug("User: " + e.getUser() + " Message: " + e.getMessage() + " EventType: " + e.getEventType());
+                logger.fine("User: " + e.getUser() + " Message: " + e.getMessage() + " EventType: " + e.getEventType());
             }
-        });        
+        });
     }
-    
-    
-    @org.junit.Test
-    public void runNoTest() {}
 
-    
+
+    @org.junit.Test
+    public void runNoTest() {
+    }
+
+
     //@org.junit.Test
     public void testListeners() {
-        logger.debug("running...");
+        logger.fine("running...");
         while (true) {
-             try {
-                 Thread.sleep(500);
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             }
-         }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    
-//    @org.junit.Test
-    public void testGetStatusForUsersInGroup() {      
+
+    //    @org.junit.Test
+    public void testGetStatusForUsersInGroup() {
         HashMap<String, String> users = new HashMap<String, String>();
-        users = (HashMap<String, String>) ((PresenceModuleXMPPImpl) presenceModule).getStatusForUsersInGroup("everybody");     
+        users = (HashMap<String, String>) ((PresenceModuleXMPPImpl) presenceModule).getStatusForUsersInGroup("everybody");
         assertNotNull(users);
-        logger.debug("users: " + users);
-        assertTrue(users.size() > 5);      
+        logger.fine("users: " + users);
+        assertTrue(users.size() > 5);
     }
-    
-    
-//    @org.junit.Test
-    public void testGetGroups() {      
+
+
+    //    @org.junit.Test
+    public void testGetGroups() {
         ArrayList<String> groups = null;
         try {
             //groups = (ArrayList<String>) presenceModule.getGroups("thomasd");
             groups = new ArrayList<String>(presenceModule.getGroups());
         } catch (PresenceModuleException e) {
             e.printStackTrace();
-        }        
+        }
         assertNotNull(groups);
-        logger.debug("groups.size: " + groups.size());
-        assertTrue(groups.size() > 0);      
+        logger.fine("groups.size: " + groups.size());
+        assertTrue(groups.size() > 0);
     }
-    
-    
-//    @org.junit.Test
+
+
+    //    @org.junit.Test
     public void testGetBuddies() {
         ArrayList<String> buddies = null;
         try {
@@ -104,11 +98,11 @@ public class PresenceModuleXMPPTestCase {
             e.printStackTrace();
         }
         assertNotNull(buddies);
-        logger.debug("buddies.size: " + buddies.size());
+        logger.fine("buddies.size: " + buddies.size());
         assertTrue(buddies.size() > 0);
 
         //TODO: should also test getBuddies("userName")
     }
-    
-    
+
+
 }
