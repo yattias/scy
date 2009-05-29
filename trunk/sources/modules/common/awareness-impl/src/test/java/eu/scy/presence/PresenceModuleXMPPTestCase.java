@@ -33,12 +33,6 @@ public class PresenceModuleXMPPTestCase {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
                 ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("berzerk", "berzerk");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("bender", "bender");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("b1", "b1");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("presence_spider", "presence_spider");
-                //((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("passerby", "passerby");
-                //presenceModule.cr = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.MOCK_STYLE);            
                 initListeners();
             } catch (PresenceModuleException e) {
                 logger.error("presence noodle test case bummer");
@@ -50,15 +44,6 @@ public class PresenceModuleXMPPTestCase {
     
     
     private void initListeners() {
-//        presenceModule.addRosterListener(new  IPresenceRosterListener(){
-//            @Override
-//            public void handlePresenceRosterEvent(IPresenceRosterEvent e) {
-//                logger.debug("Users " + e.getUser() + " Message" + e.getMessage() + " EventType: " + e.getEventType());
-//            }
-//           });
-        
-//        PacketFilter filter = new AndFilter(new PacketTypeFilter(Message.class), new FromContainsFilter(PresenceModuleXMPPImpl.OPENFIRE_SYSTEM_JID));
-
         presenceModule.addPacketListener(new IPresencePacketListener(){
             @Override
             public void handlePresencePacketEvent(IPresencePacketEvent e) {
