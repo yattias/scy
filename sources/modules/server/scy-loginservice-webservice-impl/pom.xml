@@ -93,6 +93,7 @@
     <properties>
         <cxf.version>2.1</cxf.version>
         <scy.version>1.0-SNAPSHOT</scy.version>
+        <filter.file>src/main/filters/serverfilter.properties</filter.file>
     </properties>
 
 </project>
