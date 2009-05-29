@@ -101,8 +101,8 @@
 	</build>
 
 
-    <!--properties>
+    <properties>
         <filter.file>src/main/filters/serverfilter.properties</filter.file>
-    </properties-->
+    </properties>
 
 </project>
