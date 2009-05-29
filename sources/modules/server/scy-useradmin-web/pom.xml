@@ -170,38 +170,6 @@
             <version>3.1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- SAIL PORTAL -->
-
-        <!--dependency>
-            <groupId>net.sf.sail</groupId>
-            <artifactId>sail-webapp-all</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <exclusions>
-            	<exclusion>
-            		<artifactId>elo-impl</artifactId>
-            		<groupId>elo-impl</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>elo-api</artifactId>
-            		<groupId>elo-api</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>log4j</artifactId>
-            		<groupId>log4j</groupId>
-            	</exclusion>
-                <exclusion>
-                    <groupId>net.sf.sail</groupId>
-                    <artifactId>qti-bindings</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-webmvc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency-->
-
-
-
         <!-- TAPESTRY -->
 
         <dependency>
@@ -293,53 +261,17 @@
             </exclusions>
         </dependency>
 
-        <!-- ACTIVEMQ -->
-
-
-        <!--dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-web</artifactId>
-            <version>5.1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.mortbay.jetty</artifactId>
-                    <groupId>jetty-util</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mx4j</artifactId>
-                    <groupId>mx4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>activeio-core</artifactId>
-                    <groupId>org.apache.activemq</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency-->
-
-
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.9</version>
         </dependency>
 
-
-        <!--dependency>
-            <groupId>asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>2.2.3</version>
-        </dependency-->
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>1.5.3</version>
         </dependency>
-
-        
 
         <dependency>
             <groupId>cglib</groupId>
@@ -375,39 +307,6 @@
             <version>1.2.2</version>
         </dependency>
 
-        <!-- LOGGING, NECESSARY FOR TOMCAT -->
-
-        <!--dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl104-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
-        </dependency-->
-
-        
         <dependency>
         	<groupId>org.roolo</groupId>
         	<artifactId>roolo-api</artifactId>
@@ -432,20 +331,6 @@
         	<version>0.4.0-SNAPSHOT</version>
         	<scope>compile</scope>
         </dependency>
-        <!--dependency>
-        	<groupId>org.springframework</groupId>
-        	<artifactId>spring-webmvc</artifactId>
-        	<version>${spring-release-version}</version>
-        	<type>jar</type>
-        	<scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-            
-        </dependency-->
         <dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>agent-api</artifactId>
