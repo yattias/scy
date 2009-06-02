@@ -160,8 +160,10 @@ public class AppModule {
         configuration.add("/css/.*");
         configuration.add("/graphics/.*");
         configuration.add("/remoting/.*");
+        configuration.add("/webstart/.*");
 
     }
+
 
     public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService("SCYCoercer") SCYCoercer coerser) {
 
