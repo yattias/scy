@@ -29,6 +29,7 @@ import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.scysimulator.SimQuestNode;
+import eu.scy.elobrowser.tool.scydynamics.ScyDynamicsNode;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.scywindows.ScyDesktop;
 import eu.scy.scywindows.ScyWindow;
@@ -86,6 +87,16 @@ var newGroup = VBox {
                 var simquestWindow = SimQuestNode.createSimQuestWindow(roolo);
                 simquestWindow.allowResize;
                 scyDesktop.addScyWindow(simquestWindow);
+                //simquestWindow.openWindow(491,673);
+
+            }
+        },
+        SwingButton{
+            text: "SCYDynamics"
+            action: function() {
+                var scyDynamicsWindow = ScyDynamicsNode.createScyDynamicsWindow(roolo);
+                //simquestWindow.allowResize;
+                scyDesktop.addScyWindow(scyDynamicsWindow);
                 //simquestWindow.openWindow(491,673);
 
             }

@@ -40,6 +40,7 @@ import eu.scy.elobrowser.tool.missionmap.MissionMap;
 import eu.scy.elobrowser.tool.missionmap.MissionModel;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.elobrowser.tool.scysimulator.SimQuestNode;
+import eu.scy.elobrowser.tool.scydynamics.ScyDynamicsNode;
 import eu.scy.elobrowser.tool.scysimulator.SimQuestScyWindowContentFactory;
 import eu.scy.elobrowser.tool.textpad.TextpadNode;
 import eu.scy.elobrowser.tool.textpad.TextpadScyWindowContentFactory;
@@ -240,6 +241,16 @@ var newGroup = VBox {
                 scyDesktop.addScyWindow(simquestWindow);
                 //simquestWindow.openWindow(491,673);
                 scyWindowControl.addOtherScyWindow(simquestWindow, true);
+            }
+        },
+        SwingButton{
+            text: "SCYDynamics"
+            action: function() {
+                var scyDynamicsWindow = ScyDynamicsNode.createScyDynamicsWindow(roolo);
+                //scyDynmaicsWindow.allowResize;
+                scyDesktop.addScyWindow(scyDynamicsWindow);
+                //simquestWindow.openWindow(491,673);
+                scyWindowControl.addOtherScyWindow(scyDynamicsWindow, true);
             }
         },
         SwingButton{
