@@ -86,7 +86,7 @@
             <version>2.4.2</version>
         </dependency>
         <dependency>
-            <groupId>eu.scy</groupId>
+            <groupId>eu.scy.client.tools</groupId>
              <artifactId>drawingTool</artifactId>
             <version>${pom.version}</version>
         </dependency>
