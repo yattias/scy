@@ -1,0 +1,71 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package eu.scy.tools.copex.synchro;
+
+import eu.scy.tools.copex.db.DataBaseCommunication;
+import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.utilities.CopexReturn;
+import java.util.ArrayList;
+
+/**
+ *Ce thread contrôle périodiquement la base de données.
+ * @author Marjolaine
+ */
+public class ActivatorThread extends Thread{
+    /* editeur proc */
+    private EdPPanel edP;
+    /*connection db */
+    private DataBaseCommunication dbC;
+    /** Le locker pour garder le contact dans ce thread avec le reste de l'exécution. */
+	private Locker locker = null;
+
+    // CONSTRUCTOR
+    public ActivatorThread(EdPPanel edP, DataBaseCommunication dbC, Locker l) {
+        super("ActivatorThread");
+        this.edP  = edP;
+        this.dbC = dbC;
+        this.locker = l;
+    }
+
+    /**
+     * Lancement du thread de réactivation des verrous, et boucle infinie.
+     */
+
+    @Override
+    public void run() {
+        // Boucle infinie de contrôle de la base de données, avec temps d'attente.
+        while (true) {
+            // Temps d'attente
+            try {
+                sleep(1000 * Locker.LOCKER_DELAY);
+            } catch (InterruptedException e) {
+                System.out.println("ActivatorThread interrompu !!");
+//                if(edP.isAppletVisible())
+//                    edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_THREAD_INTERRUPT")+ e, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
+            }
+            // Pour chaque éléments de l.lockers, rechercher l'enregistrement correspondant.
+            // S'il n'existe pas: ATTENTION ERREUR: le verrou a sauté (comment signaler l'erreur)
+            // S'il existe, remplacer sa date de verrouillage par la date courante.
+            int nbLock = this.locker.getLockers().size();
+            if (nbLock == 0) {
+                continue;
+            }
+            // Ouverture d'une connection
+            for (int i = 0; i < nbLock; i++) {
+                long lockedProc = (Long) this.locker.getLockers().get(i);
+                String query = "UPDATE VERROU SET DAT_VER=NOW() WHERE ID_PROC=" + lockedProc +" ;";
+
+                ArrayList v = new ArrayList();
+                String[] querys = new String[1];
+                querys[0] = query ;
+                CopexReturn cr = dbC.executeQuery(querys, v);
+                if (cr.isError()){
+                    edP.displayError(cr, edP.getBundleString("TITLE_ERROR_DIALOG"));
+                }
+            }
+        }
+    }
+}
