@@ -29,6 +29,8 @@ import eu.scy.elobrowser.tool.chat.ChatNode;
 import eu.scy.elobrowser.tool.colemo.*;
 import eu.scy.elobrowser.tool.dataProcessTool.DataProcessToolScyWindowContentFactory;
 import eu.scy.elobrowser.tool.dataProcessTool.DataToolNode;
+import eu.scy.elobrowser.tool.copex.CopexScyWindowContentFactory;
+import eu.scy.elobrowser.tool.copex.CopexNode;
 import eu.scy.elobrowser.tool.displayshelf.*;
 import eu.scy.elobrowser.tool.drawing.DrawingNode;
 import eu.scy.elobrowser.tool.drawing.DrawingToolScyWindowContentFactory;
@@ -89,6 +91,9 @@ var scyWindowContentCreator = ScyWindowContentCreator{
             roolo: roolo;
         }
         DataProcessToolScyWindowContentFactory{
+            roolo: roolo;
+        }
+        CopexScyWindowContentFactory{
             roolo: roolo;
         }
         ColemoScyWindowContentFactory{
@@ -301,6 +306,16 @@ var newGroup = VBox {
                 dataToolWindow.allowResize = true;
                 dataToolWindow.openWindow(300,600);
                 scyWindowControl.addOtherScyWindow(dataToolWindow, true);
+            }
+        },
+        SwingButton{
+            text: "Experimental design Tool"
+            action: function() {
+                var copexWindow = CopexNode.createCopexWindow(roolo);
+                scyDesktop.addScyWindow(copexWindow);
+                copexWindow.allowResize = true;
+                copexWindow.openWindow(300,600);
+                scyWindowControl.addOtherScyWindow(copexWindow, true);
             }
         },
         SwingButton{

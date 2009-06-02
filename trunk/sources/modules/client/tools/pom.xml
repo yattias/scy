@@ -21,6 +21,7 @@
 	<modules>
 		<module>drawingtool</module>
 		<module>dataprocesstool</module>
+		<module>copex</module>
 		<module>colemo-model</module>
 		<module>scymapper</module>
 		<module>scydynamics</module>
