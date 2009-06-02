@@ -132,7 +132,7 @@ public class ScyDynamicsNode extends CustomNode {
             minimumHeight:100;
             cache:true;
         }
-		scyDynamicsWindow.openWindow(552,685);
+	scyDynamicsWindow.openWindow(810,540);
         scyDynamicsNode.scyWindow = scyDynamicsWindow;
     return scyDynamicsWindow;
     }
