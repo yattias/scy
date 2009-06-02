@@ -7,7 +7,7 @@ package eu.scy.tools.dataProcessTool.dnd;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.io.Serializable;
 
 /**
@@ -21,7 +21,7 @@ public class SubData extends DataTable implements Serializable{
     /* anciens numeros de colonnes*/
     private int[] noHeaders;
 
-    public SubData(MainDataToolPanel owner, Dataset ds, DataTable table, int[] noHeaders) {
+    public SubData(DataProcessToolPanel owner, Dataset ds, DataTable table, int[] noHeaders) {
         super(owner, ds);
         this.table = table;
         this.noHeaders = noHeaders ;

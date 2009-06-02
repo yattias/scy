@@ -12,7 +12,7 @@ import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.db.*;
 import eu.scy.tools.dataProcessTool.common.*;
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dnd.SubData;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
@@ -44,7 +44,7 @@ public class ControllerAppletDB implements ControllerInterface{
 
     // PROPERTY 
     /* interface */
-    private MainDataToolPanel viewInterface;
+    private DataProcessToolPanel viewInterface;
     private ScyApplet applet;
     /* bd */
     private DataBaseCommunication dbC;
@@ -64,7 +64,7 @@ public class ControllerAppletDB implements ControllerInterface{
     private long dbKeyUser;
 
     // CONSTRUCTOR 
-    public ControllerAppletDB(ScyApplet applet, MainDataToolPanel dataToolPanel, long dbKeyMission, long dbKeyUser ) {
+    public ControllerAppletDB(ScyApplet applet, DataProcessToolPanel dataToolPanel, long dbKeyMission, long dbKeyUser ) {
         this.applet = applet;
         this.viewInterface = dataToolPanel ;
         this.dbKeyMission = dbKeyMission ;

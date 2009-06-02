@@ -1,3 +1,4 @@
+package eu.scy.tools.fitex.GUI;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -9,37 +10,41 @@
  * Created on 27 nov. 2008, 20:41:06
  */
 
-package eu.scy.tools.dataProcessTool.dataTool;
+
 
 import eu.scy.tools.fitex.analyseFn.Function;
-import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Marjolaine
  */
-public class GraphPanel extends javax.swing.JPanel {
+public class FitexPanel extends javax.swing.JPanel {
 
      // definition d'une couleur vert foncé
     public static  final Color DARK_GREEN = new java.awt.Color(51, 153, 0) ;
     
     // PROPERTY
-    /* owner */
-    private MainDataToolPanel owner;
-    /* dataset */
-    private long dbKeydDs;
-     /* visulization */
-    private long dbKeyVis;
+    private Locale locale;
+    private ResourceBundle bundle;
     /* données */
-    private Data[][] datas;
+    private DefaultTableModel datas;
+    /* action fitexPanel */
+    private ActionFitex actionFitex;
 
     /* zone dessinée */
     private DrawPanel zoneDeTrace;
@@ -61,15 +66,27 @@ public class GraphPanel extends javax.swing.JPanel {
     // stockage des fonctions
     private HashMap<Color,Function> mapDesFonctions = new HashMap<Color,Function>();
     // stockage des spinners
-    private HashMap<String, BoxSpinner> mapDesSpinners = new HashMap<String, BoxSpinner>();;
+    private HashMap<String, BoxSpinner> mapDesSpinners = new HashMap<String, BoxSpinner>();
 
-    
-    /** Creates new form GraphPanel */
-    public GraphPanel(MainDataToolPanel owner, long dbKeyDs,long dbKeyVis, Data[][] datas, ArrayList<FunctionModel> listFunctionModel, double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y, boolean autoScale) {
+    public FitexPanel(){
         super();
-        this.dbKeydDs = dbKeyDs ;
-        this.dbKeyVis = dbKeyVis ;
-        this.owner  =owner;
+        this.locale = Locale.FRANCE ;
+        this.datas = new DefaultTableModel();
+        this.x_min = new Double(-10);
+        this.x_max = new Double(10);
+        this.delta_x = new Double(1);
+        this.y_min = new Double(-10);
+        this.y_max =new Double(10);
+        this.delta_y = new Double(1);
+        this.autoScale = false;
+        initGUI(null);
+    }
+
+
+    /** Creates new form FitexPanel */
+    public FitexPanel(Locale locale, DefaultTableModel datas, ArrayList<FunctionModel> listFunctionModel, double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y, boolean autoScale) {
+        super();
+        this.locale = locale;
         this.datas = datas ;
         this.x_min = x_min;
         this.x_max = x_max;
@@ -78,14 +95,34 @@ public class GraphPanel extends javax.swing.JPanel {
         this.y_max = y_max;
         this.delta_y = delta_y ;
         this.autoScale = autoScale;
+        initGUI(listFunctionModel);
+        deleteMenuButtons();
+    }
+
+    private void initGUI(ArrayList<FunctionModel> listFunctionModel){
+        // i18n
+        locale = Locale.getDefault();
+        try{
+            this.bundle = ResourceBundle.getBundle("FitexBundle", locale);
+        }catch(MissingResourceException e){
+          try{
+              // par defaut on prend l'anglais
+              locale = new Locale("en", "GB");
+              bundle = ResourceBundle.getBundle("FitexBundle", locale);
+          }catch (MissingResourceException e2){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            System.out.println("ERREUR lors du chargement de fitex, la langue spécifiée "+locale+" n'existe pas : "+e2);
+            return;
+            }
+        }
         initComponents();
-        bleu.setIcon(owner.getCopexImage("bleu_up.gif"));
-        bleu.setSelectedIcon(owner.getCopexImage("bleu_dn.gif"));
-        vert.setIcon(owner.getCopexImage("vert_up.gif"));
-        vert.setSelectedIcon(owner.getCopexImage("vert_dn.gif"));
-        noir.setIcon(owner.getCopexImage("noir_up.gif"));
-        noir.setSelectedIcon(owner.getCopexImage("noir_dn.gif"));
-        
+        bleu.setIcon(getFitexImage("bleu_up.gif"));
+        bleu.setSelectedIcon(getFitexImage("bleu_dn.gif"));
+        vert.setIcon(getFitexImage("vert_up.gif"));
+        vert.setSelectedIcon(getFitexImage("vert_dn.gif"));
+        noir.setIcon(getFitexImage("noir_up.gif"));
+        noir.setSelectedIcon(getFitexImage("noir_dn.gif"));
+
         // functionSelector.setVisible(false);
         // recuperation de tous les parametres pour les traitements ulterieurs
         recupererParametresZdT();
@@ -97,9 +134,65 @@ public class GraphPanel extends javax.swing.JPanel {
         this.deltaY.setText(delta_y+"");
         width = 400;
         height = 400;
-        zoneDeTrace = new DrawPanel(owner, this, datas, x_min, x_max, delta_x, y_min, y_max, width, height) ;
+        zoneDeTrace = new DrawPanel(this, datas, x_min, x_max, delta_x, y_min, y_max, width, height) ;
         jPanel20.add(zoneDeTrace, null,0);
         setInitialListFunction(listFunctionModel);
+    }
+
+
+   /**
+    * Instancie l'objet ActionFitex.
+    * @param action ActionFitex
+    */
+    public void addActionFitex(ActionFitex action){
+        this.actionFitex=action;
+    }
+
+
+    public  ImageIcon getFitexImage(String img){
+        return new ImageIcon(getClass().getResource( "/" +img));
+    }
+
+    /* affichage des erreurs*/
+    public boolean displayError(CopexReturn dr, String title) {
+        if (dr.mustConfirm ()){
+            int erreur = JOptionPane.showConfirmDialog(this ,dr.getText() , title,JOptionPane.OK_CANCEL_OPTION);
+            if (erreur == JOptionPane.OK_OPTION)
+                return true;
+        }else if (dr.isError()){
+            JOptionPane.showMessageDialog(this ,dr.getText() , title,JOptionPane.ERROR_MESSAGE);
+
+        }else if (dr.isWarning()){
+            JOptionPane.showMessageDialog(this ,dr.getText() , title,JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
+
+
+    /* retourne un message selon cle*/
+    public String getBundleString(String key){
+       String s = "";
+        try{
+            s = this.bundle.getString(key);
+        }catch(Exception e){
+            try{
+                String msg = this.bundle.getString("ERROR_KEY");
+                msg = MyUtilities.replace(msg, 0, key);
+                displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
+            }catch(Exception e2){
+                displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
+             }
+        }
+        return s;
+
+    }
+
+    /* suppression des boutons print et datas */
+    private void deleteMenuButtons(){
+        this.remove(buttonData);
+        this.remove(buttonPrint);
+        buttonData = null;
+        buttonPrint = null;
     }
 
     /* mise à jour de fonctions initiales  */
@@ -108,21 +201,12 @@ public class GraphPanel extends javax.swing.JPanel {
             return;
         int nb = listFunctionModel.size() ;
         // si il n'existe pas, création de l'objet fonction
-        if (this.datas.length == 0)
+        if (this.datas.getRowCount() == 0)
             return ;
-        Object[][] tabData = new Object[this.datas.length][3];
-        for (int i=0; i<this.datas.length; i++){
-            for (int j=0; j<2; j++){
-                tabData[i][j] = this.datas[i][j].getValue() ;
-            }
-            tabData[i][2] = this.datas[i][0].isIgnoredData() || this.datas[i][1].isIgnoredData() ;
-        }
-        // colName n'a pas d'importance ici
-        String[] colNames = new String[3];
-        DefaultTableModel tableModel = new DefaultTableModel(tabData, colNames);
+        
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            mapDesFonctions.put(fm.getColor(), new Function(owner.getLocale(), fm.getDescription(), tableModel));
+            mapDesFonctions.put(fm.getColor(), new Function(locale, fm.getDescription(), datas));
             // affichage des paramètres de la fonction
             affichageParametres(fm.getColor()) ;
         }
@@ -139,7 +223,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             x_min = Double.parseDouble(xmin.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             this.setXMin(""+x_min);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -149,7 +233,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             x_max = Double.parseDouble(xmax.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             this.setXMax(""+x_max);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -159,7 +243,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             delta_x = Double.parseDouble(deltaX.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             deltaX.setText(""+delta_x);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -169,7 +253,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             y_min = Double.parseDouble(ymin.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             this.setYMin(""+y_min);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -179,7 +263,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             y_max = Double.parseDouble(ymax.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             this.setYMax(""+y_max);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -189,7 +273,7 @@ public class GraphPanel extends javax.swing.JPanel {
         try{
             delta_y = Double.parseDouble(deltaY.getText()) ;
         }catch (NumberFormatException e) {
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
             deltaY.setText(""+delta_y);
             if (zoneDeTrace != null)
                 this.zoneDeTrace.setUpdateParam(false);
@@ -198,7 +282,7 @@ public class GraphPanel extends javax.swing.JPanel {
         }
 
         if (x_min>=x_max || y_min>=y_max) {
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_AXIS"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_PARAM_AXIS"), false), getBundleString("TITLE_DIALOG_ERROR"));
                 setXMax(""+oldXMax);
                 setYMax(""+oldYMax);
                 setXMin(""+oldXMin);
@@ -311,27 +395,17 @@ public class GraphPanel extends javax.swing.JPanel {
     /** méthode pour récupérer la fonction et l'insérer dans les hashMaps */
     public void recupererFn() {
         // si il n'existe pas, création de l'objet fonction
-        if (this.datas.length == 0)
+        if (this.datas.getRowCount() == 0)
             return ;
-        Object[][] tabData = new Object[this.datas.length][3];
-        for (int i=0; i<this.datas.length; i++){
-            for (int j=0; j<2; j++){
-                tabData[i][j] = this.datas[i][j].getValue() ;
-            }
-            tabData[i][2] = this.datas[i][0].isIgnoredData() || this.datas[i][1].isIgnoredData() ;
-        }
-        // colName n'a pas d'importance ici
-        String[] colNames = new String[3];
-        DefaultTableModel tableModel = new DefaultTableModel(tabData, colNames);
         if (mapDesFonctions.get(couleurSelect) == null)
-            mapDesFonctions.put(couleurSelect, new Function(owner.getLocale(), fonction.getText(), tableModel));
+            mapDesFonctions.put(couleurSelect, new Function(locale, fonction.getText(), datas));
         else
             mapDesFonctions.get(couleurSelect).maJFonction(fonction.getText()) ;
         // affichage des paramètres de la fonction
         affichageParametres(couleurSelect) ;
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         // enregistrement memoire
-        owner.setFunctionModel(fonction.getText(), couleurSelect);
+        actionFitex.setFunctionModel(fonction.getText(), couleurSelect);
     }
 
     /** MaJ de l'affichage des paramètres de la fonction */
@@ -393,6 +467,15 @@ public class GraphPanel extends javax.swing.JPanel {
         repaint() ;
     }
 
+     /** méthode appelée par la table des données afin de mettre à jour le K des fonctions
+     * lors de la modif d'une donnee */
+    public void calculTousK() {
+        for (Color coul:mapDesFonctions.keySet()) {
+            if (mapDesFonctions.get(coul)!=null) mapDesFonctions.get(coul).majRF();
+        }
+    }
+
+    
     /* maj des parametres */
     public void setParameters(double x_min, double x_max, double deltaX, double y_min, double y_max, double deltaY){
         setXMin(""+x_min);
@@ -405,7 +488,7 @@ public class GraphPanel extends javax.swing.JPanel {
     }
     /* maj autoscale*/
     private void setAutoScaling(){
-        owner.setAutoScale(this.dbKeydDs, this.dbKeyVis, this.cbAutoScaling.isSelected());
+        actionFitex.setAutoScale(this.cbAutoScaling.isSelected());
     }
 
     /* mise à jour echelle automatique */
@@ -463,6 +546,8 @@ public class GraphPanel extends javax.swing.JPanel {
         deltaY = new javax.swing.JTextField();
         cbAutoScaling = new javax.swing.JCheckBox();
         buttonRefresh = new javax.swing.JButton();
+        buttonPrint = new javax.swing.JButton();
+        buttonData = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         bleu = new javax.swing.JRadioButton();
         vert = new javax.swing.JRadioButton();
@@ -487,7 +572,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(54, 25));
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText(owner.getBundleString("LABEL_X")+" = ");
+        jLabel8.setText(getBundleString("LABEL_X")+" = ");
         jPanel2.add(jLabel8);
 
         jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -515,7 +600,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel2.add(jPanel15);
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel10.setText(owner.getBundleString("LABEL_Y")+" = ");
+        jLabel10.setText(getBundleString("LABEL_Y")+" = ");
         jPanel2.add(jLabel10);
 
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -542,7 +627,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel2.add(jPanel16);
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel11.setText(owner.getBundleString("LABEL_DISTANCE")+" : ");
+        jLabel11.setText(getBundleString("LABEL_DISTANCE")+" : ");
         jPanel2.add(jLabel11);
 
         jPanel19.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -640,7 +725,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel6.setRequestFocusEnabled(false);
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
 
-        tracer.setText(owner.getBundleString("BUTTON_DRAW"));
+        tracer.setText(getBundleString("BUTTON_DRAW"));
         tracer.setMargin(new java.awt.Insets(2, 10, 2, 10));
         tracer.setMaximumSize(new java.awt.Dimension(77, 23));
         tracer.addActionListener(new java.awt.event.ActionListener() {
@@ -652,7 +737,7 @@ public class GraphPanel extends javax.swing.JPanel {
 
         jPanel17.add(jPanel6);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(owner.getBundleString("LABEL_AXIS")));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(getBundleString("LABEL_AXIS")));
         jPanel7.setMinimumSize(new java.awt.Dimension(120, 226));
         jPanel7.setPreferredSize(new java.awt.Dimension(120, 168));
         jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.Y_AXIS));
@@ -661,7 +746,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel8.setMinimumSize(new java.awt.Dimension(28, 20));
         jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel2.setText(owner.getBundleString("LABEL_XMIN"));
+        jLabel2.setText(getBundleString("LABEL_XMIN"));
         jLabel2.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel2.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel2.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -689,7 +774,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 2, 4));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setText(owner.getBundleString("LABEL_XMAX"));
+        jLabel3.setText(getBundleString("LABEL_XMAX"));
         jLabel3.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel3.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel3.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -715,7 +800,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 6, 4));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel4.setText(owner.getBundleString("LABEL_DELTAX"));
+        jLabel4.setText(getBundleString("LABEL_DELTAX"));
         jLabel4.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel4.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel4.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -741,7 +826,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 2, 4));
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel5.setText(owner.getBundleString("LABEL_YMIN"));
+        jLabel5.setText(getBundleString("LABEL_YMIN"));
         jLabel5.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel5.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel5.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -767,7 +852,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 2, 4));
         jPanel12.setLayout(new javax.swing.BoxLayout(jPanel12, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel6.setText(owner.getBundleString("LABEL_YMAX"));
+        jLabel6.setText(getBundleString("LABEL_YMAX"));
         jLabel6.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel6.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel6.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -793,7 +878,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 4, 2, 4));
         jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel7.setText(owner.getBundleString("LABEL_DELTAY"));
+        jLabel7.setText(getBundleString("LABEL_DELTAY"));
         jLabel7.setMaximumSize(new java.awt.Dimension(32, 14));
         jLabel7.setMinimumSize(new java.awt.Dimension(32, 14));
         jLabel7.setPreferredSize(new java.awt.Dimension(32, 14));
@@ -817,7 +902,7 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel7.add(jPanel13);
 
         cbAutoScaling.setSelected(this.autoScale);
-        cbAutoScaling.setText(owner.getBundleString("LABEL_AUTOSCALING"));
+        cbAutoScaling.setText(getBundleString("LABEL_AUTOSCALING"));
         cbAutoScaling.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbAutoScalingActionPerformed(evt);
@@ -825,7 +910,7 @@ public class GraphPanel extends javax.swing.JPanel {
         });
         jPanel7.add(cbAutoScaling);
 
-        buttonRefresh.setText(owner.getBundleString("BUTTON_REFRESH"));
+        buttonRefresh.setText(getBundleString("BUTTON_REFRESH"));
         buttonRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonRefreshActionPerformed(evt);
@@ -834,6 +919,25 @@ public class GraphPanel extends javax.swing.JPanel {
         jPanel7.add(buttonRefresh);
 
         jPanel17.add(jPanel7);
+
+        buttonPrint.setText(getBundleString("BUTTON_PRINT"));
+        buttonPrint.setAutoscrolls(true);
+        buttonPrint.setMaximumSize(new java.awt.Dimension(122, 23));
+        buttonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPrintActionPerformed(evt);
+            }
+        });
+        jPanel17.add(buttonPrint);
+
+        buttonData.setText(getBundleString("BUTTON_DATA"));
+        buttonData.setMaximumSize(new java.awt.Dimension(122, 23));
+        buttonData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDataActionPerformed(evt);
+            }
+        });
+        jPanel17.add(buttonData);
 
         jPanel4.add(jPanel17);
 
@@ -886,7 +990,7 @@ public class GraphPanel extends javax.swing.JPanel {
 
         jPanel1.add(jPanel3);
 
-        jLabel1.setText(owner.getBundleString("LABEL_FUNCTION")+" = " );
+        jLabel1.setText(getBundleString("LABEL_FUNCTION")+" = " );
         jPanel1.add(jLabel1);
 
         fonction.setForeground(java.awt.Color.blue);
@@ -905,7 +1009,7 @@ public class GraphPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -994,7 +1098,7 @@ public class GraphPanel extends javax.swing.JPanel {
 
     private void buttonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRefreshActionPerformed
         this.recupererParametresZdT();
-        owner.setParamGraph(dbKeydDs, dbKeyVis, isAutomaticScale(), x_min, x_max, delta_x, y_min, y_max, delta_y);
+        actionFitex.setParam(isAutomaticScale(), x_min, x_max, delta_x, y_min, y_max, delta_y);
         this.zoneDeTrace.repaint();
     }//GEN-LAST:event_buttonRefreshActionPerformed
 
@@ -1002,9 +1106,19 @@ public class GraphPanel extends javax.swing.JPanel {
         setAutoScaling();
     }//GEN-LAST:event_cbAutoScalingActionPerformed
 
+    private void buttonDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDataActionPerformed
+        actionFitex.openDatas();
+}//GEN-LAST:event_buttonDataActionPerformed
+
+    private void buttonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPrintActionPerformed
+        PrintUtilities.printComponent(zoneDeTrace); // n'imprime pas le graphique
+}//GEN-LAST:event_buttonPrintActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton bleu;
+    private javax.swing.JButton buttonData;
+    private javax.swing.JButton buttonPrint;
     private javax.swing.JButton buttonRefresh;
     private javax.swing.JCheckBox cbAutoScaling;
     private javax.swing.JLabel coordX;

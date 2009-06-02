@@ -18,7 +18,7 @@ import java.awt.*;
  */
 public class MyMenu extends JMenu implements MouseListener {
     // ATTRIBUTS
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
     private Image bg;
     private ImageIcon img;
     private ImageIcon imgSurvol;
@@ -28,7 +28,7 @@ public class MyMenu extends JMenu implements MouseListener {
     private Color bgColor;
 
     // CONSTRUCTEURS
-    public MyMenu(MainDataToolPanel owner, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
+    public MyMenu(DataProcessToolPanel owner, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
         super("");
         this.owner = owner;
         this.bg = img.getImage();

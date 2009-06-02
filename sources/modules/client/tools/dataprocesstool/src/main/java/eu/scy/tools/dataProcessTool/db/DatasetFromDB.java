@@ -9,7 +9,7 @@ import eu.scy.tools.dataProcessTool.common.*;
 import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 
 /**
@@ -299,7 +299,7 @@ public class DatasetFromDB {
 
     /* creation d'un dataset vierge - en v[0] le nouveau dbKey */
     public static CopexReturn createDatasetInDB(DataBaseCommunication dbC, String name, int nbRow, int nbCol, long dbKeyUser, long dbKeyMission, ArrayList v){
-        name = ScyUtilities.replace("\'",name,"''") ;
+        name = MyUtilities.replace("\'",name,"''") ;
         String query = "INSERT INTO DATASET (ID_DATASET, DATASET_NAME, NB_COL, NB_ROW) VALUES (NULL, '"+name+"', "+nbCol+", "+nbRow+") ;";
         String queryID = "SELECT max(last_insert_id(`ID_DATASET`))   FROM DATASET ;";
         ArrayList v2 = new ArrayList();
@@ -363,7 +363,7 @@ public class DatasetFromDB {
 
     /* mise à jour du nom du dataset */
     public static CopexReturn updateDatasetNameInDB(DataBaseCommunication dbC, long dbKey, String newName){
-        newName = ScyUtilities.replace("\'",newName,"''") ;
+        newName = MyUtilities.replace("\'",newName,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         String query = "UPDATE DATASET SET DATASET_NAME = '"+newName+"' WHERE ID_DATASET = "+dbKey+" ;";
@@ -393,7 +393,7 @@ public class DatasetFromDB {
 
     /* creation d'un header - retourne en v[0] le nouveau dbKey */
     public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, int noCol, long dbKeyDs, ArrayList v){
-        value = ScyUtilities.replace("\'",value,"''") ;
+        value = MyUtilities.replace("\'",value,"''") ;
         String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, NO_COL) VALUES (NULL, '"+value+"', "+noCol+") ;";
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         ArrayList v2 = new ArrayList();
@@ -413,7 +413,7 @@ public class DatasetFromDB {
 
     /* mise à jour d'un header */
     public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value){
-        value = ScyUtilities.replace("\'",value,"''") ;
+        value = MyUtilities.replace("\'",value,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
         String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"' WHERE ID_HEADER = "+dbKey+" ;";

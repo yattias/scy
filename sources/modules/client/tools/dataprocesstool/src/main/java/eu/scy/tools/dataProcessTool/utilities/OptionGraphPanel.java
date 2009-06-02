@@ -13,7 +13,7 @@ package eu.scy.tools.dataProcessTool.utilities;
 
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 
 /**
  * panel permettant de choisir les options du graphe : par exemple les colonnes à représenter
@@ -23,7 +23,7 @@ public class OptionGraphPanel extends javax.swing.JPanel {
 
     // PROPERTY
     /* owner */
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
     /* list des colonnes */
     private DataHeader[] listCol;
     /* type de visualisation*/
@@ -32,7 +32,7 @@ public class OptionGraphPanel extends javax.swing.JPanel {
     private String name;
 
     // CONSTRUCTOR
-    public OptionGraphPanel(MainDataToolPanel owner, DataHeader[] listCol, TypeVisualization typeVis, String name) {
+    public OptionGraphPanel(DataProcessToolPanel owner, DataHeader[] listCol, TypeVisualization typeVis, String name) {
         super();
         this.owner = owner;
         this.listCol = listCol ;
@@ -51,7 +51,7 @@ public class OptionGraphPanel extends javax.swing.JPanel {
     // METHOD
     private void init(){
         this.labelCol.setText(owner.getBundleString("LABEL_SELECT_COLUMNS"));
-        this.labelCol.setSize(ScyUtilities.lenghtOfString(this.labelCol.getText(), getFontMetrics(this.labelCol.getFont())), this.labelCol.getHeight());
+        this.labelCol.setSize(MyUtilities.lenghtOfString(this.labelCol.getText(), getFontMetrics(this.labelCol.getFont())), this.labelCol.getHeight());
         for (int i=0; i<listCol.length; i++){
             if(listCol[i] != null){
                 cbColList.addItem(listCol[i].getValue());
@@ -61,7 +61,7 @@ public class OptionGraphPanel extends javax.swing.JPanel {
         if (typeVis.getNbColParam() < 2){
             this.remove(this.cbColList2);
             this.labelCol.setText(owner.getBundleString("LABEL_SELECT_COLUMN"));
-            this.labelCol.setSize(ScyUtilities.lenghtOfString(this.labelCol.getText(), getFontMetrics(this.labelCol.getFont())), this.labelCol.getHeight());
+            this.labelCol.setSize(MyUtilities.lenghtOfString(this.labelCol.getText(), getFontMetrics(this.labelCol.getFont())), this.labelCol.getHeight());
         }
         revalidate();
         repaint();

@@ -14,7 +14,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 /**
  * dialog which allows to rename a dataset
@@ -24,12 +24,12 @@ public class RenameTableDialog extends javax.swing.JDialog {
 
     // PROPERTY
     /* owner */
-    MainDataToolPanel owner ;
+    DataProcessToolPanel owner ;
     /* dataset à renommer */
     private Dataset dataset ;
 
     // CONSTRUCTEUR
-    public RenameTableDialog(MainDataToolPanel owner, Dataset dataset) {
+    public RenameTableDialog(DataProcessToolPanel owner, Dataset dataset) {
         super();
         this.owner = owner;
         this.dataset = dataset;
@@ -62,11 +62,11 @@ public class RenameTableDialog extends javax.swing.JDialog {
      */
    private void resizeElements(){
         // label data
-       this.labelName.setSize(ScyUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont())), this.labelName.getHeight());
+       this.labelName.setSize(MyUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont())), this.labelName.getHeight());
        // bouton Ok
-       this.buttonOk.setSize(60+ScyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
+       this.buttonOk.setSize(60+MyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
        // bouton Annuler
-       this.buttonCancel.setSize(60+ScyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
+       this.buttonCancel.setSize(60+MyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
    }
 
 
@@ -76,14 +76,14 @@ public class RenameTableDialog extends javax.swing.JDialog {
         String name = this.fieldName.getText();
         if (name.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
-            msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME_DATASET"));
-            msg = ScyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
+            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME_DATASET"));
+            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
         if (name.length() == 0){
             String msg = owner.getBundleString("MSG_ERROR_FIELD_NULL");
-            msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME_DATASET"));
+            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME_DATASET"));
             owner.displayError(new CopexReturn(msg ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }

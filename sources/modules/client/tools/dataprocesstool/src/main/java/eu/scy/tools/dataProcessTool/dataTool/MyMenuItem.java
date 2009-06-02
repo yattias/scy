@@ -19,7 +19,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
     // ATTRIBUTS
     private Image bg ;
     private Color bgColor;
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
     private ImageIcon img;
     private ImageIcon imgSurvol;
     private ImageIcon imgClic;
@@ -28,7 +28,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
     private boolean isEnabled;
 
     // CONSTRUCTEURS
-    public MyMenuItem(MainDataToolPanel owner, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
+    public MyMenuItem(DataProcessToolPanel owner, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
         //super(null, img);
         this.owner = owner;
         this.bgColor = bcolor;

@@ -13,7 +13,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Visualization;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 /**
  * Dialog which allows the choice between close the tab or delete the table
@@ -23,14 +23,14 @@ public class CloseTableDialog extends javax.swing.JDialog {
 
     // PROPERTY
     /* owner */
-    private MainDataToolPanel owner ;
+    private DataProcessToolPanel owner ;
     /*ds selectionne */
     private Dataset dataset ;
     /* graphe selectionne */
     private Visualization vis ;
 
     // CONSTRUCTOR
-    public CloseTableDialog(MainDataToolPanel owner, Dataset dataset) {
+    public CloseTableDialog(DataProcessToolPanel owner, Dataset dataset) {
         super();
         this.owner = owner;
         this.dataset = dataset;
@@ -43,7 +43,7 @@ public class CloseTableDialog extends javax.swing.JDialog {
     }
 
     // CONSTRUCTOR
-    public CloseTableDialog(MainDataToolPanel owner, Visualization vis) {
+    public CloseTableDialog(DataProcessToolPanel owner, Visualization vis) {
         super();
         this.owner = owner;
         this.dataset = null;
@@ -68,18 +68,18 @@ public class CloseTableDialog extends javax.swing.JDialog {
         if (dataset != null){
             // parametres dans le texte des rb
             String s = owner.getBundleString("LABEL_CLOSE_DATA_TABLE");
-            s = ScyUtilities.replace(s,0,dataset.getName());
+            s = MyUtilities.replace(s,0,dataset.getName());
             rbClose.setText(s);
             s = owner.getBundleString("LABEL_DELETE_DATA_TABLE");
-            s = ScyUtilities.replace(s,0, dataset.getName());
+            s = MyUtilities.replace(s,0, dataset.getName());
             rbDelete.setText(s);
         }else{
             // parametres dans le texte des rb
             String s = owner.getBundleString("LABEL_CLOSE_GRAPH");
-            s = ScyUtilities.replace(s,0,vis.getName());
+            s = MyUtilities.replace(s,0,vis.getName());
             rbClose.setText(s);
             s = owner.getBundleString("LABEL_DELETE_GRAPH");
-            s = ScyUtilities.replace(s,0, vis.getName());
+            s = MyUtilities.replace(s,0, vis.getName());
             rbDelete.setText(s);
         }
         resizeElements();
@@ -92,11 +92,11 @@ public class CloseTableDialog extends javax.swing.JDialog {
      */
    private void resizeElements(){
        // label question
-       this.labelQuestion.setSize(ScyUtilities.lenghtOfString(this.labelQuestion.getText(), getFontMetrics(this.labelQuestion.getFont())), this.labelQuestion.getHeight());
+       this.labelQuestion.setSize(MyUtilities.lenghtOfString(this.labelQuestion.getText(), getFontMetrics(this.labelQuestion.getFont())), this.labelQuestion.getHeight());
        // rb fermer
-       this.rbClose.setSize(ScyUtilities.lenghtOfString(this.rbClose.getText(), getFontMetrics(this.rbClose.getFont())), this.rbClose.getHeight());
+       this.rbClose.setSize(MyUtilities.lenghtOfString(this.rbClose.getText(), getFontMetrics(this.rbClose.getFont())), this.rbClose.getHeight());
        // rb suppr
-      this.rbDelete.setSize(ScyUtilities.lenghtOfString(this.rbDelete.getText(), getFontMetrics(this.rbDelete.getFont())), this.rbDelete.getHeight());
+      this.rbDelete.setSize(MyUtilities.lenghtOfString(this.rbDelete.getText(), getFontMetrics(this.rbDelete.getFont())), this.rbDelete.getHeight());
       this.rbDelete.setPreferredSize(rbDelete.getSize());
        int maxL = Math.max(rbClose.getWidth(), rbDelete.getWidth());
        if (maxL + this.rbClose.getX() > getWidth()){
@@ -104,9 +104,9 @@ public class CloseTableDialog extends javax.swing.JDialog {
            setSize(newWidth, getHeight());
        }
        // bouton Ok
-       this.buttonOk.setSize(ScyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
+       this.buttonOk.setSize(MyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
        // bouton Annuler
-       this.buttonCancel.setSize(ScyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
+       this.buttonCancel.setSize(MyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
    }
 
    /* validation boutton OK */

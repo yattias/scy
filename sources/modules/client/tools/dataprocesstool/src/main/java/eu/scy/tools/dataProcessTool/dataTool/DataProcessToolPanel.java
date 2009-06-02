@@ -39,7 +39,7 @@ import org.jdom.Element;
  * main panel for the data tool
  * @author Marjolaine
  */
-public class MainDataToolPanel extends javax.swing.JPanel {
+public class DataProcessToolPanel extends javax.swing.JPanel {
 
     //CONSTANTES
     public final static Color backgroundColor = SystemColor.control;
@@ -115,7 +115,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
 
     
     /** Creates new form MainDataToolPanel */
-    public MainDataToolPanel() {
+    public DataProcessToolPanel() {
         super();
         locale = new Locale("en", "GB");
         initComponents();
@@ -123,7 +123,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
     }
 
     /** Creates new form MainDataToolPanel */
-    public MainDataToolPanel(ScyApplet applet, long dbKeyMission, long dbKeyUser) {
+    public DataProcessToolPanel(ScyApplet applet, long dbKeyMission, long dbKeyUser) {
         super();
         locale = new Locale("en", "GB");
         initComponents();
@@ -211,7 +211,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             System.out.println("getBundleString "+e);
             try{
                 String msg = this.bundle.getString("ERROR_KEY");
-                msg = ScyUtilities.replace(msg, 0, key);
+                msg = MyUtilities.replace(msg, 0, key);
                 displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
             }catch(Exception e2){
                 displayError(new CopexReturn("No message found !"+key, false) ,"ERROR");
@@ -709,7 +709,7 @@ public class MainDataToolPanel extends javax.swing.JPanel {
             return false;
 
         OptionGraphPanel optionGraphPanel = new OptionGraphPanel(this, ds.getListDataHeader(), type, name);
-        CopexGraph cgraph = new CopexGraph(new Graph(-1, name, type, null, true, null, null), optionGraphPanel);
+        CopexGraph cgraph = new CopexGraph(this, ds.getDbKey(), new Graph(-1, name, type, null, true, null, null), optionGraphPanel);
         getDataVisTabbedPane().addTab(name, cgraph);
         splitPane.setDividerLocation(this.getWidth()*1/3);
         return true;

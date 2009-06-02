@@ -23,13 +23,13 @@ import roolo.elo.JDomStringConversion;
 public class TestDataToolFrame extends javax.swing.JFrame {
 
     // panel
-    private MainDataToolPanel dataToolPanel ;
+    private DataProcessToolPanel dataToolPanel ;
     /** Creates new form TestDataToolFrame */
     public TestDataToolFrame() {
         initComponents();
         jPanel1.setBackground(Color.BLUE);
-        setSize(MainDataToolPanel.PANEL_WIDTH, MainDataToolPanel.PANEL_HEIGHT);
-        dataToolPanel = new MainDataToolPanel();
+        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
+        dataToolPanel = new DataProcessToolPanel();
         jPanel1.add(dataToolPanel, BorderLayout.CENTER);
         repaint();
     }

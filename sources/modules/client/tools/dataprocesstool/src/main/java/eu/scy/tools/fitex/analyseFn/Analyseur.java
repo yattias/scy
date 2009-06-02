@@ -34,15 +34,14 @@ public class Analyseur
     {
         // i18n
         try{
-            //this.bundle = ResourceBundle.getBundle("analyseFn.Bundle", locale);
-            this.bundle = ResourceBundle.getBundle("Bundle", locale);
+            this.bundle = ResourceBundle.getBundle("FitexBundle", locale);
         }catch(MissingResourceException e){
           try{
               // par defaut on prend l'anglais
               locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("analyseFn.Bundle");
+              bundle = ResourceBundle.getBundle("FitexBundle");
           }catch (MissingResourceException e2){
-            System.out.println("ERROR , la langue sp�cifi�e "+locale+" n'existe pas : "+e2);
+            System.out.println("ERROR , la langue spécifiée "+locale+" n'existe pas : "+e2);
             }
         }
 

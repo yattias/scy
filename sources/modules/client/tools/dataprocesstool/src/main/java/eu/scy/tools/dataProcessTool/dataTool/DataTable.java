@@ -33,7 +33,7 @@ public class DataTable extends JTable implements MouseListener{
     private static final int MIN_WIDTH_COL = 60;
     // PROPERTY 
     /* owner */
-    protected MainDataToolPanel owner;
+    protected DataProcessToolPanel owner;
     /* modele de données */
     protected DataTableModel tableModel ;
     /* dataset correspondant */
@@ -54,7 +54,7 @@ public class DataTable extends JTable implements MouseListener{
     
     
     // CONSTRUCTOR
-    public DataTable(MainDataToolPanel owner, Dataset ds) {
+    public DataTable(DataProcessToolPanel owner, Dataset ds) {
         super();
         this.owner = owner;
         this.tableModel = new DataTableModel(owner, this, ds);

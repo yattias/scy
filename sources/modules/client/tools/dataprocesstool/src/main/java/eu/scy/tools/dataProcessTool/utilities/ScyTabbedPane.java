@@ -5,7 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -20,13 +20,13 @@ import javax.swing.UIManager;
 public class ScyTabbedPane extends JTabbedPane {
     //PROPERTY 
     /* owner */
-    protected MainDataToolPanel owner;
+    protected DataProcessToolPanel owner;
     /* liste des CloseTAb */
     protected ArrayList<CloseTab> listCloseTab;
     /* close TAb du +*/
     protected CloseTab closeTabAdd;
 
-    public ScyTabbedPane(MainDataToolPanel owner) {
+    public ScyTabbedPane(DataProcessToolPanel owner) {
         super();
         this.owner = owner;
     }
@@ -56,11 +56,11 @@ public class ScyTabbedPane extends JTabbedPane {
        UIManager.put("TabbedPane.selectedColor",Color.WHITE);
        UIManager.put("TabbedPane.selected",Color.WHITE);
        UIManager.put("TabbedPane.focus",Color.WHITE);
-       UIManager.put("TabbedPane.borderHightlightColor",MainDataToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.tabAreaBackground",MainDataToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.light",MainDataToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabBackground",MainDataToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabHighlight",MainDataToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.borderHightlightColor",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.tabAreaBackground",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.light",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.unselectedTabBackground",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.unselectedTabHighlight",DataProcessToolPanel.backgroundColor);
        updateUI();
        this.listCloseTab = new ArrayList();
        // initialisation du tabbedPane : onglet vierge afin d'ajouter un proc

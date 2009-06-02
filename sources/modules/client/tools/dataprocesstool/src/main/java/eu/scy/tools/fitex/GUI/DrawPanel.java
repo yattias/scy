@@ -1,3 +1,4 @@
+package eu.scy.tools.fitex.GUI;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -6,14 +7,12 @@
 /*
  * DrawPanel.java
  *
- * Created on 1 déc. 2008, 09:42:06
+ * Created on 13 janv. 2009, 13:25:34
  */
 
-package eu.scy.tools.dataProcessTool.dataTool;
+
 
 import eu.scy.tools.fitex.analyseFn.Function;
-import eu.scy.tools.dataProcessTool.common.Data;
-import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -21,20 +20,20 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import eu.scy.tools.fitex.dataStruct.Expression;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * panel dessin courbe
  * @author Marjolaine
  */
 public class DrawPanel extends javax.swing.JPanel {
-
+    /* couleur points graphique */
+    public static final Color SCATTER_PLOT_COLOR = Color.RED ;
     // PROPERTY
-    /* owner */
-    private MainDataToolPanel owner;
     /* graph panel */
-    private GraphPanel graphPanel;
+    private FitexPanel fitexPanel;
     /* données */
-    private Data[][] datas;
+    private DefaultTableModel datas;
 
     // param�tres de la zone de trac�
     private Double x_min  = -10.0 ;
@@ -63,12 +62,11 @@ public class DrawPanel extends javax.swing.JPanel {
     private HashMap<String, BoxSpinner> mapDesSpinners = new HashMap<String, BoxSpinner>();
 
     private boolean updateParam = true;
-    
 
-    public DrawPanel(MainDataToolPanel owner, GraphPanel graphPanel, Data[][] datas, Double x_min, Double x_max, Double delta_x, Double y_min, Double y_max, int width, int height) {
+
+    public DrawPanel(FitexPanel fitexPanel, DefaultTableModel datas, Double x_min, Double x_max, Double delta_x, Double y_min, Double y_max, int width, int height) {
         super();
-        this.owner = owner;
-        this.graphPanel = graphPanel;
+        this.fitexPanel = fitexPanel;
         this.datas = datas;
         this.x_min = x_min;
         this.x_max = x_max;
@@ -89,7 +87,7 @@ public class DrawPanel extends javax.swing.JPanel {
 
     /* mise à jour des parametres */
     public void updateParam(){
-        graphPanel.recupererParametresZdT();
+        fitexPanel.recupererParametresZdT();
     }
     /* */
     public void setParam(double x_min, double x_max, double delta_x, double y_min, double y_max, double delta_y){
@@ -105,7 +103,7 @@ public class DrawPanel extends javax.swing.JPanel {
         this.updateParam = updateParam;
     }
 
-   
+
 
     @Override
     public void paint(Graphics g){
@@ -121,7 +119,7 @@ public class DrawPanel extends javax.swing.JPanel {
             g.drawRect(Math.min(x_zoom1,x_zoom2) , Math.min(y_zoom1,y_zoom2) , Math.abs(x_zoom1-x_zoom2) , Math.abs(y_zoom1-y_zoom2)) ;
             tracerZone(g);
         }
-        
+
     }
 
     /* trace zoom */
@@ -130,7 +128,7 @@ public class DrawPanel extends javax.swing.JPanel {
         g.drawRect(Math.min(x_zoom1,x_zoom2) , Math.min(y_zoom1,y_zoom2) , Math.abs(x_zoom1-x_zoom2) , Math.abs(y_zoom1-y_zoom2)) ;
     }
 
-    public void setData(Data[][] datas) {
+    public void setData(DefaultTableModel datas) {
         this.datas = datas;
     }
 
@@ -143,7 +141,7 @@ public class DrawPanel extends javax.swing.JPanel {
         this.height = height;
         repaint();
     }
-    
+
     /** m�thode pour retracer int�gralement la zone de trac�
      * penser � appeler la methode effacer() avant cette methode si besoin
      */
@@ -169,30 +167,24 @@ public class DrawPanel extends javax.swing.JPanel {
         // parcours et trac� de tous les points d�finis dans le tableau de donn�es
         // la tableModel du tableau qui contient les donnees :
         //DefaultTableModel tableModel = data.getTableModel();
-        int nbR = datas.length;
+        int nbR = datas.getRowCount();
         for (int i=0; i<nbR; i++) {
             // r�cup�ration des valeurs de la ligne
-            //x=(Double)tableModel.getValueAt(i,0);
-            if (datas[i] != null && datas[i][0] != null &&  datas[i][1] != null){
-                x=datas[i][0].getValue() ;
-                //y=(Double)tableModel.getValueAt(i,1);
-                y = datas[i][1].getValue() ;
-                //ignore=(Boolean)tableModel.getValueAt(i,2);
-                ignore = datas[i][0].isIgnoredData() || datas[i][1].isIgnoredData() ;
-                if (ignore==null) ignore=false;
+            x=(Double)datas.getValueAt(i,0);
+            y=(Double)datas.getValueAt(i,1);
+            ignore=(Boolean)datas.getValueAt(i,2);
 
-                if((x!=null) && (y!=null)) {
-                    // trac� du point
-                    if (ignore) tracerPoint(g, DataConstants.SCATTER_PLOT_COLOR, "cross", x, y) ; // point non pris en compte
-                    else tracerPoint(g, DataConstants.SCATTER_PLOT_COLOR, "circle", x, y) ; // point pris en compte
-                }
+            if((x!=null) && (y!=null)) {
+                // trac� du point
+                if (ignore) tracerPoint(g, SCATTER_PLOT_COLOR, "cross", x, y) ; // point non pris en compte
+                    else tracerPoint(g, SCATTER_PLOT_COLOR, "circle", x, y) ; // point pris en compte
             }
         }
 
         // MaJ des param�tres de distance
-        graphPanel.affichageK(Color.BLUE) ;
-        graphPanel.affichageK(GraphPanel.DARK_GREEN) ;
-        graphPanel.affichageK(Color.BLACK) ;
+        fitexPanel.affichageK(Color.BLUE) ;
+        fitexPanel.affichageK(FitexPanel.DARK_GREEN) ;
+        fitexPanel.affichageK(Color.BLACK) ;
     }
 
  public void effacerZone(Graphics g){
@@ -286,7 +278,7 @@ public class DrawPanel extends javax.swing.JPanel {
             y1 = y2 ;
         }
     }
-    
+
 
 /*************************   M�thodes de traitements mathematiques **************************/
 
@@ -313,6 +305,8 @@ public class DrawPanel extends javax.swing.JPanel {
         x =  (Math.round(x*Math.pow(10,power)) )/ (Math.pow(10,power)) ;
         return x ;
     }
+
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -322,47 +316,72 @@ public class DrawPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                formMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                formMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                formMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                formMouseReleased(evt);
-            }
-        });
-        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        zoneDeTrace = new javax.swing.JPanel();
+
+        zoneDeTrace.setBackground(new java.awt.Color(255, 255, 255));
+        zoneDeTrace.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        zoneDeTrace.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
-                formMouseDragged(evt);
+                zoneDeTraceMouseDragged(evt);
             }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                formMouseMoved(evt);
+                zoneDeTraceMouseMoved(evt);
             }
         });
+        zoneDeTrace.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                zoneDeTraceMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                zoneDeTraceMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                zoneDeTraceMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                zoneDeTraceMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                zoneDeTraceMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout zoneDeTraceLayout = new javax.swing.GroupLayout(zoneDeTrace);
+        zoneDeTrace.setLayout(zoneDeTraceLayout);
+        zoneDeTraceLayout.setHorizontalGroup(
+            zoneDeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+        zoneDeTraceLayout.setVerticalGroup(
+            zoneDeTraceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 380, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 447, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(zoneDeTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 382, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(zoneDeTrace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+    private void zoneDeTraceMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseDragged
         // met � jour l'affichage des coordonn�es
-        formMouseMoved(evt);
+        zoneDeTraceMouseMoved(evt);
         // efface le pr�c�dent rectangle
         isZoom = false;
         repaint();
@@ -379,10 +398,10 @@ public class DrawPanel extends javax.swing.JPanel {
         // affiche le rectangle correspondant � la zone de zoom
         isZoom = true;
         repaint();
-    }//GEN-LAST:event_formMouseDragged
+}//GEN-LAST:event_zoneDeTraceMouseDragged
 
-    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-       /* if (getMousePosition() == null)
+    private void zoneDeTraceMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseMoved
+        /* if (getMousePosition() == null)
             return;
         Double x = chiffresSignificatifs(xEcranToX(getMousePosition().x) , 3);
         Double y = chiffresSignificatifs(yEcranToY(getMousePosition().y) , 3);
@@ -394,44 +413,41 @@ public class DrawPanel extends javax.swing.JPanel {
         DecimalFormat format = new DecimalFormat("###.###");
 
         if ((x>-0.1 && x<0.1) || x>=10000 || x<=-10000)
-            graphPanel.setCoordX(formatE.format(x));
+            fitexPanel.setCoordX(formatE.format(x));
         else
-            graphPanel.setCoordX(format.format(x));
+            fitexPanel.setCoordX(format.format(x));
         if ((y>-0.1 && y<0.1) || y>=10000 || y<=-10000)
-            graphPanel.setCoordY(formatE.format(y));
+            fitexPanel.setCoordY(formatE.format(y));
         else
-            graphPanel.setCoordY(format.format(y));
-    }//GEN-LAST:event_formMouseMoved
+            fitexPanel.setCoordY(format.format(y));
+}//GEN-LAST:event_zoneDeTraceMouseMoved
 
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+    private void zoneDeTraceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseClicked
         if (evt.getClickCount()==2){
             float facteurZoom = 0.5f ;
-            graphPanel.setXMin(Double.toString(chiffresSignificatifs(x_min-facteurZoom*(x_max-x_min) , 3)));
-            graphPanel.setXMax(Double.toString(chiffresSignificatifs(x_max+facteurZoom*(x_max-x_min) , 3)));
-            graphPanel.setYMin(Double.toString(chiffresSignificatifs(y_min-facteurZoom*(y_max-y_min) , 3)));
-            graphPanel.setYMax(Double.toString(chiffresSignificatifs(y_max+facteurZoom*(y_max-y_min) , 3)));
+            fitexPanel.setXMin(Double.toString(chiffresSignificatifs(x_min-facteurZoom*(x_max-x_min) , 3)));
+            fitexPanel.setXMax(Double.toString(chiffresSignificatifs(x_max+facteurZoom*(x_max-x_min) , 3)));
+            fitexPanel.setYMin(Double.toString(chiffresSignificatifs(y_min-facteurZoom*(y_max-y_min) , 3)));
+            fitexPanel.setYMax(Double.toString(chiffresSignificatifs(y_max+facteurZoom*(y_max-y_min) , 3)));
             this.updateParam() ;
             repaint();
         }
-    }//GEN-LAST:event_formMouseClicked
+}//GEN-LAST:event_zoneDeTraceMouseClicked
 
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        
+    private void zoneDeTraceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseEntered
         setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-    }//GEN-LAST:event_formMouseEntered
+}//GEN-LAST:event_zoneDeTraceMouseEntered
 
-    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-     
-        graphPanel.setCoordX("...");
-        graphPanel.setCoordY("...");
+    private void zoneDeTraceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseExited
+        fitexPanel.setCoordX("...");
+        fitexPanel.setCoordY("...");
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_formMouseExited
+}//GEN-LAST:event_zoneDeTraceMouseExited
 
-    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        
+    private void zoneDeTraceMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMousePressed
         // affiche en rouge les coordon�es
-        graphPanel.setForegroundX(Color.RED) ;
-        graphPanel.setForegroundY(Color.RED) ;
+        fitexPanel.setForegroundX(Color.RED) ;
+        fitexPanel.setForegroundY(Color.RED) ;
         // r�cup�re x1 et y1
         /*if (getMousePosition() == null)
             return;
@@ -439,13 +455,12 @@ public class DrawPanel extends javax.swing.JPanel {
         y_zoom1 = getMousePosition().y ;*/
         x_zoom1 = evt.getX();
         y_zoom1 = evt.getY() ;
-    }//GEN-LAST:event_formMousePressed
+}//GEN-LAST:event_zoneDeTraceMousePressed
 
-    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-       
+    private void zoneDeTraceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseReleased
         // r�affiche en noir les coordon�es
-        graphPanel.setForegroundX(Color.BLACK) ;
-        graphPanel.setForegroundY(Color.BLACK) ;
+        fitexPanel.setForegroundX(Color.BLACK) ;
+        fitexPanel.setForegroundY(Color.BLACK) ;
         // r�cup�re x2 et y2
         //if (getMousePosition() == null)
         //    return;
@@ -463,17 +478,18 @@ public class DrawPanel extends javax.swing.JPanel {
         // effectue le zoom si  x2!=x1 et y2!=y1
         if (x_zoom1 != x_zoom2 && y_zoom1 != y_zoom2) {
             // met � jour les coordonn�es dans les box
-            graphPanel.setXMin(Double.toString(chiffresSignificatifs(xEcranToX(Math.min(x_zoom1,x_zoom2)) , 3)));
-            graphPanel.setXMax(Double.toString(chiffresSignificatifs(xEcranToX(Math.max(x_zoom1,x_zoom2)) , 3)));
-            graphPanel.setYMin(Double.toString(chiffresSignificatifs(yEcranToY(Math.max(y_zoom1,y_zoom2)) , 3)));
-            graphPanel.setYMax(Double.toString(chiffresSignificatifs(yEcranToY(Math.min(y_zoom1,y_zoom2)) , 3)));
+            fitexPanel.setXMin(Double.toString(chiffresSignificatifs(xEcranToX(Math.min(x_zoom1,x_zoom2)) , 3)));
+            fitexPanel.setXMax(Double.toString(chiffresSignificatifs(xEcranToX(Math.max(x_zoom1,x_zoom2)) , 3)));
+            fitexPanel.setYMin(Double.toString(chiffresSignificatifs(yEcranToY(Math.max(y_zoom1,y_zoom2)) , 3)));
+            fitexPanel.setYMax(Double.toString(chiffresSignificatifs(yEcranToY(Math.min(y_zoom1,y_zoom2)) , 3)));
             this.updateParam() ;
             repaint();
         }
-    }//GEN-LAST:event_formMouseReleased
+}//GEN-LAST:event_zoneDeTraceMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel zoneDeTrace;
     // End of variables declaration//GEN-END:variables
 
 }

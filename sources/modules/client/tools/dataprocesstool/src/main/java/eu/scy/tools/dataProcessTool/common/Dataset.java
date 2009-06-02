@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.fitex.GUI.DrawPanel;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -344,7 +345,7 @@ public class Dataset implements Cloneable{
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> listFunction = getListFunctionModel(g.getListFunctionModel());
                 vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), myVis.isOnCol,g.getTabNo()[0], g.getTabNo()[1],
                         pg.getX_name(), pg.getY_name(), pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
-                        DataConstants.SCATTER_PLOT_COLOR.getRed(), DataConstants.SCATTER_PLOT_COLOR.getGreen(), DataConstants.SCATTER_PLOT_COLOR.getBlue(),
+                        DrawPanel.SCATTER_PLOT_COLOR.getRed(), DrawPanel.SCATTER_PLOT_COLOR.getGreen(), DrawPanel.SCATTER_PLOT_COLOR.getBlue(),
                         listFunction);
             }else if (type.getCode() == DataConstants.VIS_PIE){
                 vis = new eu.scy.tools.dataProcessTool.pdsELO.PieVisualization(DataConstants.TYPE_VIS_PIE, myVis.getName(), myVis.isOnCol, myVis.getTabNo()[0]);

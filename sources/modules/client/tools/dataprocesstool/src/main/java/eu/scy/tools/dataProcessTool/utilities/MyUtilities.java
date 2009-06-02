@@ -6,12 +6,20 @@
 package eu.scy.tools.dataProcessTool.utilities;
 
 import java.awt.FontMetrics;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 /**
- * utilitaires pour projets SCY
+ * utilitaires
  * @author Marjolaine Bodin
  */
-public class ScyUtilities {
+public class MyUtilities {
     // METHODES
     /* retourne la longueur pixel d'un texte */
     static public int lenghtOfString(String s, FontMetrics fm) {
@@ -66,4 +74,29 @@ public class ScyUtilities {
             newText=inText;
 	return newText;
     }
+
+    public static Element stringToXml(String string){
+		StringReader stringReader = new StringReader(string);
+		try{
+			SAXBuilder builder = new SAXBuilder(false);
+            Document doc = builder.build(stringReader);
+			return doc.getRootElement();
+		}
+		catch (Exception e){
+			System.out.println("problems converting string status to jdom "+ e);
+			return null;
+		}
+	}
+
+    public static String xmlToString(Element element){
+		StringWriter stringWriter = new StringWriter();
+		try{
+			XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+            xmlOutputter.output(element, stringWriter);
+		}
+		catch (IOException e){
+			System.out.println("problems converting jdom status to string"+ e);
+		}
+		return stringWriter.toString();
+	}
 }

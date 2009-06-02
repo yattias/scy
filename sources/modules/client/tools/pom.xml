@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>drawingtool</module>
-		<module>fitex</module>
 		<module>dataprocesstool</module>
 		<module>colemo-model</module>
 		<module>scymapper</module>

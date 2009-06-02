@@ -40,7 +40,8 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>eu.scy.tools.dataProcessTool.dataTool.TestDataToolFrame</mainClass>
+                           <mainClass>eu.scy.tools.dataProcessTool.dataTool.TestDataToolFrame</mainClass>
+                           <!--<mainClass>eu.scy.tools.fitex.MainInterface</mainClass> -->
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                     </archive>
@@ -55,7 +56,20 @@
                 </includes>
             </resource>
             <resource>
+                <directory>src/main/java/eu/scy/tools/fitex/GUI</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>src/main/java/eu/scy/tools/dataProcessTool/images</directory>
+                <includes>
+                    <include>*.png</include>
+                    <include>*.gif</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java/eu/scy/tools/fitex/images</directory>
                 <includes>
                     <include>*.png</include>
                     <include>*.gif</include>
@@ -77,7 +91,7 @@
             <version>1.0.2</version>
         </dependency>
         <dependency>
-            <groupId>jdom</groupId>
+            <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.1</version>
         </dependency>
@@ -92,22 +106,10 @@
             <version>1.0.9</version>
         </dependency>
         <dependency>
-            <groupId>${pom.groupId}</groupId>
-            <artifactId>fitex</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
         	<groupId>eu.scy.common</groupId>
         	<artifactId>scy-commons</artifactId>
         	<version>${pom.version}</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>elo-impl</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-         -->
+        
     </dependencies>
 </project>

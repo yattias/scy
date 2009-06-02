@@ -34,6 +34,5 @@ public class DataConstants {
     public static final int MAX_LENGHT_VISUALIZATION_NAME = 32;
     public static final int MAX_LENGHT_GRAPH_NAME = 32;
 
-    /* couleur points graphique */
-    public static final Color SCATTER_PLOT_COLOR = Color.RED ;
+    
 }

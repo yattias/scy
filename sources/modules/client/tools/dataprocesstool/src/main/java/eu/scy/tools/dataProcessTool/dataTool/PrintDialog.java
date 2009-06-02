@@ -20,9 +20,9 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 public class PrintDialog extends javax.swing.JDialog {
     // PROPERTY
     /*owner */
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
 
-    public PrintDialog(MainDataToolPanel owner) {
+    public PrintDialog(DataProcessToolPanel owner) {
         super();
         this.owner = owner;
         initComponents();

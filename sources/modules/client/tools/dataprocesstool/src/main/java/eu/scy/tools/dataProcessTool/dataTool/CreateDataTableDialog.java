@@ -7,7 +7,7 @@
 package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 
 /**
@@ -19,10 +19,10 @@ public class CreateDataTableDialog extends javax.swing.JDialog {
 
     // PROPERTY 
     /* owner */
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
 
     // CONSTRUCTOR
-    public CreateDataTableDialog(MainDataToolPanel owner) {
+    public CreateDataTableDialog(DataProcessToolPanel owner) {
         this.owner = owner;
         initComponents();
         setLocationRelativeTo(owner);
@@ -43,14 +43,14 @@ public class CreateDataTableDialog extends javax.swing.JDialog {
         String name = fieldName.getText();
         if (name == null || name.length() == 0){
             String msg = owner.getBundleString("MSG_ERROR_FIELD_NULL") ;
-            msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
+            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
          if (name.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
-             msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
-             msg = ScyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
+             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
+             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR")); 
             return;
          }

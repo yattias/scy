@@ -15,9 +15,8 @@ import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.elobrowser.main.user.User;
 import eu.scy.client.tools.scysimulator.DatasetSandbox;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel ;
 import javax.swing.JPanel;
-import eu.scy.tools.dataProcessTool.dataTool.*;
-
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import org.jdom.Element;
@@ -36,7 +35,7 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     public static final String TYPE_DATASET_ROW = "datasetrow";
 
     /* data process visualization tool */
-    private MainDataToolPanel dataProcessVisualizationTool;
+    private DataProcessToolPanel dataProcessVisualizationTool;
 
     /* id dataset creation */
     private long idDataset = -1;
@@ -54,9 +53,9 @@ public class DataToolPanel extends JPanel implements ICollaborationServiceListen
     public DataToolPanel() {
         super();
         this.setLayout(new BorderLayout());
-        this.dataProcessVisualizationTool = new MainDataToolPanel();
+        this.dataProcessVisualizationTool = new eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel();
         this.add(this.dataProcessVisualizationTool, BorderLayout.CENTER);
-        setSize(MainDataToolPanel.PANEL_WIDTH, MainDataToolPanel.PANEL_HEIGHT);
+        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
         setPreferredSize(getSize());
         try{
             initCollaborationService();

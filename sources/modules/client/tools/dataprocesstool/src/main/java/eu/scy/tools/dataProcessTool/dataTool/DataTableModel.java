@@ -9,7 +9,7 @@ import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.dnd.SubData;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -22,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
 public class DataTableModel extends AbstractTableModel {
     // PROPERTY
     /* owner */
-    private MainDataToolPanel owner ;
+    private DataProcessToolPanel owner ;
     /* table */
     private DataTable table;
     /* données correspondantes */
@@ -50,7 +50,7 @@ public class DataTableModel extends AbstractTableModel {
     private Integer[]tabNoRow;
 
     // CONSTRUCTOR
-    public DataTableModel(MainDataToolPanel owner, DataTable table, Dataset dataset) {
+    public DataTableModel(DataProcessToolPanel owner, DataTable table, Dataset dataset) {
         super();
         this.owner = owner;
         this.table = table;
@@ -154,8 +154,8 @@ public class DataTableModel extends AbstractTableModel {
             return;
         if ((rowIndex == 0 || columnIndex == 0) && ((String)aValue).length() > DataConstants.MAX_LENGHT_DATASET_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
-            msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
-            msg = ScyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
+            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
+            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }

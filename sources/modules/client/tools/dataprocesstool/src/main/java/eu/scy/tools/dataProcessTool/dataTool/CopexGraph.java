@@ -14,16 +14,22 @@ import javax.swing.JPanel;
  * graphe => JPanel
  * @author Marjolaine
  */
-public class CopexGraph extends JPanel {
+public class CopexGraph extends JPanel{
     // PROPERTY
+    /*data tool panel */
+    protected DataProcessToolPanel owner;
+    /* id dataset */
+    protected long dbKeyDs;
     /* visualisation */
-    private Visualization vis ;
+    protected Visualization vis ;
     /* composant graphique*/
-    private  Component graphComponent ;
+    protected  Component graphComponent ;
 
     // CONSTRUCTOR
-    public CopexGraph(Visualization vis, Component graphComponent) {
+    public CopexGraph(DataProcessToolPanel owner, long dbKeyDs, Visualization vis, Component graphComponent) {
         super();
+        this.owner = owner;
+        this.dbKeyDs = dbKeyDs;
         this.vis = vis;
         this.graphComponent = graphComponent ;
         init();
@@ -44,6 +50,14 @@ public class CopexGraph extends JPanel {
 
     public void setGraphComponent(Component graphComponent) {
         this.graphComponent = graphComponent;
+    }
+
+    public long getDbKeyDs() {
+        return dbKeyDs;
+    }
+
+    public void setDbKeyDs(long dbKeyDs) {
+        this.dbKeyDs = dbKeyDs;
     }
 
     // METHOD
