@@ -1,6 +1,6 @@
 <jnlp
     spec="$jnlpspec"
-    codebase="$project.Url"
+    codebase="http://scy.collide.info:8080/scy-useradmin-web/webstart"
     href="$outputFile">
   <information>
     <title>SCY-Lab</title>
