@@ -8,7 +8,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 
 /**
@@ -19,14 +19,14 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
 
     // PROPERTY 
     /* owner */
-    private MainDataToolPanel owner ;
+    private DataProcessToolPanel owner ;
     
     /* liste des choix possibles */
     private TypeVisualization[] tabTypes;
 
     
     // CONSTRUCTOR
-    public CreateDataVisualDialog(MainDataToolPanel owner, TypeVisualization[] tabTypes) {
+    public CreateDataVisualDialog(DataProcessToolPanel owner, TypeVisualization[] tabTypes) {
         super();
         this.owner = owner;
         this.tabTypes = tabTypes;
@@ -52,7 +52,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
        int n = this.tabTypes.length;
        for (int i=0; i<n; i++){
            cbType.addItem(this.tabTypes[i].getName());
-           int tl = ScyUtilities.lenghtOfString(this.tabTypes[i].getName(), getFontMetrics(cbType.getFont()));
+           int tl = MyUtilities.lenghtOfString(this.tabTypes[i].getName(), getFontMetrics(cbType.getFont()));
            l = Math.max(l, tl);
        }
        if (n > 0)
@@ -66,14 +66,14 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         String name = fieldName.getText() ;
         if (name == null || name.length() == 0){
             String msg = owner.getBundleString("MSG_ERROR_FIELD_NULL") ;
-            msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
+            msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
          if (name.length() > DataConstants.MAX_LENGHT_GRAPH_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
-             msg  = ScyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
-             msg = ScyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_GRAPH_NAME);
+             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
+             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_GRAPH_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
          }

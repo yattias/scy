@@ -5,7 +5,6 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
-import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
@@ -18,10 +17,12 @@ import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.ScyTabbedPane;
+import eu.scy.tools.fitex.GUI.FitexPanel;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -45,7 +46,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
     
     
     // CONSTRUCTOR 
-    public VisualTabbedPane(MainDataToolPanel a) {
+    public VisualTabbedPane(DataProcessToolPanel a) {
         super();
         this.owner = a;
         listGraph = new ArrayList();
@@ -233,9 +234,9 @@ public class VisualTabbedPane extends ScyTabbedPane{
             vis = v ;
             if (id != -1){
                 this.listGraph.get(id).setGraph(v);
-                if(this.listGraph.get(id).getGraphComponent() instanceof GraphPanel && vis instanceof Graph){
+                if(this.listGraph.get(id).getGraphComponent() instanceof FitexPanel && vis instanceof Graph){
                     ParamGraph pg = ((Graph)vis).getParamGraph() ;
-                    ((GraphPanel)(this.listGraph.get(id).getGraphComponent())).setParameters(pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY());;
+                    ((FitexPanel)(this.listGraph.get(id).getGraphComponent())).setParameters(pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY());;
                 }
             }
         }
@@ -244,6 +245,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
     /* affichage d'une visualisation */
     public void display(Dataset ds, Visualization vis, boolean create){
         TypeVisualization type = vis.getType() ;
+        long dbKeyDs = ds.getDbKey() ;
         DataHeader header1 = ds.getDataHeader(vis.getTabNo()[0]);
         DataHeader header2 = null;
         CopexGraph cGraph = null;
@@ -261,7 +263,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
             JFreeChart pieChart = ChartFactory.createPieChart(header1.getValue(),
             pieDataset, true, true, true);
             ChartPanel cPanel = new ChartPanel(pieChart, false);
-            cGraph = new CopexGraph(vis, cPanel) ;
+            cGraph = new CopexGraph(owner, dbKeyDs, vis, cPanel) ;
            
         }else if (type.getCode() == DataConstants.VIS_BAR){
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -274,21 +276,24 @@ public class VisualTabbedPane extends ScyTabbedPane{
             JFreeChart barChart = ChartFactory.createBarChart(header1.getValue(), "",
                 "", dataset, PlotOrientation.VERTICAL, true, true, false);
             ChartPanel cPanel = new ChartPanel(barChart);
-            cGraph = new CopexGraph(vis, cPanel) ;
+            cGraph = new CopexGraph(owner,dbKeyDs, vis, cPanel) ;
         }else if (type.getCode() == DataConstants.VIS_GRAPH){
             int id1 = header1.getNoCol() ;
             int id2 = header2.getNoCol();
-            Data[][] datas = new Data[ds.getNbRows()][2];
+            Object[][] datas = new Object[ds.getNbRows()][3];
             for (int i=0; i<ds.getNbRows(); i++){
-                datas[i][0] = ds.getData(i, id1);
-                datas[i][1] = ds.getData(i, id2);
+                datas[i][0] = ds.getData(i, id1).getValue();
+                datas[i][1] = ds.getData(i, id2).getValue();
+                datas[i][2] = ds.getData(i, id1).isIgnoredData() && ds.getData(i, id2).isIgnoredData() ;
             }
+            String[] columnNames = new String[3];
+            DefaultTableModel datamodel = new DefaultTableModel(datas, columnNames);
             ArrayList<FunctionModel> listFunctionModel = ((Graph)vis).getListFunctionModel() ;
             ParamGraph pg = ((Graph)vis).getParamGraph() ;
-            GraphPanel gPanel = new GraphPanel(owner, ds.getDbKey(), vis.getDbKey(), datas, listFunctionModel,
+            FitexPanel gPanel = new FitexPanel(owner.getLocale(), datamodel, listFunctionModel,
                     pg.getX_min(), pg.getX_max(), pg.getDeltaX(),
                     pg.getY_min(), pg.getY_max(), pg.getDeltaY(), pg.isAutoscale()) ;
-            cGraph = new CopexGraph(vis, gPanel) ;
+            cGraph = new FitexGraph(owner, dbKeyDs, vis, gPanel) ;
         }
           if (cGraph == null)
               return;
@@ -299,8 +304,8 @@ public class VisualTabbedPane extends ScyTabbedPane{
     }
 
     public boolean isAutoScale(){
-        if(this.activGraph != null && activGraph.getGraphComponent() instanceof GraphPanel){
-            return ((GraphPanel)activGraph.getGraphComponent()).isAutomaticScale() ;
+        if(this.activGraph != null && activGraph.getGraphComponent() instanceof FitexPanel){
+            return ((FitexPanel)activGraph.getGraphComponent()).isAutomaticScale() ;
         }
         return false;
     }

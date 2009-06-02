@@ -5,7 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,7 +20,7 @@ public class CloseTab extends JPanel implements MouseListener {
     // ATTRIBUTS
     
     
-    private MainDataToolPanel owner;
+    private DataProcessToolPanel owner;
     private ScyTabbedPane tabbedPane;
     private JLabel labelTitle;
     private String title;
@@ -33,7 +33,7 @@ public class CloseTab extends JPanel implements MouseListener {
     
     
     // CONSTRUCTEURS
-    public CloseTab(MainDataToolPanel owner,  ScyTabbedPane tabbedPane, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled){
+    public CloseTab(DataProcessToolPanel owner,  ScyTabbedPane tabbedPane, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled){
         this.owner = owner;
         this.tabbedPane = tabbedPane;
         this.title = title;
@@ -54,7 +54,7 @@ public class CloseTab extends JPanel implements MouseListener {
         setLayout(null);
          //setAlignmentY(CENTER_ALIGNMENT);
         labelTitle = new JLabel(title);
-        int l = ScyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
+        int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
         labelTitle.setBounds(0, 0, l+5, 19);
         add(labelTitle);
         //add(Box.createHorizontalStrut(5));
@@ -83,7 +83,7 @@ public class CloseTab extends JPanel implements MouseListener {
             color = Color.WHITE;
         }else{
             //color = new Color(238, 238, 238);
-            color = MainDataToolPanel.backgroundColor;
+            color = DataProcessToolPanel.backgroundColor;
         }
         setBackground(color);
         labelIcon.setBackground(color);
@@ -94,7 +94,7 @@ public class CloseTab extends JPanel implements MouseListener {
     public void updateProcName(String name){
         labelTitle.setText(name);
         this.title = name;
-        int l = ScyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
+        int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
         this.labelTitle.setSize(l+5, this.labelTitle.getHeight());
         labelIcon.setBounds(labelTitle.getX()+labelTitle.getWidth()+5, 2, 20, labelTitle.getHeight());
         Dimension d = new Dimension(labelTitle.getWidth()+25, 15);
@@ -149,7 +149,7 @@ public class CloseTab extends JPanel implements MouseListener {
     public void updateTitle(String name){
         labelTitle.setText(name);
         this.title = name;
-        int l = ScyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
+        int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
         this.labelTitle.setSize(l+5, this.labelTitle.getHeight());
         labelIcon.setBounds(labelTitle.getX()+labelTitle.getWidth()+5, 2, 20, labelTitle.getHeight());
         Dimension d = new Dimension(labelTitle.getWidth()+25, 15);

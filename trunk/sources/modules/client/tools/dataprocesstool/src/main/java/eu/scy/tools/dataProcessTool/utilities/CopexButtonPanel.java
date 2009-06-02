@@ -5,7 +5,7 @@
  */
 
 package eu.scy.tools.dataProcessTool.utilities;
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
@@ -17,7 +17,7 @@ import javax.swing.*;
 public class CopexButtonPanel extends JPanel {
 
     // ATTRIBUTS
-    private MainDataToolPanel  owner;
+    private DataProcessToolPanel  owner;
     private int l;
     /*
      * image de fond
@@ -41,7 +41,7 @@ public class CopexButtonPanel extends JPanel {
     private Image bgDisabled;
     private boolean modeEnabled = true;
 
-    public CopexButtonPanel(MainDataToolPanel owner, int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
+    public CopexButtonPanel(DataProcessToolPanel owner, int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
         super();
         this.owner = owner;
         this.bgSimple = bgSimple;

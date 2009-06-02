@@ -14,7 +14,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.TypeOperationParam;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 public class ParamOperationDialog extends javax.swing.JDialog {
 
     /* owner */
-    private MainDataToolPanel owner ;
+    private DataProcessToolPanel owner ;
 
     /* operation */
     private TypeOperationParam operation;
@@ -46,7 +46,7 @@ public class ParamOperationDialog extends javax.swing.JDialog {
     ArrayList<Integer> listNo ;
 
     // CONSTRUCTOR
-    public ParamOperationDialog(MainDataToolPanel owner, TypeOperationParam operation, Dataset ds,  boolean isOnCol, ArrayList<Integer> listNo) {
+    public ParamOperationDialog(DataProcessToolPanel owner, TypeOperationParam operation, Dataset ds,  boolean isOnCol, ArrayList<Integer> listNo) {
         super();
         this.owner = owner;
         this.operation = operation;
@@ -110,7 +110,7 @@ public class ParamOperationDialog extends javax.swing.JDialog {
     private void createLabel(String text){
         JLabel label = new JLabel(text);
         label.setFont(new java.awt.Font("Tahoma", 1, 11) );
-        label.setSize(ScyUtilities.lenghtOfString(text, getFontMetrics(label.getFont())), 20);
+        label.setSize(MyUtilities.lenghtOfString(text, getFontMetrics(label.getFont())), 20);
         maxWitdhLabel = Math.max(maxWitdhLabel, label.getWidth());
         panelParam.add(label);
     }

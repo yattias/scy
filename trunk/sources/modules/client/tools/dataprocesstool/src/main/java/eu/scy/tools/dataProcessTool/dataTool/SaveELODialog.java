@@ -18,7 +18,7 @@ package eu.scy.tools.dataProcessTool.dataTool;
 public class SaveELODialog extends javax.swing.JDialog {
     // PROPERTY
     /* owner */
-    protected MainDataToolPanel owner;
+    protected DataProcessToolPanel owner;
 
     /** Creates new form SaveELODialog */
     public SaveELODialog(java.awt.Frame parent, boolean modal) {

@@ -13,7 +13,7 @@ import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 
 import eu.scy.tools.dataProcessTool.common.*;
-import eu.scy.tools.dataProcessTool.dataTool.MainDataToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dnd.SubData;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
@@ -40,7 +40,7 @@ public class ControllerApplet implements ControllerInterface{
 
     // PROPERTY 
     /* interface */
-    private MainDataToolPanel viewInterface;
+    private DataProcessToolPanel viewInterface;
     /* liste des types d'operations possibles */
     private TypeOperation[] tabTypeOperations;
     /* liste des visualisations possibles */
@@ -61,7 +61,7 @@ public class ControllerApplet implements ControllerInterface{
     //private ToolBrokerImpl<IMetadataKey> toolBroker;
 
     // CONSTRUCTOR
-    public ControllerApplet(MainDataToolPanel viewInterface) {
+    public ControllerApplet(DataProcessToolPanel viewInterface) {
         this.viewInterface = viewInterface;
     }
 
@@ -829,7 +829,7 @@ public class ControllerApplet implements ControllerInterface{
         else
             myDs.insertRow(nb, idBefore);
 
-        if(MainDataToolPanel.DEBUG_MODE)
+        if(DataProcessToolPanel.DEBUG_MODE)
             System.out.println(myDs.toString());
         v.add(myDs.clone());
         return new CopexReturn();

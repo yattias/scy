@@ -11,7 +11,7 @@ import eu.scy.tools.dataProcessTool.common.ParamOperation;
 import eu.scy.tools.dataProcessTool.common.TypeOperation;
 import eu.scy.tools.dataProcessTool.common.TypeOperationParam;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -151,7 +151,7 @@ public class OperationFromDB {
     /*creation d'une nouvelle operation - retourne en v[0] le nouvel id*/
     public static CopexReturn createOperationInDB(DataBaseCommunication dbC, long dbKeyDs, DataOperation operation, ArrayList v){
         String name = operation.getName() ;
-        name  = ScyUtilities.replace("\'",name,"''") ;
+        name  = MyUtilities.replace("\'",name,"''") ;
         int isOnCol = 0;
         if (operation.isOnCol())
             isOnCol = 1;
@@ -222,7 +222,7 @@ public class OperationFromDB {
 
     /* mise à jour titre operation */
     public static CopexReturn updateOperationTitleInDB(DataBaseCommunication dbC, long dbKeyOp, String title){
-        title = ScyUtilities.replace("\'",title,"''") ;
+        title = MyUtilities.replace("\'",title,"''") ;
         String query = "UPDATE DATA_OPERATION SET OP_NAME = '"+title+"' WHERE ID_DATA_OPERATION = "+dbKeyOp+" ;";
         String[] querys = new String[1];
         querys[0] = query;

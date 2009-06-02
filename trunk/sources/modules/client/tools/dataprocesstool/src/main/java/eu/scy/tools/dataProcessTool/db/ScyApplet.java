@@ -6,7 +6,7 @@
 package eu.scy.tools.dataProcessTool.db;
 
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -107,7 +107,7 @@ public class ScyApplet extends JApplet{
         }catch(Exception e){
             try{
                 String msg = this.bundle.getString("ERROR_KEY");
-                msg = ScyUtilities.replace(msg, 0, key);
+                msg = MyUtilities.replace(msg, 0, key);
                 displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR")); 
             }catch(Exception e2){
                 displayError(new CopexReturn("Aucun message trouvé !", false) ,"ERROR");

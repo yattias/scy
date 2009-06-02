@@ -4,12 +4,11 @@
  * Created on 3 juin 2007, 18:01
  */
 
-package eu.scy.tools.dataProcessTool.dataTool;
+package eu.scy.tools.fitex.GUI;
 
+import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,12 +16,12 @@ import javax.swing.JOptionPane;
  */
 public class BoxSpinner extends javax.swing.JPanel {
     
-    GraphPanel owner ;
+    FitexPanel owner ;
     private Double value ;
     private double step = 0.1 ;
     
     /** Creates new form BoxSpinner */
-    public BoxSpinner(GraphPanel owner) {
+    public BoxSpinner(FitexPanel owner) {
         this.owner = owner ;
         initComponents();
     }
@@ -127,16 +126,16 @@ public class BoxSpinner extends javax.swing.JPanel {
             owner.maJParametreDansFonction(label.getText(), value);
             majStep(champValeur.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Le nombre entr� n'est pas reconnu.");
-            JOptionPane.showMessageDialog(this, "Le param�tre que vous indiquez n'est pas reconnu comme �tant un nombre.");
+            System.out.println("Le nombre entré n'est pas reconnu.");
+            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
         } 
     }//GEN-LAST:event_champValeurActionPerformed
     
     public void majParametre (){
-        NumberFormat nfE = NumberFormat.getNumberInstance(Locale.ENGLISH);
+        NumberFormat nfE = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat formatE = (DecimalFormat)nfE;
         formatE.applyPattern("0.######E0");
-        NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
+        NumberFormat nf = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat format = (DecimalFormat)nf;
         format.applyPattern("###.#####");
         if (value>-1E-16 && value<1E-16) champValeur.setText("0");

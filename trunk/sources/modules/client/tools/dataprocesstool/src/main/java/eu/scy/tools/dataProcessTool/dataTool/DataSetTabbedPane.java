@@ -34,7 +34,7 @@ public class DataSetTabbedPane extends ScyTabbedPane{
     
     
     // CONSTRUCTOR 
-    public DataSetTabbedPane(MainDataToolPanel a) {
+    public DataSetTabbedPane(DataProcessToolPanel a) {
         super();
         this.owner = a;
         listDataTable = new ArrayList();

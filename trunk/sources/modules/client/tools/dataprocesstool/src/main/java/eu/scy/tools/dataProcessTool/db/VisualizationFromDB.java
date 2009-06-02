@@ -8,7 +8,7 @@ package eu.scy.tools.dataProcessTool.db;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
-import eu.scy.tools.dataProcessTool.utilities.ScyUtilities;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -78,7 +78,7 @@ public class VisualizationFromDB {
 
      /* mise à jour titre visualization */
     public static CopexReturn updateVisualizationTitleInDB(DataBaseCommunication dbC, long dbKeyVis, String title){
-        title = ScyUtilities.replace("\'",title,"''") ;
+        title = MyUtilities.replace("\'",title,"''") ;
         String query = "UPDATE DATA_VISUALIZATION SET VIS_NAME = '"+title+"' WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
         String[] querys = new String[1];
         querys[0] = query;
@@ -90,7 +90,7 @@ public class VisualizationFromDB {
     /*creation d'une nouvelle visualisation - retourne en v[0] le nouvel id*/
     public static CopexReturn createVisualizationInDB(DataBaseCommunication dbC, long dbKeyDs, Visualization visualization, ArrayList v){
         String name = visualization.getName() ;
-        name  = ScyUtilities.replace("\'",name,"''") ;
+        name  = MyUtilities.replace("\'",name,"''") ;
        String query = "INSERT INTO DATA_VISUALIZATION (ID_DATA_VISUALIZATION, VIS_NAME) VALUES (NULL, '"+name+"') ;";
         String queryID = "SELECT max(last_insert_id(`ID_DATA_VISUALIZATION`))   FROM DATA_VISUALIZATION ;";
         ArrayList v2 = new ArrayList();
@@ -148,7 +148,7 @@ public class VisualizationFromDB {
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
     public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, Color fColor, ArrayList v){
-        String desc  = ScyUtilities.replace("\'",description,"''") ;
+        String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, COLOR_R, COLOR_G, COLOR_B) VALUES (NULL, '"+desc+"',"+fColor.getRed()+" , "+fColor.getGreen()+","+fColor.getBlue()+" ) ;";
         String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_MODEL`))   FROM FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
@@ -181,7 +181,7 @@ public class VisualizationFromDB {
 
      /* mise à jour d'une fonction modele */
     public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description){
-        String desc  = ScyUtilities.replace("\'",description,"''") ;
+        String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
         String[] querys = new String[1];
         querys[0] = query ;
