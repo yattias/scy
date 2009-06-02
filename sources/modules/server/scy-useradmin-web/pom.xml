@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <project>
- 
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>eu.scy.server</groupId>
-		<version>9.5.1-SNAPSHOT</version>
-	</parent> 	
- 
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.server</groupId>
+        <version>9.5.1-SNAPSHOT</version>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>scy-useradmin-web</artifactId>
     <packaging>war</packaging>
@@ -36,11 +36,23 @@
                 <directory>src/main/webapp</directory>
                 <filtering>true</filtering>
             </resource>
+            <!--resource>
+                <directory>target/jnlp</directory>
+                <includes>
+                    <include>**/*.jar</include>
+                    <include>**/*.jnlp</include>
+                </includes>
+                <targetPath>target/scy-useradmin-web</targetPath>
+                <filtering>false</filtering>
+            </resource-->
         </resources>
 
         <finalName>scy-useradmin-web</finalName>
 
         <plugins>
+
+
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -68,17 +80,14 @@
                 <configuration>
                     <archiveClasses>true</archiveClasses>
                     <filters>
-                    <!-- this file reference is relative to the directory where maven is started
-                        <filter>${filter.file}</filter>
-                     -->
                     </filters>
                     <webResources>
                         <resource>
-              		    	<directory>src/main/webapp/META-INF</directory>
-                        	<targetPath>META-INF</targetPath>
-              		    	<filtering>true</filtering>
-            	        </resource>
-          	    </webResources>
+                            <directory>src/main/webapp/META-INF</directory>
+                            <targetPath>META-INF</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -88,6 +97,125 @@
                     <finalName>scy-model-api</finalName>
                     <attach>true</attach>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Compiling JavaFX test sources</echo>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask"
+                                         classpathref="maven.compile.classpath" name="javafxc"/>
+                                <mkdir dir="target/classes"/>
+                                <javafxc destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                                    <src path="src/main/java"/>
+                                    <classpath refid="maven.compile.classpath"/>
+                                </javafxc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>jnlp</goal>
+                        </goals>
+                    </execution>
+
+                    <!--execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                    </execution-->
+                </executions>
+
+                <configuration>
+
+                    <!--
+                    Set to true to exclude all transitive dependencies. Default is false.
+                    -->
+                    <excludeTransitive>true</excludeTransitive>
+
+                    <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+                    <!--<libPath>lib</libPath>-->
+
+                    <!-- JNLP generation -->
+                    <jnlp>
+                        <!-- default values -->
+                        <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+                        <inputTemplate>src/main/scy-useradmin-web/template.vm</inputTemplate>
+                        <!-- relative to inputTemplateResourcePath -->
+                        <outputFile>scylab.jnlp</outputFile>
+                        <!-- defaults to launch.jnlp -->
+                        <!-- used to automatically identify the jar containing the main class. -->
+                        <!-- this is perhaps going to change -->
+                        <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
+                    </jnlp>
+
+                    <sign>
+                        <keypass>scylab</keypass>
+                        <storepass>scylab</storepass>
+                        <alias>scykeystore</alias>
+                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+                        <verify>true</verify>
+                        <keystoreConfig>
+                            <delete>false</delete>
+                            <gen>false</gen>
+                        </keystoreConfig>
+
+                    </sign>
+                    <unsign>true</unsign>
+
+                    <!-- BUILDING PROCESS -->
+
+                    <pack200>false</pack200>
+                    <gzip>false</gzip>
+                    <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+                    <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+                    <outputJarVersions>false</outputJarVersions>
+
+                    <!--install>false</install--> <!-- not yet supported -->
+                    <verbose>false</verbose>
+
+
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/webapp/webstart</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>target/jnlp</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
 
@@ -153,6 +281,12 @@
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>scy-sessionmanager-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>elo-browser</artifactId>
             <version>${pom.version}</version>
         </dependency>
 
@@ -305,58 +439,100 @@
         </dependency>
 
         <dependency>
-        	<groupId>org.roolo</groupId>
-        	<artifactId>roolo-api</artifactId>
-        	<version>0.4.0-SNAPSHOT</version>
-        	<scope>compile</scope>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>org.roolo</groupId>
-        	<artifactId>roolo-mock</artifactId>
-        	<version>0.4.0-SNAPSHOT</version>
-        	<scope>compile</scope>
+            <groupId>org.roolo</groupId>
+            <artifactId>roolo-mock</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>org.roolo</groupId>
-        	<artifactId>elo-api</artifactId>
-        	<version>0.4.0-SNAPSHOT</version>
-        	<scope>compile</scope>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-api</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>org.roolo</groupId>
-        	<artifactId>elo-impl</artifactId>
-        	<version>0.4.0-SNAPSHOT</version>
-        	<scope>compile</scope>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>eu.scy.common</groupId>
-        	<artifactId>agent-api</artifactId>
-        	<version>${pom.version}</version>
-        	<scope>compile</scope>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>agent-api</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
-            
+
         </dependency>
         <dependency>
-        	<groupId>eu.scy.agents</groupId>
-        	<artifactId>agents-base</artifactId>
-        	<version>${pom.version}</version>
-        	<scope>compile</scope>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-base</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-        	<groupId>eu.scy.agents</groupId>
-        	<artifactId>agents-impl</artifactId>
-        	<version>${pom.version}</version>
-        	<scope>compile</scope>
+            <groupId>eu.scy.agents</groupId>
+            <artifactId>agents-impl</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jfxtras</groupId>
+            <artifactId>jfxtras</artifactId>
+            <version>0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxrt</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxc</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>toolchain</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafxgui</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>Scenario</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.openjfx</groupId>
+            <artifactId>websvc</artifactId>
+            <version>1.1</version>
         </dependency>
 
 
     </dependencies>
-    <reporting>
+    <!--reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.tapestry</groupId>
@@ -367,7 +543,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </reporting>
+    </reporting-->
 
     <properties>
         <tapestry-release-version>5.1.0.5</tapestry-release-version>
