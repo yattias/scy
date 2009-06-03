@@ -14,17 +14,31 @@
     <packaging>jar</packaging>
     <name>Copex</name>
 
-<build>
+	<dependencies>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+       <dependency>
+            <groupId>jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.client.tools</groupId>
+             <artifactId>drawingtool</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
+            
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.2</version>
@@ -62,34 +76,5 @@
             </resource>
         </resources>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>2.1.4</version>
-        </dependency>
-       <dependency>
-            <groupId>jexcelapi</groupId>
-            <artifactId>jxl</artifactId>
-            <version>2.4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-             <artifactId>drawingtool</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-
-    </dependencies>
+    
 </project>

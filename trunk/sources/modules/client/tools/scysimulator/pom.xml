@@ -5,12 +5,12 @@
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.tools</groupId>
 		<version>9.5.1-SNAPSHOT</version>
-	</parent> 	
+	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>scysimulator</artifactId>
-   <packaging>jar</packaging>
-	<name>scysimulator</name>
+	<packaging>jar</packaging>
+	<name>SCYSimulator simulation tool</name>
 
 	<developers>
 		<developer>
@@ -26,23 +26,9 @@
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-	
+
 	<dependencies>
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-api</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.roolo</groupId>
-			<artifactId>elo-impl</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-commons</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+		<!-- SCY -->
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>drawingtool</artifactId>
@@ -59,24 +45,41 @@
 			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<!-- ROOLO -->
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-api</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-impl</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
+		<!-- OTHERS -->
+		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>simquestviewer</artifactId>
 			<version>1.0.9</version>
 		</dependency>
 		<dependency>
-       		<groupId>jama</groupId>
+			<groupId>jama</groupId>
 			<artifactId>jama</artifactId>
 			<version>1.0.2</version>
 		</dependency>
 		<dependency>
-       		<groupId>ptolemy</groupId>
+			<groupId>ptolemy</groupId>
 			<artifactId>plot</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-        </dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
 	</dependencies>
+
 </project>
