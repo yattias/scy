@@ -125,21 +125,16 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             ConceptLink link = getLinkByClassId(umlLink.getId());
             log.info("LINKNAME: " + umlLink.getName());
             link.setModel(umlLink);
-
         } else {
             log.info("**** CREATING NEW LINK");
-            try {
-                ConceptLink link = new ConceptLink(umlLink);
-                links.add(link);
-                ConceptNode fromNode = getNodeByClassId(umlLink.getFrom());
-                ConceptNode toNode = getNodeByClassId(umlLink.getTo());
-                fromNode.addOutboundLink(link);
-                toNode.addInboundLink(link);
-                add(link);
-                repaint(link.getBounds());
-            } catch (Exception e) {
-                System.out.println("Evil bug... ®");
-            }
+			ConceptLink link = new ConceptLink(umlLink);
+			links.add(link);
+			ConceptNode fromNode = getNodeByClassId(umlLink.getFrom());
+			ConceptNode toNode = getNodeByClassId(umlLink.getTo());
+			fromNode.addOutboundLink(link);
+			toNode.addInboundLink(link);
+			add(link);
+			repaint(link.getBounds());
         }
 
     }
@@ -150,7 +145,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             node.setBounds(cls.getX(), cls.getY(), 120, 70);
         }
         for (ConceptLink link : links) {
-            link.update();
+            link.updatePosition();
         }
         repaint();
     }
@@ -164,7 +159,6 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
             nodes.remove(node);
             this.repaint();
         }
-
     }
 
     public void deleteLink(UmlLink umlLink) {
@@ -188,7 +182,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 node.setToolTipText(umlClass.getName() + " created by " + umlClass.getAuthor());
             }
         }
-        this.repaint();
+        repaint();
     }
 
     public UmlDiagram getUmlDiagram() {
@@ -373,7 +367,6 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 String toId = diagram.getTarget().getModel().getId();
 
                 UmlLink link = new UmlLink(fromId, toId, "Bjørge :-)");
-                link.setName("Unnamed");
 
                 link.setId("" + System.currentTimeMillis());
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);

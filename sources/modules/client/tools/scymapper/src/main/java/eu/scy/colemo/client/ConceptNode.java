@@ -87,10 +87,10 @@ public class ConceptNode extends JComponent implements FocusListener, MouseListe
 		super.setBounds(x, y, width, height);
 
 		for (ConceptLink link : outboundLinks) {
-			link.update();
+			link.updatePosition();
 		}
 		for (ConceptLink link : inboundLinks) {
-			link.update();
+			link.updatePosition();
 		}
 		setConnectionAreas();
 	}
