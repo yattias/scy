@@ -52,7 +52,6 @@
         <plugins>
 
 
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -134,35 +133,13 @@
                             <goal>jnlp</goal>
                         </goals>
                     </execution>
-
-                    <!--execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                    </execution-->
                 </executions>
 
                 <configuration>
-
-                    <!--
-                    Set to true to exclude all transitive dependencies. Default is false.
-                    -->
                     <excludeTransitive>false</excludeTransitive>
-
-                    <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <!--<libPath>lib</libPath>-->
-
-                    <!-- JNLP generation -->
                     <jnlp>
-                        <!-- default values -->
-                        <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
                         <inputTemplate>src/main/scy-useradmin-web/template.vm</inputTemplate>
-                        <!-- relative to inputTemplateResourcePath -->
                         <outputFile>scylab.jnlp</outputFile>
-                        <!-- defaults to launch.jnlp -->
-                        <!-- used to automatically identify the jar containing the main class. -->
-                        <!-- this is perhaps going to change -->
                         <mainClass>eu.scy.elobrowser.main.EloBrowser</mainClass>
                     </jnlp>
 
@@ -176,23 +153,12 @@
                             <delete>false</delete>
                             <gen>false</gen>
                         </keystoreConfig>
-
                     </sign>
                     <unsign>true</unsign>
-
-                    <!-- BUILDING PROCESS -->
-
                     <pack200>false</pack200>
                     <gzip>false</gzip>
-                    <!-- default force when pack200 false, true when pack200 selected ?? -->
-
-                    <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
                     <outputJarVersions>false</outputJarVersions>
-
-                    <!--install>false</install--> <!-- not yet supported -->
                     <verbose>false</verbose>
-
-
                 </configuration>
             </plugin>
 
@@ -532,18 +498,6 @@
 
 
     </dependencies>
-    <!--reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.tapestry</groupId>
-                <artifactId>tapestry-component-report</artifactId>
-                <version>${tapestry-release-version}</version>
-                <configuration>
-                    <rootPackage>eu.scy</rootPackage>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting-->
 
     <properties>
         <tapestry-release-version>5.1.0.5</tapestry-release-version>
@@ -551,4 +505,5 @@
         <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>
     </properties>
+
 </project>
