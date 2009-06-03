@@ -19,14 +19,15 @@
                      </t:pagelink>
                     |
 
-                    <a t:type="pagelink" t:page="colemo/ColemoContentPane">COLEMO DEMO</a>
+                    <!--a t:type="pagelink" t:page="colemo/ColemoContentPane">COLEMO DEMO</a-->
                     <!--a t:type="pagelink" t:page="rickroll/RickRoll">COOLEMO DEMO</a-->
                      <t:loop source="actions" value="baseAction">
                         <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">${baseAction.name}</t:actionlink>
                     </t:loop>
 
                     |
-                    <a t:type="pagelink" t:page="scylab/ScyLabHome">SCY-Lab DEMO</a>
+                    <!--a t:type="pagelink" t:page="scylab/ScyLabHome">SCY-Lab DEMO</a-->
+                    <a href="webstart/scylab.jnlp">SCY-Lab</a>
                     |
 
                     <t:actionlink t:id="logout">Log out</t:actionlink>
