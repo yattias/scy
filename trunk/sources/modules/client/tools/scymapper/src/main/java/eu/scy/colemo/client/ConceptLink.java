@@ -8,7 +8,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 
 public class ConceptLink extends LabelArrow implements FocusListener {
-	public static final String DEFAULT_LABEL = "Link";
 
 	private ConceptNode fromNode;
 	private ConceptNode toNode;
@@ -35,7 +34,7 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 	public void setToNode(ConceptNode node) {
 		toNode = node;
 		getModel().setTo(toNode.getModel().getId());
-		update();
+		updatePosition();
 	}
 
 	public ConceptNode getFromNode() {
@@ -45,10 +44,10 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 	public void setFromNode(ConceptNode fromNode) {
 		this.fromNode = fromNode;
 		getModel().setFrom(fromNode.getModel().getId());
-		update();
+		updatePosition();
 	}
 
-	public void update() {
+	public void updatePosition() {
 		// If we don't have both nodes, do nothing
 		if (fromNode == null || toNode == null) {
 			return;
@@ -57,7 +56,8 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 		int dir = findDirection(fromNode.getCenterPoint(), toNode.getCenterPoint());
 		setFrom(fromNode.getLinkConnectionPoint(dir));
 		setTo(toNode.getLinkConnectionPoint(-dir));
-		setLabel(getModel().getName());
+
+		updateWidth();
 		repaint();
 	}
 	public UmlLink getModel() {
@@ -66,8 +66,9 @@ public class ConceptLink extends LabelArrow implements FocusListener {
 
 	public void setModel(UmlLink model) {
 		this.model = model;
-		update();
+		updatePosition();
 	}
+
 	private class UpdateLinkListener implements FocusListener {
 		public UpdateLinkListener(ConceptLink conceptLink) {
 			link = conceptLink;

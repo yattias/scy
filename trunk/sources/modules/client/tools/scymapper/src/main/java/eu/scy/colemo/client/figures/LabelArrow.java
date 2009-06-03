@@ -16,8 +16,8 @@ import java.awt.event.KeyListener;
  */
 public class LabelArrow extends Arrow implements FocusListener {
 
-	private String default_label = "";
-	private JTextField textField = new JTextField(default_label);
+	public static final String DEFAULT_LABEL = "Unnamed";
+	private JTextField textField = new JTextField(DEFAULT_LABEL);
 
 	public LabelArrow() {
 		setOpaque(false);
@@ -30,21 +30,17 @@ public class LabelArrow extends Arrow implements FocusListener {
 		textField.addKeyListener(textFieldListener);
 		textField.setSize(textField.getPreferredSize());
 		textField.setHorizontalAlignment(JTextField.CENTER);
-		textField.setOpaque(false);
+		textField.setOpaque(true);
 		textField.setBorder(null);
+		textField.setBackground(new Color(255, 255, 255, 200));
 		add(textField);
 	}
 
-	public void setLabel(String l) {
-		textField.setText(l);
-		updateWidth();
-	}
-
 	public String getLabel() {
-		return textField.getText();
+		return textField.getText().equals(DEFAULT_LABEL) ? "" : textField.getText();
 	}
 
-	private void updateWidth() {
+	protected void updateWidth() {
 		Dimension prefsize = textField.getPreferredSize();
 
 		prefsize.width += 10;
@@ -75,15 +71,13 @@ public class LabelArrow extends Arrow implements FocusListener {
 
 		public void focusGained(FocusEvent e) {
 			JTextField textField = (JTextField) e.getSource();
-			if (textField.getText().equals(arrow.default_label)) textField.setText("");
-			textField.setOpaque(true);
+			if (textField.getText().equals(DEFAULT_LABEL)) textField.setText("");
 			textField.setBorder(BorderFactory.createEtchedBorder());
 		}
 
 		public void focusLost(FocusEvent e) {
 			JTextField textField = (JTextField) e.getSource();
-			if (textField.getText().equals("")) textField.setText(arrow.default_label);
-			textField.setOpaque(false);
+			if (textField.getText().equals("")) textField.setText(DEFAULT_LABEL);
 			textField.setBorder(null);
 			arrow.updateWidth();
 		}
