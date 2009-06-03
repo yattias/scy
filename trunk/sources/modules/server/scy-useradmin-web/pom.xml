@@ -148,7 +148,7 @@
                     <!--
                     Set to true to exclude all transitive dependencies. Default is false.
                     -->
-                    <excludeTransitive>true</excludeTransitive>
+                    <excludeTransitive>false</excludeTransitive>
 
                     <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
                     <!--<libPath>lib</libPath>-->
