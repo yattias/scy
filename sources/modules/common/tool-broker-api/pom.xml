@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>tool-broker-api</artifactId>
-	<version>9.5.1-SNAPSHOT</version>
+	<version>9.5.2-SNAPSHOT</version>
 	<name>tool-broker-api</name>
 	<packaging>jar</packaging>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>9.5.1-SNAPSHOT</version>
+		<version>9.5.2-SNAPSHOT</version>
 	</parent> 	
 	
 	<dependencies>
@@ -22,29 +22,29 @@
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>9.5.2-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>notification-api</artifactId>
-            <version>9.5.1-SNAPSHOT</version>
+            <version>9.5.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>       <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>awareness-api</artifactId>
-            <version>9.5.1-SNAPSHOT</version>
+            <version>9.5.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-sessionmanager-api</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>9.5.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	     <dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>collaboration-service-api</artifactId>
-			<version>9.5.1-SNAPSHOT</version>
+			<version>9.5.2-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

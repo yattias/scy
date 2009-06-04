@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>scy-model-api</artifactId>
-	<version>9.5.1-SNAPSHOT</version>
+	<version>9.5.2-SNAPSHOT</version>
 	<name>scy-model-api</name>
 	<packaging>jar</packaging>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>9.5.1-SNAPSHOT</version>
+		<version>9.5.2-SNAPSHOT</version>
 	</parent> 	
 
     <dependencies>
