@@ -28,8 +28,8 @@
 		<property name="afterAgents">
 			<list>
 				<ref bean="conceptMapSavedAgent" />
-				<ref bean="misspellingNotificationAgent" />
-				<ref bean="notifiyEloBrowserAgent" />
+				<!--ref bean="misspellingNotificationAgent" /-->
+				<!--ref bean="notifiyEloBrowserAgent" /-->
 			</list>
 		</property>
 		<property name="notificationAgents">
@@ -75,9 +75,9 @@
 
 
 	<!--  Agents  -->
-	<bean name="misspellingNotificationAgent"
+	<!--bean name="misspellingNotificationAgent"
 		class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO">
-	</bean>
+	</bean-->
 
 
 	<!--
@@ -94,11 +94,11 @@
 	-->
 
 	<!--  misspelling agents  -->
-	<bean name="misspellingAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" />
+	<!--bean name="misspellingAgent"
+		class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" /-->
 
-	<bean name="misspellingCommunicationAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent" />
+	<!--bean name="misspellingCommunicationAgent"
+		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent" /-->
 
 	<!--  Search for similar concept maps agents -->
 	<bean name="conceptMapSavedAgent"
@@ -111,15 +111,15 @@
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
 	</bean>
 
-	<bean name="similaritySearchAgent"
+	<!--bean name="similaritySearchAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent">
 		<property name="repository" ref="localRepository" />
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-	</bean>
+	</bean-->
 
 	<!--  Notify the elo browser of new elos -->
-	<bean name="notifiyEloBrowserAgent"
-		class="eu.scy.agents.roolo.elo.elobrowsernotification.NotifiyELOBroserAgent" />
+	<!--bean name="notifiyEloBrowserAgent"
+		class="eu.scy.agents.roolo.elo.elobrowsernotification.NotifiyELOBroserAgent" /-->
 
 
 	<!--  Roolo Keys -->
