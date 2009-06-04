@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.tools</groupId>
-		<version>9.5.1-SNAPSHOT</version>
+		<version>9.5.2-SNAPSHOT</version>
 	</parent> 
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -27,6 +27,11 @@
 	</developers>
 			
 	<dependencies>
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>nl.utwente</groupId>
 			<artifactId>colab.resources</artifactId>
