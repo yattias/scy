@@ -42,7 +42,7 @@ public class MissionMap extends CustomNode {
       anchorLinks = createAnchorLinks();
       return Group {
          content: [
-            anchorLinks
+            anchorLinks,
             anchorDisplays
          ]
       };

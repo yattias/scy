@@ -66,7 +66,6 @@ public class MessageWindow extends CustomNode, ChatReceiver {
       fill: Color.TRANSPARENT;
       arcHeight: 20;
       arcWidth: 20;
-      opacity: 0.7;
 //        effect: windowEffectQueue;
       //        stroke: Color.BLACK;
       //        fill: Color.GREEN;
@@ -220,8 +219,8 @@ public class MessageWindow extends CustomNode, ChatReceiver {
       fill: Color.WHITE;
       blocksMouse: true;
       opacity: 0.5;
-      width: boundsInScene.width;
-      height: boundsInScene.height;
+      width: localToScene(boundsInLocal).width;
+      height: localToScene(boundsInLocal).height;
       stroke: Color.TRANSPARENT;
    }
 
