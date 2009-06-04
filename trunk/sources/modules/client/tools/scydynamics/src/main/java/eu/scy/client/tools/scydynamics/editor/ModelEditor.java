@@ -25,6 +25,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.Hashtable;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -44,6 +45,7 @@ import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
 import eu.scy.client.tools.scydynamics.logging.FileActionLogger;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
+import eu.scy.client.tools.scydynamics.logging.SQLSpacesActionLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 
@@ -77,13 +79,14 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
-		//default: no logging
-		this(false);
+		this(ModelEditor.getDefaultProperties());
 	}
 	
-	public ModelEditor(boolean log) {
-		if (log) {
+	public ModelEditor(Properties props) {
+		 if (props.get("actionlog.to.file").equals("true")) {
 			logger = new FileActionLogger(System.getProperty("user.name"));
+		} else if (props.get("actionlog.to.sqlspaces").equals("true")) {
+			logger = new SQLSpacesActionLogger(System.getProperty("user.name"), props);
 		} else {
 			logger = new DevNullActionLogger();
 		}
@@ -93,6 +96,16 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 		setNewModel();
 	}
 
+	public static Properties getDefaultProperties() {
+		Properties props = new Properties();
+		props.put("actionlog.to.file", "false");
+		props.put("actionlog.to.sqlspaces", "false");
+		props.put("sqlspaces.ip", "127.0.0.1");
+		props.put("sqlspaces.port", "2525");
+		props.put("sqlspaces.space", "scydynamics_actionlog");
+		return props;
+	}
+	
 	public IModellingLogger getActionLogger() {
 		return logger;
 	}
