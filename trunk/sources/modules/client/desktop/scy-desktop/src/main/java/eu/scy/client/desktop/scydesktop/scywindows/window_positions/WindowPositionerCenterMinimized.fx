@@ -231,7 +231,13 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
       } into usedRects;
 
       for (node in forbiddenNodes){
-            insert node.boundsInParent into usedRects;
+          var sceneBound = node.localToScene(node.boundsInLocal);
+            insert Rectangle2D {
+              height: sceneBound.height,
+              width: sceneBound.width,
+              minX: sceneBound.minX,
+              minY: sceneBound.minY,
+            } into usedRects;
       };
         insert centerWindowPosition.rectangle into usedRects;
       for (windowPosition in linkedWindowPositions){
