@@ -1,7 +1,6 @@
-<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd ">
-    <t:beaneditform t:id="userDetailsEditor" object="user.userDetails"></t:beaneditform>
+<html t:type="border/layout" userObject="model" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+    <t:beaneditform t:id="userDetailsEditor" object="userDetails"></t:beaneditform>
 
     <t:if test="disabled">
         User is disabled

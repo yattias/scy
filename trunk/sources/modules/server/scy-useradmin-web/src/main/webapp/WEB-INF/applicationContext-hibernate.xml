@@ -96,6 +96,17 @@
         class="net.sf.sail.webapp.dao.authentication.impl.HibernateGrantedAuthorityDao">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+
+    <bean id="userDetailsService" class="net.sf.sail.webapp.service.authentication.impl.UserDetailsServiceImpl">
+        <property name="userDetailsDao" ref="userDetailsDao" />
+        <property name="grantedAuthorityDao" ref="grantedAuthorityDao" />
+    </bean>
+
+    <bean id="userDetailsDao"
+        class="net.sf.sail.webapp.dao.authentication.impl.HibernateUserDetailsDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
     
 
     <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">
