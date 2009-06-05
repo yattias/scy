@@ -2,6 +2,7 @@ package eu.scy.webapp.pages;
 
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.SCYUserDetails;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
@@ -68,6 +69,10 @@ public class GroupOverview extends ScyModelPage {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public SCYUserDetails getUserDetails() {
+        return (SCYUserDetails) getCurrentUser().getUserDetails();
     }
 
     public List<User> getGroupMembers() {

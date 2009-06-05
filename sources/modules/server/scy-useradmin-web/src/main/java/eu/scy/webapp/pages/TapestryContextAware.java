@@ -6,6 +6,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentSource;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
+import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 import eu.scy.core.model.SCYProject;
 
 import eu.scy.core.model.ScyBase;
@@ -35,7 +36,7 @@ public class TapestryContextAware {
 
     @Inject
     private UserDAOHibernate userDAOHibernate;
-
+    
     @Inject
     private ProjectDAOHibernate projectDAOHibernate;
 

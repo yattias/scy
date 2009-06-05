@@ -2,6 +2,13 @@ package eu.scy.webapp.pages;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.SCYUserDetails;
+
+import java.util.List;
+import java.util.Collections;
+
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +18,12 @@ import eu.scy.core.model.SCYGroup;
  * To change this template use File | Settings | File Templates.
  */
 public class EditUserPage extends ScyModelPage {
+
+    //Inject ()
+    //private UserDetailsService userDetailsService;
+
+
+
 
     private User user;
 
@@ -22,27 +35,27 @@ public class EditUserPage extends ScyModelPage {
         this.user = user;
     }
 
+    public SCYUserDetails getUserDetails() {
+        return (SCYUserDetails) getUser().getUserDetails();
+    }
+
     public Object onSuccess() {
-        log.info("SUCCESS!! -SAVING USER!!!!");
         getUserDAO().save(user);
         setUser(user);
         return EditUserPage.class;
-        //return getUserDAO().getUserByUsername(user.getUserDetails().getUsername());
-        //throw new RuntimeException("NOT IMPLEMENTED YET");
-        //return null;
     }
 
     public void loadModel() {
-        //throw new RuntimeException("NOT IMPLEMENTED YET");
         setUser(getUserDAO().getUser(new Long(getModelId())));
-        //log.info("Got model in EDIT USER PAGE: " + getModel());
-        //setUser((User) getModel());
-
     }
-
 
     public Boolean getDisabled() {
         return getUser().getUserDetails().isEnabled();
+    }
+
+    public List getRoles() {
+         //getUser().
+        return Collections.EMPTY_LIST;
     }
 }
 

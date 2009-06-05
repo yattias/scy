@@ -3,13 +3,24 @@
 <h1>${model.name}</h1>
 
 <t:actionlink t:id="editGroup" context="model.id">Edit</t:actionlink>
-<t:actionlink t:id="deleteGroup" context="model.id">Delete</t:actionlink>
 
     <table>
+        <tr>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+        </tr>
         <t:loop source="groupMembers" value="currentUser">
             <tr>
                 <td>
-                    <t:actionlink t:id="openUser" context="currentUser.id">${currentUser.userDetails.username}</t:actionlink>
+                    <t:actionlink t:id="openUser" context="currentUser.id">${userDetails.username}</t:actionlink>
+                </td>
+                <td>
+                    ${userDetails.firstname}
+                </td>
+                <td>
+                    ${userDetails.lastname}
                 </td>
                 <td>
                     ${currentUser.userDetails.emailAddress}
