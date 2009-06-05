@@ -27,7 +27,6 @@
 					 <img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
 				</t:loop>
 				<a href="webstart/scylab.jnlp">SCY-Lab</a>
-				<img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
 
 				<t:actionlink t:id="logout" style="float:right">Log out</t:actionlink>
 				<div style="color: #999;float:right; text-align:right;padding-right: 1em;">
