@@ -30,11 +30,11 @@ import eu.scy.communications.packet.extension.message.ScyMessagePacketExtension;
 public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommunicationListener {
     
     private static final Logger logger = Logger.getLogger(ScyOpenFirePlugin.class.getName());
-    private static final String AGENTSMITH_JID = "agentsmith@wiki.intermedia.uio.no";
     private static final String SUBJECT = "relayed presence info";
+    private static final JID AGENTSMITH_JID = new JID("agentsmith@wiki.intermedia.uio.no");
+    private static final JID SYSTEM_JID = new JID("thematrix@wiki.intermedia.uio.no");
 
     private static PluginManager pluginManager;
-    private static JID serverAddress;
     
     private IScyCommunicationAdapter communicationsAdapter;
     private String serviceName;
@@ -57,7 +57,6 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     public void initializePlugin(PluginManager pluginManager, File pluginDirectory) {
         pluginManager = pluginManager;
         interceptorManager.addInterceptor(this);
-        serverAddress = new JID(XMPPServer.getInstance().getServerInfo().getXMPPDomain());        
         packetRouter = XMPPServer.getInstance().getPacketRouter();        
         logger.debug("==== Communication is Le Key ====");
                 
@@ -126,7 +125,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     private void sendMessageToAgentSmith(String body) {        
         final Message message = new Message();
         message.setTo(AGENTSMITH_JID);
-        message.setFrom(serverAddress);
+        message.setFrom(SYSTEM_JID);
         message.setSubject(SUBJECT);
         message.setBody(body);
         TimerTask messageTask = new TimerTask() {
