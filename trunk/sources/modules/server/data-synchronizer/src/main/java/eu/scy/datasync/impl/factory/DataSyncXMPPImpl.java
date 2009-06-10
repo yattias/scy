@@ -305,7 +305,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     }
     
     @Override
-    public void addCollaborationListener(IDataSyncListener collaborationListener) {
+    public void addDataSyncListener(IDataSyncListener collaborationListener) {
         dataSyncListeners.add(collaborationListener);
     }
 

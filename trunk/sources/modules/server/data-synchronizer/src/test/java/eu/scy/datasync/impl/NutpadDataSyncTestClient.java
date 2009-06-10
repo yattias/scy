@@ -29,30 +29,30 @@ import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 import eu.scy.datasync.impl.session.DataSyncSession;
 
-public class NutpadCollaborationServiceTestClient extends JFrame implements IDataSyncListener {
+public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListener {
     
     private static final long serialVersionUID = -7511012297227857853L;
-    private final static Logger logger = Logger.getLogger(NutpadCollaborationServiceTestClient.class.getName());
+    private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "NUTPAD";
     private static final String HARD_CODED_USER_NAME = "thomasd";
     
     private JTextArea editArea;
-    private Action openCSAction = new OpenFromCollaborationServiceAction();
+    private Action openCSAction = new OpenFromDataSyncAction();
     private Action clearEditAreaAction = new ClearEditAreaAction();
-    private Action saveToCollaborationServiceAction = new SaveToCollaborationServiceAction();
+    private Action saveToDataSyncAction = new SaveToDataSyncAction();
     private Action exitAction = new ExitAction();
     
-    private IDataSyncModule collaborationService;
-    private IDataSyncSession collaborationSession;
+    private IDataSyncModule dataSyncModule;
+    private IDataSyncSession dataSyncSession;
     private ArrayList<IScyMessage> scyMessages;
     
     
     public static void main(String[] args) {
-        new NutpadCollaborationServiceTestClient();
+        new NutpadDataSyncTestClient();
     }
     
 
-    public NutpadCollaborationServiceTestClient() {
+    public NutpadDataSyncTestClient() {
         
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
@@ -60,7 +60,7 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements IDat
         // build the toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.add(openCSAction);
-        toolBar.add(saveToCollaborationServiceAction);
+        toolBar.add(saveToDataSyncAction);
         toolBar.add(clearEditAreaAction);
         toolBar.addSeparator();
         toolBar.add(exitAction);
@@ -89,33 +89,33 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements IDat
     public void initialize() {    
         try {
             // init the collaboration service
-            collaborationService = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
             // add listner in order to get callbacks on stuff that's happening
-            collaborationService.addCollaborationListener(this);
+            dataSyncModule.addDataSyncListener(this);
             //create new session
-            collaborationSession = collaborationService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+            dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         } catch (DataSyncException e) {
-            logger.error("Failed to init collaboration service: " + e);
+            logger.error("Failed to init DataSyncModule: " + e);
             e.printStackTrace();
         }        
     }
    
     
-    class OpenFromCollaborationServiceAction extends AbstractAction {
+    class OpenFromDataSyncAction extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
         
-        public OpenFromCollaborationServiceAction() {
-            super("Synchronize with collab.service");
-            logger.debug("sychronizing with collaboration service");
+        public OpenFromDataSyncAction() {
+            super("Synchronize with data sync module");
+            logger.debug("sychronizing with data sync module");
             putValue(MNEMONIC_KEY, new Integer('2'));
         }
         
         public void actionPerformed(ActionEvent e) {
 
             // get nutpad-specific messages which also belong to this session
-            scyMessages = collaborationService.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, collaborationSession.getId(), true);
-            logger.debug("got " + scyMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + collaborationSession.getId());
+            scyMessages = dataSyncModule.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, dataSyncSession.getId(), true);
+            logger.debug("got " + scyMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + dataSyncSession.getId());
             
             Date date = new java.util.Date(System.currentTimeMillis());            
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
@@ -148,25 +148,25 @@ public class NutpadCollaborationServiceTestClient extends JFrame implements IDat
     }
     
     
-    class SaveToCollaborationServiceAction extends AbstractAction {
+    class SaveToDataSyncAction extends AbstractAction {
         
         private static final long serialVersionUID = 2570708232031173971L;
         
-        SaveToCollaborationServiceAction() {
+        SaveToDataSyncAction() {
             super("Create and Send Message");
             putValue(MNEMONIC_KEY, new Integer('4'));
         }
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadCollaborationServiceTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", collaborationSession.getId());            
+            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();
             
             // or create message
             IScyMessage scyMessage = ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME, messageStrings[10]);
             try {
-                // pass scyMessage to collaboration service for storing
-                collaborationService.create(scyMessage);
+                // pass scyMessage to DataSyncModule for storing
+                dataSyncModule.create(scyMessage);
             } catch (DataSyncException e1) {
                 e1.printStackTrace();
             }
