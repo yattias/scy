@@ -87,7 +87,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
         for (IDataSyncListener cl : collaborationListeners) {
             if (cl != null) {
                 DataSyncEvent collaborationEvent = new DataSyncEvent(this, scyMessage);
-                cl.handleCollaborationServiceEvent(collaborationEvent);
+                cl.handleDataSyncEvent(collaborationEvent);
             }
         }
     }

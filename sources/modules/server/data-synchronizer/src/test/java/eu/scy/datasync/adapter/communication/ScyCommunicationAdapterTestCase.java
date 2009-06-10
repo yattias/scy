@@ -35,7 +35,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
             sqlSpaceAdapter = new SQLSpaceAdapter();
-            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE);     
+            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.DATA_SYNCHRONIZATION_SPACE);     
         }
         return sqlSpaceAdapter;
     }
@@ -52,7 +52,8 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     public void dummyForNow() {
     }
     
-    @Ignore
+    //@Ignore
+    @org.junit.Test
     public void testCreateTupleAdapter() {
         assertNotNull(getTupleAdapter());
     }

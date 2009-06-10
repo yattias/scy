@@ -34,7 +34,7 @@ public class SQLSpaceAdapterTestCase {
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
             sqlSpaceAdapter = new SQLSpaceAdapter();
-            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE);         
+            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.DATA_SYNCHRONIZATION_SPACE);         
         }
         return sqlSpaceAdapter;
     }
@@ -47,20 +47,21 @@ public class SQLSpaceAdapterTestCase {
         return sm;
     }
     
+    
     @org.junit.Test
     public void doNothingForNow() {
     }
     
-    @Ignore
+    
+    @org.junit.Test
     public void testCreateTupleAdapter() {
         assertNotNull(getTupleAdapter());
     }
 
     
-
-    @Ignore
+    @org.junit.Test
     public void testWriteReadDelete() {
-        /*String id = null;
+        String id = null;
         // write
         id = getTupleAdapter().write(getScyMessage());
         assertNotNull(id);
@@ -71,14 +72,13 @@ public class SQLSpaceAdapterTestCase {
         id = getTupleAdapter().delete(id);
         assertNotNull(id);
         sm = getTupleAdapter().readById(id);
-        assertNull(sm);
-        */
+        assertNull(sm);        
     }
 
 
-    @Ignore
+    @org.junit.Test
     public void testWriteWithExpiration() {
-        /*String id = null;
+        String id = null;
         IScyMessage sm = getScyMessage();
         sm.setExpiraton(TWO_SECONDS);
         // write with expiration
@@ -96,7 +96,6 @@ public class SQLSpaceAdapterTestCase {
         // confirm tuple has expired
         sm = getTupleAdapter().readById(id);
         assertNull(sm);
-        */
     }
   
 }

@@ -27,7 +27,6 @@
 	</repositories>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-commons</artifactId>
@@ -48,10 +47,12 @@
 			<artifactId>smack</artifactId>
 			<version>3.0.4</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.6.3</version>
+		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>

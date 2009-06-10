@@ -40,7 +40,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     private XMPPConnection xmppConnection;
     private Roster roster;
     private String groupName;
-    private ArrayList<IDataSyncListener> collaborationListeners = new ArrayList<IDataSyncListener>();
+    private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private String hostAddress;
     private String hostPort;
     private String hostName;
@@ -62,7 +62,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         this.groupName = groupName;
         Properties props = new Properties();
         try {
-            props.load(DataSyncXMPPImpl.class.getResourceAsStream("collaboration.server.properties"));
+            props.load(DataSyncXMPPImpl.class.getResourceAsStream("datasync.server.properties"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -71,9 +71,9 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         SmackConfiguration.setPacketReplyTimeout(100000);
         SmackConfiguration.setKeepAliveInterval(1000000);
         
-        hostAddress = props.getProperty("collaborationservice.address");
-        hostPort = props.getProperty("collaborationservice.port");
-        hostName = props.getProperty("collaborationservice.name");
+        hostAddress = props.getProperty("datasync.address");
+        hostPort = props.getProperty("datasync.port");
+        hostName = props.getProperty("datasync.name");
         
         config = new ConnectionConfiguration(hostAddress, new Integer(hostPort).intValue(), hostName);
         config.setCompressionEnabled(true);
@@ -90,31 +90,31 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
                 
                 @Override
                 public void connectionClosed() {
-                    System.out.println("collaboration server closed;");
+                    System.out.println("datasync server closed;");
                     try {
                         xmppConnection.connect();
                     } catch (XMPPException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("collaboration server trying to reconnect;");
+                    System.out.println("datasync server trying to reconnect;");
                 }
                 
                 @Override
                 public void connectionClosedOnError(Exception arg0) {
-                    System.out.println("collaboration server error closed;");
+                    System.out.println("datasync server error closed;");
                 }
                 
                 @Override
                 public void reconnectingIn(int arg0) {
-                    System.out.println("collaboration server reconnecting;");
+                    System.out.println("datasync server reconnecting;");
                 }
                 @Override
                 public void reconnectionFailed(Exception arg0) {
-                    System.out.println("collaboration server reconnecting failed");
+                    System.out.println("datasync server reconnecting failed");
                 }
                 @Override
                 public void reconnectionSuccessful() {
-                    System.out.println("collaboration server reconnectings success");
+                    System.out.println("datasync server reconnectings success");
                 }
             });
 
@@ -142,14 +142,14 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
                    PacketExtension eventPacketExtension = (PacketExtension) scyPacket.getExtension(ScyObjectPacketExtension.ELEMENT_NAME, ScyObjectPacketExtension.NAMESPACE);
                     
                     if (eventPacketExtension != null &&  eventPacketExtension instanceof ScyObjectPacketExtension) {
-                        for (IDataSyncListener cl : collaborationListeners) {
+                        for (IDataSyncListener cl : dataSyncListeners) {
                             if (cl != null) {
                                 ScyObjectPacketExtension scyExt =
                                     (ScyObjectPacketExtension) eventPacketExtension;
 
                                 //FIXME
-                                DataSyncEvent collaborationEvent = new DataSyncEvent(this, null);
-                                cl.handleCollaborationServiceEvent(collaborationEvent);
+                                DataSyncEvent dataSyncEvent = new DataSyncEvent(this, null);
+                                cl.handleDataSyncEvent(dataSyncEvent);
                             }// if
                         }// for
                 }// processPacket
@@ -306,7 +306,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     
     @Override
     public void addCollaborationListener(IDataSyncListener collaborationListener) {
-        collaborationListeners.add(collaborationListener);
+        dataSyncListeners.add(collaborationListener);
     }
 
     @Override

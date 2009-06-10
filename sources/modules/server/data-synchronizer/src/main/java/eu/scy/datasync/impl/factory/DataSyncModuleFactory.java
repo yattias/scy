@@ -5,18 +5,18 @@ import eu.scy.datasync.api.IDataSyncModule;
 
 /**
  * Class that implememts the factory design pattern. Gives the ability
- * to create many different collaboration services that implement the standard interfaces and
+ * to create many different DataSyncModules that implement the standard interfaces and
  * have an efficient way to access them
  * 
- * @author anthonyp
+ * @author thomasd
  *
  */
-public class DataSyncServiceFactory {
+public class DataSyncModuleFactory {
 
     public static final String XMPP_STYLE = "XMPP_STYLE";
     public static final String LOCAL_STYLE = "LOCAL_STYLE";
     
-    private static IDataSyncModule collaborationService;
+    private static IDataSyncModule dataSyncModule;
     
     /**
      * Factory method
@@ -25,24 +25,24 @@ public class DataSyncServiceFactory {
      * @return
      * @throws DataSyncException
      */
-    public static IDataSyncModule getCollaborationService(String style) throws DataSyncException {
+    public static IDataSyncModule getDataSyncModule(String style) throws DataSyncException {
         
-        DataSyncException collaborationServiceException = new DataSyncException("unknown style of collaboration service");
+        DataSyncException dataSyncException = new DataSyncException("unknown style of data sync");
         
         if(style == null)
-            throw collaborationServiceException;
+            throw dataSyncException;
         
         if( style.equals(LOCAL_STYLE)){
-            collaborationService = new DataSyncLocalImpl();
+            dataSyncModule = new DataSyncLocalImpl();
             //maybe intialization?
-            return collaborationService;
+            return dataSyncModule;
         } else if(style.equals(XMPP_STYLE)){
-            collaborationService = new DataSyncXMPPImpl();
+            dataSyncModule = new DataSyncXMPPImpl();
             //maybe intialization?
-            return collaborationService;
+            return dataSyncModule;
         } else {
             //we dont know this style
-            throw collaborationServiceException;
+            throw dataSyncException;
         }
     }
     

@@ -2,16 +2,17 @@ package eu.scy.datasync.api.event;
 
 
 /**
- * Listener that does collaboration service events
+ * Listener that does datasync events
  * 
  * @author anthonyp
  */
 public interface IDataSyncListener  {
     
     /**
-     * Handles collaboration events
+     * Handles DataSync events
+     * 
      * @param e
      */
-    public void handleCollaborationServiceEvent(IDataSyncEvent e);
+    public void handleDataSyncEvent(IDataSyncEvent e);
 
 }
