@@ -4,13 +4,15 @@ import org.apache.log4j.Logger;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.PacketExtension;
 
+import eu.scy.datasync.api.ISyncMessage;
+
 
 /**
  * Message containing acutal data for synchronization (this is the new ScyMessage)
  * 
  * @author thomasd
  */
-public class SyncMessage {
+public class SyncMessage implements ISyncMessage {
 
     public static final String DATA_SYNC_XMPP_NAMESPACE = "eu:scy:datasync";
     public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@wiki.intermedia.uio.no";
@@ -82,44 +84,59 @@ public class SyncMessage {
     }
     
 
-    public String getToolSessionId() {
-        return toolSessionId;
-    }
-    
-    public void setToolSessionId(String toolSessionId) {
-        this.toolSessionId = toolSessionId;
-    }
-    
-    public String getToolId() {
-        return toolId;
-    }
-    
-    public void setToolId(String toolId) {
-        this.toolId = toolId;
-    }
-    
-    public String getFrom() {
-        return from;
-    }
-    
-    public void setFrom(String from) {
-        this.from = from;
-    }
-    
+    @Override
     public String getContent() {
-        return content;
+        // TODO Auto-generated method stub
+        return null;
     }
-    
-    public void setContent(String content) {
-        this.content = content;
-    }
-    
+
+    @Override
     public String getEvent() {
-        return event;
+        // TODO Auto-generated method stub
+        return null;
     }
-    
+
+    @Override
+    public String getFrom() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getToolId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getToolSessionId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setContent(String content) {
+        // TODO Auto-generated method stub        
+    }
+
+    @Override
     public void setEvent(String event) {
-        this.event = event;
+        // TODO Auto-generated method stub        
+    }
+
+    @Override
+    public void setFrom(String from) {
+        // TODO Auto-generated method stub       
+    }
+
+    @Override
+    public void setToolId(String toolId) {
+        // TODO Auto-generated method stub        
+    }
+
+    @Override
+    public void setToolSessionId(String toolSessionId) {
+        // TODO Auto-generated method stub        
     }
         
 }
