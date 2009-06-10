@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
+import javafx.ext.swing.SwingUtils;
 import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -193,7 +194,7 @@ public class EloPictureWrapper {
             try {
                 BufferedImage img = ImageIO.read(new ByteArrayInputStream(newElo.getContent().getBytes()));
 
-                image = (Image) Image.fromBufferedImage(img);
+                image = (Image) SwingUtils.toFXImage(img);
             } catch (IOException e) {
                 e.printStackTrace();
             }

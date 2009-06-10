@@ -176,8 +176,9 @@ public class PropertiesWindow extends CustomNode{
     var color = Color.RED;
 
      public var background:Group = Group{ // the white background of the window
-        def width = bind frame.width;
-        def height = bind frame.height;
+//        def width = bind frame.width;
+//        def height = bind frame.height;
+//XXX   javafx 1.2: vars defined twice
 					content: [
                         Rectangle { // top part until the arc
 							x: 0,
@@ -214,8 +215,9 @@ public class PropertiesWindow extends CustomNode{
 				};
 
     public var frameborder = Group{
-        def width = bind frame.width;
-        def height = bind frame.height;
+//        def width = bind frame.width;
+//        def height = bind frame.height;
+//XXX   javafx 1.2: local variables r overwriting globals
 
 
         content: [

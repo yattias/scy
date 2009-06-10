@@ -436,14 +436,14 @@ stage = Stage {
 		content: [
 			Group{
 				content: [
-                    edgesManager
-                    loginGroup
-                    propertiesWindow
-                    searchWindow
-                    missionMapWindow
-                    contactWindow
-                    resultView
-					scyDesktop.desktop
+                    edgesManager,
+                    loginGroup,
+                    propertiesWindow,
+                    searchWindow,
+                    missionMapWindow,
+                    contactWindow,
+                    resultView,
+					scyDesktop.desktop,
                     growl
 				]
 			}

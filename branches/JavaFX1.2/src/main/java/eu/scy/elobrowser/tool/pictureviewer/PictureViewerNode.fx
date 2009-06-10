@@ -157,17 +157,18 @@ public class PictureViewerNode extends CustomNode {
         var g = Group {
             //blocksMouse: true;
             content: [
-                strokeRectangle,
-                titleTextTitle,
-                titleText,
-                viewer,
-                descriptionTextTitle,
-                descriptionText,
-                authorTextTitle,
-                authorText,
-                dateCreatedTextTitle,
-                dateCreatedText,
-                strokeRectangle
+                  //FIXME doesnt work -> outcommented
+//                strokeRectangle,
+//                titleTextTitle,
+//                titleText,
+//                viewer,
+//                descriptionTextTitle,
+//                descriptionText,
+//                authorTextTitle,
+//                authorText,
+//                dateCreatedTextTitle,
+//                dateCreatedText,
+//                strokeRectangle
             ]
         };
         return g;

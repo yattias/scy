@@ -188,7 +188,12 @@ public class WindowPositionerCenter extends WindowPositioner {
     function correctWindowPositions(){
         var usedRects:Rectangle2D[];
         for (node in forbiddenNodes){
-            insert node.boundsInParent into usedRects;
+            insert Rectangle2D {
+                minX: node.boundsInParent.minX;
+                minY: node.boundsInParent.minY;
+                height: node.boundsInParent.height;
+                width: node.boundsInParent.width;
+                } into usedRects;
             };
         for (windowPosition in linkedWindowPositions){
             correctWindowPosition(usedRects,windowPosition);

@@ -19,7 +19,29 @@
             <name>lgpl</name>
         </license>
     </licenses>
- 
+
+ <repositories>
+		<repository>
+			<id>collide-releases</id>
+			<url>http://mvn.collide.info/content/repositories/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>collide-snapshots</id>
+			<url>http://mvn.collide.info/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+        </repositories>
     <dependencies>
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
@@ -193,9 +215,9 @@
         </dependency>
 
         <dependency>
-            <groupId>jfxtras</groupId>
+            <groupId>org.jfxtras</groupId>
             <artifactId>jfxtras</artifactId>
-            <version>0.3</version>
+            <version>0.5</version>
         </dependency>
 
         <dependency>

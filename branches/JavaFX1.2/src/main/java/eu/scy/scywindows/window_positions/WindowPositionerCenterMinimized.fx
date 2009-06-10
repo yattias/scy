@@ -226,7 +226,12 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
         } into usedRects;
 
         for (node in forbiddenNodes){
-            insert node.boundsInParent into usedRects;
+            insert Rectangle2D {
+                minX: node.boundsInParent.minX;
+                minY: node.boundsInParent.minY;
+                height: node.boundsInParent.height;
+                width: node.boundsInParent.width;
+                } into usedRects;
             };
         insert centerWindowPosition.rectangle into usedRects;
         for (windowPosition in linkedWindowPositions){
