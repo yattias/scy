@@ -175,8 +175,8 @@ public class AnchorDisplay extends CustomNode {
             content: [
                anchor1,
                anchor2,
-               anchor3
-               anchorg
+               anchor3,
+               anchorg,
                anchorG
             ]
          }

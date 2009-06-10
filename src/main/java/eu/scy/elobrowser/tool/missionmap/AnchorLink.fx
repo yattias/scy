@@ -204,9 +204,9 @@ public class AnchorLink extends CustomNode {
                     anchor2,
                     anchor3,
                     anchor4,
-                    anchor5
-                    anchor6
-                    anchor7
+                    anchor5,
+                    anchor6,
+                    anchor7,
                     anchor8
                 ]
             }

@@ -115,7 +115,7 @@ var scyWindowStyler = ScyWindowStyler{
     roolo:roolo;
 }
 
-var scyWindowControl: ScyWindowControl;
+var scyWindowControl: ScyWindowControl = ScyWindowControl{};
 
 var contentGroup : Group;
 
@@ -371,7 +371,7 @@ scyDesktop.addScyWindow(newScyWindow);
 var chatConnector = new ChatConnector();
 
 def contactWindow = ContactWindow{
-    scyDesktop:this.scyDesktop;
+    scyDesktop:scyDesktop;
     chatConnector: chatConnector;
     contacts: getContacts()[0..<4];
     visible: false;
@@ -381,6 +381,8 @@ def contactWindow = ContactWindow{
 def propertiesWindow: PropertiesWindow = PropertiesWindow{
     width:280;
     height:80;
+    visible: false;
+    opacity: 0.0;
     translateX :bind( (stage.scene.width - propertiesWindow.width) - contactWindow.translateX);
     translateY : bind contactWindow.translateY;
     }
@@ -388,6 +390,8 @@ def propertiesWindow: PropertiesWindow = PropertiesWindow{
 def missionMapWindow: MissionMapWindow = MissionMapWindow{
     width:160;
     height:80;
+    visible: false;
+    opacity: 0.0;
     translateX :bind( (stage.scene.width - missionMapWindow.width) - contactWindow.translateX);
     translateY : bind( (stage.scene.height - missionMapWindow.height) - contactWindow.translateY);
     //TODO insert MissionMap here (as a Node), then fix the size
@@ -397,6 +401,8 @@ def missionMapWindow: MissionMapWindow = MissionMapWindow{
 def searchWindow: SearchWindow = SearchWindow{
     width:200;
     height:60;
+    visible: false;
+    opacity: 0.0;
     translateX :bind(contactWindow.translateX);
     translateY : bind( (stage.scene.height - searchWindow.height) - contactWindow.translateY);
     //TODO insert content
@@ -467,7 +473,7 @@ function registerNotifications() : Void {
    //FX.deferAction(function() :Void {
         propertiesWindow.user = myContact.contact;
         var newContactWindow = ContactWindow{
-            scyDesktop:this.scyDesktop;
+            scyDesktop:scyDesktop;
             chatConnector: chatConnector;
             contacts: contacts;
             visible: false;
@@ -599,17 +605,16 @@ stage = Stage {
 		content: [
 			contentGroup = Group{
 				content: [
-                    loginGroup
+                   loginGroup,
                     edgesManager,
-                    propertiesWindow
-                    searchWindow
-                    missionMapWindow
-                    contactWindow
-                    //resultView
-					scyDesktop.desktop
-                   // missionMap
-                    growl,
-				]
+                    propertiesWindow,
+                    searchWindow,
+                    missionMapWindow,
+                    contactWindow,
+                    //resultView,
+					scyDesktop.desktop,
+                   // missionMap,
+                    growl]
 			}
         ]
 	}
@@ -651,3 +656,51 @@ scyWindowControl.positionWindows();
 
 stage;
 
+//XXX javaFX1.2 - hack - doesnt work since 1.2
+//When adding a node belonging to Group A to another Group B, the node is deleted from A implicit. BAM! This ends in Chaos!
+//for (node in contentGroup.content){
+//    node.visible = true;
+//    node.opacity = 1.0;
+//    println("+++++++++++++++++++++++++++++REFLECTION+++++++++++++++++++++++++++++++++++++++");
+//    println("node.parent: {node.parent}");
+//    println("node.parent.id: {node.parent.id}");
+////    println("node.parent.id: {FXClass.(node.parent}");
+//    println("+++++++++++++++++++++++++++++REFLECTION END+++++++++++++++++++++++++++++++++++++++");
+//}
+
+
+contactWindow.visible=true;
+contactWindow.opacity=1.0;
+
+propertiesWindow.visible=true;
+propertiesWindow.opacity=1.0;
+propertiesWindow.width = 200;
+propertiesWindow.height = 100;
+
+missionMapWindow.visible=true;
+missionMapWindow.opacity=1.0;
+
+
+//    println("+++++++++++++++++++++++++++++REFLECTION+++++++++++++++++++++++++++++++++++++++");
+//    println("node.parent: {contactWindow.parent}");
+//    println("node.parent.id: {contactWindow.parent.id}");
+//    println("node.parent.id: {FXClass.(contactWindow.parent}");
+//    println("+++++++++++++++++++++++++++++REFLECTION END+++++++++++++++++++++++++++++++++++++++");
+//
+//var hackingGroup:Group;
+//if (contactWindow.parent instanceof Group){
+//    hackingGroup = contactWindow.parent as Group;
+//    println("------------////////////////////////////--------------------------------------");
+//    println("Number of Members in hackingGroup.content: {sizeof hackingGroup.content}");
+//    println("------------////////////////////////////--------------------------------------");
+//    for (node in hackingGroup.content){
+//        node.visible = true;
+//        node.opacity = 1.0;
+//    }
+//}
+
+//contentGroup.content[3].visible=true;
+//contentGroup.content[3].opacity=1.0;
+//
+//contentGroup.content[4].visible=true;
+//contentGroup.content[4].opacity=1.0;

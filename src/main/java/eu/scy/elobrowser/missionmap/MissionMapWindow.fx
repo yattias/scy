@@ -100,8 +100,9 @@ public class MissionMapWindow extends CustomNode{
     var color = Color.GREEN;
 
      public var background:Group = Group{ // the white background of the window
-        def width = bind frame.width;
-        def height = bind frame.height;
+//        def width = bind frame.width;
+//        def height = bind frame.height;
+//XXX javafx 1.2 : vars already defined
 					content: [
                         Rectangle { // top part until the arc
 							x: bind controlLength,
@@ -138,9 +139,9 @@ public class MissionMapWindow extends CustomNode{
 				};
 
     public var frameborder = Group{
-        def width = bind frame.width;
-        def height = bind frame.height;
-
+//        def width = bind frame.width;
+//        def height = bind frame.height;
+//XXX   javafx 1.2: bla bla same as above.
 
         content: [
                 background,

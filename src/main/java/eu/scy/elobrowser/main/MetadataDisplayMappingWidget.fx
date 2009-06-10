@@ -61,10 +61,6 @@ function run() {
 
       }
       visible: true
-      onClose: function()  {
-         java.lang.System.exit( 0 );
-      }
-      visible: true
       var roolo= Roolo.getRoolo();
       var metadataDisplayMappingWidget = MetadataDisplayMappingWidget
    {

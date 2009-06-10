@@ -39,8 +39,15 @@ import utils.FileName;
  // place your code here
 public class SimQuestNode extends CustomNode, Resizable {
     // preferredWidth and -height are used in Resizable and in ScyWindow
-    override var preferredWidth = 552;
-    override var preferredHeight = 686;
+    override function getPrefHeight(x:Number):Number {
+        return 552;
+    }
+    override function getPrefWidth(x:Number):Number {
+        return 686;
+    }
+//    override var width = 552;
+//    override var height = 686;
+//XXX javafx 1.2 fixxing above
 
     var simquestPanel:JPanel;
     var eloSimQuestWrapper:EloSimQuestWrapper;

@@ -111,7 +111,8 @@ public class DisplayShelf extends CustomNode {
         doLayout();
     }
 
-    function doLayout() {
+//shouldnt override
+    override function doLayout() {
 
         var startKeyframes:KeyFrame[];
         var endKeyframes:KeyFrame[];

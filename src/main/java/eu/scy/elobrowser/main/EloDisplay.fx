@@ -80,7 +80,7 @@ public class EloDisplay extends CustomNode {
 
 	var openMenuItem = SwingMenuItem{
 		label:"Open"
-		enabled:false;
+		disable:true;
 		//action:openElo;
 			}
 
@@ -240,7 +240,7 @@ function run(){
          width: 200
          height: 200
          content: [
-				eloDisplay
+				eloDisplay,
             SwingButton {
                text: "change"
                action: function() {

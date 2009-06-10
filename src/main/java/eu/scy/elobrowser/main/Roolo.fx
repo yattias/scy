@@ -165,7 +165,7 @@ public class Roolo {
       var path = codeBase.getPath();
 		var contextPath = path;
 		var startSearchPos = 0;
-		if (path.length() > 0 and path.charAt(0) == '/'){
+		if (path.length() > 0 and (path.charAt(0) == new java.lang.Character(47))){ // 47 == '/' (i thought we can use 42 here :-( )
          startSearchPos = 1;
       }
 		var slashPos = path.indexOf('/',startSearchPos);

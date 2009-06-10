@@ -7,10 +7,7 @@
 package eu.scy.elobrowser.ui;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -19,11 +16,9 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javax.swing.JComponent;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -37,7 +32,7 @@ import javafx.scene.image.Image;
 public class SwingPopupMenu extends SwingComponent{
 
 	public var fill=Color.TRANSPARENT on replace {
-		 component.setBackground(fill.getAWTColor());
+		 component.setBackground(new java.awt.Color(fill.red, fill.green, fill.blue));
 	};
 
 	public var label: String on replace{
@@ -62,7 +57,7 @@ public class SwingPopupMenu extends SwingComponent{
 		popupMenu = new JPopupMenu();
 		component = new JPanel();
 		//component.setComponentPopupMenu(popupMenu);
-		component.setBackground(fill.getAWTColor());
+		component.setBackground(new java.awt.Color(fill.red, fill.green, fill.blue));
 		component.setPreferredSize(new Dimension(1000,1000));
 		component.setEnabled(true);
 		component.addMouseListener(MouseAdapter{
@@ -113,7 +108,7 @@ function run() {
 		},
 		SwingMenuItem{
 			label:"item 2",
-		enabled:false}
+		disable:true}
 		SwingMenuItem{
 			label:"item 3"}
 	];

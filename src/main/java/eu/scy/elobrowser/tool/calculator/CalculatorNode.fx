@@ -152,7 +152,6 @@ public class CalculatorNode extends CustomNode {
                                     rows: [
                                         Row {
                                             cells: Cell {
-                                                columnSpan: columns
                                                 content: CalculatorDisplay {
                                                     text: bind model.display
                                                     width: 280

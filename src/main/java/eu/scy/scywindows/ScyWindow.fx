@@ -317,9 +317,9 @@ public class ScyWindow extends CustomNode {
 				KeyFrame{
 					time: resizeAnimationTime;
 					values: [
-						translateX => endX tween Interpolator.EASEBOTH
-						translateY => endY tween Interpolator.EASEBOTH
-						width => minimumWidth tween Interpolator.EASEBOTH
+						translateX => endX tween Interpolator.EASEBOTH,
+						translateY => endY tween Interpolator.EASEBOTH,
+						width => minimumWidth tween Interpolator.EASEBOTH,
 						height => minimumHeight tween Interpolator.EASEBOTH
 					]
 				}
@@ -345,29 +345,29 @@ public class ScyWindow extends CustomNode {
 				KeyFrame{
 					time: 0ms;
 					values: [
-						translateX => beginX
-						translateY => beginY
-						width => minimumWidth
-						height => minimumHeight
+						translateX => beginX,
+						translateY => beginY,
+						width => minimumWidth,
+						height => minimumHeight,
 						opacity => 0.0
 					]
 				}
 				KeyFrame{
 					time: opcityAnimationTime;
 					values: [
-						translateX => beginX
-						translateY => beginY
-						width => minimumWidth
-						height => minimumHeight
+						translateX => beginX,
+						translateY => beginY,
+						width => minimumWidth,
+						height => minimumHeight,
 						opacity => 1.0 tween Interpolator.EASEBOTH
 					]
 				}
 				KeyFrame{
 					time: resizeAnimationTime + opcityAnimationTime;
 					values: [
-						translateX => endX tween Interpolator.EASEBOTH
-						translateY => endY tween Interpolator.EASEBOTH
-						width => endWidth tween Interpolator.EASEBOTH
+						translateX => endX tween Interpolator.EASEBOTH,
+						translateY => endY tween Interpolator.EASEBOTH,
+						width => endWidth tween Interpolator.EASEBOTH,
 						height => endHeight tween Interpolator.EASEBOTH
 					]
 					action: function(){
@@ -384,10 +384,10 @@ public class ScyWindow extends CustomNode {
 				KeyFrame{
 					time: closeAnimationTime;
 					values: [
-						translateX => endX
-						translateY => endY
+						translateX => endX,
+						translateY => endY,
 						scaleX =>
-						1.0 / width
+						1.0 / width,
 						scaleY =>
 						1.0 / height
 					]
@@ -409,9 +409,9 @@ public class ScyWindow extends CustomNode {
 				KeyFrame{
 					time: closeAnimationTime;
 					values: [
-						translateX => endX  tween Interpolator.EASEBOTH
-						translateY => endY tween Interpolator.EASEBOTH
-						width => minimumWidth tween Interpolator.EASEBOTH
+						translateX => endX  tween Interpolator.EASEBOTH,
+						translateY => endY tween Interpolator.EASEBOTH,
+						width => minimumWidth tween Interpolator.EASEBOTH,
 						height => closedHeight tween Interpolator.EASEBOTH
 					]
 					action: function(){
@@ -428,9 +428,9 @@ public class ScyWindow extends CustomNode {
 				KeyFrame{
 					time: closeAnimationTime;
 					values: [
-						translateX => endX
-						translateY => endY
-						width => endWidth
+						translateX => endX,
+						translateY => endY,
+						width => endWidth,
 						height => endHeight
 					]
 					action: function(){
@@ -476,12 +476,12 @@ public class ScyWindow extends CustomNode {
 			resizeableScyContent.height = contentHeight;
 
             //TODO: take care of prefered minimum / maximum size of resizable scycontent
-            var factor: Number = java.lang.Math.min(width / resizeableScyContent.preferredWidth,height / resizeableScyContent.preferredHeight);
+            var factor: Number = java.lang.Math.min(width / resizeableScyContent.getMaxWidth(),height / resizeableScyContent.getMaxHeight());//XXX javafx 1.2 change
             scyContent.scaleX = factor;
             scyContent.scaleY = factor;
             // moving scaled content to upper left corner
-            scyContent.translateX = (factor * resizeableScyContent.preferredWidth - resizeableScyContent.preferredWidth) / 2;
-            scyContent.translateY = (factor * resizeableScyContent.preferredHeight - resizeableScyContent.preferredHeight) / 2;
+            scyContent.translateX = (factor * resizeableScyContent.getMaxWidth() - resizeableScyContent.getMaxWidth()) / 2;
+            scyContent.translateY = (factor * resizeableScyContent.getMaxHeight() - resizeableScyContent.getMaxHeight()) / 2;
 		}
 	}
 

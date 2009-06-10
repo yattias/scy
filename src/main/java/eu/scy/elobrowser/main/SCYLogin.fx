@@ -4,10 +4,8 @@ import eu.scy.elobrowser.main.ScyLoginManager;
 import eu.scy.elobrowser.notification.GrowlFX;
 import eu.scy.elobrowser.ui.SwingPasswordField;
 import eu.scy.scywindows.ScyWindow;
-import eu.scy.notification.Notification;
 import eu.scy.scywindows.ScyWindowControl;
 import java.lang.Math;
-import javax.swing.JOptionPane;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.SimpleInterpolator;
@@ -15,21 +13,18 @@ import javafx.animation.Timeline;
 import javafx.ext.swing.SwingButton;
 import javafx.scene.control.TextBox;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Reflection;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import org.jfxtras.scene.layout.Cell;
-import org.jfxtras.scene.layout.Grid;
-import org.jfxtras.scene.layout.HorizontalAlignment;
+
 import org.jfxtras.scene.layout.Row;
-import eu.scy.elobrowser.awareness.contact.ChatConnector;
-import eu.scy.elobrowser.main.user.User;
+import org.jfxtras.scene.layout.Grid;
+import org.jfxtras.scene.layout.Cell;
+
 
 class SlackyInterpolator extends SimpleInterpolator {
 
@@ -112,11 +107,13 @@ public class SCYLogin extends Group {
                 translateY: bind (scene.height - text.layoutBounds.height) / 2 - text.layoutBounds.minY
                 font: Font.font("Verdana", FontWeight.MEDIUM,300)
                 stroke: Color.CADETBLUE
-                effect: Reflection {
-                    fraction: 0.8
-                    topOpacity: 0.4
-                    topOffset: 10
-                }
+//                effect: Reflection {
+//                    fraction: 0.8
+//                    topOpacity: 0.4
+//                    topOffset: 10
+//                }
+//XXX javafx 1.2 - effects should be queued - declaring a variable twice doesnt work.
+//              commented out due javafx1.2
                 effect: DropShadow {
                     radius: 20
                 }
@@ -134,7 +131,7 @@ public class SCYLogin extends Group {
                 var usernamefield:TextBox = TextBox {
                     onKeyTyped: function( e: KeyEvent ):Void {
                         var entry = usernamefield.text.trim();
-                        loginButton.enabled = entry.length()>0;
+                        loginButton.disable = not(entry.length()>0);
                      }
 
                 }
@@ -172,10 +169,9 @@ public class SCYLogin extends Group {
                         },
                         Row {
                             cells: Cell {
-                                columnSpan: 2
-                                horizontalAlignment: HorizontalAlignment.CENTER
                                 content: loginButton = SwingButton {
-                                   enabled:false;
+                                    //FIXME disable:true ???
+                                   disable: true;
                                     text: "Ok"
                                     action: function() {
                                         var sm = new ScyLoginManager();
@@ -189,6 +185,7 @@ public class SCYLogin extends Group {
                                                 allowed = true;
                                             }
                                         }
+
                                         if (allowed) {
                                             var loginResult = sm.login(username, password);
                                             if (register!=null){
@@ -204,6 +201,7 @@ public class SCYLogin extends Group {
                                             growl.showMessage("User '{username}' could not be found!", 3s);
                                         }
 
+                                       
 
                                     }
                                 }
@@ -222,6 +220,38 @@ public class SCYLogin extends Group {
 		  loginNode.openWindow(100, 100);
         startLoginAnimation();
     }
+
+     //FIXME javafx 1.2 - the code for the login didnt work anymore, so this is a quick fix to get the SCY-Lab running:
+     //Delete this postinit-code when real login UI works
+    postinit{
+                                        var sm = new ScyLoginManager();
+                                        var username = "Adam";
+                                        var password = "Adam";
+                                        // dirty hack, to be deleted after review
+                                        var allowedUsers = ["Adam", "Anders", "Anne", "Barbara", "Wouter"];
+                                        var allowed = false;
+                                        for (user in allowedUsers) {
+                                            if (user.equals(username)) {
+                                                allowed = true;
+                                            }
+                                        }
+
+                                        if (allowed) {
+                                            var loginResult = sm.login(username, password);
+                                            if (register!=null){
+                                                println("################# Calling to register ################");
+                                                register();
+                                            }
+                                            if(loginResult.equals(ScyLoginManager.LOGIN_OK)) {
+                                                loginNodeDisappear();
+                                            } else {
+                                                startLoginAnimation();
+                                            }
+                                        } else {
+                                            growl.showMessage("User '{username}' could not be found!", 3s);
+                                        }
+    }
+
 
     public function loginNodeDisappear() {
         var t : Timeline[];
@@ -276,7 +306,7 @@ public class SCYLogin extends Group {
             keyFrames: KeyFrame {
                 time: 0.5s
                 values: [
-                    loginNode.width => 290 tween interpol
+                    loginNode.width => 290 tween interpol,
                     loginNode.height => 160 tween interpol
                 ]
                 action: function() {
