@@ -8,7 +8,7 @@ import eu.scy.datasync.api.session.IDataSyncSession;
 
 
 /**
- * Collaboration Service Interface
+ * DataSyncModule Interface
  * 
  * @author anthonyp
  */
@@ -53,16 +53,16 @@ public interface IDataSyncModule {
   
   
   /**
-   * Gives the ability for a client to add a listener. When the collaboration service
+   * Gives the ability for a client to add a listener. When the dataSync module
    * updates it notify all clients listening.
    * 
-   * @param collaborationListener
+   * @param dataSyncListener
    * @throws DataSyncException
    */
-  public void addCollaborationListener(IDataSyncListener collaborationListener);
+  public void addDataSyncListener(IDataSyncListener dataSyncListener);
   
    /**
-    * Connects to the collaboration service of the specific implementation
+    * Connects to the DataSync module of the specific implementation
     * 
     * @param username
     * @param password
@@ -71,7 +71,7 @@ public interface IDataSyncModule {
    public void connect(String username, String password) throws DataSyncException;
    
    /**
-    * Connects to the collaboration service of the specific implementation
+    * Connects to the dataSync module of the specific implementation
     * 
     * @param username
     * @param password
@@ -105,21 +105,21 @@ public interface IDataSyncModule {
     public ArrayList<IScyMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser);    
     
     /**
-     * Creates and returns an instance of ICollaborationSession
+     * Creates and returns an instance of IDataSyncSession
      * 
      * @param toolName - name of tool
      * @param userName - user name
-     * @return ICollaborationSession
+     * @return IDataSyncSession
      */
     public IDataSyncSession createSession(String toolName, String userName);
     
     /**
-     * Return an instance of ICollaborationSession if the user is not member and session exists
+     * Return an instance of IDataSyncSession if the user is not member and session exists
      * 
      * @param session - session to join
      * @param userName - user who wants to join
      * @param toolName - tool user is using as client
-     * @return ICollaborationSession - session which was joined
+     * @return IDataSyncSession - session which was joined
      */
     public IDataSyncSession joinSession(String session, String userName, String toolName);
         
@@ -137,7 +137,7 @@ public interface IDataSyncModule {
      * @param session - session
      * @param userName - userName
      * @param toolName - userName
-     * @return ArrayList<ICollaborationSession>
+     * @return ArrayList<IDataSyncSession>
      */
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName);
     
