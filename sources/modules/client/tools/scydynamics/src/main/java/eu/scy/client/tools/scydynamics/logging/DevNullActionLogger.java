@@ -3,7 +3,7 @@ package eu.scy.client.tools.scydynamics.logging;
 import java.awt.Component;
 
 import colab.um.draw.JdFigure;
-import eu.scy.actionlogging.logger.Action;
+//import eu.scy.actionlogging.logger.Action;
 
 public class DevNullActionLogger implements IModellingLogger {
 	
