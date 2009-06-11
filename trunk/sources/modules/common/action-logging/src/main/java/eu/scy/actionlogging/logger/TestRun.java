@@ -10,13 +10,11 @@ public class TestRun {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         ActionLogger al = new ActionLogger();
-        IAction action = new Action();
-        action.addProperty("Hallo!!", "FOOBAR!!");
-        action.addProperty("omg", "hi2u");
-        action.addProperty("foo", "bar");
+        IAction action = new Action("test_action", "test_user");
+        action.addAttribute("Hallo!!", "FOOBAR!!");
+        action.addContext("omg", "hi2u");
         al.log("test", "tool", action);
-        System.out.println("SENT!!!!");
-        
+        System.out.println("SENT!!!!");        
     }
     
 }

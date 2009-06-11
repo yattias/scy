@@ -1,5 +1,9 @@
 package eu.scy.actionlogging.receiver;
 
+import java.io.IOException;
+
+import org.jdom.JDOMException;
+
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
@@ -63,7 +67,15 @@ public class SQLSpacesActionListener implements Callback {
      * 	SQLSpaces action -> SQLSpaces doku
      */
     public void call(Command arg0, int arg1, Tuple x, Tuple y) {
-        ar.notifyCallbacks(new Action((String)x.getField(3).getValue()));
+        try {
+			ar.notifyCallbacks(new Action((String)x.getField(3).getValue()));
+		} catch (JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.println((String)x.getField(3).getValue());
     }
     

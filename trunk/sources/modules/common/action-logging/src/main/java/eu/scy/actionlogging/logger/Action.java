@@ -1,98 +1,132 @@
 package eu.scy.actionlogging.logger;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Properties;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
+import java.util.UUID;
 
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.core.model.impl.ScyBaseObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.jdom.Content;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
-@Entity
-@Table(name = Action.TABLE_NAME)
 public class Action extends ScyBaseObject implements IAction {
     
-    @Transient
-    private Properties properties = new Properties();    //data storage
+    private Element actionElement;
+    private Element contextElement;
+    private Element attributesElement;
 
-    @Transient
-    public final static String TABLE_NAME = "Action";
-
-    public Action() {
+    public Action(String type, String user) {
+    	actionElement = new Element("action");
+    	actionElement.setAttribute("id", UUID.randomUUID().toString());
+    	actionElement.setAttribute("time", TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601());
+    	actionElement.setAttribute("type", type);
+    	actionElement.setAttribute("user", user);
+	
+		contextElement = new Element("context");
+		actionElement.addContent(contextElement);
+		attributesElement = new Element("attributes");
+		actionElement.addContent(attributesElement);
     }
-
-    /**
-     * creates a new action from XML
-     *
-     * @param xml
-     */
-    public Action(String xml) {
-        setPropertiesFromXML(xml);
+    
+    @Override
+    public void addContext(String name, String value) {
+    	Element prop = new Element("property");
+		prop.setAttribute("name", name);
+		prop.setAttribute("value", value);
+		contextElement.addContent(prop);
     }
-
-    /**
-     * adds a new key->value pair to properties
-     *
-     * @param key
-     * @param value
-     */
-    public void addProperty(String key, String value) {
-        properties.setProperty(key, value);
+    
+	@Override
+	public String getContext(String key) {
+		String value = null;
+		for (Element elem: ((List<Element>)contextElement.getChildren("property"))) {
+			if (elem.getAttributeValue("name").equals(key)) {
+				value = elem.getAttributeValue("value");
+			}
+		}
+		return value;
+	}
+    
+	@Override
+    public void addAttribute(String name, String value) {
+    	Element prop = new Element("property");
+		prop.setAttribute("name", name);
+		prop.setAttribute("value", value);
+		attributesElement.addContent(prop);
     }
-
-    /**
-     * returns the Properties object
-     */
-
-    @Transient
-    public Properties getProperties() {
-        return this.properties;
+	
+	@Override
+    public void addAttribute(String name, String value, String subElement) {
+		try {
+			Document doc = new SAXBuilder().build(new StringReader(subElement));
+			doc.getRootElement();
+			addAttribute(name, value, doc.getRootElement().detach());
+		} catch (JDOMException e) {
+			System.out.println("Action.addAttribute. JDomException caught when adding sub-element.");
+			//e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Action.addAttribute. IOException caught when adding sub-element.");
+			//e.printStackTrace();
+		}
     }
-
-    /**
-     * returns only one Property value (specified in key)
-     *
-     * @param key
-     */
-    public String getProperty(String key) {
-        return properties.getProperty(key);
+    
+    @Override
+    public void addAttribute(String name, String value, Content subElement) {
+    	Element prop = new Element("property");
+		prop.setAttribute("name", name);
+		prop.setAttribute("value", value);
+		prop.addContent(subElement);
+		attributesElement.addContent(prop);
     }
-
-    /**
-     * returns XML
-     */
-    @Transient
-    public String getXML() {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            properties.storeToXML(os, null);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return os.toString();
+	
+    @Override
+	public String getAttribute(String key) {
+    	String value = null;
+		for (Element elem: ((List<Element>)attributesElement.getChildren("property"))) {
+			if (elem.getAttributeValue("name").equals(key)) {
+				value = elem.getAttributeValue("value");
+			}
+		}
+		return value;
+	}
+    
+    public Action(String xml) throws JDOMException, IOException {
+        setFromXML(xml);
     }
-
-    /**
-     * sets properties from XML string,
-     * used in constructor
-     *
-     * @param xml
-     */
-    @Transient
-    public void setPropertiesFromXML(String xml) {
-        InputStream in = new ByteArrayInputStream(xml.getBytes());
-        try {
-            properties.loadFromXML(in);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    
+    public Action(Element element) throws JDOMException {
+    	setFromXML(element);
     }
+    
+    @Override
+    public void setFromXML(String xmlString) throws JDOMException, IOException {
+    	Document doc = new SAXBuilder().build(new StringReader(xmlString));
+		setFromXML((Element)doc.getRootElement().detach());
+    }
+    
+    @Override
+	public String getXMLString() {
+		return new XMLOutputter(Format.getPrettyFormat()).outputString(actionElement);
+	}
 
+	@Override
+	public void setFromXML(Element element) throws JDOMException {
+		if (element.getName().equals("action")) {
+			this.actionElement = element;
+		} else {
+			throw new JDOMException("<action> element expected, <"+element.getName()+"> element found.");
+		}
+	}
 
+    @Override
+    public Element getXML() {
+    	return actionElement;
+    }
 }
