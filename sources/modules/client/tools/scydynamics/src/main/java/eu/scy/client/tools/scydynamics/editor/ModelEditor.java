@@ -24,6 +24,7 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
@@ -76,7 +77,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 	private IModellingLogger logger;
 	private JTools jtools;
 	private EditorTab editorTab;
-
+	private ArrayList<String> modelCheckMessages = new ArrayList();
+	
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
 		this(ModelEditor.getDefaultProperties());
@@ -425,8 +427,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 		return false;
 	}
 
+	public ArrayList<String> getModelCheckMessages() {
+		return modelCheckMessages;
+	}
+	
 	// ---------------------------------------------------------------------------
 	public boolean checkModel() {
+		modelCheckMessages.clear();
 		userMessage = null;
 		if (aModel == null)
 			return true;
@@ -451,10 +458,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 						// JTools.getAppResourceString("editorMsgUnableToSimulateModel")+
 						// "\n" + errMsg;
 						// showStatusMsg(errMsg, true);
-						System.out
-								.println("ModelEditor.checkModel(): undefined variable: "
-										+ o.getLabel());
-						System.out.println("...cannot run model.");
+						modelCheckMessages.add("* the element '"+o.getLabel()+"' is not defined.");
 						b = false;
 					}
 				}
@@ -494,12 +498,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 					// JTools.getAppResourceString("editorMsgExpressionError",
 					// parser.getErrorMessage());
 					// showStatusMsg(errMsg,true);
-					System.out
-							.println("ModelEditor.checkModel(). invalid expresion in "
-									+ o.getLabel());
-					System.out.println("...unable to run model.");
+					modelCheckMessages.add("* the element '"+o.getLabel()+"' contains an invalid expression.");
 					if (parser.getErrorMessage() != null) {
-						System.out.println(parser.getErrorMessage());
+						modelCheckMessages.add(parser.getErrorMessage());
 					}
 					b = false;
 				}
@@ -564,12 +565,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 		} catch (JParserException ex) {
 		}
 		if (!b) {
-			System.out.println("ModelEditor.checkExpr(): parser error.");
-			if (parser.getErrorMessage() != null) {
-				System.out.println(parser.getErrorMessage());
-			} else {
-				System.out.println(vName);
-			}
+			modelCheckMessages.add("* the expression parser encoutered an error in element "+vName);
 			return false;
 		}
 		// all linked variables used?
