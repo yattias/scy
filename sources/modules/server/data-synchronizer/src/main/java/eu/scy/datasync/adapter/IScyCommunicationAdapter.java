@@ -1,13 +1,12 @@
 package eu.scy.datasync.adapter;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 
 /**
  * The ScyCommunicationAdapter allows a coordinating server
  * to use it to write and retrieve data
  * 
- * @author anthonyp
+ * @author thomasd
  *
  */
 public interface IScyCommunicationAdapter {
@@ -22,31 +21,31 @@ public interface IScyCommunicationAdapter {
     /**
      * performs an action upon write
      * 
-     * @param scyMessage
+     * @param syncMessage
      */
-    void actionUponWrite(IScyMessage scyMessage);
+    void actionUponWrite(ISyncMessage syncMessage);
     
     /**
      * performs an action upon delete
      * 
-     * @param scyMessage
+     * @param syncMessage
      */
-	void actionUponDelete(IScyMessage scyMessage);
+	void actionUponDelete(ISyncMessage syncMessage);
 	
 	   /**
      * performs an action upon update
      * 
-     * @param scyMessage
+     * @param syncMessage
      */
-    void actionUponUpdate(IScyMessage scyMessage);
+    void actionUponUpdate(ISyncMessage syncMessage);
 	
 	/**
 	 * Does a create operation
 	 * 
-	 * @param scyMessage
+	 * @param syncMessage
 	 * @return
 	 */
-    public String create(IScyMessage scyMessage);
+    public String create(ISyncMessage syncMessage);
     
     /**
      * Does a read operation
@@ -54,16 +53,16 @@ public interface IScyCommunicationAdapter {
      * @param id
      * @return
      */
-    public IScyMessage read(String id);
+    public ISyncMessage read(String id);
     
     /**
      * Does an update operation
      * 
-     * @param sm
+     * @param syncMessage
      * @param id
      * @return
      */
-    public String update(IScyMessage sm, String id);
+    public String update(ISyncMessage syncMessage, String id);
     
     /**
      * Does a delete operation
@@ -76,7 +75,7 @@ public interface IScyCommunicationAdapter {
     /**
      * Sends a call back to a receiver
      * 
-     * @param scyMessage
+     * @param syncMessage
      */
-    public void sendCallBack(IScyMessage scyMessage);
+    public void sendCallBack(ISyncMessage syncMessage);
 }

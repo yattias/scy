@@ -22,4 +22,12 @@ public interface ISyncMessage {
     
     public abstract void setEvent(String event);
     
+    public abstract long getExpiration();
+
+    public abstract void setExpiration(long defaultMessageExpirationTime);
+    
+    public abstract String getPersistenceId();
+
+    public abstract void setPersistenceId(String persistenceId);
+    
 }

@@ -5,11 +5,12 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.session.IDataSyncSession;
 
 /**
  * Class that implememts the factory design pattern. Gives the ability
- * to create many different collaboration sessions that implement the standard interfaces and
+ * to create many different data sync sessions that implement the standard interfaces and
  * have an efficient way to access them
  * 
  * @author thomasd
@@ -26,10 +27,10 @@ public class DataSyncSessionFactory {
      * @param toolName
      * @param userName
      * 
-     * @return ICollaborationSession
+     * @return IDataSyncSession
      */
-    public static IDataSyncSession getCollaborationSession(String sessionId, String toolName, String userName) {
-        return getCollaborationSession(sessionId, toolName, userName, null);
+    public static IDataSyncSession getDataSyncSession(String sessionId, String toolName, String userName) {
+        return getDataSyncSession(sessionId, toolName, userName, null);
     }
     
     
@@ -41,9 +42,9 @@ public class DataSyncSessionFactory {
      * @param userName
      * @param persistenceId
      * 
-     * @return ICollaborationSession
+     * @return IDataSyncSession
      */
-    public static IDataSyncSession getCollaborationSession(String sessionId, String toolName, String userName, String persistenceId) {
+    public static IDataSyncSession getDataSyncSession(String sessionId, String toolName, String userName, String persistenceId) {
         IDataSyncSession session = new DataSyncSession();
         if (sessionId == null) {
             session.setId(UUID.randomUUID().toString());            
@@ -60,11 +61,11 @@ public class DataSyncSessionFactory {
     /**
      * Factory method
      * 
-     * @param scyMessage
-     * @return ICollaborationSession
+     * @param syncMessage
+     * @return IDataSyncSession
      */
-    public static IDataSyncSession getCollaborationSession(IScyMessage scyMessage) {
-        return getCollaborationSession(scyMessage.getSession(), scyMessage.getToolName(), scyMessage.getUserName(), scyMessage.getId());
+    public static IDataSyncSession getDataSyncSession(ISyncMessage syncMessage) {
+        return getDataSyncSession(syncMessage.getToolSessionId(), syncMessage.getToolId(), syncMessage.getFrom(), syncMessage.getPersistenceId());
     }
 
 }

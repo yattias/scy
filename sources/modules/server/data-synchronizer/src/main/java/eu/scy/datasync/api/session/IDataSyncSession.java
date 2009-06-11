@@ -3,7 +3,7 @@ package eu.scy.datasync.api.session;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 
 
 /**
@@ -37,10 +37,10 @@ public interface IDataSyncSession {
     /**
      * Get all users on the session
      * 
-     * @return ArrayList containing ScyMessages representing the users on the session
+     * @return ArrayList containing SyncMessages representing the users on the session
      * 
      */
-    public ArrayList<IScyMessage> getUsers();
+    public ArrayList<ISyncMessage> getUsers();
     
     /**
      * set user
@@ -86,8 +86,8 @@ public interface IDataSyncSession {
     public void setPersistenceId(String persistenceId);
     
     /**
-     * Returns a scyMessge version of the collaboration service
+     * Returns a syncMessge version of the collaboration service
      * 
      */
-    public IScyMessage convertToScyMessage();
+    public ISyncMessage convertToSyncMessage();
 }

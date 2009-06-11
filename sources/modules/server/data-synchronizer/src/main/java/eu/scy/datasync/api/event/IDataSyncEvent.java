@@ -1,16 +1,15 @@
 package eu.scy.datasync.api.event;
 
-import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 
 
 /**
- * Event object for collaboration service listeners 
+ * Event object for datasync listeners 
  * 
- * @author anthonyp
+ * @author thomasd
  */
 public interface IDataSyncEvent {
     
-    //TODO: refactor 
-    public abstract IScyMessage getScyMessage();
+    public abstract ISyncMessage getSyncMessage();
     
 }

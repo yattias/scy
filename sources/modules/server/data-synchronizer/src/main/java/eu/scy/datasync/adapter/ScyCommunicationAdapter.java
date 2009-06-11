@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpacesAdapterHelper;
+import eu.scy.datasync.api.ISyncMessage;
 
 /**
  * TODO replace this with a helper for the singleton
@@ -29,19 +28,19 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         logger.debug("Empty Constructor Collaboration created");
     }
     
-    public void actionUponDelete(IScyMessage scyMessage) {
+    public void actionUponDelete(ISyncMessage syncMessage) {
         logger.debug("something was deleted in the tuple space");
-        sendCallBack(scyMessage);
+        sendCallBack(syncMessage);
     }
     
-    public void actionUponWrite(IScyMessage scyMessage) {
+    public void actionUponWrite(ISyncMessage syncMessage) {
         logger.debug("something was written in the tuple space");
-        sendCallBack(scyMessage);        
+        sendCallBack(syncMessage);        
     }
     
-    public void actionUponUpdate(IScyMessage scyMessage) {
+    public void actionUponUpdate(ISyncMessage syncMessage) {
         logger.debug("something was been updated in the tuple space");
-        sendCallBack(scyMessage);        
+        sendCallBack(syncMessage);        
     }
     
     private SQLSpaceAdapter getTupleAdapter() {
@@ -57,9 +56,9 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     }
     
     @Override
-    public String create(IScyMessage scyMessage) {
+    public String create(ISyncMessage syncMessage) {
         logger.debug("create");
-        return getTupleAdapter().write(scyMessage);
+        return getTupleAdapter().write(syncMessage);
     }
     
     @Override
@@ -69,15 +68,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     }
     
     @Override
-    public IScyMessage read(String id) {
+    public ISyncMessage read(String id) {
         logger.debug("read");
         return getTupleAdapter().readById(id);
     }
     
     @Override
-    public String update(IScyMessage scyMessage, String id) {
+    public String update(ISyncMessage syncMessage, String id) {
         logger.debug("update");
-        return getTupleAdapter().write(id, scyMessage);
+        return getTupleAdapter().write(id, syncMessage);
     }
     
     @Override
@@ -89,18 +88,18 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         return this.scyCommunicationListeners;
     }
     
-    public void sendCallBack(IScyMessage scyMessage) {
+    public void sendCallBack(ISyncMessage syncMessage) {
         for (IScyCommunicationListener cl : this.scyCommunicationListeners) {
             if (cl != null) {
-                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, scyMessage);
+                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, syncMessage);
                 cl.handleCommunicationEvent(scyCommunicationEvent);
             }
         }
     }
 
-    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
-        if(ScyMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
-            if(ScyMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
+    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
+        if(SyncMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
+            if(SyncMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
                 return getTupleAdapter().readAll(queryMessage);
             }
         }
