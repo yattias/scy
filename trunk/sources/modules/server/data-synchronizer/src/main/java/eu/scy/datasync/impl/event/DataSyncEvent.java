@@ -2,18 +2,18 @@ package eu.scy.datasync.impl.event;
 
 import java.util.EventObject;
 
-import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncEvent;
 
 /**
- * Implementation of the CollaborationServiceEvent inferace
+ * Implementation of the DataSyncEvent interface
  *  
- * @author anthonyp
+ * @author thomasd
  */
 public class DataSyncEvent extends EventObject implements IDataSyncEvent {
 
     private static final long serialVersionUID = 1L;
-    private IScyMessage scyMessage;
+    private ISyncMessage syncMessage;
 
     /**
      * constructor
@@ -22,14 +22,13 @@ public class DataSyncEvent extends EventObject implements IDataSyncEvent {
      * @param participant
      * @param message
      */
-    public DataSyncEvent(Object source, IScyMessage scyMessage){
+    public DataSyncEvent(Object source, ISyncMessage syncMessage){
         super(source);
-        this.scyMessage = scyMessage;
+        this.syncMessage = syncMessage;
     }
 
     
-    //TODO
-    public IScyMessage getScyMessage(){
-        return scyMessage;
+    public ISyncMessage getSyncMessage(){
+        return syncMessage;
     }
 }

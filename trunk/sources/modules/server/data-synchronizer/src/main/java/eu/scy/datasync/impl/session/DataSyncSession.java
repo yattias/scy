@@ -3,9 +3,9 @@ package eu.scy.datasync.impl.session;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.impl.SyncMessage;
 
 
 
@@ -69,14 +69,14 @@ public class DataSyncSession implements IDataSyncSession {
     }
 
     @Override
-    public ArrayList<IScyMessage> getUsers() {
+    public ArrayList<ISyncMessage> getUsers() {
         // TODO Auto-generated method stub
         return null;
     }
     
     @Override
-    public IScyMessage convertToScyMessage() {
-        return ScyMessage.createScyMessage(userName, toolName, String.valueOf(this.hashCode()), this.getClass().getName(), "some name", "some description", null, null, null, DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME, this.getId());
+    public ISyncMessage convertToSyncMessage() {
+        return SyncMessage.createSyncMessage(this.getId(), toolName, userName, null, this.getClass().getName(), this.getPersistenceId(), DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME);
     }
 
     @Override

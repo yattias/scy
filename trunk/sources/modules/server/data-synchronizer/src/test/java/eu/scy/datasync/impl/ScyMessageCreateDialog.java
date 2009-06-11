@@ -14,18 +14,13 @@ import net.miginfocom.swing.MigLayout;
 
 public class ScyMessageCreateDialog extends JDialog implements ActionListener {
     
-    private JTextField name = new JTextField(25);
-    private JTextField id = new JTextField(25);
-    private JTextField description = new JTextField(25);
-    
-    private JTextField userName = new JTextField(25);
-    private JTextField toolName = new JTextField(25);
-    private JTextField objectType = new JTextField(25);
-    private JTextField to = new JTextField(25);
+    private JTextField content = new JTextField(25);
     private JTextField from = new JTextField(25);
-    private JTextField messagePurpose = new JTextField(25);
-    private JTextField expiraton = new JTextField(25);
-    private JTextField session = new JTextField(25);
+    private JTextField to = new JTextField(25);
+    private JTextField event = new JTextField(25);
+    private JTextField toolId = new JTextField(25);
+    private JTextField toolSessionId = new JTextField(25);
+    private JTextField expiration = new JTextField(25);
     private JPanel allTextsPanel;
     
     public ScyMessageCreateDialog(JFrame parentFrame) {
@@ -36,41 +31,38 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
         // Gui stuff
     }
     
-    public ScyMessageCreateDialog(JFrame parentFrame, String name, String hardCodedToolName, String messagePurpose, String sessionid) {
-        super(parentFrame, "Create ScyMessage", true);
-        this.name.setText(name);
-        id.setText(hardCodedToolName);
-        this.messagePurpose.setText(messagePurpose);
-        this.session.setText(sessionid);
-        this.toolName.setText(hardCodedToolName);
+    
+//    ScyMessageCreateDialog d = new ScyMessageCreateDialog(
+//            NutpadDataSyncTestClient.this, 
+//        HARD_CODED_USER_NAME,
+//        HARD_CODED_TOOL_NAME, 
+//        "create", dataSyncSession.getId());            
+
+    
+    public ScyMessageCreateDialog(JFrame parentFrame, String userName, String toolId, String event, String toolSessionId) {
+        super(parentFrame, "Create SyncMessage", true);
+        this.from.setText(userName);
+        this.toolId.setText(toolId);
+        this.toolSessionId.setText(toolSessionId);
+        this.event.setText(event);
+        this.expiration.setText(String.valueOf(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME));
         initialize();
     }
     
     public void initialize() {
-        allTextsPanel = new JPanel(new MigLayout());
-        
-        allTextsPanel.add(new JLabel("name:"));
-        allTextsPanel.add(name, "wrap");
-        allTextsPanel.add(new JLabel("id:"));
-        allTextsPanel.add(id, "wrap");
-        allTextsPanel.add(new JLabel("description:"));
-        allTextsPanel.add(description, "wrap");
-        allTextsPanel.add(new JLabel("user name:"));
-        allTextsPanel.add(userName, "wrap");
-        allTextsPanel.add(new JLabel("tool name:"));
-        allTextsPanel.add(toolName, "wrap");
-        allTextsPanel.add(new JLabel("object type:"));
-        allTextsPanel.add(objectType, "wrap");
-        allTextsPanel.add(new JLabel("to:"));
-        allTextsPanel.add(to, "wrap");
+        allTextsPanel = new JPanel(new MigLayout());        
         allTextsPanel.add(new JLabel("from:"));
         allTextsPanel.add(from, "wrap");
-        allTextsPanel.add(new JLabel("message purpose:"));
-        allTextsPanel.add(messagePurpose, "wrap");
+        allTextsPanel.add(new JLabel("toolId:"));
+        allTextsPanel.add(toolId, "wrap");
+        allTextsPanel.add(new JLabel("toolSessionId:"));
+        allTextsPanel.add(toolSessionId, "wrap");
+        allTextsPanel.add(new JLabel("event:"));
+        allTextsPanel.add(event, "wrap");
+        allTextsPanel.add(new JLabel("content:"));
+        allTextsPanel.add(content, "wrap");
         allTextsPanel.add(new JLabel("expiration:"));
-        allTextsPanel.add(expiraton, "wrap");
-        allTextsPanel.add(new JLabel("session:"));
-        allTextsPanel.add(session, "wrap");
+        allTextsPanel.add(expiration, "wrap");
         
         JButton submit = new JButton("Submit");
         submit.addActionListener(this);
@@ -91,7 +83,7 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
     
     public String[] showDialog() {
         setVisible(true);
-        String[] s = { name.getText(), id.getText(), description.getText(), userName.getText(), toolName.getText(), objectType.getText(), to.getText(), from.getText(), messagePurpose.getText(), expiraton.getText(), session.getText() };
+        String[] s = { toolSessionId.getText(), toolId.getText(), from.getText(), content.getText(), event.getText(), null, expiration.getText() };
         return s;
     }
 }

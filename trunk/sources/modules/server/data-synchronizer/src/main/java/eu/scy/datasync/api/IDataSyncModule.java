@@ -2,7 +2,6 @@ package eu.scy.datasync.api;
 
 import java.util.ArrayList;
 
-import eu.scy.communications.message.IScyMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
 
@@ -10,7 +9,7 @@ import eu.scy.datasync.api.session.IDataSyncSession;
 /**
  * DataSyncModule Interface
  * 
- * @author anthonyp
+ * @author thomasd
  */
 public interface IDataSyncModule {
 
@@ -18,30 +17,28 @@ public interface IDataSyncModule {
   /**
    * Do a create operation for a object to be syncronized
    * 
-   * @param scyMessage
-   * @return
+   * @param syncMessage
    * @throws DataSyncException
    */
-  public void create(IScyMessage scyMessage) throws DataSyncException;
+  public void create(ISyncMessage syncMessage) throws DataSyncException;
   
   /**
    * Return a specific message based on id
    * 
    * @param id
-   * @return
+   * @return ISyncMessage
    * @throws DataSyncException
    */
-  public IScyMessage read(String id) throws DataSyncException;
+  public ISyncMessage read(String id) throws DataSyncException;
   
   /**
    * Updates an object with the following id
    * 
-   * @param scyMessage - update message
+   * @param syncMessage - update message
    * @param id - id of the object to update
-   * @return 
    * @throws DataSyncException
    */
-  public void update(IScyMessage scyMessage, String id) throws DataSyncException;
+  public void update(ISyncMessage syncMessage, String id) throws DataSyncException;
   
   /**
    * Deletes the specified message
@@ -83,14 +80,14 @@ public interface IDataSyncModule {
    /**
     * test method
     */ 
-    public void sendCallBack(IScyMessage scyMessage) throws DataSyncException;
+    public void sendCallBack(ISyncMessage syncMessage) throws DataSyncException;
 
     /**
      * 
      * @param message defining the query
      * @return list of messages containing the query result
      */
-    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage);
+    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage);
 
     /**
      * Gives the complete set of ScyMessges which represent changes for this specific client
@@ -102,7 +99,7 @@ public interface IDataSyncModule {
      * 
      * @return arrayList
      */
-    public ArrayList<IScyMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser);    
+    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser);    
     
     /**
      * Creates and returns an instance of IDataSyncSession
@@ -146,7 +143,6 @@ public interface IDataSyncModule {
      * 
      * @param session - sessionId
      * 
-     * @return void
      */
     public void cleanSession(String sessionId);
     

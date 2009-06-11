@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.datasync.adapter.ScyCommunicationEvent;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
+import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
 
@@ -28,7 +28,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     private static final Logger logger = Logger.getLogger(DataSyncLocalImpl.class.getName());
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
-    private ArrayList<IDataSyncListener> collaborationListeners = new ArrayList<IDataSyncListener>();
+    private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     
     
     /**
@@ -42,7 +42,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
             public void handleCommunicationEvent(ScyCommunicationEvent e) {
                 // get the scy message and send back to the whos listening
                 try {
-                    sendCallBack(e.getScyMessage());
+                    sendCallBack(e.getSyncMessage());
                 } catch (DataSyncException e1) {
                     e1.printStackTrace();
                 }
@@ -51,8 +51,8 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
     
     @Override
-    public void addDataSyncListener(IDataSyncListener collaborationListener) {
-        collaborationListeners.add(collaborationListener);
+    public void addDataSyncListener(IDataSyncListener dataSyncListener) {
+        dataSyncListeners.add(dataSyncListener);
     }
     
     @Override
@@ -66,8 +66,8 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
     
     @Override
-    public void create(IScyMessage scyMessage) throws DataSyncException {
-        this.scyCommunicationAdapter.create(scyMessage);
+    public void create(ISyncMessage syncMessage) throws DataSyncException {
+        this.scyCommunicationAdapter.create(syncMessage);
     }
     
     @Override
@@ -76,45 +76,46 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
     
     @Override
-    public IScyMessage read(String id) throws DataSyncException {
-        IScyMessage read = this.scyCommunicationAdapter.read(id);
+    public ISyncMessage read(String id) throws DataSyncException {
+        ISyncMessage read = this.scyCommunicationAdapter.read(id);
         // TODO call exeception
         return read;
     }
     
     @Override
-    public void sendCallBack(IScyMessage scyMessage) throws DataSyncException {
-        for (IDataSyncListener cl : collaborationListeners) {
+    public void sendCallBack(ISyncMessage syncMessage) throws DataSyncException {
+        for (IDataSyncListener cl : dataSyncListeners) {
             if (cl != null) {
-                DataSyncEvent collaborationEvent = new DataSyncEvent(this, scyMessage);
-                cl.handleDataSyncEvent(collaborationEvent);
+                DataSyncEvent dataSyncEvent = new DataSyncEvent(this, syncMessage);
+                cl.handleDataSyncEvent(dataSyncEvent);
             }
         }
     }
     
     @Override
-    public void update(IScyMessage scyMessage, String id) throws DataSyncException {
-        this.scyCommunicationAdapter.update(scyMessage, id);
+    public void update(ISyncMessage syncMessage, String id) throws DataSyncException {
+        this.scyCommunicationAdapter.update(syncMessage, id);
     }
     
 
     @Override
-    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
+    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
     
     @Override
-    public ArrayList<IScyMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
+    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        IScyMessage scyMessage = ScyMessage.createScyMessage(null, client, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        ArrayList<IScyMessage> messages = this.scyCommunicationAdapter.doQuery(scyMessage);
+        //ISyncMessage syncMessage = ((SyncMessage) SyncMessage).createScyMessage(null, client, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
         if (includeChangesByUser) {
             return messages;
         }
-        ArrayList<IScyMessage> messagesFiltered = new ArrayList<IScyMessage>();
-        for (IScyMessage iScyMessage : messages) {
-            if (!userName.equals(iScyMessage.getUserName())) {
-                messagesFiltered.add(iScyMessage);
+        ArrayList<ISyncMessage> messagesFiltered = new ArrayList<ISyncMessage>();
+        for (ISyncMessage syncMessage : messages) {
+            if (!userName.equals(syncMessage.getFrom())) {
+                messagesFiltered.add(syncMessage);
             }
         }
         return messagesFiltered;
@@ -122,15 +123,15 @@ public class DataSyncLocalImpl implements IDataSyncModule {
 
     @Override
     public IDataSyncSession createSession(String toolName, String userName) {
-        IDataSyncSession collaborationSession = DataSyncSessionFactory.getCollaborationSession(null, toolName, userName);
-        IScyMessage message = collaborationSession.convertToScyMessage();
+        IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
+        ISyncMessage message = dataSyncSession.convertToSyncMessage();
         try {
             this.create(message);
         } catch (DataSyncException e) {
             logger.error("Failed to create ScyMessage: " + message.toString());
             e.printStackTrace();
         }
-        return collaborationSession;
+        return dataSyncSession;
     }
     
     @Override
@@ -155,11 +156,11 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        IScyMessage scyMessage = ScyMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
-        ArrayList<IScyMessage> messages = this.doQuery(scyMessage);
+        ISyncMessage syncMessage = SyncMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
+        ArrayList<ISyncMessage> messages = this.doQuery(syncMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
-        for (IScyMessage message : messages) {
-            sessions.add(DataSyncSessionFactory.getCollaborationSession(message));
+        for (ISyncMessage message : messages) {
+            sessions.add(DataSyncSessionFactory.getDataSyncSession(message));
         }
         return sessions;
     }

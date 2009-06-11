@@ -2,36 +2,36 @@ package eu.scy.datasync.adapter;
 
 import java.util.EventObject;
 
-import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
 
 /**
  * Represents an event in the scycommunication layer
  * 
- * @author anthonyp
+ * @author thomasd
  */
 public class ScyCommunicationEvent extends EventObject {
 
-    private IScyMessage scyMessage;
+    private ISyncMessage syncMessage;
    
     /**
      * Contructor
      * 
      * @param source
-     * @param scyMessage
+     * @param syncMessage
      */
-    public ScyCommunicationEvent(Object source, IScyMessage scyMessage){
+    public ScyCommunicationEvent(Object source, ISyncMessage syncMessage){
         super(source);
-        this.scyMessage = scyMessage;
+        this.syncMessage = syncMessage;
     }
 
     
     /**
-     * Get the scy message
+     * Get the syncMessage
      * 
      * @return
      */
-    public IScyMessage getScyMessage() {
-        return scyMessage;
+    public ISyncMessage getSyncMessage() {
+        return syncMessage;
     }
     
 }
