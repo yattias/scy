@@ -135,7 +135,7 @@ public class SimquestModel extends Element {
 			if (rel.getFigure2().getType() == JdFigure.FLOWCTR) {
 				if (((JdFlow) ((JdFlowCtr) rel.getFigure2()).getParent())
 						.getFigure1() == stock) {
-					list.add((JdAux) rel.getFigure1());
+					list.add((JdFigure) rel.getFigure1());
 				}
 			}
 		}

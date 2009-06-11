@@ -81,10 +81,19 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener  
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("run")) {
+			editor.checkModel();
+			if (editor.getModelCheckMessages().size()>0) {
+				String messages = new String("The model cannot be executed, because\n");
+				for (String msg: editor.getModelCheckMessages()) {
+					messages = messages+msg+"\n";
+				}
+				JOptionPane.showMessageDialog(null, messages);
+				return;				
+			}
 			try {
 				injectSimulationSettings();
 			} catch(NumberFormatException ex) {
-				JOptionPane.showMessageDialog( null, "Couldn't parse the simulation settings.\nPlease check."); 
+				JOptionPane.showMessageDialog(null, "Couldn't parse the simulation settings.\nPlease check."); 
 				return;
 			}
 			

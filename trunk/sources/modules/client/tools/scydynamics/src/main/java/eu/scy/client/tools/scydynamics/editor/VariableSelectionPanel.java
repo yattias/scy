@@ -37,6 +37,19 @@ public class VariableSelectionPanel extends JPanel {
 			updateVariables();
 		}
 	}
+	
+	public void checkModel() {
+		//
+		Enumeration<JdObject> objects = editor.getModel().getObjects().elements();
+		JdObject object;
+		while (objects.hasMoreElements()) {
+			object = objects.nextElement();		
+			if (!object.isSpecified()) {
+				System.out.println("VariableSelectionPanel.checkModel: "+object.getLabel()+" is not specified!");
+			}
+		}
+		
+	}
 
 	public void updateVariables() {
 		Model model = editor.getModel();
