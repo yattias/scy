@@ -11,6 +11,13 @@
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
 		<version>9.5.2-SNAPSHOT</version>
-	</parent> 	
+	</parent>
+	
+	<dependencies>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>	
+	</dependencies>
 
 </project>
