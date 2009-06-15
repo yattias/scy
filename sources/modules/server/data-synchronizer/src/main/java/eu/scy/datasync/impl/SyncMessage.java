@@ -5,6 +5,7 @@ import org.xmpp.packet.Message;
 import org.xmpp.packet.PacketExtension;
 
 import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.datasync.extension.DataSyncPacketExtension;
 
 
 /**
@@ -85,13 +86,21 @@ public class SyncMessage implements ISyncMessage {
      *  @return ISyncMessage
      */
     public static ISyncMessage createSyncMessage(Message xmppMessage) {
-        return createSyncMessage(
-                xmppMessage.getChildElement("toolSessionId", DATA_SYNC_XMPP_NAMESPACE).getText(), 
-                xmppMessage.getChildElement("toolId", DATA_SYNC_XMPP_NAMESPACE).getText(), 
-                xmppMessage.getFrom().toString(),
-                xmppMessage.getChildElement("content", DATA_SYNC_XMPP_NAMESPACE).getText(), 
-                xmppMessage.getChildElement("event", DATA_SYNC_XMPP_NAMESPACE).getText(),
-                xmppMessage.getChildElement("persistenceId", DATA_SYNC_XMPP_NAMESPACE).getText());
+    	
+    	DataSyncPacketExtension dsp = (DataSyncPacketExtension) xmppMessage.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+        
+        if( dsp != null) {
+        	 return createSyncMessage(
+                     dsp.getToolSessionId(), 
+                     dsp.getToolId(), 
+                     dsp.getFrom(),
+                     dsp.getContent(), 
+                     dsp.getEvent(),
+                     dsp.getPersistenceId());
+        	
+        }
+    	
+        return null;
     }
     
 
@@ -113,31 +122,8 @@ public class SyncMessage implements ISyncMessage {
         
         xmppMessage.setTo(DATA_SYNCHRONIZER_JID);
         
-        PacketExtension extension;
+        DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
 
-        //toolSessionId
-        extension = new PacketExtension("toolSessionId", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(toolSessionId);
-        xmppMessage.addExtension(extension);        
-        //toolID
-        extension = new PacketExtension("toolId", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(toolId);
-        xmppMessage.addExtension(extension);
-        //from
-        extension = new PacketExtension("from", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(from);
-        xmppMessage.addExtension(extension);
-        //content
-        extension = new PacketExtension("content", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addCDATA(content);
-        xmppMessage.addExtension(extension);        
-        //event
-        extension = new PacketExtension("event", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(event);
-        xmppMessage.addExtension(extension);
-        //persistenceId
-        extension = new PacketExtension("persistenceId", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(String.valueOf(persistenceId));
         xmppMessage.addExtension(extension);
         
         return xmppMessage;

@@ -1,9 +1,14 @@
 package eu.scy.datasync.extension;
 
+import java.util.TimeZone;
+
 import org.dom4j.Element;
+import org.dom4j.QName;
+import org.xmpp.forms.DataForm;
 import org.xmpp.packet.PacketExtension;
 
 import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.datasync.impl.SyncMessage;
 
 /**
  * used by the xmpp message xmlify data sync.
@@ -14,15 +19,22 @@ import eu.scy.datasync.api.ISyncMessage;
 public class DataSyncPacketExtension extends PacketExtension {
 
 	
+
+	
     /**
      * Element name of the packet extension.
      */
-    public static final String ELEMENT_NAME = "datasync";
+    public static final String ELEMENT_NAME = "x";
 
     /**
      * Namespace of the packet extension.
      */
-    public static final String NAMESPACE = "SyncMessage.DATA_SYNC_XMPP_NAMESPACE";
+    public static final String NAMESPACE = "jabber:x:datasync";
+    
+    static {
+        // Register that DataForms uses the jabber:x:data namespace
+        registeredExtensions.put(QName.get(ELEMENT_NAME, NAMESPACE), DataSyncPacketExtension.class);
+    }
 	
 	public DataSyncPacketExtension(Element element) {
 		super(element);
