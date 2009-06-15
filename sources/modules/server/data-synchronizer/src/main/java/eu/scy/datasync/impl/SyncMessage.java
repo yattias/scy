@@ -97,7 +97,7 @@ public class SyncMessage implements ISyncMessage {
     /**
      * Create an org.xmpp.packet.message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
      *  
-     * @return message 
+     * @return org.xmpp.packet.message 
      */
     public Message convertToXMPPMessage() {
         Message xmppMessage = new Message();        
