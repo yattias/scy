@@ -23,14 +23,14 @@ import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
+import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 
 public class DataSyncXMPPImpl implements IDataSyncModule {
@@ -286,8 +286,8 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
   
     
     @Override
-    public void create(IScyMessage scyMessage) throws DataSyncException {
-        this.sendPacket(scyMessage, "create");
+    public void create(ISyncMessage syncMessage) throws DataSyncException {
+        this.sendPacket(syncMessage, "create");
     }
 
     @Override
@@ -296,12 +296,12 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     }
 
     @Override
-    public void update(IScyMessage scyMessage, String id) throws DataSyncException {
-        this.sendPacket(scyMessage, "update");
+    public void update(ISyncMessage syncMessage, String id) throws DataSyncException {
+        this.sendPacket(syncMessage, "update");
     }
 
     @Override
-    public void sendCallBack(IScyMessage scyMessage) throws DataSyncException {
+    public void sendCallBack(ISyncMessage syncMessage) throws DataSyncException {
     }
     
     @Override
@@ -310,20 +310,21 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     }
 
     @Override
-    public IScyMessage read(String id) throws DataSyncException {
+    public ISyncMessage read(String id) throws DataSyncException {
         this.sendPacket(id, "read");
-        return new ScyMessage();
+        return new SyncMessage();
     }
 
     @Override
-    public ArrayList<IScyMessage> doQuery(IScyMessage queryMessage) {
+    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
         return null;
     }
 
     @Override
-    public ArrayList<IScyMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser) {
-        IScyMessage scyMessage = ScyMessage.createScyMessage(null, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        return this.doQuery(scyMessage);
+    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser) {
+        //ISyncMessage syncMessage = SyncMessage.createScyMessage(null, toolName, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        return this.doQuery(queryMessage);
     }
 
     @Override
