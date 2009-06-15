@@ -2,7 +2,9 @@ package eu.scy.datasync.adapter.sqlspaces;
 
 import java.util.EventObject;
 
-import eu.scy.communications.message.IScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
+
+
 
 /**
  * Represents an event in the scycommunication layer
@@ -11,29 +13,29 @@ import eu.scy.communications.message.IScyMessage;
  */
 public class SQLSpaceAdapterEvent extends EventObject {
 
-    private IScyMessage scyMessage;
+    private ISyncMessage syncMessage;
     private String action;
    
     /**
      * Contructor
      * 
      * @param source
-     * @param scyMessage
+     * @param syncMessage
      */
-    public SQLSpaceAdapterEvent(Object source, IScyMessage scyMessage,String action){
+    public SQLSpaceAdapterEvent(Object source, ISyncMessage syncMessage, String action){
         super(source);
-        this.scyMessage = scyMessage;
+        this.syncMessage = syncMessage;
         this.setAction(action);
     }
 
     
     /**
-     * Get the scy message
+     * Get the sync message
      * 
-     * @return
+     * @return syncMessage
      */
-    public IScyMessage getScyMessage() {
-        return scyMessage;
+    public ISyncMessage getScyMessage() {
+        return syncMessage;
     }
 
 

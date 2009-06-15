@@ -62,7 +62,7 @@ public interface IScyCommunicationAdapter {
      * @param id
      * @return
      */
-    public String update(ISyncMessage syncMessage, String id);
+    public String update(ISyncMessage syncMessage);
     
     /**
      * Does a delete operation

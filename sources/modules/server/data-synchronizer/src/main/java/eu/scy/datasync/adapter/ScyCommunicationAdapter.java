@@ -9,6 +9,7 @@ import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpacesAdapterHelper;
 import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.datasync.impl.SyncMessage;
 
 /**
  * TODO replace this with a helper for the singleton
@@ -74,9 +75,9 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     }
     
     @Override
-    public String update(ISyncMessage syncMessage, String id) {
+    public String update(ISyncMessage syncMessage) {
         logger.debug("update");
-        return getTupleAdapter().write(id, syncMessage);
+        return getTupleAdapter().write(syncMessage.getPersistenceId(), syncMessage);
     }
     
     @Override
@@ -98,10 +99,8 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     }
 
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
-        if(SyncMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getName())) {
-            if(SyncMessage.QUERY_TYPE_ALL.equals(queryMessage.getDescription())) {
-                return getTupleAdapter().readAll(queryMessage);
-            }
+        if(SyncMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getEvent())) {
+            return getTupleAdapter().readAll(queryMessage);
         }
         return null;
     }

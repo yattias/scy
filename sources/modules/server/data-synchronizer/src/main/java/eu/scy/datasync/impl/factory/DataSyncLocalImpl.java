@@ -93,8 +93,11 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
     
     @Override
-    public void update(ISyncMessage syncMessage, String id) throws DataSyncException {
-        this.scyCommunicationAdapter.update(syncMessage, id);
+    public void update(ISyncMessage syncMessage) throws DataSyncException {
+        if (syncMessage.getPersistenceId() != null) {
+            this.scyCommunicationAdapter.update(syncMessage);
+        }
+        throw new DataSyncException();
     }
     
 
@@ -107,7 +110,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
         //ISyncMessage syncMessage = ((SyncMessage) SyncMessage).createScyMessage(null, client, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, userName, null, SyncMessage.MESSAGE_TYPE_QUERY, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
         if (includeChangesByUser) {
             return messages;

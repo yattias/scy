@@ -32,13 +32,12 @@ public interface IDataSyncModule {
   public ISyncMessage read(String id) throws DataSyncException;
   
   /**
-   * Updates an object with the following id
+   * Updates an object. Update can only happen if object.persistenceId is set.
    * 
    * @param syncMessage - update message
-   * @param id - id of the object to update
    * @throws DataSyncException
    */
-  public void update(ISyncMessage syncMessage, String id) throws DataSyncException;
+  public void update(ISyncMessage syncMessage) throws DataSyncException;
   
   /**
    * Deletes the specified message
