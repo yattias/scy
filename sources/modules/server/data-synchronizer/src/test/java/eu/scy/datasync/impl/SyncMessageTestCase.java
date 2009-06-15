@@ -20,13 +20,13 @@ public class SyncMessageTestCase {
     private static final String TEST_TOOL_ID = "eu.scy.test." + SyncMessageTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
-    
+    private final String TEST_PERSISTENCE_ID = "123";
     
     public SyncMessageTestCase() {
     }
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
     
     //not needed anymore see convertPojoToPacketExtension:DataSyncPacketTest
