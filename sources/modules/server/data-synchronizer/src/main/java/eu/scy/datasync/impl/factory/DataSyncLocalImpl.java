@@ -156,8 +156,9 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        ISyncMessage syncMessage = SyncMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
-        ArrayList<ISyncMessage> messages = this.doQuery(syncMessage);
+        //ISyncMessage syncMessage = SyncMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
         for (ISyncMessage message : messages) {
             sessions.add(DataSyncSessionFactory.getDataSyncSession(message));
