@@ -43,7 +43,6 @@ public class SyncMessageTestCase {
         assertNotNull(syncMessage);
         Message xmppMessage = ((SyncMessage) syncMessage).convertToXMPPMessage();
         assertNotNull(xmppMessage);
-        logger.debug("" + xmppMessage);
         assertEquals(TEST_CONTENT, xmppMessage.getChildElement("content", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
         assertEquals(TEST_EVENT, xmppMessage.getChildElement("event", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
         assertEquals(TEST_TOOL_ID, xmppMessage.getChildElement("toolId", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
