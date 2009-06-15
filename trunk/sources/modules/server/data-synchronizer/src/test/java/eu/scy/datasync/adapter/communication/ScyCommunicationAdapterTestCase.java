@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import eu.scy.datasync.adapter.IScyCommunicationAdapter;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
+import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterTestCase;
 import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.SyncMessageTestCase;
@@ -23,7 +24,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
 
     private static final String TEST_CONTENT = "This is the content, but there isn't much.";
     private static final String TEST_EVENT = "important event";
-    private static final String TEST_TOOL_ID = "eu.scy.testtool";
+    private static final String TEST_TOOL_ID = "eu.scy.test." + ScyCommunicationAdapterTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
 
@@ -92,7 +93,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     }
 
     @Override
-    public String update(ISyncMessage sm, String id) {
+    public String update(ISyncMessage sm) {
         // TODO Auto-generated method stub        
         return null;
     }

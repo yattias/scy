@@ -296,8 +296,11 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     }
 
     @Override
-    public void update(ISyncMessage syncMessage, String id) throws DataSyncException {
-        this.sendPacket(syncMessage, "update");
+    public void update(ISyncMessage syncMessage) throws DataSyncException {
+        if (syncMessage.getPersistenceId() != null) {
+            this.sendPacket(syncMessage, "update");
+        }
+        throw new DataSyncException();
     }
 
     @Override

@@ -17,7 +17,8 @@ public class SyncMessage implements ISyncMessage {
     private static final Logger logger = Logger.getLogger(SyncMessage.class.getName());    
 
     public static final String DATA_SYNC_XMPP_NAMESPACE = "eu:scy:datasync";
-    public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@wiki.intermedia.uio.no";
+    public static final String XMPP_SERVER_ADDRESS = "wiki.intermedia.uio.no";
+    public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@" + XMPP_SERVER_ADDRESS;
     public static final long DEFAULT_MESSAGE_EXPIRATION_TIME = 60*60*1000; // one hour
     
     public static final String MESSAGE_TYPE_QUERY = "QUERY";
@@ -29,8 +30,6 @@ public class SyncMessage implements ISyncMessage {
     private String content;
     private String event;
     private String persistenceId;
-
-
     private long expiration;
 
     
@@ -49,7 +48,7 @@ public class SyncMessage implements ISyncMessage {
      * @return
      */
     public static ISyncMessage createSyncMessage(String toolSessionId, String toolId, String from, String content, String event, String persistenceId) {
-        return createSyncMessage(toolSessionId, toolId, content, event, from, persistenceId, DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return createSyncMessage(toolSessionId, toolId, from, content, event, persistenceId, DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
     
     
@@ -102,31 +101,44 @@ public class SyncMessage implements ISyncMessage {
      */
     public Message convertToXMPPMessage() {
         Message xmppMessage = new Message();        
-        if (this.from == null) {
-            logger.error("SyncMessage.from cannot be null");
+        if (from == null) {
+            logger.error("From cannot be null");
             return null;
+        } else if (from.contains("@")) {
+            xmppMessage.setFrom(from);            
+        } else {
+            xmppMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
         }
-        xmppMessage.setFrom(this.from);
+        
         xmppMessage.setTo(DATA_SYNCHRONIZER_JID);
         
         PacketExtension extension;
 
-        //toolID
-        extension = new PacketExtension("toolId", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(this.toolId);
-        xmppMessage.addExtension(extension);
         //toolSessionId
         extension = new PacketExtension("toolSessionId", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(this.toolSessionId);
+        extension.getElement().addText(toolSessionId);
         xmppMessage.addExtension(extension);        
+        //toolID
+        extension = new PacketExtension("toolId", DATA_SYNC_XMPP_NAMESPACE);
+        extension.getElement().addText(toolId);
+        xmppMessage.addExtension(extension);
+        //from
+        extension = new PacketExtension("from", DATA_SYNC_XMPP_NAMESPACE);
+        extension.getElement().addText(from);
+        xmppMessage.addExtension(extension);
         //content
         extension = new PacketExtension("content", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addCDATA(this.content);
+        extension.getElement().addCDATA(content);
         xmppMessage.addExtension(extension);        
         //event
         extension = new PacketExtension("event", DATA_SYNC_XMPP_NAMESPACE);
-        extension.getElement().addText(this.event);
+        extension.getElement().addText(event);
         xmppMessage.addExtension(extension);
+        //persistenceId
+        extension = new PacketExtension("persistenceId", DATA_SYNC_XMPP_NAMESPACE);
+        extension.getElement().addText(String.valueOf(persistenceId));
+        xmppMessage.addExtension(extension);
+        
         return xmppMessage;
     }
     
@@ -134,11 +146,12 @@ public class SyncMessage implements ISyncMessage {
     @Override
     public String toString() {
         StringBuffer output = new StringBuffer();
-        output.append(" from: " + from + "\n");
-        output.append(" toolId: " + toolId + "\n");
         output.append(" toolSessionId: " + toolSessionId + "\n");
+        output.append(" toolId: " + toolId + "\n");
+        output.append(" from: " + from + "\n");
         output.append(" content: " + content + "\n");
         output.append(" event: " + event + "\n");
+        output.append(" persistenceId: " + persistenceId + "\n");
         output.append(" expiration: " + String.valueOf(expiration) + "\n");
         return output.toString();
     }

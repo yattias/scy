@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.datasync.impl.SyncMessage;
+
 
 
 public class SQLSpaceAdapter implements Callback {
@@ -62,30 +63,27 @@ public class SQLSpaceAdapter implements Callback {
     /**
      * write
      */
-    public String write(IScyMessage scyMessage) {
-        return write(null, scyMessage);
+    public String write(ISyncMessage syncMessage) {
+        return write(null, syncMessage);
     }
     
     /**
      * write the tuple to a message
      * 
      * @param tupleId
-     * @param sm
+     * @param syncMessage
      * @return
      */
-    public String write(String tupleId, IScyMessage sm) {
-        String user = sm.getUserName();
-        String tool = sm.getToolName();
-        String id = sm.getId();
-        String type = sm.getObjectType();
-        String name = sm.getName();
-        String description = sm.getDescription();
-        String to = sm.getTo();
-        String from = sm.getFrom();
-        String purpose = sm.getMessagePurpose();
-        String session = sm.getSession();
-        long expiration = sm.getExpiraton();
-        Tuple tuple = new Tuple(user != null ? user : "", tool != null ? tool : "", id != null ? id : "", type != null ? type : "", name != null ? name : "", description != null ? description : "", to != null ? to : "", from != null ? from : "", purpose != null ? purpose : "", session != null ? session : "");
+    public String write(String tupleId, ISyncMessage syncMessage) {
+        
+        String toolSessionId = syncMessage.getToolSessionId();
+        String toolId = syncMessage.getToolId();
+        String from = syncMessage.getFrom();
+        String content = syncMessage.getContent();
+        String event = syncMessage.getEvent();
+        long expiration = syncMessage.getExpiration();
+        
+        Tuple tuple = new Tuple(toolSessionId != null ? toolSessionId : "", toolId != null ? toolId : "", from != null ? from : "", content != null ? content : "", event != null ? event : "");
         logger.debug("About to write tuple: " + tuple);
         
         if (expiration > 0) {
@@ -104,7 +102,7 @@ public class SQLSpaceAdapter implements Callback {
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
         } catch (TupleSpaceException e) {
-            //logger.error("Trouble while writing or updating touple " + e);
+            logger.error("Trouble while writing or updating touple " + e);
             e.printStackTrace();
         }
         return String.valueOf(tid.getID());
@@ -117,19 +115,14 @@ public class SQLSpaceAdapter implements Callback {
      * @param scyMessage
      * @return
      */
-    public ArrayList<IScyMessage> readAll(IScyMessage scyMessage) {        
-        Field f1 = scyMessage.getUserName() == null ? new Field(String.class) : new Field(scyMessage.getUserName());
-        Field f2 = scyMessage.getToolName() == null ? new Field(String.class) : new Field(scyMessage.getToolName());
-        Field f3 = new Field(String.class);
+    public ArrayList<ISyncMessage> readAll(ISyncMessage syncMessage) {        
+        Field f1 = syncMessage.getToolSessionId() == null ? new Field(String.class) : new Field(syncMessage.getToolSessionId());
+        Field f2 = syncMessage.getToolId() == null ? new Field(String.class) : new Field(syncMessage.getToolId());
+        Field f3 = syncMessage.getFrom() == null ? new Field(String.class) : new Field(syncMessage.getFrom());
         Field f4 = new Field(String.class);
         Field f5 = new Field(String.class);
-        Field f6 = new Field(String.class);
-        Field f7 = new Field(String.class);
-        Field f8 = new Field(String.class);
-        Field f9 = new Field(String.class);
-        Field f10 = scyMessage.getSession() == null ? new Field(String.class) : new Field(scyMessage.getSession());
         
-        Tuple tupleTemplate = new Tuple(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10);
+        Tuple tupleTemplate = new Tuple(f1, f2, f3, f4, f5);
         
         Tuple returnTuple[] = null;
         try {
@@ -139,13 +132,13 @@ public class SQLSpaceAdapter implements Callback {
             return null;
         }
         
-        ArrayList<IScyMessage> messages = new ArrayList<IScyMessage>();
+        ArrayList<ISyncMessage> messages = new ArrayList<ISyncMessage>();
         if (returnTuple != null && returnTuple.length > 0) {            
             for (Tuple tuple : returnTuple) {
-                messages.add(convertTupleToScyMessage(tuple));
+                messages.add(convertTupleToSyncMessage(tuple));
             }
         } else {
-            logger.error("readAll found no tuples matching " + scyMessage.toString());
+            logger.error("readAll found no tuples matching " + syncMessage.toString());
         }
         return messages;
     }
@@ -178,9 +171,9 @@ public class SQLSpaceAdapter implements Callback {
      * Read by id
      * 
      * @param id
-     * @return IScyMessage
+     * @return ISyncMessage
      */
-    public IScyMessage readById(String id) {
+    public ISyncMessage readById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
@@ -188,7 +181,7 @@ public class SQLSpaceAdapter implements Callback {
         } catch (TupleSpaceException e) {
             logger.error("Trouble while reading touple " + e);
         }
-        return convertTupleToScyMessage(returnTuple);
+        return convertTupleToSyncMessage(returnTuple);
     }
     
     /**
@@ -197,29 +190,28 @@ public class SQLSpaceAdapter implements Callback {
      * @param id
      * @return IScyMessage
      */
-    public IScyMessage takeById(String id) {
+    public ISyncMessage takeById(String id) {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.takeTupleById(new TupleID(id));
         } catch (TupleSpaceException e) {
             logger.error("Trouble while take touple " + e);
         }
-        return convertTupleToScyMessage(returnTuple);
+        return convertTupleToSyncMessage(returnTuple);
     }
     
     /**
-     * Convert tuple to a scymessage
+     * Convert tuple to a ISyncMessage
      * 
      * @param tuple to be converted
-     * @return
+     * @return ISyncMessage
      */
-    private IScyMessage convertTupleToScyMessage(Tuple tuple) {
+    private ISyncMessage convertTupleToSyncMessage(Tuple tuple) {
         if (tuple == null) {
             return null;
         }
         Field[] fields = tuple.getFields();
-        //FIXME: ultra-hack! over-writing id on the way back in order to add the tuple id. this needs to be solved differently.
-        return ScyMessage.createScyMessage((String) fields[0].getValue(), (String) fields[1].getValue(), tuple.getTupleID().toString(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), (String) fields[6].getValue(), (String) fields[7].getValue(), (String) fields[8].getValue(), 0, (String) fields[9].getValue());
+        return SyncMessage.createSyncMessage((String) fields[0].getValue(), (String) fields[1].getValue(), tuple.getTupleID().toString(), (String) fields[3].getValue(), (String) fields[4].getValue(), tuple.getTupleID().toString());
     }
 
     
@@ -236,13 +228,13 @@ public class SQLSpaceAdapter implements Callback {
                 
                 switch (cmd) {
                     case WRITE:
-                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), WRITE);
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToSyncMessage(afterCmd), WRITE);
                         break;
                     case DELETE:
-                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(beforeCmd), DELETE);
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToSyncMessage(beforeCmd), DELETE);
                         break;
                     case UPDATE:
-                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToScyMessage(afterCmd), UPDATE);
+                        sqlSpacesAdapterEvent = new SQLSpaceAdapterEvent(this, convertTupleToSyncMessage(afterCmd), UPDATE);
                         break;
                 }             
                 theListener.handleSQLSpacesEvent(sqlSpacesAdapterEvent);

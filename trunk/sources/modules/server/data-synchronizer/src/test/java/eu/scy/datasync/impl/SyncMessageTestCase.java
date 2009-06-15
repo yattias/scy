@@ -17,7 +17,7 @@ public class SyncMessageTestCase {
     private static final Logger logger = Logger.getLogger(SyncMessageTestCase.class.getName());
     private static final String TEST_CONTENT = "This is the content, but there isn't much.";
     private static final String TEST_EVENT = "important event";
-    private static final String TEST_TOOL_ID = "eu.scy.testtool";
+    private static final String TEST_TOOL_ID = "eu.scy.test." + SyncMessageTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
     
@@ -53,7 +53,7 @@ public class SyncMessageTestCase {
     
     
     @org.junit.Test
-    public void testCreateSyncMessage() {        
+    public void testCreateSyncMessage() {
         //test convert xmpp message to SyncMessage
         ISyncMessage syncMessage = getTestSyncMessage();
         assertNotNull(syncMessage);

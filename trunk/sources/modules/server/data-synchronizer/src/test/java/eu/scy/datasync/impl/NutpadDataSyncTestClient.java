@@ -19,8 +19,6 @@ import javax.swing.JToolBar;
 import org.apache.log4j.Logger;
 
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.ISyncMessage;
