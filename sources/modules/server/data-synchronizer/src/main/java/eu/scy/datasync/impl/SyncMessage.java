@@ -73,7 +73,8 @@ public class SyncMessage implements ISyncMessage {
         syncMessage.setEvent(event);
         syncMessage.setPersistenceId(persistenceId);
         syncMessage.setExpiration(expiration);
-        return syncMessage;        
+        logger.debug("==== ISyncMessage created: " + syncMessage);
+        return syncMessage;
     }
     
     

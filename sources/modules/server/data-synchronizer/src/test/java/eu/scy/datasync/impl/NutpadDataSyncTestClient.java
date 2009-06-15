@@ -159,16 +159,18 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            ScyMessageCreateDialog d = new ScyMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();
             
             // or create message
             //IScyMessage scyMessage = ScyMessage.createScyMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], messageStrings[7], messageStrings[8], DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME, messageStrings[10]);
-            ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.getLong(messageStrings[6]).longValue());
+            ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], null, Long.getLong(messageStrings[6]).longValue());
             try {
                 // pass scyMessage to DataSyncModule for storing
                 dataSyncModule.create(syncMessage);
+                logger.debug("sync ok");
             } catch (DataSyncException e1) {
+                logger.error("failed to synchronize " + e1);
                 e1.printStackTrace();
             }
         }

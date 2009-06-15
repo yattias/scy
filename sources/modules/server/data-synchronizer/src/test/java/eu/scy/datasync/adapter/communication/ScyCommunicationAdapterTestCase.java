@@ -72,7 +72,10 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
         logger.info("Callback sez: Stuff written to sqlspaces");
     }
 
-
+    @Override
+    public void actionUponUpdate(ISyncMessage syncMessage) {
+        logger.info("Callback sez: Stuff updateed to sqlspaces");
+    }
 
     @Override
     public String create(ISyncMessage syncMessage) {
@@ -100,19 +103,12 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
 
     @Override
     public void sendCallBack(ISyncMessage syncMessage) {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub        
     }
 
-    @Override
-    public void actionUponUpdate(ISyncMessage syncMessage) {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
     public void addScyCommunicationListener(IScyCommunicationListener listener) {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub        
     }    
 }

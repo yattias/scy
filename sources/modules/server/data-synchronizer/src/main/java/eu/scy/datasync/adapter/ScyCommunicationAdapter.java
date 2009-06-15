@@ -23,7 +23,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     public static final Logger logger = Logger.getLogger(ScyCommunicationAdapter.class.getName());
     public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
-    private ArrayList<IScyCommunicationListener> scyCommunicationListeners = new ArrayList<IScyCommunicationListener>();
+    private ArrayList<IScyCommunicationListener> communicationListeners = new ArrayList<IScyCommunicationListener>();
     
     public ScyCommunicationAdapter() {
         logger.debug("Empty Constructor Collaboration created");
@@ -49,7 +49,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
             // TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be
             // hardcoded here, but be passed from the openfire plugin
             tupleAdapter = SQLSpacesAdapterHelper.getInstance();
-            tupleAdapter.initialize(this.getClass().getName(), SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE);
+            tupleAdapter.initialize(this.getClass().getName(), SQLSpaceAdapter.DATA_SYNCHRONIZATION_SPACE);
             tupleAdapter.addSQLSpacesAdapterListener(this);
             logger.debug("Created Tuple Spaces");
         }
@@ -82,15 +82,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     
     @Override
     public void addScyCommunicationListener(IScyCommunicationListener listener) {
-        this.scyCommunicationListeners.add(listener);
+        this.communicationListeners.add(listener);
     }
     
     public ArrayList<IScyCommunicationListener> getScyCommunicationListeners() {
-        return this.scyCommunicationListeners;
+        return this.communicationListeners;
     }
     
     public void sendCallBack(ISyncMessage syncMessage) {
-        for (IScyCommunicationListener cl : this.scyCommunicationListeners) {
+        for (IScyCommunicationListener cl : this.communicationListeners) {
             if (cl != null) {
                 ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, syncMessage);
                 cl.handleCommunicationEvent(scyCommunicationEvent);

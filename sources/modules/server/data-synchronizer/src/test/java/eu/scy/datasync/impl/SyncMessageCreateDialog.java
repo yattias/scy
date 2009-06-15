@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
-public class ScyMessageCreateDialog extends JDialog implements ActionListener {
+public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     
     private JTextField content = new JTextField(25);
     private JTextField from = new JTextField(25);
@@ -23,7 +23,7 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
     private JTextField expiration = new JTextField(25);
     private JPanel allTextsPanel;
     
-    public ScyMessageCreateDialog(JFrame parentFrame) {
+    public SyncMessageCreateDialog(JFrame parentFrame) {
         super(parentFrame, "Create ScyMessage", true);
         
         initialize();
@@ -39,7 +39,7 @@ public class ScyMessageCreateDialog extends JDialog implements ActionListener {
 //        "create", dataSyncSession.getId());            
 
     
-    public ScyMessageCreateDialog(JFrame parentFrame, String userName, String toolId, String event, String toolSessionId) {
+    public SyncMessageCreateDialog(JFrame parentFrame, String userName, String toolId, String event, String toolSessionId) {
         super(parentFrame, "Create SyncMessage", true);
         this.from.setText(userName);
         this.toolId.setText(toolId);
