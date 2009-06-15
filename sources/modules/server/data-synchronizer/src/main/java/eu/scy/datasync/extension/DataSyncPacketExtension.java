@@ -48,6 +48,7 @@ public class DataSyncPacketExtension extends PacketExtension {
         this.setFrom(syncMessage.getFrom());
         this.setContent(syncMessage.getContent());
         this.setEvent(syncMessage.getEvent());
+        this.setPersistenceId(syncMessage.getPersistenceId());
         this.setExpiration(syncMessage.getExpiration());
     }
     
