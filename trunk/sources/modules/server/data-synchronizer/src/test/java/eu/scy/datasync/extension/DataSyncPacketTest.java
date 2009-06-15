@@ -32,7 +32,7 @@ public class DataSyncPacketTest {
 
 	private ISyncMessage getTestSyncMessage() {
 		return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID,
-				TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null,
+				TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID,
 				SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
 	}
 
@@ -41,6 +41,7 @@ public class DataSyncPacketTest {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
 		assertNotNull(syncMessage);
+		
 		DataSyncPacketExtension dsp = new DataSyncPacketExtension(syncMessage);
 		assertNotNull(dsp);
 		assertEquals(TEST_CONTENT, dsp.getContent());

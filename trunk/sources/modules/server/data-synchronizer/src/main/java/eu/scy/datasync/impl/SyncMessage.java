@@ -96,7 +96,8 @@ public class SyncMessage implements ISyncMessage {
                      dsp.getFrom(),
                      dsp.getContent(), 
                      dsp.getEvent(),
-                     dsp.getPersistenceId());
+                     dsp.getPersistenceId(),
+                     dsp.getExpiration());
         	
         }
     	
