@@ -36,7 +36,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     
     public void actionUponWrite(ISyncMessage syncMessage) {
         logger.debug("something was written in the tuple space");
-        sendCallBack(syncMessage);        
+        sendCallBack(syncMessage);
     }
     
     public void actionUponUpdate(ISyncMessage syncMessage) {
