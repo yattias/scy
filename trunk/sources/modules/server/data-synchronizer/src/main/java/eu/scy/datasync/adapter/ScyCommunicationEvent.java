@@ -28,7 +28,7 @@ public class ScyCommunicationEvent extends EventObject {
     /**
      * Get the syncMessage
      * 
-     * @return
+     * @return syncMessage
      */
     public ISyncMessage getSyncMessage() {
         return syncMessage;

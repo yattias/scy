@@ -22,12 +22,13 @@ public class SQLSpaceAdapter implements Callback {
     //public static final String SERVER_IP = "129.240.212.15";
     public static final String SERVER_IP = "scy.collide.info";
     public static final int SERVER_PORT = 2525;
-    public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
-    public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
+//    public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
+//    public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
     public static final String DATA_SYNCHRONIZATION_SPACE = "DATA_SYNCHRONIZATION_SPACE";
     public static final String WRITE = "WRITE";
     public static final String DELETE = "DELETE";
     public static final String UPDATE = "UPDATE";
+    private static final Tuple tupleSpaceTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
@@ -44,18 +45,17 @@ public class SQLSpaceAdapter implements Callback {
      * @param sqlSpaceName
      */
     public void initialize(String userName, String sqlSpaceName) {
-        logger.debug("Created Tuple Spaces");
         this.userName = userName;
-        Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         try {
             Callback cb = this;
             this.tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
             // setup the events that client will use
-            this.tupleSpace.eventRegister(Command.WRITE, template, cb, false);
-            this.tupleSpace.eventRegister(Command.DELETE, template, cb, false);
-            this.tupleSpace.eventRegister(Command.UPDATE, template, cb, false);
+            this.tupleSpace.eventRegister(Command.WRITE, tupleSpaceTemplate, cb, false);
+            this.tupleSpace.eventRegister(Command.DELETE, tupleSpaceTemplate, cb, false);
+            this.tupleSpace.eventRegister(Command.UPDATE, tupleSpaceTemplate, cb, false);
+            logger.debug("Successfully created Tuple Space " + sqlSpaceName);
         } catch (TupleSpaceException e) {
-            logger.error("Tupplespace pb " + e);
+            logger.error("Tuplespace fluke " + e);
         }
     }
     
