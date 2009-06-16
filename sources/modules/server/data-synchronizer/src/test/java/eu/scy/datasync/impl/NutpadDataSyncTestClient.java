@@ -160,8 +160,8 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         public void actionPerformed(ActionEvent e) {
             // create pop up            
             SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
-            String[] messageStrings = d.showDialog();            
-            ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], null, Long.getLong(messageStrings[6]).longValue());
+            String[] messageStrings = d.showDialog();
+            ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
 
             try {
                 // pass syncMessage to DataSyncModule for storing

@@ -96,8 +96,10 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     public void update(ISyncMessage syncMessage) throws DataSyncException {
         if (syncMessage.getPersistenceId() != null) {
             this.scyCommunicationAdapter.update(syncMessage);
+        } else {
+            // TODO also call exeception if update fails
+            throw new DataSyncException();            
         }
-        throw new DataSyncException();
     }
     
 
@@ -105,6 +107,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
+    
     
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
