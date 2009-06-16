@@ -10,9 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 import net.miginfocom.swing.MigLayout;
 
 public class SyncMessageCreateDialog extends JDialog implements ActionListener {
+
+    private final static Logger logger = Logger.getLogger(SyncMessageCreateDialog.class.getName());
     
     private JTextField content = new JTextField(25);
     private JTextField from = new JTextField(25);
@@ -22,28 +26,20 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     private JTextField toolSessionId = new JTextField(25);
     private JTextField expiration = new JTextField(25);
     private JPanel allTextsPanel;
+
     
     public SyncMessageCreateDialog(JFrame parentFrame) {
-        super(parentFrame, "Create ScyMessage", true);
-        
+        super(parentFrame, "Create ScyMessage", true);   
         initialize();
-        
-        // Gui stuff
     }
     
-    
-//    ScyMessageCreateDialog d = new ScyMessageCreateDialog(
-//            NutpadDataSyncTestClient.this, 
-//        HARD_CODED_USER_NAME,
-//        HARD_CODED_TOOL_NAME, 
-//        "create", dataSyncSession.getId());            
 
     
     public SyncMessageCreateDialog(JFrame parentFrame, String userName, String toolId, String event, String toolSessionId) {
         super(parentFrame, "Create SyncMessage", true);
-        this.from.setText(userName);
-        this.toolId.setText(toolId);
         this.toolSessionId.setText(toolSessionId);
+        this.toolId.setText(toolId);
+        this.from.setText(userName);
         this.event.setText(event);
         this.expiration.setText(String.valueOf(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME));
         initialize();
@@ -51,16 +47,16 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     
     public void initialize() {
         allTextsPanel = new JPanel(new MigLayout());        
-        allTextsPanel.add(new JLabel("from:"));
-        allTextsPanel.add(from, "wrap");
-        allTextsPanel.add(new JLabel("toolId:"));
-        allTextsPanel.add(toolId, "wrap");
         allTextsPanel.add(new JLabel("toolSessionId:"));
         allTextsPanel.add(toolSessionId, "wrap");
-        allTextsPanel.add(new JLabel("event:"));
-        allTextsPanel.add(event, "wrap");
+        allTextsPanel.add(new JLabel("toolId:"));
+        allTextsPanel.add(toolId, "wrap");
+        allTextsPanel.add(new JLabel("from:"));
+        allTextsPanel.add(from, "wrap");
         allTextsPanel.add(new JLabel("content:"));
         allTextsPanel.add(content, "wrap");
+        allTextsPanel.add(new JLabel("event:"));
+        allTextsPanel.add(event, "wrap");
         allTextsPanel.add(new JLabel("expiration:"));
         allTextsPanel.add(expiration, "wrap");
         
@@ -84,6 +80,7 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     public String[] showDialog() {
         setVisible(true);
         String[] s = { toolSessionId.getText(), toolId.getText(), from.getText(), content.getText(), event.getText(), null, expiration.getText() };
+        logger.debug("==== ARRAY: " + java.util.Arrays.toString(s));
         return s;
     }
 }

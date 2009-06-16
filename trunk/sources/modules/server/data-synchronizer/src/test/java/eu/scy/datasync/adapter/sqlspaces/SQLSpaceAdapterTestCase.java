@@ -17,9 +17,8 @@ public class SQLSpaceAdapterTestCase {
     
     private static final Logger logger = Logger.getLogger(SQLSpaceAdapterTestCase.class.getName());
     private SQLSpaceAdapter sqlSpaceAdapter;
-    private static final long TWO_SECONDS = 2*1000;
-    private static final long FOUR_SECONDS = 4*1000;
-    private static final long TEN_SECONDS = 10*1000;
+    private static final long ONE_SECOND = 1*1000;
+    private static final long EIGHT_SECONDS = 6*1000;
     
     private static final String TEST_CONTENT = "This is the content, but there isn't much.";
     private static final String TEST_EVENT = "important event";
@@ -71,10 +70,10 @@ public class SQLSpaceAdapterTestCase {
         ISyncMessage sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         // delete
-//        id = getTupleAdapter().delete(id);
-//        assertNotNull(id);
-//        sm = getTupleAdapter().readById(id);
-//        assertNull(sm);        
+        id = getTupleAdapter().delete(id);
+        assertNotNull(id);
+        sm = getTupleAdapter().readById(id);
+        assertNull(sm);        
     }
 
 
@@ -82,7 +81,7 @@ public class SQLSpaceAdapterTestCase {
     public void testWriteWithExpiration() {
         String id = null;
         ISyncMessage sm = getTestSyncMessage();
-        sm.setExpiration(TWO_SECONDS);
+        sm.setExpiration(ONE_SECOND);
         // write with expiration
         id = getTupleAdapter().write(sm);
         assertNotNull(id);
@@ -90,7 +89,7 @@ public class SQLSpaceAdapterTestCase {
         sm = getTupleAdapter().readById(id);
         assertNotNull(sm);
         try {
-            Thread.sleep(TEN_SECONDS);
+            Thread.sleep(EIGHT_SECONDS);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

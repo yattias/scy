@@ -19,8 +19,8 @@ import eu.scy.datasync.impl.SyncMessage;
 public class SQLSpaceAdapter implements Callback {
     
     private final static Logger logger = Logger.getLogger(SQLSpaceAdapter.class.getName());
-    //public static final String SERVER_IP = "129.240.212.15";
-    public static final String SERVER_IP = "scy.collide.info";
+    public static final String SERVER_IP = "129.240.212.15";
+    //public static final String SERVER_IP = "scy.collide.info";
     public static final int SERVER_PORT = 2525;
 //    public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
 //    public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
