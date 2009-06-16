@@ -80,7 +80,6 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     public String[] showDialog() {
         setVisible(true);
         String[] s = { toolSessionId.getText(), toolId.getText(), from.getText(), content.getText(), event.getText(), null, expiration.getText() };
-        logger.debug("==== ARRAY: " + java.util.Arrays.toString(s));
         return s;
     }
 }
