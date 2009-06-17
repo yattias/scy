@@ -1,43 +1,45 @@
 package eu.scy.scyhub;
 
+import java.util.Date;
+
 import org.xmpp.component.Component;
-import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
-import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
+import org.xmpp.packet.PacketExtension;
+
+import eu.scy.datasync.api.DataSyncException;
+import eu.scy.datasync.api.IDataSyncModule;
+import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.datasync.api.event.IDataSyncEvent;
+import eu.scy.datasync.api.event.IDataSyncListener;
+import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.extension.DataSyncPacketExtension;
+import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 
 /**
- * This component provides weather information obtained from http://weather.noaa.gov. Each request
- * will generate an HTTP request to the above URL. The JWeather library was used for getting
- * weather information in the METAR format.<p>
+ * SCYHub is the central communicator, processes packets and routes them to the correct 
+ * places
  *
- * Note: This code shouldn't be considered ready for production since it generate an HTTP request
- * for each received request. Therefore, it won't scale much.
- *
- * @author Gaston Dombiak
+ * @author anthonjp
  */
 public class SCYHubComponent implements Component {
 
-    public String getName() {
-        return "US Weather";
+    private IDataSyncModule dataSyncModule;
+	private IDataSyncSession dataSyncSession;
+
+	public String getName() {
+        return "SCY HUB";
     }
 
     public String getDescription() {
-        return "Weather component - sample component";
+        return "SCY Hub Component";
     }
 
-    /**
-     * Handle the receied packet and answer the weather information of the requested station id.
-     * The request must be made using Message packets where the body of the message should be the
-     * station id.<p>
-     *
-     * Note: I don't know the list of valid station ids so if you find the list please send it to me
-     * so I can add it to this example.
-     *
-     * @param packet the Message requesting information about a certain station id.
-     */
+	/**
+	 * process the packet and route the it to the correct place 
+	 */
     public void processPacket(Packet packet) {
         System.out.println("Received package:"+packet.toXML());
         // Only process Message packets
@@ -45,6 +47,39 @@ public class SCYHubComponent implements Component {
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
             String station = message.getBody();
+            
+            
+            DataSyncPacketExtension dataSyncPacketExtension = (DataSyncPacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+            
+            if( dataSyncPacketExtension instanceof DataSyncPacketExtension ) {
+            	
+            	DataSyncPacketExtension dsp = (DataSyncPacketExtension)dataSyncPacketExtension;
+            	 try {
+                     // pass syncMessage to DataSyncModule for storing
+                     dataSyncModule.create(dsp.toPojo());
+                 } catch (DataSyncException e1) {
+                     e1.printStackTrace();
+                 }
+            	
+            }
+            
+            
+//            ISyncMessage syncMessage = SyncMessage.createSyncMessage("12", "toolid", "bob", "something something", "EVENT", null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+//           
+//            DataSyncPacketExtension dsp = new DataSyncPacketExtension(syncMessage);
+//            
+//            Message newMessage = new Message();
+//            
+//            newMessage.setTo("scyhub.imediamac09.uio.no");
+//            newMessage.addExtension(dsp);
+//            
+//            try {
+//				ComponentManagerFactory.getComponentManager().sendPacket(this, newMessage);
+//			} catch (ComponentException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+            
             // Send the request and get the weather information
 ////            Metar metar = Weather.getMetar(station, 5000);
 //
@@ -95,11 +130,43 @@ public class SCYHubComponent implements Component {
     }
 
     public void initialize(JID jid, ComponentManager componentManager) {
+    	System.out.println("SCYHubComponent.initialize()");
+    	initModules();
     }
 
-    public void start() {
+    private void initModules() {
+		//data sync
+    	  try {
+              
+              dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+              // add listner in order to get callbacks on stuff that's happening
+              dataSyncModule.addDataSyncListener(new IDataSyncListener(){
+			
+				@Override
+				public void handleDataSyncEvent(IDataSyncEvent e) {
+				      ISyncMessage syncMessage = e.getSyncMessage();
+				      if (syncMessage.getFrom() != null) {            
+				            Date date = new java.util.Date(System.currentTimeMillis());
+				            java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
+				            System.out.println("SCYHubComponent.initModules()");
+				      } 
+					
+				}
+			});
+              //create new session
+              String HARD_CODED_TOOL_NAME = "eu.scy.scyhub";
+              String HARD_CODED_USER_NAME = "thomasd";
+              dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+          } catch (DataSyncException e) {
+              e.printStackTrace();
+          }        
+	}
+
+	public void start() {
+    	System.out.println("SCYHubComponent.start()");
     }
 
     public void shutdown() {
+    	System.out.println("SCYHubComponent.shutdown()");
     }
 }
