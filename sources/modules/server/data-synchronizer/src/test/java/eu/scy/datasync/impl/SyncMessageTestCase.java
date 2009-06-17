@@ -51,7 +51,9 @@ public class SyncMessageTestCase {
         ISyncMessage syncMessage = getTestSyncMessage();
         assertNotNull(syncMessage);
         Message xmppMessage = ((SyncMessage) syncMessage).convertToXMPPMessage();
+        
         assertNotNull(xmppMessage);
+        System.out.println(xmppMessage.toXML());
         syncMessage = SyncMessage.createSyncMessage(xmppMessage);
         assertNotNull(syncMessage);
         assertEquals(TEST_CONTENT, syncMessage.getContent());
