@@ -131,7 +131,15 @@ public class DataSyncPacketExtension extends PacketExtension {
         element.addElement("content").setText(content);
     }
     
-    
+    public ISyncMessage toPojo() {
+    	return SyncMessage.createSyncMessage(getToolSessionId(), 
+    										getToolId(), 
+    										getFrom(), 
+    										getContent(), 
+    										getEvent(), 
+    										getPersistenceId(), 
+    										getExpiration());
+    }
     
 	
 }
