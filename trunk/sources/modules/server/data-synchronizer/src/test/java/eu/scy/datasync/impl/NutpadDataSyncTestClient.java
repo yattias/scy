@@ -17,14 +17,28 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.PacketExtension;
+import org.jivesoftware.smack.provider.ProviderManager;
+import org.xmpp.packet.Message;
 
 
+import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncEvent;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.extension.DataSyncPacketExtension;
+import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 import eu.scy.datasync.impl.session.DataSyncSession;
 
@@ -40,6 +54,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     private Action openCSAction = new OpenFromDataSyncAction();
     private Action clearEditAreaAction = new ClearEditAreaAction();
     private Action saveToDataSyncAction = new SaveToDataSyncAction();
+    private Action sendXmppMessageAction = new SendXmppMessageAction();
     private Action exitAction = new ExitAction();
     
     private IDataSyncModule dataSyncModule;
@@ -62,6 +77,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         toolBar.add(openCSAction);
         toolBar.add(saveToDataSyncAction);
         toolBar.add(clearEditAreaAction);
+        toolBar.add(sendXmppMessageAction);
         toolBar.addSeparator();
         toolBar.add(exitAction);
         
@@ -186,6 +202,104 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+    }
+    
+    class SendXmppMessageAction extends AbstractAction {
+        
+        private static final long serialVersionUID = 2570708232031173971L;
+        
+        SendXmppMessageAction() {
+            super("Send Message XMPP");
+            putValue(MNEMONIC_KEY, new Integer('6'));
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+            // create pop up            
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
+            String[] messageStrings = d.showDialog();
+           
+          
+            ConnectionConfiguration config = new ConnectionConfiguration("imediamac09.uio.no", new Integer("5222").intValue(), "imediamac09.uio.no");
+            config.setCompressionEnabled(true);
+           config.setSASLAuthenticationEnabled(true);
+            config.setReconnectionAllowed(true);
+            
+            final XMPPConnection xmppConnection = new XMPPConnection(config);
+            
+            xmppConnection.DEBUG_ENABLED = true;
+			try {
+                
+                xmppConnection.connect();
+                xmppConnection.addConnectionListener(new ConnectionListener() {
+                    
+                    @Override
+                    public void connectionClosed() {
+                        System.out.println("datasync server closed;");
+                        try {
+                            xmppConnection.connect();
+                        } catch (XMPPException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("datasync server trying to reconnect;");
+                    }
+                    
+                    @Override
+                    public void connectionClosedOnError(Exception arg0) {
+                        System.out.println("datasync server error closed;");
+                    }
+                    
+                    @Override
+                    public void reconnectingIn(int arg0) {
+                        System.out.println("datasync server reconnecting;");
+                    }
+                    @Override
+                    public void reconnectionFailed(Exception arg0) {
+                        System.out.println("datasync server reconnecting failed");
+                    }
+                    @Override
+                    public void reconnectionSuccessful() {
+                        System.out.println("datasync server reconnectings success");
+                    }
+                });
+
+
+                    //xmppConnection.loginAnonymously();
+              
+                    xmppConnection.login("obama", "obama");
+                    
+                    SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage("9908d583-9778-4915-9142-4be7d5c89516", messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
+                    
+                    Message xmppMessage = syncMessage.convertToXMPPMessage();
+                    
+                    org.jivesoftware.smack.packet.Message smackMessage = new org.jivesoftware.smack.packet.Message();
+                    
+                    DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
+
+                    
+                    smackMessage.addExtension((PacketExtension) extension);
+                    
+                    smackMessage.setFrom("obama@imediamac09.uio.no");
+                    smackMessage.setTo("scyhub.imediamac09.uio.no");
+                    xmppConnection.sendPacket(smackMessage);
+//                    Chat chat = xmppConnection.getChatManager().createChat("scyhub.imediamac09.uio.no", new MessageListener() {
+//                        
+//                        @Override
+//                        public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
+//                            System.out.println("chat; " + message + " message; " + message);
+//                        }
+//                    });
+//                    try {
+//                        
+//                        chat.sendPacket(smackMessage);
+//                    } catch (XMPPException xe) {
+//                        // TODO Auto-generated catch block
+//                       xe.printStackTrace();
+//                    }
+            } catch (XMPPException xe) {
+                logger.error("Error during connect");
+                xe.printStackTrace();
+            }
         }
     }
     
