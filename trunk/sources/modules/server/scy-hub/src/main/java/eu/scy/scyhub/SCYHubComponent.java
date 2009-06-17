@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentManager;
+import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
@@ -46,8 +47,6 @@ public class SCYHubComponent implements Component {
         if (packet instanceof Message) {
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
-            String station = message.getBody();
-            
             
             DataSyncPacketExtension dataSyncPacketExtension = (DataSyncPacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
             
@@ -144,6 +143,7 @@ public class SCYHubComponent implements Component {
 			
 				@Override
 				public void handleDataSyncEvent(IDataSyncEvent e) {
+					// ComponentManagerFactory.getComponentManager().sendPacket(this, packet)
 				      ISyncMessage syncMessage = e.getSyncMessage();
 				      if (syncMessage.getFrom() != null) {            
 				            Date date = new java.util.Date(System.currentTimeMillis());
