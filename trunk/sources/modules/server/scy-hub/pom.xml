@@ -84,6 +84,11 @@
 			<artifactId>stringprep</artifactId>
 			<version>1.0</version>
 		</dependency>
+			<dependency>
+			<groupId>eu.scy</groupId>
+			<artifactId>data-synchronizer</artifactId>
+			<version>9.5.2-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
