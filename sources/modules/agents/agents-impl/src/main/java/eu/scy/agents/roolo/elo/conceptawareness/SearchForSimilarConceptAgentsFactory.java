@@ -3,6 +3,7 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.agents.api.IAgentFactory;
 import eu.scy.agents.api.IParameter;
 import eu.scy.agents.api.IThreadedAgent;
@@ -18,9 +19,9 @@ public class SearchForSimilarConceptAgentsFactory implements IAgentFactory {
 				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
 						.get(Parameter.ELO_REPOSITORY));
 		agent
-				.setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) params
+				.setMetadataTypeManager((IMetadataTypeManager<IMetadataKey>) params
 						.get(Parameter.METADATA_TYPE_MANAGER));
-		throw new RuntimeException("DID NOT BUILD -> HENRIK COMMENTED IT OUT!");
+		return agent;
 	}
 
 	@Override

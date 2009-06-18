@@ -1,6 +1,7 @@
 package eu.scy.agents.roolo.elo.conceptawareness;
 
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,10 +23,19 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.impl.AbstractProcessingAgent;
-import eu.scy.notification.Notification;
-import eu.scy.notification.NotificationSender;
-import eu.scy.notification.api.INotification;
 
+/**
+ * ("scymapper":String, <TS>:Long, <EloURI>:String) ->
+ * ("searchSimilarElosAgent":String, <RelatedUserList>:String, <User>:String,
+ * <EloUri>:String) <br />
+ * +<TS> Timestamp <br />
+ * +<EloURI>: The uri of the elo for that similar elos should be searched.<br />
+ * -<RelatedUserList> Creators of similar elos. -<User> creator of original elo
+ * 
+ * @author fschulz_2
+ * 
+ * @param <Key>
+ */
 public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		AbstractProcessingAgent<Key> {
 
@@ -46,13 +56,17 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 			URI eloUri = new URI((String) trigger.getField(2).getValue());
 
 			IELO<Key> elo = repository.retrieveELO(eloUri);
+
+			if (elo == null) {
+				return;
+			}
 			IMetadata<Key> metadata = elo.getMetadata();
 
 			Set<URI> hits = searchForRelatedElos(eloUri, repository, metadata);
 
 			Set<String> relatedUsers = new HashSet<String>();
 			for (URI hitUri : hits) {
-				if (score.get(hitUri) < 0.6) {
+				if (score.get(hitUri) < 0.3) {
 					continue;
 				}
 				IMetadata<Key> hitMetadata = repository
@@ -76,17 +90,26 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 			IMetadataValueContainer authorContainer = metadata
 					.getMetadataValueContainer(authorKey);
 			Contribute author = (Contribute) authorContainer.getValue();
-			String user = author.getVCard();
+			String user = "";
+			if (author != null) {
+				user = author.getVCard();
+			}
 
-			INotification notification = new Notification();
-			notification
-					.addProperty("users", relatedUserList.toString().trim());
-			notification.addProperty("target", "awareness");
-			notification.addProperty("eloUri", elo.getUri().toString());
-			NotificationSender sender = new NotificationSender();
-			sender.send(user, "searchSimilarElosAgent", notification);
-			System.err.println();
+			Tuple notificationTuple = new Tuple("searchSimilarElosAgent",
+					relatedUserList.toString().trim(), user, eloUri.toString());
+			getTupleSpace().write(notificationTuple);
+
+			// INotification notification = new Notification();
+			// notification
+			// .addProperty("users", relatedUserList.toString().trim());
+			// notification.addProperty("target", "awareness");
+			// notification.addProperty("eloUri", elo.getUri().toString());
+			// NotificationSender sender = new NotificationSender();
+			// sender.send(user, "searchSimilarElosAgent", notification);
+			// System.err.println();
 		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -159,12 +182,21 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		return new Tuple("scymapper", Long.class, String.class);
 	}
 
-	public void setRepository(IRepository<IELO<Key>, Key> repo) {
-		repository = repo;
+	public IRepository<IELO<Key>, Key> getRepository() {
+		return repository;
 	}
 
 	public void setMetadataTypeManager(
 			IMetadataTypeManager<Key> metadataTypeManager) {
 		this.metadataTypeManager = metadataTypeManager;
 	}
+
+	public void setRepository(IRepository<IELO<Key>, Key> repo) {
+		repository = repo;
+	}
+
+	public IMetadataTypeManager<Key> getMetadataTypeManager() {
+		return metadataTypeManager;
+	}
+
 }
