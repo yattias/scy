@@ -19,6 +19,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.client.DataSyncService;
+import eu.scy.datasync.client.IDataSyncService;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -49,7 +50,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     private ICollaborationService collaborationService;
 
-    private DataSyncService dataSyncService;
+    private IDataSyncService dataSyncService;
     
     
     @SuppressWarnings("unchecked")
@@ -66,7 +67,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         sessionManager = (SessionManager) context.getBean("sessionManager");
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         collaborationService = (ICollaborationService) context.getBean("collaborationService");
-        dataSyncService = (DataSyncService) context.getBean("dataSyncService");
+        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
     }
     
     /**
@@ -170,7 +171,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     }
     
     @Override
-    public DataSyncService getDataSyncService() {
+    public IDataSyncService getDataSyncService() {
         return dataSyncService;
     }
     
