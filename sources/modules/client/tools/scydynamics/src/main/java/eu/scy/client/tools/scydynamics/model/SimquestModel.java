@@ -203,7 +203,7 @@ public class SimquestModel extends Element {
 
 	private void createSimulation() {
 		Element simulation = new Element("simulation");
-		simulation.addContent(new Element("method").setText("euler"));
+		simulation.addContent(new Element("method").setText(model.getMethod()));
 		simulation.addContent(new Element("startTime").setText(model.getStart()
 				+ ""));
 		simulation.addContent(new Element("finishTime").setText(model.getStop()

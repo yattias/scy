@@ -28,6 +28,16 @@
 			
 	<dependencies>
 		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
 			<version>3.0.0</version>
