@@ -2,8 +2,7 @@ package eu.scy.datasync.adapter.sqlspaces;
 
 import java.util.EventObject;
 
-import eu.scy.datasync.api.ISyncMessage;
-
+import eu.scy.communications.message.ISyncMessage;
 
 
 /**

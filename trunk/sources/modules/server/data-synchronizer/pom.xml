@@ -31,6 +31,7 @@
 			<groupId>eu.scy.common</groupId>
 			<artifactId>scy-commons</artifactId>
 			<version>${pom.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>info.collide</groupId>

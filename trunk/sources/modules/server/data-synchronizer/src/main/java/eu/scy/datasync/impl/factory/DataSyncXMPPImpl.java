@@ -23,14 +23,14 @@ import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
 
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 
 public class DataSyncXMPPImpl implements IDataSyncModule {

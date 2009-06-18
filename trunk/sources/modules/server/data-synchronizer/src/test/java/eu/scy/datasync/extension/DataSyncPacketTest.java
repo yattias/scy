@@ -5,8 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.datasync.api.ISyncMessage;
-import eu.scy.datasync.impl.SyncMessage;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.DataSyncPacketExtension;
+import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.datasync.impl.SyncMessageTestCase;
 
 /**

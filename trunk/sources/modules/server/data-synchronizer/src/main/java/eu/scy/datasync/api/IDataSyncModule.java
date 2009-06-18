@@ -2,6 +2,7 @@ package eu.scy.datasync.api;
 
 import java.util.ArrayList;
 
+import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
 

@@ -3,7 +3,7 @@ package eu.scy.datasync.api.session;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 
 
 /**

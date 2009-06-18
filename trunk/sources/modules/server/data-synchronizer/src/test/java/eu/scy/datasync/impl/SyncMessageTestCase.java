@@ -8,7 +8,8 @@ import junit.framework.Test;
 import org.apache.log4j.Logger;
 import org.xmpp.packet.Message;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 
 
 

@@ -1,6 +1,6 @@
 package eu.scy.datasync.api.event;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 
 
 /**

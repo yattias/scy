@@ -1,6 +1,6 @@
 package eu.scy.datasync.adapter;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 
 /**
  * The ScyCommunicationAdapter allows a coordinating server

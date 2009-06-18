@@ -2,7 +2,7 @@ package eu.scy.datasync.adapter;
 
 import java.util.EventObject;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 
 /**
  * Represents an event in the scycommunication layer

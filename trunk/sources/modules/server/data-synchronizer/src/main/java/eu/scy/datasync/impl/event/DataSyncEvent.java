@@ -2,7 +2,7 @@ package eu.scy.datasync.impl.event;
 
 import java.util.EventObject;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncEvent;
 
 /**

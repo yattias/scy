@@ -3,9 +3,9 @@ package eu.scy.datasync.impl.session;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.SyncMessage;
 
 
 
