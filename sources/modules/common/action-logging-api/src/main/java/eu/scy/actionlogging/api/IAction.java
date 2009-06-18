@@ -1,7 +1,6 @@
 package eu.scy.actionlogging.api;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.jdom.Content;
 import org.jdom.Element;
@@ -12,15 +11,15 @@ public interface IAction
     
     /**
      * This interface describes how Actions should be logged.
-     * The idea is to storage them into a Properties object (easy XML serialization)
+     * The idea is to storage them into a XML element
      */
 	
 	/**
      * adds a new 'context property'
      * these properties are available and relevant
      * for all kinds of actions, like "tool", "mission", etc.
-     * @param key	->hashmap key
-     * @param value	-> hashmap value
+     * @param key	->property key
+     * @param value	-> property value
      */
     public void addContext(String key, String value);
     
