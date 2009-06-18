@@ -3,23 +3,14 @@
  */
 package eu.scy.toolbroker.test;
 
-import java.util.List;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.api.IExtensionManager;
-import roolo.api.IRepository;
-import roolo.api.search.ISearchResult;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.logger.Action;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.notification.api.INotification;
-import eu.scy.notification.api.INotificationCallback;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.datasync.client.DataSyncClient;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**
@@ -30,17 +21,16 @@ import eu.scy.toolbroker.ToolBrokerImpl;
  */
 public class ToolBrokerTest {
     
-    //private static ToolBrokerImpl<IMetadataKey> toolBroker;
+    private static ToolBrokerImpl<IMetadataKey> toolBroker;
     
     /**
      * @throws java.lang.Exception
      */
-    /*
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         toolBroker = new ToolBrokerImpl<IMetadataKey>();
     }
-     */
+
     /**
      * Test method for {@link eu.scy.toolbroker.ToolBrokerImpl#getRepository()}.
      */
@@ -106,5 +96,19 @@ public class ToolBrokerTest {
         IAwarenessService awarenessService = toolBroker.getAwarenessService();
         Assert.assertNotNull("AwarenessService should not be null!", awarenessService);
     }
-      */
+    
+    @Test
+    public void testGetCollaborationService() throws Exception {
+        ICollaborationService collaborationService = toolBroker.getCollaborationService();
+        assertNotNull("CollaborationService should not be null!", collaborationService);
+    }
+
+    @Test
+    public void testGetDataSyncService() throws Exception {
+        DataSyncClient dataSyncService = toolBroker.getDataSyncService();
+        assertNotNull("DataSyncService should not be null!", dataSyncService);
+    }
+     */
+
+
 }

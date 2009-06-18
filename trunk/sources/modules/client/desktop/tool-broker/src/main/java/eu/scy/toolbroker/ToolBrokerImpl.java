@@ -20,6 +20,9 @@ import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
+import eu.scy.datasync.api.IDataSyncModule;
+import eu.scy.datasync.client.DataSyncClient;
+
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
  * services. The main idea of this implementation is that all the services are
@@ -48,6 +51,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private IAwarenessService awarenessService;
 
     private ICollaborationService collaborationService;
+
+    private DataSyncClient dataSyncService;
     
     
     @SuppressWarnings("unchecked")
@@ -63,6 +68,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         
         sessionManager = (SessionManager) context.getBean("sessionManager");
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
+        collaborationService = (ICollaborationService) context.getBean("collaborationService");
+        dataSyncService = (DataSyncClient) context.getBean("dataSyncService");
     }
     
     /**
@@ -162,4 +169,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     public ICollaborationService getCollaborationService() {
         return collaborationService;
     }
+    
+    public DataSyncClient getDataSyncService() {
+        return dataSyncService;
+    }
+    
 }
