@@ -20,9 +20,9 @@ import eu.scy.datasync.impl.session.DataSyncSessionFactory;
  * @author thomasd
  *
  */
-public class DataSyncClient {
+public class DataSyncService {
     
-    private static final Logger logger = Logger.getLogger(DataSyncClient.class.getName());
+    private static final Logger logger = Logger.getLogger(DataSyncService.class.getName());
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();

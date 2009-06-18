@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import roolo.elo.api.IMetadataKey;
 import eu.scy.collaborationservice.ICollaborationService;
-import eu.scy.datasync.client.DataSyncClient;
+import eu.scy.datasync.client.DataSyncService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**
