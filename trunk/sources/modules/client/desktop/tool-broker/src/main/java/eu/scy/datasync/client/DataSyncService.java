@@ -6,12 +6,12 @@ import org.apache.log4j.Logger;
 
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.api.DataSyncException;
-import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.factory.DataSyncLocalImpl;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 
 
 /**

@@ -2,22 +2,16 @@
   <name>tool-broker</name>
   <comment/>
   <projects>
-    <project>awareness-api</project>
-    <project>awareness-impl</project>
-    <project>collaboration-service-impl</project>
     <project>data-synchronizer</project>
+    <project>scy-commons</project>
     <project>tool-broker-api</project>
   </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
     </buildCommand>
-    <buildCommand>
-      <name>org.springframework.ide.eclipse.core.springbuilder</name>
-    </buildCommand>
   </buildSpec>
   <natures>
-    <nature>org.springframework.ide.eclipse.core.springnature</nature>
     <nature>org.eclipse.jdt.core.javanature</nature>
   </natures>
 </projectDescription>

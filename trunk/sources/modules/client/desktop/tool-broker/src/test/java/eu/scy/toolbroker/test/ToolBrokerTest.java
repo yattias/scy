@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.scy.toolbroker.test;
 
 import static org.junit.Assert.assertNotNull;
