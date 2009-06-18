@@ -12,7 +12,10 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.communications.message.impl.SyncMessage;
+
 import net.miginfocom.swing.MigLayout;
+
 
 public class SyncMessageCreateDialog extends JDialog implements ActionListener {
 
@@ -34,7 +37,6 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     }
     
 
-    
     public SyncMessageCreateDialog(JFrame parentFrame, String userName, String toolId, String event, String toolSessionId) {
         super(parentFrame, "Create SyncMessage", true);
         this.toolSessionId.setText(toolSessionId);
@@ -44,6 +46,7 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         this.expiration.setText(String.valueOf(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME));
         initialize();
     }
+    
     
     public void initialize() {
         allTextsPanel = new JPanel(new MigLayout());        
@@ -71,11 +74,13 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
     
+    
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Submit")) {
             this.setVisible(false);
         }
     }
+    
     
     public String[] showDialog() {
         setVisible(true);

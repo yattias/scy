@@ -10,12 +10,13 @@ import eu.scy.datasync.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.datasync.adapter.ScyCommunicationEvent;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.SyncMessage;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
+
 
 /**
  * Implementation of the collaboration service that is local and does not use an

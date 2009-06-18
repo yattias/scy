@@ -4,8 +4,7 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.datasync.api.ISyncMessage;
+import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.api.session.IDataSyncSession;
 
 /**

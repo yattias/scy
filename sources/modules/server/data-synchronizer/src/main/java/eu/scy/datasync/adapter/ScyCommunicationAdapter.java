@@ -8,8 +8,8 @@ import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpacesAdapterHelper;
-import eu.scy.datasync.api.ISyncMessage;
-import eu.scy.datasync.impl.SyncMessage;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 
 /**
  * TODO replace this with a helper for the singleton

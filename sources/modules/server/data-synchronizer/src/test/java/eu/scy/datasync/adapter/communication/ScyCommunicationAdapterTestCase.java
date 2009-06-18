@@ -5,15 +5,12 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.datasync.adapter.IScyCommunicationAdapter;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
-import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterTestCase;
-import eu.scy.datasync.api.ISyncMessage;
-import eu.scy.datasync.impl.SyncMessage;
-import eu.scy.datasync.impl.SyncMessageTestCase;
 
 
 

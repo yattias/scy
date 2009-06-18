@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import org.junit.Ignore;
 
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
-import eu.scy.datasync.api.ISyncMessage;
-import eu.scy.datasync.impl.SyncMessage;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 
 
 public class SQLSpaceAdapterTestCase {
