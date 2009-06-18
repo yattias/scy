@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.scy.toolbroker;
 
 import javax.security.auth.login.LoginException;
@@ -21,7 +18,7 @@ import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.client.DataSyncClient;
+import eu.scy.datasync.client.DataSyncService;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -52,7 +49,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     private ICollaborationService collaborationService;
 
-    private DataSyncClient dataSyncService;
+    private DataSyncService dataSyncService;
     
     
     @SuppressWarnings("unchecked")
@@ -69,7 +66,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         sessionManager = (SessionManager) context.getBean("sessionManager");
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         collaborationService = (ICollaborationService) context.getBean("collaborationService");
-        dataSyncService = (DataSyncClient) context.getBean("dataSyncService");
+        dataSyncService = (DataSyncService) context.getBean("dataSyncService");
     }
     
     /**
@@ -162,15 +159,18 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         return null;
     }
 
+    @Override
     public IAwarenessService getAwarenessService() {
         return awarenessService;
     }
     
+    @Override
     public ICollaborationService getCollaborationService() {
         return collaborationService;
     }
     
-    public DataSyncClient getDataSyncService() {
+    @Override
+    public DataSyncService getDataSyncService() {
         return dataSyncService;
     }
     
