@@ -1,6 +1,3 @@
-/**
- * 
- */
 package eu.scy.toolbrokerapi;
 
 import roolo.api.IExtensionManager;
@@ -11,6 +8,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 
@@ -68,4 +66,11 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return the collaboration service
      */
     public ICollaborationService getCollaborationService();
+
+
+    /**
+     * @return the data sync service
+     */
+    public IDataSyncService getDataSyncService();
+
 }
