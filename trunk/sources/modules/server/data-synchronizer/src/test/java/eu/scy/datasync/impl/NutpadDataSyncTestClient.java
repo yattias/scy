@@ -67,12 +67,12 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         new NutpadDataSyncTestClient();
     }
     
-
+    
     public NutpadDataSyncTestClient() {
         
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
-
+        
         // build the toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.add(openCSAction);
@@ -116,7 +116,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
             e.printStackTrace();
         }        
     }
-   
+    
     
     class OpenFromDataSyncAction extends AbstractAction {
         
@@ -129,7 +129,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         }
         
         public void actionPerformed(ActionEvent e) {
-
+            
             // get nutpad-specific messages which also belong to this session
             syncMessages = dataSyncModule.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, dataSyncSession.getId(), true);
             logger.debug("got " + syncMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + dataSyncSession.getId());
@@ -179,7 +179,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
             SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();
             ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
-
+            
             try {
                 // pass syncMessage to DataSyncModule for storing
                 dataSyncModule.create(syncMessage);
@@ -206,6 +206,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         }
     }
     
+    
     class SendXmppMessageAction extends AbstractAction {
         
         private static final long serialVersionUID = 2570708232031173971L;
@@ -219,17 +220,16 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
             // create pop up            
             SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();
-           
-          
+                        
             ConnectionConfiguration config = new ConnectionConfiguration("imediamac09.uio.no", new Integer("5222").intValue(), "imediamac09.uio.no");
             config.setCompressionEnabled(true);
-           config.setSASLAuthenticationEnabled(true);
+            config.setSASLAuthenticationEnabled(true);
             config.setReconnectionAllowed(true);
             
             final XMPPConnection xmppConnection = new XMPPConnection(config);
             
             xmppConnection.DEBUG_ENABLED = true;
-			try {
+            try {
                 
                 xmppConnection.connect();
                 xmppConnection.addConnectionListener(new ConnectionListener() {
@@ -263,40 +263,25 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
                         System.out.println("datasync server reconnectings success");
                     }
                 });
+                
+                
+                //xmppConnection.loginAnonymously();
+                
+                xmppConnection.login("obama", "obama");
+                
+                SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage("9908d583-9778-4915-9142-4be7d5c89516", messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
+                
+                Message xmppMessage = syncMessage.convertToXMPPMessage();
+                
+                org.jivesoftware.smack.packet.Message smackMessage = new org.jivesoftware.smack.packet.Message();
+                
+                DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
+                smackMessage.addExtension((PacketExtension) extension);
+                
+                smackMessage.setFrom("obama@imediamac09.uio.no");
+                smackMessage.setTo("scyhub.imediamac09.uio.no");
+                xmppConnection.sendPacket(smackMessage);
 
-
-                    //xmppConnection.loginAnonymously();
-              
-                    xmppConnection.login("obama", "obama");
-                    
-                    SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage("9908d583-9778-4915-9142-4be7d5c89516", messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
-                    
-                    Message xmppMessage = syncMessage.convertToXMPPMessage();
-                    
-                    org.jivesoftware.smack.packet.Message smackMessage = new org.jivesoftware.smack.packet.Message();
-                    
-                    DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
-
-                    
-                    smackMessage.addExtension((PacketExtension) extension);
-                    
-                    smackMessage.setFrom("obama@imediamac09.uio.no");
-                    smackMessage.setTo("scyhub.imediamac09.uio.no");
-                    xmppConnection.sendPacket(smackMessage);
-//                    Chat chat = xmppConnection.getChatManager().createChat("scyhub.imediamac09.uio.no", new MessageListener() {
-//                        
-//                        @Override
-//                        public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-//                            System.out.println("chat; " + message + " message; " + message);
-//                        }
-//                    });
-//                    try {
-//                        
-//                        chat.sendPacket(smackMessage);
-//                    } catch (XMPPException xe) {
-//                        // TODO Auto-generated catch block
-//                       xe.printStackTrace();
-//                    }
             } catch (XMPPException xe) {
                 logger.error("Error during connect");
                 xe.printStackTrace();
@@ -315,5 +300,5 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
             editArea.setCaretPosition(editArea.getText().length());
         } 
     }
-
+    
 }
