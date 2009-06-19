@@ -3,15 +3,28 @@ package eu.scy.datasync.client;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.SmackConfiguration;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.PacketExtension;
+import org.jivesoftware.smack.provider.ProviderManager;
 
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
+import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.factory.DataSyncLocalImpl;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
+import eu.scy.communications.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 
 
 /**
@@ -26,16 +39,80 @@ public class DataSyncService {
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
-
+    private ConnectionConfiguration config;
+    private XMPPConnection xmppConnection;
+    private CommunicationProperties props; 
     
+    
+    public DataSyncService() {
+        SmackConfiguration.setPacketReplyTimeout(100000);
+        SmackConfiguration.setKeepAliveInterval(1000000);
 
+        props = new CommunicationProperties();        
+        config = new ConnectionConfiguration(props.datasyncServerHost, new Integer(props.datasyncServerPort).intValue());
+        config.setCompressionEnabled(true);
+        config.setReconnectionAllowed(true);        
+        this.xmppConnection = new XMPPConnection(config);        
+        this.xmppConnection.DEBUG_ENABLED = true;
+
+        try {
+            
+            this.xmppConnection.connect();
+            this.xmppConnection.addConnectionListener(new ConnectionListener() {
+                
+                @Override
+                public void connectionClosed() {
+                    logger.debug("datasync server closed;");
+                    try {
+                        xmppConnection.connect();
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
+                    }
+                    logger.debug("datasync server trying to reconnect;");
+                }
+                
+                @Override
+                public void connectionClosedOnError(Exception arg0) {
+                    logger.debug("datasync server error closed;");
+                }
+                
+                @Override
+                public void reconnectingIn(int arg0) {
+                    logger.debug("datasync server reconnecting;");
+                }
+                @Override
+                public void reconnectionFailed(Exception arg0) {
+                    logger.debug("datasync server reconnecting failed");
+                }
+                @Override
+                public void reconnectionSuccessful() {
+                    logger.debug("datasync server reconnecting success");
+                }
+            });
+
+            ProviderManager providerManager = ProviderManager.getInstance();
+
+        } catch (XMPPException e) {
+            logger.error("Error during connect");
+            e.printStackTrace();
+        }     
+    }
+    
+    
+    public void sendMessage(SyncMessage syncMessage) {
+        xmppConnection.sendPacket(syncMessage.convertToXMPPMessage());
+    }
+    
+    //implement synchronize client state
+    
+    
 //    public IDataSyncSession createSession(String toolName, String userName) {
 //        IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
 //        ISyncMessage message = dataSyncSession.convertToSyncMessage();
 //        try {
 //            this.create(message);
 //        } catch (DataSyncException e) {
-//            logger.error("Failed to create ScyMessage: " + message.toString());
+//            logger.debug.error("Failed to create ScyMessage: " + message.toString());
 //            e.printStackTrace();
 //        }
 //        return dataSyncSession;
@@ -57,13 +134,13 @@ public class DataSyncService {
 //    public IDataSyncSession joinSession(String session, String userName, String toolName) {
 //        IDataSyncSession iCollaborationSession = null;
 //        if (sessionExists(session, userName)) {
-//            logger.warn(userName + " is already member of session " + session);
+//            logger.debug.warn(userName + " is already member of session " + session);
 //        } 
 //        else if (sessionExists(session, null)) {
 //            iCollaborationSession = createSession(toolName, userName);
-//            logger.debug(userName + " is now a member of session " + session);
+//            logger.debug.debug(userName + " is now a member of session " + session);
 //        } else {
-//            logger.error("could not find session: " + session);
+//            logger.debug.error("could not find session: " + session);
 //        }
 //        return iCollaborationSession;
 //    }
@@ -98,7 +175,7 @@ public class DataSyncService {
 //            try {
 //                this.delete(collaborationSession.getPersistenceId());
 //            } catch (DataSyncException e) {
-//                logger.error("Trouble while deleting session: " + e);
+//                logger.debug.error("Trouble while deleting session: " + e);
 //                e.printStackTrace();
 //            }
 //        }
