@@ -6,7 +6,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.apache.log4j.Logger;
-import org.xmpp.packet.Message;
+import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
@@ -16,34 +16,22 @@ import eu.scy.communications.message.impl.SyncMessage;
 public class SyncMessageTestCase {
     
     private static final Logger logger = Logger.getLogger(SyncMessageTestCase.class.getName());
+    
     private static final String TEST_CONTENT = "This is the content, but there isn't much.";
     private static final String TEST_EVENT = "important event";
     private static final String TEST_TOOL_ID = "eu.scy.test." + SyncMessageTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
-    private final String TEST_PERSISTENCE_ID = "123";
+    private static final String TEST_PERSISTENCE_ID = "1239999999";
+    
     
     public SyncMessageTestCase() {
     }
+
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
-    
-    //not needed anymore see convertPojoToPacketExtension:DataSyncPacketTest
-    //@org.junit.Test
-//    public void testConvertToXMPPMessage() {
-//        //test convert from ScyMessage to xmpp message
-//        ISyncMessage syncMessage = getTestSyncMessage();
-//        assertNotNull(syncMessage);
-//        Message xmppMessage = ((SyncMessage) syncMessage).convertToXMPPMessage();
-//        assertNotNull(xmppMessage);
-//        assertEquals(TEST_CONTENT, xmppMessage.getChildElement("content", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
-//        assertEquals(TEST_EVENT, xmppMessage.getChildElement("event", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
-//        assertEquals(TEST_TOOL_ID, xmppMessage.getChildElement("toolId", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
-//        assertEquals(TEST_TOOL_SESSION_ID, xmppMessage.getChildElement("toolSessionId", SyncMessage.DATA_SYNC_XMPP_NAMESPACE).getText());
-//        assertEquals(TEST_FROM, xmppMessage.getFrom().toBareJID());
-//    } 
     
     
     @org.junit.Test
