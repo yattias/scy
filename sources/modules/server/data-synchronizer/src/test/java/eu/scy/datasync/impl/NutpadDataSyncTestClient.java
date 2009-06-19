@@ -24,10 +24,10 @@ import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.xmpp.packet.Message;
 
 
 import eu.scy.communications.message.ISyncMessage;
@@ -263,21 +263,13 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
                         System.out.println("datasync server reconnectings success");
                     }
                 });
-                
-                
-                //xmppConnection.loginAnonymously();
-                
+                                
                 xmppConnection.login("obama", "obama");
                 
                 SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage("9908d583-9778-4915-9142-4be7d5c89516", messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
                 
-                Message xmppMessage = syncMessage.convertToXMPPMessage();
-                
-                org.jivesoftware.smack.packet.Message smackMessage = new org.jivesoftware.smack.packet.Message();
-                
-                DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
-                smackMessage.addExtension((PacketExtension) extension);
-                
+                Message smackMessage = syncMessage.convertToXMPPMessage();                
+                smackMessage.addExtension((PacketExtension) new DataSyncPacketExtension(syncMessage));                
                 smackMessage.setFrom("obama@imediamac09.uio.no");
                 smackMessage.setTo("scyhub.imediamac09.uio.no");
                 xmppConnection.sendPacket(smackMessage);

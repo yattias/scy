@@ -45,14 +45,13 @@ public class DataSyncPacketTest {
 		
 		DataSyncPacketExtension dsp = new DataSyncPacketExtension(syncMessage);
 		assertNotNull(dsp);
-		assertEquals(TEST_CONTENT, dsp.getContent());
-		assertEquals(TEST_EVENT, dsp.getEvent());
-		assertEquals(TEST_TOOL_ID, dsp.getToolId());
-		assertEquals(TEST_TOOL_SESSION_ID, dsp.getToolSessionId());
-		assertEquals(TEST_FROM, dsp.getFrom());
-		assertEquals(TEST_PERSISTENCE_ID, dsp.getPersistenceId());
-		assertEquals(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME, dsp
-				.getExpiration());
+		assertEquals(TEST_TOOL_SESSION_ID, dsp.getValue("toolSessionId"));
+		assertEquals(TEST_TOOL_ID, dsp.getValue("toolId"));
+		assertEquals(TEST_FROM, dsp.getValue("from"));
+		assertEquals(TEST_CONTENT, dsp.getValue("content"));
+		assertEquals(TEST_EVENT, dsp.getValue("event"));
+		assertEquals(TEST_PERSISTENCE_ID, dsp.getValue("persistenceId"));
+		assertEquals(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME, Long.parseLong(dsp.getValue("expiration")));
 	}
 
 }

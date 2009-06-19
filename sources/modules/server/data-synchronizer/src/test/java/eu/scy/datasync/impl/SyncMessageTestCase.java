@@ -6,7 +6,7 @@ import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
 import org.apache.log4j.Logger;
-import org.xmpp.packet.Message;
+import org.jivesoftware.smack.packet.Message;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
