@@ -1,8 +1,8 @@
 package eu.scy.communications.message.impl;
 
 import org.apache.log4j.Logger;
-import org.xmpp.packet.Message;
-import org.xmpp.packet.PacketExtension;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.PacketExtension;
 
 import eu.scy.communications.message.ISyncMessage;
 
@@ -85,22 +85,11 @@ public class SyncMessage implements ISyncMessage {
      *  @return ISyncMessage
      */
     public static ISyncMessage createSyncMessage(Message xmppMessage) {
-    	
-    	DataSyncPacketExtension dsp = (DataSyncPacketExtension) xmppMessage.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
-        
-        if( dsp != null) {
-        	 return createSyncMessage(
-                     dsp.getToolSessionId(), 
-                     dsp.getToolId(), 
-                     dsp.getFrom(),
-                     dsp.getContent(), 
-                     dsp.getEvent(),
-                     dsp.getPersistenceId(),
-                     dsp.getExpiration());
-        	
-        }
-    	
-        return null;
+    	DataSyncPacketExtension dspe = (DataSyncPacketExtension) xmppMessage.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);        
+        if (dspe == null) {
+            return null;
+        }    	
+        return dspe.toPojo();
     }
     
 
@@ -120,11 +109,9 @@ public class SyncMessage implements ISyncMessage {
             xmppMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
         }
         
-        xmppMessage.setTo(DATA_SYNCHRONIZER_JID);
-        
+        xmppMessage.setTo(DATA_SYNCHRONIZER_JID);        
         DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
-
-        xmppMessage.addExtension(extension);
+        xmppMessage.addExtension((PacketExtension) extension);
         
         return xmppMessage;
     }

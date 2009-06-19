@@ -13,7 +13,8 @@ import java.util.Properties;
  */
 public class CommunicationProperties {
 
-    public String datasyncServer;
+    public String datasyncServerHost;
+    public String datasyncServerPort;
     public String clientEventQuery;
     public String clientEventCreate;
     public String clientEventSynchronize;
@@ -29,7 +30,8 @@ public class CommunicationProperties {
             e.printStackTrace();
         }
         
-        datasyncServer = props.getProperty("datasync.server");
+        datasyncServerHost = props.getProperty("datasync.server.host");
+        datasyncServerPort = props.getProperty("datasync.server.port");
         clientEventQuery = props.getProperty("client.event.query");
         clientEventCreate = props.getProperty("client.event.create");
         clientEventSynchronize = props.getProperty("client.event.synchronize");       

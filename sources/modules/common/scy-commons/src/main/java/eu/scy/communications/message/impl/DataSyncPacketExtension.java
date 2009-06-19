@@ -1,11 +1,8 @@
 package eu.scy.communications.message.impl;
 
-import java.util.TimeZone;
-
-import org.dom4j.Element;
-import org.dom4j.QName;
-import org.xmpp.forms.DataForm;
-import org.xmpp.packet.PacketExtension;
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.packet.DefaultPacketExtension;
+import org.jivesoftware.smack.packet.PacketExtension;
 
 import eu.scy.communications.message.ISyncMessage;
 
@@ -13,133 +10,67 @@ import eu.scy.communications.message.ISyncMessage;
 /**
  * used by the xmpp message xmlify data sync.
  * 
- * @author anthonjp
+ * @author thomasd
  *
  */
-public class DataSyncPacketExtension extends PacketExtension {
-
-	
-
-	
-    /**
-     * Element name of the packet extension.
-     */
-    public static final String ELEMENT_NAME = "x";
-
-    /**
-     * Namespace of the packet extension.
-     */
-    public static final String NAMESPACE = "jabber:x:datasync";
+public class DataSyncPacketExtension extends DefaultPacketExtension implements PacketExtension {
     
-    static {
-        // Register that DataForms uses the jabber:x:data namespace
-        registeredExtensions.put(QName.get(ELEMENT_NAME, NAMESPACE), DataSyncPacketExtension.class);
-    }
-	
-	public DataSyncPacketExtension(Element element) {
-		super(element);
-	}
+    private static final Logger logger = Logger.getLogger(DataSyncPacketExtension.class.getName());
+        
+    public static final String ELEMENT_NAME = "syncData";
+    public static final String NAMESPACE = "eu:scy:datasync";
+    
 
+    public DataSyncPacketExtension() {
+        super(ELEMENT_NAME, NAMESPACE);
+    }
+    
+    
     public DataSyncPacketExtension(ISyncMessage syncMessage) {
         super(ELEMENT_NAME, NAMESPACE);
-        
-        this.setToolSessionId(syncMessage.getToolSessionId());
-        this.setToolId(syncMessage.getToolId());
-        this.setFrom(syncMessage.getFrom());
-        this.setContent(syncMessage.getContent());
-        this.setEvent(syncMessage.getEvent());
-        this.setPersistenceId(syncMessage.getPersistenceId());
-        this.setExpiration(syncMessage.getExpiration());
+        setValue("toolSessionId", syncMessage.getToolSessionId());
+        setValue("toolId", syncMessage.getToolId());
+        setValue("from", syncMessage.getFrom());
+        setValue("content", syncMessage.getContent());
+        setValue("event", syncMessage.getEvent());
+        setValue("persistenceId", syncMessage.getPersistenceId());
+        setValue("expiration", String.valueOf(syncMessage.getExpiration()));
     }
     
-    public long getExpiration() {
-    	return new Long(element.elementText("Expiration")).longValue(); 	
-    }
-    
-    public void setExpiration(long expiration) {
-      	 if (element.element("Expiration") != null) {
-            element.remove(element.element("Expiration"));
-        }
-        element.addElement("Expiration").setText(new Long(expiration).toString());
-   	}
-    
-    
-    public String getPersistenceId() {
-    	return element.elementText("persistenceId"); 	
-    }
-    
-    public void setPersistenceId(String persistenceId) {
-      	 if (element.element("persistenceId") != null) {
-            element.remove(element.element("persistenceId"));
-        }
-        element.addElement("persistenceId").setText(persistenceId);
-   	}
-    
-    public String getEvent() {
-    	return element.elementText("event"); 	
-    }
-    
-    public void setEvent(String event) {
-   	 if (element.element("event") != null) {
-         element.remove(element.element("event"));
-     }
-     element.addElement("event").setText(event);
-	}
-
-	public String getToolId() {
-    	return element.elementText("toolId"); 	
-    }
-    
-    public void setToolId(String toolId) {
-    	 if (element.element("toolId") != null) {
-             element.remove(element.element("toolId"));
-         }
-         element.addElement("toolId").setText(toolId);
-	}
-	public String getToolSessionId(){
-    	return element.elementText("toolSessionId");
-    }
-    
-    public void setToolSessionId(String toolSessionId) {
-    	  if (element.element("toolSessionId") != null) {
-              element.remove(element.element("toolSessionId"));
-          }
-          element.addElement("toolSessionId").setText(toolSessionId);
-	}
-
-	public String getFrom() {
-    	return element.elementText("from");
-	}
-    
-    public void setFrom(String from) {
-        if (element.element("from") != null) {
-            element.remove(element.element("from"));
-        }
-        element.addElement("from").setText(from);
-    }
-    
-    
-    public String getContent() {
-    	return element.elementText("content");
-	}
-    
-    public void setContent(String content) {
-        // Remove an existing title element.
-        if (element.element("content") != null) {
-            element.remove(element.element("content"));
-        }
-        element.addElement("content").setText(content);
-    }
     
     public ISyncMessage toPojo() {
-    	return SyncMessage.createSyncMessage(getToolSessionId(), 
-    										getToolId(), 
-    										getFrom(), 
-    										getContent(), 
-    										getEvent(), 
-    										getPersistenceId(), 
-    										getExpiration());
+        return SyncMessage.createSyncMessage(getValue("toolSessionId"), 
+                                            getValue("toolId"), 
+                                            getValue("from"), 
+                                            getValue("content"), 
+                                            getValue("event"), 
+                                            getValue("persistenceId"), 
+                                            Long.parseLong(getValue("expiration")));
     }
     
-	
+    
+    public String toXML() {
+        StringBuffer buf = new StringBuffer();        
+        buf.append("<").append(getElementName()).append(" xmlns=\"").append(getNamespace()).append(">");
+        buf.append("<toolSessionId>").append(getValue("toolSessionId")).append("</toolSessionId>");
+        buf.append("<toolId>").append(getValue("toolId")).append("</toolId>");
+        buf.append("<from>").append(getValue("from")).append("</from>");
+        buf.append("<content><![CDATA[").append(getValue("content")).append("]]></content>");
+        buf.append("<event>").append(getValue("event")).append("</event>");
+        buf.append("<persistenceId>").append(getValue("persistenceId")).append("</persistenceId>");
+        buf.append("<expiration>").append(getValue("expiration")).append("</expiration>");
+        buf.append("</").append(getElementName()).append(">");        
+        return buf.toString();
+    }
+    
+    
+    @Override
+    public String getValue(String value) {
+        if (super.getValue(value) == null) {
+            return "";
+        }
+        return super.getValue(value);
+    }
+    
 }
+
