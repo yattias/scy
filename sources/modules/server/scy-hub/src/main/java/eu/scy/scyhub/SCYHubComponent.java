@@ -45,16 +45,16 @@ public class SCYHubComponent implements Component {
      * process the packet and route the it to the correct place 
      */
     public void processPacket(Packet packet) {
-        logger.debug("Received package:" + packet.toXML());
+        logger.debug(">>>>>>>>>>>>>>>> Received package:" + packet.toXML());
         // Only process Message packets
         if (packet instanceof Message) {
-            logger.debug("It's a Message");
+            logger.debug(">>>>>>>>>>> It's a Message");
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;            
             PacketExtension packetExtension = (PacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
             
             if (packetExtension != null) {
-                logger.debug("It contains a DataSyncPacketExtension");
+                logger.debug(">>><<<<<< It contains a DataSyncPacketExtension");
                 //found a datasync extension, yay!
                 DataSyncPacketExtension dspe = (DataSyncPacketExtension) packetExtension;
                 try {
@@ -64,7 +64,7 @@ public class SCYHubComponent implements Component {
                     e1.printStackTrace();
                 }                
             } else {
-                logger.debug("It didn't contain a DataSyncPacketExtension");
+                logger.debug("OoOoO It didn't contain a DataSyncPacketExtension");
             }
             
             

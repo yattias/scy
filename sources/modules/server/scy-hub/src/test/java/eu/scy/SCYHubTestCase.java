@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Message;
+import org.junit.Test;
 import org.xmpp.packet.Packet;
 
 import eu.scy.communications.message.ISyncMessage;
@@ -11,7 +12,12 @@ import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.scyhub.SCYHubComponent;
 
-
+/**
+ * Tests the scyhub.
+ * 
+ * @author thomasd
+ *
+ */
 public class SCYHubTestCase {
 
 	private final Logger logger = Logger.getLogger(SCYHubTestCase.class.getName());
@@ -34,16 +40,20 @@ public class SCYHubTestCase {
 				SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
 	}
 	
-
 	private Message getMessage() {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
-		assertNotNull(syncMessage);
 		
 		Message message = ((SyncMessage) syncMessage).convertToXMPPMessage();
 		message.setTo("to@to");
 		message.setFrom("from@from");
 		return message;
+	}
+
+	
+	@Test
+	public void testGetMessage() {
+	    assertNotNull(getMessage());	    
 	}
 	
 	
