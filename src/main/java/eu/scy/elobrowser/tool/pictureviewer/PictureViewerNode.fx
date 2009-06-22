@@ -6,11 +6,9 @@
 
 package eu.scy.elobrowser.tool.pictureviewer;
 
-import eu.scy.elobrowser.main.Roolo;
 import eu.scy.elobrowser.tool.pictureviewer.EloPictureWrapper;
 import eu.scy.elobrowser.tool.pictureviewer.PictureViewerNode;
 import eu.scy.scywindows.ScyWindow;
-import java.lang.Math;
 import java.lang.Object;
 import java.net.URI;
 import javafx.scene.CustomNode;
@@ -19,13 +17,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+
+import javafx.ext.swing.SwingButton;
+
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import eu.scy.elobrowser.main.Roolo;
+import java.lang.Math;
+
+import eu.scy.elobrowser.tool.pictureviewer.map.MapWrapper;
+
+import javafx.scene.input.MouseEvent;
  
 /**
  * @author pg
@@ -33,10 +40,10 @@ import javafx.stage.Stage;
 
 public class PictureViewerNode extends CustomNode {
 
-    var title: String;
-    var description: String;
-    var author: String;
-    var dateCreatedString: String;
+    public var title: String;
+    public var description: String;
+    public var author: String;
+    public var dateCreatedString: String;
 
     public var img: Image = Image{
         url: "{__DIR__}image.jpg";
@@ -77,8 +84,8 @@ public class PictureViewerNode extends CustomNode {
     var strokeRectangle: Rectangle = Rectangle {
         stroke: Color.BLACK;
         strokeWidth: 2;
-        height: bind viewer.fitHeight;
-        width: bind viewer.fitWidth;
+        height: bind viewer.image.height;
+        width: bind viewer.image.width;
         translateX: bind viewer.translateX;
         translateY: bind viewer.translateY;
         fill: Color.TRANSPARENT;
@@ -136,39 +143,78 @@ public class PictureViewerNode extends CustomNode {
         content: bind dateCreatedString;
         translateX: 93;
         translateY: bind dateCreatedTextTitle.translateY;
+    };
+
+//    var openMap:SwingButton = SwingButton {
+//        text: "show location on map";
+//        translateX: 5;
+//        translateY: bind dateCreatedTextTitle.translateY;
+//        onMousePressed: function(e:MouseEvent):Void {
+//            mapWrapper.showMap();
+//        }
+//
+//    };
+
+    var mapWrapper:MapWrapper = MapWrapper {
+        
     }
 
+    var worldMap: ImageView = ImageView {
+        image: Image{
+            url: "{__DIR__}worldmap.png";
+        }
+        translateX: 5;
+        translateY: bind dateCreatedTextTitle.translateY+13;
+        onMousePressed: function(e:MouseEvent):Void {
+            mapWrapper.showMap();
+        }
+    }
+
+
     init {
-        if((img.width < 500) and (img.height < 500)) {
-            if(img.width > img.height) {
-                viewer.fitWidth = 500;
-                viewer.fitHeight = 500 * img.height / img.width;
-            }
-            else {
-                viewer.fitHeight = 500;
-                viewer.fitWidth = 500 * img.width / img.height;
-            }
-        } 
+//        if((img.width < 500) and (img.height < 500)) {
+//            if(img.width > img.height) {
+//                viewer.fitWidth = 500;
+//                viewer.fitHeight = 500 * img.height / img.width;
+//            }
+//            else {
+//                viewer.fitHeight = 500;
+//                viewer.fitWidth = 500 * img.width / img.height;
+//            }
+//        }
 
     }
 
 
     public override function create():Node {
+//       if((img.width < 500) and (img.height < 500)) {
+//            if(img.width > img.height) {
+//                viewer.fitWidth = 500;
+//                viewer.fitHeight = 500 * img.height / img.width;
+//            }
+//            else {
+//                viewer.fitHeight = 500;
+//                viewer.fitWidth = 500 * img.width / img.height;
+//            }
+//        }
+
         var g = Group {
-            //blocksMouse: true;
+              //blocksMouse: true;
             content: [
                   //FIXME doesnt work -> outcommented
-//                strokeRectangle,
-//                titleTextTitle,
-//                titleText,
-//                viewer,
-//                descriptionTextTitle,
-//                descriptionText,
-//                authorTextTitle,
-//                authorText,
-//                dateCreatedTextTitle,
-//                dateCreatedText,
-//                strokeRectangle
+                //strokeRectangle,
+                titleTextTitle,
+                titleText,
+                viewer,
+                descriptionTextTitle,
+                descriptionText,
+                authorTextTitle,
+                authorText,
+                dateCreatedTextTitle,
+                dateCreatedText,
+                strokeRectangle,
+                worldMap,
+                mapWrapper
             ]
         };
         return g;
@@ -233,35 +279,38 @@ public function createPictureViewerWindow(roolo:Roolo):ScyWindow{
     return createPictureViewerWindow(PictureViewerNode.createPictureViewerNode(roolo));
 }
 
-public function createPictureViewerWindow(pictureViewerNode:PictureViewerNode):ScyWindow {
+public function createPictureViewerWindow(picViewNode:PictureViewerNode):ScyWindow {
     var pictureWindow = ScyWindow{
         color: Color.PINK
         title: "PictureViewer"
-        scyContent: pictureViewerNode;
+        scyContent: picViewNode;
         cache: true;
     }
-    var height = pictureViewerNode.dateCreatedText.translateY + 50;
-    var width = pictureViewerNode.viewer.fitWidth;
-    width = Math.max(width, pictureViewerNode.titleText.boundsInParent.maxX);
-    width = Math.max(width, pictureViewerNode.descriptionText.boundsInParent.maxX);
-    width = Math.max(width, pictureViewerNode.authorText.boundsInParent.maxX);
-    width = Math.max(width, pictureViewerNode.dateCreatedText.boundsInParent.maxX);
+    var height = picViewNode.dateCreatedText.translateY + 85;
+    var width = picViewNode.viewer.fitWidth;
+    width = Math.max(width, picViewNode.titleText.boundsInParent.maxX);
+    width = Math.max(width, picViewNode.descriptionText.boundsInParent.maxX);
+    width = Math.max(width, picViewNode.authorText.boundsInParent.maxX);
+    width = Math.max(width, picViewNode.dateCreatedText.boundsInParent.maxX);
     width += 30;
     pictureWindow.openWindow(width,height);
 
-    pictureViewerNode.scyWindow = pictureWindow;
+    picViewNode.scyWindow = pictureWindow;
     return pictureWindow;
     
 }
 
 function run(){
+
+    var scyWind = createPictureViewerWindow(PictureViewerNode{});
     Stage {
         title: "PictureViewer"
         width: 600
         height: 600
         scene: Scene {
-            content: PictureViewerNode{
-            }
+            content:// PictureViewerNode{
+            // }
+            scyWind
         }
     }
 }
