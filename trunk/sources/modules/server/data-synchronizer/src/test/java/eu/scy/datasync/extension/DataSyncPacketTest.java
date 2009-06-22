@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.datasync.impl.SyncMessageTestCase;
 
 /**
  * Tests the data sync packet extenison.
@@ -18,12 +17,10 @@ import eu.scy.datasync.impl.SyncMessageTestCase;
  */
 public class DataSyncPacketTest {
 
-	private final Logger logger = Logger.getLogger(SyncMessageTestCase.class
-			.getName());
+	private final Logger logger = Logger.getLogger(DataSyncPacketTest.class.getName());
 	private final String TEST_CONTENT = "This is the content, but there isn't much.";
 	private final String TEST_EVENT = "important event";
-	private final String TEST_TOOL_ID = "eu.scy.test."
-			+ SyncMessageTestCase.class.getName();
+	private final String TEST_TOOL_ID = "eu.scy.test." + DataSyncPacketTest.class.getName();
 	private final String TEST_TOOL_SESSION_ID = "1234567890";
 	private final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
