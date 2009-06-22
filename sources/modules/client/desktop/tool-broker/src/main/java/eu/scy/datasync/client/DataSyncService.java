@@ -14,6 +14,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
 
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.event.IDataSyncListener;
@@ -21,7 +22,6 @@ import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.factory.DataSyncLocalImpl;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
-import eu.scy.communications.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
@@ -33,7 +33,7 @@ import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
  * @author thomasd
  *
  */
-public class DataSyncService {
+public class DataSyncService implements IDataSyncService {
     
     private static final Logger logger = Logger.getLogger(DataSyncService.class.getName());
     
@@ -55,50 +55,51 @@ public class DataSyncService {
         this.xmppConnection = new XMPPConnection(config);        
         this.xmppConnection.DEBUG_ENABLED = true;
 
-        try {
-            
+        try {            
             this.xmppConnection.connect();
-            this.xmppConnection.addConnectionListener(new ConnectionListener() {
-                
-                @Override
-                public void connectionClosed() {
-                    logger.debug("datasync server closed;");
-                    try {
-                        xmppConnection.connect();
-                    } catch (XMPPException e) {
-                        e.printStackTrace();
-                    }
-                    logger.debug("datasync server trying to reconnect;");
-                }
-                
-                @Override
-                public void connectionClosedOnError(Exception arg0) {
-                    logger.debug("datasync server error closed;");
-                }
-                
-                @Override
-                public void reconnectingIn(int arg0) {
-                    logger.debug("datasync server reconnecting;");
-                }
-                @Override
-                public void reconnectionFailed(Exception arg0) {
-                    logger.debug("datasync server reconnecting failed");
-                }
-                @Override
-                public void reconnectionSuccessful() {
-                    logger.debug("datasync server reconnecting success");
-                }
-            });
-
-            ProviderManager providerManager = ProviderManager.getInstance();
-
+            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
         } catch (XMPPException e) {
-            logger.error("Error during connect");
+            logger.error("Error during xmpp connect");
             e.printStackTrace();
-        }     
+        }
+        
+        this.xmppConnection.addConnectionListener(new ConnectionListener() {
+            
+            @Override
+            public void connectionClosed() {
+                logger.debug("datasync server closed;");
+                try {
+                    xmppConnection.connect();
+                } catch (XMPPException e) {
+                    e.printStackTrace();
+                }
+                logger.debug("datasync server trying to reconnect;");
+            }
+            
+            @Override
+            public void connectionClosedOnError(Exception arg0) {
+                logger.debug("datasync server error closed;");
+            }
+            
+            @Override
+            public void reconnectingIn(int arg0) {
+                logger.debug("datasync server reconnecting;");
+            }
+            @Override
+            public void reconnectionFailed(Exception arg0) {
+                logger.debug("datasync server reconnecting failed");
+            }
+            @Override
+            public void reconnectionSuccessful() {
+                logger.debug("datasync server reconnecting success");
+            }
+        });
+
+        ProviderManager providerManager = ProviderManager.getInstance();
+
     }
     
-    
+    @Override
     public void sendMessage(SyncMessage syncMessage) {
         xmppConnection.sendPacket(syncMessage.convertToXMPPMessage());
     }
