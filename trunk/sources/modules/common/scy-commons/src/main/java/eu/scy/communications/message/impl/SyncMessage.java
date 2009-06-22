@@ -126,7 +126,7 @@ public class SyncMessage implements ISyncMessage {
         output.append(" content: " + content + "\n");
         output.append(" event: " + event + "\n");
         output.append(" persistenceId: " + persistenceId + "\n");
-        output.append(" expiration: " + String.valueOf(expiration) + "\n");
+        output.append(" expiration: " + String.valueOf(expiration));
         return output.toString();
     }
         
