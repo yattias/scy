@@ -27,23 +27,12 @@ import javafx.scene.image.ImageView;
  */
 
 public class MapWrapper extends CustomNode {
-//todo: MapManager refactorn: variablen im konstruktor iniitialisieren => done
-//hier map anzeigen,
-//in viewernode beim anklicken einfaden lassen
-//&glücklich sein
-//größen / bounds von viewernode klauen
-//position + text über bekannte funktionen
-//&gut ist
-// :)
 
-    // 1. create warapper
-    // 2. get bounds
-    // 3. change map size / create new map
-    // 4. add positions
-    // 5. fade in
+   public var height = 450;
+   public var width = 450;
 
-   public var height = 600;
-   public var width = 600;
+   public var viewX:Double;
+   public var viewY:Double;
    
     var manager:MapManager = new MapManager();
     var myMap = manager.getMap();
@@ -65,7 +54,7 @@ public class MapWrapper extends CustomNode {
 
     }
 
-        var goBack: ImageView = ImageView {
+    var goBack: ImageView = ImageView {
         image: Image{
             url: "{__DIR__}back.png";
         }
@@ -76,17 +65,32 @@ public class MapWrapper extends CustomNode {
         }
     }
 
+    var centerViewButton:ImageView = ImageView {
+        image: Image{
+            url: "{__DIR__}back.png";
+        }
+        rotate: -90;
+        translateY: 5;
+        translateX: 50;
+        onMouseReleased: function(e:MouseEvent):Void {
+            centerView(viewX, viewY);
+        }
+    }
+
+
+
      public override function create():Node {
         myMap.setPreferredSize(new java.awt.Dimension(width, height));
 
         var mapComponent = SwingComponent.wrap(myMap);
         mapComponent.visible = true;
         this.opacity = 0.0;
-         manager.addPosition(51.427783, 6.800172, "UDE Scy Headquarters");
+         //manager.addPosition(51.427783, 6.800172, "UDE Scy Headquarters");
          var g = Group {
             content: [
                     mapComponent,
-                    goBack
+                    goBack,
+                    centerViewButton
             ]
         };
         return g;
@@ -103,6 +107,18 @@ public class MapWrapper extends CustomNode {
         fade.play();
         this.disable = true;
     }
+
+    public function addPosition(x:Number, y:Number, text:String):Void {
+        manager.addPosition(x, y, text);
+    }
+
+    public function centerView(x:Number, y:Number):Void {
+        manager.centerPosition(x,y);
+        this.viewX = x;
+        this.viewY = y;
+    }
+
+
 
 
 
