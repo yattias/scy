@@ -6,11 +6,10 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows;
 
-import eu.scy.client.desktop.scydesktop.scywindows.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
-import eu.scy.client.desktop.scydesktop.contact.Contact;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import java.awt.Dimension;
 import java.lang.Math;
 import java.lang.Object;
@@ -24,7 +23,6 @@ import javafx.ext.swing.SwingScrollPane;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.CustomNode;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.Group;
@@ -36,7 +34,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
@@ -57,82 +54,6 @@ import javax.swing.JTree;
 
  // place your code here
 public class ScyWindow extends CustomNode {
-   public var contactDragging: Boolean = bind scyDesktop.contactDragging on replace {
-   }
-
-   public def funkyColoredLayer: Rectangle = Rectangle {
-        //blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
-      //width: bind (if (scyDesktop.contactDragging) this.width else 0 );
-      //height: bind (if (scyDesktop.contactDragging) this.height else 0 );
-      width: bind this.width;
-      height: bind this.height;
-      fill: Color.TRANSPARENT;
-      stroke: Color.TRANSPARENT;
-   }
-
-   public def circleLayer: Circle = Circle {
-        //stroke: Color.BLACK;
-      stroke: bind lighterColor(color);
-      fill: Color.TRANSPARENT;
-      strokeWidth: 5;
-      centerX: bind funkyColoredLayer.width / 2;
-      centerY: bind funkyColoredLayer.height / 2 + 10;
-      radius: 30;
-      visible: false;
-      onMouseEntered: function(e:MouseEvent):Void {
-         Timeline {
-            keyFrames: [
-               KeyFrame {
-                  time: 0.1s
-                  values: [
-                     circleLayer.strokeWidth => 8 tween Interpolator.LINEAR,
-                     circleLayer.radius => 50 tween Interpolator.LINEAR
-                  ]
-               }
-            ]
-         }.play();
-      }
-      onMouseExited: function(e:MouseEvent):Void {
-         Timeline {
-            keyFrames: [
-               KeyFrame {
-                  time: 0.1s
-                  values: [
-                     circleLayer.strokeWidth => 5 tween Interpolator.LINEAR,
-                     circleLayer.radius => 30 tween Interpolator.LINEAR
-                  ]
-               }
-            ]
-         }.play();
-      }
-   }
-
-   public def draggingLayer: Rectangle = Rectangle{
-      blocksMouse: bind (if(scyDesktop.contactDragging) true else false)
-      width: bind (if (scyDesktop.contactDragging) this.width else 0 );
-      height: bind (if (scyDesktop.contactDragging) this.height else 0 );
-      fill: Color.TRANSPARENT;
-      stroke: Color.TRANSPARENT;
-      onMouseEntered: function(evt:MouseEvent){
-            //scyContent.scaleX = 0.0;
-         //scyContent.scaleY = 0.0;
-         scyContent.visible = false;
-         this.hoveredContact = scyDesktop.draggedContact;
-         funkyColoredLayer.fill = this.color;
-         circleLayer.visible = true;
-         scyDesktop.targetWindow = this;
-      }
-      onMouseExited: function(evt:MouseEvent){
-            //scyContent.scaleX = 1.0;
-         //scyContent.scaleY = 1.0;
-         scyContent.visible = true;
-         this.hoveredContact = null;
-         funkyColoredLayer.fill = Color.TRANSPARENT;
-         circleLayer.visible = false;
-         scyDesktop.targetWindow = null;
-      }
-   };
-
 	def scyWindowAttributeDevider = 3.0;
 
 	public var title = "???";
@@ -147,7 +68,6 @@ public class ScyWindow extends CustomNode {
 		}
    };
 
-   public var hoveredContact: Contact;
 	public var height: Number = 100 on replace{
 		if (not isAnimating){
 			if (isClosed or isMinimized){
@@ -170,7 +90,7 @@ public class ScyWindow extends CustomNode {
    public var allowClose = true;
    public var allowMinimize = true;
    public var closeIsHide = false;
-   public var scyDesktop: ScyDesktop;
+   public var scyDesktop: WindowManager;
 	public var windowEffect: Effect;
 	//	public var closeAction:function(ScyWindow):Void;
 	public var minimizeAction: function(ScyWindow):Void;
@@ -806,7 +726,7 @@ public class ScyWindow extends CustomNode {
                   height: bind height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder
                   fill: Color.BLACK
                }
-               content: bind [scyContent, funkyColoredLayer]
+               content: bind [scyContent]
                onMousePressed: function( e: MouseEvent ):Void {
                   activate();
                }
@@ -1075,19 +995,19 @@ public class ScyWindow extends CustomNode {
                translateY: -borderWidth / 2;
                content: scyWindowAttributes,
             },
-            draggingLayer,
-            Group {
-               content: [circleLayer]
-               effect: DropShadow {
-                  offsetX: 3
-                  offsetY: 3
-                  color: Color.BLACK
-                  radius: 10
-               }
-               onMouseReleased: function( e: MouseEvent ):Void {
-                  println("G entered");
-               }
-            }
+//            draggingLayer,
+//            Group {
+//               content: [circleLayer]
+//               effect: DropShadow {
+//                  offsetX: 3
+//                  offsetY: 3
+//                  color: Color.BLACK
+//                  radius: 10
+//               }
+//               onMouseReleased: function( e: MouseEvent ):Void {
+//                  println("G entered");
+//               }
+//            }
 
 
 			]
@@ -1141,7 +1061,7 @@ function run() {
    //	var treeNode = SwingComponent.wrap(tree);
    //
 
-   var scyDesktop: ScyDesktop = ScyDesktop{
+   var scyDesktop: WindowManager = WindowManagerImpl{
    };
 
    var newGroup = VBox {
@@ -1325,7 +1245,7 @@ function run() {
       eloType: "M"
       color: Color.GRAY
       height: 27;
-      isClosed: true;
+      isClosed: true
       allowClose: true;
       allowResize: true;
       allowRotate: true;
@@ -1415,7 +1335,7 @@ function run() {
       height: 600
       scene: Scene {
          content: [
-            scyDesktop.desktop,
+            scyDesktop.scyWindows
 //				whiteboardNode,
 //				drawingWindow2
 //				drawingWindow3
