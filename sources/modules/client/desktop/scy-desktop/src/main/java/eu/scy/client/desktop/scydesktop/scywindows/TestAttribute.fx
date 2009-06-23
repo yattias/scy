@@ -6,6 +6,7 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows;
 
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import java.lang.Object;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -54,7 +55,7 @@ public override function create(): Node {
 
 function run(){
 
-    var scyDesktop: ScyDesktop = ScyDesktop{
+    var scyDesktop: WindowManager = WindowManagerImpl{
     };
 
     var att1 = TestAttribute{
@@ -84,7 +85,7 @@ Stage {
     height: 200
     scene: Scene {
         content: [
-            scyDesktop.desktop
+            scyDesktop.scyWindows
         ]
     }
 }

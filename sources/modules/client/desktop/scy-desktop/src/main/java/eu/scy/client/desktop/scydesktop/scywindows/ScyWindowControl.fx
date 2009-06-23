@@ -10,7 +10,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyWindowContentCreator;
 import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModel;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.WindowPositionerCenterMinimized;
@@ -37,7 +36,7 @@ public class ScyWindowControl{
    public var missionMap: MissionMap;
    public var scyWindowContentCreator: ScyWindowContentCreator;
    public var scyWindowStyler: ScyWindowStyler;
-   public var scyDesktop: ScyDesktop;
+   public var scyDesktop: WindowManager;
    public var stage: Stage;
    public var metadataTypeManager: IMetadataTypeManager;
    public var extensionManager: IExtensionManager;
@@ -108,7 +107,7 @@ public class ScyWindowControl{
       if (activeAnchorWindow != null){
          scyDesktop.addScyWindow(activeAnchorWindow);
          positionWindows();
-         scyDesktop.checkVisibilityScyWindows(isRelevantScyWindow);
+// TODO         scyDesktop.checkVisibilityScyWindows(isRelevantScyWindow);
          scyDesktop.activateScyWindow(activeAnchorWindow);
       }
    }
