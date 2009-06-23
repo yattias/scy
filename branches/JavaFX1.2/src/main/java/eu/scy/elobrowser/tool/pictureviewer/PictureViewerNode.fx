@@ -103,8 +103,9 @@ public class PictureViewerNode extends CustomNode {
 
     var titleText: Text = Text {
         content: bind title;
-        translateX: 32;
+        translateX: 5;
         translateY: 15;
+        font: Font.font("", FontWeight.BOLD, 18);
     }
 
     var descriptionTextTitle: Text = Text {
@@ -155,10 +156,7 @@ public class PictureViewerNode extends CustomNode {
 //
 //    };
 
-    var mapWrapper:MapWrapper = MapWrapper {
-        
-    }
-
+    var mapWrapper:MapWrapper = MapWrapper{};
     var worldMap: ImageView = ImageView {
         image: Image{
             url: "{__DIR__}worldmap.png";
@@ -169,9 +167,11 @@ public class PictureViewerNode extends CustomNode {
             mapWrapper.showMap();
         }
     }
-
+ 
 
     init {
+        mapWrapper.addPosition(51.427783,6.800172, "UDE SCY Headquarters");
+        mapWrapper.centerView(51.427783,6.800172);
 //        if((img.width < 500) and (img.height < 500)) {
 //            if(img.width > img.height) {
 //                viewer.fitWidth = 500;
@@ -203,7 +203,7 @@ public class PictureViewerNode extends CustomNode {
             content: [
                   //FIXME doesnt work -> outcommented
                 //strokeRectangle,
-                titleTextTitle,
+//                titleTextTitle,
                 titleText,
                 viewer,
                 descriptionTextTitle,
@@ -292,7 +292,7 @@ public function createPictureViewerWindow(picViewNode:PictureViewerNode):ScyWind
     width = Math.max(width, picViewNode.descriptionText.boundsInParent.maxX);
     width = Math.max(width, picViewNode.authorText.boundsInParent.maxX);
     width = Math.max(width, picViewNode.dateCreatedText.boundsInParent.maxX);
-    width += 30;
+    width += 70;
     pictureWindow.openWindow(width,height);
 
     picViewNode.scyWindow = pictureWindow;

@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import org.jdesktop.swingx.JXMapViewer;
@@ -71,13 +70,13 @@ public class MapManager {
         map.setTileFactory(tf);
         map.setZoom(17);
         //startposition:
-        map.setAddressLocation(new GeoPosition(51.427783,6.800172));
+//        map.setAddressLocation(new GeoPosition(51.427783,6.800172));
 
 
         map.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("mouseclick.");
+//                System.out.println("mouseclick.");
                 //check if bubble should pop up
                 Rectangle rect = map.getViewportBounds();
                 boolean poppedUp = false;
@@ -86,29 +85,28 @@ public class MapManager {
                     Point converted_pt = new Point((int)pt.getX()- rect.x, (int)pt.getY() - rect.y);
                     if(converted_pt.distance(e.getPoint()) < 5) {
                         if(bubblePositions.get(gp) == null) {
-                            System.out.println("close enaugh to waypoint.");
-                            Random rand = new Random();
-                            BubblePosition bubblePos = new BubblePosition(gp,positions.get(gp) + "\nthis is a test!\n" + rand.nextInt(1000));
+//                            System.out.println("close enaugh to waypoint.");
+                            BubblePosition bubblePos = new BubblePosition(gp,positions.get(gp));
                             bubblePositions.put(gp, bubblePos );
                             paintersOrder.add(bubblePos.getPainter());
                             poppedUp = true;
                         }
                         else {
-                            System.out.println("already painted");
+//                            System.out.println("already painted");
                         }
                     }
                 }
                 //now: check if something popped up - if not, check if you gotta delete something.
                 // i <3 cpt. BRUTEFORCE
                 if(!poppedUp) {
-                    System.out.println("check if there is something to delete..");
+//                    System.out.println("check if there is something to delete..");
                     for (Iterator<GeoPosition> iterator = bubblePositions.keySet().iterator(); iterator.hasNext();) {
                         GeoPosition geoPos = iterator.next();
                         BubblePosition bubblePos = bubblePositions.get(geoPos);
                         Point2D pt = map.getTileFactory().geoToPixel(geoPos, map.getZoom());
                         Point converted_pt = new Point((int)pt.getX()- rect.x+bubblePos.getCloseX(), (int)pt.getY() - rect.y+bubblePos.getCloseY());
                         if(converted_pt.distance(e.getPoint()) < 10) {
-                            System.out.println("DELETE!");
+//                            System.out.println("DELETE!");
                             paintersOrder.remove(bubblePositions.get(geoPos).getPainter());
                             iterator.remove();
                         }
@@ -162,5 +160,11 @@ public class MapManager {
 
     public JXMapViewer getMap() {
         return this.map; //...sinn? ...vorhanden.
+    }
+
+    public void centerPosition(double x, double y) {
+        map.setAddressLocation(new GeoPosition(x, y));
+        map.recenterToAddressLocation();
+
     }
 }
