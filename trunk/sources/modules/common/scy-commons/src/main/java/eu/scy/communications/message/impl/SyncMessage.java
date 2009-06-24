@@ -17,11 +17,13 @@ public class SyncMessage implements ISyncMessage {
     private static final Logger logger = Logger.getLogger(SyncMessage.class.getName());    
 
     public static final String DATA_SYNC_XMPP_NAMESPACE = "eu:scy:datasync";
-    public static final String XMPP_SERVER_ADDRESS = "wiki.intermedia.uio.no";
-    public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@" + XMPP_SERVER_ADDRESS;
+    //public static final String XMPP_SERVER_ADDRESS = "wiki.intermedia.uio.no";
+    public static final String XMPP_SERVER_ADDRESS = "imediamac10.uio.no";
+    //public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@" + XMPP_SERVER_ADDRESS;
+    public static final String DATA_SYNCHRONIZER_JID = "scyhub." + XMPP_SERVER_ADDRESS;
     public static final long DEFAULT_MESSAGE_EXPIRATION_TIME = 60*60*1000; // one hour
     
-    public static final String MESSAGE_TYPE_QUERY = "QUERY";
+    //public static final String MESSAGE_TYPE_QUERY = "QUERY";
     //public static final String QUERY_TYPE_ALL = "ALL";
     
     private String toolSessionId;
@@ -73,7 +75,7 @@ public class SyncMessage implements ISyncMessage {
         syncMessage.setEvent(event);
         syncMessage.setPersistenceId(persistenceId);
         syncMessage.setExpiration(expiration);
-        logger.debug("==== ISyncMessage created: " + syncMessage);
+        logger.debug("ISyncMessage created:\n" + syncMessage);
         return syncMessage;
     }
     
