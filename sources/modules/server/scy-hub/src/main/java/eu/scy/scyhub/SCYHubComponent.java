@@ -3,13 +3,14 @@ package eu.scy.scyhub;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.packet.PacketExtension;
+import org.jivesoftware.openfire.pubsub.PendingSubscriptionsCommand;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentManager;
 import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
+import org.xmpp.packet.PacketExtension;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.DataSyncPacketExtension;
@@ -45,18 +46,20 @@ public class SCYHubComponent implements Component {
      * process the packet and route the it to the correct place 
      */
     public void processPacket(Packet packet) {
-        logger.debug(">>>>>>>>>>>>>>>> Received package:" + packet.toXML());
+        logger.debug(">>>>>>>>>>>>>>>> Received package:\n" + packet.toXML());
         // Only process Message packets
         if (packet instanceof Message) {
             logger.debug(">>>>>>>>>>> It's a Message");
             // Get the requested station to obtain it's weather information
-            Message message = (Message) packet;            
+            Message message = (Message) packet;
             PacketExtension packetExtension = (PacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+            logger.debug("<<<<<<>>>>>>>>>>> pe::::" + packetExtension.getElement().asXML());
             
             if (packetExtension != null) {
                 logger.debug(">>><<<<<< It contains a DataSyncPacketExtension");
                 //found a datasync extension, yay!
-                DataSyncPacketExtension dspe = (DataSyncPacketExtension) packetExtension;
+                DataSyncPacketExtension dspe = DataSyncPacketExtension.convertFromXmppPacketExtension(packetExtension);
+                logger.debug("<<<<<<>>>>>>>>>>> dspe::::" + dspe.toXML());
                 try {
                     // pass syncMessage to DataSyncModule for storing
                     dataSyncModule.create(dspe.toPojo());
@@ -155,8 +158,7 @@ public class SCYHubComponent implements Component {
                         Date date = new java.util.Date(System.currentTimeMillis());
                         java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
                         logger.debug("SCYHubComponent.initModules()");
-                    } 
-                    
+                    }                     
                 }
             });
             //create new session
