@@ -21,43 +21,7 @@
    </licenses>
  
    <dependencies>
-      <!--
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>javafxrt</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>javafxc</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>toolchain</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>javafxgui</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>javafx-swing</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>Scenario</artifactId>
-         <version>1.1</version>
-      </dependency>
-      <dependency>
-         <groupId>net.java.dev.openjfx</groupId>
-         <artifactId>websvc</artifactId>
-         <version>1.1</version>
-      </dependency>
--->
+
       <dependency>
          <groupId>log4j</groupId>
          <artifactId>log4j</artifactId>
@@ -68,24 +32,6 @@
          <groupId>org.jdom</groupId>
          <artifactId>jdom</artifactId>
          <version>1.1</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.roolo</groupId>
-         <artifactId>elo-api</artifactId>
-         <version>0.4.0-SNAPSHOT</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.roolo</groupId>
-         <artifactId>roolo-api</artifactId>
-         <version>0.4.0-SNAPSHOT</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.roolo</groupId>
-         <artifactId>roolo-mock</artifactId>
-         <version>0.4.0-SNAPSHOT</version>
       </dependency>
 
    </dependencies>
