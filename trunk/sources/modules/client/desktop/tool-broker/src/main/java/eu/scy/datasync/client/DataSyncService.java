@@ -46,7 +46,7 @@ public class DataSyncService implements IDataSyncService {
     
     public DataSyncService() {
         SmackConfiguration.setPacketReplyTimeout(100000);
-        SmackConfiguration.setKeepAliveInterval(1000000);
+        SmackConfiguration.setKeepAliveInterval(60*1000);
 
         props = new CommunicationProperties();        
         config = new ConnectionConfiguration(props.datasyncServerHost, new Integer(props.datasyncServerPort).intValue());
@@ -67,13 +67,14 @@ public class DataSyncService implements IDataSyncService {
             
             @Override
             public void connectionClosed() {
-                logger.debug("datasync server closed;");
+                logger.debug("datasync closed connection");
                 try {
                     xmppConnection.connect();
+                    logger.debug("datasync reconnected");
                 } catch (XMPPException e) {
                     e.printStackTrace();
+                    logger.debug("datasync failed to reconnect");
                 }
-                logger.debug("datasync server trying to reconnect;");
             }
             
             @Override
@@ -95,12 +96,22 @@ public class DataSyncService implements IDataSyncService {
             }
         });
 
-        ProviderManager providerManager = ProviderManager.getInstance();
+        //ProviderManager providerManager = ProviderManager.getInstance();
 
     }
     
     @Override
     public void sendMessage(SyncMessage syncMessage) {
+        if (!xmppConnection.isConnected()) {
+            try {
+                xmppConnection.connect();
+                logger.debug("reconnected xmppConnection");
+            } catch (XMPPException e) {
+                logger.error("failed to reconnect xmppConnection: " + e);
+                e.printStackTrace();
+            }
+        }
+        logger.debug("datasync service sending xml......." + syncMessage.convertToXMPPMessage().toXML());
         xmppConnection.sendPacket(syncMessage.convertToXMPPMessage());
     }
     
