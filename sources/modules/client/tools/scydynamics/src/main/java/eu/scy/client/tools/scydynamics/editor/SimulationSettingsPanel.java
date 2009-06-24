@@ -1,7 +1,6 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -25,8 +24,7 @@ public class SimulationSettingsPanel extends JPanel {
 	private JTextField stopField;
 	private JTextField stepField;
 	private JComboBox methodbox;
-	String[] methods = { "euler", "adamsbashfort2", "rungekutta2",
-			"rungekutta4", "rungekutta45", "static", "discrete" };
+	String[] methods = { "RungeKuttaFehlberg", "euler", "static"};
 
 	public SimulationSettingsPanel(ModelEditor editor, ActionListener listener) {
 		super();
@@ -55,7 +53,11 @@ public class SimulationSettingsPanel extends JPanel {
 		JButton run = new JButton("run simulation");
 		run.setActionCommand("run");
 		run.addActionListener(listener);
-		northPanel.add(run);
+		northPanel.add(run);		
+		JButton export = new JButton("export to sqv");
+		export.setActionCommand("export");
+		export.addActionListener(listener);
+		northPanel.add(export);
 		this.add(northPanel, BorderLayout.NORTH);
 	}
 

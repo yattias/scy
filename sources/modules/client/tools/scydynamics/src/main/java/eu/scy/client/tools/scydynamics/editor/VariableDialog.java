@@ -1,12 +1,15 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -23,11 +26,17 @@ public class VariableDialog extends javax.swing.JDialog implements
 	private static final long serialVersionUID = 7666973675681502332L;
 	private javax.swing.JTextField nameField = new javax.swing.JTextField(23);
 	private javax.swing.JTextField valueField = new javax.swing.JTextField(23);
+	private FlowLayout flowRight = new FlowLayout(FlowLayout.RIGHT);
 	private javax.swing.JList infoList;
 	private JdFigure figure;
 	private Hashtable<String, Object> props;
 	private ModelEditor editor;
 	private String label;
+	String[] units = { "?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "°C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
+	private JComboBox unitsBox;
+	private JLabel colorLabel;
+	private JButton colorButton;
+	private Color newColor;
 
 	public VariableDialog(java.awt.Frame owner, java.awt.Point position,
 			JdFigure figure, ModelEditor editor) {
@@ -61,11 +70,33 @@ public class VariableDialog extends javax.swing.JDialog implements
 		getContentPane().setLayout(new BorderLayout());
 		setTitle("Settings for '" + this.label + "'");
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(2, 2));
+		northPanel.setLayout(new java.awt.GridLayout(4, 2));
 		northPanel.add(nameLabel);
 		northPanel.add(nameField);
 		northPanel.add(valueLabel);
 		northPanel.add(valueField);
+		
+		JLabel unitLabel = new javax.swing.JLabel("Unit: ");
+		unitLabel.setHorizontalAlignment(JLabel.RIGHT);
+		northPanel.add(unitLabel);
+		unitsBox = new JComboBox(units);
+		unitsBox.setEditable(true);
+		unitsBox.setSelectedItem(figure.getProperties().get("unit"));
+		northPanel.add(unitsBox);
+		
+		JPanel colorLabelPanel = new JPanel();
+		colorLabelPanel.setLayout(flowRight);
+		colorLabelPanel.add(new JLabel("Color: "));
+		colorLabel = new JLabel("\u2588");
+		colorLabel.setForeground(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor());
+		newColor = colorLabel.getForeground();
+		colorLabelPanel.add(colorLabel);
+		northPanel.add(colorLabelPanel);	
+		colorButton = new JButton("choose");
+		colorButton.setActionCommand("color");
+		colorButton.addActionListener(this);
+		northPanel.add(colorButton);
+		
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 
 		JPanel southPanel = new JPanel();
@@ -175,23 +206,26 @@ public class VariableDialog extends javax.swing.JDialog implements
 			// props.remove("label");
 			String oldName = (String)props.get("label");
 			String oldExpr = (String)props.get("expr");
+			String oldUnit = (String)props.get("unit");
 			
 			props.put("label", nameField.getText());
 			props.put("expr", valueField.getText());
+			props.put("unit", unitsBox.getSelectedItem());
 			editor.setFigureProperties(oldName, props);
-			//figure.setProperties(props);
 			
+			if (!newColor.equals(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor())) {
+				editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).setLabelColor(newColor);
+			}
+						
 			if (!oldName.equals(nameField.getText())) {
 				//the name has been changed, send a logevent
 				editor.getActionLogger().logRenameAction(figure.getID(), oldName, nameField.getText());
 			}
-			if (!oldExpr.equals(valueField.getText())) {
+			if (!oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem()) ) {
 				// the expression has been changed, send a logevent
 				editor.getActionLogger().logChangeSpecification(figure.getID(), valueField.getText(), "null");
 			}
-			
-			
-			
+					
 			setVisible(false);
 			setEnabled(false);
 			dispose();
@@ -208,11 +242,22 @@ public class VariableDialog extends javax.swing.JDialog implements
 			dispose();
 		} else if (event.getActionCommand() == "C") {
 			valueField.setText("");
+		} else if (event.getActionCommand() == "color") {
+			java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
+			ColorDialog cdialog = new ColorDialog(frame, colorButton.getLocationOnScreen(), this);
+			cdialog.setVisible(true);
 		} else {
+			// here go the clicks of the "calculator panel"
 			paste(event.getActionCommand(), valueField);
 		}
 	}
 
+	
+	protected void setNewColor(Color newColor) {
+		this.newColor = newColor;
+		colorLabel.setForeground(newColor);
+	}
+	
 	/**
 	 * Invoked when the mouse button has been clicked (pressed and released) on
 	 * a component.
@@ -227,16 +272,12 @@ public class VariableDialog extends javax.swing.JDialog implements
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) {}
 
-	public void mousePressed(MouseEvent e) {
-	}
+	public void mousePressed(MouseEvent e) {}
 
-	public void mouseReleased(MouseEvent e) {
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 }

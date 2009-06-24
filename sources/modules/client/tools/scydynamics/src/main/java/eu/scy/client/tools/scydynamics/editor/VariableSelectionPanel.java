@@ -1,6 +1,7 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -65,26 +66,41 @@ public class VariableSelectionPanel extends JPanel {
 			// no relevant variables in model
 			this.add(new JLabel("<html><body>There are no plottable variables<br>(i.e. stocks or aux's) in the model.</body></html>"), BorderLayout.NORTH);
 		} else {
+			FlowLayout leftFlow = new FlowLayout();
+			leftFlow.setAlignment(FlowLayout.LEFT);
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(variablecount, 1));
 			JCheckBox box;
 			JdObject object;
+			JLabel colorLabel;
+			JPanel vPanel;
 			Enumeration<JdObject> objects = model.getNodes().elements();
 			while (objects.hasMoreElements()) {
-				object = objects.nextElement();
+				object = objects.nextElement();			
 				if (object.getType() == JdFigure.STOCK) {
-					box = new JCheckBox("stock: "+object.getLabel());
+					vPanel = new JPanel(leftFlow);
+					colorLabel = new JLabel("\u2588");
+					colorLabel.setForeground(object.getLabelColor());
+					//vPanel.setBackground(object.getLabelColor());
+					vPanel.add(colorLabel);
+					box = new JCheckBox(" (stock) "+object.getLabel());
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}
-					panel.add(box);
+					vPanel.add(box);
+					panel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				} else if (object.getType() == JdFigure.AUX) {
-					box = new JCheckBox("aux: "+object.getLabel());
+					vPanel = new JPanel(leftFlow);
+					colorLabel = new JLabel("\u2588");
+					colorLabel.setForeground(object.getLabelColor());
+					vPanel.add(colorLabel);
+					box = new JCheckBox(" (aux) "+object.getLabel());
 					if (oldSelection.contains(object.getLabel())) {
 						box.setSelected(true);
 					}
-					panel.add(box);
+					vPanel.add(box);
+					panel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				}
 			}

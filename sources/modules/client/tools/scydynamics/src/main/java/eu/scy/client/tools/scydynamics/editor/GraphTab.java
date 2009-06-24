@@ -2,8 +2,13 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +18,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import eu.scy.client.tools.scydynamics.model.SimquestModel;
 
@@ -124,22 +136,79 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener  
 			for (int i=0; i<variables.size(); i++){
 				// if the variable is one of the selected ones
 				if (variablePanel.getSelectedVariables().contains(variables.get(i).getName())) {
-					curves.add(new Curve(i, timeRef, new VariableRef(variables.get(i)), Color.RED, (float) 1.5, variables.get(i).getName()));
+					curves.add(new Curve(i, timeRef, new VariableRef(variables.get(i)), editor.getModel().getNodes().get(variables.get(i).getName()).getLabelColor(), (float) 1.5, variables.get(i).getName()));
 				}
 			}	
 			graph.setCurvesList(curves);
 			graph.update();
 			
-			// simulate
-			model.getSimulation().Simulate();	
-			// log
-			editor.getActionLogger().logSimpleAction("run_model");
 			String variableIdList = new String();
 			for (String varname : variablePanel.getSelectedVariables()) {
 				variableIdList = variableIdList.concat(editor.getModel().getObjectOfName(varname).getID()+", ");
 			}
-			editor.getActionLogger().logInspectVariablesAction("inspect_gaph", variableIdList.substring(0, variableIdList.length()-2));					
+			
+			if (variableIdList.length() > 0) {
+				// simulate
+				model.getSimulation().Simulate();	
+				// log
+				editor.getActionLogger().logSimpleAction("run_model");			
+				editor.getActionLogger().logInspectVariablesAction("inspect_gaph", variableIdList.substring(0, variableIdList.length()-2));		
+			} else {
+				JOptionPane.showMessageDialog(null, "You should select at least one\nvariable for plotting."); 
+			}
+			
+						
+		} else if (e.getActionCommand().equals("export")) {
+			export();			
 		}
+	}
+
+	private void export() {
+		editor.checkModel();
+		if (editor.getModelCheckMessages().size()>0) {
+			String messages = new String("The model cannot be executed, because\n");
+			for (String msg: editor.getModelCheckMessages()) {
+				messages = messages+msg+"\n";
+			}
+			JOptionPane.showMessageDialog(null, messages);
+			return;				
+		}
+		try {
+			injectSimulationSettings();
+		} catch(NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Couldn't parse the simulation settings.\nPlease check."); 
+			return;
+		}
+		// create the SimQuest model from the CoLab model
+		sqModel = new SimquestModel(editor.getModel());
+		sqv.Model model = new sqv.Model(sqModel, dataServer);
+		FileDialog dialog = new FileDialog((Frame) editor.getRootPane()
+				.getParent(), "Save model as a SimQuest-sqx file...", FileDialog.SAVE);
+		dialog.setFile("*.sqx");
+		dialog.setVisible(true);
+		if (dialog.getFile() != null) {
+			Element application = new Element("application");
+			Element topics = new Element("topics");
+			Element topic = new Element("topic");
+			topic.setAttribute("id", java.util.UUID.randomUUID().toString());
+			topic.addContent(sqModel);
+			topics.addContent(topic);
+			application.addContent(topics);
+			
+			Document doc = new Document(application);
+			
+			try {
+				XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+				FileWriter writer = new FileWriter(dialog.getDirectory()+dialog.getFile());
+				out.output(doc, writer);
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private void injectSimulationSettings() throws NumberFormatException {
