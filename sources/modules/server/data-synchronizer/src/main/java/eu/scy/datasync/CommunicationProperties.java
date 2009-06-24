@@ -16,7 +16,8 @@ public class CommunicationProperties {
     public String datasyncServerHost;
     public String datasyncServerPort;
     public String clientEventQuery;
-    public String clientEventCreate;
+    public String clientEventCreateSession;
+    public String clientEventCreateData;
     public String clientEventSynchronize;
     public Properties props = new Properties();
     
@@ -33,7 +34,8 @@ public class CommunicationProperties {
         datasyncServerHost = props.getProperty("datasync.server.host");
         datasyncServerPort = props.getProperty("datasync.server.port");
         clientEventQuery = props.getProperty("client.event.query");
-        clientEventCreate = props.getProperty("client.event.create");
+        clientEventCreateSession = props.getProperty("client.event.create.session");
+        clientEventCreateData = props.getProperty("client.event.create.data");
         clientEventSynchronize = props.getProperty("client.event.synchronize");       
     }
 }

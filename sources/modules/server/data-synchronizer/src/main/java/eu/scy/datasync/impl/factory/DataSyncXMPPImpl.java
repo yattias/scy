@@ -27,6 +27,7 @@ import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.event.IDataSyncListener;
@@ -46,17 +47,24 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     private String hostName;
     private Chat chat;
     public String COMPONENT_NAME = "collaboration-service-plugin";
+    private CommunicationProperties props = new CommunicationProperties();
     
-    public DataSyncXMPPImpl() {}
+    
+    
+    public DataSyncXMPPImpl() {        
+    }
+    
     
     public XMPPConnection getConnection(){
         return xmppConnection;
     }
     
+    
     @Override
     public void connect(String username, String password) throws DataSyncException {
         this.connect(username, password, "test");
     }
+    
     
     public void connect(String username, String password, String groupName) {
         this.groupName = groupName;
@@ -174,8 +182,8 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
     }
+    
     
     protected void setUpRoster(String groupName) throws XMPPException {
         roster = xmppConnection.getRoster();
@@ -211,9 +219,11 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         }
     }
     
+    
     public void closeCollaborationService() {
         xmppConnection.disconnect();
     }
+    
     
     public void sendMessage(String recipient, String message, Object objToSend) {
         if( chat == null ){
@@ -236,8 +246,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         }
     }
     
-    
-    
+        
     public Packet createTestPacket(Object objToSend) {
         logger.error("sending packet from the collaboration service");
         Packet m = new org.jivesoftware.smack.packet.Message();
@@ -253,6 +262,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         return m;
     }
     
+    
     public org.jivesoftware.smack.packet.Message createTestMessage(Object objToSend) {
         logger.error("sending MESSAGING from the collaboration service");
         org.jivesoftware.smack.packet.Message m = new org.jivesoftware.smack.packet.Message();
@@ -265,6 +275,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         m.addExtension((org.jivesoftware.smack.packet.PacketExtension) ext);
         return m;
     }
+    
     
     public void sendPacket(Object objToSend, String message) {
         
@@ -290,10 +301,12 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         this.sendPacket(syncMessage, "create");
     }
 
+    
     @Override
     public void delete(String id) throws DataSyncException {
         this.sendPacket(id, "delete");
     }
+    
 
     @Override
     public void update(ISyncMessage syncMessage) throws DataSyncException {
@@ -302,33 +315,39 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         }
         throw new DataSyncException();
     }
+    
 
     @Override
     public void sendCallBack(ISyncMessage syncMessage) throws DataSyncException {
     }
     
+    
     @Override
     public void addDataSyncListener(IDataSyncListener collaborationListener) {
         dataSyncListeners.add(collaborationListener);
     }
+    
 
     @Override
     public ISyncMessage read(String id) throws DataSyncException {
         this.sendPacket(id, "read");
         return new SyncMessage();
     }
+    
 
     @Override
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
         return null;
     }
+    
 
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser) {
         //ISyncMessage syncMessage = SyncMessage.createScyMessage(null, toolName, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, props.clientEventSynchronize, userName, null, 0);
         return this.doQuery(queryMessage);
     }
+    
 
     @Override
     public IDataSyncSession createSession(String arg0, String arg1) {
@@ -336,28 +355,31 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         return null;
     }
 
+    
     @Override
     public IDataSyncSession joinSession(String session, String userName, String toolName) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    
     @Override
     public boolean sessionExists(String session, String userName) {
         // TODO Auto-generated method stub
         return false;
     }
+    
 
     @Override
     public void cleanSession(String sessionId) {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub        
     }
 
 }

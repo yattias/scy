@@ -75,8 +75,8 @@ public class DataSyncSession implements IDataSyncSession {
     }
     
     @Override
-    public ISyncMessage convertToSyncMessage() {
-        return SyncMessage.createSyncMessage(this.getId(), toolName, userName, null, this.getClass().getName(), this.getPersistenceId(), DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME);
+    public ISyncMessage convertToSyncMessage(String event) {
+        return SyncMessage.createSyncMessage(this.getId(), toolName, userName, null, event, this.getPersistenceId(), DataSyncSession.DEFAULT_SESSION_EXPIRATION_TIME);
     }
 
     @Override

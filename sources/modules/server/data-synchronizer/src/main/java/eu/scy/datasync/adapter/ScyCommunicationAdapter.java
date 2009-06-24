@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
@@ -24,25 +25,33 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
     private ArrayList<IScyCommunicationListener> communicationListeners = new ArrayList<IScyCommunicationListener>();
+    private CommunicationProperties props = new CommunicationProperties();
+    
+    
     
     public ScyCommunicationAdapter() {
         logger.debug("Empty Constructor Collaboration created");
     }
+    
     
     public void actionUponDelete(ISyncMessage syncMessage) {
         logger.debug("something was deleted in the tuple space");
         sendCallBack(syncMessage);
     }
     
+    
     public void actionUponWrite(ISyncMessage syncMessage) {
         logger.debug("something was written in the tuple space");
         sendCallBack(syncMessage);
     }
     
+    
+    
     public void actionUponUpdate(ISyncMessage syncMessage) {
         logger.debug("something was been updated in the tuple space");
         sendCallBack(syncMessage);        
     }
+    
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
@@ -56,11 +65,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         return tupleAdapter;
     }
     
+    
     @Override
     public String create(ISyncMessage syncMessage) {
         logger.debug("create");
         return getTupleAdapter().write(syncMessage);
     }
+    
     
     @Override
     public String delete(String id) {
@@ -68,11 +79,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         return getTupleAdapter().delete(id);
     }
     
+    
     @Override
     public ISyncMessage read(String id) {
         logger.debug("read");
         return getTupleAdapter().readById(id);
     }
+    
     
     @Override
     public String update(ISyncMessage syncMessage) {
@@ -80,31 +93,13 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         return getTupleAdapter().write(syncMessage.getPersistenceId(), syncMessage);
     }
     
+    
     @Override
     public void addScyCommunicationListener(IScyCommunicationListener listener) {
         this.communicationListeners.add(listener);
     }
-    
-    public ArrayList<IScyCommunicationListener> getScyCommunicationListeners() {
-        return this.communicationListeners;
-    }
-    
-    public void sendCallBack(ISyncMessage syncMessage) {
-        for (IScyCommunicationListener cl : this.communicationListeners) {
-            if (cl != null) {
-                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, syncMessage);
-                cl.handleCommunicationEvent(scyCommunicationEvent);
-            }
-        }
-    }
 
-    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
-        if(SyncMessage.MESSAGE_TYPE_QUERY.equals(queryMessage.getEvent())) {
-            return getTupleAdapter().readAll(queryMessage);
-        }
-        return null;
-    }
-
+    
     @Override
     public void handleSQLSpacesEvent(SQLSpaceAdapterEvent sqlSpaceEvent) {
         if( sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.WRITE)) {
@@ -114,6 +109,29 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         }  else if(sqlSpaceEvent.getAction().equals(SQLSpaceAdapter.UPDATE)){
             this.actionUponUpdate(sqlSpaceEvent.getScyMessage());
         }
+    }
+    
+    
+    public ArrayList<IScyCommunicationListener> getScyCommunicationListeners() {
+        return this.communicationListeners;
+    }
+    
+    
+    public void sendCallBack(ISyncMessage syncMessage) {
+        for (IScyCommunicationListener cl : this.communicationListeners) {
+            if (cl != null) {
+                ScyCommunicationEvent scyCommunicationEvent = new ScyCommunicationEvent(this, syncMessage);
+                cl.handleCommunicationEvent(scyCommunicationEvent);
+            }
+        }
+    }
+    
+
+    public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
+        if(props.clientEventQuery.equals(queryMessage.getEvent())) {
+            return getTupleAdapter().readAll(queryMessage);
+        }
+        return null;
     }
     
 }
