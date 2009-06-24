@@ -36,6 +36,7 @@ import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.event.IDataSyncEvent;
@@ -56,9 +57,8 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
-    private static final String HARD_CODED_TOOL_NAME = "eu.scy.tool.nutpad";
+    private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.nutpad";
     private static final String HARD_CODED_USER_NAME = "thomasd";
-    private static final String HARD_CODED_EVENT = "synchronization of shared model";
     
     private JTextArea editArea;
     private Action openCSAction = new OpenFromDataSyncAction();
@@ -67,10 +67,12 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     private Action sendXmppMessageAction = new SendXmppMessageAction();
     private Action exitAction = new ExitAction();
     
-    //private IDataSyncModule dataSyncModule;
+    private IDataSyncModule dataSyncModule;
     private IDataSyncSession dataSyncSession;
     private IDataSyncService dataSyncService;
     private ArrayList<ISyncMessage> syncMessages;
+    
+    private CommunicationProperties props;
     
     
     public static void main(String[] args) {
@@ -104,7 +106,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         setContentPane(contentPanel);        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("NutPad makes you happy");
-        setPreferredSize(new Dimension(550, 650));
+        setPreferredSize(new Dimension(800, 650));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -115,13 +117,19 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     
     public void initialize() {    
         // init the collaboration service
-        //dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+        try {
+            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+        } catch (DataSyncException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // add listner in order to get callbacks on stuff that's happening
         //dataSyncModule.addDataSyncListener(this);
         //create new session
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
-        //dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);    
+        dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+        props = new CommunicationProperties();
     }
     
     
@@ -183,7 +191,7 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventSynchronize, dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();
             ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
             
@@ -225,8 +233,8 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         }
         
         public void actionPerformed(ActionEvent e) {
-            // create pop up            
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
+            // create pop up
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventCreateData, dataSyncSession.getId());            
             String[] messageStrings = d.showDialog();                                        
             SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage(dataSyncSession.getId(), messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
             dataSyncService.sendMessage(syncMessage);
