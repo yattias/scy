@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.adapter.ScyCommunicationAdapterHelper;
@@ -30,6 +31,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
+    private CommunicationProperties props = new CommunicationProperties();
     
     
     /**
@@ -113,7 +115,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, userName, null, SyncMessage.MESSAGE_TYPE_QUERY, null, 0);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, userName, null, props.clientEventSynchronize, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
         if (includeChangesByUser) {
             return messages;
@@ -130,11 +132,11 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     @Override
     public IDataSyncSession createSession(String toolName, String userName) {
         IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
-        ISyncMessage message = dataSyncSession.convertToSyncMessage();
+        ISyncMessage sessionMessage = dataSyncSession.convertToSyncMessage(props.clientEventCreateSession);
         try {
-            this.create(message);
+            this.create(sessionMessage);
         } catch (DataSyncException e) {
-            logger.error("Failed to create ScyMessage: " + message.toString());
+            logger.error("Failed to create ScyMessage: " + sessionMessage.toString());
             e.printStackTrace();
         }
         return dataSyncSession;
@@ -162,7 +164,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, props.clientEventQuery, userName, null, 0);
         ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
         for (ISyncMessage message : messages) {

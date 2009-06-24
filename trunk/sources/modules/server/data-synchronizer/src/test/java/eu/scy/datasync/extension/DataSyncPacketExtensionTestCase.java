@@ -15,17 +15,17 @@ import eu.scy.communications.message.impl.SyncMessage;
  * @author anthonjp
  *
  */
-public class DataSyncPacketTest {
+public class DataSyncPacketExtensionTestCase {
 
-	private final Logger logger = Logger.getLogger(DataSyncPacketTest.class.getName());
+	private final Logger logger = Logger.getLogger(DataSyncPacketExtensionTestCase.class.getName());
 	private final String TEST_CONTENT = "This is the content, but there isn't much.";
 	private final String TEST_EVENT = "important event";
-	private final String TEST_TOOL_ID = "eu.scy.test." + DataSyncPacketTest.class.getName();
+	private final String TEST_TOOL_ID = "eu.scy.test." + DataSyncPacketExtensionTestCase.class.getName();
 	private final String TEST_TOOL_SESSION_ID = "1234567890";
 	private final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
 
-	public DataSyncPacketTest() {
+	public DataSyncPacketExtensionTestCase() {
 	}
 
 	private ISyncMessage getTestSyncMessage() {
@@ -51,4 +51,9 @@ public class DataSyncPacketTest {
 		assertEquals(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME, Long.parseLong(dsp.getValue("expiration")));
 	}
 
+	
+    @org.junit.Test
+	public void testConvertFromXmppPacketExtension() {
+	    
+	}
 }

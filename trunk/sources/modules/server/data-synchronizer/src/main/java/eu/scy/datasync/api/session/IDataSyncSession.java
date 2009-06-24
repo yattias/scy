@@ -89,5 +89,5 @@ public interface IDataSyncSession {
      * Returns a syncMessge version of the collaboration service
      * 
      */
-    public ISyncMessage convertToSyncMessage();
+    public ISyncMessage convertToSyncMessage(String event);
 }
