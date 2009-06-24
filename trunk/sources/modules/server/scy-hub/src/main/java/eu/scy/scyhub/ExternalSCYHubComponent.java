@@ -13,10 +13,15 @@ import org.jivesoftware.whack.ExternalComponentManager;
  */
 public class ExternalSCYHubComponent {
 
+    //private static final String EXTERNAL_COMPONENT_HOST = "imediamac10.uio.no";
+    private static final String EXTERNAL_COMPONENT_HOST = "localhost";
+    private static final int EXTERNAL_COMPONENT_PORT = 5275;
+   
+    
     public static void main(String[] args) {
         // Create a manager for the external components that will connect to the server "localhost"
         // at the port 5225
-        final ExternalComponentManager manager = new ExternalComponentManager("localhost", 5275);
+        final ExternalComponentManager manager = new ExternalComponentManager(EXTERNAL_COMPONENT_HOST, EXTERNAL_COMPONENT_PORT);
         // Set the secret key for this component. The server must be using the same secret key
         // otherwise the component won't be able to authenticate with the server. Check that the
         // server has the properfy "component.external.secretKey" defined and that it is using the
