@@ -19,12 +19,14 @@ import java.net.URI;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.util.Sequences;
-import roolo.api.IExtensionManager;
-import roolo.api.IRepository;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+//import roolo.api.IExtensionManager;
+//import roolo.api.IRepository;
+//import roolo.api.search.ISearchResult;
+//import roolo.cms.repository.mock.BasicMetadataQuery;
+//import roolo.elo.api.IMetadataKey;
+//import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * @author sikkenj
@@ -38,9 +40,10 @@ public class ScyWindowControl{
    public var scyWindowStyler: ScyWindowStyler;
    public var scyDesktop: WindowManager;
    public var stage: Stage;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var extensionManager: IExtensionManager;
-   public var repository: IRepository;
+   public var eloInfoControl: EloInfoControl;
+//   public var metadataTypeManager: IMetadataTypeManager;
+//   public var extensionManager: IExtensionManager;
+//   public var repository: IRepository;
    //   public var edgesManager: EdgesManager;
    public var width: Number= 400 on replace {
       sizeChanged()
@@ -67,7 +70,7 @@ public class ScyWindowControl{
    var otherWindows: ScyWindow[];
    var relatedWindows: ScyWindow[];
    var placedWindows: ScyWindow[];
-   var titleKey: IMetadataKey;
+//   var titleKey: IMetadataKey;
 
    function sizeChanged(){
       positionWindows(false);
@@ -86,20 +89,20 @@ public class ScyWindowControl{
       addOtherScyWindow(otherWindow, false);
    }
 
-   public function newEloSaved(eloUri : URI){
-      println("newEloSaved: {eloUri}");
-      var eloType = extensionManager.getType(eloUri);
-      if ("scy/melo" == eloType){
-         var eloWindow = getScyWindow(eloUri);
-         scyDesktop.addScyWindow(eloWindow);
-         addOtherScyWindow(eloWindow);
-         positionWindows(true);
-      }
-       else {
-         addRelatedWindow(eloUri);
-         positionWindows(true);
-      }
-   }
+//   public function newEloSaved(eloUri : URI){
+//      println("newEloSaved: {eloUri}");
+//      var eloType = extensionManager.getType(eloUri);
+//      if ("scy/melo" == eloType){
+//         var eloWindow = getScyWindow(eloUri);
+//         scyDesktop.addScyWindow(eloWindow);
+//         addOtherScyWindow(eloWindow);
+//         positionWindows(true);
+//      }
+//       else {
+//         addRelatedWindow(eloUri);
+//         positionWindows(true);
+//      }
+//   }
 
 
    public function activeAnchorChanged(){
@@ -152,26 +155,31 @@ public class ScyWindowControl{
    }
 
    function applyMetadataAttributes(scyWindow:ScyWindow,eloUri:URI){
-      var metadata = repository.retrieveMetadata(eloUri);
-      if (metadata == null){
-         println("Couldn't find elo {eloUri}");
-         return;
+      var title = eloInfoControl.getEloTitle(eloUri);
+      if (title!=null){
+         scyWindow.title = title;
       }
-      var tk = getTitleKey();
-      if (metadata.metadataKeyExists(tk)){
-         var title = metadata.getMetadataValueContainer(tk).getValue();
-         if (title != null){
-            scyWindow.title = title as String;
-         }
-      }
+
+//      var metadata = repository.retrieveMetadata(eloUri);
+//      if (metadata == null){
+//         println("Couldn't find elo {eloUri}");
+//         return;
+//      }
+//      var tk = getTitleKey();
+//      if (metadata.metadataKeyExists(tk)){
+//         var title = metadata.getMetadataValueContainer(tk).getValue();
+//         if (title != null){
+//            scyWindow.title = title as String;
+//         }
+//      }
    }
 
-   function getTitleKey():IMetadataKey{
-      if (titleKey == null){
-         titleKey = metadataTypeManager.getMetadataKey("title");
-      }
-      return titleKey;
-   }
+//   function getTitleKey():IMetadataKey{
+//      if (titleKey == null){
+//         titleKey = metadataTypeManager.getMetadataKey("title");
+//      }
+//      return titleKey;
+//   }
 
    function isRelevantScyWindow(scyWindow:ScyWindow):Boolean{
       if (scyWindow.id != null){
@@ -220,7 +228,7 @@ public class ScyWindowControl{
          }
             insert scyWindow into newPlacedWindows;
       }
-      findRelatedWindows();
+//      findRelatedWindows();
       for (window in relatedWindows){
          windowPositioner.addOtherWindow(window);
          if (not onlyNewWindows){
@@ -249,80 +257,80 @@ public class ScyWindowControl{
 
    }
 
-   var usedEdgeSourceWindows: ScyWindow[]; // TODO, don't use a "global" variable for it
-   function findRelatedWindows(){
-      delete relatedWindows;
-      delete usedEdgeSourceWindows;
-      for (relationName in activeAnchor.relationNames){
-         findRelatedWindows(relationName);
-      }
+//   var usedEdgeSourceWindows: ScyWindow[]; // TODO, don't use a "global" variable for it
+//   function findRelatedWindows(){
+//      delete relatedWindows;
+//      delete usedEdgeSourceWindows;
+//      for (relationName in activeAnchor.relationNames){
+//         findRelatedWindows(relationName);
+//      }
+//
+//   }
 
-   }
-
-   function findRelatedWindows(relationName:String){
-      var relationKey = metadataTypeManager.getMetadataKey(relationName);
-      if (relationKey == null){
-         println("couldn't find the metadataKey named: {relationName}");
-         //         var keys = roolo.getKeys();
-         return;
-      }
-      var query = new BasicMetadataQuery(relationKey,"EQUALS",activeAnchor.eloUri,null);
-      var results = repository.search(query);
-      println("Query: {query.toString()}, results: {results.size()}");
-      for (r in results){
-         var result = r as ISearchResult;
-         if (not activeAnchor.eloUri.equals(result.getUri())){
-            var metadata = repository.retrieveMetadata(result.getUri());
-            var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
-            var scyWindow = getScyWindow(result.getUri());
-//            if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow) < 0){
-            //               edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
-            //                   insert scyWindow into usedEdgeSourceWindows;
-            //            }
-            scyDesktop.addScyWindow(scyWindow);
-
-               insert scyWindow into relatedWindows;
-
-            println("added related elo {result.getUri()}");
-         }
-      }
-   }
-
-   function addRelatedWindow(eloUri:URI){
-      var metadata = repository.retrieveMetadata(eloUri);
-      for (relationName in activeAnchor.relationNames){
-         var relationKey = metadataTypeManager.getMetadataKey(relationName);
-         if (relationKey != null){
-            if (metadata.metadataKeyExists(relationKey)){
-               var relationValue = metadata.getMetadataValueContainer(relationKey).getValue();
-               if (activeAnchor.eloUri.equals(relationValue)){
-                  addRelatedWindow(eloUri,relationName);
-                  return;
-               }
-            }
-         }
-      }
-
-   }
-
-
-   function addRelatedWindow(eloUri:URI, relationName:String){
-      if (not activeAnchor.eloUri.equals(eloUri)){
-            //var metadata = roolo.repository.retrieveMetadata(eloUri);
-         //var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
-         var scyWindow = getScyWindow(eloUri);
-//         if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow) < 0){
-         //            edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
-         //                insert scyWindow into usedEdgeSourceWindows;
-         //         }
-         scyDesktop.addScyWindow(scyWindow);
-
-            insert scyWindow into relatedWindows;
-
-         println("added related elo {eloUri}");
-      }
-   }
-
+//   function findRelatedWindows(relationName:String){
+//      var relationKey = metadataTypeManager.getMetadataKey(relationName);
+//      if (relationKey == null){
+//         println("couldn't find the metadataKey named: {relationName}");
+//         //         var keys = roolo.getKeys();
+//         return;
+//      }
+//      var query = new BasicMetadataQuery(relationKey,"EQUALS",activeAnchor.eloUri,null);
+//      var results = repository.search(query);
+//      println("Query: {query.toString()}, results: {results.size()}");
+//      for (r in results){
+//         var result = r as ISearchResult;
+//         if (not activeAnchor.eloUri.equals(result.getUri())){
+//            var metadata = repository.retrieveMetadata(result.getUri());
+//            var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
+//            var scyWindow = getScyWindow(result.getUri());
+////            if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow) < 0){
+//            //               edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
+//            //                   insert scyWindow into usedEdgeSourceWindows;
+//            //            }
+//            scyDesktop.addScyWindow(scyWindow);
+//
+//               insert scyWindow into relatedWindows;
+//
+//            println("added related elo {result.getUri()}");
+//         }
+//      }
+//   }
+//
+//   function addRelatedWindow(eloUri:URI){
+//      var metadata = repository.retrieveMetadata(eloUri);
+//      for (relationName in activeAnchor.relationNames){
+//         var relationKey = metadataTypeManager.getMetadataKey(relationName);
+//         if (relationKey != null){
+//            if (metadata.metadataKeyExists(relationKey)){
+//               var relationValue = metadata.getMetadataValueContainer(relationKey).getValue();
+//               if (activeAnchor.eloUri.equals(relationValue)){
+//                  addRelatedWindow(eloUri,relationName);
+//                  return;
+//               }
+//            }
+//         }
+//      }
+//
+//   }
+//
+//
+//   function addRelatedWindow(eloUri:URI, relationName:String){
+//      if (not activeAnchor.eloUri.equals(eloUri)){
+//            //var metadata = roolo.repository.retrieveMetadata(eloUri);
+//         //var annotatesValue = metadata.getMetadataValueContainer(relationKey).getValue();
+//         var scyWindow = getScyWindow(eloUri);
+////         if (Sequences.indexOf(usedEdgeSourceWindows, scyWindow) < 0){
+//         //            edgesManager.createEdge(scyWindow,activeAnchorWindow,relationName);
+//         //                insert scyWindow into usedEdgeSourceWindows;
+//         //         }
+//         scyDesktop.addScyWindow(scyWindow);
+//
+//            insert scyWindow into relatedWindows;
+//
+//         println("added related elo {eloUri}");
+//      }
+//   }
+//
 
 
    function getAnchorDirection(anchor:Anchor):Number{

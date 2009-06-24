@@ -13,15 +13,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import roolo.api.IExtensionManager;
-import roolo.elo.api.IELO;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+
 
 /**
  * @author sikkenj
  */
 
 public class ScyWindowStyler {
-   public var extensionManager: IExtensionManager;
+   public var eloInfoControl: EloInfoControl;
 
    public def drawingType = "scy/drawing";
    public def datasetType = "scy/dataset";
@@ -80,13 +81,13 @@ public class ScyWindowStyler {
    }
 
    public function getScyColor(uri:URI):Color{
-      var type = extensionManager.getType(uri);
+      var type = eloInfoControl.getEloType(uri);
       var scyColor = getScyColor(type);
       return scyColor;
    }
 
    public function style(window:ScyWindow,uri:URI){
-      var type = extensionManager.getType(uri);
+      var type = eloInfoControl.getEloType(uri);
       var color = getScyColor(type);
       var ch = getScyIconCharacter(type);
       window.color = color;
@@ -96,9 +97,9 @@ public class ScyWindowStyler {
 
    }
 
-   public function style(window:ScyWindow,elo:IELO){
-      style(window,elo.getUri());
-   }
+//   public function style(window:ScyWindow,elo:IELO){
+//      style(window,elo.getUri());
+//   }
 
 }
 
