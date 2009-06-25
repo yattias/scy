@@ -25,8 +25,9 @@ public class Test {
         URL url;
         try {
             url = new URL("http://copex.imag.fr/espaces/");
-            DataBaseCommunication dbC = new DataBaseCommunication(url, MyConstants.DB_COPEX, 1, "1");
-            //String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Déterminer la structure à modifier' WHERE ID_TASK in (1604,1636, 1644, 1652, 1660,1668) ;";
+            DataBaseCommunication dbC = new DataBaseCommunication(url, MyConstants.DB_COPEX_EDP, 1, "1");
+            String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Déterminer la structure à modifier' WHERE ID_TASK = 1981 ;";
+            //String query = "UPDATE MATERIAL SET DESCRIPTION = 'Organisme animal ou végétal adapté à son milieu' WHERE ID_MATERIAL in (169,170) ;";
 
             String description = "<p>Vous allez chercher à répondre au problème suivant :  Comment modifier l'information génétique d'un être vivant " +
                     "et vérifier la présence de cette modification ? </p>" +
@@ -55,7 +56,8 @@ public class Test {
             
         
             description =  AccesDB.replace("\'",description,"''") ;
-            String query = "UPDATE COPEX_MISSION SET DESCRIPTION = '"+description+"' WHERE ID_MISSION = 5; ";
+            //String query = "UPDATE COPEX_MISSION SET DESCRIPTION = '"+description+"' WHERE ID_MISSION = 5; ";
+            System.out.println("query : "+query);
             ArrayList v = new ArrayList();
             String[] querys = new String[1];
             querys[0] = query ;

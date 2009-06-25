@@ -2125,7 +2125,7 @@ public class CopexControllerDB implements ControllerInterface {
         helpProc.setListTask(listTask);
         // type de materiel
         TypeMaterial typeUstensil = new TypeMaterial(1, edP.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"));
-        TypeMaterial typeIngredient = new TypeMaterial(2, edP.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"));
+        TypeMaterial typeIngredient = new TypeMaterial(2, edP.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"));
         // material
         listHelpMaterial = new ArrayList();
         Material m = new Material(1, edP.getBundleString("HELP_MATERIAL_CUP"), "");

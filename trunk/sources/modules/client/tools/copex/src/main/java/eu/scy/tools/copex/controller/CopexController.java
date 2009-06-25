@@ -144,7 +144,7 @@ public class CopexController implements ControllerInterface {
         copexUser.setLearner(true);
 
         // chargement de la mission
-        OptionMission options = new OptionMission(true, true, false);
+        OptionMission options = new OptionMission(true, false, false);
         mission = new CopexMission(idMission++, "", "", "", CopexMission.STATUT_MISSION_ON, options) ;
         // chargement de la liste des protocoles de la mission
         this.listInitialProc = new ArrayList();
@@ -219,14 +219,15 @@ public class CopexController implements ControllerInterface {
 
     private InitialProcedure getInitialProcedure(){
         String procName = "COPEX";
-        if(mission1)
-            procName = "thermostat setting";
+//        if(mission1)
+//            procName = "thermostat setting";
         InitialProcedure initProc = new InitialProcedure(idProc++, procName,CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT, procName, true, null ) ;
         ArrayList<CopexTask> listTask = new ArrayList();
         TaskRight taskRight = new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
         String description = "";
         if(mission1){
-            description = "How does the air-conditionning device's thermostat setting affect energy consumption ?";
+            //description = "How does the air-conditionning device's thermostat setting affect energy consumption ?";
+            description = "Your question";
         }
         Question q = new Question(idTask++, "", description, "", "", null, null, "", true, taskRight, true);
         listTask.add(q);
@@ -236,11 +237,13 @@ public class CopexController implements ControllerInterface {
         if(mission1){
             ArrayList<Material> listMaterial = new ArrayList();
             ArrayList<TypeMaterial> listType = new ArrayList();
-            Material m1 = new Material(idMaterial++, "electric meter", "Description of the electric meter");
+            //Material m1 = new Material(idMaterial++, "electric meter", "Description of the electric meter");
+            Material m1 = new Material(idMaterial++, "material 1", "Description of the material 1");
             listType.add(new TypeMaterial(idTypeMaterial++, "material of mission 1"));
             m1.setListType(listType);
             listMaterial.add(m1);
-            Material m2 = new Material(idMaterial++, "Thermometer", "Description of the thermometer");
+            //Material m2 = new Material(idMaterial++, "Thermometer", "Description of the thermometer");
+            Material m2 = new Material(idMaterial++, "material 2", "Description of the material 2");
             m2.setListType(listType);
             listMaterial.add(m2);
             initProc.setListMaterial(listMaterial);
@@ -1890,7 +1893,7 @@ public class CopexController implements ControllerInterface {
         helpProc.setListTask(listTask);
         // type de materiel
         TypeMaterial typeUstensil = new TypeMaterial(1, edP.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"));
-        TypeMaterial typeIngredient = new TypeMaterial(2, edP.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"));
+        TypeMaterial typeIngredient = new TypeMaterial(2, edP.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"));
         // material
         listHelpMaterial = new ArrayList();
         Material m = new Material(1, edP.getBundleString("HELP_MATERIAL_CUP"), "");
@@ -2353,6 +2356,7 @@ public class CopexController implements ControllerInterface {
             InitialProcedure initialProc = getInitialProc(dbKeyIP);
             LearnerProcedure proc = new LearnerProcedure(idProc++, elo.getName(), CopexUtilities.getCurrentDate(), true, MyConstants.EXECUTE_RIGHT,
                   initialProc)  ;
+            
             //material use
             ArrayList<MaterialUseForProc> listMaterialUse = new ArrayList();
             if (elo.getListMaterialUse() != null){
@@ -2406,6 +2410,12 @@ public class CopexController implements ControllerInterface {
             }
         }
         InitialProcedure proc  = new InitialProcedure(dbKey, p.getProcName(), CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT,p.getProcCode(),isFreeAction, listNamedAction );
+        // taches
+        proc.setQuestion(getQuestionFromXML(p.getQuestion()));
+        ArrayList<CopexTask> listTask = getListTaskFromXML(proc.getQuestion(), p.getQuestion().getListTask(), proc.getListNamedAction());
+        listTask.add(proc.getQuestion());
+        proc.setListTask(listTask);
+        proc.setMission(mission);
         // material
         ArrayList listMaterial = new ArrayList();
         if (p.getListMaterialAvailable() != null){

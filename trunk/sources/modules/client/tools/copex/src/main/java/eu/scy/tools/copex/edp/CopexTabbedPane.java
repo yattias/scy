@@ -66,7 +66,6 @@ public class CopexTabbedPane extends JTabbedPane{
        ImageIcon  iconDisabled = edP.getCopexImage("Bouton-onglet_ouverture_grise.png");
         closeTabAdd = new CloseTab(edP, this,null, "", iconClose, iconRollOver, iconClic, iconDisabled, edP.getToolTipTextOpen());
         setTabComponentAt(0, closeTabAdd);
-
    }
 
     public void setAddProcDisabled(){
@@ -97,7 +96,7 @@ public class CopexTabbedPane extends JTabbedPane{
         setSelectedIndex(index);
     }
 
-   
+  
 
     /*
      * l'ajout d'une sous question est il possible ?

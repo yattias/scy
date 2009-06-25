@@ -405,7 +405,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
             drawPanel = new MyWhiteBoardPanel();
             drawPanel.setName("whiteboardPanel");
             if(!modeAdd && taskDraw !=null ){
-                drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
+                //drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
             }
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(labelImage != null){
@@ -813,7 +813,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
         }
         if(drawPanel != null){
             // sauvegarde du dessin
-            newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
+           // newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
         }
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if (modeAdd){
