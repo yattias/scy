@@ -6,12 +6,14 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuEdP">
           <Properties>
-            <Property name="text" type="java.lang.String" value="EdP"/>
+            <Property name="text" type="java.lang.String" value="Copex"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemInitProc">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New ELO"/>
+                <Property name="text" type="java.lang.String" value="New"/>
+                <Property name="horizontalAlignment" type="int" value="2"/>
+                <Property name="horizontalTextPosition" type="int" value="2"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemInitProcActionPerformed"/>
@@ -19,7 +21,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemLoadELO">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Load ELO..."/>
+                <Property name="text" type="java.lang.String" value="Load..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemLoadELOActionPerformed"/>
@@ -27,7 +29,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemSaveELO">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Save ELO ..."/>
+                <Property name="text" type="java.lang.String" value="Save..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemSaveELOActionPerformed"/>
@@ -35,7 +37,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemQuit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Quitter"/>
+                <Property name="text" type="java.lang.String" value="Quit"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemQuitActionPerformed"/>
@@ -48,7 +50,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="COPEX- EdP"/>
+    <Property name="title" type="java.lang.String" value="COPEX- Experimental Design Tool"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBarEdp"/>

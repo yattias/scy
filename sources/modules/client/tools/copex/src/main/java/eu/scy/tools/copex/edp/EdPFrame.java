@@ -13,11 +13,16 @@ package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -46,6 +51,11 @@ public class EdPFrame extends javax.swing.JFrame {
         setSize(695,495);
     }
     private void initEdP(){
+        
+        this.menuItemInitProc.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.menuItemLoadELO.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.menuItemSaveELO.setHorizontalTextPosition(SwingConstants.LEFT);
+        this.menuItemQuit.setHorizontalTextPosition(SwingConstants.LEFT);
         edP = new EdPPanel();
         add(edP, BorderLayout.CENTER);
         setSize(EdPPanel.PANEL_WIDTH, EdPPanel.PANEL_HEIGHT);
@@ -59,10 +69,26 @@ public class EdPFrame extends javax.swing.JFrame {
 
     private void saveELO(){
         Element xproc = edP.getExperimentalProcedure() ;
+        if(xproc == null){
+            JOptionPane.showMessageDialog(this , "Error while saving the procedure : no procedure !  ", "ERROR",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        FileFilter filter = new FileFilter() {
 
+            @Override
+            public boolean accept(File f) {
+                return true;
+            }
+
+            @Override
+            public String getDescription() {
+                return "*.xml";
+            }
+        } ;
         JFileChooser aFileChooser = new JFileChooser();
         if (lastUsedFile != null)
 			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+        aFileChooser.setFileFilter(filter);
         int r = aFileChooser.showSaveDialog(this);
         if (r == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
@@ -148,11 +174,13 @@ public class EdPFrame extends javax.swing.JFrame {
         menuItemQuit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("COPEX- EdP");
+        setTitle("COPEX- Experimental Design Tool");
 
-        menuEdP.setText("EdP");
+        menuEdP.setText("Copex");
 
-        menuItemInitProc.setText("New ELO");
+        menuItemInitProc.setText("New");
+        menuItemInitProc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        menuItemInitProc.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         menuItemInitProc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemInitProcActionPerformed(evt);
@@ -160,7 +188,7 @@ public class EdPFrame extends javax.swing.JFrame {
         });
         menuEdP.add(menuItemInitProc);
 
-        menuItemLoadELO.setText("Load ELO...");
+        menuItemLoadELO.setText("Load...");
         menuItemLoadELO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemLoadELOActionPerformed(evt);
@@ -168,7 +196,7 @@ public class EdPFrame extends javax.swing.JFrame {
         });
         menuEdP.add(menuItemLoadELO);
 
-        menuItemSaveELO.setText("Save ELO ...");
+        menuItemSaveELO.setText("Save...");
         menuItemSaveELO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemSaveELOActionPerformed(evt);
@@ -176,7 +204,7 @@ public class EdPFrame extends javax.swing.JFrame {
         });
         menuEdP.add(menuItemSaveELO);
 
-        menuItemQuit.setText("Quitter");
+        menuItemQuit.setText("Quit");
         menuItemQuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemQuitActionPerformed(evt);
@@ -211,9 +239,22 @@ public class EdPFrame extends javax.swing.JFrame {
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-        EdPFrame edPFrame =new EdPFrame();
-        edPFrame.setVisible(true);
-        edPFrame.load();
+        // Initialisation du look and feel
+        try{
+            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
+            UIManager.setLookAndFeel(myLookAndFeel);
+        }catch(Exception e){
+            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+            //JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                EdPFrame edPFrame =new EdPFrame();
+                edPFrame.setVisible(true);
+                edPFrame.load();
+            }
+        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

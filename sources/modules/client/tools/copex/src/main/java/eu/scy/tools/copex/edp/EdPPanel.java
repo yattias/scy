@@ -252,7 +252,7 @@ public class EdPPanel extends JPanel {
     public void initEdP(CopexApplet applet, URL url){
         setLayout(new BorderLayout());
         // i18n
-        //locale = Locale.getDefault();
+        locale = Locale.getDefault();
         locale = new Locale("en", "GB");
         try{
             this.bundle = ResourceBundle.getBundle("CopexBundle", locale);
@@ -278,10 +278,7 @@ public class EdPPanel extends JPanel {
             JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
         }
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
-      
       initPanel() ;
-
-
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
       if(applet == null)
         if(url != null){
@@ -332,7 +329,7 @@ public class EdPPanel extends JPanel {
 
     /* initialisation de l'application avec les données */
     public void initEdp(CopexMission mission, ArrayList<LearnerProcedure> listProc, ArrayList<InitialProcedure> listInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity) {
-        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+       setCursor(new Cursor(Cursor.WAIT_CURSOR));
        // mise à jour des données :
        this.mission = mission;
        this.listProc = listProc;
@@ -376,7 +373,6 @@ public class EdPPanel extends JPanel {
              //   System.out.println(o.toString());
      }
     displayPanelRightComponent("fin loadData");
-    
     }
 
 
@@ -755,7 +751,8 @@ public class EdPPanel extends JPanel {
     private void setPanelLeft(){
         this.panelLeft.setBounds(0, this.menuBar.getHeight(), this.getWidth()*2/3,this.getHeight()-this.menuBar.getHeight() );
         //this.panelLeft.setMaximumSize(new Dimension(0, 0));
-        this.panelLeft.add(getScrollPaneTabbedPane());
+        getScrollPaneTabbedPane();
+        this.panelLeft.add(this.scrollPaneTabbedPane);
         // on ajoute les protocoles
         int size = listProc.size();
         LearnerProcedure procActif = null;
@@ -1077,6 +1074,7 @@ public class EdPPanel extends JPanel {
      }
     /*ajout d'un protocole */
     private void addProc(LearnerProcedure proc, boolean addList){
+        System.out.println("addProc");
         if (addList)
             listProc.add(proc);
        procActiv = proc;
@@ -2066,7 +2064,9 @@ public class EdPPanel extends JPanel {
 
     /* retourne ELO proc */
     public Element getExperimentalProcedure(){
-        return this.controller.getExperimentalProcedure(this.getProcActiv());
+        if(this.getProcActiv() != null)
+            return this.controller.getExperimentalProcedure(this.getProcActiv());
+        return null;
     }
 
     /* retourne vrai si dans la mission on peut ajouter un proc */

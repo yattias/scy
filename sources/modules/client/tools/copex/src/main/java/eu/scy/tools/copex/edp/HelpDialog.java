@@ -120,7 +120,7 @@ public class HelpDialog extends javax.swing.JDialog {
         // material
         this.textAreaMaterial.setLineWrap(true);
         this.textAreaMaterial.setWrapStyleWord(true);
-        this.textAreaMaterial.setText("- "+edP.getBundleString("TEXT_HELP_MATERIAL"));
+        this.textAreaMaterial.setText(edP.getBundleString("TEXT_HELP_MATERIAL"));
         l = CopexUtilities.lenghtOfString(this.textAreaMaterial.getText(), getFontMetrics(this.textAreaMaterial.getFont()));
         h = ((l / txtAreaW) + 2)*15;
         this.jScrollPaneMaterial.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -132,7 +132,7 @@ public class HelpDialog extends javax.swing.JDialog {
         // datasheet
         this.textAreaDataSheet.setLineWrap(true);
         this.textAreaDataSheet.setWrapStyleWord(true);
-        this.textAreaDataSheet.setText("- "+edP.getBundleString("TEXT_HELP_DATASHEET"));
+        this.textAreaDataSheet.setText(edP.getBundleString("TEXT_HELP_DATASHEET"));
         l = CopexUtilities.lenghtOfString(this.textAreaDataSheet.getText(), getFontMetrics(this.textAreaDataSheet.getFont()));
         h = ((l / txtAreaW) + 2)*15;
         this.jScrollPaneDataSheet.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);

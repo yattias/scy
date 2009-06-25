@@ -165,7 +165,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
         Element taskDrawElement = ((CopexTree)tree).getTaskDraw(value);
         if(taskDrawElement != null && taskDrawElement.getChildren() != null && taskDrawElement.getChildren().size() > 0){
             panelNode.add(getDrawPanel()) ;
-            drawPanel.getWhiteBoardPanel().setStatus(taskDrawElement);
+            //drawPanel.getWhiteBoardPanel().setContentStatus(taskDrawElement);
         }else{
             if(drawPanel != null){
                 panelNode.remove(drawPanel);
