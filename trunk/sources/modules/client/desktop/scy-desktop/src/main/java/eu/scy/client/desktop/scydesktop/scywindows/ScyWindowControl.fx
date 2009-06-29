@@ -106,12 +106,14 @@ public class ScyWindowControl{
 
 
    public function activeAnchorChanged(){
-      activeAnchorWindow = getScyWindow(activeAnchor);
-      if (activeAnchorWindow != null){
-         scyDesktop.addScyWindow(activeAnchorWindow);
-         positionWindows();
-// TODO         scyDesktop.checkVisibilityScyWindows(isRelevantScyWindow);
-         scyDesktop.activateScyWindow(activeAnchorWindow);
+      if (activeAnchor!=null){
+         activeAnchorWindow = getScyWindow(activeAnchor);
+         if (activeAnchorWindow != null){
+            scyDesktop.addScyWindow(activeAnchorWindow);
+            positionWindows();
+   // TODO         scyDesktop.checkVisibilityScyWindows(isRelevantScyWindow);
+            scyDesktop.activateScyWindow(activeAnchorWindow);
+         }
       }
    }
 
@@ -208,6 +210,10 @@ public class ScyWindowControl{
    }
 
    public function positionWindows(onlyNewWindows:Boolean){
+      if (scyDesktop.scyWindows.content.size()==0){
+         // no windows, nothing to do
+         return;
+      }
       var newPlacedWindows: ScyWindow[];
       if (not onlyNewWindows){
          delete placedWindows;
