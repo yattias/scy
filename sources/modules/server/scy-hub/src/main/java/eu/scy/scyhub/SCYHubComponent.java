@@ -46,28 +46,28 @@ public class SCYHubComponent implements Component {
      * process the packet and route the it to the correct place 
      */
     public void processPacket(Packet packet) {
-        logger.debug(">>>>>>>>>>>>>>>> Received package:\n" + packet.toXML());
+        logger.debug("Received package:\n" + packet.toXML());
         // Only process Message packets
         if (packet instanceof Message) {
-            logger.debug(">>>>>>>>>>> It's a Message");
+            logger.debug("Packet is a org.xmpp.packet.Message");
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
             PacketExtension packetExtension = (PacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
-            logger.debug("<<<<<<>>>>>>>>>>> pe::::" + packetExtension.getElement().asXML());
             
             if (packetExtension != null) {
-                logger.debug(">>><<<<<< It contains a DataSyncPacketExtension");
                 //found a datasync extension, yay!
+                logger.debug("Packet contains a DataSyncPacketExtension");
+                logger.debug("packetExtension:" + packetExtension.getElement().asXML());
                 DataSyncPacketExtension dspe = DataSyncPacketExtension.convertFromXmppPacketExtension(packetExtension);
-                logger.debug("<<<<<<>>>>>>>>>>> dspe::::" + dspe.toXML());
+                logger.debug("dspe::::" + dspe.toXML());
                 try {
                     // pass syncMessage to DataSyncModule for storing
                     dataSyncModule.create(dspe.toPojo());
                 } catch (DataSyncException e1) {
                     e1.printStackTrace();
-                }                
+                }
             } else {
-                logger.debug("OoOoO It didn't contain a DataSyncPacketExtension");
+                logger.debug("Packet didn't contain a DataSyncPacketExtension");
             }
             
             
