@@ -20,13 +20,15 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 
+import javafx.scene.Group;
+
 /**
  * @author sikkenj
  */
 var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl");
 
 public class WindowManagerImpl extends WindowManager {
-   public-read override var scyWindows;
+   public-read override var scyWindows = Group{};
    public override var activeAnchor on replace previousAnchor{
          switchActiveAnchor(previousAnchor);
    };
@@ -103,6 +105,7 @@ public class WindowManagerImpl extends WindowManager {
       logger.info("activateScyWindow({scyWindow.id})");
 		if (desktopContainsWindow(scyWindow)){
 			activeWindow = scyWindow;
+         activeWindow.toFront();
 		}
 		else {
          logger.warn("There is no scyWindow {scyWindow.id}");
