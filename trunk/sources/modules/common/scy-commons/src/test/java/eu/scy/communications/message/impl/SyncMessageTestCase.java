@@ -39,7 +39,7 @@ public class SyncMessageTestCase {
         //test convert xmpp message to SyncMessage
         ISyncMessage syncMessage = getTestSyncMessage();
         assertNotNull(syncMessage);
-        Message xmppMessage = ((SyncMessage) syncMessage).convertToXMPPMessage();
+        Message xmppMessage = ((SyncMessage) syncMessage).convertToSmackMessage();
         
         assertNotNull(xmppMessage);
         System.out.println(xmppMessage.toXML());

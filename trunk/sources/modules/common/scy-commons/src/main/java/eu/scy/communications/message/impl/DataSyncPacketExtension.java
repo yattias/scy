@@ -3,7 +3,7 @@ package eu.scy.communications.message.impl;
 import org.apache.log4j.Logger;
 import org.dom4j.Element;
 import org.jivesoftware.smack.packet.DefaultPacketExtension;
-import org.jivesoftware.smack.packet.PacketExtension;
+import org.xmpp.packet.PacketExtension;
 
 import eu.scy.communications.message.ISyncMessage;
 
@@ -14,7 +14,7 @@ import eu.scy.communications.message.ISyncMessage;
  * @author thomasd
  *
  */
-public class DataSyncPacketExtension extends DefaultPacketExtension implements PacketExtension {
+public class DataSyncPacketExtension extends DefaultPacketExtension {
     
     private static final Logger logger = Logger.getLogger(DataSyncPacketExtension.class.getName());
         
@@ -58,7 +58,7 @@ public class DataSyncPacketExtension extends DefaultPacketExtension implements P
                                             getValue(EXPIRATION) == null ? 0 : Long.parseLong(getValue(EXPIRATION)));
     }
     
-    
+    // convert org.xmpp.packet.packetExtension to DataSyncPacketExtension
     public static DataSyncPacketExtension convertFromXmppPacketExtension(org.xmpp.packet.PacketExtension xmppPacketExtension) {
         DataSyncPacketExtension dspe = new DataSyncPacketExtension();
         Element peRoot = xmppPacketExtension.getElement();        
@@ -70,6 +70,20 @@ public class DataSyncPacketExtension extends DefaultPacketExtension implements P
         dspe.setValue(PERSISTENCE_ID, peRoot.element(PERSISTENCE_ID).getText());
         dspe.setValue(EXPIRATION, peRoot.element(EXPIRATION).getText());
         return dspe;
+    }
+
+
+    // convert DataSyncPacketExtension to org.xmpp.packet.packetExtension
+    public PacketExtension convertToXmppPacketExtension() {
+        PacketExtension pe = new PacketExtension(ELEMENT_NAME, NAMESPACE);
+        pe.getElement().addElement(TOOL_SESSION_ID).addText(getValue(TOOL_SESSION_ID));
+        pe.getElement().addElement(TOOL_ID).addText(getValue(TOOL_ID));
+        pe.getElement().addElement(FROM).addText(getValue(FROM));
+        pe.getElement().addElement(CONTENT).addText(getValue(CONTENT));
+        pe.getElement().addElement(EVENT).addText(getValue(EVENT));
+        pe.getElement().addElement(PERSISTENCE_ID).addText(getValue(PERSISTENCE_ID));
+        pe.getElement().addElement(EXPIRATION).addText(getValue(EXPIRATION));
+        return pe;
     }
 
     
