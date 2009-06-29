@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 import org.jivesoftware.openfire.pubsub.PendingSubscriptionsCommand;
 import org.xmpp.component.Component;
+import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
 import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
@@ -14,7 +15,10 @@ import org.xmpp.packet.PacketExtension;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.DataSyncPacketExtension;
+import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
+import eu.scy.datasync.api.DataSyncUnkownEventException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.event.IDataSyncEvent;
 import eu.scy.datasync.api.event.IDataSyncListener;
@@ -31,7 +35,7 @@ public class SCYHubComponent implements Component {
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
     
     private IDataSyncModule dataSyncModule;
-    private IDataSyncSession dataSyncSession;
+    CommunicationProperties props = new CommunicationProperties();
     
     
     public String getName() {
@@ -57,82 +61,18 @@ public class SCYHubComponent implements Component {
             if (packetExtension != null) {
                 //found a datasync extension, yay!
                 logger.debug("Packet contains a DataSyncPacketExtension");
-                logger.debug("packetExtension:" + packetExtension.getElement().asXML());
                 DataSyncPacketExtension dspe = DataSyncPacketExtension.convertFromXmppPacketExtension(packetExtension);
-                logger.debug("dspe::::" + dspe.toXML());
+                logger.debug("dspe: " + dspe.toXML());
                 try {
-                    // pass syncMessage to DataSyncModule for storing
-                    dataSyncModule.create(dspe.toPojo());
-                } catch (DataSyncException e1) {
-                    e1.printStackTrace();
+                    dataSyncModule.processSyncMessage(dspe.toPojo());
+                } catch (DataSyncUnkownEventException e) {
+                    logger.debug("An event we did not anticipate " + e);
+                    //TODO: alert tool by sending a message
+                    e.printStackTrace();
                 }
             } else {
                 logger.debug("Packet didn't contain a DataSyncPacketExtension");
             }
-            
-            
-            //            ISyncMessage syncMessage = SyncMessage.createSyncMessage("12", "toolid", "bob", "something something", "EVENT", null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
-            //           
-            //            DataSyncPacketExtension dsp = new DataSyncPacketExtension(syncMessage);
-            //            
-            //            Message newMessage = new Message();
-            //            
-            //            newMessage.setTo("scyhub.imediamac09.uio.no");
-            //            newMessage.addExtension(dsp);
-            //            
-            //            try {
-            //				ComponentManagerFactory.getComponentManager().sendPacket(this, newMessage);
-            //			} catch (ComponentException e) {
-            //				// TODO Auto-generated catch block
-            //				e.printStackTrace();
-            //			}
-            
-            // Send the request and get the weather information
-            ////            Metar metar = Weather.getMetar(station, 5000);
-            //
-            //            // Build the answer
-            //            Message reply = new Message();
-            //            reply.setTo(message.getFrom());
-            //            reply.setFrom(message.getTo());
-            //            reply.setType(message.getType());
-            //            reply.setThread(message.getThread());
-            //
-            //            // Append the discovered information if something was found
-            //            if (metar != null) {
-            //                StringBuilder sb = new StringBuilder();
-            //                sb.append("station id : " + metar.getStationID());
-            //                sb.append("\rwind dir   : " + metar.getWindDirection() + " degrees");
-            //                sb.append("\rwind speed : " + metar.getWindSpeedInMPH() + " mph, " +
-            //                                                     metar.getWindSpeedInKnots() + " knots");
-            //                if (!metar.getVisibilityLessThan()) {
-            //                    sb.append("\rvisibility : " + metar.getVisibility() + " mile(s)");
-            //                } else {
-            //                    sb.append("\rvisibility : < " + metar.getVisibility() + " mile(s)");
-            //                }
-            //
-            //                sb.append("\rpressure   : " + metar.getPressure() + " in Hg");
-            //                sb.append("\rtemperaturePrecise: " +
-            //                                   metar.getTemperaturePreciseInCelsius() + " C, " +
-            //                                   metar.getTemperaturePreciseInFahrenheit() + " F");
-            //                sb.append("\rtemperature: " +
-            //                                   metar.getTemperatureInCelsius() + " C, " +
-            //                                   metar.getTemperatureInFahrenheit() + " F");
-            //                sb.append("\rtemperatureMostPrecise: " +
-            //                                   metar.getTemperatureMostPreciseInCelsius() + " C, " +
-            //                                   metar.getTemperatureMostPreciseInFahrenheit() + " F");
-            //                reply.setBody(sb.toString());
-            //            }
-            //            else {
-            //                // Answer that the requested station id does not exist
-            //                reply.setBody("Unknown station ID");
-            //            }
-            //
-            //            // Send the response to the sender of the request
-            //            try {
-            //                ComponentManagerFactory.getComponentManager().sendPacket(this, reply);
-            //            } catch (ComponentException e) {
-            //                ComponentManagerFactory.getComponentManager().getLog().error(e);
-            //            }
         }
     }
     
@@ -155,16 +95,19 @@ public class SCYHubComponent implements Component {
                     // ComponentManagerFactory.getComponentManager().sendPacket(this, packet)
                     ISyncMessage syncMessage = event.getSyncMessage();
                     if (syncMessage.getFrom() != null) {            
-                        Date date = new java.util.Date(System.currentTimeMillis());
-                        java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-                        logger.debug("SCYHubComponent.initModules()");
+                        Message reply = new Message();
+                        //FIXME: these props dont make sense to use here, but work for test purposes
+                        reply.setTo("nutpaduser@" + props.datasyncServerHost);
+                        reply.setFrom("scyhub." + props.datasyncServerHost);
+                        reply.setBody("hey");
+                        try {
+                            ComponentManagerFactory.getComponentManager().sendPacket(SCYHubComponent.this, reply);
+                        } catch (ComponentException e) {
+                            ComponentManagerFactory.getComponentManager().getLog().error(e);
+                        }
                     }                     
                 }
             });
-            //create new session
-            String HARD_CODED_TOOL_NAME = "eu.scy.scyhub";
-            String HARD_CODED_USER_NAME = "thomasd";
-            dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         } catch (DataSyncException exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
             exeption.printStackTrace();

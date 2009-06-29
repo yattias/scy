@@ -44,7 +44,7 @@ public class SCYHubTestCase {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
 		
-		Message message = ((SyncMessage) syncMessage).convertToXMPPMessage();
+		Message message = ((SyncMessage) syncMessage).convertToSmackMessage();
 		message.setTo("to@to");
 		message.setFrom("from@from");
 		return message;
