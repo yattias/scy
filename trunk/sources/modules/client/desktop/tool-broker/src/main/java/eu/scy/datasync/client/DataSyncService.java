@@ -9,6 +9,7 @@ import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.PacketExtension;
@@ -64,12 +65,12 @@ public class DataSyncService implements IDataSyncService {
         }
         
         try {
-            this.xmppConnection.login("datasyncservice@" + props.datasyncServerHost, "datasyncservice");
+            this.xmppConnection.login("nutpaduser@" + props.datasyncServerHost, "nutpaduser");
             logger.debug("xmpp login ok");
         } catch (XMPPException e1) {
             logger.error("xmpp login failed. bummer. " + e1);
             e1.printStackTrace();
-        }
+        }        
         
         this.xmppConnection.addConnectionListener(new ConnectionListener() {
             
@@ -104,6 +105,14 @@ public class DataSyncService implements IDataSyncService {
             }
         });
 
+        PacketListener packetListner = new PacketListener() {            
+            @Override
+            public void processPacket(Packet arg0) {
+                logger.debug("in ur connection, sniffing ur packets");
+            }
+        };
+        this.xmppConnection.addPacketListener(packetListner, null);
+        
         //ProviderManager providerManager = ProviderManager.getInstance();
 
     }
@@ -120,8 +129,8 @@ public class DataSyncService implements IDataSyncService {
                 return;
             }
         }
-        logger.debug("datasync service sending xml......." + syncMessage.convertToXMPPMessage().toXML());
-        xmppConnection.sendPacket(syncMessage.convertToXMPPMessage());
+        logger.debug("datasync service sending xml......." + syncMessage.convertToSmackMessage().toXML());
+        xmppConnection.sendPacket(syncMessage.convertToSmackMessage());
     }
     
     //implement synchronize client state
