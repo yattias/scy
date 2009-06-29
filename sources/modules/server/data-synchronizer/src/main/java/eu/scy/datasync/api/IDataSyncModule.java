@@ -2,6 +2,8 @@ package eu.scy.datasync.api;
 
 import java.util.ArrayList;
 
+import org.xmpp.packet.Packet;
+
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
@@ -145,5 +147,13 @@ public interface IDataSyncModule {
      * 
      */
     public void cleanSession(String sessionId);
+
+    /**
+     * Process the SyncMessage
+     * 
+     * @param packet
+     * 
+     */
+    public void processSyncMessage(ISyncMessage message) throws DataSyncUnkownEventException;
     
 }

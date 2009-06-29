@@ -382,4 +382,11 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
         // TODO Auto-generated method stub        
     }
 
+
+    @Override
+    public void processSyncMessage(ISyncMessage message) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

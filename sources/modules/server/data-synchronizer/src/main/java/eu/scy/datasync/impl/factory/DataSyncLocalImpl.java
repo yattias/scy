@@ -10,12 +10,14 @@ import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.adapter.ScyCommunicationAdapterHelper;
 import eu.scy.datasync.adapter.ScyCommunicationEvent;
 import eu.scy.datasync.api.DataSyncException;
+import eu.scy.datasync.api.DataSyncUnkownEventException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.api.event.IDataSyncListener;
 import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.impl.event.DataSyncEvent;
 import eu.scy.datasync.impl.session.DataSyncSessionFactory;
 import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
 
 
@@ -51,6 +53,23 @@ public class DataSyncLocalImpl implements IDataSyncModule {
                 }
             }
         });
+    }
+    
+    @Override
+    public void processSyncMessage(ISyncMessage message) throws DataSyncUnkownEventException {
+        
+        //check event
+        if (props.clientEventCreateData.equals(message.getEvent())) {
+            try {
+                create(message);
+            } catch (DataSyncException e) {
+                logger.error("An event we did not anticipate " + message.getEvent());
+                e.printStackTrace();
+            }            
+        }
+        else {
+            throw new DataSyncUnkownEventException();
+        }        
     }
     
     @Override
