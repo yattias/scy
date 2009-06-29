@@ -96,27 +96,52 @@ public class SyncMessage implements ISyncMessage {
     
 
     /**
-     * Create an org.xmpp.packet.message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
+     * Create an org.jivesoftware.smack.packet.Message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
      *  
      * @return org.jivesoftware.smack.packet.Message
      */
-    public Message convertToXMPPMessage() {
-        Message xmppMessage = new Message();        
+    public Message convertToSmackMessage() {
+        Message smackMessage = new Message();        
         if (from == null) {
             logger.error("From cannot be null");
             return null;
         } else if (from.contains("@")) {
-            xmppMessage.setFrom(from);            
+            smackMessage.setFrom(from);            
         } else {
-            xmppMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
+            smackMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
         }
         
-        xmppMessage.setTo(DATA_SYNCHRONIZER_JID);        
+        smackMessage.setTo(DATA_SYNCHRONIZER_JID);        
         DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
-        xmppMessage.addExtension((PacketExtension) extension);
+        smackMessage.addExtension((PacketExtension) extension);
         
-        return xmppMessage;
+        return smackMessage;
     }
+    
+    
+//    /**
+//     * Create an org.xmpp.packet.message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
+//     *  
+//     * @return org.xmpp.packet.Message
+//     */
+//    public org.xmpp.packet.Message convertToXmppMessage() {
+//        org.xmpp.packet.Message xmppMessage = new org.xmpp.packet.Message();        
+//        if (from == null) {
+//            logger.error("From cannot be null");
+//            return null;
+//        } else if (from.contains("@")) {
+//            xmppMessage.setFrom(from);            
+//        } else {
+//            xmppMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
+//        }
+//        
+//        xmppMessage.setTo(DATA_SYNCHRONIZER_JID);
+//        DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
+//        xmppMessage.addExtension((PacketExtension) extension);
+//        
+//        return xmppMessage;
+//    }
+    
     
     
     @Override

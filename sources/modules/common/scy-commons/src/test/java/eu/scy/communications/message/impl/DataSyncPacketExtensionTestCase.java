@@ -67,6 +67,19 @@ public class DataSyncPacketExtensionTestCase {
         assertNotNull(dspe);
         assertEquals(true, dspe.toXML().contains(TEST_CONTENT));
     }
+    
+    
+    @org.junit.Test
+    public void testConvertToXmppPacketExtension() { 
+        ISyncMessage syncMessage = getTestSyncMessage();
+        assertNotNull(syncMessage);
+        DataSyncPacketExtension dspe = new DataSyncPacketExtension(syncMessage);
+        assertNotNull(dspe);
+        org.xmpp.packet.PacketExtension pe = dspe.convertToXmppPacketExtension();
+        assertNotNull(pe);
+        logger.debug("pe: " + pe);
+        assertEquals(true, pe.getElement().asXML().concat("TEST_TOOL_SESSION_ID"));
+    }
 
     
     @org.junit.Test
