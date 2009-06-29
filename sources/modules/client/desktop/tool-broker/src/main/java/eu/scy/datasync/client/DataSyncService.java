@@ -51,8 +51,8 @@ public class DataSyncService implements IDataSyncService {
         props = new CommunicationProperties();        
         config = new ConnectionConfiguration(props.datasyncServerHost, new Integer(props.datasyncServerPort).intValue());
         config.setCompressionEnabled(true);
-        config.setReconnectionAllowed(true);        
-        this.xmppConnection = new XMPPConnection(config);        
+        config.setReconnectionAllowed(true);
+        this.xmppConnection = new XMPPConnection(config);
         this.xmppConnection.DEBUG_ENABLED = true;
 
         try {            
@@ -61,6 +61,14 @@ public class DataSyncService implements IDataSyncService {
         } catch (XMPPException e) {
             logger.error("Error during xmpp connect");
             e.printStackTrace();
+        }
+        
+        try {
+            this.xmppConnection.login("datasyncservice@" + props.datasyncServerHost, "datasyncservice");
+            logger.debug("xmpp login ok");
+        } catch (XMPPException e1) {
+            logger.error("xmpp login failed. bummer. " + e1);
+            e1.printStackTrace();
         }
         
         this.xmppConnection.addConnectionListener(new ConnectionListener() {
@@ -109,6 +117,7 @@ public class DataSyncService implements IDataSyncService {
             } catch (XMPPException e) {
                 logger.error("failed to reconnect xmppConnection: " + e);
                 e.printStackTrace();
+                return;
             }
         }
         logger.debug("datasync service sending xml......." + syncMessage.convertToXMPPMessage().toXML());
