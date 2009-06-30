@@ -6,12 +6,11 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows;
 
-import eu.scy.client.desktop.scydesktop.elofactory.ScyWindowContentCreator;
 import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowStyler;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.WindowPositionerCenterMinimized;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import java.lang.Math;
@@ -21,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Sequences;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 //import roolo.api.IExtensionManager;
 //import roolo.api.IRepository;
 //import roolo.api.search.ISearchResult;
@@ -36,8 +36,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 public class ScyWindowControl{
    public var missionModel: MissionModel;
    public var missionMap: MissionMap;
-   public var scyWindowContentCreator: ScyWindowContentCreator;
-   public var scyWindowStyler: ScyWindowStyler;
+   public var windowContentCreator: WindowContentCreator;
+   public var windowStyler: WindowStyler;
    public var scyDesktop: WindowManager;
    public var stage: Stage;
    public var eloInfoControl: EloInfoControl;
@@ -129,11 +129,11 @@ public class ScyWindowControl{
             ]
          }
          applyMetadataAttributes(scyWindow,anchor.eloUri);
-         var content = scyWindowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
+         var content = windowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
          if (content != null){
             scyWindow.scyContent = content;
          }
-         scyWindowStyler.style(scyWindow, anchor.eloUri);
+         windowStyler.style(scyWindow, anchor.eloUri);
       }
       return scyWindow;
    }
@@ -147,11 +147,11 @@ public class ScyWindowControl{
 
          }
          applyMetadataAttributes(scyWindow,eloUri);
-         var content = scyWindowContentCreator.getScyWindowContent(eloUri,scyWindow);
+         var content = windowContentCreator.getScyWindowContent(eloUri,scyWindow);
          if (content != null){
             scyWindow.scyContent = content;
          }
-         scyWindowStyler.style(scyWindow, eloUri);
+         windowStyler.style(scyWindow, eloUri);
       }
       return scyWindow;
    }
