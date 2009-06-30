@@ -33,6 +33,11 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowContentCreator;
+import eu.scy.client.desktop.scydesktop.corners.Corner;
+import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
+import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
+import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 
 import java.lang.IllegalArgumentException;
 
@@ -49,10 +54,20 @@ class ScyDesktop extends CustomNode {
    public var windowStyler: WindowStyler;
    public var windowContentCreator:WindowContentCreator;
 
+   public var topLeftCornerTool: Node;
+   public var topRightCornerTool: Node;
+   public var bottomRightCornerTool: Node;
+   public var bottomLeftCornerTool: Node;
+
    var windows: WindowManager;
 
    var scyWindowControl:ScyWindowControl;
    var missionMap: MissionMap;
+
+   var topLeftCorner:Corner;
+   var topRightCorner:Corner;
+   var bottomRightCorner:Corner;
+   var bottomLeftCorner:Corner;
 
    function checkProperties(){
       var errors = 0;
@@ -98,6 +113,24 @@ class ScyDesktop extends CustomNode {
           height: bind scene.height;
       };
       missionMap.scyWindowControl=scyWindowControl;
+      topLeftCorner = TopLeftCorner{
+         content:topLeftCornerTool;
+         color:Color.RED;
+      }
+      topRightCorner = TopRightCorner{
+         content:topRightCornerTool;
+         color:Color.GREEN;
+      }
+      bottomRightCorner = BottomRightCorner{
+         // TODO, replace with specified tool
+         content:missionMap;
+         color:Color.BLUE;
+      }
+      bottomLeftCorner = BottomLeftCorner{
+         content:bottomLeftCornerTool;
+         color:Color.GRAY;
+      }
+
     }
 
     public override function create(): Node {
@@ -108,7 +141,10 @@ class ScyDesktop extends CustomNode {
       Group{
          content:[
             windows.scyWindows,
-            missionMap
+            topLeftCorner,
+            topRightCorner,
+            bottomRightCorner,
+            bottomLeftCorner
          ]
       }
     }
@@ -121,43 +157,43 @@ function run(){
 //   InitLog4j.init();
    var anchor0 = Anchor{
        title: "0";
-       xPos: -20;
-       yPos: 40;
+       xPos: 00;
+       yPos: 20;
        color: Color.BLUE;
        eloUri: new URI("test://anchor0");
    }
    var anchor1 = Anchor{
        title: "1";
-       xPos: 20;
-       yPos: 20;
+       xPos: 40;
+       yPos: 00;
        color: Color.BLUE;
        eloUri: new URI("test://anchor1");
    }
    var anchor2 = Anchor{
        title: "2";
-       xPos: 60;
-       yPos: 20;
+       xPos: 80;
+       yPos: 00;
        color: Color.GREEN;
        eloUri: new URI("test://anchor2");
    }
    var anchor3 = Anchor{
        title: "3";
-       xPos: 20;
-       yPos: 60;
+       xPos: 40;
+       yPos: 40;
        color: Color.RED;
        eloUri: new URI("test://anchor3");
    }
    var anchor4 = Anchor{
        title: "4";
-       xPos: 60;
-       yPos: 60;
+       xPos: 80;
+       yPos: 40;
        color: Color.ORANGE;
        eloUri: new URI("test://anchor4");
    }
    var anchor5 = Anchor{
        title: "5";
-       xPos: 100;
-       yPos: 40;
+       xPos: 120;
+       yPos: 20;
        color: Color.ORANGE;
        eloUri: new URI("test://anchor5");
    }
@@ -179,7 +215,12 @@ function run(){
       };
       windowContentCreator:DummyWindowContentCreator{
       };
-
+      topLeftCornerTool:MissionMap{
+         missionModel: missionModel
+      }
+//      bottomRightCornerTool:MissionMap{
+//         missionModel: missionModel
+//      }
    }
 
    Stage {
