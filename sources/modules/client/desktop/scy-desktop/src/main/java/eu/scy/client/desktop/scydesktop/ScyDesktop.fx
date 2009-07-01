@@ -77,7 +77,6 @@ class ScyDesktop extends CustomNode {
       scyWindowControl.positionWindows();
    }
 
-
    function checkProperties(){
       var errors = 0;
       errors += checkIfNull(missionModel,"missionModel");
@@ -147,7 +146,6 @@ class ScyDesktop extends CustomNode {
        logger.info("create");
        checkProperties();
        createElements();
-//       return windows.scyWindows;
       Group{
          content:[
             windows.scyWindows,
@@ -240,14 +238,7 @@ function run(){
          height: 300
          content: [
             scyDesktop,
-//            MissionMap{
-//         missionModel: missionModel
-//         translateX:20;
-//         translateY:20;
-//      }
          ]
       }
    }
-   scyDesktop.scyWindowControl.positionWindows();
-
 }
