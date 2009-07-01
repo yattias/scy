@@ -40,6 +40,9 @@ import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
 import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 
 import java.lang.IllegalArgumentException;
+import javafx.scene.control.Button;
+
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 
 /**
@@ -95,7 +98,6 @@ class ScyDesktop extends CustomNode {
       }
       return 0;
    }
-
 
    function createElements(){
       windows = WindowManagerImpl{
@@ -157,6 +159,12 @@ class ScyDesktop extends CustomNode {
       }
     }
 
+    public function addScyWindow(window:ScyWindow){
+      windows.addScyWindow(window);
+      scyWindowControl.addOtherScyWindow(window);
+      scyWindowControl.positionWindows(true);
+    }
+
  }
 
 
@@ -215,6 +223,24 @@ function run(){
        anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
        activeAnchor:anchor0
    }
+   var newWindowCounter = 0;
+   var newWindowButton:Button = Button {
+         text: "New Window"
+         action: function() {
+            var title = "new_{++newWindowCounter}";
+            var window:ScyWindow = ScyWindow{
+               title:title
+               id:"new://{title}"
+              allowClose: true;
+              allowResize: true;
+              allowRotate: true;
+              allowMinimize: true;
+            }
+            scyDesktop.addScyWindow(window);
+         }
+      }
+
+
    var scyDesktop = ScyDesktop{
       missionModel : missionModel;
       eloInfoControl: DummyEloInfoControl{
@@ -229,6 +255,7 @@ function run(){
 //      bottomRightCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }
+      bottomLeftCornerTool:newWindowButton;
    }
 
    Stage {
