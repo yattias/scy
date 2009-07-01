@@ -69,6 +69,15 @@ class ScyDesktop extends CustomNode {
    var bottomRightCorner:Corner;
    var bottomLeftCorner:Corner;
 
+   init{
+      FX.deferAction(initialWindowPositioning);
+   }
+
+   function initialWindowPositioning(){
+      scyWindowControl.positionWindows();
+   }
+
+
    function checkProperties(){
       var errors = 0;
       errors += checkIfNull(missionModel,"missionModel");
@@ -89,7 +98,7 @@ class ScyDesktop extends CustomNode {
    }
 
 
-    function createElements(){
+   function createElements(){
       windows = WindowManagerImpl{
       }
       missionMap = MissionMap{
@@ -97,21 +106,6 @@ class ScyDesktop extends CustomNode {
          translateX:40;
          translateY:40;
       }
-      scyWindowControl = ScyWindowControl{
-          windowContentCreator: windowContentCreator;
-          scyDesktop: windows;
-          missionModel: missionModel;
-          missionMap: missionMap;
-          eloInfoControl:eloInfoControl;
-          windowStyler:windowStyler;
-         //       stage: stage;
-         //       forbiddenNodes:[
-         //         missionMap,
-         //         newWindowButton
-         //       ]
-          width: bind scene.width;
-          height: bind scene.height;
-      };
       missionMap.scyWindowControl=scyWindowControl;
       topLeftCorner = TopLeftCorner{
          content:topLeftCornerTool;
@@ -130,6 +124,22 @@ class ScyDesktop extends CustomNode {
          content:bottomLeftCornerTool;
          color:Color.GRAY;
       }
+      scyWindowControl = ScyWindowControl{
+          windowContentCreator: windowContentCreator;
+          scyDesktop: windows;
+          missionModel: missionModel;
+          missionMap: missionMap;
+          eloInfoControl:eloInfoControl;
+          windowStyler:windowStyler;
+          forbiddenNodes:[
+               topLeftCorner,
+               topRightCorner,
+               bottomRightCorner,
+               bottomLeftCorner
+            ];
+          width: bind scene.width;
+          height: bind scene.height;
+      };
 
     }
 
@@ -215,9 +225,9 @@ function run(){
       };
       windowContentCreator:DummyWindowContentCreator{
       };
-      topLeftCornerTool:MissionMap{
-         missionModel: missionModel
-      }
+//      topLeftCornerTool:MissionMap{
+//         missionModel: missionModel
+//      }
 //      bottomRightCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }
@@ -238,6 +248,6 @@ function run(){
          ]
       }
    }
-
+   scyDesktop.scyWindowControl.positionWindows();
 
 }

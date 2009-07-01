@@ -21,6 +21,8 @@ import javafx.util.Sequences;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
+
+import org.apache.log4j.Logger;
 //import roolo.api.IExtensionManager;
 //import roolo.api.IRepository;
 //import roolo.api.search.ISearchResult;
@@ -33,6 +35,8 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
  */
 
  // place your code here
+var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl");
+
 public class ScyWindowControl{
    public var missionModel: MissionModel;
    public var missionMap: MissionMap;
@@ -73,6 +77,7 @@ public class ScyWindowControl{
 //   var titleKey: IMetadataKey;
 
    function sizeChanged(){
+      //logger.info("new size ({width}*{height})");
       positionWindows(false);
    }
 
@@ -210,6 +215,7 @@ public class ScyWindowControl{
    }
 
    public function positionWindows(onlyNewWindows:Boolean){
+      //logger.info("for size ({width}*{height}) and {scyDesktop.scyWindows.content.size()} windows");
       if (scyDesktop.scyWindows.content.size()==0){
          // no windows, nothing to do
          return;
