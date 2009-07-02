@@ -89,63 +89,63 @@ public class AnchorLink extends CustomNode {
     function run(){
 
         var anchor0 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "0";
                 xPos: 60;
                 yPos: 60;
             }
         }
         var anchor1 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "1";
                 xPos: 20;
                 yPos: 20;
             }
         }
         var anchor2 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "2";
                 xPos: 60;
                 yPos: 20;
             }
         }
         var anchor3 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "3";
                 xPos: 100;
                 yPos: 20;
             }
         }
         var anchor4 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "4";
                 xPos: 100;
                 yPos: 60;
             }
         }
         var anchor5 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "5";
                 xPos: 100;
                 yPos: 100;
             }
         }
         var anchor6 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "6";
                 xPos: 60;
                 yPos: 100;
             }
         }
         var anchor7 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "7";
                 xPos: 20;
                 yPos: 100;
             }
         }
         var anchor8 = AnchorDisplay{
-            anchor: Anchor{
+            anchor: AnchorFX{
                 title: "8";
                 xPos: 20;
                 yPos: 60;

@@ -13,12 +13,12 @@ import javafx.scene.paint.Color;
  * @author sikkenj
  */
 
-public class Anchor {
+public class AnchorFX {
     public var title = "?";
     public var color = Color.LIGHTGRAY;
-    public var xPos = 0;
-    public var yPos = 0;
-    public var nextAnchors: Anchor[];
+    public var xPos:Float = 0;
+    public var yPos:Float = 0;
+    public var nextAnchors: AnchorFX[];
     public var eloUri: URI;
     public var relationNames:String[];
 }

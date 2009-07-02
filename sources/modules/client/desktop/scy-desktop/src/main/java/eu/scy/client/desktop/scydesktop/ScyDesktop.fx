@@ -12,7 +12,7 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 
 import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModel;
+import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
+import eu.scy.client.desktop.scydesktop.missionmap.AnchorFX;
 import java.net.URI;
 
 import javafx.scene.Group;
@@ -50,9 +50,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  */
 var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktop");
 
-class ScyDesktop extends CustomNode {
+public class ScyDesktop extends CustomNode {
 
-   public var missionModel: MissionModel;
+   public var missionModelFX: MissionModelFX;
    public var eloInfoControl: EloInfoControl;
    public var windowStyler: WindowStyler;
    public var windowContentCreator:WindowContentCreator;
@@ -82,7 +82,7 @@ class ScyDesktop extends CustomNode {
 
    function checkProperties(){
       var errors = 0;
-      errors += checkIfNull(missionModel,"missionModel");
+      errors += checkIfNull(missionModelFX,"missionModel");
       errors += checkIfNull(eloInfoControl,"eloInfoControl");
       errors += checkIfNull(windowStyler,"windowStyler");
       errors += checkIfNull(windowContentCreator,"windowContentCreator");
@@ -103,7 +103,7 @@ class ScyDesktop extends CustomNode {
       windows = WindowManagerImpl{
       }
       missionMap = MissionMap{
-         missionModel: missionModel
+         missionModel: missionModelFX
          translateX:40;
          translateY:40;
       }
@@ -128,7 +128,7 @@ class ScyDesktop extends CustomNode {
       scyWindowControl = ScyWindowControl{
           windowContentCreator: windowContentCreator;
           scyDesktop: windows;
-          missionModel: missionModel;
+          missionModel: missionModelFX;
           missionMap: missionMap;
           eloInfoControl:eloInfoControl;
           windowStyler:windowStyler;
@@ -171,42 +171,42 @@ class ScyDesktop extends CustomNode {
 function run(){
    InitLog4JFX.initLog4J();
 //   InitLog4j.init();
-   var anchor0 = Anchor{
+   var anchor0 = AnchorFX{
        title: "0";
        xPos: 00;
        yPos: 20;
        color: Color.BLUE;
        eloUri: new URI("test://anchor0");
    }
-   var anchor1 = Anchor{
+   var anchor1 = AnchorFX{
        title: "1";
        xPos: 40;
        yPos: 00;
        color: Color.BLUE;
        eloUri: new URI("test://anchor1");
    }
-   var anchor2 = Anchor{
+   var anchor2 = AnchorFX{
        title: "2";
        xPos: 80;
        yPos: 00;
        color: Color.GREEN;
        eloUri: new URI("test://anchor2");
    }
-   var anchor3 = Anchor{
+   var anchor3 = AnchorFX{
        title: "3";
        xPos: 40;
        yPos: 40;
        color: Color.RED;
        eloUri: new URI("test://anchor3");
    }
-   var anchor4 = Anchor{
+   var anchor4 = AnchorFX{
        title: "4";
        xPos: 80;
        yPos: 40;
        color: Color.ORANGE;
        eloUri: new URI("test://anchor4");
    }
-   var anchor5 = Anchor{
+   var anchor5 = AnchorFX{
        title: "5";
        xPos: 120;
        yPos: 20;
@@ -219,7 +219,7 @@ function run(){
    anchor3.nextAnchors=[anchor1,anchor2,anchor4];
    anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
 
-   var missionModel = MissionModel{
+   var missionModel = MissionModelFX{
        anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
        activeAnchor:anchor0
    }
@@ -242,7 +242,7 @@ function run(){
 
 
    var scyDesktop = ScyDesktop{
-      missionModel : missionModel;
+      missionModelFX : missionModel;
       eloInfoControl: DummyEloInfoControl{
       };
       windowStyler:DummyWindowStyler{
