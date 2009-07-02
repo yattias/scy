@@ -31,10 +31,11 @@ public class AnchorDisplay extends CustomNode {
    def defaultTitleColor = Color.WHITE;
    def defaultContentColor = Color.GRAY;
 
-   public var anchor: Anchor;
-   var title = bind anchor.title on replace {
+   public var anchor: AnchorFX;
+   def title = bind anchor.title on replace {
       checkTitle()
    };
+   var displayTitle = "?";
 	//      public var color = Color.LIGHTGRAY;
 	//      public var xPos = 0;
 	//      public var yPos = 0;
@@ -62,10 +63,10 @@ public class AnchorDisplay extends CustomNode {
 
    function checkTitle(){
       if (title == null or title.length() == 0){
-         title = "?";
+         displayTitle = "?";
       }
       else {
-         title = title.substring(0,1);
+         displayTitle = title.substring(0,1);
       }
    }
 
@@ -88,7 +89,7 @@ public class AnchorDisplay extends CustomNode {
          x: 0,
          y: 0,
          fill: bind titleColor,
-         content: bind title,
+         content: bind displayTitle,
          translateX: 1;
       }
       titleDisplay.x = anchor.xPos + (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
@@ -131,35 +132,35 @@ public class AnchorDisplay extends CustomNode {
 function run(){
 
    var anchor1 = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "1";
          xPos: 20;
          yPos: 20;
       }
    }
    var anchor2 = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "2";
          xPos: 60;
          yPos: 20;
       }
    }
    var anchor3 = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "3";
          xPos: 60;
          yPos: 60;
       }
    }
    var anchorg = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "g";
          xPos: 20;
          yPos: 100;
       }
    }
    var anchorG = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "G";
          xPos: 60;
          yPos: 100;

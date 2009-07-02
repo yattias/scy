@@ -99,7 +99,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
 function run() {
 
    var anchor1 = AnchorDisplay{
-      anchor: Anchor{
+      anchor: AnchorFX{
          title: "1";
          xPos: 20;
          yPos: 20;

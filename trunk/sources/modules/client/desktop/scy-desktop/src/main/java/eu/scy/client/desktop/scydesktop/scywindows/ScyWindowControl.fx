@@ -6,9 +6,9 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows;
 
-import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
+import eu.scy.client.desktop.scydesktop.missionmap.AnchorFX;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModel;
+import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.WindowPositionerCenterMinimized;
@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl");
 
 public class ScyWindowControl{
-   public var missionModel: MissionModel;
+   public var missionModel: MissionModelFX;
    public var missionMap: MissionMap;
    public var windowContentCreator: WindowContentCreator;
    public var windowStyler: WindowStyler;
@@ -122,7 +122,7 @@ public class ScyWindowControl{
       }
    }
 
-   function getScyWindow(anchor:Anchor):ScyWindow{
+   function getScyWindow(anchor:AnchorFX):ScyWindow{
       var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri.toString());
       if (scyWindow == null){
          scyWindow = ScyWindow{
@@ -345,7 +345,7 @@ public class ScyWindowControl{
 //
 
 
-   function getAnchorDirection(anchor:Anchor):Number{
+   function getAnchorDirection(anchor:AnchorFX):Number{
       return Math.atan2(anchor.yPos - activeAnchor.yPos , anchor.xPos - activeAnchor.xPos);
    }
 

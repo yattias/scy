@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  */
 
 public class MissionMap extends CustomNode {
-   public var missionModel: MissionModel;
+   public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
 
    var anchorDisplays: AnchorDisplay[];
@@ -70,7 +70,7 @@ public class MissionMap extends CustomNode {
       }
    }
 
-   function getAnchorDisplay(anchor:Anchor):AnchorDisplay{
+   function getAnchorDisplay(anchor:AnchorFX):AnchorDisplay{
       return
       anchorMap.get(anchor) as AnchorDisplay;
    }
@@ -90,7 +90,7 @@ public class MissionMap extends CustomNode {
       missionModel.activeAnchor = anchorDisplay.anchor;
    }
 
-   public function getAnchorAttribute(anchor:Anchor):AnchorAttribute{
+   public function getAnchorAttribute(anchor:AnchorFX):AnchorAttribute{
       AnchorAttribute{
          anchorDisplay:
          anchorMap.get(anchor) as AnchorDisplay
@@ -103,28 +103,28 @@ public class MissionMap extends CustomNode {
 
 function run(){
 
-   var anchor1 = Anchor{
+   var anchor1 = AnchorFX{
       title: "1";
       xPos: 20;
       yPos: 20;
       color: Color.BLUE;
       eloUri: new URI("1");
    }
-   var anchor2 = Anchor{
+   var anchor2 = AnchorFX{
       title: "2";
       xPos: 60;
       yPos: 20;
       color: Color.GREEN;
       eloUri: new URI("2");
    }
-   var anchor3 = Anchor{
+   var anchor3 = AnchorFX{
       title: "3";
       xPos: 20;
       yPos: 60;
       color: Color.RED;
       eloUri: new URI("3");
    }
-   var anchor4 = Anchor{
+   var anchor4 = AnchorFX{
       title: "4";
       xPos: 60;
       yPos: 60;
@@ -135,7 +135,7 @@ function run(){
    anchor2.nextAnchors=[anchor4];
    anchor3.nextAnchors=[anchor2];
 
-   var missionModel = MissionModel{
+   var missionModel = MissionModelFX{
       anchors: [anchor1,anchor2,anchor3,anchor4]
    }
 

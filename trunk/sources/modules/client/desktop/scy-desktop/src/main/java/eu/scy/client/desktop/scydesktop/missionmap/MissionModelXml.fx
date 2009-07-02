@@ -34,7 +34,7 @@ def relationName = "relation";
 
 def jdomStringConversion = new JDomStringConversion();
 
-public function convertToXml(missionModel:MissionModel):String{
+public function convertToXml(missionModel:MissionModelFX):String{
    var root = new Element(missionModelName);
    var activeAnchorUri = "";
    if (missionModel.activeAnchor != null)
@@ -54,7 +54,7 @@ function createElement(name:String, value:String):Element{
    return element;
 }
 
-function createAnchorXml(anchor:Anchor):Element{
+function createAnchorXml(anchor:AnchorFX):Element{
    var root = new Element(anchorName);
    root.addContent(createElement(xPosName, "{anchor.xPos}"));
    root.addContent(createElement(yPosName, "{anchor.yPos}"));
@@ -72,8 +72,8 @@ function createAnchorXml(anchor:Anchor):Element{
    return root;
 }
 
-public function convertToMissionModel(xml:String):MissionModel{
-   var missionModel = MissionModel{
+public function convertToMissionModel(xml:String):MissionModelFX{
+   var missionModel = MissionModelFX{
    };
    var root = jdomStringConversion.stringToXml(xml);
    var anchors = root.getChild(anchorsName);
@@ -89,23 +89,23 @@ public function convertToMissionModel(xml:String):MissionModel{
    for (anchorChild in anchorChildren){
       var anchorElement = anchorChild as Element;
       var anchorUriName = anchorElement.getChildText(eloUriName);
-      var anchor = anchorsMap.get(new URI(anchorUriName)) as Anchor;
+      var anchor = anchorsMap.get(new URI(anchorUriName)) as AnchorFX;
       var nextAnchors = anchorElement.getChild(nextAnchorsName);
       var nextAnchorChildren = nextAnchors.getChildren(anchorName);
       for (nextAnchorChild in nextAnchorChildren){
          var nextAnchorUriName = (nextAnchorChild as Element).getText();
-         var nextAnchor = anchorsMap.get(new URI(nextAnchorUriName)) as Anchor;
+         var nextAnchor = anchorsMap.get(new URI(nextAnchorUriName)) as AnchorFX;
          if (nextAnchor != null) insert nextAnchor into anchor.nextAnchors;
       }
    }
    var activeAnchorUriName = root.getChildText(activeAnchorName);
    if (activeAnchorUriName != null)
-   missionModel.activeAnchor = anchorsMap.get(new URI(activeAnchorUriName)) as Anchor;
+   missionModel.activeAnchor = anchorsMap.get(new URI(activeAnchorUriName)) as AnchorFX;
    return missionModel;
 }
 
-function createAnchor(anchorRoot:Element):Anchor{
-   var anchor = Anchor{
+function createAnchor(anchorRoot:Element):AnchorFX{
+   var anchor = AnchorFX{
       xPos: java.lang.Integer.parseInt(anchorRoot.getChildText(xPosName));
       yPos: java.lang.Integer.parseInt(anchorRoot.getChildText(yPosName));
       eloUri: new URI(anchorRoot.getChildText(eloUriName))
