@@ -16,13 +16,6 @@ public class SyncMessage implements ISyncMessage {
 
     private static final Logger logger = Logger.getLogger(SyncMessage.class.getName());    
 
-    public static final String DATA_SYNC_XMPP_NAMESPACE = "eu:scy:datasync";
-    //public static final String XMPP_SERVER_ADDRESS = "wiki.intermedia.uio.no";
-    public static final String XMPP_SERVER_ADDRESS = "imediamac10.uio.no";
-    //public static final String DATA_SYNCHRONIZER_JID = "datasynchronizer@" + XMPP_SERVER_ADDRESS;
-    public static final String DATA_SYNCHRONIZER_JID = "scyhub." + XMPP_SERVER_ADDRESS;
-    public static final long DEFAULT_MESSAGE_EXPIRATION_TIME = 60*60*1000; // one hour
-    
     //public static final String MESSAGE_TYPE_QUERY = "QUERY";
     //public static final String QUERY_TYPE_ALL = "ALL";
     
@@ -34,115 +27,11 @@ public class SyncMessage implements ISyncMessage {
     private String persistenceId;
     private long expiration;
 
-    
+    /**
+     * Default constructor
+     */
     public SyncMessage() {
     }
-    
-    /**
-     * Wrapper without expiration time
-     * 
-     * @param toolSessionId
-     * @param toolId
-     * @param from
-     * @param content
-     * @param event
-     * @param persistenceId
-     * @return
-     */
-    public static ISyncMessage createSyncMessage(String toolSessionId, String toolId, String from, String content, String event, String persistenceId) {
-        return createSyncMessage(toolSessionId, toolId, from, content, event, persistenceId, DEFAULT_MESSAGE_EXPIRATION_TIME);
-    }
-    
-    
-    /**
-     *  Creates a SyncMessage from a bunch of strings. Typically when coming from a tool.
-     *  
-     * @param toolSessionId
-     * @param toolId
-     * @param from
-     * @param content
-     * @param event
-     * @param persistenceId
-     * @param expiration
-     * @return ISyncMessage
-     */
-    public static ISyncMessage createSyncMessage(String toolSessionId, String toolId, String from, String content, String event, String persistenceId, long expiration) {
-        ISyncMessage syncMessage = new SyncMessage();
-        syncMessage.setToolSessionId(toolSessionId);
-        syncMessage.setToolId(toolId);
-        syncMessage.setFrom(from);
-        syncMessage.setContent(content);
-        syncMessage.setEvent(event);
-        syncMessage.setPersistenceId(persistenceId);
-        syncMessage.setExpiration(expiration);
-        logger.debug("ISyncMessage created:\n" + syncMessage);
-        return syncMessage;
-    }
-    
-    
-    /**
-     *  Creates a SyncMessage from a org.xmpp.packet.message. This will be used when a sync message comes from the server. Convert xml in packet to POJO.
-     *  
-     *  @param syncMessage - the message to be converted
-     *  @return ISyncMessage
-     */
-    public static ISyncMessage createSyncMessage(Message xmppMessage) {
-    	DataSyncPacketExtension dspe = (DataSyncPacketExtension) xmppMessage.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);        
-        if (dspe == null) {
-            return null;
-        }    	
-        return dspe.toPojo();
-    }
-    
-
-    /**
-     * Create an org.jivesoftware.smack.packet.Message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
-     *  
-     * @return org.jivesoftware.smack.packet.Message
-     */
-    public Message convertToSmackMessage() {
-        Message smackMessage = new Message();        
-        if (from == null) {
-            logger.error("From cannot be null");
-            return null;
-        } else if (from.contains("@")) {
-            smackMessage.setFrom(from);            
-        } else {
-            smackMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
-        }
-        
-        smackMessage.setTo(DATA_SYNCHRONIZER_JID);        
-        DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
-        smackMessage.addExtension((PacketExtension) extension);
-        
-        return smackMessage;
-    }
-    
-    
-//    /**
-//     * Create an org.xmpp.packet.message based on a SyncMessage. Message is ready to be sent to the data synchronizer.
-//     *  
-//     * @return org.xmpp.packet.Message
-//     */
-//    public org.xmpp.packet.Message convertToXmppMessage() {
-//        org.xmpp.packet.Message xmppMessage = new org.xmpp.packet.Message();        
-//        if (from == null) {
-//            logger.error("From cannot be null");
-//            return null;
-//        } else if (from.contains("@")) {
-//            xmppMessage.setFrom(from);            
-//        } else {
-//            xmppMessage.setFrom(from + "@" + XMPP_SERVER_ADDRESS);            
-//        }
-//        
-//        xmppMessage.setTo(DATA_SYNCHRONIZER_JID);
-//        DataSyncPacketExtension extension = new DataSyncPacketExtension(this);
-//        xmppMessage.addExtension((PacketExtension) extension);
-//        
-//        return xmppMessage;
-//    }
-    
-    
     
     @Override
     public String toString() {
