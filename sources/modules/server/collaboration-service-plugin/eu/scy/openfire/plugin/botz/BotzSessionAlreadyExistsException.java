@@ -1,3 +1,4 @@
+package eu.scy.openfire.plugin.botz;
 /**
  * $RCSfile: $
  * $Revision: $
@@ -8,7 +9,6 @@
  * This software is published under the terms of the GNU Public License (GPL),
  * a copy of which is included in this distribution.
  */
-package eu.scy.openfire.plugin.botz;
 
 /**
  * This exception is thrown to indicate that a bot session already exists.

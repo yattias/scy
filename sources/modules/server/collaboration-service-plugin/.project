@@ -1,7 +1,9 @@
 <projectDescription>
   <name>collaboration-service-plugin</name>
   <comment>Enables adapter that allows xmpp messages used with the collaboration server</comment>
-  <projects/>
+  <projects>
+    <project>scy-commons</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

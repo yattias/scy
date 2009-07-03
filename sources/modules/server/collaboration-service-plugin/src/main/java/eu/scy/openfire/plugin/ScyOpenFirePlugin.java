@@ -59,7 +59,6 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
         interceptorManager.addInterceptor(this);
         packetRouter = XMPPServer.getInstance().getPacketRouter();        
         logger.debug("==== Communication is Le Key ====");
-                
     }
     
     
@@ -98,6 +97,7 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     @Override
     public void interceptPacket(Packet packet, Session session, boolean incoming, boolean processed) throws PacketRejectedException {
         if (!processed && incoming) {
+            logger.debug("--=([])=-- " + packet.toXML());
             if (packet instanceof Presence) {
 //                logger.debug("Presence packet incoming and unprocessed");
                 sendMessageToAgentSmith(packet.toString());
