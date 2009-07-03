@@ -2,11 +2,9 @@ package eu.scy.datasync.api;
 
 import java.util.ArrayList;
 
-import org.xmpp.packet.Packet;
-
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
 
 
 /**
@@ -109,8 +107,18 @@ public interface IDataSyncModule {
      * @param toolName - name of tool
      * @param userName - user name
      * @return IDataSyncSession
+     * @throws DataSyncException 
      */
-    public IDataSyncSession createSession(String toolName, String userName);
+    public IDataSyncSession createSession(String toolName, String userName) throws DataSyncException;
+    
+    /**
+     * Creates and returns an instance of IDataSyncSession
+     * 
+     * @param syncMessage - sync message
+     * @return IDataSyncSession
+     * @throws DataSyncException 
+     */
+    public IDataSyncSession createSession(ISyncMessage syncMessage) throws DataSyncException;
     
     /**
      * Return an instance of IDataSyncSession if the user is not member and session exists
@@ -119,8 +127,9 @@ public interface IDataSyncModule {
      * @param userName - user who wants to join
      * @param toolName - tool user is using as client
      * @return IDataSyncSession - session which was joined
+     * @throws DataSyncException 
      */
-    public IDataSyncSession joinSession(String session, String userName, String toolName);
+    public IDataSyncSession joinSession(String session, String userName, String toolName) throws DataSyncException;
         
     /**
      * 
