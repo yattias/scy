@@ -17,48 +17,31 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.MessageListener;
-import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.packet.PacketExtension;
-import org.jivesoftware.smack.provider.ProviderManager;
 
 import roolo.elo.api.IMetadataKey;
-
-
+import eu.scy.communications.datasync.event.IDataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.datasync.CommunicationProperties;
-import eu.scy.datasync.api.DataSyncException;
-import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.event.IDataSyncEvent;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.client.IDataSyncService;
-import eu.scy.datasync.impl.event.DataSyncEvent;
-import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
-import eu.scy.datasync.impl.session.DataSyncSession;
 import eu.scy.toolbroker.ToolBrokerImpl;
+
+
 
 
 /**
  * Simple tool client used for testing tool broker and data sync.
  * 
  */
-public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListener {
+public class NutpadDataSyncTestClient extends JFrame{
     
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
     private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.nutpad";
-    private static final String HARD_CODED_USER_NAME = "thomasd";
+    private static final String HARD_CODED_USER_NAME = "datasync" + "@" + "imediamac09.uio.no";
     
     private JTextArea editArea;
     private Action openCSAction = new OpenFromDataSyncAction();
@@ -67,10 +50,11 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     private Action sendXmppMessageAction = new SendXmppMessageAction();
     private Action exitAction = new ExitAction();
     
-    private IDataSyncModule dataSyncModule;
     private IDataSyncSession dataSyncSession;
     private IDataSyncService dataSyncService;
     private ArrayList<ISyncMessage> syncMessages;
+    private String SESSION = "1a1111ee-c18b-4c7d-9118-6cea3b9e1cf1";
+
     
     private CommunicationProperties props;
     
@@ -117,20 +101,28 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
     
     public void initialize() {    
         // init the collaboration service
-        try {
-            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
-        } catch (DataSyncException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         // add listner in order to get callbacks on stuff that's happening
-        //dataSyncModule.addDataSyncListener(this);
-        //create new session
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
-        dataSyncSession = dataSyncModule.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+        //create new session
+        dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+        dataSyncService.addDataSyncListener( new IDataSyncListener() {
+
+            @Override
+            public void handleDataSyncEvent(IDataSyncEvent e) {
+                ISyncMessage syncMessage = e.getSyncMessage();
+                if (syncMessage.getFrom() != null) {            
+                    Date date = new java.util.Date(System.currentTimeMillis());
+                    java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
+                    editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
+                    editArea.setCaretPosition(editArea.getText().length());
+                } 
+                
+            }});
         props = new CommunicationProperties();
     }
+    
+    
     
     
     class OpenFromDataSyncAction extends AbstractAction {
@@ -147,7 +139,6 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
             
             // get nutpad-specific messages which also belong to this session
             //syncMessages = dataSyncModule.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, dataSyncSession.getId(), true);
-            logger.debug("got " + syncMessages.size() + " messages for tool " + HARD_CODED_TOOL_NAME + " and session " + dataSyncSession.getId());
             
             Date date = new java.util.Date(System.currentTimeMillis());            
             java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
@@ -191,9 +182,9 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventSynchronize, dataSyncSession.getId());            
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventSynchronize,SESSION);            
             String[] messageStrings = d.showDialog();
-            ISyncMessage syncMessage = SyncMessage.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
+            ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
             
             dataSyncService.sendMessage((SyncMessage) syncMessage);
 //            try {
@@ -234,9 +225,9 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
         
         public void actionPerformed(ActionEvent e) {
             // create pop up
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventCreateData, dataSyncSession.getId());            
-            String[] messageStrings = d.showDialog();                                        
-            SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage(dataSyncSession.getId(), messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
+            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventCreateData,"1a1111ee-c18b-4c7d-9118-6cea3b9e1cf1");            
+            String[] messageStrings = d.showDialog();
+            SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(SESSION, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
             dataSyncService.sendMessage(syncMessage);
         }        
         
@@ -305,18 +296,6 @@ public class NutpadDataSyncTestClient extends JFrame implements IDataSyncListene
 //                xe.printStackTrace();
 //            }
 //        }
-    }
-    
-    
-    @Override
-    public void handleDataSyncEvent(IDataSyncEvent e) {
-        ISyncMessage syncMessage = e.getSyncMessage();
-        if (syncMessage.getFrom() != null) {            
-            Date date = new java.util.Date(System.currentTimeMillis());
-            java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-            editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
-            editArea.setCaretPosition(editArea.getText().length());
-        } 
     }
     
 }
