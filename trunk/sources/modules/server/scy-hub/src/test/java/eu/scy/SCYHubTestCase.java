@@ -1,15 +1,14 @@
 package eu.scy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.packet.Message;
 import org.junit.Test;
-import org.xmpp.packet.Packet;
+import org.xmpp.packet.Message;
 
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.DataSyncPacketExtension;
 import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.scyhub.SCYHubComponent;
 
 /**
@@ -35,7 +34,7 @@ public class SCYHubTestCase {
 
 	
 	private ISyncMessage getTestSyncMessage() {
-		return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID,
+		return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID,
 				TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID,
 				SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
 	}
@@ -44,10 +43,10 @@ public class SCYHubTestCase {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
 		
-		Message message = ((SyncMessage) syncMessage).convertToSmackMessage();
-		message.setTo("to@to");
-		message.setFrom("from@from");
-		return message;
+		Message xmppMessage = SyncMessageHelper.convertToXmppMessage(syncMessage);
+		xmppMessage.setTo("to@to");
+		xmppMessage.setFrom("from@from");
+		return xmppMessage;
 	}
 
 	
@@ -57,19 +56,17 @@ public class SCYHubTestCase {
 	}
 	
 	
-//TODO: fix this test, we have a confliect between xmpp (serverside) and jive packets (
-//	@org.junit.Test
-//	public void testDataSyncMessageRouter(){
-//		Message jiveMessage = getMessage();
-//		assertNotNull(jiveMessage);
-//		SCYHubComponent scyHubComponent = new SCYHubComponent();
-//		scyHubComponent.initialize(null, null);
-//
-//		org.xmpp.packet.Message xmppMessage = new org.xmpp.packet.Message();
-//		xmppMessage.setTo(jiveMessage.getTo());
-//		xmppMessage.setFrom(jiveMessage.getFrom());
-//		xmppMessage.addExtension(jiveMessage.getExtension(DataSyncPacketExtension.NAMESPACE, DataSyncPacketExtension.ELEMENT_NAME));
-//		scyHubComponent.processPacket((Packet) xmppMessage);
-//	}
+	@org.junit.Test
+	public void testDataSyncMessageRouter(){
+		Message xmpp = getMessage();
+		assertNotNull(xmpp);
+		SCYHubComponent scyHubComponent = new SCYHubComponent();
+		scyHubComponent.initialize(null, null);
+
+		org.xmpp.packet.Message xmppMessage = new org.xmpp.packet.Message();
+		xmppMessage.setTo(xmpp.getTo());
+		xmppMessage.setFrom(xmpp.getFrom());
+		scyHubComponent.processPacket(xmppMessage);
+	}
 
 }

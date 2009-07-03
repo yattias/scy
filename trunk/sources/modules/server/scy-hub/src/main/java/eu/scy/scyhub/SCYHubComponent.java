@@ -1,9 +1,6 @@
 package eu.scy.scyhub;
 
-import java.util.Date;
-
 import org.apache.log4j.Logger;
-import org.jivesoftware.openfire.pubsub.PendingSubscriptionsCommand;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
@@ -11,18 +8,15 @@ import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
-import org.xmpp.packet.PacketExtension;
 
+import eu.scy.communications.datasync.event.IDataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.DataSyncPacketExtension;
-import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
 import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
-import eu.scy.datasync.api.DataSyncUnkownEventException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.event.IDataSyncEvent;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 
 /**
@@ -34,14 +28,25 @@ public class SCYHubComponent implements Component {
     
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
     
+    private IDataSyncSession dataSyncSession;
     private IDataSyncModule dataSyncModule;
-    CommunicationProperties props = new CommunicationProperties();
+    private static CommunicationProperties communicationProps = new CommunicationProperties();
     
     
+    /**
+     * Gets the name
+     * 
+     * @return
+     */
     public String getName() {
         return "SCY HUB";
     }
     
+    /**
+     * gets the component description
+     * 
+     * @return 
+     */
     public String getDescription() {
         return "SCY Hub Component";
     }
@@ -56,34 +61,47 @@ public class SCYHubComponent implements Component {
             logger.debug("Packet is a org.xmpp.packet.Message");
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
-            PacketExtension packetExtension = (PacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+            DataSyncPacketExtension packetExtension = (DataSyncPacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
             
-            if (packetExtension != null) {
+            if ( packetExtension instanceof DataSyncPacketExtension ) {
                 //found a datasync extension, yay!
                 logger.debug("Packet contains a DataSyncPacketExtension");
-                DataSyncPacketExtension dspe = DataSyncPacketExtension.convertFromXmppPacketExtension(packetExtension);
-                logger.debug("dspe: " + dspe.toXML());
                 try {
-                    dataSyncModule.processSyncMessage(dspe.toPojo());
-                } catch (DataSyncUnkownEventException e) {
-                    logger.debug("An event we did not anticipate " + e);
-                    //TODO: alert tool by sending a message
-                    e.printStackTrace();
+                    // pass syncMessage to DataSyncModule for storing
+                    DataSyncPacketExtension dse = ((DataSyncPacketExtension)packetExtension);
+                    if( dse.getEvent().equals(communicationProps.clientEventCreateData)) {
+                        dataSyncModule.create(dse.toPojo());
+                    } else if (dse.getEvent().equals(communicationProps.clientEventCreateSession) ) {
+                        dataSyncModule.createSession(dse.toPojo());
+                    }
+                        
+                    
+                    
+                   
+                } catch (DataSyncException e1) {
+                    e1.printStackTrace();
+//             
                 }
             } else {
                 logger.debug("Packet didn't contain a DataSyncPacketExtension");
-            }
-        }
+            }// if
+        }// if 
     }
     
-    
+    /**
+     * initialize
+     */
     public void initialize(JID jid, ComponentManager componentManager) {
         logger.debug("SCYHubComponent.initialize()");
         initModules();
     }
     
-    
+    /**
+     * Init the modules
+     */
     private void initModules() {
+        //register extensions
+        DataSyncPacketExtension dsp = new DataSyncPacketExtension();
         //data sync
         try {
             dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
@@ -94,17 +112,23 @@ public class SCYHubComponent implements Component {
                 public void handleDataSyncEvent(IDataSyncEvent event) {
                     // ComponentManagerFactory.getComponentManager().sendPacket(this, packet)
                     ISyncMessage syncMessage = event.getSyncMessage();
-                    if (syncMessage.getFrom() != null) {            
+                    if (syncMessage.getFrom() != null && syncMessage.getFrom().contains("@") ) {            
+                        
+                        //send a reply
                         Message reply = new Message();
-                        //FIXME: these props dont make sense to use here, but work for test purposes
-                        reply.setTo("nutpaduser@" + props.datasyncServerHost);
-                        reply.setFrom("scyhub." + props.datasyncServerHost);
-                        reply.setBody("hey");
+                        reply.setTo("datasync@" + communicationProps.datasyncServerHost);
+                        reply.setFrom(ComponentManagerFactory.getComponentManager().getServerName());
+                        reply.setType(Message.Type.normal);
+                        reply.setBody("scyhub is watching you");
+                       
+                        DataSyncPacketExtension d = new DataSyncPacketExtension(event.getSyncMessage());
+                        reply.addExtension(d);
                         try {
                             ComponentManagerFactory.getComponentManager().sendPacket(SCYHubComponent.this, reply);
                         } catch (ComponentException e) {
-                            ComponentManagerFactory.getComponentManager().getLog().error(e);
+                            e.printStackTrace();
                         }
+                        logger.debug("SCYHubComponent.initModules()");
                     }                     
                 }
             });
@@ -115,12 +139,18 @@ public class SCYHubComponent implements Component {
     }
     
     
+    /**
+     * Starts the component
+     */
     public void start() {
         logger.debug("SCYHubComponent.start()");
     }
     
-    
+    /**
+     * Shuts this baby down
+     */
     public void shutdown() {
         logger.debug("SCYHubComponent.shutdown()");
     }
+    
 }
