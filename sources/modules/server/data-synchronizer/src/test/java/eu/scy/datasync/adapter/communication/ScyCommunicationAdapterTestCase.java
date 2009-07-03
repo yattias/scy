@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.datasync.adapter.IScyCommunicationAdapter;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
@@ -45,7 +46,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     }
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessage.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
     
     

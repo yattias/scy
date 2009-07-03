@@ -23,16 +23,17 @@ import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
 
+import eu.scy.communications.datasync.event.DataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 import eu.scy.core.model.ScyBase;
 import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.event.DataSyncEvent;
 
 public class DataSyncXMPPImpl implements IDataSyncModule {
     
@@ -344,7 +345,7 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser) {
         //ISyncMessage syncMessage = SyncMessage.createScyMessage(null, toolName, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, props.clientEventSynchronize, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, props.clientEventSynchronize, userName, null, 0);
         return this.doQuery(queryMessage);
     }
     
@@ -387,6 +388,13 @@ public class DataSyncXMPPImpl implements IDataSyncModule {
     public void processSyncMessage(ISyncMessage message) {
         // TODO Auto-generated method stub
         
+    }
+
+
+    @Override
+    public IDataSyncSession createSession(ISyncMessage syncMessage) throws DataSyncException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

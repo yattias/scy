@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.communications.datasync.event.DataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.session.DataSyncSessionFactory;
+import eu.scy.communications.datasync.session.IDataSyncSession;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
@@ -12,13 +18,6 @@ import eu.scy.datasync.adapter.ScyCommunicationEvent;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.DataSyncUnkownEventException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.event.DataSyncEvent;
-import eu.scy.datasync.impl.session.DataSyncSessionFactory;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.DataSyncPacketExtension;
-import eu.scy.communications.message.impl.SyncMessage;
 
 
 /**
@@ -134,7 +133,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, userName, null, props.clientEventSynchronize, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, userName, null, props.clientEventSynchronize, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
         if (includeChangesByUser) {
             return messages;
@@ -149,31 +148,37 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
 
     @Override
-    public IDataSyncSession createSession(String toolName, String userName) {
+    public IDataSyncSession createSession(String toolName, String userName) throws DataSyncException {
         IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
-        ISyncMessage sessionMessage = dataSyncSession.convertToSyncMessage(props.clientEventCreateSession);
-        try {
-            this.create(sessionMessage);
-        } catch (DataSyncException e) {
-            logger.error("Failed to create ScyMessage: " + sessionMessage.toString());
-            e.printStackTrace();
-        }
+        ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, null, props.clientEventCreateSession , null);
+        this.create(sessionMessage);
         return dataSyncSession;
+        // logger.error("Failed to create ScyMessage: " +
+        // sessionMessage.toString());
+    }
+    
+    @Override
+    public IDataSyncSession createSession(ISyncMessage syncMessage) throws DataSyncException {
+        return this.createSession(syncMessage.getToolId(), syncMessage.getFrom());
     }
     
     @Override
     public IDataSyncSession joinSession(String session, String userName, String toolName) {
-        IDataSyncSession iCollaborationSession = null;
+        IDataSyncSession dataSyncSession = null;
         if (sessionExists(session, userName)) {
             logger.warn(userName + " is already member of session " + session);
         } 
         else if (sessionExists(session, null)) {
-            iCollaborationSession = createSession(toolName, userName);
+            try {
+                dataSyncSession = createSession(toolName, userName);
+            } catch (DataSyncException e) {
+                e.printStackTrace();
+            }
             logger.debug(userName + " is now a member of session " + session);
         } else {
             logger.error("could not find session: " + session);
         }
-        return iCollaborationSession;
+        return dataSyncSession;
     }
     
     @Override
@@ -183,7 +188,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, props.clientEventQuery, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, props.clientEventQuery, userName, null, 0);
         ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
         for (ISyncMessage message : messages) {

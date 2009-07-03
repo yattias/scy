@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
 
 
 
@@ -211,7 +212,7 @@ public class SQLSpaceAdapter implements Callback {
             return null;
         }
         Field[] fields = tuple.getFields();
-        return SyncMessage.createSyncMessage((String) fields[0].getValue(), (String) fields[1].getValue(), tuple.getTupleID().toString(), (String) fields[3].getValue(), (String) fields[4].getValue(), tuple.getTupleID().toString());
+        return SyncMessageHelper.createSyncMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), tuple.getTupleID().toString(), 0);
     }
 
     
