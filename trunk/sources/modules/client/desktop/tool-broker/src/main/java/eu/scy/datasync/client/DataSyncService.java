@@ -9,23 +9,20 @@ import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketExtensionFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
 
+import eu.scy.communications.datasync.event.DataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncEvent;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
+import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
+import eu.scy.communications.packet.extension.datasync.DataSynceExtensionProvider;
 import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
-import eu.scy.datasync.api.DataSyncException;
-import eu.scy.datasync.api.event.IDataSyncListener;
-import eu.scy.datasync.api.session.IDataSyncSession;
-import eu.scy.datasync.impl.event.DataSyncEvent;
-import eu.scy.datasync.impl.factory.DataSyncLocalImpl;
-import eu.scy.datasync.impl.session.DataSyncSessionFactory;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.communications.packet.extension.object.ScyObjectPacketExtension;
 
 
 /**
@@ -42,15 +39,30 @@ public class DataSyncService implements IDataSyncService {
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    private CommunicationProperties props; 
+    public CommunicationProperties communicationProps; 
+    private String LOGIN;
     
     
+    /**
+     * Constructor sets up the service
+     */
     public DataSyncService() {
+        init();
+    }
+    
+    /**
+     * Initialize the connection
+     */
+    protected void init() {
+        //add extenison provider
+        ProviderManager providerManager = ProviderManager.getInstance();
+        providerManager.addExtensionProvider(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE, new DataSynceExtensionProvider());
+        
         SmackConfiguration.setPacketReplyTimeout(100000);
         SmackConfiguration.setKeepAliveInterval(60*1000);
 
-        props = new CommunicationProperties();        
-        config = new ConnectionConfiguration(props.datasyncServerHost, new Integer(props.datasyncServerPort).intValue());
+        communicationProps = new CommunicationProperties();        
+        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
         config.setCompressionEnabled(true);
         config.setReconnectionAllowed(true);
         this.xmppConnection = new XMPPConnection(config);
@@ -64,8 +76,10 @@ public class DataSyncService implements IDataSyncService {
             e.printStackTrace();
         }
         
+        LOGIN = "datasync@" + communicationProps.datasyncServerHost;
+        
         try {
-            this.xmppConnection.login("nutpaduser@" + props.datasyncServerHost, "nutpaduser");
+            this.xmppConnection.login(LOGIN, "datasync");
             logger.debug("xmpp login ok");
         } catch (XMPPException e1) {
             logger.error("xmpp login failed. bummer. " + e1);
@@ -107,18 +121,36 @@ public class DataSyncService implements IDataSyncService {
 
         PacketListener packetListner = new PacketListener() {            
             @Override
-            public void processPacket(Packet arg0) {
+            public void processPacket(Packet packet) {
+                DataSyncPacketExtension extension = (DataSyncPacketExtension) packet.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+                System.out.println("XML " + extension.toXML());
                 logger.debug("in ur connection, sniffing ur packets");
+                
+                //call all the ones listening
+                for (IDataSyncListener dataSyncListener : dataSyncListeners) {
+                    IDataSyncEvent dse = new DataSyncEvent(this, extension.toPojo());
+                    dataSyncListener.handleDataSyncEvent(dse);
+                    
+                }
+                
+                
             }
         };
-        this.xmppConnection.addPacketListener(packetListner, null);
         
-        //ProviderManager providerManager = ProviderManager.getInstance();
-
+        //packet extension filter we only want dataextension ones
+        PacketExtensionFilter dataSynceExtensionFilter = new PacketExtensionFilter(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+        
+        this.xmppConnection.addPacketListener(packetListner, dataSynceExtensionFilter);
+        
     }
     
+    /**
+     * Sends a message
+     * 
+     * @parm ISyncMessage - message to send
+     */
     @Override
-    public void sendMessage(SyncMessage syncMessage) {
+    public void sendMessage(ISyncMessage syncMessage) {
         if (!xmppConnection.isConnected()) {
             try {
                 xmppConnection.connect();
@@ -129,88 +161,34 @@ public class DataSyncService implements IDataSyncService {
                 return;
             }
         }
-        logger.debug("datasync service sending xml......." + syncMessage.convertToSmackMessage().toXML());
-        xmppConnection.sendPacket(syncMessage.convertToSmackMessage());
+        
+        Message xmpp = SyncMessageHelper.convertToSmackXmppMessage(syncMessage);
+        xmppConnection.sendPacket(xmpp);
+        
     }
     
-    //implement synchronize client state
-    
-    
-//    public IDataSyncSession createSession(String toolName, String userName) {
-//        IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
-//        ISyncMessage message = dataSyncSession.convertToSyncMessage();
-//        try {
-//            this.create(message);
-//        } catch (DataSyncException e) {
-//            logger.debug.error("Failed to create ScyMessage: " + message.toString());
-//            e.printStackTrace();
-//        }
-//        return dataSyncSession;
-//    }
-//    
-//    
-//    public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-//        //ISyncMessage syncMessage = SyncMessage.createScyMessage(userName, toolName, null, null, ScyMessage.MESSAGE_TYPE_QUERY, ScyMessage.QUERY_TYPE_ALL, null, null, null, 0, session);        
-//        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, toolName, null, SyncMessage.MESSAGE_TYPE_QUERY, userName, null, 0);
-//        ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
-//        ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
-//        for (ISyncMessage message : messages) {
-//            sessions.add(DataSyncSessionFactory.getDataSyncSession(message));
-//        }
-//        return sessions;
-//    }
-//    
-//    
-//    public IDataSyncSession joinSession(String session, String userName, String toolName) {
-//        IDataSyncSession iCollaborationSession = null;
-//        if (sessionExists(session, userName)) {
-//            logger.debug.warn(userName + " is already member of session " + session);
-//        } 
-//        else if (sessionExists(session, null)) {
-//            iCollaborationSession = createSession(toolName, userName);
-//            logger.debug.debug(userName + " is now a member of session " + session);
-//        } else {
-//            logger.debug.error("could not find session: " + session);
-//        }
-//        return iCollaborationSession;
-//    }
-//    
-//    
-//    public boolean sessionExists(String session, String userName) {
-//        return getSessions(session, userName, null).size() > 0;
-//    }
-//    
-//    
-//    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
-//        //would have been nice to do a precise query, instead of filtering away userName afterwards
-//        //ISyncMessage syncMessage = ((SyncMessage) SyncMessage).createScyMessage(null, client, null, null, SyncMessage.MESSAGE_TYPE_QUERY, SyncMessage.QUERY_TYPE_ALL, null, null, null, 0, session);
-//        ISyncMessage queryMessage = SyncMessage.createSyncMessage(session, client, userName, null, SyncMessage.MESSAGE_TYPE_QUERY, null, 0);
-//        ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
-//        if (includeChangesByUser) {
-//            return messages;
-//        }
-//        ArrayList<ISyncMessage> messagesFiltered = new ArrayList<ISyncMessage>();
-//        for (ISyncMessage syncMessage : messages) {
-//            if (!userName.equals(syncMessage.getFrom())) {
-//                messagesFiltered.add(syncMessage);
-//            }
-//        }
-//        return messagesFiltered;
-//    }
-//    
-//    
-//    public void cleanSession(String sessionId) {
-//        ArrayList<IDataSyncSession> sessions = getSessions(sessionId, null, null);
-//        for (IDataSyncSession collaborationSession : sessions) {
-//            try {
-//                this.delete(collaborationSession.getPersistenceId());
-//            } catch (DataSyncException e) {
-//                logger.debug.error("Trouble while deleting session: " + e);
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//    
+    /**
+     * Creates a new session
+     * 
+     * @param toolId - tool id
+     * @param userName - user id
+     */
+    @Override
+    public void createSession(String toolId, String userName) {
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName, null,
+                communicationProps.clientEventCreateSession, null);
+        this.sendMessage(syncMessage);
+    }
+
+    /**
+     * adds a new listener to this service
+     */
+    @Override
+    public void addDataSyncListener(IDataSyncListener iDataSyncListener) {
+        this.dataSyncListeners.add(iDataSyncListener);
+    }
+
+
     
 }
 
