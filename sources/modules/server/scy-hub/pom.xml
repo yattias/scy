@@ -75,6 +75,7 @@
 			<artifactId>whack</artifactId>
 			<version>1.0</version>
 		</dependency>
+	
 		<dependency>
 			<groupId>xpp3</groupId>
 			<artifactId>xpp3</artifactId>

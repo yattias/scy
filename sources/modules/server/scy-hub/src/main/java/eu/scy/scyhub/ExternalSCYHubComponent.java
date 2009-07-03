@@ -4,6 +4,8 @@ import org.jivesoftware.whack.ExternalComponentManager;
 
 
 
+
+
 /**
  * This is an example of how to make a component run as an external component. This examples
  * requires that the server be running in the same computer where this application will run and
