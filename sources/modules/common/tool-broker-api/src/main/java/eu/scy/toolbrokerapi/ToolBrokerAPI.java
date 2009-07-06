@@ -1,5 +1,7 @@
 package eu.scy.toolbrokerapi;
 
+import org.jivesoftware.smack.XMPPConnection;
+
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
@@ -72,5 +74,12 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return the data sync service
      */
     public IDataSyncService getDataSyncService();
+    
+    /**
+     * returns an xmpp connection
+     * 
+     * @return
+     */
+    public XMPPConnection getConnection(String username, String password);
 
 }
