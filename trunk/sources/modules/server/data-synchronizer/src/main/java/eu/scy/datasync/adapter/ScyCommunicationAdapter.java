@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpacesAdapterHelper;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 
@@ -128,10 +128,8 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     
 
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
-        if(props.clientEventQuery.equals(queryMessage.getEvent())) {
             return getTupleAdapter().readAll(queryMessage);
-        }
-        return null;
     }
+ 
     
 }

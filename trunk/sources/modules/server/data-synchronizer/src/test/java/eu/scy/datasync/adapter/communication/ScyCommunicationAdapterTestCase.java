@@ -25,7 +25,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     private static final String TEST_TOOL_ID = "eu.scy.test." + ScyCommunicationAdapterTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
-
+    private static final String TEST_TO = "passerby@wiki.intermedia.uio.no";
     
     public ScyCommunicationAdapterTestCase() {
     }   
@@ -46,7 +46,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     }
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
     
     
