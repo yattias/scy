@@ -2,6 +2,12 @@ package eu.scy.toolbroker;
 
 import javax.security.auth.login.LoginException;
 
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.SmackConfiguration;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,13 +19,11 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-
-import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.client.DataSyncService;
-import eu.scy.datasync.client.IDataSyncService;
 
 /**
  * This class implements the ToolBrokerAPI interface and provides all the
@@ -29,6 +33,8 @@ import eu.scy.datasync.client.IDataSyncService;
  * @author Giemza
  */
 public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> {
+    
+    private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
     
     private static final String beanConfigurationFile = "beans.xml";
     
@@ -51,6 +57,16 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private ICollaborationService collaborationService;
 
     private IDataSyncService dataSyncService;
+
+    private CommunicationProperties communicationProps;
+
+    private ConnectionConfiguration config;
+
+    private XMPPConnection xmppConnection;
+
+    private String userName;
+
+    private String password;
     
     
     @SuppressWarnings("unchecked")
@@ -174,5 +190,80 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     public IDataSyncService getDataSyncService() {
         return dataSyncService;
     }
+
+    @Override
+    public XMPPConnection getConnection(String userName, String password) {
+        communicationProps = new CommunicationProperties(); 
+        
+        this.userName = userName;
+        this.password = password;
+        
+        //make it a jid
+        userName = userName + "@" + communicationProps.datasyncServerHost;
+
+              
+        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
+        config.setCompressionEnabled(true);
+        config.setReconnectionAllowed(true);
+        this.xmppConnection = new XMPPConnection(config);
+        this.xmppConnection.DEBUG_ENABLED = true;
+
+        //xmpp.client.idle -1 in server to set no time
+        try {            
+            this.xmppConnection.connect();
+            SmackConfiguration.setPacketReplyTimeout(100000);
+            SmackConfiguration.setKeepAliveInterval(10000);
+            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
+        } catch (XMPPException e) {
+            logger.error("Error during xmpp connect");
+            e.printStackTrace();
+        }
+        
+        
+        try {
+            this.xmppConnection.login(userName, password);
+            logger.debug("xmpp login ok");
+        } catch (XMPPException e1) {
+            logger.error("xmpp login failed. bummer. " + e1);
+            e1.printStackTrace();
+        }        
+        
+        this.xmppConnection.addConnectionListener(new ConnectionListener() {
+            
+            @Override
+            public void connectionClosed() {
+                logger.debug("TBI closed connection");
+                try {
+                    xmppConnection.connect();
+                    logger.debug("TBI reconnected");
+                } catch (XMPPException e) {
+                    e.printStackTrace();
+                    logger.debug("TBI failed to reconnect");
+                }
+            }
+            
+            @Override
+            public void connectionClosedOnError(Exception arg0) {
+                logger.debug("TBI server error closed;");
+            }
+            
+            @Override
+            public void reconnectingIn(int arg0) {
+                logger.debug("TBI server reconnecting;");
+            }
+            @Override
+            public void reconnectionFailed(Exception arg0) {
+                logger.debug("TBI server reconnecting failed");
+            }
+            @Override
+            public void reconnectionSuccessful() {
+                logger.debug("TBI server reconnecting success");
+            }
+        });
+        
+        
+        return xmppConnection;
+    }
+    
     
 }
