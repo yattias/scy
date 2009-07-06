@@ -43,7 +43,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
     private JTextArea editArea;
-    private Action openCSAction = new OpenFromDataSyncAction();
+    private Action openCSAction = new CreateSession();
     private Action clearEditAreaAction = new ClearEditAreaAction();
     private Action saveToDataSyncAction = new SaveToDataSyncAction();
     private Action sendXmppMessageAction = new SendXmppMessageAction();
@@ -111,7 +111,7 @@ public class NutpadDataSyncTestClient extends JFrame{
         dataSyncService = tbi.getDataSyncService();
         //create new session
         dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-        dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+//        dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
 //        ISyncMessage queryAllSessions = new SyncMessage();
 //        queryAllSessions.setFrom(HARD_CODED_USER_NAME);
 //        queryAllSessions.setToolId(HARD_CODED_TOOL_NAME);
@@ -143,32 +143,18 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     
     
-    class OpenFromDataSyncAction extends AbstractAction {
+    class CreateSession extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
         
-        public OpenFromDataSyncAction() {
-            super("Synchronize with data sync module");
+        public CreateSession() {
+            super("CREATE SESSION");
             logger.debug("sychronizing with data sync module");
             putValue(MNEMONIC_KEY, new Integer('2'));
         }
         
         public void actionPerformed(ActionEvent e) {
-            
-            // get nutpad-specific messages which also belong to this session
-            //syncMessages = dataSyncModule.synchronizeClientState(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, dataSyncSession.getId(), true);
-            
-            Date date = new java.util.Date(System.currentTimeMillis());            
-            java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-            
-            // update textarea
-            editArea.append("sychronizing..... " + ts + "\n");
-            StringBuffer sb = new StringBuffer();
-            for (ISyncMessage syncMessage : syncMessages) {                
-                sb.append("------ syncMessage ------\n").append(syncMessage.toString() + "\n");
-                editArea.append(sb.toString());
-                editArea.setCaretPosition(editArea.getText().length());
-            }            
+            dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         }
     }
     
