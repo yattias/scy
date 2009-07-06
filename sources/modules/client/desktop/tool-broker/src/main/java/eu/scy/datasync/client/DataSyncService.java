@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketExtensionFilter;
@@ -19,10 +17,9 @@ import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
+import eu.scy.communications.packet.extension.datasync.DataSyncExtensionProvider;
 import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
-import eu.scy.communications.packet.extension.datasync.DataSynceExtensionProvider;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 
 
@@ -116,7 +113,7 @@ public class DataSyncService implements IDataSyncService {
         
        //add extenison provider
        ProviderManager providerManager = ProviderManager.getInstance();
-       providerManager.addExtensionProvider(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE, new DataSynceExtensionProvider());
+       providerManager.addExtensionProvider(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE, new DataSyncExtensionProvider());
 
        PacketListener packetListner = new PacketListener() {            
            @Override

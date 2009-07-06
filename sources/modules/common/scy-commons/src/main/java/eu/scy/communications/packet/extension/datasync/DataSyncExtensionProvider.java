@@ -12,10 +12,10 @@ import org.xmlpull.v1.XmlPullParser;
  * @author anthonyp
  *
  */
-public class DataSynceExtensionProvider implements PacketExtensionProvider {
+public class DataSyncExtensionProvider implements PacketExtensionProvider {
     
     
-    public DataSynceExtensionProvider() {
+    public DataSyncExtensionProvider() {
         System.out.println("ScyMessageExtensionProvider.ScyMessageExtensionProvider()");
     }
     

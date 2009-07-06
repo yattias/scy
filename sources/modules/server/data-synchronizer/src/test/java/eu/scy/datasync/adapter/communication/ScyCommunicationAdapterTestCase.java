@@ -46,7 +46,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     }
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessageHelper.createSyncMessageWithDefaultExp(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, null);
     }
     
     

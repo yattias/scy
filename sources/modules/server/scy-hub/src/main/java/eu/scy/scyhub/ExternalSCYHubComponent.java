@@ -15,8 +15,8 @@ import org.jivesoftware.whack.ExternalComponentManager;
  */
 public class ExternalSCYHubComponent {
 
-    //private static final String EXTERNAL_COMPONENT_HOST = "imediamac10.uio.no";
-    private static final String EXTERNAL_COMPONENT_HOST = "localhost";
+    private static final String EXTERNAL_COMPONENT_HOST = "imediamac10.uio.no";
+    //private static final String EXTERNAL_COMPONENT_HOST = "localhost";
     private static final int EXTERNAL_COMPONENT_PORT = 5275;
    
     

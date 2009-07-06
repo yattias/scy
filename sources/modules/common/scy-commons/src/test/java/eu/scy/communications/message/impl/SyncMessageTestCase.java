@@ -33,7 +33,7 @@ public class SyncMessageTestCase {
 
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return SyncMessageHelper.createSyncMessageWithDefaultExp(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID);
     }
     
     

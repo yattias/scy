@@ -4,6 +4,7 @@ package eu.scy.communications.message.impl;
 import org.apache.commons.lang.StringUtils;
 import org.xmpp.packet.Message;
 
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
 
@@ -14,6 +15,8 @@ import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
  *
  */
 public class SyncMessageHelper {
+    
+    private static CommunicationProperties props = new CommunicationProperties();
 
     /**
      *  Creates a SyncMessage from a bunch of strings. Typically when coming from a tool.
@@ -53,7 +56,7 @@ public class SyncMessageHelper {
      * @return
      */
     public static ISyncMessage createSyncMessageWithDefaultExp(String toolSessionId, String toolId, String from, String to, String content, String event, String persistenceId) {
-        return createSyncMessage(toolSessionId, toolId, from, to, content, event, persistenceId, ISyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        return createSyncMessage(toolSessionId, toolId, from, to, content, event, persistenceId, props.datasyncMessageDefaultExpiration);
     }
 
     /**
@@ -85,10 +88,10 @@ public class SyncMessageHelper {
         if (syncMessage.getFrom() != null &&  syncMessage.getFrom().contains("@")) {
             xmppMessage.setFrom(syncMessage.getFrom());            
         } else {
-            xmppMessage.setFrom(syncMessage.getFrom() + "@" + ISyncMessage.XMPP_SERVER_ADDRESS);            
+            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
         }
         
-        xmppMessage.setTo(ISyncMessage.DATA_SYNCHRONIZER_JID);
+        xmppMessage.setTo(props.datasyncMessageHubAddress);
         DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
         xmppMessage.addExtension(extension);
         return xmppMessage;
@@ -102,10 +105,10 @@ public class SyncMessageHelper {
         if( syncMessage.getFrom() != null && syncMessage.getFrom().contains("@")) {
             xmppMessage.setFrom(syncMessage.getFrom());            
         } else {
-            xmppMessage.setFrom(syncMessage.getFrom() + "@" + ISyncMessage.XMPP_SERVER_ADDRESS);            
+            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
         }
         
-        xmppMessage.setTo(ISyncMessage.DATA_SYNCHRONIZER_JID);
+        xmppMessage.setTo(props.datasyncMessageHubAddress);
         DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
         xmppMessage.addExtension(extension);
         return xmppMessage;
