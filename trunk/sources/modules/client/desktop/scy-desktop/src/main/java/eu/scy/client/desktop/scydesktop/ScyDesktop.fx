@@ -33,7 +33,6 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
-import eu.scy.client.desktop.scydesktop.dummy.DummyWindowContentCreator;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
 import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
@@ -47,6 +46,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 
+import eu.scy.client.desktop.scydesktop.config.Config;
+
+import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
+
 
 /**
  * @author sikkenj
@@ -54,6 +57,8 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktop");
 
 public class ScyDesktop extends CustomNode {
+
+   public var config:Config;
 
    public var missionModelFX: MissionModelFX;
    public var eloInfoControl: EloInfoControl;
@@ -88,6 +93,7 @@ public class ScyDesktop extends CustomNode {
 
    function checkProperties(){
       var errors = 0;
+      errors += checkIfNull(config,"config");
       errors += checkIfNull(missionModelFX,"missionModel");
       errors += checkIfNull(eloInfoControl,"eloInfoControl");
       errors += checkIfNull(windowStyler,"windowStyler");
@@ -110,6 +116,10 @@ public class ScyDesktop extends CustomNode {
       }
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+         repository:config.getRepository();
+         extensionManager:config.getExtensionManager();
+         metadataTypeManager:config.getMetadataTypeManager();
+         eloFactory:config.getEloFactory();
       }
 
       missionMap = MissionMap{
@@ -180,48 +190,53 @@ public class ScyDesktop extends CustomNode {
 
 function run(){
    InitLog4JFX.initLog4J();
+
+   var springConfigFactory = new SpringConfigFactory();
+   springConfigFactory.initFromClassPath("config/scyDesktopTestConfig.xml");
+   var config = springConfigFactory.getConfig();
+
 //   InitLog4j.init();
    var anchor0 = AnchorFX{
        title: "0";
        xPos: 00;
        yPos: 20;
        color: Color.BLUE;
-       eloUri: new URI("test://anchor0");
+       eloUri: new URI("test://anchor0.tst");
    }
    var anchor1 = AnchorFX{
        title: "1";
        xPos: 40;
        yPos: 00;
        color: Color.BLUE;
-       eloUri: new URI("test://anchor1");
+       eloUri: new URI("test://anchor1.tst");
    }
    var anchor2 = AnchorFX{
        title: "2";
        xPos: 80;
        yPos: 00;
        color: Color.GREEN;
-       eloUri: new URI("test://anchor2");
+       eloUri: new URI("test://anchor2.tst");
    }
    var anchor3 = AnchorFX{
        title: "3";
        xPos: 40;
        yPos: 40;
        color: Color.RED;
-       eloUri: new URI("test://anchor3");
+       eloUri: new URI("test://anchor3.tst");
    }
    var anchor4 = AnchorFX{
        title: "4";
        xPos: 80;
        yPos: 40;
        color: Color.ORANGE;
-       eloUri: new URI("test://anchor4");
+       eloUri: new URI("test://anchor4.tst");
    }
    var anchor5 = AnchorFX{
        title: "5";
        xPos: 120;
        yPos: 20;
        color: Color.ORANGE;
-       eloUri: new URI("test://anchor5");
+       eloUri: new URI("test://anchor5.tst");
    }
    anchor0.nextAnchors=[anchor1,anchor2,anchor3,anchor4];
    anchor1.nextAnchors=[anchor2,anchor3,anchor4];
@@ -252,6 +267,7 @@ function run(){
 
 
    var scyDesktop = ScyDesktop{
+      config:config;
       missionModelFX : missionModel;
       eloInfoControl: DummyEloInfoControl{
       };
