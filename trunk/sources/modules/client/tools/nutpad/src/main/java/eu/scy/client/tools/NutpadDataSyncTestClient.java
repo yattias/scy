@@ -42,7 +42,6 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
-   
     private JTextArea editArea;
     private Action openCSAction = new OpenFromDataSyncAction();
     private Action clearEditAreaAction = new ClearEditAreaAction();

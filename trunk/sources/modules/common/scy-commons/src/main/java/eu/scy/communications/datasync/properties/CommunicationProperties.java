@@ -15,6 +15,10 @@ public class CommunicationProperties {
 
     public String datasyncServerHost;
     public String datasyncServerPort;
+    public String datasyncMessageHub;
+    public String datasyncMessageHubAddress;
+    public long datasyncMessageDefaultExpiration;
+
     public String clientEventQuery;
     public String clientEventCreateSession;
     public String clientEventCreateData;
@@ -34,6 +38,10 @@ public class CommunicationProperties {
         
         datasyncServerHost = props.getProperty("datasync.server.host");
         datasyncServerPort = props.getProperty("datasync.server.port");
+        datasyncMessageHub = props.getProperty("datasync.messagehub");
+        datasyncMessageHubAddress = datasyncMessageHub + "." + datasyncServerHost;
+        datasyncMessageDefaultExpiration = Long.parseLong(props.getProperty("datasync.message.default.expiration"));
+        
         clientEventQuery = props.getProperty("client.event.query");
         clientEventCreateSession = props.getProperty("client.event.create.session");
         clientEventCreateData = props.getProperty("client.event.create.data");

@@ -54,7 +54,7 @@ public class NutpadTestCase {
     @org.junit.Test
     public void testSendMessage() {
         init();
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, null, SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
     }
 }

@@ -3,14 +3,8 @@ package eu.scy.communications.message;
 public interface ISyncMessage {
 
 	public static final String DATA_SYNC_XMPP_NAMESPACE = "eu:scy:datasync";
-	// public static final String XMPP_SERVER_ADDRESS =
-	// "wiki.intermedia.uio.no";
-	public static final String XMPP_SERVER_ADDRESS = "imediamac09.uio.no";
-	public static final String DATA_SYNCHRONIZER_JID = "scyhub."
-			+ XMPP_SERVER_ADDRESS;
-	public static final long DEFAULT_MESSAGE_EXPIRATION_TIME = 60 * 60 * 1000; // one
-																				// hour
 
+	
 	/**
 	 * Gets the tool session id
 	 * 
