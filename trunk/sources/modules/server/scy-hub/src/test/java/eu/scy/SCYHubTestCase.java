@@ -26,6 +26,7 @@ public class SCYHubTestCase {
 	private final String TEST_TOOL_ID = "eu.scy.test." + SCYHubTestCase.class.getName();
 	private final String TEST_TOOL_SESSION_ID = "1234567890";
 	private final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
+	private final String TEST_TO = "obama@wiki.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
 
 	
@@ -35,7 +36,7 @@ public class SCYHubTestCase {
 	
 	private ISyncMessage getTestSyncMessage() {
 		return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID,
-				TEST_TOOL_ID, TEST_FROM, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID,
+				TEST_TOOL_ID, TEST_FROM,TEST_TO, TEST_CONTENT, TEST_EVENT, TEST_PERSISTENCE_ID,
 				SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
 	}
 	

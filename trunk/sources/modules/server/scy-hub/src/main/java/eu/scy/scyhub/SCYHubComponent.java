@@ -11,10 +11,10 @@ import org.xmpp.packet.Packet;
 
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
-import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
 import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
@@ -73,15 +73,12 @@ public class SCYHubComponent implements Component {
                         dataSyncModule.create(dse.toPojo());
                     } else if (dse.getEvent().equals(communicationProps.clientEventCreateSession) ) {
                         dataSyncModule.createSession(dse.toPojo());
-                    }
-                        
-                    
-                    
-                   
+                    } else if( dse.getEvent().equals(communicationProps.clientEventGetSessions) ) {
+                        dataSyncModule.getSessions(dse.toPojo());
+                    }// if
                 } catch (DataSyncException e1) {
                     e1.printStackTrace();
-//             
-                }
+                }// try
             } else {
                 logger.debug("Packet didn't contain a DataSyncPacketExtension");
             }// if
@@ -112,11 +109,11 @@ public class SCYHubComponent implements Component {
                 public void handleDataSyncEvent(IDataSyncEvent event) {
                     // ComponentManagerFactory.getComponentManager().sendPacket(this, packet)
                     ISyncMessage syncMessage = event.getSyncMessage();
-                    if (syncMessage.getFrom() != null && syncMessage.getFrom().contains("@") ) {            
                         
                         //send a reply
                         Message reply = new Message();
-                        reply.setTo("datasync@" + communicationProps.datasyncServerHost);
+                        //FIXME
+                        reply.setTo("obama@" + communicationProps.datasyncServerHost);
                         reply.setFrom(ComponentManagerFactory.getComponentManager().getServerName());
                         reply.setType(Message.Type.normal);
                         reply.setBody("scyhub is watching you");
@@ -130,7 +127,6 @@ public class SCYHubComponent implements Component {
                         }
                         logger.debug("SCYHubComponent.initModules()");
                     }                     
-                }
             });
         } catch (DataSyncException exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
