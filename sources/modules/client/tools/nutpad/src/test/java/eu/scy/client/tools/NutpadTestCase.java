@@ -40,12 +40,12 @@ public class NutpadTestCase {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        try {
-            dataSyncSession = dataSyncModule.createSession(TEST_TOOL_ID, TEST_FROM);
-        } catch (DataSyncException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+////            dataSyncSession = dataSyncModule.createSession(TEST_TOOL_ID, TEST_FROM);
+//        } catch (DataSyncException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
         tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
         props = new CommunicationProperties();
