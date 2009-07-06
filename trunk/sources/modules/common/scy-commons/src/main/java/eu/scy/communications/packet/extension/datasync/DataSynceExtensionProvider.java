@@ -55,6 +55,11 @@ public class DataSynceExtensionProvider implements PacketExtensionProvider {
                         System.out.println(nt);
                         ds.setFrom(nt);
                     }
+                    else if ( parser.getName() != null && parser.getName().equals(DataSyncPacketExtension.TO)) {
+                        String nt = parser.nextText();
+                        System.out.println(nt);
+                        ds.setTo(nt);
+                    }
                     else if ( parser.getName() != null && parser.getName().equals(DataSyncPacketExtension.PERSISTENCE_ID)) {
                         String nt = parser.nextText();
                         System.out.println(nt);

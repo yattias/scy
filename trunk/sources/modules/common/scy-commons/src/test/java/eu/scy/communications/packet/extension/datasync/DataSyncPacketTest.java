@@ -25,6 +25,7 @@ public class DataSyncPacketTest {
 			+ DataSyncPacketTest.class.getName();
 	private final String TEST_TOOL_SESSION_ID = "1234567890";
 	private final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
+	private final String TEST_TO = "passerby@wiki.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
 
 	public DataSyncPacketTest() {
@@ -33,7 +34,8 @@ public class DataSyncPacketTest {
 	private ISyncMessage getTestSyncMessage() {
 		return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID,
 				TEST_TOOL_ID, 
-				TEST_FROM, 
+				TEST_FROM,
+				TEST_TO,
 				TEST_CONTENT, 
 				TEST_EVENT,
 				TEST_PERSISTENCE_ID,
@@ -53,6 +55,7 @@ public class DataSyncPacketTest {
 		assertEquals(TEST_TOOL_ID, dsp.getToolId());
 		assertEquals(TEST_TOOL_SESSION_ID, dsp.getToolSessionId());
 		assertEquals(TEST_FROM, dsp.getFrom());
+		assertEquals(TEST_TO, dsp.getTo());
 		assertEquals(TEST_PERSISTENCE_ID, dsp.getPersistenceId());
 		assertEquals(SyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME, dsp
 				.getExpiration());

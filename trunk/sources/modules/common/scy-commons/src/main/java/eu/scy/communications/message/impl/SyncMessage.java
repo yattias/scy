@@ -22,10 +22,12 @@ public class SyncMessage implements ISyncMessage {
     private String toolSessionId;
     private String toolId;
     private String from; //we would benefit from using a JID-ish style on our user identities throughout scy
+    private String to;
     private String content;
     private String event;
     private String persistenceId;
     private long expiration;
+
 
     /**
      * Default constructor
@@ -39,6 +41,7 @@ public class SyncMessage implements ISyncMessage {
         output.append(" toolSessionId: " + toolSessionId + "\n");
         output.append(" toolId: " + toolId + "\n");
         output.append(" from: " + from + "\n");
+        output.append(" to: " + to + "\n");
         output.append(" content: " + content + "\n");
         output.append(" event: " + event + "\n");
         output.append(" persistenceId: " + persistenceId + "\n");
@@ -128,5 +131,15 @@ public class SyncMessage implements ISyncMessage {
     @Override
     public void setPersistenceId(String persistenceId) {
         this.persistenceId = persistenceId;
+    }
+
+    @Override
+    public String getTo() {
+        return this.to;
+    }
+
+    @Override
+    public void setTo(String to) {
+        this.to = to;
     }
 }
