@@ -87,7 +87,7 @@ public class DataSyncService implements IDataSyncService {
      */
     @Override
     public void createSession(String toolId, String userName) {
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName, userName, null,
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName + "@" + communicationProps.datasyncExternalComponentHost, null, null,
                 communicationProps.clientEventCreateSession, null);
         this.sendMessage(syncMessage);
     }
