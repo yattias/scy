@@ -14,7 +14,7 @@ import java.net.URI;
  * @author sikkenj
  */
 
-public mixin class WindowContentCreator {
+public mixin class WindowContentCreatorFX {
 
    public abstract function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node;
 }
