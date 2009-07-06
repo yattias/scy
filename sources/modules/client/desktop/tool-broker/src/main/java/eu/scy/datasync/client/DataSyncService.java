@@ -37,7 +37,7 @@ public class DataSyncService implements IDataSyncService {
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    public CommunicationProperties communicationProps; 
+    public CommunicationProperties communicationProps = new CommunicationProperties();
     private String LOGIN;
     
     
