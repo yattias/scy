@@ -6,11 +6,12 @@ import org.apache.log4j.Logger;
 
 import eu.scy.communications.datasync.event.DataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.datasync.session.DataSyncSessionFactory;
 import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
-import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
 import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 import eu.scy.datasync.adapter.ScyCommunicationAdapterHelper;
@@ -26,9 +27,9 @@ import eu.scy.datasync.api.IDataSyncModule;
  * 
  * @author anthonyp
  */
-public class DataSyncLocalImpl implements IDataSyncModule {
+public class DataSyncModule implements IDataSyncModule {
     
-    private static final Logger logger = Logger.getLogger(DataSyncLocalImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
@@ -38,7 +39,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     /**
      * Creates an instance of a local collaboration service
      */
-    public DataSyncLocalImpl() {
+    public DataSyncModule() {
         this.scyCommunicationAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.scyCommunicationAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
             
@@ -121,9 +122,8 @@ public class DataSyncLocalImpl implements IDataSyncModule {
             // TODO also call exeception if update fails
             throw new DataSyncException();            
         }
-    }
+    } 
     
-
     @Override
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage) {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
@@ -133,7 +133,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, userName, null, props.clientEventSynchronize, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, null, userName, null, props.clientEventSynchronize, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
         if (includeChangesByUser) {
             return messages;
@@ -150,7 +150,7 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     @Override
     public IDataSyncSession createSession(String toolName, String userName) throws DataSyncException {
         IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
-        ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, null, props.clientEventCreateSession , null);
+        ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName,null, props.clientEventCreateSession , null);
         this.create(sessionMessage);
         return dataSyncSession;
         // logger.error("Failed to create ScyMessage: " +
@@ -187,14 +187,40 @@ public class DataSyncLocalImpl implements IDataSyncModule {
     }
     
     @Override
+    public void getSessions(ISyncMessage syncMessage) {
+       getSessions(syncMessage.getToolSessionId(), syncMessage.getFrom(),syncMessage.getToolId());
+    }
+    
+    @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, props.clientEventQuery, userName, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, userName, null, props.clientEventCreateSession, null, 0);
         ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
+        StringBuilder newGirlFriend = new StringBuilder();
         for (ISyncMessage message : messages) {
-            sessions.add(DataSyncSessionFactory.getDataSyncSession(message));
+            IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(message);
+            sessions.add(dataSyncSession);
+            newGirlFriend.append(dataSyncSession.getId()).append(",");
         }
+        
+        
+        
+        //TODO rewrite to xml
+        //contruct uber message
+        ISyncMessage resultMessage = new SyncMessage();
+        resultMessage.setContent(newGirlFriend.toString());
+        resultMessage.setEvent(props.clientEventGetSessions);
+        resultMessage.setFrom(userName);
+        for (IDataSyncListener cl : dataSyncListeners) {
+            if (cl != null) {
+                DataSyncEvent dataSyncEvent = new DataSyncEvent(this, resultMessage);
+                cl.handleDataSyncEvent(dataSyncEvent);
+            }
+        }
+        
+        
         return sessions;
+
     }
     
     

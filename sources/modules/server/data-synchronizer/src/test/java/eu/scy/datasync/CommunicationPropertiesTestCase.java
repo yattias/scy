@@ -1,6 +1,7 @@
 package eu.scy.datasync;
 
 import static org.junit.Assert.*;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 
 
 

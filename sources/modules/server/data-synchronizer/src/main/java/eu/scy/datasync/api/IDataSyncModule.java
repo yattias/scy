@@ -89,6 +89,7 @@ public interface IDataSyncModule {
      */
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage);
 
+
     /**
      * Gives the complete set of ScyMessges which represent changes for this specific client
      * 
@@ -150,6 +151,15 @@ public interface IDataSyncModule {
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName);
     
     /**
+     * gets the session base on query
+     * 
+     * @param syncMessage
+     * @return
+     */
+    public void getSessions(ISyncMessage syncMessage);
+
+   
+    /**
      * Removes all sessions which match sessionId
      * 
      * @param session - sessionId
@@ -164,5 +174,9 @@ public interface IDataSyncModule {
      * 
      */
     public void processSyncMessage(ISyncMessage message) throws DataSyncUnkownEventException;
+
+
+
+
     
 }

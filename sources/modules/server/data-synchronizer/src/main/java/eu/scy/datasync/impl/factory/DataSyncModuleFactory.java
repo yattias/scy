@@ -33,11 +33,7 @@ public class DataSyncModuleFactory {
             throw dataSyncException;
         
         if( style.equals(LOCAL_STYLE)){
-            dataSyncModule = new DataSyncLocalImpl();
-            //maybe intialization?
-            return dataSyncModule;
-        } else if(style.equals(XMPP_STYLE)){
-            dataSyncModule = new DataSyncXMPPImpl();
+            dataSyncModule = new DataSyncModule();
             //maybe intialization?
             return dataSyncModule;
         } else {
