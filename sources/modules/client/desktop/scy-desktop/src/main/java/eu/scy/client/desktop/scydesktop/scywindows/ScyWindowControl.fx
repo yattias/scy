@@ -20,9 +20,10 @@ import javafx.stage.Stage;
 import javafx.util.Sequences;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 
 import org.apache.log4j.Logger;
+
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 //import roolo.api.IExtensionManager;
 //import roolo.api.IRepository;
 //import roolo.api.search.ISearchResult;
@@ -40,7 +41,7 @@ var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.ScyWi
 public class ScyWindowControl{
    public var missionModel: MissionModelFX;
    public var missionMap: MissionMap;
-   public var windowContentCreator: WindowContentCreator;
+   public var windowContentFactory: WindowContentFactory;
    public var windowStyler: WindowStyler;
    public var scyDesktop: WindowManager;
    public var stage: Stage;
@@ -134,10 +135,7 @@ public class ScyWindowControl{
             ]
          }
          applyMetadataAttributes(scyWindow,anchor.eloUri);
-         var content = windowContentCreator.getScyWindowContent(anchor.eloUri,scyWindow);
-         if (content != null){
-            scyWindow.scyContent = content;
-         }
+         windowContentFactory.fillWindowContent(anchor.eloUri,scyWindow);
          windowStyler.style(scyWindow, anchor.eloUri);
       }
       return scyWindow;
@@ -152,10 +150,7 @@ public class ScyWindowControl{
 
          }
          applyMetadataAttributes(scyWindow,eloUri);
-         var content = windowContentCreator.getScyWindowContent(eloUri,scyWindow);
-         if (content != null){
-            scyWindow.scyContent = content;
-         }
+         windowContentFactory.fillWindowContent(eloUri,scyWindow);
          windowStyler.style(scyWindow, eloUri);
       }
       return scyWindow;

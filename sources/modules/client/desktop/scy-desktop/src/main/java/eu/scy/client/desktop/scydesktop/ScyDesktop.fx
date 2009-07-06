@@ -29,7 +29,8 @@ import javafx.scene.Group;
 import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowContentCreator;
@@ -44,6 +45,8 @@ import javafx.scene.control.Button;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
+
 
 /**
  * @author sikkenj
@@ -55,7 +58,9 @@ public class ScyDesktop extends CustomNode {
    public var missionModelFX: MissionModelFX;
    public var eloInfoControl: EloInfoControl;
    public var windowStyler: WindowStyler;
-   public var windowContentCreator:WindowContentCreator;
+//   public var scyWindowControl: ScyWindowControl;
+   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;// = WindowContentCreatorRegistryFXImpl{};
+//   public var windowContentCreator:WindowContentCreator;
 
    public var topLeftCornerTool: Node;
    public var topRightCornerTool: Node;
@@ -64,6 +69,7 @@ public class ScyDesktop extends CustomNode {
 
    var windows: WindowManager;
 
+   var windowContentFactory: WindowContentFactory;
    var scyWindowControl:ScyWindowControl;
    var missionMap: MissionMap;
 
@@ -85,7 +91,7 @@ public class ScyDesktop extends CustomNode {
       errors += checkIfNull(missionModelFX,"missionModel");
       errors += checkIfNull(eloInfoControl,"eloInfoControl");
       errors += checkIfNull(windowStyler,"windowStyler");
-      errors += checkIfNull(windowContentCreator,"windowContentCreator");
+      errors += checkIfNull(windowContentCreatorRegistryFX,"windowContentCreatorRegistryFX");
       if (errors>0){
          throw new IllegalArgumentException("One or more properties of ScyDesktop are null");
       }
@@ -102,6 +108,10 @@ public class ScyDesktop extends CustomNode {
    function createElements(){
       windows = WindowManagerImpl{
       }
+      windowContentFactory = WindowContentFactory{
+         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+      }
+
       missionMap = MissionMap{
          missionModel: missionModelFX
          translateX:40;
@@ -126,7 +136,7 @@ public class ScyDesktop extends CustomNode {
          color:Color.GRAY;
       }
       scyWindowControl = ScyWindowControl{
-          windowContentCreator: windowContentCreator;
+          windowContentFactory: windowContentFactory;
           scyDesktop: windows;
           missionModel: missionModelFX;
           missionMap: missionMap;
@@ -247,8 +257,8 @@ function run(){
       };
       windowStyler:DummyWindowStyler{
       };
-      windowContentCreator:DummyWindowContentCreator{
-      };
+      windowContentCreatorRegistryFX:WindowContentCreatorRegistryFXImpl{
+         };
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }

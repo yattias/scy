@@ -9,19 +9,21 @@ package eu.scy.client.desktop.scydesktop;
 
 
 
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
-import eu.scy.client.desktop.scydesktop.elofactory.SwingContentCreator;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
-import eu.scy.client.desktop.scydesktop.dummy.DummyWindowContentCreator;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
 import java.lang.Class;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+
+import eu.scy.client.desktop.scydesktop.elofactory.RegisterWindowContentCreators;
+
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 
 /**
  * @author sikkenj
@@ -29,13 +31,14 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 def titleOption = "title";
 def missionModelCreatorClassNameOptionOption = "missionModelCreatorClassName";
-def swingComponentClassNameOption = "swingComponentClassName";
+def registerWindowContentCreatorsClassNameOption = "registerWindowContentCreatorsClassName";
 
 InitLog4JFX.initLog4J();
 
 var title = "Swing SCY desktop";
 var missionModel:MissionModelFX;
-var windowContentCreator:WindowContentCreator = DummyWindowContentCreator{};
+var  windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{
+         };
 
 function parseParamenters(args: String[]): Void{
    var i=0;
@@ -52,12 +55,10 @@ function parseParamenters(args: String[]): Void{
             missionModel = createMissionModel(className);
             println("{missionModelCreatorClassNameOptionOption}: {className}");
          }
-         else if (option==swingComponentClassNameOption.toLowerCase()){
-            var swingClassName = args[++i];
-            windowContentCreator = SwingContentCreator{
-               swingClassName: swingClassName;
-            }
-           println("{swingComponentClassNameOption}: {swingClassName}");
+         else if (option==registerWindowContentCreatorsClassNameOption.toLowerCase()){
+            var className = args[++i];
+            handleRegisterWindowContentCreatorsClassName(className);
+           println("{registerWindowContentCreatorsClassNameOption}: {className}");
          }
          else{
             println("Unknown option: {option}");
@@ -78,6 +79,13 @@ function createMissionModel(missionModelCreatorClassName:String):MissionModelFX{
    return MissionModelFX.createMissionModelFX(missionModel);
 }
 
+function handleRegisterWindowContentCreatorsClassName(className: String){
+   var clas = Class.forName(className);
+   var registerWindowContentCreators =clas.newInstance() as RegisterWindowContentCreators;
+   registerWindowContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
+}
+
+
 parseParamenters(FX.getArguments());
 
 var scyDesktop = ScyDesktop{
@@ -86,7 +94,7 @@ var scyDesktop = ScyDesktop{
    };
    windowStyler:DummyWindowStyler{
    };
-   windowContentCreator:windowContentCreator;
+   windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }
@@ -95,7 +103,6 @@ var scyDesktop = ScyDesktop{
 //      }
 //   bottomLeftCornerTool:newWindowButton;
 }
-
 
 Stage {
     title: title

@@ -11,13 +11,13 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.elofactory.DummyScyWindowContent;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
 /**
  * @author sikkenj
  */
 
-public class DummyWindowContentCreator extends WindowContentCreator {
+public class DummyWindowContentCreator extends WindowContentCreatorFX {
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       return DummyScyWindowContent{

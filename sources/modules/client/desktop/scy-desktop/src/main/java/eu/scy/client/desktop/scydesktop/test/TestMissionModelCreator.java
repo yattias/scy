@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.test;
 
 import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
@@ -20,10 +19,11 @@ import java.util.List;
  *
  * @author sikkenj
  */
-public class TestMissionModelCreator implements MissionModelCreator {
+public class TestMissionModelCreator implements MissionModelCreator
+{
 
    private final String baseUri = "test://anchors/";
-   private final String extention = ".test";
+   private final String defaultExtention = ".test";
    private int anchorCount = 0;
 
    @Override
@@ -41,17 +41,23 @@ public class TestMissionModelCreator implements MissionModelCreator {
       }
    }
 
-   private List<Anchor> createAnchors() throws URISyntaxException{
+   private List<Anchor> createAnchors() throws URISyntaxException
+   {
       List<Anchor> anchors = new ArrayList<Anchor>();
-      anchors.add(createBasicAnchor("black",Color.BLACK,0,0));
-      anchors.add(createBasicAnchor("green",Color.GREEN,40,0));
-      anchors.add(createBasicAnchor("blue",Color.BLUE,0,40));
-      anchors.add(createBasicAnchor("red",Color.RED,40,40));
+      anchors.add(createBasicAnchor("black", Color.BLACK, 0, 0));
+      anchors.add(createBasicAnchor("green",".tst", Color.GREEN, 40, 0));
+      anchors.add(createBasicAnchor("blue", Color.BLUE, 0, 40));
+      anchors.add(createBasicAnchor("red", Color.RED, 40, 40));
       return anchors;
    }
 
-   private BasicAnchor createBasicAnchor(String title,Color color,float xPos, float yPos) throws URISyntaxException
+   private BasicAnchor createBasicAnchor(String title, String extention, Color color, float xPos, float yPos) throws URISyntaxException
    {
-      return new BasicAnchor(new URI(baseUri + anchorCount + "/" + title + extention),title,color,xPos,yPos,null,null);
+      return new BasicAnchor(new URI(baseUri + (anchorCount++) + "/" + title + extention), title, color, xPos, yPos, null, null);
+   }
+
+   private BasicAnchor createBasicAnchor(String title, Color color, float xPos, float yPos) throws URISyntaxException
+   {
+      return createBasicAnchor(title, defaultExtention, color, xPos, yPos);
    }
 }
