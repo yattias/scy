@@ -48,6 +48,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+
 /**
  * @author sikken
  */
@@ -80,7 +82,8 @@ public class ScyWindow extends CustomNode {
 		}
    };
    public var widthHeightProportion: Number = -1.0;
-	public var scyContent: Node= null;
+	public var scyContent: Node;
+	public var scyTool: ScyTool;
    public var scyWindowAttributes: ScyWindowAttribute[] on replace {
       placeAttributes()
    };

@@ -11,5 +11,5 @@ package eu.scy.client.desktop.scydesktop.elofactory;
  */
 public interface WindowContentCreatorRegistry {
 
-   void registerWindowContentCreator(WindowContentCreator windowContentCreator, String extention);
+   void registerWindowContentCreator(WindowContentCreator windowContentCreator, String type);
 }

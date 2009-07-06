@@ -21,8 +21,8 @@ public class DummyEloInfoControl extends EloInfoControl {
       if (eloUri==null){
          return null;
       }
-      var extension = UriUtils.getExtention(eloUri);
-      return extension;
+      var type = UriUtils.getExtension(eloUri);
+      return type;
    }
 
 

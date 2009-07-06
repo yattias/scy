@@ -15,7 +15,6 @@ public class UriUtils {
 
    public static String getName(URI uri){
       String path = uri.getPath();
-      int pointSearchBegin = 0;
       int lastSlashPos = path.lastIndexOf('/');
       if (lastSlashPos>=0){
          return path.substring(lastSlashPos+1);
@@ -23,7 +22,7 @@ public class UriUtils {
       return path;
    }
 
-   public static String getExtention(URI uri){
+   public static String getExtension(URI uri){
       String name = getName(uri);
      int lastPointPos = name.lastIndexOf('.');
       if (lastPointPos>=0){
