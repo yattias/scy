@@ -2,6 +2,8 @@ package eu.scy.scyhub;
 
 import org.jivesoftware.whack.ExternalComponentManager;
 
+import eu.scy.communications.datasync.properties.CommunicationProperties;
+
 
 
 
@@ -15,26 +17,22 @@ import org.jivesoftware.whack.ExternalComponentManager;
  */
 public class ExternalSCYHubComponent {
 
-    private static final String EXTERNAL_COMPONENT_HOST = "imediamac10.uio.no";
-    //private static final String EXTERNAL_COMPONENT_HOST = "localhost";
-    private static final int EXTERNAL_COMPONENT_PORT = 5275;
+    private static CommunicationProperties props = new CommunicationProperties();
    
     
     public static void main(String[] args) {
-        // Create a manager for the external components that will connect to the server "localhost"
-        // at the port 5225
-        final ExternalComponentManager manager = new ExternalComponentManager(EXTERNAL_COMPONENT_HOST, EXTERNAL_COMPONENT_PORT);
+        // Create a manager for the external components that will connect to the server "localhost" at the port 5225
+        final ExternalComponentManager manager = new ExternalComponentManager(props.datasyncExternalComponentHost, props.datasyncExternalComponentPort);
         // Set the secret key for this component. The server must be using the same secret key
         // otherwise the component won't be able to authenticate with the server. Check that the
         // server has the properfy "component.external.secretKey" defined and that it is using the
         // same value that we are setting here.
-        manager.setSecretKey("scyhub", "java");
-        // Set the manager to tag components as being allowed to connect multiple times to te same
-        // JID.
-//        manager.setMultipleAllowed("scyhub", true);
+        manager.setSecretKey(props.datasyncMessageHub, props.datasyncExternalComponentSecretKey);
+        // Set the manager to tag components as being allowed to connect multiple times to te same JID.
+        // manager.setMultipleAllowed("scyhub", true);
         try {
             // Register that this component will be serving the given subdomain of the server
-       	manager.addComponent("scyhub", new SCYHubComponent());
+       	manager.addComponent(props.datasyncMessageHub, new SCYHubComponent());
             // Quick trick to ensure that this application will be running for ever. To stop the
             // application you will need to kill the process
             while (true) {
