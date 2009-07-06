@@ -7,7 +7,6 @@ import junit.framework.Test;
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.datasync.adapter.IScyCommunicationAdapter;
 import eu.scy.datasync.adapter.IScyCommunicationListener;
