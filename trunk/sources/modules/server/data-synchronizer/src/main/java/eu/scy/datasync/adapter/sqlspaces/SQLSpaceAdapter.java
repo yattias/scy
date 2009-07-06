@@ -29,7 +29,7 @@ public class SQLSpaceAdapter implements Callback {
     public static final String WRITE = "WRITE";
     public static final String DELETE = "DELETE";
     public static final String UPDATE = "UPDATE";
-    private static final Tuple tupleSpaceTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class);
+    private static final Tuple tupleSpaceTemplate = new Tuple(String.class, String.class, String.class, String.class, String.class);
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
@@ -80,12 +80,11 @@ public class SQLSpaceAdapter implements Callback {
         String toolSessionId = syncMessage.getToolSessionId();
         String toolId = syncMessage.getToolId();
         String from = syncMessage.getFrom();
-        String to = syncMessage.getTo();
         String content = syncMessage.getContent();
         String event = syncMessage.getEvent();
         long expiration = syncMessage.getExpiration();
         
-        Tuple tuple = new Tuple(toolSessionId != null ? toolSessionId : "", toolId != null ? toolId : "", from != null ? from : "",  to != null ? to : "",  content != null ? content : "", event != null ? event : "");
+        Tuple tuple = new Tuple(toolSessionId != null ? toolSessionId : "", toolId != null ? toolId : "", from != null ? from : "", content != null ? content : "", event != null ? event : "");
         logger.debug("About to write tuple: " + tuple);
         
         if (expiration > 0) {
@@ -121,11 +120,10 @@ public class SQLSpaceAdapter implements Callback {
         Field f1 = syncMessage.getToolSessionId() == null ? new Field(String.class) : new Field(syncMessage.getToolSessionId());
         Field f2 = syncMessage.getToolId() == null ? new Field(String.class) : new Field(syncMessage.getToolId());
         Field f3 = syncMessage.getFrom() == null ? new Field(String.class) : new Field(syncMessage.getFrom());
-        Field f4 = syncMessage.getTo() == null ? new Field(String.class) : new Field(syncMessage.getTo());
-        Field f5 = syncMessage.getContent() == null ? new Field(String.class) : new Field(syncMessage.getContent());
-        Field f6 = syncMessage.getEvent() == null ? new Field(String.class) : new Field(syncMessage.getEvent());
+        Field f4 = syncMessage.getContent() == null ? new Field(String.class) : new Field(syncMessage.getContent());
+        Field f5 = syncMessage.getEvent() == null ? new Field(String.class) : new Field(syncMessage.getEvent());
         
-        Tuple tupleTemplate = new Tuple(f1, f2, f3, f4, f5, f6);
+        Tuple tupleTemplate = new Tuple(f1, f2, f3, f4, f5);
         
         Tuple returnTuple[] = null;
         try {
@@ -214,7 +212,7 @@ public class SQLSpaceAdapter implements Callback {
             return null;
         }
         Field[] fields = tuple.getFields();
-        return SyncMessageHelper.createSyncMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), (String) fields[3].getValue(), (String) fields[4].getValue(), (String) fields[5].getValue(), tuple.getTupleID().toString(), tuple.getExpiration());
+        return SyncMessageHelper.createSyncMessage((String) fields[0].getValue(), (String) fields[1].getValue(), (String) fields[2].getValue(), null, (String) fields[3].getValue(), (String) fields[4].getValue(), tuple.getTupleID().toString(), tuple.getExpiration());
     }
 
     
