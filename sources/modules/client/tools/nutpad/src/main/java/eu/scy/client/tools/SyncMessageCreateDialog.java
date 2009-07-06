@@ -56,6 +56,8 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         allTextsPanel.add(toolId, "wrap");
         allTextsPanel.add(new JLabel("from:"));
         allTextsPanel.add(from, "wrap");
+        allTextsPanel.add(new JLabel("to:"));
+        allTextsPanel.add(to, "wrap");
         allTextsPanel.add(new JLabel("content:"));
         allTextsPanel.add(content, "wrap");
         allTextsPanel.add(new JLabel("event:"));
@@ -84,7 +86,7 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     
     public String[] showDialog() {
         setVisible(true);
-        String[] s = { toolSessionId.getText(), toolId.getText(), from.getText(), content.getText(), event.getText(), null, expiration.getText() };
+        String[] s = { toolSessionId.getText(), toolId.getText(), from.getText(), to.getText(), content.getText(), event.getText(), null, expiration.getText() };
         return s;
     }
 }
