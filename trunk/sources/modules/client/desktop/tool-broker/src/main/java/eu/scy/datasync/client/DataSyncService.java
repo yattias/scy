@@ -125,11 +125,8 @@ public class DataSyncService implements IDataSyncService {
                //call all the ones listening
                for (IDataSyncListener dataSyncListener : dataSyncListeners) {
                    IDataSyncEvent dse = new DataSyncEvent(this, extension.toPojo());
-                   dataSyncListener.handleDataSyncEvent(dse);
-                   
+                   dataSyncListener.handleDataSyncEvent(dse);                   
                }
-               
-               
            }
        };
        
