@@ -197,10 +197,15 @@ public class DataSyncModule implements IDataSyncModule {
         ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
         StringBuilder newGirlFriend = new StringBuilder();
-        for (ISyncMessage message : messages) {
+        ISyncMessage message;
+        for (int i = 0 ; i < messages.size() ; i++) {
+            if (i > 0) {
+                newGirlFriend.append(", ");
+            }
+            message = messages.get(i);
             IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(message);
             sessions.add(dataSyncSession);
-            newGirlFriend.append(dataSyncSession.getId()).append(",");
+            newGirlFriend.append(dataSyncSession.getId());
         }
         
         
