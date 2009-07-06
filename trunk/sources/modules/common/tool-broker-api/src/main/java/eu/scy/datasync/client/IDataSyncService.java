@@ -1,5 +1,7 @@
 package eu.scy.datasync.client;
 
+import org.jivesoftware.smack.XMPPConnection;
+
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.message.ISyncMessage;
 
@@ -17,6 +19,13 @@ public interface IDataSyncService {
     * @param syncMessage
     */
    public void sendMessage(ISyncMessage syncMessage);
+   
+   /**
+    * gets all the sessions for request
+    * 
+    * @param syncMessage
+    */
+   public void getSessions(ISyncMessage syncMessage); 
 
    /**
     * creates a new session
@@ -32,5 +41,12 @@ public interface IDataSyncService {
     * @param iDataSyncListener
     */
    public void addDataSyncListener(IDataSyncListener iDataSyncListener);
+
+    /**
+     * initialize the connection
+     * 
+     * @param connection
+     */
+   public void init(XMPPConnection connection);
 
 }
