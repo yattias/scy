@@ -52,6 +52,21 @@ public interface ISyncMessage {
 	 * @param from
 	 */
 	public void setFrom(String from);
+	
+	/**
+	 * sets the to
+	 * 
+	 * @param to
+	 */
+	public void setTo(String to);
+	
+	/**
+	 * gets the to
+	 * 
+	 * @return
+	 */
+	public String getTo();
+	
 
 	/**
 	 * gets the message content

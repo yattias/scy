@@ -1,6 +1,7 @@
 package eu.scy.communications.message.impl;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.xmpp.packet.Message;
 
 import eu.scy.communications.message.ISyncMessage;
@@ -26,14 +27,16 @@ public class SyncMessageHelper {
      * @param expiration
      * @return ISyncMessage
      */
-    public static ISyncMessage createSyncMessage(String toolSessionId, String toolId, String from, String content, String event, String persistenceId, long expiration) {
+    public static ISyncMessage createSyncMessage(String toolSessionId, String toolId, String from, String to, String content, String event, String persistenceId, long expiration) {
         ISyncMessage syncMessage = new SyncMessage();
-        syncMessage.setToolSessionId(toolSessionId);
-        syncMessage.setToolId(toolId);
-        syncMessage.setFrom(from);
-        syncMessage.setContent(content);
-        syncMessage.setEvent(event);
-        syncMessage.setPersistenceId(persistenceId);
+        
+        syncMessage.setToolSessionId(StringUtils.stripToNull(toolSessionId));
+        syncMessage.setToolId(StringUtils.stripToNull(toolId));
+        syncMessage.setFrom(StringUtils.stripToNull(from));
+        syncMessage.setTo(StringUtils.stripToNull(to));
+        syncMessage.setContent(StringUtils.stripToNull(content));
+        syncMessage.setEvent(StringUtils.stripToNull(event));
+        syncMessage.setPersistenceId(StringUtils.stripToNull(persistenceId));
         syncMessage.setExpiration(expiration);
         return syncMessage;
     }
@@ -49,8 +52,8 @@ public class SyncMessageHelper {
      * @param persistenceId
      * @return
      */
-    public static ISyncMessage createSyncMessageWithDefaultExp(String toolSessionId, String toolId, String from, String content, String event, String persistenceId) {
-        return createSyncMessage(toolSessionId, toolId, from, content, event, persistenceId, ISyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
+    public static ISyncMessage createSyncMessageWithDefaultExp(String toolSessionId, String toolId, String from, String to, String content, String event, String persistenceId) {
+        return createSyncMessage(toolSessionId, toolId, from, to, content, event, persistenceId, ISyncMessage.DEFAULT_MESSAGE_EXPIRATION_TIME);
     }
 
     /**
@@ -76,9 +79,10 @@ public class SyncMessageHelper {
      */
     public static Message convertToXmppMessage(ISyncMessage syncMessage) {
         Message xmppMessage = new Message();        
-        if (syncMessage.getFrom() == null) {
-            return null;
-        } else if (syncMessage.getFrom().contains("@")) {
+//        if (syncMessage.getFrom() == null) {
+//            return null;
+//        } else 
+        if (syncMessage.getFrom() != null &&  syncMessage.getFrom().contains("@")) {
             xmppMessage.setFrom(syncMessage.getFrom());            
         } else {
             xmppMessage.setFrom(syncMessage.getFrom() + "@" + ISyncMessage.XMPP_SERVER_ADDRESS);            
@@ -92,9 +96,10 @@ public class SyncMessageHelper {
     
     public static org.jivesoftware.smack.packet.Message convertToSmackXmppMessage(ISyncMessage syncMessage) {
         org.jivesoftware.smack.packet.Message xmppMessage = new org.jivesoftware.smack.packet.Message();        
-        if (syncMessage.getFrom() == null) {
-            return null;
-        } else if (syncMessage.getFrom().contains("@")) {
+//        if (syncMessage.getFrom() == null) {
+//            return null;
+//        } else
+        if( syncMessage.getFrom() != null && syncMessage.getFrom().contains("@")) {
             xmppMessage.setFrom(syncMessage.getFrom());            
         } else {
             xmppMessage.setFrom(syncMessage.getFrom() + "@" + ISyncMessage.XMPP_SERVER_ADDRESS);            

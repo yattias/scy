@@ -1,5 +1,7 @@
 package eu.scy.communications.packet.extension.datasync;
 
+import info.collide.sqlspaces.commons.Field;
+
 import org.dom4j.Element;
 import org.dom4j.QName;
 import org.xmpp.packet.PacketExtension;
@@ -27,6 +29,7 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
     public static final String TOOL_SESSION_ID = "toolSessionId";
     public static final String TOOL_ID = "toolId";
     public static final String FROM = "from";
+    public static final String TO = "to";
     public static final String CONTENT = "content";
     public static final String EVENT = "event";
     public static final String PERSISTENCE_ID = "persistenceId";
@@ -59,6 +62,9 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
         
         if( syncMessage.getFrom() !=  null)
             this.setFrom(syncMessage.getFrom());
+        
+        if( syncMessage.getTo() !=  null)
+            this.setFrom(syncMessage.getTo());
         
         if( syncMessage.getContent() != null)
             this.setContent(syncMessage.getContent());
@@ -138,6 +144,17 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
         element.addElement(FROM).setText(from);
     }
     
+    public String getTo() {
+        return element.elementText(FROM);
+    }
+    
+    public void setTo(String to) {
+        if (element.element(TO) != null) {
+            element.remove(element.element(TO));
+        }
+        element.addElement(TO).setText(to);
+    }
+    
     
     public String getContent() {
     	return element.elementText(CONTENT);
@@ -152,13 +169,16 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
     }
     
     public ISyncMessage toPojo() {
-    	return SyncMessageHelper.createSyncMessage(getToolSessionId(), 
-    										getToolId(), 
-    										getFrom(), 
-    										getContent(), 
-    										getEvent(), 
-    										getPersistenceId(), 
-    										getExpiration());
+
+        return SyncMessageHelper.createSyncMessage(
+                getToolSessionId() == null || getToolSessionId().equals("null") ? null : getToolSessionId(),
+                getToolId() == null || getToolId().equals("null") ? null : getToolId(), 
+                getFrom() == null || getFrom().equals("null") ? null : getFrom(), 
+                getTo() == null || getTo().equals("null") ? null : getTo(),
+                getContent() == null  || getContent().equals("null") ? null : getContent(), 
+                getEvent() == null || getEvent().equals("null") ? null : getEvent(), 
+                getPersistenceId() == null || getPersistenceId().equals("null") ? null : getPersistenceId(), 
+                getExpiration());
     }
 
     @Override
@@ -178,6 +198,7 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
         xml.append("<").append(TOOL_SESSION_ID).append(">").append(getToolSessionId()).append("</").append(TOOL_SESSION_ID).append(">");
         xml.append("<").append(TOOL_ID).append(">").append(getToolId()).append("</").append(TOOL_ID).append(">");
         xml.append("<").append(FROM).append(">").append(getFrom()).append("</").append(FROM).append(">");
+        xml.append("<").append(TO).append(">").append(getTo()).append("</").append(TO).append(">");
         xml.append("<").append(CONTENT).append(">").append(getContent()).append("</").append(CONTENT).append(">");
         xml.append("<").append(EVENT).append(">").append(getEvent()).append("</").append(EVENT).append(">");
         xml.append("<").append(PERSISTENCE_ID).append(">").append(getPersistenceId()).append("</").append(PERSISTENCE_ID).append(">");
