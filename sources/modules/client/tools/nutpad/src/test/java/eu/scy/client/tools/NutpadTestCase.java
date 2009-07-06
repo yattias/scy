@@ -1,13 +1,13 @@
 package eu.scy.client.tools;
 
 import roolo.elo.api.IMetadataKey;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
-import eu.scy.datasync.CommunicationProperties;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.api.session.IDataSyncSession;
 import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 import eu.scy.toolbroker.ToolBrokerImpl;
@@ -40,7 +40,12 @@ public class NutpadTestCase {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        dataSyncSession = dataSyncModule.createSession(TEST_TOOL_ID, TEST_FROM);
+        try {
+            dataSyncSession = dataSyncModule.createSession(TEST_TOOL_ID, TEST_FROM);
+        } catch (DataSyncException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
         props = new CommunicationProperties();
