@@ -28,7 +28,6 @@ public class SCYHubComponent implements Component {
     
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
     
-    private IDataSyncSession dataSyncSession;
     private IDataSyncModule dataSyncModule;
     private static CommunicationProperties communicationProps = new CommunicationProperties();
     
