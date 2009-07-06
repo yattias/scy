@@ -70,9 +70,6 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     public NutpadDataSyncTestClient() {
         
-        
-        
-        
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
         
