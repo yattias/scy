@@ -23,7 +23,7 @@ public class RooloEloInfoControl extends EloInfoControl {
 
    public var extensionManager:IExtensionManager;
    public var repository:IRepository;
-   public var titleMetadataKey: IMetadataKey;
+   public var titleKey: IMetadataKey;
 
    public override function getEloType(eloUri:URI):String{
       if (eloUri==null){
@@ -40,6 +40,6 @@ public class RooloEloInfoControl extends EloInfoControl {
       if (metadata==null){
          return null
       }
-      return metadata.getMetadataValueContainer(titleMetadataKey).getValue() as String;
+      return metadata.getMetadataValueContainer(titleKey).getValue() as String;
    }
 }

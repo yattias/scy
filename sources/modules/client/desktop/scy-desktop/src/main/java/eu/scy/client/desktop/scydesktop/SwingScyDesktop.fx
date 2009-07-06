@@ -16,29 +16,38 @@ import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
-import java.lang.Class;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
-import eu.scy.client.desktop.scydesktop.elofactory.RegisterWindowContentCreators;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
+
+import eu.scy.client.desktop.scydesktop.config.Config;
+
+import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
+
+import java.lang.IllegalStateException;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 
 /**
  * @author sikkenj
  */
 
+// argument option names
 def titleOption = "title";
-def missionModelCreatorClassNameOptionOption = "missionModelCreatorClassName";
-def registerWindowContentCreatorsClassNameOption = "registerWindowContentCreatorsClassName";
+def classPathConfigLocationOption = "classPathConfigLocation";
+def fileSystemConfigLocationOption = "fileSystemConfigLocation";
+//def missionModelCreatorClassNameOptionOption = "missionModelCreatorClassName";
+//def registerWindowContentCreatorsClassNameOption = "registerWindowContentCreatorsClassName";
 
 InitLog4JFX.initLog4J();
 
+// argument values
 var title = "Swing SCY desktop";
-var missionModel:MissionModelFX;
-var  windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{
-         };
+var classPathConfigLocation = "config/scyDesktopTestConfig.xml";
+var fileSystemConfigLocation = "";
+
 
 function parseParamenters(args: String[]): Void{
    var i=0;
@@ -50,15 +59,15 @@ function parseParamenters(args: String[]): Void{
             title = args[++i];
             println("{titleOption}: {title}");
          }
-         else if (option==missionModelCreatorClassNameOptionOption.toLowerCase()){
-            var className = args[++i];
-            missionModel = createMissionModel(className);
-            println("{missionModelCreatorClassNameOptionOption}: {className}");
+         else if (option==classPathConfigLocationOption.toLowerCase()){
+            classPathConfigLocation = args[++i];
+            fileSystemConfigLocation = "";
+            println("{classPathConfigLocationOption}: {classPathConfigLocation}");
          }
-         else if (option==registerWindowContentCreatorsClassNameOption.toLowerCase()){
-            var className = args[++i];
-            handleRegisterWindowContentCreatorsClassName(className);
-           println("{registerWindowContentCreatorsClassNameOption}: {className}");
+         else if (option==fileSystemConfigLocationOption.toLowerCase()){
+            fileSystemConfigLocation = args[++i];
+            classPathConfigLocation = "";
+            println("{fileSystemConfigLocationOption}: {fileSystemConfigLocation}");
          }
          else{
             println("Unknown option: {option}");
@@ -72,26 +81,54 @@ function parseParamenters(args: String[]): Void{
    }
 }
 
-function createMissionModel(missionModelCreatorClassName:String):MissionModelFX{
-   var clas = Class.forName(missionModelCreatorClassName);
-   var missionModelCreator =clas.newInstance() as MissionModelCreator;
-   var missionModel = missionModelCreator.createMissionModel();
-   return MissionModelFX.createMissionModelFX(missionModel);
-}
-
-function handleRegisterWindowContentCreatorsClassName(className: String){
-   var clas = Class.forName(className);
-   var registerWindowContentCreators =clas.newInstance() as RegisterWindowContentCreators;
-   registerWindowContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
-}
-
-
 parseParamenters(FX.getArguments());
 
+// scy desktop elements
+var config:Config;
+var missionModelFX:MissionModelFX;
+var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{};
+var eloInfoControl: EloInfoControl;
+
+function readConfig(){
+   var springConfigFactory = new SpringConfigFactory();
+   if (classPathConfigLocation!=null){
+      springConfigFactory.initFromClassPath(classPathConfigLocation);
+   }
+   else if (fileSystemConfigLocation!=null){
+      springConfigFactory.initFromFileSystem(fileSystemConfigLocation);
+   }
+   else{
+      throw new IllegalStateException("no spring config location defined");
+   }
+
+   config = springConfigFactory.getConfig();
+}
+
+function createElements(){
+   var missionModel = config.getMissionModelCreator().createMissionModel();
+   missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
+
+   if (config.getRegisterWindowContentCreators()!=null){
+      for (registerWindowContentCreators in config.getRegisterWindowContentCreators()){
+         registerWindowContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
+      }
+   }
+
+   eloInfoControl = RooloEloInfoControl{
+      repository: config.getRepository();
+      extensionManager: config.getExtensionManager();
+      titleKey:config.getTitleKey();
+   }
+
+}
+
+readConfig();
+createElements();
+
 var scyDesktop = ScyDesktop{
-   missionModelFX : missionModel;
-   eloInfoControl: DummyEloInfoControl{
-   };
+   config:config;
+   missionModelFX : missionModelFX;
+   eloInfoControl: eloInfoControl;
    windowStyler:DummyWindowStyler{
    };
    windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
