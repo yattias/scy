@@ -22,28 +22,28 @@ public class WindowContentCreatorRegistryFXImpl extends WindowContentCreatorRegi
 
    var windowContentCreatorsFXMap = new HashMap();
 
-   public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, extention: String):Void{
-      logger.info("registering WindowContentCreatorFX for extention {extention}");
-      checkIfExtentionUsed(extention);
-      windowContentCreatorsFXMap.put(extention, windowContentCreator);
+   public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, type: String):Void{
+      logger.info("registering WindowContentCreatorFX for type {type}");
+      checkIfTypeIsDefined(type);
+      windowContentCreatorsFXMap.put(type, windowContentCreator);
    }
 
-   public override function registerWindowContentCreator( windowContentCreator: WindowContentCreator,  extention: String): Void{
-      registerWindowContentCreatorFX(WindowContentCreatorWrapper{windowContentCreator:windowContentCreator },extention);
+   public override function registerWindowContentCreator( windowContentCreator: WindowContentCreator,  type: String): Void{
+      registerWindowContentCreatorFX(WindowContentCreatorWrapper{windowContentCreator:windowContentCreator },type);
    }
 
-   function checkIfExtentionUsed(extention:String){
-      if (extentionUsed(extention)){
-         throw new IllegalArgumentException("extention {extention} is allready defined");
+   function checkIfTypeIsDefined(type:String){
+      if (typeUsed(type)){
+         throw new IllegalArgumentException("type {type} is allready defined");
       }
    }
 
-   function extentionUsed(extention:String):Boolean{
-      return getWindowContentCreatorFX(extention)!=null;
+   function typeUsed(type:String):Boolean{
+      return getWindowContentCreatorFX(type)!=null;
    }
 
-   public override function getWindowContentCreatorFX(extention:String):WindowContentCreatorFX{
-      return windowContentCreatorsFXMap.get(extention) as WindowContentCreatorFX
+   public override function getWindowContentCreatorFX(type:String):WindowContentCreatorFX{
+      return windowContentCreatorsFXMap.get(type) as WindowContentCreatorFX
    }
 
 

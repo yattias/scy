@@ -12,7 +12,7 @@ package eu.scy.client.desktop.scydesktop.elofactory;
 
 public mixin class WindowContentCreatorRegistryFX extends WindowContentCreatorRegistry {
 
-   public abstract function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, extention: String):Void;
+   public abstract function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, type: String):Void;
 
-   public abstract function getWindowContentCreatorFX(extention:String):WindowContentCreatorFX;
+   public abstract function getWindowContentCreatorFX(type:String):WindowContentCreatorFX;
 }
