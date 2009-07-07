@@ -1,10 +1,15 @@
 package eu.scy.agents.api;
 
 import eu.scy.notification.api.INotificationSender;
-import roolo.elo.api.IMetadataKey;
 
-public interface ICommunicationAgent<K extends IMetadataKey> extends
-		IThreadedAgent {
+/**
+ * An interface for communication agents. It allows to get an instance of a
+ * notification sender to speak to the client/scylab.
+ * 
+ * @author Florian Schulz
+ * 
+ */
+public interface ICommunicationAgent extends IThreadedAgent {
 
 	/**
 	 * Get a notification sender to send the notifications to.

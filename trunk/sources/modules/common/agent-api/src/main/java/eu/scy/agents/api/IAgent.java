@@ -21,16 +21,10 @@ public interface IAgent {
 	 */
 	public TupleSpace getTupleSpace();
 
-	/**
+	/*
 	 * Get an interface to the persistent storage for the agents.
 	 * 
 	 * @return The global persisent storage facility.
 	 */
 	// public IPersistentStorage getPersistentStorage();
-	/**
-	 * Get the metadata type manger. So keys can be set or read.
-	 * 
-	 * @return The global metadata type manager.
-	 */
-	// public IMetadataTypeManager<IMetadataKey> getMetadataTypeManager();
 }
