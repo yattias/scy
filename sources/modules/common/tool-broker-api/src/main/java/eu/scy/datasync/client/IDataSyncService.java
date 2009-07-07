@@ -49,4 +49,10 @@ public interface IDataSyncService {
      */
    public void init(XMPPConnection connection);
 
+   /**
+    * disconnect the xmpp session
+    * 
+    */
+   public void disconnect();
+
 }
