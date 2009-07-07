@@ -1,10 +1,9 @@
 package eu.scy.agents.impl;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.IDecisionAgent;
 
-public abstract class AbstractDecisionAgent<K extends IMetadataKey> extends
-		AbstractThreadedAgent implements IDecisionAgent<K> {
+public abstract class AbstractDecisionAgent extends AbstractThreadedAgent
+		implements IDecisionAgent {
 
 	protected AbstractDecisionAgent(String name) {
 		super(name);

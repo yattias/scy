@@ -5,10 +5,13 @@ import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.HashMap;
 import java.util.TreeMap;
 
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IAgentFactory;
 import eu.scy.agents.api.IParameter;
+import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.Parameter;
 
@@ -17,6 +20,8 @@ public class AgentManager implements Callback {
 	// private static AgentManager me = null;
 	private TupleSpace tupleSpace;
 	private IParameter parameters;
+
+	private HashMap<String, IThreadedAgent> agents;
 
 	// public static AgentManager getInstance() {
 	// if (me == null) {
@@ -35,6 +40,7 @@ public class AgentManager implements Callback {
 	public AgentManager() {
 		agentFactories = new TreeMap<String, IAgentFactory>();
 		agentAlive = new TreeMap<String, Long>();
+		agents = new HashMap<String, IThreadedAgent>();
 		try {
 			tupleSpace = new TupleSpace();
 			tupleSpace.eventRegister(Command.WRITE,
@@ -63,29 +69,30 @@ public class AgentManager implements Callback {
 	}
 
 	public void startAgent(String name) {
-		agentFactories.get(name).create(new Parameter());
+		IThreadedAgent agent = agentFactories.get(name).create(new Parameter());
+		agents.put(name, agent);
 		try {
-			tupleSpace.write(AgentProtocol.getStartTuple(name));
-		} catch (TupleSpaceException e) {
-			throw new RuntimeException(e);
+			agent.start();
+		} catch (AgentLifecycleException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void suspendAgent(String name) {
-		try {
-			tupleSpace.write(AgentProtocol.getSuspendTuple(name));
-		} catch (TupleSpaceException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void resumeAgent(String name) {
-		try {
-			tupleSpace.write(AgentProtocol.getResumeTuple(name));
-		} catch (TupleSpaceException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	// public void suspendAgent(String name) {
+	// try {
+	// tupleSpace.write(AgentProtocol.getSuspendTuple(name));
+	// } catch (TupleSpaceException e) {
+	// throw new RuntimeException(e);
+	// }
+	// }
+	//
+	// public void resumeAgent(String name) {
+	// try {
+	// tupleSpace.write(AgentProtocol.getResumeTuple(name));
+	// } catch (TupleSpaceException e) {
+	// throw new RuntimeException(e);
+	// }
+	// }
 
 	public void killAgent(String name) {
 		try {
