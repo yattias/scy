@@ -1,6 +1,8 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractCommunicationAgent;
 import eu.scy.notification.Notification;
 
@@ -16,24 +18,44 @@ import eu.scy.notification.Notification;
 public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 
 	public static final String NOTIFY_ELO_BROWSER_AGENT_NAME = "NotifyEloBrowserAgent";
+	private boolean stopped;
 
 	public NotifyEloBrowserAgent() {
 		super(NOTIFY_ELO_BROWSER_AGENT_NAME);
 	}
 
 	@Override
-	protected void doRun(Tuple trigger) {
-		String eloUri = (String) trigger.getField(1).getValue();
+	protected void doRun() throws AgentLifecycleException {
+		while (status == Status.Running) {
+			try {
+				sendAliveUpdate();
+				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple());
 
-		Notification notification = new Notification();
-		notification.addProperty("eloUri", eloUri);
-		notification.addProperty("target", "elobrowser");
-		getNotificationSender().send("roolo", "roolo", notification);
+				String eloUri = (String) trigger.getField(1).getValue();
+
+				Notification notification = new Notification();
+				notification.addProperty("eloUri", eloUri);
+				notification.addProperty("target", "elobrowser");
+				getNotificationSender().send("roolo", "roolo", notification);
+			} catch (TupleSpaceException e) {
+				stop();
+			}
+		}
+		stopped = true;
+	}
+
+	private Tuple getTemplateTuple() {
+		return new Tuple("notifyEloBrowser", String.class);
 	}
 
 	@Override
-	protected Tuple getTemplateTuple() {
-		return new Tuple("notifyEloBrowser", String.class);
+	protected void doStop() {
+		// do nothing;
+	}
+
+	@Override
+	public boolean isStopped() {
+		return stopped;
 	}
 
 }

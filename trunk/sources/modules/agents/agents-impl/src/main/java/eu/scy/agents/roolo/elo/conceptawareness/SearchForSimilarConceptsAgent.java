@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
 
 import roolo.api.IRepository;
 import roolo.api.search.IQuery;
@@ -22,7 +23,9 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractProcessingAgent;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * ("scymapper":String, <TS>:Long, <EloURI>:String) ->
@@ -45,72 +48,93 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 	private HashMap<URI, Double> score;
 	private IRepository<IELO<Key>, Key> repository;
 
+	private Timer aliveTask;
+
+	private boolean stopped;
+
 	public SearchForSimilarConceptsAgent() {
 		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME);
 		score = new HashMap<URI, Double>();
 	}
 
 	@Override
-	protected void doRun(Tuple trigger) {
-		try {
-			URI eloUri = new URI((String) trigger.getField(2).getValue());
-
-			IELO<Key> elo = repository.retrieveELO(eloUri);
-
-			if (elo == null) {
-				return;
-			}
-			IMetadata<Key> metadata = elo.getMetadata();
-
-			Set<URI> hits = searchForRelatedElos(eloUri, repository, metadata);
-
-			Set<String> relatedUsers = new HashSet<String>();
-			for (URI hitUri : hits) {
-				if (score.get(hitUri) < 0.3) {
+	protected void doRun() throws AgentLifecycleException {
+		// aliveTask = new Timer(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME
+		// + "alive_updater");
+		// aliveTask.scheduleAtFixedRate(new TimerTask() {
+		// @Override
+		// public void run() {
+		// try {
+		// sendAliveUpdate();
+		// } catch (TupleSpaceException e) {
+		// // try {
+		// // stop();
+		// // } catch (AgentLifecycleException e1) {
+		// // e1.printStackTrace();
+		// // }
+		// }
+		// }
+		// }, 0, AgentProtocol.ALIVE_INTERVAL);
+		while (status == Status.Running) {
+			try {
+				sendAliveUpdate();
+				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+						AgentProtocol.ALIVE_INTERVAL);
+				if (trigger == null) {
 					continue;
 				}
-				IMetadata<Key> hitMetadata = repository
-						.retrieveMetadata(hitUri);
-				IMetadataValueContainer value = hitMetadata
-						.getMetadataValueContainer(metadataTypeManager
-								.getMetadataKey(RooloMetadataKeys.AUTHOR
-										.getId()));
-				Contribute contribution = (Contribute) value.getValue();
-				String userGUID = contribution.getVCard();
-				relatedUsers.add(userGUID);
+				URI eloUri = new URI((String) trigger.getField(2).getValue());
+
+				IELO<Key> elo = repository.retrieveELO(eloUri);
+
+				if (elo == null) {
+					continue;
+				}
+				IMetadata<Key> metadata = elo.getMetadata();
+
+				Set<URI> hits = searchForRelatedElos(eloUri, repository,
+						metadata);
+
+				Set<String> relatedUsers = new HashSet<String>();
+				for (URI hitUri : hits) {
+					if (score.get(hitUri) < 0.3) {
+						continue;
+					}
+					IMetadata<Key> hitMetadata = repository
+							.retrieveMetadata(hitUri);
+					IMetadataValueContainer value = hitMetadata
+							.getMetadataValueContainer(metadataTypeManager
+									.getMetadataKey(RooloMetadataKeys.AUTHOR
+											.getId()));
+					Contribute contribution = (Contribute) value.getValue();
+					String userGUID = contribution.getVCard();
+					relatedUsers.add(userGUID);
+				}
+
+				StringBuffer relatedUserList = new StringBuffer();
+				for (String relatedUser : relatedUsers) {
+					relatedUserList.append(relatedUser);
+					relatedUserList.append(";");
+				}
+
+				Key authorKey = metadataTypeManager.getMetadataKey("author");
+				IMetadataValueContainer authorContainer = metadata
+						.getMetadataValueContainer(authorKey);
+				Contribute author = (Contribute) authorContainer.getValue();
+				String user = "";
+				if (author != null) {
+					user = author.getVCard();
+				}
+
+				Tuple notificationTuple = new Tuple("searchSimilarElosAgent",
+						relatedUserList.toString().trim(), user, eloUri
+								.toString());
+				getTupleSpace().write(notificationTuple);
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			} catch (TupleSpaceException e) {
+				stop();
 			}
-
-			StringBuffer relatedUserList = new StringBuffer();
-			for (String relatedUser : relatedUsers) {
-				relatedUserList.append(relatedUser);
-				relatedUserList.append(";");
-			}
-
-			Key authorKey = metadataTypeManager.getMetadataKey("author");
-			IMetadataValueContainer authorContainer = metadata
-					.getMetadataValueContainer(authorKey);
-			Contribute author = (Contribute) authorContainer.getValue();
-			String user = "";
-			if (author != null) {
-				user = author.getVCard();
-			}
-
-			Tuple notificationTuple = new Tuple("searchSimilarElosAgent",
-					relatedUserList.toString().trim(), user, eloUri.toString());
-			getTupleSpace().write(notificationTuple);
-
-			// INotification notification = new Notification();
-			// notification
-			// .addProperty("users", relatedUserList.toString().trim());
-			// notification.addProperty("target", "awareness");
-			// notification.addProperty("eloUri", elo.getUri().toString());
-			// NotificationSender sender = new NotificationSender();
-			// sender.send(user, "searchSimilarElosAgent", notification);
-			// System.err.println();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -177,8 +201,7 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		return hits;
 	}
 
-	@Override
-	protected Tuple getTemplateTuple() {
+	private Tuple getTemplateTuple() {
 		return new Tuple("scymapper", Long.class, String.class);
 	}
 
@@ -197,6 +220,17 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 
 	public IMetadataTypeManager<Key> getMetadataTypeManager() {
 		return metadataTypeManager;
+	}
+
+	@Override
+	protected void doStop() {
+		aliveTask.cancel();
+		stopped = true;
+	}
+
+	@Override
+	public boolean isStopped() {
+		return stopped;
 	}
 
 }
