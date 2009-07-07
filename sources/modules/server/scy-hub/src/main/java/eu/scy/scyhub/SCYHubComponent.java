@@ -38,7 +38,7 @@ public class SCYHubComponent implements Component {
      * @return
      */
     public String getName() {
-        return "SCY HUB";
+        return "scyhub";
     }
     
     /**
@@ -113,7 +113,7 @@ public class SCYHubComponent implements Component {
                         Message reply = new Message();
                         //FIXME
                         reply.setTo("obama@" + communicationProps.datasyncServerHost);
-                        reply.setFrom(ComponentManagerFactory.getComponentManager().getServerName());
+                        reply.setFrom(SCYHubComponent.this.getName() + "." +communicationProps.datasyncExternalComponentHost);
                         reply.setType(Message.Type.normal);
                         reply.setBody("scyhub is watching you");
                        
