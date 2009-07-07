@@ -75,8 +75,7 @@ public class DataSyncService implements IDataSyncService {
         }
         
         Message xmpp = SyncMessageHelper.convertToSmackXmppMessage(syncMessage);
-        xmppConnection.sendPacket(xmpp);
-        
+        xmppConnection.sendPacket(xmpp);        
     }
     
     /**
@@ -87,7 +86,7 @@ public class DataSyncService implements IDataSyncService {
      */
     @Override
     public void createSession(String toolId, String userName) {
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName + "@" + communicationProps.datasyncExternalComponentHost, null, null,
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName, null, null,
                 communicationProps.clientEventCreateSession, null);
         this.sendMessage(syncMessage);
     }
@@ -119,7 +118,7 @@ public class DataSyncService implements IDataSyncService {
            @Override
            public void processPacket(Packet packet) {
                DataSyncPacketExtension extension = (DataSyncPacketExtension) packet.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
-               System.out.println("XML " + extension.toXML());
+               logger.debug("XML " + extension.toXML());
                logger.debug("in ur connection, sniffing ur packets");
                
                //call all the ones listening
