@@ -14,6 +14,7 @@ import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
 import com.swabunga.spell.event.StringWordTokenizer;
 
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IAgentFactory;
 import eu.scy.agents.api.IParameter;
 import eu.scy.agents.api.IThreadedAgent;
@@ -41,6 +42,7 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 
 	private static final String CHECK_MISSPELLING_AGENT_NAME = "CheckMisspellingAgent";
 	private SpellChecker spellChecker;
+	private boolean stopped = false;
 
 	public CheckMisspellingAgent() {
 		super(CHECK_MISSPELLING_AGENT_NAME);
@@ -56,32 +58,37 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 		}
 	}
 
-	private void checkMispelling(String uri, String content, String user) {
+	private void checkMispelling(String uri, String content, String user)
+			throws TupleSpaceException {
 		int numOfErrors = spellChecker.checkSpelling(new StringWordTokenizer(
 				content));
+		sendAliveUpdate();
 		if (numOfErrors > 0) {
-			try {
-				getTupleSpace().write(
-						new Tuple("misspellings", uri, System
-								.currentTimeMillis(), numOfErrors, user));
-			} catch (TupleSpaceException e) {
-				e.printStackTrace();
-			}
+			getTupleSpace().write(
+					new Tuple("misspellings", uri, System.currentTimeMillis(),
+							numOfErrors, user));
 		}
 	}
 
 	@Override
-	protected void doRun(Tuple trigger) {
-		// System.out.println(trigger);
-		String content = (String) trigger.getField(3).getValue();
-		content = content.replaceAll("<[^>]*>", "");
-		String uri = (String) trigger.getField(1).getValue();
-		String user = (String) trigger.getField(4).getValue();
-		checkMispelling(uri, content, user);
+	protected void doRun() throws AgentLifecycleException {
+		while (status == Status.Running) {
+			try {
+				sendAliveUpdate();
+				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple());
+				String content = (String) trigger.getField(3).getValue();
+				content = content.replaceAll("<[^>]*>", "");
+				String uri = (String) trigger.getField(1).getValue();
+				String user = (String) trigger.getField(4).getValue();
+				checkMispelling(uri, content, user);
+			} catch (TupleSpaceException e) {
+				stop();
+			}
+		}
+		stopped = true;
 	}
 
-	@Override
-	protected Tuple getTemplateTuple() {
+	private Tuple getTemplateTuple() {
 		return new Tuple("misspellings", String.class, Long.class,
 				String.class, String.class);
 	}
@@ -95,6 +102,16 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 	@Override
 	public String getAgentName() {
 		return CHECK_MISSPELLING_AGENT_NAME;
+	}
+
+	@Override
+	protected void doStop() {
+		// nothing to do
+	}
+
+	@Override
+	public boolean isStopped() {
+		return stopped;
 	}
 
 }
