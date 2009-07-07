@@ -81,14 +81,15 @@ public class SyncMessageHelper {
      * @return org.xmpp.packet.Message
      */
     public static Message convertToXmppMessage(ISyncMessage syncMessage) {
-        Message xmppMessage = new Message();        
-//        if (syncMessage.getFrom() == null) {
-//            return null;
-//        } else 
-        if (syncMessage.getFrom() != null &&  syncMessage.getFrom().contains("@")) {
-            xmppMessage.setFrom(syncMessage.getFrom());            
-        } else {
-            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
+        Message xmppMessage = new Message(); 
+        
+        if (syncMessage.getFrom() == null) {
+            throw new NullPointerException("syncMessage.from should not be null");
+        }
+        
+        if (!syncMessage.getFrom().contains("@")) {
+            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);
+            syncMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
         }
         
         xmppMessage.setTo(props.datasyncMessageHubAddress);
@@ -97,15 +98,18 @@ public class SyncMessageHelper {
         return xmppMessage;
     }
     
-    public static org.jivesoftware.smack.packet.Message convertToSmackXmppMessage(ISyncMessage syncMessage) {
+    
+    public static org.jivesoftware.smack.packet.Message convertToSmackXmppMessage(ISyncMessage syncMessage) throws NullPointerException {
+
         org.jivesoftware.smack.packet.Message xmppMessage = new org.jivesoftware.smack.packet.Message();        
-//        if (syncMessage.getFrom() == null) {
-//            return null;
-//        } else
-        if( syncMessage.getFrom() != null && syncMessage.getFrom().contains("@")) {
-            xmppMessage.setFrom(syncMessage.getFrom());            
-        } else {
+        
+        if (syncMessage.getFrom() == null) {
+            throw new NullPointerException("syncMessage.from should not be null");
+        }
+        
+        if (!syncMessage.getFrom().contains("@")) {
             xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
+            syncMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
         }
         
         xmppMessage.setTo(props.datasyncMessageHubAddress);
