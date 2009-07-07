@@ -89,7 +89,6 @@ public interface IDataSyncModule {
      */
     public ArrayList<ISyncMessage> doQuery(ISyncMessage queryMessage);
 
-
     /**
      * Gives the complete set of ScyMessges which represent changes for this specific client
      * 
@@ -101,6 +100,14 @@ public interface IDataSyncModule {
      * @return arrayList
      */
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolName, String session, boolean includeChangesByUser);    
+
+    /**
+     * Gives the complete set of ScyMessges which represent changes for this specific client
+     * 
+     * @param syncMessage
+     * @return arrayList
+     */
+    public ArrayList<ISyncMessage> synchronizeClientState(ISyncMessage syncMessage);    
     
     /**
      * Creates and returns an instance of IDataSyncSession

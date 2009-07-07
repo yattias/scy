@@ -129,21 +129,41 @@ public class DataSyncModule implements IDataSyncModule {
         return this.scyCommunicationAdapter.doQuery(queryMessage);
     }
     
+
+    @Override
+    public ArrayList<ISyncMessage> synchronizeClientState(ISyncMessage syncMessage) {
+        return synchronizeClientState(syncMessage.getFrom(), syncMessage.getToolId(), syncMessage.getToolSessionId(), true);
+    }
+    
     
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, null, userName, null, props.clientEventSynchronize, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, null, userName, null, props.clientEventCreateData, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
-        if (includeChangesByUser) {
-            return messages;
-        }
+
         ArrayList<ISyncMessage> messagesFiltered = new ArrayList<ISyncMessage>();
-        for (ISyncMessage syncMessage : messages) {
-            if (!userName.equals(syncMessage.getFrom())) {
-                messagesFiltered.add(syncMessage);
+        if (includeChangesByUser) {
+            messagesFiltered = messages;
+        } else {
+            for (ISyncMessage syncMessage : messages) {
+                if (!userName.equals(syncMessage.getFrom())) {
+                    messagesFiltered.add(syncMessage);
+                }
             }
         }
+        
+        for (ISyncMessage syncMessage : messagesFiltered) {
+            syncMessage.setEvent(props.clientEventSynchronize);
+            syncMessage.setFrom(userName);
+            for (IDataSyncListener cl : dataSyncListeners) {
+                if (cl != null) {
+                    DataSyncEvent dataSyncEvent = new DataSyncEvent(this, syncMessage);
+                    cl.handleDataSyncEvent(dataSyncEvent);
+                }
+            }                    
+        }
+        
         return messagesFiltered;
     }
 
@@ -153,8 +173,6 @@ public class DataSyncModule implements IDataSyncModule {
         ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName,null, props.clientEventCreateSession , null);
         this.create(sessionMessage);
         return dataSyncSession;
-        // logger.error("Failed to create ScyMessage: " +
-        // sessionMessage.toString());
     }
     
     @Override
@@ -208,8 +226,6 @@ public class DataSyncModule implements IDataSyncModule {
             newGirlFriend.append(dataSyncSession.getId());
         }
         
-        
-        
         //TODO rewrite to xml
         //contruct uber message
         ISyncMessage resultMessage = new SyncMessage();
@@ -222,7 +238,6 @@ public class DataSyncModule implements IDataSyncModule {
                 cl.handleDataSyncEvent(dataSyncEvent);
             }
         }
-        
         
         return sessions;
 
@@ -240,5 +255,6 @@ public class DataSyncModule implements IDataSyncModule {
             }
         }
     }
+
 
 }
