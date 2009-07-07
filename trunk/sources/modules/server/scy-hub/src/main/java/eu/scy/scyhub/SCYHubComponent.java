@@ -74,7 +74,9 @@ public class SCYHubComponent implements Component {
                         dataSyncModule.createSession(dse.toPojo());
                     } else if( dse.getEvent().equals(communicationProps.clientEventGetSessions) ) {
                         dataSyncModule.getSessions(dse.toPojo());
-                    }// if
+                    } else if( dse.getEvent().equals(communicationProps.clientEventSynchronize) ) {
+                        dataSyncModule.synchronizeClientState(dse.toPojo());
+                    }
                 } catch (DataSyncException e1) {
                     e1.printStackTrace();
                 }// try
@@ -106,26 +108,23 @@ public class SCYHubComponent implements Component {
                 
                 @Override
                 public void handleDataSyncEvent(IDataSyncEvent event) {
-                    // ComponentManagerFactory.getComponentManager().sendPacket(this, packet)
-                    ISyncMessage syncMessage = event.getSyncMessage();
-                        
-                        //send a reply
-                        Message reply = new Message();
-                        //FIXME
-                        reply.setTo("obama@" + communicationProps.datasyncServerHost);
-                        reply.setFrom(SCYHubComponent.this.getName() + "." +communicationProps.datasyncExternalComponentHost);
-                        reply.setType(Message.Type.normal);
-                        reply.setBody("scyhub is watching you");
-                       
-                        DataSyncPacketExtension d = new DataSyncPacketExtension(event.getSyncMessage());
-                        reply.addExtension(d);
-                        try {
-                            ComponentManagerFactory.getComponentManager().sendPacket(SCYHubComponent.this, reply);
-                        } catch (ComponentException e) {
-                            e.printStackTrace();
-                        }
-                        logger.debug("SCYHubComponent.initModules()");
-                    }                     
+                    //send a reply
+                    Message reply = new Message();
+                    //FIXME
+                    reply.setTo("obama@" + communicationProps.datasyncServerHost);
+                    reply.setFrom(SCYHubComponent.this.getName() + "." +communicationProps.datasyncExternalComponentHost);
+                    reply.setType(Message.Type.normal);
+                    reply.setBody("scyhub is watching you");
+                   
+                    DataSyncPacketExtension d = new DataSyncPacketExtension(event.getSyncMessage());
+                    reply.addExtension(d);
+                    try {
+                        ComponentManagerFactory.getComponentManager().sendPacket(SCYHubComponent.this, reply);
+                    } catch (ComponentException e) {
+                        e.printStackTrace();
+                    }
+                    logger.debug("SCYHubComponent.initModules()");
+                }                     
             });
         } catch (DataSyncException exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
