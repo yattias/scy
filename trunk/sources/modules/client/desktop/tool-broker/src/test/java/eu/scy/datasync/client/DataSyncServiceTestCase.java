@@ -55,11 +55,13 @@ public class DataSyncServiceTestCase {
                 if (syncMessage.getEvent().equals(props.clientEventCreateSession)) {
                     logger.debug("-------- CREATE SESSION ---------");
                     logger.debug(syncMessage.toString());
+                    //write to global field so the test can see if anything happened
                     currentSession = syncMessage.getToolSessionId();                    
                 } else if (syncMessage.getEvent().equals(props.clientEventGetSessions)) {
-                    sessions = syncMessage.getContent();
                     logger.debug("-------- GET SESSIONS ---------");
                     logger.debug(sessions);
+                    //write to global field so the test can see if anything happened
+                    sessions = syncMessage.getContent();
                 } else {
                     logger.debug("-------- SOME OTHER MESSAGE ---------");
                     logger.debug(syncMessage.toString());
