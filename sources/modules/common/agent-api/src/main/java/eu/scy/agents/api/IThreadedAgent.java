@@ -1,17 +1,13 @@
 package eu.scy.agents.api;
 
-public interface IThreadedAgent extends Runnable, IAgent {
+public interface IThreadedAgent extends IAgent, Runnable {
 
-	public void start();
+	public void start() throws AgentLifecycleException;
 
-	public void stop();
-
-	public void suspend();
-
-	public void resume();
-
-	public boolean isSuspended();
+	public void stop() throws AgentLifecycleException;
 
 	public boolean isRunning();
+
+	public boolean isStopped();
 
 }

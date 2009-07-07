@@ -1,8 +1,6 @@
 package eu.scy.agents.api;
 
-import roolo.elo.api.IMetadataKey;
-
-public interface IDecisionAgent<K extends IMetadataKey> extends IThreadedAgent {
+public interface IDecisionAgent extends IThreadedAgent {
 
 	/*
 	 * Return an instance of the toolbroker api.
