@@ -24,13 +24,11 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
-import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.toolbroker.ToolBrokerImpl;
-
 
 
 
@@ -50,7 +48,6 @@ public class NutpadDataSyncTestClient extends JFrame{
     private Action getAllSessionsAction = new GetAllSessionsActions();
     private Action exitAction = new ExitAction();
     
-    private IDataSyncSession dataSyncSession;
     private IDataSyncService dataSyncService;
     private ArrayList<ISyncMessage> syncMessages;
     private String currentSession;
@@ -62,6 +59,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.nutpad";
     private static final String HARD_CODED_USER_NAME = "obama";
     private static final String HARD_CODED_PASSWORD = "obama";
+    
     
     public static void main(String[] args) {
         new NutpadDataSyncTestClient();
@@ -109,38 +107,28 @@ public class NutpadDataSyncTestClient extends JFrame{
         // add listner in order to get callbacks on stuff that's happening
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
-        //create new session
         dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-//        dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
-//        ISyncMessage queryAllSessions = new SyncMessage();
-//        queryAllSessions.setFrom(HARD_CODED_USER_NAME);
-//        queryAllSessions.setToolId(HARD_CODED_TOOL_NAME);
-//        dataSyncService.getSessions(queryAllSessions);
         dataSyncService.addDataSyncListener( new IDataSyncListener() {
 
             @Override
             public void handleDataSyncEvent(IDataSyncEvent e) {
                 ISyncMessage syncMessage = e.getSyncMessage();
-                    Date date = new java.util.Date(System.currentTimeMillis());
-                    java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-                   
-                    if( syncMessage.getEvent().equals(props.clientEventCreateSession) ) {
-                        editArea.append("\n-------- CREATE SESSION --------- " + ts + "\n" + syncMessage.toString());
-                        currentSession = syncMessage.getToolSessionId();
-                        
-                    } else if( syncMessage.getEvent().equals(props.clientEventGetSessions)) {
-                        String content = syncMessage.getContent();
-                        editArea.append("\n-------- GET SESSIONS --------- " + ts + "\n" + content);
-                    } else {
-                        editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
-                    }
-                    editArea.setCaretPosition(editArea.getText().length());
-                
-            }});
-       
+                Date date = new java.util.Date(System.currentTimeMillis());
+                java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
+               
+                if( syncMessage.getEvent().equals(props.clientEventCreateSession) ) {
+                    editArea.append("\n-------- CREATE SESSION --------- " + ts + "\n" + syncMessage.toString());
+                    currentSession = syncMessage.getToolSessionId();                    
+                } else if( syncMessage.getEvent().equals(props.clientEventGetSessions)) {
+                    String content = syncMessage.getContent();
+                    editArea.append("\n-------- GET SESSIONS --------- " + ts + "\n" + content);
+                } else {
+                    editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
+                }
+                editArea.setCaretPosition(editArea.getText().length());             
+            }
+        });       
     }
-    
-    
     
     
     class CreateSession extends AbstractAction {
@@ -174,7 +162,6 @@ public class NutpadDataSyncTestClient extends JFrame{
         }
     }
     
-    
     class SaveToDataSyncAction extends AbstractAction {
         
         private static final long serialVersionUID = 2570708232031173971L;
@@ -191,14 +178,6 @@ public class NutpadDataSyncTestClient extends JFrame{
             ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
             
             dataSyncService.sendMessage((SyncMessage) syncMessage);
-//            try {
-//                // pass syncMessage to DataSyncModule for storing
-//                //dataSyncModule.create(syncMessage);
-//                logger.debug("sync ok. impressive.");
-//            } catch (DataSyncException e1) {
-//                logger.error("failed to synchronize " + e1);
-//                e1.printStackTrace();
-//            }
         }
     }
     
@@ -218,14 +197,6 @@ public class NutpadDataSyncTestClient extends JFrame{
             ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
             
             dataSyncService.sendMessage((SyncMessage) syncMessage);
-//            try {
-//                // pass syncMessage to DataSyncModule for storing
-//                //dataSyncModule.create(syncMessage);
-//                logger.debug("sync ok. impressive.");
-//            } catch (DataSyncException e1) {
-//                logger.error("failed to synchronize " + e1);
-//                e1.printStackTrace();
-//            }
         }
     }
     
@@ -261,72 +232,6 @@ public class NutpadDataSyncTestClient extends JFrame{
             SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(currentSession, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6],  Long.parseLong(messageStrings[7].trim()));
             dataSyncService.sendMessage(syncMessage);
         }        
-        
-        
-        
-//        public void actionPerformed(ActionEvent e) {
-//            // create pop up            
-//            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, "create", dataSyncSession.getId());            
-//            String[] messageStrings = d.showDialog();
-//                        
-//            ConnectionConfiguration config = new ConnectionConfiguration("imediamac09.uio.no", new Integer("5222").intValue(), "imediamac09.uio.no");
-//            config.setCompressionEnabled(true);
-//            config.setSASLAuthenticationEnabled(true);
-//            config.setReconnectionAllowed(true);
-//            
-//            final XMPPConnection xmppConnection = new XMPPConnection(config);
-//            
-//            xmppConnection.DEBUG_ENABLED = true;
-//            try {
-//                
-//                xmppConnection.connect();
-//                xmppConnection.addConnectionListener(new ConnectionListener() {
-//                    
-//                    @Override
-//                    public void connectionClosed() {
-//                        System.out.println("datasync server closed;");
-//                        try {
-//                            xmppConnection.connect();
-//                        } catch (XMPPException e) {
-//                            e.printStackTrace();
-//                        }
-//                        System.out.println("datasync server trying to reconnect;");
-//                    }
-//                    
-//                    @Override
-//                    public void connectionClosedOnError(Exception arg0) {
-//                        System.out.println("datasync server error closed;");
-//                    }
-//                    
-//                    @Override
-//                    public void reconnectingIn(int arg0) {
-//                        System.out.println("datasync server reconnecting;");
-//                    }
-//                    @Override
-//                    public void reconnectionFailed(Exception arg0) {
-//                        System.out.println("datasync server reconnecting failed");
-//                    }
-//                    @Override
-//                    public void reconnectionSuccessful() {
-//                        System.out.println("datasync server reconnectings success");
-//                    }
-//                });
-//                                
-//                xmppConnection.login("obama", "obama");
-//                
-//                SyncMessage syncMessage = (SyncMessage) SyncMessage.createSyncMessage("9908d583-9778-4915-9142-4be7d5c89516", messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], Long.parseLong(messageStrings[6].trim()));
-//                
-//                Message smackMessage = syncMessage.convertToXMPPMessage();                
-//                smackMessage.addExtension((PacketExtension) new DataSyncPacketExtension(syncMessage));
-//                smackMessage.setFrom("obama@imediamac09.uio.no");
-//                smackMessage.setTo("scyhub.imediamac09.uio.no");
-//                xmppConnection.sendPacket(smackMessage);
-//
-//            } catch (XMPPException xe) {
-//                logger.error("Error during connect");
-//                xe.printStackTrace();
-//            }
-//        }
     }
     
 }
