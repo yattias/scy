@@ -19,11 +19,6 @@ public class AbstractAgent implements IAgent {
 		name = agentName;
 	}
 
-	// @Override
-	// public IPersistentStorage getPersistentStorage() {
-	// return new PersistentStorage();
-	// }
-
 	@Override
 	public TupleSpace getTupleSpace() {
 		if (tupleSpace == null) {
@@ -40,4 +35,5 @@ public class AbstractAgent implements IAgent {
 	public String getName() {
 		return name;
 	}
+
 }

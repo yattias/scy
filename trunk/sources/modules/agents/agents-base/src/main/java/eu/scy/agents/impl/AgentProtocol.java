@@ -13,15 +13,15 @@ public abstract class AgentProtocol {
 
 	public static final String MESSAGE_START = "Start";
 
-	public static final String MESSAGE_SUSPEND = "Suspend";
+	// public static final String MESSAGE_SUSPEND = "Suspend";
 
-	public static final String MESSAGE_RESUME = "Resume";
+	// public static final String MESSAGE_RESUME = "Resume";
 
 	public static final String MESSAGE_KILL = "Kill";
 
 	public static final String ALIVE = "Alive";
 
-	public static final int ALIVE_INTERVAL = 2 * 1000;
+	public static final int ALIVE_INTERVAL = 2 * 5000;
 
 	/**
 	 * Get the alive tuple template. <br />
@@ -59,19 +59,19 @@ public abstract class AgentProtocol {
 		return stopTuple;
 	}
 
-	public static Tuple getSuspendTuple(String agentName) {
-		Tuple suspendTuple = new Tuple(AgentProtocol.COMMAND_LINE, agentName,
-				AgentProtocol.MESSAGE_SUSPEND);
-		suspendTuple.setExpiration(COMMAND_EXPIRATION);
-		return suspendTuple;
-	}
+	// public static Tuple getSuspendTuple(String agentName) {
+	// Tuple suspendTuple = new Tuple(AgentProtocol.COMMAND_LINE, agentName,
+	// AgentProtocol.MESSAGE_SUSPEND);
+	// suspendTuple.setExpiration(COMMAND_EXPIRATION);
+	// return suspendTuple;
+	// }
 
-	public static Tuple getResumeTuple(String agentName) {
-		Tuple resumeTuple = new Tuple(AgentProtocol.COMMAND_LINE, agentName,
-				AgentProtocol.MESSAGE_RESUME);
-		resumeTuple.setExpiration(COMMAND_EXPIRATION);
-		return resumeTuple;
-	}
+	// public static Tuple getResumeTuple(String agentName) {
+	// Tuple resumeTuple = new Tuple(AgentProtocol.COMMAND_LINE, agentName,
+	// AgentProtocol.MESSAGE_RESUME);
+	// resumeTuple.setExpiration(COMMAND_EXPIRATION);
+	// return resumeTuple;
+	// }
 
 	public static Tuple getKillTuple(String agentName) {
 		Tuple resumeTuple = new Tuple(AgentProtocol.COMMAND_LINE, agentName,
