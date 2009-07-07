@@ -1,6 +1,5 @@
 package eu.scy.agents.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
@@ -14,15 +13,17 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import eu.scy.agents.api.AgentLifecycleException;
+
 public class AbstractThreadedAgentTest implements Callback {
 
-	private ThreadedAgentMock agent;
+	private AbstractThreadedAgent agent;
 	private boolean firstAliveWritten = false;
 	private boolean updated = false;
 	private boolean deleted = false;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws TupleSpaceException {
 		if (!Server.isRunning()) {
 			Configuration.getConfiguration().setSSLEnabled(false);
 			Server.startServer();
@@ -31,8 +32,10 @@ public class AbstractThreadedAgentTest implements Callback {
 	}
 
 	@After
-	public void tearDown() {
-		agent.kill();
+	public void tearDown() throws AgentLifecycleException {
+		if (!agent.isStopped()) {
+			agent.stop();
+		}
 		agent = null;
 	}
 
@@ -41,51 +44,51 @@ public class AbstractThreadedAgentTest implements Callback {
 		Server.stopServer();
 	}
 
-	@Test
-	public void testRun() {
-		agent.run();
-		assertEquals(0, agent.getRunCount());
-
-		agent.start();
-		agent.run();
-		assertEquals(1, agent.getRunCount());
-
-		agent.suspend();
-		agent.run();
-		assertEquals(1, agent.getRunCount());
-
-		agent.resume();
-		agent.run();
-		assertEquals(2, agent.getRunCount());
-
-		agent.stop();
-		agent.run();
-		assertEquals(2, agent.getRunCount());
-	}
+	// @Test
+	// public void testRun() {
+	// agent.run();
+	// assertEquals(0, agent.getRunCount());
+	//
+	// agent.start();
+	// agent.run();
+	// assertEquals(1, agent.getRunCount());
+	//
+	// agent.suspend();
+	// agent.run();
+	// assertEquals(1, agent.getRunCount());
+	//
+	// agent.resume();
+	// agent.run();
+	// assertEquals(2, agent.getRunCount());
+	//
+	// agent.stop();
+	// agent.run();
+	// assertEquals(2, agent.getRunCount());
+	// }
 
 	/*
 	 * One of the great non deterministic tests. But it works 99% of the time.
 	 */
 	@Test
 	public void testAliveUpdates() throws TupleSpaceException,
-			InterruptedException {
+			InterruptedException, AgentLifecycleException {
 
-		// TupleSpace ts = new TupleSpace();
-		// ts.eventRegister(Command.WRITE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
-		// this, false);
-		// ts.eventRegister(Command.UPDATE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
-		// this, false);
-		// ts.eventRegister(Command.DELETE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
-		// this, false);
-		//
-		// agent.start();
-		// // Thread.sleep(AgentProtocol.ALIVE_INTERVAL);
-		// // assertTrue("First alive tuple not written", firstAliveWritten);
-		// Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 3);
-		// assertTrue("Not Updated Alive Tuple", updated);
-		// agent.kill();
-		// Thread.sleep(AgentProtocol.ALIVE_INTERVAL + 5000);
-		// assertTrue("Agent not killed", deleted);
+		TupleSpace ts = new TupleSpace();
+		ts.eventRegister(Command.WRITE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
+				this, false);
+		ts.eventRegister(Command.UPDATE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
+				this, false);
+		ts.eventRegister(Command.DELETE, AgentProtocol.ALIVE_TUPLE_TEMPLATE,
+				this, false);
+
+		agent.start();
+		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
+		assertTrue("First alive tuple not written", firstAliveWritten);
+		Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 3);
+		assertTrue("Not Updated Alive Tuple", updated);
+		agent.stop();
+		Thread.sleep(AgentProtocol.ALIVE_INTERVAL + 5000);
+		assertTrue("Agent not killed", deleted);
 	}
 
 	@Override

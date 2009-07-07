@@ -4,6 +4,7 @@
 package eu.scy.agents.impl;
 
 import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 
 public class ThreadedAgentMock extends AbstractThreadedAgent {
 
@@ -35,21 +36,30 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 	}
 
 	@Override
-	protected void doRun(Tuple trigger) {
-		runCount++;
-	}
-
-	@Override
-	protected Tuple getTemplateTuple() {
-		return new Tuple(NAME, String.class, Long.class);
+	public void doRun() throws TupleSpaceException {
+		while (status == Status.Running) {
+			sendAliveUpdate();
+			@SuppressWarnings("unused")
+			Tuple triggerTuple = getTupleSpace().waitToTake(
+					new Tuple(NAME, String.class, Long.class), 5000);
+			// TODO: interpret tuple ...
+			runCount++;
+		}
 	}
 
 	public int getRunCount() {
 		return runCount;
 	}
 
-	// @Override
-	// protected TimerTask getAliveTupleUpdater() {
-	// return new MockUpdater();
-	// }
+	@Override
+	protected void doStop() {
+		// do nothing
+	}
+
+	// TODO think about it
+	@Override
+	public boolean isStopped() {
+		return status == Status.Stopping;
+	}
+
 }
