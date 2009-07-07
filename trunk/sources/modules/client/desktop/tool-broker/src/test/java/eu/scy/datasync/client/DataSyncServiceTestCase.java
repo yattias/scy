@@ -18,7 +18,9 @@ import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**
- * Testing the client side of data sync.
+ * Testing the client side of data sync. 
+ * 
+ * These tests need openfire running with scyhub external component
  * 
  * @author thomasd
  *
@@ -76,6 +78,10 @@ public class DataSyncServiceTestCase {
         logger.debug("================ Cleaning up after tests");
         currentSession = null;
         sessions = null;
+        dataSyncService.disconnect();
+        dataSyncService = null;
+        tbi = null;
+        props = null;
     }
     
     

@@ -135,6 +135,12 @@ public class DataSyncService implements IDataSyncService {
        
        this.xmppConnection.addPacketListener(packetListner, dataSynceExtensionFilter);
     }
+    
+    
+    @Override
+    public void disconnect() {
+        this.xmppConnection.disconnect();
+    }
 
 
     
