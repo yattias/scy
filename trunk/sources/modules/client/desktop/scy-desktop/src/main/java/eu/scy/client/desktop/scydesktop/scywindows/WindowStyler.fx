@@ -41,4 +41,11 @@ public mixin class WindowStyler {
       window.iconCharacter = ch;
    }
 
+   public function style(window:ScyWindow){
+      var color = getScyColor(window.eloType);
+      var ch = getScyIconCharacter(window.eloType);
+      window.color = color;
+      window.iconCharacter = ch;
+   }
+
 }

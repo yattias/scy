@@ -33,5 +33,12 @@ public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
       }
    }
 
+   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
+      component = windowContentCreator.getScyWindowContentNew();
+      SwingContentWrapper{
+         swingContent:component;
+      }
+   }
+
 
 }

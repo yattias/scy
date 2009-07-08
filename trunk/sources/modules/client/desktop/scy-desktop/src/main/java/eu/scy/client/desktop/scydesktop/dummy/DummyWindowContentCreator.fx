@@ -21,7 +21,13 @@ public class DummyWindowContentCreator extends WindowContentCreatorFX {
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       return DummyScyWindowContent{
-         label: eloUri.toString();
+         label: "FX: {eloUri.toString()}";
+      }
+   }
+
+   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
+      return DummyScyWindowContent{
+         label: "FX: New {scyWindow.eloType}";
       }
    }
 

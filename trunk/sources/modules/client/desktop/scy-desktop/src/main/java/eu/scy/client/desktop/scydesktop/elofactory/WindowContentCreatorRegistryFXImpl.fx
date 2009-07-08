@@ -23,7 +23,7 @@ public class WindowContentCreatorRegistryFXImpl extends WindowContentCreatorRegi
    var windowContentCreatorsFXMap = new HashMap();
 
    public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, type: String):Void{
-      logger.info("registering WindowContentCreatorFX for type {type}");
+      logger.info("registering WindowContentCreatorFX for type {type}, class {windowContentCreator.getClass()}");
       checkIfTypeIsDefined(type);
       windowContentCreatorsFXMap.put(type, windowContentCreator);
    }

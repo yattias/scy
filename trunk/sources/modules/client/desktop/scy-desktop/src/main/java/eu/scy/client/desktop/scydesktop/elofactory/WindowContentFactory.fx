@@ -62,6 +62,18 @@ public class WindowContentFactory {
       voidInspectContent(scyWindow);
    }
 
+   public function fillWindowContent(scyWindow:ScyWindow){
+      var type = scyWindow.eloType;
+      var windowContentCreator = windowContentCreatorRegistryFX.getWindowContentCreatorFX(type);
+      if (windowContentCreator==null){
+         logger.warn("couldn't find a WindowContentCreatorFX for type {type}, now using the default");
+         windowContentCreator = defaultWindowContentCreator;
+      }
+      var contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+      scyWindow.scyContent = contentNode;
+      voidInspectContent(scyWindow);
+   }
+
    function getType(eloUri:URI):String{
       if (extensionManager!=null){
          return extensionManager.getType(eloUri);

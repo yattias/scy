@@ -117,14 +117,18 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
    }
 
    function createNewWindowPosition(window:ScyWindow):WindowPosition{
-      WindowPosition{
-         window: window;
-         currentDirection: calculateDirection(window);
-         x: window.translateX;
-         y: window.translateY;
-         width: window.width;
-         height: window.height;
-        };
+      var windowPosition:WindowPosition = null;
+      if (window!=null){
+         windowPosition = WindowPosition{
+            window: window;
+            currentDirection: calculateDirection(window);
+            x: window.translateX;
+            y: window.translateY;
+            width: window.width;
+            height: window.height;
+           };
+      }
+      return windowPosition;
    }
 
    public override function setFixedWindows(fixedWindows:ScyWindow[]):Void{
@@ -135,13 +139,14 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
       return Sequences.indexOf(fixedWindows, windowPosition.window) >= 0;
    }
 
-
    public override function positionWindows():Void{
-      centerWindowPosition.minimized = false;
-      calculateWindowPosition(centerWindowPosition,centerX,centerY,centerWidth, centerHeight);
-      for (windowPosition in linkedWindowPositions){
-         windowPosition.minimized = true;
-         calculateWindowPosition(windowPosition,windowPosition.preferredDirection,outsideWidth,outsideHeight);
+      if (centerWindowPosition!=null){
+         centerWindowPosition.minimized = false;
+         calculateWindowPosition(centerWindowPosition,centerX,centerY,centerWidth, centerHeight);
+         for (windowPosition in linkedWindowPositions){
+            windowPosition.minimized = true;
+            calculateWindowPosition(windowPosition,windowPosition.preferredDirection,outsideWidth,outsideHeight);
+         }
       }
       for (windowPosition in otherWindowPositions){
          windowPosition.preferredDirection = calculateDirection(windowPosition.window);
@@ -239,10 +244,12 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
               minY: sceneBound.minY,
             } into usedRects;
       };
-        insert centerWindowPosition.rectangle into usedRects;
-      for (windowPosition in linkedWindowPositions){
-         correctWindowPosition(usedRects,windowPosition);
-            insert windowPosition.rectangle into usedRects;
+      if (centerWindowPosition!=null){
+         insert centerWindowPosition.rectangle into usedRects;
+         for (windowPosition in linkedWindowPositions){
+            correctWindowPosition(usedRects,windowPosition);
+               insert windowPosition.rectangle into usedRects;
+         }
       }
       for (windowPosition in otherWindowPositions){
          correctWindowPosition(usedRects,windowPosition);
@@ -371,9 +378,11 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
 
 
    function applyWindowPositions(){
-      applyWindowPosition(centerWindowPosition,false);
-      for (windowPosition in linkedWindowPositions){
-         applyWindowPosition(windowPosition,true);
+      if (centerWindowPosition!=null){
+         applyWindowPosition(centerWindowPosition,false);
+         for (windowPosition in linkedWindowPositions){
+            applyWindowPosition(windowPosition,true);
+         }
       }
       for (windowPosition in otherWindowPositions){
          applyWindowPosition(windowPosition,true);

@@ -18,6 +18,10 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 import java.lang.IllegalStateException;
 
+import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
+
+import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
+
 /**
  * @author sikkenj
  */
@@ -32,15 +36,26 @@ public class ScyDesktopCreator {
    public-init var eloInfoControl: EloInfoControl;
    public-init var windowStyler: WindowStyler;
    public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+   public-init var newEloCreationRegistry: NewEloCreationRegistry;
 
    init{
       findConfig();
-      windowStyler = DummyWindowStyler{};
-      windowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{};
-      eloInfoControl = RooloEloInfoControl{
-         repository: config.getRepository();
-         extensionManager: config.getExtensionManager();
-         titleKey:config.getTitleKey();
+      if (windowStyler==null){
+         windowStyler = DummyWindowStyler{};
+      }
+      if (windowContentCreatorRegistryFX==null){
+         windowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{};
+      }
+      if (newEloCreationRegistry==null){
+         newEloCreationRegistry = NewEloCreationRegistryImpl{};
+      }
+
+      if (eloInfoControl==null){
+         eloInfoControl = RooloEloInfoControl{
+            repository: config.getRepository();
+            extensionManager: config.getExtensionManager();
+            titleKey:config.getTitleKey();
+         }
       }
       handleToolRegistration();
       if (missionModelFX==null){
@@ -73,13 +88,19 @@ public class ScyDesktopCreator {
       if (config.getRegisterWindowContentCreators()!=null){
          for (registerWindowContentCreators in config.getRegisterWindowContentCreators()){
             registerWindowContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
+            registerWindowContentCreators.registerNewEloCreation(newEloCreationRegistry);
          }
       }
    }
 
    function readMissionModel(){
-      var missionModel = config.getMissionModelCreator().createMissionModel();
-      missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
+      if (config.getMissionModelCreator().createMissionModel()!=null){
+         var missionModel = config.getMissionModelCreator().createMissionModel();
+         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
+      }
+      if (missionModelFX==null){
+         missionModelFX = MissionModelFX{};
+      }
    }
 
 
@@ -90,7 +111,7 @@ public class ScyDesktopCreator {
          eloInfoControl: eloInfoControl;
          windowStyler:windowStyler;
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-
+         newEloCreationRegistry: newEloCreationRegistry;
       }
 
    }

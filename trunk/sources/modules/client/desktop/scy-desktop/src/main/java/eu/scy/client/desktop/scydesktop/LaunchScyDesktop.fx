@@ -9,6 +9,7 @@ package eu.scy.client.desktop.scydesktop;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 /**
  * @author sikkenj
@@ -70,6 +71,11 @@ var scyDesktopCreator = ScyDesktopCreator{
 }
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
+
+scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
+      scyDesktop:scyDesktop;
+   }
+
 
 var stage = Stage {
     title: title

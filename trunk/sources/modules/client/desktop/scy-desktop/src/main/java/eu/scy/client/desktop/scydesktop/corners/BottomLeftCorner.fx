@@ -56,13 +56,7 @@ public class BottomLeftCorner extends Corner {
 
 
 function run(){
-   Stage {
-      title : "Test corner"
-      scene: Scene {
-         width: 200
-         height: 200
-         content: [
-            BottomLeftCorner{
+   var bottomLeftCorner = BottomLeftCorner{
                color:Color.BLUE
                content:Rectangle {
                      x: 0, y: 0
@@ -72,6 +66,22 @@ function run(){
 
 
             }
+   var bottomLeftCorner2 = BottomLeftCorner{
+      color:Color.BLUE;
+   }
+   bottomLeftCorner2.content = Rectangle {
+                     x: 0, y: 0
+                     width: 50, height: 20
+                     fill: Color.GRAY
+                  }
+
+   Stage {
+      title : "Test corner"
+      scene: Scene {
+         width: 200
+         height: 200
+         content: [
+            bottomLeftCorner2
 
          ]
       }

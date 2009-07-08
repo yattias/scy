@@ -7,7 +7,7 @@ package eu.scy.client.desktop.scydesktop.test;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
 import java.net.URI;
-import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
 /**
@@ -19,7 +19,13 @@ public class TestWindowContentCreator implements WindowContentCreator {
    @Override
    public JComponent getScyWindowContent(URI eloUri)
    {
-      return new JButton(eloUri.toString());
+      return new JCheckBox("Swing: "+eloUri.toString());
+   }
+
+   @Override
+   public JComponent getScyWindowContentNew()
+   {
+      return new JCheckBox("Swing: new");
    }
 
 }
