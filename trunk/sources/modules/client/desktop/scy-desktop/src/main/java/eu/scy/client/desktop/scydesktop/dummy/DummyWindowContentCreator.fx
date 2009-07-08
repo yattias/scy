@@ -13,11 +13,18 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.DummyScyWindowContent;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
+import roolo.api.IRepository;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataTypeManager;
+
 /**
  * @author sikkenj
  */
 
 public class DummyWindowContentCreator extends WindowContentCreatorFX {
+   public var eloFactory:IELOFactory;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var repository:IRepository;
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       return DummyScyWindowContent{

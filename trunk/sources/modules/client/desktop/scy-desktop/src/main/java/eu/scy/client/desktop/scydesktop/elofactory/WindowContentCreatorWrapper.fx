@@ -13,7 +13,8 @@ import java.net.URI;
 import org.apache.log4j.Logger;
 
 
-import javax.swing.JComponent;
+
+import eu.scy.client.desktop.scydesktop.config.Config;
 
 /**
  * @author sikkenj
@@ -21,20 +22,27 @@ import javax.swing.JComponent;
 var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorWrapper");
 
 public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
+   public var config:Config on replace {injectServices()};
 
    public var windowContentCreator: WindowContentCreator;
 
-   var component:JComponent;
+   function injectServices(){
+      var servicesInjector = ServicesInjector{
+         config:config;
+      }
+      servicesInjector.injectServices(windowContentCreator);
+   }
+
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-      component = windowContentCreator.getScyWindowContent(eloUri);
+      var component = windowContentCreator.getScyWindowContent(eloUri);
       SwingContentWrapper{
          swingContent:component;
       }
    }
 
    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      component = windowContentCreator.getScyWindowContentNew();
+      var component = windowContentCreator.getScyWindowContentNew();
       SwingContentWrapper{
          swingContent:component;
       }
