@@ -12,4 +12,6 @@ public interface RegisterWindowContentCreators
 {
 
    public void registerWindowContentCreators(WindowContentCreatorRegistry windowContentCreatorRegistry);
+
+   public void registerNewEloCreation(NewEloCreationRegistry newEloCreationRegistry);
 }

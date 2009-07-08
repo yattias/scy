@@ -50,6 +50,11 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 
+import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
+import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
+
+import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
+
 
 /**
  * @author sikkenj
@@ -60,17 +65,16 @@ public class ScyDesktop extends CustomNode {
 
    public var config:Config;
 
-   public var missionModelFX: MissionModelFX;
+   public var missionModelFX: MissionModelFX= MissionModelFX{};
    public var eloInfoControl: EloInfoControl;
    public var windowStyler: WindowStyler;
-//   public var scyWindowControl: ScyWindowControl;
-   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;// = WindowContentCreatorRegistryFXImpl{};
-//   public var windowContentCreator:WindowContentCreator;
+   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+   public var newEloCreationRegistry:NewEloCreationRegistry;
 
-   public var topLeftCornerTool: Node;
-   public var topRightCornerTool: Node;
-   public var bottomRightCornerTool: Node;
-   public var bottomLeftCornerTool: Node;
+   public var topLeftCornerTool: Node on replace{topLeftCorner.content = topLeftCornerTool};
+   public var topRightCornerTool: Node on replace{topRightCorner.content = topRightCornerTool};
+   public var bottomRightCornerTool: Node; // TODO, still hard coded to missionMap
+   public var bottomLeftCornerTool: Node on replace{bottomLeftCorner.content = bottomLeftCornerTool};
 
    var windows: WindowManager;
 
@@ -98,6 +102,7 @@ public class ScyDesktop extends CustomNode {
       errors += checkIfNull(eloInfoControl,"eloInfoControl");
       errors += checkIfNull(windowStyler,"windowStyler");
       errors += checkIfNull(windowContentCreatorRegistryFX,"windowContentCreatorRegistryFX");
+      errors += checkIfNull(newEloCreationRegistry,"newEloCreationRegistry");
       if (errors>0){
          throw new IllegalArgumentException("One or more properties of ScyDesktop are null");
       }
@@ -180,10 +185,20 @@ public class ScyDesktop extends CustomNode {
     }
 
     public function addScyWindow(window:ScyWindow){
+       if (window.scyContent==null and window.setScyContent==null){
+          window.setScyContent=fillNewScyWindow
+       }
+
       windows.addScyWindow(window);
       scyWindowControl.addOtherScyWindow(window);
       scyWindowControl.positionWindows(true);
     }
+
+    function fillNewScyWindow(window: ScyWindow):Void{
+      windowContentFactory.fillWindowContent(window);
+      windowStyler.style(window);
+    }
+
 
  }
 
@@ -248,6 +263,9 @@ function run(){
        anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
        activeAnchor:anchor0
    }
+   missionModel = MissionModelFX{
+       anchors: [];
+   }
    var newWindowCounter = 0;
    var newWindowButton:Button = Button {
          text: "New Window"
@@ -265,8 +283,11 @@ function run(){
          }
       }
 
+   var newScyWindowTool = NewScyWindowTool{
 
-   var scyDesktop = ScyDesktop{
+   }
+
+   var scyDesktop:ScyDesktop = ScyDesktop{
       config:config;
       missionModelFX : missionModel;
       eloInfoControl: DummyEloInfoControl{
@@ -275,14 +296,22 @@ function run(){
       };
       windowContentCreatorRegistryFX:WindowContentCreatorRegistryFXImpl{
          };
+      newEloCreationRegistry: NewEloCreationRegistryImpl{};
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }
 //      bottomRightCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }
-      bottomLeftCornerTool:newWindowButton;
+//      bottomLeftCornerTool:newWindowButton;
+//        bottomLeftCornerTool: newScyWindowTool;
    }
+
+   newScyWindowTool.scyDesktop = scyDesktop;
+   scyDesktop.bottomLeftCornerTool= newScyWindowTool;
+
+   scyDesktop.newEloCreationRegistry.registerEloCreation("test","test");
+   scyDesktop.newEloCreationRegistry.registerEloCreation("tst","tst");
 
    Stage {
       title : "ScyDestop Test"

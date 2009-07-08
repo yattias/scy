@@ -15,4 +15,6 @@ import javax.swing.JComponent;
 public interface WindowContentCreator {
 
    public JComponent getScyWindowContent(URI eloUri);
+
+   public JComponent getScyWindowContentNew();
 }

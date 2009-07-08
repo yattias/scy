@@ -17,7 +17,7 @@ import javafx.scene.paint.Paint;
  */
 
 public abstract class Corner extends CustomNode {
-   public var content: Node on replace {resize()};
+   public var content: Node on replace {newContent()};
    public var color:Paint;
 
    protected var width = 20.0;
@@ -29,11 +29,13 @@ public abstract class Corner extends CustomNode {
    def sceneWidth = bind scene.width on replace{placeInCorner()};
    def sceneHeight = bind scene.height on replace{placeInCorner()};
 
+   def contentGroup = Group{};
+
    public override function create(): Node {
-      resize();
+      newContent();
       return Group {
          content: [
-            content,
+            contentGroup,
             getCornerElements()
          ]
       };
@@ -52,6 +54,13 @@ public abstract class Corner extends CustomNode {
       height = newHeight;
       placeInCorner();
    }
+
+   function newContent(){
+      resize();
+      delete contentGroup.content;
+      insert content into contentGroup.content;
+   }
+
 
    protected function placeInCorner(){
    }

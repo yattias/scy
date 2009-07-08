@@ -50,6 +50,8 @@ import javax.swing.JTree;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
+import java.net.URI;
+
 /**
  * @author sikken
  */
@@ -60,6 +62,7 @@ public class ScyWindow extends CustomNode {
 
 	public var title = "???";
 	public var eloType = "?123";
+   public var eloUri:URI;
    public var iconCharacter = "?";
 	public var color = Color.GREEN;
 	public var backgroundColor = color.WHITE;
@@ -996,7 +999,7 @@ public class ScyWindow extends CustomNode {
 				}
             Group{ // the scy window attributes
                translateY: -borderWidth / 2;
-               content: scyWindowAttributes,
+               content: bind scyWindowAttributes,
             },
 //            draggingLayer,
 //            Group {

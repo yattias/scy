@@ -82,17 +82,9 @@ public class ScyWindowControl{
       positionWindows(false);
    }
 
-   public function addOtherScyWindow(otherWindow:ScyWindow, autoLocate: Boolean){
-      if (autoLocate) {
-         otherWindow.translateX = (otherWindow.scene.width - otherWindow.layoutBounds.width) / 2 - otherWindow.layoutBounds.minX;
-         otherWindow.translateY = (otherWindow.scene.height - otherWindow.layoutBounds.height) / 2 - otherWindow.layoutBounds.minY;
-      }
-        insert otherWindow into otherWindows;
-   }
-
    public function addOtherScyWindow(otherWindow:ScyWindow){
       println("addOtherScyWindow, id:{otherWindow.id}");
-      addOtherScyWindow(otherWindow, false);
+      insert otherWindow into otherWindows;
    }
 
 //   public function newEloSaved(eloUri : URI){
@@ -126,17 +118,19 @@ public class ScyWindowControl{
    function getScyWindow(anchor:AnchorFX):ScyWindow{
       var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri.toString());
       if (scyWindow == null){
-         scyWindow = ScyWindow{
-            id: anchor.eloUri.toString();
-            title: anchor.title;
-            color: anchor.color;
-            scyWindowAttributes: [
-               missionMap.getAnchorAttribute(anchor)
-            ]
-         }
-         applyMetadataAttributes(scyWindow,anchor.eloUri);
-         windowContentFactory.fillWindowContent(anchor.eloUri,scyWindow);
-         windowStyler.style(scyWindow, anchor.eloUri);
+         scyWindow = createScyWindow(anchor.eloUri);
+         scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
+//         scyWindow = ScyWindow{
+//            id: anchor.eloUri.toString();
+//            title: anchor.title;
+//            color: anchor.color;
+//            scyWindowAttributes: [
+//               missionMap.getAnchorAttribute(anchor)
+//            ]
+//         }
+//         applyMetadataAttributes(scyWindow,anchor.eloUri);
+//         windowContentFactory.fillWindowContent(anchor.eloUri,scyWindow);
+//         windowStyler.style(scyWindow, anchor.eloUri);
       }
       return scyWindow;
    }
@@ -144,17 +138,32 @@ public class ScyWindowControl{
    function getScyWindow(eloUri:URI):ScyWindow{
       var scyWindow: ScyWindow = scyDesktop.findScyWindow(eloUri.toString());
       if (scyWindow == null){
-         scyWindow = ScyWindow{
-            id: eloUri.toString();
-//                    title: anchor.title;
-
-         }
-         applyMetadataAttributes(scyWindow,eloUri);
-         windowContentFactory.fillWindowContent(eloUri,scyWindow);
-         windowStyler.style(scyWindow, eloUri);
+         scyWindow = createScyWindow(eloUri);
+//         scyWindow = ScyWindow{
+//            id: eloUri.toString();
+////                    title: anchor.title;
+//
+//         }
+//         applyMetadataAttributes(scyWindow,eloUri);
+//         windowContentFactory.fillWindowContent(eloUri,scyWindow);
+//         windowStyler.style(scyWindow, eloUri);
       }
       return scyWindow;
    }
+
+   function createScyWindow(eloUri:URI):ScyWindow{
+      var scyWindow = ScyWindow{
+         id: eloUri.toString();
+         eloUri: eloUri;
+         eloType: eloInfoControl.getEloType(eloUri);
+         title: eloInfoControl.getEloTitle(eloUri);
+      }
+      applyMetadataAttributes(scyWindow,eloUri);
+      windowContentFactory.fillWindowContent(eloUri,scyWindow);
+      windowStyler.style(scyWindow, eloUri);
+      return scyWindow;
+   }
+
 
    function applyMetadataAttributes(scyWindow:ScyWindow,eloUri:URI){
       var title = eloInfoControl.getEloTitle(eloUri);

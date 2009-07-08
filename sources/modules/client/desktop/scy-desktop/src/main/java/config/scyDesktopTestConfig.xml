@@ -17,7 +17,9 @@
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
       <property name="titleKey" ref="titleKey"/>
+      <!--
       <property name="missionModelCreator" ref="missionModelCreator"/>
+      -->
       <property name="registerWindowContentCreators">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.test.TestRegisterWindowContentCreators"/>
