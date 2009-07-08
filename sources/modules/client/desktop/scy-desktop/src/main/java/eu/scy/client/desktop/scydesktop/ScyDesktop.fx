@@ -121,10 +121,7 @@ public class ScyDesktop extends CustomNode {
       }
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-         repository:config.getRepository();
-         extensionManager:config.getExtensionManager();
-         metadataTypeManager:config.getMetadataTypeManager();
-         eloFactory:config.getEloFactory();
+         config:config;
       }
 
       missionMap = MissionMap{
