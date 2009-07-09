@@ -260,9 +260,9 @@ function run(){
        anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
        activeAnchor:anchor0
    }
-   missionModel = MissionModelFX{
-       anchors: [];
-   }
+//   missionModel = MissionModelFX{
+//       anchors: [];
+//   }
    var newWindowCounter = 0;
    var newWindowButton:Button = Button {
          text: "New Window"

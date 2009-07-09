@@ -18,6 +18,8 @@ import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 
+import javafx.scene.layout.Resizable;
+
 /**
  * @author sikken
  */
@@ -25,9 +27,11 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 // place your code here
 var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.SwingContentWrapper");
 
-public class SwingContentWrapper extends CustomNode {
+public class SwingContentWrapper extends CustomNode, Resizable {
    public var swingContent: JComponent;
    public var config:Config on replace {injectServices()}
+   public override var width on replace {resizeContent()};
+   public override var height on replace {resizeContent()};
 
    public override function create(): Node {
       return SwingComponent.wrap(swingContent);
@@ -39,5 +43,18 @@ public class SwingContentWrapper extends CustomNode {
       }
       servicesInjector.injectServices(swingContent);
    }
+
+   function resizeContent(){
+      swingContent.setSize(width,height);
+   }
+
+   public override function getPrefHeight(width: Number) : Number{
+      return swingContent.getPreferredSize().getHeight();
+   }
+
+   public override function getPrefWidth(width: Number) : Number{
+      return swingContent.getPreferredSize().getWidth();
+   }
+
 }
 
