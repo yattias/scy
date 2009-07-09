@@ -13,7 +13,12 @@ import org.apache.log4j.xml.DOMConfigurator;
  */
 
 def configFileName = "/config/scy-desktop-log4j.xml";
+
 public function initLog4J() {
+   initLog4J(configFileName);
+}
+
+public function initLog4J(fileName) {
       var object = new Object();
 		try {
          var configUrl = object.getClass().getResource(configFileName);
