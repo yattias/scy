@@ -37,9 +37,9 @@ public class ServicesInjector {
       if (object!=null){
          injectServiceIfWanted(object,Config.class,"config",config);
          injectServiceIfWanted(object,IELOFactory.class,"eloFactory",config.getEloFactory());
-         injectServiceIfWanted(object,IMetadataTypeManager.class,"metadataTypeManager",config.getMetadataTypeManager);
-         injectServiceIfWanted(object,IExtensionManager.class,"extensionManager",config.getExtensionManager);
-         injectServiceIfWanted(object,IRepository.class,"repository",config.getRepository);
+         injectServiceIfWanted(object,IMetadataTypeManager.class,"metadataTypeManager",config.getMetadataTypeManager());
+         injectServiceIfWanted(object,IExtensionManager.class,"extensionManager",config.getExtensionManager());
+         injectServiceIfWanted(object,IRepository.class,"repository",config.getRepository());
       }
    }
 
