@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>drawingtool</module>
+		<module>fx-drawingtool</module>
 		<module>dataprocesstool</module>
 		<module>copex</module>
 		<module>colemo-model</module>
