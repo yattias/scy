@@ -149,8 +149,12 @@ public class ScyWindow extends CustomNode {
 	public-read var originalWidth: Number;
 	public-read var originalHeight: Number;
 
-    //edges added to the window
-   //   public var edges: ScyEdgeLayer[];
+   def contentGlassPane = Rectangle {
+         x: 0, y: 0
+         width: 140, height: 90
+         fill: Color.TRANSPARENT
+//         fill: Color.rgb(128,128,128,0.5)
+      }
 
 	var originalX: Number;
 	var originalY: Number;
@@ -390,9 +394,11 @@ public class ScyWindow extends CustomNode {
 	}
 
 	function resizeTheContent(){
+      var contentWidth = width - borderWidth - 2 * contentBorder - 1;
+      var contentHeight = height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder;
+      contentGlassPane.width=contentWidth;
+      contentGlassPane.height = contentHeight;
       if (scyContent instanceof Resizable){
-         var contentWidth = width - borderWidth - 2 * contentBorder - 1;
-			var contentHeight = height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder;
 			var resizeableScyContent = scyContent as Resizable;
 			resizeableScyContent.width = contentWidth;
 			resizeableScyContent.height = contentHeight;
@@ -420,6 +426,11 @@ public class ScyWindow extends CustomNode {
       maxDifX = 0;
       maxDifY = 0;
 		sceneTopLeft = localToScene(0,0);
+      contentGlassPane.blocksMouse = true;
+	}
+
+	function stopDragging(e: MouseEvent) {
+      contentGlassPane.blocksMouse = false;
 	}
 
    function printMousePos(label:String, e:MouseEvent) {
@@ -489,8 +500,8 @@ public class ScyWindow extends CustomNode {
 
 	function doRotate(e: MouseEvent) {
       printMousePos("rotate",e);
-      if (isInvalidMousePos(e))
-		return;
+//      if (isInvalidMousePos(e))
+//		return;
 		var newRotation = calculateRotation(e);
 		var deltaRotation = Math.toDegrees(newRotation - initialRotation);
 		var newRotate = rotate + deltaRotation;
@@ -513,11 +524,12 @@ public class ScyWindow extends CustomNode {
 	function calculateRotation(e: MouseEvent):Number{
 		var deltaX = e.x - rotateCenterX;
 		var deltaY = e.y - rotateCenterY;
-		var rotation = -Math.atan(deltaX / deltaY);
-		if (deltaY >= 0)
-		rotation += Math.PI;
-		// System.out.println("deltaX " + deltaX + ", deltaY " + deltaY + ", rotation " + rotation);
-		return rotation;
+      return Math.atan2(deltaY , deltaX);
+//		var rotation = -Math.atan(deltaX / deltaY);
+//		if (deltaY >= 0)
+//		rotation += Math.PI;
+//		// System.out.println("deltaX " + deltaX + ", deltaY " + deltaY + ", rotation " + rotation);
+//		return rotation;
 	}
 
 	function doClose(){
@@ -732,7 +744,10 @@ public class ScyWindow extends CustomNode {
                   height: bind height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder
                   fill: Color.BLACK
                }
-               content: bind [scyContent]
+               content: bind [
+                  scyContent,
+                  contentGlassPane
+               ]
                onMousePressed: function( e: MouseEvent ):Void {
                   activate();
                }
@@ -898,6 +913,11 @@ public class ScyWindow extends CustomNode {
 							doResize(e);
 						}
                }
+               onMouseReleased: function( e: MouseEvent ):Void {
+						if (allowResize){
+                     stopDragging(e);
+                  }
+               }
                onMouseEntered: function( e: MouseEvent ):Void {
                   resizeHighLighted = true;
                }
@@ -942,6 +962,9 @@ public class ScyWindow extends CustomNode {
 					onMouseDragged: function( e: MouseEvent ):Void {
 						doRotate(e);
 					}
+               onMouseReleased: function( e: MouseEvent ):Void {
+						stopDragging(e);
+               }
                onMouseEntered: function( e: MouseEvent ):Void {
                   rotateHighLighted = true;
                }
@@ -1027,7 +1050,12 @@ public class ScyWindow extends CustomNode {
                doDrag(e);
             }
 			}
-		};;
+         onMouseReleased: function( e: MouseEvent ):Void {
+            if (allowDragging){
+               stopDragging(e);
+            }
+         }
+		};
 	}
 }
 

@@ -52,6 +52,7 @@ public class NewScyWindowTool extends CustomNode {
                allowResize: true;
                allowRotate: true;
                allowMinimize: true;
+               cache:true;
             }
             scyDesktop.addScyWindow(window);
          }

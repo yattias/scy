@@ -186,6 +186,7 @@ public class ScyDesktop extends CustomNode {
           window.setScyContent=fillNewScyWindow
        }
 
+      windowStyler.style(window);
       windows.addScyWindow(window);
       scyWindowControl.addOtherScyWindow(window);
       scyWindowControl.positionWindows(true);
@@ -193,7 +194,6 @@ public class ScyDesktop extends CustomNode {
 
     function fillNewScyWindow(window: ScyWindow):Void{
       windowContentFactory.fillWindowContent(window);
-      windowStyler.style(window);
     }
 
 
