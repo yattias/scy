@@ -11,12 +11,22 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
 /**
+ * Interface for creating a Node to display/edit an ELO.
+ *
  * @author sikkenj
  */
 
 public mixin class WindowContentCreatorFX {
 
+   /**
+    * Create a new Node to display/edit an existing ELO
+    *
+    */
    public abstract function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node;
 
+   /**
+    * Create a new Node to display/edit an new ELO
+    *
+    */
    public abstract function getScyWindowContentNew(scyWindow:ScyWindow):Node;
 }

@@ -34,6 +34,7 @@ public class SwingContentWrapper extends CustomNode, Resizable {
    public override var height on replace {resizeContent()};
 
    public override function create(): Node {
+      injectServices();
       return SwingComponent.wrap(swingContent);
    }
 
