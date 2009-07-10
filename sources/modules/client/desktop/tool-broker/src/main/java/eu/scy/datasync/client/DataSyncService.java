@@ -118,7 +118,6 @@ public class DataSyncService implements IDataSyncService {
            @Override
            public void processPacket(Packet packet) {
                DataSyncPacketExtension extension = (DataSyncPacketExtension) packet.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
-               logger.debug("XML " + extension.toXML());
                logger.debug("in ur connection, sniffing ur packets");
                
                //call all the ones listening
