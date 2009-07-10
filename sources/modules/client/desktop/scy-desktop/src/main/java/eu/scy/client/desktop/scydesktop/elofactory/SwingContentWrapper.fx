@@ -20,6 +20,8 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 
 import javafx.scene.layout.Resizable;
 
+import java.awt.Dimension;
+
 /**
  * @author sikken
  */
@@ -33,9 +35,12 @@ public class SwingContentWrapper extends CustomNode, Resizable {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
+   var swingComponent:SwingComponent;
+
    public override function create(): Node {
       injectServices();
-      return SwingComponent.wrap(swingContent);
+      swingComponent = SwingComponent.wrap(swingContent);
+      return swingComponent;
    }
 
    function injectServices(){
@@ -46,7 +51,13 @@ public class SwingContentWrapper extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      swingContent.setSize(width,height);
+      swingComponent.width = width;
+      swingComponent.height = height;
+      // changing the size of wrapped component, does not result in a size change of the swing component
+      // although it is visual not needed
+      // set the size of the swing component, so it can adjust its content
+      var newSize = new Dimension(width,height);
+      swingContent.setSize(newSize);
    }
 
    public override function getPrefHeight(width: Number) : Number{
