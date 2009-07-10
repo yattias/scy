@@ -85,11 +85,9 @@ public class SQLSpaceAdapter implements Callback {
         long expiration = syncMessage.getExpiration();
         
         Tuple tuple = new Tuple(toolSessionId != null ? toolSessionId : "", toolId != null ? toolId : "", from != null ? from : "", content != null ? content : "", event != null ? event : "");
-        logger.debug("About to write tuple: " + tuple);
         
         if (expiration > 0) {
             tuple.setExpiration(expiration);
-            logger.debug(" ... with expiration: " + expiration);
         }
         TupleID tid = null;
         try {
@@ -97,9 +95,7 @@ public class SQLSpaceAdapter implements Callback {
                 tid = this.tupleSpace.write(tuple);
             } else {
                 tid = new TupleID(Long.valueOf(tupleId));
-                logger.info("Trying to update tuple: [" + tid + "] " + tuple);
                 this.tupleSpace.update(tid, tuple);
-                logger.info("Done updating!");
             }
             logger.debug("Wrote tuple with tid: " + tid.getID());
         } catch (TupleSpaceException e) {
@@ -178,7 +174,6 @@ public class SQLSpaceAdapter implements Callback {
         Tuple returnTuple = null;
         try {
             returnTuple = tupleSpace.readTupleById(new TupleID(id));
-            logger.error("got tuple " + returnTuple);
         } catch (TupleSpaceException e) {
             logger.error("Trouble while reading touple " + e);
         }
