@@ -2,6 +2,7 @@ package eu.scy.datasync.adapter.sqlspaces;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 
@@ -26,7 +27,8 @@ public class SQLSpaceAdapterTestCase {
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
     private static final String TEST_TO = "obama@wiki.intermedia.uio.no";
     
-    private CommunicationProperties props = new CommunicationProperties();
+    private static CommunicationProperties props = new CommunicationProperties();
+    
     
     public SQLSpaceAdapterTestCase() {
     }
@@ -40,18 +42,20 @@ public class SQLSpaceAdapterTestCase {
     private SQLSpaceAdapter getTupleAdapter() {
         if (sqlSpaceAdapter == null) {
             sqlSpaceAdapter = new SQLSpaceAdapter();
-            sqlSpaceAdapter.initialize("thomasd", SQLSpaceAdapter.DATA_SYNCHRONIZATION_SPACE);         
+            try {
+                sqlSpaceAdapter.initialize("thomasd", props.sqlSpacesServerSpaceDatasync);
+            } catch (TupleSpaceException e) {
+                logger.error("Tuple space fluke " + e);
+                e.printStackTrace();
+                sqlSpaceAdapter = null;
+            }         
         }
         return sqlSpaceAdapter;
     }
     
+    
     private ISyncMessage getTestSyncMessage() {
         return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_TO, TEST_CONTENT, TEST_EVENT, null, props.datasyncMessageDefaultExpiration);
-    }
-    
-    
-    @org.junit.Test
-    public void doNothingForNow() {
     }
     
     

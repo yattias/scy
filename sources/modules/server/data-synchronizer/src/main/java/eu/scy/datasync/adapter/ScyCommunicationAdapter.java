@@ -1,16 +1,17 @@
 package eu.scy.datasync.adapter;
 
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapter;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpaceAdapterEvent;
 import eu.scy.datasync.adapter.sqlspaces.SQLSpacesAdapterHelper;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
 
 /**
  * TODO replace this with a helper for the singleton
@@ -25,8 +26,8 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
     private ArrayList<IScyCommunicationListener> communicationListeners = new ArrayList<IScyCommunicationListener>();
-    private CommunicationProperties props = new CommunicationProperties();
     
+    private CommunicationProperties props = new CommunicationProperties();
     
     
     public ScyCommunicationAdapter() {
@@ -51,11 +52,15 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     
     private SQLSpaceAdapter getTupleAdapter() {
         if (tupleAdapter == null) {
-            // TODO: SQLSpaceAdapter.COLLABORATION_SERVICE_SPACE shouldn't be
-            // hardcoded here, but be passed from the openfire plugin
             tupleAdapter = SQLSpacesAdapterHelper.getInstance();
-            tupleAdapter.initialize(this.getClass().getName(), SQLSpaceAdapter.DATA_SYNCHRONIZATION_SPACE);
-            tupleAdapter.addSQLSpacesAdapterListener(this);
+            try {
+                tupleAdapter.initialize(this.getClass().getName(), props.sqlSpacesServerSpaceDatasync);
+                tupleAdapter.addSQLSpacesAdapterListener(this);
+            } catch (TupleSpaceException e) {
+                logger.error("Tuple space fluke " + e);
+                e.printStackTrace();
+                tupleAdapter = null;
+            }
         }
         return tupleAdapter;
     }

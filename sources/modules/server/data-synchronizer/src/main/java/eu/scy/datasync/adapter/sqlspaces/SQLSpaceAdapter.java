@@ -6,13 +6,14 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.TupleSpaceException.TupleSpaceError;
 
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
 
 
@@ -20,12 +21,7 @@ import eu.scy.communications.message.impl.SyncMessageHelper;
 public class SQLSpaceAdapter implements Callback {
     
     private final static Logger logger = Logger.getLogger(SQLSpaceAdapter.class.getName());
-    public static final String SERVER_IP = "129.240.212.15";
-    //public static final String SERVER_IP = "scy.collide.info";
-    public static final int SERVER_PORT = 2525;
-//    public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
-//    public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
-    public static final String DATA_SYNCHRONIZATION_SPACE = "DATA_SYNCHRONIZATION_SPACE";
+
     public static final String WRITE = "WRITE";
     public static final String DELETE = "DELETE";
     public static final String UPDATE = "UPDATE";
@@ -33,6 +29,8 @@ public class SQLSpaceAdapter implements Callback {
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
+    
+    private static CommunicationProperties props = new CommunicationProperties();
     
     
     public SQLSpaceAdapter() {
@@ -45,19 +43,18 @@ public class SQLSpaceAdapter implements Callback {
      * @param userName
      * @param sqlSpaceName
      */
-    public void initialize(String userName, String sqlSpaceName) {
-        this.userName = userName;
-        try {
-            Callback cb = this;
-            this.tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
-            // setup the events that client will use
-            this.tupleSpace.eventRegister(Command.WRITE, tupleSpaceTemplate, cb, false);
-            this.tupleSpace.eventRegister(Command.DELETE, tupleSpaceTemplate, cb, false);
-            this.tupleSpace.eventRegister(Command.UPDATE, tupleSpaceTemplate, cb, false);
-            logger.debug("Successfully created Tuple Space " + sqlSpaceName);
-        } catch (TupleSpaceException e) {
-            logger.error("Tuplespace fluke " + e);
+    public void initialize(String userName, String sqlSpaceName) throws TupleSpaceException {
+        this.tupleSpace = new TupleSpace(props.sqlSpacesServerHost, props.sqlSpacesServerPort, sqlSpaceName);
+        if (this.tupleSpace == null) {
+            throw new TupleSpaceException(TupleSpaceError.DATABASE, "could not establish connection using host/port/spacename " + props.sqlSpacesServerHost + "/" + props.sqlSpacesServerPort + "/" + sqlSpaceName);                
         }
+        this.userName = userName;
+        Callback cb = this;
+        // setup the events that client will use
+        this.tupleSpace.eventRegister(Command.WRITE, tupleSpaceTemplate, cb, false);
+        this.tupleSpace.eventRegister(Command.DELETE, tupleSpaceTemplate, cb, false);
+        this.tupleSpace.eventRegister(Command.UPDATE, tupleSpaceTemplate, cb, false);
+        logger.debug("Successfully created Tuple Space " + sqlSpaceName);
     }
     
     
@@ -97,7 +94,6 @@ public class SQLSpaceAdapter implements Callback {
                 tid = new TupleID(Long.valueOf(tupleId));
                 this.tupleSpace.update(tid, tuple);
             }
-            logger.debug("Wrote tuple with tid: " + tid.getID());
         } catch (TupleSpaceException e) {
             logger.error("Trouble while writing or updating touple " + e);
             e.printStackTrace();
@@ -152,7 +148,6 @@ public class SQLSpaceAdapter implements Callback {
             Long.parseLong(id);
             try {
                 returnTuple = tupleSpace.takeTupleById(new TupleID(id));
-                logger.debug("Deleted tuple with id: " + id);
             } catch (TupleSpaceException e2) {
                 logger.error("Trouble while taking touple " + e2);
             }     
