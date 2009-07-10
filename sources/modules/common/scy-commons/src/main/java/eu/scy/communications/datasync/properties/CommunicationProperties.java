@@ -13,6 +13,10 @@ import java.util.Properties;
  */
 public class CommunicationProperties {
 
+    public String sqlSpacesServerHost;
+    public String sqlSpacesServerPort;
+    public String sqlSpacesServerSpaceDatasync;
+
     public String datasyncServerHost;
     public String datasyncServerPort;
     public String datasyncMessageHub;
@@ -28,6 +32,8 @@ public class CommunicationProperties {
     public String clientEventCreateData;
     public String clientEventSynchronize;
     public String clientEventGetSessions;
+    public String clientEventJoinSession;
+
     public Properties props = new Properties();
     
     
@@ -40,6 +46,10 @@ public class CommunicationProperties {
             e.printStackTrace();
         }
         
+        sqlSpacesServerHost = props.getProperty("sqlspaces.server.host");
+        sqlSpacesServerPort = props.getProperty("sqlspaces.server.port");
+        sqlSpacesServerSpaceDatasync = props.getProperty("sqlspaces.server.space.datasync");
+
         datasyncServerHost = props.getProperty("datasync.server.host");
         datasyncServerPort = props.getProperty("datasync.server.port");
         datasyncMessageHub = props.getProperty("datasync.messageHub");
@@ -55,5 +65,6 @@ public class CommunicationProperties {
         clientEventCreateData = props.getProperty("client.event.create.data");
         clientEventSynchronize = props.getProperty("client.event.synchronize");    
         clientEventGetSessions = props.getProperty("client.event.get.sessions");
+        clientEventJoinSession = props.getProperty("client.event.join.session");
     }
 }
