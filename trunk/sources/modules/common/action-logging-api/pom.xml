@@ -13,11 +13,12 @@
 		<version>9.5.2-SNAPSHOT</version>
 	</parent>
 	
-	<dependencies>
+	<dependencies>	
 		<dependency>
-			<groupId>jdom</groupId>
+			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
-		</dependency>	
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 
 </project>
