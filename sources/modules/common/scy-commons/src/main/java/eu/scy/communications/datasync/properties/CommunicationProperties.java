@@ -14,7 +14,7 @@ import java.util.Properties;
 public class CommunicationProperties {
 
     public String sqlSpacesServerHost;
-    public String sqlSpacesServerPort;
+    public int sqlSpacesServerPort;
     public String sqlSpacesServerSpaceDatasync;
 
     public String datasyncServerHost;
@@ -47,7 +47,7 @@ public class CommunicationProperties {
         }
         
         sqlSpacesServerHost = props.getProperty("sqlspaces.server.host");
-        sqlSpacesServerPort = props.getProperty("sqlspaces.server.port");
+        sqlSpacesServerPort = Integer.parseInt(props.getProperty("sqlspaces.server.port"));
         sqlSpacesServerSpaceDatasync = props.getProperty("sqlspaces.server.space.datasync");
 
         datasyncServerHost = props.getProperty("datasync.server.host");
