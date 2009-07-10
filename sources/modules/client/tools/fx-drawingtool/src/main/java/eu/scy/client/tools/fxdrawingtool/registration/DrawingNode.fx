@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 
+import java.awt.Dimension;
+
 
 /**
  * @author sikkenj
@@ -105,10 +107,13 @@ public class DrawingNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      wrappedWhiteboardPanel.width = width;
-      wrappedWhiteboardPanel.height = height;
-      whiteboardPanel.setSize(width,height);
-//      println("resized whiteboardPanel to ({width},{height})");
+      var size = new Dimension(width,height);
+      // setPreferredSize is needed
+      whiteboardPanel.setPreferredSize(size);
+      // setSize is not visual needed
+      // but set it, so the component react to it
+      whiteboardPanel.setSize(size);
+      //println("resized whiteboardPanel to ({width},{height})");
    }
 
    public override function getPrefHeight(width: Number) : Number{
