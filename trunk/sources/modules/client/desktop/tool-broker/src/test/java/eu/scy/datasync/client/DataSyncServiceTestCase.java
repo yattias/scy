@@ -42,7 +42,7 @@ public class DataSyncServiceTestCase {
     
     private CommunicationProperties props;
     
-    //@Before
+    @Before
     public void init() {
         logger.debug("================ Setting up stuff before the tests can begin");
 
@@ -84,7 +84,7 @@ public class DataSyncServiceTestCase {
     }
 
     
-    //@After
+    @After
     public void wipeAss() {
         logger.debug("Cleaning up after tests");
         currentSession = null;
@@ -129,7 +129,7 @@ public class DataSyncServiceTestCase {
     }
 
     
-    //@Test
+    @Test
     public void testDataSyncronization() {
         dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         try {
@@ -142,8 +142,8 @@ public class DataSyncServiceTestCase {
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 2", props.clientEventCreateData, null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
-//        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.clientEventCreateData, null);
-//        dataSyncService.sendMessage((SyncMessage) syncMessage);
+        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.clientEventCreateData, null);
+        dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
             //wait for messages to reach the persistence layer
             Thread.sleep(2000);
@@ -156,16 +156,15 @@ public class DataSyncServiceTestCase {
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
             //wait for the sync to begin
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-        //while (true);
         
-//        assertNotNull(synchronizedData);
-//        assertTrue(synchronizedData.contains(HARD_CODED_CONTENT));
-//        assertTrue(synchronizedData.contains(" == 1"));
-//        assertTrue(synchronizedData.contains(" == 3"));
-//        assertTrue(synchronizedData.contains(" == 3"));
+        assertNotNull(synchronizedData);
+        assertTrue(synchronizedData.contains(HARD_CODED_CONTENT));
+        assertTrue(synchronizedData.contains(" == 1"));
+        assertTrue(synchronizedData.contains(" == 3"));
+        assertTrue(synchronizedData.contains(" == 3"));
     }
 }
