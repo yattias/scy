@@ -64,7 +64,7 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
             this.setFrom(syncMessage.getFrom());
         
         if( syncMessage.getTo() !=  null)
-            this.setFrom(syncMessage.getTo());
+            this.setTo(syncMessage.getTo());
         
         if( syncMessage.getContent() != null)
             this.setContent(syncMessage.getContent());
