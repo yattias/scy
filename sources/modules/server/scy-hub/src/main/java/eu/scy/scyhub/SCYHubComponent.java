@@ -54,17 +54,14 @@ public class SCYHubComponent implements Component {
      * process the packet and route the it to the correct place 
      */
     public void processPacket(Packet packet) {
-        logger.debug("Received package:\n" + packet.toXML());
         // Only process Message packets
         if (packet instanceof Message) {
-            logger.debug("Packet is a org.xmpp.packet.Message");
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
             DataSyncPacketExtension packetExtension = (DataSyncPacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
             
             if ( packetExtension instanceof DataSyncPacketExtension ) {
                 //found a datasync extension, yay!
-                logger.debug("Packet contains a DataSyncPacketExtension");
                 try {
                     // pass syncMessage to DataSyncModule for storing
                     DataSyncPacketExtension dse = ((DataSyncPacketExtension)packetExtension);
@@ -90,7 +87,6 @@ public class SCYHubComponent implements Component {
      * initialize
      */
     public void initialize(JID jid, ComponentManager componentManager) {
-        logger.debug("SCYHubComponent.initialize()");
         initModules();
     }
     
@@ -111,10 +107,15 @@ public class SCYHubComponent implements Component {
                     //send a reply
                     Message reply = new Message();
                     //FIXME
-                    reply.setTo("obama@" + communicationProps.datasyncServerHost);
+                    if (event.getSyncMessage().getFrom() != null) {
+                        reply.setTo(event.getSyncMessage().getFrom());
+                    } else {
+                        //TODO: throw exception here?
+                        logger.error("Empty from field. Not good.");
+                    }
                     reply.setFrom(SCYHubComponent.this.getName() + "." +communicationProps.datasyncExternalComponentHost);
                     reply.setType(Message.Type.normal);
-                    reply.setBody("scyhub is watching you");
+                    reply.setBody("scyhub cares for you");
                    
                     DataSyncPacketExtension d = new DataSyncPacketExtension(event.getSyncMessage());
                     reply.addExtension(d);
@@ -123,7 +124,6 @@ public class SCYHubComponent implements Component {
                     } catch (ComponentException e) {
                         e.printStackTrace();
                     }
-                    logger.debug("SCYHubComponent.initModules()");
                 }                     
             });
         } catch (DataSyncException exeption) {
