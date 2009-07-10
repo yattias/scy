@@ -106,7 +106,6 @@ public class SCYHubComponent implements Component {
                 public void handleDataSyncEvent(IDataSyncEvent event) {
                     //send a reply
                     Message reply = new Message();
-                    //FIXME
                     if (event.getSyncMessage().getFrom() != null) {
                         reply.setTo(event.getSyncMessage().getFrom());
                     } else {
