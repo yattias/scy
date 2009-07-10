@@ -42,7 +42,7 @@ public class DataSyncServiceTestCase {
     
     private CommunicationProperties props;
     
-//    @Before
+    //@Before
     public void init() {
         logger.debug("================ Setting up stuff before the tests can begin");
 
@@ -66,6 +66,10 @@ public class DataSyncServiceTestCase {
                     //write to global field so the test can see if anything happened
                     sessions = syncMessage.getContent();
                     logger.debug(sessions);
+                } else if (syncMessage.getEvent().equals(props.clientEventCreateData)) {
+                    logger.debug("-------- CREATE DATA ---------");
+                    //write to global field so the test can see if anything happened
+                    logger.debug(syncMessage.getContent());
                 } else if (syncMessage.getEvent().equals(props.clientEventSynchronize)) {
                     logger.debug("-------- DATA SYNCHRONIZATION ---------");
                     //write to global field so the test can see if anything happened
@@ -80,9 +84,9 @@ public class DataSyncServiceTestCase {
     }
 
     
-//    @After
+    //@After
     public void wipeAss() {
-        logger.debug("================ Cleaning up after tests");
+        logger.debug("Cleaning up after tests");
         currentSession = null;
         sessions = null;
 //        dataSyncService.disconnect();
@@ -125,7 +129,7 @@ public class DataSyncServiceTestCase {
     }
 
     
-//    @Test
+    //@Test
     public void testDataSyncronization() {
         dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         try {
@@ -138,8 +142,8 @@ public class DataSyncServiceTestCase {
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 2", props.clientEventCreateData, null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
-        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.clientEventCreateData, null);
-        dataSyncService.sendMessage((SyncMessage) syncMessage);
+//        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.clientEventCreateData, null);
+//        dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
             //wait for messages to reach the persistence layer
             Thread.sleep(2000);
@@ -156,6 +160,8 @@ public class DataSyncServiceTestCase {
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
+        //while (true);
+        
 //        assertNotNull(synchronizedData);
 //        assertTrue(synchronizedData.contains(HARD_CODED_CONTENT));
 //        assertTrue(synchronizedData.contains(" == 1"));
