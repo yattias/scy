@@ -38,10 +38,6 @@ var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFac
 public class WindowContentFactory {
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var config:Config;
-//   public var eloFactory:IELOFactory;
-//   public var metadataTypeManager:IMetadataTypeManager;
-//   public var extensionManager:IExtensionManager;
-//   public var repository:IRepository;
 
    def defaultWindowContentCreator:WindowContentCreatorFX = DummyWindowContentCreator{};
    def servicesInjectedSet = new HashSet();

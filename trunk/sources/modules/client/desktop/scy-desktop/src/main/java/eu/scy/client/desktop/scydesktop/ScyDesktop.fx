@@ -55,6 +55,8 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 
+import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
+
 
 /**
  * @author sikkenj
@@ -260,9 +262,9 @@ function run(){
        anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
        activeAnchor:anchor0
    }
-//   missionModel = MissionModelFX{
-//       anchors: [];
-//   }
+   missionModel = MissionModelFX{
+       anchors: [];
+   }
    var newWindowCounter = 0;
    var newWindowButton:Button = Button {
          text: "New Window"
@@ -284,6 +286,10 @@ function run(){
 
    }
 
+   var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
+         };
+
+   windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
    var scyDesktop:ScyDesktop = ScyDesktop{
       config:config;
       missionModelFX : missionModel;
@@ -291,8 +297,7 @@ function run(){
       };
       windowStyler:DummyWindowStyler{
       };
-      windowContentCreatorRegistryFX:WindowContentCreatorRegistryFXImpl{
-         };
+      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
       newEloCreationRegistry: NewEloCreationRegistryImpl{};
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
@@ -309,6 +314,7 @@ function run(){
 
    scyDesktop.newEloCreationRegistry.registerEloCreation("test","test");
    scyDesktop.newEloCreationRegistry.registerEloCreation("tst","tst");
+   scyDesktop.newEloCreationRegistry.registerEloCreation("size","Size test");
 
    Stage {
       title : "ScyDestop Test"
