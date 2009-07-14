@@ -1,6 +1,8 @@
 package eu.scy.datasync.impl.factory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -34,12 +36,14 @@ public class DataSyncModule implements IDataSyncModule {
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private CommunicationProperties props = new CommunicationProperties();
+    private Map<String, IDataSyncSession> sessionMap = new HashMap<String, IDataSyncSession>();
     
     
     /**
      * Creates an instance of a local collaboration service
      */
     public DataSyncModule() {
+        
         this.scyCommunicationAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.scyCommunicationAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
             
@@ -53,6 +57,18 @@ public class DataSyncModule implements IDataSyncModule {
                 }
             }
         });
+        
+        ISyncMessage allSessions = SyncMessageHelper.createSyncMessageWithDefaultExp(null, null, null, null, null, props.clientEventCreateSession, null);
+        ArrayList<IDataSyncSession> sss = getSessions(allSessions);
+        
+        if (sss != null && !sss.isEmpty()) {
+            for (IDataSyncSession iDataSyncSession : sss) {
+                sessionMap.put(iDataSyncSession.getId(), iDataSyncSession);
+            }
+        }
+        
+        
+        
     }
     
     @Override
@@ -137,9 +153,9 @@ public class DataSyncModule implements IDataSyncModule {
     
     
     @Override
-    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String client, String session, boolean includeChangesByUser) {
+    public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolId, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, client, null, userName, null, props.clientEventCreateData, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, null, null, null, null, props.clientEventCreateData, null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
 
         ArrayList<ISyncMessage> messagesFiltered = new ArrayList<ISyncMessage>();
@@ -170,6 +186,10 @@ public class DataSyncModule implements IDataSyncModule {
     @Override
     public IDataSyncSession createSession(String toolName, String userName) throws DataSyncException {
         IDataSyncSession dataSyncSession = DataSyncSessionFactory.getDataSyncSession(null, toolName, userName);
+        
+        //add to the map
+        sessionMap.put(dataSyncSession.getId(), dataSyncSession);
+        
         ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName,null, props.clientEventCreateSession , null);
         this.create(sessionMessage);
         return dataSyncSession;
@@ -181,21 +201,49 @@ public class DataSyncModule implements IDataSyncModule {
     }
     
     @Override
-    public IDataSyncSession joinSession(String session, String userName, String toolName) {
+    public IDataSyncSession joinSession(ISyncMessage syncMessage) {
+        return this.joinSession(syncMessage.getToolSessionId(), syncMessage.getFrom(), syncMessage.getToolId());
+        
+    }
+    @Override
+    public IDataSyncSession joinSession(String sessionId, String userName, String toolName) {
         IDataSyncSession dataSyncSession = null;
-        if (sessionExists(session, userName)) {
-            logger.warn(userName + " is already member of session " + session);
-        } 
-        else if (sessionExists(session, null)) {
+        
+        //if the session doesnt exist create a new one
+        //else add the user to the existing one
+        if( !sessionMap.containsKey(sessionId) ) {
             try {
                 dataSyncSession = createSession(toolName, userName);
+                
             } catch (DataSyncException e) {
                 e.printStackTrace();
+                return null;
             }
-            logger.debug(userName + " is now a member of session " + session);
-        } else {
-            logger.error("could not find session: " + session);
+        } else if( sessionMap.containsKey(sessionId)) {
+            dataSyncSession = sessionMap.get(sessionId);
+            dataSyncSession.addUser(userName);
         }
+        
+        ISyncMessage joinSessionMessage = SyncMessageHelper.createSyncMessage(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName, null, props.clientEventJoinSession, null, 60*60*1000*24);
+        try {
+            this.create(joinSessionMessage);
+        } catch (DataSyncException e) {
+            e.printStackTrace();
+        }
+        
+//        if (sessionExists(sessionId, userName)) {
+//            logger.warn(userName + " is already member of session " + sessionId);
+//        } 
+//        else if (sessionExists(sessionId, null)) {
+//            try {
+//                dataSyncSession = createSession(toolName, userName);
+//            } catch (DataSyncException e) {
+//                e.printStackTrace();
+//            }
+//            logger.debug(userName + " is now a member of session " + sessionId);
+//        } else {
+//            logger.error("could not find session: " + sessionId);
+//        }
         return dataSyncSession;
     }
     
@@ -205,8 +253,8 @@ public class DataSyncModule implements IDataSyncModule {
     }
     
     @Override
-    public void getSessions(ISyncMessage syncMessage) {
-       getSessions(syncMessage.getToolSessionId(), syncMessage.getFrom(),syncMessage.getToolId());
+    public ArrayList<IDataSyncSession> getSessions(ISyncMessage syncMessage) {
+       return getSessions(syncMessage.getToolSessionId(), syncMessage.getFrom(),syncMessage.getToolId());
     }
     
     @Override
