@@ -86,8 +86,8 @@ public class DataSyncService implements IDataSyncService {
      */
     @Override
     public void createSession(String toolId, String userName) {
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, toolId, userName, null, null,
-                communicationProps.clientEventCreateSession, null);
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(null, toolId, userName, null, null,
+                communicationProps.clientEventCreateSession, null,1000*60*60*24);
         this.sendMessage(syncMessage);
     }
 
@@ -138,6 +138,14 @@ public class DataSyncService implements IDataSyncService {
     @Override
     public void disconnect() {
         this.xmppConnection.disconnect();
+    }
+
+    @Override
+    public void joinSession(String sessionId, String toolId, String userName) {
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(sessionId, null, userName, null, null,
+                communicationProps.clientEventJoinSession, null);
+        this.sendMessage(syncMessage);
+        
     }
 
 
