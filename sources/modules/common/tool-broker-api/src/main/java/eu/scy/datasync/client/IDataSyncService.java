@@ -34,7 +34,12 @@ public interface IDataSyncService {
     * @param userName
     */
    public void createSession(String toolName, String userName);
-
+   
+   /**
+    * Joins a session
+    */
+   public void joinSession(String sessionId,  String toolId, String userName);
+   
    /**
     * adds a data sync listener
     * 
