@@ -140,6 +140,14 @@ public interface IDataSyncModule {
     public IDataSyncSession joinSession(String session, String userName, String toolName) throws DataSyncException;
         
     /**
+     * Joins a session with a syncMessage
+     * 
+     * @param syncMessage
+     * @return
+     */
+    public IDataSyncSession joinSession(ISyncMessage syncMessage);
+    
+    /**
      * 
      * @param session - session
      * @param userName - userName
@@ -163,7 +171,7 @@ public interface IDataSyncModule {
      * @param syncMessage
      * @return
      */
-    public void getSessions(ISyncMessage syncMessage);
+    public ArrayList<IDataSyncSession> getSessions(ISyncMessage syncMessage);
 
    
     /**
