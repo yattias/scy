@@ -38,9 +38,10 @@ public class DataSyncServiceTestCase {
     private ToolBrokerImpl<IMetadataKey> tbi;
     private String currentSession;
     private String sessions;
-    private String synchronizedData;
+    private String synchronizedData = "";
     
     private CommunicationProperties props;
+    private String joinSessionId;
     
     @Before
     public void init() {
@@ -50,7 +51,11 @@ public class DataSyncServiceTestCase {
         tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
         dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-        dataSyncService.addDataSyncListener( new IDataSyncListener() {
+        dataSyncService.addDataSyncListener(createListener());  
+    }
+
+    protected IDataSyncListener createListener() {
+        return new IDataSyncListener() {
 
             @Override
             public void handleDataSyncEvent(IDataSyncEvent e) {
@@ -73,17 +78,20 @@ public class DataSyncServiceTestCase {
                 } else if (syncMessage.getEvent().equals(props.clientEventSynchronize)) {
                     logger.debug("-------- DATA SYNCHRONIZATION ---------");
                     //write to global field so the test can see if anything happened
-                    synchronizedData = syncMessage.getContent();
+                    synchronizedData = synchronizedData + syncMessage.getContent();
+                    logger.debug(synchronizedData);
+                } else if(syncMessage.getEvent().equals(props.clientEventJoinSession)) {
+                    logger.debug("-------- JOIN SESSION ---------");
+                    //write to global field so the test can see if anything happened
+                    joinSessionId = syncMessage.getToolSessionId();
                     logger.debug(synchronizedData);
                 } else {
                     logger.debug("-------- SOME OTHER MESSAGE ---------");
                     logger.debug("Incoming message: \n" + syncMessage.toString());
                 }
             }
-        });  
+        };
     }
-
-    
     @After
     public void wipeAss() {
         logger.debug("Cleaning up after tests");
@@ -129,7 +137,7 @@ public class DataSyncServiceTestCase {
     }
 
     
-    @Test
+//    @Test
     public void testDataSyncronization() {
         dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
         try {
@@ -166,5 +174,39 @@ public class DataSyncServiceTestCase {
         assertTrue(synchronizedData.contains(" == 1"));
         assertTrue(synchronizedData.contains(" == 3"));
         assertTrue(synchronizedData.contains(" == 3"));
+    }
+    
+//    @Test
+    public void testJoinSession() {
+        dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+        try {
+            //wait for the session id to return
+            Thread.sleep(2000);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        
+        //create a new user connection
+        String NEW_USER = "biden";
+        String NEW_PASSWORD = "biden";
+        ToolBrokerImpl<IMetadataKey> newTBI = new ToolBrokerImpl<IMetadataKey>();
+        IDataSyncService newDataSyncService = newTBI.getDataSyncService();
+        newDataSyncService.init(newTBI.getConnection(NEW_USER, NEW_PASSWORD));
+        newDataSyncService.addDataSyncListener(createListener());
+        
+        
+        
+        newDataSyncService.joinSession(currentSession,"funky tool", NEW_USER);
+        
+        try {
+            //wait for messages to reach the persistence layer
+            Thread.sleep(5000);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        
+        
+        assertNotNull(joinSessionId);
+        assertEquals(currentSession, joinSessionId);
     }
 }
