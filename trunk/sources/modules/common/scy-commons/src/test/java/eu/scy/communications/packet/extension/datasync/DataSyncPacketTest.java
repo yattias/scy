@@ -43,7 +43,7 @@ public class DataSyncPacketTest {
 				TEST_PERSISTENCE_ID);
 	}
 
-	@org.junit.Test
+//	@org.junit.Test
 	public void convertPojoToPacketExtension() {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
