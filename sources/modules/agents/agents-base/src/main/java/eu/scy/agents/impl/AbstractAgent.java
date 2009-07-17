@@ -9,31 +9,36 @@ import eu.scy.agents.api.IAgent;
  * 
  * @author fschulz
  */
-public class AbstractAgent implements IAgent {
+public abstract class AbstractAgent implements IAgent {
 
-	private TupleSpace tupleSpace;
+    private TupleSpace tupleSpace;
 
-	protected String name;
+    protected String name;
 
-	public AbstractAgent(String agentName) {
-		name = agentName;
-	}
+    public AbstractAgent(String agentName) {
+        name = agentName;
+    }
 
-	@Override
-	public TupleSpace getTupleSpace() {
-		if (tupleSpace == null) {
-			try {
-				tupleSpace = new TupleSpace();
-			} catch (TupleSpaceException e) {
-				e.printStackTrace();
-			}
-		}
-		return tupleSpace;
-	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    /**
+     * Get an instance of the tuplespace.
+     * 
+     * @return The global instance of the tuple space.
+     */
+    public TupleSpace getTupleSpace() {
+        if (tupleSpace == null) {
+            try {
+                tupleSpace = new TupleSpace();
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+        }
+        return tupleSpace;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
 }

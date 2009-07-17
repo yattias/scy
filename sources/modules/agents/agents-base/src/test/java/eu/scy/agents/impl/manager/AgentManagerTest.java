@@ -8,9 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import eu.scy.agents.api.IAgentFactory;
-import eu.scy.agents.api.IParameter;
-import eu.scy.agents.api.IThreadedAgent;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.ThreadedAgentMock;
 
@@ -26,19 +24,7 @@ public class AgentManagerTest {
 			Server.startServer();
 		}
 
-		agentManager = new AgentManager();
-		agentManager.setAgentFactory(new IAgentFactory() {
-			@Override
-			public IThreadedAgent create(IParameter params) {
-				mockAgent = new ThreadedAgentMock();
-				return mockAgent;
-			}
-
-			@Override
-			public String getAgentName() {
-				return ThreadedAgentMock.NAME;
-			}
-		});
+		agentManager = new AgentManager("localhost", 2525);
 	}
 
 	@AfterClass
@@ -48,8 +34,8 @@ public class AgentManagerTest {
 	}
 
 	@Test
-	public void testStartStopAgent() throws InterruptedException {
-		agentManager.startAgent(ThreadedAgentMock.NAME);
+	public void testStartStopAgent() throws InterruptedException, AgentLifecycleException {
+		agentManager.startAgent(ThreadedAgentMock.NAME, null);
 		// agentManager.startAgent(ThreadedAgentMock.NAME);
 		Thread.sleep(5000);
 
