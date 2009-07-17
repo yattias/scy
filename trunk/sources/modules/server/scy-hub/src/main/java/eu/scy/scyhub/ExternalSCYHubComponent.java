@@ -29,7 +29,7 @@ public class ExternalSCYHubComponent {
         // same value that we are setting here.
         manager.setSecretKey(props.datasyncMessageHub, props.datasyncExternalComponentSecretKey);
         // Set the manager to tag components as being allowed to connect multiple times to te same JID.
-        // manager.setMultipleAllowed("scyhub", true);
+         manager.setMultipleAllowed("scyhub", true);
         try {
             // Register that this component will be serving the given subdomain of the server
        	manager.addComponent(props.datasyncMessageHub, new SCYHubComponent());
