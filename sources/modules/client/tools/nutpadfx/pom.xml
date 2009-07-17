@@ -37,7 +37,7 @@
         <dependency>
             <groupId>eu.scy</groupId>
             <artifactId>data-synchronizer</artifactId>
-            <version>9.5.2-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>
@@ -84,6 +84,16 @@
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                <outputDirectory>/Users/anthonjp/dev/libs/mavensrc</outputDirectory>
+                <finalName>src</finalName>
+                <attach>false</attach>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
