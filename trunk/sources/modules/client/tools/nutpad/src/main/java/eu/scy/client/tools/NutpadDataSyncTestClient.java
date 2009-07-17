@@ -16,8 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
-import net.sf.sail.webapp.dao.authentication.impl.HibernateAclEntryDao;
-
 import org.apache.log4j.Logger;
 
 import roolo.elo.api.IMetadataKey;
