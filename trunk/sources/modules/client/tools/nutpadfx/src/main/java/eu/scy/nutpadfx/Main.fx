@@ -22,21 +22,14 @@ import java.util.*;
 import java.util.Date;
 import java.lang.System;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.communications.message.ISyncMessage;
+import eu.scy.communications.message.impl.SyncMessageHelper;
+import eu.scy.datasync.client.IDataSyncService;
+import eu.scy.toolbroker.ToolBrokerImpl;
 
-
-var stage:Stage;
-var popup : JFXDialog;
-var textBoxLength = 45;
-var toolSessionId:String;
-var toolId:String;
-var fromm:String;
-var to:String;
-var content:String;
-var event:String;
-var persistenceId: String;
-var expiration:String;
-
-var messageBarText:String;
+import java.text.SimpleDateFormat;
+import org.apache.commons.lang.StringUtils;
 
 var TOOL_SESSION_ID = "toolSessionId";
 var TOOL_ID = "toolId";
@@ -48,9 +41,29 @@ var PERSISTENCE_ID = "persistenceId";
 var EXPIRATION = "expiration";
 var TYPE = "DATASYNC";
 var TIME_STAMP = "timeStamp";
+def HARD_CODED_TOOL_NAME = "eu.scy.nutpadfx";
+def HARD_CODED_USER_NAME = "obama";
+def HARD_CODED_PASSWORD = "obama";
 
 var bgcolor = Color.BLACK;
 var props  = new CommunicationProperties();
+var stage:Stage;
+var popup : JFXDialog;
+var textBoxLength = 45;
+var toolSessionId:String;
+var toolId:String;
+var fromm:String;
+var to:String;
+var content:String;
+var event:String;
+var expiration = "{props.datasyncMessageDefaultExpiration}";
+var persistenceId:String;
+var currentSesson: String;
+
+var messageBarText:String;
+
+var tbi = new ToolBrokerImpl();
+var dataSyncService: IDataSyncService;
 var maps = new HashMap();
 var sp1 = Rectangle {
     			   fill: Color.TRANSPARENT
@@ -89,6 +102,7 @@ var buttonList = Grid {
 			row([Cell {
 			      content:  Button {
 			                 text: "Get All Sessions"
+                             action: getAllSessions
 			                 }
 				   fill :  HORIZONTAL
 				}]),
@@ -99,12 +113,14 @@ var buttonList = Grid {
 			row([Cell {
 			      content:  Button {
 			                 text: "Create Message"
+                             action: createMessage
 			                }
 			      fill :  HORIZONTAL
 			}]),
 			row([Cell {
 				content:  Button {
 						   text: "Get All Messages"
+                           action: getAllMessages
 						  }
 				fill :  HORIZONTAL
 			}]),
@@ -140,11 +156,11 @@ var messageBoxes : Group[];
 var someRows : Row[];
 var statuses : ListItem[];
 
-class ListItem extends CustomNode {
+class ListItem  {
      public var m: HashMap;
 
      override function toString() : String {
-         var ts = "{m.get(TIME_STAMP)}-{m.get(EVENT)}-{m.get(TOOL_SESSION_ID)} tool id:{m.get(TOOL_ID)} to:{m.get(TO)} from:{m.get(FROM)} content:{m.get(CONTENT)}";
+         var ts = "{m.get(TIME_STAMP)} ##{m.get(EVENT)}## {m.get(TOOL_SESSION_ID)} tool id:{m.get(TOOL_ID)} to:{m.get(TO)} from:{m.get(FROM)} content:{m.get(CONTENT)}";
          return ts;
      }
 
@@ -165,14 +181,7 @@ class ListItem extends CustomNode {
      	return ls;
      }
 
-     override function create(): Node {
-         Group {
-           content: null
-         }
-       }
-
 }
-
 var list: ListView = ListView {
         translateX: 0
         layoutInfo: LayoutInfo {
@@ -207,6 +216,40 @@ var rectSpace = Rectangle {
 	               height: bind messageBoxHeight
 
 				};
+function run(){
+
+dataSyncService = tbi.getDataSyncService();
+dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
+dataSyncService.addDataSyncListener(IDataSyncListener{
+       override function handleDataSyncEvent(e) : Void {
+           var syncMessage: ISyncMessage  = e.getSyncMessage();
+           var date: java.util.Date = new java.util.Date(System.currentTimeMillis());
+           var ts: java.sql.Timestamp = new java.sql.Timestamp(date.getTime());
+
+                 currentSesson = syncMessage.getToolSessionId();
+
+                 toolSessionId = syncMessage.getToolSessionId();
+                 toolId = syncMessage.getToolId();
+                 fromm = syncMessage.getFrom();
+                 to = syncMessage.getTo();
+                 content = syncMessage.getContent();
+                 event = syncMessage.getEvent();
+                 persistenceId = "{syncMessage.getPersistenceId()}";
+                 expiration = Long.toString(syncMessage.getExpiration());
+
+                 loadInfoMap();
+           if( syncMessage.getEvent().equals(props.clientEventCreateSession) ) {
+                println("\n-------- CREATE SESSION --------- {ts} \n{syncMessage.toString()}");
+
+           } else if( syncMessage.getEvent().equals(props.clientEventGetSessions)) {
+                var content = syncMessage.getContent();
+                println("\n-------- GET SESSIONS --------- {ts}\n{content}");
+           } else {
+                println("\n-------- new message --------- {ts}\n{syncMessage.toString()}");
+           }// if
+
+        }
+});
 
 
 stage = Stage {
@@ -253,8 +296,184 @@ stage = Stage {
     }
 }
 
+}
 
 
+
+
+
+
+function clearPad() : Void {
+	delete statuses;
+
+	messageBarText = "";
+}
+
+function loadInfoMap() : Void {
+        var date = new Date(System.currentTimeMillis());
+
+         var format="MM/dd/yyyy HH:mm";
+         var f = new SimpleDateFormat ( format ) ;
+         var ts = new java.sql.Timestamp(date.getTime());
+          
+
+
+        
+
+        maps.put(TIME_STAMP, f.format ( ts ));
+        maps.put(TOOL_SESSION_ID,toolSessionId);
+        maps.put(TOOL_ID,toolId);
+        maps.put(FROM,fromm);
+        maps.put(TO,to);
+        maps.put(CONTENT,content);
+        maps.put(EVENT,event);
+        maps.put(PERSISTENCE_ID,persistenceId);
+        maps.put(EXPIRATION,expiration);
+
+
+        var li = ListItem {
+            		m: maps;
+        }
+
+        insert li into statuses;
+}
+
+function checkSessions() : Void {
+     if( StringUtils.trimToNull(toolSessionId) == null) {
+        toolSessionId = "no current session available, create session first";
+    } else {
+        toolSessionId = currentSesson;
+    }
+    toolId = HARD_CODED_TOOL_NAME;
+    fromm = HARD_CODED_USER_NAME;
+}
+
+function getAllSessions() : Void {
+
+    event = props.clientEventGetSessions;
+    checkSessions();
+    showPopup(stage);
+}
+
+function getAllMessages() : Void {
+
+    event = props.clientEventQuery;
+    checkSessions();
+    showPopup(stage);
+}
+
+
+function createMessage() : Void {
+    event = props.clientEventCreateData;
+
+    checkSessions();
+    //SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventSynchronize,currentSession);
+
+    showPopup(stage);
+
+}
+
+function joinSession() : Void {
+    event = props.clientEventJoinSession;
+}
+
+function createNewSession() : Void {
+    dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+    //event = props.clientEventCreateSession;
+
+    //showPopup(stage);
+    println("create new session called");
+}
+
+function sendMessage() : Void {
+
+   var sm = SyncMessageHelper.createSyncMessage(toolSessionId, toolId, fromm, to, content, event,null, Long.parseLong(expiration));
+   dataSyncService.sendMessage(sm);
+   	popup.scene.stage.close();
+	popup.owner.close();
+}
+
+function addToStatuses( eventType: String, toPrintMap : HashMap ) : Void {
+   var c = toPrintMap.values();
+
+   var status:String;
+
+   var it = toPrintMap.keySet().iterator();
+   println(toPrintMap.toString());
+   var event = "{eventType} -- ";
+
+   var buffer:java.lang.StringBuffer;
+   buffer = new java.lang.StringBuffer();
+   buffer.append(event);
+   while(it.hasNext()) {
+        var key = it.next() as String;
+        var v = toPrintMap.get(key) as String;
+
+        if( key != "event" ) {
+
+            buffer.append(key).append(": ").append(v).append(" ");
+
+        	//status.concat(key.toString()).concat(": ").concat(v.toString()).concat("\n");
+        }
+
+   	}
+
+ 	 println(buffer.toString());
+   	//insert buffer.toString() into statuses;
+
+}
+
+
+
+function cancel() : Void {
+    println("closing dialog");
+	popup.scene.stage.close();
+	popup.owner.close();
+}
+
+
+function makeMessageBox( message : String ) : Group {
+	var group = Group {
+	       var border: Border;
+	       content: [
+	           Rectangle {
+
+	               width:  bind list.width - 3
+	               height: 165
+	               fill:  LinearGradient {
+	                    startX : 0.0
+	                    startY : 0.0
+	                    endX : 0.5
+	                    endY : 1.0
+	                    proportional: true
+	                    stops : [ Stop {
+	                        offset : 0.0
+	                        color : Color.ORANGE
+	                    }, Stop {
+	                        offset : 1.0
+	                        color : Color.WHITE
+	                    }]
+	                }
+	                stroke: Color.YELLOW
+	                arcWidth: 20
+	                arcHeight: 20
+				}
+	       , Text {
+	           font: Font {
+	               size: 11
+	           },
+	           x: 10,
+	           y: 20
+
+	           content: bind messageBarText
+	       }]
+	}
+
+
+
+	return group;
+
+}
 
 
 function showPopup( owner : Stage ) : Void {
@@ -333,14 +552,6 @@ function showPopup( owner : Stage ) : Void {
                                columns: textBoxLength
                          	   selectOnFocus: true
                          }]),
-                    row([Label {
-                               textFill: bind clr
-                               text: "Persistence Id:"
-                         }, TextBox {
-                               text: bind persistenceId with inverse
-                               columns: textBoxLength
-                         	   selectOnFocus: true
-                         }]),
 					row([Label {
 					     	   textFill: bind clr
 							   text: "Expiration:"
@@ -377,146 +588,5 @@ function showPopup( owner : Stage ) : Void {
             }
         }
     }
-
-}
-
-
-function clearPad() : Void {
-	delete statuses;
-
-	messageBarText = "";
-}
-
-function loadInfoMap() : Void {
-        var date = new Date(System.currentTimeMillis());
-        var ts = new java.sql.Timestamp(date.getTime());
-
-        maps.put(TIME_STAMP, ts);
-        maps.put(TOOL_SESSION_ID,toolSessionId);
-        maps.put(TOOL_ID,toolId);
-        maps.put(FROM,fromm);
-        maps.put(TO,to);
-        maps.put(CONTENT,content);
-        maps.put(EVENT,event);
-        maps.put(PERSISTENCE_ID,persistenceId);
-        maps.put(EXPIRATION,expiration);
-
-
-        var li = ListItem {
-            		m: maps;
-        }
-
-        insert li into statuses;
-}
-
-function getAllSessions() : Void {
-
-    event = props.clientEventGetSessions;
-
-}
-
-function createMessage() : Void {
-    event = props.clientEventCreateData;
-}
-
-function joinSession() : Void {
-    event = props.clientEventJoinSession;
-}
-
-function createNewSession() : Void {
-
-    event = props.clientEventCreateSession;
-
-    showPopup(stage);
-        println("button called");
-
-        
-
-
-
-}
-
-function addToStatuses( eventType: String, toPrintMap : HashMap ) : Void {
-   var c = toPrintMap.values();
-
-   var status:String;
-
-   var it = toPrintMap.keySet().iterator();
-   println(toPrintMap.toString());
-   var event = "{eventType} -- ";
-
-   var buffer:java.lang.StringBuffer;
-   buffer = new java.lang.StringBuffer();
-   buffer.append(event);
-   while(it.hasNext()) {
-        var key = it.next() as String;
-        var v = toPrintMap.get(key) as String;
-
-        if( key != "event" ) {
-
-            buffer.append(key).append(": ").append(v).append(" ");
-
-        	//status.concat(key.toString()).concat(": ").concat(v.toString()).concat("\n");
-        }
-
-   	}
-
- 	 println(buffer.toString());
-   	//insert buffer.toString() into statuses;
-
-}
-
-function sendMessage() : Void {
-
-}
-
-function cancel() : Void {
-    println("closing dialog");
-    WindowHelper.extractWindow(null);
-	popup.scene.stage.close();
-	popup.owner.close();
-}
-
-
-function makeMessageBox( message : String ) : Group {
-	var group = Group {
-	       var border: Border;
-	       content: [
-	           Rectangle {
-
-	               width:  bind list.width - 3
-	               height: 165
-	               fill:  LinearGradient {
-	                    startX : 0.0
-	                    startY : 0.0
-	                    endX : 0.5
-	                    endY : 1.0
-	                    proportional: true
-	                    stops : [ Stop {
-	                        offset : 0.0
-	                        color : Color.ORANGE
-	                    }, Stop {
-	                        offset : 1.0
-	                        color : Color.WHITE
-	                    }]
-	                }
-	                stroke: Color.YELLOW
-	                arcWidth: 20
-	                arcHeight: 20
-				}
-	       , Text {
-	           font: Font {
-	               size: 11
-	           },
-	           x: 10,
-	           y: 20
-
-	           content: bind messageBarText
-	       }]
-	}
-
-
-
-	return group;
 
 }
