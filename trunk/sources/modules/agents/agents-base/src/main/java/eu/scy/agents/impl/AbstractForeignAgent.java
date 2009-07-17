@@ -33,12 +33,15 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
     protected static File findExecutable(String... exeNames) {
         HashSet<String> exes = new HashSet<String>(Arrays.asList(exeNames));
         String pathVar = System.getenv("PATH");
+        System.out.println(pathVar);
         String[] pathComps = pathVar.split(File.pathSeparator);
         for (String p : pathComps) {
             File f = new File(p);
-            for (File f1 : f.listFiles()) {
-                if (exes.contains(f1.getName())) {
-                    return f1;
+            if (f.listFiles() != null) {
+                for (File f1 : f.listFiles()) {
+                    if (exes.contains(f1.getName())) {
+                        return f1;
+                    }
                 }
             }
         }
