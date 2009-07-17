@@ -3,11 +3,7 @@ package eu.scy.agents.roolo.elo.misspelling;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IAgentFactory;
-import eu.scy.agents.api.IParameter;
-import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AbstractCommunicationAgent;
-import eu.scy.agents.roolo.elo.elobrowsernotification.NotifyEloBrowserAgent;
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
 
@@ -18,8 +14,7 @@ import eu.scy.notification.api.INotification;
  * @author fschulz_2
  * 
  */
-public class MisspellingNotificationAgent extends AbstractCommunicationAgent
-		implements IAgentFactory {
+public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 
 	private static final String NOTIFY_ABOUT_MISSPELLINGS_NAME = "NotifyAboutMisspellings";
 	private boolean stopped;
@@ -54,16 +49,6 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent
 	private Tuple getTemplateTuple() {
 		return new Tuple("misspellings", String.class, Long.class,
 				Integer.class, String.class);
-	}
-
-	@Override
-	public IThreadedAgent create(IParameter params) {
-		return new NotifyEloBrowserAgent();
-	}
-
-	@Override
-	public String getAgentName() {
-		return NOTIFY_ABOUT_MISSPELLINGS_NAME;
 	}
 
 	@Override

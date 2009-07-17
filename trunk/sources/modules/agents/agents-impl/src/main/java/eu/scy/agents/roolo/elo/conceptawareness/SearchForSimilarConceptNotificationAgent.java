@@ -2,16 +2,13 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import eu.scy.agents.api.IAgentFactory;
-import eu.scy.agents.api.IParameter;
-import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AbstractCommunicationAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
 
 public class SearchForSimilarConceptNotificationAgent extends
-		AbstractCommunicationAgent implements IAgentFactory {
+		AbstractCommunicationAgent {
 
 	private static final String SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT = "SearchForSimilarConceptNotificationAgent";
 	private boolean stopped;
@@ -51,16 +48,6 @@ public class SearchForSimilarConceptNotificationAgent extends
 			}
 		}
 		stopped = true;
-	}
-
-	@Override
-	public IThreadedAgent create(IParameter arg0) {
-		return new SearchForSimilarConceptNotificationAgent();
-	}
-
-	@Override
-	public String getAgentName() {
-		return SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT;
 	}
 
 	@Override

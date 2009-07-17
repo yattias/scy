@@ -31,7 +31,7 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
-	protected MisspellingProcessELO(String name) {
+	protected MisspellingProcessELO() {
 		super("MisspellingProcessELO");
 	}
 
