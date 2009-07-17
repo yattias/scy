@@ -32,8 +32,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 				getTupleSpace().eventDeRegister(commandId);
 				getTupleSpace().disconnect();
 			} catch (TupleSpaceException e) {
-				// TODO do we care about exceptions here?
-				// e.printStackTrace();
+				// we do not care about exceptions here
+			        e.printStackTrace();
 			}
 		} else {
 			throw new AgentLifecycleException(name + " already dead");
