@@ -15,7 +15,8 @@ public class EnrichConceptMapAgentTest extends ConceptMapAgentsTestFixture {
 
 	private EnrichConceptMapAgent<IELO<IMetadataKey>, IMetadataKey> agent;
 
-	@Before
+	@Override
+        @Before
 	public void setUp() throws Exception {
 		super.setUp();
 

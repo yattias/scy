@@ -80,7 +80,8 @@ public class SearchForSimilarConceptsAgentTest extends
 
 	private File eloStoreDir;
 
-	@Before
+	@Override
+        @Before
 	public void setUp() throws Exception {
 		super.setUp();
 		if (!Server.isRunning()) {

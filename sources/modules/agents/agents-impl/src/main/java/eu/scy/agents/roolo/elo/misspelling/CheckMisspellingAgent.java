@@ -15,9 +15,6 @@ import com.swabunga.spell.event.SpellChecker;
 import com.swabunga.spell.event.StringWordTokenizer;
 
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.api.IAgentFactory;
-import eu.scy.agents.api.IParameter;
-import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AbstractProcessingAgent;
 
 /**
@@ -38,7 +35,7 @@ import eu.scy.agents.impl.AbstractProcessingAgent;
  * @param <K>
  */
 public class CheckMisspellingAgent<K extends IMetadataKey> extends
-		AbstractProcessingAgent<K> implements IAgentFactory {
+		AbstractProcessingAgent<K> {
 
 	private static final String CHECK_MISSPELLING_AGENT_NAME = "CheckMisspellingAgent";
 	private SpellChecker spellChecker;
@@ -91,17 +88,6 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 	private Tuple getTemplateTuple() {
 		return new Tuple("misspellings", String.class, Long.class,
 				String.class, String.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public IThreadedAgent create(IParameter params) {
-		return new CheckMisspellingAgent();
-	}
-
-	@Override
-	public String getAgentName() {
-		return CHECK_MISSPELLING_AGENT_NAME;
 	}
 
 	@Override

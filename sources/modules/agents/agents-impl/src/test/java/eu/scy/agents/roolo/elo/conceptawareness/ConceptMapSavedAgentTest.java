@@ -22,7 +22,8 @@ public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
 	private ConceptMapSavedAgent<IELO<IMetadataKey>, IMetadataKey> agent;
 	private TupleSpace ts;
 
-	@Before
+	@Override
+        @Before
 	public void setUp() throws Exception {
 		if (!Server.isRunning()) {
 			Configuration.getConfiguration().setSSLEnabled(false);
