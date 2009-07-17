@@ -13,5 +13,9 @@ public class AgentLifecycleException extends Exception {
 	public AgentLifecycleException(String message) {
 		super(message);
 	}
+	
+        public AgentLifecycleException(String message, Throwable cause) {
+            super(message, cause);
+        }
 
 }
