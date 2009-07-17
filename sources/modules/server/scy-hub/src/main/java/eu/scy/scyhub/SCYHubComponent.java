@@ -73,6 +73,8 @@ public class SCYHubComponent implements Component {
                         dataSyncModule.getSessions(dse.toPojo());
                     } else if( dse.getEvent().equals(communicationProps.clientEventSynchronize) ) {
                         dataSyncModule.synchronizeClientState(dse.toPojo());
+                    } else if( dse.getEvent().equals(communicationProps.clientEventJoinSession)) {
+                        dataSyncModule.joinSession(dse.toPojo());
                     }
                 } catch (DataSyncException e1) {
                     e1.printStackTrace();
