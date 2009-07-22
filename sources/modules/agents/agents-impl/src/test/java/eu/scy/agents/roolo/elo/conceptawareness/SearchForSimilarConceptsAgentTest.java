@@ -11,7 +11,9 @@ import info.collide.sqlspaces.server.Server;
 
 import java.io.File;
 import java.net.URI;
+import java.rmi.dgc.VMID;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -129,8 +131,10 @@ public class SearchForSimilarConceptsAgentTest extends
 				"user3", 3L));
 		conceptMap2ELO.setContent(new BasicContent(CONCEPT_MAP2));
 		repo.addELO(conceptMap2ELO);
-
-		agent = new SearchForSimilarConceptsAgent<IMetadataKey>();
+		String agentId = new VMID().toString();
+                HashMap<String,Object> map = new HashMap<String, Object>();
+                map.put("id", agentId);
+		agent = new SearchForSimilarConceptsAgent<IMetadataKey>(map);
 		agent.setRepository(repo);
 		agent.setMetadataTypeManager(typeManager);
 		agent.start();
