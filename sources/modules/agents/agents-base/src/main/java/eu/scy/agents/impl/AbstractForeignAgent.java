@@ -20,6 +20,8 @@ import eu.scy.agents.api.IThreadedAgent;
 public abstract class AbstractForeignAgent implements IThreadedAgent {
 
     private String name;
+    
+    private String id;
 
     private Process process;
 
@@ -48,8 +50,9 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
         return null;
     }
 
-    public AbstractForeignAgent(String name) {
+    public AbstractForeignAgent(String name, String id) {
         this.name = name;
+        this.id = id;
     }
 
     @Override
@@ -153,6 +156,10 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
     @Override
     public String getName() {
         return name;
+    }
+    @Override
+    public String getId() {
+        return id;
     }
 
 }

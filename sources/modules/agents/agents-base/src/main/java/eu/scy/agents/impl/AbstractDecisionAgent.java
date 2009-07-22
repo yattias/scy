@@ -5,8 +5,8 @@ import eu.scy.agents.api.IDecisionAgent;
 public abstract class AbstractDecisionAgent extends AbstractThreadedAgent
 		implements IDecisionAgent {
 
-	protected AbstractDecisionAgent(String name) {
-		super(name);
+	protected AbstractDecisionAgent(String name, String id) {
+		super(name, id);
 	}
 
 }

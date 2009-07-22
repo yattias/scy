@@ -18,8 +18,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	private int commandId;
 	public TupleID aliveTupleID = null;
 
-	protected AbstractThreadedAgent(String name) {
-		super(name);
+	protected AbstractThreadedAgent(String name, String id) {
+		super(name, id);
 		status = Status.Initializing;
 	}
 
@@ -117,10 +117,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	protected void sendAliveUpdate() throws TupleSpaceException {
 		if (aliveTupleID == null) {
 			aliveTupleID = getTupleSpace().write(
-					AgentProtocol.getAliveTuple(getName(), status));
+					AgentProtocol.getAliveTuple(getName(),getId(), status));
 		} else {
 			getTupleSpace().update(aliveTupleID,
-					AgentProtocol.getAliveTuple(getName(), status));
+					AgentProtocol.getAliveTuple(getName(),getId(), status));
 		}
 	}
 
