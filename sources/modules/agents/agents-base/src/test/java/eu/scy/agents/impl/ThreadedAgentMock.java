@@ -3,6 +3,8 @@
  */
 package eu.scy.agents.impl;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -30,8 +32,8 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 	public static final String NAME = "MockAgent";
 	private int runCount;
 
-	public ThreadedAgentMock() {
-		super(NAME);
+	public ThreadedAgentMock(@SuppressWarnings("unused") Map<String, Object> map) {
+		super(NAME, (String) map.get("id"));
 		runCount = 0;
 	}
 

@@ -35,12 +35,12 @@ public class AgentManagerTest {
 
 	@Test
 	public void testStartStopAgent() throws InterruptedException, AgentLifecycleException {
-		agentManager.startAgent(ThreadedAgentMock.NAME, null);
+		String id=agentManager.startAgent(ThreadedAgentMock.NAME, null);
 		// agentManager.startAgent(ThreadedAgentMock.NAME);
 		Thread.sleep(5000);
 
 		assertTrue("Agent not started", mockAgent.isRunning());
-		agentManager.stopAgent(ThreadedAgentMock.NAME);
+		agentManager.stopAgent(ThreadedAgentMock.NAME, id);
 
 		Thread.sleep(1000);
 
