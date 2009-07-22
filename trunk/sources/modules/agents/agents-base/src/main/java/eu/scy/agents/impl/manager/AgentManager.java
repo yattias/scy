@@ -72,7 +72,7 @@ public class AgentManager implements Callback {
 
     public void stopAgent(String name, String id) {
         try {
-            tupleSpace.write(AgentProtocol.getStopTuple(name, id));
+            tupleSpace.write(AgentProtocol.getStopTuple(name, id, new VMID()));
         } catch (TupleSpaceException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +116,7 @@ public class AgentManager implements Callback {
 
     public void killAgent(String name, String id) {
         try {
-            tupleSpace.write(AgentProtocol.getKillTuple(name, id));
+            tupleSpace.write(AgentProtocol.getKillTuple(name, id, new VMID()));
             IThreadedAgent agent = agents.remove(id);
             oldAgents.put(id, agent);
         } catch (TupleSpaceException e) {
