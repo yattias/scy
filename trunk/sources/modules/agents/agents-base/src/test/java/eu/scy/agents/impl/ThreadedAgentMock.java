@@ -64,4 +64,10 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 		return status == Status.Stopping;
 	}
 
+    @Override
+    protected Tuple getIdentifyTuple() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
