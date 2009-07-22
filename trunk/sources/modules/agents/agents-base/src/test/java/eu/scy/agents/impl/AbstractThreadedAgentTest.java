@@ -1,6 +1,10 @@
 package eu.scy.agents.impl;
 
 import static org.junit.Assert.assertTrue;
+
+import java.rmi.dgc.VMID;
+import java.util.HashMap;
+
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Configuration;
@@ -28,7 +32,10 @@ public class AbstractThreadedAgentTest implements Callback {
 			Configuration.getConfiguration().setSSLEnabled(false);
 			Server.startServer();
 		}
-		agent = new ThreadedAgentMock();
+		String agentId = new VMID().toString();
+                HashMap<String,Object> map = new HashMap<String, Object>();
+                map.put("id", agentId);
+		agent = new ThreadedAgentMock(map);
 	}
 
 	@After
