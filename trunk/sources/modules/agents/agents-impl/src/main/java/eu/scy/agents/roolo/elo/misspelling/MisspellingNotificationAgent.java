@@ -63,4 +63,10 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 		return stopped;
 	}
 
+    @Override
+    protected Tuple getIdentifyTuple() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

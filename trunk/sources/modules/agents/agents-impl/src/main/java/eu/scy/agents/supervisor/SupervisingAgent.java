@@ -239,7 +239,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     private Tuple createIdentifyTuple(String agentId, String agentName) {
-        Tuple t = new Tuple("query", new VMID().toString(), String.class, agentName, "identify");
+        Tuple t = new Tuple(AgentProtocol.COMMAND_LINE,"query", new VMID().toString(), String.class, agentName, "identify");
         return t;
     }
 
@@ -340,6 +340,11 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         map.put("id", agentId);
         Thread t = new Thread(new SupervisingAgent(map));
         t.start();
+    }
+
+    @Override
+    protected Tuple getIdentifyTuple() {
+        return null;
     }
 
 }

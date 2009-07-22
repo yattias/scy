@@ -1,9 +1,10 @@
 package eu.scy.agents.supervisor;
 
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AbstractThreadedAgent.Status;
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
+
+import java.rmi.dgc.VMID;
+
+import eu.scy.agents.impl.AgentProtocol;
 
 
 public class SupervisingAgentTest {
@@ -14,7 +15,7 @@ public class SupervisingAgentTest {
      */
     public static void main(String[] args) throws Exception {
         TupleSpace ts = new TupleSpace(AgentProtocol.COMMAND_SPACE_NAME);
-        ts.write(AgentProtocol.getAliveTuple("MyTestAgent", "666", Status.Running));
+        ts.write(AgentProtocol.getAliveTuple("MyTestAgent", "666", new VMID()));
     }
 
 }

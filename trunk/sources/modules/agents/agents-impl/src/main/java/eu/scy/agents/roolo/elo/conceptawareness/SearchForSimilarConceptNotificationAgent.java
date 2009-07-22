@@ -61,4 +61,10 @@ public class SearchForSimilarConceptNotificationAgent extends
 	protected void doStop() {
 		// nothing to do
 	}
+
+    @Override
+    protected Tuple getIdentifyTuple() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
