@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 
@@ -52,8 +53,8 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 
 	private boolean stopped;
 
-	public SearchForSimilarConceptsAgent() {
-		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME);
+	public SearchForSimilarConceptsAgent(Map<String, Object> map) {
+		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME,(String) map.get("id"));
 		score = new HashMap<URI, Double>();
 	}
 

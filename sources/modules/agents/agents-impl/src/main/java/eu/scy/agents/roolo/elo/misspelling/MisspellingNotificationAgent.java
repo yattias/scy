@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.misspelling;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -19,8 +21,8 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 	private static final String NOTIFY_ABOUT_MISSPELLINGS_NAME = "NotifyAboutMisspellings";
 	private boolean stopped;
 
-	public MisspellingNotificationAgent() {
-		super(NOTIFY_ABOUT_MISSPELLINGS_NAME);
+	public MisspellingNotificationAgent(Map<String, Object> map) {
+		super(NOTIFY_ABOUT_MISSPELLINGS_NAME, (String) map.get("id"));
 	}
 
 	@Override

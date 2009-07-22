@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.misspelling;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -31,8 +33,8 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
-	protected MisspellingProcessELO() {
-		super("MisspellingProcessELO");
+	protected MisspellingProcessELO(Map<String, Object> map) {
+		super("MisspellingProcessELO", (String) map.get("id"));
 	}
 
 	@SuppressWarnings("unchecked")

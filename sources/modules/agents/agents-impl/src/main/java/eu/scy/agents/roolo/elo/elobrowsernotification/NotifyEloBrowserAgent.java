@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -20,8 +22,8 @@ public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 	public static final String NOTIFY_ELO_BROWSER_AGENT_NAME = "NotifyEloBrowserAgent";
 	private boolean stopped;
 
-	public NotifyEloBrowserAgent() {
-		super(NOTIFY_ELO_BROWSER_AGENT_NAME);
+	public NotifyEloBrowserAgent(Map<String, Object> map) {
+		super(NOTIFY_ELO_BROWSER_AGENT_NAME, (String) map.get("id"));
 	}
 
 	@Override

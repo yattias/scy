@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import roolo.elo.api.IELO;
@@ -19,8 +21,8 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class ELOHasBeenSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
-	public ELOHasBeenSavedAgent() {
-		super("NotifiyELOBroserAgent");
+	public ELOHasBeenSavedAgent(Map<String, Object> map) {
+		super("NotifiyELOBroserAgent", (String) map.get("id"));
 	}
 
 	@Override

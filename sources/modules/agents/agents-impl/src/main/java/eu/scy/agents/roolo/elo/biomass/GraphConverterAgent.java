@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -33,8 +34,8 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 	private LinkedHashMap<String, Node> nodes;
 	private int[] edgeValues;
 
-	public GraphConverterAgent() {
-		super("GraphConverter");
+	public GraphConverterAgent(Map<String, Object> map) {
+		super("GraphConverter",(String) map.get("id"));
 		this.nodes = new LinkedHashMap<String, Node>();
 		this.edgeValues = new int[6];
 		for (int i = 0; i < this.edgeValues.length; i++) {
