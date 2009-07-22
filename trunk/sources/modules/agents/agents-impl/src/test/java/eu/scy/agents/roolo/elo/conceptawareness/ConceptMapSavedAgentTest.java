@@ -8,6 +8,8 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.server.Server;
 
 import java.net.URI;
+import java.rmi.dgc.VMID;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,8 +37,10 @@ public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
 				.getMetadataValueContainer(typeManager.getMetadataKey("uri"));
 		uriContainer.setValue(new URI(
 				"http://unittest.conceptmapsavedagent.de/1/bla.scymapping"));
-
-		agent = new ConceptMapSavedAgent<IELO<IMetadataKey>, IMetadataKey>();
+		String agentId = new VMID().toString();
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("id", agentId);
+		agent = new ConceptMapSavedAgent<IELO<IMetadataKey>, IMetadataKey>(map);
 		agent.setMetadataTypeManager(typeManager);
 		ts = new TupleSpace();
 	}
