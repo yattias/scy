@@ -117,7 +117,7 @@ public class Model {
   public void removeObject(JdObject aObj) {
     JdColor.freeColor(aObj.getLabelColor());
     objs.remove(aObj.getLabel());
-    logger.logDeleteAction(aObj, this.getXmModel().toString());
+    logger.logDeleteAction(aObj, this.getXmModel().getXML("", true));
   }
   //-------------------------------------------------------------------------
   public void renameObject(String oldName, String newName) {
