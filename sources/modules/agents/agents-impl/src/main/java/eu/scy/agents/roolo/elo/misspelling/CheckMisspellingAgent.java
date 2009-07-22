@@ -101,4 +101,10 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 		return stopped;
 	}
 
+    @Override
+    protected Tuple getIdentifyTuple() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
