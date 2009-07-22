@@ -98,8 +98,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
             return;
         }
         if (AgentProtocol.COMMAND_LINE.equals(afterTuple.getField(0).getValue())) {
-            if (afterTuple.getField(1).getValue().equals(getName().trim())) {
-                String message = (String) afterTuple.getField(3).getValue();
+            if (afterTuple.getField(3).getValue().equals(getName().trim())) {
+                String message = (String) afterTuple.getField(4).getValue();
                 // if (AgentProtocol.MESSAGE_START.equals(message)) {
                 // this.start();
                 // }
