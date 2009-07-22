@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jdom.Document;
@@ -24,8 +25,8 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 	private IMetadataKey nodeLabelKey;
 	private IMetadataKey linkLabelKey;
 
-	public EnrichConceptMapAgent() {
-		super("EnrichConceptMapAgent");
+	public EnrichConceptMapAgent(Map<String, Object> map) {
+		super("EnrichConceptMapAgent",(String) map.get("id"));
 	}
 
 	@SuppressWarnings("unchecked")

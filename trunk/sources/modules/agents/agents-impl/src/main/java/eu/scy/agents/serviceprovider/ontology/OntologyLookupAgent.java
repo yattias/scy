@@ -9,7 +9,7 @@ import eu.scy.agents.impl.AbstractForeignAgent;
 public class OntologyLookupAgent extends AbstractForeignAgent {
 
     public OntologyLookupAgent(@SuppressWarnings("unused") Map<String, Object> map) {
-        super("Ontology Lookup Agent");
+        super("Ontology Lookup Agent", (String) map.get("id"));
     }
 
     public static void main(String[] args) throws Exception {
@@ -32,4 +32,5 @@ public class OntologyLookupAgent extends AbstractForeignAgent {
         return System.out;
     }
 
+   
 }

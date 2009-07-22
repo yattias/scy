@@ -17,8 +17,8 @@ import eu.scy.agents.impl.AbstractAgent;
 public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractAgent implements IELOFilterAgent<T, K> {
 
-	public DrawingAnalyserAgent() {
-		super("DrawingAnalyserAgent");
+	public DrawingAnalyserAgent(Map<String, Object> map) {
+		super("DrawingAnalyserAgent", (String) map.get("id"));
 	}
 
 	private static final String scyDrawType = "scy/drawing";

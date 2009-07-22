@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.conceptawareness;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -12,8 +14,8 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
 public class ConceptMapSavedAgent<T extends IELO<K>, K extends IMetadataKey>
 		extends AbstractELOAgent<T, K> {
 
-	protected ConceptMapSavedAgent() {
-		super("ConceptMapSavedAgent");
+	protected ConceptMapSavedAgent(Map<String, Object> map) {
+		super("ConceptMapSavedAgent",(String) map.get("id"));
 	}
 
 	@SuppressWarnings("unchecked")

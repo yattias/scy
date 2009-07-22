@@ -1,5 +1,7 @@
 package eu.scy.agents.roolo.elo.conceptawareness;
 
+import java.util.Map;
+
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.impl.AbstractCommunicationAgent;
@@ -13,8 +15,8 @@ public class SearchForSimilarConceptNotificationAgent extends
 	private static final String SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT = "SearchForSimilarConceptNotificationAgent";
 	private boolean stopped;
 
-	public SearchForSimilarConceptNotificationAgent() {
-		super(SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT);
+	public SearchForSimilarConceptNotificationAgent(Map<String, Object> map) {
+		super(SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT,(String) map.get("id"));
 	}
 
 	@Override

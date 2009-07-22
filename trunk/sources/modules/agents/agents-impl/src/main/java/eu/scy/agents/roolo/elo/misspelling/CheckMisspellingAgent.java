@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import roolo.elo.api.IMetadataKey;
 
@@ -41,8 +42,8 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 	private SpellChecker spellChecker;
 	private boolean stopped = false;
 
-	public CheckMisspellingAgent() {
-		super(CHECK_MISSPELLING_AGENT_NAME);
+	public CheckMisspellingAgent(Map<String, Object> map) {
+		super(CHECK_MISSPELLING_AGENT_NAME, (String) map.get("id"));
 		InputStream inputStream = CheckMisspellingAgent.class
 				.getResourceAsStream("/eng_com.dic");
 		SpellDictionary dictionary;
