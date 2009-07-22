@@ -6,8 +6,8 @@ import eu.scy.agents.impl.AbstractAgent;
 public abstract class AbstractActionLogFilterAgent extends AbstractAgent
 		implements IActionLogFilterAgent {
 
-	public AbstractActionLogFilterAgent(String agentName) {
-		super(agentName);
+	public AbstractActionLogFilterAgent(String agentName, String id) {
+		super(agentName, id);
 	}
 
 }

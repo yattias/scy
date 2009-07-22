@@ -6,8 +6,8 @@ import eu.scy.agents.api.IProcessingAgent;
 public abstract class AbstractProcessingAgent<K extends IMetadataKey> extends
 		AbstractThreadedAgent implements IProcessingAgent<K> {
 
-	public AbstractProcessingAgent(String threadName) {
-		super(threadName);
+	public AbstractProcessingAgent(String threadName, String id) {
+		super(threadName, id);
 	}
 
 }

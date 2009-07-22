@@ -7,6 +7,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.IThreadedAgent;
@@ -61,38 +61,42 @@ public class AgentManager implements Callback {
     }
 
     protected void cleanUp() {
-        for (String agentName : agents.keySet()) {
-            killAgent(agentName);
+        for (IThreadedAgent agent : agents.values()) {
+            killAgent(agent.getName(), agent.getId());
         }
-        for (String agentName : oldAgents.keySet()) {
-            killAgent(agentName);
+        for (IThreadedAgent agent : oldAgents.values()) {
+            killAgent(agent.getName(), agent.getId());
         }
+
     }
 
-    public void stopAgent(String name) {
+    public void stopAgent(String name, String id) {
         try {
-            tupleSpace.write(AgentProtocol.getStopTuple(name));
+            tupleSpace.write(AgentProtocol.getStopTuple(name, id));
         } catch (TupleSpaceException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void startAgent(String name, Map<String, Object> params) throws AgentLifecycleException {
+    public String startAgent(String name, Map<String, Object> params) throws AgentLifecycleException {
         try {
             Class<?> c = Class.forName(name);
             Constructor<?> con = c.getConstructor(Map.class);
+            String agentId = new VMID().toString();
             if (params == null) {
                 params = new HashMap<String, Object>();
+                params.put("id", agentId);
             }
             IThreadedAgent agent = (IThreadedAgent) con.newInstance(params);
-            agents.put(name, agent);
-            startParameters.put(name, params);
+            agents.put(agentId, agent);
+            startParameters.put(agentId, params);
             if (agent instanceof IRepositoryAgent) {
                 IRepositoryAgent ira = (IRepositoryAgent) agent;
                 ira.setMetadataTypeManager(manager);
                 ira.setRepository(repository);
             }
             agent.start();
+            return agentId;
         } catch (ClassNotFoundException e) {
             throw new AgentLifecycleException("Class for agent " + name + " not found! Could not be started!", e);
         } catch (SecurityException e) {
@@ -110,11 +114,11 @@ public class AgentManager implements Callback {
         }
     }
 
-    public void killAgent(String name) {
+    public void killAgent(String name, String id) {
         try {
-            tupleSpace.write(AgentProtocol.getKillTuple(name));
-            IThreadedAgent agent = agents.remove(name);
-            oldAgents.put(name, agent);
+            tupleSpace.write(AgentProtocol.getKillTuple(name, id));
+            IThreadedAgent agent = agents.remove(id);
+            oldAgents.put(id, agent);
         } catch (TupleSpaceException e) {
             throw new RuntimeException(e);
         }
@@ -132,33 +136,34 @@ public class AgentManager implements Callback {
     public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
         if (AgentProtocol.ALIVE_TUPLE_TEMPLATE.matches(afterTuple)) {
             if ((Command.WRITE == command) || (Command.UPDATE == command)) {
-                String agentName = (String) afterTuple.getField(2).getValue();
+                String agentId = (String) afterTuple.getField(2).getValue();
                 long aliveTS = afterTuple.getLastModificationTimestamp();
-                if (oldAgents.containsKey(agentName)) {
-                    System.err.println("Agent " + agentName + " should be stopped, but is still running. Trying to kill it the hard way ...");
-                    IThreadedAgent agent = agents.get(agentName);
+                if (oldAgents.containsKey(agentId)) {
+                    System.err.println("Agent " + agentId + " should be stopped, but is still running. Trying to kill it the hard way ...");
+                    IThreadedAgent agent = agents.get(agentId);
                     try {
                         agent.stop();
                     } catch (AgentLifecycleException e) {
                         e.printStackTrace();
                     }
-                } else if (agents.containsKey(agentName)) {
-                    agentAlive.put(agentName, aliveTS);
-                    System.out.println(agentName + " still alive!");
+                } else if (agents.containsKey(agentId)) {
+                    agentAlive.put(agentId, aliveTS);
+                    System.out.println(agentId + " still alive!");
                 }
             } else if (Command.DELETE == command) {
                 String agentId = (String) beforeTuple.getField(2).getValue();
+                String agentName = (String) beforeTuple.getField(3).getValue();
                 if (oldAgents.containsKey(agentId)) {
                     oldAgents.remove(agentId);
                 } else {
-                    restartAgent(agentId);
+                    restartAgent(agentName, agentId);
                 }
             }
         }
     }
 
-    private void restartAgent(String agentId) {
-        killAgent(agentId);
+    private void restartAgent(String agentId, String id) {
+        killAgent(agentId, id);
         Map<String, Object> params = startParameters.get(agentId);
         try {
             startAgent(agentId, params);

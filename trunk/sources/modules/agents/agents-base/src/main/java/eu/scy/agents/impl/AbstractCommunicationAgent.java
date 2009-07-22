@@ -9,8 +9,8 @@ public abstract class AbstractCommunicationAgent extends AbstractThreadedAgent
 
 	private INotificationSender notificationSender;
 
-	public AbstractCommunicationAgent(String threadName) {
-		super(threadName);
+	public AbstractCommunicationAgent(String threadName, String id) {
+		super(threadName,id);
 		notificationSender = new NotificationSender();
 	}
 
