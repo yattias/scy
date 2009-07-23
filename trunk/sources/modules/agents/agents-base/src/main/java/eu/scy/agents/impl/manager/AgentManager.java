@@ -47,6 +47,8 @@ public class AgentManager implements Callback {
         try {
             tupleSpace = new TupleSpace(host, port, AgentProtocol.COMMAND_SPACE_NAME);
             tupleSpace.eventRegister(Command.WRITE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
+            tupleSpace.eventRegister(Command.UPDATE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
+            tupleSpace.eventRegister(Command.DELETE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
         } catch (TupleSpaceException e) {
             throw new RuntimeException("TupleSpace could not be accessed. Agent manager won't work", e);
         }
@@ -100,7 +102,7 @@ public class AgentManager implements Callback {
     }
 
     public String stopAgent(String agentId) {
-	return stopAgent(agentIdMap.get(agentId).getName());
+	return stopAgent(agentIdMap.get(agentId));
     }
   
 
@@ -162,7 +164,6 @@ public class AgentManager implements Callback {
                     }
                 } else if (agentIdMap.containsKey(agentId)) {
                     agentAlive.put(agentId, aliveTS);
-                    System.out.println(agentId + " still alive!");
                 }
             } else if (Command.DELETE == command) {
                 String agentId = (String) beforeTuple.getField(2).getValue();
