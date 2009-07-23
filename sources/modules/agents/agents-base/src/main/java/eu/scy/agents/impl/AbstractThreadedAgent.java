@@ -53,6 +53,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
     @Override
     public final void kill() throws AgentLifecycleException {
         if (myThread!=null){
+            status=Status.Stopping;
             myThread.stop();
         }else{
             throw new AgentLifecycleException(name +" cannot be killed, is null");
@@ -149,4 +150,6 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 
     protected abstract Tuple getIdentifyTuple(String queryId);
 
+
 }
+
