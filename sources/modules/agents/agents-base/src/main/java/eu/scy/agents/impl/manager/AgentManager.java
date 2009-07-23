@@ -15,6 +15,7 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.IThreadedAgent;
@@ -33,7 +34,6 @@ public class AgentManager implements Callback {
     private Map<String, Map<String, Object>> startParameters;
 
     // TODO: inject via spring magic
-
     private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
 
     // TODO: inject via spring magic
@@ -75,6 +75,7 @@ public class AgentManager implements Callback {
             } catch (AgentLifecycleException e) {
                 e.printStackTrace();
             }
+    
         }
         agentIdMap.clear();
         oldAgents.clear();
@@ -87,21 +88,19 @@ public class AgentManager implements Callback {
 
     }
 
-    public void stopAgent(IThreadedAgent agent) {
+    public String stopAgent(IThreadedAgent agent) {
         try {
             tupleSpace.write(AgentProtocol.getStopTuple(agent.getId(), agent.getName(), new VMID()));
             oldAgents.put(agent.getId(), agent);
             agentIdMap.remove(agent.getId());
+            return agent.getName();
         } catch (TupleSpaceException e) {
             throw new RuntimeException(e);
         }
     }
 
     public String stopAgent(String agentId) {
-        IThreadedAgent agentToStop = agentIdMap.get(agentId);
-        String agentName = agentToStop.getName();
-        stopAgent(agentToStop);
-        return agentName;
+	return stopAgent(agentIdMap.get(agentId).getName());
     }
   
 
@@ -145,8 +144,6 @@ public class AgentManager implements Callback {
         IThreadedAgent agentToKill = agentIdMap.get(id);
         agentToKill.kill();
         agentIdMap.remove(id);
-        oldAgents.remove(id);
-
     }
 
     @Override
@@ -173,7 +170,7 @@ public class AgentManager implements Callback {
                     oldAgents.remove(agentId);
                 } else {
                     try {
-                        restartAgent(agentId);
+                    restartAgent(agentId);
                     } catch (AgentLifecycleException e) {
                         e.printStackTrace();
                     }
@@ -186,17 +183,13 @@ public class AgentManager implements Callback {
         IThreadedAgent agentToRestart = agentIdMap.get(agentId);
         agentToRestart.kill();
         Map<String, Object> params = startParameters.get(agentId);
-        try {
-            startAgent(agentId, params);
-        } catch (AgentLifecycleException e) {
-            e.printStackTrace();
-        }
+        startAgent(agentId, params);
     }
-    
-    public Map getOldAgentsMap(){
+
+    public Map<String, IThreadedAgent> getOldAgentsMap(){
         return oldAgents;
     }
-    public Map getAgentsIdMap(){
+    public Map<String, IThreadedAgent> getAgentsIdMap(){
         return agentIdMap;
     }
 
