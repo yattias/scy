@@ -29,7 +29,7 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 		this.updated = updated;
 	}
 
-	public static final String NAME = "MockAgent";
+	public static final String NAME = "eu.scy.agents.impl.ThreadedAgentMock";
 	private int runCount;
 
 	public ThreadedAgentMock(@SuppressWarnings("unused") Map<String, Object> map) {
@@ -41,11 +41,15 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 	public void doRun() throws TupleSpaceException {
 		while (status == Status.Running) {
 			sendAliveUpdate();
-			@SuppressWarnings("unused")
-			Tuple triggerTuple = getTupleSpace().waitToTake(
-					new Tuple(NAME, String.class, Long.class), 5000);
-			// TODO: interpret tuple ...
-			runCount++;
+			try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // Tuple triggerTuple = getTupleSpace().waitToTake(
+            // new Tuple(NAME, String.class, Long.class), 5000);
+            // // TODO: interpret tuple ...
+            // runCount++;
 		}
 	}
 
@@ -65,9 +69,9 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 	}
 
     @Override
-    protected Tuple getIdentifyTuple() {
-        // TODO Auto-generated method stub
-        return null;
+    protected Tuple getIdentifyTuple(String queryId) {
+        Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId,this.getId(),this.getName(),AgentProtocol.MESSAGE_IDENTIFY, "This is just a test");
+        return t;
     }
 
 }
