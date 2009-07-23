@@ -39,7 +39,7 @@ public final class AgentProtocol {
      * +Status: The status of the Agent (Running,Suspended,Stopped)<br />
      * +TimeStamp: current time. <br />
      */
-    public static Tuple ALIVE_TUPLE_TEMPLATE = new Tuple(AgentProtocol.COMMAND_LINE, AgentProtocol.ALIVE, String.class, String.class);
+    public static Tuple ALIVE_TUPLE_TEMPLATE = new Tuple(AgentProtocol.COMMAND_LINE, String.class, String.class, String.class, AgentProtocol.ALIVE);
 
     /**
      * Get the command tuple template. <br />
