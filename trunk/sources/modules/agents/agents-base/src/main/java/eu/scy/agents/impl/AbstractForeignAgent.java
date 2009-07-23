@@ -108,7 +108,7 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
     }
 
     @Override
-    public void stop() throws AgentLifecycleException {
+    public void kill() {
         process.destroy();
     }
 
