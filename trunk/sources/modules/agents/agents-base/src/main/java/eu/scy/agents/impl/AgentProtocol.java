@@ -8,6 +8,10 @@ public final class AgentProtocol {
 
     private static final int COMMAND_EXPIRATION = 5000;
 
+    public static final String QUERY = "query";
+
+    public static final String RESPONSE = "query";
+
     public static final String COMMAND_SPACE_NAME = "command";
 
     public static final String COMMAND_LINE = "agentCommand";
@@ -43,34 +47,30 @@ public final class AgentProtocol {
      * +<AgentName>:String <br />
      * +<Command>:String <br />
      */
-    public static final Tuple COMMAND_COMMAND_TEMPLATE = new Tuple(COMMAND_LINE, String.class, String.class);
+    public static final Tuple COMMAND_COMMAND_TEMPLATE = new Tuple(COMMAND_LINE, String.class, String.class, String.class, String.class);
 
-    public static Tuple getStartTuple(String agentName, String agentId, VMID queryId) {
-        Tuple startTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentName, agentId, AgentProtocol.MESSAGE_START);
+    public static final Tuple IDENTIFY_TEMPLATE = new Tuple(QUERY, String.class, String.class, String.class, MESSAGE_IDENTIFY);
+
+    public static Tuple getStartTuple(String agentId, String agentName, VMID queryId) {
+        Tuple startTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentId, agentName, AgentProtocol.MESSAGE_START);
         startTuple.setExpiration(COMMAND_EXPIRATION);
         return startTuple;
     }
 
-    public static Tuple getStopTuple(String agentName, String agentId, VMID queryId) {
-        Tuple stopTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentName, agentId, AgentProtocol.MESSAGE_STOP);
+    public static Tuple getStopTuple(String agentId, String agentName, VMID queryId) {
+        Tuple stopTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentId, agentName, AgentProtocol.MESSAGE_STOP);
         stopTuple.setExpiration(COMMAND_EXPIRATION);
         return stopTuple;
     }
 
-    public static Tuple getKillTuple(String agentName, String agentId, VMID queryId) {
-        Tuple resumeTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentName, agentId, AgentProtocol.MESSAGE_KILL);
-        resumeTuple.setExpiration(COMMAND_EXPIRATION);
-        return resumeTuple;
-    }
-
-    public static Tuple getAliveTuple(String agentName, String agentId, VMID queryId) {
-        Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentName, agentId, AgentProtocol.ALIVE);
+    public static Tuple getAliveTuple(String agentId, String agentName, VMID queryId) {
+        Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentId, agentName, AgentProtocol.ALIVE);
         aliveTuple.setExpiration(ALIVE_INTERVAL);
         return aliveTuple;
     }
 
-    public static Tuple getIdentifyTuple(String agentName, String agentId, VMID queryId) {
-        Tuple identifyTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), agentName, agentId, AgentProtocol.MESSAGE_IDENTIFY);
+    public static Tuple getIdentifyTuple(String agentId, String agentName, VMID queryId) {
+        Tuple identifyTuple = new Tuple(AgentProtocol.QUERY, queryId.toString(), agentId, agentId, AgentProtocol.MESSAGE_IDENTIFY);
         identifyTuple.setExpiration(COMMAND_EXPIRATION);
         return identifyTuple;
     }
