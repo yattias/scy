@@ -8,13 +8,19 @@ import eu.scy.agents.impl.manager.AgentManager;
 
 public class AgentFramework {
 
+    //if a server should be started (true) or you use your own (false)
+    private static final boolean standalone = true;
+
     public static void main(String[] args) {
+
         Configuration conf = Configuration.getConfiguration();
-        conf.setDbType(Database.HSQL);
-        conf.setWebEnabled(false);
-        conf.setWebServicesEnabled(false);
-        conf.setSSLEnabled(false);
-        Server.startServer();
+        if (standalone) {
+            conf.setDbType(Database.HSQL);
+            conf.setWebEnabled(false);
+            conf.setWebServicesEnabled(false);
+            conf.setSSLEnabled(false);
+            Server.startServer();
+        }
         try {
             AgentManager am = new AgentManager("localhost", conf.getNonSSLPort());
             for (String s : args) {
@@ -22,7 +28,9 @@ public class AgentFramework {
             }
         } catch (AgentLifecycleException e) {
             e.printStackTrace();
-            Server.stopServer();
+            if (standalone) {
+                Server.stopServer();
+            }
         }
     }
 
