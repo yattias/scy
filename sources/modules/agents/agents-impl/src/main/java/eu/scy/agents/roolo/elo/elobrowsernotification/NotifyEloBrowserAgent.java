@@ -61,7 +61,7 @@ public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 	}
 
     @Override
-    protected Tuple getIdentifyTuple() {
+    protected Tuple getIdentifyTuple(String queryId) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -102,7 +102,7 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 	}
 
     @Override
-    protected Tuple getIdentifyTuple() {
+    protected Tuple getIdentifyTuple(String queryId) {
         // TODO Auto-generated method stub
         return null;
     }

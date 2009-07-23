@@ -27,7 +27,7 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class SupervisingAgent extends AbstractThreadedAgent implements Callback {
 
-    private static final Tuple alive_template = new Tuple(AgentProtocol.COMMAND_LINE, AgentProtocol.ALIVE, String.class, String.class, String.class);
+    private static final Tuple alive_template = new Tuple(AgentProtocol.COMMAND_LINE, String.class, String.class, String.class, AgentProtocol.ALIVE);
 
     private static final Logger logger = Logger.getLogger(SupervisingAgent.class.getName());
 
@@ -62,7 +62,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     public SupervisingAgent(Map<String, Object> map) {
-        // the parameters inside map are not used....this constructor is needed due to conventions
         super(name, (String) map.get("id"));
         knownAgents = new ArrayList<String>();
         agentInDoc = new HashMap<String, List<Tuple>>();
@@ -76,7 +75,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     @Override
     public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
         super.call(command, seq, afterTuple, beforeTuple);
-        logger.log(Level.FINEST, "Callback arrived!");
         CallbackSequence cbseq = cbMap.get(seq);
         switch (cbseq) {
             case ALIVE_WRITTEN:
@@ -106,8 +104,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
             case QUERY_WRITTEN:
                 if (afterTuple.getFields().length >= 4) {
                     logger.log(Level.FINEST, "Query written");
-                    System.out.println("AfterTuple: " + afterTuple);
-                    System.out.println("BeforeTuple: " + beforeTuple);
                     queryWritten(afterTuple);
                 } else {
                     logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
@@ -144,20 +140,18 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     private void queryWritten(Tuple afterTuple) {
-        if (!afterTuple.getField(3).getValue().toString().equals("identify")) {
-            String agentName = afterTuple.getField(3).getValue().toString();
-            if (knownAgents.contains(agentName)) {
+        String agentName = afterTuple.getField(3).getValue().toString();
+        if (knownAgents.contains(agentName)) {
 
-                List<Tuple> tupleDoc = agentInDoc.get(agentName);
-                for (Tuple tuple : tupleDoc) {
-                    if (tuple.matches(afterTuple)) {
-                        System.out.println("YES! The agent " + agentName + " can interpret your query :" + afterTuple);
-                        break;
-                    }
+            List<Tuple> tupleDoc = agentInDoc.get(agentName);
+            for (Tuple tuple : tupleDoc) {
+                if (tuple.matches(afterTuple)) {
+                    System.out.println("YES! The agent " + agentName + " can interpret your query :" + afterTuple);
+                    break;
                 }
-            } else {
-                logger.log(Level.WARNING, "There is no agent : " + agentName);
             }
+        } else {
+            logger.log(Level.WARNING, "There is no agent : " + agentName);
         }
     }
 
@@ -187,18 +181,18 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     private void aliveWritten(Tuple afterTuple) {
-        String agentId = afterTuple.getField(2).getValue().toString();
-        String agentName = afterTuple.getField(3).getValue().toString();
+        String agentId = afterTuple.getField(3).getValue().toString();
+        String agentName = afterTuple.getField(2).getValue().toString();
 
         if (!knownAgents.contains(agentName)) {
-            Tuple identifyQuery = createIdentifyTuple(agentId, agentName);
+            VMID queryId = new VMID();
+            Tuple identifyQuery = AgentProtocol.getIdentifyTuple(agentId, agentName, queryId);
             String id = identifyQuery.getField(1).getValue().toString();
             try {
-                System.out.println(identifyQuery);
                 getTupleSpace().write(identifyQuery);
-                Tuple identifyResponse = getTupleSpace().waitToTake(new Tuple("response", id, agentId, Field.createWildCardField()), ident_timeout);
+                Tuple identifyResponse = getTupleSpace().waitToTake(new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), id, name, Field.createWildCardField()), ident_timeout);
                 if (identifyResponse == null) {
-                    logger.log(Level.WARNING, "Agent " + agentName + " with ID=" + agentId + " does not respond on identify query...");
+                    logger.log(Level.WARNING, "QID: "+queryId.toString()+"Agent " + agentName + " with ID=" + agentId + " does not respond on identify query...");
                 } else {
                     ArrayList<String> tupleDocEntries = new ArrayList<String>();
                     for (int i = 3; i < identifyResponse.getFields().length; i++) {
@@ -238,11 +232,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         }
     }
 
-    private Tuple createIdentifyTuple(String agentId, String agentName) {
-        Tuple t = new Tuple(AgentProtocol.COMMAND_LINE,"query", new VMID().toString(), String.class, agentName, "identify");
-        return t;
-    }
-
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException {
         sendAliveUpdate();
@@ -279,7 +268,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
 
     }
 
-
     private void initLogger() {
         ConsoleHandler cH = new ConsoleHandler();
         SimpleFormatter sF = new SimpleFormatter();
@@ -299,7 +287,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     public boolean isStopped() {
         return isStopped;
     }
-
 
     public Set<String> getAllAgentIds(String agentName) {
         return agentInstances.get(agentName);
@@ -343,7 +330,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     @Override
-    protected Tuple getIdentifyTuple() {
+    protected Tuple getIdentifyTuple(String queryId) {
         return null;
     }
 
