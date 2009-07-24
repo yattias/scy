@@ -1,9 +1,10 @@
 package eu.scy.awareness;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import eu.scy.awareness.event.IAwarenessListListener;
+import org.jivesoftware.smack.XMPPConnection;
+
+import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
@@ -21,7 +22,7 @@ public interface IAwarenessService {
      * @return all buddies
      * 
      */
-    public List<String> getBuddies() throws AwarenessServiceException;
+    public List<IAwarenessUser> getBuddies() throws AwarenessServiceException;
     
     /**
      * 
@@ -33,22 +34,21 @@ public interface IAwarenessService {
     public void sendMessage(String recipient, String message) throws AwarenessServiceException;
     
     /**
-     * sets the presence of the user. TODO: use an enum
+     * sets the presence of user either online or offline
      * 
      * @param username
      * @param presence
      * @throws AwarenessServiceException
      */
-    public void setPresence(String username, String presence) throws AwarenessServiceException;
+    public void setPresence(String presence) throws AwarenessServiceException;
     
     /**
      * sets the status of user
      * 
-     * @param username
      * @param status
      * @throws AwarenessServiceException
      */
-    public void setStatus(String username, String status) throws AwarenessServiceException;
+    public void setStatus(String status) throws AwarenessServiceException;
     
     /**
      * adds a presence listener
@@ -62,7 +62,7 @@ public interface IAwarenessService {
      * 
      * @param awarenessListListener
      */
-    public void addAwarenessListListener(IAwarenessListListener awarenessListListener);
+    public void addAwarenessRosterListener(IAwarenessRosterListener awarenessListListener);
     
     
     /**
@@ -89,18 +89,23 @@ public interface IAwarenessService {
     public void removeBuddy(String buddy) throws AwarenessServiceException;
 
     /**
-     * join a collaboration session
+     * initialize the service with connection.
      * 
-     * @param session
-     * @throws AwarenessServiceException
+     * @param connection
      */
-    public void joinSession(String session) throws AwarenessServiceException;
+    public void init(XMPPConnection connection);
     
     /**
-     * leaves a collaboration sesson
+     * is the service connected
      * 
-     * @param session
-     * @throws AwarenessServiceException
+     * @return
      */
-    public void leaveSession(String session) throws AwarenessServiceException;
+    public boolean isConnected();
+    
+    /**
+     * disconnect the xmpp session
+     * 
+     */
+    public void disconnect();
+   
 }
