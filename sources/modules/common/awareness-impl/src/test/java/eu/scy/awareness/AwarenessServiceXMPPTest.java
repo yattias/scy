@@ -9,6 +9,7 @@ import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
@@ -28,7 +29,7 @@ public class AwarenessServiceXMPPTest {
     private String password;
     private IAwarenessService awarenessService;
     
-    
+    @Ignore
     public void setupService() {
         try {
            setAwarenessService(AwarenessServiceFactory.getAwarenessService(AwarenessServiceFactory.XMPP_STYLE));
@@ -101,6 +102,7 @@ public class AwarenessServiceXMPPTest {
        
     }
     
+    @Ignore
     public void sendMessageTest(String user, String message) {
         try {
             getAwarenessService().sendMessage(user, message);
@@ -110,6 +112,7 @@ public class AwarenessServiceXMPPTest {
         }
     }
     
+    @Ignore
     public void getAllBuddiesTest() {
         List<IAwarenessUser> buddies = null;
         try {
@@ -124,6 +127,7 @@ public class AwarenessServiceXMPPTest {
 
     }
     
+    @Ignore
     public void addBuddyTest(String username) {
         try {
             getAwarenessService().addBuddy(username);
@@ -132,6 +136,7 @@ public class AwarenessServiceXMPPTest {
         }
     }
     
+    @Ignore
     public void removeBuddyTest(String username) {
         try {
             getAwarenessService().removeBuddy(username);
