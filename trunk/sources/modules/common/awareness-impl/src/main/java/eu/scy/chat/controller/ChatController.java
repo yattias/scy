@@ -53,7 +53,6 @@ public class ChatController {
     }
 
     public  AbstractListModel getBuddyList() {
-        this.getBuddyListArray();
         return buddyList;
     }
     
