@@ -23,5 +23,15 @@ public class AwarenessPresenceEvent extends AwarenessEvent implements IAwarePres
     public String getStatus() {
         return this.status;
     }
+    
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString()).append("\n");
+        sb.append("presence: ").append(presence);
+        sb.append("status: ").append(status);
+        return sb.toString();
+    }
 
 }

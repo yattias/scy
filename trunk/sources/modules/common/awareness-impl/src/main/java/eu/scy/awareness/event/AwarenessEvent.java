@@ -6,8 +6,8 @@ import java.util.EventObject;
 
 public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 
-    private String message;
-    private String user;
+    protected String message;
+    protected String user;
 
     public AwarenessEvent(Object source, String user, String message){
         super(source);
@@ -24,6 +24,15 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
     public String getUser() {
         return this.user;
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("user: ").append(user);
+        sb.append("message: ").append(message);
+        return sb.toString();
+    }
+    
 
    
 }
