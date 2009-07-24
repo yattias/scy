@@ -11,7 +11,6 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -21,17 +20,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
-
-import org.apache.commons.lang.ArrayUtils;
-
-import eu.scy.awareness.controller.ChatController;
+import roolo.elo.api.IMetadataKey;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.chat.controller.ChatController;
+import eu.scy.toolbroker.ToolBrokerImpl;
 
 
 public class ChatPanelMain extends JPanel {
@@ -71,7 +69,12 @@ public class ChatPanelMain extends JPanel {
 //        }
 //        
         
-        chatController = new ChatController(this.username, this.password);
+        
+       ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+       IAwarenessService awarenessService = tbi.getAwarenessService();
+       awarenessService.init(tbi.getConnection("obama", "obama"));
+        
+        chatController = new ChatController(awarenessService);
         initGUI();
         chatController.populateBuddyList();
     }
