@@ -19,23 +19,23 @@ import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * This class provides a facility to manage the agents inside SCY. 
+ * This class provides a facility to manage the agents inside SCY.<br> 
  * It is used to start/stop/kill single or multiple agents of the 
- * same or different kind.
+ * same or different kind.<br><br>
  * 
  * There are some conventions regarding the agents which can be
  * managed using this manager: - All manageable agents must be an 
- * implementation of {@link IThreadedAgent}.
+ * implementation of {@link IThreadedAgent}.<br><br>
  * 
  * - All manageable agents must implement a constructor like
- *   MyAgent(Map<String, Object> map) This maps is usually used 
+ *   {@code MyAgent(Map<String, Object> map)} This maps is usually used 
  *   to set some properties. If you do not need properties, 
- *   you can ignore the map exept for the entry "id" which contains 
- *   the uniqueID (VMID as String) of the single instances. 
+ *   you can ignore the map exept for the entry <i>"id"</i> which contains 
+ *   the uniqueID ({@link VMID} as String) of the single instances.<br> 
  * - The whole inter-agent-communication is handled using
  *   the SQLSpaces (http://weinbrenner.collide.info/sqlspaces-site/) 
- *   and follows following convention:
- *   ("query"|"response"|"agentCommand"), queryID [String], agentID [String], agentName [String], serviceName [String], ....(Payload)
+ *   and follows following convention:<br/>
+ *   {@code ("query"|"response"|"agentCommand"), queryID [String], agentID [String], agentName [String], serviceName [String], ....(Payload)}
  * 
  * @author Florian Schulz
  * @author Jan Engler
@@ -129,14 +129,15 @@ public class AgentManager implements Callback {
     }
 
     /**
-     * This methods sends a stop-Tuple to the passed {@link IThreadedAgent}.
+     * This methods sends a stop-Tuple to the passed {@link IThreadedAgent}.<br>
      * The agent itself have to make sure that it is stopped correctly.
      * 
      * After sent the tuple, the agent is taken from the list of actual
-     * agents ({@code agentIdMap} and a reference is stored in the {@code oldAgents}-Map
+     * agents ({@code agentIdMap}) and a reference is stored in the {@code oldAgents}-Map.<br>
      * This is to make sure that if an alive-tuple with the id of an 
      * already killed agent is received (via callback) this agent can be
-     * referenced and killed the "hard way" ({@code Thread.stop()})
+     * referenced and killed the <i>"hard way"</i> (via {@code Thread.stop()})
+     *
      * @param agent The agent to send the stop-tuple
      * @return The name of the agent you have forced to stop.
      */
@@ -245,7 +246,7 @@ public class AgentManager implements Callback {
                     System.err.println("Agent " + agentId + " should be stopped, but is still running. Trying to kill it the hard way ...");
                     IThreadedAgent agent = agentIdMap.get(agentId);
                     try {
-                        agent.kill();
+                        killAgent(agent.getId());
                     } catch (AgentLifecycleException e) {
                         e.printStackTrace();
                     }
@@ -257,7 +258,7 @@ public class AgentManager implements Callback {
                 if (oldAgents.containsKey(agentId)) {
                     oldAgents.remove(agentId);
                     startParameters.remove(agentId);
-                } else {
+                } else if (agentIdMap.containsKey(agentId)) {
                     try {
                         restartAgent(agentId);
                     } catch (AgentLifecycleException e) {
@@ -278,7 +279,7 @@ public class AgentManager implements Callback {
         IThreadedAgent agentToRestart = agentIdMap.get(agentId);
         agentToRestart.kill();
         Map<String, Object> params = startParameters.get(agentId);
-        startAgent(agentId, params);
+        startAgent(agentToRestart.getName(), params);
     }
     /**
      * This method is just for testing purposes.
