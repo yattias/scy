@@ -1,13 +1,20 @@
 package eu.scy.awareness.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 
+import roolo.elo.api.IMetadataKey;
+
+import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.impl.AwarenessServiceXMPPImpl;
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -17,6 +24,8 @@ import eu.scy.collaborationservice.event.ICollaborationServiceEvent;
 import eu.scy.collaborationservice.event.ICollaborationServiceListener;
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 public class ChatController {
@@ -24,8 +33,10 @@ public class ChatController {
     private DefaultListModel buddyList = new DefaultListModel();
     private String password;
     private String username;
-    private AwarenessServiceXMPPImpl awarenessService;
+    private IAwarenessService awarenessService;
     private ICollaborationService cs;
+    private ToolBrokerImpl<IMetadataKey> tbi;
+
     
     public ChatController() {
        populateBuddyList();
@@ -35,29 +46,25 @@ public class ChatController {
         this.username = username;
         this.password = password;
 
-         awarenessService = new AwarenessServiceXMPPImpl(); 
+         //awarenessService = new AwarenessServiceXMPPImpl(); 
+        tbi = new ToolBrokerImpl<IMetadataKey>();
+        awarenessService = tbi.getAwarenessService();
+        awarenessService.init(tbi.getConnection("obama", "obama"));
            
          //just working with the collaboration service right now
-         //System.out.println("awareness starting");
-         //awarenessService.createAwarenessService(username, password);
-         
-         System.out.println("collaboration service starting");
-         
-         try {
-             cs = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.XMPP_STYLE);
-             cs.connect("biden", "biden", "colermo");
-        } catch (CollaborationServiceException e) {
-            e.printStackTrace();
-        }
-         
-        
-         System.out.println("collaboration starting");
+         System.out.println("awareness starting");
     }
 
     public void populateBuddyList() {
         //get this from the awareness service
         if( awarenessService != null && awarenessService.isConnected() ) {
-            ArrayList<IAwarenessUser> buddies = awarenessService.getBuddies(username);
+            List<IAwarenessUser> buddies = null;
+			try {
+				buddies = awarenessService.getBuddies();
+			} catch (AwarenessServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         
             if( buddies != null ) {
                 for (IAwarenessUser b : buddies) {
@@ -77,22 +84,14 @@ public class ChatController {
     public void sendMessage(Object recipient, String message) {
        
         //send a message to the awareness server
-//        if (recipient != null) {
-//            IAwarenessUser user = (IAwarenessUser) recipient;
-//            awarenessService.sendMessage(user.getUsername(), message);
-//        }
-        
-        //send a message to the collaboration server
-        System.out.println("sending message to CS");
-        
-        IScyMessage scy = new ScyMessage();
-        scy.setDescription("this is a scy");
-        scy.setId("6");
-        scy.setName("im scy");
-        try {
-            cs.create(scy);
-        } catch (CollaborationServiceException e) {
-            e.printStackTrace();
+        if (recipient != null) {
+            IAwarenessUser user = (IAwarenessUser) recipient;
+            try {
+				awarenessService.sendMessage(user.getUsername(), message);
+			} catch (AwarenessServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
     
@@ -109,26 +108,17 @@ public class ChatController {
     }
     
     public void registerChatArea(final JTextArea chatArea) {
-//        awarenessService.addAwarenessListener(new IAwarenessPresenceListener(){
-//
-//
-//            @Override
-//            public void handleAwarenessEvent(IAwarenessEvent e) {
-//                String oldText = chatArea.getText();
-//                
-//                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
-//                
-//            }});
-//        
-        cs.addCollaborationListener(new ICollaborationServiceListener() {
-            
+    	awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
+			
+			@Override
+			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
+				String oldText = chatArea.getText();
+                
+                chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
+				
+			}
+		});
 
-            @Override
-            public void handleCollaborationServiceEvent(ICollaborationServiceEvent e) {
-                System.out.println("Collaboration Event called Chat controller" + e);
-                String oldText = chatArea.getText();
-//                chatArea.setText(oldText+e.getParticipant() +": " + e.getMessage() + "\n");
-            }
-         });
+    	
     }
 }
