@@ -2,8 +2,8 @@ package eu.scy.awareness;
 
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
-import eu.scy.awareness.event.IAwarenessListEvent;
-import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
@@ -27,10 +27,10 @@ public class AwarenessServiceLocalTestClient {
                     System.out.println( "user: " +e.getUser() + " " + e.getMessage());
                 }});
             
-            awarenessService.addAwarenessListListener(new IAwarenessListListener(){
+            awarenessService.addAwarenessRosterListener(new IAwarenessRosterListener(){
 
                 @Override
-                public void handleAwarenessListEvent(IAwarenessListEvent e) {
+                public void handleAwarenessRosterEvent(IAwarenessRosterEvent e) {
                     System.out.println(".handleAwarenessListEvent()");
                     System.out.println( "user: " +e.getUser() + " " + e.getMessage());
                     
@@ -49,8 +49,8 @@ public class AwarenessServiceLocalTestClient {
             awarenessService.addBuddy("palin");
             awarenessService.addBuddy("mccain");
             
-            awarenessService.setStatus("palin", "loser");
-            awarenessService.setPresence("obama", IAwarePresenceEvent.ONLINE);
+            awarenessService.setStatus("loser");
+            awarenessService.setPresence(IAwarePresenceEvent.ONLINE);
             awarenessService.removeBuddy("mccain");
             
             awarenessService.sendMessage("obama", "howdy!");

@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jivesoftware.smack.XMPPConnection;
+
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.AwarenessEvent;
-import eu.scy.awareness.event.AwarenessListEvent;
+import eu.scy.awareness.event.AwarenessRosterEvent;
 import eu.scy.awareness.event.AwarenessPresenceEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
-import eu.scy.awareness.event.IAwarenessListEvent;
-import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 
 public class AwarenessServiceMockImpl implements IAwarenessService {
     
-    private List<IAwarenessListListener> awarenessListListeners = new ArrayList<IAwarenessListListener>();
+    private List<IAwarenessRosterListener> awarenessListListeners = new ArrayList<IAwarenessRosterListener>();
     private List<IAwarenessPresenceListener> awarenessPresenceListeners = new ArrayList<IAwarenessPresenceListener>();
     private List<IAwarenessMessageListener> awarenessMessageListeners = new ArrayList<IAwarenessMessageListener>();
     private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
@@ -33,7 +35,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     }
     
     @Override
-    public void addAwarenessListListener(IAwarenessListListener awarenessListListener) {
+    public void addAwarenessRosterListener(IAwarenessRosterListener awarenessListListener) {
         this.awarenessListListeners.add(awarenessListListener);
     }
     
@@ -64,20 +66,10 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
         buddies.add(user);
         
         // tell everyone is listening
-        for (IAwarenessListListener ll : awarenessListListeners) {
-            ll.handleAwarenessListEvent(new AwarenessListEvent(this, username, IAwarenessListEvent.ADD));
+        for (IAwarenessRosterListener ll : awarenessListListeners) {
+            ll.handleAwarenessRosterEvent(new AwarenessRosterEvent(this, username, IAwarenessRosterEvent.ADD, null));
         }
         
-    }
-    
-    @Override
-    public void joinSession(String session) throws AwarenessServiceException {
-        System.out.println("AwarenessServiceMockImpl.joinSession()");
-    }
-    
-    @Override
-    public void leaveSession(String session) throws AwarenessServiceException {
-        System.out.println("AwarenessServiceMockImpl.joinSession()");
     }
     
     @Override
@@ -91,14 +83,12 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
             }
         }
         
-       
-        
         if (toRemove == null)
             throw new AwarenessServiceException("tyring to remove a buddy that is not there");
         
         // tell everyone is listening
-        for (IAwarenessListListener ll : awarenessListListeners) {
-            ll.handleAwarenessListEvent(new AwarenessListEvent(this, username, IAwarenessListEvent.REMOVE));
+        for (IAwarenessRosterListener ll : awarenessListListeners) {
+            ll.handleAwarenessRosterEvent(new AwarenessRosterEvent(this, username, IAwarenessRosterEvent.REMOVE, null));
         }
     }
     
@@ -111,45 +101,60 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
             ll.handleAwarenessMessageEvent(new AwarenessEvent(this, username, message));
         }
     }
-    
+        
     @Override
-    public List<String> getBuddies() throws AwarenessServiceException {
-        List<String> b = new ArrayList<String>();
+    public List<IAwarenessUser> getBuddies() throws AwarenessServiceException {
+        List<IAwarenessUser> b = new ArrayList<IAwarenessUser>();
         for (IAwarenessUser au : buddies) {
-            b.add(au.getUsername());
+            b.add(au);
         }
         return b;
     }
     
     @Override
-    public void setPresence(String username, String presence) throws AwarenessServiceException {
-        for (IAwarenessUser au : buddies) {
-            if (au.getUsername().equals(username)) {
-                au.setPresence(presence);
-                // fire the listen
-                // tell everyone is listening
-                for (IAwarenessPresenceListener ll : awarenessPresenceListeners) {
-                    ll.handleAwarenessPresenceEvent(new AwarenessPresenceEvent(this, username, "changed presence", presence, au.getStatus()));
-                }
-                
-            }
-        }
+    public void setPresence(String presence) throws AwarenessServiceException {
+//        for (IAwarenessUser au : buddies) {
+//            if (au.getUsername().equals(username)) {
+//                au.setPresence(presence);
+//                // fire the listen
+//                // tell everyone is listening
+//                for (IAwarenessPresenceListener ll : awarenessPresenceListeners) {
+//                    ll.handleAwarenessPresenceEvent(new AwarenessPresenceEvent(this, username, "changed presence", presence, au.getStatus()));
+//                }
+//                
+//            }
+//        }
     }
     
     @Override
-    public void setStatus(String username, String status) throws AwarenessServiceException {
-        for (IAwarenessUser au : buddies) {
-            if (au.getUsername().equals(username)) {
-                au.setStatus(status);
-                // fire the listen
-                // tell everyone is listening
-                for (IAwarenessPresenceListener ll : awarenessPresenceListeners) {
-                    ll.handleAwarenessPresenceEvent(new AwarenessPresenceEvent(this, username, "changed status", au.getPresence(), status));
-                }
-                
-            }
-        }
+    public void setStatus(String status) throws AwarenessServiceException {
+//        for (IAwarenessUser au : buddies) {
+//            if (au.getUsername().equals(username)) {
+//                au.setStatus(status);
+//                // fire the listen
+//                // tell everyone is listening
+//                for (IAwarenessPresenceListener ll : awarenessPresenceListeners) {
+//                    ll.handleAwarenessPresenceEvent(new AwarenessPresenceEvent(this, username, "changed status", au.getPresence(), status));
+//                }
+//                
+//            }
+//        }
+//        
+    }
+
+    @Override
+    public void disconnect() {
         
+    }
+
+    @Override
+    public void init(XMPPConnection connection) {
+        
+    }
+
+    @Override
+    public boolean isConnected() {
+        return false;
     }
 
 }

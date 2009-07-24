@@ -1,10 +1,7 @@
 package eu.scy.awareness.impl;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.jivesoftware.smack.Chat;
@@ -12,18 +9,25 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.AwarenessEvent;
-import eu.scy.awareness.event.IAwarenessListListener;
+import eu.scy.awareness.event.AwarenessPresenceEvent;
+import eu.scy.awareness.event.AwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarePresenceEvent;
+import eu.scy.awareness.event.IAwarenessEvent;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
 
 
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
@@ -31,12 +35,15 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    private ArrayList<IAwarenessPresenceListener> awarenessListeners = new ArrayList<IAwarenessPresenceListener>();
+    private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
+    private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
+    private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
     private Roster roster;
 
     public AwarenessServiceXMPPImpl() {        
     }
  
+    @Override
     public boolean isConnected() {
        if( xmppConnection != null)
            return xmppConnection.isConnected();
@@ -44,47 +51,68 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
        return false;
     }
     
-    public void createAwarenessService(String username, String password) {
-        
-        Properties props = new Properties();
-        try {
-            props.load(AwarenessServiceXMPPImpl.class.getResourceAsStream("server.properties"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        String address = props.getProperty("awareness.service.address");
-        String port = props.getProperty("awareness.service.port");
-        String name = props.getProperty("awareness.service.name");
-        
-        //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
-        config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
-        xmppConnection = new XMPPConnection(config);
+    @Override
+    public void sendMessage(String recipient, String message) {
+        Chat chat = xmppConnection.getChatManager().createChat(recipient, this);
         try {
-            xmppConnection.connect();
+            chat.sendMessage(message);
         } catch (XMPPException e) {
-            logger.severe("Error during connect");
+            logger.severe("Error during sendMessage");
             e.printStackTrace();
         }
-        try {
-            xmppConnection.login(username, password);
-        } catch (XMPPException e) {
-            logger.severe("Error during login");
-            e.printStackTrace();
-            
+    }    
+    
+    
+    public void processMessage(Chat chat, Message message) {
+        if (message.getType() == Message.Type.chat) {           
+            logger.fine(chat.getParticipant() + " says: " + message.getBody());
+            //process the events
+            for (IAwarenessMessageListener al : messageListeners) {
+                if (al != null){
+                    IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
+                    al.handleAwarenessMessageEvent(awarenessEvent);
+                }
+            }
         }
     }
     
-
-    public void closeAwarenessService() {
-        xmppConnection.disconnect();
+    @Override
+    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener) {
+        messageListeners.add(awarenessMessageListener);
     }
-    
-    
-    //TODO: return array should probably contain instances of scy users or somesuch
-    public ArrayList<IAwarenessUser> getBuddies(String username) {
+
+    @Override
+    public void addAwarenessRosterListener(IAwarenessRosterListener awarenessListListener) {
+        rosterListeners.add(awarenessListListener);
+    }
+
+    @Override
+    public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+        presenceListeners.add(awarenessPresenceListener);
+    }
+
+    @Override
+    public void addBuddy(String buddyName) throws AwarenessServiceException {
+        roster = this.xmppConnection.getRoster();
+        Collection<RosterEntry> rosterEntries = roster.getEntries();
+        try {
+            roster.createEntry(buddyName, buddyName, new String[] { "everybody" });
+        } catch (XMPPException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeBuddy(String buddyName) throws AwarenessServiceException {
+        Presence unsubbed = new Presence(Presence.Type.unsubscribed);
+        unsubbed.setTo(buddyName);
+        this.xmppConnection.sendPacket(unsubbed);
+        
+    }
+
+    @Override
+    public ArrayList<IAwarenessUser> getBuddies() throws AwarenessServiceException {
         roster = this.xmppConnection.getRoster();
         Collection<RosterEntry> rosterEntries = roster.getEntries();
         ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
@@ -97,93 +125,88 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
         }
         return buddies;
     }
-    
-    
-    public void sendMessage(String recipient, String message) {
-        Chat chat = xmppConnection.getChatManager().createChat(recipient, (MessageListener) this);
-        try {
-            chat.sendMessage(message);
-        } catch (XMPPException e) {
-            logger.severe("Error during sendMessage");
-            e.printStackTrace();
-        }
-    }    
-    
-    
-    public void setStatus(String username, String status) {
+
+    @Override
+    public void disconnect() {
+        this.xmppConnection.disconnect();
     }
 
+    protected Roster getRoster() {
+        return this.xmppConnection.getRoster();
+    }
     
-    public void processMessage(Chat chat, Message message) {
-        if (message.getType() == Message.Type.chat) {           
-            logger.fine(chat.getParticipant() + " says: " + message.getBody());
-            //process the events
-            for (IAwarenessPresenceListener al : awarenessListeners) {
-                if (al != null){
-                    RosterEntry entry = roster.getEntry(chat.getParticipant());
-                    AwarenessEvent awarenessEvent = new AwarenessEvent(this, entry.getName(), message.getBody());
-//                    al.handleAwarenessEvent(awarenessEvent);
+    @Override
+    public void init(XMPPConnection connection) {
+        this.xmppConnection = connection;
+        getRoster().setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+        
+        getRoster().addRosterListener(new RosterListener() {
+
+            @Override
+            public void entriesAdded(Collection<String> addresses) {
+                System.out.println("entriesAdded() " + addresses);
+                
+                for (IAwarenessRosterListener  rosterListener : rosterListeners) {
+                    if (rosterListener != null){
+                        IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.ADD, addresses);
+                        rosterListener.handleAwarenessRosterEvent(rosterEvent);
+                    }
+                }
+                
+            }
+
+            @Override
+            public void entriesDeleted(Collection<String> addresses) {
+                System.out.println("entriesDeleted() " + addresses);
+                for (IAwarenessRosterListener  rosterListener : rosterListeners) {
+                    if (rosterListener != null){
+                        IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.REMOVE, addresses);
+                        rosterListener.handleAwarenessRosterEvent(rosterEvent);
+                    }
                 }
             }
-        }
-    }
-    
-    public void addAwarenessListener(IAwarenessPresenceListener awarenessListener){
-        awarenessListeners.add(awarenessListener);
-   }
 
-    @Override
-    public void addAwarenessListListener(IAwarenessListListener awarenessListListener) {
-        // TODO Auto-generated method stub
+            @Override
+            public void entriesUpdated(Collection<String> addresses) {
+                System.out.println("entriesUpdated() " + addresses);
+                for (IAwarenessRosterListener  rosterListener : rosterListeners) {
+                    if (rosterListener != null){
+                        IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.UPDATED, addresses);
+                        rosterListener.handleAwarenessRosterEvent(rosterEvent);
+                    }
+                }
+            }
+
+            @Override
+            public void presenceChanged(Presence presence) {
+                System.out.println("presenceChanged() " + presence);
+                if( presence == null)
+                    return;
+                
+                for (IAwarenessPresenceListener presenceListener : presenceListeners) {
+                    if( presenceListener != null ) {
+                        IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), "new presence", presence.getType().toString(), presence.getStatus());
+                    }
+                }
+                
+            }
+      
+        });
+
+        
         
     }
 
     @Override
-    public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void addBuddy(String buddy) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void joinSession(String session) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void leaveSession(String session) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void removeBuddy(String buddy) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public ArrayList<String> getBuddies() throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setPresence(String username, String presence) throws AwarenessServiceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void addAwarenessMessageListener(IAwarenessMessageListener awarenessListListener) {
-        // TODO Auto-generated method stub
+    public void setStatus(String status) throws AwarenessServiceException {
+        Presence presence = getRoster().getPresence(xmppConnection.getUser());
+        presence.setStatus(status);
         
     }
     
+    
+    @Override
+    public void setPresence(String presenceString) throws AwarenessServiceException {
+//        Presence p = getRoster().getPresence(xmppConnection.getUser());
+    }
 }
