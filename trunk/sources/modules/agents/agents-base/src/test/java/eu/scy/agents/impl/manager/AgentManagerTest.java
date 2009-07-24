@@ -1,6 +1,7 @@
 package eu.scy.agents.impl.manager;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Field;
@@ -13,8 +14,6 @@ import java.rmi.dgc.VMID;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.mchange.util.AssertException;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
@@ -53,14 +52,12 @@ public class AgentManagerTest {
     @Test
     public void testStartStopAgent() throws InterruptedException, AgentLifecycleException {
         IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
-        // agentManager.startAgent(ThreadedAgentMock.NAME);
         Thread.sleep(5000);
-
         assertTrue("Agent not started", agent.isRunning());
         agentManager.stopAgent(agent);
         Thread.sleep(1000);
-
         assertTrue("agent not stopped", !agent.isRunning());
+        assertEquals(0, agentManager.getAgentsIdMap().size());
     }
 
     @Test
@@ -79,6 +76,7 @@ public class AgentManagerTest {
         agentManager.stopAgent(agent);
         Thread.sleep(1000);
         assertTrue("agent not stopped", !agent.isRunning());
+        assertEquals(0, agentManager.getAgentsIdMap().size());
     }
 
     @Test
@@ -93,6 +91,7 @@ public class AgentManagerTest {
         agentManager.stopAgent(agent);
         Thread.sleep(1000);
         assertTrue("agent not stopped", !agent.isRunning());
+        assertEquals(0, agentManager.getAgentsIdMap().size());
     }
 
     @Test
@@ -100,14 +99,16 @@ public class AgentManagerTest {
         IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
         Thread.sleep(1000);
         assertTrue("Agent not started", agent.isRunning());
-        agent.kill();
+        agentManager.killAgent(agent.getId());
         TupleSpace ts = new TupleSpace(TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
         Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(), AgentProtocol.ALIVE);
-        Thread.sleep(AgentProtocol.ALIVE_INTERVAL*2);
+        Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
         Tuple aliveTuple = ts.read(t);
         assertTrue("Agent not killed", aliveTuple == null);
+        assertEquals(0, agentManager.getAgentsIdMap().size());
 
     }
+
     @Test
     public void testAgentMaps() throws AgentLifecycleException, InterruptedException {
         IThreadedAgent agent1 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
@@ -124,7 +125,7 @@ public class AgentManagerTest {
         assertTrue("Agent6 not started", agent6.isRunning());
         IThreadedAgent agent7 = agentManager.startAgent(ThreadedAgentMock.NAME, null);
         assertTrue("Agent7 not started", agent7.isRunning());
-        assertTrue(7==agentManager.getAgentsIdMap().size());
+        assertEquals(7, agentManager.getAgentsIdMap().size());
         Thread.sleep(100);
         agentManager.stopAgent(agent1);
         agentManager.stopAgent(agent2);
@@ -134,13 +135,12 @@ public class AgentManagerTest {
         agentManager.stopAgent(agent6);
         agentManager.stopAgent(agent7);
         Thread.sleep(1000);
-        assertTrue(0==agentManager.getAgentsIdMap().size());
-        assertTrue(7==agentManager.getOldAgentsMap().size());
-        Thread.sleep(AgentProtocol.ALIVE_INTERVAL*2);
-        assertTrue(0==agentManager.getAgentsIdMap().size());
-        assertTrue(0==agentManager.getOldAgentsMap().size());
-        
-        
+        assertEquals(0, agentManager.getAgentsIdMap().size());
+        assertEquals(7, agentManager.getOldAgentsMap().size());
+        Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
+        assertEquals(0, agentManager.getAgentsIdMap().size());
+        assertEquals(0, agentManager.getOldAgentsMap().size());
+
     }
 
 }
