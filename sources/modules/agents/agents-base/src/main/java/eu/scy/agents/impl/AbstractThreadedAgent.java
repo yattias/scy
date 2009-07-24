@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.rmi.dgc.VMID;
+import java.util.concurrent.locks.ReentrantLock;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
@@ -17,6 +18,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
         Running,
         Stopping;
     }
+    
+    public ReentrantLock lock = new ReentrantLock();
 
     protected Status status;
 
@@ -34,22 +37,30 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
     }
 
     
-    public void stop() throws AgentLifecycleException {
+    public final void stop() throws AgentLifecycleException {
         if (Status.Stopping != status) {
             status = Status.Stopping;
+            lock.lock();
             doStop();
+            lock.unlock();
+            try {
+                getTupleSpace().eventDeRegister(commandId);
+                getTupleSpace().eventDeRegister(identifyId);
+                getTupleSpace().disconnect();
+            } catch (TupleSpaceException e) {
+                // we do not care about exceptions here
+                e.printStackTrace();
+            }
 //            try {
-//              //  getTupleSpace().eventDeRegister(commandId);
-//              //  getTupleSpace().eventDeRegister(identifyId);
-//                //getTupleSpace().disconnect();
+//                getTupleSpace().disconnect();
 //            } catch (TupleSpaceException e) {
-//                // we do not care about exceptions here
 //                e.printStackTrace();
 //            }
         } else {
             throw new AgentLifecycleException(name + " already dead");
         }
     }
+    @SuppressWarnings("deprecation")
     @Override
     public final void kill() throws AgentLifecycleException {
         if (myThread!=null){
@@ -82,10 +93,15 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 
     public final void run() {
         try {
+            lock.lock();
             doRun();
+            lock.unlock();
         } catch (Exception e) {
             e.printStackTrace();
             try {
+                if (lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                }
                 stop();
             } catch (AgentLifecycleException e1) {
                 e1.printStackTrace();
@@ -116,7 +132,9 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
             return;
         }
         if (AgentProtocol.COMMAND_LINE.equals(afterTuple.getField(0).getValue().toString())) {
-            if (afterTuple.getField(3).getValue().equals(getName().trim())) {
+            if (afterTuple.getField(2).getValue().equals(getId().trim())) {
+                
+                
                 String message = (String) afterTuple.getField(4).getValue();
                 // if (AgentProtocol.MESSAGE_START.equals(message)) {
                 // this.start();
