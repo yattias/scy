@@ -17,6 +17,8 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -178,7 +180,17 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     @Override
     public IAwarenessService getAwarenessService() {
-        return awarenessService;
+        
+        try {
+            awarenessService = AwarenessServiceFactory.getAwarenessService(AwarenessServiceFactory.XMPP_STYLE);
+            return awarenessService;
+        } catch (AwarenessServiceException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+        return null;
     }
     
     @Override
