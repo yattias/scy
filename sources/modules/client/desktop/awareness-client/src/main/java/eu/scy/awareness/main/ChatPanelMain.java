@@ -105,7 +105,6 @@ public class ChatPanelMain extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JTextField textfield = (JTextField)e.getSource();
 
-                System.out.println("hey");
                 String oldText = chatArea.getText();
                 
                 if( buddyList.getSelectedValue() == null ) {
@@ -128,7 +127,6 @@ public class ChatPanelMain extends JPanel {
         
         JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
         
-
         buddyList = new JList(chatController.getBuddyList());
         buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
