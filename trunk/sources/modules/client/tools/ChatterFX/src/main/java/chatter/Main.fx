@@ -9,6 +9,8 @@ package chatter;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import java.lang.System;
+
 
 
 
@@ -35,7 +37,7 @@ var stage: Stage = Stage {
 
 
 public function run () {
-    //fxChatter.doIt();
-    insert "jeremyt" into fxChatter.buddyNames;
-    insert "Blue" into fxChatter.buddyNames;
+    //fxChatter.populateUserList();
+    //insert "jeremyt" into fxChatter.buddyNames;
+    //insert "Blue" into fxChatter.buddyNames;
 }
