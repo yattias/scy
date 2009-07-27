@@ -13,20 +13,27 @@ import java.awt.Dimension;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextBox;
-import eu.scy.awareness.controller.ChatController;
 import java.lang.System;
+import javax.swing.AbstractListModel;
+
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.awareness.IAwarenessUser;
+import eu.scy.chat.controller.ChatController;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import java.util.Vector;
 
 public class FXChatter extends CustomNode {
 
     public var buddyNames:String[];
-    var chatController: ChatController;
+    public var chatController: ChatController;
 
    
     var textPane = new JTextPane();
     var scrollPane = new JScrollPane(textPane);
     var text: SwingComponent;
     var txt: TextBox;
-
+    var names:AbstractListModel;
+    
     var list: ListView = ListView {
         translateX: 0
 
@@ -42,13 +49,25 @@ public class FXChatter extends CustomNode {
     }
 
 
+
+
     override function create() : Node {
         scrollPane.setPreferredSize(new Dimension(300, 250));
-        //textPane.setText("Latin (lingua Latīna, pronounced [laˈtiːna]) is an Italic language historically spoken in Latium and Ancient Rome. Through the Roman conquest, Latin spread throughout the Mediterranean and a large part of Europe. Romance languages such as Italian, French, Catalan, Romanian, Spanish, and Portuguese are descended from Latin, while many others, especially European languages, including English, have inherited and acquired much of their vocabulary from Latin. It was the international language of science and scholarship in central and western Europe until the 17th century, then it was gradually replaced by vernacular languages, especially French, which became the new lingua franca of Europe. There are two main varieties of Latin: Classical Latin, the literary dialect used in poetry and prose, and Vulgar Latin, the form of the language spoken by ordinary people. Vulgar Latin was preserved as a spoken language in much of Europe after the decline of the Roman Empire, and by the 9th century diverged into the various Romance languages.");
         text = SwingComponent.wrap(scrollPane);
 
-        chatController = new ChatController(null, null);
-        //chatController.populateBuddyList();
+        var tbi:ToolBrokerImpl = new ToolBrokerImpl();
+        var awarenessService:IAwarenessService = tbi.getAwarenessService();
+        awarenessService.init(tbi.getConnection("obama", "obama"));
+
+        chatController = new ChatController(awarenessService);        
+        chatController.populateBuddyList();
+        
+        var au:IAwarenessUser;
+        var users:Vector = chatController.getBuddyListArray();
+        for(str in users) {
+            au = str as IAwarenessUser;
+            insert au.getName() into buddyNames;
+        }
 
         return HBox {
             spacing : 10;
@@ -66,16 +85,15 @@ public class FXChatter extends CustomNode {
                         Button {
                             text: "Send";
                             action: function() {
-                                var oldText = textPane.getText();
+                                var oldText:String = textPane.getText();
 
-                                if( list.selectedItem == null ) {
-                                    textPane.setText(oldText.concat("me:").concat(txt.text).concat("\n"));
+                                if( list.selectedIndex == -1 ) {
+                                    textPane.setText(oldText.concat("me: ").concat(txt.text).concat("\n"));
                                     chatController.sendMessage(null, txt.text);
                                 } else {
-                                    System.out.println(list.selectedItem.toString());
-                                    chatController.sendMessage(list.selectedItem, txt.text);
-                                    textPane.setText(oldText.concat("me:").concat(txt.text).concat("\n"));
-                                } 
+                                    chatController.sendMessage(users.elementAt(list.selectedIndex) as IAwarenessUser, txt.text);
+                                    textPane.setText(oldText.concat("me: ").concat(txt.text).concat("\n"));
+                                }
                             }
                         }
                     ]
@@ -83,4 +101,5 @@ public class FXChatter extends CustomNode {
             ]
         };
     }
+
 }
