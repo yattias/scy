@@ -75,7 +75,8 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
         hostPort = props.getProperty("collaborationservice.port");
         hostName = props.getProperty("collaborationservice.name");
         
-        config = new ConnectionConfiguration(hostAddress, new Integer(hostPort).intValue(), hostName);
+        config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
+        //config = new ConnectionConfiguration(hostAddress, new Integer(hostPort).intValue(), hostName);
         config.setCompressionEnabled(true);
 //        config.setSASLAuthenticationEnabled(true);
         config.setReconnectionAllowed(true);
