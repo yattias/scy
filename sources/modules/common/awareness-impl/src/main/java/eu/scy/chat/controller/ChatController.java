@@ -2,6 +2,7 @@ package eu.scy.chat.controller;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
@@ -44,6 +45,7 @@ public class ChatController {
             if( buddies != null ) {
                 for (IAwarenessUser b : buddies) {
                     buddyList.addElement(b);
+                    System.out.println(b.getName());
                 }// for
             }
         } else {
@@ -56,13 +58,18 @@ public class ChatController {
         return buddyList;
     }
     
-    public String[] getBuddyListArray() {
-        if( buddyList == null )
-            return null;
-        
-        String[] a = new String[buddyList.size()];
-        buddyList.copyInto(a);
-        return a;
+    public Vector<IAwarenessUser> getBuddyListArray() {
+    	Vector<IAwarenessUser> vec;
+    	if( buddyList == null ) {
+        	return null;        	
+        }
+        else {    
+        	vec = new Vector<IAwarenessUser>();
+        	for(int i=0; i<buddyList.getSize();i++) {
+        		vec.addElement((IAwarenessUser) buddyList.elementAt(i));
+        	}       	
+        	return vec;  	
+        }
     }
     
  
