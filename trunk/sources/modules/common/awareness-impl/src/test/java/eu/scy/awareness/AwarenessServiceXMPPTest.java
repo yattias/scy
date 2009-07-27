@@ -8,7 +8,6 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.junit.Before;
 import org.junit.Ignore;
 
 import eu.scy.awareness.event.IAwarePresenceEvent;
@@ -48,8 +47,7 @@ public class AwarenessServiceXMPPTest {
     }
 
     private void initListeners() {
-        getAwarenessService().addAwarenessRosterListener(new IAwarenessRosterListener() {
-            
+        getAwarenessService().addAwarenessRosterListener(new IAwarenessRosterListener() {            
             @Override
             public void handleAwarenessRosterEvent(IAwarenessRosterEvent e) {
                 System.out.println("rosterevent " + e);
@@ -93,8 +91,8 @@ public class AwarenessServiceXMPPTest {
 //       awarenessServiceXMPPTest.removeBuddyTest("pelsoi");
 //       awarenessServiceXMPPTest.getAllBuddiesTest();
        
-       awarenessServiceXMPPTest.sendMessageTest("biden@wiki.intermedia.uio.no", "u are bad"); 
-       awarenessServiceXMPPTest.sendMessageTest("biden@wiki.intermedia.uio.no", "eat my shorts"); 
+       awarenessServiceXMPPTest.sendMessageTest("jeremyt@wiki.intermedia.uio.no", "u are bad"); 
+       awarenessServiceXMPPTest.sendMessageTest("jeremyt@wiki.intermedia.uio.no", "eat my shorts"); 
         
         
        //start the server so it can get messages
