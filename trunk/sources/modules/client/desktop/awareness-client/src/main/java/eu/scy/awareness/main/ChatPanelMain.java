@@ -77,6 +77,7 @@ public class ChatPanelMain extends JPanel {
         chatController = new ChatController(awarenessService);
         initGUI();
         chatController.populateBuddyList();
+        System.out.println(chatController.getBuddyListArray().size());
     }
     
     protected void initGUI() {
@@ -239,9 +240,5 @@ public class ChatPanelMain extends JPanel {
         frame.getContentPane().add(pop);
         frame.setSize(500, 300);
         frame.setVisible(true);
-        
-        
-        
-        
     }
 }
