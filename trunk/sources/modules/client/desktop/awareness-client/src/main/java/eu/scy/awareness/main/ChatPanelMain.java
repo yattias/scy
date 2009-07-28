@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -28,6 +29,8 @@ import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import roolo.elo.api.IMetadataKey;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
@@ -36,12 +39,13 @@ public class ChatPanelMain extends JPanel {
 
     
     protected JList buddyList;
-    JTextArea chatArea;
+    JTextPane chatArea;
     protected DefaultListModel buddlyListModel;
     protected JTextField sendMessageTextField;
     protected ChatController chatController;
     private String username ;
     private String password;
+    private IAwarenessService awarenessService;
     
     public ChatPanelMain() {
   
@@ -71,7 +75,7 @@ public class ChatPanelMain extends JPanel {
         
         
        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-       IAwarenessService awarenessService = tbi.getAwarenessService();
+       awarenessService = tbi.getAwarenessService();
        awarenessService.init(tbi.getConnection("obama", "obama"));
         
         chatController = new ChatController(awarenessService);
@@ -82,10 +86,10 @@ public class ChatPanelMain extends JPanel {
     protected void initGUI() {
         this.add(createBuddyListPanel(), BorderLayout.WEST);
 
-        chatArea = new JTextArea();
+        chatArea = new JTextPane();
         
         chatArea.setEditable(false);
-        chatController.registerChatArea(chatArea);
+        this.registerChatArea(chatArea);
         
         this.add(createChatArea(), BorderLayout.CENTER);
         
@@ -239,5 +243,20 @@ public class ChatPanelMain extends JPanel {
         frame.getContentPane().add(pop);
         frame.setSize(500, 300);
         frame.setVisible(true);
+    }
+    
+    private void registerChatArea(final JTextPane chatArea) {
+    	awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
+			
+			@Override
+			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
+				String oldText = chatArea.getText();
+                
+                chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
+				
+			}
+		});
+
+    	
     }
 }
