@@ -2,6 +2,17 @@ package eu.scy.agents.api;
 
 import roolo.elo.api.IMetadataKey;
 
+/**
+ * A processing agent is a special type of threaded agent that allows for heavy
+ * number crunching where the result of the calculation is not needed
+ * immediately and will be reported to the TupleSpace. The results can then be
+ * used by another agent. Processing agents only communicate with the TupleSpace
+ * and the {@link IPersistentStorage}
+ * 
+ * @author Florian Schulz
+ * 
+ * @param <K>
+ */
 public interface IProcessingAgent<K extends IMetadataKey> extends
 		IThreadedAgent {
 

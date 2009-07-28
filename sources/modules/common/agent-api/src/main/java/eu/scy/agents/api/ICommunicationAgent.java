@@ -14,7 +14,7 @@ public interface ICommunicationAgent extends IThreadedAgent {
 	/**
 	 * Get a notification sender to send the notifications to.
 	 * 
-	 * @return
+	 * @return An instance of a notification sender.
 	 */
 	public INotificationSender getNotificationSender();
 
