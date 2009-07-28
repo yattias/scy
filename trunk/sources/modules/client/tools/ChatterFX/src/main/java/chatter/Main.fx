@@ -37,7 +37,7 @@ var stage: Stage = Stage {
 
 
 public function run () {
-    //fxChatter.populateUserList();
+    fxChatter.doIt();
     //insert "jeremyt" into fxChatter.buddyNames;
     //insert "Blue" into fxChatter.buddyNames;
 }
