@@ -255,8 +255,6 @@ public class ChatPanelMain extends JPanel {
                 chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
 				
 			}
-		});
-
-    	
+		}); 	
     }
 }
