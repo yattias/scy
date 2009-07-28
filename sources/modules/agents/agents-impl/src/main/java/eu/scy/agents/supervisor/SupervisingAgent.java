@@ -24,14 +24,15 @@ import java.util.regex.Pattern;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.AbstractThreadedAgent.Status;
 
 public class SupervisingAgent extends AbstractThreadedAgent implements Callback {
+
+    public static final String NAME = "eu.scy.agents.impl.SupervisingAgent";
 
     private static final Tuple alive_template = new Tuple(AgentProtocol.COMMAND_LINE, String.class, String.class, String.class, AgentProtocol.ALIVE);
 
     private static final Logger logger = Logger.getLogger(SupervisingAgent.class.getName());
-
-    private static final String name = "supervising agent";
 
     private static final Tuple query_template = new Tuple("query", Field.createWildCardField());
 
@@ -39,7 +40,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
 
     private static final long ident_timeout = 5 * 1000;
 
-    private boolean debug = true;
+    private static final Level DEBUGLEVEL = Level.FINE;
 
     private boolean isStopped;
 
@@ -54,119 +55,162 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     private Map<Integer, CallbackSequence> cbMap;
 
     public enum CallbackSequence {
-        ALIVE_WRITTEN,
-        ALIVE_UPDATED,
-        ALIVE_DELETED,
+        ALIVE_ALL,
         QUERY_WRITTEN,
         RESPONSE_WRITTEN;
     }
 
     public SupervisingAgent(Map<String, Object> map) {
-        super(name, (String) map.get("id"));
+        super(NAME, (String) map.get("id"));
         knownAgents = new ArrayList<String>();
         agentInDoc = new HashMap<String, List<Tuple>>();
         agentOutDoc = new HashMap<String, List<Tuple>>();
         agentInstances = new HashMap<String, Set<String>>();
         cbMap = new HashMap<Integer, CallbackSequence>();
         initLogger();
-        logger.log(Level.FINEST, name + " up and running...");
+        logger.log(Level.FINE, NAME + " up and running...");
+        int[] cbSeq = new int[3];
+        // register callbacks
+        try {
+            getTupleSpace().beginTransaction();
+            cbSeq[0] = getTupleSpace().eventRegister(Command.ALL, alive_template, this, true);
+            cbSeq[1] = getTupleSpace().eventRegister(Command.WRITE, query_template, this, true);
+            cbSeq[2] = getTupleSpace().eventRegister(Command.WRITE, response_template, this, true);
+            getTupleSpace().commitTransaction();
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+        cbMap.put(cbSeq[0], CallbackSequence.ALIVE_ALL);
+        cbMap.put(cbSeq[1], CallbackSequence.QUERY_WRITTEN);
+        cbMap.put(cbSeq[2], CallbackSequence.RESPONSE_WRITTEN);
+        logger.log(Level.FINEST, cbSeq.length + " callbacks registered");
     }
 
     @Override
     public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
-        super.call(command, seq, afterTuple, beforeTuple);
-        CallbackSequence cbseq = cbMap.get(seq);
-        switch (cbseq) {
-            case ALIVE_WRITTEN:
-                if (afterTuple.getFields().length >= 4) {
-                    logger.log(Level.FINEST, "Alive written");
-                    aliveWritten(afterTuple);
-                } else {
-                    logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
-                }
-                break;
-            case ALIVE_UPDATED:
-                if (afterTuple.getFields().length >= 4) {
-                    logger.log(Level.FINEST, "Alive updated");
-                    aliveUpdated(afterTuple);
-                } else {
-                    logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
-                }
-                break;
-            case ALIVE_DELETED:
-                if (beforeTuple.getFields().length >= 4) {
-                    logger.log(Level.FINEST, "Alive deleted");
-                    aliveDeleted(beforeTuple);
-                } else {
-                    logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
-                }
-                break;
-            case QUERY_WRITTEN:
-                if (afterTuple.getFields().length >= 4) {
-                    logger.log(Level.FINEST, "Query written");
-                    queryWritten(afterTuple);
-                } else {
-                    logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
-                }
-                break;
-            case RESPONSE_WRITTEN:
-                if (afterTuple.getFields().length >= 4) {
-                    logger.log(Level.FINEST, "Response written");
-                    responseWritten(afterTuple);
-                } else {
-                    logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
-                }
-                break;
-            default:
-                logger.log(Level.WARNING, "Hmmmmm....I got a callback i didn't registered....WTF?");
-                break;
+        logger.log(Level.FINEST, "Callback arrived");
+        if (cbMap.get(seq) == null) {
+            logger.log(Level.FINEST, "Callback passed to Superclass.");
+            super.call(command, seq, afterTuple, beforeTuple);
+            return;
+        }
+        String agentName = "";
+        if (beforeTuple != null && beforeTuple.getFields().length >= 3) {
+            agentName = beforeTuple.getField(3).getValue().toString();
+        }
+        if (afterTuple != null && afterTuple.getFields().length >= 3) {
+            agentName = afterTuple.getField(3).getValue().toString();
+        }
+        if (!agentName.trim().equals(SupervisingAgent.NAME)) {
+            CallbackSequence cbseq = cbMap.get(seq);
+            switch (cbseq) {
+                case ALIVE_ALL:
+                    switch (command) {
+                        case WRITE:
+                            if (afterTuple.getFields().length >= 4) {
+                                logger.log(Level.FINEST, "Alive written");
+                                aliveWritten(afterTuple);
+                            } else {
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                            }
+                            break;
+                        case UPDATE:
+                            if (afterTuple.getFields().length >= 4) {
+                                logger.log(Level.FINEST, "Alive updated");
+                                aliveUpdated(afterTuple);
+                            } else {
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                            }
+                            break;
+                        case DELETE:
+                            if (beforeTuple.getFields().length >= 4) {
+                                logger.log(Level.FINEST, "Alive deleted");
+                                aliveDeleted(beforeTuple);
+                            } else {
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QUERY_WRITTEN:
+                    if (afterTuple.getFields().length >= 4) {
+                        logger.log(Level.FINEST, "Query written");
+                        queryWritten(afterTuple);
+                    } else {
+                        logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                    }
+                    break;
+                case RESPONSE_WRITTEN:
+                    if (afterTuple.getFields().length >= 4) {
+                        logger.log(Level.FINEST, "Response written");
+                        responseWritten(afterTuple);
+                    } else {
+                        logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                    }
+                    break;
+                default:
+                    logger.log(Level.WARNING, "Hmmmmm....I got a callback i didn't registered....WTF?");
+                    break;
+            }
         }
     }
 
     private void responseWritten(Tuple afterTuple) {
         String agentName = afterTuple.getField(3).getValue().toString();
-        if (knownAgents.contains(agentName)) {
+        if (!afterTuple.getField(4).getValue().toString().trim().equals(AgentProtocol.MESSAGE_IDENTIFY)) {
+            if (knownAgents.contains(agentName)) {
 
-            List<Tuple> tupleDoc = agentOutDoc.get(agentName);
-            for (Tuple tuple : tupleDoc) {
-                if (tuple.matches(afterTuple)) {
-                    System.out.println("Hey Mister " + agentName + ". Your answer" + afterTuple + " fulfilles the TupleDoc conventions.");
-                    break;
+                List<Tuple> tupleDoc = agentOutDoc.get(agentName);
+                for (Tuple tuple : tupleDoc) {
+                    if (tuple.matches(afterTuple)) {
+                        logger.log(Level.FINE, "Response matches TupleDOC");
+                        break;
+                    }
                 }
+            } else {
+                logger.log(Level.WARNING, "There is no agent : " + agentName + ". Who the hell are you?");
             }
         } else {
-            logger.log(Level.WARNING, "There is no agent : " + agentName + ". Who the hell are you?");
+            logger.log(Level.FINEST, "Thats just an identify tuple...don't bother!");
         }
     }
 
     private void queryWritten(Tuple afterTuple) {
+        String agentId = afterTuple.getField(2).getValue().toString();
         String agentName = afterTuple.getField(3).getValue().toString();
-        if (knownAgents.contains(agentName)) {
+        if (!afterTuple.getField(4).getValue().toString().trim().equals(AgentProtocol.MESSAGE_IDENTIFY)) {
+            if (knownAgents.contains(agentId)) {
 
-            List<Tuple> tupleDoc = agentInDoc.get(agentName);
-            for (Tuple tuple : tupleDoc) {
-                if (tuple.matches(afterTuple)) {
-                    System.out.println("YES! The agent " + agentName + " can interpret your query :" + afterTuple);
-                    break;
+                List<Tuple> tupleDoc = agentInDoc.get(agentId);
+                for (Tuple tuple : tupleDoc) {
+                    if (tuple.matches(afterTuple)) {
+                        logger.log(Level.FINE, "Query matches TupleDOC");                        break;
+                    }
                 }
+            } else {
+                logger.log(Level.WARNING, "There is no agent : " + agentName);
             }
         } else {
-            logger.log(Level.WARNING, "There is no agent : " + agentName);
+            logger.log(Level.FINEST, "Thats just an identify tuple...don't bother!");
         }
     }
 
     private void aliveDeleted(Tuple beforeTuple) {
         String agentId = beforeTuple.getField(2).getValue().toString();
         String agentName = beforeTuple.getField(3).getValue().toString();
+
         if (agentInstances.containsKey(agentName)) {
             Set<String> agentIds = agentInstances.get(agentName);
             boolean deleted = agentIds.remove(agentId);
-
             if (deleted) {
+                logger.log(Level.FINE, "Agent " + agentName + " with id=" + agentId + " was deleted...");
                 if (agentIds.isEmpty()) {
                     knownAgents.remove(agentName);
                     agentInDoc.remove(agentName);
                     agentOutDoc.remove(agentName);
+                    logger.log(Level.FINE, "No more Instances of  " + agentName + " available.");
                 }
             } else {
                 logger.log(Level.WARNING, "Agent " + agentName + " with id=" + agentId + " could not be deleted...");
@@ -177,28 +221,29 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     private void aliveUpdated(Tuple afterTuple) {
-    // Nothing to do yet
+        aliveWritten(afterTuple);
     }
 
     private void aliveWritten(Tuple afterTuple) {
-        String agentId = afterTuple.getField(3).getValue().toString();
-        String agentName = afterTuple.getField(2).getValue().toString();
+        String agentId = afterTuple.getField(2).getValue().toString();
+        String agentName = afterTuple.getField(3).getValue().toString();
+        // I should not react on myself's breath.
 
         if (!knownAgents.contains(agentName)) {
+            // if (false) {
             VMID queryId = new VMID();
-            Tuple identifyQuery = AgentProtocol.getIdentifyTuple(agentId, agentName, queryId);
-            String id = identifyQuery.getField(1).getValue().toString();
+            final Tuple identifyQuery = AgentProtocol.getIdentifyTuple(agentId, agentName, queryId);
+            String id = identifyQuery.getField(2).getValue().toString();
             try {
                 getTupleSpace().write(identifyQuery);
-                Tuple identifyResponse = getTupleSpace().waitToTake(new Tuple(AgentProtocol.COMMAND_LINE, queryId.toString(), id, name, Field.createWildCardField()), ident_timeout);
+                Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId.toString(), id, agentName, Field.createWildCardField());
+                Tuple identifyResponse = getTupleSpace().waitToTake(t, ident_timeout);
                 if (identifyResponse == null) {
-                    logger.log(Level.WARNING, "QID: "+queryId.toString()+"Agent " + agentName + " with ID=" + agentId + " does not respond on identify query...");
+                    logger.log(Level.WARNING, "QID: " + queryId.toString() + "Agent " + agentName + " with ID=" + agentId + " does not respond on identify query...");
                 } else {
                     ArrayList<String> tupleDocEntries = new ArrayList<String>();
-                    for (int i = 3; i < identifyResponse.getFields().length; i++) {
-
+                    for (int i = 5; i < identifyResponse.getFields().length; i++) {
                         String entry = identifyResponse.getField(i).getValue().toString();
-
                         tupleDocEntries.add(entry);
                     }
                     knownAgents.add(agentName);
@@ -209,6 +254,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                             in.add(convertStringToTuple(tupleDoc, true));
                             out.add(convertStringToTuple(tupleDoc, false));
                         } catch (Exception e) {
+                            e.printStackTrace();
                             logger.log(Level.SEVERE, "Something very bad happened, but: Stand back, I know RegEx!");
                         }
                     }
@@ -217,7 +263,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                     HashSet<String> al = new HashSet<String>();
                     al.add(agentId);
                     agentInstances.put(agentName, al);
-                    logger.log(Level.FINEST, "Coool, a new Agent appeared. Her sweet little name is " + agentName + ". Her ID is " + agentId + ". Gratz to the parents: She is healthy and has all TupleDoc a small Agent needs.");
+                    logger.log(Level.FINE, "New Agent+Instance(" + agentName + ") registered!");
                 }
             } catch (TupleSpaceException e) {
                 logger.log(Level.SEVERE, e.getMessage());
@@ -225,46 +271,47 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         } else {
             if (agentInstances.containsKey(agentName)) {
                 Set<String> agentIds = agentInstances.get(agentName);
-                agentIds.add(agentId);
+                if (!agentIds.contains(agentId)) {
+                    agentIds.add(agentId);
+                    logger.log(Level.FINE, "New Instance of " + agentName + " registered");
+                } else {
+                    logger.log(Level.FINEST, "This instance of " + agentName + " is already registered");
+                }
             } else {
-                logger.log(Level.SEVERE, "Something went bitterly wrong......");
+                logger.log(Level.SEVERE, "Known Agent without Instance found!");
             }
         }
+
     }
 
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException {
-        sendAliveUpdate();
-        int[] cbSeq = new int[5];
-        // register callbacks
-        cbSeq[0] = getTupleSpace().eventRegister(Command.WRITE, alive_template, this, true);
-        cbSeq[1] = getTupleSpace().eventRegister(Command.UPDATE, alive_template, this, true);
-        cbSeq[2] = getTupleSpace().eventRegister(Command.DELETE, alive_template, this, true);
-        cbSeq[3] = getTupleSpace().eventRegister(Command.WRITE, query_template, this, true);
-        cbSeq[4] = getTupleSpace().eventRegister(Command.WRITE, response_template, this, true);
-        cbMap.put(cbSeq[0], CallbackSequence.ALIVE_WRITTEN);
-        cbMap.put(cbSeq[1], CallbackSequence.ALIVE_UPDATED);
-        cbMap.put(cbSeq[2], CallbackSequence.ALIVE_DELETED);
-        cbMap.put(cbSeq[3], CallbackSequence.QUERY_WRITTEN);
-        cbMap.put(cbSeq[4], CallbackSequence.RESPONSE_WRITTEN);
-        logger.log(Level.FINEST, cbSeq.length + " callbacks registered");
+        while (status == Status.Running) {
+            sendAliveUpdate();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     protected void doStop() {
         // deregister all callbacks
+        // status = Status.Stopping;
         for (Integer seq : cbMap.keySet()) {
             if (seq != 0) {
                 try {
                     getTupleSpace().eventDeRegister(seq);
-                    getTupleSpace().disconnect();
                 } catch (TupleSpaceException e) {
                     logger.log(Level.SEVERE, e.getMessage());
                 }
             }
         }
-        isStopped = true;
-        logger.log(Level.FINEST, "Supervisor stopped");
+        // isStopped = true;
+        logger.log(Level.FINE, "Supervisor stopped");
 
     }
 
@@ -272,14 +319,8 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         ConsoleHandler cH = new ConsoleHandler();
         SimpleFormatter sF = new SimpleFormatter();
         cH.setFormatter(sF);
-        if (debug) {
-            cH.setLevel(Level.ALL);
-            logger.setLevel(Level.ALL);
-        } else {
-            // TODO is Level.fine the right choice?
-            cH.setLevel(Level.FINE);
-            logger.setLevel(Level.FINE);
-        }
+        cH.setLevel(DEBUGLEVEL);
+        logger.setLevel(DEBUGLEVEL);
         logger.addHandler(cH);
     }
 
@@ -295,28 +336,33 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
 
     private Tuple convertStringToTuple(String tupleDoc, boolean intuple) throws ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
         Tuple t = new Tuple();
-        String s = tupleDoc.split("->")[intuple ? 0 : 1];
-        Pattern p = Pattern.compile("(\"[^\"]+\"|<[^>]+>):\\w+");
-        Matcher m = p.matcher(s);
-        Class<?> c = null;
-        while (m.find()) {
-            String fieldName = m.group();
-            if (fieldName.split(":")[1].toLowerCase().equals("xml")) {
-                c = org.w3c.dom.Document.class;
-            } else if (fieldName.split(":")[1].toLowerCase().equals("binary")) {
-                c = byte[].class;
-            } else {
-                c = Class.forName("java.lang." + fieldName.split(":")[1]);
+        if (tupleDoc.contains("->")) {
+            String s = tupleDoc.split("->")[intuple ? 0 : 1];
+            Pattern p = Pattern.compile("(\"[^\"]+\"|<[^>]+>):\\w+");
+            Matcher m = p.matcher(s);
+            Class<?> c = null;
+            while (m.find()) {
+                String fieldName = m.group();
+                if (fieldName.split(":")[1].toLowerCase().equals("xml")) {
+                    c = org.w3c.dom.Document.class;
+                } else if (fieldName.split(":")[1].toLowerCase().equals("binary")) {
+                    c = byte[].class;
+                } else {
+                    c = Class.forName("java.lang." + fieldName.split(":")[1]);
+                }
+                Field f;
+                if (fieldName.startsWith("\"")) {
+                    Constructor<?> con = c.getConstructor(String.class);
+                    Object o = con.newInstance(fieldName.split(":")[0]);
+                    f = new Field(o);
+                } else {
+                    f = new Field(c);
+                }
+                t.add(f);
             }
-            Field f;
-            if (fieldName.startsWith("\"")) {
-                Constructor<?> con = c.getConstructor(String.class);
-                Object o = con.newInstance(fieldName.split(":")[0]);
-                f = new Field(o);
-            } else {
-                f = new Field(c);
-            }
-            t.add(f);
+
+        } else {
+            logger.log(Level.WARNING, "The String \"" + tupleDoc + "\" is no valid tupleDoc!");
         }
         return t;
     }
