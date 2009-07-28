@@ -79,8 +79,8 @@ public class ChatPanelMain extends JPanel {
        awarenessService.init(tbi.getConnection("obama", "obama"));
         
         chatController = new ChatController(awarenessService);
-        initGUI();
         chatController.populateBuddyList();
+        initGUI();
     }
     
     protected void initGUI() {
