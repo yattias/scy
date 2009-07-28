@@ -100,4 +100,19 @@ public class ChatController {
     public void removeBuddy(String buddy){
         buddyList.removeElement(buddy);
     }
+    
+    private void registerChatArea(final JTextPane chatArea) {
+    	awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
+			
+			@Override
+			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
+				String oldText = chatArea.getText();
+                
+                chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
+				
+			}
+		});
+
+    	
+    }
 }

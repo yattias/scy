@@ -42,8 +42,7 @@ public class AwarenessServiceXMPPTest {
         // application you will need to kill the process
         
         initListeners();
-            
-        
+
     }
 
     private void initListeners() {
