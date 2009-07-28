@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
@@ -98,20 +99,5 @@ public class ChatController {
     
     public void removeBuddy(String buddy){
         buddyList.removeElement(buddy);
-    }
-    
-    public void registerChatArea(final JTextArea chatArea) {
-    	awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
-			
-			@Override
-			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
-				String oldText = chatArea.getText();
-                
-                chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
-				
-			}
-		});
-
-    	
     }
 }
