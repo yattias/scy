@@ -8,6 +8,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.junit.Before;
 import org.junit.Ignore;
 
 import eu.scy.awareness.event.IAwarePresenceEvent;
@@ -42,11 +43,13 @@ public class AwarenessServiceXMPPTest {
         // application you will need to kill the process
         
         initListeners();
-
+            
+        
     }
 
     private void initListeners() {
-        getAwarenessService().addAwarenessRosterListener(new IAwarenessRosterListener() {            
+        getAwarenessService().addAwarenessRosterListener(new IAwarenessRosterListener() {
+            
             @Override
             public void handleAwarenessRosterEvent(IAwarenessRosterEvent e) {
                 System.out.println("rosterevent " + e);
@@ -85,13 +88,13 @@ public class AwarenessServiceXMPPTest {
 //        awarenessServiceXMPPTest.startServer();
         
        //test to get all the buddies
-//       awarenessServiceXMPPTest.getAllBuddiesTest();
-//       awarenessServiceXMPPTest.addBuddyTest("pelsoi"); 
-//       awarenessServiceXMPPTest.removeBuddyTest("pelsoi");
-//       awarenessServiceXMPPTest.getAllBuddiesTest();
+       awarenessServiceXMPPTest.getAllBuddiesTest();
+       awarenessServiceXMPPTest.addBuddyTest("pelsoi@wiki.intermedia.uio.no"); 
+       awarenessServiceXMPPTest.removeBuddyTest("pelsoi@wiki.intermedia.uio.no");
+       awarenessServiceXMPPTest.getAllBuddiesTest();
        
-       awarenessServiceXMPPTest.sendMessageTest("jeremyt@wiki.intermedia.uio.no", "u are bad"); 
-       awarenessServiceXMPPTest.sendMessageTest("jeremyt@wiki.intermedia.uio.no", "eat my shorts"); 
+       awarenessServiceXMPPTest.sendMessageTest("biden@wiki.intermedia.uio.no", "u are bad"); 
+       awarenessServiceXMPPTest.sendMessageTest("biden@wiki.intermedia.uio.no", "eat my shorts"); 
         
         
        //start the server so it can get messages
