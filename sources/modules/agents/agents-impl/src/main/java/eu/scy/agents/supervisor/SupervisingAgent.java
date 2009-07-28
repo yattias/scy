@@ -24,8 +24,13 @@ import java.util.regex.Pattern;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AbstractThreadedAgent.Status;
 
+/**
+ * The Supervising agent provides functionality to check if new agents are available and identifies them with their tupledoc
+ * 
+ * @author Jan Engler
+ * 
+ */
 public class SupervisingAgent extends AbstractThreadedAgent implements Callback {
 
     public static final String NAME = "eu.scy.agents.impl.SupervisingAgent";
@@ -72,6 +77,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         int[] cbSeq = new int[3];
         // register callbacks
         try {
+            // Does that transaction work?
             getTupleSpace().beginTransaction();
             cbSeq[0] = getTupleSpace().eventRegister(Command.ALL, alive_template, this, true);
             cbSeq[1] = getTupleSpace().eventRegister(Command.WRITE, query_template, this, true);
@@ -90,17 +96,21 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
         logger.log(Level.FINEST, "Callback arrived");
         if (cbMap.get(seq) == null) {
+            // If a callback arrives here that wasn't registered from this class it is passed to the AbstractThreadedAgent.
             logger.log(Level.FINEST, "Callback passed to Superclass.");
             super.call(command, seq, afterTuple, beforeTuple);
             return;
         }
         String agentName = "";
+
+        // get the name of the agent
         if (beforeTuple != null && beforeTuple.getFields().length >= 3) {
             agentName = beforeTuple.getField(3).getValue().toString();
         }
         if (afterTuple != null && afterTuple.getFields().length >= 3) {
             agentName = afterTuple.getField(3).getValue().toString();
         }
+        // if the call was initiated by myself, i don't care
         if (!agentName.trim().equals(SupervisingAgent.NAME)) {
             CallbackSequence cbseq = cbMap.get(seq);
             switch (cbseq) {
@@ -111,7 +121,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                                 logger.log(Level.FINEST, "Alive written");
                                 aliveWritten(afterTuple);
                             } else {
-                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? ");
                             }
                             break;
                         case UPDATE:
@@ -119,7 +129,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                                 logger.log(Level.FINEST, "Alive updated");
                                 aliveUpdated(afterTuple);
                             } else {
-                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner?");
                             }
                             break;
                         case DELETE:
@@ -127,7 +137,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                                 logger.log(Level.FINEST, "Alive deleted");
                                 aliveDeleted(beforeTuple);
                             } else {
-                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? Hu?  ");
+                                logger.log(Level.WARNING, "This is strange! There is a Tuple with only " + afterTuple.getFields().length + " fields. Have you implemented the TupleDoc document in the right manner? ");
                             }
                             break;
                         default:
@@ -151,7 +161,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                     }
                     break;
                 default:
-                    logger.log(Level.WARNING, "Hmmmmm....I got a callback i didn't registered....WTF?");
+                    logger.log(Level.WARNING, "There was a callback i didn't registered.");
                     break;
             }
         }
@@ -161,7 +171,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         String agentName = afterTuple.getField(3).getValue().toString();
         if (!afterTuple.getField(4).getValue().toString().trim().equals(AgentProtocol.MESSAGE_IDENTIFY)) {
             if (knownAgents.contains(agentName)) {
-
                 List<Tuple> tupleDoc = agentOutDoc.get(agentName);
                 for (Tuple tuple : tupleDoc) {
                     if (tuple.matches(afterTuple)) {
@@ -170,10 +179,10 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                     }
                 }
             } else {
-                logger.log(Level.WARNING, "There is no agent : " + agentName + ". Who the hell are you?");
+                logger.log(Level.WARNING, "There is no agent : " + agentName + ".");
             }
         } else {
-            logger.log(Level.FINEST, "Thats just an identify tuple...don't bother!");
+            logger.log(Level.FINEST, "Idenfify responses are not handled here.");
         }
     }
 
@@ -182,25 +191,24 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         String agentName = afterTuple.getField(3).getValue().toString();
         if (!afterTuple.getField(4).getValue().toString().trim().equals(AgentProtocol.MESSAGE_IDENTIFY)) {
             if (knownAgents.contains(agentId)) {
-
                 List<Tuple> tupleDoc = agentInDoc.get(agentId);
                 for (Tuple tuple : tupleDoc) {
                     if (tuple.matches(afterTuple)) {
-                        logger.log(Level.FINE, "Query matches TupleDOC");                        break;
+                        logger.log(Level.FINE, "Query matches TupleDOC");
+                        break;
                     }
                 }
             } else {
                 logger.log(Level.WARNING, "There is no agent : " + agentName);
             }
         } else {
-            logger.log(Level.FINEST, "Thats just an identify tuple...don't bother!");
+            logger.log(Level.FINEST, "Idenfify queries are not handled here.");
         }
     }
 
     private void aliveDeleted(Tuple beforeTuple) {
         String agentId = beforeTuple.getField(2).getValue().toString();
         String agentName = beforeTuple.getField(3).getValue().toString();
-
         if (agentInstances.containsKey(agentName)) {
             Set<String> agentIds = agentInstances.get(agentName);
             boolean deleted = agentIds.remove(agentId);
@@ -227,10 +235,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     private void aliveWritten(Tuple afterTuple) {
         String agentId = afterTuple.getField(2).getValue().toString();
         String agentName = afterTuple.getField(3).getValue().toString();
-        // I should not react on myself's breath.
-
         if (!knownAgents.contains(agentName)) {
-            // if (false) {
             VMID queryId = new VMID();
             final Tuple identifyQuery = AgentProtocol.getIdentifyTuple(agentId, agentName, queryId);
             String id = identifyQuery.getField(2).getValue().toString();
@@ -255,7 +260,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                             out.add(convertStringToTuple(tupleDoc, false));
                         } catch (Exception e) {
                             e.printStackTrace();
-                            logger.log(Level.SEVERE, "Something very bad happened, but: Stand back, I know RegEx!");
+                            logger.log(Level.SEVERE, e.getMessage());
                         }
                     }
                     agentInDoc.put(agentName, in);
@@ -263,7 +268,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                     HashSet<String> al = new HashSet<String>();
                     al.add(agentId);
                     agentInstances.put(agentName, al);
-                    logger.log(Level.FINE, "New Agent+Instance(" + agentName + ") registered!");
+                    logger.log(Level.FINE, "New Agent(" + agentName + ") registered!");
                 }
             } catch (TupleSpaceException e) {
                 logger.log(Level.SEVERE, e.getMessage());
@@ -281,7 +286,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                 logger.log(Level.SEVERE, "Known Agent without Instance found!");
             }
         }
-
     }
 
     @Override
@@ -294,13 +298,12 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
     protected void doStop() {
         // deregister all callbacks
-        // status = Status.Stopping;
+        status = Status.Stopping;
         for (Integer seq : cbMap.keySet()) {
             if (seq != 0) {
                 try {
@@ -310,7 +313,6 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
                 }
             }
         }
-        // isStopped = true;
         logger.log(Level.FINE, "Supervisor stopped");
 
     }
@@ -379,5 +381,4 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     protected Tuple getIdentifyTuple(String queryId) {
         return null;
     }
-
 }
