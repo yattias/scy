@@ -186,6 +186,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 for (IAwarenessPresenceListener presenceListener : presenceListeners) {
                     if( presenceListener != null ) {
                         IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), "new presence", presence.getType().toString(), presence.getStatus());
+                        presenceListener.handleAwarenessPresenceEvent(presenceEvent);
                     }
                 }
                 
