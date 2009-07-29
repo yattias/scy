@@ -200,42 +200,25 @@ public class VariableDialog extends javax.swing.JDialog implements
 
 	public void actionPerformed(java.awt.event.ActionEvent event) {
 		if (event.getActionCommand() == "okay") {
-			// try {
-			// node.setName(nameField.getText());
-			// node.setFunction(valueField.getText());
-			// props.remove("label");
 			String oldName = (String)props.get("label");
 			String oldExpr = (String)props.get("expr");
 			String oldUnit = (String)props.get("unit");
 			
 			props.put("label", nameField.getText());
 			props.put("expr", valueField.getText());
-			props.put("unit", unitsBox.getSelectedItem());
+			props.put("unit", (String)unitsBox.getSelectedItem());
 			editor.setFigureProperties(oldName, props);
-			
-			if (!newColor.equals(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor())) {
-				editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).setLabelColor(newColor);
-			}
 						
-			if (!oldName.equals(nameField.getText())) {
-				//the name has been changed, send a logevent
-				editor.getActionLogger().logRenameAction(figure.getID(), oldName, nameField.getText());
-			}
-			if (!oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem()) ) {
-				// the expression has been changed, send a logevent
-				editor.getActionLogger().logChangeSpecification(figure.getID(), valueField.getText(), "null");
+			if (!newColor.equals(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor()) || !oldName.equals(nameField.getText()) || !oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem())) {
+				// name, expression, unit or color has changed, send a change-specification-logevent
+				editor.getActionLogger().logChangeSpecification(figure.getID(), nameField.getText(), valueField.getText(), (String)unitsBox.getSelectedItem(), editor.getXmModel().getXML("", true) );
+				// and set the (possibly new) color of the object
+				editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).setLabelColor(newColor);
 			}
 					
 			setVisible(false);
 			setEnabled(false);
 			dispose();
-
-			// } catch (org.gjt.fredgc.function.ParseException except) {
-			// updateView();
-			// javax.swing.JOptionPane.showMessageDialog(this,
-			// DynaProp.getProp("parsing.exception"), "parsing error",
-			// javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			// }
 		} else if (event.getActionCommand() == "cancel") {
 			setVisible(false);
 			setEnabled(false);
