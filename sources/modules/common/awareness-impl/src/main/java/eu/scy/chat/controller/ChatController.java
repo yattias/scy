@@ -1,12 +1,10 @@
 package eu.scy.chat.controller;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import eu.scy.awareness.AwarenessServiceException;
@@ -34,6 +32,7 @@ public class ChatController {
 
     public void populateBuddyList() {
         //get this from the awareness service
+    	buddyList = new DefaultListModel();
         if( awarenessService != null && awarenessService.isConnected() ) {
             List<IAwarenessUser> buddies = null;
 			try {
@@ -73,7 +72,6 @@ public class ChatController {
         }
     }
     
- 
     
     public void sendMessage(Object recipient, String message) {
        
@@ -99,20 +97,5 @@ public class ChatController {
     
     public void removeBuddy(String buddy){
         buddyList.removeElement(buddy);
-    }
-    
-    private void registerChatArea(final JTextPane chatArea) {
-    	awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
-			
-			@Override
-			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
-				String oldText = chatArea.getText();
-                
-                chatArea.setText(oldText+awarenessEvent.getUser() +": " + awarenessEvent.getMessage() + "\n");
-				
-			}
-		});
-
-    	
     }
 }
