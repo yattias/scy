@@ -52,44 +52,56 @@ public class FileActionLogger implements IModellingLogger {
 		case JdFigure.AUX:
 			action = createBasicAction("add_auxiliary");
 			action.addAttribute("id", object.getID());
-			action.addAttribute("name", ((JdAux)object).getLabel());
+			action.addAttribute("name", ((JdAux) object).getLabel());
 			break;
 		case JdFigure.CONSTANT:
-			action = createBasicAction("add_constant");			
+			action = createBasicAction("add_constant");
 			action.addAttribute("id", object.getID());
-			action.addAttribute("name", ((JdConst)object).getLabel());
+			action.addAttribute("name", ((JdConst) object).getLabel());
 			break;
 		case JdFigure.STOCK:
 			action = createBasicAction("add_stock");
 			action.addAttribute("id", object.getID());
-			action.addAttribute("name", ((JdStock)object).getLabel());
+			action.addAttribute("name", ((JdStock) object).getLabel());
 			break;
 		case JdFigure.RELATION:
 			action = createBasicAction("add_relation");
 			action.addAttribute("id", object.getID());
-			action.addAttribute("from", ((JdRelation)object).getFigure1().getID());
+			action.addAttribute("name", ((JdRelation)object).getLabel());
+			action.addAttribute("from", ((JdRelation) object).getFigure1()
+					.getID());
 			// if the "to" object of a relation is the center of a flow,
 			// list the target of the parent (flow) here
-			if (((JdRelation) object).getFigure2().getType()==JdFigure.FLOWCTR) {
-				action.addAttribute("to", ((JdFlowCtr)((JdRelation)object).getFigure2()).getParent().getID());
+			if (((JdRelation) object).getFigure2().getType() == JdFigure.FLOWCTR) {
+				action.addAttribute("to", ((JdFlowCtr) ((JdRelation) object)
+						.getFigure2()).getParent().getID());
 			} else {
-				action.addAttribute("to", ((JdRelation)object).getFigure2().getID());
+				action.addAttribute("to", ((JdRelation) object).getFigure2()
+						.getID());
 			}
 			break;
 		case JdFigure.FLOW:
 			action = createBasicAction("add_flow");
 			action.addAttribute("id", object.getID());
+			action.addAttribute("name", ((JdFlow)object).getLabel());
 			// the ends of a flow may be null
-			if (((JdFlow) object).getFigure1()!=null) {
-				action.addAttribute("from", ((JdFlow)object).getFigure1().getID());
+			if (((JdFlow) object).getFigure1() != null) {
+				action.addAttribute("from", ((JdFlow) object).getFigure1()
+						.getID());
 			}
-			if (((JdFlow) object).getFigure2()!=null) {
-				action.addAttribute("to", ((JdFlow)object).getFigure2().getID());
+			if (((JdFlow) object).getFigure2() != null) {
+				action.addAttribute("to", ((JdFlow) object).getFigure2()
+						.getID());
 			}
 			break;
+		case JdFigure.DATASET:
+			action = createBasicAction("add_dataset");
+			action.addAttribute("id", object.getID());
 		}
-		action.addAttribute("model", "", modelString);
-		logfilehandler.writeAction(action.getXML());
+		if (action != null) {
+			action.addAttribute("model", "", modelString);
+			logfilehandler.writeAction(action.getXML());
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -112,14 +124,39 @@ public class FileActionLogger implements IModellingLogger {
 		case JdFigure.RELATION:
 			action = createBasicAction("delete_relation");
 			action.addAttribute("id", object.getID());
+			action.addAttribute("from", ((JdRelation) object).getFigure1()
+					.getID());
+			// if the "to" object of a relation is the center of a flow,
+			// list the target of the parent (flow) here
+			if (((JdRelation) object).getFigure2().getType() == JdFigure.FLOWCTR) {
+				action.addAttribute("to", ((JdFlowCtr) ((JdRelation) object)
+						.getFigure2()).getParent().getID());
+			} else {
+				action.addAttribute("to", ((JdRelation) object).getFigure2()
+						.getID());
+			}
 			break;
 		case JdFigure.FLOW:
 			action = createBasicAction("delete_flow");
 			action.addAttribute("id", object.getID());
+			// the ends of a flow may be null
+			if (((JdFlow) object).getFigure1() != null) {
+				action.addAttribute("from", ((JdFlow) object).getFigure1()
+						.getID());
+			}
+			if (((JdFlow) object).getFigure2() != null) {
+				action.addAttribute("to", ((JdFlow) object).getFigure2()
+						.getID());
+			}
 			break;
+		case JdFigure.DATASET:
+			action = createBasicAction("delete_dataset");
+			action.addAttribute("id", object.getID());
 		}
-		action.addAttribute("model", "", modelString);
-		logfilehandler.writeAction(action.getXML());
+		if (action != null) {
+			action.addAttribute("model", "", modelString);
+			logfilehandler.writeAction(action.getXML());
+		}
 	}
 	
 	public IAction createBasicAction(String type) {
@@ -143,11 +180,13 @@ public class FileActionLogger implements IModellingLogger {
 	/* (non-Javadoc)
 	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logChangeSpecification(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public void logChangeSpecification(String id, String expression, String unit) {
+	public void logChangeSpecification(String id, String name, String expression, String unit, String modelString) {
 		action = createBasicAction("change_specification");
 		action.addAttribute("id", id);
+		action.addAttribute("name", name);
 		action.addAttribute("expression", expression);
 		action.addAttribute("unit", unit);
+		action.addAttribute("model", "", modelString);
 		logfilehandler.writeAction(action.getXML());
 	}
 

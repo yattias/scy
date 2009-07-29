@@ -16,24 +16,10 @@ public class DevNullActionLogger implements IModellingLogger {
 	public void logActivateWindow(String window, String id, Component comp) {}
 
 	@Override
-	public void logAddAction(JdFigure object, String modelString) {
-//		action = new Action("add_object", "lars");
-//		action.addContext("tool", "SCYDynamics");
-//		action.addContext("mission", "SCY mission 1");
-//		action.addAttribute("model", "", modelString);
-//		System.out.println(action.getXMLString());
-	}
+	public void logAddAction(JdFigure object, String modelString) {}
 
 	@Override
-	public void logChangeSpecification(String id, String expression, String unit) {
-//		action = new Action("change_specification", "lars");
-//		action.addContext("tool", "SCYDynamics");
-//		action.addContext("mission", "SCY mission 1");
-//		action.addAttribute("id", id);
-//		action.addAttribute("expression", expression);
-//		action.addAttribute("unit", unit);
-//		System.out.println(action.getXMLString());
-	}
+	public void logChangeSpecification(String id, String name, String expression, String unit, String model) {}
 
 	@Override
 	public void logDeleteAction(JdFigure object, String modelString) {}

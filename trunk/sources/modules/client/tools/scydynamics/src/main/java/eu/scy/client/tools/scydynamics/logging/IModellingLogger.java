@@ -15,8 +15,8 @@ public interface IModellingLogger {
 	public abstract void logRenameAction(String id, String oldName,
 			String newName);
 
-	public abstract void logChangeSpecification(String id, String expression,
-			String unit);
+	public abstract void logChangeSpecification(String id, String name, String expression,
+			String unit, String modelString);
 
 	public abstract void logSimpleAction(String type);
 
