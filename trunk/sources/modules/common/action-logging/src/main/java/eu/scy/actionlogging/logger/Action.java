@@ -18,7 +18,7 @@ import org.jdom.output.XMLOutputter;
 
 public class Action extends ScyBaseObject implements IAction {
     
-    private Element actionElement;
+	private Element actionElement;
     private Element contextElement;
     private Element attributesElement;
 
@@ -55,11 +55,17 @@ public class Action extends ScyBaseObject implements IAction {
 	}
     
 	@Override
-    public void addAttribute(String name, String value) {
-    	Element prop = new Element("property");
-		prop.setAttribute("name", name);
-		prop.setAttribute("value", value);
-		attributesElement.addContent(prop);
+    public void addAttribute(String name, String value) {	
+		if (name != null) {
+			Element prop = new Element("property");
+			prop.setAttribute("name", name);
+			if (value != null) {
+				prop.setAttribute("value", value);
+			} else {
+				prop.setAttribute("value", "");
+			}
+			attributesElement.addContent(prop);
+		}	
     }
 	
 	@Override
