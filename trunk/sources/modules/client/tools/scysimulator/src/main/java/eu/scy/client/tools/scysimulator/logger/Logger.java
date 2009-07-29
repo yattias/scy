@@ -1,11 +1,16 @@
 package eu.scy.client.tools.scysimulator.logger;
 
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
@@ -123,4 +128,33 @@ public class Logger implements ActionListener, IDataClient {
 			e.printStackTrace();
 		}
 	}
+	
+	
+// the next method creates a tuple from an xml-element
+// and sends it when a tuplespace client is available
+	
+//	protected void writeAction(Element action) {
+//		if (ts != null) {
+//		//if (false) {
+//			idField = new Field(action.getAttributeValue("id"));
+//			timeField = new Field(action.getAttributeValue("time"));
+//			typeField = new Field(action.getAttributeValue("type"));
+//			userField = new Field(action.getAttributeValue("user"));
+//			for (Element elem: ((List<Element>)action.getChild("context").getChildren("property"))) {
+//				if (elem.getAttributeValue("name").equals("tool")) {
+//					toolField = new Field(elem.getAttributeValue("value"));
+//				} else if (elem.getAttributeValue("name").equals("mission")) {
+//					missionField = new Field(elem.getAttributeValue("value"));
+//				}
+//			}
+//			xmlField = new Field(new XMLOutputter(Format.getPrettyFormat()).outputString(action)+"");
+//			actionTuple = new Tuple(idField, timeField, typeField, userField, toolField, missionField, xmlField);
+//			try {
+//				ts.write(actionTuple);
+//			} catch (TupleSpaceException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 }
