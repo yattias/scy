@@ -57,6 +57,8 @@ public interface IAwarenessService {
      */
     public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener);
     
+    public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener);
+    
     /**
      * adds a buddy list listener
      * 
