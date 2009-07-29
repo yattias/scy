@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scysimulator;
 
+import eu.scy.client.tools.scysimulator.logger.Logger;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -39,8 +40,7 @@ import javax.swing.JToggleButton;
  * @author Lars Bollen
  *
  */
-public class DataCollector extends JPanel implements ActionListener,
-        IDataClient {
+public class DataCollector extends JPanel implements ActionListener, IDataClient {
 
     private static final long serialVersionUID = -2306183502112904729L;
     private ISimQuestViewer simquestViewer;
@@ -56,9 +56,12 @@ public class DataCollector extends JPanel implements ActionListener,
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
     private BalanceSlider balanceSlider;
+	private Logger logger;
 
     public DataCollector(ISimQuestViewer simquestViewer) {
-        // initialize user interface
+        // initialize the logger
+    	logger = new Logger(simquestViewer.getDataServer());
+    	// initialize user interface
         initGUI();
 
         // setting some often-used variable
@@ -126,6 +129,7 @@ public class DataCollector extends JPanel implements ActionListener,
         text.append("\n");
         DataSetRow newRow = new DataSetRow(values);
         dataset.addRow(newRow);
+        logger.logAddRow(newRow);
         if (sandboxbutton.isSelected()) {
             sandbox.sendDataSetRow(newRow);
         }
@@ -229,10 +233,10 @@ public class DataCollector extends JPanel implements ActionListener,
         if (sandbox != null) {
             initSandbox();
         }
-
         if (text != null) {
             text.setText("");
         }
+        logger.logSelectedVariables(selectedVariables);
     }
 
     private void initSandbox() {
