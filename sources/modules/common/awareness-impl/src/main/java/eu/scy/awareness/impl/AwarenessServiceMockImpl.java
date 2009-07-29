@@ -159,8 +159,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 
 	@Override
 	public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
-		// TODO Auto-generated method stub
-		
+		this.awarenessPresenceListeners.remove(awarenessPresenceListener);
 	}
 
 }
