@@ -14,6 +14,28 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.elo.IELOAgentDispatcher;
 import eu.scy.agents.api.elo.IELOFilterAgent;
 
+/**
+ * The basic implementation of the RooloAgentDispatcher. Following calls are
+ * intercepted:
+ * <ul>
+ * <li>
+ * {@link IRepository#addELO(IELO)} - the before agents are called before the
+ * save happens. Every other filtering agent type is called after the actual
+ * save.</li>
+ * <li>
+ * {@link IRepository#retrieveELO(URI)} - the after agents are called before the
+ * retrieved ELO is handed back to the client.</li>
+ * <li>
+ * {@link IRepository#updateELO(IELO)} - see addElo(IELO).</li>
+ * <li>
+ * everyother call is redirected to the real repository.</li>
+ * </ul>
+ * 
+ * @author Florian Schulz
+ * 
+ * @param <T>
+ * @param <K>
+ */
 public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 		implements IELOAgentDispatcher<T, K> {
 
@@ -23,6 +45,9 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	private Queue<IELOFilterAgent<T, K>> afterQueue;
 	private List<IELOFilterAgent<T, K>> notificationAgents;
 
+	/**
+	 * Create a new EloAgentDispatcher.
+	 */
 	public ELOAgentDispatcher() {
 		beforeQueue = new LinkedList<IELOFilterAgent<T, K>>();
 		afterQueue = new LinkedList<IELOFilterAgent<T, K>>();
@@ -120,56 +145,36 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 		System.out.println("ended before save processing");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the real repository the calls are redirected to.
 	 * 
-	 * @see
-	 * eu.scy.agents.roolo.dispatcher.proposal.IRooloAgentDispatcher#setRepository
-	 * (roolo.api.IRepository)
+	 * @param repo
+	 *            The repository the calls are redirected to.
 	 */
-	public void setRepository(IRepository<T, K> repository) {
-		this.repository = repository;
+	public void setRepository(IRepository<T, K> repo) {
+		this.repository = repo;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get the repository the calls are redirected to.
 	 * 
-	 * @see
-	 * eu.scy.agents.roolo.dispatcher.proposal.IRooloAgentDispatcher#getRepository
-	 * ()
+	 * @return the real repository.
 	 */
 	public IRepository<T, K> getRepository() {
 		return repository;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * eu.scy.agents.roolo.dispatcher.proposal.IRooloAgentDispatcher#setBeforeAgents
-	 * (java.util.List)
-	 */
+	@Override
 	public void setBeforeAgents(List<IELOFilterAgent<T, K>> agents) {
 		beforeQueue.addAll(agents);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * eu.scy.agents.roolo.dispatcher.proposal.IRooloAgentDispatcher#setAfterAgents
-	 * (java.util.List)
-	 */
+	@Override
 	public void setAfterAgents(List<IELOFilterAgent<T, K>> agents) {
 		afterQueue.addAll(agents);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeeu.scy.agents.roolo.dispatcher.proposal.IRooloAgentDispatcher#
-	 * setNotificationAgents(java.util.List)
-	 */
+	@Override
 	public void setNotificationAgents(List<IELOFilterAgent<T, K>> agents) {
 		notificationAgents.addAll(agents);
 	}
