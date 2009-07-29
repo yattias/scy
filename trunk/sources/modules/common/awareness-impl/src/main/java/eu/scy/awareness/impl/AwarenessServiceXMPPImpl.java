@@ -91,6 +91,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
         presenceListeners.add(awarenessPresenceListener);
     }
+    
+    public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+        presenceListeners.remove(awarenessPresenceListener);
+    }
 
     @Override
     public void addBuddy(String buddyName) throws AwarenessServiceException {
