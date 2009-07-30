@@ -1,28 +1,24 @@
 package eu.scy.client.tools.scysimulator.logger;
 
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom.Element;
+import javax.swing.Timer;
+
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.logger.Action;
-import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 import sqv.ModelVariable;
 import sqv.data.BasicDataAgent;
 import sqv.data.DataAgent;
 import sqv.data.DataServer;
 import sqv.data.IDataClient;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.logger.Action;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 public class Logger implements ActionListener, IDataClient {
 
@@ -34,6 +30,9 @@ public class Logger implements ActionListener, IDataClient {
 	private ArrayList<Double> oldValues;
 	private ArrayList<ModelVariable> variables;
 	private IAction action;
+    private IAction lastValueChangedAction;
+    private Timer timer;
+    private IAction firstValueChangedAction;
 	
 	public Logger(DataServer dataServer) {
 		this.dataServer = dataServer;
@@ -51,6 +50,18 @@ public class Logger implements ActionListener, IDataClient {
 		dataAgent.add(variables);
 		// register
 		dataAgent.register();
+		timer = new Timer(500, new ActionListener() {
+                
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        IAction action = createBasicAction("value_changed");
+                        action.addAttribute("name", lastValueChangedAction.getAttribute("name"));
+                        action.addAttribute("oldValue", firstValueChangedAction.getAttribute("oldValue"));
+                        action.addAttribute("newValue", lastValueChangedAction.getAttribute("newValue"));
+                        write(action);
+                    }
+                });
+		timer.setRepeats(false);
 	}
 	
 	private ArrayList<ModelVariable> getInputVariables() {
@@ -84,7 +95,11 @@ public class Logger implements ActionListener, IDataClient {
 		action.addAttribute("name", name);
 		action.addAttribute("oldValue", oldValue+"");
 		action.addAttribute("newValue", newValue+"");
-		write(action);
+		if (!timer.isRunning()) {
+		    firstValueChangedAction = action; 
+		}
+		lastValueChangedAction = action;
+		timer.restart();
 	}
 
 	private void storeOldValues() {
@@ -135,7 +150,6 @@ public class Logger implements ActionListener, IDataClient {
 	
 //	protected void writeAction(Element action) {
 //		if (ts != null) {
-//		//if (false) {
 //			idField = new Field(action.getAttributeValue("id"));
 //			timeField = new Field(action.getAttributeValue("time"));
 //			typeField = new Field(action.getAttributeValue("type"));
