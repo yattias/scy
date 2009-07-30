@@ -2,7 +2,6 @@ package eu.scy.client.tools.drawing;
 
 import java.awt.BorderLayout;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.AccessControlException;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +32,7 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
@@ -55,15 +54,15 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	private static final long serialVersionUID = 5967268619762532141L;
 	private static final Logger logger = Logger.getLogger(DrawingToolFrame.class.getName());
 
-	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+	private IRepository repository;
 	@SuppressWarnings("unused")
-	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
-	private IELOFactory<IMetadataKey> eloFactory;
+	private IMetadataTypeManager metadataTypeManager;
+	private IELOFactory eloFactory;
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
 	private WhiteboardPanel whiteboardPanel;
 	private String docName = "untitiled";
-	private IELO<IMetadataKey> elo = null;
+	private IELO elo = null;
 	private JMenuBar menuBar;
 	private JMenuItem closeDrawingMenuItem;
 	private JMenuItem savaAsDrawingMenuItem;
@@ -287,7 +286,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 					JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
 		if (drawingUri != null)
 		{
-			IELO<IMetadataKey> newElo = repository.retrieveELO(drawingUri);
+			IELO newElo = repository.retrieveELO(drawingUri);
 			if (newElo != null)
 			{
 				// URI docUri = elo.getUri();
@@ -312,7 +311,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		{
 			elo.getContent().setXmlString(
 						jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
-			IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
+			IMetadata resultMetadata = repository.updateELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
 		}
 	}
@@ -332,21 +331,21 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 			elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/drawing");
 			elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
 						new Long(System.currentTimeMillis()));
-			try
-			{
-				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
-							new URI("roolo://somewhere/myMission.mission"));
-				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-							new Contribute("my vcard", System.currentTimeMillis()));
-			}
-			catch (URISyntaxException e)
-			{
-				logger.log(Level.WARNING, "failed to create uri", e);
-			}
+//			try
+//			{
+//				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
+//							new URI("roolo://somewhere/myMission.mission"));
+//			}
+//			catch (URISyntaxException e)
+//			{
+//				logger.log(Level.WARNING, "failed to create uri", e);
+//			}
+			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
+						new Contribute("my vcard", System.currentTimeMillis()));
 			IContent content = eloFactory.createContent();
 			content.setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			elo.setContent(content);
-			IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
+			IMetadata resultMetadata = repository.addNewELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
 			// updateEloWithNewMetadata(elo, eloMetadata);
 			// logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
@@ -367,7 +366,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		this.dispose();
 	}
 
-	public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository)
+	public void setRepository(IRepository repository)
 	{
 		this.repository = repository;
 	}
@@ -401,21 +400,21 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	private IMetadataKey titleKey;
 	private IMetadataKey typeKey;
 	private IMetadataKey dateCreatedKey;
-	private IMetadataKey missionKey;
+//	private IMetadataKey missionKey;
 	private IMetadataKey authorKey;
 
-	public void setMetadataTypeManager(IMetadataTypeManager<IMetadataKey> metadataTypeManager)
+	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
 	{
 		this.metadataTypeManager = metadataTypeManager;
-		uriKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.URI.getId());
-		titleKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
-		typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
-		dateCreatedKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId());
-		missionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId());
-		authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
+		uriKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+		titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+		typeKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+		dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+//		missionKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.MISSION.getId());
+		authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
 	}
 
-	public void setEloFactory(IELOFactory<IMetadataKey> eloFactory)
+	public void setEloFactory(IELOFactory eloFactory)
 	{
 		this.eloFactory = eloFactory;
 	}

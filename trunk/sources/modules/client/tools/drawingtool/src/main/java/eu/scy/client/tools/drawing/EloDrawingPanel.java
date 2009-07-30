@@ -28,7 +28,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
@@ -41,27 +41,27 @@ public class EloDrawingPanel extends JPanel
 	private static final Logger logger = Logger.getLogger(EloDrawingPanel.class.getName());
 	private static final String scyDrawType = "scy/drawing";
 
-	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+	private IRepository repository;
 	@SuppressWarnings("unused")
-	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
-	private IELOFactory<IMetadataKey> eloFactory;
+	private IMetadataTypeManager metadataTypeManager;
+	private IELOFactory eloFactory;
 	private IMetadataKey uriKey;
 	private IMetadataKey titleKey;
 	private IMetadataKey typeKey;
 	private IMetadataKey dateCreatedKey;
-	private IMetadataKey missionKey;
+//	private IMetadataKey missionKey;
 	private IMetadataKey authorKey;
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
 	private WhiteboardPanel whiteboardPanel;
 	private String docName = "untitiled";
-	private IELO<IMetadataKey> elo = null;
+	private IELO elo = null;
 	@SuppressWarnings("unused")
 	private boolean whiteboardChanged = false;
-	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+	private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
 
 	public void addELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -70,7 +70,7 @@ public class EloDrawingPanel extends JPanel
 	}
 
 	public void removeELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -80,9 +80,9 @@ public class EloDrawingPanel extends JPanel
 
 	private void sendELOLoadedChangedListener()
 	{
-		ELOLoadedChangedEvent<IMetadataKey> eloLoadedChangedEvent = new ELOLoadedChangedEvent<IMetadataKey>(
+		ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(
 					this, elo);
-		for (ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener : eloLoadedChangedListeners)
+		for (ELOLoadedChangedListener eloLoadedChangedListener : eloLoadedChangedListeners)
 		{
 			eloLoadedChangedListener.eloLoadedChanged(eloLoadedChangedEvent);
 		}
@@ -95,29 +95,29 @@ public class EloDrawingPanel extends JPanel
 		add(whiteboardPanel);
 	}
 
-	public IRepository<IELO<IMetadataKey>, IMetadataKey> getRepository()
+	public IRepository getRepository()
 	{
 		return repository;
 	}
 
-	public void setMetadataTypeManager(IMetadataTypeManager<IMetadataKey> metadataTypeManager)
+	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
 	{
 		this.metadataTypeManager = metadataTypeManager;
-		uriKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.URI.getId());
+		uriKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
 		logger.info("retrieved key " + uriKey.getId());
-		titleKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
+		titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
 		logger.info("retrieved key " + titleKey.getId());
-		typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
+		typeKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
 		logger.info("retrieved key " + typeKey.getId());
-		dateCreatedKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId());
+		dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
 		logger.info("retrieved key " + dateCreatedKey.getId());
-		missionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId());
-		logger.info("retrieved key " + missionKey.getId());
-		authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
+//		missionKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.MISSION.getId());
+//		logger.info("retrieved key " + missionKey.getId());
+		authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
 		logger.info("retrieved key " + authorKey.getId());
 	}
 
-	public void setEloFactory(IELOFactory<IMetadataKey> eloFactory)
+	public void setEloFactory(IELOFactory eloFactory)
 	{
 		this.eloFactory = eloFactory;
 	}
@@ -148,7 +148,7 @@ public class EloDrawingPanel extends JPanel
 	public void loadDrawingAction()
 	{
 		IQuery query = null;
-		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(typeKey,
+		IMetadataQuery metadataQuery = new BasicMetadataQuery(typeKey,
 					BasicSearchOperations.EQUALS, scyDrawType, null);
 		query = metadataQuery;
 		List<ISearchResult> searchResults = repository.search(query);
@@ -167,14 +167,14 @@ public class EloDrawingPanel extends JPanel
 	public void loadElo(URI eloUri)
 	{
 		logger.info("Trying to load elo " + eloUri);
-		IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
+		IELO newElo = repository.retrieveELO(eloUri);
 		if (newElo != null)
 		{
 			String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue()
 						.toString();
 			if (!scyDrawType.equals(eloType))
 				throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
-			IMetadata<IMetadataKey> metadata = newElo.getMetadata();
+			IMetadata metadata = newElo.getMetadata();
 			IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
 			// TODO fixe the locale problem!!!
 //			Object titleObject = metadataValueContainer.getValue();
@@ -201,7 +201,7 @@ public class EloDrawingPanel extends JPanel
 		{
 			elo.getContent().setXmlString(
 						jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
-			IMetadata<IMetadataKey> resultMetadata = repository.updateELO(elo);
+			IMetadata resultMetadata = repository.updateELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
 		}
 	}
@@ -220,21 +220,21 @@ public class EloDrawingPanel extends JPanel
 			elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/drawing");
 			elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
 						new Long(System.currentTimeMillis()));
-			try
-			{
-				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
-							new URI("roolo://somewhere/myMission.mission"));
-				elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-							new Contribute("my vcard", System.currentTimeMillis()));
-			}
-			catch (URISyntaxException e)
-			{
-				logger.log(Level.WARNING, "failed to create uri", e);
-			}
+//			try
+//			{
+//				elo.getMetadata().getMetadataValueContainer(missionKey).setValue(
+//							new URI("roolo://somewhere/myMission.mission"));
+//			}
+//			catch (URISyntaxException e)
+//			{
+//				logger.log(Level.WARNING, "failed to create uri", e);
+//			}
+			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
+						new Contribute("my vcard", System.currentTimeMillis()));
 			IContent content = eloFactory.createContent();
 			content.setXmlString(jdomStringConversion.xmlToString(whiteboardPanel.getContentStatus()));
 			elo.setContent(content);
-			IMetadata<IMetadataKey> resultMetadata = repository.addELO(elo);
+			IMetadata resultMetadata = repository.addNewELO(elo);
 			eloFactory.updateELOWithResult(elo, resultMetadata);
 			// updateEloWithNewMetadata(elo, eloMetadata);
 			// logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
@@ -248,7 +248,7 @@ public class EloDrawingPanel extends JPanel
 	// this.dispose();
 	// }
 	//
-	public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository)
+	public void setRepository(IRepository repository)
 	{
 		this.repository = repository;
 	}
