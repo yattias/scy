@@ -10,10 +10,11 @@ import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
 
 /**
+ * Notifies the client about the number of misspellings in an ELO.
  * ("misspellings":String, <URI>:String, <TS>:Long, <NumberOfErrors>:Integer,
  * <User>:String) -> Notifies client.
  * 
- * @author fschulz_2
+ * @author Florian Schulz
  * 
  */
 public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
@@ -21,6 +22,13 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 	private static final String NOTIFY_ABOUT_MISSPELLINGS_NAME = "NotifyAboutMisspellings";
 	private boolean stopped;
 
+	/**
+	 * Create a new MisspellingNotificationAgent. The argument <code>map</code>
+	 * is used to initialize special parameters.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public MisspellingNotificationAgent(Map<String, Object> map) {
 		super(NOTIFY_ABOUT_MISSPELLINGS_NAME, (String) map.get("id"));
 	}
@@ -63,10 +71,10 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 		return stopped;
 	}
 
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

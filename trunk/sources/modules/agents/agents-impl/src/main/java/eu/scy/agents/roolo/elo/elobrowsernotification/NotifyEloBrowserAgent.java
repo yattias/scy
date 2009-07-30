@@ -14,14 +14,25 @@ import eu.scy.notification.Notification;
  * ("notifyEloBrowser":String, <ELOUri>:String) -> Notification at the client
  * side ()
  * 
- * @author fschulz_2
+ * @author Florian Schulz
  * 
  */
 public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 
+	/**
+	 * Name of the agent.
+	 */
 	public static final String NOTIFY_ELO_BROWSER_AGENT_NAME = "NotifyEloBrowserAgent";
 	private boolean stopped;
 
+	/**
+	 * Create a new NotifyEloBrowserAgent filtering agent. The argument
+	 * <code>map</code> is used to initialize special parameters. Never used
+	 * here.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public NotifyEloBrowserAgent(Map<String, Object> map) {
 		super(NOTIFY_ELO_BROWSER_AGENT_NAME, (String) map.get("id"));
 	}
@@ -60,10 +71,10 @@ public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 		return stopped;
 	}
 
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -20,8 +20,7 @@ import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.value.validators.LongValidator;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
 
-public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
-		extends AbstractELOAgent<T, K> {
+public class GraphConverterAgent extends AbstractELOAgent {
 
 	static class Node {
 
@@ -35,7 +34,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 	private int[] edgeValues;
 
 	public GraphConverterAgent(Map<String, Object> map) {
-		super("GraphConverter",(String) map.get("id"));
+		super("GraphConverter", (String) map.get("id"));
 		this.nodes = new LinkedHashMap<String, Node>();
 		this.edgeValues = new int[6];
 		for (int i = 0; i < this.edgeValues.length; i++) {
@@ -44,7 +43,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 
 	}
 
-	public void processElo(T elo) {
+	public void processElo(IELO elo) {
 		IMetadataKey allScoreKey = getMetadataTypeManager().getMetadataKey(
 				"all_score");
 		if (allScoreKey == null) {
@@ -86,7 +85,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 	}
 
 	@SuppressWarnings("unchecked")
-	private void calculateScore(T elo) {
+	private void calculateScore(IELO elo) {
 		int score = 0;
 		IMetadataKey allScoreKey = getMetadataTypeManager().getMetadataKey(
 				"all_score");
@@ -110,11 +109,11 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 		}
 
 		IMetadataValueContainer scoreContainer = elo.getMetadata()
-				.getMetadataValueContainer((K) allScoreKey);
+				.getMetadataValueContainer(allScoreKey);
 		scoreContainer.setValue(score);
 
 		IMetadataValueContainer cappedScoreContainer = elo.getMetadata()
-				.getMetadataValueContainer((K) cappedScoreKey);
+				.getMetadataValueContainer(cappedScoreKey);
 		cappedScoreContainer.setValue(score > 3 ? 3 : score);
 	}
 
@@ -156,7 +155,7 @@ public class GraphConverterAgent<T extends IELO<K>, K extends IMetadataKey>
 	// writer.close();
 	// }
 
-	@SuppressWarnings( { "cast", "unchecked" })
+	@SuppressWarnings("unchecked")
 	private boolean readGraph(Element rootElement) {
 		if ((rootElement == null)
 				|| (!"DocumentRoot".equals(rootElement.getName()))) {

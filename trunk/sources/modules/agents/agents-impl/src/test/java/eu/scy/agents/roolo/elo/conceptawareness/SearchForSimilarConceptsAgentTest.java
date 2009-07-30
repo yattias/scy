@@ -23,7 +23,7 @@ import org.junit.Test;
 import roolo.cms.repository.mock.MockRepository;
 import roolo.elo.BasicELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.roolo.elo.helper.ELOFiller;
@@ -75,15 +75,15 @@ public class SearchForSimilarConceptsAgentTest extends
 	private List<String> elo3LinkLabelList = Arrays
 			.asList(new String[] { "+" });
 
-	private MockRepository<IMetadataKey> repo;
-	private SearchForSimilarConceptsAgent<IMetadataKey> agent;
+	private MockRepository repo;
+	private SearchForSimilarConceptsAgent agent;
 
 	private URI eloUri;
 
 	private File eloStoreDir;
 
 	@Override
-        @Before
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		if (!Server.isRunning()) {
@@ -91,7 +91,7 @@ public class SearchForSimilarConceptsAgentTest extends
 			Server.startServer();
 		}
 
-		repo = new MockRepository<IMetadataKey>();
+		repo = new MockRepository();
 		repo.setMetadataTypeManager(typeManager);
 		repo.setExtensionManager(extensionManager);
 		eloStoreDir = new File("/tmp/test/eloStore");
@@ -99,42 +99,42 @@ public class SearchForSimilarConceptsAgentTest extends
 		// repo.setEloStoreDirectory(eloStoreDir);
 
 		ELOFiller fillerELO1 = new ELOFiller(elo, typeManager);
-		fillerELO1.fillValue(RooloMetadataKeys.AUTHOR.getId(), new Contribute(
-				"user1", 3L));
+		fillerELO1.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
+				new Contribute("user1", 3L));
 		fillerELO1.fillListValue("nodeLabel", elo1NodeLabelList);
 		fillerELO1.fillListValue("linkLabel", elo1LinkLabelList);
 
-		repo.addELO(elo);
+		repo.addNewELO(elo);
 		eloUri = (URI) elo.getMetadata().getMetadataValueContainer(
 				typeManager.getMetadataKey("uri")).getValue();
 
-		BasicELO<IMetadataKey> conceptMap1ELO = new BasicELO<IMetadataKey>();
-		conceptMap1ELO.setUriKey(typeManager.getMetadataKey("uri"));
+		BasicELO conceptMap1ELO = new BasicELO();
+		conceptMap1ELO.setIdentifierKey(typeManager.getMetadataKey("uri"));
 		ELOFiller fillerELO2 = new ELOFiller(conceptMap1ELO, typeManager);
 		fillerELO2.fillValue("type", "scy/scymapping");
 		fillerELO2.fillValue("title", "testELO2");
 		fillerELO2.fillListValue("nodeLabel", elo2NodeLabelList);
 		fillerELO2.fillListValue("linkLabel", elo2LinkLabelList);
-		fillerELO2.fillValue(RooloMetadataKeys.AUTHOR.getId(), new Contribute(
-				"user2", 3L));
+		fillerELO2.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
+				new Contribute("user2", 3L));
 		conceptMap1ELO.setContent(new BasicContent(CONCEPT_MAP1));
-		repo.addELO(conceptMap1ELO);
+		repo.addNewELO(conceptMap1ELO);
 
-		BasicELO<IMetadataKey> conceptMap2ELO = new BasicELO<IMetadataKey>();
-		conceptMap2ELO.setUriKey(typeManager.getMetadataKey("uri"));
+		BasicELO conceptMap2ELO = new BasicELO();
+		conceptMap2ELO.setIdentifierKey(typeManager.getMetadataKey("uri"));
 		ELOFiller fillerELO3 = new ELOFiller(conceptMap2ELO, typeManager);
 		fillerELO3.fillValue("type", "scy/scymapping");
 		fillerELO3.fillValue("title", "testELO3");
 		fillerELO3.fillListValue("nodeLabel", elo3NodeLabelList);
 		fillerELO3.fillListValue("linkLabel", elo3LinkLabelList);
-		fillerELO3.fillValue(RooloMetadataKeys.AUTHOR.getId(), new Contribute(
-				"user3", 3L));
+		fillerELO3.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
+				new Contribute("user3", 3L));
 		conceptMap2ELO.setContent(new BasicContent(CONCEPT_MAP2));
-		repo.addELO(conceptMap2ELO);
+		repo.addNewELO(conceptMap2ELO);
 		String agentId = new VMID().toString();
-                HashMap<String,Object> map = new HashMap<String, Object>();
-                map.put("id", agentId);
-		agent = new SearchForSimilarConceptsAgent<IMetadataKey>(map);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", agentId);
+		agent = new SearchForSimilarConceptsAgent(map);
 		agent.setRepository(repo);
 		agent.setMetadataTypeManager(typeManager);
 		agent.start();
@@ -153,7 +153,7 @@ public class SearchForSimilarConceptsAgentTest extends
 				eloUri.toString());
 		ts.write(triggerTuple);
 		Tuple resultTuple = ts.waitToTake(new Tuple("searchSimilarElosAgent",
-				String.class, String.class, String.class), 10 * 1000);
+				String.class, String.class, String.class), 1 * 1000);
 		assertNotNull(resultTuple);
 		assertEquals(eloUri.toString(), resultTuple.getField(3).getValue());
 		assertEquals("user1", resultTuple.getField(2).getValue());
@@ -164,7 +164,7 @@ public class SearchForSimilarConceptsAgentTest extends
 	public void testNullELORun() throws TupleSpaceException {
 		TupleSpace ts = new TupleSpace();
 		Tuple triggerTuple = new Tuple("scymapper", System.currentTimeMillis(),
-				"http://something.thatis.not/a/real.url");
+				"http://something.thatis.not/a/urlpointing_to_something");
 		ts.write(triggerTuple);
 		Tuple resultTuple = ts.waitToTake(new Tuple("searchSimilarElosAgent",
 				String.class, String.class, String.class), 2 * 1000);

@@ -22,13 +22,16 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractProcessingAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
+ * Searches for similar concept maps of a saved ELO, retrieves the creators of
+ * the found ELOs and returns this list of users as potential collaborators.
+ * 
  * ("scymapper":String, <TS>:Long, <EloURI>:String) ->
  * ("searchSimilarElosAgent":String, <RelatedUserList>:String, <User>:String,
  * <EloUri>:String) <br />
@@ -36,25 +39,33 @@ import eu.scy.agents.impl.AgentProtocol;
  * +<EloURI>: The uri of the elo for that similar elos should be searched.<br />
  * -<RelatedUserList> Creators of similar elos. -<User> creator of original elo
  * 
- * @author fschulz_2
+ * @author Florian Schulz
  * 
- * @param <Key>
  */
-public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
-		AbstractProcessingAgent<Key> {
+public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 
+	/**
+	 * Name of the agent.
+	 */
 	public static final String SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME = "SearchForSimilarConceptsAgent";
 
-	private IMetadataTypeManager<Key> metadataTypeManager;
+	private IMetadataTypeManager metadataTypeManager;
 	private HashMap<URI, Double> score;
-	private IRepository<IELO<Key>, Key> repository;
+	private IRepository repository;
 
 	private Timer aliveTask;
 
 	private boolean stopped;
 
+	/**
+	 * Create a new SearchForSimilarConceptsAgent filtering agent. The argument
+	 * <code>map</code> is used to initialize special parameters.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public SearchForSimilarConceptsAgent(Map<String, Object> map) {
-		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME,(String) map.get("id"));
+		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME, (String) map.get("id"));
 		score = new HashMap<URI, Double>();
 	}
 
@@ -86,12 +97,12 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 				}
 				URI eloUri = new URI((String) trigger.getField(2).getValue());
 
-				IELO<Key> elo = repository.retrieveELO(eloUri);
+				IELO elo = repository.retrieveELO(eloUri);
 
 				if (elo == null) {
 					continue;
 				}
-				IMetadata<Key> metadata = elo.getMetadata();
+				IMetadata metadata = elo.getMetadata();
 
 				Set<URI> hits = searchForRelatedElos(eloUri, repository,
 						metadata);
@@ -101,11 +112,10 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 					if (score.get(hitUri) < 0.3) {
 						continue;
 					}
-					IMetadata<Key> hitMetadata = repository
-							.retrieveMetadata(hitUri);
+					IMetadata hitMetadata = repository.retrieveMetadata(hitUri);
 					IMetadataValueContainer value = hitMetadata
 							.getMetadataValueContainer(metadataTypeManager
-									.getMetadataKey(RooloMetadataKeys.AUTHOR
+									.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR
 											.getId()));
 					Contribute contribution = (Contribute) value.getValue();
 					String userGUID = contribution.getVCard();
@@ -118,7 +128,8 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 					relatedUserList.append(";");
 				}
 
-				Key authorKey = metadataTypeManager.getMetadataKey("author");
+				IMetadataKey authorKey = metadataTypeManager
+						.getMetadataKey("author");
 				IMetadataValueContainer authorContainer = metadata
 						.getMetadataValueContainer(authorKey);
 				Contribute author = (Contribute) authorContainer.getValue();
@@ -141,18 +152,19 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 
 	@SuppressWarnings("unchecked")
 	private Set<URI> searchForRelatedElos(URI originalEloUri,
-			IRepository<IELO<Key>, Key> repository, IMetadata<Key> metadata) {
+			IRepository repository, IMetadata metadata) {
 
 		Set<URI> hits = new HashSet<URI>();
 
 		double maxScore = -1;
 
-		Key nodeLabelKey = metadataTypeManager.getMetadataKey("nodeLabel");
+		IMetadataKey nodeLabelKey = metadataTypeManager
+				.getMetadataKey("nodeLabel");
 		IMetadataValueContainer nodeValues = metadata
 				.getMetadataValueContainer(nodeLabelKey);
 		List<String> nodeLabels = (List<String>) nodeValues.getValueList();
 		for (String nodeLabel : nodeLabels) {
-			IQuery query = new BasicMetadataQuery<Key>(nodeLabelKey,
+			IQuery query = new BasicMetadataQuery(nodeLabelKey,
 					BasicSearchOperations.EQUALS, nodeLabel, null);
 			List<ISearchResult> results = repository.search(query);
 			for (ISearchResult result : results) {
@@ -169,12 +181,13 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 			}
 		}
 
-		Key linkLabelKey = metadataTypeManager.getMetadataKey("linkLabel");
+		IMetadataKey linkLabelKey = metadataTypeManager
+				.getMetadataKey("linkLabel");
 		IMetadataValueContainer linkValues = metadata
 				.getMetadataValueContainer(linkLabelKey);
 		List<String> linkLabels = (List<String>) linkValues.getValueList();
 		for (String linkLabel : linkLabels) {
-			IQuery query = new BasicMetadataQuery<Key>(linkLabelKey,
+			IQuery query = new BasicMetadataQuery(linkLabelKey,
 					BasicSearchOperations.EQUALS, linkLabel, null);
 			List<ISearchResult> results = repository.search(query);
 			for (ISearchResult result : results) {
@@ -206,20 +219,19 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		return new Tuple("scymapper", Long.class, String.class);
 	}
 
-	public IRepository<IELO<Key>, Key> getRepository() {
+	public IRepository getRepository() {
 		return repository;
 	}
 
-	public void setMetadataTypeManager(
-			IMetadataTypeManager<Key> metadataTypeManager) {
+	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
 		this.metadataTypeManager = metadataTypeManager;
 	}
 
-	public void setRepository(IRepository<IELO<Key>, Key> repo) {
+	public void setRepository(IRepository repo) {
 		repository = repo;
 	}
 
-	public IMetadataTypeManager<Key> getMetadataTypeManager() {
+	public IMetadataTypeManager getMetadataTypeManager() {
 		return metadataTypeManager;
 	}
 
@@ -234,10 +246,9 @@ public class SearchForSimilarConceptsAgent<Key extends IMetadataKey> extends
 		return stopped;
 	}
 
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		return null;
+	}
 
 }

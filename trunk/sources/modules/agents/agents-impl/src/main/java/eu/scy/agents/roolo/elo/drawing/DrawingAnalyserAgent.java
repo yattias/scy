@@ -14,8 +14,8 @@ import roolo.elo.api.IMetadataValueContainer;
 import eu.scy.agents.api.elo.IELOFilterAgent;
 import eu.scy.agents.impl.AbstractAgent;
 
-public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
-		extends AbstractAgent implements IELOFilterAgent<T, K> {
+public class DrawingAnalyserAgent extends AbstractAgent implements
+		IELOFilterAgent {
 
 	public DrawingAnalyserAgent(Map<String, Object> map) {
 		super("DrawingAnalyserAgent", (String) map.get("id"));
@@ -24,21 +24,21 @@ public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
 	private static final String scyDrawType = "scy/drawing";
 	private static final String contentTagName = "content";
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
-	private K formatKey;
-	private K lineCountKey;
-	private K rectangleCountKey;
-	private K ovalCountKey;
-	private K freehandCountKey;
-	private K textCountKey;
-	private K imageCountKey;
-	private K tagPointerCountKey;
+	private IMetadataKey formatKey;
+	private IMetadataKey lineCountKey;
+	private IMetadataKey rectangleCountKey;
+	private IMetadataKey ovalCountKey;
+	private IMetadataKey freehandCountKey;
+	private IMetadataKey textCountKey;
+	private IMetadataKey imageCountKey;
+	private IMetadataKey tagPointerCountKey;
 
-	private boolean isCompatibleType(T elo) {
+	private boolean isCompatibleType(IELO elo) {
 		return scyDrawType.equals(elo.getMetadata().getMetadataValueContainer(
 				formatKey).getValue());
 	}
 
-	private synchronized void analyseElo(T elo) {
+	private synchronized void analyseElo(IELO elo) {
 		String contentXml = elo.getContent().getXml();
 		Element drawRoot = jdomStringConversion.stringToXml(contentXml);
 		NameCounters nameCounters = new NameCounters();
@@ -61,7 +61,7 @@ public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
 		}
 	}
 
-	private void placeNameCountersInMetadata(IMetadata<K> metatdata,
+	private void placeNameCountersInMetadata(IMetadata metatdata,
 			NameCounters nameCounters) {
 		Map<String, AtomicInteger> counters = nameCounters.getCounters();
 		setCountMetadataValue(
@@ -105,40 +105,40 @@ public class DrawingAnalyserAgent<T extends IELO<K>, K extends IMetadataKey>
 		this.jdomStringConversion = jdomStringConversion;
 	}
 
-	public void setFormatKey(K formatKey) {
+	public void setFormatKey(IMetadataKey formatKey) {
 		this.formatKey = formatKey;
 	}
 
-	public void setLineCountKey(K lineCountKey) {
+	public void setLineCountKey(IMetadataKey lineCountKey) {
 		this.lineCountKey = lineCountKey;
 	}
 
-	public void setRectangleCountKey(K rectangleCountKey) {
+	public void setRectangleCountKey(IMetadataKey rectangleCountKey) {
 		this.rectangleCountKey = rectangleCountKey;
 	}
 
-	public void setOvalCountKey(K ovalCountKey) {
+	public void setOvalCountKey(IMetadataKey ovalCountKey) {
 		this.ovalCountKey = ovalCountKey;
 	}
 
-	public void setFreehandCountKey(K freehandCountKey) {
+	public void setFreehandCountKey(IMetadataKey freehandCountKey) {
 		this.freehandCountKey = freehandCountKey;
 	}
 
-	public void setTextCountKey(K textCountKey) {
+	public void setTextCountKey(IMetadataKey textCountKey) {
 		this.textCountKey = textCountKey;
 	}
 
-	public void setImageCountKey(K imageCountKey) {
+	public void setImageCountKey(IMetadataKey imageCountKey) {
 		this.imageCountKey = imageCountKey;
 	}
 
-	public void setTagPointerCountKey(K tagPointerCountKey) {
+	public void setTagPointerCountKey(IMetadataKey tagPointerCountKey) {
 		this.tagPointerCountKey = tagPointerCountKey;
 	}
 
 	@Override
-	public void processElo(T elo) {
+	public void processElo(IELO elo) {
 		if (elo == null) {
 			return;
 		}

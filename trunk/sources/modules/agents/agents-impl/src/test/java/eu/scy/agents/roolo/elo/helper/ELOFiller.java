@@ -3,17 +3,15 @@ package eu.scy.agents.roolo.elo.helper;
 import java.util.List;
 
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 
 public class ELOFiller {
 
-	private IELO<IMetadataKey> elo;
-	private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
+	private IELO elo;
+	private IMetadataTypeManager metadataTypeManager;
 
-	public ELOFiller(IELO<IMetadataKey> elo,
-			IMetadataTypeManager<IMetadataKey> typeManager) {
+	public ELOFiller(IELO elo, IMetadataTypeManager typeManager) {
 		this.elo = elo;
 		metadataTypeManager = typeManager;
 	}

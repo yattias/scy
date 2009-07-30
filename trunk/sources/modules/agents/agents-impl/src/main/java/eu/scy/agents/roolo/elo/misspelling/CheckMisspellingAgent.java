@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 
-import roolo.elo.api.IMetadataKey;
-
 import com.swabunga.spell.engine.SpellDictionary;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
@@ -31,17 +29,22 @@ import eu.scy.agents.impl.AbstractProcessingAgent;
  * +<User>:the user that saved this elo. <br />
  * -<NumberOfErrors>: Number of found errors.<br />
  * 
- * @author fschulz_2
+ * @author Florian Schulz
  * 
- * @param <K>
  */
-public class CheckMisspellingAgent<K extends IMetadataKey> extends
-		AbstractProcessingAgent<K> {
+public class CheckMisspellingAgent extends AbstractProcessingAgent {
 
 	private static final String CHECK_MISSPELLING_AGENT_NAME = "CheckMisspellingAgent";
 	private SpellChecker spellChecker;
 	private boolean stopped = false;
 
+	/**
+	 * Create a new misspelling agent. The argument <code>map</code> is used to
+	 * initialize special parameters.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public CheckMisspellingAgent(Map<String, Object> map) {
 		super(CHECK_MISSPELLING_AGENT_NAME, (String) map.get("id"));
 		InputStream inputStream = CheckMisspellingAgent.class
@@ -101,10 +104,10 @@ public class CheckMisspellingAgent<K extends IMetadataKey> extends
 		return stopped;
 	}
 
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

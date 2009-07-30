@@ -7,7 +7,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
 import roolo.elo.BasicELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.content.BasicContent;
@@ -53,8 +52,8 @@ public class ConceptMapAgentsTestFixture {
 	protected List<String> elo1LinkLabelList = Arrays.asList(new String[] {
 			"-", "+", "is_a", "13768021-13768021", "Determines" });
 
-	protected BasicELO<IMetadataKey> elo;
-	protected IMetadataTypeManager<IMetadataKey> typeManager;
+	protected BasicELO elo;
+	protected IMetadataTypeManager typeManager;
 	protected IExtensionManager extensionManager;
 
 	public ConceptMapAgentsTestFixture() {
@@ -66,13 +65,13 @@ public class ConceptMapAgentsTestFixture {
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 				"test-config.xml");
 
-		typeManager = (IMetadataTypeManager<IMetadataKey>) applicationContext
+		typeManager = (IMetadataTypeManager) applicationContext
 				.getBean("metadataTypeManager");
 		extensionManager = (IExtensionManager) applicationContext
 				.getBean("extensionManager");
 
-		elo = new BasicELO<IMetadataKey>();
-		elo.setUriKey(typeManager.getMetadataKey("uri"));
+		elo = new BasicELO();
+		elo.setIdentifierKey(typeManager.getMetadataKey("uri"));
 
 		IMetadataValueContainer typeContainer = elo.getMetadata()
 				.getMetadataValueContainer(typeManager.getMetadataKey("type"));
@@ -84,5 +83,4 @@ public class ConceptMapAgentsTestFixture {
 
 		elo.setContent(new BasicContent(CONCEPT_MAP_CONTENT));
 	}
-
 }

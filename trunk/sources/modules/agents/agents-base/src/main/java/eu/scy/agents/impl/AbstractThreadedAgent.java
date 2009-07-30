@@ -300,10 +300,12 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	public final void tidy() {
 		try {
 			// command & identify Callbacks are deregistered
-			getTupleSpace().eventDeRegister(commandId);
-			getTupleSpace().eventDeRegister(identifyId);
-			// disconnect from tuplespace
-			getTupleSpace().disconnect();
+			if (getTupleSpace() != null && getTupleSpace().isConnected()) {
+				getTupleSpace().eventDeRegister(commandId);
+				getTupleSpace().eventDeRegister(identifyId);
+				// disconnect from tuplespace
+				getTupleSpace().disconnect();
+			}
 		} catch (TupleSpaceException e) {
 			// we do not care about exceptions here
 			e.printStackTrace();
