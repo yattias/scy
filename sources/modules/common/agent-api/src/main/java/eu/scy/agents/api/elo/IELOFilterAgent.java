@@ -1,8 +1,7 @@
 package eu.scy.agents.api.elo;
 
-import eu.scy.agents.api.IAgent;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
+import eu.scy.agents.api.IAgent;
 
 /**
  * An interface to provide common functionality for a filtering agent that
@@ -14,11 +13,8 @@ import roolo.elo.api.IMetadataKey;
  * 
  * @author Florian Schulz
  * 
- * @param <T>
- * @param <K>
  */
-public abstract interface IELOFilterAgent<T extends IELO<K>, K extends IMetadataKey>
-		extends IAgent {
+public abstract interface IELOFilterAgent extends IAgent {
 
 	/**
 	 * Processes an elo. It either edits the metadata or sends a notification to
@@ -28,6 +24,6 @@ public abstract interface IELOFilterAgent<T extends IELO<K>, K extends IMetadata
 	 * @param elo
 	 *            The ELO to process.
 	 */
-	public void processElo(T elo);
+	public void processElo(IELO elo);
 
 }

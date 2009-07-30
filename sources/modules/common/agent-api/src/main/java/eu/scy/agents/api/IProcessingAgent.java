@@ -1,7 +1,5 @@
 package eu.scy.agents.api;
 
-import roolo.elo.api.IMetadataKey;
-
 /**
  * A processing agent is a special type of threaded agent that allows for heavy
  * number crunching where the result of the calculation is not needed
@@ -11,10 +9,8 @@ import roolo.elo.api.IMetadataKey;
  * 
  * @author Florian Schulz
  * 
- * @param <K>
  */
-public interface IProcessingAgent<K extends IMetadataKey> extends
-		IThreadedAgent {
+public interface IProcessingAgent extends IThreadedAgent {
 
 	/*
 	 * Return an instance of the toolbroker api.
