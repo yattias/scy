@@ -1,8 +1,6 @@
 package eu.scy.agents.api;
 
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 
 /**
@@ -22,7 +20,7 @@ public interface IRepositoryAgent {
 	 * @param rep
 	 *            The repository reference.
 	 */
-	public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> rep);
+	public void setRepository(IRepository rep);
 
 	/**
 	 * Set the {@link IMetadataTypeManager} needed additionally to the
@@ -31,7 +29,6 @@ public interface IRepositoryAgent {
 	 * @param manager
 	 *            The IMetadataTypeManager reference.
 	 */
-	public void setMetadataTypeManager(
-			IMetadataTypeManager<IMetadataKey> manager);
+	public void setMetadataTypeManager(IMetadataTypeManager manager);
 
 }

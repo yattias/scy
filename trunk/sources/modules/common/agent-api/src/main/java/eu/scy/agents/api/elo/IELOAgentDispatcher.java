@@ -3,9 +3,6 @@ package eu.scy.agents.api.elo;
 import java.util.List;
 
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-
 
 /**
  * This interface provides the basic functionality the Roolo-Agent dispatcher
@@ -15,11 +12,8 @@ import roolo.elo.api.IMetadataKey;
  * 
  * @author Florian Schulz
  * 
- * @param <T>
- * @param <K>
  */
-public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
-		extends IRepository<T, K> {
+public interface IELOAgentDispatcher extends IRepository {
 
 	/**
 	 * Set the repository calls are redirected to after processing.
@@ -27,7 +21,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 * @param repository
 	 *            The roolo repository.
 	 */
-	void setRepository(IRepository<T, K> repository);
+	void setRepository(IRepository repository);
 
 	/**
 	 * Get the repository calls are redirected to after processing.
@@ -35,7 +29,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 * 
 	 * @return The roolo repository.
 	 */
-	IRepository<T, K> getRepository();
+	IRepository getRepository();
 
 	/**
 	 * Set a list of agents that process an elo before it is saved. Mainly used
@@ -45,7 +39,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            A list of before agents.
 	 * @see IELOAgentDispatcher#addBeforeAgent(IELOFilterAgent)
 	 */
-	void setBeforeAgents(List<IELOFilterAgent<T, K>> agents);
+	void setBeforeAgents(List<IELOFilterAgent> agents);
 
 	/**
 	 * Add a single agent in the before processing queue.
@@ -54,7 +48,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            The agent to add to the queue.
 	 * @see IELOAgentDispatcher#setBeforeAgents(List)
 	 */
-	void addBeforeAgent(IELOFilterAgent<T, K> agent);
+	void addBeforeAgent(IELOFilterAgent agent);
 
 	/**
 	 * Set a list of agents that process and elo after it has been saved and
@@ -64,7 +58,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            The list of afer-agents to set.
 	 * @see IELOAgentDispatcher#addAfterAgent(IELOFilterAgent)
 	 */
-	void setAfterAgents(List<IELOFilterAgent<T, K>> agents);
+	void setAfterAgents(List<IELOFilterAgent> agents);
 
 	/**
 	 * Add a single agent to the after processing queue.
@@ -73,7 +67,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            The agent to add to the queue.
 	 * @see IELOAgentDispatcher#setAfterAgents(List)
 	 */
-	void addAfterAgent(IELOFilterAgent<T, K> agent);
+	void addAfterAgent(IELOFilterAgent agent);
 
 	/**
 	 * Set a list of agents that just notify something via tuplespace and do no
@@ -84,7 +78,7 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            The list of agents to set.
 	 * @see IELOAgentDispatcher#addNotificationAgent(IELOFilterAgent)
 	 */
-	void setNotificationAgents(List<IELOFilterAgent<T, K>> agents);
+	void setNotificationAgents(List<IELOFilterAgent> agents);
 
 	/**
 	 * Add an agent to the notification queue.
@@ -93,6 +87,6 @@ public interface IELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 *            The agent to add to the notification queue.
 	 * @see IELOAgentDispatcher#setNotificationAgents(List)
 	 */
-	void addNotificationAgent(IELOFilterAgent<T, K> agent);
+	void addNotificationAgent(IELOFilterAgent agent);
 
 }

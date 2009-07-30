@@ -10,6 +10,12 @@ import eu.scy.agents.api.IAgent;
  */
 public interface IChatAgent extends IAgent {
 
-	public void doSomethingWithChatMessage(String message);
+	/**
+	 * Processes a chat message.
+	 * 
+	 * @param message
+	 *            The message to process.
+	 */
+	public void processChatMessage(String message);
 
 }
