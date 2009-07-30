@@ -126,6 +126,8 @@ public class Action extends ScyBaseObject implements IAction {
 	public void setFromXML(Element element) throws JDOMException {
 		if (element.getName().equals("action")) {
 			this.actionElement = element;
+			contextElement = element.getChild("context");
+	                attributesElement = element.getChild("attributes");
 		} else {
 			throw new JDOMException("<action> element expected, <"+element.getName()+"> element found.");
 		}
