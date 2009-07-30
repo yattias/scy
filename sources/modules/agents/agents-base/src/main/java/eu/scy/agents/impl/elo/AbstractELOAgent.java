@@ -1,7 +1,5 @@
 package eu.scy.agents.impl.elo;
 
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.agents.api.elo.IELOFilterAgent;
 import eu.scy.agents.impl.AbstractAgent;
@@ -11,16 +9,14 @@ import eu.scy.agents.impl.AbstractAgent;
  * 
  * @author Florian Schulz
  * 
- * @param <T>
- * @param <K>
  */
-public abstract class AbstractELOAgent<T extends IELO<K>, K extends IMetadataKey>
-		extends AbstractAgent implements IELOFilterAgent<T, K> {
+public abstract class AbstractELOAgent extends AbstractAgent implements
+		IELOFilterAgent {
 
 	/**
 	 * The metadata typemanager needed to change metadata.
 	 */
-	protected IMetadataTypeManager<IMetadataKey> metadataTypeManager;
+	protected IMetadataTypeManager metadataTypeManager;
 
 	/**
 	 * Create a new AbstractELOAgent with <code>name</code> and <code>id</code>.
@@ -39,7 +35,7 @@ public abstract class AbstractELOAgent<T extends IELO<K>, K extends IMetadataKey
 	 * 
 	 * @return The used {@link IMetadataTypeManager}.
 	 */
-	protected IMetadataTypeManager<IMetadataKey> getMetadataTypeManager() {
+	protected IMetadataTypeManager getMetadataTypeManager() {
 		return metadataTypeManager;
 	}
 
@@ -50,8 +46,7 @@ public abstract class AbstractELOAgent<T extends IELO<K>, K extends IMetadataKey
 	 *            The needed {@link IMetadataTypeManager} for accessing
 	 *            metadata.
 	 */
-	public void setMetadataTypeManager(
-			IMetadataTypeManager<IMetadataKey> typeManager) {
+	public void setMetadataTypeManager(IMetadataTypeManager typeManager) {
 		metadataTypeManager = typeManager;
 	}
 

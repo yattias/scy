@@ -1,6 +1,5 @@
 package eu.scy.agents.impl;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.IProcessingAgent;
 
 /**
@@ -10,8 +9,8 @@ import eu.scy.agents.api.IProcessingAgent;
  * 
  * @param <K>
  */
-public abstract class AbstractProcessingAgent<K extends IMetadataKey> extends
-		AbstractThreadedAgent implements IProcessingAgent<K> {
+public abstract class AbstractProcessingAgent extends AbstractThreadedAgent
+		implements IProcessingAgent {
 
 	/**
 	 * Create a new {@link AbstractProcessingAgent}.

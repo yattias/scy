@@ -15,17 +15,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 
 public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
 
-	private ConceptMapSavedAgent<IELO<IMetadataKey>, IMetadataKey> agent;
+	private ConceptMapSavedAgent agent;
 	private TupleSpace ts;
 
 	@Override
-        @Before
+	@Before
 	public void setUp() throws Exception {
 		if (!Server.isRunning()) {
 			Configuration.getConfiguration().setSSLEnabled(false);
@@ -38,9 +36,9 @@ public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
 		uriContainer.setValue(new URI(
 				"http://unittest.conceptmapsavedagent.de/1/bla.scymapping"));
 		String agentId = new VMID().toString();
-		HashMap<String,Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", agentId);
-		agent = new ConceptMapSavedAgent<IELO<IMetadataKey>, IMetadataKey>(map);
+		agent = new ConceptMapSavedAgent(map);
 		agent.setMetadataTypeManager(typeManager);
 		ts = new TupleSpace();
 	}

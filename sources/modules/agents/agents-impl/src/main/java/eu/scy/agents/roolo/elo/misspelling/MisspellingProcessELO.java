@@ -1,10 +1,11 @@
 package eu.scy.agents.roolo.elo.misspelling;
 
-import java.util.Map;
-
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+
+import java.util.Map;
+
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -25,31 +26,36 @@ import eu.scy.agents.impl.elo.AbstractELOAgent;
  * +<EloContent>: the textual content of the elo. <br />
  * +<User>:the user that saved this elo. <br />
  * 
- * @author fschulz
+ * @author Florian Schulz
  * 
- * @param <T>
- * @param <K>
  */
-public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
-		extends AbstractELOAgent<T, K> {
+public class MisspellingProcessELO extends AbstractELOAgent {
 
+	/**
+	 * Create a new MisspellingProcessELO filtering agent. The argument
+	 * <code>map</code> is used to initialize special parameters. Never used
+	 * here.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	protected MisspellingProcessELO(Map<String, Object> map) {
 		super("MisspellingProcessELO", (String) map.get("id"));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void processElo(T elo) {
-		System.err
-				.println("*********************** Misspelling: Processing elo************************");
+	public void processElo(IELO elo) {
+		// System.err
+		// .println("*********************** Misspelling: Processing elo************************");
 		if (elo == null) {
 			return;
 		}
 
-		IMetadata<K> metadata = elo.getMetadata();
+		IMetadata metadata = elo.getMetadata();
 		if (metadata != null) {
 			IMetadataValueContainer type = metadata
-					.getMetadataValueContainer((K) metadataTypeManager
+					.getMetadataValueContainer(metadataTypeManager
 							.getMetadataKey("type"));
 			if (!"scy/text".equals(type.getValue())) {
 				return;
@@ -58,7 +64,7 @@ public class MisspellingProcessELO<T extends IELO<K>, K extends IMetadataKey>
 
 		IMetadataKey authorKey = metadataTypeManager.getMetadataKey("author");
 		IMetadataValueContainer authorContainer = metadata
-				.getMetadataValueContainer((K) authorKey);
+				.getMetadataValueContainer(authorKey);
 		Contribute author = (Contribute) authorContainer.getValue();
 		String user = author.getVCard();
 

@@ -9,14 +9,29 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
 
+/**
+ * Notifies the client about the users found that produced similar concept maps
+ * and are potential collaboration partners.
+ * 
+ * @author Florian Schulz
+ * 
+ */
 public class SearchForSimilarConceptNotificationAgent extends
 		AbstractCommunicationAgent {
 
 	private static final String SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT = "SearchForSimilarConceptNotificationAgent";
 	private boolean stopped;
 
+	/**
+	 * Create a new SearchForSimilarConceptNotificationAgent filtering agent.
+	 * The argument <code>map</code> is used to initialize special parameters.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public SearchForSimilarConceptNotificationAgent(Map<String, Object> map) {
-		super(SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT,(String) map.get("id"));
+		super(SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT, (String) map
+				.get("id"));
 	}
 
 	@Override
@@ -62,9 +77,9 @@ public class SearchForSimilarConceptNotificationAgent extends
 		// nothing to do
 	}
 
-    @Override
-    protected Tuple getIdentifyTuple(String queryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

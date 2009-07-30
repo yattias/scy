@@ -19,27 +19,40 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 import eu.scy.agents.impl.elo.AbstractELOAgent;
 
-public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
-		extends AbstractELOAgent<T, K> {
+/**
+ * A filtering agent that enhances the metadata of ConceptMap ELOs so it is
+ * possible to search for similar concept maps.
+ * 
+ * @see SearchForSimilarConceptsAgent
+ * @author Florian Schulz
+ * 
+ */
+public class EnrichConceptMapAgent extends AbstractELOAgent {
 
 	private IMetadataKey nodeLabelKey;
 	private IMetadataKey linkLabelKey;
 
+	/**
+	 * Create a new EnrichConceptMapAgent filtering agent. The argument
+	 * <code>map</code> is used to initialize special parameters.
+	 * 
+	 * @param map
+	 *            Parameters needed to initialize the agent.
+	 */
 	public EnrichConceptMapAgent(Map<String, Object> map) {
-		super("EnrichConceptMapAgent",(String) map.get("id"));
+		super("EnrichConceptMapAgent", (String) map.get("id"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void processElo(T elo) {
+	public void processElo(IELO elo) {
 		if (elo == null) {
 			return;
 		}
 
-		IMetadata<K> metadata = elo.getMetadata();
+		IMetadata metadata = elo.getMetadata();
 		if (metadata != null) {
 			IMetadataValueContainer type = metadata
-					.getMetadataValueContainer((K) metadataTypeManager
+					.getMetadataValueContainer(metadataTypeManager
 							.getMetadataKey("type"));
 			if (!"scy/scymapping".equals(type.getValue())) {
 				return;
@@ -56,14 +69,14 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 
 			}
 		} catch (JDOMException e) {
-			System.err.println("could not parse xml: " + e.getMessage());// e.printStackTrace();
+			System.err.println("could not parse xml: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void enrichMetadata(IMetadata<K> metadata, String xmlString)
+	private void enrichMetadata(IMetadata metadata, String xmlString)
 			throws JDOMException, IOException {
 		if (xmlString == null) {
 			return;
@@ -85,7 +98,7 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 			List<Element> nodes = nodesElement.getChildren("node");
 			Set<String> nodeLabels = new HashSet<String>();
 			IMetadataValueContainer nodeValue = metadata
-					.getMetadataValueContainer((K) nodeLabelKey);
+					.getMetadataValueContainer(nodeLabelKey);
 			for (Element node : nodes) {
 				String nodeLabel = node.getAttributeValue("name");
 				if (!nodeLabels.contains(nodeLabel)) {
@@ -99,7 +112,7 @@ public class EnrichConceptMapAgent<T extends IELO<K>, K extends IMetadataKey>
 		if (linksElement != null) {
 			List<Element> links = linksElement.getChildren("link");
 			IMetadataValueContainer linkValue = metadata
-					.getMetadataValueContainer((K) linkLabelKey);
+					.getMetadataValueContainer(linkLabelKey);
 			Set<String> linkLabels = new HashSet<String>();
 			for (Element link : links) {
 				String linkLabel = link.getAttributeValue("label");

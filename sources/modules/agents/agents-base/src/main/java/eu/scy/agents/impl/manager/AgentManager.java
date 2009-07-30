@@ -4,6 +4,7 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.dgc.VMID;
@@ -15,8 +16,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
@@ -67,10 +66,10 @@ public class AgentManager implements Callback {
 	private Map<String, Map<String, Object>> startParameters;
 
 	// TODO: inject via spring magic
-	private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+	private IRepository repository;
 
 	// TODO: inject via spring magic
-	private IMetadataTypeManager<IMetadataKey> manager;
+	private IMetadataTypeManager manager;
 
 	/**
 	 * This constructor is used to start an agent manager. Please make sure that

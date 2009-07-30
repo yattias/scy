@@ -10,7 +10,6 @@ import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
 import eu.scy.agents.api.elo.IELOAgentDispatcher;
 import eu.scy.agents.api.elo.IELOFilterAgent;
 
@@ -28,37 +27,34 @@ import eu.scy.agents.api.elo.IELOFilterAgent;
  * <li>
  * {@link IRepository#updateELO(IELO)} - see addElo(IELO).</li>
  * <li>
- * everyother call is redirected to the real repository.</li>
+ * every other call is redirected to the real repository.</li>
  * </ul>
  * 
  * @author Florian Schulz
  * 
- * @param <T>
- * @param <K>
  */
-public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
-		implements IELOAgentDispatcher<T, K> {
+public class ELOAgentDispatcher implements IELOAgentDispatcher {
 
-	private IRepository<T, K> repository;
+	private IRepository repository;
 
-	private Queue<IELOFilterAgent<T, K>> beforeQueue;
-	private Queue<IELOFilterAgent<T, K>> afterQueue;
-	private List<IELOFilterAgent<T, K>> notificationAgents;
+	private Queue<IELOFilterAgent> beforeQueue;
+	private Queue<IELOFilterAgent> afterQueue;
+	private List<IELOFilterAgent> notificationAgents;
 
 	/**
 	 * Create a new EloAgentDispatcher.
 	 */
 	public ELOAgentDispatcher() {
-		beforeQueue = new LinkedList<IELOFilterAgent<T, K>>();
-		afterQueue = new LinkedList<IELOFilterAgent<T, K>>();
-		notificationAgents = new LinkedList<IELOFilterAgent<T, K>>();
+		beforeQueue = new LinkedList<IELOFilterAgent>();
+		afterQueue = new LinkedList<IELOFilterAgent>();
+		notificationAgents = new LinkedList<IELOFilterAgent>();
 	}
 
 	@Override
-	public IMetadata<K> addELO(T elo) {
+	public IMetadata addNewELO(IELO elo) {
 		processBefore(elo);
 
-		IMetadata<K> metadata = repository.addELO(elo);
+		IMetadata metadata = repository.addNewELO(elo);
 
 		notifyAgents(elo);
 
@@ -66,8 +62,8 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 		return metadata;
 	}
 
-	private void notifyAgents(final T elo) {
-		for (final IELOFilterAgent<T, K> agent : notificationAgents) {
+	private void notifyAgents(final IELO elo) {
+		for (final IELOFilterAgent agent : notificationAgents) {
 			Thread t = new Thread(new Runnable() {
 
 				@Override
@@ -91,19 +87,19 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	}
 
 	@Override
-	public T retrieveELO(URI id) {
-		T elo = repository.retrieveELO(id);
+	public IELO retrieveELO(URI id) {
+		IELO elo = repository.retrieveELO(id);
 		processAfter(elo);
 		return elo;
 	}
 
 	@Override
-	public void addMetadata(URI id, IMetadata<K> metadata) {
+	public void addMetadata(URI id, IMetadata metadata) {
 		repository.addMetadata(id, metadata);
 	}
 
 	@Override
-	public IMetadata<K> retrieveMetadata(URI id) {
+	public IMetadata retrieveMetadata(URI id) {
 		return repository.retrieveMetadata(id);
 	}
 
@@ -118,10 +114,10 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	}
 
 	@Override
-	public IMetadata<K> updateELO(T elo) {
+	public IMetadata updateELO(IELO elo) {
 		processBefore(elo);
 
-		IMetadata<K> metadata = repository.updateELO(elo);
+		IMetadata metadata = repository.updateELO(elo);
 
 		notifyAgents(elo);
 
@@ -129,17 +125,17 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 		return metadata;
 	}
 
-	private void processAfter(T elo) {
+	private void processAfter(IELO elo) {
 		System.out.println("starting after save processing");
-		for (IELOFilterAgent<T, K> agent : afterQueue) {
+		for (IELOFilterAgent agent : afterQueue) {
 			agent.processElo(elo);
 		}
 		System.out.println("ended after save processing");
 	}
 
-	private void processBefore(T elo) {
+	private void processBefore(IELO elo) {
 		System.out.println("starting before save processing");
-		for (IELOFilterAgent<T, K> agent : beforeQueue) {
+		for (IELOFilterAgent agent : beforeQueue) {
 			agent.processElo(elo);
 		}
 		System.out.println("ended before save processing");
@@ -151,7 +147,7 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 * @param repo
 	 *            The repository the calls are redirected to.
 	 */
-	public void setRepository(IRepository<T, K> repo) {
+	public void setRepository(IRepository repo) {
 		this.repository = repo;
 	}
 
@@ -160,38 +156,67 @@ public class ELOAgentDispatcher<T extends IELO<K>, K extends IMetadataKey>
 	 * 
 	 * @return the real repository.
 	 */
-	public IRepository<T, K> getRepository() {
+	public IRepository getRepository() {
 		return repository;
 	}
 
 	@Override
-	public void setBeforeAgents(List<IELOFilterAgent<T, K>> agents) {
+	public void setBeforeAgents(List<IELOFilterAgent> agents) {
 		beforeQueue.addAll(agents);
 	}
 
 	@Override
-	public void setAfterAgents(List<IELOFilterAgent<T, K>> agents) {
+	public void setAfterAgents(List<IELOFilterAgent> agents) {
 		afterQueue.addAll(agents);
 	}
 
 	@Override
-	public void setNotificationAgents(List<IELOFilterAgent<T, K>> agents) {
+	public void setNotificationAgents(List<IELOFilterAgent> agents) {
 		notificationAgents.addAll(agents);
 	}
 
 	@Override
-	public void addAfterAgent(IELOFilterAgent<T, K> agent) {
+	public void addAfterAgent(IELOFilterAgent agent) {
 		afterQueue.add(agent);
 	}
 
 	@Override
-	public void addBeforeAgent(IELOFilterAgent<T, K> agent) {
+	public void addBeforeAgent(IELOFilterAgent agent) {
 		beforeQueue.add(agent);
 	}
 
 	@Override
-	public void addNotificationAgent(IELOFilterAgent<T, K> agent) {
+	public void addNotificationAgent(IELOFilterAgent agent) {
 		notificationAgents.add(agent);
+	}
+
+	@Override
+	public IMetadata addForkedELO(IELO elo) {
+		// TODO Need agents to run on this elo.
+		return repository.addForkedELO(elo);
+	}
+
+	@Override
+	public IELO retrieveFirstVersionELO(URI uri) {
+		// TODO agents.
+		return repository.retrieveFirstVersionELO(uri);
+	}
+
+	@Override
+	public IELO retrieveLastVersionELO(URI uri) {
+		// TODO Agents?
+		return repository.retrieveLastVersionELO(uri);
+	}
+
+	@Override
+	public IMetadata retrieveMetadataFirstVersion(URI uri) {
+		return repository.retrieveMetadataFirstVersion(uri);
+	}
+
+	@Override
+	public IMetadata retrieveMetadataLastVersion(URI uri) {
+		// TODO Agents
+		return repository.retrieveMetadataLastVersion(uri);
 	}
 
 }
