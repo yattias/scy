@@ -19,11 +19,9 @@ import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
-import roolo.elo.api.IMetadataKey;
-
 
 public class DrawingApp extends SingleFrameApplication implements
-			ELOLoadedChangedListener<IMetadataKey>
+			ELOLoadedChangedListener
 {
 	private static final Logger logger = Logger.getLogger(DrawingApp.class.getName());
 
@@ -153,7 +151,7 @@ public class DrawingApp extends SingleFrameApplication implements
 //		}
 //	}
 
-	public void eloLoadedChanged(ELOLoadedChangedEvent<IMetadataKey> eloLoadedChangedEvent)
+	public void eloLoadedChanged(ELOLoadedChangedEvent eloLoadedChangedEvent)
 	{
 		setWindowTitle();
 	}

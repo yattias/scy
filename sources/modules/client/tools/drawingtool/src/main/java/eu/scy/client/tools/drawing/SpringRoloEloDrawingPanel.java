@@ -13,9 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 
 
@@ -28,7 +26,6 @@ public class SpringRoloEloDrawingPanel extends EloDrawingPanel
 
 	private ApplicationContext springApplicationContext;
 
-	@SuppressWarnings("unchecked")
 	public void setupSpringRoolo(URL codeBase)
 	{
 		if (codeBase != null)
@@ -36,9 +33,9 @@ public class SpringRoloEloDrawingPanel extends EloDrawingPanel
 		springApplicationContext = getSpringApplicationContext();
 		if (springApplicationContext == null)
 			throw new IllegalStateException("failed to find spring context");
-		setRepository((IRepository<IELO<IMetadataKey>, IMetadataKey>) getSpringBean("repository"));
-		setEloFactory((IELOFactory<IMetadataKey>) getSpringBean("eloFactory"));
-		setMetadataTypeManager((IMetadataTypeManager<IMetadataKey>) getSpringBean("metadataTypeManager"));
+		setRepository((IRepository) getSpringBean("repository"));
+		setEloFactory((IELOFactory) getSpringBean("eloFactory"));
+		setMetadataTypeManager((IMetadataTypeManager) getSpringBean("metadataTypeManager"));
 	}
 
 	private void setupServerAddress(URL codeBase)
