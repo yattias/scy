@@ -52,7 +52,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private JCheckBox checkbox;
     private DataSet dataset;
     private Object eloTitle = "an unnamed SimQuest dataset";
-    private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+    private IRepository repository;
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
     private BalanceSlider balanceSlider;
