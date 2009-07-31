@@ -4,7 +4,7 @@ import eu.scy.colemo.client.ui.impl.model.ConceptNode;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 22.jun.2009
  * Time: 18:29:28
  * To change this template use File | Settings | File Templates.

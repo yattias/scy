@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 24.jun.2009
  * Time: 17:16:31
  * To change this template use File | Settings | File Templates.

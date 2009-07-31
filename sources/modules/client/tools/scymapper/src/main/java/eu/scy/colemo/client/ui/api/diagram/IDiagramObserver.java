@@ -5,7 +5,7 @@ import eu.scy.colemo.client.ui.api.links.IConceptLink;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 24.jun.2009
  * Time: 11:27:10
  */

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author Øystein
+ * @author Oystein
  *         <p/>
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates

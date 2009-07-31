@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 17.jun.2009
  * Time: 16:24:56
  */

@@ -7,7 +7,7 @@ package eu.scy.colemo.agent;
 import java.io.Serializable;
 
 /**
- * @author Øystein
+ * @author Oystein
  *
  */
 public class AgentMessage implements Serializable{

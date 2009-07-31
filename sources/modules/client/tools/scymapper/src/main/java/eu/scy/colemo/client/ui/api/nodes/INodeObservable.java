@@ -2,7 +2,7 @@ package eu.scy.colemo.client.ui.api.nodes;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 22.jun.2009
  * Time: 18:30:02
  */

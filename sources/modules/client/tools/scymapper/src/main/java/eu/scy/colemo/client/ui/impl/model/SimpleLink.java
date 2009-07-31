@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 23.jun.2009
  * Time: 15:46:06
  */

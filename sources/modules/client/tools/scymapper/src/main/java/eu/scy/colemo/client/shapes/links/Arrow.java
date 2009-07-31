@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 03.jun.2009
  * Time: 13:26:09
  */

@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 02.apr.2009
  * Time: 12:19:28
  * To change this template use File | Settings | File Templates.

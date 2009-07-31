@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 18.jun.2009
  * Time: 14:14:58
  * To change this template use File | Settings | File Templates.
