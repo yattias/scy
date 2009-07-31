@@ -163,7 +163,16 @@
             <version>1.7</version>
         </dependency>
 	</dependencies>
-
+        <repositories>
+                <repository>
+                        <id>snapshots-tels</id>
+                        <url>http://repo.telscenter.org/internal_snapshot</url>
+                </repository>
+                <repository>
+                        <id>releases-tels</id>
+                        <url>http://repo.telscenter.org/internal</url>
+                </repository>
+        </repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -202,5 +211,9 @@
 			</resource>
 		</resources>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
