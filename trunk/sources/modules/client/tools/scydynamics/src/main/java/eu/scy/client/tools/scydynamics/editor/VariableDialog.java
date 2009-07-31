@@ -32,7 +32,7 @@ public class VariableDialog extends javax.swing.JDialog implements
 	private Hashtable<String, Object> props;
 	private ModelEditor editor;
 	private String label;
-	String[] units = { "?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "°C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
+	String[] units = { "?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
 	private JComboBox unitsBox;
 	private JLabel colorLabel;
 	private JButton colorButton;
