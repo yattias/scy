@@ -38,7 +38,7 @@ public class EloSimQuestWrapper {
     public static final String untitledDocName = "untitled";
     public static final String scyDatasetType = "scy/dataset";
     public static final String scySimConfigType = "scy/simconfig";
-    private IRepository<IELO<IMetadataKey>, IMetadataKey> repository;
+    private IRepository repository;
     private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
     private IELOFactory<IMetadataKey> eloFactory;
     private IMetadataKey uriKey;
@@ -51,9 +51,9 @@ public class EloSimQuestWrapper {
     private JDomStringConversion jdomStringConversion = new JDomStringConversion();
     private DataCollector dataCollector;
     private String docName = untitledDocName;
-    private IELO<IMetadataKey> eloDataSet = null;
-    private IELO<IMetadataKey> eloSimConfig = null;
-    private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+    private IELO eloDataSet = null;
+    private IELO eloSimConfig = null;
+    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
 
     public EloSimQuestWrapper() {
     }
@@ -67,28 +67,28 @@ public class EloSimQuestWrapper {
     }
 
     public void addELOLoadedChangedListener(
-            ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener) {
+            ELOLoadedChangedListener eloLoadedChangedListener) {
         if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener)) {
             eloLoadedChangedListeners.add(eloLoadedChangedListener);
         }
     }
 
     public void removeELOLoadedChangedListener(
-            ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener) {
+            ELOLoadedChangedListener eloLoadedChangedListener) {
         if (eloLoadedChangedListeners.contains(eloLoadedChangedListener)) {
             eloLoadedChangedListeners.remove(eloLoadedChangedListener);
         }
     }
 
     private void sendELOLoadedChangedListener() {
-        ELOLoadedChangedEvent<IMetadataKey> eloLoadedChangedEvent = new ELOLoadedChangedEvent<IMetadataKey>(
+        ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(
                 this, eloDataSet);
-        for (ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener : eloLoadedChangedListeners) {
+        for (ELOLoadedChangedListener eloLoadedChangedListener : eloLoadedChangedListeners) {
             eloLoadedChangedListener.eloLoadedChanged(eloLoadedChangedEvent);
         }
     }
 
-    public IRepository<IELO<IMetadataKey>, IMetadataKey> getRepository() {
+    public IRepository getRepository() {
         return repository;
     }
 
@@ -152,7 +152,7 @@ public class EloSimQuestWrapper {
 
     public void loadSimConfigAction() {
         IQuery query = null;
-        IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(typeKey,
+        IMetadataQuery metadataQuery = new BasicMetadataQuery(typeKey,
                 BasicSearchOperations.EQUALS, scySimConfigType, null);
         query = metadataQuery;
         List<ISearchResult> searchResults = repository.search(query);
@@ -234,7 +234,7 @@ public class EloSimQuestWrapper {
             IContent content = eloFactory.createContent();
             content.setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
             eloDataSet.setContent(content);
-            IMetadata<IMetadataKey> resultMetadata = repository.addELO(eloDataSet);
+            IMetadata resultMetadata = repository.addNewELO(eloDataSet);
             eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
             // updateEloWithNewMetadata(elo, eloMetadata);
             // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
@@ -276,7 +276,7 @@ public class EloSimQuestWrapper {
             IContent content = eloFactory.createContent();
             content.setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
             eloSimConfig.setContent(content);
-            IMetadata<IMetadataKey> resultMetadata = repository.addELO(eloSimConfig);
+            IMetadata resultMetadata = repository.addNewELO(eloSimConfig);
             eloFactory.updateELOWithResult(eloSimConfig, resultMetadata);
             // updateEloWithNewMetadata(elo, eloMetadata);
             // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
@@ -284,7 +284,7 @@ public class EloSimQuestWrapper {
         }
     }
 
-    public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository) {
+    public void setRepository(IRepository repository) {
         this.repository = repository;
     }
 }
