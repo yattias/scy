@@ -100,13 +100,13 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
     }
 
     private void initializseGUI() {
-        //Avslutting av programmet styres nå av WindowClosing
+        //Avslutting av programmet styres na av WindowClosing
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         //Adder windowListener
         this.addWindowListener(this);
 
-        //Rammen som alt skal ligge på
+        //Rammen som alt skal ligge pa
         this.setTitle(getUsername());
         //this.setExtendedState(MAXIMIZED_BOTH);
         this.setSize(new Dimension(400, 400));
@@ -124,7 +124,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         ImageIcon image = new ImageIcon(url);
         this.setIconImage(image.getImage());
 
-        //Panelet som vi skal tegne på
+        //Panelet som vi skal tegne pa
         gDiagram = new GraphicsDiagram(new UmlDiagram());
         gDiagram.setBackground(new Color(204, 204, 204));
         gDiagram.setPreferredSize(new Dimension(1800, 1200));
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame implements ActionListener, WindowListener,
         //ApplicationController.getDefaultInstance().setMainFrame(this);
         //ApplicationController.getDefaultInstance().setClient(client);
 
-        //Panelet som skal ligge i sør(skal ha JTextArea og JList i seg
+        //Panelet som skal ligge i sor(skal ha JTextArea og JList i seg
         /*southPanel = new JPanel();
 southPanel.setLayout(new BorderLayout());
 southPanel.setPreferredSize(new Dimension(1000,300));
@@ -153,7 +153,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         userList.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         userList.setBackground(new Color(232, 215, 176));
 
-        //Legger chatPanelet på panelet i sør
+        //Legger chatPanelet pa panelet i sor
         //southPanel.add(chatPanel,BorderLayout.CENTER);
         //southPanel.add(userList,BorderLayout.EAST);
 
@@ -162,14 +162,14 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         chatPanel.add(chatPane, BorderLayout.CENTER);
         chatPanel.add(new JPanel());//inputField,BorderLayout.SOUTH);
 
-        //Toolbaren med hvor du kan velge hva du vil gjøre
+        //Toolbaren med hvor du kan velge hva du vil gjore
         toolbar = new JToolBar();
         northPanel = new JPanel();
         northPanel.setLayout(new BorderLayout());
         northPanel.setPreferredSize(new Dimension(0, 30));
         northPanel.add(toolbar);
 
-        //Lager knappene med tilhørende icon
+        //Lager knappene med tilhorende icon
         url = MainFrame.getResource("addClass.png");
         addClass = new JButton(new ImageIcon(url));
 
@@ -214,7 +214,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
         addConnection = new JToggleButton("Add Connection");
 
-        //Legger actionListener til på knappene
+        //Legger actionListener til pa knappene
         addClass.addActionListener(this);
         addConcept.addActionListener(this);
         save.addActionListener(this);
@@ -244,7 +244,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
 
         scrollPane = new JScrollPane(gDiagram);
 
-        //Legger toolbaren, panelet og textfeltet til på rammen
+        //Legger toolbaren, panelet og textfeltet til pa rammen
         this.getContentPane().add(northPanel, BorderLayout.NORTH);
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
         //this.getContentPane().add(southPanel,BorderLayout.SOUTH);
@@ -451,7 +451,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         this.setJMenuBar(menuBar);
     }
 
-    //Tegner ut alle elementene på nytt
+    //Tegner ut alle elementene pa nytt
     public void revalidate() {
         this.invalidate();
         this.validate();
