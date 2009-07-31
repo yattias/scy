@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 22.jun.2009
  * Time: 19:27:37
  */

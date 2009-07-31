@@ -11,7 +11,7 @@ import org.apache.batik.bridge.ViewBox;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 25.jun.2009
  * Time: 12:38:07
  */

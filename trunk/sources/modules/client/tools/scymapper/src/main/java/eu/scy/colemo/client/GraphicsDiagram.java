@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Vector;
 
 /**
- * @author Øystein
+ * @author Oystein
  *         <p/>
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
@@ -217,7 +217,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
     }
 
     public void deleteNode(ConceptNode node) {
-        /* //Kalle opp alle klienter og spørre om de vil slette klassen
+        /* //Kalle opp alle klienter og sporre om de vil slette klassen
         //frame.getClient().getConnection().send(new StartVote());
         int n = JOptionPane.showConfirmDialog(frame, "The deletion of this class will affect" + "\n" +
                 "other classes and links with a relation to it." + "\n" +
@@ -366,7 +366,7 @@ public class GraphicsDiagram extends JPanel implements MouseListener, ActionList
                 String fromId = diagram.getSource().getModel().getId();
                 String toId = diagram.getTarget().getModel().getId();
 
-                UmlLink link = new UmlLink(fromId, toId, "Bjørge :-)");
+                UmlLink link = new UmlLink(fromId, toId, "Bjorge :-)");
 
                 link.setId("" + System.currentTimeMillis());
                 ApplicationController.getDefaultInstance().getConnectionHandler().sendObject(link);

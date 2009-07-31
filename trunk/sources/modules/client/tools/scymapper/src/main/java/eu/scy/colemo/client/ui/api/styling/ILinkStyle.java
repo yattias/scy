@@ -4,7 +4,7 @@ import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 24.jun.2009
  * Time: 17:10:41
  */

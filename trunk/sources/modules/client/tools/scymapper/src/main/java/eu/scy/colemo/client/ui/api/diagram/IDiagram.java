@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 24.jun.2009
  * Time: 11:26:58
  * This is the Diagram model

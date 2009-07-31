@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * @author Øystein
+ * @author Oystein
  *
  *
  */

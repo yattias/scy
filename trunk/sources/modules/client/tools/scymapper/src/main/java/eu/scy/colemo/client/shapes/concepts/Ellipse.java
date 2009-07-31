@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 15.jun.2009
  * Time: 15:35:10
  */

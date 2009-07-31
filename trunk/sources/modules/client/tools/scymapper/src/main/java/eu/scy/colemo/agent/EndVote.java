@@ -9,7 +9,7 @@ package eu.scy.colemo.agent;
 import java.io.Serializable;
 
 /**
- * @author Øystein
+ * @author Oystein
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates

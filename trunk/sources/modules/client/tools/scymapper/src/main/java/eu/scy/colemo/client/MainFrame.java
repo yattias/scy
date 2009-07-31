@@ -32,7 +32,7 @@ import eu.scy.colemo.server.uml.UmlDiagram;
 import eu.scy.colemo.server.exceptions.ClassNameAlreadyExistException;
 
 /**
- * @author Øystein
+ * @author Oystein
  */
 public class MainFrame extends JFrame implements ActionListener, WindowListener, TextListener, MouseListener {
     private JToolBar toolbar;
@@ -274,7 +274,7 @@ southPanel.setPreferredSize(new Dimension(1000,300));
         } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Add new abstract class") {
             addClass(diagram, "a");
         } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Created by") {
-            JOptionPane.showMessageDialog(this, "Øystein \"The Man\" Pettersen \n" +
+            JOptionPane.showMessageDialog(this, "Oystein \"The Man\" Pettersen \n" +
                     "Roger \"The Killer\" Pedersen \n" +
                     "@University of Bergen");
         } else if (ae.getSource() instanceof JMenuItem && ae.getActionCommand() == "Version") {

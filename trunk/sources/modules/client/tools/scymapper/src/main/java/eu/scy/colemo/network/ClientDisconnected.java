@@ -8,7 +8,7 @@ package eu.scy.colemo.network;
 import java.io.Serializable;
 
 /**
- * @author Øystein
+ * @author Oystein
  *
  * 
  */

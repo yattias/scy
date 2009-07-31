@@ -7,7 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 03.jun.2009
  * Time: 13:25:19
  */

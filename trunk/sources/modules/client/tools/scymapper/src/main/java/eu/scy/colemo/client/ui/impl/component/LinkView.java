@@ -10,7 +10,7 @@ import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 23.jun.2009
  * Time: 16:23:37
  */

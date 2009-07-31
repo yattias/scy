@@ -2,7 +2,7 @@ package eu.scy.colemo.client.ui.impl;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 11.jun.2009
  * Time: 12:48:34
  * To change this template use File | Settings | File Templates.

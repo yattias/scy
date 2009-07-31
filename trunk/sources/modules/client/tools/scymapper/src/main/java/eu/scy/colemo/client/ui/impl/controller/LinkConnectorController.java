@@ -7,7 +7,7 @@ import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge Næss
+ * User: Bjorge Naess
  * Date: 23.jun.2009
  * Time: 16:24:26
  * To change this template use File | Settings | File Templates.
