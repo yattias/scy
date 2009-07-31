@@ -60,14 +60,14 @@ public class EloDrawingActionWrapper {
 	private String docName = untitledDocName;
 	private IELO<IMetadataKey> elo = null;
 	private boolean whiteboardChanged = false;
-	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+	private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
 
 	public EloDrawingActionWrapper(WhiteboardPanel whiteboardPanel){
 		this.whiteboardPanel = whiteboardPanel;
 	}
 
 	public void addELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -76,7 +76,7 @@ public class EloDrawingActionWrapper {
 	}
 
 	public void removeELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -86,9 +86,9 @@ public class EloDrawingActionWrapper {
 
 	private void sendELOLoadedChangedListener()
 	{
-		ELOLoadedChangedEvent<IMetadataKey> eloLoadedChangedEvent = new ELOLoadedChangedEvent<IMetadataKey>(
+		ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(
 					this, elo);
-		for (ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener : eloLoadedChangedListeners)
+		for (ELOLoadedChangedListener eloLoadedChangedListener : eloLoadedChangedListeners)
 		{
 			eloLoadedChangedListener.eloLoadedChanged(eloLoadedChangedEvent);
 		}

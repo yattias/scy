@@ -60,7 +60,7 @@ public class EloDataToolWrapper {
 	private String docName = untitledDocName;
 	private IELO<IMetadataKey> elo = null;
     private URI usesEloURI = null;
-	private CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener<IMetadataKey>>();
+	private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
     private IMetadataKey usesRelationKey;
 
 	public EloDataToolWrapper(DataToolPanel dataToolPanel){
@@ -68,7 +68,7 @@ public class EloDataToolWrapper {
 	}
 
 	public void addELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -77,7 +77,7 @@ public class EloDataToolWrapper {
 	}
 
 	public void removeELOLoadedChangedListener(
-				ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener)
+				ELOLoadedChangedListener eloLoadedChangedListener)
 	{
 		if (eloLoadedChangedListeners.contains(eloLoadedChangedListener))
 		{
@@ -87,9 +87,9 @@ public class EloDataToolWrapper {
 
 	private void sendELOLoadedChangedListener()
 	{
-		ELOLoadedChangedEvent<IMetadataKey> eloLoadedChangedEvent = new ELOLoadedChangedEvent<IMetadataKey>(
+		ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(
 					this, elo);
-		for (ELOLoadedChangedListener<IMetadataKey> eloLoadedChangedListener : eloLoadedChangedListeners)
+		for (ELOLoadedChangedListener eloLoadedChangedListener : eloLoadedChangedListeners)
 		{
 			eloLoadedChangedListener.eloLoadedChanged(eloLoadedChangedEvent);
 		}
