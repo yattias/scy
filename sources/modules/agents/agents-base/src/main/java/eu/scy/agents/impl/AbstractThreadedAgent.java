@@ -83,8 +83,11 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
                 if (AgentProtocol.MESSAGE_STOP.equals(message) && afterTuple.getField(2).getValue().equals(getId().trim())) {
                     try {
                         // if the message was to stop....
+                        getTupleSpace().take(afterTuple);
                         this.stop();
                     } catch (AgentLifecycleException e) {
+                        e.printStackTrace();
+                    } catch (TupleSpaceException e) {
                         e.printStackTrace();
                     }
                 }
