@@ -4,6 +4,7 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -78,7 +79,7 @@ public class AgentManager implements Callback {
         try {
 
             // TODO COmmand.all
-            tupleSpace = new TupleSpace(host, port, AgentProtocol.COMMAND_SPACE_NAME);
+            tupleSpace = new TupleSpace(new User("AgentManager"),host, port, AgentProtocol.COMMAND_SPACE_NAME);
             tupleSpace.eventRegister(Command.WRITE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
             tupleSpace.eventRegister(Command.UPDATE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
             tupleSpace.eventRegister(Command.DELETE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
