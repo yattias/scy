@@ -38,7 +38,7 @@ public class AgentManagerTest {
     private static final String TS_HOST = "localhost";
 
     // If there is a working server on TS_HOST or not
-    private static final boolean STANDALONE = false;
+    private static final boolean STANDALONE = true;
 
     /**
      * This method is called before the tests start. It starts a TupleSpace- {@link Server} if the tests running in standalone-mode.
@@ -64,12 +64,13 @@ public class AgentManagerTest {
             Server.stopServer();
         }
     }
+
     @After
-    public void tearDownAfterTest(){
+    public void tearDownAfterTest() {
         if (agentManager != null) {
             agentManager.cleanUp();
         }
-        
+
     }
 
     /**
@@ -113,7 +114,7 @@ public class AgentManagerTest {
         IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
         Thread.sleep(1000);
         assertTrue("Agent not started", agent.isRunning());
-        TupleSpace ts = new TupleSpace(new User("IdentifyTester"),TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+        TupleSpace ts = new TupleSpace(new User("IdentifyTester"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
         VMID vmid = new VMID();
         String queryId = vmid.toString();
         Tuple requestIdent = (AgentProtocol.getIdentifyTuple(agent.getId(), agent.getName(), vmid));
@@ -145,7 +146,7 @@ public class AgentManagerTest {
         IThreadedAgent agent = agentManager.startAgent(ThreadedAgentMock.NAME, null);
         Thread.sleep(1000);
         assertTrue("Agent not started", agent.isRunning());
-        TupleSpace ts = new TupleSpace(new User("AliveReader"),TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+        TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
         Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(), AgentProtocol.ALIVE);
         Tuple aliveTuple = ts.read(t);
         // There should be an alive-tuple
@@ -174,7 +175,7 @@ public class AgentManagerTest {
         Thread.sleep(1000);
         assertTrue("Agent not started", agent.isRunning());
         agentManager.killAgent(agent.getId());
-        TupleSpace ts = new TupleSpace(new User("AliveReader"),TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
+        TupleSpace ts = new TupleSpace(new User("AliveReader"), TS_HOST, TS_PORT, AgentProtocol.COMMAND_SPACE_NAME);
         Tuple t = new Tuple(AgentProtocol.COMMAND_LINE, String.class, agent.getId(), agent.getName(), AgentProtocol.ALIVE);
         Thread.sleep(AgentProtocol.ALIVE_INTERVAL * 2);
         Tuple aliveTuple = ts.read(t);
@@ -231,5 +232,21 @@ public class AgentManagerTest {
         assertEquals(0, agentManager.getOldAgentsMap().size());
 
     }
+
+//    @Test
+//    public void testMassiveCommunication() throws Exception {
+//
+//        ThreadedAgentMock[] array = new ThreadedAgentMock[50];
+//        for (int i = 0; i < array.length; i++) {
+//            Thread.sleep(50);
+//            array[i] = (ThreadedAgentMock) agentManager.startAgent(ThreadedAgentMock.NAME, null);
+//        }
+//        Thread.sleep(10000);
+//        for (int i = 0; i < array.length; i++) {
+//            Thread.sleep(50);
+//            agentManager.stopAgent(array[i]);
+//        }
+//
+//    }
 
 }
