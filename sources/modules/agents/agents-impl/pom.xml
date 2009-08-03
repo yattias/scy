@@ -34,6 +34,16 @@
 		</plugins>
 	</build>
 	<dependencies>
+	<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-mock</artifactId>
@@ -87,6 +97,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	
 
 	<!--
 	<scm>
