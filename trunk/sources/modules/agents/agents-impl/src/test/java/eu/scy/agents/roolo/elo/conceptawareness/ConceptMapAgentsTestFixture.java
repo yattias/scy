@@ -71,10 +71,10 @@ public class ConceptMapAgentsTestFixture {
 				.getBean("extensionManager");
 
 		elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey("uri"));
+		elo.setIdentifierKey(typeManager.getMetadataKey("identifier"));
 
 		IMetadataValueContainer typeContainer = elo.getMetadata()
-				.getMetadataValueContainer(typeManager.getMetadataKey("type"));
+				.getMetadataValueContainer(typeManager.getMetadataKey("technicalFormat"));
 		typeContainer.setValue("scy/scymapping");
 
 		IMetadataValueContainer titleContainer = elo.getMetadata()

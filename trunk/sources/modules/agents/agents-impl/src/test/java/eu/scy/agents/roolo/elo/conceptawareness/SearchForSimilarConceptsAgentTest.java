@@ -104,13 +104,15 @@ public class SearchForSimilarConceptsAgentTest extends
 		// fillerELO1.fillListValue("linkLabel", elo1LinkLabelList);
 		//
 		// repo.addNewELO(elo);
-		// eloUri = (URI) elo.getMetadata().getMetadataValueContainer(
-		// typeManager.getMetadataKey("uri")).getValue();
+		// eloUri = elo.getUri();// (URI)
+		// // elo.getMetadata().getMetadataValueContainer(
+		// // typeManager.getMetadataKey("identifier")).getValue();
 		//
 		// BasicELO conceptMap1ELO = new BasicELO();
-		// conceptMap1ELO.setIdentifierKey(typeManager.getMetadataKey("uri"));
+		// conceptMap1ELO.setIdentifierKey(typeManager
+		// .getMetadataKey("identifier"));
 		// ELOFiller fillerELO2 = new ELOFiller(conceptMap1ELO, typeManager);
-		// fillerELO2.fillValue("type", "scy/scymapping");
+		// fillerELO2.fillValue("technicalFormat", "scy/scymapping");
 		// fillerELO2.fillValue("title", "testELO2");
 		// fillerELO2.fillListValue("nodeLabel", elo2NodeLabelList);
 		// fillerELO2.fillListValue("linkLabel", elo2LinkLabelList);
@@ -120,9 +122,10 @@ public class SearchForSimilarConceptsAgentTest extends
 		// repo.addNewELO(conceptMap1ELO);
 		//
 		// BasicELO conceptMap2ELO = new BasicELO();
-		// conceptMap2ELO.setIdentifierKey(typeManager.getMetadataKey("uri"));
+		// conceptMap2ELO.setIdentifierKey(typeManager
+		// .getMetadataKey("identifier"));
 		// ELOFiller fillerELO3 = new ELOFiller(conceptMap2ELO, typeManager);
-		// fillerELO3.fillValue("type", "scy/scymapping");
+		// fillerELO3.fillValue("technicalFormat", "scy/scymapping");
 		// fillerELO3.fillValue("title", "testELO3");
 		// fillerELO3.fillListValue("nodeLabel", elo3NodeLabelList);
 		// fillerELO3.fillListValue("linkLabel", elo3LinkLabelList);
@@ -147,7 +150,7 @@ public class SearchForSimilarConceptsAgentTest extends
 
 	@Test
 	public void testRun() throws TupleSpaceException {
-		// TupleSpace ts = new TupleSpace();
+		// TupleSpace ts = new TupleSpace("command");
 		// Tuple triggerTuple = new Tuple("scymapper",
 		// System.currentTimeMillis(),
 		// eloUri.toString());
