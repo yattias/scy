@@ -54,7 +54,7 @@ public class EnrichConceptMapAgent extends AbstractELOAgent {
 		if (metadata != null) {
 			IMetadataValueContainer type = metadata
 					.getMetadataValueContainer(metadataTypeManager
-							.getMetadataKey("type"));
+							.getMetadataKey("technicalFormat"));
 			if (!"scy/scymapping".equals(type.getValue())) {
 				return;
 			}

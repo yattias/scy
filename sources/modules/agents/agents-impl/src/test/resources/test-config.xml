@@ -7,34 +7,7 @@
 	<alias name="dispatcher" alias="repository" />
 	<alias name="localMetadataTypeManager" alias="metadataTypeManager" />
 	<alias name="localExtensionManager" alias="extensionManager" />
-	<!--
 
-		<bean id="rooloManager"
-		class="eu.scy.webapp.services.roolo.RooloManager"> <property
-		name="eloFactory" ref="localEloFactory" /> <property
-		name="metadataTypeManager" ref="localMetadataTypeManager" /> <property
-		name="repository" ref="dispatcher" /> </bean>
-	-->
-	<!--
-		Agent Dispatcher <bean name="dispatcher"
-		class="eu.scy.agents.impl.elo.ELOAgentDispatcher"> <property
-		name="repository" ref="localRepository" /> <property
-		name="beforeAgents"> <list> <ref bean="graphConverterAgent" /> <ref
-		bean="drawAnalyserAgent" /> <ref bean="obwiousAgent" /> <ref
-		bean="enrichConceptMapAgent" /> </list> </property> <property
-		name="afterAgents"> <list> <ref bean="conceptMapSavedAgent" /> <ref
-		bean="misspellingNotificationAgent" /> <ref
-		bean="notifiyEloBrowserAgent" /> </list> </property> <property
-		name="notificationAgents"> <list> </list> </property> </bean>
-	-->
-	<!--
-		<bean name="localRepository"
-		class="roolo.cms.repository.mock.MockRepository"> <property
-		name="metadataTypeManager" ref="localMetadataTypeManager" /> <property
-		name="extensionManager" ref="localExtensionManager" /> property
-		name="eloStoreDirectory" value="eloStore" / <property
-		name="storeElosInStoreDirectory" value="true" /> </bean>
-	-->
 	<bean name="localMetadataTypeManager" class="roolo.elo.MockMetadataTypeManager">
 		<property name="metadataKeys">
 			<list>
@@ -59,59 +32,21 @@
 				<ref bean="nodeLabel" />
 				<ref bean="linkLabel" />
 				<ref bean="testStringListKey" />
+				<ref bean="isVersionOf"/>
+				<ref bean="isVersionedBy"/>
+				<ref bean="isForkOf"/>
+				<ref bean="isForkedBy"/>
 			</list>
 		</property>
 	</bean>
 
 
-	<!--  Agents  -->
-	<!--
-		<bean name="misspellingNotificationAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.MisspellingProcessELO">
-		</bean>
-	-->
-	<!--
-		<bean name="drawAnalyserAgent"
-		class="eu.scy.agents.roolo.elo.drawing.DrawingAnalyserAgent">
-		<property name="formatKey" ref="formatKey" /> <property
-		name="lineCountKey" ref="lineCountKey" /> <property
-		name="rectangleCountKey" ref="rectangleCountKey" /> <property
-		name="ovalCountKey" ref="ovalCountKey" /> <property
-		name="freehandCountKey" ref="freehandCountKey" /> <property
-		name="textCountKey" ref="textCountKey" /> <property
-		name="imageCountKey" ref="imageCountKey" /> <property
-		name="tagPointerCountKey" ref="tagPointerCountKey" /> </bean>
-	-->
 
-	<!--  misspelling agents  -->
-	<!--
-		<bean name="misspellingAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.CheckMisspellingAgent" />
-
-		<bean name="misspellingCommunicationAgent"
-		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent"
-		/> Search for similar concept maps agents <bean
-		name="conceptMapSavedAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.ConceptMapSavedAgent">
-		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		</bean> <bean name="enrichConceptMapAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent">
-		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		</bean> <bean name="similaritySearchAgent"
-		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent">
-		<property name="repository" ref="localRepository" /> <property
-		name="metadataTypeManager" ref="localMetadataTypeManager" /> </bean>
-	--><!--  Notify the elo browser of new elos -->
-	<!--
-		<bean name="notifiyEloBrowserAgent"
-		class="eu.scy.agents.roolo.elo.elobrowsernotification.NotifiyELOBroserAgent"
-		/>
-	-->
 
 
 	<!--  Roolo Keys -->
 	<bean name="uriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
-		<constructor-arg index="0" value="uri" />
+		<constructor-arg index="0" value="identifier" />
 		<constructor-arg index="1" value="/lom/general/identifier" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
@@ -132,7 +67,7 @@
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
 	<bean name="formatKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="type" />
+		<constructor-arg index="0" value="technicalFormat" />
 		<constructor-arg index="1" value="/lom/technical/format" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
@@ -282,7 +217,41 @@
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
 
+	<bean name="isVersionOf" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value="isVersionOf" />
+		<constructor-arg index="1" value='/metadata/lom/relation/[kind="is_version_of"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultRelationValidator" />
+	</bean>
+	
+	<bean name="isVersionedBy" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value="isVersionedBy" />
+		<constructor-arg index="1" value='/metadata/lom/relation/[kind="is_versioned_by"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultRelationValidator" />
+	</bean>
+	
+	<bean name="isForkOf" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value="isForkOf" />
+		<constructor-arg index="1" value='/metadata/lom/relation/[kind="is_fork_of"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultRelationValidator" />
+	</bean>
+	
+	<bean name="isForkedBy" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value="isForkedBy" />
+		<constructor-arg index="1" value='/metadata/lom/relation/[kind="is_forked_by"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultRelationValidator" />
+	</bean>
+
 	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
+	
+	<bean name="defaultRelationValidator" class="roolo.elo.metadata.value.validators.RelationValidator"></bean>
 
 	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
 
