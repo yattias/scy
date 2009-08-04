@@ -40,7 +40,8 @@ public class EnrichConceptMapAgent extends AbstractELOAgent {
 	 *            Parameters needed to initialize the agent.
 	 */
 	public EnrichConceptMapAgent(Map<String, Object> map) {
-		super("EnrichConceptMapAgent", (String) map.get("id"));
+		super("eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent",
+				(String) map.get("id"));
 	}
 
 	@Override
