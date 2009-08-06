@@ -261,7 +261,7 @@
         </snapshotRepository>
         <site>
             <id>collide</id>
-            <url>ftp://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite</url>
+            <url>scp://scy.collide.info:2222/home/schlanbusch/mavensite</url>
         </site>
 
     </distributionManagement>
