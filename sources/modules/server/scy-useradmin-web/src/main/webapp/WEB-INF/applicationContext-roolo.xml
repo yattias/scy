@@ -22,7 +22,7 @@
 				<!--  <ref bean="graphConverterAgent" /> -->
 				<!--<ref bean="drawAnalyserAgent" />-->
 				<!--  <ref bean="obwiousAgent" /> -->
-				<ref bean="enrichConceptMapAgent" />
+				<!--ref bean="enrichConceptMapAgent" /-->
 			</list>
 		</property>
 		<property name="afterAgents">
@@ -106,10 +106,10 @@
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
 	</bean>
 
-	<bean name="enrichConceptMapAgent"
+	<!--bean name="enrichConceptMapAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-	</bean>
+	</bean-->
 
 	<!--bean name="similaritySearchAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent">

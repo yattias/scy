@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Collections;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.annotations.Service;
 import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 
 /**
@@ -19,8 +20,8 @@ import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
  */
 public class EditUserPage extends ScyModelPage {
 
-    //Inject ()
-    //private UserDetailsService userDetailsService;
+    @Inject
+    private UserDetailsService userDetailsService;
 
 
 
@@ -56,6 +57,14 @@ public class EditUserPage extends ScyModelPage {
     public List getRoles() {
          //getUser().
         return Collections.EMPTY_LIST;
+    }
+
+    public UserDetailsService getUserDetailsService() {
+        return userDetailsService;
+    }
+
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 }
 
