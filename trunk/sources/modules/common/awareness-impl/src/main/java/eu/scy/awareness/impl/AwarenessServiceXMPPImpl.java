@@ -237,8 +237,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					public void processMessage(Chat chat, Message message) {
 						System.out.println(chat.getParticipant() + " said -> " + message.getBody());
 						if (message.getType() == Message.Type.chat) {
-							logger.fine(chat.getParticipant() + " says: " + message.getBody());
-							// process the events
 							for (IAwarenessMessageListener al : messageListeners) {
 								if ((al != null) && (message.getBody() != null)) {
 									IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
