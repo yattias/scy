@@ -162,7 +162,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
@@ -182,7 +182,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
 
 
         </plugins>
@@ -504,6 +504,8 @@
         <slf4j.version>1.5.6</slf4j.version>
         <t5components.version>0.5.13</t5components.version>
         <colemo.version>1.0-SNAPSHOT</colemo.version>
+       <filter.file>${basedir}/src/main/filters/serverfilter.properties</filter.file>
+
     </properties>
 
 </project>
