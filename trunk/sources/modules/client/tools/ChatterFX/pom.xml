@@ -37,41 +37,41 @@
         </dependency>
 
         <dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>awareness-impl</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>awareness-api</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-commons</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-model-impl</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>collaboration-service-api</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>collaboration-service-impl</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-impl</artifactId>
+            <version>9.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>awareness-api</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>scy-commons</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>scy-model-impl</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>collaboration-service-api</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>collaboration-service-impl</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>tool-broker</artifactId>
-			<version>9.5.2-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+                <groupId>eu.scy.client.desktop</groupId>
+                <artifactId>tool-broker</artifactId>
+                <version>9.5.2-SNAPSHOT</version>
+        </dependency>
 
         
 
