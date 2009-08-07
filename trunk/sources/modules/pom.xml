@@ -255,13 +255,13 @@
         </repository>
         <snapshotRepository>
             <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>
+            <id>mvn_collide_snapshots</id>                                                 
             <name>Collide Internal Snapshots</name>
             <url>http://mvn.collide.info/content/repositories/snapshots</url>
         </snapshotRepository>
         <site>
             <id>collide</id>
-            <url>scp://schlanbusch@134.91.34.200:2222/home/schlanbusch/mavensite</url>
+            <url>scp://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite</url>
         </site>
 
     </distributionManagement>
@@ -301,7 +301,7 @@
         </plugins>
 
     </build>
-
+                                                                                                                                                                                                                                                  a 
     <reporting>
         <!--plugins>
             <plugin>
