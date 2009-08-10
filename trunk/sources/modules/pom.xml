@@ -384,12 +384,12 @@
                 </configuration>
             </plugin-->
 
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
