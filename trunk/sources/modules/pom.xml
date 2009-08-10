@@ -261,7 +261,7 @@
         </snapshotRepository>
         <site>
             <id>collide</id>
-            <url>scp://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite</url>
+            <url>scpexe://schlanbusch@scy.collide.info:2222/home/weinbrenner/mavensite/</url>
         </site>
 
     </distributionManagement>
