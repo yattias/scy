@@ -43,7 +43,7 @@ public class Logger implements ActionListener, IDataClient {
 
     private String missionname;
 
-    // private XMLOutputter outputter;
+    private XMLOutputter outputter;
 
     private DataServer dataServer;
 
@@ -79,11 +79,11 @@ public class Logger implements ActionListener, IDataClient {
         username = System.getProperty("user.name");
         missionname = "mission 1";
         toolname = "scysimulator";
-        // outputter = new XMLOutputter(Format.getPrettyFormat());
+        outputter = new XMLOutputter(Format.getPrettyFormat());
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input variables
         inputVariables = getVariables(ModelVariable.VK_INPUT);
-        outputVariables = getVariables(ModelVariable.VK_OUTPUT,"Mtot" );
+        outputVariables = getVariables(ModelVariable.VK_OUTPUT, "Mtot");
         // store the values to find the changed value later
         storeOldValues();
         // subscribe to variables
@@ -128,6 +128,7 @@ public class Logger implements ActionListener, IDataClient {
         }
         return variables;
     }
+
     private ArrayList<ModelVariable> getVariables(int mv, String name) {
         ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
         for (ModelVariable variable : dataServer.getVariables("")) {
@@ -153,7 +154,6 @@ public class Logger implements ActionListener, IDataClient {
         }
         for (int i = 0; i < outputVariables.size(); i++) {
             if (outputVariables.get(i).getValue() != oldOutputValues.get(i)) {
-                System.out.println("OutVar " + outputVariables.get(i).getName() + " has value " + oldOutputValues.get(i));
                 logValueChanged(outputVariables.get(i).getName(), oldOutputValues.get(i), outputVariables.get(i).getValue());
             }
         }
@@ -180,7 +180,6 @@ public class Logger implements ActionListener, IDataClient {
             if (outVar.getName().equals(name)) {
                 if (!outputVariableTimer.isRunning()) {
                     firstOutputVariableValueChangedAction = action;
-                    System.out.println("FirstOutput: "+action.getAttribute("oldValue"));
                 }
                 lastOutputVariableValueChangedAction = action;
                 outputVariableTimer.restart();
@@ -228,14 +227,15 @@ public class Logger implements ActionListener, IDataClient {
 
     private void write(IAction action) {
         try {
-            // outputter.output(action.getXML(), System.out);
             // should be logged to TupleSpace?
             if (logToTS) {
                 writeAction(action);
+            } else {
+                outputter.output(action.getXML(), System.out);
             }
-            // } catch (IOException e) {
-            // e.printStackTrace();
         } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -279,7 +279,6 @@ public class Logger implements ActionListener, IDataClient {
                 e.printStackTrace();
             }
         }
-
     }
 
     private TupleSpace getTupleSpace() throws TupleSpaceException {
