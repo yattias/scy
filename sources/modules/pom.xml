@@ -368,11 +368,11 @@
                             <report>index</report>
                             <!--report>dependencies</report-->
                             <report>project-team</report>
-                            <report>mailing-list</report>
+                            <!--report>mailing-list</report>
                             <report>cim</report>
                             <report>issue-tracking</report>
                             <report>license</report>
-                            <report>scm</report>
+                            <report>scm</report-->
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -384,13 +384,13 @@
                 </configuration>
             </plugin-->
 
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <additionalJOption>-J -XX:MaxPermSize=256</additionalJOption>
                     <aggregate>true</aggregate>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
