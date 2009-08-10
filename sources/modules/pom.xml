@@ -368,30 +368,30 @@
                             <report>index</report>
                             <!--report>dependencies</report-->
                             <report>project-team</report>
-                            <!--report>mailing-list</report>
+                            <report>mailing-list</report>
                             <report>cim</report>
                             <report>issue-tracking</report>
                             <report>license</report>
-                            <report>scm</report-->
+                            <report>scm</report>
                         </reports>
                     </reportSet>
                 </reportSets>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
-            </plugin-->
+            </plugin>
 
-            <!--plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
-            </plugin-->
+            </plugin>
 
-            <!--plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
             </plugin>
@@ -410,7 +410,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
-            </plugin-->
+            </plugin>
         </plugins>
 
     </reporting>
