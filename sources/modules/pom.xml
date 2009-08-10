@@ -261,7 +261,7 @@
         </snapshotRepository>
         <site>
             <id>collide</id>
-            <url>scpexe://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite/</url>
+            <url>scpexe://schlanbusch@scy.collide.info:2222/mavensite/</url>
         </site>
 
     </distributionManagement>
@@ -384,12 +384,13 @@
                 </configuration>
             </plugin-->
 
-            <!--plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <additionalJOption>-J -XX:MaxPermSize=256</additionalJOption>
                     <aggregate>true</aggregate>
                 </configuration>
-            </plugin-->
+            </plugin>
 
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
