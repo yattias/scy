@@ -1,6 +1,0 @@
-content	highlighter	content/
-locale	highlighter	en-US	locale/en-US/
-locale	highlighter	de-DE	locale/de-DE/
-skin	highlighter	classic/1.0	skin/
-overlay	chrome://browser/content/browser.xul	chrome://highlighter/content/firefoxOverlay.xul
-style	chrome://global/content/customizeToolbar.xul	chrome://highlighter/skin/overlay.css
