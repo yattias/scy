@@ -261,13 +261,13 @@
         </snapshotRepository>
         <site>
             <id>collide</id>
-            <url>scp://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite</url>
+            <url>sftp://schlanbusch@scy.collide.info:2222/home/schlanbusch/mavensite</url>
         </site>
 
     </distributionManagement>
 
     <dependencies>
-        <dependency>
+        <dependency>                                                                                                      
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
