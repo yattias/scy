@@ -8,12 +8,12 @@ import org.xmpp.component.ComponentManagerFactory;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
+import org.xmpp.packet.PacketExtension;
 
+import eu.scy.actionlogging.packetextension.ActionLoggingExtension;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
-import eu.scy.communications.datasync.session.IDataSyncSession;
-import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
 import eu.scy.datasync.api.DataSyncException;
 import eu.scy.datasync.api.IDataSyncModule;
@@ -54,13 +54,14 @@ public class SCYHubComponent implements Component {
      * process the packet and route the it to the correct place 
      */
     public void processPacket(Packet packet) {
+    	logger.debug("Received packet" + packet);
         // Only process Message packets
         if (packet instanceof Message) {
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
-            DataSyncPacketExtension packetExtension = (DataSyncPacketExtension) message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
             
-            if ( packetExtension instanceof DataSyncPacketExtension ) {
+            PacketExtension packetExtension = message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
+            if (packetExtension != null &&  packetExtension instanceof DataSyncPacketExtension ) {
                 //found a datasync extension, yay!
                 try {
                     // pass syncMessage to DataSyncModule for storing
@@ -76,12 +77,19 @@ public class SCYHubComponent implements Component {
                     } else if( dse.getEvent().equals(communicationProps.clientEventJoinSession)) {
                         dataSyncModule.joinSession(dse.toPojo());
                     }
-                } catch (DataSyncException e1) {
-                    e1.printStackTrace();
+                } catch (DataSyncException e) {
+                    e.printStackTrace();
                 }// try
-            } else {
-                logger.debug("Packet didn't contain a DataSyncPacketExtension");
-            }// if
+            }
+            
+            packetExtension = message.getExtension(ActionLoggingExtension.ELEMENT_NAME, ActionLoggingExtension.NAMESPACE);
+            if(packetExtension != null && packetExtension instanceof ActionLoggingExtension) {
+            	ActionLoggingExtension ale = (ActionLoggingExtension) packetExtension;
+            	logger.debug("Received packet with ActionLoggingExtension");
+            	logger.debug(ale.toXML());
+            }
+            
+            logger.debug("Packet didn't contain any PacketExtension");
         }// if 
     }
     
@@ -89,6 +97,7 @@ public class SCYHubComponent implements Component {
      * initialize
      */
     public void initialize(JID jid, ComponentManager componentManager) {
+    	
         initModules();
     }
     
@@ -98,6 +107,7 @@ public class SCYHubComponent implements Component {
     private void initModules() {
         //register extensions
         DataSyncPacketExtension dsp = new DataSyncPacketExtension();
+        ActionLoggingExtension ale = new ActionLoggingExtension();
         //data sync
         try {
             dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
