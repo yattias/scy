@@ -21,36 +21,43 @@
     </licenses>
  
     <dependencies>
+	
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxrt</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxc</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>toolchain</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafxgui</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>Scenario</artifactId>
             <version>1.1</version>
         </dependency>
+		
         <dependency>
             <groupId>net.java.dev.openjfx</groupId>
             <artifactId>websvc</artifactId>
@@ -58,22 +65,13 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>info.collide</groupId>
             <artifactId>sqlspaces-client</artifactId>
-            <version>3.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
         </dependency>
 
         <dependency>
@@ -172,7 +170,6 @@
             <artifactId>collaboration-service-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>eu.scy.common</groupId>

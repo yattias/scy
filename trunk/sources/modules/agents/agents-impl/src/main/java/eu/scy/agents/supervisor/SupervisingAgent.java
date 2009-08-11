@@ -79,7 +79,7 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
         try {
             // Does that transaction work?
             getTupleSpace().beginTransaction();
-            //cbSeq[0] = getTupleSpace().eventRegister(Command.ALL, alive_template, this, true);
+            cbSeq[0] = getTupleSpace().eventRegister(Command.ALL, alive_template, this, true);
             cbSeq[1] = getTupleSpace().eventRegister(Command.WRITE, query_template, this, true);
             cbSeq[2] = getTupleSpace().eventRegister(Command.WRITE, response_template, this, true);
             getTupleSpace().commitTransaction();
