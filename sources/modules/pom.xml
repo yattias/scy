@@ -255,7 +255,7 @@
         </repository>
         <snapshotRepository>
             <uniqueVersion>false</uniqueVersion>
-            <id>mvn_collide_snapshots</id>                                                 
+            <id>mvn_collide_snapshots</id>
             <name>Collide Internal Snapshots</name>
             <url>http://mvn.collide.info/content/repositories/snapshots</url>
         </snapshotRepository>
@@ -267,7 +267,7 @@
     </distributionManagement>
 
     <dependencies>
-        <dependency>                                                                                                      
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
@@ -296,6 +296,11 @@
                     </execution>
                 </executions>
                 <inherited>true</inherited>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.0-beta-5</version>
             </plugin>
 
         </plugins>
@@ -472,12 +477,11 @@
     </mailingLists>
 
     <scm>
-       <connection>scm:svn:http://scy.googlecode.com/svn/trunk</connection>
-       <developerConnection>scm:svn:https://scy.googlecode.com/svn/trunk</developerConnection>
-       <tag>HEAD</tag>
-       <url>http://code.google.com/p/scy/</url>
-     </scm>
-    
+        <connection>scm:svn:http://scy.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://scy.googlecode.com/svn/trunk</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://code.google.com/p/scy/</url>
+    </scm>
 
 
 </project>
