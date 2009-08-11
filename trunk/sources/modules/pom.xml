@@ -455,7 +455,7 @@
                 <role>architect</role>
                 <role>developer</role>
             </roles>
-            <timezone>-1</timezone>
+            <timezone>+1</timezone>
         </developer>
         <developer>
             <id>adamgiemza</id>
@@ -468,7 +468,7 @@
             	<role>architect</role>
                 <role>developer</role>
             </roles>
-            <timezone>-1</timezone>
+            <timezone>+1</timezone>
         </developer>
         <developer>
             <id>stefanweinbrenner</id>
@@ -481,7 +481,7 @@
             	<role>architect</role>
                 <role>developer</role>
             </roles>
-            <timezone>-1</timezone>
+            <timezone>+1</timezone>
         </developer>
         <developer>
             <id>janengler</id>
@@ -493,7 +493,7 @@
             <roles>
                 <role>developer</role>
             </roles>
-            <timezone>-1</timezone>
+            <timezone>+1</timezone>
         </developer>
     </developers>
 
