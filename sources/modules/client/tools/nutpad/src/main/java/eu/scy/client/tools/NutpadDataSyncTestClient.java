@@ -19,6 +19,7 @@ import javax.swing.JToolBar;
 import org.apache.log4j.Logger;
 
 import roolo.elo.api.IMetadataKey;
+import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -49,6 +50,8 @@ public class NutpadDataSyncTestClient extends JFrame{
     private IDataSyncService dataSyncService;
     private ArrayList<ISyncMessage> syncMessages;
     private String currentSession;
+    
+    private IActionLogger actionLogger;
 
     
     //init props
@@ -125,7 +128,11 @@ public class NutpadDataSyncTestClient extends JFrame{
                 }
                 editArea.setCaretPosition(editArea.getText().length());             
             }
-        });       
+        });
+        
+        
+        //action logging test
+        actionLogger = tbi.getActionLogger();
     }
     
     
@@ -140,7 +147,14 @@ public class NutpadDataSyncTestClient extends JFrame{
         }
         
         public void actionPerformed(ActionEvent e) {
-            dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+//            dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+            
+            eu.scy.actionlogging.logger.Action action = new eu.scy.actionlogging.logger.Action("create_nutpad_session", HARD_CODED_USER_NAME);
+            action.addContext("tool", HARD_CODED_TOOL_NAME);
+            action.addContext("status", "no session");
+            action.addAttribute("sessionname", "Nutpad Session");
+            
+            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }
     }
     
@@ -228,7 +242,15 @@ public class NutpadDataSyncTestClient extends JFrame{
             SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.clientEventCreateData,currentSession);            
             String[] messageStrings = d.showDialog();
             SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(currentSession, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6],  Long.parseLong(messageStrings[7].trim()));
-            dataSyncService.sendMessage(syncMessage);
+//            dataSyncService.sendMessage(syncMessage);
+            
+            eu.scy.actionlogging.logger.Action action = new eu.scy.actionlogging.logger.Action("send_message", HARD_CODED_USER_NAME);
+            action.addContext("tool", HARD_CODED_TOOL_NAME);
+            action.addContext("status", "in session");
+            action.addAttribute("sessionname", "Nutpad Session");
+            action.addAttribute("message", "english", "<text color=\"red\">" + messageStrings[4] + "</text>");
+            
+            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }        
     }
     
