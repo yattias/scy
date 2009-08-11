@@ -17,6 +17,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
@@ -80,6 +81,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
         
         actionLogger = (IActionLogger) context.getBean("actionlogger");
+        // FIXME: init action logger with XMPP connection with fixed credentials!
+        ((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
+        
         notificationService = (INotificationService) context.getBean("notificationService");
         
         sessionManager = (SessionManager) context.getBean("sessionManager");
@@ -205,75 +209,75 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     @Override
     public XMPPConnection getConnection(String userName, String password) {
-        communicationProps = new CommunicationProperties(); 
-        
-        this.userName = userName;
-        this.password = password;
-        
-        //make it a jid
-        userName = userName + "@" + communicationProps.datasyncServerHost;
-
-              
-        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
-        config.setCompressionEnabled(true);
-        config.setReconnectionAllowed(true);
-        this.xmppConnection = new XMPPConnection(config);
-        this.xmppConnection.DEBUG_ENABLED = true;
-
-        //xmpp.client.idle -1 in server to set no time
-        try {            
-            this.xmppConnection.connect();
-            SmackConfiguration.setPacketReplyTimeout(100000);
-            SmackConfiguration.setKeepAliveInterval(10000);
-            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
-        } catch (XMPPException e) {
-            logger.error("Error during xmpp connect");
-            e.printStackTrace();
-        }
-        
-        
-        try {
-            this.xmppConnection.login(userName, password);
-            logger.debug("xmpp login ok");
-        } catch (XMPPException e1) {
-            logger.error("xmpp login failed. bummer. " + e1);
-            e1.printStackTrace();
-        }        
-        
-        this.xmppConnection.addConnectionListener(new ConnectionListener() {
-            
-            @Override
-            public void connectionClosed() {
-                logger.debug("TBI closed connection");
-                try {
-                    xmppConnection.connect();
-                    logger.debug("TBI reconnected");
-                } catch (XMPPException e) {
-                    e.printStackTrace();
-                    logger.debug("TBI failed to reconnect");
-                }
-            }
-            
-            @Override
-            public void connectionClosedOnError(Exception arg0) {
-                logger.debug("TBI server error closed;");
-            }
-            
-            @Override
-            public void reconnectingIn(int arg0) {
-                logger.debug("TBI server reconnecting;");
-            }
-            @Override
-            public void reconnectionFailed(Exception arg0) {
-                logger.debug("TBI server reconnecting failed");
-            }
-            @Override
-            public void reconnectionSuccessful() {
-                logger.debug("TBI server reconnecting success");
-            }
-        });
-        
-        
+    	if(xmppConnection == null) {
+	        communicationProps = new CommunicationProperties(); 
+	        
+	        this.userName = userName;
+	        this.password = password;
+	        
+	        //make it a jid
+	        userName = userName + "@" + communicationProps.datasyncServerHost;
+	
+	              
+	        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
+	        config.setCompressionEnabled(true);
+	        config.setReconnectionAllowed(true);
+	        this.xmppConnection = new XMPPConnection(config);
+	        this.xmppConnection.DEBUG_ENABLED = true;
+	
+	        //xmpp.client.idle -1 in server to set no time
+	        try {            
+	            this.xmppConnection.connect();
+	            SmackConfiguration.setPacketReplyTimeout(100000);
+	            SmackConfiguration.setKeepAliveInterval(10000);
+	            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
+	        } catch (XMPPException e) {
+	            logger.error("Error during xmpp connect");
+	            e.printStackTrace();
+	        }
+	        
+	        
+	        try {
+	            this.xmppConnection.login(userName, password);
+	            logger.debug("xmpp login ok");
+	        } catch (XMPPException e1) {
+	            logger.error("xmpp login failed. bummer. " + e1);
+	            e1.printStackTrace();
+	        }        
+	        
+	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
+	            
+	            @Override
+	            public void connectionClosed() {
+	                logger.debug("TBI closed connection");
+	                try {
+	                    xmppConnection.connect();
+	                    logger.debug("TBI reconnected");
+	                } catch (XMPPException e) {
+	                    e.printStackTrace();
+	                    logger.debug("TBI failed to reconnect");
+	                }
+	            }
+	            
+	            @Override
+	            public void connectionClosedOnError(Exception arg0) {
+	                logger.debug("TBI server error closed;");
+	            }
+	            
+	            @Override
+	            public void reconnectingIn(int arg0) {
+	                logger.debug("TBI server reconnecting;");
+	            }
+	            @Override
+	            public void reconnectionFailed(Exception arg0) {
+	                logger.debug("TBI server reconnecting failed");
+	            }
+	            @Override
+	            public void reconnectionSuccessful() {
+	                logger.debug("TBI server reconnecting success");
+	            }
+	        });
+    	}
         return xmppConnection;
     }
     
