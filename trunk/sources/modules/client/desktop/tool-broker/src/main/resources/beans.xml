@@ -114,11 +114,7 @@
 		-->
 	</bean>
 	
-	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger">
-		<constructor-arg index="0" value="${sqlspacesServer}"/>
-		<constructor-arg index="1" value="${sqlspacesPort}"/>
-		<constructor-arg index="2" value="actionlogging"/>
-	</bean>
+	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger"/>
 	
 	<bean id="notificationService" class="eu.scy.notification.NotificationService">
 		<constructor-arg index="0" value="${sqlspacesServer}"/>
