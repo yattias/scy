@@ -1,53 +1,23 @@
 package eu.scy.actionlogging.logger;
 
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Message;
+
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.packetextension.ActionLoggingExtension;
 
 public class ActionLogger /*extends ScyBaseDAOHibernate */ implements IActionLogger {
     
-    //default settings:
-    //private String host = "127.0.0.1";
-    //private int port = 2525;
-    //private String space = "actionlogging";
-    //
-    //private TupleSpace ts = null;
+	private XMPPConnection connection;
     
     /**
      * simple constructor for an actionlogger
      * @param user	user throwing actions (NOT! the tool)
      */
     public ActionLogger() {
-        //connect();
-    }
-    
-    /**
-     * extended constructor
-     * @param host	SQLSpaces host
-     * @param port	SQLSpaces port
-     * @param space	SQLSPace
-     * @param user	user throwing actions (NOT! the tool)
-     */
-    public ActionLogger(String host, int port, String space) {
-        /*this.host = host;
-        this.port = port;
-        this.space = space;
-        connect();
-        */
-    }
-    
-    /**
-     * creates a connection to the SQLSPaces server
-     */
-    private void connect() {
-        /*try {
-            ts = new TupleSpace(host, port, space);
-            System.out.println("actionlogger verbunden");
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        } */
     }
     
     /**
@@ -56,14 +26,18 @@ public class ActionLogger /*extends ScyBaseDAOHibernate */ implements IActionLog
      * @param action IAction thrown
      */
     public void log(String username, String tool, IAction action) {
-        /*Tuple message = new Tuple(username, tool, System.currentTimeMillis(), action.getXML());
-        try {
-            ts.write(message);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        */
+    	Message packet = new Message();
+    	
+        //FIXME: Remove hardcoded user names!! @ButterCodeCandidate
+        packet.setFrom("obama@descartes.inf.uni-due.de");            
+        packet.setTo("scyhub.descartes.inf.uni-due.de");
+    	
+    	packet.addExtension(new ActionLoggingExtension(action));
+    	connection.sendPacket(packet);
     }
+
+	public void init(XMPPConnection connection) {
+		this.connection = connection;
+	}
     
 }
