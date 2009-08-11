@@ -457,6 +457,44 @@
             </roles>
             <timezone>-1</timezone>
         </developer>
+        <developer>
+            <id>adamgiemza</id>
+            <name>Adam Giemza</name>
+            <email>giemza@collide.info</email>
+            <url>http://www.collide.info</url>
+            <organization>Collide Research Group</organization>
+            <organizationUrl>http://www.collide.info</organizationUrl>
+            <roles>
+            	<role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-1</timezone>
+        </developer>
+        <developer>
+            <id>stefanweinbrenner</id>
+            <name>Stefan Weinbrenner</name>
+            <email>weinbrenner@collide.info</email>
+            <url>http://www.collide.info</url>
+            <organization>Collide Research Group</organization>
+            <organizationUrl>http://www.collide.info</organizationUrl>
+            <roles>
+            	<role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-1</timezone>
+        </developer>
+        <developer>
+            <id>janengler</id>
+            <name>Jan Engler</name>
+            <email>engler@collide.info</email>
+            <url>http://www.collide.info</url>
+            <organization>Collide Research Group</organization>
+            <organizationUrl>http://www.collide.info</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-1</timezone>
+        </developer>
     </developers>
 
     <issueManagement>
