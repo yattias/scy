@@ -137,4 +137,9 @@ public class Action extends ScyBaseObject implements IAction {
     public Element getXML() {
     	return actionElement;
     }
+    
+    @Override
+    public String toString() {
+    	return getXMLString();
+    }
 }
