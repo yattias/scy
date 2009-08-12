@@ -10,6 +10,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +42,7 @@ import javax.swing.JToggleButton;
  * @author Lars Bollen
  *
  */
-public class DataCollector extends JPanel implements ActionListener, IDataClient {
+public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener{
 
     private static final long serialVersionUID = -2306183502112904729L;
     private ISimQuestViewer simquestViewer;
@@ -63,6 +65,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     	logger = new Logger(simquestViewer.getDataServer());
     	// initialize user interface
         initGUI();
+        logger.toolStarted();
 
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
@@ -78,6 +81,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         simquestViewer.getDataServer().register(dataAgent);
 
         balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
+        
     }
 
     private void initGUI() {
@@ -249,5 +253,48 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             sandboxbutton.setSelected(false);
         }
     }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+      logger.focusGained();
+        
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        logger.toolStopped();
+        
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        logger.focusLost();
+        
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        logger.focusGained();
+        
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        logger.focusLost();
+        
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+    
 
 }
