@@ -1,15 +1,7 @@
 package eu.scy.client.tools.scysimulator.logger;
 
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.User;
-import info.collide.sqlspaces.commons.util.XMLUtils;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +9,18 @@ import javax.swing.Timer;
 
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
+import roolo.elo.api.IMetadataKey;
 import sqv.ModelVariable;
 import sqv.data.BasicDataAgent;
 import sqv.data.DataAgent;
 import sqv.data.DataServer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class Logger implements ActionListener, IDataClient {
 
@@ -69,9 +62,7 @@ public class Logger implements ActionListener, IDataClient {
 
     private IAction firstOutputVariableValueChangedAction;
 
-    private TupleSpace ts;
-
-    private boolean logToTS = true;
+    private IActionLogger actionLogger;
 
     public Logger(DataServer dataServer) {
         this.dataServer = dataServer;
@@ -116,6 +107,10 @@ public class Logger implements ActionListener, IDataClient {
             }
         });
         outputVariableTimer.setRepeats(false);
+
+        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+        actionLogger = tbi.getActionLogger();
+
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
@@ -226,65 +221,28 @@ public class Logger implements ActionListener, IDataClient {
     }
 
     private void write(IAction action) {
-        try {
-            // should be logged to TupleSpace?
-            if (logToTS) {
-                writeAction(action);
-            } else {
-                outputter.output(action.getXML(), System.out);
-            }
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        actionLogger.log(username, toolname, action);
+        // outputter.output(action.getXML(), System.out);
     }
 
-    // the next method creates a tuple from an xml-element
-    // and sends it when a tuplespace client is available
-
-    protected void writeAction(IAction action) throws TupleSpaceException {
-        org.jdom.Element actionElement = action.getXML();
-        Field idField;
-        Field timeField;
-        Field typeField;
-        Field userField;
-        Field toolField = null;
-        Field missionField = null;
-        Field xmlField;
-        Tuple actionTuple;
-
-        if (getTupleSpace() != null) {
-            idField = new Field(actionElement.getAttributeValue("id"));
-            timeField = new Field(actionElement.getAttributeValue("time"));
-            typeField = new Field(actionElement.getAttributeValue("type"));
-            userField = new Field(actionElement.getAttributeValue("user"));
-            for (org.jdom.Element elem : ((List<org.jdom.Element>) actionElement.getChild("context").getChildren("property"))) {
-                if (elem.getAttributeValue("name").equals("tool")) {
-                    toolField = new Field(elem.getAttributeValue("value"));
-                } else if (elem.getAttributeValue("name").equals("mission")) {
-                    missionField = new Field(elem.getAttributeValue("value"));
-                }
-            }
-            try {
-                Document doc = XMLUtils.parseString(new XMLOutputter(Format.getPrettyFormat()).outputString(actionElement) + "");
-                xmlField = new Field(doc);
-                actionTuple = new Tuple(idField, timeField, typeField, userField, toolField, missionField, xmlField);
-                ts.write(actionTuple);
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public void toolStarted() {
+        IAction loginAction = createBasicAction("tool started");
+        write(loginAction);
     }
-
-    private TupleSpace getTupleSpace() throws TupleSpaceException {
-        if (ts == null) {
-            ts = new TupleSpace(new User("SimQuestLogger"), HOST, PORT, COMMAND_SPACE);
-        }
-        return ts;
+    public void toolStopped() {
+        IAction loginAction = createBasicAction("tool stopped");
+        write(loginAction);
     }
+    
+    public void focusGained() {
+        IAction focusGained = createBasicAction("focus gained");
+        write(focusGained);
+    }
+    
+    public void focusLost() {
+        IAction focusLost = createBasicAction("focus lost");
+        write(focusLost);
+    }
+    
+
 }
