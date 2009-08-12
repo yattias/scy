@@ -1,6 +1,10 @@
 package eu.scy.scyhub;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
+import org.dom4j.Element;
+import org.jdom.JDOMException;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
@@ -10,7 +14,11 @@ import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.PacketExtension;
 
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IActionProcessModule;
+import eu.scy.actionlogging.logger.Action;
 import eu.scy.actionlogging.packetextension.ActionLoggingExtension;
+import eu.scy.actionlogging.receiver.ActionProcessModule;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -29,6 +37,7 @@ public class SCYHubComponent implements Component {
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
     
     private IDataSyncModule dataSyncModule;
+    private IActionProcessModule actionProcessModule;
     private static CommunicationProperties communicationProps = new CommunicationProperties();
     
     
@@ -86,7 +95,16 @@ public class SCYHubComponent implements Component {
             if(packetExtension != null && packetExtension instanceof ActionLoggingExtension) {
             	ActionLoggingExtension ale = (ActionLoggingExtension) packetExtension;
             	logger.debug("Received packet with ActionLoggingExtension");
-            	logger.debug(ale.toXML());
+            	Element el = (Element) ale.getElement().content().get(0);
+            	logger.debug(el.asXML());
+            	try {
+                    IAction action = new Action(el.asXML());
+                    actionProcessModule.create(action);
+                } catch (JDOMException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             
             logger.debug("Packet didn't contain any PacketExtension");
@@ -140,7 +158,9 @@ public class SCYHubComponent implements Component {
         } catch (DataSyncException exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
             exeption.printStackTrace();
-        }        
+        }
+        // action processing
+        actionProcessModule = new ActionProcessModule(communicationProps.sqlSpacesServerHost, communicationProps.sqlSpacesServerPort);
     }
     
     
