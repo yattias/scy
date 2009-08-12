@@ -91,14 +91,14 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.reucon.maven.plugins</groupId>
-				<artifactId>maven-openfire-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<jspPackageName>eu.scy.openfire.plugin.ScyOpenFirePlugin.jsp</jspPackageName>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.reucon.maven.plugins</groupId>-->
+<!--				<artifactId>maven-openfire-plugin</artifactId>-->
+<!--				<extensions>true</extensions>-->
+<!--				<configuration>-->
+<!--					<jspPackageName>eu.scy.openfire.plugin.ScyOpenFirePlugin.jsp</jspPackageName>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 
 	</build>
