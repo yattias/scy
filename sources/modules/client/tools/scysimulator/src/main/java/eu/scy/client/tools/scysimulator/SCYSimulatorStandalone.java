@@ -24,7 +24,7 @@ public class SCYSimulatorStandalone {
 		simquestViewer.createFrame(false);
 
 		JPanel simquestPanel = new JPanel();
-		DataCollector dataCollector;
+		DataCollector dataCollector = null;
 		EloSimQuestWrapper eloSimQuestWrapper = new EloSimQuestWrapper();
 
 		try {
@@ -58,6 +58,8 @@ public class SCYSimulatorStandalone {
 		mainFrame.setSize(600,650);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
+		mainFrame.addWindowListener(dataCollector);
+		
 	}
 
 	public static void main(String[] args) throws URISyntaxException {
