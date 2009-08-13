@@ -42,18 +42,9 @@ public class DataSyncService implements IDataSyncService {
     
     
     /**
-     * Constructor sets up the service
+     * Constructor
      */
     public DataSyncService() {
-        init();
-    }
-    
-    /**
-     * Initialize the connection
-     */
-    protected void init() {
-       
-        
     }
     
     /**
