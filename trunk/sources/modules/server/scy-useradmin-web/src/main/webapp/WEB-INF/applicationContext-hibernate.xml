@@ -107,6 +107,7 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="actionLogger" class="eu.scy.actionlogging.logger.ActionLogger"></bean>
     
 
     <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">

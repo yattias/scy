@@ -35,12 +35,14 @@
             /WEB-INF/applicationContext-database.xml,
             /WEB-INF/applicationContext-hibernate.xml,
             /WEB-INF/applicationContext-roolo.xml,
+            /WEB-INF/applicationContext-SCYHub.xml,
             <!--/WEB-INF/loginservice-beans.xml,-->
             <!--/WEB-INF/applicationContext-mobileRepositoryService.xml,-->
             <!--/WEB-INF/applicationContext-colemo.xml,-->
             <!--/WEB-INF/applicationContext-userSessionBeans.xml,-->
             <!--/WEB-INF/sail-users.xml,-->
             classpath:/applicationContext-modelBeans.xml
+
         </param-value>
     </context-param>
 
@@ -134,6 +136,10 @@
 
     <listener>
         <listener-class>eu.scy.listeners.ConfigureDefaultScySettings</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>eu.scy.listeners.SCYHubConnector</listener-class>
     </listener>
 
 
