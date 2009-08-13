@@ -17,6 +17,7 @@ import org.xmpp.packet.PacketExtension;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionProcessModule;
 import eu.scy.actionlogging.logger.Action;
+import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.actionlogging.packetextension.ActionLoggingExtension;
 import eu.scy.actionlogging.receiver.ActionProcessModule;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
@@ -39,6 +40,8 @@ public class SCYHubComponent implements Component {
     private IDataSyncModule dataSyncModule;
     private IActionProcessModule actionProcessModule;
     private static CommunicationProperties communicationProps = new CommunicationProperties();
+
+    private ActionLogger actionLogger;
     
     
     /**
@@ -177,5 +180,12 @@ public class SCYHubComponent implements Component {
     public void shutdown() {
         logger.debug("SCYHubComponent.shutdown()");
     }
-    
+
+    public ActionLogger getActionLogger() {
+        return actionLogger;
+    }
+
+    public void setActionLogger(ActionLogger actionLogger) {
+        this.actionLogger = actionLogger;
+    }
 }
