@@ -433,11 +433,23 @@
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javancss-maven-plugin</artifactId>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
-            </plugin-->
+                <configuration>
+                          <tags>
+                            <tag>TODO</tag>
+                            <tag>FIXME</tag>
+                            <tag>@todo</tag>
+                            <tag>@deprecated</tag>
+                            <tag>ButterCode</tag>
+                            <tag>HyperHack</tag>
+                            <tag>EpicHack</tag>
+                          </tags>
+                        </configuration>
+                
+            </plugin>
         </plugins>
 
     </reporting>
@@ -445,14 +457,14 @@
     <!--
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
-    
+         -->
     <modules>
         <module>common</module>
         <module>agents</module>
         <module>client</module>
         <module>server</module>
     </modules>
-    -->
+
     <properties>
         <slf4j.version>1.5.5</slf4j.version>
         <spring-sec01-version>2.5.6.SEC01</spring-sec01-version>
