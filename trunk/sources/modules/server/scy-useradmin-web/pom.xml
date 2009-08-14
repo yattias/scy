@@ -220,6 +220,17 @@
         <!-- SCY DEPENDENCIES -->
 
         <dependency>
+            <groupId>eu.scy</groupId>
+            <artifactId>scy-hub</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>pull-parser</artifactId>
+                    <groupId>pull-parser</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-api</artifactId>
             <version>${pom.version}</version>
@@ -495,6 +506,14 @@
             <artifactId>websvc</artifactId>
             <version>1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>whack</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        
 
 
     </dependencies>

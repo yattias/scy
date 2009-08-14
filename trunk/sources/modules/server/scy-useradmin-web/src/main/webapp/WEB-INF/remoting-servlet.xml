@@ -15,10 +15,10 @@
 
 	<!-- HTTP invoker exporter for the RoOLO repository -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
-	<bean name="/repository-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!--bean name="/repository-httpinvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="repository"/>
 		<property name="serviceInterface" value="roolo.api.IRepository"/>
-	</bean>
+	</bean-->
 
 	<!-- HTTP invoker exporter for the RoOLO metadata type manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
