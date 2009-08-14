@@ -135,7 +135,7 @@
         <module>scy-useradmin-impl</module>
         <module>scy-loginservice-webservice-impl</module>
         <module>scy-sessionmanager-impl</module>
-        <!--module>collaboration-service-plugin</module-->
+        <module>action-logging-hibernate</module>
         <module>scy-useradmin-web</module>
         <module>scy-hub</module>
         <module>data-synchronizer</module>
