@@ -104,6 +104,7 @@ public class SCYHubComponent implements Component {
             	try {
                     IAction action = new Action(el.asXML());
                     actionProcessModule.create(action);
+                    getActionLogger().log("PeterPan", "SOME_TOOL", action);
                 } catch (JDOMException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
