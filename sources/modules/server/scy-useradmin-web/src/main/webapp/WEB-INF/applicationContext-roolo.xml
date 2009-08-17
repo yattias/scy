@@ -4,39 +4,39 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-	<alias name="dispatcher" alias="repository" />
+	<!--alias name="dispatcher" alias="repository" /-->
 	<alias name="localMetadataTypeManager" alias="metadataTypeManager" />
 	<alias name="localExtensionManager" alias="extensionManager" />
 
 	<bean id="rooloManager" class="eu.scy.webapp.services.roolo.RooloManager">
 		<property name="eloFactory" ref="localEloFactory" />
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		<property name="repository" ref="dispatcher" />
+		<!--property name="repository" ref="dispatcher" /-->
 	</bean>
 
 	<!--                   Agent Dispatcher                        -->
-	<bean name="dispatcher" class="eu.scy.agents.impl.elo.ELOAgentDispatcher">
+	<!--bean name="dispatcher" class="eu.scy.agents.impl.elo.ELOAgentDispatcher">
 		<property name="repository" ref="localRepository" />
 		<property name="beforeAgents">
 			<list>
-				<!--  <ref bean="graphConverterAgent" /> -->
-				<!--<ref bean="drawAnalyserAgent" />-->
-				<!--  <ref bean="obwiousAgent" /> -->
-				<!--ref bean="enrichConceptMapAgent" /-->
+				<ref bean="graphConverterAgent" />
+				<ref bean="drawAnalyserAgent" />
+				<ref bean="obwiousAgent" />
+				<ref bean="enrichConceptMapAgent" />
 			</list>
 		</property>
 		<property name="afterAgents">
 			<list>
 				<ref bean="conceptMapSavedAgent" />
-				<!--ref bean="misspellingNotificationAgent" /-->
-				<!--ref bean="notifiyEloBrowserAgent" /-->
+				<ref bean="misspellingNotificationAgent" />
+				<ref bean="notifiyEloBrowserAgent" />
 			</list>
 		</property>
 		<property name="notificationAgents">
 			<list>
 			</list>
 		</property>
-	</bean>
+	</bean-->
 
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
@@ -101,10 +101,10 @@
 		class="eu.scy.agents.roolo.elo.misspelling.MisspellingNotificationAgent" /-->
 
 	<!--  Search for similar concept maps agents -->
-	<bean name="conceptMapSavedAgent"
+	<!--bean name="conceptMapSavedAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.ConceptMapSavedAgent">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-	</bean>
+	</bean-->
 
 	<!--bean name="enrichConceptMapAgent"
 		class="eu.scy.agents.roolo.elo.conceptawareness.EnrichConceptMapAgent">
