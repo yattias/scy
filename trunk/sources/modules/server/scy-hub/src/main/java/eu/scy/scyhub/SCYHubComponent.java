@@ -133,7 +133,7 @@ public class SCYHubComponent implements Component {
         ActionLoggingExtension ale = new ActionLoggingExtension();
         //data sync
         try {
-            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+            //dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
             // add listner in order to get callbacks on stuff that's happening
             dataSyncModule.addDataSyncListener(new IDataSyncListener(){
                 
@@ -160,7 +160,7 @@ public class SCYHubComponent implements Component {
                     }
                 }                     
             });
-        } catch (DataSyncException exeption) {
+        } catch (Exception exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
             exeption.printStackTrace();
         }
@@ -189,5 +189,13 @@ public class SCYHubComponent implements Component {
 
     public void setActionLogger(IActionLogger actionLogger) {
         this.actionLogger = actionLogger;
+    }
+
+    public IDataSyncModule getDataSyncModule() {
+        return dataSyncModule;
+    }
+
+    public void setDataSyncModule(IDataSyncModule dataSyncModule) {
+        this.dataSyncModule = dataSyncModule;
     }
 }
