@@ -2,6 +2,7 @@ package eu.scy.actionlogging;
 
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,9 +11,11 @@ import eu.scy.actionlogging.api.IAction;
  * Time: 10:52:17
  * To change this template use File | Settings | File Templates.
  */
-public class ActionLoggerHibernate implements IActionLogger {
+public class ActionLoggerHibernate extends ScyBaseDAOHibernate implements IActionLogger {
     @Override
     public void log(String username, String source, IAction action) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(action == null) throw new NullPointerException("Action cannot be null");
+        save(action);
+        
     }
 }

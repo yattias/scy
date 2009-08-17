@@ -5,12 +5,16 @@ import eu.scy.actionlogging.api.IAction;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.JoinTable;
 
 import org.jdom.Content;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.hibernate.annotations.CollectionOfElements;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,8 +25,21 @@ import java.io.IOException;
  */
 
 @Entity
-@Table(name = "buddyconnection")
+@Table(name = "persistentActions")
 public class PersistentAction extends ScyBaseObject implements IAction {
+
+    private Map<String, String> attributes; 
+
+
+    @CollectionOfElements
+    @JoinTable(name="persistentActionAttributes")
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
 
     @Override
     public void addContext(String key, String value) {
@@ -36,7 +53,8 @@ public class PersistentAction extends ScyBaseObject implements IAction {
 
     @Override
     public void addAttribute(String key, String value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(getAttributes() == null) setAttributes(new HashMap());
+        getAttributes().put(key, value);
     }
 
     @Override
@@ -51,7 +69,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
 
     @Override
     public String getAttribute(String key) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getAttributes().get(key);
     }
 
     @Override

@@ -69,6 +69,10 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="actionLogger" class="eu.scy.actionlogging.ActionLoggerHibernate">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">
