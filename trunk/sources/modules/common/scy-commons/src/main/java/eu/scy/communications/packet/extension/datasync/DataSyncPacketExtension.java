@@ -191,6 +191,7 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
         return NAMESPACE;
     }
 
+    //ButterCode :-)
     @Override
     public String toXML() {
         StringBuilder xml = new StringBuilder();
