@@ -1,6 +1,8 @@
 package eu.scy.actionlogging;
 
 import org.springframework.test.AbstractTransactionalSpringContextTests;
+import org.junit.Test;
+import eu.scy.core.model.impl.PersistentAction;
 
 
 /**
@@ -11,12 +13,60 @@ import org.springframework.test.AbstractTransactionalSpringContextTests;
  * To change this template use File | Settings | File Templates.
  */
 public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringContextTests {
-    public void testLog() throws Exception {
+
+    private ActionLoggerHibernate actionLogger;
+    private PersistentAction action;
+
+
+
+    public ActionLoggerHibernate getActionLogger() {
+        return actionLogger;
+    }
+
+    public void setActionLogger(ActionLoggerHibernate actionLogger) {
+        this.actionLogger = actionLogger;
     }
 
     protected String[] getConfigLocations() {
         return new String[]{"classpath:/eu/scy/actionlogging/applciationContext-hibernate-OnlyForTesting.xml"};
     }
+
+    @Test
+    public void testAssertThatLoggerIsCreated() {
+        assertNotNull(getActionLogger());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testLogAction() {
+        action = new PersistentAction();
+        action.setName("Test action");
+        getActionLogger().log("Hen", "hei", action);
+        assertNotNull(action.getId());
+    }
+
+    @Test
+    public void testAddAttribute() {
+        String key = "HENRIK_THE_COOL_ONE";
+        String value = "YEAH_THAT_IS TRUE MAN";
+        action = new PersistentAction();
+        action.addAttribute(key, value);
+        getActionLogger().log("Hen", "hei", action);
+
+        String id = action.getId();
+
+        action = null;
+
+        PersistentAction action2 = (PersistentAction) getActionLogger().getObject(PersistentAction.class, id);
+        assertNotNull(action2);
+        assertEquals(action2.getAttribute(key), value);
+
+
+
+
+    }
+
+
+
 
 }
  
