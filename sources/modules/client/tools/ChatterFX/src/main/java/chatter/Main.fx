@@ -17,6 +17,7 @@ import javafx.scene.Group;
 import eu.scy.awareness.IAwarenessUser;
 import javax.swing.event.ListSelectionListener;
 import javafx.stage.Alert;
+import org.jivesoftware.smack.XMPPConnection;
 
 
 var chatController: ChatController;
@@ -81,10 +82,56 @@ var listListener: ListSelectionListener = ListSelectionListener{
 };
 
 var inputText: SwingTextField = SwingTextField {
-    columns: 40
-    text: ""
-    editable: true
+    columns: 40;
+    text: "";
+    editable: true;
 };
+
+var serverInput: SwingTextField = SwingTextField {
+    columns: 15;
+    text: "wiki.intermedia.uio.no";
+    editable: true;
+    disable: true;
+};
+
+var nameInput: SwingTextField = SwingTextField {
+    columns: 15;
+    text: "";
+    editable: true;
+};
+
+var passInput: SwingTextField = SwingTextField {
+    columns: 15;
+    text: "";
+    editable: true;
+};
+
+var connectButton: SwingButton = SwingButton {
+    text: "Connect"
+    action: function() {
+        if(serverInput.text != "" and nameInput.text != "" and passInput.text != "") {
+           var tbi:ToolBrokerImpl = new ToolBrokerImpl();
+           awarenessService = tbi.getAwarenessService();
+           var connection:XMPPConnection = tbi.getConnection(nameInput.text, passInput.text);
+           if (connection != null) {
+               startListeners(connection);
+               customTable.disable = false;
+               inputText.disable = false;
+               chatHistory.disable = false;
+               nameInput.disable = true;
+               passInput.disable = true;
+           }
+           else {
+               Alert.inform("The connection with the credentials provided failed");
+           }
+        }
+        else {
+            Alert.inform("One of the field server, name or password is wrong or missing");
+        }
+
+    }
+};
+
 
 var sendButton: SwingButton = SwingButton {
     text: "Send"
@@ -108,10 +155,8 @@ var sendButton: SwingButton = SwingButton {
     }
 };
 
-function startListeners() :Void {
-    var tbi:ToolBrokerImpl = new ToolBrokerImpl();
-    awarenessService = tbi.getAwarenessService();
-    awarenessService.init(tbi.getConnection("obama", "obama"));
+function startListeners(connection: XMPPConnection) :Void {
+    awarenessService.init(connection);
 
     chatController = new ChatController(awarenessService);
     chatController.populateBuddyList();
@@ -149,59 +194,75 @@ function run () {
         height: 600
         scene: Scene {
             content: [
-                HBox {
+                VBox {
                     spacing: 10
                     content: [
-                        VBox {
-                            spacing: 10
+                        HBox {
+                            spacing: 5
                             content: [
-                                Group{
-                                    content: [
-                                        customTable = TableComponent{
-                                            width: 100;
-                                            height: 500;
-
-                                            columns: [
-                                                TableComponent.TableColumn {
-                                                    text: "Users"
-                                                }
-                                            ]
-
-                                            rows: bind for(p in contacts)
-                                                TableComponent.TableRow{
-                                                    cells: [
-                                                        TableComponent.TableCell {
-                                                            text:bind p.userName;
-                                                        }
-                                                    ]
-                                                }
-
-                                            selection: bind selection with inverse
-
-                                        }
-                                    ]
-                                }
+                                serverInput,
+                                nameInput,
+                                passInput,
+                                connectButton
                             ]
                         },
-                        VBox {
+                        HBox {
                             spacing: 10
                             content: [
-                                HBox {
+                                VBox {
                                     spacing: 10
                                     content: [
-                                        inputText,
-                                        sendButton
+                                        Group{
+                                            content: [
+                                                customTable = TableComponent{
+                                                    width: 100;
+                                                    height: 500;
+
+                                                    columns: [
+                                                        TableComponent.TableColumn {
+                                                            text: "Users"
+                                                        }
+                                                    ]
+
+                                                    rows: bind for(p in contacts)
+                                                        TableComponent.TableRow{
+                                                            cells: [
+                                                                TableComponent.TableCell {
+                                                                    text:bind p.userName;
+                                                                }
+                                                            ]
+                                                        }
+
+                                                    selection: bind selection with inverse
+
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                VBox {
+                                    spacing: 10
+                                    content: [
+                                        HBox {
+                                            spacing: 10
+                                            content: [
+                                                inputText,
+                                                sendButton
+                                            ]
+                                        }
+                                        chatHistory
+
                                     ]
                                 }
-                                chatHistory
-
-                            ]
+                           ]
                         }
-                   ]
+                    ]
                 }
+
             ]
         }
-
     }
-    startListeners();
+    customTable.disable = true;
+    inputText.disable = true;
+    chatHistory.disable = true;
 }
