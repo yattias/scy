@@ -29,6 +29,7 @@ import java.util.HashMap;
 public class PersistentAction extends ScyBaseObject implements IAction {
 
     private Map<String, String> attributes; 
+    private Map<String, String> context;
 
 
     @CollectionOfElements
@@ -41,14 +42,24 @@ public class PersistentAction extends ScyBaseObject implements IAction {
         this.attributes = attributes;
     }
 
+    @CollectionOfElements
+    @JoinTable(name="persistentActionContext")
+    public Map<String, String> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, String> context) {
+        this.context = context;
+    }
+
     @Override
     public void addContext(String key, String value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getContext().put(key, value);
     }
 
     @Override
     public String getContext(String key) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getContext().get(key);
     }
 
     @Override

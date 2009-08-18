@@ -1,6 +1,7 @@
 package eu.scy.actionlogging;
 
 import org.springframework.test.AbstractTransactionalSpringContextTests;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.junit.Test;
 import eu.scy.core.model.impl.PersistentAction;
 
@@ -17,6 +18,8 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
     private ActionLoggerHibernate actionLogger;
     private PersistentAction action;
 
+    private DriverManagerDataSource driverManagerDataSource;
+
 
 
     public ActionLoggerHibernate getActionLogger() {
@@ -27,8 +30,30 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
         this.actionLogger = actionLogger;
     }
 
+    public DriverManagerDataSource getDriverManagerDataSource() {
+        return driverManagerDataSource;
+    }
+
+    public void setDriverManagerDataSource(DriverManagerDataSource driverManagerDataSource) {
+        this.driverManagerDataSource = driverManagerDataSource;
+    }
+
     protected String[] getConfigLocations() {
         return new String[]{"classpath:/eu/scy/actionlogging/applciationContext-hibernate-OnlyForTesting.xml"};
+    }
+
+    @Test
+    public void testEchoTestDataSourceValues() {
+        DriverManagerDataSource datasource = getDriverManagerDataSource();
+        assertNotNull(datasource);
+        System.out.println("****************************************************************");
+        System.out.println(datasource.getUrl());
+        System.out.println("****************************************************************");
+        try {
+            throw new RuntimeException("DATA SOURCE URL: " + datasource.getUrl() + " " + datasource.getUsername());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
