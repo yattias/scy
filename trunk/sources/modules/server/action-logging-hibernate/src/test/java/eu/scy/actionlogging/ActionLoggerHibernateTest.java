@@ -42,7 +42,7 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
         return new String[]{"classpath:/eu/scy/actionlogging/applciationContext-hibernate-OnlyForTesting.xml"};
     }
 
-    @Test
+    /*@Test
     public void testEchoTestDataSourceValues() {
         DriverManagerDataSource datasource = getDriverManagerDataSource();
         assertNotNull(datasource);
@@ -54,7 +54,7 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
+    }  */
 
     @Test
     public void testAssertThatLoggerIsCreated() {
@@ -88,6 +88,20 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
 
 
 
+    }
+
+    public void testAddContextAttribute() {
+        String key = "MASTER_HENRIK";
+        String value = "YODA_COMPARES_TO_NOTHING";
+        action = new PersistentAction();
+        action.addContext(key, value);
+        getActionLogger().log("Hen", "hei", action);
+        String id = action.getId();
+        action = null;
+        assertNull(action);
+        PersistentAction action2 = (PersistentAction) getActionLogger().getObject(PersistentAction.class, id);
+        assertNotNull(action2);
+        assertEquals (action2.getContext(key), value);
     }
 
 

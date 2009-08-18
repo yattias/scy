@@ -54,6 +54,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
 
     @Override
     public void addContext(String key, String value) {
+        if(getContext()== null) setContext(new HashMap());
         getContext().put(key, value);
     }
 
