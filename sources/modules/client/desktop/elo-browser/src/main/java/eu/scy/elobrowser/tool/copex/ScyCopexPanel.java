@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import org.jdom.Element;
 import roolo.elo.JDomStringConversion;
 
+
 /**
  *
  * @author Marjolaine

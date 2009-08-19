@@ -24,6 +24,10 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.layout.Resizable;
+import eu.scy.scywindows.ScyDesktop;
+import java.net.URI;
+
 
 /**
  * @author marjolaine bodin
@@ -31,8 +35,12 @@ import javafx.stage.Stage;
 
  // place your code here
 public class DataToolNode extends CustomNode {
-   var dataToolPanel:DataToolPanel;
+   public var dataToolPanel:DataToolPanel;
    var eloDataToolWrapper:EloDataToolWrapper;
+   var myRoolo:Roolo;
+   var scyDesktop = ScyDesktop.getScyDesktop();
+
+
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle()};
 
@@ -62,14 +70,44 @@ public class DataToolNode extends CustomNode {
                         CommandText{
                            label:"New"
                            clickAction:function( e: MouseEvent ):Void {
-                              eloDataToolWrapper.newDataProcessAction();
-										setScyWindowTitle();
+//                              eloDataToolWrapper.newDataProcessAction();
+//										setScyWindowTitle();
+                                var dataToolWindow = DataToolNode.createDataToolWindow(myRoolo);
+                                scyDesktop.addScyWindow(dataToolWindow);
+                                dataToolWindow.allowResize = true;
+                                dataToolWindow.openWindow(500,300);
                            }
                         }
                         CommandText{
-                           label:"Load"
+                           label:"Open"
                            clickAction:function( e: MouseEvent ):Void {
-                              eloDataToolWrapper.loadDataProcessAction();
+                              var pdsUri=eloDataToolWrapper.loadDataProcessAction();
+//										setScyWindowTitle();
+                                var dataToolWindow = DataToolNode.createDataToolWindow(myRoolo);
+                                scyDesktop.addScyWindow(dataToolWindow);
+                                dataToolWindow.allowResize = true;
+                                dataToolWindow.openWindow(500,300);
+                                ((dataToolWindow.scyContent) as DataToolNode).eloDataToolWrapper.loadElo(pdsUri);
+                           }
+                        }
+                        CommandText{
+                           label:"Import csv file"
+                           clickAction:function( e: MouseEvent ):Void {
+                                var dsElo = eloDataToolWrapper.importCSVFile();
+                                if (dsElo != null){
+                                    var dataToolWindow = DataToolNode.createDataToolWindow(myRoolo);
+                                    scyDesktop.addScyWindow(dataToolWindow);
+                                    dataToolWindow.allowResize = true;
+                                    dataToolWindow.openWindow(500,300);
+                                    ((dataToolWindow.scyContent) as DataToolNode).eloDataToolWrapper.loadElo(dsElo);
+                                }
+
+                           }
+                        }
+                        CommandText{
+                           label:"Merge dataset"
+                           clickAction:function( e: MouseEvent ):Void {
+                                eloDataToolWrapper.mergeDataProcessAction();
 										setScyWindowTitle();
                            }
                         }
@@ -81,7 +119,7 @@ public class DataToolNode extends CustomNode {
                            }
                         }
                         CommandText{
-                           label:"Save as"
+                           label:"Save copy"
                            clickAction:function( e: MouseEvent ):Void {
                               eloDataToolWrapper.saveAsDataProcessAction();
 										setScyWindowTitle();
@@ -106,6 +144,7 @@ public class DataToolNode extends CustomNode {
 		eloDataToolWrapper.setEloFactory(roolo.eloFactory);
 		return DataToolNode{
 			dataToolPanel:dataToolPanel;
+            myRoolo:roolo;
 			eloDataToolWrapper:eloDataToolWrapper;
 		}
 	}
@@ -118,7 +157,7 @@ public class DataToolNode extends CustomNode {
 	public function createDataToolWindow(dataToolNode:DataToolNode):ScyWindow{
 		var dataToolWindow = ScyWindow{
 			color:Color.GREEN;
-			title:"Data Process Visualization Tool"
+			title:"Data Processing Visualization Tool"
 			scyContent: dataToolNode
 			minimumWidth:320;
 			minimumHeight:100;
