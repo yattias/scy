@@ -34,6 +34,18 @@
          <version>${pom.version}</version>
       </dependency>
 
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-fitex</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-copex</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
    </dependencies>
 
    <build>
