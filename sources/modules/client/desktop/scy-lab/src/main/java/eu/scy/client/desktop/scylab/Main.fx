@@ -13,6 +13,8 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
+import eu.scy.client.tools.fxfitex.FitexContentCreator;
+import eu.scy.client.tools.fxcopex.CopexContentCreator;
 
 /**
  * @author sikkenj
@@ -21,6 +23,9 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
 InitLog4JFX.initLog4J();
 
 def scyDrawingType = "scy/drawing";
+def scyFitexType = "scy/data processing";
+def scyCopexType = "scy/copex";
+
 
 var scyDesktopCreator = ScyDesktopCreator{
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
@@ -28,6 +33,13 @@ var scyDesktopCreator = ScyDesktopCreator{
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator{},scyDrawingType);
 scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyDrawingType,"drawing");
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator{},scyFitexType);
+scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"pds");
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(CopexContentCreator{},scyCopexType);
+scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyCopexType,"xproc");
+
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
