@@ -98,4 +98,8 @@ public class Graph extends Visualization implements Cloneable {
         if (id != -1)
             listFunctionModel.remove(id);
     }
+
+    public void setAutoScale(boolean autoScale){
+        this.paramGraph.setAutoscale(autoScale);
+    }
 }

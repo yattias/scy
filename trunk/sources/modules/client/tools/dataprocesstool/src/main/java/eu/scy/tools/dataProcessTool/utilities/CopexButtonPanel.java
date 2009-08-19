@@ -17,7 +17,6 @@ import javax.swing.*;
 public class CopexButtonPanel extends JPanel {
 
     // ATTRIBUTS
-    private DataProcessToolPanel  owner;
     private int l;
     /*
      * image de fond
@@ -41,9 +40,11 @@ public class CopexButtonPanel extends JPanel {
     private Image bgDisabled;
     private boolean modeEnabled = true;
 
-    public CopexButtonPanel(DataProcessToolPanel owner, int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
+    /* action de clic */
+    private ActionCopexButton actionCopexButton;
+
+    public CopexButtonPanel(int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
         super();
-        this.owner = owner;
         this.bgSimple = bgSimple;
         this.bg = bgSimple;
         this.bgSurvol = bgSurvol;
@@ -69,15 +70,21 @@ public class CopexButtonPanel extends JPanel {
             System.out.println("bg null !!");
             bg = bgSimple;
         }
-        if (bg.getWidth(owner) == -1){
-            System.out.println("image à -1");
-        }
         boolean d  =g.drawImage(bg, 0, 0, null) ;
         while (!d){
            d =  g.drawImage(bg, 0, 0, null);
         }
     }
 
+    /**
+    * Instancie l'objet ActionCopexButton.
+    * @param action ActionCopexButton
+    */
+    public void addActionCopexButton(ActionCopexButton action){
+        this.actionCopexButton=action;
+    }
+
+    
     /*
      * rend le panel enabled
      */
@@ -156,9 +163,9 @@ private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_f
 
 private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
 // TODO add your handling code here:
-    if (modeEnabled){
+   if (modeEnabled){
         this.bg = bgClic;
-        owner.clickButtonEvent(this);
+        actionCopexButton.actionCopexButtonClic(this);
         repaint();
     }
     

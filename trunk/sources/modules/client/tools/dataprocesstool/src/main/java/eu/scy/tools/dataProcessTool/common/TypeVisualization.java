@@ -5,6 +5,8 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+
 /**
  * Possible Type of visual
  * @author Marjolaine Bodin
@@ -59,6 +61,14 @@ public class TypeVisualization implements Cloneable{
 
     public void setDbKey(long dbKey) {
         this.dbKey = dbKey;
+    }
+
+    public boolean isChart(){
+        return this.code == DataConstants.VIS_BAR || this.code == DataConstants.VIS_HISTO || this.code == DataConstants.VIS_PIE ;
+    }
+
+    public boolean isCurve(){
+        return this.code == DataConstants.VIS_GRAPH;
     }
     
     // CLONE

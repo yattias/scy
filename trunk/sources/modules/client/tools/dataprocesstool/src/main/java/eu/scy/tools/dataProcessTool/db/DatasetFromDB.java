@@ -98,13 +98,14 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donné */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE, D.NO_COL " +
+        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("D.ID_HEADER");
         listFields.add("D.VALUE");
+        listFields.add("D.UNIT");
         listFields.add("D.NO_COL");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -120,6 +121,9 @@ public class DatasetFromDB {
             String value = rs.getColumnData("D.VALUE");
             if (value == null)
                 continue;
+            String unit = rs.getColumnData("D.UNIT");
+            if (unit == null)
+                continue;
             s = rs.getColumnData("D.NO_COL");
             if (s == null)
                 continue;
@@ -129,7 +133,7 @@ public class DatasetFromDB {
             }catch(NumberFormatException e){
                 System.out.println(e);
             }
-            DataHeader dh= new DataHeader(dbKey, value, noCol);
+            DataHeader dh= new DataHeader(dbKey, value,unit, noCol);
             tabHeader[noCol] = dh;
         }
         v.add(tabHeader);
@@ -392,9 +396,10 @@ public class DatasetFromDB {
     }
 
     /* creation d'un header - retourne en v[0] le nouveau dbKey */
-    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, int noCol, long dbKeyDs, ArrayList v){
+    public static CopexReturn createDataHeaderInDB(DataBaseCommunication dbC, String value, String unit, int noCol, long dbKeyDs, ArrayList v){
         value = MyUtilities.replace("\'",value,"''") ;
-        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, NO_COL) VALUES (NULL, '"+value+"', "+noCol+") ;";
+        unit = MyUtilities.replace("\'",unit,"''") ;
+        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+") ;";
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -412,11 +417,12 @@ public class DatasetFromDB {
     }
 
     /* mise à jour d'un header */
-    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value){
+    public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit){
         value = MyUtilities.replace("\'",value,"''") ;
+        unit = MyUtilities.replace("\'",unit,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"' WHERE ID_HEADER = "+dbKey+" ;";
+        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' WHERE ID_HEADER = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -490,7 +496,7 @@ public class DatasetFromDB {
         DataHeader[] tabHeader = ds.getListDataHeader();
         for (int i=0; i<tabHeader.length; i++){
             v2 = new ArrayList();
-            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(), tabHeader[i].getNoCol(), dbKey, v2);
+            cr = createDataHeaderInDB(dbC, tabHeader[i].getValue(),tabHeader[i].getUnit(), tabHeader[i].getNoCol(), dbKey, v2);
             if (cr.isError())
                 return cr;
             long dbKeyHeader = (Long)v2.get(0);
@@ -705,7 +711,7 @@ public class DatasetFromDB {
                 deltaY = Float.parseFloat(s);
             }catch(NumberFormatException e){
             }
-            param = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY, true);
+            param = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY, false);
 
         }
         v.add(param);

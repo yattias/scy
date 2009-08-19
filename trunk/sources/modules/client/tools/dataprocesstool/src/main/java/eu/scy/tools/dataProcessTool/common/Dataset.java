@@ -271,6 +271,11 @@ public class Dataset implements Cloneable{
         listVisualization.remove(id);
     }
 
+    /* ajout d'une visualization */
+    public void addVisualization(Visualization vis){
+        this.listVisualization.add(vis);
+    }
+
     /* return a processed dataset ELO */
     public ProcessedDatasetELO toELO(Locale locale){
         int nbR = getNbRows() ;
@@ -802,15 +807,69 @@ public class Dataset implements Cloneable{
     */
     public int getValueMaxSizeIn(int col) {
         int maxlenght = 0;
-        for (int i=0; i<nbRows; i++){
-            Data d = this.data[i][col];
-            int l = 0;
-            if (d != null){
-                l = Double.toString(d.getValue()).length();
+        if(col < getNbCol()){
+            for (int i=0; i<nbRows; i++){
+                Data d = this.data[i][col];
+                int l = 0;
+                if (d != null){
+                    l = Double.toString(d.getValue()).length();
+                }
+                maxlenght = Math.max(maxlenght, l);
             }
-            maxlenght = Math.max(maxlenght, l);
+        }else{
+            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));;
+            int nb = list.size();
+            for (int i=0; i<nb; i++){
+                int l=0;
+                if (list.get(i) != null && !list.get(i).isNaN()){
+                    l = Double.toString(list.get(i)).length();
+                }
+                maxlenght = Math.max(maxlenght, l);
+            }
         }
         return maxlenght ;
+    }
+
+    /* longueur max avant la virgule et longeur max apres la virgule */
+    public int[] getValueMaxDoubleSizeIn(int col) {
+        int maxlenght1 = 0;
+        int maxlenght2 = 0;
+        int[] max = new int[2];
+        if(col < getNbCol()){
+            for (int i=0; i<nbRows; i++){
+                Data d = this.data[i][col];
+                int l1 = 0;
+                int l2 = 0;
+                if (d != null){
+                    String s = Double.toString(d.getValue());
+                    if (s.startsWith("-"))
+                        s = s.substring(1);
+                    l1 = s.indexOf(".");
+                    l2 = s.length()-l1-1;
+                }
+                maxlenght1 = Math.max(maxlenght1, l1);
+                maxlenght2 = Math.max(maxlenght2, l2);
+            }
+        }else{
+            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));;
+            int nb = list.size();
+            for (int i=0; i<nb; i++){
+                int l1=0;
+                int l2=0;
+                if (list.get(i) != null && !list.get(i).isNaN()){
+                    String s = Double.toString(list.get(i));
+                    if (s.startsWith("-"))
+                        s = s.substring(1);
+                    l1 = s.indexOf(".");
+                    l2 = s.length()-l1-1;
+                }
+                maxlenght1 = Math.max(maxlenght1, l1);
+                maxlenght2 = Math.max(maxlenght2, l2);
+            }
+        }
+        max[0] = maxlenght1;
+        max[1] = maxlenght2;
+        return max ;
     }
 
     /* echange de lignes */

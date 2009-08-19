@@ -11,6 +11,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -49,12 +50,18 @@ public class DataTableModel extends AbstractTableModel {
     /* liste des numeros des lignes */
     private Integer[]tabNoRow;
 
+    private DecimalFormat decimalFormat;
+
+    
     // CONSTRUCTOR
     public DataTableModel(DataProcessToolPanel owner, DataTable table, Dataset dataset) {
         super();
         this.owner = owner;
         this.table = table;
         this.dataset = dataset;
+        this.decimalFormat = new DecimalFormat();
+        this.decimalFormat.setDecimalSeparatorAlwaysShown(false);
+
         loadData();
     }
 
@@ -99,7 +106,11 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData = new Object[nbRows][nbCols];
         // => header
         for (int t=0; t<tabHeader.length; t++){
-            this.tabData[0][t+1] = tabHeader[t] == null ? "" : tabHeader[t].getValue();
+            String[] h = new String[2];
+            h[0] = tabHeader[t] == null ? "" : tabHeader[t].getValue() ;
+            h[1] = tabHeader[t] == null ? "" : tabHeader[t].getUnit();
+            //this.tabData[0][t+1] = tabHeader[t] == null ? "" : tabHeader[t].getValue();
+            this.tabData[0][t+1] = h;
         }
         // => donn√©es
          // => num√©rotation des lignes
@@ -110,7 +121,7 @@ public class DataTableModel extends AbstractTableModel {
             tabNoRow[i] = i+1;
             this.tabData[i+1][0] = i+1;
             for (int j=0; j<nbColDs; j++){
-                this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :this.datas[i][j].getValue();
+                this.tabData[i+1][j+1] = this.datas[i][j] == null ? "" :decimalFormat.format(this.datas[i][j].getValue());
             }
         }
         
@@ -125,6 +136,10 @@ public class DataTableModel extends AbstractTableModel {
         for (int j=0; j<nbO; j++){
             operateOnRow(listOperationsOnRows.get(j), nbColDs+j+1);
         }
+    }
+
+    public Dataset getDataset() {
+        return dataset;
     }
     
     @Override
@@ -144,25 +159,34 @@ public class DataTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return isValueHeader(rowIndex, columnIndex) || isValueData(rowIndex, columnIndex) ||isValueTitleOperation(rowIndex, columnIndex);
+        return  isValueData(rowIndex, columnIndex) ||isValueTitleOperation(rowIndex, columnIndex);
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Object oldValue = getValueAt(rowIndex, columnIndex);
-        if (((String)aValue).length() == 0)
+//        if (((String)aValue).length() == 0)
+//            return;
+        String v1 = "";
+        String v2 = "";
+        if( aValue instanceof String){
+            v1 = (String)aValue ;
+        }else if (aValue instanceof String[]){
+            v1 = ((String[])aValue)[0];
+            v2 = ((String[])aValue)[1];
+        }else
             return;
-        if ((rowIndex == 0 || columnIndex == 0) && ((String)aValue).length() > DataConstants.MAX_LENGHT_DATASET_NAME){
+        if ((rowIndex == 0 || columnIndex == 0) && (v1.length() > DataConstants.MAX_LENGHT_DATASET_NAME || v2.length() > DataConstants.MAX_LENGHT_DATASET_NAME)){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        this.tabData[rowIndex][columnIndex] = (String)aValue;
+        this.tabData[rowIndex][columnIndex] = aValue;
         super.setValueAt(aValue, rowIndex, columnIndex);
         if (isValueHeader(rowIndex, columnIndex)){
-            owner.updateDataHeader(dataset, (String)aValue, columnIndex-1);
+            owner.updateDataHeader(dataset, v1, v2,columnIndex-1);
         }else if (isValueTitleOperation(rowIndex, columnIndex)){
             DataOperation operation = null;
             if(rowIndex == 0){
@@ -179,11 +203,13 @@ public class DataTableModel extends AbstractTableModel {
                 super.setValueAt(oldValue, rowIndex, columnIndex);
                 return;
             }
-            owner.updateDataOperation(dataset, (String)aValue, operation);
+            owner.updateDataOperation(dataset, v1, operation);
         }else if (isValueData(rowIndex, columnIndex)){
-            double val = 0;
+            Double val = null;
             try{
-                val = Double.parseDouble((String)aValue);
+                if(v1 != null && !v1.equals("")){
+                    val = Double.parseDouble(v1);
+                }
             }catch(NumberFormatException e){
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 super.setValueAt(oldValue, rowIndex, columnIndex);
@@ -201,7 +227,7 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbColDs; i++){
             int id = listNo.indexOf(i);
             if (id !=-1 && !isIgnoredCol(i)){
-                this.tabData[noR][1+i] = this.dataset.getListOperationResult(operation).get(id);
+                this.tabData[noR][1+i] = decimalFormat.format(this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[noR][1+i] = "-" ;
         }
@@ -247,7 +273,7 @@ public class DataTableModel extends AbstractTableModel {
         for (int i=0; i<nbRowDs; i++){
             int id = listNo.indexOf(i);
             if (id != -1 && !isIgnoredRow(i)){
-                this.tabData[1+i][noC] = this.dataset.getListOperationResult(operation).get(id);
+                this.tabData[1+i][noC] = decimalFormat.format(this.dataset.getListOperationResult(operation).get(id));
             }else
                 this.tabData[1+i][noC] = "-" ;
         }
@@ -368,6 +394,68 @@ public class DataTableModel extends AbstractTableModel {
         return listSelectedData ;
     }
 
+    /* retourne les en tetes selectionnÈs */
+    public ArrayList<DataHeader> getSelectedHeader(ArrayList<int[]> listSelected){
+        ArrayList<DataHeader> listSelectedHeader = new ArrayList();
+        int nb = listSelected.size();
+        for (int i=0; i<nb; i++){
+            int[] selCell = listSelected.get(i);
+            DataHeader header = null;
+            if (isValueHeader(selCell[0], selCell[1])){
+                header = this.tabHeader[selCell[1]-1];
+            }
+            if (header != null)
+                listSelectedHeader.add(header);
+        }
+        return listSelectedHeader ;
+    }
+
+    public DataHeader getHeader(int row, int col){
+        return this.tabHeader[col-1];
+    }
+
+
+    /* retourne l'indice (i, j) de la cellule selectionnÈe */
+    public int[] getSelectedCell(ArrayList<int[]> listSelected){
+        int[] id = new int[2];
+        int nb = listSelected.size();
+        if(nb > 0){
+            int i= listSelected.get(0)[0];
+            int j = listSelected.get(0)[1];
+            int id1 = -1;
+            int id2 = -1;
+            if(i == 0 && j == 0){
+                id1 = -1;
+                id2 = -1;
+            }else if (isValueNoRow(i, j)){
+                id1 = i-1;
+                id2 = -1;
+            }else if (j == 0 && i>nbRowDs){
+                id1 = nbRowDs;
+                id2 = -1;
+            }else if (isValueHeader(i, j)){
+                id1 = -1;
+                id2 = j-1;
+            }else if (i ==0 && j> nbColDs){
+                id1 = -1;
+                id2 = nbColDs;
+            }else if (isValueData(i, j)){
+                id1 = i-1;
+                id2 = j-1;
+            }else {
+                id1 = i-1;
+                if(i> nbRowDs)
+                    i = nbRowDs;
+                id2 = j-1;
+                if (j> nbColDs)
+                    j = nbColDs ;
+            }
+            id[0] = id1;
+            id[1] = id2;
+            return id;
+        }else
+            return null;
+    }
     /* retourne les operations selectionn√©es */
     public ArrayList<DataOperation> getSelectedOperation(ArrayList<int[]> listSelected){
         ArrayList<DataOperation> listSelectedOperation = new ArrayList();
@@ -417,7 +505,7 @@ public class DataTableModel extends AbstractTableModel {
                     listSelectedCol.add(id, noCol);
             }else if (isValueNoRow(selCell[0], selCell[1])){
                 int noRow = selCell[0]-1 ;
-                // on inserre en triant du plus petit au plus grand
+                // on insere en triant du plus petit au plus grand
                 int id = -1;
                 for (int j=0; j<listSelectedRow.size(); j++){
                     if (listSelectedRow.get(j) > noRow){
@@ -459,31 +547,89 @@ public class DataTableModel extends AbstractTableModel {
 
 
 
-    /* retourne le dataset selectionn√© */
+    /* retourne le dataset selectionnÈ */
     public Dataset getSelectedDataset(ArrayList<int[]> listSelected){
-        int nbC = 0;
-        int nbR = this.nbRowDs;
         int nb = listSelected.size();
-        ArrayList<Integer> listNoH = new ArrayList();
+        // col et ligne sel
+        boolean[] colSel = new boolean[nbColDs];
+        boolean[] rowSel = new boolean[nbRowDs];
+        for (int i=0; i<nbRowDs; i++){
+            rowSel[i] = false;
+        }
+        for (int j=0; j<nbColDs; j++){
+            colSel[j] = false;
+        }
+        for (int i=0; i<nb; i++){
+            int[] selCell = listSelected.get(i);
+            if (isValueData(selCell[0], selCell[1]) ){
+                rowSel[selCell[0]-1] = true;
+                colSel[selCell[1]-1] = true;
+            }
+        }
+        int nbR = 0;
+        for (int i=0; i<nbRowDs; i++){
+            if(rowSel[i])
+                nbR++;
+        }
+        int nbC = 0;
+        for (int j=0; j<nbColDs; j++){
+            if(colSel[j])
+                nbC++;
+        }
+        // correspondance
+        int[] corrRow = new int[nbR];
+        int id=0;
+        for (int i=0; i<nbRowDs; i++){
+            if(rowSel[i]){
+                corrRow[id] = i;
+                id++;
+            }
+        }
+        int[] corrCol = new int[nbC];
+        id=0;
+        for (int j=0; j<nbColDs; j++){
+            if(colSel[j]){
+                corrCol[id] = j;
+                id++;
+            }
+        }
+        // creation d'un dataset nbR / nbC
+        DataHeader[] headers = new DataHeader[nbC];
+        Data[][] data = new Data[nbR][nbC];
         for (int i=0; i<nb; i++){
             int[] selCell = listSelected.get(i);
             if (isValueHeader(selCell[0], selCell[1])){
-                nbC++;
-                listNoH.add(selCell[1]-1);
-            }
-        }
-        DataHeader[] headers = new DataHeader[nbC];
-        Data[][] data = new Data[nbR][nbC];
-        for (int i=0; i<nbC; i++){
-            headers[i] = this.dataset.getDataHeader(listNoH.get(i));
-        }
-        for (int i=0; i<nbR; i++){
-            for (int j=0; j<nbC; j++){
-                data[i][j] = this.datas[i][listNoH.get(j)];
+                int idC=-1;
+                for (int k=0; k<nbC; k++){
+                    if (corrCol[k] == (selCell[1]-1)){
+                        idC = k;
+                        break;
+                    }
+                }
+                if(idC != -1)
+                    headers[idC] = this.dataset.getDataHeader(selCell[1]-1);
+            }else if (isValueData(selCell[0], selCell[1])){
+                int idC=-1;
+                for (int k=0; k<nbC; k++){
+                    if (corrCol[k] == (selCell[1]-1)){
+                        idC = k;
+                        break;
+                    }
+                }
+                int idR = -1;
+                for (int k=0; k<nbR; k++){
+                    if (corrRow[k] == (selCell[0]-1)){
+                        idR = k;
+                        break;
+                    }
+                }
+                if(idR != -1 && idC != -1){
+                    data[idR][idC] = this.dataset.getData(selCell[0]-1, selCell[1]-1);
+                }
             }
         }
 
-        Dataset ds = new Dataset(-1, "", nbC, nbR, headers, data,new ArrayList(), new ArrayList() );
+        Dataset ds = new Dataset(-1, "subData", nbC, nbR, headers, data,getSelectedOperation(listSelected), new ArrayList() );
         return ds;
     }
 
@@ -554,8 +700,7 @@ public class DataTableModel extends AbstractTableModel {
 
     /* move subData */
     public void moveSubData(SubData subDataToMove, int noColInsertBefore) {
-        int[] noHeaders = subDataToMove.getNoHeaders() ;
-        int nbC = noHeaders.length;
+       
     }
 
    

@@ -23,7 +23,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                           <mainClass>eu.scy.tools.dataProcessTool.dataTool.TestDataToolFrame</mainClass>
+                           <mainClass>eu.scy.tools.dataProcessTool.dataTool.DataProcessToolFrame</mainClass>
                            <!--<mainClass>eu.scy.tools.fitex.MainInterface</mainClass> -->
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
@@ -45,14 +45,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>src/main/java/eu/scy/tools/dataProcessTool/images</directory>
-                <includes>
-                    <include>*.png</include>
-                    <include>*.gif</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/java/eu/scy/tools/fitex/images</directory>
+                 <directory>src/main/resources/Images</directory>
                 <includes>
                     <include>*.png</include>
                     <include>*.gif</include>
@@ -87,5 +80,5 @@
         	<version>${pom.version}</version>
         </dependency>      
     </dependencies>
-    
+   
 </project>

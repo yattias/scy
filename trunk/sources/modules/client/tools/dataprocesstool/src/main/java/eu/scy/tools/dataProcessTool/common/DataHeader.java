@@ -17,11 +17,14 @@ public class DataHeader implements Cloneable {
     private String value;
     /* noCol */
     private int noCol;
+    /* unit */
+    private String unit;
 
     // CONSTRUCTEURS
-    public DataHeader(long dbKey, String value, int noCol) {
+    public DataHeader(long dbKey, String value, String unit, int noCol) {
         this.dbKey = dbKey;
         this.value = value;
+        this.unit = unit;
         this.noCol = noCol;
     }
 
@@ -49,6 +52,14 @@ public class DataHeader implements Cloneable {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
     
     // CLONE
     @Override
@@ -58,9 +69,11 @@ public class DataHeader implements Cloneable {
             long dbKeyC = this.dbKey;
             String valueC = new String(this.value);
             int noColC = new Integer(this.noCol);
+            String unitC = new String(this.unit);
             
             dataheader.setDbKey(dbKeyC);
             dataheader.setValue(valueC);
+            dataheader.setUnit(unitC);
             dataheader.setNoCol(noColC);
             
             return dataheader;

@@ -5,7 +5,9 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
+import eu.scy.tools.dataProcessTool.dataTool.CopexGraph;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.VisualTabbedPane;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,13 +17,14 @@ import javax.swing.*;
  * onglet contenant la croix pour fermeture
  * @author MBO
  */
-public class CloseTab extends JPanel implements MouseListener {
+public class CloseTab extends JPanel implements MouseListener, ActionCopexButton {
 
     // ATTRIBUTS
     
     
     private DataProcessToolPanel owner;
-    private ScyTabbedPane tabbedPane;
+    private CopexGraph graph;
+    private VisualTabbedPane tabbedPane;
     private JLabel labelTitle;
     private String title;
     private CopexButtonPanel labelIcon;
@@ -33,9 +36,10 @@ public class CloseTab extends JPanel implements MouseListener {
     
     
     // CONSTRUCTEURS
-    public CloseTab(DataProcessToolPanel owner,  ScyTabbedPane tabbedPane, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled){
+    public CloseTab(DataProcessToolPanel owner,  VisualTabbedPane tabbedPane, CopexGraph graph, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled){
         this.owner = owner;
         this.tabbedPane = tabbedPane;
+        this.graph = graph;
         this.title = title;
         this.icon = icon;
         this.iconClic = iconClic;
@@ -58,7 +62,8 @@ public class CloseTab extends JPanel implements MouseListener {
         labelTitle.setBounds(0, 0, l+5, 19);
         add(labelTitle);
         //add(Box.createHorizontalStrut(5));
-        labelIcon = new CopexButtonPanel(owner, 20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
+        labelIcon = new CopexButtonPanel(20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
+        labelIcon.addActionCopexButton(this);
         //labelIcon.setBackground(Color.WHITE);
         Dimension d;
         if (l > 0){
@@ -90,19 +95,7 @@ public class CloseTab extends JPanel implements MouseListener {
         repaint();
     }
     
-    /* mise à jour du nom du protocole */
-    public void updateProcName(String name){
-        labelTitle.setText(name);
-        this.title = name;
-        int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
-        this.labelTitle.setSize(l+5, this.labelTitle.getHeight());
-        labelIcon.setBounds(labelTitle.getX()+labelTitle.getWidth()+5, 2, 20, labelTitle.getHeight());
-        Dimension d = new Dimension(labelTitle.getWidth()+25, 15);
-        setSize(d);
-        setPreferredSize(d);
-        revalidate();
-        repaint();
-    }
+   
 
     // rend disabled
     public void setDisabled(){
@@ -157,5 +150,14 @@ public class CloseTab extends JPanel implements MouseListener {
         setPreferredSize(d);
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void actionCopexButtonClic(CopexButtonPanel button) {
+        if(graph == null){
+            owner.openDialogCreateVisual();
+        }else{
+            owner.closeGraph(graph.getVisualization());
+        }
     }
 }

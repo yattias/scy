@@ -58,44 +58,44 @@ public class BorderPanel extends JPanel {
     * On change l'ordre dans lequel les éléments sont redessinés de façon à ce que la bordure
     * soit toujours visible.
     */
-    @Override
-    public void paint(Graphics g) {
-	super.paint(g) ;
-	paintBorder(g) ;
-    }
+//    @Override
+//    public void paint(Graphics g) {
+//	super.paint(g) ;
+//	paintBorder(g) ;
+//    }
     
     /* On repaint ici le fond du Panel */
-    @Override
-    public void paintComponent(Graphics g) {
-        if(isOpaque()) {
-            g.setColor(getBackground()) ;
-            g.fillRect(0,0,getWidth(),getHeight()) ;
-	} 
-    }
+//    @Override
+//    public void paintComponent(Graphics g) {
+//        if(isOpaque()) {
+//            g.setColor(getBackground()) ;
+//            g.fillRect(0,0,getWidth(),getHeight()) ;
+//	}
+//    }
     
     /** <BR>
     * Cette méthode construit la bordure qui caractérise le BooPanel afin
     * de personnaliser les fenêtres de l'appli.
     */
     public void setBorder() {
-        this.borderColor =  Color.decode("#B6D8DB");
-        if (this.borderColor == null){
-            this.borderColor = new Color(153, 204, 255) ;
-        }
-        
-	Border raisedbevel = BorderFactory.createBevelBorder(1, getRaisedColor(this.borderColor), getLoweredColor(this.borderColor));
-	Border loweredbevel = BorderFactory.createBevelBorder(0, getRaisedColor(this.borderColor), getLoweredColor(this.borderColor));
-	Border compound1, compound2;
-	Border line = BorderFactory.createLineBorder(this.borderColor, BORDURE);
-	compound1 = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
-	compound2 = BorderFactory.createCompoundBorder(line, compound1);
-	super.setBorder(compound2);
+//        this.borderColor =  Color.decode("#B6D8DB");
+//        if (this.borderColor == null){
+//            this.borderColor = new Color(153, 204, 255) ;
+//        }
+//
+//	Border raisedbevel = BorderFactory.createBevelBorder(1, getRaisedColor(this.borderColor), getLoweredColor(this.borderColor));
+//	Border loweredbevel = BorderFactory.createBevelBorder(0, getRaisedColor(this.borderColor), getLoweredColor(this.borderColor));
+//	Border compound1, compound2;
+//	Border line = BorderFactory.createLineBorder(this.borderColor, BORDURE);
+//	compound1 = BorderFactory.createCompoundBorder(raisedbevel, loweredbevel);
+//	compound2 = BorderFactory.createCompoundBorder(line, compound1);
+//	super.setBorder(compound2);
     }
     
     
     
-    @Override
-    public void setBorder(Border bord){
-	this.setBorder() ;
-    }
+//    @Override
+//    public void setBorder(Border bord){
+//	this.setBorder() ;
+//    }
 }
