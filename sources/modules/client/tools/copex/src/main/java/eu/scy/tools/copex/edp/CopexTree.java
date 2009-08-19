@@ -386,6 +386,20 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         return null;
    }
 
+   // retourne le nombre de repetition d'une tache
+   public int getNbRepeat(Object value){
+       if (value instanceof CopexTreeNode ){
+            CopexTreeNode node =  (CopexTreeNode)value;
+            if (node == null || node.getTask() == null  )
+                    return 0;
+            if (node.getTask().getTaskRepeat() == null)
+                return 1;
+            else
+                return node.getTask().getTaskRepeat().getNbRepeat();
+       }else
+        return 0;
+   }
+
    /* ouverture fenetre d'edition de la question */
    public void editQuestion(CopexTreeNode currentNode){
        ImageIcon img = null ;
@@ -408,7 +422,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
        if (edP.getTaskImage(currentNode.getTask().getTaskImage()) != null)
            img = new ImageIcon(edP.getTaskImage(currentNode.getTask().getTaskImage()));
        
-       StepDialog stepD = new StepDialog(edP, false, currentNode.getTask().getDescription(), currentNode.getTask().getComments(), img, currentNode.getTask().getEditRight(), this.proc.getRight());
+       StepDialog stepD = new StepDialog(edP, false, (Step)currentNode.getTask(), img, this.initProc.isTaskRepeat(),  currentNode.getTask().getEditRight(), this.proc.getRight());
        stepD.setVisible(true);
    }
    
@@ -433,7 +447,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
            else if (currentNode.getTask() instanceof CopexActionManipulation )
                materialProd = ((CopexActionManipulation)currentNode.getTask()).getListMaterialProd() ;
        }
-       ActionDialog2 actionD = new ActionDialog2(edP, false, currentNode.getTask().getDescription(), currentNode.getTask().getComments(), img ,currentNode.getTask().getDraw(), actionNamed, currentNode.getTask().getEditRight(),  this.proc.getRight(), this.initProc.isFreeAction(), this.initProc.getListNamedAction(), edP.getListPhysicalQuantity(), tabParam, materialProd, dataProd);
+       ActionDialog2 actionD = new ActionDialog2(edP, false, currentNode.getTask().getDescription(), currentNode.getTask().getComments(), img ,currentNode.getTask().getDraw(), actionNamed, currentNode.getTask().getEditRight(),  this.proc.getRight(), this.initProc.isFreeAction(), this.initProc.getListNamedAction(), edP.getListPhysicalQuantity(), tabParam, materialProd, dataProd, this.initProc.isTaskRepeat(), currentNode.getTask().getTaskRepeat());
        actionD.setVisible(true);
    }
    

@@ -46,6 +46,7 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
         CopexReturn cr = this.controller.updateTask(oldTask, getProc(), newTask, MyConstants.UNDO,  v);
         if (cr.isError()){
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
         }
         LearnerProcedure newproc = (LearnerProcedure)v.get(0);
         edP.updateProc(newproc);

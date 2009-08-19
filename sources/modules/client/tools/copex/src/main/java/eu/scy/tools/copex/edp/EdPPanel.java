@@ -37,7 +37,7 @@ public class EdPPanel extends JPanel {
 
     /* version */
     private String version = "Version 1.2.1";
-    private ControllerInterface controller;
+    protected ControllerInterface controller;
     public final static Color backgroundColor = SystemColor.control;
     /* locale */
     protected Locale locale ;
@@ -1001,7 +1001,11 @@ public class EdPPanel extends JPanel {
 
     /* ouverture de la fenetre de dialogue permettant la creation d'une etape */
     public void openDialogAddE() {
-        StepDialog addE = new StepDialog(this);
+        LearnerProcedure proc = getProcActiv();
+        if (proc == null)
+            return;
+        InitialProcedure initProc = proc.getInitialProc() ;
+        StepDialog addE = new StepDialog(this, initProc.isTaskRepeat());
         addE.setVisible(true);
     }
     // ouverture de la fenetre de dialoguer permettant d'ajouter une action
@@ -1010,7 +1014,7 @@ public class EdPPanel extends JPanel {
         if (proc == null)
             return;
         InitialProcedure initProc = proc.getInitialProc() ;
-        ActionDialog2 addA = new ActionDialog2(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity);
+        ActionDialog2 addA = new ActionDialog2(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat());
         addA.setVisible(true);
     }
 
@@ -1829,6 +1833,10 @@ public class EdPPanel extends JPanel {
         LearnerProcedure proc = getProcActiv();
         if (proc == null)
             return listMaterial ;
+        if(type == null){
+            //tout
+            return proc.getInitialProc().getListMaterial();
+        }
         boolean controlType2 = type2 != null;
         long dbKeyType2 = -1;
         if (controlType2)
@@ -2076,6 +2084,36 @@ public class EdPPanel extends JPanel {
         return this.mission.getOptions().isCanAddProc();
     }
 
+    /* retourne la liste des parametres des actions de l'etape */
+    public ArrayList<InitialActionParam> getStepInitialParam(Step step){
+        ArrayList v = new ArrayList();
+        LearnerProcedure proc = getProcActiv();
+        if (proc != null){
+            CopexReturn cr =this.controller.getTaskInitialParam(proc, step, v);
+            if(cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            }else{
+                return (ArrayList<InitialActionParam>)v.get(0);
+            }
+        }
+        return new ArrayList();
+    }
+
+
+    /* retourne la liste des output des actions de l'étape */
+    public ArrayList<InitialOutput> getStepInitialOutput(Step step){
+        ArrayList v = new ArrayList();
+        LearnerProcedure proc = getProcActiv();
+        if (proc != null){
+            CopexReturn cr =this.controller.getTaskInitialOutput(proc, step, v);
+            if(cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            }else{
+                return (ArrayList<InitialOutput>)v.get(0);
+            }
+        }
+        return new ArrayList();
+    }
 
    
 

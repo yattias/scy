@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_SCY1_CO2.xml
+    Created on : 19 août 2009, 12:21
+    Author     : Marjolaine
+    Description:
+        Configuration file pour the scy mission 1 : CO2 House
+-->
+
+<copex_mission language="fr en">
+    <code_mission>CO2</code_mission>
+    <keep_track>1</keep_track>
+    <materials>
+        <material>
+                <id>MATERIAL_SPECTRO</id>
+                <material_description language="fr">
+                    <name>Spectrophotomètre UV-visible</name>
+                </material_description>
+                <material_description language="en">
+                    <name>Spectrophotomètre UV-visible</name>
+                </material_description>
+                <types>
+                    <type>TYPE_MESUREUR</type>
+                </types>
+            </material>
+    </materials>
+    <initial_proc>
+        <description_proc language="fr">
+            <code_proc>CO2</code_proc>
+            <name_proc>Maison CO2</name_proc>
+        </description_proc>
+        <description_proc language="en">
+            <code_proc>CO2</code_proc>
+            <name_proc>CO2 House</name_proc>
+            <question>
+                <question_description language="fr">Question</question_description>
+                <question_description language="en">Question</question_description>
+                <task_right>
+                    <edit_right>X</edit_right>
+                    <delete_right>N</delete_right>
+                    <copy_right>N</copy_right>
+                    <move_right>N</move_right>
+                    <parent_right>X</parent_right>
+                    <draw_right>N</draw_right>
+                    <repeat_right>N</repeat_right>
+                </task_right>
+                <tree_items>
+                    <hypotheses>
+                        <hyp_desc language="fr"></hyp_desc>
+                        <hyp_desc language="en"></hyp_desc>
+                    </hypotheses>
+                    <principle>
+                        <princ_desc language="fr"></hyp_desc>
+                        <princ_desc language="en"></hyp_desc>
+                    </principle>
+                    <materials>
+                        <material_strategy>MATERIAL_DISP</material_strategy>
+                        <material>
+                            <id>MATERIAL_FIOLE</id>
+                        </material>
+                        <material>
+                            <id>MATERIAL_SPECTRO</id>
+                        </material>
+                    </materials>
+                    <manipulation>
+                    </manipulation>
+                    <datasheet>1</datasheet>
+                    <evaluation>1</evaluation>
+                </tree_items>
+            </question>
+        </description_proc>
+    </initial_proc>
+    <initial_proc>
+        <description_proc language="fr">
+            <code_proc>CO2 2</code_proc>
+            <name_proc>Maison CO2</name_proc>
+        </description_proc>
+        <description_proc language="en">
+            <code_proc>CO2</code_proc>
+            <name_proc>CO2 House</name_proc>
+            <question>
+                <question_description language="fr">Question</question_description>
+                <question_description language="en">Question</question_description>
+                <task_right>
+                    <edit_right>X</edit_right>
+                    <delete_right>N</delete_right>
+                    <copy_right>N</copy_right>
+                    <move_right>N</move_right>
+                    <parent_right>X</parent_right>
+                    <draw_right>N</draw_right>
+                    <repeat_right>N</repeat_right>
+                </task_right>
+                <tree_items>
+                    <hypotheses>
+                        <hyp_desc language="fr"></hyp_desc>
+                        <hyp_desc language="en"></hyp_desc>
+                    </hypotheses>
+                    <principle>
+                        <princ_desc language="fr"></hyp_desc>
+                        <princ_desc language="en"></hyp_desc>
+                    </principle>
+                    <materials>
+                        <material_strategy>MATERIAL_PROP</material_strategy>
+                        <material>
+                            <id>MATERIAL_FIOLE</id>
+                        </material>
+                        <material>
+                            <id>MATERIAL_SPECTRO</id>
+                        </material>
+                    </materials>
+                    <manipulation></manipulation>
+                        <childs>
+                            <task>
+                                <type>step</type>
+                                <description language="fr">Etape 1</description>
+                                <description language="fr">Step 1</description>
+                                <comments language="fr"></comments>
+                                <comments language="fr"></comments>
+                                <task_right>
+                                    <edit_right>X</edit_right>
+                                    <delete_right>N</delete_right>
+                                    <copy_right>X</copy_right>
+                                    <move_right>N</move_right>
+                                    <parent_right>X</parent_right>
+                                    <draw_right>N</draw_right>
+                                    <repeat_right>N</repeat_right>
+                                </task_right>
+                                <childs>
+                                    <task>
+                                        <type>step</type>
+                                        <description language="fr">Etape 1</description>
+                                        <description language="fr">Step 1</description>
+                                        <comments language="fr"></comments>
+                                        <comments language="fr"></comments>
+                                        <task_right>
+                                            <edit_right>X</edit_right>
+                                            <delete_right>X</delete_right>
+                                            <copy_right>X</copy_right>
+                                            <move_right>X</move_right>
+                                            <parent_right>X</parent_right>
+                                            <draw_right>X</draw_right>
+                                            <repeat_right>X</repeat_right>
+                                        </task_right>
+                                    </task>
+                                 </childs>
+                            </task>
+                            </childs>
+                    </manipulation>
+                    <datasheet>1</datasheet>
+                    <evaluation>1</evaluation>
+                </tree_items>
+            </question>
+        </description_proc>
+    </initial_proc>
+</copex_mission>

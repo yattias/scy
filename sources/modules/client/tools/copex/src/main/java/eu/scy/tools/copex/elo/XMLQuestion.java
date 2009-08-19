@@ -5,6 +5,7 @@
 
 package eu.scy.tools.copex.elo;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,14 +117,22 @@ public class XMLQuestion {
     public Element toXML(){
         Element element = new Element(TAG_QUESTION);
 		element.addContent(new Element(TAG_QUESTION_ID).setText(idQuestion));
-        if (description != null)
+        if (description != null){
+            description = CopexUtilities.getUTF8String(description);
             element.addContent(new Element(TAG_QUESTION_DESCRIPTION).setText(description));
-        if (hypothesis != null)
+        }
+        if (hypothesis != null){
+            hypothesis = CopexUtilities.getUTF8String(hypothesis);
             element.addContent(new Element(TAG_QUESTION_HYPOTHESIS).setText(hypothesis));
-        if (generalPrinciple != null)
+        }
+        if (generalPrinciple != null){
+            generalPrinciple = CopexUtilities.getUTF8String(generalPrinciple);
             element.addContent(new Element(TAG_QUESTION_PRINCIPLE).setText(generalPrinciple));
-        if (comments != null)
+        }
+        if (comments != null){
+            comments = CopexUtilities.getUTF8String(comments);
             element.addContent(new Element(TAG_QUESTION_COMMENTS).setText(comments));
+        }
         if (image != null)
             element.addContent(new Element(TAG_QUESTION_IMAGE).setText(image));
         if(draw != null){

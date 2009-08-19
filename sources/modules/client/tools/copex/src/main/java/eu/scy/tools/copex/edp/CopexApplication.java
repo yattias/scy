@@ -124,14 +124,14 @@ public class CopexApplication extends javax.swing.JFrame {
             if(args.length > 5)
                 firstName = args[5];
         }
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new CopexApplication().setVisible(true);
-//            }
-//        });
-        CopexApplication copex = new CopexApplication();
-        copex.setVisible(true);
-        copex.loadEdP();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                CopexApplication copex = new CopexApplication();
+                copex.setVisible(true);
+                copex.loadEdP();
+            }
+        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

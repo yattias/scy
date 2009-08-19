@@ -21,13 +21,16 @@ public class InitialProcedure extends ExperimentalProcedure {
     private ArrayList<InitialNamedAction> listNamedAction;
     /* action libre autorisee */
     private boolean isFreeAction;
+    /* tache repeat */
+    private boolean isTaskRepeat;
      /* liste du materiel disponible associe */
     private ArrayList<Material> listMaterial ;
 
     // CONSTRUCTOR
-    public InitialProcedure(long dbKey, String name, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, ArrayList<InitialNamedAction> listNamedAction) {
+    public InitialProcedure(long dbKey, String name, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, boolean isTaskRepeat, ArrayList<InitialNamedAction> listNamedAction) {
         super(dbKey, name, dateLastModification, isActiv, right);
         this.isFreeAction = isFreeAction ;
+        this.isTaskRepeat = isTaskRepeat ;
         this.code = code;
         this.listNamedAction = listNamedAction ;
     }
@@ -39,6 +42,14 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     public void setFreeAction(boolean isFreeAction) {
         this.isFreeAction = isFreeAction;
+    }
+
+    public boolean isTaskRepeat() {
+        return isTaskRepeat;
+    }
+
+    public void setTaskRepeat(boolean isTaskRepeat) {
+        this.isTaskRepeat = isTaskRepeat;
     }
 
     public ArrayList<InitialNamedAction> getListNamedAction() {
@@ -69,6 +80,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     public Object clone()  {
          InitialProcedure p = (InitialProcedure) super.clone() ;
             p.setFreeAction(this.isFreeAction);
+            p.setTaskRepeat(this.isTaskRepeat);
             p.setCode(new String(this.code));
             ArrayList<InitialNamedAction> l = null;
             if (this.listNamedAction != null){

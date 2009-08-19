@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
-             <artifactId>drawingtool</artifactId>
+            <artifactId>drawingtool</artifactId>
             <version>${pom.version}</version>
         </dependency>
     </dependencies>
@@ -73,6 +73,12 @@
                 <includes>
                     <include>*.png</include>
                     <include>*.gif</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/config</directory>
+                <includes>
+                    <include>*.xml</include>
                 </includes>
             </resource>
         </resources>

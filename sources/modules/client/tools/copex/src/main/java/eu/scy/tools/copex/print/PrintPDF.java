@@ -16,6 +16,7 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -116,16 +117,58 @@ public class PrintPDF {
    
 
     private Font getNormalFont(){
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.NORMAL, Color.BLACK) ;
     }
     private Font getCommentFont(){
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.ITALIC, Color.BLACK) ;
     }
      private Font getFontHeaderItalic(){
-        return FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.ITALIC, Color.BLACK) ;
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.ITALIC, Color.BLACK) ;
     }
      private Font getDataSheetFont(){
-        return FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.NORMAL, Color.BLACK) ;
+       BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.NORMAL, Color.BLACK) ;
     }
     
 
