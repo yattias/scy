@@ -7,7 +7,9 @@ package eu.scy.elobrowser.tool.dataProcessTool;
 
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
+import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elobrowser.main.user.User;
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
@@ -57,6 +60,8 @@ public class EloDataToolWrapper {
 	private JDomStringConversion jdomStringConversion = new JDomStringConversion();
 
 	private DataToolPanel dataToolPanel;
+    private File lastUsedFile = null;
+
 	private String docName = untitledDocName;
 	private IELO<IMetadataKey> elo = null;
     private URI usesEloURI = null;
@@ -154,13 +159,13 @@ public class EloDataToolWrapper {
 
 	public void newDataProcessAction()
 	{
-		dataToolPanel.newElo();
+		//dataToolPanel.newElo();
 		elo = null;
         docName = untitledDocName;
 		sendELOLoadedChangedListener();
 	}
 
-	public void loadDataProcessAction()
+	public URI loadDataProcessAction()
 	{
         // TODO
 		IQuery query = null;
@@ -181,11 +186,33 @@ public class EloDataToolWrapper {
 			pdsUris[i++] = searchResult.getUri();
 		URI pdsUri = (URI) JOptionPane.showInputDialog(null, "Select ds/pds", "Select ds/pds",
 					JOptionPane.QUESTION_MESSAGE, null, pdsUris, null);
-		if (pdsUri != null)
-		{
-			loadElo(pdsUri);
-		}
+//		if (pdsUri != null)
+//		{
+//			loadElo(pdsUri);
+//		}
+        return pdsUri;
           
+	}
+
+    public void mergeDataProcessAction()
+	{
+        IQuery queryDS = null;
+
+        IMetadataQuery<IMetadataKey> metadataQueryDs = new BasicMetadataQuery<IMetadataKey>(typeKey,
+					BasicSearchOperations.EQUALS, scyDatasetType, null);
+        queryDS = metadataQueryDs ;
+        List<ISearchResult> searchResultsDs = repository.search(queryDS);
+		URI[] dsUris = new URI[searchResultsDs.size()];
+		int i = 0;
+        for (ISearchResult searchResult : searchResultsDs)
+			dsUris[i++] = searchResult.getUri();
+		URI dsUri = (URI) JOptionPane.showInputDialog(null, "Select ds", "Select ds",
+					JOptionPane.QUESTION_MESSAGE, null, dsUris, null);
+		if (dsUri != null)
+		{
+			mergeElo(dsUri);
+		}
+
 	}
 
 	public void loadElo(URI eloUri)
@@ -213,6 +240,42 @@ public class EloDataToolWrapper {
 			sendELOLoadedChangedListener();
 		}
          
+	}
+
+    public void loadElo(DataSet dsElo)
+	{
+		if (dsElo != null)
+		{
+			this.dataToolPanel.loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
+			sendELOLoadedChangedListener();
+		}
+
+	}
+
+    public void mergeElo(URI eloUri)
+	{
+        logger.info("Trying to load elo " + eloUri);
+		IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
+		if (newElo != null)
+		{
+			String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue()
+						.toString();
+			if ( !scyDatasetType.equals(eloType))
+				throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
+			IMetadata metadata = newElo.getMetadata();
+			IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
+			// TODO fixe the locale problem!!!
+			Object titleObject = metadataValueContainer.getValue();
+			Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
+			Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
+
+			//setDocName(titleObject3.toString());
+			this.dataToolPanel.mergeELO(newElo.getContent().getXmlString());
+			//elo = newElo;
+            usesEloURI = elo.getUri(); // needed to store the uses relation when saving
+			sendELOLoadedChangedListener();
+		}
+
 	}
 
 	public void saveDataProcessAction()
@@ -269,16 +332,24 @@ public class EloDataToolWrapper {
 		}
 	}
 
-	// @Action
-	// public void closeDrawingAction()
-	// {
-	// this.dispose();
-	// }
-	//
+	
 	public void setRepository(IRepository<IELO<IMetadataKey>, IMetadataKey> repository)
 	{
 		this.repository = repository;
 	}
+
+    public DataSet importCSVFile() {
+        JFileChooser aFileChooser = new JFileChooser();
+		if (lastUsedFile != null)
+			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+		int userResponse = aFileChooser.showOpenDialog(null);
+		if (userResponse == JFileChooser.APPROVE_OPTION){
+			File file = aFileChooser.getSelectedFile();
+			lastUsedFile = file;
+            return dataToolPanel.importCSVFile(file);
+		}
+        return null;
+    }
 
 	
 

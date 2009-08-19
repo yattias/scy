@@ -21,13 +21,16 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.layout.Resizable;
 
 /**
  * @author marjolaine bodin
  */
 
  // place your code here
-public class CopexNode extends CustomNode {
+public class CopexNode extends CustomNode{
+   
+
    var copexPanel:ScyCopexPanel;
    var eloCopexWrapper:EloCopexWrapper;
 	public var scyWindow:ScyWindow on replace {
