@@ -30,6 +30,8 @@ public class SortDialog extends javax.swing.JDialog {
     private Vector listOfColumns ;
     /* texte pour aucun critere */
     private String noText ;
+    /* nom du premier critere � selectionner */
+    private String selColumn;
 
     // Panneaux cachables et leurs état
 	JPanel thirdPanel = null;
@@ -58,10 +60,11 @@ public class SortDialog extends javax.swing.JDialog {
 	boolean isKey1Croi=true,isKey2Croi=true,isKey3Croi=true;
 
     // CONSTRUCTOR 
-    public SortDialog(DataProcessToolPanel owner, Vector listOfColumns) {
+    public SortDialog(DataProcessToolPanel owner, Vector listOfColumns, String selColumn) {
         super();
         this.owner = owner;
         this.listOfColumns = listOfColumns;
+        this.selColumn = selColumn;
         noText = owner.getBundleString("LABEL_SORT_NO") ;
         this.listOfColumns.addElement(noText);
         initComponents();
@@ -84,10 +87,10 @@ public class SortDialog extends javax.swing.JDialog {
         panelSort.setLayout(new BoxLayout(panelSort, BoxLayout.Y_AXIS));
 		panelSort.setFont(new Font("Dialog",1,12));
 
-        panelSort.add(getKeyJPanel(owner.getBundleString("LABEL_SORT_BY"),isKey1Croi,"comboKey1"), "Panel de la 1er clé");
-		panelSort.add(getKeyJPanel(owner.getBundleString("LABEL_SORT_THEN_BY"),isKey2Croi,"comboKey2"), "Panel de la 2e clé");
+        panelSort.add(getKeyJPanel(owner.getBundleString("LABEL_SORT_BY"),isKey1Croi,"comboKey1"), "Panel de la 1er cle");
+		panelSort.add(getKeyJPanel(owner.getBundleString("LABEL_SORT_THEN_BY"),isKey2Croi,"comboKey2"), "Panel de la 2e cle");
         thirdPanel = getKeyJPanel(owner.getBundleString("LABEL_SORT_THEN_BY"),isKey3Croi,"comboKey3") ;
-		panelSort.add(thirdPanel, "Panel de la 3e clé");
+		panelSort.add(thirdPanel, "Panel de la 3e cle");
         
         // La barre de boutons OK/Annuler
 		JPanel buttonPanel = new JPanel();
@@ -102,6 +105,11 @@ public class SortDialog extends javax.swing.JDialog {
 		panelSort.add(Box.createRigidArea(new Dimension(10, 16)));
 		panelSort.add(buttonPanel);
         this.setPanelsVisibility();
+        if (selColumn != null){
+            Component [] lesComposants = panelSort.getComponents();
+            JPanel key1Panel = (JPanel) lesComposants[0];
+            ((JComboBox) ((JPanel)(key1Panel.getComponents()[0])).getComponents()[0]).setSelectedItem(selColumn);
+        }
     }
     
     /**
@@ -344,10 +352,7 @@ private JButton getJButton(int x, int y, String texte) {
 
 			}
 		}
-        System.out.println("tri par : ");
-        System.out.println("key1 : "+keySort1.toString());
-        System.out.println("key2 : "+(keySort2 == null ? "null" : keySort2.toString()));
-        System.out.println("key3 : "+(keySort3 == null ? "null" : keySort3.toString()));
+        
         owner.executeSort(keySort1, keySort2, keySort3);
         this.setVisible(false);
         this.dispose();

@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.fitex.GUI.ActionFitex;
 import eu.scy.tools.fitex.GUI.FitexPanel;
@@ -15,10 +16,16 @@ import java.awt.Color;
  * @author Marjolaine
  */
 public class FitexGraph extends CopexGraph implements ActionFitex {
+    private FitexPanel fitexPanel;
 
     public FitexGraph(DataProcessToolPanel owner,long dbKeyDs, Visualization vis, FitexPanel fitexPanel) {
         super(owner,dbKeyDs, vis, fitexPanel);
+        this.fitexPanel = fitexPanel;
         fitexPanel.addActionFitex(this);
+    }
+
+    public FitexPanel getFitexPanel() {
+        return fitexPanel;
     }
 
     @Override
@@ -28,7 +35,7 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
 
     @Override
     public void setParam(boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY) {
-        owner.setParamGraph(dbKeyDs, vis.getDbKey(), autoScale, xmin, xmax, deltaX, ymin, ymax, deltaY);
+        owner.updateGraphParam(new ParamGraph("", "", xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
     }
 
     @Override

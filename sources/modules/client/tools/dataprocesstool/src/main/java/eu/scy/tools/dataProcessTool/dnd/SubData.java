@@ -11,29 +11,23 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.io.Serializable;
 
 /**
- * sous donnÃ©es qui sont Ã  coller
+ * sous données qui sont à  coller
  * @author Marjolaine
  */
 public class SubData extends DataTable implements Serializable{
-
-    /* dataTable mere */
+    /* table mere*/
     private DataTable table;
-    /* anciens numeros de colonnes*/
-    private int[] noHeaders;
 
-    public SubData(DataProcessToolPanel owner, Dataset ds, DataTable table, int[] noHeaders) {
+    public SubData(DataProcessToolPanel owner,DataTable table,  Dataset ds) {
         super(owner, ds);
         this.table = table;
-        this.noHeaders = noHeaders ;
     }
 
     public DataTable getTable() {
         return table;
     }
 
-    public int[] getNoHeaders(){
-        return this.noHeaders;
-    }
+   
 
 
 

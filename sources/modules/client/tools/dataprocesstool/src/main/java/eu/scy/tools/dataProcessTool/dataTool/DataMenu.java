@@ -88,6 +88,14 @@ public class DataMenu extends JPopupMenu implements ActionListener{
             delete();
         else if (e.getSource().equals(this.itemCopy))
             copy();
+        else if (e.getSource().equals(this.itemCut))
+            cut();
+        else if (e.getSource().equals(this.itemPaste))
+            paste();
+        else if (e.getSource().equals(this.itemAsc))
+            sort(true);
+        else if (e.getSource().equals(this.itemDes))
+            sort(false);
     }
     
     // METHOD
@@ -145,7 +153,7 @@ public class DataMenu extends JPopupMenu implements ActionListener{
         this.menuOperations.add(this.itemAvg);
         this.menuOperations.add(this.itemMin);
         this.menuOperations.add(this.itemMax);
-        this.menuOperations.add(this.itemSumIf);
+        //this.menuOperations.add(this.itemSumIf);
         this.itemAsc = new JMenuItem(owner.getBundleString("MENU_SORT_ASC"));
         this.itemAsc.addActionListener(this);
         this.itemDes = new JMenuItem(owner.getBundleString("MENU_SORT_DES"));
@@ -213,6 +221,19 @@ public class DataMenu extends JPopupMenu implements ActionListener{
         table.copy();
     }
 
+    /* cut */
+    private void cut(){
+        table.cut();
+    }
+    /* paste */
+    private void paste(){
+        table.paste();
+    }
+
+    /* tri ascendant, descendant sinon */
+    private void sort(boolean asc){
+        table.sort(asc);
+    }
 
     /* rend actif ou non l'item ignorer */
     public void setEnabledItemIgnored(boolean enabled){

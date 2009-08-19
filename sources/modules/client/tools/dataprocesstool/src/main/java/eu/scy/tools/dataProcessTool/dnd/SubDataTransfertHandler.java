@@ -28,8 +28,9 @@ public class SubDataTransfertHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
         if (c instanceof DataTable && ((DataTable)c).selIsSubData()){
-            SubDataTransferable subData = new SubDataTransferable(((DataTable)c).getSubDataCopy());
-            return subData;
+            //SubDataTransferable subData = new SubDataTransferable(((DataTable)c).getSubDataCopy());
+            //return subData;
+            return null;
         }else
             return null;
     }
@@ -40,7 +41,7 @@ public class SubDataTransfertHandler extends TransferHandler {
         if (action == MOVE && data instanceof SubDataTransferable){
             SubData subData = ((SubDataTransferable)data).getSubData();
             DataTable table = subData.getTable();
-            table.removeData(subData);
+            //table.removeData(subData);
         }
     }
 
@@ -85,7 +86,8 @@ public class SubDataTransfertHandler extends TransferHandler {
                SubData subDataToMove = ((SubDataTransferable)o).getSubData();
                 DataTable table = subDataToMove.getTable();
                int dropNoCol = getNodeNoColInsert(dropLocation, table);
-                return table.moveSubData(subDataToMove, dropNoCol);
+                //return table.moveSubData(subDataToMove, dropNoCol);
+               return false;
             }
             return true;
         }catch(UnsupportedFlavorException e1){

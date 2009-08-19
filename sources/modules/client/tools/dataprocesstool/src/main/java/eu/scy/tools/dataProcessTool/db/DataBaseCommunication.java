@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author MBO
  */
 public class DataBaseCommunication {
-    // CONSTANTES 
+    // CONSTANTES
     /* requete de selection avec envoit du resultat */
     public final static int MODE_SELECT = 1;
     /* requete simple */
@@ -29,34 +29,54 @@ public class DataBaseCommunication {
     public final static int MODE_INSERT = 3;
     /* nom du champ pour recupere le dernier indice */
     public final static String LAST_ID = "LAST ID";
-    
- 
+
+
     // ATTRIBUTS
-    /* applet */
-    private ScyApplet applet ;
+    /* URL */
+    private URL codeBase;
+    /* repertoire Data */
+    private String directoryData;
+    /* repertoire Php */
+    private String directoryPhP;
     private long idMission;
-    private long idUser;
+    private String idUser;
     /* base par défaut cd constantes DB_COPEX */
     private int db;
 
     /* nom du fichier */
     private String fileName;
-    private HttpURLConnection urlCon;
-    private ObjectOutputStream out;
+    private HttpURLConnection urlCon = null;
+    private ObjectOutputStream out = null;
     private String dataBD = "";
 
-    public DataBaseCommunication(ScyApplet applet, int db, long idMission, long idUser) {
-        this.applet = applet;
+
+    public DataBaseCommunication(URL copexURL,   int db, long idMission, String idUser) {
+        this.codeBase = copexURL;
+        this.directoryData = getDirectoryData();
+        this.directoryPhP = getDirectoryPhp() ;
         this.dataBD = "";
         this.db = db;
         this.idMission = idMission;
         this.idUser = idUser;
         this.fileName = "db"+idMission+"-"+idUser+".xml";
     }
-    
-    // envoie une requete de selection 
+
+
+    private String getDirectoryPhp(){
+        return "../dataProcessTool/InterfaceServer/";
+      }
+
+     private String getDirectoryData(){
+        return "../dataProcessTool/InterfaceServer/data/";
+      }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+        this.fileName = "db"+idMission+"-"+idUser+".xml";
+    }
+
+    // envoie une requete de selection
     public CopexReturn sendQuery(String query, ArrayList listFields, ArrayList v){
-        System.out.println("send Query : "+query+ " ("+db+")");
         dataBD = fileName+"\n";
         dataBD += "<data>"+this.db;
         dataBD += "<query>"+query+"</query>";
@@ -67,7 +87,7 @@ public class DataBaseCommunication {
         CopexReturn cr = openConnectionServer(MODE_SELECT, dataBD.length());
         if (cr.isError())
             return cr;
-        
+
         cr = sendData();
         if (cr.isError())
             return cr;
@@ -89,7 +109,7 @@ public class DataBaseCommunication {
         cr = sendData();
         return cr;
     }
-    
+
     // envoie d'une requete d'insertion puis lecture du champ insere
     public CopexReturn insertQuery(String[] query, ArrayList v){
         dataBD = fileName+"\n";
@@ -102,28 +122,28 @@ public class DataBaseCommunication {
         CopexReturn cr = openConnectionServer(MODE_INSERT, dataBD.length());
         if (cr.isError())
             return cr;
-        
+
         cr = sendData();
         if (cr.isError())
             return cr;
         cr = receiveResponse(v);
         return cr;
     }
-    
-    
-    // connection au serveur 
+
+
+    // connection au serveur
     private CopexReturn openConnectionServer(int mode, long lenght) {
         //System.out.println("openConnectionServer");
         String file = "";
         if (mode == MODE_SELECT)
             file = "sendQuerySelect.php" ;
-        else if (mode == MODE_SIMPLE)    
+        else if (mode == MODE_SIMPLE)
             file = "sendQuery.php";
         else if (mode == MODE_INSERT)
             file = "sendQueryInsert.php";
         try{
             URL urlDB ;
-            urlDB = new URL(applet.getCodeBase(), applet.getDirectoryPhp()+file);
+            urlDB = new URL(codeBase, directoryPhP+file);
             urlCon = (HttpURLConnection)urlDB.openConnection();
             urlCon.setDoOutput(true);
             urlCon.setDoInput(true);
@@ -133,14 +153,14 @@ public class DataBaseCommunication {
             urlCon.connect();
             this.out = new ObjectOutputStream(urlCon.getOutputStream());
             return new CopexReturn();
-           
+
         }catch(IOException ioe){
             System.out.println("IOException in HTMLFile : "+ioe.getMessage());
             System.out.println(ioe);
             return new CopexReturn(ioe.getMessage(), false);
         }
     }
-    
+
     // envoi des données
     private CopexReturn sendData(){
         //System.out.println("sendData");
@@ -149,8 +169,8 @@ public class DataBaseCommunication {
            BufferedReader reader = new BufferedReader(new InputStreamReader(this.urlCon.getInputStream(), "utf-8"));
            String ligne;
            while ((ligne = reader.readLine()) != null) {
-               System.out.println(ligne);
-           } 
+              // System.out.println(ligne);
+           }
            reader.close();
            this.out.flush();
            this.out.close();
@@ -161,13 +181,13 @@ public class DataBaseCommunication {
            return new CopexReturn(e.getMessage(), false);
        }
     }
-    
+
     // lecture de la réponse
     private CopexReturn receiveResponse(ArrayList v){
         try{
             URL urlDB;
-            urlDB = new URL(applet.getCodeBase(), applet.getDirectoryData()+fileName);
-            File fileToUpload = new File(applet.getDirectoryData()+fileName);
+            urlDB = new URL(codeBase, directoryData+fileName);
+            File fileToUpload = new File(directoryData+fileName);
            urlCon = (HttpURLConnection)urlDB.openConnection();
             urlCon.setDoOutput(true);
             urlCon.setDoInput(true);
@@ -192,11 +212,11 @@ public class DataBaseCommunication {
                    name = getName(ligne);
                }else if (ligne.startsWith("<value>")){
                    if (ligne.endsWith("</value>"))
-                        value = getValue(ligne); 
+                        value = getValue(ligne);
                    else{
                        value = ligne.substring(7);
                    }
-                }else if (ligne.equals("</col>")){ 
+                }else if (ligne.equals("</col>")){
                    ColumnData data = new ColumnData(name, value);
                     rs.addData(data);
                 }else {
@@ -205,7 +225,7 @@ public class DataBaseCommunication {
                    }else
                        value += " \n"+ligne;
                 }
-           } 
+           }
             reader.close();
             urlCon.disconnect();
             return new CopexReturn();
@@ -213,7 +233,7 @@ public class DataBaseCommunication {
             return new CopexReturn(e.getMessage(), false);
         }
     }
-    
+
     private String getName(String ligne){
         return getData(ligne, "name");
     }
@@ -227,7 +247,7 @@ public class DataBaseCommunication {
         //System.out.println("fin getData : "+s);
         return s;
     }
-    
+
     /* requete qui permet l'insertion puis permet de recuperer l'id */
     public CopexReturn getNewIdInsertInDB(String query, String queryID,ArrayList v){
             ArrayList v2 = new ArrayList();
@@ -248,7 +268,7 @@ public class DataBaseCommunication {
                 try{
                     dbKey = Long.parseLong(s);
                 }catch(NumberFormatException e){
-                    
+
                 }
              }
             v.add(dbKey);

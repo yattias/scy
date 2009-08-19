@@ -16,12 +16,18 @@ import eu.scy.tools.dataProcessTool.utilities.CloseTab;
 import eu.scy.tools.dataProcessTool.utilities.CopexButtonPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
-import eu.scy.tools.dataProcessTool.utilities.ScyTabbedPane;
 import eu.scy.tools.fitex.GUI.FitexPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -34,8 +40,14 @@ import org.jfree.data.general.DefaultPieDataset;
  * onglets visualisation des graphes d'un dataset
  * @author Marjolaine Bodin
  */
-public class VisualTabbedPane extends ScyTabbedPane{
+public class VisualTabbedPane extends JTabbedPane{
     // PROPERTY
+    /* owner */
+    private DataProcessToolPanel owner;
+    /* liste des CloseTAb */
+    private ArrayList<CloseTab> listCloseTab;
+    /* close TAb du +*/
+    private CloseTab closeTabAdd;
     /* liste des graphes */
     private ArrayList<CopexGraph> listGraph;
     /* liste des JScrollPane */
@@ -54,14 +66,42 @@ public class VisualTabbedPane extends ScyTabbedPane{
         init();
     }
 
-    @Override
-    protected void init() {
-        super.init();
-    }
+    protected void init(){
+       UIManager.put("TabbedPane.contentAreaColor",Color.WHITE);
+       UIManager.put("TabbedPane.selectedColor",Color.WHITE);
+       UIManager.put("TabbedPane.selected",Color.WHITE);
+       UIManager.put("TabbedPane.focus",Color.WHITE);
+       UIManager.put("TabbedPane.borderHightlightColor",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.tabAreaBackground",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.light",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.unselectedTabBackground",DataProcessToolPanel.backgroundColor);
+       UIManager.put("TabbedPane.unselectedTabHighlight",DataProcessToolPanel.backgroundColor);
+       updateUI();
+       this.listCloseTab = new ArrayList();
+       // initialisation du tabbedPane : onglet vierge afin d'ajouter un proc
+       addTab(null, new JLabel(""));
+       ImageIcon  iconClose = owner.getCopexImage("Bouton-onglet_ouverture.png");
+       ImageIcon  iconRollOver = owner.getCopexImage("Bouton-onglet_ouverture_sur.png");
+       ImageIcon  iconClic = owner.getCopexImage("Bouton-onglet_ouverture_cli.png");
+       ImageIcon  iconDisabled = owner.getCopexImage("Bouton-onglet_ouverture_grise.png");
+        closeTabAdd = new CloseTab(owner, this, null,"", iconClose, iconRollOver, iconClic, iconDisabled);
+        setTabComponentAt(0, closeTabAdd);
 
-    @Override
-    public void setSelected(CloseTab tab) {
-        super.setSelected(tab);
+   }
+     /* selectionne l'onglet */
+    public void setSelected(CloseTab tab){
+        int index = -1;
+         for (int i=0;i<listCloseTab.size(); i++){
+           CloseTab t = listCloseTab.get(i);
+           if (tab.equals(t)){
+               index = i;
+               break;
+           }
+       }
+        if (index != -1){
+            setSelectedIndex( index);
+            listCloseTab.get(index).setSelected(true);
+        }
     }
     
     @Override
@@ -77,7 +117,10 @@ public class VisualTabbedPane extends ScyTabbedPane{
         ImageIcon  iconRollOver = this.owner.getCopexImage("Bouton-onglet_fermeture_sur.png");
         ImageIcon  iconClic = this.owner.getCopexImage("Bouton-onglet_fermeture_cli.png");
         
-        CloseTab closeTab = new CloseTab(this.owner, this, title, iconClose, iconRollOver, iconClic, iconClose);
+        CopexGraph g = null;
+        if (component instanceof CopexGraph)
+            g = (CopexGraph)component ;
+        CloseTab closeTab = new CloseTab(this.owner, this,g, title, iconClose, iconRollOver, iconClic, iconClose);
         if (component instanceof CopexGraph){
             listGraph.add((CopexGraph)component);
             activGraph = (CopexGraph)component;
@@ -86,6 +129,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
         
         setTabComponentAt(index, closeTab);
         setSelectedIndex(index);
+        System.out.println("add tab : "+getTabComponentAt(index).getWidth()+", "+getTabComponentAt(index).getHeight());
     }
 
     @Override
@@ -111,21 +155,12 @@ public class VisualTabbedPane extends ScyTabbedPane{
             }else
                 this.listCloseTab.get(k).setSelected(false);
         }
+       
+        this.owner.updateMenuGraph();
     }
 
-    /* retourne vrai si le bouton est un bouton de fermeture et dans ce cas, 
-     * met en v[0] le dataset à fermer
-     */
-    public boolean isButtonClose(CopexButtonPanel b, ArrayList v){
-       for (int i=0;i<listCloseTab.size(); i++){
-           CloseTab t = listCloseTab.get(i);
-           if (b.equals(t.getButtonClose())){
-               v.add(listGraph.get(i).getVisualization());
-               return true;
-           }
-       }
-       return false;
-    }
+    
+    
 
 
     /* fermeture d'un onglet */
@@ -236,7 +271,7 @@ public class VisualTabbedPane extends ScyTabbedPane{
                 this.listGraph.get(id).setGraph(v);
                 if(this.listGraph.get(id).getGraphComponent() instanceof FitexPanel && vis instanceof Graph){
                     ParamGraph pg = ((Graph)vis).getParamGraph() ;
-                    ((FitexPanel)(this.listGraph.get(id).getGraphComponent())).setParameters(pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY());;
+                    ((FitexPanel)(this.listGraph.get(id).getGraphComponent())).setParameters(pg);
                 }
             }
         }
@@ -263,7 +298,12 @@ public class VisualTabbedPane extends ScyTabbedPane{
             JFreeChart pieChart = ChartFactory.createPieChart(header1.getValue(),
             pieDataset, true, true, true);
             ChartPanel cPanel = new ChartPanel(pieChart, false);
-            cGraph = new CopexGraph(owner, dbKeyDs, vis, cPanel) ;
+            // in a panel for the resize
+            JPanel p = new JPanel();
+            p.setLayout(new BorderLayout());
+            p.setPreferredSize(getSize());
+            p.add(cPanel, BorderLayout.CENTER);
+            cGraph = new CopexGraph(owner, dbKeyDs, vis, p) ;
            
         }else if (type.getCode() == DataConstants.VIS_BAR){
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -276,23 +316,27 @@ public class VisualTabbedPane extends ScyTabbedPane{
             JFreeChart barChart = ChartFactory.createBarChart(header1.getValue(), "",
                 "", dataset, PlotOrientation.VERTICAL, true, true, false);
             ChartPanel cPanel = new ChartPanel(barChart);
-            cGraph = new CopexGraph(owner,dbKeyDs, vis, cPanel) ;
+            JPanel p = new JPanel();
+            p.setLayout(new BorderLayout());
+            p.setPreferredSize(getSize());
+            p.add(cPanel, BorderLayout.CENTER);
+            cGraph = new CopexGraph(owner,dbKeyDs, vis, p) ;
         }else if (type.getCode() == DataConstants.VIS_GRAPH){
             int id1 = header1.getNoCol() ;
             int id2 = header2.getNoCol();
             Object[][] datas = new Object[ds.getNbRows()][3];
             for (int i=0; i<ds.getNbRows(); i++){
-                datas[i][0] = ds.getData(i, id1).getValue();
-                datas[i][1] = ds.getData(i, id2).getValue();
-                datas[i][2] = ds.getData(i, id1).isIgnoredData() && ds.getData(i, id2).isIgnoredData() ;
+                if (ds.getData(i, id1) != null && ds.getData(i, id2) !=null ){
+                    datas[i][0] = ds.getData(i, id1).getValue();
+                    datas[i][1] = ds.getData(i, id2).getValue();
+                    datas[i][2] = ds.getData(i, id1).isIgnoredData() && ds.getData(i, id2).isIgnoredData() ;
+                }
             }
             String[] columnNames = new String[3];
             DefaultTableModel datamodel = new DefaultTableModel(datas, columnNames);
             ArrayList<FunctionModel> listFunctionModel = ((Graph)vis).getListFunctionModel() ;
             ParamGraph pg = ((Graph)vis).getParamGraph() ;
-            FitexPanel gPanel = new FitexPanel(owner.getLocale(), datamodel, listFunctionModel,
-                    pg.getX_min(), pg.getX_max(), pg.getDeltaX(),
-                    pg.getY_min(), pg.getY_max(), pg.getDeltaY(), pg.isAutoscale()) ;
+            FitexPanel gPanel = new FitexPanel(owner.getLocale(), datamodel, listFunctionModel,pg) ;
             cGraph = new FitexGraph(owner, dbKeyDs, vis, gPanel) ;
         }
           if (cGraph == null)
@@ -304,12 +348,63 @@ public class VisualTabbedPane extends ScyTabbedPane{
     }
 
     public boolean isAutoScale(){
-        if(this.activGraph != null && activGraph.getGraphComponent() instanceof FitexPanel){
-            return ((FitexPanel)activGraph.getGraphComponent()).isAutomaticScale() ;
-        }
+//        if(this.activGraph != null && activGraph.getGraphComponent() instanceof FitexPanel){
+//            return ((FitexPanel)activGraph.getGraphComponent()).isAutomaticScale() ;
+//        }
         return false;
     }
 
+    /* retourne vrai si le bouton + est clique */
+    public boolean isButtonAdd(CopexButtonPanel b){
+        return b == closeTabAdd.getButtonClose();
+    }
+
+    public void resizePanel(int width, int height){
+        setSize(width, height);
+    }
    
-    
+    public boolean canMenu2DPlot(){
+        Visualization vis = getSelectedVisualization() ;
+        return vis != null && vis instanceof Graph;
+    }
+
+
+    public char getGraphMode(){
+        if(this.activGraph != null && activGraph instanceof FitexGraph){
+            return ((FitexGraph)activGraph).getFitexPanel().getGraphMode();
+        }
+        return DataConstants.MODE_DEFAULT ;
+    }
+
+    public void setGraphMode(char graphMode){
+        if(this.activGraph != null && activGraph instanceof FitexGraph){
+            ((FitexGraph)activGraph).getFitexPanel().setGraphMode(graphMode);
+        }
+    }
+
+    public ArrayList<Object> getListGraphPDF(){
+        ArrayList<Object> list = new ArrayList();
+        int nb = this.listGraph.size();
+        for (int i=0; i<nb; i++){
+            if(listGraph.get(i) instanceof FitexGraph){
+                list.add(((FitexGraph)listGraph.get(i)).getFitexPanel().getDrawPanel());
+            }else if (listGraph.get(i) instanceof JPanel){
+                JPanel p = ((JPanel)listGraph.get(i));
+                if (p.getComponentCount()>0 && p.getComponent(0) instanceof JPanel){
+                    JPanel p2 =(JPanel)p.getComponent(0);
+                    if (p2.getComponentCount()>0 && p2.getComponent(0) instanceof ChartPanel){
+                        ChartPanel cPanel = (ChartPanel)p2.getComponent(0);
+                        list.add(cPanel.getChart());
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public void displayFunctionModel(){
+        if(this.activGraph != null && activGraph instanceof FitexGraph){
+            ((FitexGraph)activGraph).getFitexPanel().displayFunctionModel();
+        }
+    }
 }

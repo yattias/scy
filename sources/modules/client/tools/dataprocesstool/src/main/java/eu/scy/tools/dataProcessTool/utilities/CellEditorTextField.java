@@ -4,8 +4,6 @@ package eu.scy.tools.dataProcessTool.utilities;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
