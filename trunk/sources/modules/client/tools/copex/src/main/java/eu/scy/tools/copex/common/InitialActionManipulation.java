@@ -17,17 +17,14 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
     // PROPERTY
     /* nb material prod*/
     private int nbMaterialProd;
-    /* type de material attendu */
-    private ArrayList<TypeMaterial> typeMaterialProd;
-    /* texte prod */
-    private String textProd;
+    /* liste des output*/
+    private ArrayList<InitialManipulationOutput> listOutput;
 
     // CONSTRUCTOR
-    public InitialActionManipulation(long dbKey, String code, String libelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbMaterialProd, ArrayList<TypeMaterial> typeMaterialProd, String textProd) {
+    public InitialActionManipulation(long dbKey, String code, String libelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbMaterialProd, ArrayList<InitialManipulationOutput> listOutput) {
         super(dbKey, code, libelle, isSetting, variable, draw, repeat);
         this.nbMaterialProd = nbMaterialProd;
-        this.typeMaterialProd = typeMaterialProd ;
-        this.textProd = textProd ;
+        this.listOutput = listOutput ;
     }
 
     // GETTER AND SETTER
@@ -39,21 +36,15 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
         this.nbMaterialProd = nbMaterialProd;
     }
 
-    public ArrayList<TypeMaterial> getTypeMaterialProd() {
-        return typeMaterialProd;
+    public ArrayList<InitialManipulationOutput> getListOutput() {
+        return listOutput;
     }
 
-    public void setTypeMaterialProd(ArrayList<TypeMaterial> typeMaterialProd) {
-        this.typeMaterialProd = typeMaterialProd;
+    public void setListOutput(ArrayList<InitialManipulationOutput> listOutput) {
+        this.listOutput = listOutput;
     }
 
-    public String getTextProd() {
-        return textProd;
-    }
-
-    public void setTextProd(String textProd) {
-        this.textProd = textProd;
-    }
+    
 
     // OVERRIDE
     @Override
@@ -61,12 +52,11 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
         InitialActionManipulation a = (InitialActionManipulation) super.clone() ;
 
         a.setNbMaterialProd(this.nbMaterialProd);
-        ArrayList<TypeMaterial> typeMaterialProdC = new ArrayList();
-        for (int i=0; i<typeMaterialProd.size(); i++){
-            typeMaterialProdC.add((TypeMaterial)this.typeMaterialProd.get(i).clone());
+        ArrayList<InitialManipulationOutput> list = new ArrayList();
+        for (int i=0; i<listOutput.size(); i++){
+            list.add((InitialManipulationOutput)this.listOutput.get(i).clone());
         }
-        a.setTypeMaterialProd(typeMaterialProdC);
-        a.setTextProd(new String (this.textProd));
+        a.setListOutput(list);
 
         return a;
     }

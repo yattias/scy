@@ -5,6 +5,8 @@
 
 package eu.scy.tools.copex.common;
 
+import java.util.ArrayList;
+
 /**
  * action de type treatment
  * uses data
@@ -16,17 +18,14 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
     // PROPERTY
     /* nb data prod */
     private int nbDataProd ;
-    /* unites des data prod */
-    CopexUnit[] unitDataProd;
-    /* texte prod */
-    private String textProd;
+    /* liste des output*/
+    private ArrayList<InitialTreatmentOutput> listOutput;
 
     // CONSTRUCTOR
-    public InitialActionTreatment(long dbKey, String code, String libelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, int nbDataProd, CopexUnit[] unitDataProd, String textProd) {
+    public InitialActionTreatment(long dbKey, String code, String libelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, int nbDataProd, ArrayList<InitialTreatmentOutput> listOutput) {
         super(dbKey, code, libelle, isSetting, variable, draw, repeat);
         this.nbDataProd = nbDataProd;
-        this.unitDataProd = unitDataProd ;
-        this.textProd = textProd;
+        this.listOutput = listOutput ;
     }
 
     // GETTER AND SETTER
@@ -38,34 +37,27 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
         this.nbDataProd = nbDataProd;
     }
 
-    public CopexUnit[] getUnitDataProd() {
-        return unitDataProd;
+    public ArrayList<InitialTreatmentOutput> getListOutput() {
+        return listOutput;
     }
 
-    public void setUnitDataProd(CopexUnit[] unitDataProd) {
-        this.unitDataProd = unitDataProd;
+    public void setListOutput(ArrayList<InitialTreatmentOutput> listOutput) {
+        this.listOutput = listOutput;
     }
 
-    public String getTextProd() {
-        return textProd;
-    }
-
-    public void setTextProd(String textProd) {
-        this.textProd = textProd;
-    }
+    
 
     // OVERRIDE
     @Override
     public Object clone() {
         InitialActionTreatment a = (InitialActionTreatment) super.clone() ;
 
-        CopexUnit[] unitDataProdC = new CopexUnit[this.unitDataProd.length];
-        for (int i=0; i<this.unitDataProd.length; i++){
-            unitDataProdC[i] = (CopexUnit)this.unitDataProd[i].clone();
+        ArrayList<InitialTreatmentOutput> list = new ArrayList();
+        for (int i=0; i<listOutput.size(); i++){
+            list.add((InitialTreatmentOutput)this.listOutput.get(i).clone());
         }
-        a.setUnitDataProd(unitDataProdC);
+        a.setListOutput(list);
         a.setNbDataProd(this.nbDataProd);
-        a.setTextProd(new String (this.textProd));
         return a;
     }
 

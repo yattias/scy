@@ -54,6 +54,8 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         MyMenuItemUI myMenuItemUI = new MyMenuItemUI(SystemColor.control);
         setUI(myMenuItemUI);
     }
+    
+
     @Override
     protected void paintComponent(Graphics g) {
         //g.setColor(bgColor);
@@ -73,7 +75,8 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         if (isEnabled){
             bg = this.imgClic.getImage();
             repaint();
-            this.edP.clickMenuEvent(this);
+            if(edP != null)
+                this.edP.clickMenuEvent(this);
             bg = this.img.getImage();
             repaint();
         }

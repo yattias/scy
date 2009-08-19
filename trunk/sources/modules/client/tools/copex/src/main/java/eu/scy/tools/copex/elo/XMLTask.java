@@ -5,9 +5,13 @@
 
 package eu.scy.tools.copex.elo;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
@@ -147,16 +151,26 @@ public class XMLTask {
         Element element = new Element(TAG_TASK);
 		element.addContent(new Element(TAG_TASK_ID).setText(idTask));
         element.addContent(new Element(TAG_TASK_NATURE).setText(nature));
-        if (taskName != null)
+        if (taskName != null){
+            taskName = CopexUtilities.getUTF8String(taskName);
             element.addContent(new Element(TAG_TASK_NAME).setText(taskName));
-        if (description != null)
+        }
+        if (description != null){
+            description = CopexUtilities.getUTF8String(description);
             element.addContent(new Element(TAG_TASK_DESCRIPTION).setText(description));
-        if (hypothesis != null)
+        }
+        if (hypothesis != null){
+            hypothesis = CopexUtilities.getUTF8String(hypothesis);
             element.addContent(new Element(TAG_TASK_HYPOTHESIS).setText(hypothesis));
-        if (principle != null)
+        }
+        if (principle != null){
+            principle = CopexUtilities.getUTF8String(principle);
             element.addContent(new Element(TAG_TASK_PRINCIPLE).setText(principle));
-        if (comments != null)
+        }
+        if (comments != null){
+            comments = CopexUtilities.getUTF8String(comments);
             element.addContent(new Element(TAG_TASK_COMMENTS).setText(comments));
+        }
         if (image != null)
             element.addContent(new Element(TAG_TASK_IMAGE).setText(image));
         if(draw != null){

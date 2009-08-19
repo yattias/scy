@@ -44,6 +44,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
     // ATTRIBUTS
     private CopexTree tree;
     protected JLabel icon;
+    private JLabel labelRepeat;
     protected JPanel panelNode;
     protected JTextArea labelNode;
     protected JTextArea commentNode;
@@ -81,7 +82,13 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
         icon.setAlignmentY(TOP_ALIGNMENT);
         //icon.setBounds(0, 0, icon.getWidth(), icon.getHeight());
         add(icon);
-
+        // label repeat
+        this.labelRepeat = new JLabel();
+        labelRepeat.setName("labelRepeat");
+        labelRepeat.setSize(0, 0);
+        labelRepeat.setFont(FONT_COMMENT);
+        labelRepeat.setAlignmentY(TOP_ALIGNMENT);
+        add(labelRepeat);
         // separation icone / texte
         add(Box.createHorizontalStrut(5));
 
@@ -165,7 +172,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
         Element taskDrawElement = ((CopexTree)tree).getTaskDraw(value);
         if(taskDrawElement != null && taskDrawElement.getChildren() != null && taskDrawElement.getChildren().size() > 0){
             panelNode.add(getDrawPanel()) ;
-            //drawPanel.getWhiteBoardPanel().setContentStatus(taskDrawElement);
+            drawPanel.getWhiteBoardPanel().setContentStatus(taskDrawElement);
         }else{
             if(drawPanel != null){
                 panelNode.remove(drawPanel);
@@ -200,7 +207,17 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
             icon.setIcon(stepIcon);
         else if (value instanceof CopexTreeNode && ((CopexTreeNode)value).isQuestion())
             icon.setIcon(questionIcon);
-        
+
+
+        //label Repeat
+        int nbRepeat = ((CopexTree)tree).getNbRepeat(value);
+        if(nbRepeat > 1){
+            labelRepeat.setText("("+nbRepeat+"*)");
+            labelRepeat.setSize(34, 14);
+        }else{
+            labelRepeat.setText("");
+            labelRepeat.setSize(0,0);
+        }
         //String textNode = tree.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
         String textNode = ((CopexTree)tree).getDescriptionValue(value);
         setEnabled(tree.isEnabled());
@@ -282,12 +299,12 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
     @Override
     public Dimension getPreferredSize() {
         Dimension iconD = icon.getSize();
+        Dimension repeatD = labelRepeat.getSize();
         Dimension textD = panelNode.getSize();
 	
         int height = iconD.height < textD.height ?
 					textD.height : iconD.height;
-        
-        return new Dimension(iconD.width + textD.width+8, height);
+        return new Dimension(iconD.width +repeatD.width+ textD.width+8, height);
         
     }
     

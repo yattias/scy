@@ -20,7 +20,7 @@ import org.jdom.Element;
 public class TaskFromDB {
 
    
-    /* chargement des t√¢ches li√©es √† un protocole */
+    /* chargement des t‚ches liÈes ‡† un protocole */
     public static CopexReturn getAllTaskFromDB_xml(DataBaseCommunication dbC, long idProc, long idQuestion, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         ArrayList<CopexTask> listT = new ArrayList();
         ArrayList v2 = new ArrayList();
@@ -29,26 +29,64 @@ public class TaskFromDB {
         if (cr.isError())
             return cr;
         listT = (ArrayList<CopexTask>)v2.get(0);
-        // chargement des etapes
-        v2 = new ArrayList();
-        cr = getAllStepProcFromDB_xml(dbC, idProc, v2);
-        if (cr.isError())
-            return cr;
-        ArrayList<CopexTask> listS = (ArrayList<CopexTask>)v2.get(0);
-        int s = listS.size();
-        for (int i=0; i<s; i++){
-            listT.add(listS.get(i));
-        }
+        
         // chargement des actions
         v2 = new ArrayList();
         cr = getAllActionsProcFromDB_xml(dbC, idProc, listInitialNamedActions,  listMaterial,listPhysicalQuantity,  v2);
         if (cr.isError())
             return cr;
         ArrayList<CopexTask> listA = (ArrayList<CopexTask>)v2.get(0);
-        s = listA.size();
+        int s = listA.size();
+        // pour le chargement des etapes iteratives
+        ArrayList<ActionParam> list = new ArrayList();
+        ArrayList<Material> listMaterialProd = new ArrayList();
+        ArrayList<QData> listDataProd = new ArrayList();
+
         for (int i=0; i<s; i++){
             listT.add(listA.get(i));
+            if (listA.get(i) instanceof CopexActionParam){
+                ActionParam[] t = ((CopexActionParam)listA.get(i)).getTabParam();
+                for (int j=0; j<t.length; j++){
+                    list.add(t[j]);
+                }
+            }
+            if(listA.get(i) instanceof CopexActionManipulation){
+                ArrayList<Material> l = ((CopexActionManipulation)listA.get(i)).getListMaterialProd();
+                int n = l.size();
+                for (int j=0; j<n; j++){
+                    listMaterialProd.add(l.get(j));
+                }
+            }else if (listA.get(i) instanceof CopexActionAcquisition){
+                ArrayList<QData> l = ((CopexActionAcquisition)listA.get(i)).getListDataProd();
+                int n = l.size();
+                for (int j=0; j<n; j++){
+                    listDataProd.add(l.get(j));
+                }
+            }else if (listA.get(i) instanceof CopexActionTreatment){
+                ArrayList<QData> l = ((CopexActionTreatment)listA.get(i)).getListDataProd();
+                int n = l.size();
+                for (int j=0; j<n; j++){
+                    listDataProd.add(l.get(j));
+                }
+            }
         }
+        // transformation en tableau
+        int nb = list.size();
+        ActionParam[] listActionParam = new ActionParam[nb];
+        for (int i=0; i<nb; i++){
+            listActionParam[i] = list.get(i);
+        }
+        // chargement des etapes
+        v2 = new ArrayList();
+        cr = getAllStepProcFromDB_xml(dbC, idProc, listInitialNamedActions,listActionParam, listMaterialProd, listDataProd, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<CopexTask> listS = (ArrayList<CopexTask>)v2.get(0);
+        s = listS.size();
+        for (int i=0; i<s; i++){
+            listT.add(listS.get(i));
+        }
+        
         v.add(listT);
         return new CopexReturn();
     }
@@ -217,7 +255,7 @@ public class TaskFromDB {
     
     
     /* chargement des t√¢ches etapes li√©es √† un protocole */
-    public static CopexReturn getAllStepProcFromDB_xml(DataBaseCommunication dbC, long idProc, ArrayList v){
+    public static CopexReturn getAllStepProcFromDB_xml(DataBaseCommunication dbC, long idProc, ArrayList<InitialNamedAction> listInitAction,  ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd, ArrayList v){
         ArrayList<CopexTask> listS = new ArrayList();
         String query = "SELECT T.TASK_NAME, T.DESCRIPTION, T.COMMENTS, T.TASK_IMAGE, T.DRAW_ELO, T.IS_VISIBLE, R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT, " +
                 "S.ID_STEP FROM COPEX_TASK T, STEP S, LINK_PROC_TASK L, TASK_RIGHT R " +
@@ -303,11 +341,17 @@ public class TaskFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             //tache it√©rative
-            // TODO
+            // recuperation taches iteratives
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatFromDB(dbC, dbKey, listInitAction, listActionParam, listMaterialProd, listDataProd, v3);
+            if(cr.isError())
+                return cr;
             TaskRepeat taskRepeat = null;
+            if(v3.size() > 0 && v3.get(0) != null)
+                taskRepeat = (TaskRepeat)v3.get(0);
             Step step = new Step(dbKey, name, description, comments, taskImage, draw, isVisible, new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR), taskRepeat);
             // charge l'id frere et enfant 
-            ArrayList v3 = new ArrayList();
+            v3 = new ArrayList();
             cr = getBrotherAndChildFromDB_xml(dbC, dbKey, v3);
             if (cr.isError())
                 return cr;
@@ -424,47 +468,51 @@ public class TaskFromDB {
                 return cr;
             ActionParam[] tabParam = (ActionParam[])v3.get(0);
             CopexAction action = null;
-            // recuperation taches iteratives
-            v3 = new ArrayList();
-            cr = getTaskRepeatFromDB(dbC, dbKey, tabParam, v3);
-            if(cr.isError())
-                return cr;
-            TaskRepeat taskRepeat = null;
-            if(v3.size() > 0 && v3.get(0) != null)
-                taskRepeat = (TaskRepeat)v3.get(0);
+
+            ArrayList<Material> listMaterialProd = new ArrayList();
+            ArrayList<QData> listDataProd = new ArrayList();
             if (namedAction == null){
-                action = new CopexAction(dbKey, name, description, comments, taskImage,draw, isVisible, new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR), taskRepeat);
+                action = new CopexAction(dbKey, name, description, comments, taskImage,draw, isVisible, new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR), null);
             }else{
                 TaskRight taskRight = new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR);
                 if (namedAction.isSetting()){
                     
                     if (namedAction instanceof InitialActionChoice){
-                        action = new CopexActionChoice(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, taskRepeat);
+                        action = new CopexActionChoice(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, null);
                     }else if (namedAction instanceof InitialActionManipulation){
                         v3 = new ArrayList();
                         cr = getMaterialProdFromDB(dbC, dbKey, listPhysicalQuantity, v3);
                         if (cr.isError())
                             return cr;
-                        ArrayList<Material> listMaterialProd = (ArrayList<Material>)v3.get(0);
-                        action = new CopexActionManipulation(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listMaterialProd, taskRepeat);
+                        listMaterialProd = (ArrayList<Material>)v3.get(0);
+                        action = new CopexActionManipulation(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listMaterialProd, null);
                     }else if (namedAction instanceof InitialActionAcquisition){
                         v3 = new ArrayList();
                         cr = getDataProdFromDB(dbC, dbKey,listPhysicalQuantity, v3);
                         if (cr.isError())
                             return cr;
-                        ArrayList<QData> listDataProd = (ArrayList<QData>)v3.get(0);
-                        action = new CopexActionAcquisition(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listDataProd, taskRepeat);
+                        listDataProd = (ArrayList<QData>)v3.get(0);
+                        action = new CopexActionAcquisition(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listDataProd, null);
                     }else if (namedAction instanceof InitialActionTreatment){
                         v3 = new ArrayList();
                         cr = getDataProdFromDB(dbC, dbKey, listPhysicalQuantity,v3);
                         if (cr.isError())
                             return cr;
-                        ArrayList<QData> listDataProd = (ArrayList<QData>)v3.get(0);
-                        action = new CopexActionTreatment(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listDataProd, taskRepeat);
+                        listDataProd = (ArrayList<QData>)v3.get(0);
+                        action = new CopexActionTreatment(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, namedAction, tabParam, listDataProd, null);
                     }
                 }else
-                    action = new CopexActionNamed(dbKey, name, description, comments, taskImage,draw, isVisible, taskRight, namedAction, taskRepeat);
+                    action = new CopexActionNamed(dbKey, name, description, comments, taskImage,draw, isVisible, taskRight, namedAction, null);
             }
+            // recuperation taches iteratives
+            v3 = new ArrayList();
+            cr = getTaskRepeatFromDB(dbC, dbKey, listInitialNamedAction, tabParam,listMaterialProd, listDataProd, v3);
+            if(cr.isError())
+                return cr;
+            TaskRepeat taskRepeat = null;
+            if(v3.size() > 0 && v3.get(0) != null)
+                taskRepeat = (TaskRepeat)v3.get(0);
+            action.setTaskRepeat(taskRepeat);
             // charge l'id frere et enfant 
             v3 = new ArrayList();
             cr = getBrotherAndChildFromDB_xml(dbC, dbKey, v3);
@@ -539,7 +587,6 @@ public class TaskFromDB {
             ArrayList<Parameter> listP = (ArrayList<Parameter>)v4.get(0);
             if (listP != null)
                 material.setListParameters(listP);
-
 
             listMaterial.add(material);
 
@@ -638,6 +685,7 @@ public class TaskFromDB {
         comments =  AccesDB.replace("\'",comments,"''") ;
         String taskImage = task.getTaskImage() != null ? task.getTaskImage() :"";
         taskImage =  AccesDB.replace("\'",taskImage,"''") ;
+        TaskRepeat taskRepeat = task.getTaskRepeat();
         String hypothesis = "";
         String principle = "";
         if (task instanceof Question){
@@ -787,8 +835,18 @@ public class TaskFromDB {
             cr = dbC.executeQuery(querys, v2);
             if (cr.isError())
                 return cr;
+            // enregistrement repetition
+            if(taskRepeat != null){
+                ArrayList v3 = new ArrayList();
+                cr = insertTaskRepeatInDB(dbC, dbKey, taskRepeat, v3);
+                if(cr.isError())
+                    return cr;
+                taskRepeat = (TaskRepeat)v3.get(0);
+            }
             v.add(dbKey);
             v.add(task);
+            if(taskRepeat != null)
+                v.add(taskRepeat);
             return new CopexReturn();
         
     }
@@ -809,6 +867,7 @@ public class TaskFromDB {
         if(task.getDraw() != null){
             draw = CopexUtilities.xmlToString(task.getDraw());
         }
+        TaskRepeat taskRepeat = task.getTaskRepeat();
         String hypothesis = "";
         String principle = "";
         if (task instanceof Question){
@@ -936,7 +995,17 @@ public class TaskFromDB {
             cr = dbC.executeQuery(querys, v2);
             if (cr.isError())
                 return cr;
+            // enregistrement repetition
+            if(taskRepeat != null){
+                ArrayList v3 = new ArrayList();
+                cr = insertTaskRepeatInDB(dbC, dbKey, taskRepeat, v3);
+                if(cr.isError())
+                    return cr;
+                taskRepeat = (TaskRepeat)v3.get(0);
+            }
             v.add(dbKey);
+            if(taskRepeat != null )
+                v.add(taskRepeat);
             return new CopexReturn();
        
 	
@@ -1271,7 +1340,12 @@ public class TaskFromDB {
             queryDelRight = "DELETE FROM TASK_RIGHT WHERE ID_TASK = "+dbKeyTask+" ;";
             querys[q] = queryDelRight ; 
             q++;
-
+            // suppression des repetitions
+            if (task.getTaskRepeat() != null){
+                CopexReturn cr = deleteTaskRepeatFromDB(dbC, dbKeyTask, task.getTaskRepeat());
+                if(cr.isError())
+                    return cr;
+            }
             // selon le type de tache
             if (task instanceof CopexAction){
                 queryDel = "DELETE FROM ACTION WHERE ID_ACTION = "+dbKeyTask+" ;";
@@ -1412,9 +1486,10 @@ public class TaskFromDB {
             String taskImage = task.getTaskImage() != null ? task.getTaskImage() :"";
             taskImage =  AccesDB.replace("\'",taskImage,"''") ;
             String draw = null;
-        if(task.getDraw() != null){
-            draw = CopexUtilities.xmlToString(task.getDraw());
-        }
+            if(task.getDraw() != null){
+                draw = CopexUtilities.xmlToString(task.getDraw());
+            }
+            TaskRepeat taskRepeat = task.getTaskRepeat() ;
             String hypothesis = "";
             String principle = "";
             if (task instanceof Question){
@@ -1518,6 +1593,16 @@ public class TaskFromDB {
             cr = dbC.executeQuery(querys, v2)     ;
             if (cr.isError())
                return cr;
+            // enregistrement repetition
+            if(taskRepeat != null){
+                ArrayList v3 = new ArrayList();
+                cr = insertTaskRepeatInDB(dbC, dbKey, taskRepeat, v3);
+                if(cr.isError())
+                    return cr;
+                taskRepeat = (TaskRepeat)v3.get(0);
+                task.setTaskRepeat(taskRepeat);
+            }
+
             // on met √† jour les identifiants 
             task.setDbKey(dbKey);
             if (questionProc.getDbKey() == oldDbKey)
@@ -1765,13 +1850,13 @@ public class TaskFromDB {
             id++;
         }
         // recuperation des param quantite
-        String queryQ = "SELECT P.ID_ACTION_PARAM, P.ID_PARAMETER, Q.QUANTITY_NAME, Q.TYPE, Q.VALUE, Q.UNCERTAINTY, Q.UNIT, I.ID_INITIAL_PARAM  " +
+        String queryQ = "SELECT P.ID_ACTION_PARAM_QUANTITY, P.ID_PARAMETER, Q.QUANTITY_NAME, Q.TYPE, Q.VALUE, Q.UNCERTAINTY, Q.UNIT, I.ID_INITIAL_PARAM  " +
                 " FROM ACTION_PARAM_QUANTITY P, QUANTITY Q, LINK_ACTION_PARAM L, LINK_PARAM_INITIAL I " +
-                "WHERE L.ID_ACTION = "+dbKeyAction+" AND L.ID_PARAM = P.ID_ACTION_PARAM  AND P.ID_PARAMETER = Q.ID_QUANTITY AND L.ID_PARAM = I.ID_PARAM   ;  ";
+                "WHERE L.ID_ACTION = "+dbKeyAction+" AND L.ID_PARAM = P.ID_ACTION_PARAM_QUANTITY  AND P.ID_PARAMETER = Q.ID_QUANTITY AND L.ID_PARAM = I.ID_PARAM   ;  ";
         System.out.println("recup des param quantite "+queryQ);
         v2 = new ArrayList();
         listFields = new ArrayList();
-        listFields.add("P.ID_ACTION_PARAM");
+        listFields.add("P.ID_ACTION_PARAM_QUANTITY");
         listFields.add("P.ID_PARAMETER");
         listFields.add("Q.QUANTITY_NAME");
         listFields.add("Q.TYPE");
@@ -1786,7 +1871,7 @@ public class TaskFromDB {
         nbR = v2.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String s = rs.getColumnData("P.ID_ACTION_PARAM");
+            String s = rs.getColumnData("P.ID_ACTION_PARAM_QUANTITY");
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
@@ -1832,12 +1917,12 @@ public class TaskFromDB {
 
         }
         // recuperation des param material
-        String queryM = "SELECT P.ID_ACTION_PARAM, P.ID_MATERIAL, I.ID_INITIAL_PARAM   " +
+        String queryM = "SELECT P.ID_ACTION_PARAM_MATERIAL, P.ID_MATERIAL, I.ID_INITIAL_PARAM   " +
                 " FROM ACTION_PARAM_MATERIAL P,  LINK_ACTION_PARAM L, LINK_PARAM_INITIAL I " +
-                "WHERE L.ID_ACTION = "+dbKeyAction+" AND L.ID_PARAM = P.ID_ACTION_PARAM AND L.ID_PARAM = I.ID_PARAM   ;  ";
+                "WHERE L.ID_ACTION = "+dbKeyAction+" AND L.ID_PARAM = P.ID_ACTION_PARAM_MATERIAL AND L.ID_PARAM = I.ID_PARAM   ;  ";
         v2 = new ArrayList();
         listFields = new ArrayList();
-        listFields.add("P.ID_ACTION_PARAM");
+        listFields.add("P.ID_ACTION_PARAM_MATERIAL");
         listFields.add("P.ID_MATERIAL");
         listFields.add("I.ID_INITIAL_PARAM");
         System.out.println("recup des param material "+queryM);
@@ -1850,7 +1935,7 @@ public class TaskFromDB {
         int nbMat = listMaterial.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String s = rs.getColumnData("P.ID_ACTION_PARAM");
+            String s = rs.getColumnData("P.ID_ACTION_PARAM_MATERIAL");
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
@@ -2019,7 +2104,7 @@ public class TaskFromDB {
                 if (cr.isError())
                     return cr;
                 long dbKeyParameter = (Long)v2.get(0);
-                String queryQ = "INSERT INTO ACTION_PARAM_QUANTITY (ID_ACTION_PARAM, ID_PARAMETER) VALUES ("+dbKey+", "+dbKeyParameter+") ;";
+                String queryQ = "INSERT INTO ACTION_PARAM_QUANTITY (ID_ACTION_PARAM_QUANTITY, ID_PARAMETER) VALUES ("+dbKey+", "+dbKeyParameter+") ;";
                 String queryLinkInitial = "INSERT INTO LINK_PARAM_INITIAL (ID_INITIAL_PARAM, ID_PARAM ) VALUES ("+((ActionParamQuantity)tabParam[i]).getInitialParam().getDbKey()+", "+dbKey+") ;";
                 v2 = new ArrayList();
                 querys = new String[2];
@@ -2096,7 +2181,7 @@ public class TaskFromDB {
                     n++;
                     addQ = true;
                 }
-                String queryParamMat = "INSERT INTO ACTION_PARAM_MATERIAL (ID_ACTION_PARAM, ID_MATERIAL) VALUES ("+dbKey+", "+((ActionParamMaterial)tabParam[i]).getMaterial().getDbKey()+") ;";
+                String queryParamMat = "INSERT INTO ACTION_PARAM_MATERIAL (ID_ACTION_PARAM_MATERIAL, ID_MATERIAL) VALUES ("+dbKey+", "+((ActionParamMaterial)tabParam[i]).getMaterial().getDbKey()+") ;";
                 String queryLinkInitial = "INSERT INTO LINK_PARAM_INITIAL (ID_INITIAL_PARAM, ID_PARAM ) VALUES ("+((ActionParamMaterial)tabParam[i]).getInitialParam().getDbKey()+", "+dbKey+") ;";
                 v2 = new ArrayList();
                 querys = new String[n];
@@ -2214,8 +2299,8 @@ public class TaskFromDB {
     }
 
 
-    /* chargement r√©p√©tition d'une t√¢che */
-    private static  CopexReturn getTaskRepeatFromDB(DataBaseCommunication dbC, long dbKeyTask, ActionParam[] tabParam, ArrayList v){
+    /* chargement rÈpÈtition d'une t‚che */
+    private static  CopexReturn getTaskRepeatFromDB(DataBaseCommunication dbC, long dbKeyTask, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd,ArrayList v){
         TaskRepeat taskRepeat = null;
         String query = "SELECT R.ID_REPEAT, R.NB_REPEAT FROM TASK_REPEAT R, LINK_TASK_REPEAT L WHERE L.ID_TASK = "+dbKeyTask+" AND L.ID_REPEAT = R.ID_REPEAT ;";
         ArrayList v2 = new ArrayList();
@@ -2235,36 +2320,895 @@ public class TaskFromDB {
             long dbKey = Long.parseLong(s);
             s = rs.getColumnData("R.NB_REPEAT");
             int nbRepeat = Integer.parseInt(s);
+            taskRepeat = new TaskRepeat(dbKey, nbRepeat);
             // chargement des parametres
-            ArrayList<ActionParam> listParam = new ArrayList();
-
-            String queryP = "SELECT ID_ACTION_PARAM FROM PARAM_REPEAT WHERE ID_REPEAT = "+dbKey+" ;";
             ArrayList v3 = new ArrayList();
-            ArrayList<String> listFields2 = new ArrayList();
-            listFields2.add("ID_ACTION_PARAM");
-
-            cr = dbC.sendQuery(queryP, listFields2, v3);
-            if(cr.isError())
+            cr = getTaskRepeatParamFromDB(dbC, dbKey, listInitAction, listActionParam,listMaterialProd, listDataProd, v3);
+            if (cr.isError())
                 return cr;
-            int nbR2 = v3.size();
-            for (int j=0; j<nbR2; j++){
-                ResultSetXML rs2 =  (ResultSetXML)v3.get(j);
-                s = rs2.getColumnData("ID_ACTION_PARAM");
-                long dbKeyActionP = Long.parseLong(s);
-                ActionParam p = null;
-                for (int k=0; k<tabParam.length; k++){
-                    if(tabParam[k].getDbKey() == dbKeyActionP){
-                        p = tabParam[k];
-                        break;
-                    }
-                }
-                if(p != null)
-                    listParam.add(p);
-            }
-            taskRepeat = new TaskRepeat(dbKey, nbRepeat, listParam);
+            ArrayList<TaskRepeatParam> listParam = (ArrayList<TaskRepeatParam>)v3.get(0);
+            taskRepeat.setListParam(listParam);
         }
         v.add(taskRepeat);
         return new CopexReturn();
     }
-   
+
+    /* chargement des parametres de repetition */
+    private static CopexReturn getTaskRepeatParamFromDB(DataBaseCommunication dbC, long dbKeyRepeat, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd, ArrayList v){
+        ArrayList listParam = new ArrayList();
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = getTaskRepeatParamDataFromDB(dbC, dbKeyRepeat, listInitAction, listActionParam, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamData> l = (ArrayList<TaskRepeatParamData>)v2.get(0);
+        int nb = l.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l.get(i));
+        }
+        v2 = new ArrayList();
+        cr = getTaskRepeatParamMaterialFromDB(dbC, dbKeyRepeat,listInitAction, listActionParam, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamMaterial> l2 = (ArrayList<TaskRepeatParamMaterial>)v2.get(0);
+        nb = l2.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l2.get(i));
+        }
+        v2 = new ArrayList();
+        cr = getTaskRepeatParamQuantityFromDB(dbC, dbKeyRepeat, listInitAction, listActionParam, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamQuantity> l3 = (ArrayList<TaskRepeatParamQuantity>)v2.get(0);
+        nb = l3.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l3.get(i));
+        }
+        v2 = new ArrayList();
+        cr = getTaskRepeatParamOutputAcquisitionFromDB(dbC, dbKeyRepeat,listInitAction, listDataProd, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamOutputAcquisition> l4 = (ArrayList<TaskRepeatParamOutputAcquisition>)v2.get(0);
+        nb = l4.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l4.get(i));
+        }
+        v2 = new ArrayList();
+        cr = getTaskRepeatParamOutputManipulationFromDB(dbC, dbKeyRepeat, listInitAction, listMaterialProd, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamOutputManipulation> l5 = (ArrayList<TaskRepeatParamOutputManipulation>)v2.get(0);
+        nb = l5.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l5.get(i));
+        }
+        v2 = new ArrayList();
+        cr = getTaskRepeatParamOutputTreatmentFromDB(dbC, dbKeyRepeat,listInitAction, listDataProd, v2);
+        if (cr.isError())
+            return cr;
+        ArrayList<TaskRepeatParamOutputTreatment> l6 = (ArrayList<TaskRepeatParamOutputTreatment>)v2.get(0);
+        nb = l6.size();
+        for (int i=0; i<nb; i++){
+            listParam.add(l6.get(i));
+        }
+        v.add(listParam);
+        return new CopexReturn();
+    }
+
+    /* chargement des parametres de repetition type data */
+    private static CopexReturn getTaskRepeatParamDataFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatParamData> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_PARAM FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT AND " +
+                "P.ID_PARAM IN (SELECT ID_PARAM FROM INITIAL_PARAM_DATA);";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_PARAM");
+            long dbKeyInitParam = Long.parseLong(s);
+            // initialAction para correspondant
+            InitialParamData initialParamData = getInitialParamData(dbKeyInitParam, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueParamDataFromDB(dbC, dbKey, listActionParam, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueParamData> listValue = (ArrayList<TaskRepeatValueParamData>)v3.get(0);
+            TaskRepeatParamData d = new TaskRepeatParamData(dbKey, initialParamData, listValue);
+            list.add(d);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+
+    /* recherche param initial dans une liste d'actions initiales, null sinon  */
+    private static InitialParamData getInitialParamData(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if (a.getVariable() != null){
+                InitialActionParam[] tab =a.getVariable().getTabParam();
+                for (int j=0; j<tab.length; j++){
+                    if (tab[j] instanceof InitialParamData && tab[j].getDbKey() == dbKey)
+                        return ((InitialParamData)tab[j]);
+                }
+            }
+        }
+        return null;
+    }
+
+    /* chargement des valeurs des parametres param data */
+    private static CopexReturn getTaskRepeatValueParamDataFromDB(DataBaseCommunication dbC, long dbKeyParamRepeat, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatValueParamData> list = new ArrayList();
+        String query = "SELECT V.ID_VALUE, V.NO_REPEAT, V.ID_ACTION_PARAM FROM PARAM_VALUE_TASK_REPEAT V, LINK_PARAM_VALUE_TASK_REPEAT L " +
+                " WHERE L.ID_PARAM_REPEAT = "+dbKeyParamRepeat+" AND " +
+                "L.ID_VALUE = V.ID_VALUE AND " +
+                "V.ID_ACTION_PARAM IN (SELECT ID_ACTION_PARAM_DATA FROM ACTION_PARAM_DATA ) ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("V.ID_VALUE");
+        listFields.add("V.NO_REPEAT");
+        listFields.add("V.ID_ACTION_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("V.ID_VALUE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("V.NO_REPEAT");
+            int noRepeat = Integer.parseInt(s);
+            s = rs.getColumnData("V.ID_ACTION_PARAM");
+            long dbKeyAction = Long.parseLong(s);
+            ActionParamData actionParamData = getActionParamData(dbKeyAction, listActionParam);
+            TaskRepeatValueParamData d = new TaskRepeatValueParamData(dbKey, noRepeat, actionParamData);
+            list.add(d);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* retourne l'action parametree correspondante, null sinon */
+    private static ActionParamData getActionParamData(long dbKey, ActionParam[] tabParam){
+        for (int i=0; i<tabParam.length; i++){
+            if (tabParam[i] instanceof ActionParamData && tabParam[i].getDbKey() == dbKey)
+                return ((ActionParamData)tabParam[i]);
+        }
+        return null;
+    }
+
+
+    /* chargement des parametres de repetition type material */
+    private static CopexReturn getTaskRepeatParamMaterialFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatParamMaterial> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_PARAM FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT AND " +
+                "P.ID_PARAM IN (SELECT ID_PARAM FROM INITIAL_PARAM_MATERIAL);";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_PARAM");
+            long dbKeyInitParam = Long.parseLong(s);
+            // initialAction para correspondant
+            InitialParamMaterial initialParamMaterial = getInitialParamMaterial(dbKeyInitParam, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueParamMaterialFromDB(dbC, dbKey, listActionParam, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueParamMaterial> listValue = (ArrayList<TaskRepeatValueParamMaterial>)v3.get(0);
+            TaskRepeatParamMaterial d = new TaskRepeatParamMaterial(dbKey, initialParamMaterial, listValue);
+            list.add(d);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* recherche param initial dans une liste d'actions initiales, null sinon  */
+    private static InitialParamMaterial getInitialParamMaterial(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if (a.getVariable() != null){
+                InitialActionParam[] tab =a.getVariable().getTabParam();
+                for (int j=0; j<tab.length; j++){
+                    if (tab[j] instanceof InitialParamMaterial && tab[j].getDbKey() == dbKey)
+                        return ((InitialParamMaterial)tab[j]);
+                }
+            }
+        }
+        return null;
+    }
+
+    /* chargement des valeurs des parametres param material */
+    private static CopexReturn getTaskRepeatValueParamMaterialFromDB(DataBaseCommunication dbC, long dbKeyParamRepeat, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatValueParamMaterial> list = new ArrayList();
+        String query = "SELECT V.ID_VALUE, V.NO_REPEAT, V.ID_ACTION_PARAM FROM PARAM_VALUE_TASK_REPEAT V, LINK_PARAM_VALUE_TASK_REPEAT L " +
+                " WHERE L.ID_PARAM_REPEAT = "+dbKeyParamRepeat+" AND " +
+                "L.ID_VALUE = V.ID_VALUE AND " +
+                "V.ID_ACTION_PARAM IN (SELECT ID_ACTION_PARAM_MATERIAL FROM ACTION_PARAM_MATERIAL ) ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("V.ID_VALUE");
+        listFields.add("V.NO_REPEAT");
+        listFields.add("V.ID_ACTION_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("V.ID_VALUE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("V.NO_REPEAT");
+            int noRepeat = Integer.parseInt(s);
+            s = rs.getColumnData("V.ID_ACTION_PARAM");
+            long dbKeyAction = Long.parseLong(s);
+            ActionParamMaterial actionParamMaterial = getActionParamMaterial(dbKeyAction, listActionParam);
+            TaskRepeatValueParamMaterial m = new TaskRepeatValueParamMaterial(dbKey, noRepeat, actionParamMaterial);
+            list.add(m);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* retourne l'action parametree correspondante, null sinon */
+    private static ActionParamMaterial getActionParamMaterial(long dbKey, ActionParam[] tabParam){
+        for (int i=0; i<tabParam.length; i++){
+            if (tabParam[i] instanceof ActionParamMaterial && tabParam[i].getDbKey() == dbKey)
+                return ((ActionParamMaterial)tabParam[i]);
+        }
+        return null;
+    }
+
+
+    /* chargement des parametres de repetition type qtt */
+    private static CopexReturn getTaskRepeatParamQuantityFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatParamQuantity> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_PARAM FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT AND " +
+                "P.ID_PARAM IN (SELECT ID_PARAM FROM INITIAL_PARAM_QUANTITY);";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_PARAM");
+            long dbKeyInitParam = Long.parseLong(s);
+            // initialAction para correspondant
+            InitialParamQuantity initialParamQuantity = getInitialParamQuantity(dbKeyInitParam, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueParamQuantityFromDB(dbC, dbKey, listActionParam, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueParamQuantity> listValue = (ArrayList<TaskRepeatValueParamQuantity>)v3.get(0);
+            TaskRepeatParamQuantity q = new TaskRepeatParamQuantity(dbKey, initialParamQuantity, listValue);
+            list.add(q);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+
+    /* recherche param initial dans une liste d'actions initiales, null sinon  */
+    private static InitialParamQuantity getInitialParamQuantity(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if (a.getVariable() != null){
+                InitialActionParam[] tab =a.getVariable().getTabParam();
+                for (int j=0; j<tab.length; j++){
+                    if (tab[j] instanceof InitialParamQuantity && tab[j].getDbKey() == dbKey)
+                        return ((InitialParamQuantity)tab[j]);
+                }
+            }
+        }
+        return null;
+    }
+
+    /* chargement des valeurs des parametres param qtt */
+    private static CopexReturn getTaskRepeatValueParamQuantityFromDB(DataBaseCommunication dbC, long dbKeyParamRepeat, ActionParam[] listActionParam, ArrayList v){
+        ArrayList<TaskRepeatValueParamQuantity> list = new ArrayList();
+        String query = "SELECT V.ID_VALUE, V.NO_REPEAT, V.ID_ACTION_PARAM FROM PARAM_VALUE_TASK_REPEAT V, LINK_PARAM_VALUE_TASK_REPEAT L " +
+                " WHERE L.ID_PARAM_REPEAT = "+dbKeyParamRepeat+" AND " +
+                "L.ID_VALUE = V.ID_VALUE AND " +
+                "V.ID_ACTION_PARAM IN (SELECT ID_ACTION_PARAM_QUANTITY FROM ACTION_PARAM_QUANTITY ) ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("V.ID_VALUE");
+        listFields.add("V.NO_REPEAT");
+        listFields.add("V.ID_ACTION_PARAM");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("V.ID_VALUE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("V.NO_REPEAT");
+            int noRepeat = Integer.parseInt(s);
+            s = rs.getColumnData("V.ID_ACTION_PARAM");
+            long dbKeyAction = Long.parseLong(s);
+            ActionParamQuantity actionParamQtt = getActionParamQuantity(dbKeyAction, listActionParam);
+            TaskRepeatValueParamQuantity q = new TaskRepeatValueParamQuantity(dbKey, noRepeat, actionParamQtt);
+            list.add(q);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* retourne l'action parametree correspondante, null sinon */
+    private static ActionParamQuantity getActionParamQuantity(long dbKey, ActionParam[] tabParam){
+        for (int i=0; i<tabParam.length; i++){
+            if (tabParam[i] instanceof ActionParamQuantity && tabParam[i].getDbKey() == dbKey)
+                return ((ActionParamQuantity)tabParam[i]);
+        }
+        return null;
+    }
+
+
+
+    /* chargement des parametres de repetition type outputMAnipulation */
+    private static CopexReturn getTaskRepeatParamOutputManipulationFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ArrayList<Material> listMaterial, ArrayList v){
+        ArrayList<TaskRepeatParamOutputManipulation> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_OUTPUT_MANIPULATION FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_OUTPUT_MANIPULATION");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_OUTPUT_MANIPULATION");
+            long dbKeyOutput = Long.parseLong(s);
+            // output manipulation correspondant
+            InitialManipulationOutput initialOutput = getInitialOutputManipulation(dbKeyOutput, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueOutputManipulationFromDB(dbC, dbKey, listMaterial, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueMaterialProd> listValue = (ArrayList<TaskRepeatValueMaterialProd>)v3.get(0);
+            TaskRepeatParamOutputManipulation o = new TaskRepeatParamOutputManipulation(dbKey, initialOutput, listValue);
+            list.add(o);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* recherche output manipulation dans une liste d'actions initiales, null sinon  */
+    private static InitialManipulationOutput getInitialOutputManipulation(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if(a instanceof InitialActionManipulation){
+                ArrayList<InitialManipulationOutput> listOutput = ((InitialActionManipulation)a).getListOutput();
+                int nbo = listOutput.size();
+                for (int j=0; j<nbo; j++){
+                    if (listOutput.get(j).getDbKey() == dbKey)
+                        return listOutput.get(j);
+                }
+            }
+        }
+        return null;
+    }
+
+     /* chargement des valeurs des parametres output manipulation */
+    private static CopexReturn getTaskRepeatValueOutputManipulationFromDB(DataBaseCommunication dbC, long dbKeyParamRepeat, ArrayList<Material> listMaterials, ArrayList v){
+        ArrayList<TaskRepeatValueMaterialProd> list = new ArrayList();
+        String query = "SELECT V.ID_VALUE, V.NO_REPEAT, V.ID_MATERIAL_PROD FROM PARAM_VALUE_TASK_REPEAT V, LINK_PARAM_VALUE_TASK_REPEAT L " +
+                " WHERE L.ID_PARAM_REPEAT = "+dbKeyParamRepeat+" AND " +
+                "L.ID_VALUE = V.ID_VALUE AND " +
+                "V.ID_MATERIAL_PROD IN (SELECT ID_MATERIAL FROM MATERIAL_PRODUCE) ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("V.ID_VALUE");
+        listFields.add("V.NO_REPEAT");
+        listFields.add("V.ID_MATERIAL_PROD");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("V.ID_VALUE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("V.NO_REPEAT");
+            int noRepeat = Integer.parseInt(s);
+            s = rs.getColumnData("V.ID_MATERIAL_PROD");
+            long dbKeyMaterial = Long.parseLong(s);
+            Material m = getMaterialProd(dbKeyMaterial, listMaterials);
+            TaskRepeatValueMaterialProd t = new TaskRepeatValueMaterialProd(dbKey, noRepeat, m);
+            list.add(t);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+
+    /* retourne le material correspondant , null sinon*/
+    private static Material getMaterialProd(long dbKey, ArrayList<Material> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            if (list.get(i).getDbKey() == dbKey)
+                return list.get(i);
+        }
+        return null;
+    }
+
+    /* chargement des parametres de repetition type outputAcquisition */
+    private static CopexReturn getTaskRepeatParamOutputAcquisitionFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ArrayList<QData> listDataProd, ArrayList v){
+        ArrayList<TaskRepeatParamOutputAcquisition> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_OUTPUT_ACQUISITION FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_OUTPUT_ACUISITION");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_OUTPUT_ACQUISITION");
+            long dbKeyOutput = Long.parseLong(s);
+            // output acq correspondant
+            InitialAcquisitionOutput initialOutput = getInitialOutputAcquisition(dbKeyOutput, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueOutputAcquisitionFromDB(dbC, dbKey, listDataProd, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueDataProd> listValue = (ArrayList<TaskRepeatValueDataProd>)v3.get(0);
+            TaskRepeatParamOutputAcquisition o = new TaskRepeatParamOutputAcquisition(dbKey, initialOutput, listValue);
+            list.add(o);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* recherche output acquisition dans une liste d'actions initiales, null sinon  */
+    private static InitialAcquisitionOutput getInitialOutputAcquisition(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if(a instanceof InitialActionAcquisition){
+                ArrayList<InitialAcquisitionOutput> listOutput = ((InitialActionAcquisition)a).getListOutput();
+                int nbo = listOutput.size();
+                for (int j=0; j<nbo; j++){
+                    if (listOutput.get(j).getDbKey() == dbKey)
+                        return listOutput.get(j);
+                }
+            }
+        }
+        return null;
+    }
+
+     /* chargement des valeurs des parametres output manipulation */
+    private static CopexReturn getTaskRepeatValueOutputAcquisitionFromDB(DataBaseCommunication dbC, long dbKeyParamRepeat, ArrayList<QData> listDataProd, ArrayList v){
+        ArrayList<TaskRepeatValueDataProd> list = new ArrayList();
+        String query = "SELECT V.ID_VALUE, V.NO_REPEAT, V.ID_DATA_PROD FROM PARAM_VALUE_TASK_REPEAT V, LINK_PARAM_VALUE_TASK_REPEAT L " +
+                " WHERE L.ID_PARAM_REPEAT = "+dbKeyParamRepeat+" AND " +
+                "L.ID_VALUE = V.ID_VALUE AND " +
+                "V.ID_DATA_PROD IN (SELECT ID_DATA FROM DATA_PRODUCE) ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("V.ID_VALUE");
+        listFields.add("V.NO_REPEAT");
+        listFields.add("V.ID_DATA_PROD");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("V.ID_VALUE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("V.NO_REPEAT");
+            int noRepeat = Integer.parseInt(s);
+            s = rs.getColumnData("V.ID_DATA_PROD");
+            long dbKeyData = Long.parseLong(s);
+            QData q = getDataProd(dbKeyData, listDataProd);
+            TaskRepeatValueDataProd t = new TaskRepeatValueDataProd(dbKey, noRepeat, q);
+            list.add(t);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+
+    /* retourne le data correspondant , null sinon*/
+    private static QData getDataProd(long dbKey, ArrayList<QData> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            if (list.get(i).getDbKey() == dbKey)
+                return list.get(i);
+        }
+        return null;
+    }
+
+     /* chargement des parametres de repetition type output treatment */
+    private static CopexReturn getTaskRepeatParamOutputTreatmentFromDB(DataBaseCommunication dbC, long dbKeyTaskRepeat, ArrayList<InitialNamedAction> listInitAction, ArrayList<QData> listDataProd, ArrayList v){
+        ArrayList<TaskRepeatParamOutputTreatment> list = new ArrayList();
+        String query = "SELECT P.ID_PARAM_REPEAT, P.ID_OUTPUT_TREATMENT FROM PARAM_TASK_REPEAT P, LINK_TASK_REPEAT_PARAM L " +
+                "WHERE L.ID_REPEAT = "+dbKeyTaskRepeat+" AND " +
+                "L.ID_PARAM_REPEAT = P.ID_PARAM_REPEAT ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PARAM_REPEAT");
+        listFields.add("P.ID_OUTPUT_TREATMENT");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PARAM_REPEAT");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            s = rs.getColumnData("P.ID_OUTPUT_TREATMENT");
+            long dbKeyOutput = Long.parseLong(s);
+            // output treat correspondant
+            InitialTreatmentOutput initialOutput = getInitialOutputTreatment(dbKeyOutput, listInitAction);
+            // chargement des valeurs
+            ArrayList v3 = new ArrayList();
+            cr = getTaskRepeatValueOutputAcquisitionFromDB(dbC, dbKey, listDataProd, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<TaskRepeatValueDataProd> listValue = (ArrayList<TaskRepeatValueDataProd>)v3.get(0);
+            TaskRepeatParamOutputTreatment o = new TaskRepeatParamOutputTreatment(dbKey, initialOutput, listValue);
+            list.add(o);
+        }
+        v.add(list);
+        return new CopexReturn();
+    }
+
+    /* recherche output treatment dans une liste d'actions initiales, null sinon  */
+    private static InitialTreatmentOutput getInitialOutputTreatment(long dbKey, ArrayList<InitialNamedAction> list){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+            InitialNamedAction a = list.get(i);
+            if(a instanceof InitialActionTreatment){
+                ArrayList<InitialTreatmentOutput> listOutput = ((InitialActionTreatment)a).getListOutput();
+                int nbo = listOutput.size();
+                for (int j=0; j<nbo; j++){
+                    if (listOutput.get(j).getDbKey() == dbKey)
+                        return listOutput.get(j);
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+    /*insertion repetition tache, retourne en v[0] la repetition de taches */
+    public static CopexReturn insertTaskRepeatInDB(DataBaseCommunication dbC, long dbKeyTask, TaskRepeat taskRepeat, ArrayList v){
+        String query = "INSERT INTO TASK_REPEAT (ID_REPEAT, NB_REPEAT) VALUES (NULL, "+taskRepeat.getNbRepeat()+") ;";
+        String queryID = "SELECT max(last_insert_id(`ID_REPEAT`))   FROM TASK_REPEAT ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        taskRepeat.setDbKey(dbKey);
+        // lien avec la tache
+        String queryLink = "INSERT INTO LINK_TASK_REPEAT (ID_TASK, ID_REPEAT) VALUES ("+dbKeyTask+", "+dbKey+") ;";
+        String[] querys = new String[1];
+        querys[0] = queryLink ;
+        v2 = new ArrayList();
+        cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+        // enregistrement des parametres
+        int nbParam = taskRepeat.getListParam().size();
+        for (int i=0; i<nbParam; i++){
+            TaskRepeatParam p = taskRepeat.getListParam().get(i);
+            v2 = new ArrayList();
+            cr = insertTaskRepeatParamInDB(dbC, dbKey, p, v2);
+            if (cr.isError())
+                return cr;
+            p = (TaskRepeatParam)v2.get(0);
+        }
+        v.add(taskRepeat);
+        return new CopexReturn();
+    }
+
+    /* insertion des parametres de repetition */
+    private static CopexReturn insertTaskRepeatParamInDB(DataBaseCommunication dbC,long dbKeyTaskRepeat, TaskRepeatParam paramRepeat,  ArrayList v){
+        if(paramRepeat instanceof TaskRepeatParamOutputAcquisition){
+            TaskRepeatParamOutputAcquisition p = (TaskRepeatParamOutputAcquisition)paramRepeat;
+            String query = "INSERT INTO PARAM_TASK_REPEAT (ID_PARAM_REPEAT, ID_OUTPUT_ACQUISITION) VALUES (NULL, "+p.getOutput().getDbKey()+");";
+            String queryID = "SELECT max(last_insert_id(`ID_PARAM_REPEAT`))   FROM PARAM_TASK_REPEAT ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKey = (Long)v2.get(0);
+            paramRepeat.setDbKey(dbKey);
+            // enregistrement des valeurs
+            int nbV = p.getListValue().size();
+            for (int i=0; i<nbV; i++){
+                TaskRepeatValueDataProd d = p.getListValue().get(i);
+                String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_DATA_PROD) VALUES (NULL, "+i+", "+d.getData().getDbKey()+");";
+                String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                v2 = new ArrayList();
+                cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                if (cr.isError())
+                    return cr;
+                long dbKeyV = (Long)v2.get(0);
+                d.setDbKey(dbKeyV);
+                // lien
+                String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                String[] querys = new String[1];
+                querys[0] = queryLink ;
+                v2 = new ArrayList();
+                cr = dbC.executeQuery(querys, v2);
+                if (cr.isError())
+                    return cr;
+            }
+        }else if (paramRepeat instanceof TaskRepeatParamOutputManipulation){
+            TaskRepeatParamOutputManipulation p = (TaskRepeatParamOutputManipulation)paramRepeat;
+            String query = "INSERT INTO PARAM_TASK_REPEAT (ID_PARAM_REPEAT, ID_OUTPUT_MANIPULATION) VALUES (NULL, "+p.getOutput().getDbKey()+");";
+            String queryID = "SELECT max(last_insert_id(`ID_PARAM_REPEAT`))   FROM PARAM_TASK_REPEAT ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKey = (Long)v2.get(0);
+            paramRepeat.setDbKey(dbKey);
+            // enregistrement des valeurs
+            int nbV = p.getListValue().size();
+            for (int i=0; i<nbV; i++){
+                TaskRepeatValueMaterialProd m = p.getListValue().get(i);
+                String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_MATERIAL_PROD) VALUES (NULL, "+i+", "+m.getMaterial().getDbKey()+");";
+                String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                v2 = new ArrayList();
+                cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                if (cr.isError())
+                    return cr;
+                long dbKeyV = (Long)v2.get(0);
+                m.setDbKey(dbKeyV);
+                // lien
+                String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                String[] querys = new String[1];
+                querys[0] = queryLink ;
+                v2 = new ArrayList();
+                cr = dbC.executeQuery(querys, v2);
+                if (cr.isError())
+                    return cr;
+            }
+        }else if (paramRepeat instanceof TaskRepeatParamOutputTreatment){
+            TaskRepeatParamOutputTreatment p = (TaskRepeatParamOutputTreatment)paramRepeat;
+            String query = "INSERT INTO PARAM_TASK_REPEAT (ID_PARAM_REPEAT, ID_OUTPUT_TREATMENT) VALUES (NULL, "+p.getOutput().getDbKey()+");";
+            String queryID = "SELECT max(last_insert_id(`ID_PARAM_REPEAT`))   FROM PARAM_TASK_REPEAT ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKey = (Long)v2.get(0);
+            paramRepeat.setDbKey(dbKey);
+            // enregistrement des valeurs
+            int nbV = p.getListValue().size();
+            for (int i=0; i<nbV; i++){
+                TaskRepeatValueDataProd d = p.getListValue().get(i);
+                String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_DATA_PROD) VALUES (NULL, "+i+", "+d.getData().getDbKey()+");";
+                String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                v2 = new ArrayList();
+                cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                if (cr.isError())
+                    return cr;
+                long dbKeyV = (Long)v2.get(0);
+                d.setDbKey(dbKeyV);
+                // lien
+                String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                String[] querys = new String[1];
+                querys[0] = queryLink ;
+                v2 = new ArrayList();
+                cr = dbC.executeQuery(querys, v2);
+                if (cr.isError())
+                    return cr;
+            }
+        }else{
+            long id = -1;
+            if(paramRepeat instanceof TaskRepeatParamData)
+                id = ((TaskRepeatParamData)paramRepeat).getInitialParamData().getDbKey() ;
+            else if (paramRepeat instanceof TaskRepeatParamMaterial)
+                id = ((TaskRepeatParamMaterial)paramRepeat).getInitialParamMaterial().getDbKey() ;
+            else if (paramRepeat instanceof TaskRepeatParamQuantity)
+                id = ((TaskRepeatParamQuantity)paramRepeat).getInitialParamQuantity().getDbKey() ;
+            String query = "INSERT INTO PARAM_TASK_REPEAT (ID_PARAM_REPEAT, ID_PARAM) VALUES (NULL, "+id+");";
+            String queryID = "SELECT max(last_insert_id(`ID_PARAM_REPEAT`))   FROM PARAM_TASK_REPEAT ;";
+            ArrayList v2 = new ArrayList();
+            CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+            if (cr.isError())
+                return cr;
+            long dbKey = (Long)v2.get(0);
+            paramRepeat.setDbKey(dbKey);
+            // enregistrement des valeurs
+            if(paramRepeat instanceof TaskRepeatParamData){
+                ArrayList<TaskRepeatValueParamData> list = ((TaskRepeatParamData)paramRepeat).getListValue();
+                int nb = list.size();
+                for (int i=0; i<nb; i++){
+                    TaskRepeatValueParamData d = list.get(i);
+                    String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_ACTION_PARAM) VALUES (NULL, "+i+", "+d.getActionParamData().getDbKey()+") ;";
+                    String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                    v2 = new ArrayList();
+                    cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                    if (cr.isError())
+                        return cr;
+                    long dbKeyV = (Long)v2.get(0);
+                    d.setDbKey(dbKeyV);
+                    // lien
+                    String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                    String[] querys = new String[1];
+                    querys[0] = queryLink ;
+                    v2 = new ArrayList();
+                    cr = dbC.executeQuery(querys, v2);
+                    if (cr.isError())
+                        return cr;
+                }
+            }else if (paramRepeat instanceof TaskRepeatParamMaterial){
+                ArrayList<TaskRepeatValueParamMaterial> list = ((TaskRepeatParamMaterial)paramRepeat).getListValue();
+                int nb = list.size();
+                for (int i=0; i<nb; i++){
+                    TaskRepeatValueParamMaterial m = list.get(i);
+                    String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_ACTION_PARAM) VALUES (NULL, "+i+", "+m.getActionParamMaterial().getDbKey()+") ;";
+                    String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                    v2 = new ArrayList();
+                    cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                    if (cr.isError())
+                        return cr;
+                    long dbKeyV = (Long)v2.get(0);
+                    m.setDbKey(dbKeyV);
+                    // lien
+                    String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                    String[] querys = new String[1];
+                    querys[0] = queryLink ;
+                    v2 = new ArrayList();
+                    cr = dbC.executeQuery(querys, v2);
+                    if (cr.isError())
+                        return cr;
+                }
+            }else if (paramRepeat instanceof TaskRepeatParamQuantity){
+                ArrayList<TaskRepeatValueParamQuantity> list = ((TaskRepeatParamQuantity)paramRepeat).getListValue();
+                int nb = list.size();
+                for (int i=0; i<nb; i++){
+                    TaskRepeatValueParamQuantity q = list.get(i);
+                    String queryValue = "INSERT INTO PARAM_VALUE_TASK_REPEAT (ID_VALUE, NO_REPEAT, ID_ACTION_PARAM) VALUES (NULL, "+i+", "+q.getActionParamQuantity().getDbKey()+") ;";
+                    String queryIDV = "SELECT max(last_insert_id(`ID_VALUE`))   FROM PARAM_VALUE_TASK_REPEAT ;";
+                    v2 = new ArrayList();
+                    cr = dbC.getNewIdInsertInDB(queryValue, queryIDV, v2);
+                    if (cr.isError())
+                        return cr;
+                    long dbKeyV = (Long)v2.get(0);
+                    q.setDbKey(dbKeyV);
+                    // lien
+                    String queryLink = "INSERT INTO LINK_PARAM_VALUE_TASK_REPEAT (ID_PARAM_REPEAT, ID_VALUE) VALUES ("+dbKeyV+", "+dbKey+") ;";
+                    String[] querys = new String[1];
+                    querys[0] = queryLink ;
+                    v2 = new ArrayList();
+                    cr = dbC.executeQuery(querys, v2);
+                    if (cr.isError())
+                        return cr;
+                }
+            }
+        }
+
+        // enregistrement lien
+        String queryLink = "INSERT INTO LINK_TASK_REPEAT_PARAM (ID_REPEAT, ID_PARAM_REPEAT) VALUES ("+dbKeyTaskRepeat+", "+paramRepeat.getDbKey()+") ;";
+        String[] querys = new String[1];
+        querys[0] = queryLink ;
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+
+        v.add(paramRepeat);
+        return new CopexReturn();
+    }
+
+
+    /* suppression des repetitions */
+    public static CopexReturn deleteTaskRepeatFromDB(DataBaseCommunication dbC, long dbKeyTask, TaskRepeat taskRepeat){
+        String[] querys = new String[6];
+        int q=0;
+        String queryParamValue = "DELETE FROM PARAM_VALUE_TASK_REPEAT WHERE ID_VALUE IN (SELECT ID_VALUE FROM LINK_PARAM_VALUE_TASK_REPEAT WHERE ID_PARAM_REPEAT IN (SELECT ID_PARAM_REPEAT FROM LINK_TASK_REPEAT_PARAM WHERE ID_REPEAT = "+taskRepeat.getDbKey()+")) ;";
+        querys[q] = queryParamValue;
+        q++;
+        String queryDelLinkValue = "DELETE FROM LINK_PARAM_VALUE_TASK_REPEAT WHERE ID_PARAM_REPEAT IN (SELECT ID_PARAM_REPEAT FROM LINK_TASK_REPEAT_PARAM WHERE ID_REPEAT = "+taskRepeat.getDbKey()+") ;";
+        querys[q] = queryDelLinkValue;
+        q++;
+        String queryDelParam = "DELETE FROM PARAM_TASK_REPEAT WHERE ID_PARAM_REPEAT IN (SELECT ID_PARAM_REPEAT FROM LINK_TASK_REPEAT_PARAM WHERE ID_REPEAT = "+taskRepeat.getDbKey()+");";
+        querys[q] = queryDelParam;
+        q++;
+        String queryDelLinkParam = "DELETE FROM LINK_TASK_REPEAT_PARAM WHERE ID_REPEAT = "+taskRepeat.getDbKey()+";";
+        querys[q] = queryDelLinkParam;
+        q++;
+        String query = "DELETE FROM TASK_REPEAT WHERE ID_REPEAT = "+taskRepeat.getDbKey()+" ;";
+        querys[q] = query;
+        q++;
+        String queryLink = "DELETE FROM LINK_TASK_REPEAT WHERE ID_TASK = "+dbKeyTask+" ;";
+        querys[q] = queryLink;
+        q++;
+        ArrayList v = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+    /* mise ‡ jour de la repetition d'une tache */
+    public static CopexReturn updateTaskRepeatInDB(DataBaseCommunication dbC, TaskRepeat taskRepeat, ArrayList v){
+        String query = "UPDATE TASK_REPEAT SET NB_REPEAT = "+taskRepeat.getNbRepeat()+" WHERE ID_REPEAT = "+taskRepeat.getDbKey()+" ;";
+        String[] querys = new String[1];
+        querys[0] = query ;
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+        v.add(taskRepeat);
+        return new CopexReturn();
+    }
 }

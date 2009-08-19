@@ -12,12 +12,13 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.utilities.CopexReturn;
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -25,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -37,7 +39,7 @@ public class EdPFrame extends javax.swing.JFrame {
     private EdPPanel edP;
     private File lastUsedFile = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-    private transient SAXBuilder builder = new SAXBuilder(false);
+    private transient SAXBuilder builder = new SAXBuilder();
 
     /** Creates new form EdPFrame */
     public EdPFrame() {
@@ -94,15 +96,34 @@ public class EdPFrame extends javax.swing.JFrame {
             File file = aFileChooser.getSelectedFile();
 			lastUsedFile = file;
 			FileWriter fileWriter = null;
-			try
-			{
-				fileWriter = new FileWriter(file);
-				xmlOutputter.output(xproc, fileWriter);
-			}
-			catch (IOException e)
-			{
-				edP.displayError(new CopexReturn("Erreur lors de la sauvegarde", false), "Erreur");
-			}
+//			try
+//			{
+//				fileWriter = new FileWriter(file);
+//                xmlOutputter.output(xproc, fileWriter);
+//			}
+//			catch (IOException e)
+//			{
+//				edP.displayError(new CopexReturn("Erreur lors de la sauvegarde", false), "Erreur");
+//			}
+
+            builder = new SAXBuilder();
+		try {
+			Document doc = builder
+					.build(new StringReader(CopexUtilities.xmlToString(xproc)));
+			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+			FileWriter writer = new FileWriter(file);
+			out.output(doc, writer);
+			writer.flush();
+			writer.close();
+		} catch (JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 			finally
 			{
 				if (fileWriter != null)
@@ -130,7 +151,8 @@ public class EdPFrame extends javax.swing.JFrame {
 			try
 			{
 				fileReader = new FileReader(file);
-				Document doc = builder.build(fileReader, file.getAbsolutePath());
+				///Document doc = builder.build(fileReader, file.getAbsolutePath());
+                Document doc = builder.build(file);
                 edP.loadELO(doc.getRootElement());
 			}
 			catch (Exception e)
@@ -138,6 +160,8 @@ public class EdPFrame extends javax.swing.JFrame {
 				e.printStackTrace();
                 edP.displayError(new CopexReturn("Erreur durant le chargement "+e, false), "Erreur");
 			}
+            
+
 			finally
 			{
 				if (fileReader != null)
@@ -153,6 +177,7 @@ public class EdPFrame extends javax.swing.JFrame {
 		}
     }
 
+    
     private void newELO(){
         this.edP.newELO();
     }

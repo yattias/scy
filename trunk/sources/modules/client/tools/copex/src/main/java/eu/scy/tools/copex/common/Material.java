@@ -101,14 +101,19 @@ public class Material implements Cloneable {
     
     // METHODES
     /* rend la chaine à afficher sur l'ihm */
-    public String toDisplay(){
-        String s = getName()+" (";
-        s += getTypeToDisplay();
-        s += ")";
-        return s;
-        
-    }
+//    public String toDisplay(){
+//        String s = getName()+" (";
+//        s += getTypeToDisplay();
+//        s += ")";
+//        return s;
+//
+//    }
 
+    public String toDisplay(){
+        String s = getName();
+        return s;
+
+    }
     /* rend la chaine à afficher sur l'ihm : liste des types */
     public String getTypeToDisplay(){
         String s = "";

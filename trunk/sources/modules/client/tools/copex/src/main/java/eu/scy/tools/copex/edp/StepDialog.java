@@ -6,19 +6,23 @@
 
 package eu.scy.tools.copex.edp;
 
+import eu.scy.tools.copex.common.InitialActionParam;
+import eu.scy.tools.copex.common.InitialOutput;
 import eu.scy.tools.copex.common.Step;
+import eu.scy.tools.copex.common.TaskRepeat;
 import eu.scy.tools.copex.utilities.ActionComment;
 import eu.scy.tools.copex.utilities.CommentsPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
  * fenetre d'ajout d'une etape
  * @author  MBO
  */
-public class StepDialog extends JDialog implements ActionComment{
+public class StepDialog extends JDialog implements ActionComment, ActionTaskRepeat{
     // ATTRIBUTS
     private EdPPanel edP;
      /* mode de visualisation  : ajout / modification */
@@ -27,6 +31,8 @@ public class StepDialog extends JDialog implements ActionComment{
     private char right = MyConstants.EXECUTE_RIGHT;
     /* droit proc */
     private char procRight = MyConstants.EXECUTE_RIGHT;
+    /* etape */
+    private Step step;
     /* nom etape */
     private String name;
     /* commentaires */
@@ -37,7 +43,12 @@ public class StepDialog extends JDialog implements ActionComment{
     private CommentsPanel panelComments;
     /* commentaire en cours */
     private String comment;
-    
+    /* etape peut être répétée */
+    private boolean isTaskRepeat;
+     /* repetition */
+    private TaskRepeat taskRepeat;
+
+    private TaskRepeatPanel taskRepeatPanel;
     
     /** Creates new form StepDialog */
     public StepDialog(java.awt.Frame parent, boolean modal) {
@@ -45,11 +56,14 @@ public class StepDialog extends JDialog implements ActionComment{
         initComponents();
     }
 
-    public StepDialog(EdPPanel edP) {
+    public StepDialog(EdPPanel edP, boolean isTaskRepeat) {
         super();
         this.edP = edP;
         this.modeAdd = true;
         this.comment = "";
+        //this.isTaskRepeat = isTaskRepeat;
+        this.isTaskRepeat = false;
+        this.taskRepeat = null;
         this.setLocationRelativeTo(edP);
         initComponents();
         setModal(true);
@@ -58,15 +72,19 @@ public class StepDialog extends JDialog implements ActionComment{
     }
 
      /* constructeur de la fenetre d'edition de l'action */
-    public StepDialog(EdPPanel edP, boolean modeAdd, String name, String comments, ImageIcon taskImage, char right, char procRight ) {
+    public StepDialog(EdPPanel edP, boolean modeAdd, Step step,  ImageIcon taskImage, boolean isTaskRepeat, char right, char procRight ) {
         super();
         this.edP = edP;
         this.modeAdd = modeAdd;
-        this.name = name;
-        this.comments = comments;
+        this.step = step;
+        this.name = step.getDescription();
+        this.comments = step.getComments();
         this.right = right;
         this.procRight = procRight;
         this.taskImage = taskImage;
+        //this.isTaskRepeat = isTaskRepeat;
+        this.isTaskRepeat = false;
+        this.taskRepeat = step.getTaskRepeat();
         this.setLocationRelativeTo(edP);
         initComponents();
         setModal(true);
@@ -75,6 +93,8 @@ public class StepDialog extends JDialog implements ActionComment{
     }
     public void init(){
         getContentPane().add(getPanelComments());
+        if(isTaskRepeat)
+            setPanelTaskRepeat();
         if (!modeAdd){
             // mode edit
             this.setTitle(edP.getBundleString("TITLE_DIALOG_STEP"));
@@ -85,6 +105,9 @@ public class StepDialog extends JDialog implements ActionComment{
             if (this.taskImage != null ){
                 this.labelImage.setIcon(this.taskImage);
             }
+            // repetition
+            if (taskRepeat != null)
+                this.taskRepeatPanel.setTaskRepeat(taskRepeat);
             // gestion des droits 
             if (right == MyConstants.NONE_RIGHT)
                setDisabled();
@@ -95,7 +118,7 @@ public class StepDialog extends JDialog implements ActionComment{
         textAreaDescription.setWrapStyleWord(true);
         
         resizeElements();
-        actionComment();
+        resizeDialog();
     }
 
     private CommentsPanel getPanelComments(){
@@ -108,6 +131,61 @@ public class StepDialog extends JDialog implements ActionComment{
         return panelComments ;
     }
 
+    /* panel task repeat */
+    private TaskRepeatPanel getTaskRepeatPanel(){
+        if(taskRepeatPanel == null){
+            taskRepeatPanel = new TaskRepeatPanel(edP, getStepInitialParam(),getStepInitialOutput(),  false, modeAdd);
+            taskRepeatPanel.addActionTaskRepeat(this);
+            taskRepeatPanel.setName("taskRepeatPanel");
+            if(!modeAdd && this.taskRepeat != null){
+                taskRepeatPanel.setTaskRepeat(taskRepeat);
+            }
+            int y = panelComments.getHeight()+panelComments.getY()+20 ;
+            if(labelImage != null){
+                y = labelImage.getY()+labelImage.getHeight()+20;
+            }
+            taskRepeatPanel.setBounds(20, y, 300, taskRepeatPanel.getHeight());
+        }
+        return taskRepeatPanel ;
+    }
+
+    /* retourne la liste des parametres des actions de l'etape */
+    private ArrayList<InitialActionParam> getStepInitialParam(){
+        if(modeAdd)
+            return new ArrayList();
+        else{
+            return edP.getStepInitialParam(step);
+        }
+    }
+
+
+    /* retourne la liste des output des actions de l'étape */
+    private ArrayList<InitialOutput> getStepInitialOutput(){
+        if(modeAdd)
+            return new ArrayList();
+        else{
+            return edP.getStepInitialOutput(step);
+        }
+    }
+
+
+    
+    /* mise en place du panel task repeat */
+    private void setPanelTaskRepeat(){
+        if(this.panelComments == null)
+            return;
+        removePanelTaskRepeat();
+        getContentPane().add(getTaskRepeatPanel());
+    }
+
+    private void removePanelTaskRepeat(){
+        if(taskRepeatPanel != null){
+            getContentPane().remove(taskRepeatPanel);
+            taskRepeatPanel = null;
+        }
+    }
+
+
     /* permet de rendre disabled tous les elements, ne laisse qu'un bouton pour fermer 
      * MBO le 09/10/08/ : seul le champ description n'est pas accessible
      */
@@ -118,6 +196,8 @@ public class StepDialog extends JDialog implements ActionComment{
     private void setAllDisabled(){
         this.textAreaDescription.setEnabled(false);
         this.panelComments.setEnabled(false);
+        if(this.taskRepeatPanel != null)
+            taskRepeatPanel.setDisabled();
         remove(this.buttonOk);
         this.buttonOk = null;
         this.buttonCancel.setText(edP.getBundleString("BUTTON_OK"));
@@ -135,66 +215,95 @@ public class StepDialog extends JDialog implements ActionComment{
        this.labelName.setSize(CopexUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont())), this.labelName.getHeight());
         // label image 
        if (this.taskImage != null )
-        this.labelImage.setSize(this.taskImage.getIconWidth(), this.taskImage.getIconHeight());
+            this.labelImage.setSize(this.taskImage.getIconWidth(), this.taskImage.getIconHeight());
        if (procRight != MyConstants.NONE_RIGHT){
-        // bouton Ok
-        this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
-        // bouton Annuler
-        this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
+            // bouton Ok
+            this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
        }
+       // bouton Annuler
+       this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
+ 
+   }
+
+    private void resizeDialog(){
+        int width = getWidth() ;
+        int height = panelComments.getY() + panelComments.getHeight()+60 ;
        if (this.taskImage != null){
-           int height = this.taskImage.getIconHeight() + 20; 
-           int maxWidth = Math.max(this.getWidth(), this.taskImage.getIconWidth()+this.labelImage.getX());
-           this.buttonOk.setBounds(this.buttonOk.getX(), this.buttonOk.getY()+ height, this.buttonOk.getWidth(), this.buttonOk.getHeight());
-           this.buttonCancel.setBounds(this.buttonCancel.getX(), this.buttonCancel.getY() + height, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
-           this.setSize(maxWidth, this.getHeight() +height);
-           this.setPreferredSize(this.getSize());
+           int imgH = this.taskImage.getIconHeight()+20;
+           height += imgH ;
+           width = Math.max(this.getWidth(), this.taskImage.getIconWidth()+this.labelImage.getX());
+           this.labelImage.setBounds(labelImage.getX(), labelImage.getY(), this.taskImage.getIconWidth(), this.taskImage.getIconHeight());
        }
+       int y = panelComments.getY() + panelComments.getHeight()+10;
+       if (this.taskRepeatPanel != null){
+           height += this.taskRepeatPanel.getHeight()+30;
+           this.taskRepeatPanel.setBounds(this.taskRepeatPanel.getX(), y, taskRepeatPanel.getWidth(), taskRepeatPanel.getHeight());
+       }
+        y = height - this.buttonCancel.getHeight() - 30 ;
+        if(this.buttonOk != null)
+            this.buttonOk.setBounds(this.buttonOk.getX(), y, this.buttonOk.getWidth(), this.buttonOk.getHeight());
+        this.buttonCancel.setBounds(this.buttonCancel.getX(), y, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
+
+        setSize(width, height);
+        setPreferredSize(getSize());
+        repaint();
    }
    
    private void validDialog(){
        this.panelComments.setPanelDetailsShown();
         // recupere les donnÃ©es : 
-   String d = this.textAreaDescription.getText();
-   if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
-       String msg = edP.getBundleString("MSG_LENGHT_MAX");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
-       msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
-       edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   if (d.length() == 0){
-       String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
-       edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   String c = this.panelComments.getComments();
-   if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
-       String msg = edP.getBundleString("MSG_LENGHT_MAX");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
-       msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
-       edP.displayError(new CopexReturn(msg, false) , edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   Step newStep = new Step(d, c) ;
-   if (modeAdd){
-        // CrÃ©Ã© l'Ã©tpae 
-        CopexReturn cr = edP.addStep(newStep);
-        if (cr.isError()){
-            edP.displayError( cr , edP.getBundleString("TITLE_DIALOG_ERROR")); 
+        String d = this.textAreaDescription.getText();
+        if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+            String msg = edP.getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
+            edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   }else{
-       // mode modification
-       CopexReturn cr = edP.updateStep(newStep);
-        if (cr.isError()){
-           edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR")); 
+        if (d.length() == 0){
+            String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
+            edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   }
+        String c = this.panelComments.getComments();
+        if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = edP.getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            edP.displayError(new CopexReturn(msg, false) , edP.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        int nbTaskRepeat = 1;
+        if(taskRepeatPanel != null){
+            nbTaskRepeat = taskRepeatPanel.getNbRepeat();
+        }
+        
+        Step newStep = new Step(d, c) ;
+        if(nbTaskRepeat > 1){
+            long oldKey = -1;
+            if (taskRepeat != null)
+                oldKey = taskRepeat.getDbKey();
+            taskRepeat = new TaskRepeat(oldKey, nbTaskRepeat);
+            newStep.setTaskRepeat(taskRepeat);
+        }
+        if (modeAdd){
+            // CrÃ©Ã© l'Ã©tpae
+            CopexReturn cr = edP.addStep(newStep);
+            if (cr.isError()){
+                edP.displayError( cr , edP.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+        }else{
+            // mode modification
+            CopexReturn cr = edP.updateStep(newStep);
+            if (cr.isError()){
+                edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+        }
   
-    this.dispose();
+        this.dispose();
    }
 
    /* sauvegarde des commentaires */
@@ -320,13 +429,31 @@ private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     // End of variables declaration//GEN-END:variables
 
     public void actionComment() {
-           if (this.buttonOk != null)
-                this.buttonOk.setBounds(this.buttonOk.getX(), panelComments.getHeight()+panelComments.getY()+20, this.buttonOk.getWidth(), this.buttonOk.getHeight());
-           this.buttonCancel.setBounds(this.buttonCancel.getX(), panelComments.getHeight()+panelComments.getY()+20, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
-           int h = this.buttonCancel.getY() + this.buttonCancel.getHeight() +50;
-           this.setSize(this.getWidth(), h);
-           this.setPreferredSize(this.getSize());
-           this.repaint();
+//           if (this.buttonOk != null)
+//                this.buttonOk.setBounds(this.buttonOk.getX(), panelComments.getHeight()+panelComments.getY()+20, this.buttonOk.getWidth(), this.buttonOk.getHeight());
+//           this.buttonCancel.setBounds(this.buttonCancel.getX(), panelComments.getHeight()+panelComments.getY()+20, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
+//           int h = this.buttonCancel.getY() + this.buttonCancel.getHeight() +50;
+//           this.setSize(this.getWidth(), h);
+//           this.setPreferredSize(this.getSize());
+//           this.repaint();
+        resizeDialog();
     }
 
+    @Override
+    public void actionResize() {
+        resizeDialog();
+    }
+
+    @Override
+    public void actionUpdateNbRepeat(int nbRepeat) {
+        
+    }
+
+    @Override
+    public void actionSetSelected(Object oldSel, Object newSel) {
+        
+    }
+
+    
+    
 }

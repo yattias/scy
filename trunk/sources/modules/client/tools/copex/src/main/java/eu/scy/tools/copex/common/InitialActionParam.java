@@ -54,4 +54,10 @@ public class InitialActionParam implements Cloneable {
             throw new InternalError();
         }
     }
+
+    @Override
+    public String toString() {
+        return "("+dbKey+") "+paramName;
+    }
+
 }

@@ -62,7 +62,7 @@ public class CopexActionTreatment extends CopexActionParam{
         String s = super.toDescription(edP);
         int nbDataProd = listDataProd.size();
         for (int i=0; i<nbDataProd; i++){
-            s += "\n "+((InitialActionTreatment)this.namedAction).getTextProd()+" : "+listDataProd.get(i).getName();
+            s += "\n "+((InitialActionTreatment)this.namedAction).getListOutput().get(i).getTextProd()+" : "+listDataProd.get(i).getName();
         }
         return s;
     }

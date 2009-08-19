@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -177,6 +180,15 @@ public class CopexUtilities {
 		return stringWriter.toString();
 	}
 
-    
+    public static String getUTF8String(String s){
+        byte[] bytes;
+        try {
+            bytes = s.getBytes("UTF8");
+            s = new String(bytes);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(CopexUtilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
+    }
 
 }

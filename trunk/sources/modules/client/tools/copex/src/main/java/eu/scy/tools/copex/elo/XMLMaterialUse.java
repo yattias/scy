@@ -5,6 +5,7 @@
 
 package eu.scy.tools.copex.elo;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
@@ -60,9 +61,11 @@ public class XMLMaterialUse {
         Element element = new Element(TAG_MATERIAL);
 		element.addContent(new Element(TAG_MATERIAL_ID).setText(idMaterial));
         element.addContent(new Element(TAG_MATERIAL_NAME).setText(materialName));
-        if(justification != null && justification.length() > 0)
+        if(justification != null && justification.length() > 0){
+            justification = CopexUtilities.getUTF8String(justification);
                 element.addContent(new Element(TAG_MATERIAL_JUSTIFICATION).setText(justification));
-		return element;
+        }
+        return element;
     }
 
 }

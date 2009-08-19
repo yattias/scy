@@ -8,6 +8,8 @@ package eu.scy.tools.copex.controller;
 import eu.scy.tools.copex.common.CopexAction;
 import eu.scy.tools.copex.common.CopexMission;
 import eu.scy.tools.copex.common.CopexTask;
+import eu.scy.tools.copex.common.InitialActionParam;
+import eu.scy.tools.copex.common.InitialOutput;
 import eu.scy.tools.copex.common.InitialProcedure;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.common.Material;
@@ -125,4 +127,9 @@ public interface ControllerInterface {
     public CopexReturn loadELO(Element xmlContent);
     /*  creation d'un nouvel ELO*/
     public CopexReturn newELO();
+
+    /* retourne la liste des parametres des actions de l'etape */
+    public CopexReturn  getTaskInitialParam(LearnerProcedure proc, CopexTask task, ArrayList v);
+    /* retourne la liste des output des actions de l'étape */
+    public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v);
 }
