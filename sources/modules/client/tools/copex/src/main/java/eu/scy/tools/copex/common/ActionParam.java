@@ -16,7 +16,7 @@ public class ActionParam implements Cloneable {
     // PROPERTY
     /* identifiant */
     protected long dbKey;
-    /* parametre initial auquel il est lié */
+    /* parametre initial auquel il est lie */
     protected InitialActionParam initialParam;
 
     // CONSTRUCTOR

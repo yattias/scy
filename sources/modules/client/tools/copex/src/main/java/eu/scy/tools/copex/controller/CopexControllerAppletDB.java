@@ -2495,7 +2495,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
     }
 
 
-    /* retourne la liste des output des actions de l'étape */
+    /* retourne la liste des output des actions de l'etape */
     @Override
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v){
         ArrayList<InitialOutput> list = new ArrayList();

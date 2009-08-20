@@ -19,7 +19,7 @@ import javax.swing.*;
 
 /**
  * represente un label material avec son icone
- * ajoute une case à cocher pour savoir si utilise dans le proc
+ * ajoute une case a cocher pour savoir si utilise dans le proc
  * * MBO le 15/12/08 : label devient text area avec une longueur minimum
  * @author  MBO
  */

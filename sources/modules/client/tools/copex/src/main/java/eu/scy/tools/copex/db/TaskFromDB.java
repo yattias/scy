@@ -20,7 +20,7 @@ import org.jdom.Element;
 public class TaskFromDB {
 
    
-    /* chargement des tâches liées à  un protocole */
+    /* chargement des tâches liees a  un protocole */
     public static CopexReturn getAllTaskFromDB_xml(DataBaseCommunication dbC, long idProc, long idQuestion, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         ArrayList<CopexTask> listT = new ArrayList();
         ArrayList v2 = new ArrayList();
@@ -2299,7 +2299,7 @@ public class TaskFromDB {
     }
 
 
-    /* chargement répétition d'une tâche */
+    /* chargement repetition d'une tâche */
     private static  CopexReturn getTaskRepeatFromDB(DataBaseCommunication dbC, long dbKeyTask, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd,ArrayList v){
         TaskRepeat taskRepeat = null;
         String query = "SELECT R.ID_REPEAT, R.NB_REPEAT FROM TASK_REPEAT R, LINK_TASK_REPEAT L WHERE L.ID_TASK = "+dbKeyTask+" AND L.ID_REPEAT = R.ID_REPEAT ;";
@@ -3199,7 +3199,7 @@ public class TaskFromDB {
         return cr;
     }
 
-    /* mise à jour de la repetition d'une tache */
+    /* mise a jour de la repetition d'une tache */
     public static CopexReturn updateTaskRepeatInDB(DataBaseCommunication dbC, TaskRepeat taskRepeat, ArrayList v){
         String query = "UPDATE TASK_REPEAT SET NB_REPEAT = "+taskRepeat.getNbRepeat()+" WHERE ID_REPEAT = "+taskRepeat.getDbKey()+" ;";
         String[] querys = new String[1];

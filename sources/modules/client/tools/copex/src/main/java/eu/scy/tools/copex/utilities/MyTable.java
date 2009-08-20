@@ -19,7 +19,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 /**
- * represente table pour les données DataSheet
+ * represente table pour les donnees DataSheet
  * @author MBO
  */
 public class MyTable extends JTable {
@@ -31,12 +31,12 @@ public class MyTable extends JTable {
     /* editeur cellule */
     private MyTableEditor anEditor;
     
-    //Va à la cellule suivante jusqu'au bout de la ligne puis à la ligne suivante etc...
+    //Va a la cellule suivante jusqu'au bout de la ligne puis a la ligne suivante etc...
     	final Action CelluleSuivante = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				//Pour ne pas qu'il aille au delà de la taille du tableau
+				//Pour ne pas qu'il aille au dela de la taille du tableau
 				if (getSelectedRow() < getRowCount()){
-					//Arrivé en fin de ligne il va à la première colonne de la ligne suivante
+					//Arrive en fin de ligne il va a la premiere colonne de la ligne suivante
 					if(getSelectedColumn() == getColumnCount()-1)					
 						changeSelection(getSelectedRow()+1,0,false,false);					
 					else//il va vers la colonne suivante
@@ -65,7 +65,7 @@ public class MyTable extends JTable {
 
     /* gestion de la touche entree sur une cellule */
     private void alterActionEnter(){
-        //Enleve le comportement de la touche entrée
+        //Enleve le comportement de la touche entree
         InputMap inputMap = (javax.swing.InputMap)UIManager.get("Table.ancestorInputMap");
         inputMap.remove(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
         getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"ENTREE");

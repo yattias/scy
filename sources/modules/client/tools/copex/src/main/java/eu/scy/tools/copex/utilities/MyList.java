@@ -11,7 +11,7 @@ import java.awt.Color;
 import javax.swing.*;
 
 /**
- * liste d'éléments qui permet d'afficher une liste avec des icones
+ * liste d'elements qui permet d'afficher une liste avec des icones
  * @author MBO
  */
 public class MyList extends JList  {

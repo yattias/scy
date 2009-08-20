@@ -10,7 +10,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 /**
- * separe les panneaux à droite : materiels, feuilles de données 
+ * separe les panneaux a droite : materiels, feuilles de donnees 
  * @author MBO
  */
 public class MySeparator extends JSeparator{

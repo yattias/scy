@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
 
 /**
- * Editeur pour la table de feuilles de données
+ * Editeur pour la table de feuilles de donnees
  * @author MBO
  */
 public class MyTableEditor extends AbstractCellEditor implements TableCellEditor{

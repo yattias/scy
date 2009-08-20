@@ -2100,7 +2100,7 @@ public class EdPPanel extends JPanel {
     }
 
 
-    /* retourne la liste des output des actions de l'étape */
+    /* retourne la liste des output des actions de l'etape */
     public ArrayList<InitialOutput> getStepInitialOutput(Step step){
         ArrayList v = new ArrayList();
         LearnerProcedure proc = getProcActiv();

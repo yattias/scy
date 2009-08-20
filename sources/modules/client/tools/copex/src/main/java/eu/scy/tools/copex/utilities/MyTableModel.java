@@ -9,7 +9,7 @@ import eu.scy.tools.copex.edp.DataSheetPanel;
 import eu.scy.tools.copex.edp.EdPPanel;
 import javax.swing.table.*;
 /**
- * modele pour la table de la feuille de donnéees
+ * modele pour la table de la feuille de donneees
  * @author MBO
  */
 public class MyTableModel extends AbstractTableModel {
@@ -17,7 +17,7 @@ public class MyTableModel extends AbstractTableModel {
     /* fenetre mere */
     private EdPPanel edP;
     private DataSheetPanel owner;
-    /* données */
+    /* donnees */
     private String[][] data;
     /* nombre de lignes */
     private int nbL;

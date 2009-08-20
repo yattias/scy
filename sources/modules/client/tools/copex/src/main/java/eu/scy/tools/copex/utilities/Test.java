@@ -26,31 +26,31 @@ public class Test {
         try {
             url = new URL("http://copex.imag.fr/espaces/");
             DataBaseCommunication dbC = new DataBaseCommunication(url, MyConstants.DB_COPEX_EDP, 1, "1");
-            String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Déterminer la structure à modifier' WHERE ID_TASK = 1981 ;";
-            //String query = "UPDATE MATERIAL SET DESCRIPTION = 'Organisme animal ou végétal adapté à son milieu' WHERE ID_MATERIAL in (169,170) ;";
+            String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Determiner la structure a modifier' WHERE ID_TASK = 1981 ;";
+            //String query = "UPDATE MATERIAL SET DESCRIPTION = 'Organisme animal ou vegetal adapte a son milieu' WHERE ID_MATERIAL in (169,170) ;";
 
-            String description = "<p>Vous allez chercher à répondre au problème suivant :  Comment modifier l'information génétique d'un être vivant " +
-                    "et vérifier la présence de cette modification ? </p>" +
+            String description = "<p>Vous allez chercher a repondre au probleme suivant :  Comment modifier l'information genetique d'un etre vivant " +
+                    "et verifier la presence de cette modification ? </p>" +
                     "<p align='center'>&#8226;</p>" +
-                    "<p>Pour résoudre ce problème vous allez tout d'abord déterminer quel est le support de l'information génétique " +
+                    "<p>Pour resoudre ce probleme vous allez tout d'abord determiner quel est le support de l'information genetique " +
                     "et la cible de la modification que vous allez effectuer. " +
-                    "La deuxième étape sera de déterminer le mode d'action de cette modification " +
+                    "La deuxieme etape sera de determiner le mode d'action de cette modification " +
                     "par le moyen de votre choix. " +
-                    "Enfin, vous chercherez comment vérifier la présence de cette modification." +
+                    "Enfin, vous chercherez comment verifier la presence de cette modification." +
                     " </p><p align='center'>&#8226;</p>" +
-                    "<p >Pour réaliser cette mission, 4 productions vous sont demandées : </p>" +
+                    "<p >Pour realiser cette mission, 4 productions vous sont demandees : </p>" +
                     "<ul>" +
-                    "  <li>Un texte décrivant vos idées pour résoudre le problème. </li>" +
-                    "  <li>Un dessin ou un schéma représentant la façon dont vous allez résoudre le problème. </li>" +
-                    "  <li>Un protocole décrivant les actions à suivre. </li>" +
-                    "  <li>Et enfin, un texte présentant les résultats que vous attendez. </li>" +
+                    "  <li>Un texte decrivant vos idees pour resoudre le probleme. </li>" +
+                    "  <li>Un dessin ou un schema representant la facon dont vous allez resoudre le probleme. </li>" +
+                    "  <li>Un protocole decrivant les actions a suivre. </li>" +
+                    "  <li>Et enfin, un texte presentant les resultats que vous attendez. </li>" +
                     "</ul>" +
                     "<p align='center'>&#8226;</p>" +
-                    "<p > Afin de fournir ces quatre documents à la fin de la séance, vous naviguerez dans le site web COPEX pour utiliser " +
-                    "l'ensemble des outils mis à votre disposition. " +
+                    "<p > Afin de fournir ces quatre documents a la fin de la seance, vous naviguerez dans le site web COPEX pour utiliser " +
+                    "l'ensemble des outils mis a votre disposition. " +
                     "</p><p align='center'>&#8226;</p>" +
-                    "<p > Attention : l'ensemble des documents que vous allez concevoir doivent être assez clair et précis pour être lus et compris " +
-                    "par un élève de seconde. </p>" +
+                    "<p > Attention : l'ensemble des documents que vous allez concevoir doivent etre assez clair et precis pour etre lus et compris " +
+                    "par un eleve de seconde. </p>" +
                     "</p><p align='center'>&#8226;</p>" +
                     "<p > C'est parti ! Rendez-vous dans l'espace publication. </p>";
             
@@ -65,7 +65,7 @@ public class Test {
             if(cr.isError()){
                 System.out.println("error "+cr.getText());
             }
-            System.out.println("réussi");
+            System.out.println("reussi");
         } catch (MalformedURLException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
