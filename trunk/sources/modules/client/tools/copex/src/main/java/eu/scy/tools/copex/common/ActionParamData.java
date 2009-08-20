@@ -11,7 +11,7 @@ package eu.scy.tools.copex.common;
  */
 public class ActionParamData extends ActionParam implements Cloneable{
     // PROPERTY
-    /*parametre/quantité lié */
+    /*parametre/quantite lie */
     private QData data;
 
     // CONSTRUCTOR

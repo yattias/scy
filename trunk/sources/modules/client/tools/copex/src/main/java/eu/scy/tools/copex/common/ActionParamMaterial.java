@@ -15,7 +15,7 @@ public class ActionParamMaterial extends ActionParam{
     // PROPERTY
     /* material associe */
     private Material material ;
-    /* eventuellement quantite associée */
+    /* eventuellement quantite associee */
     private ActionParamQuantity quantity ;
 
     // CONSTRUCTOR

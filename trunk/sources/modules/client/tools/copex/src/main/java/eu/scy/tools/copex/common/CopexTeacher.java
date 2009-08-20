@@ -10,7 +10,7 @@ import java.util.*;
 /**
  *
  * @author MBO
- * Classe représentant un enseignant 
+ * Classe representant un enseignant
  * un enseignant est un utilisateur COPEX
  */
 public class CopexTeacher extends CopexUser {
@@ -60,7 +60,7 @@ public class CopexTeacher extends CopexUser {
         this.listGroup.add(group);
     }
     /*
-     * retourne true si le groupe est géré par l'enseignant
+     * retourne true si le groupe est gere par l'enseignant
      */
     private boolean isTeacherGroup(CopexGroup group){
         for (Iterator iter=listGroup.iterator();iter.hasNext();){

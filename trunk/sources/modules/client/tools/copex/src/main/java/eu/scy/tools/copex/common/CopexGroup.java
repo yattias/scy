@@ -10,18 +10,18 @@ import java.util.*;
 /**
  *
  * @author MBO
- * représente un groupe : un groupe contient plusieurs élèves
- * un groupe est géré par un ou plusieurs profs
+ * represente un groupe : un groupe contient plusieurs eleves
+ * un groupe est gere par un ou plusieurs profs
  */
 public class CopexGroup {
     //ATTRIBUTS
     /*
-     * nom du groupe, également un identifiant
+     * nom du groupe, egalement un identifiant
      */
     private String groupName;
     
     /*
-     * liste des élèves composant le groupe
+     * liste des eleves composant le groupe
      */
     private ArrayList<CopexLearner> listLearners;
 
@@ -43,21 +43,21 @@ public class CopexGroup {
     }
 
     /*
-     * met le nom du groupe à jour
+     * met le nom du groupe a� jour
      */ 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
      /*
-     * retourne la liste des élèves du groupe
+     * retourne la liste des eleves du groupe
      */
     public ArrayList<CopexLearner> getListLearners() {
         return listLearners;
     }
 
     /*
-     * met la liste des élèves à jour
+     * met la liste des eleves à jour
      */
     public void setListLearners(ArrayList<CopexLearner> listLearners) {
         this.listLearners = listLearners;
@@ -65,7 +65,7 @@ public class CopexGroup {
     
     // OPERATIONS
     /*
-     * ajoute un élève à la liste en fin
+     * ajoute un eleve a� la liste en fin
      */
     public void addLearner(CopexLearner copexLearner){
         if (this.listLearners == null)
@@ -75,7 +75,7 @@ public class CopexGroup {
     }
     
     /*
-     * retourne true si l'élève est dans la liste
+     * retourne true si l'eleve est dans la liste
      */
     public boolean isLearnerInGroup(CopexLearner copexLearner){
         for (Iterator iter=listLearners.iterator();iter.hasNext();){

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class CopexMission implements Cloneable{
     // CONSTANTES
-    /* statut de la mission : à traiter*/
+    /* statut de la mission : a� traiter*/
     public static char STATUT_MISSION_TREAT = 'T';
     /* statut de la mission : en cours */
     public static char STATUT_MISSION_ON = 'C';
@@ -31,7 +31,7 @@ public class CopexMission implements Cloneable{
     private String code;
     /* resume */
     private String sumUp;
-    /* description  : fichier attaché */
+    /* description  : fichier attache */
     private String description;
     /* date de creation */
     /* date de derniere modification */

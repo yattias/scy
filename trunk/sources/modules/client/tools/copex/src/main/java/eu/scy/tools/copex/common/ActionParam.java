@@ -7,8 +7,8 @@ package eu.scy.tools.copex.common;
 
 
 /**
- * paramètres d'une action :
- * - de type quantité
+ * parametres d'une action :
+ * - de type quantite
  * - de type material
  * @author Marjolaine
  */

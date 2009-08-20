@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.tree.*;
 
 /**
- * représente le modele de données sous forme d'arbres
+ * represente le modele de donnees sous forme d'arbres
  * @author MBO
  */
 public class CopexTreeModel extends DefaultTreeModel {

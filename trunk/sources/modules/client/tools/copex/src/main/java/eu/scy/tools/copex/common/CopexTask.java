@@ -11,16 +11,16 @@ import org.jdom.Element;
 
 
 /**
- * represente une tache de l'arbre (classe mere), cela peut être : 
+ * represente une tache de l'arbre (classe mere), cela peut etre :
  * - une question / sous-question
  * - une etape
  * - une action
- * MBO le 28/04/09 : tâches itératives
+ * MBO le 28/04/09 : taches iteratives
  * @author MBO
  */
 public abstract  class CopexTask implements Cloneable {
     // ATTRIBUTS
-    /* identifiant base de données */
+    /* identifiant base de donnees */
     private long dbKey;
     /* nom de la tache*/
     protected String name;
@@ -28,11 +28,11 @@ public abstract  class CopexTask implements Cloneable {
     protected String description;
     /* commentaires */
     protected String comments;
-    /* image associée => nom du fichier */
+    /* image associee => nom du fichier */
     protected String taskImage ;
     /* dessin associe : element xml */
     protected Element draw;
-    /* dernier état affiché*/
+    /* dernier etat affiche*/
     protected boolean isVisible;
     /* droits de la tache */
     protected TaskRight taskRight;
@@ -260,7 +260,7 @@ public abstract  class CopexTask implements Cloneable {
         taskRight.setDrawRight(right);
     }
 
-    /* retourne vrai s'il s'agit d'une tâche répétable */
+    /* retourne vrai s'il s'agit d'une tache repetable */
     public boolean isTaskRepeat(){
         return this.taskRepeat != null;
     }
@@ -312,7 +312,7 @@ public abstract  class CopexTask implements Cloneable {
         }
     }
 
-    /* retourne l'element correspondant à la chaine*/
+    /* retourne l'element correspondant a� la chaine*/
     public static Element getElement(String s){
         if(s == null ||s.length() == 0)
             return null;
