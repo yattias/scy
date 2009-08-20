@@ -538,14 +538,14 @@ public class FitexPanel extends javax.swing.JPanel {
             mapDesFonctions.put(couleurSelect, new Function(locale, textFieldFct.getText(), datas));
         else
             mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText()) ;
-        // affichage des parama系res de la fonction
+        // affichage des parametres de la fonction
         affichageParametres(couleurSelect) ;
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         // enregistrement memoire
         actionFitex.setFunctionModel(textFieldFct.getText(), couleurSelect);
     }
 
-    /** MaJ de l'affichage des parama系res de la fonction */
+    /** MaJ de l'affichage des parametres de la fonction */
     public void affichageParametres(Color coul){
         // calcul de la taille du panel contenant les spinners
         int heightPanel = 5;
@@ -553,12 +553,12 @@ public class FitexPanel extends javax.swing.JPanel {
         //int widthPanel = parametresFn.getWidth();
         Dimension dim = new Dimension() ;
 
-        // suppression des anciens parama系res affiches
+        // suppression des anciens parametres affiches
         //parametresFn.removeAll();
         // et affichage des nouveaux
         if (mapDesFonctions.get(coul)!=null) {
 
-            // parcours de tous les parama系res pour creer les differents BoxSpinners
+            // parcours de tous les parametres pour creer les differents BoxSpinners
             for (String param:mapDesFonctions.get(coul).getMapParametre().keySet()) {
                 // creation d'un objet BoxSpinner
                 mapDesSpinners.put(param , new BoxSpinner(this)) ;

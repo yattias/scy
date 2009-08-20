@@ -37,21 +37,21 @@ public class SortDialog extends javax.swing.JDialog {
 	JPanel thirdPanel = null;
 	boolean thirdPanelHidden = false;
     
-    /*C'est la premia¨re cle de tri
+    /*C'est la premiere cle de tri
       * Si keySort1 est egal a  null alors il n'y a aucun tri a  effectuer.
      */
     private ElementToSort keySort1=null;
 
     /**
-    * C'est la deuxia¨me cle de tri
-    * Si keySort2 est egal a  null alors il n'y a pas de 2ia¨me crita¨re de tri.
+    * C'est la deuxieme cle de tri
+    * Si keySort2 est egal a  null alors il n'y a pas de 2ieme critere de tri.
     */
     private  ElementToSort keySort2=null;
 
     /**
     * .
-    * C'est la troisia¨me cle de tri
-    * Si keySort3 est egal a  null alors il n'y a pas de 3ia¨me crita¨re de tri.	
+    * C'est la troisieme cle de tri
+    * Si keySort3 est egal a  null alors il n'y a pas de 3ieme critere de tri.	
     */
     private ElementToSort keySort3=null;
 
@@ -382,7 +382,7 @@ private JButton getJButton(int x, int y, String texte) {
 		}
 
 
-		// Si l'option (aucune) est selectionnee dans la combo, alors on cache la troisia¨me combo
+		// Si l'option (aucune) est selectionnee dans la combo, alors on cache la troisieme combo
 		hideThirdPanel = column2.equals(noText);
 		if (hideThirdPanel != thirdPanelHidden) {
 			if (hideThirdPanel) {
