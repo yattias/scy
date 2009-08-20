@@ -81,7 +81,7 @@ public class DataPrint {
             return new CopexReturn ("AcroRd32 n'est pas accessible  : "+command+
 								"!\nVeuillez vérifier que le logiciel a été installé sur la machine !",false) ;
         }
-        // Il faut attendre...mais on n'est pas oblig�
+        // Il faut attendre...mais on n'est pas oblige
         try {
             p.waitFor() ;
         }
@@ -237,7 +237,7 @@ public class DataPrint {
             File outFiletemp = File.createTempFile("out", ".png", new File(System.getProperty("java.io.tmpdir")));
             try {
                 if (!ImageIO.write(outImage,"png",outFiletemp))
-                    System.out.println("Format d'�criture non pris en charge" );
+                    System.out.println("Format d'ecriture non pris en charge" );
             } catch (Exception e) {
                 System.out.println("erreur dans l'enregistrement de l'image :" );
                 e.printStackTrace();

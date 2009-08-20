@@ -448,7 +448,7 @@ public class FitexPanel extends javax.swing.JPanel {
     }
 
    
-    /* mise à  jour de fonctions initiales  */
+    /* mise a  jour de fonctions initiales  */
     private void setInitialListFunction(ArrayList<FunctionModel> listFunctionModel){
         if (listFunctionModel == null)
             return;
@@ -460,14 +460,14 @@ public class FitexPanel extends javax.swing.JPanel {
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
             mapDesFonctions.put(fm.getColor(), new Function(locale, fm.getDescription(), datas));
-            // affichage des paramètres de la fonction
+            // affichage des parametres de la fonction
             affichageParametres(fm.getColor()) ;
         }
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         maJFonction(Color.BLUE);
     }
     
-    /** mï¿½thode pour rï¿½cupï¿½rer les paramï¿½tres des axes et de la ZdT */
+    /** mi¿½thode pour ri¿½cupi¿½rer les parami¿½tres des axes et de la ZdT */
     public void setParameters(ParamGraph pg) {
         this.paramGraph = pg;
         if (zoneDeTrace != null)

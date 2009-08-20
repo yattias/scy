@@ -48,7 +48,7 @@ public class DrawPanel extends javax.swing.JPanel {
     //zoom mode ou move   mode
     private char graphMode;
 
-    // paramï¿½tres de la zone de tracï¿½
+    // parami¿½tres de la zone de traci¿½
     private Double x_min  = -10.0 ;
     private Double x_max = 10.0;
     private Double delta_x =1.0 ;
@@ -58,7 +58,7 @@ public class DrawPanel extends javax.swing.JPanel {
     // nom des axes
     private String x_axisName;
     private String y_axisName;
-    // paramï¿½tres du rectangle de zoom
+    // parami¿½tres du rectangle de zoom
     private int x_zoom1 ;
     private int y_zoom1 ;
     private int x_zoom2 ;
@@ -83,7 +83,7 @@ public class DrawPanel extends javax.swing.JPanel {
     // stockage des spinners
     private HashMap<String, BoxSpinner> mapDesSpinners = new HashMap<String, BoxSpinner>();
 
-    // affichage des coordonnées
+    // affichage des coordonnees
     private String coordX="";
     private String coordY="";
     private int posx;
@@ -172,15 +172,15 @@ public class DrawPanel extends javax.swing.JPanel {
         repaint();
     }
 
-    /** mï¿½thode pour retracer intï¿½gralement la zone de tracï¿½
-     * penser ï¿½ appeler la methode effacer() avant cette methode si besoin
+    /** mi¿½thode pour retracer inti¿½gralement la zone de traci¿½
+     * penser i¿½ appeler la methode effacer() avant cette methode si besoin
      */
     public void tracerZone(Graphics g) {
         Double x;
         Double y;
         Boolean ignore;
 
-        // tracï¿½ des axes et des graduations
+        // traci¿½ des axes et des graduations
         tracerAxes(g);
 
         // parcours et tracÃ© pour toutes les courbes dÃ©finies dans la HashMap
@@ -189,18 +189,18 @@ public class DrawPanel extends javax.swing.JPanel {
                 tracerUneCourbe(g, coul, (mapDesFonctions.get(coul)).getExpression()) ;
             }
         }
-        // parcours et tracï¿½ de tous les points dï¿½finis dans le tableau de donnï¿½es
+        // parcours et traci¿½ de tous les points di¿½finis dans le tableau de donni¿½es
         // la tableModel du tableau qui contient les donnees :
         //DefaultTableModel tableModel = data.getTableModel();
         int nbR = datas.getRowCount();
         for (int i=0; i<nbR; i++) {
-            // rï¿½cupï¿½ration des valeurs de la ligne
+            // ri¿½cupi¿½ration des valeurs de la ligne
             x=(Double)datas.getValueAt(i,0);
             y=(Double)datas.getValueAt(i,1);
             ignore=(Boolean)datas.getValueAt(i,2);
 
             if((x!=null) && (y!=null)) {
-                // tracï¿½ du point
+                // traci¿½ du point
                 if (ignore) tracerPoint(g, SCATTER_PLOT_COLOR, "cross", x, y) ; // point non pris en compte
                     else tracerPoint(g, SCATTER_PLOT_COLOR, "circle", x, y) ; // point pris en compte
             }
@@ -208,7 +208,7 @@ public class DrawPanel extends javax.swing.JPanel {
 
         // affichage coord
         tracerCoord(g);
-        // MaJ des paramï¿½tres de distance
+        // MaJ des parami¿½tres de distance
         fitexPanel.affichageK(Color.BLUE) ;
         fitexPanel.affichageK(FitexPanel.DARK_GREEN) ;
         fitexPanel.affichageK(Color.BLACK) ;
@@ -228,7 +228,7 @@ public class DrawPanel extends javax.swing.JPanel {
         g.setFont(coordFont);
         int px = posx + 10;
         int py = posy ;
-        // aux bords on décale les coord.
+        // aux bords on decale les coord.
         if(px+maxl > this.getWidth())
             px = posx-maxl-10;
         if (py - 10 <0)
@@ -239,10 +239,10 @@ public class DrawPanel extends javax.swing.JPanel {
         g.drawString(coordY, px, (py + 15));
     }
 
-    /** mï¿½thode permettant de rï¿½aliser le tracï¿½ d'un point (croix ou cercle) avec une certaine couleur*/
+    /** mi¿½thode permettant de ri¿½aliser le traci¿½ d'un point (croix ou cercle) avec une certaine couleur*/
     public void tracerPoint(Graphics g, Color couleur, String type, double x, double y) {
 
-        // les coordonï¿½es des segments ï¿½ tracer (coordonnï¿½es de l'ï¿½cran)
+        // les coordoni¿½es des segments i¿½ tracer (coordonni¿½es de l'i¿½cran)
         int xt = xToXEcran(x) ;
         int yt = yToYEcran(y) ;
 
@@ -255,10 +255,10 @@ public class DrawPanel extends javax.swing.JPanel {
         }
     }
 
-    /** mï¿½thode permettant de rï¿½aliser le tracï¿½ d'un segment de droite avec une certaine couleur*/
+    /** mi¿½thode permettant de ri¿½aliser le traci¿½ d'un segment de droite avec une certaine couleur*/
     public void tracerSegment(Graphics g, Color couleur, double x1, double y1, double x2, double y2) {
 
-        // les coordonï¿½es des segments ï¿½ tracer (coordonnï¿½es de l'ï¿½cran)
+        // les coordoni¿½es des segments i¿½ tracer (coordonni¿½es de l'i¿½cran)
         int xt1 = xToXEcran(x1) ;
         int xt2 = xToXEcran(x2) ;
         int yt1 = yToYEcran(y1) ;
@@ -268,13 +268,13 @@ public class DrawPanel extends javax.swing.JPanel {
         g.drawLine(xt1,yt1,xt2,yt2);
     }
 
-     /** Tracï¿½ des graduations et des axes du graphique */
+     /** Traci¿½ des graduations et des axes du graphique */
     public void tracerAxes(Graphics g) {
 
         int k0 ;
         int k1 ;
 
-        // tracï¿½ des graduations
+        // traci¿½ des graduations
         // axe des X
         k0=(int)Math.ceil(x_min/delta_x) ;
         k1=(int)Math.floor(x_max/delta_x);
@@ -289,9 +289,9 @@ public class DrawPanel extends javax.swing.JPanel {
             tracerSegment(g, Color.LIGHT_GRAY, x_min, i*delta_y, x_max, i*delta_y);
         }
 
-        // tracï¿½ des axes
+        // traci¿½ des axes
         // axe des X
-        if (y_min*y_max<=0) { // la zone de tracï¿½ contient l'axe des x
+        if (y_min*y_max<=0) { // la zone de traci¿½ contient l'axe des x
             tracerSegment(g, Color.GRAY,x_min,0.0,x_max,0.0);
             // xmin et xmax
             g.setFont(axisFont);
@@ -311,7 +311,7 @@ public class DrawPanel extends javax.swing.JPanel {
             g.drawString(x_axisName,x, yToYEcran(-0.5));
         }
         // axe des Y
-        if (x_min*x_max<=0) { // la zone de tracï¿½ contient l'axe des y
+        if (x_min*x_max<=0) { // la zone de traci¿½ contient l'axe des y
             tracerSegment(g, Color.GRAY,0.0,y_min,0.0,y_max);
             // xmin et xmax
             g.setFont(axisFont);
@@ -356,7 +356,7 @@ public class DrawPanel extends javax.swing.JPanel {
 
     
 
-/*************************   Mï¿½thodes de traitements mathematiques **************************/
+/*************************   Mi¿½thodes de traitements mathematiques **************************/
 
     public int xToXEcran(double x) {
         return (int)Math.round((x - x_min) * width / (x_max - x_min));
@@ -374,7 +374,7 @@ public class DrawPanel extends javax.swing.JPanel {
         return y_min + (height-y)/(double)height*(y_max-y_min);
     }
 
-    /** retourne un double avec le nombre de chiffres significatifs souhaitï¿½s */
+    /** retourne un double avec le nombre de chiffres significatifs souhaiti¿½s */
     public double chiffresSignificatifs(double x, int nbChiffres) {
         int rang = (int) Math.floor(1+Math.log10(Math.abs(x))) ;
         int power = nbChiffres - rang ;
@@ -458,21 +458,21 @@ public class DrawPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void zoneDeTraceMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseDragged
-        // met ï¿½ jour l'affichage des coordonnï¿½es
+        // met i¿½ jour l'affichage des coordonni¿½es
         zoneDeTraceMouseMoved(evt);
         if(getMousePosition() == null)
             return;
         if(graphMode == DataConstants.MODE_ZOOM){
-            // efface le prï¿½cï¿½dent rectangle
+            // efface le pri¿½ci¿½dent rectangle
             isZoom = false;
             repaint();
             //g.setColor(Color.WHITE) ;
             //g.drawRect(Math.min(x_zoom1,x_zoom2) , Math.min(y_zoom1,y_zoom2) , Math.abs(x_zoom1-x_zoom2) , Math.abs(y_zoom1-y_zoom2)) ;
             //tracerZone();
-            // rï¿½cupï¿½re x2 et y2
+            // ri¿½cupi¿½re x2 et y2
             x_zoom2 = getMousePosition().x ;
             y_zoom2 = getMousePosition().y ;
-            // affiche le rectangle correspondant ï¿½ la zone de zoom
+            // affiche le rectangle correspondant i¿½ la zone de zoom
             isZoom = true;
             repaint();
         }else if (graphMode == DataConstants.MODE_MOVE){
@@ -481,7 +481,7 @@ public class DrawPanel extends javax.swing.JPanel {
             x_move2 = getMousePosition().x ;
             y_move2 = getMousePosition().y ;
             if (x_move1 != x_move2 && y_move1 != y_move2) {
-                // met à jour les coordonnées
+                // met a jour les coordonnees
                 double x1 = x_min;
                 double x2 = x_max;
                 double y1 = y_min;
@@ -541,7 +541,7 @@ public class DrawPanel extends javax.swing.JPanel {
 //        Double x = chiffresSignificatifs(xEcranToX(evt.getX()) , 3);
 //        Double y = chiffresSignificatifs(yEcranToY(evt.getY()) , 3);
         //System.out.println("coord : "+x+", "+y);
-        // format des coordonnï¿½es
+        // format des coordonni¿½es
 //        DecimalFormat formatE = new DecimalFormat("0.#####E0");
 //        DecimalFormat format = new DecimalFormat("###.###");
 
@@ -580,9 +580,9 @@ public class DrawPanel extends javax.swing.JPanel {
         if (getMousePosition() == null)
             return;
         if(graphMode == DataConstants.MODE_ZOOM){
-            // affiche en rouge les coordonï¿½es
+            // affiche en rouge les coordoni¿½es
             coordColor = Color.RED ;
-            // récupère x1 et y1
+            // recupere x1 et y1
             x_zoom1 = getMousePosition().x ;
             y_zoom1 = getMousePosition().y ;
         }else if (graphMode == DataConstants.MODE_MOVE){
@@ -594,9 +594,9 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMousePressed
 
     private void zoneDeTraceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseReleased
-        // rï¿½affiche en noir les coordonï¿½es
+        // ri¿½affiche en noir les coordoni¿½es
         coordColor = Color.GRAY;
-        // rï¿½cupï¿½re x2 et y2
+        // ri¿½cupi¿½re x2 et y2
         if (getMousePosition() == null)
             return;
         if (graphMode == DataConstants.MODE_ZOOM){
@@ -610,7 +610,7 @@ public class DrawPanel extends javax.swing.JPanel {
             //tracerZone();
             // effectue le zoom si  x2!=x1 et y2!=y1
             if (x_zoom1 != x_zoom2 && y_zoom1 != y_zoom2) {
-                // met à jour les coordonnées
+                // met a jour les coordonnees
                 fitexPanel.setParameters(chiffresSignificatifs(xEcranToX(Math.min(x_zoom1,x_zoom2)) , 3),
                    chiffresSignificatifs(xEcranToX(Math.max(x_zoom1,x_zoom2)) , 3),
                    chiffresSignificatifs(yEcranToY(Math.max(y_zoom1,y_zoom2)) , 3),
@@ -621,7 +621,7 @@ public class DrawPanel extends javax.swing.JPanel {
             x_move2 = getMousePosition().x ;
             y_move2 = getMousePosition().y ;
             if (x_move1 != x_move2 && y_move1 != y_move2) {
-                // met à jour les coordonnées
+                // met a jour les coordonnees
                 double x1 = x_min;
                 double x2 = x_max;
                 double y1 = y_min;

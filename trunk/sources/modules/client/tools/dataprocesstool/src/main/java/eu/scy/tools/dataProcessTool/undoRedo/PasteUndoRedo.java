@@ -71,7 +71,7 @@ public class PasteUndoRedo extends DataUndoRedo {
             }
             //nds = (Dataset)v.get(0);
         }
-        // suppression données
+        // suppression donnees
         int nbD = this.listData.size();
         for (int i=0; i<nbD; i++){
             ArrayList v = new ArrayList();
@@ -85,7 +85,7 @@ public class PasteUndoRedo extends DataUndoRedo {
             }
             //nds = (Dataset)v.get(0);
         }
-        // suppression des éventuelles lignes/colonnes
+        // suppression des eventuelles lignes/colonnes
         CopexReturn cr = this.controller.deleteData(true, getDataset(), new ArrayList(), new ArrayList(), listRowAndCol);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));

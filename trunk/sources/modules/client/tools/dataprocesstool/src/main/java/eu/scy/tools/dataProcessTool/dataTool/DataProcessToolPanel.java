@@ -742,7 +742,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
 
     
 
-    /* mise à jour du menu */
+    /* mise a jour du menu */
     public void updateMenuData(){
         this.menuItemInsert.setEnabled(datasetTable.canInsert());
         getMenuItemSuppr().setEnabled(datasetTable.canSuppr());
@@ -774,7 +774,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
 
 
 
-    /* mise à jour du menu */
+    /* mise a jour du menu */
     public void updateMenuGraph(){
         boolean enabled = this.dataVisTabbedPane.canMenu2DPlot();
         char graphMode = this.dataVisTabbedPane.getGraphMode();
@@ -1095,7 +1095,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         datasetTable.addUndo(new OperationUndoRedo(datasetTable, this, controller, operation));
     }
 
-    /* mise à jour d'une donnees dans la table */
+    /* mise a jour d'une donnees dans la table */
     public void updateData(Dataset ds, Double value, int rowIndex, int columnIndex){
         Double oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
         ArrayList v = new ArrayList();
@@ -1112,7 +1112,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         }
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
     }
-    /* mise à jour d'une donnees header */
+    /* mise a jour d'une donnees header */
     public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex){
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getUnit();
@@ -1129,7 +1129,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         return true;
     }
 
-    /* mise à jour d'une donnees title operation */
+    /* mise a jour d'une donnees title operation */
     public void updateDataOperation(Dataset ds, String value, DataOperation operation){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateDataOperation(ds, operation, value, v);
@@ -1205,7 +1205,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         return null;
     }
 
-    /* retourne l'operation correspondant à un type */
+    /* retourne l'operation correspondant a un type */
     private TypeOperation getOperation(int typeOp){
         for (int i=0; i<tabTypeOp.length; i++){
             if (tabTypeOp[i].getType() == typeOp)
@@ -1234,7 +1234,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, listData, listHeader, listRowAndCol, listOperation));
     }
 
-    /* mise à jour d'un dataset */
+    /* mise a jour d'un dataset */
     public void updateDataset(Dataset ds){
         dataset = ds;
         datasetTable.updateDataset(ds, true);
@@ -1281,7 +1281,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         return this.controller.getPDS(dataset);
     }
 
-    /* creation ou mise à jour d'une fonction modele */
+    /* creation ou mise a jour d'une fonction modele */
     public void setFunctionModel(String description, Color fColor){
         Visualization vis = getDataVisTabbedPane().getSelectedVisualization() ;
         ArrayList v = new ArrayList();
@@ -1340,7 +1340,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
-    /* mise à jour du dataset apres un tri */
+    /* mise a jour du dataset apres un tri */
     public void updateDatasetRow(Dataset ds, Vector exchange){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateDatasetRow(ds, exchange, v);
@@ -1387,7 +1387,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         getDataVisTabbedPane().updateDataset(nds, true);
     }
 
-    /* mis à jour des parametres */
+    /* mis a jour des parametres */
     public boolean updateGraphParam(ParamGraph pg){
         ArrayList v = new ArrayList();
         if(dataset == null)

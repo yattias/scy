@@ -16,27 +16,27 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Cedric
  *
- * Cette classe dï¿½crit une fonction, ï¿½ savoir :
- * son intitulï¿½, 
+ * Cette classe di¿½crit une fonction, i¿½ savoir :
+ * son intituli¿½, 
  * son expression, 
- * son tableau des paramï¿½tres inclus dans l'expression,
- * et sa distance par rapport ï¿½ un jeu de donnees
+ * son tableau des parami¿½tres inclus dans l'expression,
+ * et sa distance par rapport i¿½ un jeu de donnees
  */
 public class Function
 {
     // Locale
     private Locale locale;
-    //L'intitulï¿½ de la fonction
+    //L'intituli¿½ de la fonction
     private String intitule ;
     // l'expression de la fonction
     private Expression expression=null ;
-    // liste des paramï¿½tres : intitulï¿½ et objet parametre
+    // liste des parami¿½tres : intituli¿½ et objet parametre
     private HashMap<String,Parametre> mapDesParametres  = new HashMap<String,Parametre>();
-    // liste tampon des paramï¿½tres pour pouvoir garder les anciennes valeurs de parametres
+    // liste tampon des parami¿½tres pour pouvoir garder les anciennes valeurs de parametres
     private HashMap<String,Parametre> newMapDesParametres  = new HashMap<String,Parametre>() ;
-    // la table par rapport ï¿½ laquelle il faut calculer la distance
+    // la table par rapport i¿½ laquelle il faut calculer la distance
     private DefaultTableModel data ;
-    // la distance de la fonction avec les donnï¿½es
+    // la distance de la fonction avec les donni¿½es
     private Double reliabilityFactor ;
     
     /** Creates a new instance of Function */
@@ -50,7 +50,7 @@ public class Function
         this.intitule=intitule ;
         
         // Selon l'intitule, traiter des cas speciaux a la main
-        // crï¿½er une expression "a la main"
+        // cri¿½er une expression "a la main"
         // et mettre a jour newMapDesParametres 
         // if (intitule== )
             // expression = new a1b(this) ; // expression qui decrit le dosage d'un monoacide par une base forte'
@@ -70,7 +70,7 @@ public class Function
             System.out.println("La fonction n'a pas pu etre analysee - erreur autre que ErreurDeSyntaxe.");
         }
         
-        // rï¿½cupï¿½ration des anciennes valeurs des parametre dans la newMapDesParametres
+        // ri¿½cupi¿½ration des anciennes valeurs des parametre dans la newMapDesParametres
         for (String key:newMapDesParametres.keySet()) {
             if (mapDesParametres.get(key) != null)
                 newMapDesParametres.get(key).setValeur(mapDesParametres.get(key).valeur()) ;
@@ -81,7 +81,7 @@ public class Function
         majRF() ;
     }
     
-    /** calcule la distance de la courbe par rapport ï¿½ un tableau de valeurs passï¿½ en parametre */
+    /** calcule la distance de la courbe par rapport i¿½ un tableau de valeurs passi¿½ en parametre */
     public void majRF() {
  
         int nbPts = 0 ;
@@ -91,14 +91,14 @@ public class Function
         Boolean ignore;
         Boolean fonctionNonDefinie = false ;
 
-        // parcours et mesure de la distance ï¿½ tous les points dï¿½finis dans le tableau de donnï¿½es
+        // parcours et mesure de la distance i¿½ tous les points di¿½finis dans le tableau de donni¿½es
         // la tableModel du tableau qui contient les donnees :
         DefaultTableModel tableModel = data;
 
         reliabilityFactor = 0.0 ;
         if (expression != null) {
             for (int i=0; i<tableModel.getRowCount(); i++) {
-                // rï¿½cupï¿½ration des valeurs de la ligne
+                // ri¿½cupi¿½ration des valeurs de la ligne
                 x=(Double)tableModel.getValueAt(i,0);
                 y=(Double)tableModel.getValueAt(i,1);
                 ignore=(Boolean)tableModel.getValueAt(i,2);
@@ -106,14 +106,14 @@ public class Function
 
                 if((x!=null) && (y!=null) && (!ignore)) {
                     nbPts++;
-                    // ajout de la distance au carrï¿½
+                    // ajout de la distance au carri¿½
                     reliabilityFactor = reliabilityFactor + Math.pow((y-expression.valeur(x)),2) ;
                     sommeYCarre = sommeYCarre + Math.pow((y),2) ;
                 }
             }
         }
         // si l'expression n'est pas definie        
-        // si il n'y a pas de points dï¿½finis dans la table,
+        // si il n'y a pas de points di¿½finis dans la table,
         // si la fonction n'est pas definie sur certains points,
         // il ne faut pas afficher la distance
         if (expression == null || nbPts==0 || Double.isNaN(reliabilityFactor)) reliabilityFactor=null ;
@@ -141,7 +141,7 @@ public class Function
         return mapDesParametres ;
     }
      
-    /** fontion appelï¿½e lors de la creation d'un nouveau parametre par l'analyseur
+    /** fontion appeli¿½e lors de la creation d'un nouveau parametre par l'analyseur
      * afin de mettre a jour la map des parametres de la fonction 
      */
     public void ajouterParametre (String nomParam, Parametre param){

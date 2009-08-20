@@ -146,7 +146,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         owner.maJParametreDansFonction(label.getText(), value);
     }
     
-    /** fonction appelï¿½e uniquement lors de l'affichage ou du reaffichage du box
+    /** fonction appeli¿½e uniquement lors de l'affichage ou du reaffichage du box
      */
     public void setValue(double val) {
         value= val ;
@@ -158,12 +158,12 @@ public class BoxSpinner extends javax.swing.JPanel {
     }
     
     /** Modifie la valeur du pas d'incrementation en fonction de la valeur du nombre du Spinner
-     *  cette fonction est appelï¿½e ï¿½ chaque fois (spinner.getModel ?) que l'utilisateur modifie ï¿½ la main
+     *  cette fonction est appeli¿½e i¿½ chaque fois (spinner.getModel ?) que l'utilisateur modifie i¿½ la main
      *  la valeur du nombre dans l'editor du spinner (spinner.getEditor) 
      */
     public void majStep(String nombre){
         
-        // dï¿½termine l'ordre de la derniï¿½re dï¿½cimale
+        // di¿½termine l'ordre de la dernii¿½re di¿½cimale
         int ordre = 0 ;
         
         int placeDuE = nombre.indexOf('E') ;

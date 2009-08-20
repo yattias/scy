@@ -394,7 +394,7 @@ public class DataTableModel extends AbstractTableModel {
         return listSelectedData ;
     }
 
-    /* retourne les en tetes selectionnés */
+    /* retourne les en tetes selectionnes */
     public ArrayList<DataHeader> getSelectedHeader(ArrayList<int[]> listSelected){
         ArrayList<DataHeader> listSelectedHeader = new ArrayList();
         int nb = listSelected.size();
@@ -415,7 +415,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
 
-    /* retourne l'indice (i, j) de la cellule selectionnée */
+    /* retourne l'indice (i, j) de la cellule selectionnee */
     public int[] getSelectedCell(ArrayList<int[]> listSelected){
         int[] id = new int[2];
         int nb = listSelected.size();
@@ -547,7 +547,7 @@ public class DataTableModel extends AbstractTableModel {
 
 
 
-    /* retourne le dataset selectionné */
+    /* retourne le dataset selectionne */
     public Dataset getSelectedDataset(ArrayList<int[]> listSelected){
         int nb = listSelected.size();
         // col et ligne sel

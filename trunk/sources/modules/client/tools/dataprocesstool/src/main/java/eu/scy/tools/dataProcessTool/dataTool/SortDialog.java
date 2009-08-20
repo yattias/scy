@@ -30,7 +30,7 @@ public class SortDialog extends javax.swing.JDialog {
     private Vector listOfColumns ;
     /* texte pour aucun critere */
     private String noText ;
-    /* nom du premier critere à selectionner */
+    /* nom du premier critere a selectionner */
     private String selColumn;
 
     // Panneaux cachables et leurs Ã©tat

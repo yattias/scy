@@ -26,7 +26,7 @@ public class DataTable extends javax.swing.JFrame
     
     // la variable "modele de tableau" qui va sert a modifier la forme du tableau
     private DefaultTableModel tableModel ;
-    // l'objet FunctionPlotter qui a appelï¿½ la DataTable
+    // l'objet FunctionPlotter qui a appeli¿½ la DataTable
     private FitexPanel fp ;
     // la boite de dialogue pour ouvrir et sauvegarder des fichiers
     final JFileChooser fc = new JFileChooser();
@@ -178,7 +178,7 @@ public class DataTable extends javax.swing.JFrame
                 file = new File(monFichier) ;
             }
             try {
-                // Crï¿½er un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
+                // Cri¿½er un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
                 FileWriter fw = new FileWriter(file) ;
                 // Mettre le flux en tampon (en cache)
                 BufferedWriter out = new BufferedWriter(fw);
@@ -188,7 +188,7 @@ public class DataTable extends javax.swing.JFrame
                 Double y ;
                 Boolean ignore ;
                 for (int i=0; i<tableModel.getRowCount(); i++) {
-                    // rï¿½cupï¿½ration des valeurs de la ligne
+                    // ri¿½cupi¿½ration des valeurs de la ligne
                     x=(Double)tableModel.getValueAt(i,0);
                     y=(Double)tableModel.getValueAt(i,1);
                     ignore=(Boolean)tableModel.getValueAt(i,2);
@@ -204,7 +204,7 @@ public class DataTable extends javax.swing.JFrame
             }
             catch(IOException e){
                 e.printStackTrace() ;
-                System.out.println("Le fichier ne peut pas ï¿½tre enregistrï¿½");
+                System.out.println("Le fichier ne peut pas i¿½tre enregistri¿½");
             }
         }
     }//GEN-LAST:event_enregistrerActionPerformed
@@ -267,7 +267,7 @@ public class DataTable extends javax.swing.JFrame
             }
             catch(IOException e) {
                 e.printStackTrace() ;
-                System.out.println("Le fichier ne peut pas ï¿½tre ouvert");
+                System.out.println("Le fichier ne peut pas i¿½tre ouvert");
             }
         }
         fp.calculTousK();
@@ -281,7 +281,7 @@ public class DataTable extends javax.swing.JFrame
 
     private void nbPointsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_nbPointsActionPerformed
     {//GEN-HEADEREND:event_nbPointsActionPerformed
-        // modifie le nombre de points ï¿½ tracer
+        // modifie le nombre de points i¿½ tracer
         String s = JOptionPane.showInputDialog(this, fp.getBundleString("LABEL_NB_POINTS")+" ",tableau.getRowCount()) ;
         if(s != null){
             int nb = Integer.parseInt(s);

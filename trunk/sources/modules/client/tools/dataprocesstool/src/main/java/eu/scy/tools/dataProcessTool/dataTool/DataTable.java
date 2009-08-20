@@ -55,7 +55,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /*menu droit */
     private DataMenu popUpMenu;
 
-    /* sous table copiée */
+    /* sous table copiee */
     private Dataset copySubData = null;
 
     /* undo/redo */
@@ -302,7 +302,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return isData;
     }
 
-    /* retourne vrai si une seule cellule est selectionnée et s'il s'agit d'une cell data ou header*/
+    /* retourne vrai si une seule cellule est selectionnee et s'il s'agit d'une cell data ou header*/
     private boolean isOnlyOneCellSelected(){
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
@@ -369,7 +369,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return this.tableModel.getSelectedData(getSelectedCells());
     }
 
-    /* retourne le premier en tete selectionné, sinon la premiere op en ligne, sinon null */
+    /* retourne le premier en tete selectionne, sinon la premiere op en ligne, sinon null */
     public Object getSelectedFirstColumn(){
         ArrayList<int[]> listCellSel = getSelectedCells();
         ArrayList<DataHeader> list = this.tableModel.getSelectedHeader(listCellSel);
@@ -556,7 +556,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
-    /* copie => met en cache les données sélectionnées  + update menu */
+    /* copie => met en cache les donnees selectionnees  + update menu */
     public void copy(){
         copySubData = getSubData(getSelectedCells());
         owner.updateMenuData();
@@ -613,7 +613,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public void executeSort(ElementToSort keySort1, ElementToSort keySort2, ElementToSort keySort3){
         try{
             //recupere le tableau a trier (concatenation des cles)
-            System.out.println("recupere le tableau à trier ");
+            System.out.println("recupere le tableau a trier ");
             Vector tabToSort = getElementsToSort(dataset, keySort1, keySort2, keySort3);
             if (tabToSort == null)
                 return;
@@ -621,7 +621,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             //tri quickSort sur tout le tableau
             Vector exchange = getExchange(dataset);
             executeQuickSort(0,tabToSort.size() - 1 ,exchange, tabToSort);
-            System.out.println("maj données ");
+            System.out.println("maj donnees ");
             owner.updateDatasetRow(dataset, exchange);
         }catch(Throwable t){
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_SORT")+" "+t, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
@@ -638,8 +638,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
     /**
-     * Selon le nom de la colonne passée en paramètre, elle renvoie l'indice de cette colonne dans la table agent.
-     * @return int : le numéro de la colonne de la table agent
+     * Selon le nom de la colonne passee en parametre, elle renvoie l'indice de cette colonne dans la table agent.
+     * @return int : le numero de la colonne de la table agent
      * @param nom java.lang.String
      */
     private int getIdColWithNameLike(Dataset ds, String nom){
@@ -658,7 +658,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
     /**
-     * On récupère la colonne à trier. On la stocke dans un vecteur
+     * On recupere la colonne a trier. On la stocke dans un vecteur
      * @return Vector
      * @param col int
      */
@@ -732,7 +732,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             // maxSize est la longueur max des objets dans chq colonne
 //            int maxSize = ds.getValueMaxSizeIn(col);
 //            if (maxSize == -1){
-//                owner.displayError(new CopexReturn ("Erreur fatale : problème avec la méthode getValueMaxSizeIn() !",false),"Construction de la clé de tri");
+//                owner.displayError(new CopexReturn ("Erreur fatale : probleme avec la methode getValueMaxSizeIn() !",false),"Construction de la cle de tri");
 //                return null;
 //            }
             System.out.println("***ELEMENT : "+element+" ****");
@@ -833,7 +833,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 if (i >= j)
                     break;
                 idT=i;
-                /* On échange */
+                /* On echange */
                 t = ((String)keys.elementAt(i));
                 keys.setElementAt(keys.elementAt(j),i);
                 Object w = exchange.elementAt(j);
@@ -841,7 +841,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 exchange.setElementAt(w,i);
                 keys.setElementAt(t,j);
             }
-            /* On échange */
+            /* On echange */
             t = ((String)keys.elementAt(i));
             keys.setElementAt(keys.elementAt(d),i);
             Object w =  exchange.elementAt(d);
@@ -854,7 +854,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
 
-    /* construit une sous table à  partir des données sélectionnées */
+    /* construit une sous table a  partir des donnees selectionnees */
     private Dataset getSubData(ArrayList<int[]> listSelected){
         return  tableModel.getSelectedDataset( listSelected);
     }
@@ -867,7 +867,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* paste */
     public void paste(){
-        // copy des données
+        // copy des donnees
         boolean isOk = owner.paste(copySubData, tableModel.getSelectedCell(getSelectedCells()));
         if (isOk){
             owner.updateMenuData();
