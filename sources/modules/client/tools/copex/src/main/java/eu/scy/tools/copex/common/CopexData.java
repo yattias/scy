@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.common;
 
 /**
- * represente une donnée du tableau de la feuille de données
+ * represente une donnee du tableau de la feuille de donnees
  * @author MBO
  */
 public class CopexData implements Cloneable{
@@ -14,7 +14,7 @@ public class CopexData implements Cloneable{
     // ATTRIBUTS
     /* identifiant bd */
     private long dbKey;
-    /* données */
+    /* donnees */
     private String data;
 
     // CONSTRUCTEURS

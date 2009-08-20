@@ -56,7 +56,7 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
     }
 
     // METHOD
-    /* mise Ã  jour du nom */
+    /* mise a  jour du nom */
      private void setName(){
         if (this.namedAction != null)
             this.name = namedAction.getLibelle() ;

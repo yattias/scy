@@ -8,8 +8,8 @@ package eu.scy.tools.copex.common;
 /**
  *
  * @author MBO
- * représente un élève
- * un élève est un utilisateur de copex
+ * represente un eleve
+ * un eleve est un utilisateur de copex
  */
 public class CopexLearner extends CopexUser {
 

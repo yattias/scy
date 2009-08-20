@@ -43,7 +43,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     private CommentsPanel panelComments;
     /* commentaire en cours */
     private String comment;
-    /* etape peut être répétée */
+    /* etape peut être repetee */
     private boolean isTaskRepeat;
      /* repetition */
     private TaskRepeat taskRepeat;
@@ -251,7 +251,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
    
    private void validDialog(){
        this.panelComments.setPanelDetailsShown();
-        // recupere les donnÃ©es : 
+        // recupere les donnees :
         String d = this.textAreaDescription.getText();
         if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");

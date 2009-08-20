@@ -12,7 +12,7 @@ package eu.scy.tools.copex.common;
  */
 public class ActionParamQuantity extends ActionParam{
     // PROPERTY
-    /*parametre/quantité lié */
+    /*parametre/quantite lie */
     private Parameter parameter;
 
     // CONSTRUCTOR
