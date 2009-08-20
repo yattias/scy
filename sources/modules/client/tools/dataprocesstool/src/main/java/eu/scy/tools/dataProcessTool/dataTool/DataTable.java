@@ -142,11 +142,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public boolean isValueDataIgnored(int noRow, int noCol){
         return tableModel.isValueDataIgnored(noRow, noCol);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernia¨re ligne (entre 1 et nbColsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la derniere ligne (entre 1 et nbColsDs) */
     public boolean isValueLastRow(int noRow, int noCol){
         return tableModel.isValueLastRow(noRow, noCol);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernia¨re colonne (entre 1 et nbRowsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la derniere colonne (entre 1 et nbRowsDs) */
     public boolean isValueLastCol(int noRow, int noCol){
         return tableModel.isValueLastCol(noRow, noCol);
     }
@@ -312,14 +312,14 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
-    /* retourne vrai si dans la selection il y a des cellules de la dernia¨re ligne ou des cellules de la derniere colonne seulement */
+    /* retourne vrai si dans la selection il y a des cellules de la derniere ligne ou des cellules de la derniere colonne seulement */
     private boolean isLastCellSel(){
         boolean lastRow = isLastRowSel();
         boolean lastCol = isLastColSel();
         return ((lastCol && !lastRow) || (lastRow && !lastCol) );
     }
 
-    /* retourne vrai si dans la selection il y a des cellules de la dernia¨re ligne*/
+    /* retourne vrai si dans la selection il y a des cellules de la derniere ligne*/
     private boolean isLastRowSel(){
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
@@ -330,7 +330,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         }
         return false;
     }
-     /* retourne vrai si dans la selection il y a des cellules de la dernia¨re colonne*/
+     /* retourne vrai si dans la selection il y a des cellules de la derniere colonne*/
     private boolean isLastColSel(){
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
@@ -539,7 +539,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         repaint();
     }
 
-    /*retourne vrai si la selection est une sous table (colonnes entia¨res) */
+    /*retourne vrai si la selection est une sous table (colonnes entieres) */
     public boolean selIsSubData(){
         return isLineColSel();
     }

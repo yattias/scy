@@ -333,11 +333,11 @@ public class DataTableModel extends AbstractTableModel {
     public boolean isValueDataIgnored(int noRow, int noCol){
         return isValueData(noRow, noCol) && this.datas[noRow-1][noCol-1] != null && this.datas[noRow-1][noCol-1].isIgnoredData() ;
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernia¨re ligne (entre 1 et nbColsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la derniere ligne (entre 1 et nbColsDs) */
     public boolean isValueLastRow(int noRow, int noCol){
         return (noRow == (nbRows-1)) && (noCol > 0 && noCol <= nbColDs);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernia¨re colonne (entre 1 et nbRowsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la derniere colonne (entre 1 et nbRowsDs) */
     public boolean isValueLastCol(int noRow, int noCol){
         return (noCol == (nbCols-1)) && (noRow > 0 && noRow <= nbRowDs);
     }

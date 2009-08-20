@@ -15,7 +15,7 @@ public interface ActionFitex {
     /* bouton Donnees */
     public void openDatas();
 
-    /* mise a  jour des parama¨tres */
+    /* mise a  jour des parametres */
     public void setParam(boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY);
 
     /* mise a  jour auto scale */

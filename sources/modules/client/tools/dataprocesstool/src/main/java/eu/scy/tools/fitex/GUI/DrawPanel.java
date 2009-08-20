@@ -329,7 +329,7 @@ public class DrawPanel extends javax.swing.JPanel {
 
      /** methode permettant de realiser le trace d'une courbe avec une certaine couleur*/
     public void tracerUneCourbe(Graphics g, Color couleur, Expression fonction) {
-        // les coordonees des segments (coordonnees du repa¨re)
+        // les coordonees des segments (coordonnees du repere)
         double x1;
         double x2;
         double y1;
