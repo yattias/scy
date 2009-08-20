@@ -16,7 +16,7 @@ import java.util.*;
  * L'appel a  la fonction start declenche l'enregistrement
  * Ensuite la methode getStats() permet d'afficher l'ensemble des statistiques recoltees.
  *
- * Attention, les mesures etant fondee sur le temps systa¨me, l'environnement doit aªtre le maªme si l'on cherche a  comparer deux executions successives
+ * Attention, les mesures etant fondee sur le temps systeme, l'environnement doit aªtre le maªme si l'on cherche a  comparer deux executions successives
  *
  * Attention aussi aux methodes recursives, il est conseille d'inclure par exemple le niveau de recursivite dans le nom afin de ne pas avoir par exemple deux "start" se suivant
  *
@@ -31,7 +31,7 @@ public class Profiler {
     
     // METHODES
     /**
-    * Retourne la description de l'ensemble des appels sous forme de chaa®ne de carracta¨res
+    * Retourne la description de l'ensemble des appels sous forme de chaa®ne de carracteres
     * @return java.lang.String
     */
     public static String display() {
@@ -70,7 +70,7 @@ public class Profiler {
 	return ret;
     }
     /**
-    * Retourne le temps de reference (temps systa¨me au start)
+    * Retourne le temps de reference (temps systeme au start)
     * @return long
     */
     public static long getReference() {

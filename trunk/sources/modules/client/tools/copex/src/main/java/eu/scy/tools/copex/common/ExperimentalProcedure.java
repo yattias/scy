@@ -21,7 +21,7 @@ public class ExperimentalProcedure implements Cloneable {
      * nom du protocole
      */
     protected String name;
-    /* date de dernia¨re modif */
+    /* date de derniere modif */
     protected java.sql.Date dateLastModification;
     /*
      * question associee

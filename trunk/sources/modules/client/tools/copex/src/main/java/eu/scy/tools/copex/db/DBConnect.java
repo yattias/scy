@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * cette classe definit toutes les methodes de connexion et d'acca¨s a  la base
+ * cette classe definit toutes les methodes de connexion et d'acces a  la base
  * @author MBO
  */ 
 public class DBConnect {
