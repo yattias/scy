@@ -43,7 +43,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     private CommentsPanel panelComments;
     /* commentaire en cours */
     private String comment;
-    /* etape peut être repetee */
+    /* etape peut etre repetee */
     private boolean isTaskRepeat;
      /* repetition */
     private TaskRepeat taskRepeat;
@@ -159,7 +159,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     }
 
 
-    /* retourne la liste des output des actions de l'étape */
+    /* retourne la liste des output des actions de l'etape */
     private ArrayList<InitialOutput> getStepInitialOutput(){
         if(modeAdd)
             return new ArrayList();

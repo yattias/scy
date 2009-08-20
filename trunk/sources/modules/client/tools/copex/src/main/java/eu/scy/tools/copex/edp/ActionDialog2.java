@@ -53,7 +53,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
     private Element taskDraw;
     /* action nommee de l'action */
     private InitialNamedAction actionNamed;
-    /* action peut être répétée */
+    /* action peut etre repetee */
     private boolean isActionRepeat;
      /* repetition */
     private TaskRepeat taskRepeat;
@@ -854,7 +854,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
 
         CopexAction newAction = new CopexAction(d, c) ;
         if (a != null){
-            System.out.println("creation d'une action nommée");
+            System.out.println("creation d'une action nommee");
             newAction = new CopexActionNamed(d, c, a) ;
             newAction.getTaskRight().setDrawRight(a.isDraw() ? MyConstants.EXECUTE_RIGHT : MyConstants.NONE_RIGHT);
             if (tabP != null){
@@ -893,7 +893,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
         newAction.setTaskRepeat(taskRepeat);
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if (modeAdd){
-            // Crée l'action
+            // Cree l'action
             CopexReturn cr = edP.addAction(newAction);
             if (cr.isError()){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

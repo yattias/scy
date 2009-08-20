@@ -130,6 +130,6 @@ public interface ControllerInterface {
 
     /* retourne la liste des parametres des actions de l'etape */
     public CopexReturn  getTaskInitialParam(LearnerProcedure proc, CopexTask task, ArrayList v);
-    /* retourne la liste des output des actions de l'étape */
+    /* retourne la liste des output des actions de l'etape */
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v);
 }

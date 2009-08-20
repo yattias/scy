@@ -11,7 +11,7 @@ import java.awt.Image;
 import javax.swing.*;
 
 /**
- * représente les bouttons du menu
+ * represente les bouttons du menu
  * @author  MBO
  */
 public class CopexButtonPanel extends JPanel {
@@ -80,7 +80,7 @@ public class CopexButtonPanel extends JPanel {
             bg = bgSimple;
         }
         if (bg.getWidth(edP) == -1){
-            System.out.println("image à -1");
+            System.out.println("image a -1");
         }
         boolean d  =g.drawImage(bg, 0, 0, null) ;
         while (!d){
@@ -102,7 +102,7 @@ public class CopexButtonPanel extends JPanel {
         repaint();
     }
     
-    /* mise à jour de l'icone */
+    /* mise a jour de l'icone */
     public void setIcon(Image updateImg){
         this.bgSimple = updateImg;
         this.bg = updateImg;

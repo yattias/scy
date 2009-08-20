@@ -76,7 +76,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
 
     /* nb repeat */
     private int nbRepeat;
-    /* liste des paramètres à faire varier */
+    /* liste des parametres a faire varier */
     private ArrayList<InitialActionParam> listParam;
     /* liste des productions de taches */
     private ArrayList<InitialOutput> listOutput;
@@ -99,12 +99,12 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     private ArrayList<JPanel> listPanels;
     private ArrayList<ArrayList<Object>> listParamPanel;
 
-    /* liste des objets cree dans les itérations précedentes */
+    /* liste des objets cree dans les iterations precedentes */
     // [indice panel , noRepeat, material]
     private ArrayList<ArrayList<Object>> listMaterialProd;
     private ArrayList<ArrayList<Object>> listDataProd;
 
-    /* liste des param selectionnées */
+    /* liste des param selectionnees */
     private ArrayList<Object> listCbSel;
 
     public TaskRepeatPanel(EdPPanel edP, ArrayList<InitialActionParam> listAllParams, ArrayList<InitialOutput> listOutput, boolean isAction, boolean modeAdd) {
@@ -775,7 +775,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
 
     @Override
     public void addOutputData(int index, int noRepeat, QData data) {
-       System.out.println("ajout d'un données : "+data.getName()+" en "+noRepeat);
+       System.out.println("ajout d'un donnees : "+data.getName()+" en "+noRepeat);
     }
 
     // suppression du material cree dans un panel
@@ -800,7 +800,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
     }
 
-    // renvoit la task repeat ainsi constituée
+    // renvoit la task repeat ainsi constituee
     public TaskRepeat getTaskRepeat(){
         long dbKey = -1;
         if (taskRepeat != null)

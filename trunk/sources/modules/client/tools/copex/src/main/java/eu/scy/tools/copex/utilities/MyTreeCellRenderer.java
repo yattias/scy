@@ -16,13 +16,13 @@ import javax.swing.border.LineBorder;
 import org.jdom.Element;
 
 /**
- * objet graphique  qui représente un noeud de l'arbre
+ * objet graphique  qui represente un noeud de l'arbre
  * la structure est la suivante : 
  * - Icone pour representer le noeud ou la feuille
  * - Panel contenant 2 labels : identifiant du noeud / feuille et commentaires associes
  * Pour composer ces 2 objets dans un seul on dit qu'un CellRenderer n'est autre qu'un 
  * JPanel contenant ces 2 objets
- *  MBO le 06/10/08  : ajout une image associée
+ *  MBO le 06/10/08  : ajout une image associee
  * MBO le 15/12/08 : resize texte
  *  MBO le 22/04/09 : ajout du dessin (drawingTool)
  * @author MBO
@@ -72,10 +72,10 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
         this.commentNode = null;
         setBackground(BG_COLOR);
         this.bgColor = BG_COLOR; 
-        // BoxLayout.X_AXIS : les objets graphiques seront disposés de gauche à droite. 
+        // BoxLayout.X_AXIS : les objets graphiques seront disposes de gauche a droite. 
         setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         //setLayout(null);
-        // création de l'icone qui est affiché sur chaque noeud
+        // creation de l'icone qui est affiche sur chaque noeud
         icon = new JLabel() ;
         icon.setSize(25, 22);
         icon.setPreferredSize(icon.getSize());
@@ -185,7 +185,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
             labelNode.setBackground(BG_COLOR);
         // icones : 
         this.setToolTipText(null);
-        // ordre de priorité : interdit, warning, lock
+        // ordre de priorite : interdit, warning, lock
         if (value instanceof CopexTreeNode && ( (CopexTreeNode) value ).isRoot() ){
             icon.setIcon(questionIcon);
         }else if (value instanceof CopexTreeNode && ((CopexTreeNode)value).isDisabled() && ((CopexTreeNode)value).isAction()){
@@ -294,7 +294,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
 
     // OPERATIONS
     /*
-     * redimmensionne suivant ce qui est affiché
+     * redimmensionne suivant ce qui est affiche
      */
     @Override
     public Dimension getPreferredSize() {

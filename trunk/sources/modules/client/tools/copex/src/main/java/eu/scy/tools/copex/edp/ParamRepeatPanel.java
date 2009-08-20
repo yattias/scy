@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 /**
- * panel qui contient les valeurs des parametres à repeter
+ * panel qui contient les valeurs des parametres a repeter
  * @author Marjolaine
  */
 public class ParamRepeatPanel extends JPanel{

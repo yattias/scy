@@ -1154,7 +1154,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         newTask = (CopexTask)v2.get(0);
-        // mise à jour de la repetition de la tache
+        // mise a jour de la repetition de la tache
         TaskRepeat oldRepeat = oldTask.getTaskRepeat();
         TaskRepeat newRepeat = newTask.getTaskRepeat();
         v2 = new ArrayList();
@@ -2513,7 +2513,7 @@ public class CopexControllerDB implements ControllerInterface {
     }
 
 
-    /* retourne la liste des output des actions de l'étape */
+    /* retourne la liste des output des actions de l'etape */
     @Override
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v){
         ArrayList<InitialOutput> list = new ArrayList();

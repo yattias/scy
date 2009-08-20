@@ -14,11 +14,11 @@ import java.util.ArrayList;
  */
 public class TaskRepeat implements Cloneable {
     // ATTRIBUTS
-    /* identifiant de la répétition */
+    /* identifiant de la repetition */
     private long dbKey;
     /*nombre de repetition */
     private int nbRepeat;
-    /* liste des parametres à modifier : de type InitialActionParam ou InitialOutput- si null et nbrepeat > 1 => aucun */
+    /* liste des parametres a modifier : de type InitialActionParam ou InitialOutput- si null et nbrepeat > 1 => aucun */
     private ArrayList<TaskRepeatParam> listParam;
    
 

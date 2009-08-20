@@ -22,7 +22,7 @@ import javax.swing.*;
 /**
  * permet l'affichage du materiel comme une liste
  * ce n'est pas une liste car il n'y a pas de selection
- * la liste du materiel est par defaut trié par nom (tri dans la requete)
+ * la liste du materiel est par defaut trie par nom (tri dans la requete)
  * @author  MBO
  */
 public class ListPanel extends JPanel{
@@ -45,7 +45,7 @@ public class ListPanel extends JPanel{
     private Icon iconAdvise;
     /* panel detail */
     private DetailMaterialPanel detailMaterialPanel;
-    /* liste du materiel destine à être trié */
+    /* liste du materiel destine a etre trie */
     private Vector materialToBeSorted;
     /* droit du proc*/
     private char procRight;
@@ -216,7 +216,7 @@ public class ListPanel extends JPanel{
     
    
     
-    /* retourne la liste du materiel à trier */
+    /* retourne la liste du materiel a trier */
     private Vector getMaterialToBeSort(int mode, ArrayList listM){
         // pour l'instant retourne la liste complete 
         Vector listMat = new Vector();
@@ -241,7 +241,7 @@ public class ListPanel extends JPanel{
     
     
     
-    /* retourne la liste des elements à trier */
+    /* retourne la liste des elements a trier */
     private Vector getElementToSort(int mode, ArrayList<Material> listM){
         Vector elementToSort = new Vector();
         for (int k=0; k<listM.size(); k++){
@@ -348,7 +348,7 @@ public class ListPanel extends JPanel{
 			if (i >= j)
 				break;
 		  idT=i;
-		  /* On échange */
+		  /* On echange */
 		  t = ((String)keys.elementAt(i));
 		  keys.setElementAt(keys.elementAt(j),i);
 
@@ -358,7 +358,7 @@ public class ListPanel extends JPanel{
 		  keys.setElementAt(t,j);		
 	 	}
 		
-		/* On échange */
+		/* On echange */
 		t = ((String)keys.elementAt(i));
 		keys.setElementAt(keys.elementAt(d),i);		
 	 	Object w =  exchange.elementAt(d);
