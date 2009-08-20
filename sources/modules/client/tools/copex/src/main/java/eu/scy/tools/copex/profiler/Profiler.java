@@ -10,17 +10,17 @@ import java.util.*;
 /**
  * Outil de profiling.
  * 
- * Permet d'enregistrer le temps d'execution du code et de réaliser des stats basiques
- * Fonctionnement : insérer des appels à Profiler.start("nom de la méthode") et Profiler.end("nom de la méthode") 
- * dans une méthode en oubliant pas de mettre un end par return;
- * L'appel à la fonction start déclenche l'enregistrement
- * Ensuite la méthode getStats() permet d'afficher l'ensemble des statistiques récoltées.
+ * Permet d'enregistrer le temps d'execution du code et de realiser des stats basiques
+ * Fonctionnement : inserer des appels a� Profiler.start("nom de la methode") et Profiler.end("nom de la methode") 
+ * dans une methode en oubliant pas de mettre un end par return;
+ * L'appel a� la fonction start declenche l'enregistrement
+ * Ensuite la methode getStats() permet d'afficher l'ensemble des statistiques recoltees.
  *
- * Attention, les mesures étant fondée sur le temps système, l'environnement doit être le même si l'on cherche à comparer deux executions successives
+ * Attention, les mesures etant fondee sur le temps systa�me, l'environnement doit a�tre le ma�me si l'on cherche a� comparer deux executions successives
  *
- * Attention aussi aux methodes recursives, il est conseillé d'inclure par exemple le niveau de recursivité dans le nom afin de ne pas avoir par exemple deux "start" se suivant
+ * Attention aussi aux methodes recursives, il est conseille d'inclure par exemple le niveau de recursivite dans le nom afin de ne pas avoir par exemple deux "start" se suivant
  *
- * Voir la méthode main pour un exemple d'utilisation
+ * Voir la methode main pour un exemple d'utilisation
  * @author MBO
  */
 public class Profiler {
@@ -31,7 +31,7 @@ public class Profiler {
     
     // METHODES
     /**
-    * Retourne la description de l'ensemble des appels sous forme de chaîne de carractères
+    * Retourne la description de l'ensemble des appels sous forme de chaa�ne de carracta�res
     * @return java.lang.String
     */
     public static String display() {
@@ -44,7 +44,7 @@ public class Profiler {
     }
     
     /**
-    * Arrete le chronométrage d'une méthode
+    * Arrete le chronometrage d'une methode
     */
     public static void end(String name) {
 	if(started) {
@@ -70,7 +70,7 @@ public class Profiler {
 	return ret;
     }
     /**
-    * Retourne le temps de référence (temps système au start)
+    * Retourne le temps de reference (temps systa�me au start)
     * @return long
     */
     public static long getReference() {
@@ -78,7 +78,7 @@ public class Profiler {
     }
     
     /**
-    * Affiche les statistiques des différents profils.
+    * Affiche les statistiques des differents profils.
     * @return java.lang.String
     */
     public static String getStats() {
@@ -115,7 +115,7 @@ public class Profiler {
     }
     
     /**
-    * Démarre le profiler (temps de référence).
+    * Demarre le profiler (temps de reference).
     */
     public static void start() {
 	started = true;
@@ -124,7 +124,7 @@ public class Profiler {
     }
     
     /**
-    * Démarre l'enregistrement d'un profil, l'ajoute s'il n'existe pas.
+    * Demarre l'enregistrement d'un profil, l'ajoute s'il n'existe pas.
     * @param num int
     */
     public static void start(String name) {
@@ -169,7 +169,7 @@ public static void main(String[] args) {
 	end("main");
 	
 
-	System.out.println("Résultat :\n"+display());
+	System.out.println("Resultat :\n"+display());
 	System.out.println("\nStats  :\n"+getStats());
 	System.out.println("Intersection 1 :\n"+getProfile("main").intersection(getProfile("Boucle 2")).getStats());
 	System.out.println("Intersection 2 :\n"+getProfile("Boucle 1").intersection(getProfile("Boucle 2")).getStats());

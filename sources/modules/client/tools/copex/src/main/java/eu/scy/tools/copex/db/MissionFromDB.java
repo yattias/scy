@@ -124,7 +124,7 @@ public class MissionFromDB {
     
     
    
-    /* mise Ã  jour de la date de modif d'une mission */
+    /* mise a  jour de la date de modif d'une mission */
     static public CopexReturn updateDateMissionInDB_xml(DataBaseCommunication dbC, long dbKeyMission, java.sql.Date date){
         dbC.updateDb(MyConstants.DB_COPEX);
         String dM = CopexUtilities.dateToSQL(date);

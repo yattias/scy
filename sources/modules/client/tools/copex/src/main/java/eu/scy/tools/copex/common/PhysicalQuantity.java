@@ -8,7 +8,7 @@ package eu.scy.tools.copex.common;
 import java.util.ArrayList;
 
 /**
- * grandeur physique qui permet de décrire les différentes unités
+ * grandeur physique qui permet de decrire les differentes unites
  * @author Marjolaine
  */
 public class PhysicalQuantity implements Cloneable{
@@ -17,7 +17,7 @@ public class PhysicalQuantity implements Cloneable{
     private long dbKey ;
     /* nom */
     private String name;
-    /* liste des différentes unités possibles */
+    /* liste des differentes unites possibles */
     private ArrayList<CopexUnit> listUnit ;
 
     // CONSTRUCTOR

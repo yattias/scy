@@ -15,7 +15,7 @@ public class DataXML {
     // ATTRIBUTS
     /* identifiant */
     private long dbKey;
-    /* donnée */
+    /* donnee */
     private String data;
     /* numero de ligne */
     private int noRow;

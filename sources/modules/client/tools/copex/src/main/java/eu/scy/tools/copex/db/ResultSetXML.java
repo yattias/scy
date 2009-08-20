@@ -8,7 +8,7 @@ package eu.scy.tools.copex.db;
 import java.util.ArrayList;
 
 /**
- * resultat de la base de données
+ * resultat de la base de donnees
  * @author MBO
  */
 public class ResultSetXML {

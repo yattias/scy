@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class DeleteTaskUndoRedo extends CopexUndoRedo{
 
     // ATTRIBUTS
-    /* liste des taches supprimées */
+    /* liste des taches supprimees */
     private ArrayList<TaskSelected> listTask;
     /*pour chaque tache, correspondance avec l'endroit ou il faut la remettre dans l'arbre */
     private ArrayList<TaskSelected> listTs;
@@ -55,7 +55,7 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
                 taskParent  = ts.getSelectedTask();
             }
             System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription());
-            System.out.println("=> en l'attachant à "+ts.getSelectedTask().getDescription()+" ("+task.attachLikeBrother()+")");
+            System.out.println("=> en l'attachant a� "+ts.getSelectedTask().getDescription()+" ("+task.attachLikeBrother()+")");
            
             CopexReturn cr = this.controller.addTask(task.getSelectedTask(), tree.getProc(), taskBrother ,taskParent, v, MyConstants.UNDO, false);
             if (cr.isError()){

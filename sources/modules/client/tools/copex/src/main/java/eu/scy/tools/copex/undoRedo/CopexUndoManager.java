@@ -9,7 +9,7 @@ import eu.scy.tools.copex.edp.CopexTree;
 import javax.swing.undo.UndoManager;
 
 /**
- * manager permettant de gérer la liste des undo redo
+ * manager permettant de gerer la liste des undo redo
  * @author MBO
  */
 public class CopexUndoManager extends UndoManager{

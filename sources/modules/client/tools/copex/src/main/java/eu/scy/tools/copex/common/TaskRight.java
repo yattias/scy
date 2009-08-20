@@ -22,9 +22,9 @@ public class TaskRight implements Cloneable {
     private char moveRight;
     /* droit ajouter sous tache */
     private char parentRight;
-    /* droit de créer un dessin associé à la tâche */
+    /* droit de creer un dessin associe a� la ta�che */
     private char drawRight;
-    /* droit à la répétition */
+    /* droit a� la repetition */
     private char repeatRight;
 
     // CONSTRUCTEURS
@@ -118,14 +118,14 @@ public class TaskRight implements Cloneable {
 
     @Override
     public String toString() {
-        String s = "Droits de la tâche : ";
+        String s = "Droits de la ta�che : ";
         s += "editer : "+getEditRight();
         s += "supprimer : "+getDeleteRight();
         s += "copier : "+getCopyRight();
         s += "deplacer : "+getMoveRight();
         s += "ajouter des sous taches : "+getParentRight();
-        s += "créer dessin : "+getDrawRight() ;
-        s += "répéter : "+getRepeatRight() ;
+        s += "creer dessin : "+getDrawRight() ;
+        s += "repeter : "+getRepeatRight() ;
         return s;
     }
     

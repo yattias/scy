@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * action de modifier une feuille de données
+ * action de modifier une feuille de donnees
  * @author MBO
  */
 public class UpdateDataSheetAction extends TraceAction {

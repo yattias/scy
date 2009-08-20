@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * ajout d'un materiel Ã  utliser
+ * ajout d'un materiel a  utliser
  * @author MBO
  */
 public class AddMaterialUseForProcAction extends TraceAction {

@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * suppression d'une feuille de données
+ * suppression d'une feuille de donnees
  * @author MBO
  */
 public class DeleteDataSheetAction extends TraceAction {

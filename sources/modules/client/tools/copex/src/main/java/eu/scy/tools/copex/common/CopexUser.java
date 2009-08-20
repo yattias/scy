@@ -8,12 +8,12 @@ package eu.scy.tools.copex.common;
 /**
  *
  * @author MBO
- * représente un utilisateur COPEX : c'est soit un élève (CopexLearner) soit un enseignant (CopexTeacher)
- * un utilisateur est représenté par : 
+ * represente un utilisateur COPEX : c'est soit un ela�ve (CopexLearner) soit un enseignant (CopexTeacher)
+ * un utilisateur est represente par : 
  * - son login (identifiant unique)
  * - son mot de passe
  * - son nom
- * - son prénom
+ * - son prenom
  */
 public class CopexUser implements Cloneable{
     // Attributs
@@ -112,7 +112,7 @@ public class CopexUser implements Cloneable{
     }
     
     /*
-     * met à jour le login utilisateur 
+     * met a� jour le login utilisateur 
      * @param  copexLogin : login utilisateur
      */
     public void setCopexLogin(String copexLogin) {
@@ -127,7 +127,7 @@ public class CopexUser implements Cloneable{
     }
 
     /*
-     * met à jour le mot de passe utilisateur 
+     * met a� jour le mot de passe utilisateur 
      * @param  copexPassWord : mot de passe utilisateur
      */
     public void setCopexPassWord(String copexPassWord) {
@@ -142,7 +142,7 @@ public class CopexUser implements Cloneable{
     }
 
     /*
-     * met à jour le prenom utilisateur 
+     * met a� jour le prenom utilisateur 
      * @param  userFirstName : prenom utilisateur
      */
     public void setUserFirstName(String userFirstName) {
@@ -157,7 +157,7 @@ public class CopexUser implements Cloneable{
     }
 
     /*
-     * met à jour le nom utilisateur 
+     * met a� jour le nom utilisateur 
      * @param  userName : nom utilisateur
      */
     public void setUserName(String userName) {

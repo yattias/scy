@@ -13,7 +13,7 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
 /**
- * Gestion de la feuille de données : table DATASHEET
+ * Gestion de la feuille de donnees : table DATASHEET
  * @author MBO
  */
 public class DataSheetFromDB {
@@ -26,7 +26,7 @@ public class DataSheetFromDB {
         for (int p=0; p<nbP; p++){
             LearnerProcedure proc = listProc.get(p);
             long dbKeyProc = proc.getDbKey();
-            // recuperation de la feuille de données associées au protocole
+            // recuperation de la feuille de donnees associees au protocole
             String query = "SELECT D.ID_DATASHEET, D.NB_ROWS, D.NB_COL " +
                         "FROM DATASHEET D, LINK_DATASHEET_PROC L WHERE " +
                         "L.ID_PROC = "+dbKeyProc+" AND L.ID_DATASHEET = D.ID_DATASHEET ;";
@@ -84,7 +84,7 @@ public class DataSheetFromDB {
     }
     
     
-    /* charge les données d'une feuille de données 
+    /* charge les donnees d'une feuille de donnees 
      * MBO le 27/10/08 : on ne charge que la premiere ligne pour le TP Clement
      */
     public static CopexReturn getAllDataFromDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet, int nbRow, int nbCol,  ArrayList v) {
@@ -140,7 +140,7 @@ public class DataSheetFromDB {
     }
     
     
-    /* creation d'une nouvelle feuille de données - en v[0] on met le nouvel id */
+    /* creation d'une nouvelle feuille de donnees - en v[0] on met le nouvel id */
     public static CopexReturn createDataSheetInDB_xml(DataBaseCommunication dbC, long dbKeyProc, DataSheet datasheet, ArrayList v){
         String query = "INSERT INTO DATASHEET " +
                 "(ID_DATASHEET, NB_ROWS, NB_COL) " +
@@ -166,7 +166,7 @@ public class DataSheetFromDB {
         
     }
    
-    /* mise à jour d'une valeur d'une feuille de données */
+    /* mise a� jour d'une valeur d'une feuille de donnees */
     static public CopexReturn updateDataSheetInDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet, long dbKeyData, String value, int noRow, int noCol, ArrayList v){
         value =  AccesDB.replace("\'",value,"''") ;
         String query = "";
@@ -197,11 +197,11 @@ public class DataSheetFromDB {
     
     
     
-    /* suppression d'une feuille de données */
+    /* suppression d'une feuille de donnees */
     static public CopexReturn deleteDataSheetFromDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet){
         String queryLink = "DELETE FROM LINK_DATASHEET_PROC WHERE " +
                     "ID_DATASHEET = "+dbKeyDataSheet+" ;";
-         // suppression des données
+         // suppression des donnees
          String queryData = "DELETE FROM DATA WHERE " +
                     "ID_DATASHEET = "+dbKeyDataSheet+" ;";
          // suppression de la feuille
@@ -219,7 +219,7 @@ public class DataSheetFromDB {
     
    
     
-    /* suppression de données */
+    /* suppression de donnees */
     static public CopexReturn removeDataInDB_xml(DataBaseCommunication dbC, long dbKeyData){
         String queryData = "DELETE FROM DATA WHERE " +
                     "ID_DATA = "+dbKeyData+" ;";
@@ -234,7 +234,7 @@ public class DataSheetFromDB {
     
     
     
-    /* mise à jour du nombre de lignes et de colonees */
+    /* mise a� jour du nombre de lignes et de colonees */
     static public CopexReturn updateRowAndColInDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet, int row, int col){
         String query = "UPDATE DATASHEET SET NB_ROWS = "+row +", " +
                     "NB_COL = "+col+" WHERE ID_DATASHEET = "+dbKeyDataSheet+" ;";

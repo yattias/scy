@@ -1,7 +1,7 @@
 /*
  * EditProcDialog.java
  *
- * Created on 20 août 2008, 12:53
+ * Created on 20 aoa�t 2008, 12:53
  */
 
 package eu.scy.tools.copex.edp;
@@ -88,8 +88,8 @@ public class EditProcDialog extends javax.swing.JDialog {
    }
    
    private void validDialog(){
-        // recupere les données 
-    // recupere les données : 
+        // recupere les donnees 
+    // recupere les donnees : 
    String p = this.textFieldProc.getText();
    if (p.length() > MyConstants.MAX_LENGHT_PROC_NAME){
        String msg = edP.getBundleString("MSG_LENGHT_MAX");

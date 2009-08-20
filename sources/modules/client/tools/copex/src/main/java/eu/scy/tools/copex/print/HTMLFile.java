@@ -119,7 +119,7 @@ public class HTMLFile {
        addString("<p>&nbsp;</p>");
     }
     
-    /* nom et prénom de l'utilisateur */
+    /* nom et prenom de l'utilisateur */
     public void setUser(CopexUser copexUser){
         String firstName = "";
         if (copexUser.getUserFirstName() != null)
@@ -188,7 +188,7 @@ public class HTMLFile {
         setDataSheet(proc.getDataSheet());
     }
     
-    // afficahge du matériel utilisé 
+    // afficahge du materiel utilise 
     private void setMaterialUsed(ExperimentalProcedure proc){
         addString("<p class='Style5'>");
         ArrayList<MaterialUseForProc> listMaterialUse = proc.getListMaterialUse();
@@ -257,7 +257,7 @@ public class HTMLFile {
         }
         return comm;
     }
-    /* retourne le dessin associe à la tache */
+    /* retourne le dessin associe a� la tache */
     private String getTaskDraw(CopexTask task){
         String draw = "";
         if (task.getTaskImage() != null && task.getTaskImage().length() > 0){
@@ -267,7 +267,7 @@ public class HTMLFile {
     }
     
     
-    /* retourne l'image associée à la tache */
+    /* retourne l'image associee a� la tache */
     private String getTaskImg(CopexTask task){
         String img = "../../Images/";
         if (task == null){

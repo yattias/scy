@@ -11,7 +11,7 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import java.io.IOException;
 import java.net.URL;
 /**
- * permet la sauvegarde de protocoles intermédiaires
+ * permet la sauvegarde de protocoles intermediaires
  * @author MBO
  */
 public class SaveXMLProc {

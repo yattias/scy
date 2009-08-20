@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 /**
  * ouverture editeur de proc, si aucun proc dans la mission et si plusieurs proc initiaux
- * on propose Ã  l'Ã©tudiant le type de proc qu'il souhaite ouvrir
- * ressemble Ã  AddProcDialog (1 ligne)
+ * on propose a  l'etudiant le type de proc qu'il souhaite ouvrir
+ * ressemble a  AddProcDialog (1 ligne)
  * @author Marjolaine
  */
 public class CreateProcDialog extends javax.swing.JDialog {

@@ -17,7 +17,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 /**
- * undo redo : creation d'une feuille de données
+ * undo redo : creation d'une feuille de donnees
  * @author MBO
  */
 public class CreateDataSheetUndoRedo extends CopexUndoRedo {
@@ -63,7 +63,7 @@ public class CreateDataSheetUndoRedo extends CopexUndoRedo {
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        // mise à jour de l'id
+        // mise a� jour de l'id
         long newDbKey = ((DataSheet)v.get(0)).getDbKey();
         dataSheet.setDbKey(newDbKey);
     }

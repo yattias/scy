@@ -1,7 +1,7 @@
 /*
  * QuestionDialog.java
  *
- * Created on 5 août 2008, 08:09
+ * Created on 5 aoa�t 2008, 08:09
  */
 
 package eu.scy.tools.copex.edp;
@@ -233,7 +233,7 @@ public class QuestionDialog extends JDialog implements ActionComment {
     private void validDialog(){
         removeDefaultText();
         this.panelComments.setPanelDetailsShown();
-        // recupere les données : 
+        // recupere les donnees : 
         String d = this.textAreaDescription.getText();
         if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
            String msg = edP.getBundleString("MSG_LENGHT_MAX");
@@ -279,7 +279,7 @@ public class QuestionDialog extends JDialog implements ActionComment {
     }
    newQuestion.setGeneralPrinciple(p);
    if (modeAdd){
-        // Créé la question 
+        // Cree la question 
         CopexReturn cr = edP.addQuestion(newQuestion);
         if (cr.isError()){
             edP.displayError(cr , edP.getBundleString("TITLE_DIALOG_ERROR")); 
@@ -313,12 +313,12 @@ public class QuestionDialog extends JDialog implements ActionComment {
         this.comment = panelComments.getComments() ;
     }
 
-    /* met à jour le texte des commenraires */
+    /* met a� jour le texte des commenraires */
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }
 
-    /* affiche texte par défaut */
+    /* affiche texte par defaut */
     private void setDefaultText(){
         String s = textAreaDescription.getText();
         if (s == null || s.length() == 0 || s.trim().length() == 0){

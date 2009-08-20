@@ -6,8 +6,8 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * trace de ce qui n'est pas une action de l'utilisateur sur le proc, mias plus général : impression, aide...
- * texte sans paramètres a priori
+ * trace de ce qui n'est pas une action de l'utilisateur sur le proc, mias plus general : impression, aide...
+ * texte sans parama�tres a priori
  * @author Marjolaine
  */
 public class TraceFunction extends EdPTrace {

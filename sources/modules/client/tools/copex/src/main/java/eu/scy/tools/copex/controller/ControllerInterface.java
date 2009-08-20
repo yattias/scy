@@ -43,9 +43,9 @@ public interface ControllerInterface {
     public CopexReturn addAction(CopexAction action, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
     /* modification d'une action */
     public CopexReturn updateAction(CopexAction newAction, LearnerProcedure proc, CopexAction oldAction, ArrayList v);
-    /* ajout d'une étape */
+    /* ajout d'une etape */
     public CopexReturn addStep(Step step, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
-    /* modification d'une étape */
+    /* modification d'une etape */
     public CopexReturn updateStep(Step newStep, LearnerProcedure proc, Step oldStep, ArrayList v);
     /* ajout d'une sous question */
     public CopexReturn addQuestion(Question question, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
@@ -80,15 +80,15 @@ public interface ControllerInterface {
     public CopexReturn closeProc(LearnerProcedure proc);
     /* suppression d'un protocole */
     public CopexReturn deleteProc(LearnerProcedure proc);
-    /* retourne en v[0] la liste des protocoles qui peuvent être copiés : 
+    /* retourne en v[0] la liste des protocoles qui peuvent a�tre copies : 
      * liste des protocoles de la mission en cours
      * retourne en v[1] la liste des missions de l'utilisateur et en v[2]) la 
      * liste des protocoles pour chacune de ces missions
      */
     public CopexReturn getListProcToCopyOrOpen(ArrayList v);
-    /* mise à jour du nom du protocole */
+    /* mise a� jour du nom du protocole */
     public CopexReturn updateProcName(LearnerProcedure proc, String name, char undoRedo);
-    /* mise à jour du protocole actif */
+    /* mise a� jour du protocole actif */
     public CopexReturn setProcActiv(LearnerProcedure proc);
     /* suppression dataSheet pour le protocole */
     public CopexReturn deleteDataSheet(LearnerProcedure proc, long dbKeyDataSheet, char undoRedo);
@@ -103,9 +103,9 @@ public interface ControllerInterface {
     public CopexReturn finalizeDragAndDrop(LearnerProcedure proc);
     /* arret de l'edp */
     public CopexReturn stopEdP();
-    /* mise à jour de la visiblite des taches*/
+    /* mise a� jour de la visiblite des taches*/
     public CopexReturn updateTaskVisible(LearnerProcedure p, ArrayList<CopexTask> listTask);
-    /* retourne les données pour le proc aide */
+    /* retourne les donnees pour le proc aide */
     public CopexReturn getHelpProc(ArrayList v);
     /* ajout de l'utilisation d'un material pour un proc*/
     public CopexReturn addMaterialUseForProc(LearnerProcedure p, Material m, String justification, char undoRedo);

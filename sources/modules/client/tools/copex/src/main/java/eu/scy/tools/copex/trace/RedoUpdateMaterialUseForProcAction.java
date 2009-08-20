@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * redo : mise√†  jour du materiel utlise pour le protocole
+ * redo : misea†  jour du materiel utlise pour le protocole
  * @author MBO
  */
 public class RedoUpdateMaterialUseForProcAction extends RedoAction {

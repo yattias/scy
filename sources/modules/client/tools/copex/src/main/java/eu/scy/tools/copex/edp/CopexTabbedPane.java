@@ -14,7 +14,7 @@ import java.util.*;
 import javax.swing.*;
 
 /**
- * onglets représentants les différents protocoles
+ * onglets representants les differents protocoles
  * @author MBO
  */
 public class CopexTabbedPane extends JTabbedPane{
@@ -100,7 +100,7 @@ public class CopexTabbedPane extends JTabbedPane{
 
     /*
      * l'ajout d'une sous question est il possible ?
-     * si 1 et 1 seul élément est sélectionné et s'il set possible d'insérer une sous question (fils d'une sous question)
+     * si 1 et 1 seul element est selectionne et s'il set possible d'inserer une sous question (fils d'une sous question)
      */
     public boolean canAddQ(){
         if(treeActiv != null)
@@ -110,7 +110,7 @@ public class CopexTabbedPane extends JTabbedPane{
    
     /*
      * l'ajout d'une etape est il possible ?
-     * si 1 et 1 seul élément est sélectionné 
+     * si 1 et 1 seul element est selectionne 
      */
     public boolean canAddE(){
         if(treeActiv != null)
@@ -120,7 +120,7 @@ public class CopexTabbedPane extends JTabbedPane{
 
     /*
      * l'ajout d'une action est il possible ?
-     * si 1 et 1 seul élément est sélectionné 
+     * si 1 et 1 seul element est selectionne 
      */
     public boolean canAddA(){
         if(treeActiv != null)
@@ -219,7 +219,7 @@ public class CopexTabbedPane extends JTabbedPane{
         return treeActiv.getTasksSelected();
     }
     
-    /* mise à jour de l'arbre */
+    /* mise a� jour de l'arbre */
     public void updateProc(LearnerProcedure newProc){
         treeActiv.updateProc(newProc);
     }
@@ -247,13 +247,13 @@ public class CopexTabbedPane extends JTabbedPane{
             return treeActiv.getLevelTree();
     }
     
-    /* affichage d'un niveau donné */
+    /* affichage d'un niveau donne */
     public void displayLevel(int level){
         if (treeActiv != null)
             treeActiv.displayLevel(level);
     }
     
-    /* suprression des elements selectionnées */
+    /* suprression des elements selectionnees */
     public void suppr(ArrayList<TaskSelected> listTs){
         if (treeActiv != null)
             treeActiv.suppr(listTs);

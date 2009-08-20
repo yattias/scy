@@ -7,17 +7,17 @@ package eu.scy.tools.copex.trace;
 
 /**
  * action de copie d'un protocole existant 
- * @param Id du protocole Ã  copier 
- * @param nom du protocole Ã  copier
+ * @param Id du protocole a  copier 
+ * @param nom du protocole a  copier
  * @param Id du nouveau protocole
- * @param Nom du nouveau protocole Ã  copier
+ * @param Nom du nouveau protocole a  copier
  * @author MBO
  */
 public class CopyProcAction extends TraceAction{
     // ATTRIBUTS
-    /* id du protocole Ã  copier */
+    /* id du protocole a  copier */
     private long dbKeyProcToCopy;
-    /* nom du protocole Ã  copier */
+    /* nom du protocole a  copier */
     private String procNameToCopy;
 
     // CONSTRUCTEURS 

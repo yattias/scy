@@ -24,7 +24,7 @@ import org.jdom.Element;
  * @author MBO
  */
 public class ExperimentalProcedureFromDB {
-    /* chargement des protocoles li√© √† une mission et un utilisateur
+    /* chargement des protocoles lie a† une mission et un utilisateur
      * MBO le 27/02/09 : proc lockes
      en v[0] : la liste des proc
      en v[1] : la liste des proc initiaux
@@ -125,7 +125,7 @@ public class ExperimentalProcedureFromDB {
                 ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
                 proc.setListTask(listTask);
                 Profiler.end("xml_loadTasks");
-                // met le lien du fils √† la question
+                // met le lien du fils a† la question
                 int ts = listTask.size();
                 for (int k=0; k<ts; k++){
                     if (listTask.get(k).getDbKey() == question.getDbKey()){
@@ -385,7 +385,7 @@ public class ExperimentalProcedureFromDB {
           if (cr.isError())
               return cr;
             
-            // on ne cree pas la liste des taches associ√©es, cela se fait dans 
+            // on ne cree pas la liste des taches associees, cela se fait dans 
             // un second temps
             
             v.add(dbKey);
@@ -396,7 +396,7 @@ public class ExperimentalProcedureFromDB {
     
    
     
-    /* mise √† jour du statut activ d'un protocole */
+    /* mise a† jour du statut activ d'un protocole */
     static public CopexReturn updateActivProcInDB_xml(DataBaseCommunication dbC, long dbKeyProc, boolean activ){
         int a = 0;
         if (activ)
@@ -413,7 +413,7 @@ public class ExperimentalProcedureFromDB {
     
     
     
-    /* mise √† jour de la date de modif d'un protocole */
+    /* mise a† jour de la date de modif d'un protocole */
     static public CopexReturn updateDateProcInDB_xml(DataBaseCommunication dbC, long dbKeyProc, java.sql.Date date){
         String dM = CopexUtilities.dateToSQL(date);
         String query = "UPDATE EXPERIMENTAL_PROCEDURE SET DATE_LAST_MODIFICATION = '"+dM+"' "+
@@ -453,7 +453,7 @@ public class ExperimentalProcedureFromDB {
     
     
    
-    /* mise √† jour du nom du protocole */
+    /* mise a† jour du nom du protocole */
     static public CopexReturn updateProcNameInDB_xml(DataBaseCommunication dbC, long dbKeyProc, String name) {
         name =  AccesDB.replace("\'",name,"''") ;
         
@@ -1266,7 +1266,7 @@ public class ExperimentalProcedureFromDB {
             ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
             initProc.setListTask(listTask);
             Profiler.end("xml_loadTasksInitial");
-            // met le lien du fils √† la question
+            // met le lien du fils a† la question
             int ts = listTask.size();
             for (int k=0; k<ts; k++){
                 if (listTask.get(k).getDbKey() == question.getDbKey()){
@@ -1280,7 +1280,7 @@ public class ExperimentalProcedureFromDB {
         return new CopexReturn();
 
     }
-    /* chargement d'un protocoles li√© √† une mission
+    /* chargement d'un protocoles lie a† une mission
      * MBO le 27/02/09 : proc lockes
      en v[0] : le proc, null so locke et que l'on doit faire le controle
      */
@@ -1366,7 +1366,7 @@ public class ExperimentalProcedureFromDB {
                     return cr;
                 ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
                 proc.setListTask(listTask);
-                // met le lien du fils √† la question
+                // met le lien du fils a† la question
                 int ts = listTask.size();
                 for (int k=0; k<ts; k++){
                     if (listTask.get(k).getDbKey() == question.getDbKey()){
@@ -1387,7 +1387,7 @@ public class ExperimentalProcedureFromDB {
         return new CopexReturn();
     }
 
-    /* chargement du materiel associ√© √† un proc initial :
+    /* chargement du materiel associe a† un proc initial :
      * - en v[0] : la liste du materiel
      * - en v[1] : la liste du type de materiel
      */
@@ -1473,7 +1473,7 @@ public class ExperimentalProcedureFromDB {
             }
 
             m.setListType(listT);
-            // ajoute √† la liste
+            // ajoute a† la liste
             listM.add(m);
         }
 
@@ -1627,7 +1627,7 @@ public class ExperimentalProcedureFromDB {
         return new CopexReturn();
     }
 
-    /* chargement proc initial simplifi√©e : uniquement le code et le nom*/
+    /* chargement proc initial simplifiee : uniquement le code et le nom*/
     public static CopexReturn getSimpleInitialProcFromDB(DataBaseCommunication dbC,  long dbKeyMission , long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList v){
         ArrayList<InitialProcedure> listInitProc = new ArrayList();
         // chargement du protocole initial

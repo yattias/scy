@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  *
- * Séquence d'intervalles de temps enregistrant l'activité d'un morceau de code.
+ * Sequence d'intervalles de temps enregistrant l'activite d'un morceau de code.
  * @author MBO
  */
 public class Profile {
@@ -115,7 +115,7 @@ public class Profile {
     }
     
     /**
-    * Réalise l'intersection enttre deux profils.
+    * Realise l'intersection enttre deux profils.
     * @return profiler.Profile
     * @param profiler.Profile
     */

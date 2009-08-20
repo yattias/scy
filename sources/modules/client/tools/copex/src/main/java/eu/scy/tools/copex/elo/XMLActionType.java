@@ -24,9 +24,9 @@ public class XMLActionType {
     /*is Free Action */
     private boolean freeAction;
     private boolean taskRepeat;
-    /* liste d'actions nommées */
+    /* liste d'actions nommees */
     private List<XMLNamedAction> listNamedAction;
-    /* liste d'actions paramétrées */
+    /* liste d'actions parametrees */
 
     public XMLActionType(boolean freeAction,boolean taskRepeat, List<XMLNamedAction> listNamedAction) {
         this.freeAction = freeAction;

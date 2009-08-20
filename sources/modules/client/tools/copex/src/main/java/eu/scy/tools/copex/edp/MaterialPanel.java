@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 /**
- * panel contenant le matériel diponible dans la mission en cours
+ * panel contenant le materiel diponible dans la mission en cours
  * @author MBO
  */
 public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButton {
@@ -257,7 +257,7 @@ public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButt
        }
     }
 
-    /* mise à jour de la liste du materiel */
+    /* mise a� jour de la liste du materiel */
     public void setListMaterial(char procRight, ArrayList<Material> listMaterial, ArrayList<MaterialUseForProc> listJustification){
         this.procRight = procRight;
         this.listMaterial = listMaterial;

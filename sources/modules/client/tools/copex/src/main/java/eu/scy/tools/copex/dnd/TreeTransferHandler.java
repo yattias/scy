@@ -16,12 +16,12 @@ import javax.swing.*;
 import javax.swing.tree.TreePath;
 
 /**
- * transfert de données pour le drag and drop
+ * transfert de donnees pour le drag and drop
  * @author MBO
  */
 public class TreeTransferHandler extends TransferHandler {
 
-    /* type d'actions supportées */
+    /* type d'actions supportees */
     @Override
     public int getSourceActions(JComponent c) {
         return MOVE;
@@ -153,7 +153,7 @@ public class TreeTransferHandler extends TransferHandler {
 //                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
 //                brother = true;
 //            }
-//            //cas drag and drop sur dossier => ajoute à la fin
+//            //cas drag and drop sur dossier => ajoute a� la fin
 //            if (!insertNode.isAction() && realNode.equals(insertNode) && insertNode.getChildCount() > 0){
 //                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
 //                brother = true;
@@ -182,7 +182,7 @@ public class TreeTransferHandler extends TransferHandler {
             }else{
                 CopexTreeNode realNode = (CopexTreeNode)path.getLastPathComponent();
                 //System.out.println("realNode : "+realNode.getTask().getDescription());
-                // si node =realNode => sur dossier => à la fin de node
+                // si node =realNode => sur dossier => a� la fin de node
                 if(realNode.equals(insertNode)){
                     if(insertNode.getChildCount() != 0){
                         insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);

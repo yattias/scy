@@ -11,7 +11,7 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
 /**
- *Ce thread contrôle périodiquement la base de données.
+ *Ce thread contra�le periodiquement la base de donnees.
  * @author Marjolaine
  */
 public class ActivatorThread extends Thread{
@@ -19,7 +19,7 @@ public class ActivatorThread extends Thread{
     private EdPPanel edP;
     /*connection db */
     private DataBaseCommunication dbC;
-    /** Le locker pour garder le contact dans ce thread avec le reste de l'exécution. */
+    /** Le locker pour garder le contact dans ce thread avec le reste de l'execution. */
 	private Locker locker = null;
 
     // CONSTRUCTOR
@@ -31,12 +31,12 @@ public class ActivatorThread extends Thread{
     }
 
     /**
-     * Lancement du thread de réactivation des verrous, et boucle infinie.
+     * Lancement du thread de reactivation des verrous, et boucle infinie.
      */
 
     @Override
     public void run() {
-        // Boucle infinie de contrôle de la base de données, avec temps d'attente.
+        // Boucle infinie de contra�le de la base de donnees, avec temps d'attente.
         while (true) {
             // Temps d'attente
             try {
@@ -46,8 +46,8 @@ public class ActivatorThread extends Thread{
 //                if(edP.isAppletVisible())
 //                    edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_THREAD_INTERRUPT")+ e, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             }
-            // Pour chaque éléments de l.lockers, rechercher l'enregistrement correspondant.
-            // S'il n'existe pas: ATTENTION ERREUR: le verrou a sauté (comment signaler l'erreur)
+            // Pour chaque elements de l.lockers, rechercher l'enregistrement correspondant.
+            // S'il n'existe pas: ATTENTION ERREUR: le verrou a saute (comment signaler l'erreur)
             // S'il existe, remplacer sa date de verrouillage par la date courante.
             int nbLock = this.locker.getLockers().size();
             if (nbLock == 0) {

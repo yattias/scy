@@ -15,7 +15,7 @@ import eu.scy.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo : edition d'une case de la feuille de données
+ * undo redo : edition d'une case de la feuille de donnees
  * @author MBO
  */
 public class EditDataSheetUndoRedo extends CopexUndoRedo {

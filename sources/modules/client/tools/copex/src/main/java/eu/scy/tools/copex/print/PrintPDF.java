@@ -336,7 +336,7 @@ public class PrintPDF {
         return comm;
     }
 
-    /* retourne l'image associée à la tache */
+    /* retourne l'image associee a� la tache */
     private String getTaskImg(CopexTask task){
         String img = "";
         if (task == null){
@@ -431,7 +431,7 @@ public class PrintPDF {
         return null;
     }
 
-    /* impression de la feuille de données */
+    /* impression de la feuille de donnees */
     private CopexReturn printDataSheet(DataSheet ds){
         if (ds == null)
             return new CopexReturn();
@@ -479,7 +479,7 @@ public class PrintPDF {
                 p = Runtime.getRuntime().exec("start "+command);
             }catch (IOException e2) {
                 return new CopexReturn ("AcroRd32 n'est pas accessible  : "+command+
-								"!\nVeuillez vérifier que le logiciel a été installé sur la machine !",false) ;
+								"!\nVeuillez verifier que le logiciel a ete installe sur la machine !",false) ;
 			
             }
         }
@@ -489,9 +489,9 @@ public class PrintPDF {
             p = Runtime.getRuntime() .exec("rundll32 url.dll,FileProtocolHandler "+fileNamePDF);
         }catch(IOException e){
             return new CopexReturn ("AcroRd32 n'est pas accessible  : "+command+
-								"!\nVeuillez vérifier que le logiciel a été installé sur la machine !",false) ;
+								"!\nVeuillez verifier que le logiciel a ete installe sur la machine !",false) ;
         }
-        // Il faut attendre...mais on n'est pas obligé
+        // Il faut attendre...mais on n'est pas oblige
         try {
             p.waitFor() ;
         }

@@ -7,7 +7,7 @@ package eu.scy.tools.copex.common;
 
 /**
  * parametres d'une action initiale nommee
- *  peut Ãªtre soit de type quantite soit de type type de materiel
+ *  peut aªtre soit de type quantite soit de type type de materiel
  * @author Marjolaine
  */
 public class InitialActionParam implements Cloneable {

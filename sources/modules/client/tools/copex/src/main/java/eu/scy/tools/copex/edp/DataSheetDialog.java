@@ -1,7 +1,7 @@
 /*
  * DataSheetDialog.java
  *
- * Created on 5 août 2008, 13:26
+ * Created on 5 aoa�t 2008, 13:26
  */
 
 package eu.scy.tools.copex.edp;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * fenetre de dialogue qui permet de creer un tableau pour la feuille de données
+ * fenetre de dialogue qui permet de creer un tableau pour la feuille de donnees
  * @author  MBO
  */
 public class DataSheetDialog extends JDialog {
@@ -39,7 +39,7 @@ public class DataSheetDialog extends JDialog {
         initComponents();
     }
 
-    /* constructeur sans données initiales */
+    /* constructeur sans donnees initiales */
     public DataSheetDialog(EdPPanel edP, LearnerProcedure proc) {
         super();
         this.edP = edP;
@@ -52,7 +52,7 @@ public class DataSheetDialog extends JDialog {
         setModal(true);
         init();
     }
-    /* constructeur sans données initiales */
+    /* constructeur sans donnees initiales */
     public DataSheetDialog(EdPPanel edP, LearnerProcedure proc,  int nbL, int nbC) {
         super();
         this.edP = edP;
@@ -157,7 +157,7 @@ public class DataSheetDialog extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
 private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
-    // on controle les données  
+    // on controle les donnees  
     int newNbR = 1;
     int newNbC = 1;
     try{

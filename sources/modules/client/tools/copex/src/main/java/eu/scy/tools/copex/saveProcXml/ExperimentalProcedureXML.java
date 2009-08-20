@@ -28,7 +28,7 @@ public class ExperimentalProcedureXML {
     private String idProc;
     /*protocole */
     private Procedure proc;
-    /*feuille de données */
+    /*feuille de donnees */
     private DataSheet ds;
     /* materiel utilises */
     private List<MaterialUse> listMaterialUse;
