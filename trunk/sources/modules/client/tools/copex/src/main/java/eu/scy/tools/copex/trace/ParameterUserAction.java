@@ -11,7 +11,7 @@ package eu.scy.tools.copex.trace;
  */
 public class ParameterUserAction {
     // ATTRIBUTS
-    /* identifiant base de données */
+    /* identifiant base de donnees */
     private long dbKey;
     /* nom */
     private String name;

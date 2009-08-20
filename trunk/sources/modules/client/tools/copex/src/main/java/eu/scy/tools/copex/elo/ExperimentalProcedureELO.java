@@ -27,13 +27,13 @@ public class ExperimentalProcedureELO implements Cloneable {
     private String name;
     /* id */
     private String idProc;
-    /* mission de référence */
+    /* mission de reference */
     private XMLMission mission;
     /*id proc initial */
     private String idInitProc;
     /*protocole */
     private XMLQuestion question;
-    /*feuille de données */
+    /*feuille de donnees */
     private XMLDataSheet ds;
     /* materiel utilises */
     private List<XMLMaterialUse> listMaterialUse;

@@ -10,7 +10,7 @@ import java.sql.Time;
 import org.jdom.Element;
 
 /**
- * représente un item dans le fichier trace
+ * represente un item dans le fichier trace
  * @author MBO
  */
 public class CopexTrace {

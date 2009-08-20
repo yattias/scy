@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.common;
 
 /**
- * represente une feuille de données 
+ * represente une feuille de donnees 
  * @author MBO
  */
 public class DataSheet implements Cloneable {
@@ -14,7 +14,7 @@ public class DataSheet implements Cloneable {
     // ATTRIBUTS
     /* cle primaire */
     private long dbKey;
-    /* données */
+    /* donnees */
     private CopexData[][] data;
     
     // CONSTRUCTEURS
@@ -83,7 +83,7 @@ public class DataSheet implements Cloneable {
 	}
     }
      
-     /* mise à jour d'une valeur */
+     /* mise a� jour d'une valeur */
      public void setValueAt(CopexData data, int noRow, int noCol){
          this.data[noRow][noCol] = data;
      }
@@ -104,7 +104,7 @@ public class DataSheet implements Cloneable {
        return dataString;
      }
      
-     /* retourne l'identifiant de la donnée, -1 si null */
+     /* retourne l'identifiant de la donnee, -1 si null */
      public long getDbKeyData(int noRow, int noCol){
          long dbKeyData = -1;
          if (this.data[noRow][noCol] != null){
@@ -113,7 +113,7 @@ public class DataSheet implements Cloneable {
          return dbKeyData;
      }
      
-     /* retourne la donnée */
+     /* retourne la donnee */
      public CopexData getDataAt(int noRow, int noCol){
          return this.data[noRow][noCol] ;
      }

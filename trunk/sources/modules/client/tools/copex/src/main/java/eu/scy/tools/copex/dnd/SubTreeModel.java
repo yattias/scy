@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
- * modele de données pour une selection dans un arbre
+ * modele de donnees pour une selection dans un arbre
  * @author MBO
  */
 public class SubTreeModel extends DefaultTreeModel {

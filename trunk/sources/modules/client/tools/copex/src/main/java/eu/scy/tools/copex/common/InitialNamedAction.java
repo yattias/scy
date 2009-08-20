@@ -22,9 +22,9 @@ public class InitialNamedAction implements Cloneable {
     protected boolean isSetting ;
     /* si isSetting => variable de l'action */
     protected InitialActionVariable variable;
-    /* dessin autorisé*/
+    /* dessin autorise*/
     protected boolean draw;
-    /* repeat autorisé*/
+    /* repeat autorise*/
     protected boolean repeat;
 
     // CONSTRUCTOR

@@ -46,7 +46,7 @@ public class PasteAction extends TraceAction {
         } 
     }
     
-     /* tache Ã  copier */
+     /* tache a  copier */
     private String getTaskToXML(MyTask task){
         String xml = task.getDbKeyTaskToXML();
         xml += task.getTaskDescriptionToXML();

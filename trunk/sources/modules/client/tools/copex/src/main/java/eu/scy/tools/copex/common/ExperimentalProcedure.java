@@ -15,16 +15,16 @@ import java.util.ArrayList;
 public class ExperimentalProcedure implements Cloneable {
 
     // ATTRIBUTS
-    /* identifiant base de données */
+    /* identifiant base de donnees */
     protected long dbKey;
     /*
      * nom du protocole
      */
     protected String name;
-    /* date de dernière modif */
+    /* date de dernia�re modif */
     protected java.sql.Date dateLastModification;
     /*
-     * question associée
+     * question associee
      */
     protected Question question;
     /* mission */
@@ -37,10 +37,10 @@ public class ExperimentalProcedure implements Cloneable {
     /* liste des taches */
     protected ArrayList<CopexTask> listTask;
     
-    /* Feuille de données */
+    /* Feuille de donnees */
     private DataSheet dataSheet;
     
-    /* protocole ouvert ou femé */
+    /* protocole ouvert ou feme */
     protected boolean open = true;
     /* liste du materiel utilise pour le protocole */
     private ArrayList<MaterialUseForProc> listMaterialUse;
@@ -240,7 +240,7 @@ public class ExperimentalProcedure implements Cloneable {
         this.listMaterialUse = listMaterialUse;
     }
     
-    /* suppression de taches - retourne vrai si ca s'est bien passé */
+    /* suppression de taches - retourne vrai si ca s'est bien passe */
     public boolean deleteTasks(ArrayList<CopexTask> listT){
         boolean isOk = true;
         int nbToDel = listT.size();
@@ -320,7 +320,7 @@ public class ExperimentalProcedure implements Cloneable {
         return -1;
     }
     
-    /* retourne le materiel utlise pour un mat donné */
+    /* retourne le materiel utlise pour un mat donne */
     public MaterialUseForProc getMaterialUse(Material m){
         int id = getIdMaterialUse(m.getDbKey());
         if (id != -1){

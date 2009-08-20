@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * parametres de l'applications par exemple liste des unités
+ * parametres de l'applications par exemple liste des unites
  * @author Marjolaine
  */
 public class ParamFromDB {
-    /* charge les grandeurs gérées dans COPEX */
+    /* charge les grandeurs gerees dans COPEX */
     public static CopexReturn getAllPhysicalQuantitiesFromDB(DataBaseCommunication dbC,  Locale locale, ArrayList v) {
         ArrayList<PhysicalQuantity> listPhysicalQuantities = new ArrayList();
         String query = "SELECT ID_PHYSICAL_QUANTITY, QUANTITY_NAME FROM PHYSICAL_QUANTITY ;";
@@ -49,7 +49,7 @@ public class ParamFromDB {
         return new CopexReturn();
     }
 
-     /* charge les unites pour une grandeur gérées dans COPEX */
+     /* charge les unites pour une grandeur gerees dans COPEX */
     public static CopexReturn getAllUnitFromDB(DataBaseCommunication dbC,  long dbKeyQ, Locale locale, ArrayList v) {
         ArrayList<CopexUnit> listUnit = new ArrayList();
         String symbol = "SYMBOL_"+locale.getLanguage() ;

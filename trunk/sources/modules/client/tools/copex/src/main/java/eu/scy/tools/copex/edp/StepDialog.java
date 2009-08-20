@@ -288,7 +288,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             newStep.setTaskRepeat(taskRepeat);
         }
         if (modeAdd){
-            // Créé l'étpae
+            // Cree l'etpae
             CopexReturn cr = edP.addStep(newStep);
             if (cr.isError()){
                 edP.displayError( cr , edP.getBundleString("TITLE_DIALOG_ERROR"));
@@ -311,7 +311,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         this.comment = panelComments.getComments() ;
     }
 
-    /* met à jour le texte des commenraires */
+    /* met a� jour le texte des commenraires */
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }

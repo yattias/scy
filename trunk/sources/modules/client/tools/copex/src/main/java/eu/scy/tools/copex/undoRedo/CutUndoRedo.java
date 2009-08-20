@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class CutUndoRedo extends CopexUndoRedo {
     // ATTRIBUTS
-    /* liste des taches supprimées */
+    /* liste des taches supprimees */
     private ArrayList<TaskSelected> listTask;
     /*pour chaque tache, correspondance avec l'endroit ou il faut la remettre dans l'arbre */
     private ArrayList<TaskSelected> listTs;

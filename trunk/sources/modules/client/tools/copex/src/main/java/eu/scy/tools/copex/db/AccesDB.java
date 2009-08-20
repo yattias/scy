@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * Classe gérant la connection avec la base de données 
+ * Classe gerant la connection avec la base de donnees 
  * @author MBO
  */
 public class AccesDB {
@@ -47,12 +47,12 @@ public class AccesDB {
     public AccesDB(CopexApplet edP, long idMission, String idUser){
         this.edP = edP;
        this.idUser = idUser;
-        //System.out.println("connection adresse IP applet signée v10");
+        //System.out.println("connection adresse IP applet signee v10");
         dbC = new DataBaseCommunication(edP, MyConstants.DB_COPEX_EDP, idMission, idUser);
     }
     public AccesDB(URL copexURL, long idMission, String idUser){
        this.idUser = idUser;
-        //System.out.println("connection adresse IP applet signée v10");
+        //System.out.println("connection adresse IP applet signee v10");
         dbC = new DataBaseCommunication(copexURL, MyConstants.DB_COPEX_EDP, idMission, idUser);
     }
 
@@ -153,7 +153,7 @@ public class AccesDB {
         
     }
     
-     /* mise à jour des liens */
+     /* mise a� jour des liens */
     public CopexReturn updateLinksInDB(long dbKeyProc, ArrayList<CopexTask> listTaskUpdateBrother, ArrayList<CopexTask> listTaskUpdateChild){
        return TaskFromDB.updateLinksInDB_xml(this.dbC, dbKeyProc, listTaskUpdateBrother, listTaskUpdateChild);
         
@@ -164,7 +164,7 @@ public class AccesDB {
         
             CopexReturn cr;
             String msg = "";
-            // supprime la feuille de données liée au protocole 
+            // supprime la feuille de donnees liee au protocole 
             DataSheet dataSheet = proc.getDataSheet();
             if (dataSheet != null){
                 cr = DataSheetFromDB.deleteDataSheetFromDB_xml(this.dbC, dataSheet.getDbKey());
@@ -187,7 +187,7 @@ public class AccesDB {
         return new CopexReturn();
     }
     
-    /* retourne les missions de l'utilisateur sauf celle avec cet id ainsi que les protocoles associés */
+    /* retourne les missions de l'utilisateur sauf celle avec cet id ainsi que les protocoles associes */
     public CopexReturn getAllMissionsFromDB(long dbKeyUser, long dbKeyMission, ArrayList v){
             ArrayList v2 = new ArrayList();
            CopexReturn cr = MissionFromDB.getAllMissionsFromDB_xml(this.dbC, dbKeyUser, dbKeyMission, v2);
@@ -212,13 +212,13 @@ public class AccesDB {
            return new CopexReturn();
     }
     
-    /* mise à jour du nom du protocole */
+    /* mise a� jour du nom du protocole */
     public CopexReturn updateProcName(long dbKeyProc, String name){
         return  ExperimentalProcedureFromDB.updateProcNameInDB_xml(dbC, dbKeyProc, name);
        
     }
     
-    /* mise à jour de la date de modif d'un protocole et de sa mission associée */
+    /* mise a� jour de la date de modif d'un protocole et de sa mission associee */
     public CopexReturn updateDateProc(ExperimentalProcedure proc){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         
@@ -233,7 +233,7 @@ public class AccesDB {
         return new CopexReturn();
     }
     
-    /* mise à jour de la date de modif d'une mission */
+    /* mise a� jour de la date de modif d'une mission */
     public CopexReturn updateDateMission(long dbKeyMission){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         CopexReturn cr = MissionFromDB.updateDateMissionInDB_xml(dbC, dbKeyMission, date);
@@ -241,7 +241,7 @@ public class AccesDB {
     }
     
     
-    /* mise à jour du protocole actif d'une mission */
+    /* mise a� jour du protocole actif d'une mission */
     public CopexReturn updateProcActiv(ArrayList<LearnerProcedure> listProc){
        CopexReturn cr ;
         int nbP = listProc.size();

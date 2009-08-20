@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.common;
 
 /**
- * Variable action nommee paramétrée
+ * Variable action nommee parametree
  * @author Marjolaine
  */
 public class InitialActionVariable implements Cloneable{

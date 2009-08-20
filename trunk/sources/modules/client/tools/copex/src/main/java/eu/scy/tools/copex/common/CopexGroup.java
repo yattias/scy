@@ -57,7 +57,7 @@ public class CopexGroup {
     }
 
     /*
-     * met la liste des eleves Ã  jour
+     * met la liste des eleves a  jour
      */
     public void setListLearners(ArrayList<CopexLearner> listLearners) {
         this.listLearners = listLearners;

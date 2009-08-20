@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * mise Ã  jour justification pour materiel utlise dfans un proc
+ * mise a  jour justification pour materiel utlise dfans un proc
  * @author MBO
  */
 public class UpdateMaterialUseForProcAction extends TraceAction  {

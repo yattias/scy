@@ -25,7 +25,7 @@ public class PrintDialog extends JDialog {
     private boolean printProc;
     /* impression desc commentaires */
     private boolean printComments;
-    /* impression de la feuille de données */
+    /* impression de la feuille de donnees */
     private boolean printDataSheet;
     
     

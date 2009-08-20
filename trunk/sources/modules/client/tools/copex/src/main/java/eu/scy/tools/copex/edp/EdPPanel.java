@@ -43,7 +43,7 @@ public class EdPPanel extends JPanel {
     protected Locale locale ;
     /* ressource bundle */
     protected ResourceBundle bundle;
-    /* images de l'éditeur */
+    /* images de l'editeur */
     private ArrayList<CopexImage> listImage;
     /* identifiant user */
     protected String idUser;
@@ -71,7 +71,7 @@ public class EdPPanel extends JPanel {
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
 
 
-    /* level affiché */
+    /* level affiche */
     private int levelMenu = 1;
 
     /* elements copies */
@@ -263,7 +263,7 @@ public class EdPPanel extends JPanel {
               bundle = ResourceBundle.getBundle("CopexBundle");
           }catch (MissingResourceException e2){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de copex, la langue spécifiée "+locale+" n'existe pas : "+e);
+            System.out.println("ERREUR lors du chargement de copex, la langue specifiee "+locale+" n'existe pas : "+e);
             displayError(new CopexReturn("ERREUR lors du chargement de copex : "+e, false), "ERROR LANGUAGE");
             return;
             }
@@ -312,25 +312,25 @@ public class EdPPanel extends JPanel {
 //        System.out.println("**************");
     }
 
-    /* chargement des données */
+    /* chargement des donnees */
     public void loadData(){
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // appel au noyau : chargement des données
+       // appel au noyau : chargement des donnees
       String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
       CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, logFileName);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          System.out.println("erreur chargement des données ....");
+          System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
           this.stop();
       }
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
-    /* initialisation de l'application avec les données */
+    /* initialisation de l'application avec les donnees */
     public void initEdp(CopexMission mission, ArrayList<LearnerProcedure> listProc, ArrayList<InitialProcedure> listInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity) {
        setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // mise à jour des données :
+       // mise a� jour des donnees :
        this.mission = mission;
        this.listProc = listProc;
        this.listInitProc = listInitProc ;
@@ -343,7 +343,7 @@ public class EdPPanel extends JPanel {
                break;
            }
        }
-       // mise à jour graphique
+       // mise a� jour graphique
        setPanels();
        if(isMaterialAvailable()){
             panelMaterial.setPanelDetailsShown();
@@ -376,9 +376,9 @@ public class EdPPanel extends JPanel {
     }
 
 
-    /* maj des données */
+    /* maj des donnees */
     public void updateMission(CopexMission mission, ArrayList<LearnerProcedure> listProc, ArrayList<InitialProcedure> listInitProc){
-        // mise à jour des données :
+        // mise a� jour des donnees :
        this.mission = mission;
        this.listProc = listProc;
        this.listInitProc = listInitProc ;
@@ -815,7 +815,7 @@ public class EdPPanel extends JPanel {
 
 
     /*
-     * mise à jour du menu
+     * mise a� jour du menu
      */
    public void updateMenu(){
        if (procActiv == null){
@@ -833,13 +833,13 @@ public class EdPPanel extends JPanel {
            getMenuItemPaste().setEnabled(false);
            getMenuItemPrint().setEnabled(false);
        }else{ // un protocole est actif :
-           // ajout d'une sous-question : si un élément est sélectionné et possible d'ajouter une sous question
+           // ajout d'une sous-question : si un element est selectionne et possible d'ajouter une sous question
            getMenuItemAddQ().setEnabled(getTabbedPaneProc().canAddQ());
            // ajout d'une etape : si un element de l'arbre est sel
            getMenuItemAddE().setEnabled(getTabbedPaneProc().canAddE());
            // ajout d'une action : si un element de l'arbre est sel
            getMenuItemAddA().setEnabled(getTabbedPaneProc().canAddA());
-           // arbor : mise à jour du menu / arbo du protocole
+           // arbor : mise a� jour du menu / arbo du protocole
            getMenuArbo().setEnabled(true);
            updateMenuArbo();
            // commentaires
@@ -868,7 +868,7 @@ public class EdPPanel extends JPanel {
        return subTreeCopy != null;
     }
 
-   // mise à jour du menu arbo :
+   // mise a� jour du menu arbo :
    private void updateMenuArbo(){
        updateLevel(getTabbedPaneProc().getLevel());
    }
@@ -1058,7 +1058,7 @@ public class EdPPanel extends JPanel {
      public void openDialogAddProc() {
          if ( !CAN_ADD_PROC)
              return ;
-         // liste des protocoles à copier :
+         // liste des protocoles a� copier :
          ArrayList v = new ArrayList();
          CopexReturn cr = this.controller.getListProcToCopyOrOpen(v);
          if (cr.isError()){
@@ -1103,7 +1103,7 @@ public class EdPPanel extends JPanel {
     private void setDisplayComments(){
         switch (modeComments){
             case MyConstants.COMMENTS :
-                // on enleve commentaires et on met à jour le bouton du menu
+                // on enleve commentaires et on met a� jour le bouton du menu
                 modeComments = MyConstants.NO_COMMENTS;
                 getTabbedPaneProc().setComments(modeComments);
                 getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment-no.png"));
@@ -1162,9 +1162,9 @@ public class EdPPanel extends JPanel {
         return new CopexReturn();
     }
 
-    /* ajout d'une nouvelle étape */
+    /* ajout d'une nouvelle etape */
     public CopexReturn addStep(Step newStep){
-        // determine le protocole actif et la position de l'ajout de l'étape
+        // determine le protocole actif et la position de l'ajout de l'etape
         TaskSelected ts = getTabbedPaneProc().getTaskSelected();
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
@@ -1181,7 +1181,7 @@ public class EdPPanel extends JPanel {
         return new CopexReturn();
     }
 
-    /* modification étape */
+    /* modification etape */
     public CopexReturn updateStep(Step newStep){
         // determine le protocole actif
         TaskSelected ts = getTabbedPaneProc().getTaskSelected();
@@ -1248,7 +1248,7 @@ public class EdPPanel extends JPanel {
         updateIconMenu();
     }
 
-    /* mise à jour de l'icone du menu */
+    /* mise a� jour de l'icone du menu */
     private void updateIconMenu(){
         ImageIcon img = getCopexImage("Bouton-AdT-28_"+levelMenu+".png");
         ImageIcon imgSurvol = getCopexImage("Bouton-AdT-28_"+levelMenu+"_survol.png");
@@ -1276,7 +1276,7 @@ public class EdPPanel extends JPanel {
     /* suppression de la selection de l'arbre */
     public CopexReturn suppr(ArrayList<TaskSelected> listTs, boolean confirm){
 
-        // recupere la selection à supprimer
+        // recupere la selection a� supprimer
         if (listTs == null )
             return new CopexReturn(getBundleString("MSG_ERROR_DELETE_TASK"), false);
         // demande de confirmation :
@@ -1320,7 +1320,7 @@ public class EdPPanel extends JPanel {
         return new CopexReturn();
     }
 
-    //retourne la liste des taches à supprimer en ajoutant les enfants
+    //retourne la liste des taches a� supprimer en ajoutant les enfants
     private ArrayList<TaskSelected> getListTs(ArrayList<TaskSelected> listTs){
         ArrayList<TaskSelected> listT = new ArrayList();
         int nbTs = listTs.size();
@@ -1353,7 +1353,7 @@ public class EdPPanel extends JPanel {
         }
         return listTClean;
     }
-     /* cherche un indice dans la liste, -1 si non trouvé */
+     /* cherche un indice dans la liste, -1 si non trouve */
     private int getId(ArrayList<TaskSelected> listT, long dbKey){
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
@@ -1399,7 +1399,7 @@ public class EdPPanel extends JPanel {
         closeProc(proc);
     }
 
-    /* copie des elements selectionnés */
+    /* copie des elements selectionnes */
     public void copy() {
         subTreeCopy = getTabbedPaneProc().copy();
         updateMenu();
@@ -1434,7 +1434,7 @@ public class EdPPanel extends JPanel {
         }
     }
 
-    /* mise à jour du statut actif d'un protocole */
+    /* mise a� jour du statut actif d'un protocole */
     public void setActiv(LearnerProcedure p, boolean register){
          this.procActiv = p;
         if (this.controller.useDataSheet() && this.panelDataSheet != null){
@@ -1479,7 +1479,7 @@ public class EdPPanel extends JPanel {
         }
     }
 
-    /* retourne l'arbre à copier */
+    /* retourne l'arbre a� copier */
     public SubTree getSubTreeCopy() {
         return this.subTreeCopy;
     }
@@ -1534,7 +1534,7 @@ public class EdPPanel extends JPanel {
 
     }
 
-    /* creation d'une feuille de données */
+    /* creation d'une feuille de donnees */
     public void createDataSheet(LearnerProcedure proc) {
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1){
@@ -1544,7 +1544,7 @@ public class EdPPanel extends JPanel {
         this.panelDataSheet.setDataSheet(proc.getDataSheet());
     }
 
-    /* mise à jour d'une donnée du tableau DataSheet */
+    /* mise a� jour d'une donnee du tableau DataSheet */
     public void updateDataSheet(String value, int noRow, int noCol){
         DataSheet datasheet = procActiv.getDataSheet();
         String oldValue = "";
@@ -1565,7 +1565,7 @@ public class EdPPanel extends JPanel {
         dataSheet.setValueAt(data, noRow, noCol);
         this.panelDataSheet.updateDataSheet(dataSheet);
     }
-    /* modification d'une feuille de données*/
+    /* modification d'une feuille de donnees*/
     public void updateDataSheet(LearnerProcedure proc) {
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1){
@@ -1576,7 +1576,7 @@ public class EdPPanel extends JPanel {
     }
 
     
-    /* mise à jour proc*/
+    /* mise a� jour proc*/
      public void updateProc(LearnerProcedure proc) {
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1)
@@ -1669,7 +1669,7 @@ public class EdPPanel extends JPanel {
      }
 
 
-    /* suppression d'une feuille de données */
+    /* suppression d'une feuille de donnees */
     public void deleteDataSheet(LearnerProcedure proc) {
        int idP = getIdProc(proc.getDbKey());
         if (idP == -1){
@@ -1679,7 +1679,7 @@ public class EdPPanel extends JPanel {
         this.panelDataSheet.setDataSheet(null);
     }
 
-    /* mise à jour de l'arbre */
+    /* mise a� jour de l'arbre */
     public void setSubTree(SubTree subTree){
         this.subTreeCopy = subTree;
     }
@@ -1851,7 +1851,7 @@ public class EdPPanel extends JPanel {
                 listMaterial.add(matMision.get(i));
             }
         }
-        // on ajoute les materiels de ce type qui ont été créé jusqu'à maintenant
+        // on ajoute les materiels de ce type qui ont ete cree jusqu'a� maintenant
         ArrayList<CopexTask> listTaskBefore = getTabbedPaneProc().getListTaskBeforeSel(modeAdd);
         int nb = listTaskBefore.size();
         for (int i=0; i<nb; i++){
@@ -1963,7 +1963,7 @@ public class EdPPanel extends JPanel {
         return getBundleString("TOOLTIPTEXT_OPEN_PROC");
     }
 
-    /* exportation de la feuille de données */
+    /* exportation de la feuille de donnees */
     public void exportDataSheet(){
         String extension = "xls";
         ExperimentalProcedure p = getProcActiv();
@@ -2036,7 +2036,7 @@ public class EdPPanel extends JPanel {
         return this.mission.getDbKey() !=4;
     }
 
-    /* retourne vrai si il y a une liste de materiel à afficher */
+    /* retourne vrai si il y a une liste de materiel a� afficher */
     public boolean isMaterialAvailable(){
         LearnerProcedure p = getProcActiv();
         if(p == null)

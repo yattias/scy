@@ -144,7 +144,7 @@ public class CopexApplet extends JApplet {
 
         setBackground(new java.awt.Color(236, 233, 216));
 
-        labelWait.setText("Veuillez patientez pendant le chargement des données....");
+        labelWait.setText("Veuillez patientez pendant le chargement des donnees....");
         labelWait.setName("labelWait"); // NOI18N
         getContentPane().add(labelWait, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

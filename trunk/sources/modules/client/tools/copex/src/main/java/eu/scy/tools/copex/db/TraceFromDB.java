@@ -44,7 +44,7 @@ public class TraceFromDB {
                     return cr;
                 }
                 long dbKeyParam = (Long)v2.get(0);
-                //on met à jour l'id
+                //on met a� jour l'id
                 p.setDbKey(dbKeyParam);
             }
         }
@@ -83,7 +83,7 @@ public class TraceFromDB {
         cr = dbC.executeQuery(querys, v);
         /*Profiler.end("liens");
         Profiler.end("addTrace");
-        System.out.println("Résultat :\n"+Profiler.display());
+        System.out.println("Resultat :\n"+Profiler.display());
         System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();*/
         dbC.updateDb(oldDb);

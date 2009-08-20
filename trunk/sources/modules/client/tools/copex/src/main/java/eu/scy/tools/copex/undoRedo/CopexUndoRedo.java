@@ -13,9 +13,9 @@ import eu.scy.tools.copex.edp.EdPPanel;
 import javax.swing.undo.*; 
 
 /**
- * classe mere permettant de gérer le undo /redo dans l'edp.
+ * classe mere permettant de gerer le undo /redo dans l'edp.
  * Il n'y a pas de undo/redo sur les actions ajouter / supprimer un protocole
- * car ces actions ne sont pas liées à un arbre en particulier mais à l'éditeur en général
+ * car ces actions ne sont pas liees a� un arbre en particulier mais a� l'editeur en general
  * @author MBO
  */
 public class CopexUndoRedo extends AbstractUndoableEdit{

@@ -80,7 +80,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     private ArrayList<InitialActionParam> listParam;
     /* liste des productions de taches */
     private ArrayList<InitialOutput> listOutput;
-    /* liste des valeurs pour chaque itération */
+    /* liste des valeurs pour chaque iteration */
     private ArrayList<ActionParam[]> listValueParam;
 
     /* task repeat */

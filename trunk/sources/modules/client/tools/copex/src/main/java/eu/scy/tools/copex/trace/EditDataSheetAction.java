@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class EditDataSheetAction extends TraceAction{
 
     // ATTRIBUTS
-    /*liste des données */
+    /*liste des donnees */
     private ArrayList<DataXML> listData;
 
     // CONSTRUCTEURS
@@ -49,7 +49,7 @@ public class EditDataSheetAction extends TraceAction{
         }
     }
     
-     /* data à copier */
+     /* data a� copier */
     private String getDataToXML(DataXML data){
         String xml = data.getDbKeyToXML();
         xml += data.getNoRowToXML();

@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * redo : edition d'une case de la feuille de données
+ * redo : edition d'une case de la feuille de donnees
  * @author MBO
  */
 public class RedoEditDataSheetAction extends RedoAction{

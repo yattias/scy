@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * trace de l'utilisateur dans l'éditeur de proc
+ * trace de l'utilisateur dans l'editeur de proc
  * @author Marjolaine
  */
 public abstract class EdPTrace {

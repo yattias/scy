@@ -151,7 +151,7 @@ public class XMLProcFile {
 
 
 
-    //construction feuille de données
+    //construction feuille de donnees
     private DataSheet getDataSheet(){
         DataSheet ds = null;
         if(proc.getDataSheet() != null){

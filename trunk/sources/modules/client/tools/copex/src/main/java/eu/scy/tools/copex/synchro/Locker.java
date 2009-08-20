@@ -11,19 +11,19 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
 /**
- * Cette classe implémente la gestion des verrous pour l'éditeur de protocoles
- * Elle repose sur la table VERROU contenant les champs ID_PROC pour le protocole vérouillé, et DAT_VER pour la date du vérouillage.
- * Le principe de fonctionnement est le suivant: L'éditeur qui souhaite bloquer un protocole procède de la manière suivante:
- * (1) Vérification de l'absence de verrou valide (plus jeune que LOCKER_VALIDITY) ;
+ * Cette classe implemente la gestion des verrous pour l'editeur de protocoles
+ * Elle repose sur la table VERROU contenant les champs ID_PROC pour le protocole verouille, et DAT_VER pour la date du verouillage.
+ * Le principe de fonctionnement est le suivant: L'editeur qui souhaite bloquer un protocole proca�de de la mania�re suivante:
+ * (1) Verification de l'absence de verrou valide (plus jeune que LOCKER_VALIDITY) ;
  * (2) Placement d'un tel enregistrement de verrouillage;
- * (3) Tant que l'on ne souhaite pas déverrouiller le protocole, il faut reposer avec une périodicité LOCKER_DELAY le verrou pour qu'il reste valide.
+ * (3) Tant que l'on ne souhaite pas deverrouiller le protocole, il faut reposer avec une periodicite LOCKER_DELAY le verrou pour qu'il reste valide.
  * @author Marjolaine
  */
 public class Locker {
     // CONSTANTES
-    /** Le délai de validité d'un verrou (en secondes). */
+    /** Le delai de validite d'un verrou (en secondes). */
 	public static final int LOCKER_VALIDITY = 600;
-	/** Le délai de replacement d'un verrou (en secondes). */
+	/** Le delai de replacement d'un verrou (en secondes). */
 	public static final int LOCKER_DELAY = 300;
 
 
@@ -33,14 +33,14 @@ public class Locker {
     private  DataBaseCommunication dbC;
     /** Le user de l'application. */
 	private  long idUser = -1;
-	/** Ce vecteur contient la liste des verrous à remettre à jour dans cette application. */
+	/** Ce vecteur contient la liste des verrous a� remettre a� jour dans cette application. */
 	private  ArrayList lockers = new ArrayList();
     /* thread */
     private ActivatorThread thread;
 
     // CONSTRUCTOR
     /**
-    * Constructeur du locker. Il s'agit essentiellement de lancer le thread en batch qui réactive périodiquement les verrous décrits dans le vector lockers.
+    * Constructeur du locker. Il s'agit essentiellement de lancer le thread en batch qui reactive periodiquement les verrous decrits dans le vector lockers.
     */
     public Locker(EdPPanel edP, DataBaseCommunication dbC, long idUser) {
         this.edP = edP;
@@ -48,7 +48,7 @@ public class Locker {
         // Sauvegarde du user
         this.idUser = idUser;
         this.lockers = new ArrayList();
-        // Création du Thread de réactivation des verrous.
+        // Creation du Thread de reactivation des verrous.
         thread = new ActivatorThread(edP, dbC, this) ;
         thread.start();
 
@@ -128,7 +128,7 @@ public class Locker {
         return new CopexReturn();
     }
 
-    /* retourne vrai si le proc est verrouillé */
+    /* retourne vrai si le proc est verrouille */
     public  boolean isLocked(long idProc){
         // suppression des anciens verrous
         CopexReturn cr = deleteOldLockers();

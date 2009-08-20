@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.trace;
 
 /**
- * undo : modification d'une feuille de données
+ * undo : modification d'une feuille de donnees
  * @author MBO
  */
 public class UndoUpdateDataSheetAction extends UndoAction {

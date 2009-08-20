@@ -17,7 +17,7 @@ public class TaskSelected {
     // ATTRIBUTS
     /* protocole */
     private LearnerProcedure proc;
-    /* tache selectionnée */
+    /* tache selectionnee */
     private CopexTask taskSelected;
     /* tache frere */
     private CopexTask taskBrother;
@@ -114,7 +114,7 @@ public class TaskSelected {
         return parentTask;
     }
     
-    // retourne la tache à laquelle   on s'attache
+    // retourne la tache a� laquelle   on s'attache
     public CopexTask getTaskToAttach(){
        return oldBrother == null ? parentTask : oldBrother;
     }

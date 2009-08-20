@@ -1,7 +1,7 @@
 /*
  * CloseProcDialog.java
  *
- * Created on 1 ao√ªt 2008, 09:08
+ * Created on 1 aoaªt 2008, 09:08
  */
 
 package eu.scy.tools.copex.edp;
@@ -17,7 +17,7 @@ import javax.swing.*;
 
 /**
  * fenetre de dialogue qui s'affiche lorsqu'on clique sur la croix de l'onglet d'un protocole
- * permet √† l'utilisateur de choisir entre 
+ * permet a† l'utilisateur de choisir entre 
  * - fermer l'onglet du protocole
  * - supprimer definitevement le protocole
  * @author  MBO
@@ -29,7 +29,7 @@ public class CloseProcDialog extends JDialog {
     private EdPPanel edP;
     /* controller */
     private ControllerInterface controller;
-    /* boolean indiquant si protocole est √† fermer (true) ou √† supprimer (false) */
+    /* boolean indiquant si protocole est a† fermer (true) ou a† supprimer (false) */
     private boolean isClose;
     /* protocole */
     private LearnerProcedure proc;

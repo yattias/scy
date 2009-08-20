@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class InitialParamQuantity extends InitialActionParam {
 
     // PROPERTY
-    /* valeur - fait référence à une grandeur physique */
+    /* valeur - fait reference a� une grandeur physique */
     private PhysicalQuantity physicalQuantity ;
     /* nom de la quantite */
     private String quantityName;

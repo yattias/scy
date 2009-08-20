@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * cette classe d√©finit toutes les m√©thodes de connexion et d'acc√®s √† la base
+ * cette classe definit toutes les methodes de connexion et d'acca®s a† la base
  * @author MBO
  */ 
 public class DBConnect {
@@ -20,7 +20,7 @@ public class DBConnect {
     private static Connection conToDB;
     
     // METHODES
-    /* connexion √† la base */
+    /* connexion a† la base */
     public static synchronized Connection connect(String user, String passwd, String url, ArrayList v) {
 
 	try {
@@ -28,7 +28,7 @@ public class DBConnect {
                  Class.forName("com.mysql.jdbc.Driver").newInstance();
                 //Class.forName("org.gjt.mm.mysql.Driver").newInstance();
             }catch(ClassNotFoundException e){
-                System.out.println("classe non trouv√©e ! : com.mysql.jdbc.Driver " +e);
+                System.out.println("classe non trouvee ! : com.mysql.jdbc.Driver " +e);
             }
            
             conToDB = DriverManager.getConnection(url, user, passwd);
@@ -55,7 +55,7 @@ public class DBConnect {
 	    return null ;
 	}
     }
-        /* deconnexion √† la base */
+        /* deconnexion a† la base */
     public static synchronized boolean  closeConnection() {
 	try {
             if (conToDB != null)

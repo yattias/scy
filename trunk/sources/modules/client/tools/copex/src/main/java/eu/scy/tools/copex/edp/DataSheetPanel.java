@@ -30,11 +30,11 @@ public class DataSheetPanel extends CopexPanelHideShow implements ActionCopexBut
     
     /* bouton tableau */
     private CopexButtonPanel buttonTab;
-    /* tableau de données */
+    /* tableau de donnees */
     private DataSheet dataSheet;
     /* scrollPane */
     private JScrollPane scrollPane;
-    /* tableau des données */
+    /* tableau des donnees */
     private MyTable tableDataSheet;
     /* modele */
     private MyTableModel tableModel;
@@ -206,13 +206,13 @@ public class DataSheetPanel extends CopexPanelHideShow implements ActionCopexBut
         return this.tableDataSheet;
     }
     
-    /* mise à jour dataSheet */
+    /* mise a� jour dataSheet */
     public void updateDataSheet(DataSheet ds){
         this.dataSheet = ds;
         setDataSheet(dataSheet);
     }
     
-    /* mise à jour des droits du proc */
+    /* mise a� jour des droits du proc */
     public void setRight(boolean right){
         if (this.buttonTab == null && right){
             getPanelTitle().add(getButtonTab());

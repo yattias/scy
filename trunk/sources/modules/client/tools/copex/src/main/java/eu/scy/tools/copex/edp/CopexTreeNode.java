@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class CopexTreeNode extends DefaultMutableTreeNode {
     // PROPERTY
-    /*tache associée */
+    /*tache associee */
     private CopexTask task;
     /*boolean qui indique passage souris lors du drag and drop */
     private boolean mouseover;

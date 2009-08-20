@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.swing.JTree;
 
 /**
- * partie de l'arbre destinées à être collées ou glissée-déposée.
+ * partie de l'arbre destinees a� a�tre collees ou glissee-deposee.
  * @author MBO
  */
 public class SubTree extends JTree implements Serializable {
@@ -28,11 +28,11 @@ public class SubTree extends JTree implements Serializable {
     private ControllerInterface controller;
     /* protocole initial */
     private ExperimentalProcedure proc;
-    /* arbre auquel il appartient à l'origine */
+    /* arbre auquel il appartient a� l'origine */
     private CopexTree owner;
-    /* modele de données */
+    /* modele de donnees */
     private CopexTreeModel subTreeModel;
-    /* liste des taches representées */
+    /* liste des taches representees */
     private ArrayList<CopexTask> listTask;
     /* liste des noeuds sources */
     private ArrayList<CopexTreeNode> listNodes;
@@ -76,7 +76,7 @@ public class SubTree extends JTree implements Serializable {
         Question fictivTask = new Question();
         fictivTask.setDbKeyChild(listTask.get(0).getDbKey());
         subTreeModel = new CopexTreeModel(proc, listTask, fictivTask);
-        // sur la derniere tache à connecter on enleve le lien frere eventuel 
+        // sur la derniere tache a� connecter on enleve le lien frere eventuel 
         int idL = getIdLastTask();
         if (idL != -1){
             lastBrother = listTask.get(idL).getDbKeyBrother();
@@ -100,7 +100,7 @@ public class SubTree extends JTree implements Serializable {
         return listClone;
     }
     
-    /* retourne l'indice de la derniere tache à connecter : ie le dernier enfant de 
+    /* retourne l'indice de la derniere tache a� connecter : ie le dernier enfant de 
      la racine, sinon elle meme */
     public int getIdLastTask(){
         CopexTreeNode rootNode = (CopexTreeNode)this.subTreeModel.getRoot();
@@ -123,7 +123,7 @@ public class SubTree extends JTree implements Serializable {
         return getNode(task, (CopexTreeNode)subTreeModel.getRoot());
     }
     
-     /* renvoit le noeud crorrespondant à la tache */
+     /* renvoit le noeud crorrespondant a� la tache */
     private CopexTreeNode getNode(CopexTask task, CopexTreeNode node){
        if (node.getTask().getDbKey() == task.getDbKey())
            return node;
@@ -166,7 +166,7 @@ public class SubTree extends JTree implements Serializable {
         return false;
     }
     
-    /* mise à jour de la liste des taches */
+    /* mise a� jour de la liste des taches */
     public void updateListTask(ArrayList<CopexTask> listT){
         this.listTask = listT;
     }

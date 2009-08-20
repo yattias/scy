@@ -8,12 +8,12 @@ package eu.scy.tools.copex.trace;
 import java.util.ArrayList;
 
 /**
- * action pouvant être enregistrée dans la trace
+ * action pouvant a�tre enregistree dans la trace
  * @author MBO
  */
 public abstract class TraceAction extends EdPTrace {
     // ATTRIBUTS
-    /* identifiant du protocole associé */
+    /* identifiant du protocole associe */
     protected long dbKeyProc;
     /* nom du protocole */
     protected String procName;
