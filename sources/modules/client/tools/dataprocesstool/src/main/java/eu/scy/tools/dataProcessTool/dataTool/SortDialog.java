@@ -26,36 +26,36 @@ public class SortDialog extends javax.swing.JDialog {
     // PROPERTY 
     /* owner */
     private DataProcessToolPanel owner ;
-    /* liste des cles à trier */
+    /* liste des cles a� trier */
     private Vector listOfColumns ;
     /* texte pour aucun critere */
     private String noText ;
     /* nom du premier critere a selectionner */
     private String selColumn;
 
-    // Panneaux cachables et leurs état
+    // Panneaux cachables et leurs etat
 	JPanel thirdPanel = null;
 	boolean thirdPanelHidden = false;
     
-    /*C'est la première clé de tri
-      * Si keySort1 est égal à null alors il n'y a aucun tri à effectuer.
+    /*C'est la premia�re cle de tri
+      * Si keySort1 est egal a� null alors il n'y a aucun tri a� effectuer.
      */
     private ElementToSort keySort1=null;
 
     /**
-    * C'est la deuxième clé de tri
-    * Si keySort2 est égal à null alors il n'y a pas de 2ième critère de tri.
+    * C'est la deuxia�me cle de tri
+    * Si keySort2 est egal a� null alors il n'y a pas de 2ia�me crita�re de tri.
     */
     private  ElementToSort keySort2=null;
 
     /**
     * .
-    * C'est la troisième clé de tri
-    * Si keySort3 est égal à null alors il n'y a pas de 3ième critère de tri.	
+    * C'est la troisia�me cle de tri
+    * Si keySort3 est egal a� null alors il n'y a pas de 3ia�me crita�re de tri.	
     */
     private ElementToSort keySort3=null;
 
-	/*Variables enregistrant la sélection précedente */
+	/*Variables enregistrant la selection precedente */
 	int idKey1=0,idKey2=-1,idKey3=-1;
 	boolean isKey1Croi=true,isKey2Croi=true,isKey3Croi=true;
 
@@ -114,13 +114,13 @@ public class SortDialog extends javax.swing.JDialog {
     
     /**
      * .
-     * Instanciation d'un sous JPanel contenant la liste déroulante des colonnes à trier, et les deux
-     * case à cocher pour spécifier le mode de tri : "Croissant" et "Decroissant".
-     * @param texte String : c'est le titre associé à ce JPanel.
+     * Instanciation d'un sous JPanel contenant la liste deroulante des colonnes a� trier, et les deux
+     * case a� cocher pour specifier le mode de tri : "Croissant" et "Decroissant".
+     * @param texte String : c'est le titre associe a� ce JPanel.
      * @param y int : c'est la position verticale de ce JPanel. 
-     * @param idxSelect int : c'est l'indice de l'élément de la liste déroulante à sélectionner
-     * (-1 pour aucun élément à sélectionner).
-     * @return JPanel : le sous JPanel instancié.
+     * @param idxSelect int : c'est l'indice de l'element de la liste deroulante a� selectionner
+     * (-1 pour aucun element a� selectionner).
+     * @return JPanel : le sous JPanel instancie.
      */
  
     private JPanel getKeyJPanel(String texte, boolean isCroi,String name) {
@@ -151,8 +151,8 @@ public class SortDialog extends javax.swing.JDialog {
 		JRadioButton croi = getJRadioButton(owner.getBundleString("LABEL_SORT_ASCENDING"),isCroi),
 		decroi=getJRadioButton(owner.getBundleString("LABEL_SORT_DESCENDING"),!isCroi);
 		/*
-		* Bouton qui groupe les JRadioButton de telle sorte qu'on ne peut sélectionner qu'un
-		* JRadioButton à la fois
+		* Bouton qui groupe les JRadioButton de telle sorte qu'on ne peut selectionner qu'un
+		* JRadioButton a� la fois
 		*/
 		ButtonGroup group = new ButtonGroup();
 		group.add(croi);group.add(decroi);
@@ -170,10 +170,10 @@ public class SortDialog extends javax.swing.JDialog {
     
     /**
      * .
-     * Instanciation d'une case à cocher :
-     * @param texte String : c'est le texte associé à la case à cocher.  
-     * @param isSelect boolean : "true" cette case à cocher est sélectionnée.
-     * @return JRadioButton : la case à cocher instanciée.
+     * Instanciation d'une case a� cocher :
+     * @param texte String : c'est le texte associe a� la case a� cocher.  
+     * @param isSelect boolean : "true" cette case a� cocher est selectionnee.
+     * @return JRadioButton : la case a� cocher instanciee.
      */
 
     private JRadioButton getJRadioButton(String texte, boolean isSelect){
@@ -191,10 +191,10 @@ public class SortDialog extends javax.swing.JDialog {
 
     /**
      * .
-     * Instanciation d'une liste déroulante : 
-     * @param idxSelect int : c'est l'index de l'élément qui est sélectionné, "-1" : aucun index sélectionné.
-     * @param name String  : le nom associé à l' objet JComboBox créé.
-    * @return JComboBox : c'est la liste déroulante instanciée.
+     * Instanciation d'une liste deroulante : 
+     * @param idxSelect int : c'est l'index de l'element qui est selectionne, "-1" : aucun index selectionne.
+     * @param name String  : le nom associe a� l' objet JComboBox cree.
+    * @return JComboBox : c'est la liste deroulante instanciee.
      */
 
     private JComboBox  getJComboBox(String name){
@@ -250,10 +250,10 @@ public class SortDialog extends javax.swing.JDialog {
     /**
  * .
  * Instanciation d'un bouton :
- * @param x int : c'est la position horizontale du bouton créé.
- * @param y int : c'est la position verticale du bouton créé.
+ * @param x int : c'est la position horizontale du bouton cree.
+ * @param y int : c'est la position verticale du bouton cree.
  * @param texte String : c'est le texte du bouton.
- * @return JButton : c'est le bouton instancié.
+ * @return JButton : c'est le bouton instancie.
  */
 private JButton getJButton(int x, int y, String texte) {
 	JButton button = null;
@@ -311,7 +311,7 @@ private JButton getJButton(int x, int y, String texte) {
 		if (!thirdPanelHidden)
             key3Panel = (JPanel) lesComposants[2];
 
-        /* 1re clé */
+        /* 1re cle */
 		/* Colonne */
 	    String column1 = (String) ((JComboBox) ((JPanel)(key1Panel.getComponents()[0])).getComponents()[0]).getSelectedItem();
 		if (column1==null || column1.equals("") || column1.equals(" ")){
@@ -322,13 +322,13 @@ private JButton getJButton(int x, int y, String texte) {
         idKey1= ((JComboBox) ((JPanel)(key1Panel.getComponents()[0])).getComponents()[0]).getSelectedIndex();
 		/* Ordre*/
 		JRadioButton croi1 = (JRadioButton) ((JPanel) key1Panel.getComponents()[2]).getComponents()[0];
-		/* 0 : tri décroissant
+		/* 0 : tri decroissant
 	     *  1 : tri croissant */
 		int order1 = ( (isKey1Croi = croi1.isSelected()) ? 1 : 0);
 
 		keySort1 = new ElementToSort(column1,order1);
 
-		/* 2e clé */
+		/* 2e cle */
 		/* Colonne */
 		String column2 = (String) ((JComboBox) ((JPanel)(key2Panel.getComponents()[0])).getComponents()[0]).getSelectedItem();
 		if (!column2.equals(noText)){
@@ -339,7 +339,7 @@ private JButton getJButton(int x, int y, String texte) {
 			keySort2 = new ElementToSort(column2,order2);
 		}
 
-		/* 3e clé */
+		/* 3e cle */
 		/* Colonne */
 		if (!thirdPanelHidden) {
             String column3 = (String) ((JComboBox) ((JPanel)(key3Panel.getComponents()[0])).getComponents()[0]).getSelectedItem();
@@ -382,7 +382,7 @@ private JButton getJButton(int x, int y, String texte) {
 		}
 
 
-		// Si l'option (aucune) est sélectionnée dans la combo, alors on cache la troisième combo
+		// Si l'option (aucune) est selectionnee dans la combo, alors on cache la troisia�me combo
 		hideThirdPanel = column2.equals(noText);
 		if (hideThirdPanel != thirdPanelHidden) {
 			if (hideThirdPanel) {

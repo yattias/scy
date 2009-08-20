@@ -12,16 +12,16 @@ import java.awt.Color;
  * @author Marjolaine
  */
 public interface ActionFitex {
-    /* bouton Donn√©es */
+    /* bouton Donnees */
     public void openDatas();
 
-    /* mise √† jour des param√®tres */
+    /* mise a† jour des parama®tres */
     public void setParam(boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY);
 
-    /* mise √† jour auto scale */
+    /* mise a† jour auto scale */
     public void setAutoScale(boolean autoScale);
 
-    /*mise √† jour d'une fonction modele */
+    /*mise a† jour d'une fonction modele */
     public void setFunctionModel(String function, Color color);
 
 }

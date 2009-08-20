@@ -46,18 +46,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FitexPanel extends javax.swing.JPanel {
 
-     // definition d'une couleur vert foncé
+     // definition d'une couleur vert fonce
     public static  final Color DARK_GREEN = new java.awt.Color(51, 153, 0) ;
     
     // PROPERTY
     private Locale locale;
     private ResourceBundle bundle;
-    /* données */
+    /* donnees */
     private DefaultTableModel datas;
     /* action fitexPanel */
     private ActionFitex actionFitex;
 
-    /* zone dessinée */
+    /* zone dessinee */
     private DrawPanel zoneDeTrace;
     private ParamGraph paramGraph;
     // parametres de la zone graphique
@@ -123,7 +123,7 @@ public class FitexPanel extends javax.swing.JPanel {
               bundle = ResourceBundle.getBundle("FitexBundle", locale);
           }catch (MissingResourceException e2){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de fitex, la langue spécifiée "+locale+" n'existe pas : "+e2);
+            System.out.println("ERREUR lors du chargement de fitex, la langue specifiee "+locale+" n'existe pas : "+e2);
             return;
             }
         }
@@ -453,7 +453,7 @@ public class FitexPanel extends javax.swing.JPanel {
         if (listFunctionModel == null)
             return;
         int nb = listFunctionModel.size() ;
-        // si il n'existe pas, création de l'objet fonction
+        // si il n'existe pas, creation de l'objet fonction
         if (this.datas.getRowCount() == 0)
             return ;
         
@@ -467,7 +467,7 @@ public class FitexPanel extends javax.swing.JPanel {
         maJFonction(Color.BLUE);
     }
     
-    /** mi��thode pour ri��cupi��rer les parami��tres des axes et de la ZdT */
+    /** miethode pour riecupierer les paramietres des axes et de la ZdT */
     public void setParameters(ParamGraph pg) {
         this.paramGraph = pg;
         if (zoneDeTrace != null)
@@ -519,7 +519,7 @@ public class FitexPanel extends javax.swing.JPanel {
         }
     }
 
-    /** retourne un double avec le nombre de chiffres significatifs souhaités */
+    /** retourne un double avec le nombre de chiffres significatifs souhaites */
     public double chiffresSignificatifs(double x, int nbChiffres) {
         if(x == 0)
             return 0;
@@ -529,23 +529,23 @@ public class FitexPanel extends javax.swing.JPanel {
         return x ;
     }
 
-    /** méthode pour récupérer la fonction et l'insérer dans les hashMaps */
+    /** methode pour recuperer la fonction et l'inserer dans les hashMaps */
     public void recupererFn() {
-        // si il n'existe pas, création de l'objet fonction
+        // si il n'existe pas, creation de l'objet fonction
         if (this.datas.getRowCount() == 0)
             return ;
         if (mapDesFonctions.get(couleurSelect) == null)
             mapDesFonctions.put(couleurSelect, new Function(locale, textFieldFct.getText(), datas));
         else
             mapDesFonctions.get(couleurSelect).maJFonction(textFieldFct.getText()) ;
-        // affichage des paramètres de la fonction
+        // affichage des parama�tres de la fonction
         affichageParametres(couleurSelect) ;
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         // enregistrement memoire
         actionFitex.setFunctionModel(textFieldFct.getText(), couleurSelect);
     }
 
-    /** MaJ de l'affichage des paramètres de la fonction */
+    /** MaJ de l'affichage des parama�tres de la fonction */
     public void affichageParametres(Color coul){
         // calcul de la taille du panel contenant les spinners
         int heightPanel = 5;
@@ -553,14 +553,14 @@ public class FitexPanel extends javax.swing.JPanel {
         //int widthPanel = parametresFn.getWidth();
         Dimension dim = new Dimension() ;
 
-        // suppression des anciens paramètres affichés
+        // suppression des anciens parama�tres affiches
         //parametresFn.removeAll();
         // et affichage des nouveaux
         if (mapDesFonctions.get(coul)!=null) {
 
-            // parcours de tous les paramètres pour créer les différents BoxSpinners
+            // parcours de tous les parama�tres pour creer les differents BoxSpinners
             for (String param:mapDesFonctions.get(coul).getMapParametre().keySet()) {
-                // création d'un objet BoxSpinner
+                // creation d'un objet BoxSpinner
                 mapDesSpinners.put(param , new BoxSpinner(this)) ;
                 // on ajoute le box et on l'initialise
                 //parametresFn.add(mapDesSpinners.get(param));
@@ -579,7 +579,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
 
 
-    /** A chaque fois qu'un spinner est modifié, il appelle cette methode */
+    /** A chaque fois qu'un spinner est modifie, il appelle cette methode */
     public void maJParametreDansFonction(String param, double val) {
         // mise a jour de la valeur du parametre
         mapDesFonctions.get(couleurSelect).setValeurParametre(param , val) ;
@@ -590,7 +590,7 @@ public class FitexPanel extends javax.swing.JPanel {
         affichageK(couleurSelect);
     }
 
-    /** méthode  appelée lors d'un changement de couleur de fonction */
+    /** methode  appelee lors d'un changement de couleur de fonction */
     public void maJFonction(Color coul) {
         // MaJ de la fonction dans son label
         textFieldFct.setForeground(coul);
@@ -607,7 +607,7 @@ public class FitexPanel extends javax.swing.JPanel {
         repaint() ;
     }
 
-     /** méthode appelée par la table des données afin de mettre à jour le K des fonctions
+     /** methode appelee par la table des donnees afin de mettre a� jour le K des fonctions
      * lors de la modif d'une donnee */
     public void calculTousK() {
         for (Color coul:mapDesFonctions.keySet()) {

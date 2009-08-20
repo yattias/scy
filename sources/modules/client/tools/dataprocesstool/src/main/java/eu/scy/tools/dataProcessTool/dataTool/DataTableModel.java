@@ -26,9 +26,9 @@ public class DataTableModel extends AbstractTableModel {
     private DataProcessToolPanel owner ;
     /* table */
     private DataTable table;
-    /* données correspondantes */
+    /* donnees correspondantes */
     private Dataset dataset;
-    /* tableau total des données */
+    /* tableau total des donnees */
     private Object[][] tabData;
     /* nombre de lignes */
     private int nbRows;
@@ -39,7 +39,7 @@ public class DataTableModel extends AbstractTableModel {
     /* nombre de colonnes dataset*/
     private int nbColDs;
     
-    /* tableau des données */
+    /* tableau des donnees */
     private Data[][] datas;
     /* en tetes */
     private DataHeader[] tabHeader;
@@ -67,8 +67,8 @@ public class DataTableModel extends AbstractTableModel {
 
     /* construction de la table */
     // la premiere ligne est le header
-    // la premiere colonne est vide : destinée à mettre les titres des operations sur colonnes
-    // tableau des données
+    // la premiere colonne est vide : destinee a� mettre les titres des operations sur colonnes
+    // tableau des donnees
     // operations
     // derniere colonne vide pour inserer des operations
     // derniere ligne vide pour inserer des operations
@@ -112,8 +112,8 @@ public class DataTableModel extends AbstractTableModel {
             //this.tabData[0][t+1] = tabHeader[t] == null ? "" : tabHeader[t].getValue();
             this.tabData[0][t+1] = h;
         }
-        // => données
-         // => numérotation des lignes
+        // => donnees
+         // => numerotation des lignes
         nbRowDs = this.dataset.getNbRows() ;
         nbColDs = this.dataset.getNbCol() ;
         tabNoRow = new Integer[nbRowDs];
@@ -241,7 +241,7 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData[noR][0] = name;
     }
 
-    /* retourne vrai si tous les elements d'une colonne sont à ignorer */
+    /* retourne vrai si tous les elements d'une colonne sont a� ignorer */
     private boolean isIgnoredCol(int id){
         boolean allIgnored = true;
         for (int i=0; i<nbRowDs; i++){
@@ -253,7 +253,7 @@ public class DataTableModel extends AbstractTableModel {
         return allIgnored ;
     }
 
-    /* retourne vrai si tous les elements d'une ligne sont à ignorer */
+    /* retourne vrai si tous les elements d'une ligne sont a� ignorer */
     private boolean isIgnoredRow(int id){
         boolean allIgnored = true;
         for (int i=0; i<nbColDs; i++){
@@ -325,19 +325,19 @@ public class DataTableModel extends AbstractTableModel {
     }
 
 
-    /* retourne vrai s'il s'agit d'une cellule de donnée */
+    /* retourne vrai s'il s'agit d'une cellule de donnee */
     public boolean isValueData(int noRow, int noCol){
         return  noCol > 0 && noCol <= nbColDs && noRow > 0 && noRow <= nbRowDs;
     }
-    /* retourne vrai s'il s'agit d'une cellule de donnée ignorée */
+    /* retourne vrai s'il s'agit d'une cellule de donnee ignoree */
     public boolean isValueDataIgnored(int noRow, int noCol){
         return isValueData(noRow, noCol) && this.datas[noRow-1][noCol-1] != null && this.datas[noRow-1][noCol-1].isIgnoredData() ;
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernière ligne (entre 1 et nbColsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la dernia�re ligne (entre 1 et nbColsDs) */
     public boolean isValueLastRow(int noRow, int noCol){
         return (noRow == (nbRows-1)) && (noCol > 0 && noCol <= nbColDs);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernière colonne (entre 1 et nbRowsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la dernia�re colonne (entre 1 et nbRowsDs) */
     public boolean isValueLastCol(int noRow, int noCol){
         return (noCol == (nbCols-1)) && (noRow > 0 && noRow <= nbRowDs);
     }
@@ -357,7 +357,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
 
-    /* retourne la liste des lignes/colonnes selectionnées */
+    /* retourne la liste des lignes/colonnes selectionnees */
     public ArrayList<Integer>[] getSelectedRowAndCol(ArrayList<int[]> listSelected){
         ArrayList<Integer>[] tabSel  = new ArrayList[2];
         ArrayList<Integer> listSelectedCol = new ArrayList();
@@ -378,7 +378,7 @@ public class DataTableModel extends AbstractTableModel {
         return tabSel;
     }
 
-    /* retourne les data selectionnées */
+    /* retourne les data selectionnees */
     public ArrayList<Data> getSelectedData(ArrayList<int[]> listSelected){
         ArrayList<Data> listSelectedData = new ArrayList();
         int nb = listSelected.size();
@@ -456,7 +456,7 @@ public class DataTableModel extends AbstractTableModel {
         }else
             return null;
     }
-    /* retourne les operations selectionnées */
+    /* retourne les operations selectionnees */
     public ArrayList<DataOperation> getSelectedOperation(ArrayList<int[]> listSelected){
         ArrayList<DataOperation> listSelectedOperation = new ArrayList();
         int nb = listSelected.size();
@@ -635,7 +635,7 @@ public class DataTableModel extends AbstractTableModel {
 
 
 
-    /* mise à jour du dataset */
+    /* mise a� jour du dataset */
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds;
         if (reload)
@@ -679,7 +679,7 @@ public class DataTableModel extends AbstractTableModel {
         this.fireTableStructureChanged();
     }
 
-    /* retourne la liste des no des headers selectionnés */
+    /* retourne la liste des no des headers selectionnes */
     public int[] getSelectedNoHeaders(ArrayList<int[]> listSelected){
         int nbH = 0;
         int nb = listSelected.size();

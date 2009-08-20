@@ -41,7 +41,7 @@ public class Analyseur
               locale = new Locale("en", "GB");
               bundle = ResourceBundle.getBundle("FitexBundle");
           }catch (MissingResourceException e2){
-            System.out.println("ERROR , la langue sp辿cifi辿e "+locale+" n'existe pas : "+e2);
+            System.out.println("ERROR , la langue specifiee "+locale+" n'existe pas : "+e2);
             }
         }
 
@@ -55,7 +55,7 @@ public class Analyseur
     
     /** autre constructeur qui passe la fonction dans laquelle va
      * etre stockee le produit de l'analyseur 
-     * ni申cessaire lorsque l'on a une fonction parami申tri申e
+     * niecessaire lorsque l'on a une fonction paramietriee
      */
     public Analyseur(Locale locale,String texte, Function fonction) throws IOException
     {
@@ -87,8 +87,8 @@ public class Analyseur
     {
 
         // message d'erreur
-        /*String err = "La fonction n'a pas pu i申tre analysi申e.\n\n" +
-                        "Liste des opi申rateurs reconnus :\n" +
+        /*String err = "La fonction n'a pas pu ietre analysiee.\n\n" +
+                        "Liste des opierateurs reconnus :\n" +
                         "  +   -   *   /   ^   E\n" +
                         "Liste des fonctions reconnues :\n" +
                         "  sqrt( )  exp( )  ln( )  log( )\n" +
@@ -97,7 +97,7 @@ public class Analyseur
                         "  asin( )  acos( )  atan( )\n" +
                         "Liste des constantes reconnues :\n" +
                         "  pi\n\n" ;
-                        // "L'opi申rateur * doit i申tre systi申matiquement indiqui申. Par exemple, i申crivez 3*x et non 3x." ;
+                        // "L'opierateur * doit ietre systiematiquement indiquie. Par exemple, iecrivez 3*x et non 3x." ;
 
          */
         String err = getBundleString("MSG_ERROR_FUNCTION_ANALYSE")+"\n\n" +
@@ -117,7 +117,7 @@ public class Analyseur
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
         }
-        System.out.println("Expression analysi申e i申 parenthesage ali申atoire : f(x) = " + resultat);
+        System.out.println("Expression analysiee ie parenthesage alieatoire : f(x) = " + resultat);
         return resultat;
     }
     
@@ -219,7 +219,7 @@ public class Analyseur
         }
         else if (lexical.ttype == '-')
         {
-            // prise en charge des nombres ni申gatifs
+            // prise en charge des nombres niegatifs
             Expression exp = null;
             lexical.nextToken();
             exp = analyserTerme();

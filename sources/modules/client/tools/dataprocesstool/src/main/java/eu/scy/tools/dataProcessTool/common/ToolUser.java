@@ -92,7 +92,7 @@ public class ToolUser implements Cloneable{
     }
 
     /*
-     * met Ã  jour le prenom utilisateur 
+     * met a  jour le prenom utilisateur 
      * @param  userFirstName : prenom utilisateur
      */
     public void setUserFirstName(String userFirstName) {
@@ -107,7 +107,7 @@ public class ToolUser implements Cloneable{
     }
 
     /*
-     * met Ã  jour le nom utilisateur 
+     * met a  jour le nom utilisateur 
      * @param  userName : nom utilisateur
      */
     public void setUserName(String userName) {

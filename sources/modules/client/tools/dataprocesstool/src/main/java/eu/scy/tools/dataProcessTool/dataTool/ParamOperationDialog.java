@@ -6,7 +6,7 @@
 /*
  * ParamOperationDialog.java
  *
- * Created on 9 févr. 2009, 13:44:10
+ * Created on 9 fevr. 2009, 13:44:10
  */
 
 package eu.scy.tools.dataProcessTool.dataTool;

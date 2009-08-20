@@ -14,11 +14,11 @@ import javax.swing.JTable;
 import javax.swing.TransferHandler;
 
 /**
- * transfert de données
+ * transfert de donnees
  * @author Marjolaine
  */
 public class SubDataTransfertHandler extends TransferHandler {
-    /* type d'actions supportées */
+    /* type d'actions supportees */
     @Override
     public int getSourceActions(JComponent c) {
         return COPY_OR_MOVE;

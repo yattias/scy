@@ -43,7 +43,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     // PROPERTY 
     /* owner */
     protected DataProcessToolPanel owner;
-    /* modele de données */
+    /* modele de donnees */
     protected DataTableModel tableModel ;
     /* dataset correspondant */
     protected Dataset dataset;
@@ -80,7 +80,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         super();
         this.owner = owner;
         this.tableModel = new DataTableModel(owner, this, ds);
-        setModel(this.tableModel);// modele de données
+        setModel(this.tableModel);// modele de donnees
         this.dataset = ds;
         this.setTableHeader(null);
         noColToResize = -1;
@@ -138,15 +138,15 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public boolean isValueData(int noRow, int noCol){
         return tableModel.isValueData(noRow, noCol);
     }
-     /* retourne vrai s'il s'agit d'une celllue data ignorée */
+     /* retourne vrai s'il s'agit d'une celllue data ignoree */
     public boolean isValueDataIgnored(int noRow, int noCol){
         return tableModel.isValueDataIgnored(noRow, noCol);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernière ligne (entre 1 et nbColsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la dernia�re ligne (entre 1 et nbColsDs) */
     public boolean isValueLastRow(int noRow, int noCol){
         return tableModel.isValueLastRow(noRow, noCol);
     }
-    /* retourne vrai s'il s'agit d'une celllue de la dernière colonne (entre 1 et nbRowsDs) */
+    /* retourne vrai s'il s'agit d'une celllue de la dernia�re colonne (entre 1 et nbRowsDs) */
     public boolean isValueLastCol(int noRow, int noCol){
         return tableModel.isValueLastCol(noRow, noCol);
     }
@@ -250,7 +250,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         
     }
     
-    /* retourne la liste des cellules selectionnées */
+    /* retourne la liste des cellules selectionnees */
     private ArrayList<int[]> getSelectedCells(){
         ArrayList<int[]> selCells = new ArrayList();
         int[] selRows = this.getSelectedRows(); 
@@ -272,7 +272,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return cellsSel.size() > 0;
     }
     
-    /* retourne vrai ssi des données sont sélectionnées*/
+    /* retourne vrai ssi des donnees sont selectionnees*/
     private boolean isElementsDataSel(){
         boolean isData = true;
         ArrayList<int[]> cellsSel = getSelectedCells();
@@ -288,7 +288,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
 
-    /* retourne vrai ssi au moins des données sont sélectionnées*/
+    /* retourne vrai ssi au moins des donnees sont selectionnees*/
     private boolean isAtLeastElementsDataSel(){
         boolean isData = false;
         ArrayList<int[]> cellsSel = getSelectedCells();
@@ -312,14 +312,14 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
-    /* retourne vrai si dans la sélection il y a des cellules de la dernière ligne ou des cellules de la derniere colonne seulement */
+    /* retourne vrai si dans la selection il y a des cellules de la dernia�re ligne ou des cellules de la derniere colonne seulement */
     private boolean isLastCellSel(){
         boolean lastRow = isLastRowSel();
         boolean lastCol = isLastColSel();
         return ((lastCol && !lastRow) || (lastRow && !lastCol) );
     }
 
-    /* retourne vrai si dans la sélection il y a des cellules de la dernière ligne*/
+    /* retourne vrai si dans la selection il y a des cellules de la dernia�re ligne*/
     private boolean isLastRowSel(){
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
@@ -330,7 +330,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         }
         return false;
     }
-     /* retourne vrai si dans la sélection il y a des cellules de la dernière colonne*/
+     /* retourne vrai si dans la selection il y a des cellules de la dernia�re colonne*/
     private boolean isLastColSel(){
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
@@ -342,7 +342,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return false;
     }
 
-    /* retourne vrai si au moins une   ligne ou une  colonne est selectionnée */
+    /* retourne vrai si au moins une   ligne ou une  colonne est selectionnee */
     private boolean isALineSel(){
         boolean rowSel = isLineRowSel();
         boolean colSel = isLineColSel();
@@ -351,12 +351,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
 
 
-    /* retourne vrai si une ou plusieurs colonnes sont selectionnées */
+    /* retourne vrai si une ou plusieurs colonnes sont selectionnees */
     private boolean isLineRowSel(){
         int[] selCols = this.getSelectedColumns() ;
         return selCols.length == this.getNbCols() ;
     }
-    /* retourne vrai si une ou plusieurs lignes sont selectionnées */
+    /* retourne vrai si une ou plusieurs lignes sont selectionnees */
     private boolean isLineColSel(){
         int[] selRows = this.getSelectedRows() ;
         return selRows.length == this.getNbRows() ;
@@ -364,7 +364,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
 
 
-    /*retourne la liste des données selectionnées */
+    /*retourne la liste des donnees selectionnees */
     public ArrayList<Data> getSelectedData(){
         return this.tableModel.getSelectedData(getSelectedCells());
     }
@@ -444,7 +444,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return isALineSel();
     }
 
-    /* retourne vrai si on peut ignorer ou non des données */
+    /* retourne vrai si on peut ignorer ou non des donnees */
     public boolean canIgnore(){
         return isElementsDataSel();
     }
@@ -521,7 +521,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         owner.deleteData(dataset, tableModel.getSelectedData(listSelCell), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), tableModel.getSelectedRowAndCol(listSelCell));
     }
 
-    /* mise àjour dataset */
+    /* mise a�jour dataset */
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds ;
         this.tableModel.updateDataset(ds, reload);
@@ -539,7 +539,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         repaint();
     }
 
-    /*retourne vrai si la selection est une sous table (colonnes entières) */
+    /*retourne vrai si la selection est une sous table (colonnes entia�res) */
     public boolean selIsSubData(){
         return isLineColSel();
     }
@@ -547,7 +547,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     
    
    
-    /* retourne vrai si la cellule selectionnée est de type data */
+    /* retourne vrai si la cellule selectionnee est de type data */
     public boolean isCellSelectedData(){
         ArrayList<int[]> listCellSel = getSelectedCells();
        if (listCellSel.size() != 1)
