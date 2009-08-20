@@ -6,7 +6,7 @@
 package eu.scy.tools.dataProcessTool.common;
 
 /**
- * données du tableau 
+ * donnees du tableau 
  * ce sont forcement des reels
  * @author Marjolaine Bodin
  */
@@ -20,7 +20,7 @@ public class Data implements Cloneable {
     private int noRow;
     /* numero de colonne */
     private int noCol;
-    /* donnée est elle ignorée ?*/
+    /* donnee est elle ignoree ?*/
     private boolean isIgnoredData;
 
     // CONSTRUCTEURS

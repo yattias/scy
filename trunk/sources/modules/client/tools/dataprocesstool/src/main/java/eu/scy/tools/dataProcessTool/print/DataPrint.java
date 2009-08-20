@@ -79,7 +79,7 @@ public class DataPrint {
             p = Runtime.getRuntime() .exec("rundll32 url.dll,FileProtocolHandler "+fileNamePDF);
         }catch(IOException e){
             return new CopexReturn ("AcroRd32 n'est pas accessible  : "+command+
-								"!\nVeuillez vérifier que le logiciel a été installé sur la machine !",false) ;
+								"!\nVeuillez verifier que le logiciel a ete installe sur la machine !",false) ;
         }
         // Il faut attendre...mais on n'est pas oblige
         try {

@@ -47,7 +47,7 @@ public class EditVisualizationDialog extends javax.swing.JDialog {
 
     // METHOD
     private void validDialog(){
-        // recupere les données :
+        // recupere les donnees :
         String name = this.fieldName.getText();
         if (name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");

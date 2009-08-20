@@ -126,7 +126,7 @@ public class BoxSpinner extends javax.swing.JPanel {
             owner.maJParametreDansFonction(label.getText(), value);
             majStep(champValeur.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Le nombre entr辿 n'est pas reconnu.");
+            System.out.println("Le nombre entre n'est pas reconnu.");
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
         } 
     }//GEN-LAST:event_champValeurActionPerformed
@@ -146,7 +146,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         owner.maJParametreDansFonction(label.getText(), value);
     }
     
-    /** fonction appeli申e uniquement lors de l'affichage ou du reaffichage du box
+    /** fonction appeliee uniquement lors de l'affichage ou du reaffichage du box
      */
     public void setValue(double val) {
         value= val ;
@@ -158,12 +158,12 @@ public class BoxSpinner extends javax.swing.JPanel {
     }
     
     /** Modifie la valeur du pas d'incrementation en fonction de la valeur du nombre du Spinner
-     *  cette fonction est appeli申e i申 chaque fois (spinner.getModel ?) que l'utilisateur modifie i申 la main
+     *  cette fonction est appeliee ie chaque fois (spinner.getModel ?) que l'utilisateur modifie ie la main
      *  la valeur du nombre dans l'editor du spinner (spinner.getEditor) 
      */
     public void majStep(String nombre){
         
-        // di申termine l'ordre de la dernii申re di申cimale
+        // dietermine l'ordre de la derniiere diecimale
         int ordre = 0 ;
         
         int placeDuE = nombre.indexOf('E') ;

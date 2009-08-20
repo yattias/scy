@@ -22,13 +22,13 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
     /* CONSTANTES */
     /* couleur de la fonte */
     private static final Color fontColor = Color.BLACK; 
-    /* font données */
+    /* font donnees */
     private static final Font dataFont = new Font("Dialog", Font.PLAIN, 12);
     /* font header + titre operations */
     public static final Font titleFont = new Font("Dialog", Font.BOLD, 12);
     /* font header unit */
     public static final Font unitFont = new Font("Dialog", Font.ITALIC, 11);
-    /* font numérotation des lignes */
+    /* font numerotation des lignes */
     private static final Font noRowFont = new Font("Dialog", Font.PLAIN, 10);
     /* couleur de fond cellules data */
     private static final Color backgroundColor = Color.WHITE;
@@ -38,7 +38,7 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
     private static final Color noBackgroundColor = new Color(204,204,204);
     /* couleur de la selection */
     private static final Color selectedColor = Color.BLUE.brighter();
-    /* couleur de data ignorées */
+    /* couleur de data ignorees */
     private static final Color ignoredColor = new Color(204, 204, 255);
 
     

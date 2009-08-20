@@ -18,7 +18,7 @@ import java.awt.Color;
  */
 public class DatasetFromDB {
 
-    /* chargement de tous les ds lie à un utilisateur et à une mission donnée */
+    /* chargement de tous les ds lie a� un utilisateur et a� une mission donnee */
     public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, Mission mission, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis, ArrayList v){
         long dbKeyMission = mission.getDbKey();
         ArrayList<Dataset> listDataset = new ArrayList();
@@ -95,7 +95,7 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* chargement de tous les ds header d'un dataset donné */
+    /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL " +
@@ -140,7 +140,7 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* chargement de tous les operation d'un dataset donné */
+    /* chargement de tous les operation d'un dataset donne */
     public static CopexReturn getAllDatasetOperationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeOperation[] tabTypeOp, ArrayList v){
         ArrayList<DataOperation> listDataOp = new ArrayList();
         String query = "SELECT D.ID_DATA_OPERATION, D.OP_NAME, D.IS_ON_COL, T.ID_TYPE_OPERATION " +
@@ -233,7 +233,7 @@ public class DatasetFromDB {
             v.add(listNo);
             return new CopexReturn();
     }
-    /* chargement des données d'un data set */
+    /* chargement des donnees d'un data set */
     public static CopexReturn getAllDatasetDataFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbRows, int nbCol, ArrayList v){
         Data[][] tabData = new Data[nbRows][nbCol] ;
         String query = "SELECT D.ID_DATA, D.VALUE, D.NO_COL, D.NO_ROW, D.IS_IGNORED " +
@@ -321,11 +321,11 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* suppression d'un dataset en base : suppression des operations, des données, des headers et des liens */
+    /* suppression d'un dataset en base : suppression des operations, des donnees, des headers et des liens */
     public static CopexReturn deleteDatasetFromDB(DataBaseCommunication dbC, long dbKeyDataset){
         ArrayList v = new ArrayList();
         String[] querys = new String[14];
-        // suppression des visualisations associées 
+        // suppression des visualisations associees 
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM  LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ) ;";
         String queryDelParamGraph = "DELETE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
@@ -336,7 +336,7 @@ public class DatasetFromDB {
         String queryDelNo = "DELETE FROM LIST_NO_OPERATION WHERE ID_DATA_OPERATION IN (SELECT ID_DATA_OPERATION FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ " );";
         String queryDelOp = "DELETE FROM DATA_OPERATION WHERE ID_DATA_OPERATION IN (SELECT ID_DATA_OPERATION FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelLinkOp = "DELETE FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ " ;";
-        // suppression des données
+        // suppression des donnees
         String queryDelData = "DELETE FROM COPEX_DATA WHERE ID_DATA IN (SELECT ID_DATA FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         String queryDelLinkData = "DELETE FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des header
@@ -365,7 +365,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise à jour du nom du dataset */
+    /* mise a� jour du nom du dataset */
     public static CopexReturn updateDatasetNameInDB(DataBaseCommunication dbC, long dbKey, String newName){
         newName = MyUtilities.replace("\'",newName,"''") ;
         ArrayList v = new ArrayList();
@@ -376,7 +376,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* met à jour le statut ignored des datas */
+    /* met a� jour le statut ignored des datas */
     public static CopexReturn setDataIgnoredInDB(DataBaseCommunication dbC, ArrayList<Data> listData, boolean isIgnored){
         int ignore = 0;
         if (isIgnored)
@@ -416,7 +416,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise à jour d'un header */
+    /* mise a� jour d'un header */
     public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
@@ -447,7 +447,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise à jour d'un data */
+    /* mise a� jour d'un data */
     public static CopexReturn updateDataInDB(DataBaseCommunication dbC, long dbKey, double value){
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
@@ -457,7 +457,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* suppression de tous les dataset d'un etudiant et d'une mission données */
+    /* suppression de tous les dataset d'un etudiant et d'une mission donnees */
     public static CopexReturn removeAllDatasetFromDB(DataBaseCommunication  dbC, long dbKeyMission, long dbKeyUser){
         String query = "SELECT D.ID_DATASET " +
                 " FROM DATASET D, LINK_DATASET_MISSION_USER  L WHERE " +
@@ -521,7 +521,7 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* chargement de tous les visualizations d'un dataset donné */
+    /* chargement de tous les visualizations d'un dataset donne */
     public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, ArrayList v){
         ArrayList<Visualization> listDataVis = new ArrayList();
         String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, D.IS_ON_COL, T.ID_TYPE_VISUALIZATION " +
@@ -578,7 +578,7 @@ public class DatasetFromDB {
                 return cr;
             int[] listNo = (int[])v3.get(0);
             Visualization vis;
-            // eventuellement charge les données du graphe
+            // eventuellement charge les donnees du graphe
             if (typeVisualization.getCode() == DataConstants.VIS_GRAPH){
                 v3 = new ArrayList();
                 cr = getAllParamGraph(dbC, dbKey, v3);
@@ -815,7 +815,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise à jour du numero de colonne pour les data, header, operation, visualization */
+    /* mise a� jour du numero de colonne pour les data, header, operation, visualization */
     public static CopexReturn updateNoInDB(DataBaseCommunication dbC, Dataset ds){
         ArrayList<String> listQuerys = new ArrayList();
         // dataset : nbRow and nbCol
@@ -846,7 +846,7 @@ public class DatasetFromDB {
         CopexReturn cr = dbC.executeQuery(querys, v2);
         if (cr.isError())
             return cr;
-        // liste des operations / visualizations : on supprime tout et on recréé tout
+        // liste des operations / visualizations : on supprime tout et on recree tout
         cr = OperationFromDB.updateNoInDB(dbC, ds.getListOperation());
         if (cr.isError())
             return cr;
@@ -856,7 +856,7 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* mise à jour du nombre de lignes et col pour la matrice */
+    /* mise a� jour du nombre de lignes et col pour la matrice */
     public static CopexReturn updateDatasetMatriceInDB(DataBaseCommunication dbC, long dbKey, int newNbRow, int newNbCol){
         String query = "UPDATE DATASET SET NB_COL = "+newNbCol+", NB_ROW = "+newNbRow+" WHERE ID_DATASET = "+dbKey+" ;";
         ArrayList v2 = new ArrayList();

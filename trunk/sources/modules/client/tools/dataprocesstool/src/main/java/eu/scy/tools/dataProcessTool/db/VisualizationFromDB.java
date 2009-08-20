@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * gestion de la visualisation des données dans la base
+ * gestion de la visualisation des donnees dans la base
  * @author Marjolaine
  */
 public class VisualizationFromDB {
@@ -67,7 +67,7 @@ public class VisualizationFromDB {
             listVis.add(vis);
             nbVis++;
         }
-        // on met ça dans un tableau
+        // on met a�a dans un tableau
         tabTypeVis = new TypeVisualization[nbVis];
         for (int i=0; i<nbVis; i++){
             tabTypeVis[i] = listVis.get(i);
@@ -76,7 +76,7 @@ public class VisualizationFromDB {
         return new CopexReturn();
     }
 
-     /* mise à jour titre visualization */
+     /* mise a� jour titre visualization */
     public static CopexReturn updateVisualizationTitleInDB(DataBaseCommunication dbC, long dbKeyVis, String title){
         title = MyUtilities.replace("\'",title,"''") ;
         String query = "UPDATE DATA_VISUALIZATION SET VIS_NAME = '"+title+"' WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
@@ -123,7 +123,7 @@ public class VisualizationFromDB {
     public static CopexReturn deleteVisualizationFromDB(DataBaseCommunication dbC, long dbKeyVis){
         ArrayList v = new ArrayList();
         String[] querys = new String[7];
-        // suppression des visualisations associées
+        // suppression des visualisations associees
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
         String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
         String queryDelParamGraph = "DELETE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
@@ -179,7 +179,7 @@ public class VisualizationFromDB {
         return cr;
     }
 
-     /* mise à jour d'une fonction modele */
+     /* mise a� jour d'une fonction modele */
     public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description){
         String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
@@ -201,7 +201,7 @@ public class VisualizationFromDB {
         return new CopexReturn();
     }
 
-    /* mise à jour des no : on supprime tout et on recréé tout */
+    /* mise a� jour des no : on supprime tout et on recree tout */
     public static CopexReturn updateNoInDB(DataBaseCommunication dbC, ArrayList<Visualization> listVisualization){
         ArrayList v2 = new ArrayList();
         int nbVis= listVisualization.size();

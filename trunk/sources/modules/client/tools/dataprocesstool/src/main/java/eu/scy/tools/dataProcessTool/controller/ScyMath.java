@@ -16,7 +16,7 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
  */
 public class ScyMath {
     
-    /* calcul sur une liste de données*/
+    /* calcul sur une liste de donnees*/
     public static  double calculate(TypeOperation typeOperation, ArrayList<Double> listValue){
         int  type  = typeOperation.getType();
         switch (type){
@@ -28,7 +28,7 @@ public class ScyMath {
         }
     }
 
-    /* calcul sur une liste de données, operation parametree*/
+    /* calcul sur une liste de donnees, operation parametree*/
     public static  double calculateParam(TypeOperation typeOperation, ArrayList<Double> listValue, ParamOperation[] allParam){
         int  type  = typeOperation.getType();
         switch (type){
@@ -58,7 +58,7 @@ public class ScyMath {
         return nb == 0 ?  0 : ((double)(sum / nb));
     }
     
-    /* renvoir la valeur min dans la liste de valeurs données */
+    /* renvoir la valeur min dans la liste de valeurs donnees */
     public static double min(ArrayList<Double> listValue){
         if (listValue == null)
             return  0;
@@ -73,7 +73,7 @@ public class ScyMath {
         return min;
     }
     
-    /* renvoir la valeur max dans la liste de valeurs données */
+    /* renvoir la valeur max dans la liste de valeurs donnees */
     public static double max(ArrayList<Double> listValue){
         if (listValue == null)
             return  0;

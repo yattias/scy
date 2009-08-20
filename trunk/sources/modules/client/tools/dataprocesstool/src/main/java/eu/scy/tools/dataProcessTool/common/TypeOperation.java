@@ -17,7 +17,7 @@ public class TypeOperation implements Cloneable {
     protected long dbKey;
     /* type cf CONSTANTES OP_XXX */
     protected int type;
-    /* code = nom Ã  afficher */
+    /* code = nom a  afficher */
     protected String codeName;
     /* couleur */
     protected Color color;

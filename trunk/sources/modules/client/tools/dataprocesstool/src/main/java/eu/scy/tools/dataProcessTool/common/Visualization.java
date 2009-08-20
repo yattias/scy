@@ -110,7 +110,7 @@ public class Visualization implements Cloneable {
     }
 
      //METHOD
-     /* retourne vrai si la visualization porte sur un  numero donné */
+     /* retourne vrai si la visualization porte sur un  numero donne */
      public boolean isOnNo(int no){
          for (int i=0; i<tabNo.length; i++){
              if (tabNo[i] == no)

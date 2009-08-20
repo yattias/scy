@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 /**
- * données + operations
+ * donnees + operations
  * @author Marjolaine Bodin
  */
 public class Dataset implements Cloneable{
@@ -38,7 +38,7 @@ public class Dataset implements Cloneable{
     protected int nbRows;
     /* header */
     protected DataHeader[] listDataHeader;
-    /* données */
+    /* donnees */
     protected Data[][] data;
     /* liste des operations */
     protected ArrayList<DataOperation> listOperation;
@@ -240,7 +240,7 @@ public class Dataset implements Cloneable{
         return this.listDataHeader[colIndex];
     }
 
-    /* met le DataHeader à jour */
+    /* met le DataHeader a� jour */
     public void setDataHeader(DataHeader header, int columnIndex){
         this.listDataHeader[columnIndex] = header;
     }
@@ -249,7 +249,7 @@ public class Dataset implements Cloneable{
         return this.data[rowIndex][colIndex];
     }
 
-    /* met le data à jour */
+    /* met le data a� jour */
     public void setData(Data data, int rowIndex, int columnIndex){
         this.data[rowIndex][columnIndex] = data;
     }
@@ -434,7 +434,7 @@ public class Dataset implements Cloneable{
         listOperation.get(id).removeNo(no);
     }
     
-    /* supprime des données et met à jour le nombre de lignes et de colonnes */
+    /* supprime des donnees et met a� jour le nombre de lignes et de colonnes */
     public void removeData(ArrayList<Integer>[] listRowAndCol){
         int nbRowsSel = listRowAndCol[0].size();
         int nbColsSel = listRowAndCol[1].size();
@@ -584,7 +584,7 @@ public class Dataset implements Cloneable{
     }
 
     /* insertion de lignes : nbRowsToInsert avant le no idBefore
-     * si id=0 : au début, si id =nbRows : en fin
+     * si id=0 : au debut, si id =nbRows : en fin
      */
     public void insertRow(int nbRowsToInsert, int idBefore){
       //data
@@ -600,7 +600,7 @@ public class Dataset implements Cloneable{
        }
        setData(newData);
        // header : pas de changement
-       // list operation : mise à jour des no
+       // list operation : mise a� jour des no
        int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (!listOperation.get(i).isOnCol()){
@@ -612,7 +612,7 @@ public class Dataset implements Cloneable{
                 }
             }
         }
-       // list visualization : mise à jour des no
+       // list visualization : mise a� jour des no
        int nbVis = listVisualization.size();
         for (int i=0; i<nbVis; i++){
             if (!listVisualization.get(i).isOnCol()){
@@ -629,7 +629,7 @@ public class Dataset implements Cloneable{
     }
 
     /* insertion de colonnes : nbColsToInsert avant le no idBefore
-     * si id=0 : au début, si id =nbCols : en fin
+     * si id=0 : au debut, si id =nbCols : en fin
      */
     public void insertCol(int nbColsToInsert, int idBefore){
       //data
@@ -653,7 +653,7 @@ public class Dataset implements Cloneable{
                headers[i+nbColsToInsert] = this.listDataHeader[i];
        }
        setListDataHeader(headers);
-       // list operation : mise à jour des no
+       // list operation : mise a� jour des no
        int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (listOperation.get(i).isOnCol()){
@@ -665,7 +665,7 @@ public class Dataset implements Cloneable{
                 }
             }
         }
-       // list visualization : mise à jour des no
+       // list visualization : mise a� jour des no
        int nbVis = listVisualization.size();
         for (int i=0; i<nbVis; i++){
             if (listVisualization.get(i).isOnCol()){
@@ -735,7 +735,7 @@ public class Dataset implements Cloneable{
             this.listOperationResult.add(listResult);
     }
 
-    /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnée */
+    /* retourne la liste des valeurs prises en compte pour le calcul dans la colonne donnee */
     private ArrayList<Double> getListValueCol(int idCol){
         ArrayList<Double> listValue = new ArrayList();
         for (int i=0; i<nbRows; i++){
@@ -747,7 +747,7 @@ public class Dataset implements Cloneable{
         return listValue;
     }
 
-    /* retourne la liste des valeurs prises en compte pour le calcul dans la ligne donnée */
+    /* retourne la liste des valeurs prises en compte pour le calcul dans la ligne donnee */
     private ArrayList<Double> getListValueRow(int idRow){
         ArrayList<Double> listValue = new ArrayList();
         for (int j=0; j<nbCol ; j++){

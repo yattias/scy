@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * permet de transmettre les données aux serveurs
+ * permet de transmettre les donnees aux serveurs
  * @author MBO
  */
 public class DataBaseCommunication {
@@ -40,7 +40,7 @@ public class DataBaseCommunication {
     private String directoryPhP;
     private long idMission;
     private String idUser;
-    /* base par défaut cd constantes DB_COPEX */
+    /* base par defaut cd constantes DB_COPEX */
     private int db;
 
     /* nom du fichier */
@@ -161,7 +161,7 @@ public class DataBaseCommunication {
         }
     }
 
-    // envoi des données
+    // envoi des donnees
     private CopexReturn sendData(){
         //System.out.println("sendData");
         try{
@@ -182,7 +182,7 @@ public class DataBaseCommunication {
        }
     }
 
-    // lecture de la réponse
+    // lecture de la reponse
     private CopexReturn receiveResponse(ArrayList v){
         try{
             URL urlDB;

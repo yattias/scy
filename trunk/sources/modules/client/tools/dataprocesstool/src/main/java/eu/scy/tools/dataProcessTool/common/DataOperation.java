@@ -13,9 +13,9 @@ import java.util.ArrayList;
  */
 public class DataOperation implements Cloneable {
     // PROPERTY
-    /* identifiant base de données */
+    /* identifiant base de donnees */
     protected long dbKey;
-    /* nom donné par l'utilisateur */
+    /* nom donne par l'utilisateur */
     protected String name;
     /* type */
     protected TypeOperation typeOperation;

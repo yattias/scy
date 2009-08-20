@@ -21,7 +21,7 @@ public class MainInterface extends javax.swing.JFrame implements ActionFitex {
     private String version = "3.0";
     /* fitex panel */
     private FitexPanel fitexPanel;
-    /* table de données */
+    /* table de donnees */
     private DataTable dataTable;
     
     /** Creates new form FunctionPlotter */

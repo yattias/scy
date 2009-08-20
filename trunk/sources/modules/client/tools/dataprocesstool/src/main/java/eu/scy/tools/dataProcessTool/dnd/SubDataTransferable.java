@@ -11,7 +11,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 /**
- * sous données pouvant etre déplacer /coller
+ * sous donnees pouvant etre deplacer /coller
  * @author Marjolaine
  */
 public class SubDataTransferable implements Transferable {

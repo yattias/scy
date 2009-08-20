@@ -8,17 +8,17 @@ package eu.scy.tools.dataProcessTool.utilities;
 /**
  *
  * @author MBO
- * permet de repr√©senter une erreur ou un warning dans COPEX
+ * permet de representer une erreur ou un warning dans COPEX
  * String text : le texte de l'erreur 
- * boolean ok : √† true si aucune erreur
- * boolean warning : √† true si il s'agit d'un warning
- * boolean confirm : √† true si l'utilisateur doit confirmer => dans ce cas text contient le message de confirmation
- * boolean okCancel : √† true s'il s'agit d'une confirmation OK/Cancel, sinon Oui/Non
+ * boolean ok : a† true si aucune erreur
+ * boolean warning : a† true si il s'agit d'un warning
+ * boolean confirm : a† true si l'utilisateur doit confirmer => dans ce cas text contient le message de confirmation
+ * boolean okCancel : a† true s'il s'agit d'une confirmation OK/Cancel, sinon Oui/Non
  * 
  * si error : ok=false, text=msg erreur, warning=false, confirm=false, okCancel=false
  * si ok : ok=true, text="", warning=false, confirm=false, okCancel=false
  * si warning : ok=false, text = msg warning, warning=true, confirm=false, okCancel=false
- * si warning √† confirmer : ok=false, text=msg de confirm, warning=true, confirm=true, okCancel=true si Ok/Cancel okCancel=false si Oui/Non
+ * si warning a† confirmer : ok=false, text=msg de confirm, warning=true, confirm=true, okCancel=true si Ok/Cancel okCancel=false si Oui/Non
  */
 public class CopexReturn {
 // ATTRIBUTS
@@ -93,7 +93,7 @@ public class CopexReturn {
         return this.ok ;
     }
     /*
-     * retourne true si l'instance repr√©sente un warning
+     * retourne true si l'instance represente un warning
      */
     public boolean isWarning(){
         return !this.ok && this.warning ;
@@ -127,7 +127,7 @@ public class CopexReturn {
         this.okCancel = okCancel;
     }
     /*
-     * met √† Ok
+     * met a† Ok
      */
     public void setOk(){
         this.ok = true;
