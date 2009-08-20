@@ -8,7 +8,7 @@ package eu.scy.tools.copex.common;
 import java.sql.Date;
 
 /**
- * protocole de l'ela¨ve
+ * protocole de l'eleve
  * @author MBO
  */
 public class LearnerProcedure extends ExperimentalProcedure{

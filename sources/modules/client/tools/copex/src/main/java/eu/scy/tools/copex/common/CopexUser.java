@@ -8,7 +8,7 @@ package eu.scy.tools.copex.common;
 /**
  *
  * @author MBO
- * represente un utilisateur COPEX : c'est soit un ela¨ve (CopexLearner) soit un enseignant (CopexTeacher)
+ * represente un utilisateur COPEX : c'est soit un eleve (CopexLearner) soit un enseignant (CopexTeacher)
  * un utilisateur est represente par : 
  * - son login (identifiant unique)
  * - son mot de passe

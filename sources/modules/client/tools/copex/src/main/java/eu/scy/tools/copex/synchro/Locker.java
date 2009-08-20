@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Cette classe implemente la gestion des verrous pour l'editeur de protocoles
  * Elle repose sur la table VERROU contenant les champs ID_PROC pour le protocole verouille, et DAT_VER pour la date du verouillage.
- * Le principe de fonctionnement est le suivant: L'editeur qui souhaite bloquer un protocole proca¨de de la mania¨re suivante:
+ * Le principe de fonctionnement est le suivant: L'editeur qui souhaite bloquer un protocole procede de la maniere suivante:
  * (1) Verification de l'absence de verrou valide (plus jeune que LOCKER_VALIDITY) ;
  * (2) Placement d'un tel enregistrement de verrouillage;
  * (3) Tant que l'on ne souhaite pas deverrouiller le protocole, il faut reposer avec une periodicite LOCKER_DELAY le verrou pour qu'il reste valide.
