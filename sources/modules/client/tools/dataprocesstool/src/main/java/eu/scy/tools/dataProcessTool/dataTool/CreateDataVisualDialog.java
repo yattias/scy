@@ -83,7 +83,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         }
     }
 
-    /* mise à jour des axes */
+    /* mise a jour des axes */
     private void updateCbAxis2(){
         this.listCol2 = new DataHeader[this.listCol.length - 1];
         int id1 = cbAxis1.getSelectedIndex() ;
@@ -124,7 +124,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         // recupere le type de vis
         int id = cbType.getSelectedIndex() ;
         TypeVisualization typeVis= tabTypes[id];
-        // recupère les axes
+        // recupere les axes
         int id1 = cbAxis1.getSelectedIndex() ;
         DataHeader dataHeader = listCol[id1];
         DataHeader dataHeader2 = null;

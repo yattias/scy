@@ -67,7 +67,7 @@ public class DeleteUndoRedo extends DataUndoRedo {
                 nds = (Dataset)v.get(0);
             }
         }
-        // mise à jour des données
+        // mise a jour des donnees
         int nbData = listData.size();
         for (int i=0; i<nbData; i++){
             Data d= listData.get(i);
@@ -104,7 +104,7 @@ public class DeleteUndoRedo extends DataUndoRedo {
                 nds = (Dataset)v.get(0);
             }
         }
-        // mise à jour
+        // mise a jour
         dataToolPanel.updateDataset(nds) ;
     }
 

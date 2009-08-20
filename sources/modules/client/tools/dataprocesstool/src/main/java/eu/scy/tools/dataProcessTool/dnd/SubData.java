@@ -11,7 +11,7 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.io.Serializable;
 
 /**
- * sous données qui sont à  coller
+ * sous donnees qui sont a  coller
  * @author Marjolaine
  */
 public class SubData extends DataTable implements Serializable{

@@ -161,7 +161,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
             dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        //controle la cohérence des axes
+        //controle la coherence des axes
         if (xMin>=xMax || yMin>=yMax) {
              dataToolPanel.displayError(new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PARAM_AXIS"), false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
              return;

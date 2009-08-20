@@ -55,7 +55,7 @@ public class Analyseur
     
     /** autre constructeur qui passe la fonction dans laquelle va
      * etre stockee le produit de l'analyseur 
-     * nï¿½cessaire lorsque l'on a une fonction paramï¿½trï¿½e
+     * ni¿½cessaire lorsque l'on a une fonction parami¿½tri¿½e
      */
     public Analyseur(Locale locale,String texte, Function fonction) throws IOException
     {
@@ -87,8 +87,8 @@ public class Analyseur
     {
 
         // message d'erreur
-        /*String err = "La fonction n'a pas pu ï¿½tre analysï¿½e.\n\n" +
-                        "Liste des opï¿½rateurs reconnus :\n" +
+        /*String err = "La fonction n'a pas pu i¿½tre analysi¿½e.\n\n" +
+                        "Liste des opi¿½rateurs reconnus :\n" +
                         "  +   -   *   /   ^   E\n" +
                         "Liste des fonctions reconnues :\n" +
                         "  sqrt( )  exp( )  ln( )  log( )\n" +
@@ -97,7 +97,7 @@ public class Analyseur
                         "  asin( )  acos( )  atan( )\n" +
                         "Liste des constantes reconnues :\n" +
                         "  pi\n\n" ;
-                        // "L'opï¿½rateur * doit ï¿½tre systï¿½matiquement indiquï¿½. Par exemple, ï¿½crivez 3*x et non 3x." ;
+                        // "L'opi¿½rateur * doit i¿½tre systi¿½matiquement indiqui¿½. Par exemple, i¿½crivez 3*x et non 3x." ;
 
          */
         String err = getBundleString("MSG_ERROR_FUNCTION_ANALYSE")+"\n\n" +
@@ -117,7 +117,7 @@ public class Analyseur
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
         }
-        System.out.println("Expression analysï¿½e ï¿½ parenthesage alï¿½atoire : f(x) = " + resultat);
+        System.out.println("Expression analysi¿½e i¿½ parenthesage ali¿½atoire : f(x) = " + resultat);
         return resultat;
     }
     
@@ -219,7 +219,7 @@ public class Analyseur
         }
         else if (lexical.ttype == '-')
         {
-            // prise en charge des nombres nï¿½gatifs
+            // prise en charge des nombres ni¿½gatifs
             Expression exp = null;
             lexical.nextToken();
             exp = analyserTerme();

@@ -984,7 +984,7 @@ public class DataController implements ControllerInterface{
                 dataset.addVisualization(v);
             }
         }
-        //mise à jour graphique
+        //mise a jour graphique
         this.dataToolPanel.setDataset((Dataset)dataset.clone());
         return new CopexReturn();
     }

@@ -9,7 +9,7 @@ import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import javax.swing.undo.UndoManager;
 
 /**
- * manager permettant de gérer les undo/redo
+ * manager permettant de gerer les undo/redo
  * @author Marjolaine
  */
 public class DataUndoManager extends UndoManager {
