@@ -81,12 +81,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
     private String userName;
     private String firstName;
 
-    // Données
-    /* liste des données */
+    // Donnees
+    /* liste des donnees */
     private Dataset dataset;
-    /*tableau des différents types de visualisation */
+    /*tableau des differents types de visualisation */
     private TypeVisualization[] tabTypeVis;
-    /* tableau des différentes operations possibles */
+    /* tableau des differentes operations possibles */
     private TypeOperation[] tabTypeOp;
 
 
@@ -177,7 +177,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
               bundle = ResourceBundle.getBundle("DataToolBundle", locale);
           }catch (MissingResourceException e2){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de l'applet, la langue spécifiée "+locale+" n'existe pas : "+e2);
+            System.out.println("ERREUR lors du chargement de l'applet, la langue specifiee "+locale+" n'existe pas : "+e2);
             displayError(new CopexReturn("ERREUR lors du chargement de l'application : "+e, false), "ERROR LANGUAGE");
             return;
             }
@@ -196,14 +196,14 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
     }
 
 
-    /* chargement des données */
+    /* chargement des donnees */
     public void loadData(){
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // appel au noyau : chargement des données
+       // appel au noyau : chargement des donnees
       CopexReturn cr = this.controller.load();
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          System.out.println("erreur chargement des données ....");
+          System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
       }
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -1058,7 +1058,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         panelMenuData.repaint();
     }
 
-    /* met la liste des données d'un dataset ignoreées ou non */
+    /* met la liste des donnees d'un dataset ignoreees ou non */
     public void setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.setDataIgnored(ds, isIgnored, listData,v);
@@ -1095,7 +1095,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         datasetTable.addUndo(new OperationUndoRedo(datasetTable, this, controller, operation));
     }
 
-    /* mise à jour d'une données dans la table */
+    /* mise à jour d'une donnees dans la table */
     public void updateData(Dataset ds, Double value, int rowIndex, int columnIndex){
         Double oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
         ArrayList v = new ArrayList();
@@ -1112,7 +1112,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         }
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
     }
-    /* mise à jour d'une données header */
+    /* mise à jour d'une donnees header */
     public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex){
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getUnit();
@@ -1129,7 +1129,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         return true;
     }
 
-    /* mise à jour d'une données title operation */
+    /* mise à jour d'une donnees title operation */
     public void updateDataOperation(Dataset ds, String value, DataOperation operation){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateDataOperation(ds, operation, value, v);
@@ -1214,7 +1214,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         return null;
     }
 
-    /* suppression de données et d'operations */
+    /* suppression de donnees et d'operations */
     public void deleteData(Dataset ds, ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.deleteData(false, ds, listData, listOperation, listRowAndCol);
@@ -1354,7 +1354,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
 
     
 
-     /* ajout d'une ligne de données   */
+     /* ajout d'une ligne de donnees   */
     public void addData(long dbKeyDs,DataSetRow row ){
         List<String> listValues = row.getValues() ;
         int nbV = listValues.size() ;
@@ -1372,7 +1372,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
     }
 
 
-    /* ajout d'une ligne de données   */
+    /* ajout d'une ligne de donnees   */
     private void addData(long dbKeyDs, Double[] values){
         ArrayList v = new ArrayList();
         boolean autoScale = getDataVisTabbedPane().isAutoScale();
@@ -1429,7 +1429,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel {
         dataset.getListVisualization().set(idVis, vis);
     }
 
-    /* copie de données */
+    /* copie de donnees */
     public boolean paste(Dataset subData, int[] selCell){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.paste(dataset.getDbKey(), subData, selCell, v);
