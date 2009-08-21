@@ -312,7 +312,7 @@ public abstract  class CopexTask implements Cloneable {
         }
     }
 
-    /* retourne l'element correspondant a  la chaine*/
+    /* retourne l'element correspondant a la chaine*/
     public static Element getElement(String s){
         if(s == null ||s.length() == 0)
             return null;

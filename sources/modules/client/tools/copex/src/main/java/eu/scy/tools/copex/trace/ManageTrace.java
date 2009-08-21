@@ -108,7 +108,7 @@ public class ManageTrace {
         dbC.updateDb(MyConstants.DB_COPEX_EDP);
         return new CopexReturn();
     }
-    /* mise a  jour du compteur */
+    /* mise a jour du compteur */
     public CopexReturn updateIdentifier(int cpt){
         this.cpt = cpt +1;
         return new CopexReturn();

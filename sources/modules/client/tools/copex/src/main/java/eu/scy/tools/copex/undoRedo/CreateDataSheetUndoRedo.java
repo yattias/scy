@@ -63,7 +63,7 @@ public class CreateDataSheetUndoRedo extends CopexUndoRedo {
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        // mise a  jour de l'id
+        // mise a jour de l'id
         long newDbKey = ((DataSheet)v.get(0)).getDbKey();
         dataSheet.setDbKey(newDbKey);
     }

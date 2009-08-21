@@ -1,7 +1,7 @@
 /*
  * DataSheetDialog.java
  *
- * Created on 5 aoa»t 2008, 13:26
+ * Created on 5 aoat 2008, 13:26
  */
 
 package eu.scy.tools.copex.edp;

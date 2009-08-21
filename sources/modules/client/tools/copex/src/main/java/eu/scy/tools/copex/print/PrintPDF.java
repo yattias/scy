@@ -336,7 +336,7 @@ public class PrintPDF {
         return comm;
     }
 
-    /* retourne l'image associee a  la tache */
+    /* retourne l'image associee a la tache */
     private String getTaskImg(CopexTask task){
         String img = "";
         if (task == null){

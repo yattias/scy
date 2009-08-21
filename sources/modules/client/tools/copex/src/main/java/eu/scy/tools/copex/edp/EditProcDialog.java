@@ -1,7 +1,7 @@
 /*
  * EditProcDialog.java
  *
- * Created on 20 aoa»t 2008, 12:53
+ * Created on 20 aoat 2008, 12:53
  */
 
 package eu.scy.tools.copex.edp;

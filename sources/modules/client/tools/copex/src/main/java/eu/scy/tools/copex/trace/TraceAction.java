@@ -8,7 +8,7 @@ package eu.scy.tools.copex.trace;
 import java.util.ArrayList;
 
 /**
- * action pouvant aªtre enregistree dans la trace
+ * action pouvant etre enregistree dans la trace
  * @author MBO
  */
 public abstract class TraceAction extends EdPTrace {

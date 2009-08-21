@@ -83,7 +83,7 @@ public class CopexTreeModel extends DefaultTreeModel {
         return tabTask;
     }
     
-    /* ajout de noeuds a  partir d'un noeud donne*/
+    /* ajout de noeuds a partir d'un noeud donne*/
     public void addNodes(CopexTreeNode node, ArrayList<CopexTask> listTask){
         buildTree(node, listTask);
     }

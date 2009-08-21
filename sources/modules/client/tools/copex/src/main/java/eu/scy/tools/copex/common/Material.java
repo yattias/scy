@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 /**
  * represente le materiel
- * le materiel peut aªtre 
- * - lie a  une mission : materiel disponible
- * - lie a  un protocole : materiel utilise
- * - lie a  une action
+ * le materiel peut etre 
+ * - lie a une mission : materiel disponible
+ * - lie a un protocole : materiel utilise
+ * - lie a une action
  * les materiels sont regroupes par type de materiel
  * @author MBO
  */
@@ -100,7 +100,7 @@ public class Material implements Cloneable {
     }
     
     // METHODES
-    /* rend la chaine a  afficher sur l'ihm */
+    /* rend la chaine a afficher sur l'ihm */
 //    public String toDisplay(){
 //        String s = getName()+" (";
 //        s += getTypeToDisplay();
@@ -114,7 +114,7 @@ public class Material implements Cloneable {
         return s;
 
     }
-    /* rend la chaine a  afficher sur l'ihm : liste des types */
+    /* rend la chaine a afficher sur l'ihm : liste des types */
     public String getTypeToDisplay(){
         String s = "";
         for (int i=0; i<listType.size(); i++){

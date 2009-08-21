@@ -257,7 +257,7 @@ public class HTMLFile {
         }
         return comm;
     }
-    /* retourne le dessin associe a  la tache */
+    /* retourne le dessin associe a la tache */
     private String getTaskDraw(CopexTask task){
         String draw = "";
         if (task.getTaskImage() != null && task.getTaskImage().length() > 0){
@@ -267,7 +267,7 @@ public class HTMLFile {
     }
     
     
-    /* retourne l'image associee a  la tache */
+    /* retourne l'image associee a la tache */
     private String getTaskImg(CopexTask task){
         String img = "../../Images/";
         if (task == null){

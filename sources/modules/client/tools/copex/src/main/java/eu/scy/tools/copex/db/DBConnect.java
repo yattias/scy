@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * cette classe definit toutes les methodes de connexion et d'acces a  la base
+ * cette classe definit toutes les methodes de connexion et d'acces a la base
  * @author MBO
  */ 
 public class DBConnect {
@@ -20,7 +20,7 @@ public class DBConnect {
     private static Connection conToDB;
     
     // METHODES
-    /* connexion a  la base */
+    /* connexion a la base */
     public static synchronized Connection connect(String user, String passwd, String url, ArrayList v) {
 
 	try {
@@ -55,7 +55,7 @@ public class DBConnect {
 	    return null ;
 	}
     }
-        /* deconnexion a  la base */
+        /* deconnexion a la base */
     public static synchronized boolean  closeConnection() {
 	try {
             if (conToDB != null)

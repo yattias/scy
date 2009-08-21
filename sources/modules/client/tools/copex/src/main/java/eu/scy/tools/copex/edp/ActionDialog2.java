@@ -68,7 +68,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
     private ArrayList<Material> materialsProd;
     /* liste des data prod */
     private ArrayList<QData> datasProd;
-    /* liste des composants : a  chaque indice du parametre on fait correspondre :
+    /* liste des composants : a chaque indice du parametre on fait correspondre :
      * _ param de type Quantity : un text Field, une comboBox avec sa liste d'objets
      * _ param de type Material : une comboBox avec sa liste d'objets
      * _ param de type Data : un text field (ou une combo)
@@ -582,7 +582,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
         this.comment = panelComments.getComments() ;
     }
 
-    /* met a  jour le texte des commenraires */
+    /* met a jour le texte des commenraires */
     @Override
     public void setComment(){
         this.panelComments.setComments(this.comment);
@@ -1029,7 +1029,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
        return lm ;
    }
 
-   /* retourne le material correspondant a  ce nom, null sinon */
+   /* retourne le material correspondant a ce nom, null sinon */
    private Material getMaterialWithName(String name, ArrayList<TypeMaterial>listType, ArrayList<Parameter> listParameters){
        ArrayList<Material> listMaterialProdBefore = edP.getMaterialProd(modeAdd);
        int nbM = listMaterialProdBefore.size();

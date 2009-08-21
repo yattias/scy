@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.common;
 
 /**
- * represente un parametre lie a  un  materiel
+ * represente un parametre lie a un  materiel
  * @author MBO
  */
 public class Parameter extends Quantity{

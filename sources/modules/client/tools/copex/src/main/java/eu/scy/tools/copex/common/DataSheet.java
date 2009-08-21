@@ -83,7 +83,7 @@ public class DataSheet implements Cloneable {
 	}
     }
      
-     /* mise a  jour d'une valeur */
+     /* mise a jour d'une valeur */
      public void setValueAt(CopexData data, int noRow, int noCol){
          this.data[noRow][noCol] = data;
      }

@@ -166,7 +166,7 @@ public class DataSheetFromDB {
         
     }
    
-    /* mise a  jour d'une valeur d'une feuille de donnees */
+    /* mise a jour d'une valeur d'une feuille de donnees */
     static public CopexReturn updateDataSheetInDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet, long dbKeyData, String value, int noRow, int noCol, ArrayList v){
         value =  AccesDB.replace("\'",value,"''") ;
         String query = "";
@@ -234,7 +234,7 @@ public class DataSheetFromDB {
     
     
     
-    /* mise a  jour du nombre de lignes et de colonees */
+    /* mise a jour du nombre de lignes et de colonees */
     static public CopexReturn updateRowAndColInDB_xml(DataBaseCommunication dbC, long dbKeyDataSheet, int row, int col){
         String query = "UPDATE DATASHEET SET NB_ROWS = "+row +", " +
                     "NB_COL = "+col+" WHERE ID_DATASHEET = "+dbKeyDataSheet+" ;";

@@ -15,7 +15,7 @@ import eu.scy.tools.copex.utilities.MyConstants;
 
 
 /**
- * mise a  jour du materiel utlise pour un proc
+ * mise a jour du materiel utlise pour un proc
  * @author MBO 
  */
 public class UpdateMaterialUseForProcUndoRedo extends CopexUndoRedo {

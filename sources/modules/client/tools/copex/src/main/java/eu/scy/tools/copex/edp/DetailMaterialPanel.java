@@ -1,7 +1,7 @@
 /*
  * DetailMaterialPanel.java
  *
- * Created on 4 aoa»t 2008, 13:17
+ * Created on 4 aoat 2008, 13:17
  */
 
 package eu.scy.tools.copex.edp;
@@ -27,7 +27,7 @@ public class DetailMaterialPanel extends JPanel {
     public static final int DETAIL_MATERIAL_HEIGHT = 110;
     
     // ATTRIBUTS 
-    /* materiel a  afficher */
+    /* materiel a afficher */
     private Material material;
     /* owner */
     private JPanel ownerPanel;

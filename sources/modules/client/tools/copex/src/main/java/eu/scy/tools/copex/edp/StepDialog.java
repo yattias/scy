@@ -311,7 +311,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         this.comment = panelComments.getComments() ;
     }
 
-    /* met a  jour le texte des commenraires */
+    /* met a jour le texte des commenraires */
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }
