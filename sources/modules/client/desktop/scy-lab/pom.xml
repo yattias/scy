@@ -28,7 +28,7 @@
          <version>${pom.version}</version>
       </dependency>
 
-      <dependency>
+      <!--dependency>
          <groupId>eu.scy.client.tools</groupId>
          <artifactId>fx-drawingtool</artifactId>
          <version>${pom.version}</version>
@@ -44,7 +44,7 @@
          <groupId>eu.scy.client.tools</groupId>
          <artifactId>fx-copex</artifactId>
          <version>${pom.version}</version>
-      </dependency>
+      </dependency-->
 
    </dependencies>
 
