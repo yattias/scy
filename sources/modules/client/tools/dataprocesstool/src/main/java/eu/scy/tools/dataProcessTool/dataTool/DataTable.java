@@ -521,7 +521,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         owner.deleteData(dataset, tableModel.getSelectedData(listSelCell), tableModel.getSelectedHeader(listSelCell), tableModel.getSelectedOperation(listSelCell), tableModel.getSelectedRowAndCol(listSelCell));
     }
 
-    /* mise a jour dataset */
+    /* mise a jour dataset */
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds ;
         this.tableModel.updateDataset(ds, reload);

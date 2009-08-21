@@ -67,7 +67,7 @@ public class DataTableModel extends AbstractTableModel {
 
     /* construction de la table */
     // la premiere ligne est le header
-    // la premiere colonne est vide : destinee a  mettre les titres des operations sur colonnes
+    // la premiere colonne est vide : destinee a mettre les titres des operations sur colonnes
     // tableau des donnees
     // operations
     // derniere colonne vide pour inserer des operations
@@ -241,7 +241,7 @@ public class DataTableModel extends AbstractTableModel {
         this.tabData[noR][0] = name;
     }
 
-    /* retourne vrai si tous les elements d'une colonne sont a  ignorer */
+    /* retourne vrai si tous les elements d'une colonne sont a ignorer */
     private boolean isIgnoredCol(int id){
         boolean allIgnored = true;
         for (int i=0; i<nbRowDs; i++){
@@ -253,7 +253,7 @@ public class DataTableModel extends AbstractTableModel {
         return allIgnored ;
     }
 
-    /* retourne vrai si tous les elements d'une ligne sont a  ignorer */
+    /* retourne vrai si tous les elements d'une ligne sont a ignorer */
     private boolean isIgnoredRow(int id){
         boolean allIgnored = true;
         for (int i=0; i<nbColDs; i++){
@@ -635,7 +635,7 @@ public class DataTableModel extends AbstractTableModel {
 
 
 
-    /* mise a  jour du dataset */
+    /* mise a jour du dataset */
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds;
         if (reload)

@@ -76,7 +76,7 @@ public class VisualizationFromDB {
         return new CopexReturn();
     }
 
-     /* mise a  jour titre visualization */
+     /* mise a jour titre visualization */
     public static CopexReturn updateVisualizationTitleInDB(DataBaseCommunication dbC, long dbKeyVis, String title){
         title = MyUtilities.replace("\'",title,"''") ;
         String query = "UPDATE DATA_VISUALIZATION SET VIS_NAME = '"+title+"' WHERE ID_DATA_VISUALIZATION = "+dbKeyVis+" ;";
@@ -179,7 +179,7 @@ public class VisualizationFromDB {
         return cr;
     }
 
-     /* mise a  jour d'une fonction modele */
+     /* mise a jour d'une fonction modele */
     public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description){
         String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
@@ -201,7 +201,7 @@ public class VisualizationFromDB {
         return new CopexReturn();
     }
 
-    /* mise a  jour des no : on supprime tout et on recree tout */
+    /* mise a jour des no : on supprime tout et on recree tout */
     public static CopexReturn updateNoInDB(DataBaseCommunication dbC, ArrayList<Visualization> listVisualization){
         ArrayList v2 = new ArrayList();
         int nbVis= listVisualization.size();

@@ -173,7 +173,7 @@ public class VisualTabbedPane extends JTabbedPane{
         repaint();
     }
 
-    /* retourne le graphe correspondant a  un closeTab*/
+    /* retourne le graphe correspondant a un closeTab*/
     public Visualization getVisualization(CloseTab closeTab){
         int nb = listCloseTab.size();
         for (int i=0; i<nb; i++){
@@ -213,7 +213,7 @@ public class VisualTabbedPane extends JTabbedPane{
         closeTab(id);
     }
 
-    /* mise a  jour du graph sur l'onglet courant */
+    /* mise a jour du graph sur l'onglet courant */
     public void setCurrentTab(Component c){
         setComponentAt(getSelectedIndex(), c);
         if (c instanceof CopexGraph){
@@ -225,7 +225,7 @@ public class VisualTabbedPane extends JTabbedPane{
         repaint();
     }
 
-    /* mise a  jour du nom du graphe */
+    /* mise a jour du nom du graphe */
     public void updateVisualizationName(Visualization vis, String newName){
         int id = getIdVisualizationTab(vis);
         if (id == -1){
@@ -238,7 +238,7 @@ public class VisualTabbedPane extends JTabbedPane{
         repaint();
     }
 
-    /* mise a  jour du dataset => on enleve tout et on affiche les graphes du nouveau dataset*/
+    /* mise a jour du dataset => on enleve tout et on affiche les graphes du nouveau dataset*/
     public void updateDataset(Dataset ds, boolean sameDs){
         int selIndex = getSelectedIndex() ;
        int nb = listGraph.size();
@@ -261,7 +261,7 @@ public class VisualTabbedPane extends JTabbedPane{
 
     
 
-    /* mise a  jour du dataset */
+    /* mise ajour du dataset */
     public void updateVisualization(Visualization v){
         Visualization vis = getSelectedVisualization();
         if (vis != null){

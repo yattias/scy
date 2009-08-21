@@ -448,7 +448,7 @@ public class FitexPanel extends javax.swing.JPanel {
     }
 
    
-    /* mise a  jour de fonctions initiales  */
+    /* mise a jour de fonctions initiales  */
     private void setInitialListFunction(ArrayList<FunctionModel> listFunctionModel){
         if (listFunctionModel == null)
             return;
@@ -607,7 +607,7 @@ public class FitexPanel extends javax.swing.JPanel {
         repaint() ;
     }
 
-     /** methode appelee par la table des donnees afin de mettre a  jour le K des fonctions
+     /** methode appelee par la table des donnees afin de mettre a jour le K des fonctions
      * lors de la modif d'une donnee */
     public void calculTousK() {
         for (Color coul:mapDesFonctions.keySet()) {

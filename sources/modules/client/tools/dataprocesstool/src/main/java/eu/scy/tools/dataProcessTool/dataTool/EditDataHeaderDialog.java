@@ -6,7 +6,7 @@
 /*
  * EditDataHeaderDialog.java
  *
- * Created on 6 août 2009, 15:52:50
+ * Created on 6 aout 2009, 15:52:50
  */
 
 package eu.scy.tools.dataProcessTool.dataTool;

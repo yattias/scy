@@ -177,7 +177,7 @@ public class DataController implements ControllerInterface{
        }
        return true;
     }
-    /* retourne un dataset construit a  partir d'un ELO dataset */
+    /* retourne un dataset construit a partir d'un ELO dataset */
     private Dataset getDataset(DataSet eloDs, String name){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
@@ -216,7 +216,7 @@ public class DataController implements ControllerInterface{
         return ds;
     }
 
-    /* retourne un dataset construit a  partir d'un ELO pds */
+    /* retourne un dataset construit a partir d'un ELO pds */
     private Dataset getPDS(ProcessedDatasetELO eloPDS, String name){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
@@ -438,7 +438,7 @@ public class DataController implements ControllerInterface{
         return null;
     }
 
-    /* mise a  jour d'une valeur : titre header */
+    /* mise a jour d'une valeur : titre header */
     @Override
     public CopexReturn updateDataHeader(Dataset ds, int colIndex, String title, String unit, ArrayList v){
         // header existe t il deja ?
@@ -458,7 +458,7 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour d'une valeur : titre operation */
+    /* mise a jour d'une valeur : titre operation */
     @Override
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v){
         int idOp = getIdOperation(dataset, operation);
@@ -472,7 +472,7 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour d'une valeur : donnee dataset */
+    /* mise a jour d'une valeur : donnee dataset */
     @Override
     public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, Double value, ArrayList v){
         // data existe t il deja ?
@@ -613,7 +613,7 @@ public class DataController implements ControllerInterface{
                 }
             }
             if (nbRowsSel > 0 || nbColsSel > 0){
-                // on supprime les operations liees a  ces colonnes ou ces lignes
+                // on supprime les operations liees a ces colonnes ou ces lignes
                 // puis on supprime les operations qui ne portent plus sur aucune colonne ou ligne
                 ArrayList<DataOperation> myListOp = myDs.getListOperation();
                 int nbTotOp = myListOp.size();
@@ -670,7 +670,7 @@ public class DataController implements ControllerInterface{
 
             }
             // suppression des donnees
-            // mise a  jour en memoire et appel de l'applet
+            // mise a jour en memoire et appel de l'applet
             //remove listDataHeader
            /*for (int i=0; i<listDataHeader.size(); i++){
                 myDs.removeHeader(listDataHeader.get(i));
@@ -728,7 +728,7 @@ public class DataController implements ControllerInterface{
             FunctionModel myFm = new FunctionModel(idFunctionModel++, description, fColor);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
-            //mise a  jour
+            //mise a jour
             if (description == null || description.length() == 0){
                 // suppression
                 ((Graph)dataset.getListVisualization().get(idVis)).deleteFunctionModel(fColor);
@@ -770,7 +770,7 @@ public class DataController implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour dataset apres sort */
+    /* mise a jour dataset apres sort */
     @Override
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v){
         dataset.exchange(exchange);
@@ -835,7 +835,7 @@ public class DataController implements ControllerInterface{
         return new CopexReturn() ;
     }
 
-    /*mise a  jour des param */
+    /*mise a jour des param */
     @Override
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph paramGraph, ArrayList v){
         int idVis = dataset.getIdVisualization(dbKeyVis);

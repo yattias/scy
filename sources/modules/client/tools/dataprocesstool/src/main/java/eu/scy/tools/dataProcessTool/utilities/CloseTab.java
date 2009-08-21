@@ -138,7 +138,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         return title;
     }
 
-    /* mise a  jour du nom du protocole */
+    /* mise a jour du nom du protocole */
     public void updateTitle(String name){
         labelTitle.setText(name);
         this.title = name;
