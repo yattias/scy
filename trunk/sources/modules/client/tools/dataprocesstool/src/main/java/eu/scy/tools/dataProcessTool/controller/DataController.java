@@ -896,6 +896,9 @@ public class DataController implements ControllerInterface{
         double  y_max  = maxY +maxY/10;
         double deltaX = Math.floor((x_max - x_min) / 10) ;
         double deltaY = Math.floor((y_max - y_min) / 10) ;
+        // attention deltaX et deltaY sont forcement sup strict a 0
+        deltaX = Math.max(0.001,deltaX );
+        deltaY = Math.max(0.001, deltaY);
         ParamGraph pg = new ParamGraph(vis.getParamGraph().getX_name(), vis.getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
 
         v.add(pg);
