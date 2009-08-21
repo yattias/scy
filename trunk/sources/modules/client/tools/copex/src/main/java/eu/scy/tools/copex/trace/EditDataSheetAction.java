@@ -49,7 +49,7 @@ public class EditDataSheetAction extends TraceAction{
         }
     }
     
-     /* data a  copier */
+     /* data a copier */
     private String getDataToXML(DataXML data){
         String xml = data.getDbKeyToXML();
         xml += data.getNoRowToXML();

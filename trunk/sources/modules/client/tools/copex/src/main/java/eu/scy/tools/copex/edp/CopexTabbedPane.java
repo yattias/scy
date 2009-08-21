@@ -219,7 +219,7 @@ public class CopexTabbedPane extends JTabbedPane{
         return treeActiv.getTasksSelected();
     }
     
-    /* mise a  jour de l'arbre */
+    /* mise a jour de l'arbre */
     public void updateProc(LearnerProcedure newProc){
         treeActiv.updateProc(newProc);
     }

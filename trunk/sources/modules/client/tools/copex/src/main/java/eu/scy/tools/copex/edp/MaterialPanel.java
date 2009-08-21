@@ -257,7 +257,7 @@ public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButt
        }
     }
 
-    /* mise a  jour de la liste du materiel */
+    /* mise a jour de la liste du materiel */
     public void setListMaterial(char procRight, ArrayList<Material> listMaterial, ArrayList<MaterialUseForProc> listJustification){
         this.procRight = procRight;
         this.listMaterial = listMaterial;

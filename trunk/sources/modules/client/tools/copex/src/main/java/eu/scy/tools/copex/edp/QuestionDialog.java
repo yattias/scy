@@ -1,7 +1,7 @@
 /*
  * QuestionDialog.java
  *
- * Created on 5 aoa»t 2008, 08:09
+ * Created on 5 aoat 2008, 08:09
  */
 
 package eu.scy.tools.copex.edp;
@@ -313,7 +313,7 @@ public class QuestionDialog extends JDialog implements ActionComment {
         this.comment = panelComments.getComments() ;
     }
 
-    /* met a  jour le texte des commenraires */
+    /* met a jour le texte des commenraires */
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }

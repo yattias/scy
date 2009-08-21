@@ -33,7 +33,7 @@ public class Locker {
     private  DataBaseCommunication dbC;
     /** Le user de l'application. */
 	private  long idUser = -1;
-	/** Ce vecteur contient la liste des verrous a  remettre a  jour dans cette application. */
+	/** Ce vecteur contient la liste des verrous a remettre a jour dans cette application. */
 	private  ArrayList lockers = new ArrayList();
     /* thread */
     private ActivatorThread thread;

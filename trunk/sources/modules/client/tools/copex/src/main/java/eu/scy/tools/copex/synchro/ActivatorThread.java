@@ -11,7 +11,7 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
 /**
- *Ce thread contra´le periodiquement la base de donnees.
+ *Ce thread contrale periodiquement la base de donnees.
  * @author Marjolaine
  */
 public class ActivatorThread extends Thread{
@@ -36,7 +36,7 @@ public class ActivatorThread extends Thread{
 
     @Override
     public void run() {
-        // Boucle infinie de contra´le de la base de donnees, avec temps d'attente.
+        // Boucle infinie de contrale de la base de donnees, avec temps d'attente.
         while (true) {
             // Temps d'attente
             try {

@@ -1,7 +1,7 @@
 /*
  * AddProcDialog.java
  *
- * Created on 1 aoa»t 2008, 11:04
+ * Created on 1 aoat 2008, 11:04
  */
 
 package eu.scy.tools.copex.edp;
@@ -22,9 +22,9 @@ import javax.swing.*;
 
 /**
  * fenetre de dialogue appellee lors du clic sur le bouton +
- * permet a  l'utlisateur de choisir entre :
+ * permet a l'utlisateur de choisir entre :
  * - creer un nouveau protocole, 
- * - creer un nouveau protocole a  partir d'un protocole existant
+ * - creer un nouveau protocole a partir d'un protocole existant
  * - ouvrir un protocole existant
  * @author  MBO
  */
@@ -248,7 +248,7 @@ public class AddProcDialog extends JDialog {
                 edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            // on recupere le protocole a  copier
+            // on recupere le protocole a copier
             int id = this.cbListProc.getSelectedIndex();
             if (id == -1){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -517,7 +517,7 @@ private void rbOpenProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_rbOpenProcActionPerformed
 
 private void cbListMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListMissionActionPerformed
-    // mise a  jour de la liste des protocoles en fonction de la mission choisie
+    // mise a jour de la liste des protocoles en fonction de la mission choisie
     cbListMissionProc.removeAllItems();
     int id = cbListMission.getSelectedIndex();
     if (id != -1){

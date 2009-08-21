@@ -44,7 +44,7 @@ public class TraceFromDB {
                     return cr;
                 }
                 long dbKeyParam = (Long)v2.get(0);
-                //on met a  jour l'id
+                //on met a jour l'id
                 p.setDbKey(dbKeyParam);
             }
         }

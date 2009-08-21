@@ -114,7 +114,7 @@ public class TaskSelected {
         return parentTask;
     }
     
-    // retourne la tache a  laquelle   on s'attache
+    // retourne la tache a laquelle   on s'attache
     public CopexTask getTaskToAttach(){
        return oldBrother == null ? parentTask : oldBrother;
     }

@@ -30,7 +30,7 @@ import jxl.write.WriteException;
 import org.jdom.Element;
 
 /**
- * MBO le 03/03/09 : plusieurs proc initiaux lies a  une mission
+ * MBO le 03/03/09 : plusieurs proc initiaux lies a une mission
  * controller de l'applet
  * @author MBO
  */
@@ -56,7 +56,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
     /* liste des grandeurs physiques gerees dans COPEX */
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
     // mission principale 
-    // Attention des protocoles peuvent aªtre ouverts sans se rapporter a  cette mission
+    // Attention des protocoles peuvent etre ouverts sans se rapporter a cette mission
     private CopexMission mission = null;
     /* liste de protocole initial de la mission */
     private ArrayList<InitialProcedure> listInitialProc = null;
@@ -124,7 +124,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         // recuperation utilisateur externe
         ArrayList v = new ArrayList();
         System.out.println("controller");
-        // initialisation de la connexion a  la base
+        // initialisation de la connexion a la base
         db = new AccesDB(applet, dbKeyMission, idUser);
         CopexReturn cr = loadUser(idUser, mode,userName, firstName,dbKeyMission, v);
         if(cr.isError())
@@ -180,7 +180,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         // => si oui : on charge les proc init / proc correspondants
         // => si non : existe t il plusieurs proc initiaux ?
         //    => si oui : charge proc init
-        //    => si non : charge les codes / nom des proc initiaux, on demande a  l'utilisateur quel proc il veut ouvrir et on charge le bon proc initial
+        //    => si non : charge les codes / nom des proc initiaux, on demande a l'utilisateur quel proc il veut ouvrir et on charge le bon proc initial
         boolean allProcLocked =false;
         ArrayList<String> listProcLocked = new ArrayList();
         cr = ExperimentalProcedureFromDB.controlLearnerProcInDB(db.getDbC(),dbKeyMission, dbKeyUser,  v );
@@ -221,7 +221,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
                             listInitialProc = (ArrayList<InitialProcedure>)v.get(0);
                         }
                     }else{
-                        // plusieurs proc init => charge les codes/ nom seulement et on propose a  l'utilisateur celui qu'il veut charger
+                        // plusieurs proc init => charge les codes/ nom seulement et on propose a l'utilisateur celui qu'il veut charger
                         v = new ArrayList();
                         cr = ExperimentalProcedureFromDB.getSimpleInitialProcFromDB(db.getDbC(),  dbKeyMission, dbKeyUser, listIdInitProc, v);
                         if (cr.isError()){
@@ -495,7 +495,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
        // tache selectionnee et protocole ou il faut copier 
         TaskSelected ts = edP.getSelectedTask();
         LearnerProcedure proc = ts.getProc();
-        // liste des taches a  copier 
+        // liste des taches a copier 
         SubTree subTree = edP.getSubTreeCopy();
         ArrayList v = new ArrayList();
         return paste(proc, subTree, ts, MyConstants.NOT_UNDOREDO, v);
@@ -524,7 +524,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         // on recupere les nouveaux id des taches
         ArrayList<CopexTask> listT = (ArrayList<CopexTask>)v.get(0);
         expProc.addTasks(listT);
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(expProc);
         if (cr.isError()){
             return cr;
@@ -547,7 +547,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
        if (taskBrother == null){
             // branche en parent
             taskParent.setDbKeyChild(taskBranch.getDbKey());
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             expProc.getListTask().get(idB).setDbKeyChild(taskBranch.getDbKey());
             cr = TaskFromDB.createLinkChildInDB_xml(db.getDbC(), expProc.getListTask().get(idB).getDbKey(), taskBranch.getDbKey());
             if (cr.isError()){
@@ -558,7 +558,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             if (dbKeyOldBrother != -1)
                 lastTaskBranch.setDbKeyBrother(dbKeyOldBrother);
             taskBrother.setDbKeyBrother(taskBranch.getDbKey());
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             expProc.getListTask().get(idB).setDbKeyBrother(taskBranch.getDbKey());
             cr = TaskFromDB.createLinkBrotherInDB_xml(db.getDbC(), expProc.getListTask().get(idB).getDbKey(), taskBranch.getDbKey());
             if (cr.isError()){
@@ -627,7 +627,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
     public CopexReturn suppr(ArrayList<TaskSelected> listTs, ArrayList v, boolean suppr, char undoRedo) {
        Profiler.start();
        Profiler.start("suppr");
-        // determine la liste des taches a  supprimer
+        // determine la liste des taches a supprimer
         LearnerProcedure proc = getProc(listTs);
         int idPr = getIdProc(proc.getDbKey());
         if (idPr == -1)
@@ -647,7 +647,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         CopexReturn cr = db.deleteTasksFromDB(expProc.getDbKey(), listTask);
         if (cr.isError())
             return cr;
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(expProc);
         if (cr.isError()){
             return cr;
@@ -668,7 +668,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         }
         Profiler.end("supprMem");
         Profiler.start("majLien");
-        // mise a  jour des liens en memoire et en base
+        // mise a jour des liens en memoire et en base
        int nbTs = listTs.size();
         ArrayList<CopexTask> listToUpdateLinkChild = new ArrayList();
         ArrayList<CopexTask> listToUpdateLinkBrother = new ArrayList();
@@ -676,7 +676,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             TaskSelected ts = listTs.get(i);
             long dbKeyBrother = ts.getSelectedTask().getDbKeyBrother();
             if (dbKeyBrother != -1){
-                // on raccroche son frere  a  son grand frere si il existe, sinon au parent
+                // on raccroche son frere  a son grand frere si il existe, sinon au parent
                 CopexTask taskBrother = ts.getTaskOldBrother();
                 if (taskBrother ==null){
                     // au parent
@@ -703,7 +703,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         }
         Profiler.end("majLien");
         Profiler.start("majLienBD");
-        // mise a  jour des liens dans la base : 
+        // mise a jour des liens dans la base : 
         cr = db.updateLinksInDB(expProc.getDbKey(), listToUpdateLinkBrother, listToUpdateLinkChild);
         if (cr.isError())
             return cr;
@@ -717,7 +717,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             MyTask xmlT = new MyTask(listTask.get(i).getDbKey(), listTask.get(i).getDescription());
             listXMLTask.add(xmlT);
         }
-        // mise a  jour des donnees
+        // mise a jour des donnees
          System.out.println("maj donnees");
         boolean isOk = expProc.deleteTasks(listTask);
         if (!isOk){
@@ -751,7 +751,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
     }
 
     
-    /* definit la liste des taches a  partir d'une selection 
+    /* definit la liste des taches a partir d'une selection 
      * il s'agit des taches selectionnees + enfants 
      */
     private ArrayList<CopexTask> getListTask(ArrayList<TaskSelected> listTs){
@@ -990,18 +990,18 @@ public class CopexControllerAppletDB implements ControllerInterface {
         }
         if (cr.isError())
             return cr;
-       // mise a  jour date de modif 
+       // mise a jour date de modif 
         cr = db.updateDateProc(expProc);
         if (cr.isError()){
             return cr;
         }
         
         long newDbKey = (Long)v2.get(0);
-        // mise a  jour des donnees 
+        // mise a jour des donnees 
         task.setDbKey(newDbKey);
         if (taskBrother == null){
             taskParent.setDbKeyChild(newDbKey);
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             //proc.getListTask().get(idB).setDbKeyChild(newDbKey);
             listProc.get(idP).getListTask().get(idB).setDbKeyChild(newDbKey);
             if (listProc.get(idP).getListTask().get(idB).getDbKey() == listProc.get(idP).getQuestion().getDbKey())
@@ -1010,7 +1010,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             long dbKeyOldBrother = listProc.get(idP).getListTask().get(idB).getDbKeyBrother();
             task.setDbKeyBrother(dbKeyOldBrother);
             taskBrother.setDbKeyBrother(newDbKey);
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             expProc.getListTask().get(idB).setDbKeyBrother(newDbKey);
         }
         TaskRight taskRight = new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
@@ -1040,7 +1040,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             expProc.addQuestion(q);
         }
         
-        // en v[0] le  protocole mis a  jour
+        // en v[0] le  protocole mis a jour
         v.add((LearnerProcedure)expProc.clone());
         if (setTrace()){
             long dbKeyParent = -1;
@@ -1151,19 +1151,19 @@ public class CopexControllerAppletDB implements ControllerInterface {
                 msg = edP.getBundleString("MSG_ERROR_UPDATE_QUESTION");
             return new CopexReturn(msg, false);
         }
-        // mise a  jour dans la base
+        // mise a jour dans la base
         ArrayList v2 = new ArrayList();
         CopexReturn cr = db.updateTaskInDB(newTask, expProc.getDbKey(), oldTask, v2);
         if (cr.isError())
             return cr;
         newTask = (CopexTask)v2.get(0);
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(expProc);
         if (cr.isError()){
             return cr;
         }
        
-        // mise a  jour en memoire 
+        // mise a jour en memoire 
         //oldTask.setComments(newTask.getComments());
         //oldTask.setDescription(newTask.getDescription());
         newTask.setDbKey(oldTask.getDbKey());
@@ -1196,7 +1196,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         expProc.getListTask().get(idOld).setDescription(newTask.getDescription());
         expProc.getListTask().get(idOld).setComments(newTask.getComments());
         if (expProc.getListTask().get(idOld).getDbKey() == expProc.getQuestion().getDbKey()){
-            // on met a  jour la question du proc egalement
+            // on met a jour la question du proc egalement
             expProc.getQuestion().setDescription(newTask.getDescription());
             expProc.getQuestion().setComments(newTask.getComments());
             if (newTask instanceof Question){
@@ -1205,7 +1205,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             }
         }
         
-        // en v[0] le protocole mis a  jour 
+        // en v[0] le protocole mis a jour 
         v.add((LearnerProcedure)expProc.clone());
         return new CopexReturn();
     }
@@ -1308,7 +1308,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
                 }
             }
         }
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
             return cr;
@@ -1362,7 +1362,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             int idP = getIdProc(listP, procToOpen.getDbKey());
             if (idP == -1)
                 return new CopexReturn(edP.getBundleString("MSG_ERROR_OPEN_PROC"), false);
-            // on l'ajoute a  la liste si il n'y est pas deja
+            // on l'ajoute a la liste si il n'y est pas deja
             p = listP.get(idP);
             System.out.println("openProc chargement du proc");
             ArrayList v = new ArrayList();
@@ -1413,7 +1413,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
        CopexReturn cr = db.removeProcInDB(listProc.get(id), dbKeyUser);
        if (cr.isError())
            return cr;
-       // mise a  jour date de modif 
+       // mise a jour date de modif 
         cr = db.updateDateMission(proc.getMission().getDbKey());
         if (cr.isError()){
             return cr;
@@ -1434,7 +1434,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
 
      
 
-    /* retourne en v[0] la liste des protocoles qui peuvent aªtre copies : 
+    /* retourne en v[0] la liste des protocoles qui peuvent etre copies : 
      * liste des protocoles de la mission en cours
      * retourne en v[1] la liste des missions de l'utilisateur et en v[2]) la 
      * liste des protocoles pour chacune de ces missions
@@ -1488,7 +1488,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         return new CopexReturn();
     }
 
-    /* mise a  jour du nom du protocole */
+    /* mise a jour du nom du protocole */
     @Override
     public CopexReturn updateProcName(LearnerProcedure proc, String name, char undoRedo) {
         String oldName = name;
@@ -1500,7 +1500,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         CopexReturn cr = db.updateProcName(procC.getDbKey(), name);
         if (cr.isError())
             return cr;
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(procC);
         if (cr.isError()){
             return cr;
@@ -1525,7 +1525,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         return cr;
     }
     
-    /* mise a  jour du statut des protocoles */
+    /* mise a jour du statut des protocoles */
     @Override
     public CopexReturn setProcActiv(LearnerProcedure proc){
         if (proc.getMission().getDbKey() == mission.getDbKey()){
@@ -1567,7 +1567,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         // recupere l'id
         long dbKeyDataSheet = (Long)v2.get(0);
         dataSheet.setDbKey(dbKeyDataSheet);
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
             return cr;
@@ -1659,7 +1659,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
                 }
             }
         }
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
            return cr;
@@ -1702,7 +1702,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         }
         // recupere eventuellement le nouvel data 
         CopexData newData = (CopexData)v2.get(0);
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
              return cr;
@@ -1775,7 +1775,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         ArrayList<CopexTask> listTask = subTree.getListTask();
         // on modifie les liens des taches en base 
         // enregistre les taches 
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         CopexReturn cr = db.updateDateProc(expProc);
         if (cr.isError()){
              return cr;
@@ -1860,7 +1860,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             // branche en parent
             long firstChild = expProc.getListTask().get(idB).getDbKeyChild();
             taskParent.setDbKeyChild(taskBranch.getDbKey());
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             expProc.getListTask().get(idB).setDbKeyChild(taskBranch.getDbKey());
             cr = TaskFromDB.createLinkChildInDB_xml(db.getDbC(), expProc.getListTask().get(idB).getDbKey(), taskBranch.getDbKey());
             if (cr.isError()){
@@ -1886,7 +1886,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             if (dbKeyOldBrother != -1)
                 lastTaskBranch.setDbKeyBrother(dbKeyOldBrother);
             taskBrother.setDbKeyBrother(taskBranch.getDbKey());
-            // mise a  jour dans la liste
+            // mise a jour dans la liste
             expProc.getListTask().get(idB).setDbKeyBrother(taskBranch.getDbKey());
             cr = TaskFromDB.createLinkBrotherInDB_xml(db.getDbC(), expProc.getListTask().get(idB).getDbKey(), taskBranch.getDbKey());
             if (cr.isError()){
@@ -1960,7 +1960,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
             if (task.getDbKeyChild() != -1)
                 enfant = " "+task.getDbKeyChild()+" ";
             String visible = task.isVisible() ? "visible" :"cachee";
-            System.out.println("  - Ta¢che "+task.getDescription()+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
+            System.out.println("  - Tache "+task.getDescription()+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
            
         }
         System.out.println("********************************************************");
@@ -2020,7 +2020,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         return saveProcXML();
     }
 
-    /* mise a  jour des taches visibles */
+    /* mise a jour des taches visibles */
     private CopexReturn saveTaskVisible(){
         if (listProc == null)
             return new CopexReturn();
@@ -2035,7 +2035,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
     }
     
     
-    /* mise a  jour de l'etat visible des taches du proc */
+    /* mise a jour de l'etat visible des taches du proc */
     // MBO le 22/10/08 : on ne fera la maj en base qu'en sortie sinon ralentissement de l'appli
     @Override
     public CopexReturn updateTaskVisible(LearnerProcedure proc, ArrayList<CopexTask> listTask){
@@ -2043,11 +2043,11 @@ public class CopexControllerAppletDB implements ControllerInterface {
         if (idP == -1)
             return new CopexReturn(edP.getBundleString("MSG_ERROR_TASK_VISIBLE"), false);
         LearnerProcedure expProc = listProc.get(idP);
-        // mise a  jour dans la base
+        // mise a jour dans la base
        // CopexReturn cr = TaskFromDB.updateTaskVisibleInDB_xml(db.getDbC(), listTask);
        // if (cr.isError())
        //     return cr;
-        // mise a  jour en memoire
+        // mise a jour en memoire
         int nb = listTask.size();
         for (int i=0; i<nb; i++){
             int idTask = getId(expProc.getListTask(), listTask.get(i).getDbKey());
@@ -2189,7 +2189,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         CopexReturn cr = ExperimentalProcedureFromDB.addMaterialUseForProcInDB_xml(db.getDbC(), proc.getDbKey(), m.getDbKey(), justification);
         if (cr.isError())
             return cr;
-        // mise a  jour date de modif 
+        // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
             return cr;
@@ -2220,7 +2220,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         CopexReturn cr = ExperimentalProcedureFromDB.updateMaterialUseForProcInDB_xml(db.getDbC(), proc.getDbKey(), m.getDbKey(), justification);
         if (cr.isError())
             return cr;
-         // mise a  jour date de modif 
+         // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
             return cr;
@@ -2254,7 +2254,7 @@ public class CopexControllerAppletDB implements ControllerInterface {
         CopexReturn cr = ExperimentalProcedureFromDB.removeMaterialUseForProcFromDB_xml(db.getDbC(), proc.getDbKey(), m.getDbKey());
         if (cr.isError())
             return cr;
-         // mise a  jour date de modif 
+         // mise a jour date de modif 
         cr = db.updateDateProc(proc);
         if (cr.isError()){
             return cr;

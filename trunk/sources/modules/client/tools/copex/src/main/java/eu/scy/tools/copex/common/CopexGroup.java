@@ -43,7 +43,7 @@ public class CopexGroup {
     }
 
     /*
-     * met le nom du groupe a  jour
+     * met le nom du groupe a jour
      */ 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
@@ -57,7 +57,7 @@ public class CopexGroup {
     }
 
     /*
-     * met la liste des eleves a  jour
+     * met la liste des eleves a jour
      */
     public void setListLearners(ArrayList<CopexLearner> listLearners) {
         this.listLearners = listLearners;
@@ -65,7 +65,7 @@ public class CopexGroup {
     
     // OPERATIONS
     /*
-     * ajoute un eleve a  la liste en fin
+     * ajoute un eleve a la liste en fin
      */
     public void addLearner(CopexLearner copexLearner){
         if (this.listLearners == null)

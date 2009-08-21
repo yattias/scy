@@ -153,7 +153,7 @@ public class AccesDB {
         
     }
     
-     /* mise a  jour des liens */
+     /* mise a jour des liens */
     public CopexReturn updateLinksInDB(long dbKeyProc, ArrayList<CopexTask> listTaskUpdateBrother, ArrayList<CopexTask> listTaskUpdateChild){
        return TaskFromDB.updateLinksInDB_xml(this.dbC, dbKeyProc, listTaskUpdateBrother, listTaskUpdateChild);
         
@@ -212,13 +212,13 @@ public class AccesDB {
            return new CopexReturn();
     }
     
-    /* mise a  jour du nom du protocole */
+    /* mise a jour du nom du protocole */
     public CopexReturn updateProcName(long dbKeyProc, String name){
         return  ExperimentalProcedureFromDB.updateProcNameInDB_xml(dbC, dbKeyProc, name);
        
     }
     
-    /* mise a  jour de la date de modif d'un protocole et de sa mission associee */
+    /* mise a jour de la date de modif d'un protocole et de sa mission associee */
     public CopexReturn updateDateProc(ExperimentalProcedure proc){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         
@@ -233,7 +233,7 @@ public class AccesDB {
         return new CopexReturn();
     }
     
-    /* mise a  jour de la date de modif d'une mission */
+    /* mise a jour de la date de modif d'une mission */
     public CopexReturn updateDateMission(long dbKeyMission){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         CopexReturn cr = MissionFromDB.updateDateMissionInDB_xml(dbC, dbKeyMission, date);
@@ -241,7 +241,7 @@ public class AccesDB {
     }
     
     
-    /* mise a  jour du protocole actif d'une mission */
+    /* mise a jour du protocole actif d'une mission */
     public CopexReturn updateProcActiv(ArrayList<LearnerProcedure> listProc){
        CopexReturn cr ;
         int nbP = listProc.size();

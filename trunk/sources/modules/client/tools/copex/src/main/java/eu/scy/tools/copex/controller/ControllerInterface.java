@@ -80,15 +80,15 @@ public interface ControllerInterface {
     public CopexReturn closeProc(LearnerProcedure proc);
     /* suppression d'un protocole */
     public CopexReturn deleteProc(LearnerProcedure proc);
-    /* retourne en v[0] la liste des protocoles qui peuvent aªtre copies : 
+    /* retourne en v[0] la liste des protocoles qui peuvent etre copies : 
      * liste des protocoles de la mission en cours
      * retourne en v[1] la liste des missions de l'utilisateur et en v[2]) la 
      * liste des protocoles pour chacune de ces missions
      */
     public CopexReturn getListProcToCopyOrOpen(ArrayList v);
-    /* mise a  jour du nom du protocole */
+    /* mise a jour du nom du protocole */
     public CopexReturn updateProcName(LearnerProcedure proc, String name, char undoRedo);
-    /* mise a  jour du protocole actif */
+    /* mise a jour du protocole actif */
     public CopexReturn setProcActiv(LearnerProcedure proc);
     /* suppression dataSheet pour le protocole */
     public CopexReturn deleteDataSheet(LearnerProcedure proc, long dbKeyDataSheet, char undoRedo);
@@ -103,7 +103,7 @@ public interface ControllerInterface {
     public CopexReturn finalizeDragAndDrop(LearnerProcedure proc);
     /* arret de l'edp */
     public CopexReturn stopEdP();
-    /* mise a  jour de la visiblite des taches*/
+    /* mise a jour de la visiblite des taches*/
     public CopexReturn updateTaskVisible(LearnerProcedure p, ArrayList<CopexTask> listTask);
     /* retourne les donnees pour le proc aide */
     public CopexReturn getHelpProc(ArrayList v);

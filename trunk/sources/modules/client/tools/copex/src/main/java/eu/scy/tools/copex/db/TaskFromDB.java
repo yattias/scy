@@ -20,7 +20,7 @@ import org.jdom.Element;
 public class TaskFromDB {
 
    
-    /* chargement des tâches liees a  un protocole */
+    /* chargement des tï¿½ches liees a un protocole */
     public static CopexReturn getAllTaskFromDB_xml(DataBaseCommunication dbC, long idProc, long idQuestion, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         ArrayList<CopexTask> listT = new ArrayList();
         ArrayList v2 = new ArrayList();
@@ -141,7 +141,7 @@ public class TaskFromDB {
     
    
     
-    /* chargement des ta¢ches questions liees a  un protocole */
+    /* chargement des taches questions liees a un protocole */
     public static CopexReturn getAllQuestionProcFromDB_xml(DataBaseCommunication dbC, long idProc, long idQuestion, ArrayList v){
         ArrayList<CopexTask> listQ = new ArrayList();
         String query = "SELECT T.TASK_NAME, T.DESCRIPTION, T.COMMENTS,T.TASK_IMAGE,T.DRAW_ELO,  T.IS_VISIBLE,  R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT, " +
@@ -254,7 +254,7 @@ public class TaskFromDB {
     }
     
     
-    /* chargement des ta¢ches etapes liees a  un protocole */
+    /* chargement des taches etapes liees a un protocole */
     public static CopexReturn getAllStepProcFromDB_xml(DataBaseCommunication dbC, long idProc, ArrayList<InitialNamedAction> listInitAction,  ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd, ArrayList v){
         ArrayList<CopexTask> listS = new ArrayList();
         String query = "SELECT T.TASK_NAME, T.DESCRIPTION, T.COMMENTS, T.TASK_IMAGE, T.DRAW_ELO, T.IS_VISIBLE, R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT, " +
@@ -369,7 +369,7 @@ public class TaskFromDB {
     
    
     
-    /* chargement des ta¢ches actions liees a  un protocole */
+    /* chargement des taches actions liees a un protocole */
     public static CopexReturn getAllActionsProcFromDB_xml(DataBaseCommunication dbC, long idProc, ArrayList<InitialNamedAction> listInitialNamedAction, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         ArrayList<CopexTask> listA = new ArrayList();
         String query = "SELECT T.TASK_NAME, T.DESCRIPTION, T.COMMENTS, T.TASK_IMAGE, T.DRAW_ELO, T.IS_VISIBLE, R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT,  " +
@@ -647,7 +647,7 @@ public class TaskFromDB {
         v.add(listData);
         return new CopexReturn();
     }
-    /* retourne en v[0] l'action nommee correspondant a  l'action, null sinon */
+    /* retourne en v[0] l'action nommee correspondant a l'action, null sinon */
     private static  CopexReturn getNamedActionFromDB(DataBaseCommunication dbC, long dbKey, ArrayList<InitialNamedAction> listInitialNamedAction, ArrayList v){
         InitialNamedAction a = null;
         int nb = listInitialNamedAction.size();
@@ -1011,7 +1011,7 @@ public class TaskFromDB {
 	
     }
     
-    /* creation d'un materiel lie a  une action, retourne en v[0] la lsite du materiel avec les nouveaux dbKey */
+    /* creation d'un materiel lie a une action, retourne en v[0] la lsite du materiel avec les nouveaux dbKey */
     private static CopexReturn createActionMaterialProdInDB(DataBaseCommunication dbC, long dbKeyAction, ArrayList<Material> listMaterial, ArrayList v){
         int nbMat = listMaterial.size();
         for (int i=0; i<nbMat; i++){
@@ -1197,7 +1197,7 @@ public class TaskFromDB {
                }
            }else if (oldA != null && newA != null ){
                // maj action nommee
-               System.out.println("update Task : mise a  jour de l'action nommee ");
+               System.out.println("update Task : mise a jour de l'action nommee ");
                queryA = "UPDATE ACTION_NOMMEE SET ID_ACTION_NOMMEE = "+newA.getDbKey() +" WHERE ID_ACTION = "+dbKeyOldTask+" ;";
                nbQ++;
                // maj des parametres
@@ -1389,7 +1389,7 @@ public class TaskFromDB {
     
     /* modification des liens des taches */
     public static CopexReturn updateLinksInDB_xml(DataBaseCommunication dbC, long dbKeyProc, ArrayList<CopexTask> listTaskUpdateBrother, ArrayList<CopexTask> listTaskUpdateChild){
-        // mise a  jour des liens freres
+        // mise a jour des liens freres
         int nbB = listTaskUpdateBrother.size();
         int nbC = listTaskUpdateChild.size();
         ArrayList v = new ArrayList();
@@ -1403,7 +1403,7 @@ public class TaskFromDB {
             
             querys[i] = queryDelB ;
         }
-        // mise a  jour des liens enfants
+        // mise a jour des liens enfants
         for (int i=0;i<nbC;i++){
             CopexTask t = listTaskUpdateChild.get(i);
             long dbKey = t.getDbKey();
@@ -1603,11 +1603,11 @@ public class TaskFromDB {
                 task.setTaskRepeat(taskRepeat);
             }
 
-            // on met a  jour les identifiants 
+            // on met a jour les identifiants 
             task.setDbKey(dbKey);
             if (questionProc.getDbKey() == oldDbKey)
                questionProc.setDbKey(dbKey);
-            // parcours la liste pour mettre a  jour
+            // parcours la liste pour mettre a jour
             for (int k=0; k<nbT; k++){
                CopexTask ct = listTask.get(k);
                if (ct.getDbKeyBrother() == oldDbKey)
@@ -1754,7 +1754,7 @@ public class TaskFromDB {
         return cr;
     }
     
-    /* mis a  jour de la variable visible de taches */
+    /* mis a jour de la variable visible de taches */
     static public CopexReturn updateTaskVisibleInDB_xml(DataBaseCommunication dbC, ArrayList<CopexTask> listTask){
         int nb = listTask.size();
         ArrayList v = new ArrayList();
@@ -1971,7 +1971,7 @@ public class TaskFromDB {
                     break;
                 }
             }
-            // est il associe a  un parametre Quantity ?
+            // est il associe a un parametre Quantity ?
             ActionParamQuantity quantity = null;
             ArrayList v3 = new ArrayList();
             String query = "SELECT ID_PARAM_QUANTTY FROM LINK_PARAM_QUANTITY_MATERIAL WHERE ID_PARAM_MATERIAL = "+dbKey+" ;";
@@ -2299,7 +2299,7 @@ public class TaskFromDB {
     }
 
 
-    /* chargement repetition d'une tâche */
+    /* chargement repetition d'une tï¿½che */
     private static  CopexReturn getTaskRepeatFromDB(DataBaseCommunication dbC, long dbKeyTask, ArrayList<InitialNamedAction> listInitAction, ActionParam[] listActionParam, ArrayList<Material> listMaterialProd, ArrayList<QData> listDataProd,ArrayList v){
         TaskRepeat taskRepeat = null;
         String query = "SELECT R.ID_REPEAT, R.NB_REPEAT FROM TASK_REPEAT R, LINK_TASK_REPEAT L WHERE L.ID_TASK = "+dbKeyTask+" AND L.ID_REPEAT = R.ID_REPEAT ;";

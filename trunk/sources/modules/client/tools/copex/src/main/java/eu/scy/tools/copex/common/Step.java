@@ -19,7 +19,7 @@ public class Step extends CopexTask{
         super(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, false, taskRepeat);
     }
     
-    /* constructeur appele suite a  la saisie par l'utilisateur */
+    /* constructeur appele suite a la saisie par l'utilisateur */
     public Step(String description, String comments){
         super(-1, "", description, comments, null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null );
     }
