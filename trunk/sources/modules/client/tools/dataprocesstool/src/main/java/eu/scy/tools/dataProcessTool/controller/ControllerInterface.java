@@ -41,13 +41,13 @@ public interface ControllerInterface {
     /* creation d'une nouvelle operation parametree - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
     public CopexReturn createOperationParam(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo,String[] tabValue,  ArrayList v);
 
-    /* mise a  jour d'une valeur : titre header */
+    /* mise a jour d'une valeur : titre header */
     public CopexReturn updateDataHeader(Dataset ds, int colIndex, String title, String unit, ArrayList v);
 
-    /* mise a  jour d'une valeur : titre operation */
+    /* mise a jour d'une valeur : titre operation */
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v);
 
-    /* mise a  jour d'une valeur : donnee dataset */
+    /* mise a jour d'une valeur : donnee dataset */
     public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, Double value, ArrayList v);
 
     /* fermeture de la visualization d'une ds */
@@ -79,7 +79,7 @@ public interface ControllerInterface {
     /* drag and drop de colonnes */
     public CopexReturn moveSubData(SubData subDataToMove, int noColInsertBefore, ArrayList v);
 
-    /* mise a  jour dataset apres sort */
+    /* mise a jour dataset apres sort */
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v);
 
     /* creation d'un dataset avec l'en tete - 1 ligne de donnees */
@@ -87,7 +87,7 @@ public interface ControllerInterface {
 
     /* ajout d'une ligne de donnees */
     public CopexReturn addData(long dbKeyDs, Double[] values, boolean autoScale, ArrayList v);
-    /*mise a  jour des param */
+    /*mise a jour des param */
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph pg, ArrayList v);
     /* maj autoscale*/
     public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v);

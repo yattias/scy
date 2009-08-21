@@ -40,14 +40,14 @@ public class BorderPanel extends JPanel {
 	return BORDURE;
     }
     /**
-    * Retourne une couleur + foncee par rapport a  la reference
+    * Retourne une couleur + foncee par rapport a la reference
     * @param ref java.awt.Color
     */
     public Color getLoweredColor(Color ref) {
 	return ref.brighter() ;	
     }
     /**
-    * Retourne une couleur + foncee par rapport a  la reference
+    * Retourne une couleur + foncee par rapport a la reference
     * @param ref java.awt.Color
     */
     public Color getRaisedColor(Color ref) {
@@ -55,7 +55,7 @@ public class BorderPanel extends JPanel {
     }
     /** 
     * Methode heritee du JPanel :
-    * On change l'ordre dans lequel les elements sont redessines de faa§on a  ce que la bordure
+    * On change l'ordre dans lequel les elements sont redessines de facon a ce que la bordure
     * soit toujours visible.
     */
 //    @Override
@@ -75,7 +75,7 @@ public class BorderPanel extends JPanel {
     
     /** <BR>
     * Cette methode construit la bordure qui caracterise le BooPanel afin
-    * de personnaliser les fenaªtres de l'appli.
+    * de personnaliser les fenetres de l'appli.
     */
     public void setBorder() {
 //        this.borderColor =  Color.decode("#B6D8DB");

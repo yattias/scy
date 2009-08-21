@@ -170,7 +170,7 @@ public class DataControllerDB implements ControllerInterface{
     
     
 
-   /* retourne un dataset construit a  partir d'un ELO dataset */
+   /* retourne un dataset construit a partir d'un ELO dataset */
     private Dataset getDataset(DataSet eloDs, String name){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
@@ -383,7 +383,7 @@ public class DataControllerDB implements ControllerInterface{
     }
 
 
-    /* mise a  jour d'une valeur : titre header */
+    /* mise a jour d'une valeur : titre header */
     @Override
     public CopexReturn updateDataHeader(Dataset ds, int colIndex, String title, String unit, ArrayList v){
         CopexReturn cr = setDataHeader(ds, colIndex, title, unit);
@@ -417,7 +417,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour d'une valeur : titre operation */
+    /* mise a jour d'une valeur : titre operation */
     @Override
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v){
         int idOp = getIdOperation(dataset, operation);
@@ -434,7 +434,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour d'une valeur : donnee dataset */
+    /* mise a jour d'une valeur : donnee dataset */
     @Override
     public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, Double value, ArrayList v){
         CopexReturn cr = setData(ds, rowIndex, colIndex, value);
@@ -591,7 +591,7 @@ public class DataControllerDB implements ControllerInterface{
                     return cr;
             }
             if (nbRowsSel > 0 || nbColsSel > 0){
-                // on supprime les operations liees a  ces colonnes ou ces lignes
+                // on supprime les operations liees a ces colonnes ou ces lignes
                 // puis on supprime les operations qui ne portent plus sur aucune colonne ou ligne
                 ArrayList<DataOperation> myListOp = myDs.getListOperation();
                 int nbTotOp = myListOp.size();
@@ -660,7 +660,7 @@ public class DataControllerDB implements ControllerInterface{
             cr = DatasetFromDB.deleteDataFromDB(dbC, listData);
             if (cr.isError())
                 return cr;
-            // mise a  jour en memoire et appel de l'applet
+            // mise a jour en memoire et appel de l'applet
             //remove listDataHeader
             for (int i=0; i<listNoHeader.size(); i++){
                 myDs.removeHeader(listNoHeader.get(i));
@@ -681,7 +681,7 @@ public class DataControllerDB implements ControllerInterface{
             }
             //remove data
             myDs.removeData(listRowAndCol);
-            // mise a  jour des no : header, data, operation, visualizaion
+            // mise a jour des no : header, data, operation, visualizaion
             cr = DatasetFromDB.updateNoInDB(dbC, myDs);
             if (cr.isError())
                 return cr;
@@ -723,7 +723,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* retourne un dataset construit a  partir d'un ELO pds */
+    /* retourne un dataset construit a partir d'un ELO pds */
     private Dataset getPDS(ProcessedDatasetELO eloPDS, String name){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
@@ -881,7 +881,7 @@ public class DataControllerDB implements ControllerInterface{
             FunctionModel myFm = new FunctionModel(dbKey, description, fColor);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
-            //mise a  jour
+            //mise a jour
             if (description == null || description.length() == 0){
                 // suppression
                 CopexReturn cr = VisualizationFromDB.deleteFunctionModelFromDB(dbC, fm.getDbKey());
@@ -940,7 +940,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
-    /* mise a  jour dataset apres sort */
+    /* mise a jour dataset apres sort */
     // TODO  enregistre on en base 
     @Override
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v){
@@ -1019,7 +1019,7 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn() ;
     }
 
-    /*mise a  jour des param */
+    /*mise a jour des param */
     // TODO enregistrement base
     @Override
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph paramGraph, ArrayList v){

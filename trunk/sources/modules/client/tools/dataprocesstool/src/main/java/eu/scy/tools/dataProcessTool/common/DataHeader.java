@@ -6,7 +6,7 @@
 package eu.scy.tools.dataProcessTool.common;
 
 /**
- * En taªte du tableau 
+ * En tete du tableau 
  * @author Marjolaine   
  */
 public class DataHeader implements Cloneable {

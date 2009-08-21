@@ -118,20 +118,20 @@ public class MyMenu extends JMenu implements MouseListener {
     }
     // OPERATIONS
     
-    /* mise a  jour de l'icone */
+    /* mise a jour de l'icone */
     public void setImage(ImageIcon img){
         this.img = img;
         this.bg = img.getImage();
     }
-    /* mise a  jour de l'icone */
+    /* mise a jour de l'icone */
     public void setImageSurvol(ImageIcon img){
         this.imgSurvol = img;
     }
-    /* mise a  jour de l'icone */
+    /* mise a jour de l'icone */
     public void setImageClic(ImageIcon img){
         this.imgClic = img;
     }
-    /* mise a  jour de l'icone */
+    /* mise a jour de l'icone */
     public void setImageDisabled(ImageIcon img){
         this.imgDisabled = img;
     }
