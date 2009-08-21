@@ -564,7 +564,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* resize column */
     public void resizeColumn(){
-        System.out.println("resizeColumn");
         //min_column_width = ownerWidth / getNbCols()- 5 ;
          int widthTot = 0;
         for (int j = 0 ; j < this.getNbCols() ; j++){

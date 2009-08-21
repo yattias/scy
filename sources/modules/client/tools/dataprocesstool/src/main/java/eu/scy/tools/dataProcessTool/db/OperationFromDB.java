@@ -104,7 +104,7 @@ public class OperationFromDB {
             listOp.add(op);
             nbOp++;
         }
-        // on met a§a dans un tableau
+        // on met ca dans un tableau
         tabTypeOp = new TypeOperation[nbOp];
         for (int i=0; i<nbOp; i++){
             tabTypeOp[i] = listOp.get(i);

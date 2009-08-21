@@ -67,7 +67,7 @@ public class VisualizationFromDB {
             listVis.add(vis);
             nbVis++;
         }
-        // on met a§a dans un tableau
+        // on met ca dans un tableau
         tabTypeVis = new TypeVisualization[nbVis];
         for (int i=0; i<nbVis; i++){
             tabTypeVis[i] = listVis.get(i);
