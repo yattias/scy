@@ -240,7 +240,7 @@ public class Dataset implements Cloneable{
         return this.listDataHeader[colIndex];
     }
 
-    /* met le DataHeader a  jour */
+    /* met le DataHeader a jour */
     public void setDataHeader(DataHeader header, int columnIndex){
         this.listDataHeader[columnIndex] = header;
     }
@@ -249,7 +249,7 @@ public class Dataset implements Cloneable{
         return this.data[rowIndex][colIndex];
     }
 
-    /* met le data a  jour */
+    /* met le data a jour */
     public void setData(Data data, int rowIndex, int columnIndex){
         this.data[rowIndex][columnIndex] = data;
     }
@@ -434,7 +434,7 @@ public class Dataset implements Cloneable{
         listOperation.get(id).removeNo(no);
     }
     
-    /* supprime des donnees et met a  jour le nombre de lignes et de colonnes */
+    /* supprime des donnees et met a jour le nombre de lignes et de colonnes */
     public void removeData(ArrayList<Integer>[] listRowAndCol){
         int nbRowsSel = listRowAndCol[0].size();
         int nbColsSel = listRowAndCol[1].size();
@@ -600,7 +600,7 @@ public class Dataset implements Cloneable{
        }
        setData(newData);
        // header : pas de changement
-       // list operation : mise a  jour des no
+       // list operation : mise a jour des no
        int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (!listOperation.get(i).isOnCol()){
@@ -612,7 +612,7 @@ public class Dataset implements Cloneable{
                 }
             }
         }
-       // list visualization : mise a  jour des no
+       // list visualization : mise a jour des no
        int nbVis = listVisualization.size();
         for (int i=0; i<nbVis; i++){
             if (!listVisualization.get(i).isOnCol()){
@@ -653,7 +653,7 @@ public class Dataset implements Cloneable{
                headers[i+nbColsToInsert] = this.listDataHeader[i];
        }
        setListDataHeader(headers);
-       // list operation : mise a  jour des no
+       // list operation : mise a jour des no
        int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (listOperation.get(i).isOnCol()){
@@ -665,7 +665,7 @@ public class Dataset implements Cloneable{
                 }
             }
         }
-       // list visualization : mise a  jour des no
+       // list visualization : mise a jour des no
        int nbVis = listVisualization.size();
         for (int i=0; i<nbVis; i++){
             if (listVisualization.get(i).isOnCol()){

@@ -99,7 +99,7 @@ public class CopexButtonPanel extends JPanel {
         repaint();
     }
     
-    /* mise a  jour de l'icone */
+    /* mise a jour de l'icone */
     public void setIcon(Image updateImg){
         this.bgSimple = updateImg;
         this.bg = updateImg;

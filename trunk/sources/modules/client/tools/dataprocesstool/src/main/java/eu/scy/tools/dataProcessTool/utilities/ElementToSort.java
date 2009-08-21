@@ -6,12 +6,12 @@
 package eu.scy.tools.dataProcessTool.utilities;
 
 /**
- * Elements a  trier
+ * Elements a trier
  * @author Marjolaine Bodin
  */
 public class ElementToSort {
     //PROPERTY
-    /* Le nom de la colonne a  trier */
+    /* Le nom de la colonne a trier */
     private String columnName = null;
 		
     /* Le critere de tri :

@@ -18,7 +18,7 @@ import java.awt.Color;
  */
 public class DatasetFromDB {
 
-    /* chargement de tous les ds lie a  un utilisateur et a  une mission donnee */
+    /* chargement de tous les ds lie a un utilisateur et a une mission donnee */
     public static CopexReturn getAllDatasetFromDB(DataBaseCommunication dbC, long dbKeyUser, Mission mission, TypeOperation[] tabTypeOp,TypeVisualization[] tabTypeVis, ArrayList v){
         long dbKeyMission = mission.getDbKey();
         ArrayList<Dataset> listDataset = new ArrayList();
@@ -365,7 +365,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise a  jour du nom du dataset */
+    /* mise a jour du nom du dataset */
     public static CopexReturn updateDatasetNameInDB(DataBaseCommunication dbC, long dbKey, String newName){
         newName = MyUtilities.replace("\'",newName,"''") ;
         ArrayList v = new ArrayList();
@@ -376,7 +376,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* met a  jour le statut ignored des datas */
+    /* met a jour le statut ignored des datas */
     public static CopexReturn setDataIgnoredInDB(DataBaseCommunication dbC, ArrayList<Data> listData, boolean isIgnored){
         int ignore = 0;
         if (isIgnored)
@@ -416,7 +416,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise a  jour d'un header */
+    /* mise a jour d'un header */
     public static CopexReturn updateDataHeaderInDB(DataBaseCommunication dbC, long dbKey, String value, String unit){
         value = MyUtilities.replace("\'",value,"''") ;
         unit = MyUtilities.replace("\'",unit,"''") ;
@@ -447,7 +447,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise a  jour d'un data */
+    /* mise a jour d'un data */
     public static CopexReturn updateDataInDB(DataBaseCommunication dbC, long dbKey, double value){
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
@@ -815,7 +815,7 @@ public class DatasetFromDB {
         return cr;
     }
 
-    /* mise a  jour du numero de colonne pour les data, header, operation, visualization */
+    /* mise a jour du numero de colonne pour les data, header, operation, visualization */
     public static CopexReturn updateNoInDB(DataBaseCommunication dbC, Dataset ds){
         ArrayList<String> listQuerys = new ArrayList();
         // dataset : nbRow and nbCol
@@ -856,7 +856,7 @@ public class DatasetFromDB {
         return new CopexReturn();
     }
 
-    /* mise a  jour du nombre de lignes et col pour la matrice */
+    /* mise a jour du nombre de lignes et col pour la matrice */
     public static CopexReturn updateDatasetMatriceInDB(DataBaseCommunication dbC, long dbKey, int newNbRow, int newNbCol){
         String query = "UPDATE DATASET SET NB_COL = "+newNbCol+", NB_ROW = "+newNbRow+" WHERE ID_DATASET = "+dbKey+" ;";
         ArrayList v2 = new ArrayList();

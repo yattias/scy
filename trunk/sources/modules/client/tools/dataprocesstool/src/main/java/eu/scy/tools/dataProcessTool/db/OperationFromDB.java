@@ -220,7 +220,7 @@ public class OperationFromDB {
     }
 
 
-    /* mise a  jour titre operation */
+    /* mise a jour titre operation */
     public static CopexReturn updateOperationTitleInDB(DataBaseCommunication dbC, long dbKeyOp, String title){
         title = MyUtilities.replace("\'",title,"''") ;
         String query = "UPDATE DATA_OPERATION SET OP_NAME = '"+title+"' WHERE ID_DATA_OPERATION = "+dbKeyOp+" ;";
@@ -275,7 +275,7 @@ public class OperationFromDB {
         return cr;
     }
 
-    /* mise a  jour des no : on supprime tout et on recree tout */
+    /* mise a jour des no : on supprime tout et on recree tout */
     public static CopexReturn updateNoInDB(DataBaseCommunication dbC, ArrayList<DataOperation> listOperation){
         ArrayList v2 = new ArrayList();
         int nbOp = listOperation.size();
