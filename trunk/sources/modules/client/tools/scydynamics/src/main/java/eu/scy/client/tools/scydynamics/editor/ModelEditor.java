@@ -47,6 +47,7 @@ import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
 import eu.scy.client.tools.scydynamics.logging.FileActionLogger;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.SQLSpacesActionLogger;
+import eu.scy.client.tools.scydynamics.logging.ScyActionLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 
@@ -85,7 +86,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener,
 	}
 	
 	public ModelEditor(Properties props) {
-		 if (props.get("actionlog.to.file").equals("true")) {
+		if (props.get("actionlog.to.scy").equals("true")) {
+			logger = new ScyActionLogger(System.getProperty("user.name"));
+		} else if (props.get("actionlog.to.file").equals("true")) {
 			logger = new FileActionLogger(System.getProperty("user.name"));
 		} else if (props.get("actionlog.to.sqlspaces").equals("true")) {
 			logger = new SQLSpacesActionLogger(System.getProperty("user.name"), props);
