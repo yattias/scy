@@ -20,6 +20,7 @@
 		<module>fx-drawingtool</module>
 		<module>fx-fitex</module>
 		<module>fx-copex</module>
+		<module>fx-simulator</module>
 		<module>dataprocesstool</module>
 		<module>copex</module>
 		<module>colemo-model</module>
