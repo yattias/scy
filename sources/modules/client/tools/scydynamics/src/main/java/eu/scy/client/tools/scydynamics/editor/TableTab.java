@@ -141,7 +141,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 				tableModel.deleteFirstAndLast();
 				tablePanel.updateUI();
 				// log
-				editor.getActionLogger().logSimpleAction("run_model");
+				editor.getActionLogger().logSimpleAction("run_model", editor.getXmModel().getXML("", true));
 				editor.getActionLogger().logInspectVariablesAction("inspect_table", variableIdList.substring(0, variableIdList.length()-2));
 			} else {
 				JOptionPane.showMessageDialog(null, "You should select at least one\nvariable for plotting."); 

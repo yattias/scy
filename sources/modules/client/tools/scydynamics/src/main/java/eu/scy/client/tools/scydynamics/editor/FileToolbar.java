@@ -70,7 +70,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 						.getPrettyFormat()).outputString(modelElement));
 				editor.setXmModel(xmlModel);
 				this.setFilename(filename);
-				editor.getActionLogger().logLoadAction(editor.getModelXML());
+				editor.getActionLogger().logLoadAction(editor.getXmModel().getXML("", true));
 			} else {
 				throw new JDOMException(
 						"Couldn't find <model> element in file " + filename);
@@ -122,7 +122,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	}
 
 	private void save(String file) {
-		editor.getActionLogger().logSimpleAction("save_model");
+		editor.getActionLogger().logSimpleAction("save_model", editor.getXmModel().getXML("", true));
 		this.setFilename(file);
 		SAXBuilder builder = new SAXBuilder();
 		try {

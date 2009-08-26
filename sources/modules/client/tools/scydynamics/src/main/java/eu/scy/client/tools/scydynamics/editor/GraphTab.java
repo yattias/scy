@@ -151,7 +151,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener  
 				// simulate
 				model.getSimulation().Simulate();	
 				// log
-				editor.getActionLogger().logSimpleAction("run_model");			
+				editor.getActionLogger().logSimpleAction("run_model", editor.getXmModel().getXML("", true));			
 				editor.getActionLogger().logInspectVariablesAction("inspect_gaph", variableIdList.substring(0, variableIdList.length()-2));		
 			} else {
 				JOptionPane.showMessageDialog(null, "You should select at least one\nvariable for plotting."); 
