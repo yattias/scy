@@ -19,6 +19,8 @@ public interface IModellingLogger {
 			String unit, String modelString);
 
 	public abstract void logSimpleAction(String type);
+	
+	public abstract void logSimpleAction(String type, String modelString);
 
 	public abstract void logInspectVariablesAction(String type,
 			String selectedVariables);

@@ -189,6 +189,16 @@ public class ScyActionLogger implements IModellingLogger {
 	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logSimpleAction(java.lang.String)
 	 */
 	public void logSimpleAction(String type) {
+		action = createBasicAction(type);
+		logger.log(user, toolname, action);
+	}
+	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logSimpleAction(java.lang.String)
+	 */
+	public void logSimpleAction(String type, String modelString) {
+		action = createBasicAction(type);
+		action.addAttribute("model", "", modelString);
 		logger.log(user, toolname, action);
 	}
 
