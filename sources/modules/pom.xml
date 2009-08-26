@@ -432,7 +432,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javancss-maven-plugin</artifactId>
             </plugin-->
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
                 <configuration>
@@ -447,7 +447,7 @@
                           </tags>
                         </configuration>
                 
-            </plugin>
+            </plugin-->
         </plugins>
 
     </reporting>
