@@ -26,10 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.jdom.JDOMException;
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataTypeManager;
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
@@ -47,14 +43,11 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private static final long serialVersionUID = -2306183502112904729L;
     private ISimQuestViewer simquestViewer;
     private JTextArea text = new JTextArea(5, 20);
-    private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
     private SCYDataAgent dataAgent;
     private List<ModelVariable> simulationVariables;
     private List<ModelVariable> selectedVariables;
     private JCheckBox checkbox;
     private DataSet dataset;
-    private Object eloTitle = "an unnamed SimQuest dataset";
-    private IRepository repository;
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
     private BalanceSlider balanceSlider;

@@ -25,7 +25,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.RooloMetadataKeys;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
 /**
@@ -39,9 +39,8 @@ public class EloSimQuestWrapper {
     public static final String scyDatasetType = "scy/dataset";
     public static final String scySimConfigType = "scy/simconfig";
     private IRepository repository;
-    private IMetadataTypeManager<IMetadataKey> metadataTypeManager;
-    private IELOFactory<IMetadataKey> eloFactory;
-    private IMetadataKey uriKey;
+    private IMetadataTypeManager metadataTypeManager;
+    private IELOFactory eloFactory;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
@@ -54,6 +53,8 @@ public class EloSimQuestWrapper {
     private IELO eloDataSet = null;
     private IELO eloSimConfig = null;
     private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
+    private IMetadataKey identifierKey;
+    private IMetadataKey technicalFormatKey;
 
     public EloSimQuestWrapper() {
     }
@@ -92,25 +93,23 @@ public class EloSimQuestWrapper {
         return repository;
     }
 
-    public void setMetadataTypeManager(IMetadataTypeManager<IMetadataKey> metadataTypeManager) {
-        this.metadataTypeManager = metadataTypeManager;
-        uriKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.URI.getId());
-        logger.info("retrieved key " + uriKey.getId());
-        titleKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TITLE.getId());
-        logger.info("retrieved key " + titleKey.getId());
-        typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
-        logger.info("retrieved key " + typeKey.getId());
-        dateCreatedKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.DATE_CREATED.getId());
-        logger.info("retrieved key " + dateCreatedKey.getId());
-        missionKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.MISSION.getId());
-        logger.info("retrieved key " + missionKey.getId());
-        usesRelationKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.RELATION_USES.getId());
-        logger.info("retrieved key " + usesRelationKey.getId());
-        authorKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.AUTHOR.getId());
-        logger.info("retrieved key " + authorKey.getId());
-    }
+    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
+      this.metadataTypeManager = metadataTypeManager;
+      identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+      logger.info("retrieved key " + identifierKey.getId());
+      titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+      logger.info("retrieved key " + titleKey.getId());
+      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+      logger.info("retrieved key " + technicalFormatKey.getId());
+      dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+      logger.info("retrieved key " + dateCreatedKey.getId());
+//		missionKey = metadataTypeManager.getMetadataKey("mission");
+//		logger.info("retrieved key " + missionKey.getId());
+      authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+      logger.info("retrieved key " + authorKey.getId());
+   }
 
-    public void setEloFactory(IELOFactory<IMetadataKey> eloFactory) {
+    public void setEloFactory(IELOFactory eloFactory) {
         this.eloFactory = eloFactory;
     }
 
@@ -170,7 +169,7 @@ public class EloSimQuestWrapper {
 
     public void loadElo(URI eloUri) {
         logger.info("Trying to load elo " + eloUri);
-        IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
+        IELO newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
             if (!scySimConfigType.equals(eloType)) {
@@ -200,7 +199,7 @@ public class EloSimQuestWrapper {
             saveAsDataSetAction();
         } else {
             eloDataSet.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
-            IMetadata<IMetadataKey> resultMetadata = repository.updateELO(eloDataSet);
+            IMetadata resultMetadata = repository.updateELO(eloDataSet);
             eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
         }
     }
@@ -248,7 +247,7 @@ public class EloSimQuestWrapper {
             saveAsSimConfigAction();
         } else {
             eloSimConfig.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getSimConfig().toXML()));
-            IMetadata<IMetadataKey> resultMetadata = repository.updateELO(eloSimConfig);
+            IMetadata resultMetadata = repository.updateELO(eloSimConfig);
             eloFactory.updateELOWithResult(eloSimConfig, resultMetadata);
         }
     }
