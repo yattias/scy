@@ -34,11 +34,9 @@ public class DevNullActionLogger implements IModellingLogger {
 	public void logRenameAction(String id, String oldName, String newName) {}
 
 	@Override
-	public void logSimpleAction(String type) {
-//		action = new Action(type, "lars");
-//		action.addContext("tool", "SCYDynamics");
-//		action.addContext("mission", "SCY mission 1");
-//		System.out.println(action.getXMLString());
-	}
+	public void logSimpleAction(String type) {}
+	
+	@Override
+	public void logSimpleAction(String type, String modelString) {}
 
 }
