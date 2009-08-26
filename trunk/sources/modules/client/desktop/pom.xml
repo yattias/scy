@@ -21,7 +21,6 @@
 	<modules>
 		<module>tool-broker</module>
 		<module>awareness-client</module>
-		<module>elo-browser</module>
 		<module>scy-desktop</module>
 		<module>scy-lab</module>
 	</modules>
