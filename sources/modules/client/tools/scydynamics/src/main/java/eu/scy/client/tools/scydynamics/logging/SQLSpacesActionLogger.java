@@ -196,6 +196,15 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 	public void logSimpleAction(String type) {
 		logSQLSpacesHandler.writeAction(createBasicAction(type).getXML());
 	}
+	
+	/* (non-Javadoc)
+	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logSimpleAction(java.lang.String)
+	 */
+	public void logSimpleAction(String type, String modelString) {
+		action = createBasicAction(type);
+		action.addAttribute("model", "", modelString);
+		logSQLSpacesHandler.writeAction(action.getXML());
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logInspectVariablesAction(java.lang.String, java.lang.String)

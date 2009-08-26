@@ -196,6 +196,12 @@ public class FileActionLogger implements IModellingLogger {
 	public void logSimpleAction(String type) {
 		logfilehandler.writeAction(createBasicAction(type).getXML());
 	}
+	
+	public void logSimpleAction(String type, String modelString) {
+		action = createBasicAction(type);
+		action.addAttribute("model", "", modelString);
+		logfilehandler.writeAction(action.getXML());
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logInspectVariablesAction(java.lang.String, java.lang.String)
