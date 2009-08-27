@@ -1,6 +1,6 @@
 package eu.scy.colemo.client.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -12,7 +12,7 @@ import java.awt.geom.AffineTransform;
  * Date: 16.jun.2009
  * Time: 17:35:34
  */
-public class Star extends ConceptShape {
+public class Star extends INodeShape {
     int xPoints[] = {55, 67, 109, 73, 83, 55, 27, 37, 1, 43};
     int yPoints[] = {0, 36, 36, 54, 96, 72, 96, 54, 36, 36};
     private GeneralPath star = null;

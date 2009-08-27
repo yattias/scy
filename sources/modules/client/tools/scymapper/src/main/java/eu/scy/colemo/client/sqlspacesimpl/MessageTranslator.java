@@ -140,7 +140,7 @@ public class MessageTranslator implements IMessageTranslator {
                 concept.setY(yPos);
                 concept.setId(scyMessage.getId());
 
-                //ConceptNode newNode = new ConceptNode(concept);
+                //Node newNode = new Node(concept);
                 diagram.addClass(concept);
 
 

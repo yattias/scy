@@ -11,21 +11,21 @@ package eu.scy.colemo.client.ui.impl;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 
-import eu.scy.colemo.client.ui.impl.model.ConceptLink;
-import eu.scy.colemo.client.ui.impl.model.ConceptNode;
-import eu.scy.colemo.client.ui.impl.model.DefaultNodeStyle;
-import eu.scy.colemo.client.ui.api.links.IConceptLink;
-import eu.scy.colemo.client.ui.api.nodes.IConceptNode;
-import eu.scy.colemo.client.ui.api.nodes.INodeObserver;
-import eu.scy.colemo.client.ui.api.diagram.IDiagram;
-import eu.scy.colemo.client.ui.api.diagram.IDiagramObserver;
-import eu.scy.colemo.client.ui.api.styling.INodeStyle;
-import eu.scy.colemo.client.ui.impl.Diagram;
-import eu.scy.colemo.client.ui.impl.controller.DiagramController;
-import eu.scy.colemo.client.ui.impl.component.DiagramView;
+import eu.scy.scymapper.impl.model.ConceptLink;
+import eu.scy.scymapper.impl.model.Node;
+import eu.scy.scymapper.impl.model.DefaultNodeStyle;
+import eu.scy.scymapper.api.links.IConceptLink;
+import eu.scy.scymapper.api.nodes.INodeObserver;
+import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.IDiagram;
+import eu.scy.scymapper.api.diagram.IDiagramObserver;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.Diagram;
+import eu.scy.scymapper.impl.controller.DiagramController;
+import eu.scy.scymapper.impl.component.DiagramView;
 import eu.scy.colemo.client.shapes.concepts.*;
 import eu.scy.colemo.client.shapes.links.Arrow;
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -40,7 +40,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
     private JFrame frame;
     private IDiagram diagram;
 
-    private IConceptNode selectedNode;
+    private INode selectedNode;
     private JLabel selectedLabel;
 
     public DiagramImplTest() {
@@ -91,20 +91,20 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
 
     public void testAddNodes1() {
 
-        ConceptNode n1 = new ConceptNode(new RoundRectangle());
+        Node n1 = new Node(new RoundRectangle());
         n1.setLocation(new Point(500, 50));
         n1.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         n1.setLabel("I am soo boring and gray");
         n1.setSize(new Dimension(180, 100));
         addNode(n1);
 
-        IConceptNode svgNode = new ConceptNode();
+        INode svgNode = new Node();
         svgNode.setLabel("I'm a fried SVG egg");
 
         URL url = getClass().getResource("egg.svg");
         try {
             System.out.println("DiagramImplTest.testAddNodes1");
-            ConceptShape s = new SVGConcept(url);
+            INodeShape s = new SVGConcept(url);
             svgNode.setShape(s);
         } catch (IOException e) {
             System.err.println("File not found: "+url);
@@ -124,7 +124,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
 
     public synchronized void testAddNodes2() {
 
-        IConceptNode node = new ConceptNode();
+        INode node = new Node();
         node.setStyle(new DefaultNodeStyle());
         node.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         node.getStyle().setBackground(new Color(0xcc0000));
@@ -134,7 +134,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         node.setSize(new Dimension(200, 200));
         addNode(node);
 
-        IConceptNode n7 = new ConceptNode();
+        INode n7 = new Node();
         n7.setStyle(new DefaultNodeStyle());
         n7.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         n7.getStyle().setBackground(new Color(0x0099ff));
@@ -152,7 +152,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         diagram.addLink(link);
 
 
-        IConceptNode factory = new ConceptNode();
+        INode factory = new Node();
         factory.setStyle(new DefaultNodeStyle());
         factory.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         factory.getStyle().setBackground(new Color(0x0099ff));
@@ -165,13 +165,13 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         // Ok, so we are actually setting the shape AFTER we added it...
         // thanks to our good friend MVC, it should not matter
         try {
-            ConceptShape s = new SVGConcept(url);
+            INodeShape s = new SVGConcept(url);
             factory.setShape(s);
         } catch (IOException e) {
             System.err.println("File not found: "+url.toString());
         }
 
-        IConceptNode bergen = new ConceptNode();
+        INode bergen = new Node();
         bergen.setStyle(new DefaultNodeStyle());
         bergen.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         bergen.getStyle().setBackground(new Color(0x0099ff));
@@ -180,7 +180,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         bergen.setSize(new Dimension(150, 200));
         URL url1 = getClass().getResource("bergen.jpg");
         try {
-            ConceptShape s = new ImageShape(ImageIO.read(url1));
+            INodeShape s = new ImageShape(ImageIO.read(url1));
             bergen.setShape(s);
         } catch (IOException e) {
             System.err.println("File not found: "+url.toString());
@@ -188,7 +188,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         addNode(bergen);
     }
 
-    private void addNode(IConceptNode node) {
+    private void addNode(INode node) {
         // subscribe to changes in this node
         node.addObserver(this);
         diagram.addNode(node);
@@ -205,12 +205,12 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
     }
 
     @Override
-    public void nodeAdded(IConceptNode n) {
+    public void nodeAdded(INode n) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void nodeRemoved(IConceptNode n) {
+    public void nodeRemoved(INode n) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -220,36 +220,36 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
     }
 
     @Override
-    public void nodeSelected(IConceptNode n) {
+    public void nodeSelected(INode n) {
         System.out.println("DiagramImplTest.nodeSelected");
     }
 
     @Override
-    public void moved(IConceptNode node) {
+    public void moved(INode node) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void resized(IConceptNode node) {
+    public void resized(INode node) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void labelChanged(IConceptNode node) {
+    public void labelChanged(INode node) {
     }
 
     @Override
-    public void styleChanged(IConceptNode conceptNode) {
+    public void styleChanged(INode node) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void shapeChanged(IConceptNode conceptNode) {
+    public void shapeChanged(INode node) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void nodeSelected(ConceptNode conceptNode) {
+    public void nodeSelected(Node conceptNode) {
         selectedNode = conceptNode;
         selectedLabel.setText("You clicked: "+conceptNode.getLabel());
     }
@@ -260,7 +260,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         IDiagram diagram = new Diagram();
 
         // Create a new star-shaped concept star:
-        IConceptNode star = new ConceptNode();
+        INode star = new Node();
         star.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         star.getStyle().setBackground(new Color(0xcc0000));
         star.setShape(new Star());
@@ -270,11 +270,11 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         diagram.addNode(star);
 
         // Create a concept star from SVG:
-        IConceptNode egg = new ConceptNode();
+        INode egg = new Node();
         egg.setLabel("I'm a fried SVG egg");
         URL url = getClass().getResource("egg.svg");
         try {
-            ConceptShape s = new SVGConcept(url);
+            INodeShape s = new SVGConcept(url);
             egg.setShape(s);
         } catch (IOException e) {
             System.err.println("File not found: "+url);
