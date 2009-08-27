@@ -1,53 +1,47 @@
-package eu.scy.colemo.client.ui.impl;
+package eu.scy.scymapper.impl;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 11.jun.2009
- * Time: 12:48:34
- * To change this template use File | Settings | File Templates.
- */
+import eu.scy.scymapper.api.diagram.IDiagram;
+import eu.scy.scymapper.api.diagram.IDiagramObserver;
+import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.nodes.INodeObserver;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.api.links.IConceptLink;
+import eu.scy.scymapper.impl.component.DiagramView;
+import eu.scy.scymapper.impl.controller.DiagramController;
+import eu.scy.scymapper.impl.model.Node;
+import eu.scy.scymapper.impl.model.ConceptLink;
+import eu.scy.scymapper.impl.model.DefaultNodeStyle;
+import eu.scy.scymapper.impl.shapes.concepts.*;
+import eu.scy.scymapper.impl.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.links.Arrow;
 
 import javax.swing.*;
 import javax.imageio.ImageIO;
-
-import eu.scy.scymapper.impl.model.ConceptLink;
-import eu.scy.scymapper.impl.model.Node;
-import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.api.links.IConceptLink;
-import eu.scy.scymapper.api.nodes.INodeObserver;
-import eu.scy.scymapper.api.nodes.INode;
-import eu.scy.scymapper.api.diagram.IDiagram;
-import eu.scy.scymapper.api.diagram.IDiagramObserver;
-import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.impl.Diagram;
-import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.component.DiagramView;
-import eu.scy.scymapper.impl.shapes.concepts.*;
-import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.shapes.INodeShape;
-
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.net.URL;
 import java.io.IOException;
 
 /**
- * GUI test for the DiagramImplTest
+ * Created by IntelliJ IDEA.
+ * User: Bjørge
+ * Date: 27.aug.2009
+ * Time: 13:29:56
+ * To change this template use File | Settings | File Templates.
  */
-public class DiagramImplTest implements IDiagramObserver, INodeObserver {
-    private JFrame frame;
+public class SCYMapperMain  implements IDiagramObserver, INodeObserver { 
+		private JFrame frame;
     private IDiagram diagram;
 
     private INode selectedNode;
     private JLabel selectedLabel;
 
-    public DiagramImplTest() {
+    public SCYMapperMain() {
     }
 
     public static void main(String[] args) {
-        new DiagramImplTest().start();
+        new SCYMapperMain().start();
     }
 
     public void start() {
@@ -101,7 +95,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         INode svgNode = new Node();
         svgNode.setLabel("I'm a fried SVG egg");
 
-        URL url = getClass().getResource("egg.svg");
+        URL url = getClass().getResource("shapes/egg.svg");
         try {
             System.out.println("DiagramImplTest.testAddNodes1");
             INodeShape s = new SVGConcept(url);
@@ -159,7 +153,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         factory.setLabel("I'm a polluting SVG");
         factory.setLocation(new Point(50, 450));
         factory.setSize(new Dimension(150, 200));
-        URL url = getClass().getResource("factory.svg");
+        URL url = getClass().getResource("shapes/factory.svg");
         addNode(factory);
 
         // Ok, so we are actually setting the shape AFTER we added it...
@@ -178,7 +172,7 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
         bergen.setLabel("Bergen JPEG FTW!");
         bergen.setLocation(new Point(450, 450));
         bergen.setSize(new Dimension(150, 200));
-        URL url1 = getClass().getResource("bergen.jpg");
+        URL url1 = getClass().getResource("shapes/bergen.jpg");
         try {
             INodeShape s = new ImageShape(ImageIO.read(url1));
             bergen.setShape(s);
@@ -294,4 +288,3 @@ public class DiagramImplTest implements IDiagramObserver, INodeObserver {
 
     }
 }
-

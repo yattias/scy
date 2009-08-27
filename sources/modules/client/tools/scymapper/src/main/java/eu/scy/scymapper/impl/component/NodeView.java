@@ -6,7 +6,7 @@ import eu.scy.scymapper.api.nodes.INode;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import eu.scy.scymapper.impl.model.Node;
-import eu.scy.colemo.client.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.INodeShape;
 
 import javax.swing.*;
 import javax.imageio.ImageIO;

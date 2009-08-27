@@ -1,6 +1,6 @@
 package eu.scy.scymapper.api.links;
 
-import eu.scy.colemo.client.shapes.LinkShape;
+import eu.scy.scymapper.impl.shapes.LinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 
 import java.awt.*;

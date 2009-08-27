@@ -1,6 +1,6 @@
-package eu.scy.colemo.client.shapes.concepts;
+package eu.scy.scymapper.impl.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

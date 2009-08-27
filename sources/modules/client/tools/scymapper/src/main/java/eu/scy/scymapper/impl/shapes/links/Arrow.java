@@ -1,8 +1,8 @@
-package eu.scy.colemo.client.shapes.links;
+package eu.scy.scymapper.impl.shapes.links;
 
-import eu.scy.colemo.client.shapes.LinkShape;
-import eu.scy.colemo.client.shapes.links.Arrowhead;
-import eu.scy.colemo.client.shapes.links.Line;
+import eu.scy.scymapper.impl.shapes.LinkShape;
+import eu.scy.scymapper.impl.shapes.links.Arrowhead;
+import eu.scy.scymapper.impl.shapes.links.Line;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
