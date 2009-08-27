@@ -13,6 +13,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
+import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.FitexContentCreator;
 import eu.scy.client.tools.fxcopex.CopexContentCreator;
 
@@ -25,6 +26,7 @@ InitLog4JFX.initLog4J();
 def scyDrawingType = "scy/drawing";
 def scyFitexType = "scy/data processing";
 def scyCopexType = "scy/copex";
+def scySimulatorType = "scy/simconfig";
 
 
 var scyDesktopCreator = ScyDesktopCreator{
@@ -40,6 +42,8 @@ scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"pds")
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(CopexContentCreator{},scyCopexType);
 scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyCopexType,"xproc");
 
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SimulatorContentCreator{},scySimulatorType);
+scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scySimulatorType,"simulator");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
