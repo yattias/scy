@@ -1,6 +1,6 @@
-package eu.scy.colemo.client.shapes.links;
+package eu.scy.scymapper.impl.shapes.links;
 
-import eu.scy.colemo.client.shapes.LinkShape;
+import eu.scy.scymapper.impl.shapes.LinkShape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

@@ -1,9 +1,8 @@
-package eu.scy.colemo.client.shapes.links;
+package eu.scy.scymapper.impl.shapes.links;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by IntelliJ IDEA.

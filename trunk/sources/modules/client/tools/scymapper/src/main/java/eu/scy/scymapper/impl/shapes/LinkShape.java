@@ -1,4 +1,4 @@
-package eu.scy.colemo.client.shapes;
+package eu.scy.scymapper.impl.shapes;
 
 import java.awt.*;
 

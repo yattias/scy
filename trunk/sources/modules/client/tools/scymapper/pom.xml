@@ -153,7 +153,7 @@
 					<execution></execution>
 				</executions>
 				<configuration>
-					<mainClass>eu.scy.colemo.client.ColemoStartup</mainClass>
+					<mainClass>eu.scy.scymapper.impl.SCYMapperMain</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

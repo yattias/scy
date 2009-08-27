@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.colemo.client.shapes.links.Arrow;
+import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.api.diagram.IDiagram;
 import eu.scy.scymapper.api.diagram.IDiagramController;
 import eu.scy.scymapper.api.diagram.IDiagramObserver;

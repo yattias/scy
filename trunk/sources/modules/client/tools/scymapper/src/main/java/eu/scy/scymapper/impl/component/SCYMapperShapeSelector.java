@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.colemo.client.shapes.INodeShape;
-import eu.scy.colemo.client.shapes.LinkShape;
+import eu.scy.scymapper.impl.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.LinkShape;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class SCYMapperShapeSelector extends JPanel {
-    private static final String FIGURES_PACKAGE = "eu.scy.colemo.client.eu.scy.colemo.client.shapes.concepts";
-    private static final String CONNECTORS_PACKAGE = "eu.scy.colemo.client.eu.scy.colemo.client.shapes.links";
+    private static final String FIGURES_PACKAGE = "eu.scy.colemo.client.eu.scy.scymapper.impl.shapes.concepts";
+    private static final String CONNECTORS_PACKAGE = "eu.scy.colemo.client.eu.scy.scymapper.impl.shapes.links";
 
     private JPanel shapePanel;
     private JPanel connectorPanel;

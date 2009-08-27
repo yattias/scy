@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.colemo.client.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.INodeShape;
 import eu.scy.scymapper.api.nodes.INodeObserver;
 import eu.scy.scymapper.api.nodes.INode;
 import eu.scy.scymapper.api.styling.INodeStyle;

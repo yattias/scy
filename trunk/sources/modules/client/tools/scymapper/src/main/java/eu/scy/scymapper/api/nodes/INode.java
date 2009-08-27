@@ -1,6 +1,6 @@
 package eu.scy.scymapper.api.nodes;
 
-import eu.scy.colemo.client.shapes.INodeShape;
+import eu.scy.scymapper.impl.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 
 import java.awt.*;

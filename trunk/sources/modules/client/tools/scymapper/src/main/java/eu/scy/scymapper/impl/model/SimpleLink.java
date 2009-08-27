@@ -5,7 +5,7 @@ import eu.scy.scymapper.api.links.ILinkObservable;
 import eu.scy.scymapper.api.links.ILinkObserver;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleObserver;
-import eu.scy.colemo.client.shapes.LinkShape;
+import eu.scy.scymapper.impl.shapes.LinkShape;
 
 import java.awt.*;
 import java.util.ArrayList;
