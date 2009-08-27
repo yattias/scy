@@ -24,11 +24,9 @@ import java.net.URL;
 import java.io.IOException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 27.aug.2009
  * Time: 13:29:56
- * To change this template use File | Settings | File Templates.
  */
 public class SCYMapperMain  implements IDiagramObserver, INodeObserver { 
 		private JFrame frame;
