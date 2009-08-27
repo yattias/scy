@@ -52,14 +52,14 @@
         <plugins>
 
 
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                     <optimize>true</optimize>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -123,7 +123,7 @@
             </plugin>
 
 
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo.webstart</groupId>
                 <artifactId>webstart-maven-plugin</artifactId>
                 <executions>
@@ -160,7 +160,7 @@
                     <outputJarVersions>false</outputJarVersions>
                     <verbose>false</verbose>
                 </configuration>
-            </plugin>
+            </plugin-->
 
             <!--plugin>
                 <artifactId>maven-resources-plugin</artifactId>
