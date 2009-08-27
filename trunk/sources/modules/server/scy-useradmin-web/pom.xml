@@ -322,18 +322,6 @@
 
         <!-- TAPESTRY EXTENSIONS -->
 
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>t5c-contrib</artifactId>
-            <version>${t5components.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>t5c-commons</artifactId>
-            <version>${t5components.version}</version>
-        </dependency>
-
 
         <!-- SPRING -->
 
