@@ -13,7 +13,6 @@ import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.InjectService;
-import org.apache.tapestry.contrib.utils.ProxyConfig;
 
 import org.slf4j.Logger;
 import eu.scy.framework.*;
