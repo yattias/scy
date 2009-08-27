@@ -1,6 +1,6 @@
 package eu.scy.colemo.client.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -11,7 +11,7 @@ import java.awt.geom.RoundRectangle2D;
  * Date: 03.jun.2009
  * Time: 13:25:19
  */
-public class RoundRectangle extends ConceptShape {
+public class RoundRectangle extends INodeShape {
     public RoundRectangle() {
     }
 

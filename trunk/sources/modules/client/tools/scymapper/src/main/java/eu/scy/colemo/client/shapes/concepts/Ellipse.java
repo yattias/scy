@@ -1,6 +1,6 @@
 package eu.scy.colemo.client.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -11,7 +11,7 @@ import java.awt.geom.Ellipse2D;
  * Date: 15.jun.2009
  * Time: 15:35:10
  */
-public class Ellipse extends ConceptShape {
+public class Ellipse extends INodeShape {
     public Ellipse() {
     }
     /**

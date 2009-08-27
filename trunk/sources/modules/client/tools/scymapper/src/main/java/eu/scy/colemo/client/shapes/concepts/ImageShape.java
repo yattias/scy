@@ -1,13 +1,10 @@
 package eu.scy.colemo.client.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
-
-import org.w3c.dom.Element;
-import org.apache.batik.bridge.ViewBox;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +12,7 @@ import org.apache.batik.bridge.ViewBox;
  * Date: 25.jun.2009
  * Time: 12:38:07
  */
-public class ImageShape extends ConceptShape {
+public class ImageShape extends INodeShape {
     private BufferedImage image;
 
     public ImageShape(BufferedImage i) {

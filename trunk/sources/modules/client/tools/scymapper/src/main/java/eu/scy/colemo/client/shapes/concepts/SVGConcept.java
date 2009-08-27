@@ -1,9 +1,8 @@
 package eu.scy.colemo.client.shapes.concepts;
 
-import eu.scy.colemo.client.shapes.ConceptShape;
+import eu.scy.colemo.client.shapes.INodeShape;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 
 import org.apache.batik.gvt.GraphicsNode;
@@ -14,7 +13,6 @@ import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.io.IOException;
 
@@ -27,7 +25,7 @@ import org.w3c.dom.svg.SVGDocument;
  * Date: 25.jun.2009
  * Time: 10:22:48
  */
-public class SVGConcept extends ConceptShape {
+public class SVGConcept extends INodeShape {
 
     private GraphicsNode rootNode;
     private SVGDocument document;
