@@ -92,7 +92,7 @@
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>jdom</groupId>
+			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 		</dependency>
 	</dependencies>
