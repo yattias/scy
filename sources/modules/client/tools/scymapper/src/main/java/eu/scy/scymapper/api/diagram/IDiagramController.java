@@ -1,7 +1,6 @@
 package eu.scy.scymapper.api.diagram;
 
-import eu.scy.scymapper.api.links.IConceptLink;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +11,7 @@ import eu.scy.scymapper.api.nodes.INode;
  */
 public interface IDiagramController {
     public void setName(String name);
-    public void addNode(INode n, boolean preventOverlap);
-    public void addNode(INode n);
-    public void addLink(IConceptLink l);
+    public void addNode(INodeModel n, boolean preventOverlap);
+    public void addNode(INodeModel n);
+    public void addLink(ILinkModel l);
 }

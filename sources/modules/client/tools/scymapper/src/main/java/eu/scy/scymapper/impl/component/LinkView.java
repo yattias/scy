@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.links.ILink;
-import eu.scy.scymapper.api.links.ILinkObserver;
-import eu.scy.scymapper.api.links.ILinkController;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.ILinkModelObserver;
+import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.impl.model.DefaultLinkStyle;
 
@@ -14,17 +14,17 @@ import java.awt.*;
  * Date: 23.jun.2009
  * Time: 16:23:37
  */
-public class LinkView extends Container implements ILinkObserver {
+public class LinkView extends Container implements ILinkModelObserver {
 
     static final ILinkStyle DEFAULT_LINKSTYLE = new DefaultLinkStyle();
 
     protected ILinkController controller;
-    protected ILink model;
+    protected ILinkModel model;
 
     private int minWidth = 100;
     private int minHeight = 100;
 
-    public LinkView(ILinkController controller, ILink model) {
+    public LinkView(ILinkController controller, ILinkModel model) {
         this.controller = controller;
         this.model = model;
 
@@ -97,7 +97,7 @@ public class LinkView extends Container implements ILinkObserver {
 
 
     @Override
-    public void updated(ILink m) {
+    public void updated(ILinkModel m) {
         updatePosition();
     }
 }

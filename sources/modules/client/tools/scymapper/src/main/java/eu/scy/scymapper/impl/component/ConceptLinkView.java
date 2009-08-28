@@ -1,12 +1,12 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.links.ILinkController;
-import eu.scy.scymapper.api.links.IConceptLink;
-import eu.scy.scymapper.api.links.ILink;
-import eu.scy.scymapper.api.nodes.INodeObserver;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.ILinkController;
+import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.INodeModelObserver;
+import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.component.LinkView;
-import eu.scy.scymapper.impl.model.Node;
+import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -19,11 +19,11 @@ import java.awt.*;
  * Time: 11:24:47
  * To change this template use File | Settings | File Templates.
  */
-public class ConceptLinkView extends LinkView implements KeyListener, INodeObserver {
+public class ConceptLinkView extends LinkView implements KeyListener, INodeModelObserver {
 
     private JTextField labelEditor;
 
-    public ConceptLinkView(ILinkController controller, IConceptLink model) {
+    public ConceptLinkView(ILinkController controller, IConceptLinkModel model) {
         super(controller, model);
 
         // I want to observe changes in my connected nodes
@@ -75,33 +75,33 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeObser
     }
 
     @Override
-    public void updated(ILink m) {
+    public void updated(ILinkModel m) {
         layoutComponents();
         super.updated(m);
     }
 
     @Override
-    public void moved(INode node) {
+    public void moved(INodeModel node) {
         updatePosition();
         layoutComponents();
     }
 
     @Override
-    public void resized(INode node) {
+    public void resized(INodeModel node) {
         updatePosition();
         layoutComponents();
     }
 
     // Do nothing when these events happens in one of my nodes
     @Override
-    public void labelChanged(INode node) {}
+    public void labelChanged(INodeModel node) {}
     @Override
-    public void styleChanged(INode node) {}
+    public void styleChanged(INodeModel node) {}
     @Override
-    public void shapeChanged(INode node) {}
+    public void shapeChanged(INodeModel node) {}
 
     @Override
-    public void nodeSelected(Node conceptNode) {
+    public void nodeSelected(NodeModel conceptNode) {
         
     }
 

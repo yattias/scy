@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.controller;
 
-import eu.scy.scymapper.api.links.ILink;
-import eu.scy.scymapper.api.links.ILinkController;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.ILinkController;
 
 import java.awt.*;
 
@@ -13,9 +13,9 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class LinkConnectorController implements ILinkController {
-    private ILink model;
+    private ILinkModel model;
 
-    public LinkConnectorController(ILink model) {
+    public LinkConnectorController(ILinkModel model) {
         this.model = model;
     }
 

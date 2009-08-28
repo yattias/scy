@@ -1,11 +1,11 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.nodes.INodeController;
-import eu.scy.scymapper.api.nodes.INodeObserver;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.api.diagram.INodeController;
+import eu.scy.scymapper.api.diagram.INodeModelObserver;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.model.Node;
+import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.INodeShape;
 
 import javax.swing.*;
@@ -23,19 +23,19 @@ import java.io.IOException;
  * Date: 22.jun.2009
  * Time: 19:27:37
  */
-public class NodeView extends JComponent implements INodeObserver, KeyListener {
+public class NodeView extends JComponent implements INodeModelObserver, KeyListener {
 
     private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
     private JComponent resizeHandle;
     private INodeController controller;
-    private INode model;
+    private INodeModel model;
     private JTextField labelEditor;
 
     private static final INodeStyle DEFAULT_NODESTYLE = new DefaultNodeStyle();
     private Color highlight;
 
-    public NodeView(INodeController controller, INode model) {
+    public NodeView(INodeController controller, INodeModel model) {
 
         super();
 
@@ -148,41 +148,41 @@ public class NodeView extends JComponent implements INodeObserver, KeyListener {
     }
 
 
-    public INode getModel() {
+    public INodeModel getModel() {
         return model;
     }
 
-    public void setModel(INode model) {
+    public void setModel(INodeModel model) {
         this.model = model;
     }
 
     @Override
-    public void moved(INode model) {
+    public void moved(INodeModel model) {
         setLocation(model.getLocation());
     }
 
     @Override
-    public void resized(INode model) {
+    public void resized(INodeModel model) {
         setSize(model.getSize());
         layoutComponents();
     }
 
     @Override
-    public void labelChanged(INode node) {
+    public void labelChanged(INodeModel node) {
         layoutComponents();
     }
 
     @Override
-    public void styleChanged(INode node) {
+    public void styleChanged(INodeModel node) {
     }
 
     @Override
-    public void shapeChanged(INode node) {
+    public void shapeChanged(INodeModel node) {
         repaint();
     }
 
     @Override
-    public void nodeSelected(Node conceptNode) {
+    public void nodeSelected(NodeModel conceptNode) {
         // Do nothing
         // Todo: paint with selectedstyle?
     }

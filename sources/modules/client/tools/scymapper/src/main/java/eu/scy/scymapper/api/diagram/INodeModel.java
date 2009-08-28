@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.nodes;
+package eu.scy.scymapper.api.diagram;
 
 import eu.scy.scymapper.impl.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
@@ -11,7 +11,7 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 19:00:33
  */
-public interface INode extends INodeObservable {
+public interface INodeModel extends INodeModelObservable {
     public String getLabel();
 
     public void setLabel(String label);
