@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.impl.shapes.INodeShape;
-import eu.scy.scymapper.api.nodes.INodeObserver;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.INodeModelObserver;
+import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleObserver;
 
@@ -15,25 +15,25 @@ import java.util.ArrayList;
  * Date: 22.jun.2009
  * Time: 19:47:53
  */
-public class Node implements INode, INodeStyleObserver {
+public class NodeModel implements INodeModel, INodeStyleObserver {
     private INodeShape shape;
     private Dimension size;
     private Point location;
-    private ArrayList<INodeObserver> observers;
+    private ArrayList<INodeModelObserver> observers;
     private String label;
     private INodeStyle style;
     private boolean selected = false;
 
-    public Node() {
-        observers = new ArrayList<INodeObserver>();
+    public NodeModel() {
+        observers = new ArrayList<INodeModelObserver>();
 
     }
-    public Node(INodeShape shape) {
+    public NodeModel(INodeShape shape) {
         this();
         this.shape = shape;
     }
 
-    @Override
+	@Override
     public int getDistanceToPerimeter(Point p) {
         return (int)p.distance(getShape().getConnectionPoint(p, new Rectangle(getLocation(), getSize())));
     }
@@ -107,51 +107,51 @@ public class Node implements INode, INodeStyleObserver {
     }
 
     @Override
-    public void addObserver(INodeObserver observer) {
+    public void addObserver(INodeModelObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(INodeObserver observer) {
+    public void removeObserver(INodeModelObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyMoved() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.moved(this);
         }
     }
 
     @Override
     public void notifyResized() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.resized(this);
         }
     }
 
     @Override
     public void notifyLabelChanged() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.labelChanged(this);
         }
     }
     @Override
     public void notifyStyleChanged() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.styleChanged(this);
         }
     }
 
     @Override
     public void notifyShapeChanged() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.shapeChanged(this);
         }
     }
     @Override
     public void notifySelected() {
-        for (INodeObserver observer : observers) {
+        for (INodeModelObserver observer : observers) {
             observer.nodeSelected(this);
         }
     }
@@ -162,7 +162,7 @@ public class Node implements INode, INodeStyleObserver {
 
     @Override
     public String toString() {
-        return "Node{" +
+        return "NodeModel{" +
                 "label='" + label + '\'' +
                 '}';
     }

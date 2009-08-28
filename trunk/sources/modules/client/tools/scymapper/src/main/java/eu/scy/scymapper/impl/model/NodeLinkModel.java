@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.links.IConceptLink;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.awt.*;
 
@@ -11,16 +11,16 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 18:40:14
  */
-public class ConceptLink extends SimpleLink implements IConceptLink {
-    private INode fromNode;
-    private INode toNode;
+public class NodeLinkModel extends SimpleLink implements IConceptLinkModel {
+    private INodeModel fromNode;
+    private INodeModel toNode;
 
-    public ConceptLink(INode fromNode, INode toNode) {
+    public NodeLinkModel(INodeModel fromNode, INodeModel toNode) {
         this.fromNode = fromNode;
         this.toNode = toNode;
     }
 
-    @Override
+	@Override
     public Point getFrom() {
         Point to = toNode.getConnectionPoint(fromNode.getCenterLocation());
         return fromNode.getConnectionPoint(to);
@@ -34,22 +34,22 @@ public class ConceptLink extends SimpleLink implements IConceptLink {
     }
 
     @Override
-    public INode getFromNode() {
+    public INodeModel getFromNode() {
         return fromNode;
     }
 
     @Override
-    public void setFromNode(INode node) {
+    public void setFromNode(INodeModel node) {
         fromNode = node;
     }
 
     @Override
-    public INode getToNode() {
+    public INodeModel getToNode() {
         return toNode;
     }
 
     @Override
-    public void setToNode(INode node) {
+    public void setToNode(INodeModel node) {
         toNode = node;
     }
 }

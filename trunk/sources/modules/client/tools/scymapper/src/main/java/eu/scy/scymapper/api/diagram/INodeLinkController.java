@@ -1,6 +1,6 @@
-package eu.scy.scymapper.api.links;
+package eu.scy.scymapper.api.diagram;
 
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +10,7 @@ import eu.scy.scymapper.api.nodes.INode;
  * To change this template use File | Settings | File Templates.
  */
 public interface INodeLinkController extends ILinkController {
-    public void setToNode(INode toNode);
-    public void setFromNode(INode toNode);
+    public void setToNode(INodeModel toNode);
+    public void setFromNode(INodeModel toNode);
 
 }

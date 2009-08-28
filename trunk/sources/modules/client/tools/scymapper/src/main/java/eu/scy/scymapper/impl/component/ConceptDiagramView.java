@@ -1,13 +1,10 @@
 package eu.scy.scymapper.impl.component;
 
 import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.api.diagram.IDiagram;
-import eu.scy.scymapper.api.diagram.IDiagramController;
-import eu.scy.scymapper.api.diagram.IDiagramObserver;
-import eu.scy.scymapper.api.links.IConceptLink;
-import eu.scy.scymapper.api.links.ILink;
-import eu.scy.scymapper.api.nodes.INodeObserver;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.component.ConceptLinkView;
 import eu.scy.scymapper.impl.component.LinkView;
 import eu.scy.scymapper.impl.component.NodeView;
@@ -16,8 +13,8 @@ import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.model.SimpleLink;
-import eu.scy.scymapper.impl.model.ConceptLink;
-import eu.scy.scymapper.impl.model.Node;
+import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.swing.*;
 import javax.imageio.ImageIO;
@@ -35,15 +32,15 @@ import java.io.IOException;
  * Time: 06:40:09
  * To change this template use File | Settings | File Templates.
  */
-public class DiagramView extends JPanel implements IDiagramObserver, INodeObserver {
+public class ConceptDiagramView extends JPanel implements IDiagramModelObserver, INodeModelObserver {
 
-    private IDiagram model;
+    private IDiagramModel model;
     private IDiagramController controller;
 
     private static final String CONNECTOR_FILENAME = "add_connector.png";
     private NodeMouseListener nodeMouseListener;
 
-    public DiagramView(IDiagramController controller, IDiagram model) {
+    public ConceptDiagramView(IDiagramController controller, IDiagramModel model) {
         this.controller = controller;
         this.model = model;
 
@@ -58,20 +55,20 @@ public class DiagramView extends JPanel implements IDiagramObserver, INodeObserv
         initializeGUI();
     }
 
-    private void initializeGUI() {
+	private void initializeGUI() {
 
         // Create views for links in my model
-        for (IConceptLink link : model.getLinks()) {
-            addLink(link);
+        for (ILinkModel link : model.getLinks()) {
+            addLink((IConceptLinkModel)link);
         }
         // Create views for nodes in my model
-        for (INode node : model.getNodes()) {
+        for (INodeModel node : model.getNodes()) {
             addNode(node);
         }
 
     }
 
-    private void addNode(INode node) {
+    private void addNode(INodeModel node) {
         NodeView view = new NodeView(new NodeController(node), node);
 
         // Subscribe to mouse events in this nodes component to display the add-link button
@@ -87,68 +84,68 @@ public class DiagramView extends JPanel implements IDiagramObserver, INodeObserv
         repaint(view.getBounds());
     }
 
-    private void addLink(IConceptLink link) {
+    private void addLink(IConceptLinkModel link) {
         ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
         add(view);
     }
 
     @Override
-    public void updated(IDiagram diagram) {
-        System.out.println("DiagramView.updated");
+    public void updated(IDiagramModel diagramModel) {
+        System.out.println("ConceptDiagramView.updated");
     }
 
     @Override
-    public void nodeSelected(INode n) {
-        System.out.println("DiagramView.nodeSelected");
+    public void nodeSelected(INodeModel n) {
+        System.out.println("ConceptDiagramView.nodeSelected");
     }
 
     @Override
-    public void nodeAdded(INode n) {
+    public void nodeAdded(INodeModel n) {
         addNode(n);
     }
 
     @Override
-    public void linkAdded(IConceptLink link) {
-        addLink(link);
+    public void linkAdded(ILinkModel link) {
+        addLink((IConceptLinkModel)link);
     }
 
     @Override
-    public void linkRemoved(IConceptLink link) {
-        System.out.println("DiagramView.linkRemoved");
+    public void linkRemoved(ILinkModel link) {
+        System.out.println("ConceptDiagramView.linkRemoved");
     }
 
     @Override
-    public void nodeRemoved(INode n) {
-        System.out.println("DiagramView.nodeRemoved");
+    public void nodeRemoved(INodeModel n) {
+        System.out.println("ConceptDiagramView.nodeRemoved");
     }
 
     @Override
-    public void moved(INode node) {
-
-    }
-
-    @Override
-    public void resized(INode node) {
+    public void moved(INodeModel node) {
 
     }
 
     @Override
-    public void labelChanged(INode node) {
-        System.out.println("Node label changed: "+node);
+    public void resized(INodeModel node) {
+
+    }
+
+    @Override
+    public void labelChanged(INodeModel node) {
+        System.out.println("NodeModel label changed: "+node);
     }
  
     @Override
-    public void styleChanged(INode node) {
-        System.out.println("DiagramView.styleChanged");
+    public void styleChanged(INodeModel node) {
+        System.out.println("ConceptDiagramView.styleChanged");
     }
 
     @Override
-    public void shapeChanged(INode node) {
-        System.out.println("DiagramView.shapeChanged");        
+    public void shapeChanged(INodeModel node) {
+        System.out.println("ConceptDiagramView.shapeChanged");
     }
 
     @Override
-    public void nodeSelected(Node conceptNode) {
+    public void nodeSelected(NodeModel conceptNode) {
         
     }
 
@@ -319,7 +316,7 @@ public class DiagramView extends JPanel implements IDiagramObserver, INodeObserv
 
         private LinkView getTemplink() {
             if (tempLink == null) {
-                ILink linkModel = new SimpleLink(new Arrow());
+                ILinkModel linkModel = new SimpleLink(new Arrow());
                 tempLink = new LinkView(new LinkConnectorController(linkModel), linkModel);
                 add(tempLink);
             }
@@ -344,7 +341,7 @@ public class DiagramView extends JPanel implements IDiagramObserver, INodeObserv
         public void mouseReleased(MouseEvent e) {
             if (currentTarget != null) {
 
-                IConceptLink newLink = new ConceptLink(source.getModel(), currentTarget.getModel());
+                IConceptLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
                 newLink.setShape(new Arrow());
                 controller.addLink(newLink);
 

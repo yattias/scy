@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.links;
+package eu.scy.scymapper.api.diagram;
 
 /**
  * Created by IntelliJ IDEA.
@@ -7,8 +7,8 @@ package eu.scy.scymapper.api.links;
  * Time: 20:45:12
  * To change this template use File | Settings | File Templates.
  */
-public interface ILinkObservable {
-    public void addObserver(ILinkObserver observer);
-    public void removeObserver(ILinkObserver observer);
+public interface ILinkModelObservable {
+    public void addObserver(ILinkModelObserver observer);
+    public void removeObserver(ILinkModelObserver observer);
     public void notifyUpdated();
 }

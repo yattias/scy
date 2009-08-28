@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.links.ILink;
-import eu.scy.scymapper.api.links.ILinkObservable;
-import eu.scy.scymapper.api.links.ILinkObserver;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.ILinkModelObservable;
+import eu.scy.scymapper.api.diagram.ILinkModelObserver;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleObserver;
 import eu.scy.scymapper.impl.shapes.LinkShape;
@@ -16,16 +16,16 @@ import java.util.ArrayList;
  * Date: 23.jun.2009
  * Time: 15:46:06
  */
-public class SimpleLink implements ILink, ILinkObservable, ILinkStyleObserver {
+public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleObserver {
     private Point from;
     private Point to;
     private String label;
     private LinkShape shape;
-    private ArrayList<ILinkObserver> observers;
+    private ArrayList<ILinkModelObserver> observers;
     private ILinkStyle style;
 
     public SimpleLink() {
-        observers = new ArrayList<ILinkObserver>(); 
+        observers = new ArrayList<ILinkModelObserver>();
     }
 
     public SimpleLink(LinkShape shape) {
@@ -33,7 +33,7 @@ public class SimpleLink implements ILink, ILinkObservable, ILinkStyleObserver {
         this.shape = shape;
     }
 
-    @Override
+	@Override
     public String getLabel() {
         return label;
     }
@@ -88,25 +88,25 @@ public class SimpleLink implements ILink, ILinkObservable, ILinkStyleObserver {
     }
 
     @Override
-    public void addObserver(ILinkObserver observer) {
+    public void addObserver(ILinkModelObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void removeObserver(ILinkObserver observer) {
+    public void removeObserver(ILinkModelObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notifyUpdated() {
-        for (ILinkObserver observer : observers) {
+        for (ILinkModelObserver observer : observers) {
             observer.updated(this);
         }
     }
 
     @Override
     public void styleChanged(ILinkStyle s) {
-        for (ILinkObserver observer : observers) {
+        for (ILinkModelObserver observer : observers) {
             observer.updated(this);
         }
     }

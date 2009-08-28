@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.links;
+package eu.scy.scymapper.api.diagram;
 
 import eu.scy.scymapper.impl.shapes.LinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
@@ -12,7 +12,7 @@ import java.awt.*;
  * Time: 18:29:15
  * To change this template use File | Settings | File Templates.
  */
-public interface ILink extends ILinkObservable {
+public interface ILinkModel extends ILinkModelObservable {
     public String getLabel();
     public void setLabel(String label);
 

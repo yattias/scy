@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.controller;
-import eu.scy.scymapper.api.nodes.INodeController;
-import eu.scy.scymapper.api.nodes.INode;
+import eu.scy.scymapper.api.diagram.INodeController;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.awt.*;
 
@@ -12,9 +12,9 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class NodeController implements INodeController {
-    private INode model;
+    private INodeModel model;
 
-    public NodeController(INode node) {
+    public NodeController(INodeModel node) {
         this.model = node;
     }
 
