@@ -197,6 +197,9 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         User theUser = userDAO.getUserByUsername(userToBeSetup.getUserDetails().getUsername());
             if (theUser == null) {
                 log.info("Adding user " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getUsername() + " - " + userToBeSetup.getUserDetails().getEmailAddress());
+                if(userToBeSetup.getId() == null) {
+                    userDAO.save(userToBeSetup.getUserDetails());
+                }
                 userToBeSetup = userDAO.addUser(null, null, userToBeSetup);
             } else {
                 log.info("User " + userToBeSetup.getUserDetails().getUsername() + " already exists");
