@@ -152,5 +152,9 @@ public class Layout extends TapestryContextAware {
         return null;
     }
 
+    public Object [] getActionContext() {
+        return new Object[] {getUserObject(), getBaseAction().getActionId()};
+    }
+
 
 }
