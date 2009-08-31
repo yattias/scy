@@ -23,7 +23,7 @@
 				<t:pagelink page="Index" title="Index">Home</t:pagelink>
 				<img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
  				<t:loop source="actions" value="baseAction">
-					 <t:actionlink t:id="actionMenuItem" t:context="list: userObject, baseAction.actionid">${baseAction.name}</t:actionlink>
+					 <t:actionlink t:id="actionMenuItem" t:context="actionContext">${baseAction.name}</t:actionlink>
 					 <img src="${asset:context:graphics/sep.png}" class="sep" alt=""/>
 				</t:loop>
 				<a href="webstart/scylab.jnlp">SCY-Lab</a>
