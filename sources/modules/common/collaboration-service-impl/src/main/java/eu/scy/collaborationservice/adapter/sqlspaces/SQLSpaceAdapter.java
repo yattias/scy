@@ -8,19 +8,20 @@ import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.ArrayList;
+import java.util.Properties;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
 import eu.scy.communications.message.IScyMessage;
 import eu.scy.communications.message.impl.ScyMessage;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
 
 
 public class SQLSpaceAdapter implements Callback {
-    
+
     private final static Logger logger = Logger.getLogger(SQLSpaceAdapter.class.getName());
-    //public static final String SERVER_IP = "129.240.212.15";
-    public static final String SERVER_IP = "scy.collide.info";
-    public static final int SERVER_PORT = 2525;
     public static final String COLLABORATION_SERVICE_SPACE = "COLLABORATION_SERVICE_SPACE";
     public static final String AWARENESS_SERVICE_SPACE = "AWARENESS_SERVICE_SPACE";
     public static final String WRITE = "WRITE";
@@ -29,10 +30,24 @@ public class SQLSpaceAdapter implements Callback {
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
-    
-    
-    public SQLSpaceAdapter() {
+	private Properties props;
+
+    public static String serverIp;
+    public static int serverPort;
+
+
+	public SQLSpaceAdapter() {
         logger.debug("SQLSpaceAdapter.SQLSpaceAdapter()");
+		try {
+			props = new Properties();
+            props.load(SQLSpaceAdapter.class.getResourceAsStream("collaboration.server.properties"));
+			serverIp = props.getProperty("collaborationservice.address");
+			serverPort = new Integer(props.getProperty("collaborationservice.port"));
+        } catch (FileNotFoundException e) {
+            logger.fatal("Could locate collaboration server properties file", e);
+        } catch (IOException e) {
+            logger.fatal("Could locate collaboration server properties file", e);
+        }
     }
     
     /**
@@ -47,13 +62,13 @@ public class SQLSpaceAdapter implements Callback {
         Tuple template = new Tuple(String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class);
         try {
             Callback cb = this;
-            this.tupleSpace = new TupleSpace(SERVER_IP, SERVER_PORT, sqlSpaceName);
+            this.tupleSpace = new TupleSpace(serverIp, serverPort, sqlSpaceName);
             // setup the events that client will use
             this.tupleSpace.eventRegister(Command.WRITE, template, cb, false);
             this.tupleSpace.eventRegister(Command.DELETE, template, cb, false);
             this.tupleSpace.eventRegister(Command.UPDATE, template, cb, false);
         } catch (TupleSpaceException e) {
-            logger.error("Tupplespace pb " + e);
+            logger.error("Tuplespace error", e);
         }
     }
     
