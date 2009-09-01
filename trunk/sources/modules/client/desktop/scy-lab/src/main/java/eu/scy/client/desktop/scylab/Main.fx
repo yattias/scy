@@ -46,7 +46,7 @@ scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyCopexType,"xproc
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SimulatorContentCreator{},scySimulatorType);
 scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scySimulatorType,"simulator");
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ScyDynamicsContentCreator{},scySimulatorType);
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ScyDynamicsContentCreator{},scyModelType);
 scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyModelType,"model");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
