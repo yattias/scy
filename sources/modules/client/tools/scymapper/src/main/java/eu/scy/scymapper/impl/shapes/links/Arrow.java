@@ -1,12 +1,10 @@
 package eu.scy.scymapper.impl.shapes.links;
 
-import eu.scy.scymapper.impl.shapes.LinkShape;
-import eu.scy.scymapper.impl.shapes.links.Arrowhead;
-import eu.scy.scymapper.impl.shapes.links.Line;
+import eu.scy.scymapper.api.shapes.ILinkShape;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +12,7 @@ import java.awt.geom.AffineTransform;
  * Date: 03.jun.2009
  * Time: 13:26:09
  */
-public class Arrow implements LinkShape {
+public class Arrow implements ILinkShape {
     private boolean bidirectional;
 
     private Point from;

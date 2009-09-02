@@ -1,14 +1,14 @@
 package eu.scy.scymapper.impl;
 
-import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.api.diagram.IDiagramModelObserver;
+import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
-import java.util.Set;
-import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.shapes;
+package eu.scy.scymapper.api.shapes;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 16:10:07
  * To change this template use File | Settings | File Templates.
  */
-public interface LinkShape {
+public interface ILinkShape {
     /**
      * This returns the shape at the size of the given bounds.
      * @param from The returned shape starts at this point

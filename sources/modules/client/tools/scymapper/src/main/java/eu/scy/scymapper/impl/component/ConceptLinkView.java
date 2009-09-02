@@ -1,16 +1,18 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModelObserver;
 import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.impl.component.LinkView;
+import eu.scy.scymapper.api.diagram.INodeModelObserver;
 import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * Created by IntelliJ IDEA.

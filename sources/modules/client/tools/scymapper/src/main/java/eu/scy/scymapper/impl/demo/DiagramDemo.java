@@ -1,27 +1,25 @@
 package eu.scy.scymapper.impl.demo;
 
-import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.IConceptLinkModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.component.ConceptDiagramView;
 import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.shapes.concepts.*;
-import eu.scy.scymapper.impl.shapes.INodeShape;
-import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.DiagramModel;
+import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.impl.shapes.concepts.*;
+import eu.scy.scymapper.impl.shapes.links.Arrow;
 
-import javax.swing.*;
 import javax.imageio.ImageIO;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * User: Bjoerge Naess

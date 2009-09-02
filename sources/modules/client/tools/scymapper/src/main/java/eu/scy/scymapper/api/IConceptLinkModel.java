@@ -1,8 +1,8 @@
 package eu.scy.scymapper.api;
 
-import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.ILinkModelObservable;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 /**
  * Created by IntelliJ IDEA.

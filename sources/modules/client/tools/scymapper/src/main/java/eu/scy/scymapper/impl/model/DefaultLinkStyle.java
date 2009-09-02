@@ -4,8 +4,8 @@ import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleObserver;
 
 import java.awt.*;
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.

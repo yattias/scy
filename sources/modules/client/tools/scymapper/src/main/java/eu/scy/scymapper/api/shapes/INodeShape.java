@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.shapes;
+package eu.scy.scymapper.api.shapes;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 package eu.scy.scymapper.api.diagram;
 
-import eu.scy.scymapper.impl.shapes.LinkShape;
+import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 
 import java.awt.*;
@@ -22,9 +22,9 @@ public interface ILinkModel extends ILinkModelObservable {
     public Point getTo();
     public void setTo(Point p);
 
-    public LinkShape getShape();
+    public ILinkShape getShape();
 
-    public void setShape(LinkShape shape);
+    public void setShape(ILinkShape shape);
 
     public void setStyle(ILinkStyle style);
 

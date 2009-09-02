@@ -1,10 +1,10 @@
 package eu.scy.scymapper.impl.shapes.links;
 
-import eu.scy.scymapper.impl.shapes.LinkShape;
+import eu.scy.scymapper.api.shapes.ILinkShape;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +13,7 @@ import java.awt.geom.Line2D;
  * Time: 18:18:28
  * To change this template use File | Settings | File Templates.
  */
-public class Line implements LinkShape {
+public class Line implements ILinkShape {
     private Point2D from;
     private Point2D to;
 
