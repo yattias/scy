@@ -206,10 +206,10 @@ public class WindowPositionerCenterMinimized extends WindowPositioner {
          windowPosition.x = x - windowPosition.width / 2;
          windowPosition.y = y - windowPosition.height / 2;
          rectHeight = windowPosition.height;
-         if (windowPosition.minimized and (windowPosition.window.isMinimized or windowPosition.window.isClosed)){
-            var closedHeight = windowPosition.window.closedHeight;
-            rectHeight = closedHeight;
-         }
+//         if (windowPosition.minimized and (windowPosition.window.isMinimized or windowPosition.window.isClosed)){
+//            var closedHeight = windowPosition.window.closedHeight;
+//            rectHeight = closedHeight;
+//         }
       }
       windowPosition.rectangle = Rectangle2D{
          minX: windowPosition.x - horizontalLeftWindowSpace

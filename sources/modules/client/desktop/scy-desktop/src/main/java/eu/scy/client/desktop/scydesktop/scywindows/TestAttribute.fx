@@ -7,6 +7,7 @@
 package eu.scy.client.desktop.scydesktop.scywindows;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import java.lang.Object;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -71,7 +72,7 @@ function run(){
 
 
 
-var window = ScyWindow{
+var window = StandardScyWindow{
         title:"test"
         translateX:20
         translateY:50
