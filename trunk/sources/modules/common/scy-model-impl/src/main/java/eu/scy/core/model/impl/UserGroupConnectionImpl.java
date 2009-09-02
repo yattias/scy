@@ -7,6 +7,7 @@ import eu.scy.core.model.SCYGroup;
 import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,7 +32,7 @@ public class UserGroupConnectionImpl extends ScyBaseObject implements UserGroupC
         this.group = group;
     }
 
-    @ManyToOne(targetEntity = SCYUserImpl.class)
+    @ManyToOne(targetEntity = SCYUserImpl.class, cascade = CascadeType.ALL)
     public User getUser() {
         return user;
     }
@@ -40,7 +41,7 @@ public class UserGroupConnectionImpl extends ScyBaseObject implements UserGroupC
         this.user = user;
     }
 
-    @ManyToOne(targetEntity = SCYGroupImpl.class)
+    @ManyToOne(targetEntity = SCYGroupImpl.class, cascade = CascadeType.ALL)
     public SCYGroup getGroup() {
         return group;
     }

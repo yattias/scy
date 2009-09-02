@@ -9,6 +9,7 @@ import java.util.Collections;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.Service;
+import org.apache.tapestry5.annotations.Property;
 import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 
 /**
@@ -25,33 +26,44 @@ public class EditUserPage extends ScyModelPage {
 
 
 
-
+    @Property
     private User user;
 
-    public User getUser() {
+    /*public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
+    */
+
+    public void setUserObject(User user) {
+        this.user = user;
+    }
+
+    public User getUserObject() {
+        return this.user;
+    }
+
+
 
     public SCYUserDetails getUserDetails() {
-        return (SCYUserDetails) getUser().getUserDetails();
+        return (SCYUserDetails) user.getUserDetails();
     }
 
     public Object onSuccess() {
         getUserDAO().save(user);
-        setUser(user);
+        setUserObject(user);
         return EditUserPage.class;
     }
-
+/*
     public void loadModel() {
         setUser(getUserDAO().getUser(new Long(getModelId())));
     }
-
+  */
     public Boolean getDisabled() {
-        return getUser().getUserDetails().isEnabled();
+        return getUserDetails().isEnabled();
     }
 
     public List getRoles() {
@@ -59,7 +71,7 @@ public class EditUserPage extends ScyModelPage {
         return Collections.EMPTY_LIST;
     }
 
-    public UserDetailsService getUserDetailsService() {
+   public UserDetailsService getUserDetailsService() {
         return userDetailsService;
     }
 

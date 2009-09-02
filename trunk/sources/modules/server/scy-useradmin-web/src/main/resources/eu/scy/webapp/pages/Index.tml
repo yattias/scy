@@ -8,7 +8,7 @@
     <t:if test="model">
         <t:grid source="groups" row="group" exclude="id">
             <t:parameter name="namecell">
-                <t:actionlink t:id="openGroup" context="group.id">${group.name}</t:actionlink>
+                <t:actionlink t:id="openGroup" context="openGroupContext">${group.name}</t:actionlink>
             </t:parameter>
         </t:grid>
 
@@ -20,7 +20,8 @@
             <t:loop source="projects" value="scyProject">
                 <tr>
                     <td>
-                        <a t:type="pageLink" page="Index" context="scyProject.id">${scyProject.name}</a>
+                        <t:actionLink t:id="openProject" context="scyProject">${scyProject.name}</t:actionLink>
+                        <!--a t:type="pageLink" page="Index" context="scyProject">${scyProject.name}</a-->
                     </td>
                 </tr>
             </t:loop>
