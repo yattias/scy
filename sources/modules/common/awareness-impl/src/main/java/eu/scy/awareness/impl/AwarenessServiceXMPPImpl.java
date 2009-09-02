@@ -3,6 +3,7 @@ package eu.scy.awareness.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -118,6 +119,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	@Override
 	public void removeBuddy(String buddyName) throws AwarenessServiceException {
+		RosterEntry entry = xmppConnection.getRoster().getEntry(buddyName);
+		try {
+			xmppConnection.getRoster().removeEntry(entry);
+		} catch (XMPPException e) {
+			logger.log(Level.SEVERE, "XMPP Exception when removing roster entry", e);
+		}
 		Presence unsubbed = new Presence(Presence.Type.unsubscribed);
 		unsubbed.setTo(buddyName);
 		this.xmppConnection.sendPacket(unsubbed);
