@@ -1,8 +1,12 @@
 package eu.scy.webapp.pages;
 
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.ScyBaseObject;
 
 import java.util.logging.Logger;
+
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.Persist;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,42 +18,20 @@ import java.util.logging.Logger;
 public abstract class  ScyModelPage extends TapestryContextAware {
 
 
+    @Property
+    @Persist("entity")
+    private ScyBaseObject pageModel;
 
-    private String modelId;
-    private ScyBase model;
-
-    public abstract void loadModel();
-
-    public String getModelId() {
-        return modelId;
+    public void setModel(ScyBaseObject model) {
+        System.out.println("SETTING MODEL:" + model.getClass() + " " + model);
+        this.pageModel = model;
     }
 
-    public void setModelId(String modelId) {
-        log.info("Set model id"  + modelId + "("  + getClass().getName() + ")");
-        this.modelId = modelId;
+    public ScyBaseObject getModel() {
+        System.out.println("GETTING MODEL: " + pageModel);
+        return pageModel;
     }
-
-    public ScyBase getModel() {
-        return model;
-    }
-
-    public void setModel(ScyBase model) {
-        log.info("Set model:" + model + "("  + getClass().getName() + ")");
-        this.model = model;
-    }
-
-    public void onActivate(String id) {
-        log.info("** ** ** ** ** ** MODEL ID: " + id);
-        modelId = id;
-        if (id != null) {
-            loadModel();
-        }
-
-    }
-
-    public String onPassivate() {
-        return modelId;
-    }
+    
 
 
 }

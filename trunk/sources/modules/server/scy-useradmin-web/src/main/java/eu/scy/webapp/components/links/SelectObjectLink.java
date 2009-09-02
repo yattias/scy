@@ -37,7 +37,7 @@ public class SelectObjectLink extends TapestryContextAware {
     public Object onActionFromLink(ScyBaseObject scyBaseObject) {
         String pageId = getPageManager().getPageIdForObject(scyBaseObject);
         ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
-        comp.setModelId(((ScyBase) scyBaseObject).getId());
+        comp.setModel((ScyBaseObject) scyBaseObject);
         return comp;
     }
 

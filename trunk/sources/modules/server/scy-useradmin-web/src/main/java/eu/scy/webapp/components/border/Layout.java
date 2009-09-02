@@ -10,6 +10,7 @@ import eu.scy.webapp.pages.TapestryContextAware;
 import eu.scy.webapp.pages.ScyModelPage;
 import eu.scy.core.persistence.UserSessionDAO;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.impl.SCYProjectImpl;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.User;
 import eu.scy.framework.ActionManager;
@@ -132,7 +133,7 @@ public class Layout extends TapestryContextAware {
     private ComponentSource compSource;
 
 
-    public Object onActionFromActionMenuItem(ScyBaseObject scyBaseObject, String actionId) {
+    public Object onActionFromActionMenuItem(SCYProjectImpl scyBaseObject, String actionId) {
         BaseAction action = getActionManager().getActionById(actionId);
         action.setActionManager(getActionManager());
         action.setProject(getCurrentProject());
@@ -141,12 +142,15 @@ public class Layout extends TapestryContextAware {
             Object theObject = action.actionPerformed(scyBaseObject);
             String pageId = getPageManager().getPageIdForObject(theObject);
             ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
+            System.out.println("Activating page: " + comp);
+            comp.setModel((ScyBaseObject) theObject);
+            /*
             if(theObject instanceof ScyBase) {
             comp.setModelId(((ScyBase) theObject).getId());
             } else if(theObject instanceof User) {
                 comp.setModelId(String.valueOf(((User)theObject).getId()));
             }
-
+            */
             return comp;
         }
         return null;

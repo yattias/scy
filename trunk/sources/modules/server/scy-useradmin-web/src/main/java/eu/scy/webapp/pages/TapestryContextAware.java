@@ -10,6 +10,8 @@ import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 import eu.scy.core.model.SCYProject;
 
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.impl.SCYUserImpl;
 import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
@@ -32,7 +34,7 @@ public class TapestryContextAware {
 
     @ApplicationState(create = false)
     private SCYProject currentProject;
-    private ScyBase model;
+    private ScyBaseObject model;
 
     @Inject
     private UserDAOHibernate userDAOHibernate;
@@ -54,15 +56,6 @@ public class TapestryContextAware {
 
     public PageManager getPageManager() {
         return pageManager;
-    }
-
-
-    public ScyBase getModel() {
-        return model;
-    }
-
-    public void setModel(ScyBase model) {
-        this.model = model;
     }
 
     public SCYProject getCurrentProject() {
@@ -102,7 +95,7 @@ public class TapestryContextAware {
         log.info("GETTING PAGE FOR OBJECT: " + selectedObject);
         String pageId = getPageManager().getPageIdForObject(selectedObject);
         ScyModelPage comp = (ScyModelPage) compSource.getPage(pageId);
-        comp.setModelId(((ScyBase) selectedObject).getId());
+        comp.setModel(((ScyBaseObject) selectedObject));
         return comp;
     }
 
