@@ -15,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javax.swing.JOptionPane;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 
 /**
  * @author sikkenj
@@ -44,7 +45,7 @@ public class NewScyWindowTool extends CustomNode {
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
             var title = "new {eloTypeName} {++newWindowCounter}";
-            var window:ScyWindow = ScyWindow{
+            var window:ScyWindow = StandardScyWindow{
                title:title
                eloType:eloType;
                id:"new://{title}"

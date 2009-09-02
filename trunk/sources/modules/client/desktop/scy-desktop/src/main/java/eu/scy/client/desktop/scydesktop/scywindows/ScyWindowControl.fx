@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 //import roolo.api.IExtensionManager;
 //import roolo.api.IRepository;
 //import roolo.api.search.ISearchResult;
@@ -152,7 +153,7 @@ public class ScyWindowControl{
    }
 
    function createScyWindow(eloUri:URI):ScyWindow{
-      var scyWindow = ScyWindow{
+      var scyWindow = StandardScyWindow{
          id: eloUri.toString();
          eloUri: eloUri;
          eloType: eloInfoControl.getEloType(eloUri);

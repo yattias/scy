@@ -43,6 +43,7 @@ import java.lang.IllegalArgumentException;
 import javafx.scene.control.Button;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 
@@ -270,7 +271,7 @@ function run(){
          text: "New Window"
          action: function() {
             var title = "new_{++newWindowCounter}";
-            var window:ScyWindow = ScyWindow{
+            var window:ScyWindow = StandardScyWindow{
                title:title
                id:"new://{title}"
               allowClose: true;
