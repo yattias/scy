@@ -29,12 +29,12 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * 
      * @return repository the repository instace
      */
-    public IRepository<IELO<K>, K> getRepository();
+    public IRepository getRepository();
     
     /**
      * @return the metaDataTypeManager
      */
-    public IMetadataTypeManager<K> getMetaDataTypeManager();
+    public IMetadataTypeManager getMetaDataTypeManager();
     
     /**
      * @return the extensionManager
