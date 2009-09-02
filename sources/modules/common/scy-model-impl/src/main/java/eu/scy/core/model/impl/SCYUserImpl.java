@@ -125,6 +125,7 @@ public class SCYUserImpl implements User {
     }
 
 
+    @OneToOne(targetEntity = MutableUserDetails.class, cascade = CascadeType.ALL)
     public MutableUserDetails getUserDetails() {
         return userDetails;
     }

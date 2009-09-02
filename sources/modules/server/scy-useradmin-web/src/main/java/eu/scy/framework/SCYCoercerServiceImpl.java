@@ -28,6 +28,7 @@ public class SCYCoercerServiceImpl implements SCYCoercer {
     }
 
     public ScyBaseObject get(Class clazz, String id) {
+        System.out.println("getting object of type: " + clazz + " with id: " + id);
         //log.debug("------- Getting object " + id + " of type: " + clazz.getName());
         if(getUserDAOHibernate() == null) throw new NullPointerException("USERDAO IS NULL!!");
         return (ScyBaseObject) getUserDAOHibernate().getObject(clazz, id);

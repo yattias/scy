@@ -15,8 +15,15 @@ import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 
 import org.slf4j.Logger;
+import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
+import org.telscenter.sail.webapp.service.authentication.impl.UserDetailsServiceImpl;
 import eu.scy.framework.*;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.User;
+import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.ScyBase;
 import eu.scy.core.persistence.hibernate.UserDAOHibernate;
 import eu.scy.core.persistence.hibernate.ProjectDAOHibernate;
 
@@ -38,6 +45,10 @@ public class AppModule {
 
     public static void bind(ServiceBinder binder) {
         binder.bind(PageManager.class, PageManagerImpl.class);
+        binder.bind(UserDetailsService.class, UserDetailsServiceImpl.class);
+        System.out.println("BIDING SERVICES!");
+
+        //binder.bind(User.class, SCYUserImpl.class);
         //binder.bind(ActionManager.class, ActionManagerImpl.class);
         //binder.bind(SCYCoercer.class, SCYCoercerServiceImpl.class);
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
@@ -72,6 +83,7 @@ public class AppModule {
     public static SCYCoercer build(UserDAOHibernate userDAOHibernate) {
         SCYCoercer coercer = new SCYCoercerServiceImpl();
         coercer.setUserDAOHibernate(userDAOHibernate);
+        System.out.println("COERCER BUILD");
         return coercer;
     }
 
@@ -163,8 +175,12 @@ public class AppModule {
 
     }
 
+    public static void contributeHibernateEntityPackageManager(Configuration<String> configuration) {
+        configuration.add("eu.scy.core.model.impl");
+    }
 
-    public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService("SCYCoercer") SCYCoercer coerser) {
+
+    /*public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration, final @InjectService("SCYCoercer") SCYCoercer coerser) {
 
         Coercion<String, ScyBaseObject> fromStringToScy = new Coercion<String, ScyBaseObject>() {
             public ScyBaseObject coerce(String input) {
@@ -179,7 +195,7 @@ public class AppModule {
                     clazz = clazz.substring(0, clazz.indexOf(CGLIB_ADDED_SIGNS));
                 }
                 if(clazz.indexOf(CGLIB_AT )> 0 ) {
-                    clazz = clazz.substring(0, clazz.indexOf(CGLIB_AT));    
+                    clazz = clazz.substring(0, clazz.indexOf(CGLIB_AT));
                 }
 
 
@@ -191,7 +207,6 @@ public class AppModule {
                     e.printStackTrace();
                 }
 
-                log.info("--------------CLASS IS: " + clazz);
                 String id = input.substring(input.indexOf("-SCY-") + 5, input.length());
                 //log.info("** ID IS: " + id);
                 return coerser.get(theClass, id);
@@ -206,8 +221,9 @@ public class AppModule {
 
 
         configuration.add(new CoercionTuple<String, ScyBaseObject>(String.class, ScyBaseObject.class, fromStringToScy));
+        //configuration.add(new CoercionTuple<String, ScyBaseObject>(String.class, SCYGroupImpl.class, fromStringToScy));
         configuration.add(new CoercionTuple<ScyBaseObject, String>(ScyBaseObject.class, String.class, fromScyBaseObjectToString));
-    }
+    } */
 
 
 }

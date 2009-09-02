@@ -4,6 +4,8 @@ import eu.scy.core.persistence.ProjectDAO;
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.*;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.impl.SCYProjectImpl;
 import eu.scy.webapp.pages.projectmanagement.ProjectEditor;
 
 import java.util.List;
@@ -44,10 +46,6 @@ public class Index extends ScyModelPage {
         this.userRole = userRole;
     }
 
-    public void loadModel() {
-        setModel((ScyBaseObject) getProjectDAO().getProject(getModelId()));
-        setCurrentProject((SCYProject) getModel());
-    }
 
     public SCYProject getScyProject() {
         return scyProject;
@@ -90,12 +88,22 @@ public class Index extends ScyModelPage {
     }
 
 
-    Object onActionFromOpenGroup(String groupId) {
-        SCYGroup group = getGroupDAO().getGroup(groupId);
-        log.info("** ** ** ** ** ** *Loading group :" + group.getName());
-        groupOverview.setModelId(groupId);
-        groupOverview.loadModel();
+    Object onActionFromOpenGroup(SCYGroupImpl group) {
+        log.info("GID: " + group);
+        groupOverview.setModel(group);
         return groupOverview;
+    }
+
+    @InjectPage
+    private Index _index;
+
+    void onActionFromOpenProject(SCYProjectImpl project) {
+        log.info("Selecting project: " + project.getName());
+        System.out.println("SELECTING PROJECT : " + project.getName());
+        setModel(project);
+        //_index.setModel(project);
+        //_index.setCurrentProject(project);
+        //return _index;
     }
 
     @InjectPage
@@ -104,6 +112,10 @@ public class Index extends ScyModelPage {
     public Object onActionFromCreateNewProject() {
         log.info("Creating new proejct!");
         return _projectEditor;
+    }
+
+    public Object getOpenGroupContext() {
+        return getGroup();
     }
 
 

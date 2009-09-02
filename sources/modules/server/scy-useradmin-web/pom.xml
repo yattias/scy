@@ -17,6 +17,7 @@
         <!--filters>
             <filter>${filter.file}</filter>
         </filters-->
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -319,6 +320,13 @@
             <artifactId>tapestry-test</artifactId>
             <version>${tapestry-release-version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tapestry</groupId>
+            <artifactId>tapestry-hibernate</artifactId>
+            <version>${tapestry-release-version}</version>
+        </dependency>
+
 
         <!-- TAPESTRY EXTENSIONS -->
 
