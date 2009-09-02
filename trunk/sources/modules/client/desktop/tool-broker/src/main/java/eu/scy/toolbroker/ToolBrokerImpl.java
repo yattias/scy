@@ -43,9 +43,9 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     
     private ApplicationContext context;
     
-    private IRepository<IELO<K>, K> repository;
+    private IRepository repository;
     
-    private IMetadataTypeManager<K> metaDataTypeManager;
+    private IMetadataTypeManager metaDataTypeManager;
     
     private IExtensionManager extensionManager;
     
@@ -76,8 +76,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     public ToolBrokerImpl() {
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
         
-        repository = (IRepository<IELO<K>, K>) context.getBean("repository");
-        metaDataTypeManager = (IMetadataTypeManager<K>) context.getBean("metadataTypeManager");
+        repository = (IRepository) context.getBean("repository");
+        metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
         
         actionLogger = (IActionLogger) context.getBean("actionlogger");
@@ -99,7 +99,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
      * @param repository
      *            the repository instance to set
      */
-    public void setRepository(IRepository<IELO<K>, K> repository) {
+    public void setRepository(IRepository repository) {
         this.repository = repository;
     }
     
@@ -107,7 +107,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
      * @param metaDataTypeManager
      *            the metaDataTypeManager to set
      */
-    public void setMetaDataTypeManager(IMetadataTypeManager<K> metaDataTypeManager) {
+    public void setMetaDataTypeManager(IMetadataTypeManager metaDataTypeManager) {
         this.metaDataTypeManager = metaDataTypeManager;
     }
     
@@ -143,7 +143,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getRepository()
      */
-    public IRepository<IELO<K>, K> getRepository() {
+    public IRepository getRepository() {
         return repository;
     }
     
@@ -151,7 +151,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
      * (non-Javadoc)
      * @see eu.scy.toolbrokerapi.ToolBrokerAPI#getMetaDataTypeManager()
      */
-    public IMetadataTypeManager<K> getMetaDataTypeManager() {
+    public IMetadataTypeManager getMetaDataTypeManager() {
         return metaDataTypeManager;
     }
     
@@ -280,6 +280,5 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     	}
         return xmppConnection;
     }
-    
     
 }
