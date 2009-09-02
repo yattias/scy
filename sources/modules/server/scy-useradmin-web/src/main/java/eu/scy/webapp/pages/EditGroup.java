@@ -1,6 +1,7 @@
 package eu.scy.webapp.pages;
 
 import eu.scy.core.model.SCYGroup;
+import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.persistence.GroupDAO;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
@@ -38,16 +39,9 @@ public class EditGroup extends ScyModelPage{
         this.group = group;
     }
 
-
-    public void loadModel() {
-        SCYGroup group = getGroupDAO().getGroup(getModelId());
-        setGroup(group);
-    }
-
     public Object onSuccess() {
         getGroupDAO().save(group);
-        groupOverview.setModelId(group.getId());
-        groupOverview.loadModel();
+        groupOverview.setModel((ScyBaseObject) group);
         return groupOverview;
     }
 }

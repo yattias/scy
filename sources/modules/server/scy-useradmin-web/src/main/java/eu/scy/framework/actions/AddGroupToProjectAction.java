@@ -4,6 +4,7 @@ import eu.scy.framework.BaseAction;
 import eu.scy.core.model.SCYProject;
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.impl.SCYGroupImpl;
+import eu.scy.core.model.impl.SCYProjectImpl;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,13 +20,13 @@ public class AddGroupToProjectAction extends BaseAction {
     }
 
     public Class getOperatesOn() {
-        return SCYProject.class;
+        return SCYProjectImpl.class;
     }
 
     protected Object doAction(Object model) {
-        SCYProject project = (SCYProject) model;
-        log.info("Adding group to " + project.getName());
-        SCYGroup group = new SCYGroupImpl();
+        SCYProjectImpl project = (SCYProjectImpl) model;
+        System.out.println("Adding group to " + project.getName());
+        SCYGroupImpl group = new SCYGroupImpl();
         getActionManager().getProjectDAOHibernate().addGroupToProject(project, group);
 
         project.addGroup(group);

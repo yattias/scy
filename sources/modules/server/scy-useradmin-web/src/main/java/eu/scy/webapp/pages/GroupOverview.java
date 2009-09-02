@@ -3,6 +3,7 @@ package eu.scy.webapp.pages;
 import eu.scy.core.persistence.GroupDAO;
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.impl.SCYUserDetails;
+import eu.scy.core.model.impl.SCYGroupImpl;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.InjectPage;
@@ -51,32 +52,22 @@ public class GroupOverview extends ScyModelPage {
         this.groupDAO = groupDAO;
     }
 
-    public void loadModel() {
-        setModel(groupDAO.getGroup(getModelId()));
-    }
-
-    public SCYGroup getRootGroup() {
+    /*public SCYGroup getRootGroup() {
         return getGroupDAO().getRootGroup(getCurrentProject());
-    }
-
+    } */
+    /*
     public String getSomeTitle() {
         return getRootGroup().getClass().getName() + " :.... " + "HENRIK" + getRootGroup().getName();
     }
+      */
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
 
     public SCYUserDetails getUserDetails() {
         return (SCYUserDetails) getCurrentUser().getUserDetails();
     }
 
     public List<User> getGroupMembers() {
-        SCYGroup group = (SCYGroup) getModel();
+        SCYGroupImpl group = (SCYGroupImpl) getModel();
         return getGroupDAO().getUsers(group);
     }
 
@@ -85,8 +76,9 @@ public class GroupOverview extends ScyModelPage {
 
     Object onActionFromEditGroup(String groupId) {
         log.info("EDIT GROUP!");
-        editGroup.setModelId(groupId);
+/*        editGroup.setModelId(groupId);
         editGroup.loadModel();
+        */
         return editGroup;
     }
 
@@ -98,8 +90,8 @@ public class GroupOverview extends ScyModelPage {
 
     Object onActionFromOpenUser(String userId) {
         log.info("USER ID: " + userId);
-        editUserPage.setModelId(userId);
-        editUserPage.loadModel();
+        //editUserPage.setModelId(userId);
+        //editUserPage.loadModel();
         return editUserPage;
     }
 

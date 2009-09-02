@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <property name="hibernate.connection.driver_class">
+
+            com.mysql.jdbc.Driver
+        </property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/scy</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.pool_size">10</property>
+        <property name="show_sql">true</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- Mapping files -->
+        <!--mapping resource="contact.hbm.xml"/-->
+
+
+        <!--mapping class="eu.scy.core.model.impl.ScyBaseObject"/-->
+        <mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+        <mapping class="eu.scy.core.model.impl.UserGroupConnectionImpl"/>
+        <!--mapping class="eu.scy.core.model.impl.RoleImpl"/-->
+        <!--mapping class="eu.scy.core.model.impl.UserRoleImpl"/-->
+
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority"/>
+        <!--mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclEntry" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclSid" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclTargetObject" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclTargetObjectIdentity" />
+        <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" /-->
+
+
+        <!--mapping package="eu.scy.core.model.impl"/-->
+        <!--mapping package="net.sf.sail.webapp.domain.sds"/-->
+
+        <!--mapping class="eu.scy.core.model.impl.SCYUserImplmpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYGroupImplmpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYProjectImplmpl"/>
+        <mapping class="eu.scy.core.model.impl.RoleImpl"/>
+        <mapping class="eu.scy.core.model.impl.UserRoleImpl"/>
+        <mapping class="eu.scy.core.model.impl.BuddyConnectionImpl"/>
+        <mapping class="eu.scy.core.model.impl.UserSessionImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserDetailsils"/-->
+
+        <!--mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentUserDetails"/-->
+        <!--mapping class="net.sf.sail.webapp.domain.sds.SdsUser"/-->
+
+
+    </session-factory>
+</hibernate-configuration>
