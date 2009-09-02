@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.controller;
 
-import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.ILinkController;
+import eu.scy.scymapper.api.diagram.ILinkModel;
 
 import java.awt.*;
 

@@ -1,19 +1,25 @@
 package eu.scy.scymapper.impl;
 
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessMessageListener;
+import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.impl.component.ConceptDiagramView;
 import eu.scy.scymapper.impl.controller.DiagramController;
-
-import javax.swing.*;
-import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
-
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.plaf.LookAndFeelAddons;
 import org.jdesktop.swingx.plaf.metal.MetalLookAndFeelAddons;
-import com.jgoodies.looks.Options;
-import com.jgoodies.looks.plastic.PlasticLookAndFeel;
-import com.jgoodies.looks.plastic.theme.DesertBlue;
+import roolo.elo.api.IMetadataKey;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: Bjoerge
@@ -27,6 +33,17 @@ public class SCYMapperMain extends JFrame {
 	private ConceptDiagramView diagramView;
 	private DiagramController diagramController;
 	private JToolBar toolBar;
+	private IDataSyncService dataSyncService;
+	private CommunicationProperties props = new CommunicationProperties();
+	private String currentSession;
+	private IActionLogger actionLogger;
+	private JTextArea messages;
+	private ICollaborationService collaborationService;
+    private final static Logger logger = Logger.getLogger(SCYMapperMain.class);
+	private IAwarenessService awarenessService;
+	private static final String HARD_CODED_USER_NAME = "obama";
+	private static final String HARD_CODED_PASSWORD = "obama";
+	private ToolBrokerAPI<IMetadataKey> toolBroker;
 
 	public static void main(String[] args) {
 		new SCYMapperMain().setVisible(true);
@@ -34,48 +51,46 @@ public class SCYMapperMain extends JFrame {
 
 	public SCYMapperMain() throws HeadlessException {
 		super("SCYMapper");
+		setUpToolBroker();
 		initComponents();
-		getContentPane().add(tabPane);
+		initMenu();
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 900);
-		//setJMenuBar();
+        setSize(1200, 900);
 	}
 
-	private void initLaf() {
-        Options.setDefaultIconSize(new Dimension(18, 18));
+	private void setUpToolBroker() {
+		toolBroker = new ToolBrokerImpl<IMetadataKey>();
+		awarenessService = toolBroker.getAwarenessService();
+		awarenessService.init(toolBroker.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
+		try {
+			logger.debug("Is connected: " +awarenessService.isConnected());
+			logger.info("my buddies: " + awarenessService.getBuddies());
+			awarenessService.sendMessage("bjoerge@129.177.24.191", "Hi, this is Obama!");
+			awarenessService.setStatus("Yes, I can");
+		} catch (AwarenessServiceException e) {
+			logger.error("Awareness service error", e);
+		}
+		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
+			@Override
+			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
+				messages.append(awarenessEvent.getUser()+" says:\n");
+				messages.append(awarenessEvent.getMessage()+"\n\n");
+			}
+		});
+	}
 
-        // Set font options
-        UIManager.put(
-            Options.USE_SYSTEM_FONTS_APP_KEY,
-            true);
-        Options.setUseNarrowButtons(false);
+	private void initMenu() {
 
-        // Global options
-        Options.setTabIconsEnabled(true);
-        UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY, true);
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu();
 
-        // Swing Settings
-        LookAndFeel selectedLaf = UIManager.getLookAndFeel();
-        if (selectedLaf instanceof PlasticLookAndFeel) {
-            PlasticLookAndFeel.setCurrentTheme(new DesertBlue());
-            PlasticLookAndFeel.setTabStyle(PlasticLookAndFeel.TAB_STYLE_METAL_VALUE);
-            PlasticLookAndFeel.setHighContrastFocusColorsEnabled(false);
-        } else if (selectedLaf.getClass() == MetalLookAndFeel.class) {
-            MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
-        }
+		JMenuItem exit = new JMenuItem("Exit");
 
-        // Work around caching in MetalRadioButtonUI
-        JRadioButton radio = new JRadioButton();
-        radio.getUI().uninstallUI(radio);
-        JCheckBox checkBox = new JCheckBox();
-        checkBox.getUI().uninstallUI(checkBox);
+		menu.add(exit);
 
-        try {
-            UIManager.setLookAndFeel(selectedLaf);
-        } catch (Exception e) {
-            System.out.println("Can't change L&F: " + e);
-        }
-
+		menuBar.add(menu);
+		setJMenuBar(menuBar);
 	}
 
 	private void initComponents() {
@@ -92,12 +107,19 @@ public class SCYMapperMain extends JFrame {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 
-		//taskPaneContainer = new JXTaskPaneContainer();
-		diagramModel = new DiagramModel();
-
-		diagramView = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel);
+		// Tab pane
 		tabPane = new JTabbedPane();
+		getContentPane().add(tabPane);
 
+		// Diagram
+		diagramModel = new DiagramModel();
+		diagramView = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel);
 		tabPane.add("SCYMapper", diagramView);
+
+		// Message log
+		messages = new JTextArea();
+		JPanel messagePanel = new JPanel(new BorderLayout());
+		messagePanel.add(messages);
+		tabPane.add("Recieved messages", messagePanel);
 	}
 }

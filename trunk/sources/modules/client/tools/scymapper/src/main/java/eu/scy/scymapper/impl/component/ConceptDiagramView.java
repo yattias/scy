@@ -1,29 +1,23 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.api.IConceptLinkModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.impl.component.ConceptLinkView;
-import eu.scy.scymapper.impl.component.LinkView;
-import eu.scy.scymapper.impl.component.NodeView;
-import eu.scy.scymapper.impl.component.ConnectionPoint;
-import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.controller.LinkController;
-import eu.scy.scymapper.impl.model.SimpleLink;
+import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.impl.model.SimpleLink;
+import eu.scy.scymapper.impl.shapes.links.Arrow;
 
-import javax.swing.*;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import java.net.URL;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.

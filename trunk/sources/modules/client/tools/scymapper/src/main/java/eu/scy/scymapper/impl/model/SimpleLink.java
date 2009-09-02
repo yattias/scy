@@ -3,9 +3,9 @@ package eu.scy.scymapper.impl.model;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.ILinkModelObservable;
 import eu.scy.scymapper.api.diagram.ILinkModelObserver;
+import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleObserver;
-import eu.scy.scymapper.impl.shapes.LinkShape;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
     private Point from;
     private Point to;
     private String label;
-    private LinkShape shape;
+    private ILinkShape shape;
     private ArrayList<ILinkModelObserver> observers;
     private ILinkStyle style;
 
@@ -28,7 +28,7 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
         observers = new ArrayList<ILinkModelObserver>();
     }
 
-    public SimpleLink(LinkShape shape) {
+    public SimpleLink(ILinkShape shape) {
         this();
         this.shape = shape;
     }
@@ -67,12 +67,12 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
     }
 
     @Override
-    public LinkShape getShape() {
+    public ILinkShape getShape() {
         return shape;
     }
 
     @Override
-    public void setShape(LinkShape shape) {
+    public void setShape(ILinkShape shape) {
         this.shape = shape;
     }
 

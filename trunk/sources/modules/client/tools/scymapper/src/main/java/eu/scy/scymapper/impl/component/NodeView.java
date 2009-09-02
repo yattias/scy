@@ -1,21 +1,21 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.diagram.INodeController;
+import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.INodeModelObserver;
+import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.shapes.INodeShape;
 
-import javax.swing.*;
 import javax.imageio.ImageIO;
-import java.awt.event.*;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.

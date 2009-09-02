@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.shapes.links;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 
 /**
  * Created by IntelliJ IDEA.

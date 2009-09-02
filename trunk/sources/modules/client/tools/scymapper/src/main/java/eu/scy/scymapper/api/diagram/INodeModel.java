@@ -1,6 +1,6 @@
 package eu.scy.scymapper.api.diagram;
 
-import eu.scy.scymapper.impl.shapes.INodeShape;
+import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 
 import java.awt.*;

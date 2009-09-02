@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.impl.shapes.INodeShape;
-import eu.scy.scymapper.impl.shapes.LinkShape;
+import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.shapes.ILinkShape;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -77,12 +77,12 @@ public class SCYMapperShapeSelector extends JPanel {
         }
         if (classes != null) {
             for (Class clazz : classes) {
-                if (!LinkShape.class.isAssignableFrom(clazz)) {
-                    System.out.println("Not a LinkShape subclass, skipping "+clazz);
+                if (!ILinkShape.class.isAssignableFrom(clazz)) {
+                    System.out.println("Not a ILinkShape subclass, skipping "+clazz);
                     continue;
                 }
                 try {
-                    LinkShape figure = (LinkShape) clazz.newInstance();
+                    ILinkShape figure = (ILinkShape) clazz.newInstance();
                     Shape shape = figure.getShape(new Point(0, 10), new Point(150, 10));
                     System.out.println(" s.gb()= " + shape.getBounds());
                     ShapedButton b = new ShapedButton(clazz.getSimpleName(), shape);
