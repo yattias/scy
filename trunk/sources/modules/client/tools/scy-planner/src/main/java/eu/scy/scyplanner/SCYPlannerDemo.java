@@ -42,10 +42,8 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 900);
 
-        //diagramModel = new SCYPlannerDiagramModel();
         diagramModel = getInitialPedagogicalPlanModel();
 
-        // Observe the diagramModel
         diagramModel.addObserver(this);
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
@@ -69,9 +67,6 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         selectedLabel = new JLabel("No node selected yet");
         getContentPane().add(selectedLabel, BorderLayout.PAGE_END);
 
-        // So, lets add a few additional nodes AFTER the component is initialized, and see what happens
-        testAddNodes2();
-        // If things are done rigth, the component should now contain a circle and a star
     }
 
 
@@ -143,47 +138,6 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
     }
 
 
-    public synchronized void testAddNodes2() {
-
-
-        /*INodeModel ellipse = new LearningActivitySpaceNodeModel();
-        ellipse.setStyle(new DefaultNodeStyle());
-        ellipse.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        ellipse.getStyle().setBackground(new Color(0x0099ff));
-        ellipse.setLabel("I'm also a LAS. Hurray for me too!");
-        ellipse.setLocation(new Point(300, 450));
-        ellipse.setSize(new Dimension(150, 100));
-        ellipse.setShape(new Ellipse());
-        addNode(ellipse);
-        */
-        /*
-        INodeModel las = new LearningActivitySpaceNodeModel();
-        las.setStyle(new DefaultNodeStyle());
-        las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        las.getStyle().setBackground(new Color(0x0099ff));
-        las.setLabel("MOOOHA");
-        las.setLocation(new Point(500, 500));
-        las.setSize(new Dimension(200, 200));
-        las.setShape(new LASShape());
-        addNode(las);
-
-
-        IConceptLinkModel link = new LearningActivitySpaceLinkModel(redStar, las);
-        link.getStyle().setColor(new Color(0x444444));
-        link.getStyle().setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
-        link.setShape(new Arrow());
-        link.setLabel("I'm in between");
-        diagramModel.addLink(link);
-        */
-
-    }
-
-    /*private void addNode(INodeModel node) {
-        // subscribe to changes in this node
-        node.addObserver(this);
-        diagramModel.addNode(node);
-    }
-      */
     @Override
     public void linkAdded(ILinkModel link) {
         //To change body of implemented methods use File | Settings | File Templates.
