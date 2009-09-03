@@ -14,7 +14,6 @@ import javafx.ext.swing.SwingComponent;
 import javafx.ext.swing.SwingScrollPane;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -28,7 +27,6 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -185,6 +183,9 @@ public class StandardScyWindow extends ScyWindow {
    public override var minimumWidth = 70 on replace{
       minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
    }
+
+   var resizeElement:WindowResize;
+   var rotateElement:WindowRotate;
 
 	postinit {
 		if (isClosed){
@@ -416,7 +417,7 @@ public class StandardScyWindow extends ScyWindow {
 	}
 
 
-	function startDragging(e: MouseEvent) {
+	function startDragging(e: MouseEvent):Void {
 		activate();
 		originalX = translateX;
 		originalY = translateY;
@@ -431,7 +432,7 @@ public class StandardScyWindow extends ScyWindow {
       contentGlassPane.blocksMouse = true;
 	}
 
-	function stopDragging(e: MouseEvent) {
+	function stopDragging(e: MouseEvent):Void {
       contentGlassPane.blocksMouse = false;
 	}
 
@@ -500,7 +501,7 @@ public class StandardScyWindow extends ScyWindow {
 
 	}
 
-	function doRotate(e: MouseEvent) {
+	function doRotate(e: MouseEvent):Void {
       printMousePos("rotate",e);
 //      if (isInvalidMousePos(e))
 //		return;
@@ -648,6 +649,32 @@ public class StandardScyWindow extends ScyWindow {
 
 	public override function create(): Node {
 		blocksMouse = true;
+      resizeElement = WindowResize{
+         visible: bind allowResize or isClosed;
+         size:controlLength;
+         color:bind color;
+         subColor:controlColor;
+         activate: activate;
+         startResize:startDragging;
+         doResize:doResize;
+         stopResize:stopDragging;
+         layoutX: bind width;
+         layoutY: bind height;
+      }
+
+      rotateElement = WindowRotate{
+         visible: bind allowRotate;
+         size:controlLength;
+         color:bind color;
+         subColor:controlColor;
+         activate: activate;
+         startRotate:startDragging;
+         doRotate:doRotate;
+         stopRotate:stopDragging;
+         layoutX: controlLength;
+         layoutY: bind height-controlLength;
+      }
+
 		return Group {
          cursor: Cursor.MOVE;
 
@@ -869,111 +896,8 @@ public class StandardScyWindow extends ScyWindow {
                   unminimizeHighLighted = false;
                }
 				},
-            Group{ // bottom right resize element
-               blocksMouse: true;
-               visible: bind allowResize or isClosed
-               cursor: Cursor.NW_RESIZE;
-               translateX: bind width;
-               translateY: bind height;
-               content: [
-                  Polyline {
-                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-                     stroke: bind
-                          if (resizeHighLighted) controlColor else color
-                     strokeWidth: bind controlStrokeWidth;
-                  }
-                  Polyline {
-                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-                     stroke: bind
-                          if (resizeHighLighted) color else controlColor
-                     strokeWidth: bind controlStrokeWidth / 2;
-                  }
-//                  Polyline {
-//                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-//                     stroke:bind Color.WHITE
-//                     strokeWidth:bind controlStrokeWidth/2;
-//                  }
-//                  Polyline {
-//                     points: [ 0,-controlLength, 0,0, -controlLength,0 ]
-//                     stroke:bind color
-//                     strokeWidth:bind controlStrokeWidth/2;
-//                     strokeDashArray: controlStrokeDashArray;
-//                     strokeDashOffset:controlStrokeDashOffset;
-//                  }
-               ]
-               onMousePressed: function( e: MouseEvent ):Void {
-						if (allowResize){
-							startDragging(e);
-						}
-						else {
-							activate();
-							openWindow(minimumWidth,minimumHeight);
-						}
-               }
-               onMouseDragged: function( e: MouseEvent ):Void {
-						if (allowResize){
-							doResize(e);
-						}
-               }
-               onMouseReleased: function( e: MouseEvent ):Void {
-						if (allowResize){
-                     stopDragging(e);
-                  }
-               }
-               onMouseEntered: function( e: MouseEvent ):Void {
-                  resizeHighLighted = true;
-               }
-               onMouseExited: function( e: MouseEvent ):Void {
-                  resizeHighLighted = false;
-               }
-            },
-            Group{ // bottom left rotate element
-					blocksMouse: true;
-               visible: bind allowRotate;
-					content: [
-						Arc {
-							centerX: controlLength,
-							centerY: bind height - controlLength,
-							radiusX: controlLength,
-							radiusY: controlLength
-							startAngle: 180,
-							length: 90
-							type: ArcType.OPEN
-							fill: Color.TRANSPARENT
-							stroke: bind
-                     if (rotateHighLighted) controlColor else color
-							strokeWidth: bind controlStrokeWidth;
-						}
-						Arc {
-							centerX: controlLength,
-							centerY: bind height - controlLength,
-							radiusX: controlLength,
-							radiusY: controlLength
-							startAngle: 180,
-							length: 90
-							type: ArcType.OPEN
-							fill: Color.TRANSPARENT
-							stroke: bind
-                     if (rotateHighLighted) color else controlColor
-							strokeWidth: bind controlStrokeWidth / 2;
-						}
-					]
-					onMousePressed: function( e: MouseEvent ):Void {
-						startDragging(e);
-					}
-					onMouseDragged: function( e: MouseEvent ):Void {
-						doRotate(e);
-					}
-               onMouseReleased: function( e: MouseEvent ):Void {
-						stopDragging(e);
-               }
-               onMouseEntered: function( e: MouseEvent ):Void {
-                  rotateHighLighted = true;
-               }
-               onMouseExited: function( e: MouseEvent ):Void {
-                  rotateHighLighted = false;
-               }
-				},
+            resizeElement,
+            rotateElement,
             Group{ // the close element
                cursor: Cursor.HAND
                visible: bind allowClose and not isClosed
