@@ -72,25 +72,64 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 
     private IDiagramModel getInitialPedagogicalPlanModel() {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
-        INodeModel orientationLas = createLASElement("Orientation", 10, 400);
-        INodeModel conseptualisationLas  = createLASElement("Conceptualisation", 300, 200);
-        INodeModel designLas  = createLASElement("Design", 650, 200);
-        INodeModel buildLas  = createLASElement("Build", 300, 600);
+        INodeModel orientationLas = createLASElement("Orientation", 10, 100);
+        INodeModel conseptualisationLas  = createLASElement("Conceptualisation", 300, 10);
+        INodeModel designLas  = createLASElement("Design", 550, 10);
+        INodeModel buildLas  = createLASElement("Build", 700, 220);
+        INodeModel experimentLas  = createLASElement("Experiment", 650, 400);
+        INodeModel evaluationLas  = createLASElement("Evaluation", 300, 300);
+        INodeModel reflectionLas  = createLASElement("Reflection", 250, 500);
+        INodeModel reportingLas  = createLASElement("Reporting", 100, 600);
 
-        INodeModel producedByOrientationELO = createELOElement("Orientation", 150, 300);
-        INodeModel producedByConceptualisationInputToDesign = createELOElement("ELO", 450, 200);
+        INodeModel producedByOrientationELO = createELOElement("Orientation", 150, 100);
+        INodeModel producedByConceptualisationInputToDesign = createELOElement("ELO", 450, 10);
+        INodeModel producedByConceptualisationInputToExperiment = createELOElement("", 500, 300);
+        INodeModel producedByDesignELO = createELOElement("", 650, 100);
+        INodeModel producedByBuildELO = createELOElement("", 700, 350);
+        INodeModel producedByExperimentELO = createELOElement("", 450, 400);
+        INodeModel producedByEvaluationELO = createELOElement("", 350, 450);
+        INodeModel producedByReflectionELO = createELOElement("", 200, 500);
+        INodeModel producedByReportingELO = createELOElement("", 120, 700);
+
 
 
         addNode(pedagogicalPlan, orientationLas);
         addNode(pedagogicalPlan, conseptualisationLas);
         addNode(pedagogicalPlan, designLas);
         addNode(pedagogicalPlan, buildLas);
+        addNode(pedagogicalPlan, experimentLas);
+        addNode(pedagogicalPlan, evaluationLas);
+        addNode(pedagogicalPlan, reflectionLas);
+        addNode(pedagogicalPlan, reportingLas);
         addNode(pedagogicalPlan, producedByOrientationELO);
         addNode(pedagogicalPlan, producedByConceptualisationInputToDesign);
+        addNode(pedagogicalPlan, producedByDesignELO);
+        addNode(pedagogicalPlan, producedByConceptualisationInputToExperiment);
+        addNode(pedagogicalPlan, producedByBuildELO);
+        addNode(pedagogicalPlan, producedByExperimentELO);
+        addNode(pedagogicalPlan, producedByEvaluationELO);
+        addNode(pedagogicalPlan, producedByReflectionELO);
+        addNode(pedagogicalPlan, producedByReportingELO);
 
         connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO, "");
         connectNodes(pedagogicalPlan, producedByOrientationELO, conseptualisationLas, "");
-        connectNodes(pedagogicalPlan, conseptualisationLas, producedByConceptualisationInputToDesign, "");
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, conseptualisationLas, "");
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, designLas, "");
+        connectNodes(pedagogicalPlan, designLas, producedByDesignELO, "");
+        connectNodes(pedagogicalPlan, producedByDesignELO, buildLas, "");
+        connectNodes(pedagogicalPlan, conseptualisationLas, producedByConceptualisationInputToExperiment, "");
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas, "");
+        connectNodes(pedagogicalPlan, buildLas, producedByBuildELO, "");
+        connectNodes(pedagogicalPlan, producedByBuildELO, experimentLas, "");
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas, "");
+        connectNodes(pedagogicalPlan, producedByExperimentELO, experimentLas, "");
+        connectNodes(pedagogicalPlan, producedByExperimentELO, evaluationLas, "");
+        connectNodes(pedagogicalPlan, evaluationLas, designLas, "");
+        connectNodes(pedagogicalPlan, evaluationLas, producedByEvaluationELO, "");
+        connectNodes(pedagogicalPlan, producedByEvaluationELO, reflectionLas, "");
+        connectNodes(pedagogicalPlan, reflectionLas, producedByReflectionELO, "");
+        connectNodes(pedagogicalPlan, producedByReflectionELO, reportingLas, "");
+        connectNodes(pedagogicalPlan, reportingLas, producedByReportingELO, "");
 
 
         return pedagogicalPlan;
@@ -108,6 +147,7 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         las.setStyle(new DefaultNodeStyle());
         las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
         las.getStyle().setBackground(new Color(0xcc0000));
+        //las.getStyle().setBackground(new GradientPaint(0, 0, 0xe3ecfe, 100, 100, 0x7da4dd, true));
         las.setShape(new LASShape());
         las.setLabel(name);
         las.setLocation(new Point(xPos, yPos));
@@ -120,18 +160,21 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         INodeModel eloNodeModel = new ELONodeModel();
         eloNodeModel.setStyle(new DefaultNodeStyle());
         eloNodeModel.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        eloNodeModel.getStyle().setBackground(Color.GRAY);
+        //eloNodeModel.getStyle().setBackground(Color.GRAY);
+        eloNodeModel.getStyle().setBackground(new Color(0x90b444)); 
         eloNodeModel.setShape(new ELOShape());
         eloNodeModel.setLabel(name);
         eloNodeModel.setLocation(new Point(xPos, yPos));
-        eloNodeModel.setSize(new Dimension(100, 100));
+        eloNodeModel.setSize(new Dimension(30,30));
+        
         return eloNodeModel;
     }
 
     private void connectNodes(SCYPlannerDiagramModel diagramModel, INodeModel from, INodeModel to, String label) {
         IConceptLinkModel link = new LearningActivitySpaceLinkModel(from, to);
-        link.getStyle().setColor(new Color(0x444444));
-        link.getStyle().setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
+        link.getStyle().setColor(new Color(0x4f81bc));
+        link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));
+
         link.setShape(new Arrow());
         link.setLabel(label);
         diagramModel.addLink(link);

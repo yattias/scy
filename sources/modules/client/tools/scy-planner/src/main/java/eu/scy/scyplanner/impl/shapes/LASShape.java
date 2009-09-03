@@ -4,6 +4,7 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,10 +30,12 @@ public class LASShape extends INodeShape {
         Graphics2D g2 = (Graphics2D) g.create();
         switch (getMode()) {
             case DRAW:
-                g2.draw(new Ellipse2D.Float(0, 0, bounds.width - 1, bounds.height - 1));
+                g2.draw(new Rectangle2D.Float(0, 0, bounds.width - 1, bounds.height -1));
+                //g2.draw(new Ellipse2D.Float(0, 0, bounds.width - 1, bounds.height - 1));
                 break;
             case FILL:
-                g2.fill(new Ellipse2D.Float(0, 0, bounds.width - 1, bounds.height - 1));
+                g2.fill(new Rectangle2D.Float(0, 0, bounds.width - 1, bounds.height -1));
+                //g2.fill(new Ellipse2D.Float(0, 0, bounds.width - 1, bounds.height - 1));
         }
     }
 }
