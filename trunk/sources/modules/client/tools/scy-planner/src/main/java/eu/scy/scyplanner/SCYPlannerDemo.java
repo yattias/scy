@@ -13,6 +13,7 @@ import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceNodeModel;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
+import eu.scy.scyplanner.impl.shapes.LASShape;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -71,7 +72,7 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 	}
 
 	public synchronized void testAddNodes2() {
-
+        System.out.println("woha");
 		INodeModel redStar = new LearningActivitySpaceNodeModel();
 		redStar.setStyle(new DefaultNodeStyle());
 		redStar.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
@@ -82,7 +83,7 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 		redStar.setSize(new Dimension(200, 200));
 		addNode(redStar);
 
-		INodeModel ellipse = new LearningActivitySpaceNodeModel();
+		/*INodeModel ellipse = new LearningActivitySpaceNodeModel();
 		ellipse.setStyle(new DefaultNodeStyle());
 		ellipse.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
 		ellipse.getStyle().setBackground(new Color(0x0099ff));
@@ -91,8 +92,20 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 		ellipse.setSize(new Dimension(150, 100));
 		ellipse.setShape(new Ellipse());
 		addNode(ellipse);
+        */
+        INodeModel las = new LearningActivitySpaceNodeModel();
+        las.setStyle(new DefaultNodeStyle());
+        las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+        las.getStyle().setBackground(new Color(0x0099ff));
+        las.setLabel("MOOOHA");
+        las.setLocation(new Point(500,500));
+        las.setSize(new Dimension(200,200));
+        las.setShape(new LASShape());
+        addNode(las);
+        
 
-		IConceptLinkModel link = new LearningActivitySpaceLinkModel(redStar, ellipse);
+
+		IConceptLinkModel link = new LearningActivitySpaceLinkModel(redStar, las);
 		link.getStyle().setColor(new Color(0x444444));
 		link.getStyle().setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
 		link.setShape(new Arrow());
