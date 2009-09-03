@@ -68,7 +68,7 @@
         </dependency>
 	</dependencies>
 
-    <build>
+    <!--build>
         <filters>
             <filter>${filter.test.file}</filter>
         </filters>
@@ -82,6 +82,6 @@
 
     <properties>
         <filter.test.file>src/test/resources/filter.properties</filter.test.file>
-    </properties>
+    </properties-->
     	
 </project>
