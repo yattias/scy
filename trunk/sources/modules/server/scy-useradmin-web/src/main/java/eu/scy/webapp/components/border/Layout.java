@@ -6,6 +6,7 @@ import org.apache.tapestry5.services.ComponentSource;
 import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.Asset;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import eu.scy.webapp.pages.TapestryContextAware;
 import eu.scy.webapp.pages.ScyModelPage;
 import eu.scy.core.persistence.UserSessionDAO;
@@ -133,6 +134,7 @@ public class Layout extends TapestryContextAware {
     private ComponentSource compSource;
 
 
+    @CommitAfter
     public Object onActionFromActionMenuItem(SCYProjectImpl scyBaseObject, String actionId) {
         BaseAction action = getActionManager().getActionById(actionId);
         action.setActionManager(getActionManager());
@@ -156,8 +158,8 @@ public class Layout extends TapestryContextAware {
         return null;
     }
 
-    public Object [] getActionContext() {
-        return new Object[] {getUserObject(), getBaseAction().getActionId()};
+    public Object[] getActionContext() {
+        return new Object[]{getUserObject(), getBaseAction().getActionId()};
     }
 
 

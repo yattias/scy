@@ -27,6 +27,7 @@ public class AddGroupToProjectAction extends BaseAction {
         SCYProjectImpl project = (SCYProjectImpl) model;
         System.out.println("Adding group to " + project.getName());
         SCYGroupImpl group = new SCYGroupImpl();
+        group = (SCYGroupImpl) getActionManager().getUserDAOHibernate().save(group);
         getActionManager().getProjectDAOHibernate().addGroupToProject(project, group);
 
         project.addGroup(group);
