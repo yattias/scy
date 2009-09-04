@@ -25,7 +25,10 @@ public class NodeController implements INodeController {
 
     @Override
     public void setLocation(Point p) {
-        model.setLocation(p);
+        if (p.getX() < 0) p.x = 0;
+		if (p.y < 0) p.y = 0;
+
+		model.setLocation(p);
     }
 
     @Override

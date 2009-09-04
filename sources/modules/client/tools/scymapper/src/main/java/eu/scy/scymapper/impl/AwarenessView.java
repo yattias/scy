@@ -43,14 +43,14 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 		setLayout(new BorderLayout());
 		setBorder(new TitledBorder("Awareness"));
 		chatPane = new JTabbedPane();
-		chatPane.add("Your buddies", new BuddyPane(awarenessService));
+		chatPane.add("Collaborators", new BuddyPane(awarenessService));
 
 		statusPane = new PresenceStatusPane();
 		statusPane.setBorder(BorderFactory.createEmptyBorder());
 
 		FormLayout layout = new FormLayout(
 				"default:grow",
-				"pref, 2dlu, 75dlu, 2dlu, pref:grow"
+				"pref, 2dlu, 50dlu, 2dlu, pref:grow"
 		);
 
 		PanelBuilder builder = new PanelBuilder(layout);

@@ -50,13 +50,13 @@ public class BuddyListCellRenderer extends JPanel implements ListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		IAwarenessUser buddy = (IAwarenessUser) value;
-		rootPanel.setBackground(isSelected ? Color.getColor("#e0e0e0") : null);
 		rootPanel.setOpaque(isSelected);
+		rootPanel.setBackground(isSelected ? new Color(0xB9CFD6) : null);
 
 		if (buddy.getPresence().equals(Presence.Type.unavailable.toString()))
 			userNameLabel.setForeground(Color.gray);
 		else
-			userNameLabel.setForeground(new Color(0x33aa33));
+			userNameLabel.setForeground(new Color(0x126000));
 
 		userNameLabel.setText(buddy.getUsername()+ " ("+buddy.getPresence()+")");
 		//TODO: realNameLabel.setText(buddy.getName());
