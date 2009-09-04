@@ -80,7 +80,6 @@ public class BuddyPane extends JPanel implements IAwarenessPresenceListener, IAw
 
 	@Override
 	public void handleAwarenessRosterEvent(IAwarenessRosterEvent e) {
-		logger.debug("RosterEvent: " + e.getMessage());
 		updateBuddyList();
 	}
 }

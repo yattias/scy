@@ -47,6 +47,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
         setLayout(null);
 
         initializeGUI();
+		setAutoscrolls(true);
     }
 
 	private void initializeGUI() {
@@ -59,10 +60,8 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
         for (INodeModel node : model.getNodes()) {
             addNode(node);
         }
-
     }
-
-    private void addNode(INodeModel node) {
+	private void addNode(INodeModel node) {
         NodeView view = new NodeView(new NodeController(node), node);
 
         // Subscribe to mouse events in this nodes component to display the add-link button
@@ -83,6 +82,25 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
         add(view);
     }
 
+	public Dimension getPreferredSize() {
+		return new Dimension(getComponentsWidth(), getComponentsHeight());
+	}
+	public int getComponentsWidth() {
+		int maxW = getParent() != null ? getParent().getWidth() : 0;
+		for (Component component : getComponents()) {
+			int compW = component.getX()+component.getWidth();
+			if (compW > maxW) maxW = compW;
+		}
+		return maxW;
+	}
+	public int getComponentsHeight() {
+		int maxH = getParent() != null ? getParent().getHeight() : 0;
+		for (Component component : getComponents()) {
+			int compH = component.getY()+component.getHeight();
+			if (compH > maxH) maxH = compH;
+		}
+		return maxH;
+	}
     @Override
     public void updated(IDiagramModel diagramModel) {
         System.out.println("ConceptDiagramView.updated");
@@ -115,15 +133,14 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
 
     @Override
     public void moved(INodeModel node) {
-
+		revalidate();
     }
 
     @Override
     public void resized(INodeModel node) {
-
+		revalidate();
     }
-
-    @Override
+	@Override
     public void labelChanged(INodeModel node) {
         System.out.println("NodeModel label changed: "+node);
     }
@@ -142,22 +159,6 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
     public void nodeSelected(NodeModel conceptNode) {
         
     }
-
-    private class ComponentFocusListener implements FocusListener {
-        private ComponentFocusListener() {
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-            setComponentZOrder(e.getComponent(), 0);
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-
-        }
-    }
-
     private class NodeMouseListener implements MouseMotionListener {
         Component connectSymbol = null;
         private ConnectorButtonListener connectorButtonListener;
