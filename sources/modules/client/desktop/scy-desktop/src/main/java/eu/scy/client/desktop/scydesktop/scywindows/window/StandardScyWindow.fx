@@ -124,7 +124,7 @@ public class StandardScyWindow extends ScyWindow {
    def closeMouseOverEffect: Effect = Glow{
       level: 1
    }
-   def closeStrokeWidth = 2;
+   def closeStrokeWidth = 2.0;
    //	var borderBlockOffset = 5;
    //	var dragStrokeWith = 4;
    //	var dragLength = 20;
@@ -162,8 +162,8 @@ public class StandardScyWindow extends ScyWindow {
    var maxDifY: Number;
 	var sceneTopLeft: Point2D;
 
-   var closeElement: Node;
-   var minimizeElement: Node;
+//   var closeElement: Node;
+//   var minimizeElement: Node;
    var unminimizeElement: Node;
    var resizeOutlineShape: Shape;
    var resizeInnerShape: Shape;
@@ -184,8 +184,12 @@ public class StandardScyWindow extends ScyWindow {
       minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
    }
 
+   var emptyWindow:EmptyWindow;
+   var windowTitleBar:WindowTitleBar;
    var resizeElement:WindowResize;
    var rotateElement:WindowRotate;
+   var closeElement: WindowClose;
+   var minimizeElement: WindowMinimize;
 
 	postinit {
 		if (isClosed){
@@ -649,6 +653,27 @@ public class StandardScyWindow extends ScyWindow {
 
 	public override function create(): Node {
 		blocksMouse = true;
+
+      emptyWindow = EmptyWindow{
+         width: bind width;
+         height:bind height;
+         controlSize:controlLength;
+         borderWidth:borderWidth;
+         borderColor:bind color;
+         backgroundColor:bind windowBackgroundColor;
+      }
+
+      windowTitleBar = WindowTitleBar{
+         width:bind width - 2 * borderWidth - 3 * topLeftBlockSize / 4
+         iconSize:iconSize;
+         iconGap:borderWidth/2;
+         color:bind color;
+         title:bind title;
+         typeChar:bind eloType;
+         layoutX:3 * topLeftBlockSize / 4;
+         layoutY:topLeftBlockSize / 4 + 1;
+      }
+
       resizeElement = WindowResize{
          visible: bind allowResize or isClosed;
          size:controlLength;
@@ -675,92 +700,39 @@ public class StandardScyWindow extends ScyWindow {
          layoutY: bind height-controlLength;
       }
 
+      closeElement = WindowClose{
+         visible: bind allowClose and not isClosed;
+         size:controlLength;
+         strokeWidth:controlStrokeWidth/2;
+         color:bind color;
+         subColor:controlColor;
+         activate: activate;
+         closeAction:doClose;
+         layoutX: bind width - topLeftBlockSize / 2;
+         layoutY: -topLeftBlockSize / 2;
+      }
+
+      minimizeElement = WindowMinimize{
+         visible: bind allowMinimize and not isClosed;
+         size:topLeftBlockSize;
+         strokeWidth:controlStrokeWidth/2;
+         color:bind color;
+         subColor:controlColor;
+         activate: activate;
+         minimizeAction:doMinimize;
+         unminimizeAction:doUnminimize;
+         minimized: bind isMinimized;
+         layoutX: bind width / 2;
+         layoutY: bind height;
+      }
+
+
+
 		return Group {
          cursor: Cursor.MOVE;
 
 			content: [
-            Group{ // the white background of the window
-					content: [
-                  Rectangle { // top part until the arc
-							x: 0,
-							y: 0
-							width: bind width,
-							height: bind height - controlLength
-							strokeWidth: borderWidth
-							fill: windowBackgroundColor
-							stroke: windowBackgroundColor
-						},
-                  Rectangle { // bottom left part until the arc
-							x: bind controlLength,
-							y: bind height - controlLength
-							width: bind width - controlLength,
-							height: bind controlLength
-							strokeWidth: borderWidth
-							fill: windowBackgroundColor
-							stroke: windowBackgroundColor
-						},
-                  Arc { // the bottom left rotate arc part
-							centerX: controlLength,
-							centerY: bind height - controlLength,
-							radiusX: controlLength,
-							radiusY: controlLength
-							startAngle: 180,
-							length: 90
-							type: ArcType.ROUND
-							strokeWidth: borderWidth
-							fill: windowBackgroundColor
-							stroke: windowBackgroundColor
-						}
-					]
-				}
-            Line { // the left border line
-					startX: 0,
-					startY: bind height - controlLength - borderWidth / 2 - closeStrokeWidth / 2
-					endX: 0,
-					endY: 0
-					strokeWidth: borderWidth
-					stroke: bind color
-				}
-            Line { // the top border line
-					startX: 0,
-					startY: 0
-					endX: bind width,
-					endY: 0
-					strokeWidth: borderWidth
-					stroke: bind color
-				}
-            Line { // the right border line
-					startX: bind width,
-					startY: 0
-					endX: bind width,
-					endY: bind height,
-					strokeWidth: borderWidth
-					stroke: bind color
-					effect: bind windowEffect
-				}
-            Line { // the bottom border line
-					startX: bind width,
-					startY: bind height
-					endX: bind controlLength + borderWidth / 2 + closeStrokeWidth / 2,
-					endY: bind height,
-					strokeWidth: borderWidth
-					stroke: bind color
-					effect: bind windowEffect
-				}
-            Arc { // the bottom left "disabled" rotate arc
-					centerX: controlLength,
-					centerY: bind height - controlLength,
-					radiusX: controlLength,
-					radiusY: controlLength
-					startAngle: 180,
-					length: 90
-					type: ArcType.OPEN
-					fill: Color.TRANSPARENT
-					strokeWidth: borderWidth
-					stroke: bind color
-					//effect:bind windowEffect
-
-            }
+            emptyWindow,
             Group{ // the content
                blocksMouse: true;
                cursor: Cursor.DEFAULT;
@@ -794,158 +766,64 @@ public class StandardScyWindow extends ScyWindow {
 				//                  fill: Color.RED
 				//               }
 				//            }
-            Group{ // icon for title
-					translateX: 3 * topLeftBlockSize / 4
-					translateY: topLeftBlockSize / 4 + 1
-					content: [
-						Rectangle{
-							x: 0
-							y: 0
-							width: iconSize
-							height: iconSize
-							fill: bind color
-						}
-						Text {
-							font: eloTypeFont
-							x: eloTypeFont.size / 4 - 1,
-							y: eloTypeFont.size - 1
-							content: bind iconCharacter.substring(0, 1)
-							fill: Color.WHITE
-						}
-					]
-				},
-            Text { // title
-					font: textFont
-					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
-					y: borderWidth + titleFontsize + fontHeightCompensation
-					clip: Rectangle {
-						x: 3 * topLeftBlockSize / 4 + iconSize,
-						y: 0
-						width: bind width - 3 * topLeftBlockSize / 4 - iconSize - 4,
-						height: bind height
-						fill: Color.BLACK
-					}
-					fill: bind color;
-					content: bind title;
-				},
-				//				Group{ // just for checking title clip
-				//					content:[
-				//						Rectangle {
-				//							x: 3 * topLeftBlockSize / 4 + iconSize,
-				//							y: 0
-				//							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
-				//							height: bind height
-				//							fill: Color.BLACK
-				//						}
-				//					]
-				//				},
-            Line { // line under title
-					startX: 3 * topLeftBlockSize / 4,
-					startY: iconSize + topLeftBlockSize / 2
-					endX: bind width - 2 * borderWidth,
-					endY: iconSize + topLeftBlockSize / 2
-					strokeWidth: lineWidth
-					stroke: bind color
-				},
-				minimizeElement = Group{
-					cursor: Cursor.HAND
-					visible: bind allowMinimize and not isMinimized and not isClosed
-					translateX: bind width / 2 - topLeftBlockSize / 2
-               translateY: bind height + topLeftBlockSize / 4
-					content: [
-                  Polygon {
-                     points: [ 0,0, topLeftBlockSize / 2,-topLeftBlockSize / 2, topLeftBlockSize,0 ]
-                     fill: controlColor
-							strokeWidth: controlStrokeWidth / 2
-							stroke: bind
-                          if (minimizeHighLighted) lighterColor(color) else color
-                  }
-					]
-               onMouseClicked: function( e: MouseEvent ):Void {
-						doMinimize();
-					}
-               onMouseEntered: function( e: MouseEvent ):Void {
-                  minimizeHighLighted = true;
-               }
-               onMouseExited: function( e: MouseEvent ):Void {
-                  minimizeHighLighted = false;
-               }
-
-				},
-				unminimizeElement = Group{
-					cursor: Cursor.HAND
-					visible: bind allowMinimize and isMinimized and not isClosed
-					translateX: bind width / 2 - topLeftBlockSize / 2
-               translateY: bind height - topLeftBlockSize / 4
-					content: [
-                  Polygon {
-                     points: [ 0,0, topLeftBlockSize / 2,topLeftBlockSize / 2, topLeftBlockSize,0 ]
-                     fill: controlColor
-							strokeWidth: controlStrokeWidth / 2
-							stroke: bind
-                          if (unminimizeHighLighted) lighterColor(color) else color
-                  }
-					]
-               onMouseClicked: function( e: MouseEvent ):Void {
-						doUnminimize();
-					}
-               onMouseEntered: function( e: MouseEvent ):Void {
-                  unminimizeHighLighted = true;
-               }
-               onMouseExited: function( e: MouseEvent ):Void {
-                  unminimizeHighLighted = false;
-               }
-				},
+            windowTitleBar,
+//            Group{ // icon for title
+//					translateX: 3 * topLeftBlockSize / 4
+//					translateY: topLeftBlockSize / 4 + 1
+//					content: [
+//						Rectangle{
+//							x: 0
+//							y: 0
+//							width: iconSize
+//							height: iconSize
+//							fill: bind color
+//						}
+//						Text {
+//							font: eloTypeFont
+//							x: eloTypeFont.size / 4 - 1,
+//							y: eloTypeFont.size - 1
+//							content: bind iconCharacter.substring(0, 1)
+//							fill: Color.WHITE
+//						}
+//					]
+//				},
+//            Text { // title
+//					font: textFont
+//					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
+//					y: borderWidth + titleFontsize + fontHeightCompensation
+//					clip: Rectangle {
+//						x: 3 * topLeftBlockSize / 4 + iconSize,
+//						y: 0
+//						width: bind width - 3 * topLeftBlockSize / 4 - iconSize - 4,
+//						height: bind height
+//						fill: Color.BLACK
+//					}
+//					fill: bind color;
+//					content: bind title;
+//				},
+//				//				Group{ // just for checking title clip
+//				//					content:[
+//				//						Rectangle {
+//				//							x: 3 * topLeftBlockSize / 4 + iconSize,
+//				//							y: 0
+//				//							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
+//				//							height: bind height
+//				//							fill: Color.BLACK
+//				//						}
+//				//					]
+//				//				},
+//            Line { // line under title
+//					startX: 3 * topLeftBlockSize / 4,
+//					startY: iconSize + topLeftBlockSize / 2
+//					endX: bind width - 2 * borderWidth,
+//					endY: iconSize + topLeftBlockSize / 2
+//					strokeWidth: lineWidth
+//					stroke: bind color
+//				},
+            minimizeElement,
             resizeElement,
             rotateElement,
-            Group{ // the close element
-               cursor: Cursor.HAND
-               visible: bind allowClose and not isClosed
-               translateX: bind width - topLeftBlockSize / 2
-               translateY: -topLeftBlockSize / 2
-               content: [
-                  Rectangle { // background rect
-                     x: 0,
-                     y: 0;
-                     width: topLeftBlockSize,
-                     height: topLeftBlockSize
-                     fill: bind
-                     if (closeHighLighted) lighterColor(color) else color
-                     stroke: bind color
-                  },
-                  Group{ // close cross
-                     translateX: 0
-                     translateY: 0
-                     content: [
-                        Line {
-                           startX: closeCrossInset,
-                           startY: closeCrossInset
-                           endX: topLeftBlockSize - closeCrossInset,
-                           endY: topLeftBlockSize - closeCrossInset
-                           strokeWidth: closeStrokeWidth
-                           stroke: closeColor
-                        }
-                        Line {
-                           startX: closeCrossInset,
-                           startY: topLeftBlockSize - closeCrossInset
-                           endX: topLeftBlockSize - closeCrossInset,
-                           endY: closeCrossInset
-                           strokeWidth: closeStrokeWidth
-                           stroke: closeColor
-                        }
-                     ]
-                  }
-               ]
-               onMouseClicked: function( e: MouseEvent ):Void {
-						doClose();
-               }
-               onMouseEntered: function( e: MouseEvent ):Void {
-                  closeHighLighted = true;
-               }
-               onMouseExited: function( e: MouseEvent ):Void {
-                  closeHighLighted = false;
-               }
-				}
+            closeElement,
             Group{ // the scy window attributes
                translateY: -borderWidth / 2;
                content: bind scyWindowAttributes,
