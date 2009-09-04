@@ -2,6 +2,7 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
@@ -47,81 +48,17 @@ public class VariableDialog extends javax.swing.JDialog implements
 		this.props = figure.getProperties();
 		this.editor = editor;
 		this.label = (String)props.get("label");
-
-		JLabel nameLabel = new javax.swing.JLabel("Label: ");
-		nameLabel.setHorizontalAlignment(JLabel.RIGHT);
-
-		String valueLabelString = "Value: ";
-		switch (figure.getType()) {
-		case JdFigure.AUX:
-			valueLabelString = "Expression: ";
-			break;
-		case JdFigure.STOCK:
-			valueLabelString = "Start value: ";
-			break;
-		case JdFigure.CONSTANT:
-			valueLabelString = "Constant value: ";
-			break;
-		}
-		JLabel valueLabel = new javax.swing.JLabel(valueLabelString);
-		valueLabel.setHorizontalAlignment(JLabel.RIGHT);
-		
-		// addWindowListener(new DynaWindowListener());
-		getContentPane().setLayout(new BorderLayout());
+	
 		setTitle("Settings for '" + this.label + "'");
-		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(4, 2));
-		northPanel.add(nameLabel);
-		northPanel.add(nameField);
-		northPanel.add(valueLabel);
-		northPanel.add(valueField);
 		
-		JLabel unitLabel = new javax.swing.JLabel("Unit: ");
-		unitLabel.setHorizontalAlignment(JLabel.RIGHT);
-		northPanel.add(unitLabel);
-		unitsBox = new JComboBox(units);
-		unitsBox.setEditable(true);
-		unitsBox.setSelectedItem(figure.getProperties().get("unit"));
-		northPanel.add(unitsBox);
-		
-		JPanel colorLabelPanel = new JPanel();
-		colorLabelPanel.setLayout(flowRight);
-		colorLabelPanel.add(new JLabel("Color: "));
-		colorLabel = new JLabel("\u2588");
-		colorLabel.setForeground(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor());
-		newColor = colorLabel.getForeground();
-		colorLabelPanel.add(colorLabel);
-		northPanel.add(colorLabelPanel);	
-		colorButton = new JButton("choose");
-		colorButton.setActionCommand("color");
-		colorButton.addActionListener(this);
-		northPanel.add(colorButton);
-		
-		getContentPane().add(northPanel, BorderLayout.NORTH);
-
-		JPanel southPanel = new JPanel();
-		southPanel.setLayout(new java.awt.FlowLayout());
-		javax.swing.JButton okayButton = new javax.swing.JButton("ok");
-		okayButton.setActionCommand("okay");
-		javax.swing.JButton cancelButton = new javax.swing.JButton("cancel");
-		cancelButton.setActionCommand("cancel");
-		okayButton.addActionListener(this);
-		cancelButton.addActionListener(this);
-		southPanel.add(okayButton);
-		southPanel.add(cancelButton);
-		getContentPane().add(southPanel, BorderLayout.SOUTH);
-
-		JPanel midPanel = new JPanel();
-		midPanel.setLayout(new BorderLayout());
-		midPanel.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("variables"));
-		infoList = new javax.swing.JList(getListItems());
-		infoList.addMouseListener(this);
-		javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(
-				infoList);
-		midPanel.add(scrollPane);
-		getContentPane().add(midPanel, BorderLayout.CENTER);
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(getSpecsPanel(), BorderLayout.NORTH);	
+		getContentPane().add(getOkayCancelPanel(), BorderLayout.SOUTH);	
+		getContentPane().add(getVariablePanel(), BorderLayout.CENTER);
 		getContentPane().add(getCalculatorPanel(), BorderLayout.EAST);
+		
+		this.setPreferredSize(new Dimension(440,300));
+		
 		updateView();
 		pack();
 		setLocation(position);
@@ -155,6 +92,82 @@ public class VariableDialog extends javax.swing.JDialog implements
 		return b;
 	}
 
+	private JPanel getVariablePanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("variables"));
+		infoList = new javax.swing.JList(getListItems());
+		infoList.addMouseListener(this);
+		javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(
+				infoList);
+		panel.add(scrollPane);
+		return panel;
+	}
+	
+	private JPanel getSpecsPanel() {
+		JLabel nameLabel = new javax.swing.JLabel("Label: ");
+		nameLabel.setHorizontalAlignment(JLabel.RIGHT);
+
+		String valueLabelString = "Value: ";
+		switch (figure.getType()) {
+		case JdFigure.AUX:
+			valueLabelString = "Expression: ";
+			break;
+		case JdFigure.STOCK:
+			valueLabelString = "Start value: ";
+			break;
+		case JdFigure.CONSTANT:
+			valueLabelString = "Constant value: ";
+			break;
+		}
+		JLabel valueLabel = new javax.swing.JLabel(valueLabelString);
+		valueLabel.setHorizontalAlignment(JLabel.RIGHT);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new java.awt.GridLayout(4, 2));
+		panel.add(nameLabel);
+		panel.add(nameField);
+		panel.add(valueLabel);
+		panel.add(valueField);
+		
+		JLabel unitLabel = new javax.swing.JLabel("Unit: ");
+		unitLabel.setHorizontalAlignment(JLabel.RIGHT);
+		panel.add(unitLabel);
+		unitsBox = new JComboBox(units);
+		unitsBox.setEditable(true);
+		unitsBox.setSelectedItem(figure.getProperties().get("unit"));
+		panel.add(unitsBox);
+		
+		JPanel colorLabelPanel = new JPanel();
+		colorLabelPanel.setLayout(flowRight);
+		colorLabelPanel.add(new JLabel("Color: "));
+		colorLabel = new JLabel("\u2588");
+		colorLabel.setForeground(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor());
+		newColor = colorLabel.getForeground();
+		colorLabelPanel.add(colorLabel);
+		panel.add(colorLabelPanel);	
+		colorButton = new JButton("choose");
+		colorButton.setActionCommand("color");
+		colorButton.addActionListener(this);
+		panel.add(colorButton);
+		return panel;
+	}
+	
+	private JPanel getOkayCancelPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new java.awt.FlowLayout());
+		javax.swing.JButton okayButton = new javax.swing.JButton("ok");
+		okayButton.setActionCommand("okay");
+		javax.swing.JButton cancelButton = new javax.swing.JButton("cancel");
+		cancelButton.setActionCommand("cancel");
+		okayButton.addActionListener(this);
+		cancelButton.addActionListener(this);
+		panel.add(okayButton);
+		panel.add(cancelButton);
+		return panel;
+	}
+	
 	private JPanel getCalculatorPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 5));
@@ -176,7 +189,7 @@ public class VariableDialog extends javax.swing.JDialog implements
 		panel.add(makeButton("0"));
 		panel.add(makeButton("."));
 		panel.add(makeButton("C"));
-		panel.setBorder(new TitledBorder("calculator"));
+		panel.setBorder(new TitledBorder("input pad"));
 		return panel;
 	}
 
