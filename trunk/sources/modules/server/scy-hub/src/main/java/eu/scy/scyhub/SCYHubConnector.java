@@ -12,9 +12,16 @@ import org.xmpp.component.ComponentException;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import net.sf.sail.webapp.spring.SpringConfiguration;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -30,10 +37,7 @@ public class SCYHubConnector implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        XmlWebApplicationContext ctx = (XmlWebApplicationContext) servletContextEvent.getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-        if (ctx == null) {
-            ctx = initializeContext(servletContextEvent.getServletContext());
-        }
+        ApplicationContext ctx = initializeContext(servletContextEvent.getServletContext());
 
         log.info("** ** ** *************************");
         log.info("** ** ** CONNECTING TO THE SCY-HUB");
@@ -52,22 +56,18 @@ public class SCYHubConnector implements ServletContextListener {
         }
     }
 
-    private XmlWebApplicationContext initializeContext(ServletContext context) {
-        XmlWebApplicationContext ctx;
-        ctx = new XmlWebApplicationContext();
-        String configLocations = context.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM);
-        String[] files = configLocations.split(",");
-        for (int i = 0; i < files.length; i++) {
-            files[i] = files[i].trim();
+    private ApplicationContext initializeContext(ServletContext context) {
+        log.info("-------------- > > INITIALIZING SPRING CONTEXT FROM SPRING CONFIG CLASS...");
+        try {
+            ConfigurableApplicationContext applicationContext = null;
+            SpringConfiguration springConfig = (SpringConfiguration) BeanUtils.instantiateClass(Class.forName("eu.scy.webapp.spring.impl.SpringConfigurationImpl"));
+            applicationContext = new ClassPathXmlApplicationContext(springConfig.getRootApplicationContextConfigLocations());
+            log.info("--------------  > > CONTEXT INITIALIZED!");
+            return applicationContext;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        if (log.isLoggable(Level.FINEST)) {
-            log.finest("Spring context files: " + configLocations);
-        }
-
-        ctx.setConfigLocations(files);
-        ctx.setServletContext(context);
-        ctx.refresh();
-        return ctx;
+        throw new RuntimeException("Cannot initialize spring context!");
     }
 
     private void initializeScyHubComponent(SCYHubComponent scyHubComponent) {
