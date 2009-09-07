@@ -43,8 +43,13 @@ public class SCYHubComponent implements Component {
     private static CommunicationProperties communicationProps = new CommunicationProperties();
 
     private IActionLogger actionLogger;
-    
-    
+
+    public SCYHubComponent() {
+        logger.info("INITIALIZING SCY HUB COMPONENT!");
+        logger.info("INITIALIZING SCY HUB COMPONENT!");
+        logger.info("INITIALIZING SCY HUB COMPONENT!");
+    }
+
     /**
      * Gets the name
      * 
