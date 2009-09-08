@@ -9,40 +9,20 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.ext.swing.SwingButton;
-import javafx.ext.swing.SwingComponent;
-import javafx.ext.swing.SwingScrollPane;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Math;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
-import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
-import java.awt.Dimension;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
@@ -100,43 +80,25 @@ public class StandardScyWindow extends ScyWindow {
 //	public var closedAction: function(ScyWindow):Void;
 
 	// status variables
-//	public-read var isMinimized = false;
-//	public override var isClosed = true;
 	var isAnimating = false;
 
 	// layout constants
 	def windowBackgroundColor = Color.WHITE;
-   //	def controlColor = Color.BLACK;
-   //	def controlColor = Color.color(lighterColorElement(color.red),lighterColorElement(color.green),lighterColorElement(color.blue));
 	def controlColor = Color.WHITE;
 	def controlLength = 18;
 	def controlStrokeWidth = 4;
-	def closeCrossInset = 4;
-   def controlStrokeDashArray = [0.0,7.0];
-   def controlStrokeDashOffset = 0;
 
    def iconSize = 16;
-
 	def borderWidth = 4;
-	def topLeftBlockSize = 17;
-	public def closedHeight = iconSize + topLeftBlockSize / 2 + borderWidth / 2;
-   def closeColor = Color.WHITE;
-   def closeMouseOverEffect: Effect = Glow{
-      level: 1
-   }
-   def closeStrokeWidth = 2.0;
-   //	var borderBlockOffset = 5;
-   //	var dragStrokeWith = 4;
-   //	var dragLength = 20;
-   //	var dragBorder = 4;
-	var titleFontsize = 12;
-	var fontHeightCompensation = 3;
-	var lineOffsetY = 3;
-	var lineWidth = 1;
-	var contentBorder = 2;
-	var textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
-	var eloTypeFontsize = 14;
-	var eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
+   def titleBarTopOffset = borderWidth/2 + 3;
+   def titleBarLeftOffset = 12;
+   def closedHeight = titleBarTopOffset+iconSize+borderWidth;
+   def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
+   def contentBorder = 2;
+
+   def contentWidth = bind width - borderWidth - 2 * contentBorder - 1;
+   def contentHeight = bind height - contentTopOffset - borderWidth / 2 - 2 * contentBorder;
+
 	//def minimumHeigth = topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth;
 	//def minimumWidth = 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset;
 	public-read var originalTranslateX: Number;
@@ -162,11 +124,6 @@ public class StandardScyWindow extends ScyWindow {
    var maxDifY: Number;
 	var sceneTopLeft: Point2D;
 
-//   var closeElement: Node;
-//   var minimizeElement: Node;
-   var unminimizeElement: Node;
-   var resizeOutlineShape: Shape;
-   var resizeInnerShape: Shape;
 	def resizeAnimationTime = 250ms;
 	def opcityAnimationTime = 250ms;
 	def closeAnimationTime = 350ms;
@@ -178,10 +135,10 @@ public class StandardScyWindow extends ScyWindow {
    var unminimizeHighLighted = false;
 
    public override var minimumHeight = 50 on replace{
-      minimumHeight = Math.max(minimumHeight, topLeftBlockSize + controlLength + borderWidth);
+      minimumHeight = Math.max(minimumHeight, contentTopOffset+2*contentBorder);
    }
    public override var minimumWidth = 70 on replace{
-      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 2 * controlStrokeWidth + 2 * controlLength);
+      minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlLength);
    }
 
    var emptyWindow:EmptyWindow;
@@ -198,10 +155,6 @@ public class StandardScyWindow extends ScyWindow {
 		resizeTheContent();
    }
 
-   //   public function addEdge(edge:ScyEdgeLayer):Void {
-   //        insert edge into edges;
-   //   }
-
    function placeAttributes(){
       var sortedScyWindowAttributes =
       Sequences.sort(scyWindowAttributes,null) as ScyWindowAttribute[];
@@ -214,16 +167,6 @@ public class StandardScyWindow extends ScyWindow {
 
    }
 
-
-
-   function lighterColorElement(elementValue:Number):Number{
-      var whiteDif = 1.0 - elementValue;
-      return 1 - whiteDif / 2;
-   }
-
-   function lighterColor(aColor:Color):Color{
-      Color.color(lighterColorElement(aColor.red),lighterColorElement(aColor.green),lighterColorElement(aColor.blue))
-   }
 
 	public override function openWindow(openWidth:Number,openHeight:Number){
 		checkScyContent();
@@ -260,45 +203,6 @@ public class StandardScyWindow extends ScyWindow {
 						if (scyDesktop != null){
 							scyDesktop.hideScyWindow(this);
 						}
-						isAnimating = false;
-					}
-				}
-			];
-		}
-	}
-
-	function getShowTimeline(beginX:Number,beginY:Number,endX:Number,endY:Number,endWidth:Number,endHeight:Number):Timeline{
-		return Timeline{
-			keyFrames: [
-				KeyFrame{
-					time: 0ms;
-					values: [
-						translateX => beginX,
-						translateY => beginY,
-						width => minimumWidth,
-						height => minimumHeight,
-						opacity => 0.0
-					]
-				}
-				KeyFrame{
-					time: opcityAnimationTime;
-					values: [
-						translateX => beginX,
-						translateY => beginY,
-						width => minimumWidth,
-						height => minimumHeight,
-						opacity => 1.0 tween Interpolator.EASEBOTH
-					]
-				}
-				KeyFrame{
-					time: resizeAnimationTime + opcityAnimationTime;
-					values: [
-						translateX => endX tween Interpolator.EASEBOTH,
-						translateY => endY tween Interpolator.EASEBOTH,
-						width => endWidth tween Interpolator.EASEBOTH,
-						height => endHeight tween Interpolator.EASEBOTH
-					]
-					action: function(){
 						isAnimating = false;
 					}
 				}
@@ -378,45 +282,18 @@ public class StandardScyWindow extends ScyWindow {
 		hideTimeline.play();
 	}
 
-	public function showFrom(x:Number,y:Number){
-		var showTimeline = getShowTimeline(x,y,originalTranslateX,originalTranslateY,originalWidth,originalHeight);
-		scyDesktop.showScyWindow(this);
-		showTimeline.play();
-	}
-
-   public override function open(){
-      openFrom(0,0);
-   }
-
-
-	public function openFrom(x:Number,y:Number){
-		// cannot add myself to scyDesktop, because the scyDesktop variable is set in the addScyWindow call
-		var openTimeline = getShowTimeline(x,y,translateX,translateY,width,height);
-		openTimeline.play();
-	}
-
 	public override function close(){
 		var closeTimeline = getCloseTimeline(translateX + width / 2,translateY - height / 2);
 		closeTimeline.play();
 	}
 
 	function resizeTheContent(){
-      var contentWidth = width - borderWidth - 2 * contentBorder - 1;
-      var contentHeight = height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder;
       contentGlassPane.width=contentWidth;
       contentGlassPane.height = contentHeight;
       if (scyContent instanceof Resizable){
 			var resizeableScyContent = scyContent as Resizable;
 			resizeableScyContent.width = contentWidth;
 			resizeableScyContent.height = contentHeight;
-//
-//            //TODO: take care of prefered minimum / maximum size of resizable scycontent
-//         var factor: Number = java.lang.Math.min(width / resizeableScyContent.getPrefWidth(-1),height / resizeableScyContent.getPrefHeight(-1));
-//         scyContent.scaleX = factor;
-//         scyContent.scaleY = factor;
-//            // moving scaled content to upper left corner
-//         scyContent.translateX = (factor * resizeableScyContent.getPrefHeight(-1) - resizeableScyContent.getPrefWidth(-1)) / 2;
-//         scyContent.translateY = (factor * resizeableScyContent.getPrefHeight(-1) - resizeableScyContent.getPrefWidth(-1)) / 2;
 		}
 	}
 
@@ -664,14 +541,14 @@ public class StandardScyWindow extends ScyWindow {
       }
 
       windowTitleBar = WindowTitleBar{
-         width:bind width - 2 * borderWidth - 3 * topLeftBlockSize / 4
+         width:bind width - 1 * borderWidth - titleBarLeftOffset
          iconSize:iconSize;
          iconGap:borderWidth/2;
          color:bind color;
          title:bind title;
          typeChar:bind eloType;
-         layoutX:3 * topLeftBlockSize / 4;
-         layoutY:topLeftBlockSize / 4 + 1;
+         layoutX:titleBarLeftOffset;
+         layoutY:titleBarTopOffset;
       }
 
       resizeElement = WindowResize{
@@ -708,13 +585,13 @@ public class StandardScyWindow extends ScyWindow {
          subColor:controlColor;
          activate: activate;
          closeAction:doClose;
-         layoutX: bind width - topLeftBlockSize / 2;
-         layoutY: -topLeftBlockSize / 2;
+         layoutX: bind width - controlLength / 2;
+         layoutY: -controlLength / 2;
       }
 
       minimizeElement = WindowMinimize{
          visible: bind allowMinimize and not isClosed;
-         size:topLeftBlockSize;
+         size:controlLength;
          strokeWidth:controlStrokeWidth/2;
          color:bind color;
          subColor:controlColor;
@@ -726,7 +603,12 @@ public class StandardScyWindow extends ScyWindow {
          layoutY: bind height;
       }
 
-
+      // show a filled rect as content for test purposes
+//      scyContent = Rectangle {
+//         x: -100, y: -100
+//         width: 1000, height: 1000
+//         fill: Color.color(1,.25,.25,.75)
+//      }
 
 		return Group {
          cursor: Cursor.MOVE;
@@ -737,12 +619,12 @@ public class StandardScyWindow extends ScyWindow {
                blocksMouse: true;
                cursor: Cursor.DEFAULT;
                translateX: borderWidth / 2 + 1 + contentBorder
-               translateY: iconSize + topLeftBlockSize / 2 + 1 + contentBorder
+               translateY: contentTopOffset + contentBorder
                clip: Rectangle {
                   x: 0,
                   y: 0
-                  width: bind width - borderWidth - 2 * contentBorder - 1,
-                  height: bind height - borderWidth - iconSize - topLeftBlockSize / 2 + 1 - 2 * contentBorder
+                  width: bind contentWidth
+                  height: bind contentHeight
                   fill: Color.BLACK
                }
                content: bind [
@@ -753,73 +635,7 @@ public class StandardScyWindow extends ScyWindow {
                   activate();
                }
             }
-				//            Group{ // group for testing the content clip
-				//               blocksMouse:true;
-				//               cursor:Cursor.DEFAULT;
-				//               translateX:borderWidth/2+1+contentBorder
-				//               translateY:iconSize + topLeftBlockSize/2+1+contentBorder
-				//               content:Rectangle {
-				//                  x: 0,
-				//                  y: 0
-				//                  width: bind width - borderWidth - 2*contentBorder-1,
-				//                  height: bind height - borderWidth - iconSize - topLeftBlockSize/2+1-2*contentBorder
-				//                  fill: Color.RED
-				//               }
-				//            }
             windowTitleBar,
-//            Group{ // icon for title
-//					translateX: 3 * topLeftBlockSize / 4
-//					translateY: topLeftBlockSize / 4 + 1
-//					content: [
-//						Rectangle{
-//							x: 0
-//							y: 0
-//							width: iconSize
-//							height: iconSize
-//							fill: bind color
-//						}
-//						Text {
-//							font: eloTypeFont
-//							x: eloTypeFont.size / 4 - 1,
-//							y: eloTypeFont.size - 1
-//							content: bind iconCharacter.substring(0, 1)
-//							fill: Color.WHITE
-//						}
-//					]
-//				},
-//            Text { // title
-//					font: textFont
-//					x: 3 * topLeftBlockSize / 4 + iconSize + 3,
-//					y: borderWidth + titleFontsize + fontHeightCompensation
-//					clip: Rectangle {
-//						x: 3 * topLeftBlockSize / 4 + iconSize,
-//						y: 0
-//						width: bind width - 3 * topLeftBlockSize / 4 - iconSize - 4,
-//						height: bind height
-//						fill: Color.BLACK
-//					}
-//					fill: bind color;
-//					content: bind title;
-//				},
-//				//				Group{ // just for checking title clip
-//				//					content:[
-//				//						Rectangle {
-//				//							x: 3 * topLeftBlockSize / 4 + iconSize,
-//				//							y: 0
-//				//							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
-//				//							height: bind height
-//				//							fill: Color.BLACK
-//				//						}
-//				//					]
-//				//				},
-//            Line { // line under title
-//					startX: 3 * topLeftBlockSize / 4,
-//					startY: iconSize + topLeftBlockSize / 2
-//					endX: bind width - 2 * borderWidth,
-//					endY: iconSize + topLeftBlockSize / 2
-//					strokeWidth: lineWidth
-//					stroke: bind color
-//				},
             minimizeElement,
             resizeElement,
             rotateElement,
@@ -876,193 +692,155 @@ public class StandardScyWindow extends ScyWindow {
 //}
 
 function run() {
-   //	var image = Image{
-   //		url: "{__DIR__}Water lilies.jpg"}
-   //	var imageView = ImageView{
-   //		image:image
-   //  }
-   //	var imageView2 = ImageView{
-   //		image:image
-   //  }
-   //	var testContent = Rectangle {
-   //		x: 0,
-   //		y: 0
-   //		width: 200,
-   //		height: 200
-   //		fill: Color.RED
-   //   }
-   //	var whiteboard = new WhiteboardPanel();
-   //	var whiteboardNode = SwingComponent.wrap(whiteboard);
-   //	//whiteboardNode.cursor = null;
-   //
-   //   var tree = new JTree();
-   //	var treeNode = SwingComponent.wrap(tree);
-   //
 
-   var scyDesktop: WindowManager = WindowManagerImpl{
-   };
+//   var scyDesktop: WindowManager = WindowManagerImpl{
+//   };
 
-   var newGroup = VBox {
-      translateX: 5
-      translateY: 5;
-      spacing: 3;
-      content: [
+//   var newGroup = VBox {
+//      translateX: 5
+//      translateY: 5;
+//      spacing: 3;
+//      content: [
 //         SwingButton{
-         //            text: "Drawing"
-         //            action: function() {
-         //               var newWhiteboard = new WhiteboardPanel();
-         //					//newWhiteboard.setPreferredSize(new Dimension(2000,2000));
-         //               var newWhiteboardNode = SwingComponent.wrap(newWhiteboard);
-         //               var drawingWindow = ScyWindow{
-         //                  color: Color.BLUE
-         //                  title: "Drawing"
-         //                  scyContent: newWhiteboardNode
-         //                  visible: true
-         //                  cache: true
-         //               }
-         //               scyDesktop.addScyWindow(drawingWindow)
-         //            }
-         //         }
-         SwingButton{
-            text: "Tree"
-            action: function() {
-               var tree = new JTree();
-               var treeSize = new Dimension(2000,2000);
-					//tree.setMinimumSize(treeSize);
-               //tree.setMaximumSize(treeSize);
-               tree.setPreferredSize(treeSize);
-					//tree.setSize(treeSize);
-               var treeNode = SwingComponent.wrap(tree);
-               var drawingWindow = StandardScyWindow{
-                  color: Color.BLUE
-                  title: "Drawing"
-                  width: 150
-                  height: 150
-                  scyContent: treeNode
-						//swingContent:tree
-                  visible: true
-               }
-               scyDesktop.addScyWindow(drawingWindow)
-            }
-         }
-         SwingButton{
-            text: "Text"
-            action: function() {
-               var textArea = new JTextArea();
-               textArea.setPreferredSize(new Dimension(2000,2000));
-               textArea.setEditable(true);
-               textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
-               var textNode = SwingComponent.wrap(textArea);
-               var drawingWindow = StandardScyWindow{
-                  color: Color.BLUE
-                  title: "Drawing"
-                  width: 150
-                  height: 150
-                  scyContent: SwingScrollPane{
-                     view: textNode
-                     scrollable: true;
-                  }
-                  visible: true
-               }
-               scyDesktop.addScyWindow(drawingWindow)
-            }
-         }
-         SwingButton{
-            text: "Text 2"
-            action: function() {
-               var textArea = new JTextArea();
-					//textArea.setPreferredSize(new Dimension(2000,2000));
-               textArea.setEditable(true);
-               textArea.setWrapStyleWord(true);
-               textArea.setLineWrap(true);
-					//textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
-               var scrollPane = new JScrollPane(textArea);
-					//scrollPane.setPreferredSize(new Dimension(200,200));
-               var textNode = SwingComponent.wrap(scrollPane);
-               var drawingWindow = StandardScyWindow{
-                  color: Color.BLUE
-                  title: "Drawing"
-                  scyContent: textNode
-                  visible: true
-						//swingContent:scrollPane
-                  width: 150
-                  height: 150
-               }
-               scyDesktop.addScyWindow(drawingWindow);
-               drawingWindow.width = 151;
-            }
-         }
-         SwingButton{
-            text: "Red"
-            action: function() {
-               var drawingWindow = StandardScyWindow{
-						//						 translateX:100;
-                  //						 translateY:100;
-                  color: Color.BLUE
-                  title: "Red"
-                  scyContent: Rectangle {
-                     x: 10,
-                     y: 10
-                     width: 140,
-                     height: 90
-                     fill: Color.PERU
-                  }
-                  visible: true
-						//opacity:0;
-						//closeAction:closeScyWindow;
+//            text: "Tree"
+//            action: function() {
+//               var tree = new JTree();
+//               var treeSize = new Dimension(2000,2000);
+//					//tree.setMinimumSize(treeSize);
+//               //tree.setMaximumSize(treeSize);
+//               tree.setPreferredSize(treeSize);
+//					//tree.setSize(treeSize);
+//               var treeNode = SwingComponent.wrap(tree);
+//               var drawingWindow = StandardScyWindow{
+//                  color: Color.BLUE
+//                  title: "Drawing"
+//                  width: 150
+//                  height: 150
+//                  scyContent: treeNode
+//						//swingContent:tree
+//                  visible: true
+//               }
+//               scyDesktop.addScyWindow(drawingWindow)
+//            }
+//         }
+//         SwingButton{
+//            text: "Text"
+//            action: function() {
+//               var textArea = new JTextArea();
+//               textArea.setPreferredSize(new Dimension(2000,2000));
+//               textArea.setEditable(true);
+//               textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
+//               var textNode = SwingComponent.wrap(textArea);
+//               var drawingWindow = StandardScyWindow{
+//                  color: Color.BLUE
+//                  title: "Drawing"
+//                  width: 150
+//                  height: 150
+//                  scyContent: SwingScrollPane{
+//                     view: textNode
+//                     scrollable: true;
+//                  }
+//                  visible: true
+//               }
+//               scyDesktop.addScyWindow(drawingWindow)
+//            }
+//         }
+//         SwingButton{
+//            text: "Text 2"
+//            action: function() {
+//               var textArea = new JTextArea();
+//					//textArea.setPreferredSize(new Dimension(2000,2000));
+//               textArea.setEditable(true);
+//               textArea.setWrapStyleWord(true);
+//               textArea.setLineWrap(true);
+//					//textArea.setText("gfggfggfdgdgdfgfgfgfdgafgfgd");
+//               var scrollPane = new JScrollPane(textArea);
+//					//scrollPane.setPreferredSize(new Dimension(200,200));
+//               var textNode = SwingComponent.wrap(scrollPane);
+//               var drawingWindow = StandardScyWindow{
+//                  color: Color.BLUE
+//                  title: "Drawing"
+//                  scyContent: textNode
+//                  visible: true
+//						//swingContent:scrollPane
+//                  width: 150
+//                  height: 150
+//               }
+//               scyDesktop.addScyWindow(drawingWindow);
+//               drawingWindow.width = 151;
+//            }
+//         }
+//         SwingButton{
+//            text: "Red"
+//            action: function() {
+//               var drawingWindow = StandardScyWindow{
+//						//						 translateX:100;
+//                  //						 translateY:100;
+//                  color: Color.BLUE
+//                  title: "Red"
+//                  scyContent: Rectangle {
+//                     x: 10,
+//                     y: 10
+//                     width: 140,
+//                     height: 90
+//                     fill: Color.PERU
+//                  }
+//                  visible: true
+//						//opacity:0;
+//						//closeAction:closeScyWindow;
+//
+//               }
+//               scyDesktop.addScyWindow(drawingWindow);
+//               var opacityTimeline = Timeline{
+//                  keyFrames: [
+//						 at (0s){
+//							//drawingWindow.opacity => 0.0;
+//                     drawingWindow.translateX => 0;
+//                     drawingWindow.translateY => 0;
+//                     drawingWindow.width => 0;
+//                     drawingWindow.height => 0;
+//						 }
+//						 at (500ms){
+//							//drawingWindow.opacity => 1.0;
+//                     drawingWindow.translateX => 200;
+//                     drawingWindow.translateY => 200;
+//                     drawingWindow.width => 150;
+//                     drawingWindow.height => 150;
+//						 }
+//                  ];
+//               }
+//               opacityTimeline.play();
+//            }
+//         }
+//      ]
+//   };
 
-               }
-               scyDesktop.addScyWindow(drawingWindow);
-               var opacityTimeline = Timeline{
-                  keyFrames: [
-						 at (0s){
-							//drawingWindow.opacity => 0.0;
-                     drawingWindow.translateX => 0;
-                     drawingWindow.translateY => 0;
-                     drawingWindow.width => 0;
-                     drawingWindow.height => 0;
-						 }
-						 at (500ms){
-							//drawingWindow.opacity => 1.0;
-                     drawingWindow.translateX => 200;
-                     drawingWindow.translateY => 200;
-                     drawingWindow.width => 150;
-                     drawingWindow.height => 150;
-						 }
-                  ];
-               }
-               opacityTimeline.play();
-            }
-         }
-      ]
-   };
-
-   var newScyWindow: ScyWindow= StandardScyWindow{
-      title: "New"
-      color: Color.BLUEVIOLET
-      height: 150;
-      //scyContent:newGroup
-      allowClose: true;
-      allowResize: true;
-      allowMinimize: true;
-      translateX: 20;
-      translateY: 20;
-      setScyContent: function(scyWindow:ScyWindow){
-         println("setScyContent");
-         scyWindow.scyContent = newGroup;
-//			scyWindow.color =
-//				 Color.CORAL;
-
-
-      };
-      closedAction: function(scyWindow:ScyWindow){
-         println("closedAction");
-         scyWindow.scyContent = null
-      }
-   };
-   newScyWindow.open();
-   //newScyWindow.openWindow(0, 150);
-   scyDesktop.addScyWindow(newScyWindow);
+//   var newScyWindow: ScyWindow= StandardScyWindow{
+//      title: "New"
+//      color: Color.BLUEVIOLET
+//      height: 150;
+//      //scyContent:newGroup
+//      allowClose: true;
+//      allowResize: true;
+//      allowMinimize: true;
+//      translateX: 20;
+//      translateY: 20;
+//      setScyContent: function(scyWindow:ScyWindow){
+//         println("setScyContent");
+//         scyWindow.scyContent = newGroup;
+////			scyWindow.color =
+////				 Color.CORAL;
+//
+//
+//      };
+//      closedAction: function(scyWindow:ScyWindow){
+//         println("closedAction");
+//         scyWindow.scyContent = null
+//      }
+//   };
+//   newScyWindow.open();
+//   //newScyWindow.openWindow(0, 150);
+//   scyDesktop.addScyWindow(newScyWindow);
 
    var fixedScyWindow = StandardScyWindow{
       title: "Fixed"
@@ -1077,7 +855,7 @@ function run() {
       translateY: 20;
    };
    fixedScyWindow.openWindow(100, 150);
-   scyDesktop.addScyWindow(fixedScyWindow);
+//   scyDesktop.addScyWindow(fixedScyWindow);
 
    var closedScyWindow = StandardScyWindow{
       title: "Closed and very closed"
@@ -1093,62 +871,8 @@ function run() {
       translateY: 200;
    };
    //	closedScyWindow.openWindow(100, 150);
-   scyDesktop.addScyWindow(closedScyWindow);
+//   scyDesktop.addScyWindow(closedScyWindow);
 
-//   var whiteboard = new WhiteboardPanel();
-   //   whiteboard.setPreferredSize(new Dimension(300,150));
-   //   var whiteboardNode = SwingComponent.wrap(whiteboard);
-   //   whiteboardNode.translateX = 150;
-   //   whiteboardNode.translateY = 25;
-   //
-   //   var whiteboard2 = new WhiteboardPanel();
-   //   whiteboard2.setPreferredSize(new Dimension(300,150));
-   //   var whiteboardNode2 = SwingComponent.wrap(whiteboard2);
-   //   var drawingWindow2 = ScyWindow{
-   //      translateX: 50
-   //      translateY: 200
-   //      width: 300;
-   //      height: 150
-   //      color: Color.GREEN
-   //      title: "Drawing 2"
-   //      scyContent: whiteboardNode2
-   //      visible: true
-   //      effect: DropShadow {
-   //         offsetX: 4,
-   //         offsetY: 4,
-   //         color: Color.BLACK
-   //      }
-   //   }
-   //
-   //   var whiteboard3 = new WhiteboardPanel();
-   //   whiteboard3.setPreferredSize(new Dimension(2000,1500));
-   //   var whiteboardNode3 = SwingComponent.wrap(whiteboard3);
-   //   var drawingWindow3 = ScyWindow{
-   //      translateX: 50
-   //      translateY: 400
-   //      width: 300;
-   //      height: 150
-   //      color: Color.GREEN
-   //      title: "Drawing 3"
-   //      scyContent: whiteboardNode3
-   //      visible: true
-   //		//		windowEffect: Lighting {
-   //      //			light: DistantLight {
-   //      //				azimuth: -135
-   //      //			}
-   //      //			surfaceScale: 5
-   //      //		}
-   //      //		windowEffect:Shadow{
-   //      //		}
-   //      windowEffect: DropShadow {
-   //         offsetX: 4,
-   //         offsetY: 4,
-   //         color: Color.BLACK
-   //      }
-   //
-   //   }
-
-	//	function setEloContent(scyWindow:ScyWindow):Void{};
    var eloWindow = StandardScyWindow{
       title: bind "elo window";
       color: bind Color.RED;
@@ -1165,7 +889,7 @@ function run() {
 
       ]
    }
-   scyDesktop.addScyWindow(eloWindow);
+//   scyDesktop.addScyWindow(eloWindow);
 
 
    Stage {
@@ -1174,7 +898,10 @@ function run() {
       height: 600
       scene: Scene {
          content: [
-            scyDesktop.scyWindows
+            fixedScyWindow,
+            eloWindow,
+            closedScyWindow
+//            scyDesktop.scyWindows
 //				whiteboardNode,
 //				drawingWindow2
 //				drawingWindow3
