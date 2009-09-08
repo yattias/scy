@@ -32,14 +32,14 @@ public abstract class ScyWindow extends CustomNode {
 	public var width: Number = 100;
 	public var height: Number = 100;
 
-   public var minimumHeight: Number = 50;
    public var minimumWidth: Number = 70;
+   public var minimumHeight: Number = 50;
 
-   public var maximumHeight: Number = Number.MAX_VALUE;
    public var maximumWidth: Number = Number.MAX_VALUE;
+   public var maximumHeight: Number = Number.MAX_VALUE;
 
-   public-read protected var originalHeight: Number = 50;
    public-read protected var originalWidth: Number = 70;
+   public-read protected var originalHeight: Number = 50;
 
    public var widthHeightProportion: Number = -1.0;
 
@@ -63,9 +63,12 @@ public abstract class ScyWindow extends CustomNode {
 	public-read protected var isMinimized = false;
 	public-read protected var isClosed = true;
 
-   public abstract function open():Void;
+   public function open():Void{
+      openWindow(minimumWidth,minimumHeight)
+   }
+
    public abstract function close():Void;
 
-   public abstract function openWindow(x:Number, y:Number):Void;
+   public abstract function openWindow(width:Number, height:Number):Void;
 
 }

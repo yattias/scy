@@ -20,6 +20,8 @@ import javafx.scene.text.TextOrigin;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+import javafx.scene.text.TextAlignment;
+
 /**
  * @author sikkenj
  */
@@ -43,7 +45,8 @@ public class WindowTitleBar extends WindowElement {
       return Group {
          content: [
             Group{ // icon for title
-					content: [
+               var iconChar:Text;
+ 					content: [
 						Rectangle{
 							x: 0
 							y: 0
@@ -51,15 +54,17 @@ public class WindowTitleBar extends WindowElement {
 							height: iconSize
 							fill: bind color
 						}
-						Text {
+						iconChar = Text {
 							font: eloTypeFont
-							x: eloTypeFont.size / 4 - 1,
-							y: eloTypeFont.size - 1
+                     textOrigin:TextOrigin.BOTTOM;
+                     textAlignment:TextAlignment.CENTER
+      					x: iconGap,
+							y: iconSize
 							content: bind typeChar.substring(0, 1)
 							fill: Color.WHITE
 						}
 					]
-				},
+ 				},
             Text { // title
 					font: textFont
                textOrigin:TextOrigin.BOTTOM;
@@ -109,6 +114,11 @@ function run(){
             WindowTitleBar{
                translateX:10;
                translateY:10;
+            }
+            WindowTitleBar{
+               typeChar:"w"
+               translateX:10;
+               translateY:50;
             }
 
          ]
