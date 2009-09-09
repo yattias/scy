@@ -51,7 +51,7 @@ public abstract class ScyWindow extends CustomNode {
    public var allowDragging = true;
    public var allowClose = true;
    public var allowMinimize = true;
-   public var closeIsHide = false;
+//   public var closeIsHide = false;
    public var scyDesktop: WindowManager;
 	public var windowEffect: Effect;
 	public var minimizeAction: function(ScyWindow):Void;
