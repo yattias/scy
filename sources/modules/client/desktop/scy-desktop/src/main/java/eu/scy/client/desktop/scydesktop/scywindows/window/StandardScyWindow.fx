@@ -44,7 +44,6 @@ public class StandardScyWindow extends ScyWindow {
 	public override var width = 100 on replace{
 		if (not isAnimating){
 			width = Math.max(width,minimumWidth);
-			resizeTheContent()
 		}
    };
 
@@ -56,7 +55,6 @@ public class StandardScyWindow extends ScyWindow {
 			else {
 				height = Math.max(height, minimumHeight);
 			}
-			resizeTheContent()
 		}
    };
    public override var widthHeightProportion = -1.0;
@@ -106,12 +104,12 @@ public class StandardScyWindow extends ScyWindow {
 //	public-read var originalWidth: Number;
 //	public-read var originalHeight: Number;
 
-   def contentGlassPane = Rectangle {
-         x: 0, y: 0
-         width: 140, height: 90
-         fill: Color.TRANSPARENT
-//         fill: Color.rgb(128,128,128,0.5)
-      }
+//   def contentGlassPane = Rectangle {
+//         x: 0, y: 0
+//         width: 140, height: 90
+//         fill: Color.TRANSPARENT
+////         fill: Color.rgb(128,128,128,0.5)
+//      }
 
 	var originalX: Number;
 	var originalY: Number;
@@ -147,12 +145,12 @@ public class StandardScyWindow extends ScyWindow {
    var rotateElement:WindowRotate;
    var closeElement: WindowClose;
    var minimizeElement: WindowMinimize;
+   var contentElement: WindowContent;
 
 	postinit {
 		if (isClosed){
 			height = closedHeight;
 		}
-		resizeTheContent();
    }
 
    function placeAttributes(){
@@ -240,17 +238,6 @@ public class StandardScyWindow extends ScyWindow {
       doClose();
 	}
 
-	function resizeTheContent(){
-      contentGlassPane.width=contentWidth;
-      contentGlassPane.height = contentHeight;
-      if (scyContent instanceof Resizable){
-			var resizeableScyContent = scyContent as Resizable;
-			resizeableScyContent.width = contentWidth;
-			resizeableScyContent.height = contentHeight;
-		}
-	}
-
-
 	function startDragging(e: MouseEvent):Void {
 		activate();
 		originalX = translateX;
@@ -263,11 +250,11 @@ public class StandardScyWindow extends ScyWindow {
       maxDifX = 0;
       maxDifY = 0;
 		sceneTopLeft = localToScene(0,0);
-      contentGlassPane.blocksMouse = true;
+      contentElement.glassPaneBlocksMouse = true;
 	}
 
 	function stopDragging(e: MouseEvent):Void {
-      contentGlassPane.blocksMouse = false;
+      contentElement.glassPaneBlocksMouse = false;
 	}
 
    function printMousePos(label:String, e:MouseEvent) {
@@ -510,38 +497,49 @@ public class StandardScyWindow extends ScyWindow {
          layoutY: bind height;
       }
 
+      contentElement = WindowContent{
+         width:bind contentWidth;
+         height:bind contentHeight;
+         content:bind scyContent;
+         activate: activate;
+         layoutX: borderWidth / 2 + 1 + contentBorder;
+         layoutY: contentTopOffset + contentBorder;
+      }
+
+
       // show a filled rect as content for test purposes
-//      scyContent = Rectangle {
-//         x: -100, y: -100
-//         width: 1000, height: 1000
-//         fill: Color.color(1,.25,.25,.75)
-//      }
+      scyContent = Rectangle {
+         x: -100, y: -100
+         width: 1000, height: 1000
+         fill: Color.color(1,.25,.25,.75)
+      }
 
 		return Group {
          cursor: Cursor.MOVE;
 
 			content: [
             emptyWindow,
-            Group{ // the content
-               blocksMouse: true;
-               cursor: Cursor.DEFAULT;
-               translateX: borderWidth / 2 + 1 + contentBorder
-               translateY: contentTopOffset + contentBorder
-               clip: Rectangle {
-                  x: 0,
-                  y: 0
-                  width: bind contentWidth
-                  height: bind contentHeight
-                  fill: Color.BLACK
-               }
-               content: bind [
-                  scyContent,
-                  contentGlassPane
-               ]
-               onMousePressed: function( e: MouseEvent ):Void {
-                  activate();
-               }
-            }
+            contentElement,
+//            Group{ // the content
+//               blocksMouse: true;
+//               cursor: Cursor.DEFAULT;
+//               translateX: borderWidth / 2 + 1 + contentBorder
+//               translateY: contentTopOffset + contentBorder
+//               clip: Rectangle {
+//                  x: 0,
+//                  y: 0
+//                  width: bind contentWidth
+//                  height: bind contentHeight
+//                  fill: Color.BLACK
+//               }
+//               content: bind [
+//                  scyContent,
+//                  contentGlassPane
+//               ]
+//               onMousePressed: function( e: MouseEvent ):Void {
+//                  activate();
+//               }
+//            }
             windowTitleBar,
             minimizeElement,
             resizeElement,

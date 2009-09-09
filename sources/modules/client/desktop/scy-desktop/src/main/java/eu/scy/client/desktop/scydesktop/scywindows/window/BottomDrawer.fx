@@ -19,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 // place your code here
 public class BottomDrawer extends Drawer{
 
+   override def absoluteMinimumWidth = 2*controlSize;
+
    override function positionControlElements():Void{
       closeControl.layoutX = -controlSize/2;
       closeControl.layoutY = height-controlSize/2;
