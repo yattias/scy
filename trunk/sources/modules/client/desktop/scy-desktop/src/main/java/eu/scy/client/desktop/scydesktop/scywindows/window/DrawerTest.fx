@@ -52,7 +52,7 @@ Stage {
 //   var drawerColor = mainColor;
    var drawerHighliteColor = mainColor;
    var borderOffset = 4;
-   title : "MyApp"
+   title : "Drawer test"
    scene: Scene {
       width: 300
       height: 300

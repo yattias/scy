@@ -32,20 +32,37 @@ public abstract class Drawer extends CustomNode {
    public var closedWidth = 3.0;
    public var closedHeight = 3.0;
 
+   public var content:Node;
+
+   def contentBorder = 1;
+
    protected def controlSize = 10.0;
-   protected var opened = false;
+   protected var opened = true;
    protected var width = 50.0 on replace{sizeChanged()};
    protected var height = 50.0 on replace{sizeChanged()};
 
    protected var absoluteMinimumWidth = controlSize;
    protected var absoluteMinimumHeight = controlSize;
 
-protected var drawerGroup:Group;
+   protected var resizeXFactor = 1.0;
+   protected var resizeYFactor = 1.0;
+
+   protected var drawerGroup:Group;
    protected var border:Rectangle;
+   protected var contentElement:WindowContent;
    protected var closeControl:WindowClose;
    protected var resizeControl:WindowResize;
 
+   var originalWidth:Number;
+   var originalHeight:Number;
+
    function sizeChanged(){
+      // show a filled rect as content for test purposes
+      content = Rectangle {
+         x: -100, y: -100
+         width: 1000, height: 1000
+         fill: Color.color(1,.25,.25,.75)
+      }
        positionControlElements();
    }
 
@@ -117,6 +134,13 @@ protected var drawerGroup:Group;
          strokeWidth: borderSize
          stroke: bind color;
       }
+      contentElement = WindowContent{
+         width:bind width-2*contentBorder-borderSize-1;
+         height:bind height-2*contentBorder-borderSize-1;
+         content:bind content;
+         layoutX:contentBorder+borderSize/2+1;
+         layoutY:contentBorder+borderSize/2+1;
+      }
       closeControl = WindowClose{
          size:controlSize;
          strokeWidth:1.5;
@@ -139,6 +163,7 @@ protected var drawerGroup:Group;
       Group{
          content:[
             border,
+            contentElement,
             closeControl,
             resizeControl
          ]
@@ -149,13 +174,10 @@ protected var drawerGroup:Group;
 
    }
 
-   var originalWidth:Number;
-   var originalHeight:Number;
-   protected var resizeXFactor = 1.0;
-   protected var resizeYFactor = 1.0;
    function startResize(e: MouseEvent):Void{
       originalWidth = width;
       originalHeight = height;
+      contentElement.glassPaneBlocksMouse = true;
    }
 
    function doResize(e: MouseEvent):Void{
@@ -164,7 +186,7 @@ protected var drawerGroup:Group;
    }
 
    function stopResize(e: MouseEvent):Void{
-
+      contentElement.glassPaneBlocksMouse = false;
    }
 
 
