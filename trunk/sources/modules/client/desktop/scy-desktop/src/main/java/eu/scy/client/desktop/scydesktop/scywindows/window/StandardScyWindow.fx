@@ -70,7 +70,7 @@ public class StandardScyWindow extends ScyWindow {
    public override var allowDragging = true;
    public override var allowClose = true;
    public override var allowMinimize = true;
-   public override var closeIsHide = false;
+//   public override var closeIsHide = false;
    public override var scyDesktop;
 	public override var windowEffect;
 	//	public var closeAction:function(ScyWindow):Void;
@@ -101,8 +101,8 @@ public class StandardScyWindow extends ScyWindow {
 
 	//def minimumHeigth = topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth;
 	//def minimumWidth = 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset;
-	public-read var originalTranslateX: Number;
-	public-read var originalTranslateY: Number;
+//	public-read var originalTranslateX: Number;
+//	public-read var originalTranslateY: Number;
 //	public-read var originalWidth: Number;
 //	public-read var originalHeight: Number;
 
@@ -124,9 +124,9 @@ public class StandardScyWindow extends ScyWindow {
    var maxDifY: Number;
 	var sceneTopLeft: Point2D;
 
-	def resizeAnimationTime = 250ms;
-	def opcityAnimationTime = 250ms;
-	def closeAnimationTime = 350ms;
+//	def resizeAnimationTime = 250ms;
+//	def opcityAnimationTime = 250ms;
+	def animationDuration = 200ms;
 
    var resizeHighLighted = false;
    var rotateHighLighted = false;
@@ -182,52 +182,19 @@ public class StandardScyWindow extends ScyWindow {
 		}
 	}
 
-	function getHideTimeline(endX:Number,endY:Number):Timeline{
+	function getCloseTimeline():Timeline{
 		return Timeline{
 			keyFrames: [
 				KeyFrame{
-					time: resizeAnimationTime;
+					time: animationDuration;
 					values: [
-						translateX => endX tween Interpolator.EASEBOTH,
-						translateY => endY tween Interpolator.EASEBOTH,
 						width => minimumWidth tween Interpolator.EASEBOTH,
-						height => minimumHeight tween Interpolator.EASEBOTH
-					]
-				}
-				KeyFrame{
-					time: resizeAnimationTime + opcityAnimationTime;
-					values: [
-						opacity => 0 tween Interpolator.EASEBOTH
+						height => closedHeight tween Interpolator.EASEBOTH
 					]
 					action: function(){
-						if (scyDesktop != null){
-							scyDesktop.hideScyWindow(this);
-						}
-						isAnimating = false;
-					}
-				}
-			];
-		}
-	}
-
-	function getCloseTimeline(endX:Number,endY:Number):Timeline{
-		return Timeline{
-			keyFrames: [
-				KeyFrame{
-					time: closeAnimationTime;
-					values: [
-						translateX => endX,
-						translateY => endY,
-						scaleX =>
-						1.0 / width,
-						scaleY =>
-						1.0 / height
-					]
-					action: function(){
-						closedAction(this);
-                  //						if (scyDesktop != null){
-                  //							scyDesktop.removeScyWindow(this);
-                  //						}
+                  if (closedAction!=null){
+                     closedAction(this);
+                  }
 						isAnimating = false;
 					}
 				}
@@ -235,14 +202,12 @@ public class StandardScyWindow extends ScyWindow {
       }
 	}
 
-	function getMinimizeTimeline(endX:Number,endY:Number):Timeline{
+	function getMinimizeTimeline():Timeline{
 		return Timeline{
 			keyFrames: [
 				KeyFrame{
-					time: closeAnimationTime;
+					time: animationDuration;
 					values: [
-						translateX => endX  tween Interpolator.EASEBOTH,
-						translateY => endY tween Interpolator.EASEBOTH,
 						width => minimumWidth tween Interpolator.EASEBOTH,
 						height => closedHeight tween Interpolator.EASEBOTH
 					]
@@ -254,16 +219,14 @@ public class StandardScyWindow extends ScyWindow {
       }
 	}
 
-	function getUnminimizeTimeline(endX:Number,endY:Number,endWidth:Number,endHeight:Number):Timeline{
+	function getUnminimizeTimeline(endWidth:Number,endHeight:Number):Timeline{
 		return Timeline{
 			keyFrames: [
 				KeyFrame{
-					time: closeAnimationTime;
+					time: animationDuration;
 					values: [
-						translateX => endX,
-						translateY => endY,
-						width => endWidth,
-						height => endHeight
+						width => endWidth tween Interpolator.EASEBOTH,
+						height => endHeight tween Interpolator.EASEBOTH
 					]
 					action: function(){
 						isAnimating = false;
@@ -273,18 +236,8 @@ public class StandardScyWindow extends ScyWindow {
       }
 	}
 
-	public function hideTo(x:Number,y:Number){
-		originalTranslateX = translateX;
-		originalTranslateY = translateY;
-		originalWidth = width;
-		originalHeight = height;
-		var hideTimeline = getHideTimeline(x,y);
-		hideTimeline.play();
-	}
-
 	public override function close(){
-		var closeTimeline = getCloseTimeline(translateX + width / 2,translateY - height / 2);
-		closeTimeline.play();
+      doClose();
 	}
 
 	function resizeTheContent(){
@@ -342,11 +295,6 @@ public class StandardScyWindow extends ScyWindow {
 		//System.out.println("difX: {e.x}-{e.dragAnchorX} {difX}, difY: {e.y}-{e.dragAnchorY} {difY}");
 		translateX = originalX + difX;
 		translateY = originalY + difY;
-        //		System.out.println("dragged {title}, difX: {difX}, difY: {difY}, maxDifX:{maxDifX}, maxDifY: {maxDifY}");
-        /* done by a hack in the edges now
-        for(edge in edges) {
-            edge.repaint();
-        } */
    }
 
 	function doResize(e: MouseEvent) {
@@ -393,32 +341,15 @@ public class StandardScyWindow extends ScyWindow {
 			newRotate = 45 * Math.round(newRotate  /  45);
 		}
 		rotate = newRotate;
-
-        // quick & dirty for the demo: if the content is the Simulator Tool,
-      // pass the rotation value to it
-      // in future versions, we may add an interface "RotationAware" that
-      // indicates a tool`s interest in rotation values
-//      if (scyContent instanceof eu.scy.elobrowser.tool.scysimulator.SimQuestNode) {
-//         (scyContent as eu.scy.elobrowser.tool.scysimulator.SimQuestNode).doRotate(rotate);
-//      }
-		//System.out.println("rotated {title}, deltaRotation: {deltaRotation}");
-
    }
 
 	function calculateRotation(e: MouseEvent):Number{
 		var deltaX = e.x - rotateCenterX;
 		var deltaY = e.y - rotateCenterY;
       return Math.atan2(deltaY , deltaX);
-//		var rotation = -Math.atan(deltaX / deltaY);
-//		if (deltaY >= 0)
-//		rotation += Math.PI;
-//		// System.out.println("deltaX " + deltaX + ", deltaY " + deltaY + ", rotation " + rotation);
-//		return rotation;
 	}
 
 	function doClose(){
-		//		if (scyDesktop != null)
-		//		{
 		if (aboutToCloseAction != null){
 			if (not aboutToCloseAction(this)){
 				// close blocked
@@ -426,72 +357,50 @@ public class StandardScyWindow extends ScyWindow {
 			}
 		}
       isClosed = true;
-      var closeTimeline = null;
-      if (closeIsHide){
-         isClosed = false;
-         scyDesktop.hideScyWindow(this);
-      }
-      else {
-         closeTimeline = getMinimizeTimeline(translateX,translateY);
-      }
+      var closeTimeline = getCloseTimeline();
 
       if (closeTimeline != null){
          isAnimating = true;
          closeTimeline.play();
       }
 
-      //scyDesktop.removeScyWindow(this);
       System.out.println("closed {title}");
 	}
 
 	function doMinimize(){
-		//		if (scyDesktop != null)
-		//		{
 		if (minimizeAction != null){
 			minimizeAction(this)
 		}
 		else {
-			originalTranslateX = translateX;
-			originalTranslateY = translateY;
 			originalWidth = width;
 			originalHeight = height;
 			isMinimized = true;
-			var minimizeTimeline = getMinimizeTimeline(translateX,translateY);
+			var minimizeTimeline = getMinimizeTimeline();
 			isAnimating = true;
 			minimizeTimeline.play();
 		}
 		System.out.println("minimized {title}");
-//		}
-
 	}
 
 	function doUnminimize(){
-		//		if (scyDesktop != null)
-		//		{
 		if (minimizeAction != null){
 			minimizeAction(this)
 		}
 		else {
 			isMinimized = false;
-			//				translateX = originalTranslateX;
-			//				translateY = originalTranslateY;
 			//				width = originalWidth;
 			//				height = originalHeight;
-			var unminimizedTimeline = getUnminimizeTimeline(originalTranslateX,originalTranslateY,originalWidth,originalHeight);
+			var unminimizedTimeline = getUnminimizeTimeline(originalWidth,originalHeight);
 			isAnimating = true;
 			unminimizedTimeline.play();
 		}
 		System.out.println("unminimized {title}");
-//		}
-
 	}
 
    public function setMinimized(newMinimized:Boolean){
  //       isClosed = false;
       if (newMinimized != isMinimized){
          if (newMinimized){
-            //                originalTranslateX = translateX;
-            //                originalTranslateY = translateY;
             originalWidth = width;
             originalHeight = height;
             width = minimumWidth;
@@ -499,8 +408,6 @@ public class StandardScyWindow extends ScyWindow {
             isMinimized = true;
          }
             else {
-            //                translateX = originalTranslateX;
-            //                translateY = originalTranslateY;
             width = originalWidth;
             height = originalHeight;
             isMinimized = false;
