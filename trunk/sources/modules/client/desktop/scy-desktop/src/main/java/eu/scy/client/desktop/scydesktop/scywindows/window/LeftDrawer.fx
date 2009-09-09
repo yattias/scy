@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 // place your code here
 public class LeftDrawer extends Drawer{
 
+   override def absoluteMinimumHeight = 2*controlSize;
+
    init{
       resizeXFactor = -1;
    }

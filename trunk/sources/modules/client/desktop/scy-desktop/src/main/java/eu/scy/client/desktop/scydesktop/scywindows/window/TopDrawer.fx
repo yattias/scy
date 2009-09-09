@@ -19,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 // place your code here
 public class TopDrawer extends Drawer{
 
+   override def absoluteMinimumWidth = 2*controlSize;
+
    init{
       resizeYFactor = -1;
    }

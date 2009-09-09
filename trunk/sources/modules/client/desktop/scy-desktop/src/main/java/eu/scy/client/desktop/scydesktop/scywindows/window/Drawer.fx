@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
+import javafx.util.Math;
+
 /**
  * @author sikkenj
  */
@@ -27,14 +29,18 @@ public abstract class Drawer extends CustomNode {
    public var highliteColor = Color.PURPLE;
    public var borderSize = 2.0;
 
-   public var closedWidth = 3;
-   public var closedHeight = 3;
-   protected def controlSize = 10;
+   public var closedWidth = 3.0;
+   public var closedHeight = 3.0;
+
+   protected def controlSize = 10.0;
    protected var opened = false;
    protected var width = 50.0 on replace{sizeChanged()};
    protected var height = 50.0 on replace{sizeChanged()};
 
-   protected var drawerGroup:Group;
+   protected var absoluteMinimumWidth = controlSize;
+   protected var absoluteMinimumHeight = controlSize;
+
+protected var drawerGroup:Group;
    protected var border:Rectangle;
    protected var closeControl:WindowClose;
    protected var resizeControl:WindowResize;
@@ -153,8 +159,8 @@ public abstract class Drawer extends CustomNode {
    }
 
    function doResize(e: MouseEvent):Void{
-		width = originalWidth+resizeXFactor*e.dragX;
-		height = originalHeight+resizeYFactor*e.dragY;
+		width = Math.max(absoluteMinimumWidth,originalWidth+resizeXFactor*e.dragX);
+		height = Math.max(absoluteMinimumHeight,originalHeight+resizeYFactor*e.dragY);
    }
 
    function stopResize(e: MouseEvent):Void{
