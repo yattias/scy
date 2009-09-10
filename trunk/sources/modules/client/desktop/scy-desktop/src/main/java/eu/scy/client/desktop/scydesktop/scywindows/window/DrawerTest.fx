@@ -21,7 +21,7 @@ import javafx.scene.Scene;
 // place your code here
 
 var mainColor = Color.color(0, 0.5, 0);
-var drawerColor = Color.color(0.5, 0.9, 0.5);
+var drawerColor = Color.color(0.3, 0.7, 0.3);
 class DrawerTest extends CustomNode {
 
    def width = 100.0;

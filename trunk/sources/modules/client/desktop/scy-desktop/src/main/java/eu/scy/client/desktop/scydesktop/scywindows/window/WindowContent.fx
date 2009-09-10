@@ -40,7 +40,7 @@ public class WindowContent extends CustomNode {
       x: 0, y: 0
       width: 140, height: 90
       fill: Color.TRANSPARENT
-//         fill: Color.rgb(128,128,128,0.5)
+//        fill: Color.rgb(128,128,128,0.5)
    }
 
 	function resizeTheContent(){

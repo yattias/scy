@@ -27,6 +27,7 @@ public abstract class ScyWindow extends CustomNode {
    public var eloUri:URI;
    public var iconCharacter = "?";
 	public var color = Color.GREEN;
+	public var drawerColor = Color.LIGHTGREEN;
 	public var backgroundColor = color.WHITE;
 
 	public var width: Number = 100;
@@ -45,7 +46,14 @@ public abstract class ScyWindow extends CustomNode {
 
 	public var scyContent: Node;
 	public var scyTool: ScyTool;
+
+   public var topDrawerTool:Node;
+   public var rightDrawerTool:Node;
+   public var bottomDrawerTool:Node;
+   public var leftDrawerTool:Node;
+
    public var scyWindowAttributes: ScyWindowAttribute[];
+
    public var allowRotate = true;
    public var allowResize = true;
    public var allowDragging = true;

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Button;
 
 
 
@@ -49,6 +50,12 @@ function run(){
             }
             RightDrawer{
                closedHeight:80;
+               content:Button {
+                     text: "Button"
+                     action: function() {
+
+                     }
+                  }
                layoutX:30;
                layoutY:20
             }
