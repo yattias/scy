@@ -12,4 +12,7 @@ public interface LearningActivitiSpaceTemplate extends BaseObject {
     public String getDescription();
     public void setDescription(String description);
 
+    public Integer expectedDurationInMinutes();
+    public void setExpectedDurationInMinutes(Integer expectedDurationInMinutes);
+
 }

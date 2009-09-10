@@ -7,7 +7,7 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:10:19
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlanTemplate {
+public interface PedagogicalPlanTemplate extends BaseObject{
 
     public void setMission(Mission mission);
 
