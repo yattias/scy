@@ -6,7 +6,7 @@ package eu.scy.core.model.pedagogicalplan;
  * Date: 10.sep.2009
  * Time: 11:24:58
  */
-public interface AnchorELO extends BaseObject {
+public interface AnchorELO extends BaseObject, Assessable {
 
     public LearningActivitySpace getProducedBy();
 

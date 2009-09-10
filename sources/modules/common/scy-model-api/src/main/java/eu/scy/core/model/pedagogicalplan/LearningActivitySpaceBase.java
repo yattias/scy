@@ -7,12 +7,12 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 11:55:20
  * To change this template use File | Settings | File Templates.
  */
-public interface LearningActivitiSpaceTemplate extends BaseObject {
+public interface LearningActivitySpaceBase extends BaseObject {
 
     public String getDescription();
     public void setDescription(String description);
 
-    public Integer expectedDurationInMinutes();
-    public void setExpectedDurationInMinutes(Integer expectedDurationInMinutes);
+    public int expectedDurationInMinutes();
+    public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
 
 }
