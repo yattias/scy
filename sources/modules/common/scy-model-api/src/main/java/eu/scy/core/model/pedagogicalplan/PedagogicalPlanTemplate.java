@@ -10,15 +10,12 @@ package eu.scy.core.model.pedagogicalplan;
 public interface PedagogicalPlanTemplate extends BaseObject{
 
     public void setMission(Mission mission);
-
     public Mission getMission();
 
     public void setScenario(Scenario scenario);
-
     public Scenario getScenario();
 
     public void setPortfolioTemplate(PortfolioTemplate portfolioTemplate);
-
     public PortfolioTemplate getPortfolioTemplate();
 
 }
