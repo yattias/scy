@@ -9,7 +9,7 @@ import java.util.Set;
  * Time: 12:33:15
  * To change this template use File | Settings | File Templates.
  */
-public interface LearningGoalContainer {
+public interface LearningGoalContainer extends BaseObject {
 
     public Set<LearningGoal> getLearningGoals();
     public void setLearningGoals(Set <LearningGoal> learningGoals);
