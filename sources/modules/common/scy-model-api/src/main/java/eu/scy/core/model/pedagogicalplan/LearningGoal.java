@@ -5,7 +5,6 @@ package eu.scy.core.model.pedagogicalplan;
  * User: Henrik
  * Date: 10.sep.2009
  * Time: 11:22:57
- * To change this template use File | Settings | File Templates.
  */
-public interface LearningGoal {
+public interface LearningGoal extends BaseObject {
 }
