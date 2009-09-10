@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -7,5 +9,8 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 11:30:57
  * To change this template use File | Settings | File Templates.
  */
-public interface Portfolio extends BaseObject{
+public interface PortfolioTemplate extends BaseObject{
+
+    public Set<AnchorELO> getObligatoryAnchorElos();
+
 }

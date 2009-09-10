@@ -7,5 +7,8 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 11:00:58
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlan {
+public interface PedagogicalPlan extends PedagogicalPlanTemplate{
+
+
+
 }

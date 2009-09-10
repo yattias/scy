@@ -7,5 +7,8 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 11:18:20
  * To change this template use File | Settings | File Templates.
  */
-public interface Scenario {
+public interface Scenario extends LearningGoalContainer{
+
+    public LearningActivitySpace getLearningActivitySpace();
+    public void setLearningActivitySpace(LearningActivitySpace learningActivitySpace);
 }
