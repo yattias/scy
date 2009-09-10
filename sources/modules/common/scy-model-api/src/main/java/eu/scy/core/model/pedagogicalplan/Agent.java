@@ -7,5 +7,5 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:47:53
  * To change this template use File | Settings | File Templates.
  */
-public interface Agent {
+public interface Agent extends BaseObject{
 }
