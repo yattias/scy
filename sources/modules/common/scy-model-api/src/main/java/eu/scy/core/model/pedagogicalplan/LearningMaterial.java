@@ -7,5 +7,5 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:13:27
  * Superinterface for all types of learning materials
  */
-public interface LearningMaterial {
+public interface LearningMaterial extends BaseObject {
 }
