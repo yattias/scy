@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import java.lang.System;
+import javafx.scene.control.Button;
 
 /**
  * @author sikkenj
@@ -40,6 +41,7 @@ public class StandardScyWindow extends ScyWindow {
    public override var eloUri;
    public override var iconCharacter = "?";
 	public override var color = Color.GREEN;
+	public override var drawerColor = Color.LIGHTGREEN;
 	public override var backgroundColor = color.WHITE;
 	public override var width = 100 on replace{
 		if (not isAnimating){
@@ -60,6 +62,12 @@ public class StandardScyWindow extends ScyWindow {
    public override var widthHeightProportion = -1.0;
 	public override var scyContent;
 	public override var scyTool;
+
+   public override var topDrawerTool on replace {setTopDrawer()};
+   public override var rightDrawerTool on replace {setRightDrawer()};
+   public override var bottomDrawerTool on replace {setBottomDrawer()};
+   public override var leftDrawerTool on replace {setLeftDrawer()};
+
    public override var scyWindowAttributes on replace {
       placeAttributes()
    };
@@ -94,22 +102,11 @@ public class StandardScyWindow extends ScyWindow {
    def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
    def contentBorder = 2;
 
+   def drawerCornerOffset = controlLength+borderWidth;
+   def drawerBorderOffset = borderWidth/2+1;
+
    def contentWidth = bind width - borderWidth - 2 * contentBorder - 1;
    def contentHeight = bind height - contentTopOffset - borderWidth / 2 - 2 * contentBorder;
-
-	//def minimumHeigth = topLeftBlockSize + dragLength + 2 * dragBorder + borderWidth;
-	//def minimumWidth = 2 * borderWidth + 3 * dragBorder + 2 * dragStrokeWith + 2 * dragLength + borderBlockOffset;
-//	public-read var originalTranslateX: Number;
-//	public-read var originalTranslateY: Number;
-//	public-read var originalWidth: Number;
-//	public-read var originalHeight: Number;
-
-//   def contentGlassPane = Rectangle {
-//         x: 0, y: 0
-//         width: 140, height: 90
-//         fill: Color.TRANSPARENT
-////         fill: Color.rgb(128,128,128,0.5)
-//      }
 
 	var originalX: Number;
 	var originalY: Number;
@@ -122,8 +119,6 @@ public class StandardScyWindow extends ScyWindow {
    var maxDifY: Number;
 	var sceneTopLeft: Point2D;
 
-//	def resizeAnimationTime = 250ms;
-//	def opcityAnimationTime = 250ms;
 	def animationDuration = 200ms;
 
    var resizeHighLighted = false;
@@ -147,10 +142,22 @@ public class StandardScyWindow extends ScyWindow {
    var minimizeElement: WindowMinimize;
    var contentElement: WindowContent;
 
-	postinit {
+   var drawerGroup:Group = Group{
+      visible: bind not isClosed and not isMinimized
+   };
+   var topDrawer:TopDrawer;
+   var rightDrawer:RightDrawer;
+   var bottomDrawer:BottomDrawer;
+   var leftDrawer:LeftDrawer;
+
+   postinit {
 		if (isClosed){
 			height = closedHeight;
 		}
+//      setTopDrawer();
+//      setRightDrawer();
+//      setBottomDrawer();
+//      setLeftDrawer();
    }
 
    function placeAttributes(){
@@ -421,6 +428,77 @@ public class StandardScyWindow extends ScyWindow {
 		}
    }
 
+   function setTopDrawer(){
+      if (topDrawer!=null){
+         delete topDrawer from drawerGroup.content;
+         topDrawer = null;
+      }
+      if (topDrawerTool!=null){
+         topDrawer = TopDrawer{
+            color:bind drawerColor;
+            highliteColor:bind color;
+            closedWidth:bind width-2*drawerCornerOffset;
+            content:topDrawerTool;
+            layoutX:drawerCornerOffset;
+            layoutY:-drawerBorderOffset;
+         }
+         insert topDrawer into drawerGroup.content;
+      }
+   }
+
+   function setRightDrawer(){
+      if (rightDrawer!=null){
+         delete rightDrawer from drawerGroup.content;
+         rightDrawer = null;
+      }
+      if (rightDrawerTool!=null){
+         rightDrawer = RightDrawer{
+            color:bind drawerColor;
+            highliteColor:bind color;
+            closedHeight:bind height-2*drawerCornerOffset;
+            content:rightDrawerTool;
+            layoutX:bind width+drawerBorderOffset;
+            layoutY:drawerCornerOffset;
+         }
+         insert rightDrawer into drawerGroup.content;
+      }
+   }
+
+   function setBottomDrawer(){
+      if (bottomDrawer!=null){
+         delete bottomDrawer from drawerGroup.content;
+         bottomDrawer = null;
+      }
+      if (bottomDrawerTool!=null){
+         bottomDrawer = BottomDrawer{
+            color:bind drawerColor;
+            highliteColor:bind color;
+            closedWidth:bind width-2*drawerCornerOffset;
+            content:bottomDrawerTool;
+            layoutX:drawerCornerOffset;
+            layoutY:bind height+drawerBorderOffset;
+         }
+         insert bottomDrawer into drawerGroup.content;
+      }
+   }
+
+   function setLeftDrawer(){
+      if (leftDrawer!=null){
+         delete leftDrawer from drawerGroup.content;
+         leftDrawer = null;
+      }
+      if (leftDrawerTool!=null){
+         leftDrawer = LeftDrawer{
+            color:bind drawerColor;
+            highliteColor:bind color;
+            closedHeight:bind height-2*drawerCornerOffset;
+            content:leftDrawerTool;
+            layoutX:-drawerBorderOffset;
+            layoutY:drawerCornerOffset;
+         }
+         insert leftDrawer into drawerGroup.content;
+      }
+   }
 
 	public override function create(): Node {
 		blocksMouse = true;
@@ -434,6 +512,25 @@ public class StandardScyWindow extends ScyWindow {
          backgroundColor:bind windowBackgroundColor;
       }
 
+      contentElement = WindowContent{
+         width:bind contentWidth;
+         height:bind contentHeight;
+         content:bind scyContent;
+         activate: activate;
+         layoutX: borderWidth / 2 + 1 + contentBorder;
+         layoutY: contentTopOffset + contentBorder;
+      }
+
+//      drawerGroup = Group{
+//         content:[
+//            Rectangle {
+//               x: 0, y: 0
+//               width: 10, height: 10
+//               fill: Color.BLACK
+//            }
+//         ]
+//      }
+//
       windowTitleBar = WindowTitleBar{
          width:bind width - 1 * borderWidth - titleBarLeftOffset
          iconSize:iconSize;
@@ -497,22 +594,12 @@ public class StandardScyWindow extends ScyWindow {
          layoutY: bind height;
       }
 
-      contentElement = WindowContent{
-         width:bind contentWidth;
-         height:bind contentHeight;
-         content:bind scyContent;
-         activate: activate;
-         layoutX: borderWidth / 2 + 1 + contentBorder;
-         layoutY: contentTopOffset + contentBorder;
-      }
-
-
       // show a filled rect as content for test purposes
-      scyContent = Rectangle {
-         x: -100, y: -100
-         width: 1000, height: 1000
-         fill: Color.color(1,.25,.25,.75)
-      }
+//      scyContent = Rectangle {
+//         x: -100, y: -100
+//         width: 1000, height: 1000
+//         fill: Color.color(1,.25,.25,.75)
+//      }
 
 		return Group {
          cursor: Cursor.MOVE;
@@ -520,26 +607,7 @@ public class StandardScyWindow extends ScyWindow {
 			content: [
             emptyWindow,
             contentElement,
-//            Group{ // the content
-//               blocksMouse: true;
-//               cursor: Cursor.DEFAULT;
-//               translateX: borderWidth / 2 + 1 + contentBorder
-//               translateY: contentTopOffset + contentBorder
-//               clip: Rectangle {
-//                  x: 0,
-//                  y: 0
-//                  width: bind contentWidth
-//                  height: bind contentHeight
-//                  fill: Color.BLACK
-//               }
-//               content: bind [
-//                  scyContent,
-//                  contentGlassPane
-//               ]
-//               onMousePressed: function( e: MouseEvent ):Void {
-//                  activate();
-//               }
-//            }
+            drawerGroup,
             windowTitleBar,
             minimizeElement,
             resizeElement,
@@ -750,6 +818,7 @@ function run() {
    var fixedScyWindow = StandardScyWindow{
       title: "Fixed"
       color: Color.GREEN
+      drawerColor: Color.RED;
       height: 150;
 		//      scyContent:newGroup
       allowClose: false;
@@ -757,9 +826,29 @@ function run() {
       allowRotate: false;
       allowMinimize: false;
       translateX: 200;
-      translateY: 20;
+      translateY: 40;
+      topDrawerTool:Button {
+            text: "Top"
+            action: function() {
+            }
+         }
+      rightDrawerTool:Button {
+            text: "Right"
+            action: function() {
+            }
+         }
+      bottomDrawerTool:Button {
+            text: "Bottom"
+            action: function() {
+           }
+         }
+      leftDrawerTool:Button {
+            text: "Left"
+            action: function() {
+            }
+         }
    };
-   fixedScyWindow.openWindow(100, 150);
+   fixedScyWindow.openWindow(100, 100);
 //   scyDesktop.addScyWindow(fixedScyWindow);
 
    var closedScyWindow = StandardScyWindow{
@@ -791,7 +880,6 @@ function run() {
       scyWindowAttributes: [
          TestAttribute{
          }
-
       ]
    }
 //   scyDesktop.addScyWindow(eloWindow);

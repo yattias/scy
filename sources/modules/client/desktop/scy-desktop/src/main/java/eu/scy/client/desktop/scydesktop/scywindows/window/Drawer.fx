@@ -58,12 +58,12 @@ public abstract class Drawer extends CustomNode {
 
    function sizeChanged(){
       // show a filled rect as content for test purposes
-      content = Rectangle {
-         x: -100, y: -100
-         width: 1000, height: 1000
-         fill: Color.color(1,.25,.25,.75)
-      }
-       positionControlElements();
+//      content = Rectangle {
+//         x: -100, y: -100
+//         width: 1000, height: 1000
+//         fill: Color.color(1,.25,.25,.75)
+//      }
+      positionControlElements();
    }
 
 
