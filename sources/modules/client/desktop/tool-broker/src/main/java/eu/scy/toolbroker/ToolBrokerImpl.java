@@ -216,7 +216,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	        this.password = password;
 	        
 	        //make it a jid
-	        userName = userName + "@" + communicationProps.datasyncServerHost;
+	        //userName = userName + "@" + communicationProps.datasyncServerHost;
 	
 	              
 	        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
@@ -230,6 +230,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	            this.xmppConnection.connect();
 	            SmackConfiguration.setPacketReplyTimeout(100000);
 	            SmackConfiguration.setKeepAliveInterval(10000);
+                logger.debug("User logging in: " + userName + " " + password);
 	            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
 	        } catch (XMPPException e) {
 	            logger.error("Error during xmpp connect");
@@ -239,7 +240,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	        
 	        try {
 	            this.xmppConnection.login(userName, password);
-	            logger.debug("xmpp login ok");
+	            logger.debug("xmpp login ok " + userName + " " + password);
 	        } catch (XMPPException e1) {
 	            logger.error("xmpp login failed. bummer. " + e1);
 	            e1.printStackTrace();
