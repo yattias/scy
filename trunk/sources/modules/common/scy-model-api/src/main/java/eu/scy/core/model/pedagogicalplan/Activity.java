@@ -30,7 +30,13 @@ public interface Activity extends BaseObject{
     public Set<LearningActivitySpaceToolConfiguration> getLearningActivitySpaceToolConfigurations();
     public void setLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration);
 
+    public void setWorkArrangementType(WorkArrangementType workArrangementType);
+    public WorkArrangementType getWorkArrangementType();
 
+    public void setTeacherRoleType(TeacherRoleType teacherRoleType);
+    public TeacherRoleType getTeacherRoleType();
 
+    public int expectedDurationInMinutes();
+    public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
 
 }

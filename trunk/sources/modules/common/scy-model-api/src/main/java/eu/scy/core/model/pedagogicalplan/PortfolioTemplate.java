@@ -11,6 +11,7 @@ import java.util.Set;
  */
 public interface PortfolioTemplate extends BaseObject{
 
-    public Set<AnchorELO> getObligatoryAnchorElos();
+    public Set<AnchorELO> getAnchorElos();
+    public void setAnchorElos(Set<AnchorELO> anchorElos);
 
 }
