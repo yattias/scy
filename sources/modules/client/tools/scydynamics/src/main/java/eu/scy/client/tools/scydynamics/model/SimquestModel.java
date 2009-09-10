@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scydynamics.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Vector;
 
@@ -168,20 +169,49 @@ public class SimquestModel extends Element {
 			}
 			traverse(equation, parser.getTopNode());
 		} catch (ParseException ex) {
+			System.out.println(ex.getMessage());
 			System.out.println(parser.getErrorInfo());
 		}
 	}
 
-	private void traverse(Element element, Node node) {
+	private void traverse(Element element, Node node) throws ParseException {
 		String fragment = new String(node.toString());
+		System.out.println(fragment);
 		// handle this node
 		if (fragment.startsWith("Function")) {
-			Element operator = new Element("operator");
+			Element operator = null;
 			fragment = fragment.substring(10);
 			fragment = fragment.replaceAll("\"", "");
-			if (fragment.equals("UMinus"))
-				fragment = "-.";
-			operator.setAttribute("name", fragment);
+			fragment = fragment.toLowerCase();
+			
+			// is this fragment an "operator" (+, -, /,..)
+			// or a "function" (sin, cos,...)?
+			// get the mapping to simquest terminology
+			
+			if (FormulaMapper.getInstance().getOperatorMap().get(fragment) != null) {
+				operator = new Element("operator");
+				operator.setAttribute("name", FormulaMapper.getInstance().getOperatorMap().get(fragment));
+			} else if (FormulaMapper.getInstance().getFunctionMap().get(fragment) != null) {
+				operator = new Element("function");
+				operator.setAttribute("name", FormulaMapper.getInstance().getFunctionMap().get(fragment));
+			}
+			
+			if (operator == null) {
+				throw new ParseException("Could not identify operator or function '"+fragment+"'.");
+			}
+			//the old style
+			//
+			//if (Arrays.asList(availableScalarFunctions).contains(fragment)) {
+			//	operator  = new Element("function");
+			//} else {
+			//	operator = new Element("operator");
+			//}
+			//if (fragment.equals("uminus"))
+			//	fragment = "-.";
+			//operator.setAttribute("name", fragment);
+			//
+			//end of the old stlye
+			
 			// traverse children
 			for (int i = 0; i < node.jjtGetNumChildren(); i++) {
 				traverse(operator, node.jjtGetChild(i));
