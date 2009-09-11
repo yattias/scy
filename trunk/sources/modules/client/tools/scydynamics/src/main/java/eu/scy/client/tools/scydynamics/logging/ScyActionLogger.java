@@ -12,6 +12,7 @@ import colab.um.draw.JdFlow;
 import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
@@ -94,7 +95,7 @@ public class ScyActionLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.addAttribute("model", "", modelString);
+			action.setObject("model", modelString);
 			logger.log(user, toolname, action);
 		}
 	}
@@ -149,15 +150,15 @@ public class ScyActionLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.addAttribute("model", "", modelString);
+			action.setObject("model", modelString);
 			logger.log(user, toolname, action);
 		}
 	}
 	
 	public IAction createBasicAction(String type) {
 		IAction action = new Action(type, user);
-		action.addContext("tool", toolname);
-		action.addContext("mission", mission);
+		action.addContext(ContextConstants.tool, toolname);
+		action.addContext(ContextConstants.mission, mission);
 		return action;
 	}
 
@@ -181,7 +182,7 @@ public class ScyActionLogger implements IModellingLogger {
 		action.addAttribute("name", name);
 		action.addAttribute("expression", expression);
 		action.addAttribute("unit", unit);
-		action.addAttribute("model", "", modelString);
+		action.setObject("model", modelString);
 		logger.log(user, toolname, action);
 	}
 
@@ -198,7 +199,7 @@ public class ScyActionLogger implements IModellingLogger {
 	 */
 	public void logSimpleAction(String type, String modelString) {
 		action = createBasicAction(type);
-		action.addAttribute("model", "", modelString);
+		action.setObject("model", modelString);
 		logger.log(user, toolname, action);
 	}
 
@@ -216,7 +217,7 @@ public class ScyActionLogger implements IModellingLogger {
 	 */
 	public void logLoadAction(String modelString) {
 		action = createBasicAction("load_model");
-		action.addAttribute("model", "", modelString);
+		action.setObject("model", modelString);
 		logger.log(user, toolname, action);
 	}
 
