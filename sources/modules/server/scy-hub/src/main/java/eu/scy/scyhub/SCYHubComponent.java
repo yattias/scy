@@ -1,10 +1,6 @@
 package eu.scy.scyhub;
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
-import org.dom4j.Element;
-import org.jdom.JDOMException;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
@@ -14,13 +10,12 @@ import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.PacketExtension;
 
-import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.api.IActionProcessModule;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.ActionPacketTransformer;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.actionlogging.logger.Action;
-import eu.scy.actionlogging.logger.ActionLogger;
-import eu.scy.actionlogging.packetextension.ActionLoggingExtension;
-import eu.scy.actionlogging.receiver.ActionProcessModule;
+import eu.scy.actionlogging.api.IActionProcessModule;
+import eu.scy.actionlogging.server.ActionProcessModule;
+import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -100,21 +95,14 @@ public class SCYHubComponent implements Component {
                 }// try
             }
             
-            packetExtension = message.getExtension(ActionLoggingExtension.ELEMENT_NAME, ActionLoggingExtension.NAMESPACE);
-            if(packetExtension != null && packetExtension instanceof ActionLoggingExtension) {
-            	ActionLoggingExtension ale = (ActionLoggingExtension) packetExtension;
+            ActionPacketTransformer transformer = new ActionPacketTransformer();
+            packetExtension = message.getExtension(transformer.getElementname(), transformer.getNamespace());
+            if(packetExtension != null && packetExtension instanceof WhacketExtension) {
+            	WhacketExtension we = (WhacketExtension) packetExtension;
             	logger.debug("Received packet with ActionLoggingExtension");
-            	Element el = (Element) ale.getElement().content().get(0);
-            	logger.debug(el.asXML());
-            	try {
-                    IAction action = new Action(el.asXML());
-                    actionProcessModule.create(action);
-                    getActionLogger().log("PeterPan", "SOME_TOOL", action);
-                } catch (JDOMException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Action action = (Action) we.getPojo();
+                logger.debug("Received action from " + action.getUser());
+                actionProcessModule.create(action);
             }
             
             logger.debug("Packet didn't contain any PacketExtension");
@@ -134,11 +122,13 @@ public class SCYHubComponent implements Component {
      */
     private void initModules() {
         //register extensions
-        DataSyncPacketExtension dsp = new DataSyncPacketExtension();
-        ActionLoggingExtension ale = new ActionLoggingExtension();
+        DataSyncPacketExtension.registerExtension();
+        WhacketExtension.registerExtension(new ActionPacketTransformer());
+        
+        
         //data sync
         try {
-            //dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
             // add listner in order to get callbacks on stuff that's happening
             dataSyncModule.addDataSyncListener(new IDataSyncListener(){
                 
