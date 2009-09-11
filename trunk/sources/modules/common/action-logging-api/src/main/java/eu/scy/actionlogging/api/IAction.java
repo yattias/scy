@@ -28,4 +28,10 @@ public interface IAction
     
     public String getAttribute(String key);
     
+    public void setObject(String name, String content);
+    
+    public String getObjectName();
+    
+    public String getObjectContent();
+    
 }
