@@ -16,6 +16,9 @@ import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
 import javafx.util.Math;
+import javafx.scene.shape.Line;
+
+import javafx.scene.shape.Polyline;
 
 /**
  * @author sikkenj
@@ -26,18 +29,19 @@ public abstract class Drawer extends CustomNode {
 
    public var color= Color.RED;
    public var subColor= Color.WHITE;
-   public var highliteColor = Color.PURPLE;
-   public var borderSize = 2.0;
+   public var highliteColor = Color.WHITE;
+   public var borderSize = 1.0;
 
-   public var closedWidth = 3.0;
-   public var closedHeight = 3.0;
+   public var closedStrokeWidth = 4.0;
+   public var closedSize = 40.0;
 
    public var content:Node;
 
-   def contentBorder = 1;
+   def contentBorder = 1.0;
 
+   protected var horizontal = true;
    protected def controlSize = 10.0;
-   protected var opened = true;
+   protected var opened = false;
    protected var width = 50.0 on replace{sizeChanged()};
    protected var height = 50.0 on replace{sizeChanged()};
 
@@ -82,17 +86,95 @@ public abstract class Drawer extends CustomNode {
       };
    }
 
+//   function createClosedDrawerNode(): Node{
+//      var rect:Rectangle;
+//      var mouseEntered = false;
+//      Group{
+//         cursor: Cursor.HAND;
+//         content:[
+//            // thick background
+//            if (horizontal){
+//               Polyline {
+//                  points: bind [ 0,0, closedSize,0 ]
+//                  strokeWidth: closedStrokeWidth
+//                  stroke: bind if (mouseEntered) highliteColor else color;
+//               }
+//            }
+//            else{
+//                Polyline {
+//                  points: bind [ 0,0, 0,closedSize ]
+//                  strokeWidth: closedStrokeWidth
+//                  stroke: bind if (mouseEntered) highliteColor else color;
+//               }
+//            }
+//            // inner line
+//            if (horizontal){
+//               Polyline {
+//                  points: bind [ 0,0, closedSize,0 ]
+//                  strokeWidth: closedStrokeWidth/2
+//                  stroke: bind if (mouseEntered) color else highliteColor;
+//               }
+//            }
+//            else{
+//                Polyline {
+//                  points: bind [ 0,0, 0,closedSize ]
+//                  strokeWidth: closedStrokeWidth/2
+//                  stroke: bind if (mouseEntered) color else highliteColor;
+//               }
+//            }
+//         ]
+//         onMouseClicked: function( e: MouseEvent ):Void {
+//            opened = true;
+//            positionControlElements();
+//         }
+//         onMouseEntered: function( e: MouseEvent ):Void {
+//            mouseEntered = true;
+//         }
+//         onMouseExited: function( e: MouseEvent ):Void {
+//            mouseEntered = false;
+//         }
+//      }
+//   }
+
    function createClosedDrawerNode(): Node{
       var rect:Rectangle;
+      var mouseEntered = false;
       Group{
          cursor: Cursor.HAND;
          content:[
-            rect = Rectangle {
-               x: 0, y: 0
-               width: closedWidth, height: closedHeight
-               fill: color
-//               strokeWidth: borderSize
-//               stroke: bind color;
+            // thick background
+            if (horizontal){
+               Line {
+                  startX: 0, startY: 0
+                  endX: bind closedSize, endY: 0
+                  strokeWidth: closedStrokeWidth
+                  stroke: bind if (mouseEntered) highliteColor else color;
+               }
+            }
+            else{
+               Line {
+                  startX: 0, startY: 0
+                  endX: 0, endY: bind closedSize
+                  strokeWidth: closedStrokeWidth
+                  stroke: bind if (mouseEntered) highliteColor else color;
+               }
+            }
+            // inner line
+            if (horizontal){
+               Line {
+                  startX: 0, startY: 0
+                  endX: bind closedSize, endY: 0
+                  strokeWidth: closedStrokeWidth/2
+                  stroke: bind if (mouseEntered) color else highliteColor;
+               }
+            }
+            else{
+               Line {
+                  startX: 0, startY: 0
+                  endX: 0, endY: bind closedSize
+                  strokeWidth: closedStrokeWidth/2
+                  stroke: bind if (mouseEntered) color else highliteColor;
+               }
             }
          ]
          onMouseClicked: function( e: MouseEvent ):Void {
@@ -100,14 +182,11 @@ public abstract class Drawer extends CustomNode {
             positionControlElements();
          }
          onMouseEntered: function( e: MouseEvent ):Void {
-            rect.fill = highliteColor;
+            mouseEntered = true;
          }
          onMouseExited: function( e: MouseEvent ):Void {
-            rect.fill = color;
+            mouseEntered = false;
          }
-
-
-
       }
    }
 

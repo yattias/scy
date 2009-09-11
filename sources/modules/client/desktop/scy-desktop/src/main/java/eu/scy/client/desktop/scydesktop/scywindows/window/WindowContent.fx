@@ -40,7 +40,7 @@ public class WindowContent extends CustomNode {
       x: 0, y: 0
       width: 140, height: 90
       fill: Color.TRANSPARENT
-//        fill: Color.rgb(128,128,128,0.5)
+//      fill: Color.rgb(92,255,92,0.25)
    }
 
 	function resizeTheContent(){
@@ -54,6 +54,7 @@ public class WindowContent extends CustomNode {
 	}
 
    public override function create(): Node {
+      resizeTheContent();
       return Group {
          content: [
             Group{

@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 public class RightDrawer extends Drawer{
 
    override def absoluteMinimumHeight = 2*controlSize;
+   override def horizontal = false;
 
    override function positionControlElements():Void{
       closeControl.layoutX = width-controlSize/2;
@@ -49,7 +50,7 @@ function run(){
                strokeWidth:4;
             }
             RightDrawer{
-               closedHeight:80;
+               closedSize:80;
                content:Button {
                      text: "Button"
                      action: function() {

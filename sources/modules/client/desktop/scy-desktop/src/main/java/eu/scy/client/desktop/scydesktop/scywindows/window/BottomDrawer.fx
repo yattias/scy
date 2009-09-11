@@ -46,7 +46,7 @@ function run(){
                strokeWidth:4;
             }
             BottomDrawer{
-               closedWidth:80;
+               closedSize:80;
                layoutX:20;
                layoutY:30
             }

@@ -28,6 +28,7 @@ public class WindowClose extends WindowActiveElement {
    public override function create(): Node {
       Group{ // the close element
          cursor: Cursor.HAND
+         blocksMouse:true;
 //         translateX: bind width - topLeftBlockSize / 2
 //         translateY: -topLeftBlockSize / 2
          content: [

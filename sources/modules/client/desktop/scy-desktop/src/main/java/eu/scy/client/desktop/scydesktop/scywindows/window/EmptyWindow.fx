@@ -28,12 +28,15 @@ public class EmptyWindow extends CustomNode {
    public var width = 100.0;
    public var height = 100.0;
    public var controlSize = 10.0;
-   public var borderWidth = 4.0;
+   public var borderWidth = 1.0;
    public var borderColor = Color.RED;
+   public var secondBorderWidth = 2.0;
+   public var secondBorderColor = Color.WHITE;
    public var backgroundColor = Color.WHITE;
 
 
    public override function create(): Node {
+      var secondBorderOffset = (borderWidth+secondBorderWidth)/2.0;
       return Group {
          content: [
             Group{ // the white background of the window
@@ -42,7 +45,7 @@ public class EmptyWindow extends CustomNode {
 							x: 0,
 							y: 0
 							width: bind width,
-							height: bind height
+							height: bind height-controlSize
 							strokeWidth: borderWidth
 							fill: backgroundColor
 							stroke: null
@@ -70,13 +73,48 @@ public class EmptyWindow extends CustomNode {
 						}
 					]
 				}
+            // second border
+            WindowBorder{
+               translateX:-secondBorderOffset;
+               translateY:-secondBorderOffset;
+               width: bind width+2*secondBorderOffset+1;
+               height: bind height+2*secondBorderOffset+1;
+               controlSize: controlSize+secondBorderWidth/2;
+               borderWidth: secondBorderWidth;
+               color: bind secondBorderColor;
+            }
+            // main border
+            WindowBorder{
+               width: bind width;
+               height: bind height;
+               controlSize: controlSize;
+               borderWidth: borderWidth;
+               color: bind borderColor;
+            }
+         ]
+      };
+   }
+}
+
+class WindowBorder extends CustomNode {
+
+   var width = 100.0;
+   var height = 100.0;
+   var controlSize = 10.0;
+   var borderWidth = 1.0;
+   var color = Color.RED;
+
+
+   public override function create(): Node {
+      return Group {
+         content: [
             Line { // the left border line
 					startX: 0,
 					startY: bind height - controlSize - borderWidth
 					endX: 0,
 					endY: 0
 					strokeWidth: borderWidth
-					stroke: bind borderColor
+					stroke: bind color
 				}
             Line { // the top border line
 					startX: 0,
@@ -84,7 +122,7 @@ public class EmptyWindow extends CustomNode {
 					endX: bind width,
 					endY: 0
 					strokeWidth: borderWidth
-					stroke: bind borderColor
+					stroke: bind color
 				}
             Line { // the right border line
 					startX: bind width,
@@ -92,7 +130,7 @@ public class EmptyWindow extends CustomNode {
 					endX: bind width,
 					endY: bind height,
 					strokeWidth: borderWidth
-					stroke: bind borderColor
+					stroke: bind color
 				}
             Line { // the bottom border line
 					startX: bind width,
@@ -100,7 +138,7 @@ public class EmptyWindow extends CustomNode {
 					endX: bind controlSize + borderWidth,
 					endY: bind height,
 					strokeWidth: borderWidth
-					stroke: bind borderColor
+					stroke: bind color
 				}
             Arc { // the bottom left "disabled" rotate arc
 					centerX: controlSize,
@@ -112,12 +150,14 @@ public class EmptyWindow extends CustomNode {
 					type: ArcType.OPEN
 					fill: null
 					strokeWidth: borderWidth
-					stroke: bind borderColor
+					stroke: bind color
             }
          ]
       };
    }
 }
+
+
 
 public function run(){
 

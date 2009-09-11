@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 public class LeftDrawer extends Drawer{
 
    override def absoluteMinimumHeight = 2*controlSize;
+   override def horizontal = false;
 
    init{
       resizeXFactor = -1;
@@ -30,7 +31,7 @@ public class LeftDrawer extends Drawer{
          this.translateX = -width;
       }
       else{
-         this.translateX = -closedWidth+1;
+         this.translateX = 1;
       }
 //      println("this.layoutX:{this.layoutX}, this.translateX:{this.translateX},"
 //         " drawerGroup.layoutX:{drawerGroup.layoutX}, drawerGroup.translateX:{drawerGroup.translateX}");
@@ -59,8 +60,8 @@ function run(){
                strokeWidth:4;
             }
             LeftDrawer{
-               closedHeight:80;
-               layoutX:100;
+               closedSize:80;
+               layoutX:100-3;
                layoutY:20
             }
 
