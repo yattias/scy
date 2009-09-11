@@ -7,36 +7,91 @@ import java.util.Set;
  * User: Henrik
  * Date: 10.sep.2009
  * Time: 13:37:56
- * To change this template use File | Settings | File Templates.
+ *
+ * A LAS consists of a number of activities. The activity class represents one LAS activity.
  */
-public interface Activity extends BaseObject{
-
-
+public interface Activity extends BaseObject {
     /**
-     * The anchor elo that will be produced by this activity
-     * @param anchorELO
+     * Sets the anchor ELO that will be produced by this activity
+     *
+     * @param anchorELO the anchor ELO that this activity shall result inn
      */
     void setAnchorELO(AnchorELO anchorELO);
-    AnchorELO getAnchorELO();
-    
-    public LearningActivitySpace getLearningActivitySpace();
-    public void setLearningActivitySpace(LearningActivitySpace learningActivitySpace);
-
 
     /**
-     * Provides access to tools configured for this activity
-     * @return
+     * Gets the anchor ELO that will be produced by this activity
+     *
+     * @return the anchor ELO that this actitivy shall result in
+     */
+    AnchorELO getAnchorELO();
+
+    /**
+     * Provides access to the LAS associated with this activity
+     *
+     * @return the LAS associated with this activity
+     */
+    public LearningActivitySpace getLearningActivitySpace();
+
+    /**
+     * Sets the LAs associated with this actitivy
+     *
+     * @param learningActivitySpace the LAS associated with this activity
+     */
+    public void setLearningActivitySpace(LearningActivitySpace learningActivitySpace);
+
+    /**
+     * Provides access to tools configured for the activity
+     *
+     * @return the tools configured for the activity
      */
     public Set<LearningActivitySpaceToolConfiguration> getLearningActivitySpaceToolConfigurations();
+
+    /**
+     * Sets the tools configuration for the ativity
+     *
+     * @param learningActivitySpaceToolConfiguration the activity's LAS tool configuration
+     */
     public void setLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration);
 
+    /**
+     * Sets the WorkArrangementType for the activity
+     *
+     * @param workArrangementType the activity's WorkArrangementType
+     */
     public void setWorkArrangementType(WorkArrangementType workArrangementType);
+
+    /**
+     * Provides access to the activity's WorkArrangmentType
+     *
+     * @return the activity's WorkArrangmentType
+     */
     public WorkArrangementType getWorkArrangementType();
 
+    /**
+     * Sets the activity's TeacherRoleType
+     *
+     * @param teacherRoleType the activity's TeacherRoletype
+     */
     public void setTeacherRoleType(TeacherRoleType teacherRoleType);
+
+    /**
+     * Provides access to the activity's TeacherRoleType
+     *
+     * @return the activity's TeacherRoleType
+     */
     public TeacherRoleType getTeacherRoleType();
 
+    /**
+     * The expected duration-time for this activity
+     *
+     * @return the activity's expected duration in minutes
+     */
     public int expectedDurationInMinutes();
-    public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
 
+    /**
+     * Sets the expected duration time in minutes for this activity
+     *
+     * @param expectedDurationInMinutes the activity's expected duration-time
+     */
+    public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
 }
