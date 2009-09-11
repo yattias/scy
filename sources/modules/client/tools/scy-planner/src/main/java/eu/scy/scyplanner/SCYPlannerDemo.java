@@ -3,24 +3,24 @@ package eu.scy.scyplanner;
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import eu.scy.scymapper.impl.shapes.concepts.*;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceNodeModel;
-import eu.scy.scyplanner.impl.model.ELONodeModel;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
 import eu.scy.scyplanner.impl.shapes.LASShape;
-import eu.scy.scyplanner.impl.shapes.ELOShape;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.net.URL;
+import java.io.IOException;
 
 /**
  * User: Bjoerge Naess
@@ -143,29 +143,51 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 
 
     private INodeModel createLASElement(String name, Integer xPos, Integer yPos) {
-        INodeModel las = new LearningActivitySpaceNodeModel();
-        las.setStyle(new DefaultNodeStyle());
-        las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        las.getStyle().setBackground(new Color(0xcc0000));
-        //las.getStyle().setBackground(new GradientPaint(0, 0, 0xe3ecfe, 100, 100, 0x7da4dd, true));
-        las.setShape(new LASShape());
+        //INodeModel las = new LearningActivitySpaceNodeModel();
+        //las.setStyle(new DefaultNodeStyle());
+        //las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+        //las.getStyle().setBackground(new Color(0xcc0000));
+
+        INodeModel las = new NodeModel();
+        //eloNodeModel.setLabel("I'm a fried SVG egg");
+        //eloNodeModel.setStyle(new DefaultNodeStyle());
+        //eloNodeModel.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+        URL theurl = getClass().getResource("impl/shapes/LASShape.svg");
+
+        try {
+
+            INodeShape s = new SVGConcept(theurl);
+            las.setShape(s);
+        } catch (IOException e) {
+            System.err.println("File not found: "+theurl);
+        }
+
+        //las.setShape(new LASShape());
         las.setLabel(name);
+        
         las.setLocation(new Point(xPos, yPos));
-        las.setSize(new Dimension(100, 100));
+        las.setSize(new Dimension(142, 73));
         return las;
 
     }
 
     private INodeModel createELOElement(String name, Integer xPos, Integer yPos) {
-        INodeModel eloNodeModel = new ELONodeModel();
-        eloNodeModel.setStyle(new DefaultNodeStyle());
-        eloNodeModel.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        //eloNodeModel.getStyle().setBackground(Color.GRAY);
-        eloNodeModel.getStyle().setBackground(new Color(0x90b444)); 
-        eloNodeModel.setShape(new ELOShape());
-        eloNodeModel.setLabel(name);
+
+        INodeModel eloNodeModel = new NodeModel();
+
+        URL theurl = getClass().getResource("impl/shapes/ELOShape.svg");
+
+        try {
+            INodeShape s = new SVGConcept(theurl);
+            eloNodeModel.setShape(s);
+        } catch (IOException e) {
+            System.err.println("File not found: "+theurl);
+        }
+
         eloNodeModel.setLocation(new Point(xPos, yPos));
         eloNodeModel.setSize(new Dimension(30,30));
+
+
         
         return eloNodeModel;
     }
