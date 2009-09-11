@@ -61,6 +61,7 @@ public class WindowMinimize extends WindowActiveElement {
 
       return Group {
          cursor: Cursor.HAND
+         blocksMouse:true;
          translateY:strokeWidth
          content: [
             minimizeGroup,

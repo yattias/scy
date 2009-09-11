@@ -63,10 +63,6 @@ public class StandardScyWindow extends ScyWindow {
 	public override var scyContent;
 	public override var scyTool;
 
-   public override var topDrawerTool on replace {setTopDrawer()};
-   public override var rightDrawerTool on replace {setRightDrawer()};
-   public override var bottomDrawerTool on replace {setBottomDrawer()};
-   public override var leftDrawerTool on replace {setLeftDrawer()};
 
    public override var scyWindowAttributes on replace {
       placeAttributes()
@@ -91,19 +87,24 @@ public class StandardScyWindow extends ScyWindow {
 	// layout constants
 	def windowBackgroundColor = Color.WHITE;
 	def controlColor = Color.WHITE;
-	def controlLength = 18;
-	def controlStrokeWidth = 4;
+	def controlLength = 18.0;
+	def controlStrokeWidth = 4.0;
+   def closeBoxSize = 14.0;
 
-   def iconSize = 16;
-	def borderWidth = 4;
+   def iconSize = 16.0;
+   def iconGap = 2.0;
+	def borderWidth = 1.0;
+   def secondBorderWidth = 2.0;
+   def controlBorderOffset = (borderWidth+secondBorderWidth)/2;
    def titleBarTopOffset = borderWidth/2 + 3;
-   def titleBarLeftOffset = 12;
-   def closedHeight = titleBarTopOffset+iconSize+borderWidth;
+   def titleBarLeftOffset = 12.0;
+   def closedHeight = titleBarTopOffset+iconSize+borderWidth+1;
    def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
-   def contentBorder = 2;
+   def contentBorder = 2.0;
 
    def drawerCornerOffset = controlLength+borderWidth;
-   def drawerBorderOffset = borderWidth/2+1;
+   def drawerBorderGap = secondBorderWidth;
+   def drawerBorderOffset = controlBorderOffset+drawerBorderGap+controlStrokeWidth/2;
 
    def contentWidth = bind width - borderWidth - 2 * contentBorder - 1;
    def contentHeight = bind height - contentTopOffset - borderWidth / 2 - 2 * contentBorder;
@@ -142,7 +143,7 @@ public class StandardScyWindow extends ScyWindow {
    var minimizeElement: WindowMinimize;
    var contentElement: WindowContent;
 
-   var drawerGroup:Group = Group{
+   def drawerGroup:Group = Group{
       visible: bind not isClosed and not isMinimized
    };
    var topDrawer:TopDrawer;
@@ -150,14 +151,19 @@ public class StandardScyWindow extends ScyWindow {
    var bottomDrawer:BottomDrawer;
    var leftDrawer:LeftDrawer;
 
+   public override var topDrawerTool on replace {setTopDrawer()};
+   public override var rightDrawerTool on replace {setRightDrawer()};
+   public override var bottomDrawerTool on replace {setBottomDrawer()};
+   public override var leftDrawerTool on replace {setLeftDrawer()};
+
    postinit {
 		if (isClosed){
 			height = closedHeight;
 		}
-//      setTopDrawer();
-//      setRightDrawer();
-//      setBottomDrawer();
-//      setLeftDrawer();
+      setTopDrawer();
+      setRightDrawer();
+      setBottomDrawer();
+      setLeftDrawer();
    }
 
    function placeAttributes(){
@@ -429,6 +435,10 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function setTopDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
       if (topDrawer!=null){
          delete topDrawer from drawerGroup.content;
          topDrawer = null;
@@ -436,8 +446,9 @@ public class StandardScyWindow extends ScyWindow {
       if (topDrawerTool!=null){
          topDrawer = TopDrawer{
             color:bind drawerColor;
-            highliteColor:bind color;
-            closedWidth:bind width-2*drawerCornerOffset;
+            highliteColor:controlColor;
+            closedSize:bind width-2*drawerCornerOffset;
+            closedStrokeWidth:controlStrokeWidth;
             content:topDrawerTool;
             layoutX:drawerCornerOffset;
             layoutY:-drawerBorderOffset;
@@ -447,6 +458,10 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function setRightDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
       if (rightDrawer!=null){
          delete rightDrawer from drawerGroup.content;
          rightDrawer = null;
@@ -454,8 +469,9 @@ public class StandardScyWindow extends ScyWindow {
       if (rightDrawerTool!=null){
          rightDrawer = RightDrawer{
             color:bind drawerColor;
-            highliteColor:bind color;
-            closedHeight:bind height-2*drawerCornerOffset;
+            highliteColor:controlColor;
+            closedStrokeWidth:controlStrokeWidth;
+            closedSize:bind height-2*drawerCornerOffset;
             content:rightDrawerTool;
             layoutX:bind width+drawerBorderOffset;
             layoutY:drawerCornerOffset;
@@ -465,6 +481,10 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function setBottomDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
       if (bottomDrawer!=null){
          delete bottomDrawer from drawerGroup.content;
          bottomDrawer = null;
@@ -472,8 +492,9 @@ public class StandardScyWindow extends ScyWindow {
       if (bottomDrawerTool!=null){
          bottomDrawer = BottomDrawer{
             color:bind drawerColor;
-            highliteColor:bind color;
-            closedWidth:bind width-2*drawerCornerOffset;
+            highliteColor:controlColor;
+            closedSize:bind width-2*drawerCornerOffset;
+            closedStrokeWidth:controlStrokeWidth;
             content:bottomDrawerTool;
             layoutX:drawerCornerOffset;
             layoutY:bind height+drawerBorderOffset;
@@ -483,6 +504,10 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function setLeftDrawer(){
+      if (drawerGroup==null){
+         // initialisation not yet ready, a call from postinit will be done again
+         return;
+      }
       if (leftDrawer!=null){
          delete leftDrawer from drawerGroup.content;
          leftDrawer = null;
@@ -490,8 +515,9 @@ public class StandardScyWindow extends ScyWindow {
       if (leftDrawerTool!=null){
          leftDrawer = LeftDrawer{
             color:bind drawerColor;
-            highliteColor:bind color;
-            closedHeight:bind height-2*drawerCornerOffset;
+            highliteColor:controlColor;
+            closedStrokeWidth:controlStrokeWidth;
+            closedSize:bind height-2*drawerCornerOffset;
             content:leftDrawerTool;
             layoutX:-drawerBorderOffset;
             layoutY:drawerCornerOffset;
@@ -509,6 +535,8 @@ public class StandardScyWindow extends ScyWindow {
          controlSize:controlLength;
          borderWidth:borderWidth;
          borderColor:bind color;
+         secondBorderWidth:secondBorderWidth;
+         secondBorderColor:windowBackgroundColor;
          backgroundColor:bind windowBackgroundColor;
       }
 
@@ -534,7 +562,7 @@ public class StandardScyWindow extends ScyWindow {
       windowTitleBar = WindowTitleBar{
          width:bind width - 1 * borderWidth - titleBarLeftOffset
          iconSize:iconSize;
-         iconGap:borderWidth/2;
+         iconGap:iconGap;
          color:bind color;
          title:bind title;
          typeChar:bind eloType;
@@ -545,39 +573,41 @@ public class StandardScyWindow extends ScyWindow {
       resizeElement = WindowResize{
          visible: bind allowResize or isClosed;
          size:controlLength;
+         strokeWidth:controlStrokeWidth;
          color:bind color;
          subColor:controlColor;
          activate: activate;
          startResize:startDragging;
          doResize:doResize;
          stopResize:stopDragging;
-         layoutX: bind width;
-         layoutY: bind height;
+         layoutX: bind width+controlBorderOffset+controlStrokeWidth;
+         layoutY: bind height+controlBorderOffset+controlStrokeWidth;
       }
 
       rotateElement = WindowRotate{
          visible: bind allowRotate;
          size:controlLength;
+         strokeWidth:controlStrokeWidth;
          color:bind color;
          subColor:controlColor;
          activate: activate;
          startRotate:startDragging;
          doRotate:doRotate;
          stopRotate:stopDragging;
-         layoutX: controlLength;
-         layoutY: bind height-controlLength;
+         layoutX: controlLength-controlBorderOffset-controlStrokeWidth+1;
+         layoutY: bind height-controlLength+controlBorderOffset+controlStrokeWidth;
       }
 
       closeElement = WindowClose{
          visible: bind allowClose and not isClosed;
-         size:controlLength;
+         size:closeBoxSize;
          strokeWidth:controlStrokeWidth/2;
          color:bind color;
          subColor:controlColor;
          activate: activate;
          closeAction:doClose;
-         layoutX: bind width - controlLength / 2;
-         layoutY: -controlLength / 2;
+         layoutX: bind width +controlBorderOffset+controlStrokeWidth+2 - closeBoxSize;
+         layoutY: -controlBorderOffset-controlStrokeWidth-1;
       }
 
       minimizeElement = WindowMinimize{
@@ -818,7 +848,7 @@ function run() {
    var fixedScyWindow = StandardScyWindow{
       title: "Fixed"
       color: Color.GREEN
-      drawerColor: Color.RED;
+      drawerColor: Color.color(0.3, 0.7, 0.3);
       height: 150;
 		//      scyContent:newGroup
       allowClose: false;
@@ -855,6 +885,8 @@ function run() {
       title: "Closed and very closed"
       eloType: "M"
       color: Color.GRAY
+      drawerColor:Color.GRAY
+//      drawerColor:Color.DARKGRAY
       height: 27;
       isClosed: true
       allowClose: true;
@@ -863,13 +895,34 @@ function run() {
       allowMinimize: true;
       translateX: 20;
       translateY: 200;
+      topDrawerTool:Button {
+            text: "Top"
+            action: function() {
+            }
+         }
+      rightDrawerTool:Button {
+            text: "Right"
+            action: function() {
+            }
+         }
+      bottomDrawerTool:Button {
+            text: "Bottom"
+            action: function() {
+           }
+         }
+      leftDrawerTool:Button {
+            text: "Left"
+            action: function() {
+            }
+         }
    };
-   //	closedScyWindow.openWindow(100, 150);
+   closedScyWindow.openWindow(100, 150);
 //   scyDesktop.addScyWindow(closedScyWindow);
 
    var eloWindow = StandardScyWindow{
       title: bind "elo window";
-      color: bind Color.RED;
+      color: bind Color.DARKRED;
+      drawerColor: bind Color.RED;
       allowClose: true;
       allowMinimize: true;
       allowResize: false;
@@ -881,6 +934,26 @@ function run() {
          TestAttribute{
          }
       ]
+//      topDrawerTool:Button {
+//            text: "Top"
+//            action: function() {
+//            }
+//         }
+//      rightDrawerTool:Button {
+//            text: "Right"
+//            action: function() {
+//            }
+//         }
+//      bottomDrawerTool:Button {
+//            text: "Bottom"
+//            action: function() {
+//           }
+//         }
+//      leftDrawerTool:Button {
+//            text: "Left"
+//            action: function() {
+//            }
+//         }
    }
 //   scyDesktop.addScyWindow(eloWindow);
 

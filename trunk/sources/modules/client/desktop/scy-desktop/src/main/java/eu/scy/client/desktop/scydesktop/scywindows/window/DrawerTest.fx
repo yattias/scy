@@ -50,7 +50,7 @@ class DrawerTest extends CustomNode {
 
 Stage {
 //   var drawerColor = mainColor;
-   var drawerHighliteColor = mainColor;
+   var drawerHighliteColor = Color.WHITE;
    var borderOffset = 4;
    title : "Drawer test"
    scene: Scene {
@@ -64,27 +64,27 @@ Stage {
          TopDrawer{
             color:drawerColor;
             highliteColor:drawerHighliteColor;
-            closedWidth:60;
+            closedSize:60;
             layoutX:120;
             layoutY:100-borderOffset;
          }
          RightDrawer{
             color:drawerColor;
             highliteColor:drawerHighliteColor;
-            closedHeight:60;
+            closedSize:60;
            layoutX:200+borderOffset;
             layoutY:120;
          }
          BottomDrawer{
             color:drawerColor;
             highliteColor:drawerHighliteColor;
-            closedWidth:60;
+            closedSize:60;
             layoutX:120;
             layoutY:200+borderOffset;
          }
          LeftDrawer{
             highliteColor:drawerHighliteColor;
-            closedHeight:60;
+            closedSize:60;
             color:drawerColor;
             layoutX:100-borderOffset;
             layoutY:120;

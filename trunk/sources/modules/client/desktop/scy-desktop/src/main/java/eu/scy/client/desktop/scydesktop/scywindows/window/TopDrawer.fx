@@ -30,7 +30,7 @@ public class TopDrawer extends Drawer{
          this.translateY = -height;
       }
       else{
-         this.translateY = -closedHeight+1;
+         this.translateY = 1;
       }
       closeControl.layoutX = -controlSize/2;
       closeControl.layoutY = -controlSize/2;
@@ -57,7 +57,7 @@ function run(){
                strokeWidth:4;
             }
            TopDrawer{
-               closedWidth:80;
+               closedSize:80;
                layoutX:20;
                layoutY:100
             }
