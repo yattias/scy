@@ -27,7 +27,7 @@ public class SCYPacketTransformerTest {
 		pojo.setToolName("TestTool");
 		pojo.setToolVersion(4);
 		pojo.setUsername("Obama");
-		pojoXml = "<TestPacketTransformer><lom><username>Obama</username><action timestamp=\"100\"><type>login</type></action><action timestamp=\"105\"><type>get focus</type></action><tool><name>TestTool</name><version>4</version></tool></lom></TestPacketTransformer>";
+		pojoXml = "<x xmlns=\"jabber:x:TestPacketTransformer\"><lom><username>Obama</username><action timestamp=\"100\"><type>login</type></action><action timestamp=\"105\"><type>get focus</type></action><tool><name>TestTool</name><version>4</version></tool></lom></x>";
 	}
 
 	@Test
