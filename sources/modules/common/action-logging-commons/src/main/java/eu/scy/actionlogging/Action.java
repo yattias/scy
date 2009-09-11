@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IContext;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 public class Action extends ScyBaseObject implements IAction {
@@ -22,7 +23,7 @@ public class Action extends ScyBaseObject implements IAction {
 	private String type;
 	
 	/** Action context */
-	private Context context;
+	private IContext context;
 	
 	private String dataType;
 	
@@ -37,11 +38,11 @@ public class Action extends ScyBaseObject implements IAction {
     	attributes = new HashMap<String, String>();
     }
     
-    public void setContext(Context context) {
+    public void setContext(IContext context) {
     	this.context = context;
     }
     
-    public Context getContext() {
+    public IContext getContext() {
     	return context;
     }
     
