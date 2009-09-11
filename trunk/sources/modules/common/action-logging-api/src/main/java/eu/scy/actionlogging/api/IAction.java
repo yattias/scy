@@ -1,17 +1,11 @@
 package eu.scy.actionlogging.api;
 
-import java.io.IOException;
-
-import org.jdom.Content;
-import org.jdom.Element;
-import org.jdom.JDOMException;
 
 public interface IAction
 {
     
     /**
      * This interface describes how Actions should be logged.
-     * The idea is to storage them into a XML element
      */
 	
 	/**
@@ -21,42 +15,17 @@ public interface IAction
      * @param key	->property key
      * @param value	-> property value
      */
-    public void addContext(String key, String value);
+    public void addContext(ContextConstants constant, String value);
     
     /**
      * returns the value of 'key'
      * @param key
      * @return	value of 'key'
      */
-    public String getContext(String key);
+    public String getContext(ContextConstants constant);
     
     public void addAttribute(String key, String value);
     
-    public void addAttribute(String name, String value, String subElement);
-    
-    public void addAttribute(String name, String value, Content subElement);
-        
     public String getAttribute(String key);
     
-    /**
-     * returns the XML serialized version of the property object
-     * @return	XML serialized object
-     */
-    public String getXMLString();
-    
-    /**
-     * returns the XML serialized version of the property object
-     * @return	XML serialized object
-     */
-    public Element getXML();
-    
-    /**
-     * loads properties from XML
-     * @param xml
-     * @throws IOException 
-     * @throws JDOMException 
-     */
-    public void setFromXML(String xml) throws JDOMException, IOException;
-    
-	public void setFromXML(Element element) throws JDOMException;
 }
