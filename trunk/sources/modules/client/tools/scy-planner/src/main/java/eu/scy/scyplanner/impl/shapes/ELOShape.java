@@ -32,8 +32,8 @@ public class ELOShape extends INodeShape {
         Graphics2D g2 = (Graphics2D) g.create();
         switch (getMode()) {
             case DRAW:                
-                g2.transform(AffineTransform.getRotateInstance((-Math.PI/2)/2,bounds.width/2,bounds.height/2));
-                g2.draw(new Rectangle2D.Float(0, 0, bounds.width - 1, bounds.height -1));
+                //g2.transform(AffineTransform.getRotateInstance((-Math.PI/2)/2,bounds.width/2,bounds.height/2));
+                //g2.draw(new Rectangle2D.Float(0, 0, bounds.width - 1, bounds.height -1));
                 break;
             case FILL:
                 g2.transform(AffineTransform.getRotateInstance((-Math.PI/2)/2,bounds.width/2,bounds.height/2));
