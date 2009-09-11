@@ -5,7 +5,8 @@ package eu.scy.core.model.pedagogicalplan;
  * User: Henrik
  * Date: 10.sep.2009
  * Time: 12:47:53
- * To change this template use File | Settings | File Templates.
+ *
+ * The SCY framework makes use of a number of agents. The agent class represents one agent that is available for various objects within the pedagogical plan. 
  */
-public interface Agent extends BaseObject{
+public interface Agent extends BaseObject {
 }
