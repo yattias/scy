@@ -55,8 +55,6 @@ public abstract class SCYPacketTransformer {
 				.newDocumentBuilder().newDocument();
 		Element root = doc.createElementNS(getNamespace(), getElementname());
 		doc.appendChild(root);
-//		Element el = doc.createElement(getName());
-//		root.appendChild(el);
 		
 		for (String x : getXPaths()) {
 			String v = getValueForXPath(x);
@@ -101,7 +99,8 @@ public abstract class SCYPacketTransformer {
 	private Element fetchOrCreateElement(Document doc, Element parentElement, String nodeName) {
 		Integer index = parseIndex(nodeName);
 		Element item = null;
-		if(parentElement.hasChildNodes() && index != null) {
+		// TODO: hasChildNodes always returns false!? Check!
+		if(/*parentElement.hasChildNodes() && */index != null) {
 			NodeList childNodes = parentElement.getChildNodes();
 			int c = 0;
 			for (int i = 0; i < childNodes.getLength(); i++) {
@@ -127,6 +126,7 @@ public abstract class SCYPacketTransformer {
 				}
 			}
 		} else {
+			System.out.println(nodeName);
 			item = doc.createElement(nodeName);
 		}
 		parentElement.appendChild(item);
