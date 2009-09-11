@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.Context;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionProcessModule;
 
@@ -53,9 +54,9 @@ public class ActionProcessModule implements IActionProcessModule {
             datatypeField = ((Action)action).getDataType() == null ? new Field(String.class) : new Field(((Action)action).getDataType());
             dataField = ((Action)action).getData() == null ? new Field(String.class) : new Field(((Action)action).getData());
             // action context values
-            toolField = ((Action)action).getContext().getTool() == null ? new Field(String.class) : new Field(((Action)action).getContext().getTool());
-            missionField = ((Action)action).getContext().getMission() == null ? new Field(String.class) : new Field(((Action)action).getContext().getMission());
-            sessionField = ((Action)action).getContext().getSession() == null ? new Field(String.class) : new Field(((Action)action).getContext().getSession());
+            toolField = ((Context)((Action)action).getContext()).getTool() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getTool());
+            missionField = ((Context)((Action)action).getContext()).getMission() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getMission());
+            sessionField = ((Context)((Action)action).getContext()).getSession() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getSession());
             // we first create the tuple
             actionTuple = new Tuple(new Field("action"), idField, timeField, typeField, userField, datatypeField, dataField, toolField, missionField, sessionField);
             // now we add variable attributes
