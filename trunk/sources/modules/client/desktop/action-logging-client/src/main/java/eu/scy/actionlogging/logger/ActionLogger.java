@@ -31,8 +31,8 @@ public class ActionLogger /*extends ScyBaseDAOHibernate */ implements IActionLog
 
         //ButterCode
         //FIXME: Remove hardcoded user names!!
-        packet.setFrom("obama@descartes.inf.uni-due.de");            
-        packet.setTo("scyhub.descartes.inf.uni-due.de");
+        packet.setFrom(username + "@scy.collide.info");            
+        packet.setTo("scyhub.scy.collide.info");
     	
         transformer.setObject(action);
         

@@ -28,10 +28,28 @@ public interface IAction
     
     public String getAttribute(String key);
     
-    public void setObject(String name, String content);
+    public void setContext(IContext context);
     
-    public String getObjectName();
+    public IContext getContext();
     
-    public String getObjectContent();
+    public void setUser(String user);
+    
+    public String getUser();
+    
+    public void setTime(String time);
+    
+    public String getTime();
+    
+    public void setType(String type);
+    
+    public String getType();
+    
+    public void setDataType(String dataType);
+    
+    public String getDataType();
+    
+    public void setData(String data);
+    
+    public String getData();
     
 }
