@@ -5,7 +5,6 @@ package eu.scy.core.model.pedagogicalplan;
  * User: Henrik
  * Date: 10.sep.2009
  * Time: 14:36:29
- * To change this template use File | Settings | File Templates.
  */
-public interface AssessmentStrategy {
+public interface AssessmentStrategy extends BaseObject {
 }
