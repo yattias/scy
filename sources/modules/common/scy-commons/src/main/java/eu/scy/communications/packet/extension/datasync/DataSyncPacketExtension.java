@@ -37,7 +37,7 @@ public class DataSyncPacketExtension extends PacketExtension implements org.jive
     public static final String TYPE = "DATASYNC";
     
     
-    static {
+    public static final void registerExtension() {
         // Register that DataForms uses the jabber:x:data namespace
         registeredExtensions.put(QName.get(ELEMENT_NAME, NAMESPACE), DataSyncPacketExtension.class);
     }
