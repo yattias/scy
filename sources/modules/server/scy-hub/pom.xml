@@ -105,11 +105,24 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>action-logging</artifactId>
-            <version>9.8.0-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>packet-transformer</artifactId>
+        	<version>9.8.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>action-logging-commons</artifactId>
+        	<version>9.8.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>whacket-extension</artifactId>
+        	<version>9.8.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+        	<groupId>eu.scy</groupId>
+        	<artifactId>action-logging-server</artifactId>
+        	<version>9.8.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
