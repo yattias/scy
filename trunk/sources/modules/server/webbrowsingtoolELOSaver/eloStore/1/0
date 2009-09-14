@@ -1,0 +1,57 @@
+<elo>
+<metadata>
+  <testpath>scy/text</testpath>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Webbrowsing-ELO by sven at 2009_8_10__11-31</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/1/0/Webbrowsing-ELO_by_sven_at_2009_8_10__11-31.scytext</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1252575066381</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<document><title>Developing Firefox Extensions</title><summary><bullet>tabbox</bullet><bullet>A container used to display a set of tabbed pages of elements. A row of tabs is displayed at the top of tabbox which may be used to switch between each page. The tabbox should contain two children, the first a tabs element which contains the tabs and the second a tabpanels element which contains the contents of the pages.</bullet></summary><comments>How to build a tabbox</comments><sources>https://developer.mozilla.org/en/XUL/tabbox</sources></document>
+</content>
+<resources>
+</resources>
+</elo>
