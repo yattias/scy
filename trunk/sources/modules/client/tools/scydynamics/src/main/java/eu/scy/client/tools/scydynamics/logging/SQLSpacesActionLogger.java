@@ -100,7 +100,8 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.setObject("model", modelString);
+			action.setData(modelString);
+			action.setDataType("model");
 			// TODO: non-scy-logging 
 			//logSQLSpacesHandler.writeAction(action.getXML());
 		}
@@ -156,7 +157,8 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.setObject("model", modelString);
+			action.setData(modelString);
+			action.setDataType("model");
 			// TODO: non-scy-logging 
 			//logSQLSpacesHandler.writeAction(action.getXML());
 		}
@@ -190,7 +192,8 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 		action.addAttribute("name", name);
 		action.addAttribute("expression", expression);
 		action.addAttribute("unit", unit);
-		action.setObject("model", modelString);
+		action.setData(modelString);
+		action.setDataType("model");
 		// TODO: non-scy-logging 
 		//logSQLSpacesHandler.writeAction(action.getXML());
 	}
@@ -208,7 +211,8 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 	 */
 	public void logSimpleAction(String type, String modelString) {
 		action = createBasicAction(type);
-		action.setObject("model", modelString);
+		action.setData(modelString);
+		action.setDataType("model");
 		// TODO: non-scy-logging 
 		//logSQLSpacesHandler.writeAction(action.getXML());
 	}
@@ -228,7 +232,8 @@ public class SQLSpacesActionLogger implements IModellingLogger {
 	 */
 	public void logLoadAction(String modelString) {
 		action = createBasicAction("load_model");
-		action.setObject("model", modelString);
+		action.setData(modelString);
+		action.setDataType("model");
 		// TODO: non-scy-logging 
 		//logSQLSpacesHandler.writeAction(action.getXML());	
 	}
