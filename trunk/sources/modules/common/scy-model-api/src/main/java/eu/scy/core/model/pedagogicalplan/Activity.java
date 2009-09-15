@@ -1,6 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
 import java.util.Set;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -94,4 +95,7 @@ public interface Activity extends BaseObject {
      * @param expectedDurationInMinutes the activity's expected duration-time
      */
     public void setExpectedDurationInMinutes(int expectedDurationInMinutes);
+
+    public List<PlannedELO> getPlannedELOs();
+    public void setPlannedELOs(List <PlannedELO> plannedELOs);
 }
