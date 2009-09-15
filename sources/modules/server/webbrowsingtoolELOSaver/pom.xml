@@ -53,8 +53,9 @@
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>6.1H.14.1</version>
                 <configuration>
+                    <port>33605</port>
                     <stopKey>h</stopKey>
-                    <stopPort>8005</stopPort>
+                    <stopPort>33606</stopPort>
                 </configuration>
             </plugin>
 
@@ -224,6 +225,3 @@
     </pluginRepositories>
     
 </project>
-
-
-
