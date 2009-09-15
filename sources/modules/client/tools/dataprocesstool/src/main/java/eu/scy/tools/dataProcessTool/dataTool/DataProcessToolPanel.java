@@ -23,8 +23,14 @@ import eu.scy.tools.dataProcessTool.undoRedo.IgnoreDataUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.InsertUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.OperationUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.PasteUndoRedo;
-import eu.scy.tools.dataProcessTool.utilities.*;
+import eu.scy.tools.dataProcessTool.utilities.BorderPanel;
+import eu.scy.tools.dataProcessTool.utilities.CloseTab;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
+import eu.scy.tools.dataProcessTool.utilities.MyMenuItem;
+import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
