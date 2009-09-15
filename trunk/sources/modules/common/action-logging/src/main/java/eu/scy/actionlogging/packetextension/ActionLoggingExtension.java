@@ -37,7 +37,7 @@ public class ActionLoggingExtension extends PacketExtension implements org.jives
 	public ActionLoggingExtension(IAction action) {
 		this();
 		try {
-			Document root = DocumentHelper.parseText(action.getXMLString());
+			Document root = DocumentHelper.parseText(null);/*action.getXMLString()); Please compile before making API changes*/
 			element.add((Element) root.getRootElement().detach());
 		} catch (DocumentException e) {
 			e.printStackTrace();
