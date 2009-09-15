@@ -1,6 +1,8 @@
 package eu.scy.core.model.impl;
 
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IContext;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 @Entity
 @Table(name = "persistentActions")
 public class PersistentAction extends ScyBaseObject implements IAction {
-
+    /*
     private Map<String, String> attributes; 
     private Map<String, String> context;
 
@@ -42,10 +44,60 @@ public class PersistentAction extends ScyBaseObject implements IAction {
         this.attributes = attributes;
     }
 
-    @CollectionOfElements
-    @JoinTable(name="persistentActionContext")
+    //CollectionOfElements
+    //JoinTable(name="persistentActionContext")
     public Map<String, String> getContext() {
         return context;
+    }
+
+    @Override
+    public void setUser(String user) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getUser() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setTime(String time) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getTime() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setType(String type) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getType() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setDataType(String dataType) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getDataType() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setData(String data) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getData() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void setContext(Map<String, String> context) {
@@ -61,6 +113,16 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     @Override
     public String getContext(String key) {
         return getContext().get(key);
+    }
+
+    @Override
+    public void addContext(ContextConstants constant, String value) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getContext(ContextConstants constant) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -85,6 +147,11 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     }
 
     @Override
+    public void setContext(IContext context) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     @Transient
     public String getXMLString() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -104,5 +171,86 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     @Override
     public void setFromXML(Element element) throws JDOMException {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+    */
+
+    @Override
+    public void addContext(ContextConstants constant, String value) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getContext(ContextConstants constant) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void addAttribute(String key, String value) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getAttribute(String key) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setContext(IContext context) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public IContext getContext() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setUser(String user) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getUser() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setTime(String time) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getTime() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setType(String type) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getType() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setDataType(String dataType) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getDataType() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setData(String data) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getData() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
