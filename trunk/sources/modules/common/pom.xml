@@ -16,8 +16,14 @@
 	<description>scy-common metamodule</description>
 
 	<modules>
+		<!-- this module has been replaced by
+		action-logging-client
+		action-logging-commons
+		action-logging-hibernate
 		<module>action-logging</module>
+		-->
 		<module>action-logging-api</module>
+		<module>action-logging-commons</module>
 		<module>agent-api</module>
 		<module>awareness-api</module>
 		<module>awareness-impl</module>

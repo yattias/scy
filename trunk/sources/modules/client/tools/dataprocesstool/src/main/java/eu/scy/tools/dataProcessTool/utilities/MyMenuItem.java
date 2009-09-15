@@ -5,12 +5,13 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
-
-
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.event.*;
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 
 /**
  * represente les items du menu
