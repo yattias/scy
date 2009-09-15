@@ -207,6 +207,21 @@
             <url>http://download.java.net/maven/1</url>
             <layout>legacy</layout>
         </repository>
+        <repository>
+            <id>Nexus</id>
+            <name>Collide Maven Mirror</name>
+            <url>http://mvn.collide.info/content/repositories/central</url>
+        </repository>
+        <repository>
+            <id>mvn-collide-snapshots</id>
+            <name>Collide Maven Snapshots</name>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>mvn-collide-release</id>
+            <name>Collide Maven Releases</name>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
