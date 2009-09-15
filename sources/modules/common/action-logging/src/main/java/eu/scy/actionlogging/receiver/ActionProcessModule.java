@@ -41,7 +41,7 @@ public class ActionProcessModule implements IActionProcessModule {
     }
     
     protected void writeAction(IAction action) throws TupleSpaceException {
-        org.jdom.Element actionElement = action.getXML();
+        org.jdom.Element actionElement = null; /*action.getXML(); Please compile before comiting API changes*/
         Field idField;
         Field timeField;
         Field typeField;
