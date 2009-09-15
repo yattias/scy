@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IContext;
 import eu.scy.core.model.impl.ScyBaseObject;
 
 import org.jdom.Content;
@@ -35,7 +37,6 @@ public class Action extends ScyBaseObject implements IAction {
 		actionElement.addContent(attributesElement);
     }
     
-    @Override
     public void addContext(String name, String value) {
     	Element prop = new Element("property");
 		prop.setAttribute("name", name);
@@ -43,7 +44,6 @@ public class Action extends ScyBaseObject implements IAction {
 		contextElement.addContent(prop);
     }
     
-	@Override
 	public String getContext(String key) {
 		String value = null;
 		for (Element elem: ((List<Element>)contextElement.getChildren("property"))) {
@@ -53,8 +53,18 @@ public class Action extends ScyBaseObject implements IAction {
 		}
 		return value;
 	}
-    
-	@Override
+
+    @Override
+    public void addContext(ContextConstants constant, String value) {
+
+    }
+
+    @Override
+    public String getContext(ContextConstants constant) {
+        return null;
+    }
+
+    @Override
     public void addAttribute(String name, String value) {	
 		if (name != null) {
 			Element prop = new Element("property");
@@ -68,7 +78,6 @@ public class Action extends ScyBaseObject implements IAction {
 		}	
     }
 	
-	@Override
     public void addAttribute(String name, String value, String subElement) {
 		try {
 			Document doc = new SAXBuilder().build(new StringReader(subElement));
@@ -83,7 +92,6 @@ public class Action extends ScyBaseObject implements IAction {
 		}
     }
     
-    @Override
     public void addAttribute(String name, String value, Content subElement) {
     	Element prop = new Element("property");
 		prop.setAttribute("name", name);
@@ -102,7 +110,67 @@ public class Action extends ScyBaseObject implements IAction {
 		}
 		return value;
 	}
-    
+
+    @Override
+    public void setContext(IContext context) {
+
+    }
+
+    @Override
+    public IContext getContext() {
+        return null;
+    }
+
+    @Override
+    public void setUser(String user) {
+
+    }
+
+    @Override
+    public String getUser() {
+        return null;
+    }
+
+    @Override
+    public void setTime(String time) {
+
+    }
+
+    @Override
+    public String getTime() {
+        return null;
+    }
+
+    @Override
+    public void setType(String type) {
+
+    }
+
+    @Override
+    public String getType() {
+        return null;
+    }
+
+    @Override
+    public void setDataType(String dataType) {
+
+    }
+
+    @Override
+    public String getDataType() {
+        return null;
+    }
+
+    @Override
+    public void setData(String data) {
+
+    }
+
+    @Override
+    public String getData() {
+        return null;
+    }
+
     public Action(String xml) throws JDOMException, IOException {
         setFromXML(xml);
     }
@@ -111,18 +179,15 @@ public class Action extends ScyBaseObject implements IAction {
     	setFromXML(element);
     }
     
-    @Override
     public void setFromXML(String xmlString) throws JDOMException, IOException {
     	Document doc = new SAXBuilder().build(new StringReader(xmlString));
 		setFromXML((Element)doc.getRootElement().detach());
     }
     
-    @Override
 	public String getXMLString() {
 		return new XMLOutputter(Format.getPrettyFormat()).outputString(actionElement);
 	}
 
-	@Override
 	public void setFromXML(Element element) throws JDOMException {
 		if (element.getName().equals("action")) {
 			this.actionElement = element;
@@ -133,7 +198,6 @@ public class Action extends ScyBaseObject implements IAction {
 		}
 	}
 
-    @Override
     public Element getXML() {
     	return actionElement;
     }
