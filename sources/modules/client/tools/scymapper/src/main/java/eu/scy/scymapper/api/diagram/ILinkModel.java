@@ -10,11 +10,13 @@ import java.awt.*;
  * User: Bjorge Naess
  * Date: 22.jun.2009
  * Time: 18:29:15
- * To change this template use File | Settings | File Templates.
  */
 public interface ILinkModel extends ILinkModelObservable {
     public String getLabel();
     public void setLabel(String label);
+
+    public boolean isLabelHidden();
+    public void setLabelHidden(boolean labelHidden);
 
     public Point getFrom();
     public void setFrom(Point p);

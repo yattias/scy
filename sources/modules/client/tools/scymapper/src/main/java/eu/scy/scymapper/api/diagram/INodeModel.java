@@ -39,4 +39,8 @@ public interface INodeModel extends INodeModelObservable {
     public INodeStyle getStyle();
 
     public void setSelected(boolean b);
+
+    public boolean isLabelHidden();
+
+    public void setLabelHidden(boolean labelHidden);
 }

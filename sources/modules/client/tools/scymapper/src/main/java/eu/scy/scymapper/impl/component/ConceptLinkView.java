@@ -32,12 +32,13 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
         if (model.getFromNode() != null) model.getFromNode().addObserver(this);
         if (model.getToNode() != null) model.getToNode().addObserver(this);
 
-        labelEditor = new JTextField(this.model.getLabel());
+        labelEditor = new JTextField(model.getLabel());
         labelEditor.setHorizontalAlignment(JTextField.CENTER);
         labelEditor.addKeyListener(this);
         labelEditor.setEditable(false);
-        labelEditor.addFocusListener(new FocusListener() {
 
+        add(labelEditor);
+        labelEditor.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 labelEditor.setEditable(true);
@@ -48,7 +49,6 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
                 labelEditor.setEditable(false);
             }
         });
-        add(labelEditor);
 
         updatePosition();
         layoutComponents();
@@ -74,6 +74,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
         double y = (getHeight() / 2d) - (height / 2d);
 
         labelEditor.setBounds((int) x, (int) y, width, height);
+        labelEditor.setVisible(!getModel().isLabelHidden());
     }
 
     @Override
@@ -113,6 +114,6 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
     public void keyPressed(KeyEvent e) {}
     @Override
     public void keyReleased(KeyEvent e) {
-        controller.setLabel(labelEditor.getText());
+        getController().setLabel(labelEditor.getText());
     }
 }
