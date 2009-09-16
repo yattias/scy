@@ -18,8 +18,8 @@ public class LinkView extends Container implements ILinkModelObserver {
 
     static final ILinkStyle DEFAULT_LINKSTYLE = new DefaultLinkStyle();
 
-    protected ILinkController controller;
-    protected ILinkModel model;
+    private ILinkController controller;
+    private ILinkModel model;
 
     private int minWidth = 100;
     private int minHeight = 100;
@@ -99,5 +99,21 @@ public class LinkView extends Container implements ILinkModelObserver {
     @Override
     public void updated(ILinkModel m) {
         updatePosition();
+    }
+
+    public ILinkModel getModel() {
+        return model;
+    }
+
+    public void setModel(ILinkModel model) {
+        this.model = model;
+    }
+
+    public ILinkController getController() {
+        return controller;
+    }
+
+    public void setController(ILinkController controller) {
+        this.controller = controller;
     }
 }

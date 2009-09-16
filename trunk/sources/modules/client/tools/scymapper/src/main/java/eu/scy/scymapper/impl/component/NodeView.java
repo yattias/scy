@@ -66,7 +66,7 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         labelEditor.setHorizontalAlignment(JTextField.CENTER);
         labelEditor.addKeyListener(this);
         labelEditor.setEditable(false);
-        labelEditor.setOpaque(true);
+        labelEditor.setOpaque(false);
 
         INodeStyle style = model.getStyle();
 
@@ -75,8 +75,8 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         labelEditor.setBackground(style.getBackground());
         labelEditor.setForeground(style.getForeground());
 
+        add(labelEditor);
         labelEditor.addFocusListener(new FocusListener() {
-
             @Override
             public void focusGained(FocusEvent e) {
                 labelEditor.setEditable(true);
@@ -89,7 +89,6 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
                 labelEditor.setOpaque(false);
             }
         });
-        add(labelEditor);
 
         resizeHandle = createResizeHandle();
         add(resizeHandle);
@@ -135,6 +134,7 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         height += labelEditor.getBorder().getBorderInsets(null).top + labelEditor.getBorder().getBorderInsets(null).bottom;
 
         labelEditor.setSize(width, height);
+        labelEditor.setVisible(!getModel().isLabelHidden());
 
         double x = (getWidth() / 2) - (width / 2);
         double y = (getHeight() / 2d) - (height / 2d);

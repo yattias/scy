@@ -23,6 +23,7 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
     private ILinkShape shape;
     private ArrayList<ILinkModelObserver> observers;
     private ILinkStyle style;
+    private boolean labelHidden = false;
 
     public SimpleLink() {
         observers = new ArrayList<ILinkModelObserver>();
@@ -109,5 +110,15 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
         for (ILinkModelObserver observer : observers) {
             observer.updated(this);
         }
+    }
+
+    @Override
+    public boolean isLabelHidden() {
+        return labelHidden;
+    }
+
+    @Override
+    public void setLabelHidden(boolean labelHidden) {
+        this.labelHidden = labelHidden;
     }
 }

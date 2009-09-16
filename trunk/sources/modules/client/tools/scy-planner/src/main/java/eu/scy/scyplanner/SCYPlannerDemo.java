@@ -91,8 +91,6 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         INodeModel producedByReflectionELO = createELOElement("", 200, 500);
         INodeModel producedByReportingELO = createELOElement("", 120, 700);
 
-
-
         addNode(pedagogicalPlan, orientationLas);
         addNode(pedagogicalPlan, conseptualisationLas);
         addNode(pedagogicalPlan, designLas);
@@ -111,29 +109,27 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         addNode(pedagogicalPlan, producedByReflectionELO);
         addNode(pedagogicalPlan, producedByReportingELO);
 
-        connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO, "");
-        connectNodes(pedagogicalPlan, producedByOrientationELO, conseptualisationLas, "");
-        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, conseptualisationLas, "");
-        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, designLas, "");
-        connectNodes(pedagogicalPlan, designLas, producedByDesignELO, "");
-        connectNodes(pedagogicalPlan, producedByDesignELO, buildLas, "");
-        connectNodes(pedagogicalPlan, conseptualisationLas, producedByConceptualisationInputToExperiment, "");
-        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas, "");
-        connectNodes(pedagogicalPlan, buildLas, producedByBuildELO, "");
-        connectNodes(pedagogicalPlan, producedByBuildELO, experimentLas, "");
-        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas, "");
-        connectNodes(pedagogicalPlan, producedByExperimentELO, experimentLas, "");
-        connectNodes(pedagogicalPlan, producedByExperimentELO, evaluationLas, "");
-        connectNodes(pedagogicalPlan, evaluationLas, designLas, "");
-        connectNodes(pedagogicalPlan, evaluationLas, producedByEvaluationELO, "");
-        connectNodes(pedagogicalPlan, producedByEvaluationELO, reflectionLas, "");
-        connectNodes(pedagogicalPlan, reflectionLas, producedByReflectionELO, "");
-        connectNodes(pedagogicalPlan, producedByReflectionELO, reportingLas, "");
-        connectNodes(pedagogicalPlan, reportingLas, producedByReportingELO, "");
-
+        connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
+        connectNodes(pedagogicalPlan, producedByOrientationELO, conseptualisationLas);
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, conseptualisationLas);
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToDesign, designLas);
+        connectNodes(pedagogicalPlan, designLas, producedByDesignELO);
+        connectNodes(pedagogicalPlan, producedByDesignELO, buildLas);
+        connectNodes(pedagogicalPlan, conseptualisationLas, producedByConceptualisationInputToExperiment);
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas);
+        connectNodes(pedagogicalPlan, buildLas, producedByBuildELO);
+        connectNodes(pedagogicalPlan, producedByBuildELO, experimentLas);
+        connectNodes(pedagogicalPlan, producedByConceptualisationInputToExperiment, experimentLas);
+        connectNodes(pedagogicalPlan, producedByExperimentELO, experimentLas);
+        connectNodes(pedagogicalPlan, producedByExperimentELO, evaluationLas);
+        connectNodes(pedagogicalPlan, evaluationLas, designLas);
+        connectNodes(pedagogicalPlan, evaluationLas, producedByEvaluationELO);
+        connectNodes(pedagogicalPlan, producedByEvaluationELO, reflectionLas);
+        connectNodes(pedagogicalPlan, reflectionLas, producedByReflectionELO);
+        connectNodes(pedagogicalPlan, producedByReflectionELO, reportingLas);
+        connectNodes(pedagogicalPlan, reportingLas, producedByReportingELO);
 
         return pedagogicalPlan;
-
     }
 
     private void addNode(SCYPlannerDiagramModel pedagogicalPlan, INodeModel node) {
@@ -168,7 +164,6 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         las.setLocation(new Point(xPos, yPos));
         las.setSize(new Dimension(142, 73));
         return las;
-
     }
 
     private INodeModel createELOElement(String name, Integer xPos, Integer yPos) {
@@ -185,62 +180,52 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         }
 
         eloNodeModel.setLocation(new Point(xPos, yPos));
-        eloNodeModel.setSize(new Dimension(30,30));
+        eloNodeModel.setSize(new Dimension(75,75));
+        eloNodeModel.setLabelHidden(true);
 
-
-        
         return eloNodeModel;
     }
 
-    private void connectNodes(SCYPlannerDiagramModel diagramModel, INodeModel from, INodeModel to, String label) {
+    private void connectNodes(SCYPlannerDiagramModel diagramModel, INodeModel from, INodeModel to) {
         IConceptLinkModel link = new LearningActivitySpaceLinkModel(from, to);
+        link.setLabelHidden(true);
         link.getStyle().setColor(new Color(0x4f81bc));
         link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));
 
         link.setShape(new Arrow());
-        link.setLabel(label);
         diagramModel.addLink(link);
     }
 
-
     @Override
     public void linkAdded(ILinkModel link) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void linkRemoved(ILinkModel link) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void nodeAdded(INodeModel n) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void nodeRemoved(INodeModel n) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void updated(IDiagramModel diagramModel) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void nodeSelected(INodeModel n) {
-        System.out.println("DiagramImplTest.nodeSelected");
     }
 
     @Override
     public void moved(INodeModel node) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void resized(INodeModel node) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -249,12 +234,10 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 
     @Override
     public void styleChanged(INodeModel node) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void shapeChanged(INodeModel node) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -263,4 +246,3 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
         selectedLabel.setText("You clicked: " + conceptNode.getLabel());
     }
 }
-

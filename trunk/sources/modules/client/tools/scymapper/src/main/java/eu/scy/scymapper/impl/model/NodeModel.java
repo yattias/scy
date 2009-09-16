@@ -23,6 +23,7 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     private String label;
     private INodeStyle style;
     private boolean selected = false;
+    private boolean labelHidden = false;
 
     public NodeModel() {
         observers = new ArrayList<INodeModelObserver>();
@@ -71,6 +72,16 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     public void setSelected(boolean b) {
         this.selected = true;
         notifySelected();
+    }
+
+    @Override
+    public boolean isLabelHidden() {
+        return labelHidden;
+    }
+
+    @Override
+    public void setLabelHidden(boolean labelHidden) {
+        this.labelHidden = labelHidden;
     }
 
 
