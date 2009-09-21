@@ -336,6 +336,7 @@ public class StandardScyWindow extends ScyWindow {
 //		return;
 		var newRotation = calculateRotation(e);
 		var deltaRotation = Math.toDegrees(newRotation - initialRotation);
+      println("deltaRotation: {deltaRotation}");
 		var newRotate = rotate + deltaRotation;
 		if (e.controlDown){
 			newRotate = 45 * Math.round(newRotate  /  45);
@@ -346,7 +347,9 @@ public class StandardScyWindow extends ScyWindow {
 	function calculateRotation(e: MouseEvent):Number{
 		var deltaX = e.x - rotateCenterX;
 		var deltaY = e.y - rotateCenterY;
-      return Math.atan2(deltaY , deltaX);
+      var rotation = Math.atan2(deltaY , deltaX);
+//      println("calculateRotation({e.x},{e.y}): dx: {deltaX}, dx: {deltaY}, rotation: {rotation}");
+      return rotation;
 	}
 
 	function doClose(){
@@ -591,9 +594,7 @@ public class StandardScyWindow extends ScyWindow {
          color:bind color;
          subColor:controlColor;
          activate: activate;
-         startRotate:startDragging;
-         doRotate:doRotate;
-         stopRotate:stopDragging;
+         rotateWindow:this;
          layoutX: controlLength-controlBorderOffset-controlStrokeWidth+1;
          layoutY: bind height-controlLength+controlBorderOffset+controlStrokeWidth;
       }
@@ -957,8 +958,10 @@ function run() {
    }
 //   scyDesktop.addScyWindow(eloWindow);
 
-
-   Stage {
+   var stage:Stage;
+   FX.deferAction(function(){MouseBlocker.initMouseBlocker(stage);});
+   
+   stage = Stage {
       title: "Scy window test"
       width: 400
       height: 600
