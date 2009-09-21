@@ -256,7 +256,8 @@ public abstract class Drawer extends CustomNode {
    function startResize(e: MouseEvent):Void{
       originalWidth = width;
       originalHeight = height;
-      contentElement.glassPaneBlocksMouse = true;
+//      contentElement.glassPaneBlocksMouse = true;
+      MouseBlocker.startMouseBlocking();
    }
 
    function doResize(e: MouseEvent):Void{
@@ -265,7 +266,8 @@ public abstract class Drawer extends CustomNode {
    }
 
    function stopResize(e: MouseEvent):Void{
-      contentElement.glassPaneBlocksMouse = false;
+//      contentElement.glassPaneBlocksMouse = false;
+      MouseBlocker.stopMouseBlocking();
    }
 
 
