@@ -14,6 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+
+import javafx.geometry.Point2D;
+
+import javafx.util.Math;
+
 /**
  * @author sikkenj
  */
@@ -21,9 +27,12 @@ import javafx.scene.shape.ArcType;
 // place your code here
 public class WindowRotate extends WindowActiveElement {
 
-   public var startRotate: function(e: MouseEvent):Void;
-   public var doRotate: function(e: MouseEvent):Void;
-   public var stopRotate: function(e: MouseEvent):Void;
+   public var rotateWindow: ScyWindow;
+
+   var sceneCenterPoint:Point2D;
+   var initialRotation:Number;
+   var initialMouseRotation:Number;
+   var rotating = false;
 
    public override function create(): Node {
       Group{ // bottom left rotate element
@@ -39,7 +48,7 @@ public class WindowRotate extends WindowActiveElement {
                type: ArcType.OPEN
                fill: Color.TRANSPARENT
                stroke: bind
-               if (highLighted) subColor else color
+               if (highLighted or rotating) subColor else color
                strokeWidth: bind strokeWidth;
             }
             Arc {
@@ -52,7 +61,7 @@ public class WindowRotate extends WindowActiveElement {
                type: ArcType.OPEN
                fill: Color.TRANSPARENT
                stroke: bind
-               if (highLighted) color else subColor
+               if (highLighted or rotating) color else subColor
                strokeWidth: bind strokeWidth / 2;
             }
          ]
@@ -74,5 +83,41 @@ public class WindowRotate extends WindowActiveElement {
          }
       }
    }
+
+   function startRotate(e: MouseEvent){
+      rotating = true;
+      sceneCenterPoint = rotateWindow.localToScene(rotateWindow.width/2, rotateWindow.height/2);
+      initialMouseRotation = calculateRotation(e);
+      initialRotation = rotateWindow.rotate;
+      MouseBlocker.startMouseBlocking();
+//      println("startRotate() initialRotation:{initialRotation}, initialMouseRotation:{initialMouseRotation}");
+    }
+
+   function calculateRotation(e: MouseEvent){
+      var scenePoint = localToScene(e.x,e.y);
+		var deltaX = scenePoint.x - sceneCenterPoint.x;
+		var deltaY = scenePoint.y - sceneCenterPoint.y;
+      var rotation = Math.atan2(deltaY , deltaX);
+//      println("calculateRotation({e.x},{e.y}): dx: {deltaX}, dx: {deltaY}, rotation: {rotation}");
+      return rotation;
+   }
+
+   function doRotate(e:MouseEvent){
+		var newRotation = calculateRotation(e);
+		var deltaRotation = Math.toDegrees(newRotation - initialMouseRotation);
+//      println("deltaRotation: {deltaRotation}");
+		var newRotate = initialRotation + deltaRotation;
+		if (e.controlDown){
+			newRotate = 45 * Math.round(newRotate  /  45);
+		}
+		rotateWindow.rotate = newRotate;
+   }
+
+   function stopRotate(e:MouseEvent){
+      rotating = false;
+      MouseBlocker.stopMouseBlocking();
+   }
+
+
 }
 

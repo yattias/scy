@@ -263,7 +263,7 @@ public class ScyWindowControl{
       if (onlyNewWindows){
          windowPositioner.setFixedWindows(placedWindows);
       }
-      windowPositioner.positionWindows();
+//      windowPositioner.positionWindows();
       if (onlyNewWindows){
          for (window in newPlacedWindows){
             if (Sequences.indexOf(placedWindows,window) < 0){

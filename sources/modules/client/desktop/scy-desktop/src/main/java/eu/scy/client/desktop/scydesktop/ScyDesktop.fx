@@ -58,6 +58,8 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 
 import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+
 
 /**
  * @author sikkenj
@@ -92,6 +94,7 @@ public class ScyDesktop extends CustomNode {
 
    init{
       FX.deferAction(initialWindowPositioning);
+      FX.deferAction(function(){MouseBlocker.initMouseBlocker(scene.stage);});
    }
 
    function initialWindowPositioning(){
