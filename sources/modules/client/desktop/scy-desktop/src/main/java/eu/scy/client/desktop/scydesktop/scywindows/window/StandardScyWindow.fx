@@ -257,17 +257,16 @@ public class StandardScyWindow extends ScyWindow {
 		originalY = translateY;
 		originalW = width;
 		originalH = height;
-		rotateCenterX = width / 2;
-		rotateCenterY = height / 2;
-		initialRotation = calculateRotation(e);
       maxDifX = 0;
       maxDifY = 0;
 		sceneTopLeft = localToScene(0,0);
-      contentElement.glassPaneBlocksMouse = true;
+//      contentElement.glassPaneBlocksMouse = true;
+      MouseBlocker.startMouseBlocking();
 	}
 
 	function stopDragging(e: MouseEvent):Void {
-      contentElement.glassPaneBlocksMouse = false;
+//      contentElement.glassPaneBlocksMouse = false;
+      MouseBlocker.stopMouseBlocking();
 	}
 
    function printMousePos(label:String, e:MouseEvent) {
@@ -328,28 +327,6 @@ public class StandardScyWindow extends ScyWindow {
 //		var newSceneTopLeft = localToScene(0,0);
 //		System.out.println("resized {title}, angle: {rotate}, difW: {difW}, difH: {difH}, difX: {difX}, difY: {difY}, dtlX:{sceneTopLeft.x-newSceneTopLeft.x}, dtlY:{sceneTopLeft.y-newSceneTopLeft.y}");
 
-	}
-
-	function doRotate(e: MouseEvent):Void {
-      printMousePos("rotate",e);
-//      if (isInvalidMousePos(e))
-//		return;
-		var newRotation = calculateRotation(e);
-		var deltaRotation = Math.toDegrees(newRotation - initialRotation);
-      println("deltaRotation: {deltaRotation}");
-		var newRotate = rotate + deltaRotation;
-		if (e.controlDown){
-			newRotate = 45 * Math.round(newRotate  /  45);
-		}
-		rotate = newRotate;
-   }
-
-	function calculateRotation(e: MouseEvent):Number{
-		var deltaX = e.x - rotateCenterX;
-		var deltaY = e.y - rotateCenterY;
-      var rotation = Math.atan2(deltaY , deltaX);
-//      println("calculateRotation({e.x},{e.y}): dx: {deltaX}, dx: {deltaY}, rotation: {rotation}");
-      return rotation;
 	}
 
 	function doClose(){
