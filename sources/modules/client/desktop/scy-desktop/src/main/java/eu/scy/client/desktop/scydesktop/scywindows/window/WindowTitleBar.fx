@@ -43,7 +43,6 @@ public class WindowTitleBar extends WindowElement {
 
    public override function create(): Node {
       return Group {
-         blocksMouse:true;
          content: [
             Group{ // icon for title
                var iconChar:Text;
