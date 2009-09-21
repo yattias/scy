@@ -4,14 +4,15 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import java.io.StringReader;
 import java.net.URL;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.event.HyperlinkEvent;
-import org.jdesktop.layout.GroupLayout;
 import org.xhtmlrenderer.event.DocumentListener;
+import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
+import org.xhtmlrenderer.util.GeneralUtil;
 
 /**
  *
@@ -38,7 +39,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       urlField = new javax.swing.JTextField();
       loadButton = new javax.swing.JButton();
       browserScrollPane = new FSScrollPane();
-      browser = new XHTMLPanel();
+      browser = new MyXhtmlPanel(new BrowserAgentCallback(this));
       browser.addDocumentListener(new DocumentListener()
       {
 
@@ -90,13 +91,6 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-//      browser.setContentType("text/html");
-//      browser.setEditable(false);
-//      browser.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
-//         public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {
-//            browserHyperlinkUpdate(evt);
-//         }
-//      });
       browserScrollPane.setViewportView(browser);
 
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -120,36 +114,12 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          loadUrl(urlField.getText());
       }
    }
-
-   private void browserHyperlinkUpdate(javax.swing.event.HyperlinkEvent evt)
-   {
-      if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
-      {
-         loadUrl(evt.getURL());
-      }
-   }
    // Variables declaration - do not modify
    private XHTMLPanel browser;
    private FSScrollPane browserScrollPane;
    private javax.swing.JButton loadButton;
    private javax.swing.JTextField urlField;
    // End of variables declaration
-
-   public void loadUrl(URL url)
-   {
-      loadUrlLater(url);
-//      try
-//      {
-//         System.out.println("Current Thread: " + Thread.currentThread() + ", is EDT: " + SwingUtilities.isEventDispatchThread());
-//         System.out.println("start loading from " + url);
-//         browser.setPage(url);
-//         System.out.println("finished loading from " + url);
-//      }
-//      catch (IOException ex)
-//      {
-//         System.err.println("Error loading url '" + url + "', " + ex.getMessage());
-//      }
-   }
 
    public void loadUrl(String url)
    {
@@ -160,51 +130,12 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       catch (Exception e)
       {
          System.out.println("An exception occured while loading '" + url + "', " + e.getMessage());
-         showErrorMessage(e.getMessage());
-      }
-//      try
-//      {
-//         loadUrl(new URL(url));
-//      }
-//      catch (IOException ex)
-//      {
-//         System.err.println("Error loading url '" + url + "', " + ex.getMessage());
-//      }
-   }
-
-   public void loadUrlLater(URL url)
-   {
-      SwingUtilities.invokeLater(new LoadUrl(url));
-   }
-
-   private class LoadUrl implements Runnable
-   {
-
-      private final URL url;
-
-      public LoadUrl(URL url)
-      {
-         this.url = url;
-      }
-
-      @Override
-      public void run()
-      {
-//         try
-//         {
-//            System.out.println("Current Thread: " + Thread.currentThread() + ", is EDT: " + SwingUtilities.isEventDispatchThread());
-//            System.out.println("start loading from " + url);
-//            browser.setPage(url);
-//            System.out.println("finished loading from " + url);
-//         }
-//         catch (IOException ex)
-//         {
-//            System.err.println("Error loading url '" + url + "', " + ex.getMessage());
-//         }
+         handlePageLoadFailed(url, e);
+//         showErrorMessage(e.getMessage());
       }
    }
 
-   private void showErrorMessage(String errorMessage)
+   private void XXshowErrorMessage(String errorMessage)
    {
 //      browser.setDocumentFromString(getXhtmlErrorText(browser.getURL(), errorMessage),browser.getURL().toString(), null);
       String dialoTitle = "An error occured";
@@ -233,5 +164,73 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       builder.append(" </body>");
       builder.append("</html>");
       return builder.toString();
+   }
+
+   public void handlePageLoadFailed(String url_text, Exception ex)
+   {
+      final XMLResource xr;
+      final String rootCause = getRootCause(ex);
+      final String msg = GeneralUtil.escapeHTML(addLineBreaks(rootCause, 80));
+      String notFound =
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+         "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
+         "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n" +
+         "<body>\n" +
+         "<h1>Document can't be loaded</h1>\n" +
+         "<p>Could not load the page at \n" +
+         "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n" +
+         "</p>\n" +
+         "<p>The page failed to load; the error was </p>\n" +
+         "<pre>" + msg + "</pre>\n" +
+         "</body>\n" +
+         "</html>";
+
+      xr = XMLResource.load(new StringReader(notFound));
+      SwingUtilities.invokeLater(new Runnable()
+      {
+
+         public void run()
+         {
+            browser.setDocument(xr.getDocument(), null);
+         }
+      });
+   }
+
+   private String getRootCause(Exception ex)
+   {
+      Throwable cause = ex;
+      while (cause != null)
+      {
+         cause = cause.getCause();
+      }
+
+      return cause == null ? ex.getMessage() : cause.getMessage();
+   }
+
+   private String addLineBreaks(String _text, int maxLineLength)
+   {
+      StringBuffer broken = new StringBuffer(_text.length() + 10);
+      boolean needBreak = false;
+      for (int i = 0; i < _text.length(); i++)
+      {
+         if (i > 0 && i % maxLineLength == 0)
+         {
+            needBreak = true;
+         }
+
+         final char c = _text.charAt(i);
+         if (needBreak && Character.isWhitespace(c))
+         {
+            System.out.println("Breaking: " + broken.toString());
+            needBreak = false;
+            broken.append('\n');
+         }
+         else
+         {
+            broken.append(c);
+         }
+      }
+      System.out.println("Broken! " + broken.toString());
+      return broken.toString();
    }
 }
