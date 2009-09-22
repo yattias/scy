@@ -55,10 +55,14 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
 import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
 
 /**
@@ -75,6 +79,7 @@ public class ScyDesktop extends CustomNode {
    public var windowStyler: WindowStyler;
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var newEloCreationRegistry:NewEloCreationRegistry;
+   public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
 
    public var topLeftCornerTool: Node on replace{topLeftCorner.content = topLeftCornerTool};
    public var topRightCornerTool: Node on replace{topRightCorner.content = topRightCornerTool};
@@ -294,6 +299,11 @@ function run(){
          };
 
    windowContentCreatorRegistryFX.registerWindowContentCreator(new SwingSizeTestPanelCreator(), "size");
+
+   var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
+         };
+
+   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
    var scyDesktop:ScyDesktop = ScyDesktop{
       config:config;
       missionModelFX : missionModel;
