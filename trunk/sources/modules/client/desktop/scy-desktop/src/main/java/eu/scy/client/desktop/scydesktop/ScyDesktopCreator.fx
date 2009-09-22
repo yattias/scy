@@ -21,6 +21,8 @@ import java.lang.IllegalStateException;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
 /**
  * @author sikkenj
@@ -37,6 +39,7 @@ public class ScyDesktopCreator {
    public-init var windowStyler: WindowStyler;
    public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
+   public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
 
    init{
       findConfig();
@@ -48,6 +51,9 @@ public class ScyDesktopCreator {
       }
       if (newEloCreationRegistry==null){
          newEloCreationRegistry = NewEloCreationRegistryImpl{};
+      }
+      if (drawerContentCreatorRegistryFX==null){
+         drawerContentCreatorRegistryFX = DrawerContentCreatorRegistryFXImpl{};
       }
 
       if (eloInfoControl==null){
@@ -112,6 +118,7 @@ public class ScyDesktopCreator {
          windowStyler:windowStyler;
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
          newEloCreationRegistry: newEloCreationRegistry;
+         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
       }
 
    }
