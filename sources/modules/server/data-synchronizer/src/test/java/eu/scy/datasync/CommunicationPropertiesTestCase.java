@@ -1,6 +1,7 @@
 package eu.scy.datasync;
 
 import static org.junit.Assert.*;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 
 
@@ -16,8 +17,8 @@ public class CommunicationPropertiesTestCase {
     
     @org.junit.Test
     public void testCreateSyncMessage() {
-        CommunicationProperties cp = new CommunicationProperties();
-        assertNotNull(cp.props);
-        assertEquals("Computers in the future may weigh no less than 1.5 tons", cp.props.getProperty("test.property"));        
+        Configuration conf = Configuration.getInstance();
+        assertNotNull(conf);
+        assertEquals("Computers in the future may weigh no less than 1.5 tons", conf.getTestString());        
     }
 }

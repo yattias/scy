@@ -8,6 +8,7 @@ import junit.framework.Test;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
@@ -27,9 +28,6 @@ public class SQLSpaceAdapterTestCase {
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
     private static final String TEST_TO = "obama@wiki.intermedia.uio.no";
     
-    private static CommunicationProperties props = new CommunicationProperties();
-    
-    
     public SQLSpaceAdapterTestCase() {
     }
 
@@ -43,7 +41,7 @@ public class SQLSpaceAdapterTestCase {
         if (sqlSpaceAdapter == null) {
             sqlSpaceAdapter = new SQLSpaceAdapter();
             try {
-                sqlSpaceAdapter.initialize("thomasd", props.sqlSpacesServerSpaceDatasync);
+                sqlSpaceAdapter.initialize("thomasd", Configuration.getInstance().getSqlSpacesServerSpaceDatasync());
             } catch (TupleSpaceException e) {
                 logger.error("Tuple space fluke " + e);
                 e.printStackTrace();
@@ -55,7 +53,7 @@ public class SQLSpaceAdapterTestCase {
     
     
     private ISyncMessage getTestSyncMessage() {
-        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_TO, TEST_CONTENT, TEST_EVENT, null, props.datasyncMessageDefaultExpiration);
+        return SyncMessageHelper.createSyncMessage(TEST_TOOL_SESSION_ID, TEST_TOOL_ID, TEST_FROM, TEST_TO, TEST_CONTENT, TEST_EVENT, null, Configuration.getInstance().getDatasyncMessageDefaultExpiration());
     }
     
     

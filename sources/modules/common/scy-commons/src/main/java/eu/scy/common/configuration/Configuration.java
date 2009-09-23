@@ -105,5 +105,9 @@ public class Configuration {
 	public int getDatasyncServerPort() {
 		return Integer.parseInt(props.getProperty("communication.datasync.server.port"));
 	}
+
+	public String getSqlSpacesServerSpaceDatasync() {
+		return props.getProperty("communication.sqlspaces.server.space.datasync");
+	}
 	
 }

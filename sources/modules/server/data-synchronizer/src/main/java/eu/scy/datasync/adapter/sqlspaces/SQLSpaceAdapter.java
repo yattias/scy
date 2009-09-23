@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
@@ -29,10 +30,7 @@ public class SQLSpaceAdapter implements Callback {
     private TupleSpace tupleSpace;
     private String userName = "unregistered_user";
     private ArrayList<ISQLSpaceAdapterListener> sqlSpaceAdapterListeners = new ArrayList<ISQLSpaceAdapterListener>();
-    
-    private static CommunicationProperties props = new CommunicationProperties();
-    
-    
+        
     public SQLSpaceAdapter() {
         logger.debug("SQLSpaceAdapter.SQLSpaceAdapter()");
     }
@@ -44,9 +42,9 @@ public class SQLSpaceAdapter implements Callback {
      * @param sqlSpaceName
      */
     public void initialize(String userName, String sqlSpaceName) throws TupleSpaceException {
-        this.tupleSpace = new TupleSpace(props.sqlSpacesServerHost, props.sqlSpacesServerPort, sqlSpaceName);
+        this.tupleSpace = new TupleSpace(Configuration.getInstance().getSqlSpacesServerHost(), Configuration.getInstance().getSqlSpacesServerPort(), sqlSpaceName);
         if (this.tupleSpace == null) {
-            throw new TupleSpaceException(TupleSpaceError.DATABASE, "could not establish connection using host/port/spacename " + props.sqlSpacesServerHost + "/" + props.sqlSpacesServerPort + "/" + sqlSpaceName);                
+            throw new TupleSpaceException(TupleSpaceError.DATABASE, "could not establish connection using host/port/spacename " + Configuration.getInstance().getSqlSpacesServerHost() + "/" + Configuration.getInstance().getSqlSpacesServerPort() + "/" + sqlSpaceName);                
         }
         this.userName = userName;
         Callback cb = this;
