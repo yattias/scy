@@ -40,6 +40,10 @@ public class SmacketExtension implements PacketExtension {
 	public String getNamespace() {
 		return transformer.getNamespace();
 	}
+	
+	public SCYPacketTransformer getTransformer() {
+		return transformer;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.jivesoftware.smack.packet.PacketExtension#toXML()
