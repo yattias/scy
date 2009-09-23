@@ -22,3 +22,5 @@
 <!ENTITY sidebar.title "SCY Sidebar">
 <!ENTITY openSidebar.commandkey "E">
 <!ENTITY openSidebar.modifierskey "shift accel">
+<!ENTITY openELO.modifierskey "shift accel">
+<!ENTITY openELO.modifierskey "shift accel">

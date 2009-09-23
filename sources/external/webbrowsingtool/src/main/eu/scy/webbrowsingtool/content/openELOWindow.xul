@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <vbox>
+        <!--Filters-->
+        <label control="" value="Filter"/>
+        <hbox>
+            <label control="filterAuthor" value="Filter Author"/>
+            <textbox value="Author/Contributors" text="AuthorLabel" id="filterAuthor"/>
+            <label control="filterTitle" value="Filter Title"/>
+            <textbox value="Title" text="TitleLabel" id="filterTitle"/>
+            <label control="filterDate" value="Filter Date"/>
+            <textbox value="Date" text="DateLabel" id="filterDate"/>
+        </hbox>
+
+
+        <!--Results-->
+        <hbox>
+           <grid flex="1">
+            <rows>
+                <row>
+               
+                    <hbox>
+                        <textbox value="Author/Contributors" text="AuthorLabel"/>
+                        <textbox value="Title" text="TitleLabel"/>
+                        <textbox value="Date" text="DateLabel"/>
+                    </hbox>
+               
+                </row>
+            </rows>
+           </grid>
+        </hbox>
+
+
+        <!--Buttons-->
+        <hbox>
+           <button label="Preview"/>
+           <button label="Open ELO"/>
+        </hbox>
+    </vbox>   
+
+</window>
