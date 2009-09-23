@@ -37,7 +37,10 @@ public class CommunicationProperties {
     public Properties props = new Properties();
     
     
-    public CommunicationProperties() {
+    /*
+     * This class is deprecated and should not be used anymore.
+     */
+    private CommunicationProperties() {
     	System.out.println("CommunicationProperties initializing...");
         try {
             props.load(CommunicationProperties.class.getResourceAsStream("communication.properties"));
