@@ -1,5 +1,6 @@
 package eu.scy.listeners;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.scyhub.SCYHubComponent;
 
@@ -27,7 +28,7 @@ public class SCYHubConnector implements ServletContextListener {
 
     private Logger log = Logger.getLogger("SCYHubConnector.class");
 
-    private static CommunicationProperties props = new CommunicationProperties();
+    private Configuration props = Configuration.getInstance();
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -39,15 +40,15 @@ public class SCYHubConnector implements ServletContextListener {
         log.info("** ** ** *************************");
         log.info("** ** ** CONNECTING TO THE SCY-HUB");
         log.info("** ** ** *************************");
-        final ExternalComponentManager manager = new ExternalComponentManager(props.datasyncExternalComponentHost, props.datasyncExternalComponentPort);
-        manager.setSecretKey(props.datasyncMessageHub, props.datasyncExternalComponentSecretKey);
+        final ExternalComponentManager manager = new ExternalComponentManager(props.getDatasyncExternalComponentHost(), props.getDatasyncExternalComponentPort());
+        manager.setSecretKey(props.getDatasyncMessageHub(), props.getDatasyncExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
 
         try {
             SCYHubComponent scyHubComponent = (SCYHubComponent) ctx.getBean("SCYHubComponent");
             initializeScyHubComponent(scyHubComponent);
-            log.info("MESSAGE: " + props.datasyncMessageHub);
-            manager.addComponent(props.datasyncMessageHub, scyHubComponent);
+            log.info("MESSAGE: " + props.getDatasyncMessageHub());
+            manager.addComponent(props.getDatasyncMessageHub(), scyHubComponent);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
