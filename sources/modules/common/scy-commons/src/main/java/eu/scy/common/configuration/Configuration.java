@@ -1,7 +1,5 @@
 package eu.scy.common.configuration;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +44,50 @@ public class Configuration {
 	
 	public String get(String key) {
 		return props.getProperty(key);
+	}
+
+	public String getDatasyncMessageHub() {
+		return props.getProperty("communication.datasync.messageHub");
+	}
+
+	public String getDatasyncExternalComponentSecretKey() {
+		return props.getProperty("communication.datasync.server.externalComponent.secretKey");
+	}
+
+	public String getDatasyncExternalComponentHost() {
+		return props.getProperty("communication.datasync.server.externalComponent.host");
+	}
+
+	public int getDatasyncExternalComponentPort() {
+		return Integer.parseInt(props.getProperty("communication.datasync.server.externalComponent.port"));
+	}
+
+	public String getClientEventCreateData() {
+		return props.getProperty("communication.client.event.create.data");
+	}
+
+	public String getClientEventCreateSession() {
+		return props.getProperty("communication.client.event.create.session");
+	}
+
+	public String getClientEventGetSessions() {
+		return props.getProperty("communication.client.event.get.sessions");		
+	}
+
+	public String getClientEventSynchronize() {
+		return props.getProperty("communication.client.event.synchronize");
+	}
+
+	public String getClientEventJoinSession() {
+		return props.getProperty("communication.client.event.join.session");
+	}
+
+	public int getSqlSpacesServerPort() {
+		return Integer.parseInt(props.getProperty("communication.sqlspaces.server.port"));
+	}
+
+	public String getSqlSpacesServerHost() {
+		return props.getProperty("communication.sqlspaces.server.host");
 	}
 	
 }
