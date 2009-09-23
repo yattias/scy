@@ -4,6 +4,8 @@ import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.components.application.SCYPlannerSplashWindow;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
+import eu.scy.scyplanner.components.demo.SCYPlannerDemo;
+import eu.scy.scyplanner.application.ApplicationManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +22,7 @@ public class SCYPlannerMain {
         splashWindow.setVisible(true);
 
         SCYPlannerFrame frame = new SCYPlannerFrame();
+        ApplicationManager.getApplicationManager().setScyPlannerFrame(frame);        
         frame.setVisible(true);
 
 		/*SCYPlannerDemo demo = new SCYPlannerDemo();

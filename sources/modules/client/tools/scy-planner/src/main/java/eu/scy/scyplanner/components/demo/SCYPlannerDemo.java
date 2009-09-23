@@ -1,4 +1,4 @@
-package eu.scy.scyplanner;
+package eu.scy.scyplanner.components.demo;
 
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.api.styling.INodeStyle;
@@ -27,20 +27,14 @@ import java.io.IOException;
  * Date: 28.aug.2009
  * Time: 12:28:20
  */
-public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INodeModelObserver {
+public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INodeModelObserver {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
     private JLabel selectedLabel;
 
     public SCYPlannerDemo() {
-        super("SCYPlannerDemo Test");
-
         JTabbedPane tabbedPane = new JTabbedPane();
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1024, 748);
-        this.setLocationRelativeTo(null);
 
         diagramModel = getInitialPedagogicalPlanModel();
 
@@ -60,12 +54,12 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
                 }
             }
         });
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(tabbedPane, BorderLayout.CENTER);
-        getContentPane().add(testButton, BorderLayout.PAGE_START);
+        setLayout(new BorderLayout());
+        add(tabbedPane, BorderLayout.CENTER);
+        add(testButton, BorderLayout.PAGE_START);
 
         selectedLabel = new JLabel("No node selected yet");
-        getContentPane().add(selectedLabel, BorderLayout.PAGE_END);
+        add(selectedLabel, BorderLayout.PAGE_END);
     }
 
     private IDiagramModel getInitialPedagogicalPlanModel() {
