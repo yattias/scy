@@ -35,18 +35,19 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
 
     public SCYPlannerDemo() {
         super("SCYPlannerDemo Test");
-    }
 
-    public void start() {
+        JTabbedPane tabbedPane = new JTabbedPane();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 900);
+        setSize(1024, 748);
+        this.setLocationRelativeTo(null);
 
         diagramModel = getInitialPedagogicalPlanModel();
 
         diagramModel.addObserver(this);
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
+        tabbedPane.addTab("Test", view);
 
         JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
         testButton.addActionListener(new ActionListener() {
@@ -60,15 +61,12 @@ public class SCYPlannerDemo extends JFrame implements IDiagramModelObserver, INo
             }
         });
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(view, BorderLayout.CENTER);
+        getContentPane().add(tabbedPane, BorderLayout.CENTER);
         getContentPane().add(testButton, BorderLayout.PAGE_START);
-        setVisible(true);
 
         selectedLabel = new JLabel("No node selected yet");
         getContentPane().add(selectedLabel, BorderLayout.PAGE_END);
-
     }
-
 
     private IDiagramModel getInitialPedagogicalPlanModel() {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
