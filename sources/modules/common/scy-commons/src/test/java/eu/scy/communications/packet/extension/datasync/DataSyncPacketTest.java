@@ -9,6 +9,7 @@ import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
+import eu.scy.common.configuration.Configuration;
 
 /**
  * Tests the data sync packet extenison.
@@ -27,7 +28,7 @@ public class DataSyncPacketTest {
 	private final String TEST_TO = "passerby@wiki.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
 
-    private static CommunicationProperties props = new CommunicationProperties();
+    private static Configuration props = Configuration.getInstance();
 	
     
 	public DataSyncPacketTest() {
@@ -43,7 +44,7 @@ public class DataSyncPacketTest {
 				TEST_PERSISTENCE_ID);
 	}
 
-//	@org.junit.Test
+	@org.junit.Test
 	public void convertPojoToPacketExtension() {
 		// test convert from ScyMessage to xmpp message
 		ISyncMessage syncMessage = getTestSyncMessage();
@@ -58,7 +59,7 @@ public class DataSyncPacketTest {
 		assertEquals(TEST_FROM, dsp.getFrom());
 		assertEquals(TEST_TO, dsp.getTo());
 		assertEquals(TEST_PERSISTENCE_ID, dsp.getPersistenceId());
-		assertEquals(props.datasyncMessageDefaultExpiration, dsp.getExpiration());
+		assertEquals(props.getDatasyncMessageDefaultExpiration(), dsp.getExpiration());
 		logger.debug(dsp.toXML());
 	}
 
