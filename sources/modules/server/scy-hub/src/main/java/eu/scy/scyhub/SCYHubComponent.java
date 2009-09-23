@@ -15,6 +15,7 @@ import eu.scy.actionlogging.ActionPacketTransformer;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.api.IActionProcessModule;
 import eu.scy.actionlogging.server.ActionProcessModule;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
@@ -32,16 +33,13 @@ import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 public class SCYHubComponent implements Component {
     
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
-    
+    private Configuration conf = Configuration.getInstance();
     private IDataSyncModule dataSyncModule;
     private IActionProcessModule actionProcessModule;
-    private static CommunicationProperties communicationProps = new CommunicationProperties();
-
+    
     private IActionLogger actionLogger;
 
     public SCYHubComponent() {
-        logger.info("INITIALIZING SCY HUB COMPONENT!");
-        logger.info("INITIALIZING SCY HUB COMPONENT!");
         logger.info("INITIALIZING SCY HUB COMPONENT!");
     }
 
@@ -79,15 +77,15 @@ public class SCYHubComponent implements Component {
                 try {
                     // pass syncMessage to DataSyncModule for storing
                     DataSyncPacketExtension dse = ((DataSyncPacketExtension)packetExtension);
-                    if( dse.getEvent().equals(communicationProps.clientEventCreateData)) {
+                    if( dse.getEvent().equals(conf.getClientEventCreateData())) {
                         dataSyncModule.create(dse.toPojo());
-                    } else if (dse.getEvent().equals(communicationProps.clientEventCreateSession) ) {
+                    } else if (dse.getEvent().equals(conf.getClientEventCreateSession()) ) {
                         dataSyncModule.createSession(dse.toPojo());
-                    } else if( dse.getEvent().equals(communicationProps.clientEventGetSessions) ) {
+                    } else if( dse.getEvent().equals(conf.getClientEventGetSessions()) ) {
                         dataSyncModule.getSessions(dse.toPojo());
-                    } else if( dse.getEvent().equals(communicationProps.clientEventSynchronize) ) {
+                    } else if( dse.getEvent().equals(conf.getClientEventSynchronize()) ) {
                         dataSyncModule.synchronizeClientState(dse.toPojo());
-                    } else if( dse.getEvent().equals(communicationProps.clientEventJoinSession)) {
+                    } else if( dse.getEvent().equals(conf.getClientEventJoinSession())) {
                         dataSyncModule.joinSession(dse.toPojo());
                     }
                 } catch (DataSyncException e) {
@@ -142,7 +140,7 @@ public class SCYHubComponent implements Component {
                         //TODO: throw exception here?
                         logger.error("Empty from field. Not good.");
                     }
-                    reply.setFrom(SCYHubComponent.this.getName() + "." +communicationProps.datasyncExternalComponentHost);
+                    reply.setFrom(SCYHubComponent.this.getName() + "." +conf.getDatasyncExternalComponentHost());
                     reply.setType(Message.Type.normal);
                     reply.setBody("scyhub cares for you");
                    
@@ -160,7 +158,7 @@ public class SCYHubComponent implements Component {
             exeption.printStackTrace();
         }
         // action processing
-        actionProcessModule = new ActionProcessModule(communicationProps.sqlSpacesServerHost, communicationProps.sqlSpacesServerPort);
+        actionProcessModule = new ActionProcessModule(conf.getSqlSpacesServerHost(), conf.getSqlSpacesServerPort());
     }
     
     
