@@ -7,7 +7,7 @@ package eu.scy.tools.dataProcessTool.dnd;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import java.io.Serializable;
 
 /**
@@ -18,7 +18,7 @@ public class SubData extends DataTable implements Serializable{
     /* table mere*/
     private DataTable table;
 
-    public SubData(DataProcessToolPanel owner,DataTable table,  Dataset ds) {
+    public SubData(FitexToolPanel owner,DataTable table,  Dataset ds) {
         super(owner, ds);
         this.table = table;
     }

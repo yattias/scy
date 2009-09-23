@@ -9,7 +9,7 @@ import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class PasteUndoRedo extends DataUndoRedo {
     private ArrayList<DataHeader[]> listHeader;
     private ArrayList<Integer>[] listRowAndCol;
 
-    public PasteUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, Dataset subData, int[] selCell, ArrayList<Data[]> listData, ArrayList<DataHeader[]> listHeader, ArrayList<Integer>[] listRowAndCol) {
+    public PasteUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, Dataset subData, int[] selCell, ArrayList<Data[]> listData, ArrayList<DataHeader[]> listHeader, ArrayList<Integer>[] listRowAndCol) {
         super(table, dataToolPanel, controller);
         this.subData = subData;
         this.selCell = selCell;
@@ -86,10 +86,15 @@ public class PasteUndoRedo extends DataUndoRedo {
             //nds = (Dataset)v.get(0);
         }
         // suppression des eventuelles lignes/colonnes
-        CopexReturn cr = this.controller.deleteData(true, getDataset(), new ArrayList(), new ArrayList(), listRowAndCol);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.deleteData(true, getDataset(), new ArrayList(), new ArrayList(), listRowAndCol, v);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
+        }
+        if(v.size()> 0){
+            Dataset ds = (Dataset)v.get(0);
+            dataToolPanel.updateDataset(ds);
         }
         //dataToolPanel.updateDataset(nds);
     }

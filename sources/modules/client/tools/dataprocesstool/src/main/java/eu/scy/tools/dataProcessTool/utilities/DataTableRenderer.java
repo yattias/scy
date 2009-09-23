@@ -9,8 +9,10 @@ import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
@@ -23,23 +25,25 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
     /* couleur de la fonte */
     private static final Color fontColor = Color.BLACK; 
     /* font donnees */
-    private static final Font dataFont = new Font("Dialog", Font.PLAIN, 12);
+    private static final Font dataFont = new Font("Tahoma", Font.PLAIN, 12);
     /* font header + titre operations */
-    public static final Font titleFont = new Font("Dialog", Font.BOLD, 12);
+    public static final Font titleFont = new Font("Tahoma", Font.PLAIN, 12);
     /* font header unit */
-    public static final Font unitFont = new Font("Dialog", Font.ITALIC, 11);
+    public static final Font unitFont = new Font("Tahoma", Font.ITALIC, 11);
     /* font numerotation des lignes */
-    private static final Font noRowFont = new Font("Dialog", Font.PLAIN, 10);
+    private static final Font noRowFont = new Font("Tahoma", Font.PLAIN, 10);
     /* couleur de fond cellules data */
     private static final Color backgroundColor = Color.WHITE;
     /* couleur de fond cellules header */
-    public static final Color headerBackgroundColor = Color.WHITE;
+    public static final Color headerBackgroundColor = new Color(217,217, 217);
      /* couleur de fond cellules numerotation ligne */
-    private static final Color noBackgroundColor = new Color(204,204,204);
+    private static final Color noBackgroundColor = new Color(217,217,217);
     /* couleur de la selection */
-    private static final Color selectedColor = Color.BLUE.brighter();
+    private static final Color selectedColor = new Color(167, 225, 255);
     /* couleur de data ignorees */
-    private static final Color ignoredColor = new Color(204, 204, 255);
+    private static final Color ignoredColor = new Color(248, 193, 169);
+    /* couleur de la grille */
+    private static final Color borderColor = Color.gray;
 
     
     @Override
@@ -50,6 +54,7 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
         cell.setBackground(backgroundColor);
         cell.setFont(dataFont);
         setAlignmentX(LEFT_ALIGNMENT);
+        Border border = null;
         if (table instanceof DataTable){
             // numerotation des lignes
             if (((DataTable)table).isValueNoRow(row, column)){
@@ -78,7 +83,13 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 // data ignorees
                 cell.setBackground(ignoredColor);
             }
+
+            // determine les bordures
+            int[]borders = ((DataTable)table).getBorders(row, column);
+
+            border = BorderFactory.createMatteBorder(borders[0], borders[1], borders[2], borders[3], borderColor);
         }
+        ((JLabel)cell).setBorder(border);
         if (isSelected){
             cell.setBackground(selectedColor);
         }

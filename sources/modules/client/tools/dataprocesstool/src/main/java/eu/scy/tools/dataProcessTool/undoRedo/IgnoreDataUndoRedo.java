@@ -8,8 +8,8 @@ package eu.scy.tools.dataProcessTool.undoRedo;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
@@ -23,7 +23,7 @@ public class IgnoreDataUndoRedo extends DataUndoRedo{
     private boolean isIgnored;
     private ArrayList<Data> listData;
 
-    public IgnoreDataUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, boolean isIgnored, ArrayList<Data> listData) {
+    public IgnoreDataUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, boolean isIgnored, ArrayList<Data> listData) {
         super(table, dataToolPanel, controller);
         this.isIgnored = isIgnored;
         this.listData = listData;

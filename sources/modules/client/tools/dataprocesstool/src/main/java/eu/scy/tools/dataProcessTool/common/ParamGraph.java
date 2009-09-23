@@ -11,10 +11,10 @@ package eu.scy.tools.dataProcessTool.common;
  */
 public class ParamGraph implements Cloneable{
     // PRPOERTY
-    /* nom axe x*/
-    private String x_name;
-    /* nom axe y */
-    private String y_name;
+    /* axe x*/
+    private DataHeader headerX;
+    /* axe y */
+    private DataHeader headerY;
     /* x min*/
     private double x_min;
     /* x max */
@@ -31,9 +31,9 @@ public class ParamGraph implements Cloneable{
     private boolean autoscale;
 
     // CONSTRUCTOR 
-    public ParamGraph(String x_name, String y_name, double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
-        this.x_name = x_name;
-        this.y_name = y_name;
+    public ParamGraph(DataHeader headerX, DataHeader headerY,  double x_min, double x_max, double y_min, double y_max, double deltaX, double deltaY, boolean autoscale) {
+        this.headerX = headerX;
+        this.headerY = headerY;
         this.x_min = x_min;
         this.x_max = x_max;
         this.y_min = y_min;
@@ -75,13 +75,7 @@ public class ParamGraph implements Cloneable{
         this.x_min = x_min;
     }
 
-    public String getX_name() {
-        return x_name;
-    }
-
-    public void setX_name(String x_name) {
-        this.x_name = x_name;
-    }
+    
 
     public double getY_max() {
         return y_max;
@@ -99,14 +93,7 @@ public class ParamGraph implements Cloneable{
         this.y_min = y_min;
     }
 
-    public String getY_name() {
-        return y_name;
-    }
-
-    public void setY_name(String y_name) {
-        this.y_name = y_name;
-    }
-
+   
     public boolean isAutoscale() {
         return autoscale;
     }
@@ -115,13 +102,29 @@ public class ParamGraph implements Cloneable{
         this.autoscale = autoscale;
     }
 
+    public DataHeader getHeaderX() {
+        return headerX;
+    }
+
+    public void setHeaderX(DataHeader headerX) {
+        this.headerX = headerX;
+    }
+
+    public DataHeader getHeaderY() {
+        return headerY;
+    }
+
+    public void setHeaderY(DataHeader headerY) {
+        this.headerY = headerY;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
         try {
             ParamGraph param = (ParamGraph) super.clone() ;
-            String x_nameC = new String(this.x_name);
-            String y_nameC = new String(this.y_name);
+            DataHeader hX = (DataHeader)this.headerX.clone();
+            DataHeader hY = (DataHeader)this.headerY.clone();
             double x_minC = this.x_min ;
             double x_maxC = this.x_max ;
             double y_minC = this.y_min ;
@@ -129,8 +132,8 @@ public class ParamGraph implements Cloneable{
             double deltaXC = this.deltaX ;
             double deltayC = this.deltaY ;
 
-            param.setX_name(x_nameC);
-            param.setY_name(y_nameC);
+            param.setHeaderX(hX);
+            param.setHeaderY(hY);
             param.setX_min(x_minC);
             param.setY_min(y_minC);
             param.setX_max(x_maxC);

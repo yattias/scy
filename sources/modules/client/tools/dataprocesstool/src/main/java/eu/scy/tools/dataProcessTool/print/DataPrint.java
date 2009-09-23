@@ -55,15 +55,19 @@ public class DataPrint {
     private String fileName;
     private Document document ;
     private PdfWriter writer;
+    private boolean printDataset;
+    private ArrayList<Visualization> listVis;
     private ArrayList<Object> listGraph;
 
-    public DataPrint(DataProcessToolPanel owner,Mission mission, ToolUser user, Dataset dataset,DataTableModel tableModel, ArrayList<Object> listGraph, String fileName) {
+    public DataPrint(DataProcessToolPanel owner,Mission mission, ToolUser user, Dataset dataset,DataTableModel tableModel,boolean printDataset, ArrayList<Visualization> listVis,  ArrayList<Object> listGraph, String fileName) {
         this.owner = owner;
         this.mission = mission;
         this.tableModel = tableModel;
         this.user = user;
         this.dataset = dataset;
         this.fileName = fileName;
+        this.printDataset = printDataset;
+        this.listVis = listVis;
         this.listGraph = listGraph;
     }
 
@@ -111,12 +115,12 @@ public class DataPrint {
                 cr = printDataset(dataset, tableModel);
                 if (cr.isError())
                     return cr;
-                int nb = dataset.getListVisualization().size() ;
+                int nb = listVis.size() ;
                 for (int i=0; i<nb; i++){
-                    if(dataset.getListVisualization().get(i) instanceof Graph){
-                        cr = printFitex((Graph)dataset.getListVisualization().get(i), (DrawPanel)listGraph.get(i));
+                    if(listVis.get(i) instanceof Graph){
+                        cr = printFitex((Graph)listVis.get(i), (DrawPanel)listGraph.get(i));
                     }else{
-                        cr = printVisualization(dataset.getListVisualization().get(i), (JFreeChart)listGraph.get(i));
+                        cr = printVisualization(listVis.get(i), (JFreeChart)listGraph.get(i));
                     }
                     if(cr.isError())
                         return cr;
@@ -140,7 +144,7 @@ public class DataPrint {
 
     private CopexReturn setHeader(){
         String name = (user.getUserFirstName() == null ?"" : user.getUserFirstName()+" ")+user.getUserName() ;
-        String missionName = owner.getBundleString("LABEL_MISSION")+" : "+mission.getName() ;
+        String missionName = owner.getBundleString("LABEL_MISSION")+" "+mission.getName() ;
         try {
             Table headerTable = new Table(1);
             headerTable.setBorderWidth(0);
@@ -170,6 +174,8 @@ public class DataPrint {
     
     /* impression d'un dataset */
     private CopexReturn printDataset(Dataset ds, DataTableModel model){
+        if(!printDataset)
+            return new CopexReturn();
         try {
             document.add(new Paragraph("\n"));
             int nbCol = model.getColumnCount();

@@ -9,6 +9,7 @@ package eu.scy.tools.fitex.GUI;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -25,7 +26,10 @@ public class BoxSpinner extends javax.swing.JPanel {
         this.owner = owner ;
         initComponents();
     }
-       
+
+    public  ImageIcon getFitexImage(String img){
+        return new ImageIcon(getClass().getResource( "/" +img));
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -77,7 +81,7 @@ public class BoxSpinner extends javax.swing.JPanel {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/up.gif"))); // NOI18N
+        next.setIcon(getFitexImage("up.gif"));
         next.setDoubleBuffered(true);
         next.setFocusPainted(false);
         next.setIconTextGap(10);
@@ -85,7 +89,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         next.setMaximumSize(new java.awt.Dimension(15, 9));
         next.setMinimumSize(new java.awt.Dimension(15, 9));
         next.setPreferredSize(new java.awt.Dimension(16, 9));
-        next.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/up.gif"))); // NOI18N
+        next.setSelectedIcon(getFitexImage("up.gif"));
         next.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nextMousePressed(evt);
@@ -93,13 +97,13 @@ public class BoxSpinner extends javax.swing.JPanel {
         });
         jPanel1.add(next);
 
-        previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dn.gif"))); // NOI18N
+        previous.setIcon(getFitexImage("dn.gif"));
         previous.setFocusPainted(false);
         previous.setMargin(new java.awt.Insets(0, 0, 0, 0));
         previous.setMaximumSize(new java.awt.Dimension(15, 9));
         previous.setMinimumSize(new java.awt.Dimension(15, 9));
         previous.setPreferredSize(new java.awt.Dimension(16, 9));
-        previous.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dn.gif"))); // NOI18N
+        previous.setSelectedIcon(getFitexImage("dn.gif"));
         previous.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 previousMousePressed(evt);

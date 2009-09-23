@@ -26,6 +26,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
 import eu.scy.tools.dataProcessTool.utilities.MyTableEditor;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.event.MouseMotionListener;
 import java.util.Vector;
@@ -42,7 +43,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private static final int DELTA_RESIZE_COL = 5;
     // PROPERTY 
     /* owner */
-    protected DataProcessToolPanel owner;
+    protected FitexToolPanel owner;
     /* modele de donnees */
     protected DataTableModel tableModel ;
     /* dataset correspondant */
@@ -73,10 +74,14 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private boolean resizeTableHeight;
     private Point startPoint;
 
+    /* pour la sel multiple */
+    private int startIdColSel;
+    private int startIdRowSel;
+
     
     
     // CONSTRUCTOR
-    public DataTable(DataProcessToolPanel owner, Dataset ds) {
+    public DataTable(FitexToolPanel owner, Dataset ds) {
         super();
         this.owner = owner;
         this.tableModel = new DataTableModel(owner, this, ds);
@@ -107,6 +112,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         undoManager = new DataUndoManager(this);
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         resizeColumn();
+        this.setShowGrid(false);
+        this.setIntercellSpacing(new Dimension(0,0));
     }
 
     // GETTER AND SETTER
@@ -183,6 +190,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             Point p = e.getPoint() ;
             int c = columnAtPoint(p);
             int r = rowAtPoint(p);
+            changeSelection(r, c, false, false);
             selectEntireColumnRow(r,c);
         }else if (e.getClickCount() ==2){
             Point p = e.getPoint() ;
@@ -198,13 +206,13 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private void selectEntireColumnRow(int r, int c){
             int nbR = getNbRows() ;
             int nbC = getNbCols() ;
-            if (r == 0 && (c > 0 &&  c < (nbC -1))){
+            if (r == 0 && (c > 0 &&  c < nbC)){
                 // selectionne toute la colonne
-                for (int i=1; i<nbR; i++)
+                for (int i=1; i<nbR-1; i++)
                     changeSelection(i, c, true, true);
-            }else if (c == 0 && (r > 0 && r <(nbR  -1) )){
+            }else if (c == 0 && (r > 0 && r <nbR )){
                 // selectionne toute la ligne
-                for (int j=1; j<nbC; j++)
+                for (int j=1; j<nbC-1; j++)
                     changeSelection(r, j, true, true);
             }
             owner.updateMenuData();
@@ -216,6 +224,15 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         Point p = e.getPoint() ;
         int c = columnAtPoint(p);
         int r = rowAtPoint(p);
+
+        if(r == 0)
+            startIdColSel = c;
+        else if(c == 0)
+            startIdRowSel = r;
+        else{
+            startIdColSel = -1;
+            startIdRowSel = -1;
+        }
         if(r == 0 && (c != (getNbCols() - 1)) &&(columnAtPoint(new Point((int)p.getX()+DELTA_RESIZE_COL, (int)p.getY())) == c+1 || columnAtPoint(new Point((int)p.getX()-DELTA_RESIZE_COL, (int)p.getY())) == c-1)){
             this.noColToResize = c;
             this.xColStart = p.getX();
@@ -232,10 +249,34 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        Point p = e.getPoint() ;
+        int c = columnAtPoint(p);
+        int r = rowAtPoint(p);
         this.noColToResize = -1;
         this.resizeTableHeight = false;
         this.resizeTableWidth = false;
         this.startPoint = null;
+        if(startIdRowSel != -1 && c==0){
+            if(startIdRowSel < r){
+                for (int i=startIdRowSel; i<=r; i++){
+                    selectEntireColumnRow(i,c);
+                }
+            }else if(startIdRowSel > r){
+                for (int i=r; i<=startIdRowSel; i++){
+                    selectEntireColumnRow(i,c);
+                }
+            }
+        }else if (startIdColSel != -1 && r==0){
+            if(startIdColSel < c){
+                for (int i=startIdColSel; i<=c; i++){
+                    selectEntireColumnRow(r,i);
+                }
+            }else if(startIdColSel > c){
+                for (int i=c; i<=startIdColSel; i++){
+                    selectEntireColumnRow(r,i);
+                }
+            }
+        }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         owner.updateMenuData();
     }
@@ -354,12 +395,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* retourne vrai si une ou plusieurs colonnes sont selectionnees */
     private boolean isLineRowSel(){
         int[] selCols = this.getSelectedColumns() ;
-        return selCols.length == this.getNbCols() ;
+        return selCols.length == this.getNbCols()-1 ;
     }
     /* retourne vrai si une ou plusieurs lignes sont selectionnees */
     private boolean isLineColSel(){
         int[] selRows = this.getSelectedRows() ;
-        return selRows.length == this.getNbRows() ;
+        return selRows.length == this.getNbRows() -1;
     }
 
 
@@ -451,7 +492,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     /* retourne vrai si on peut effectuer des operations */
     public boolean canOperations(){
-        return isLastCellSel();
+        return isALineSel();
     }
 
     /* clic sur ignorer data */
@@ -470,10 +511,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         ArrayList<int[]> cellsSel = getSelectedCells();
         int nb = cellsSel.size();
         for (int i=0; i<nb; i++){
-            if (isValueLastRow(cellsSel.get(i)[0], cellsSel.get(i)[1])){
+            if(isValueHeader(cellsSel.get(i)[0], cellsSel.get(i)[1])){
                 isOnCol = true;
                 listNo.add(cellsSel.get(i)[1]-1);
-            }else if (isValueLastCol(cellsSel.get(i)[0], cellsSel.get(i)[1])){
+            }else if( isValueNoRow(cellsSel.get(i)[0], cellsSel.get(i)[1])){
                 listNo.add(cellsSel.get(i)[0]-1);
                 isOnCol = false;
             }
@@ -515,6 +556,28 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         owner.insertData(dataset, isOnCol, nb, idBefore);
     }
 
+    /* selection de colonnes */
+    public void selectCols(int id, int nb){
+        int nbR = this.getNbRows();
+        changeSelection(0, 1+id, false, false);
+        for (int j=0; j<nb; j++){
+            for (int i=1; i<nbR-1; i++){
+                changeSelection(i, 1+j+id, true, true);
+            }
+        }
+        owner.updateMenuData();
+    }
+
+    /* selection de lignes */
+    public void selectRows(int id, int nb){
+        int nbC = this.getNbCols();
+        changeSelection(1+id, 0, false, false);
+        for (int i=0; i<nb; i++){
+            for (int j=1; j<nbC-1; j++)
+                changeSelection(1+i+id, j, true, true);
+        }
+        owner.updateMenuData();
+    }
     /* suppression de lignes ou de colonnes */
     public void delete(){
         ArrayList<int[]> listSelCell = getSelectedCells();
@@ -565,30 +628,30 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* resize column */
     public void resizeColumn(){
         //min_column_width = ownerWidth / getNbCols()- 5 ;
-         int widthTot = 0;
+        int widthTot = 0;
         for (int j = 0 ; j < this.getNbCols() ; j++){
             int max = 0;
             if(j == getNbCols() - 1){
                 max = MIN_WIDTH_COL;
             }else{
-            for (int i = 0 ; i < this.getNbRows() ; i++){
-                FontMetrics fm = getFontMetrics(this.dataTableRenderer.getFont(this, i, j));
-               int taille = 0;
-               if (this.getValueAt(i, j) != null){
-                   String s = "";
-                   if (this.getValueAt(i, j) instanceof String)
-                       s = (String)this.getValueAt(i, j) ;
-                   else if (this.getValueAt(i, j) instanceof Double){
-                       s = Double.toString((Double)this.getValueAt(i, j)) ;
-                   }else if (this.getValueAt(i, j) instanceof Integer){
-                       s = Integer.toString((Integer)this.getValueAt(i, j)) ;
-                   }else if (this.getValueAt(i, j) instanceof String[]){
-                       s = ((String[])this.getValueAt(i, j))[0]+" ("+((String[])this.getValueAt(i, j))[1]+")";
-                   }
-                   taille = fm.stringWidth(s)+5;
-               }
-               max = Math.max(taille, max);
-            }
+                for (int i = 0 ; i < this.getNbRows() ; i++){
+                    FontMetrics fm = getFontMetrics(this.dataTableRenderer.getFont(this, i, j));
+                    int taille = 0;
+                    if (this.getValueAt(i, j) != null){
+                        String s = "";
+                        if (this.getValueAt(i, j) instanceof String)
+                            s = (String)this.getValueAt(i, j) ;
+                        else if (this.getValueAt(i, j) instanceof Double){
+                            s = Double.toString((Double)this.getValueAt(i, j)) ;
+                        }else if (this.getValueAt(i, j) instanceof Integer){
+                            s = Integer.toString((Integer)this.getValueAt(i, j)) ;
+                        }else if (this.getValueAt(i, j) instanceof String[]){
+                            s = ((String[])this.getValueAt(i, j))[0]+" ("+((String[])this.getValueAt(i, j))[1]+")";
+                        }
+                        taille = fm.stringWidth(s)+5;
+                    }
+                    max = Math.max(taille, max);
+                }
             }
            //max = Math.max(min_column_width, max);
            max = Math.max(MIN_WIDTH_COL, max);
@@ -603,6 +666,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     }
 
+    
     public void setOwnerWidth(int width){
         this.ownerWidth = width;
         resizeColumn();
@@ -960,9 +1024,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             if (xColEnd < xColStart){
                newWidth = (int)(getColumnModel().getColumn(noColToResize).getPreferredWidth() - (xColStart - xColEnd));
             }
+            newWidth=Math.max(MIN_WIDTH_COL, newWidth);
             xColStart = xColEnd;
             getColumnModel().getColumn(noColToResize).setPreferredWidth(newWidth);
+            resizeLastColumn();
             repaint();
+            return;
         }
         if ((resizeTableHeight || resizeTableWidth) && startPoint != null){
             //taille minimum
@@ -990,12 +1057,64 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 newHeight = Math.min(newHeight, maxHeight);
             }
             startPoint = endPoint;
-            this.setSize(newWidth, newHeight);
+            int n = getNbCols()-1;
+            // resize de la derniere colonne
+            resizeLastColumn();
+            // resize de la premiere colonne
+            int w0=getColumnWidth(0);
+            getColumnModel().getColumn(0).setPreferredWidth(w0);
+            // resize des colonnes
+            int w = newWidth-w0-MIN_WIDTH_COL;
+            float delta=w/(n-1);
+            for (int j=1; j<n; j++){
+                getColumnModel().getColumn(j).setPreferredWidth((int)delta);
+            }
+            int wt = 0;
+            for (int j=0; j<getNbCols(); j++){
+                wt+= getColumnModel().getColumn(j).getPreferredWidth();
+            }
+            this.setSize(wt, newHeight);
             this.setPreferredSize(getSize());
-//            owner.resizeTable(newWidth, newHeight, maxHeight);
             repaint();
+            return;
         }
+
     }
+
+    private void resizeLastColumn(){
+        getColumnModel().getColumn(getNbCols()-1).setPreferredWidth(MIN_WIDTH_COL);
+    }
+
+    private int getCellWidth(int i,int j){
+        FontMetrics fm = getFontMetrics(this.dataTableRenderer.getFont(this, i, j));
+        int taille = 0;
+        if (this.getValueAt(i, 0) != null){
+            String s = "";
+            if (this.getValueAt(i, j) instanceof String)
+                s = (String)this.getValueAt(i, j) ;
+            else if (this.getValueAt(i, j) instanceof Double){
+                s = Double.toString((Double)this.getValueAt(i, j)) ;
+           }else if (this.getValueAt(i, j) instanceof Integer){
+                s = Integer.toString((Integer)this.getValueAt(i, j)) ;
+           }else if (this.getValueAt(i, j) instanceof String[]){
+                s = ((String[])this.getValueAt(i, j))[0]+" ("+((String[])this.getValueAt(i, j))[1]+")";
+           }
+           taille = fm.stringWidth(s)+5;
+        }
+        return taille;
+    }
+
+    private int getColumnWidth(int j){
+        if(j== getNbCols()-1)
+            return MIN_WIDTH_COL;
+        int max=0;
+        for (int i=0; i<getNbRows(); i++){
+            max = Math.max(getCellWidth(i, j), max);
+        }
+        max = Math.max(MIN_WIDTH_COL, max);
+        return max;
+    }
+
 
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -1018,6 +1137,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
             }else
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
+    }
+
+    public int[] getBorders(int row, int col){
+        return tableModel.getBorders(row, col);
     }
 
    

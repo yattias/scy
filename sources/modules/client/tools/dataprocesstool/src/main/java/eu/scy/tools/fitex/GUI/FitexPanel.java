@@ -14,10 +14,12 @@ package eu.scy.tools.fitex.GUI;
 
 import eu.scy.tools.fitex.analyseFn.Function;
 import eu.scy.tools.dataProcessTool.common.FunctionModel;
+import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
+import eu.scy.tools.fitex.dataStruct.Parametre;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -89,6 +91,8 @@ public class FitexPanel extends javax.swing.JPanel {
     private JLabel labelKGreen;
     private JLabel labelKBlack;
 
+    private JPanel panelFctParam;
+    private JPanel parametresFn;
 
 
 
@@ -96,7 +100,7 @@ public class FitexPanel extends javax.swing.JPanel {
         super();
         this.locale = Locale.FRANCE ;
         this.datas = new DefaultTableModel();
-        this.paramGraph = new ParamGraph("", "", -10, 10, -10, 10, 1, 1, false);
+        this.paramGraph = new ParamGraph(null, null, -10, 10, -10, 10, 1, 1, false);
         initGUI(null);
     }
 
@@ -136,7 +140,7 @@ public class FitexPanel extends javax.swing.JPanel {
         height = 400;
         zoneDeTrace = new DrawPanel(this, datas, paramGraph, width, height) ;
         this.add(zoneDeTrace, BorderLayout.CENTER);
-        this.add(getPanelFctModel(), BorderLayout.PAGE_END);
+        this.add(getPanelFctModel(), BorderLayout.NORTH);
         setInitialListFunction(listFunctionModel);
     }
 
@@ -181,6 +185,11 @@ public class FitexPanel extends javax.swing.JPanel {
             rbBlue.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     maJFonction(Color.BLUE);
+                    rbBlue.setSelected(true);
+                    if(rbGreen != null)
+                            rbGreen.setSelected(false);
+                    if(rbBlack != null)
+                        rbBlack.setSelected(false);
                 }
             });
             rbBlue.setIcon(getFitexImage("bleu_up.gif"));
@@ -199,6 +208,10 @@ public class FitexPanel extends javax.swing.JPanel {
             rbGreen.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     maJFonction(DARK_GREEN);
+                    rbGreen.setSelected(true);
+                    rbBlue.setSelected(false);
+                    if(rbBlack != null)
+                        rbBlack.setSelected(false);
                 }
             });
             rbGreen.setIcon(getFitexImage("vert_up.gif"));
@@ -216,6 +229,10 @@ public class FitexPanel extends javax.swing.JPanel {
             rbBlack.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     maJFonction(Color.BLACK);
+                    rbBlack.setSelected(true);
+                    rbBlue.setSelected(false);
+                    if(rbGreen != null)
+                        rbGreen.setSelected(false);
                 }
             });
             rbBlack.setIcon(getFitexImage("noir_up.gif"));
@@ -259,9 +276,20 @@ public class FitexPanel extends javax.swing.JPanel {
     }
 
     private void drawFct(){
-        panelFctModel.add(getPanelDist(), BorderLayout.PAGE_END);
+        if(panelFctModel == null)
+            return;
+        if(panelFctParam != null){
+            panelFctParam.removeAll();
+            panelFctModel.remove(panelFctParam);
+            panelFctParam = null;
+            panelDist = null;
+            parametresFn = null;
+        }
+        panelFctModel.add(getPanelFctParam(), BorderLayout.PAGE_END);
+        panelFctModel.revalidate();
+        panelFctModel.repaint();
         recupererFn();
-        zoneDeTrace.setSize(zoneDeTrace.getWidth(), zoneDeTrace.getHeight() - panelDist.getHeight());
+        zoneDeTrace.setSize(zoneDeTrace.getWidth(), zoneDeTrace.getHeight() - panelFctParam.getHeight());
     }
 
 
@@ -272,7 +300,7 @@ public class FitexPanel extends javax.swing.JPanel {
             panelDist.setMaximumSize(new java.awt.Dimension(32767, 25));
             panelDist.setMinimumSize(new java.awt.Dimension(50, 25));
             panelDist.setPreferredSize(new java.awt.Dimension(60, 25));
-            panelDist.setLayout(new FlowLayout());
+            panelDist.setLayout(new FlowLayout(FlowLayout.LEFT));
             panelDist.add(getLabelDist());
             panelDist.add(getPanelDistBlue());
             panelDist.add(getPanelDistGreen());
@@ -286,7 +314,7 @@ public class FitexPanel extends javax.swing.JPanel {
             labelDist = new JLabel();
             labelDist.setName("labelDist");
             labelDist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-            labelDist.setText(getBundleString("LABEL_DISTANCE")+" : ");
+            labelDist.setText(getBundleString("LABEL_DISTANCE"));
         }
         return labelDist;
     }
@@ -456,10 +484,15 @@ public class FitexPanel extends javax.swing.JPanel {
         // si il n'existe pas, creation de l'objet fonction
         if (this.datas.getRowCount() == 0)
             return ;
-        
+        drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            mapDesFonctions.put(fm.getColor(), new Function(locale, fm.getDescription(), datas));
+            Function f = new Function(locale, fm.getDescription(), datas);
+            int nbP = fm.getListParam().size();
+            for (int k=0; k<nbP; k++){
+                f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
+            }
+            mapDesFonctions.put(fm.getColor(), f);
             // affichage des parametres de la fonction
             affichageParametres(fm.getColor()) ;
         }
@@ -542,7 +575,15 @@ public class FitexPanel extends javax.swing.JPanel {
         affichageParametres(couleurSelect) ;
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         // enregistrement memoire
-        actionFitex.setFunctionModel(textFieldFct.getText(), couleurSelect);
+        ArrayList<FunctionParam> listParam = new ArrayList();
+        // parcours de tous les parametres
+        for (String param:mapDesFonctions.get(couleurSelect).getMapParametre().keySet()) {
+            double valParam = mapDesFonctions.get(couleurSelect).getMapParametre().get(param).valeur() ;
+            FunctionParam p = new FunctionParam(-1, param, valParam);
+            listParam.add(p);
+        }
+        if(actionFitex != null)
+            actionFitex.setFunctionModel(textFieldFct.getText(), couleurSelect, listParam);
     }
 
     /** MaJ de l'affichage des parametres de la fonction */
@@ -554,7 +595,7 @@ public class FitexPanel extends javax.swing.JPanel {
         Dimension dim = new Dimension() ;
 
         // suppression des anciens parametres affiches
-        //parametresFn.removeAll();
+        parametresFn.removeAll();
         // et affichage des nouveaux
         if (mapDesFonctions.get(coul)!=null) {
 
@@ -563,17 +604,18 @@ public class FitexPanel extends javax.swing.JPanel {
                 // creation d'un objet BoxSpinner
                 mapDesSpinners.put(param , new BoxSpinner(this)) ;
                 // on ajoute le box et on l'initialise
-                //parametresFn.add(mapDesSpinners.get(param));
+                parametresFn.add(mapDesSpinners.get(param));
                 mapDesSpinners.get(param).setTextLabel(param);
                 double valParam = mapDesFonctions.get(coul).getMapParametre().get(param).valeur() ;
+                System.out.println("valParam : "+valParam);
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
                 heightPanel = heightPanel + mapDesSpinners.get(param).getHauteur() ;
             }
         }
         dim.setSize(widthPanel, heightPanel) ;
-        //parametresFn.setPreferredSize(dim);
-        //parametresFn.setMinimumSize(dim);
+        parametresFn.setPreferredSize(dim);
+        parametresFn.setMinimumSize(dim);
         this.repaint();
     }
 
@@ -597,12 +639,12 @@ public class FitexPanel extends javax.swing.JPanel {
         if (mapDesFonctions.get(coul)!=null) {
             textFieldFct.setText((mapDesFonctions.get(coul)).getIntitule());
         }
-        else textFieldFct.setText("");
+        else
+            textFieldFct.setText("");
         textFieldFct.requestFocusInWindow();
 
         // MaJ de la variable globale couleurSelect
         couleurSelect=coul ;
-
         // faire apparaitre les parametres pour l'utilisateur
         repaint() ;
     }
@@ -627,14 +669,38 @@ public class FitexPanel extends javax.swing.JPanel {
            this.remove(panelFctModel);
            panelFctModel = null;
        }else{
-           this.add(getPanelFctModel(), BorderLayout.PAGE_END);
+           this.add(getPanelFctModel(), BorderLayout.NORTH);
        }
+       if(mapDesFonctions.size() > 0)
+           drawFct();
        isPanelFunction = !isPanelFunction;
        formComponentResized(null);
        revalidate();
        repaint();
    }
 
+   public boolean isDisplayFunctionModel(){
+       return isPanelFunction;
+   }
+
+   private JPanel getPanelFctParam(){
+       if(panelFctParam == null){
+           panelFctParam = new JPanel();
+           panelFctParam.setName("panelFctParam");
+           panelFctParam.setLayout(new BorderLayout());
+           panelFctParam.add(getParametresFn(), BorderLayout.NORTH);
+           panelFctParam.add(getPanelDist(), BorderLayout.CENTER);
+       }
+       return panelFctParam;
+   }
+   private JPanel getParametresFn(){
+       if(parametresFn == null){
+           parametresFn = new JPanel();
+           parametresFn.setName("parametresFn");
+           parametresFn.setLayout(new FlowLayout(FlowLayout.LEFT));
+       }
+       return parametresFn;
+   }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

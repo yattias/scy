@@ -5,12 +5,11 @@
 
 package eu.scy.tools.dataProcessTool.undoRedo;
 
-import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
@@ -23,7 +22,7 @@ import javax.swing.undo.CannotUndoException;
 public class OperationUndoRedo extends DataUndoRedo {
     private DataOperation operation;
 
-    public OperationUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, DataOperation operation) {
+    public OperationUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, DataOperation operation) {
         super(table, dataToolPanel, controller);
         this.operation = operation;
     }
@@ -51,10 +50,15 @@ public class OperationUndoRedo extends DataUndoRedo {
         ArrayList<Integer>[] tabSel  = new ArrayList[2];
         tabSel[0] = new ArrayList();
         tabSel[1] = new ArrayList();
-        CopexReturn cr = this.controller.deleteData(false, getDataset(), new ArrayList(), listOp, tabSel);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.deleteData(false, getDataset(), new ArrayList(), listOp, tabSel, v);
         if(cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
+        }
+        if(v.size()> 0){
+            Dataset ds = (Dataset)v.get(0);
+            dataToolPanel.updateDataset(ds);
         }
     }
 

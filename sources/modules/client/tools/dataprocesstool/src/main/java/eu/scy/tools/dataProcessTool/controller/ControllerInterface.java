@@ -8,6 +8,7 @@ package eu.scy.tools.dataProcessTool.controller;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
+import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
@@ -32,7 +33,7 @@ public interface ControllerInterface {
     public Element getPDS(Dataset ds);
     
     /* merge d'un ELO avec l'elo courant */
-    public CopexReturn mergeELO(Element elo);
+    public CopexReturn mergeELO(Dataset ds, Element elo);
     /*change le statut valeur ignoree - retourne en v[0] le nouveau dataset  */
     public CopexReturn setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData, ArrayList v);
 
@@ -62,19 +63,20 @@ public interface ControllerInterface {
     /* update nom graphe */
     public CopexReturn updateVisualizationName(Dataset ds, Visualization vis, String newName);
 
-   
+   /* mise a jour du nom du dataset */
+    public CopexReturn renameDataset(Dataset ds, String name);
 
     /* suppression de donnees et ou d'operations dans un dataset */
-    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol);
+    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v);
 
     /* ajout ou modification d'une fonction modeme */
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList v);
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
 
     /* insertion de lignes ou de colonnes */
     public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
 
     /* impression */
-    public CopexReturn printDataset(DataTableModel model, ArrayList<Object> listGraph);
+    public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph);
 
     /* drag and drop de colonnes */
     public CopexReturn moveSubData(SubData subDataToMove, int noColInsertBefore, ArrayList v);
@@ -98,5 +100,7 @@ public interface ControllerInterface {
     /*suppression du dataset */
     public CopexReturn deleteDataset(Dataset ds);
     /*creation dataset par default */
-    public CopexReturn createDefaultDataset(ArrayList v);
+    public CopexReturn createDefaultDataset(String name, ArrayList v);
+    /* fermeture d'un dataset */
+    public CopexReturn closeDataset(Dataset ds);
 }

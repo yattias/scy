@@ -63,11 +63,11 @@ public class DataBaseCommunication {
 
 
     private String getDirectoryPhp(){
-        return "../dataProcessTool/InterfaceServer/";
+        return "../fitexTool/InterfaceServer/";
       }
 
      private String getDirectoryData(){
-        return "../dataProcessTool/InterfaceServer/data/";
+        return "../fitexTool/InterfaceServer/data/";
       }
 
     public void setIdUser(String idUser) {

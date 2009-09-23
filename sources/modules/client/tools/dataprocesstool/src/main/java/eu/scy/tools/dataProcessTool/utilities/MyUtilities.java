@@ -6,6 +6,7 @@
 package eu.scy.tools.dataProcessTool.utilities;
 
 import java.awt.FontMetrics;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -99,4 +100,21 @@ public class MyUtilities {
 		}
 		return stringWriter.toString();
 	}
+
+    public static boolean isXMLFile(File file){
+        String ext = getExtensionFile(file);
+        return ext.equals("xml");
+    }
+
+    public static boolean isCSVFile(File file){
+        String ext = getExtensionFile(file);
+        return ext.equals("csv");
+    }
+
+    private static  String getExtensionFile(File file){
+        int id = file.getName().lastIndexOf(".");
+        if(id == -1 || id==file.getName().length()-1)
+            return "";
+        return file.getName().substring(id+1);
+    }
 }

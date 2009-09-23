@@ -7,8 +7,8 @@ package eu.scy.tools.dataProcessTool.undoRedo;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import javax.swing.undo.AbstractUndoableEdit;
 
 /**
@@ -19,11 +19,11 @@ public class DataUndoRedo extends AbstractUndoableEdit{
     /* table sur laquelle s'effectur le undo/redo */
     protected DataTable table;
     /* data tool panel */
-    protected DataProcessToolPanel dataToolPanel;
+    protected FitexToolPanel dataToolPanel;
     /* controller */
     protected ControllerInterface controller;
 
-    public DataUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller) {
+    public DataUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller) {
         this.table = table;
         this.dataToolPanel = dataToolPanel;
         this.controller = controller;

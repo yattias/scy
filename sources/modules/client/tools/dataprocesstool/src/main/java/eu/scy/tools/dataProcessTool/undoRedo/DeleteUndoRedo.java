@@ -10,8 +10,8 @@ import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
@@ -27,7 +27,7 @@ public class DeleteUndoRedo extends DataUndoRedo {
     private ArrayList<Integer>[] listNoRowCol;
     private ArrayList<DataOperation> listOperations;
 
-    public DeleteUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList[] listNoRowCol, ArrayList<DataOperation> listOperations) {
+    public DeleteUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList[] listNoRowCol, ArrayList<DataOperation> listOperations) {
         super(table, dataToolPanel, controller);
         this.listData = listData;
         this.listHeader = listHeader ;
@@ -38,10 +38,15 @@ public class DeleteUndoRedo extends DataUndoRedo {
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
-        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, listOperations, listNoRowCol);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, listOperations, listNoRowCol, v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
+        }
+        if(v.size()> 0){
+            Dataset ds = (Dataset)v.get(0);
+            dataToolPanel.updateDataset(ds);
         }
     }
 

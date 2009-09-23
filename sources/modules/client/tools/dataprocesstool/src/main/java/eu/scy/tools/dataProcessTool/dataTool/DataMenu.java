@@ -23,7 +23,7 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 public class DataMenu extends JPopupMenu implements ActionListener{
     // PROPERTY 
     /* fenetre mere */
-    private DataProcessToolPanel owner ;
+    private FitexToolPanel owner ;
     /* table correspondante */
     private DataTable table;
     
@@ -53,7 +53,7 @@ public class DataMenu extends JPopupMenu implements ActionListener{
     private Color bgColorSumIf;
 
     // CONSTRUCTOR
-    public DataMenu(DataProcessToolPanel owner, DataTable table) {
+    public DataMenu(FitexToolPanel owner, DataTable table) {
         super();
         this.owner = owner;
         this.table = table;

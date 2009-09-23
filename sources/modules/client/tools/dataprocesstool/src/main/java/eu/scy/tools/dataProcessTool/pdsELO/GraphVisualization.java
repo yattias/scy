@@ -5,7 +5,6 @@
 
 package eu.scy.tools.dataProcessTool.pdsELO;
 
-import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;

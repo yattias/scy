@@ -28,9 +28,8 @@ public class MyTableEditor extends DefaultCellEditor{
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         component =  super.getTableCellEditorComponent(table, value, isSelected, row, column);
-        if (table instanceof DataTable && ((DataTable)table).isValueHeader(row, column)){
-            // header
-            
+        if (table instanceof DataTable && (((DataTable)table).isValueHeader(row, column))){
+
         }else{
             ((JTextField)component).setText("");
         }

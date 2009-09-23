@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * panel dessin courbe
+ * MBO le 24/08 : attention, ne pas utiliser getMousePosition, ne fonctionne pas sous scy/javafx
  * @author Marjolaine
  */
 public class DrawPanel extends javax.swing.JPanel {
@@ -104,12 +105,12 @@ public class DrawPanel extends javax.swing.JPanel {
         this.y_min = pg.getY_min();
         this.y_max = pg.getY_max();
         this.delta_y = pg.getDeltaY();
-        this.x_axisName = pg.getX_name() ;
-        this.y_axisName = pg.getY_name() ;
+        this.x_axisName = pg.getHeaderX().getValue() ;
+        this.y_axisName = pg.getHeaderY().getValue() ;
         this.width = width;
         this.height = height;
         isZoom = false;
-        this.graphMode = DataConstants.MODE_ZOOM;
+        this.graphMode = DataConstants.MODE_AUTOSCALE;
         initComponents();
         setPreferredSize(getSize());
     }
@@ -460,8 +461,10 @@ public class DrawPanel extends javax.swing.JPanel {
     private void zoneDeTraceMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseDragged
         // met ie jour l'affichage des coordonniees
         zoneDeTraceMouseMoved(evt);
-        if(getMousePosition() == null)
+        if(evt == null)
             return;
+        int evtX = evt.getX();
+        int evtY = evt.getY();
         if(graphMode == DataConstants.MODE_ZOOM){
             // efface le prieciedent rectangle
             isZoom = false;
@@ -470,16 +473,16 @@ public class DrawPanel extends javax.swing.JPanel {
             //g.drawRect(Math.min(x_zoom1,x_zoom2) , Math.min(y_zoom1,y_zoom2) , Math.abs(x_zoom1-x_zoom2) , Math.abs(y_zoom1-y_zoom2)) ;
             //tracerZone();
             // riecupiere x2 et y2
-            x_zoom2 = getMousePosition().x ;
-            y_zoom2 = getMousePosition().y ;
+            x_zoom2 = evtX ;
+            y_zoom2 = evtY ;
             // affiche le rectangle correspondant ie la zone de zoom
             isZoom = true;
             repaint();
         }else if (graphMode == DataConstants.MODE_MOVE){
             //move mode
             // move mode
-            x_move2 = getMousePosition().x ;
-            y_move2 = getMousePosition().y ;
+            x_move2 = evtX ;
+            y_move2 = evtY ;
             if (x_move1 != x_move2 && y_move1 != y_move2) {
                 // met a jour les coordonnees
                 double x1 = x_min;
@@ -516,14 +519,16 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMouseDragged
 
     private void zoneDeTraceMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseMoved
-        if (getMousePosition() == null){
+        if (evt == null){
             coordX = "";
             coordY = "";
             repaint();
              return;
          }
-        Double x = chiffresSignificatifs(xEcranToX(getMousePosition().x) , 3);
-        Double y = chiffresSignificatifs(yEcranToY(getMousePosition().y) , 3);
+        int evtX = evt.getX();
+        int evtY = evt.getY();
+        Double x = chiffresSignificatifs(xEcranToX(evtX) , 3);
+        Double y = chiffresSignificatifs(yEcranToY(evtY) , 3);
         DecimalFormat formatE = new DecimalFormat("0.#####E0");
         DecimalFormat format = new DecimalFormat("###.###");
 
@@ -535,8 +540,8 @@ public class DrawPanel extends javax.swing.JPanel {
             coordY = formatE.format(y);
         else
             coordY =  format.format(y);
-        posx = getMousePosition().x ;
-        posy = getMousePosition().y;
+        posx = evtX ;
+        posy = evtY;
         repaint();
 //        Double x = chiffresSignificatifs(xEcranToX(evt.getX()) , 3);
 //        Double y = chiffresSignificatifs(yEcranToY(evt.getY()) , 3);
@@ -577,31 +582,35 @@ public class DrawPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_zoneDeTraceMouseExited
 
     private void zoneDeTraceMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMousePressed
-        if (getMousePosition() == null)
+        if (evt == null)
             return;
+        int evtX = evt.getX();
+        int evtY = evt.getY();
         if(graphMode == DataConstants.MODE_ZOOM){
             // affiche en rouge les coordoniees
             coordColor = Color.RED ;
             // recupere x1 et y1
-            x_zoom1 = getMousePosition().x ;
-            y_zoom1 = getMousePosition().y ;
+            x_zoom1 = evtX ;
+            y_zoom1 = evtY ;
         }else if (graphMode == DataConstants.MODE_MOVE){
             setCursor(new Cursor(Cursor.HAND_CURSOR));
             //move mode
-            x_move1 = getMousePosition().x ;
-            y_move1 = getMousePosition().y ;
+            x_move1 = evtX ;
+            y_move1 = evtY ;
         }
 }//GEN-LAST:event_zoneDeTraceMousePressed
 
     private void zoneDeTraceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zoneDeTraceMouseReleased
-        // rieaffiche en noir les coordoniees
+        // reaffiche en noir les coordoniees
         coordColor = Color.GRAY;
-        // riecupiere x2 et y2
-        if (getMousePosition() == null)
+        // recupere x2 et y2
+        if (evt == null)
             return;
+        int evtX = evt.getX();
+        int evtY = evt.getY();
         if (graphMode == DataConstants.MODE_ZOOM){
-            x_zoom2 = getMousePosition().x ;
-            y_zoom2 = getMousePosition().y ;
+            x_zoom2 = evtX ;
+            y_zoom2 = evtY ;
             // efface le rectangle de zoom
             isZoom = false;
             repaint();
@@ -618,8 +627,8 @@ public class DrawPanel extends javax.swing.JPanel {
              }
         }else if (graphMode == DataConstants.MODE_MOVE){
             // move mode
-            x_move2 = getMousePosition().x ;
-            y_move2 = getMousePosition().y ;
+            x_move2 = evtX ;
+            y_move2 = evtY ;
             if (x_move1 != x_move2 && y_move1 != y_move2) {
                 // met a jour les coordonnees
                 double x1 = x_min;

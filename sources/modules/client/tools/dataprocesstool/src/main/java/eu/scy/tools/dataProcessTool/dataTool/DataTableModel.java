@@ -23,7 +23,7 @@ import javax.swing.table.AbstractTableModel;
 public class DataTableModel extends AbstractTableModel {
     // PROPERTY
     /* owner */
-    private DataProcessToolPanel owner ;
+    private FitexToolPanel owner ;
     /* table */
     private DataTable table;
     /* donnees correspondantes */
@@ -54,7 +54,7 @@ public class DataTableModel extends AbstractTableModel {
 
     
     // CONSTRUCTOR
-    public DataTableModel(DataProcessToolPanel owner, DataTable table, Dataset dataset) {
+    public DataTableModel(FitexToolPanel owner, DataTable table, Dataset dataset) {
         super();
         this.owner = owner;
         this.table = table;
@@ -341,7 +341,12 @@ public class DataTableModel extends AbstractTableModel {
     public boolean isValueLastCol(int noRow, int noCol){
         return (noCol == (nbCols-1)) && (noRow > 0 && noRow <= nbRowDs);
     }
-    
+    public boolean isValueLastCol2(int noRow, int noCol){
+        return (noCol == (nbCols-1)) && (noRow==0);
+    }
+    public boolean isValueLastRow2(int noRow, int noCol){
+        return (noRow == (nbRows-1)) && (noCol==0);
+    }
     /* retourne la couleur selon le type d'operations */
     public Color getOperationColor(int noRow, int noCol){
         Color opColor = Color.WHITE ;
@@ -486,12 +491,14 @@ public class DataTableModel extends AbstractTableModel {
         ArrayList<Integer> listSelectedRow = new ArrayList();
         int nbOpColSel = 0;
         int nbOpRowSel = 0;
+        boolean lastCol = false;
+        boolean lastRow = false;
         int nb = listSelected.size();
         for (int i=0; i<nb; i++){
             int[] selCell = listSelected.get(i);
             if(isValueHeader(selCell[0], selCell[1])){
                 int noCol = selCell[1]-1 ;
-                // on inserre en triant du plus petit au plus grand
+                // on insere en triant du plus petit au plus grand
                 int id = -1;
                 for (int j=0; j<listSelectedCol.size(); j++){
                     if (listSelectedCol.get(j) > noCol){
@@ -521,24 +528,36 @@ public class DataTableModel extends AbstractTableModel {
                 nbOpColSel++;
             }else if (isValueTitleOperationRow(selCell[0], selCell[1])){
                 nbOpRowSel++;
+            }else if (isValueLastCol2(selCell[0], selCell[1])){
+                lastCol = true;
+            }else if(isValueLastRow2(selCell[0], selCell[1])){
+                lastRow = true;
             }
         }
-        isOnCol = listSelectedCol.size() > 0 || nbOpColSel > 0;
+        System.out.println("liste : "+(listSelectedCol.size()>0));
+        System.out.println(" nbop : "+nbOpColSel);
+        System.out.println(" lastCOl : "+lastCol);
+        isOnCol = listSelectedCol.size() > 0 || nbOpColSel > 0 || lastCol;
         if (isOnCol){
             nbInsert = listSelectedCol.size()+nbOpColSel ;
-            if (listSelectedCol.size() == 0)
+            if (lastCol){
                 idBefore = this.nbColDs ;
-            else{
+                nbInsert++;
+            }else{
                 idBefore = listSelectedCol.get(0);
             }
         }else{
             nbInsert = listSelectedRow.size()+nbOpRowSel ;
-            if (listSelectedRow.size() == 0)
+            if (lastRow){
                 idBefore = this.nbRowDs ;
-            else{
+                nbInsert++;
+            }else{
                 idBefore = listSelectedRow.get(0);
             }
         }
+        System.out.println("=> "+isOnCol);
+        System.out.println(" "+nbInsert);
+        System.out.println(" "+idBefore);
         v.add(isOnCol);
         v.add(nbInsert);
         v.add(idBefore);
@@ -703,7 +722,35 @@ public class DataTableModel extends AbstractTableModel {
        
     }
 
-   
+   public int[] getBorders(int row, int col){
+       int top = 1;
+       int bottom = 0;
+       int left = 1;
+       int right = 0;
+       int[] borders = new int[4];
+       // top : premiere cell ou derniere col(-sauf premiere ligne)
+       if((row==0&& col==0) || (col == nbCols-1 && row >0)){
+           top = 0;
+       }
+       //bottom : derniere ligne
+       if(row==nbRows-1){
+           bottom = 1;
+       }
+       //left :
+       if( (row==0 && col==0) || (row== nbRows-1 && col>0) ){
+           left = 0;
+       }
+       //right
+       if(col==nbCols-1){
+           right = 1;
+       }
+
+       borders[0] = top;
+       borders[1] = left;
+       borders[2] = bottom;
+       borders[3] = right;
+       return borders;
+   }
 
     
 }

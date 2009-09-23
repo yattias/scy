@@ -83,7 +83,7 @@ public class DatasetFromDB {
             ArrayList<DataOperation> listOp = (ArrayList<DataOperation>)v3.get(0);
             // chargement des visualizations
             v3 = new ArrayList();
-            cr = getAllDatasetVisualizationFromDB(dbC, dbKey,tabTypeVis,  v3);
+            cr = getAllDatasetVisualizationFromDB(dbC, dbKey,tabTypeVis, tabDataHeader,  v3);
             if (cr.isError())
                 return cr;
             ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
@@ -324,12 +324,12 @@ public class DatasetFromDB {
     /* suppression d'un dataset en base : suppression des operations, des donnees, des headers et des liens */
     public static CopexReturn deleteDatasetFromDB(DataBaseCommunication dbC, long dbKeyDataset){
         ArrayList v = new ArrayList();
-        String[] querys = new String[14];
+        String[] querys = new String[15];
         // suppression des visualisations associees 
         String queryDelVisType = "DELETE FROM LINK_VISUALIZATION_TYPE WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelVisNo = "DELETE FROM LIST_NO_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM  LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ) ;";
         String queryDelParamGraph = "DELETE FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
-        String queryDelVis = "DELETE FROM DATA_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ")";
+        String queryDelVis = "DELETE FROM DATA_VISUALIZATION WHERE ID_DATA_VISUALIZATION IN (SELECT ID_DATA_VISUALIZATION FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelLinkVis = "DELETE FROM LINK_DATASET_VISUALIZATION WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des operations
         String queryDelOpType = "DELETE FROM LINK_OPERATION_TYPE WHERE ID_DATA_OPERATION IN (SELECT ID_DATA_OPERATION FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
@@ -337,11 +337,13 @@ public class DatasetFromDB {
         String queryDelOp = "DELETE FROM DATA_OPERATION WHERE ID_DATA_OPERATION IN (SELECT ID_DATA_OPERATION FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelLinkOp = "DELETE FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des donnees
-        String queryDelData = "DELETE FROM COPEX_DATA WHERE ID_DATA IN (SELECT ID_DATA FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " ;";
+        String queryDelData = "DELETE FROM COPEX_DATA WHERE ID_DATA IN (SELECT ID_DATA FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " );";
         String queryDelLinkData = "DELETE FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des header
-        String queryDelHeader = "DELETE FROM DATA_HEADER WHERE ID_HEADER IN (SELECT ID_HEADER FROM LINK_DATASET_HEADER WHERE ID_DATASET = "+dbKeyDataset+ " ;";
+        String queryDelHeader = "DELETE FROM DATA_HEADER WHERE ID_HEADER IN (SELECT ID_HEADER FROM LINK_DATASET_HEADER WHERE ID_DATASET = "+dbKeyDataset+ " );";
         String queryDelLinkHeader = "DELETE FROM LINK_DATASET_HEADER WHERE ID_DATASET = "+dbKeyDataset+ " ;";
+        // suppression du dataset 
+        String queryDs = "DELETE FROM DATASET WHERE ID_DATASET = "+dbKeyDataset+" ;";
         // suppression du lien entre user/ mission
         String queryDelUserMission = "DELETE FROM LINK_DATASET_MISSION_USER WHERE ID_DATASET = "+dbKeyDataset+" ;";
         // bloc de requete
@@ -359,6 +361,7 @@ public class DatasetFromDB {
         querys[i++] = queryDelLinkData;
         querys[i++] = queryDelHeader ;
         querys[i++] = queryDelLinkHeader ;
+        querys[i++] = queryDs;
         querys[i++] = queryDelUserMission ;
 
         CopexReturn cr = dbC.executeQuery(querys, v);
@@ -451,7 +454,7 @@ public class DatasetFromDB {
     public static CopexReturn updateDataInDB(DataBaseCommunication dbC, long dbKey, double value){
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE COPEX_DATA SET VALUE = "+value+" WHERE ID_HEADER = "+dbKey+" ;";
+        String query = "UPDATE COPEX_DATA SET VALUE = "+value+" WHERE ID_DATA = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -522,7 +525,7 @@ public class DatasetFromDB {
     }
 
     /* chargement de tous les visualizations d'un dataset donne */
-    public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, ArrayList v){
+    public static CopexReturn getAllDatasetVisualizationFromDB(DataBaseCommunication dbC, long dbKeyDs,  TypeVisualization[] tabTypeVis, DataHeader[] listCols, ArrayList v){
         ArrayList<Visualization> listDataVis = new ArrayList();
         String query = "SELECT D.ID_DATA_VISUALIZATION, D.VIS_NAME, D.IS_ON_COL, T.ID_TYPE_VISUALIZATION " +
                 "FROM DATA_VISUALIZATION D, LINK_DATASET_VISUALIZATION L, LINK_VISUALIZATION_TYPE T " +
@@ -581,7 +584,7 @@ public class DatasetFromDB {
             // eventuellement charge les donnees du graphe
             if (typeVisualization.getCode() == DataConstants.VIS_GRAPH){
                 v3 = new ArrayList();
-                cr = getAllParamGraph(dbC, dbKey, v3);
+                cr = getAllParamGraph(dbC, dbKey, listCols, v3);
                 if (cr.isError())
                     return cr;
                 ParamGraph paramGraph = (ParamGraph)v3.get(0);
@@ -638,13 +641,13 @@ public class DatasetFromDB {
     }
 
     /* chargement des parametres d'un graphe */
-    public static CopexReturn getAllParamGraph(DataBaseCommunication dbC, long dbKey, ArrayList v){
+    public static CopexReturn getAllParamGraph(DataBaseCommunication dbC, long dbKey, DataHeader[] listCol, ArrayList v){
         ParamGraph param = null;
-        String query = "SELECT X_NAME, Y_NAME, X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
+        String query = "SELECT ID_HEADER_X, ID_HEADER_Y, X_MIN, X_MAX, Y_MIN, Y_MAX, DELTA_X, DELTA_Y FROM PARAM_VIS_GRAPH WHERE ID_DATA_VISUALIZATION = "+dbKey+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
-        listFields.add("X_NAME");
-        listFields.add("Y_NAME");
+        listFields.add("ID_HEADER_X");
+        listFields.add("ID_HEADER_Y");
         listFields.add("X_MIN");
         listFields.add("X_MAX");
         listFields.add("Y_MIN");
@@ -657,13 +660,29 @@ public class DatasetFromDB {
         int nbR = v2.size();
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String xName = rs.getColumnData("X_NAME");
-            if (xName == null)
+            String s = rs.getColumnData("ID_HEADER_X");
+            if(s == null)
                 continue;
-            String yName = rs.getColumnData("Y_NAME");
-            if (yName == null)
+            long dbKeyX = Long.parseLong(s);
+            DataHeader headerX = null;
+            for (int k=0; k<listCol.length; k++){
+                if(listCol[k] != null && listCol[k].getDbKey() == dbKeyX){
+                    headerX = listCol[k];
+                    break;
+                }
+            }
+            s = rs.getColumnData("ID_HEADER_Y");
+            if(s == null)
                 continue;
-            String s = rs.getColumnData("X_MIN");
+            long dbKeyY = Long.parseLong(s);
+            DataHeader headerY = null;
+            for (int k=0; k<listCol.length; k++){
+                if(listCol[k] != null && listCol[k].getDbKey() == dbKeyY){
+                    headerY = listCol[k];
+                    break;
+                }
+            }
+            s = rs.getColumnData("X_MIN");
             if (s == null)
                 continue;
             double xMin = -10;
@@ -711,12 +730,51 @@ public class DatasetFromDB {
                 deltaY = Float.parseFloat(s);
             }catch(NumberFormatException e){
             }
-            param = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY, false);
+            param = new ParamGraph(headerX, headerY, xMin, xMax, yMin, yMax, deltaX, deltaY, false);
 
         }
         v.add(param);
         return new CopexReturn();
     }
+
+    /* chargement des param d'une fonction model */
+    private static CopexReturn getAllFunctionParamFromDB(DataBaseCommunication dbC, long dbKeyFunction, ArrayList v){
+        ArrayList<FunctionParam> listFunctionParam = new ArrayList();
+        String query = "SELECT P.ID_FUNCTION_PARAM, P.PARAM_NAME, P.PARAM_VALUE " +
+                "FROM FUNCTION_PARAM P, LINK_FUNCTION_PARAM L " +
+                "WHERE L.ID_FUNCTION_MODEL = "+dbKeyFunction+" AND L.ID_FUNCTION_PARAM = L.ID_FUNCTION_PARAM ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_FUNCTION_PARAM");
+        listFields.add("P.PARAM_NAME");
+        listFields.add("P.PARAM_VALUE");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_FUNCTION_PARAM");
+            if (s == null )
+                continue;
+            long dbKey = Long.parseLong(s);
+            String paramName = rs.getColumnData("P.PARAM_NAME");
+            s = rs.getColumnData("P.PARAM_VALUE");
+            if (s==null)
+                continue;
+            double value = Double.NaN;
+            try{
+                value = Double.parseDouble(s);
+            }catch(NumberFormatException e){
+
+            }
+            FunctionParam fp = new FunctionParam(dbKey, paramName, value);
+            listFunctionParam.add(fp);
+        }
+        v.add(listFunctionParam);
+        return new CopexReturn();
+    }
+
 
     /* chargement de la liste des function  model */
     private static CopexReturn getAllFunctionModelGraphFromDB(DataBaseCommunication dbC, long dbKeyGraph, ArrayList v){
@@ -769,7 +827,12 @@ public class DatasetFromDB {
             }catch(NumberFormatException e){
 
             }
-            FunctionModel fm = new FunctionModel(dbKey, description, new Color(colorR, colorG, colorB));
+            ArrayList v3 = new ArrayList();
+            cr = getAllFunctionParamFromDB(dbC, dbKey, v3);
+            if(cr.isError())
+                return cr;
+            ArrayList<FunctionParam> listParam = (ArrayList<FunctionParam>)v3.get(0);
+            FunctionModel fm = new FunctionModel(dbKey, description, new Color(colorR, colorG, colorB), listParam);
             listFunctionModel.add(fm);
         }
         v.add(listFunctionModel);
@@ -824,7 +887,6 @@ public class DatasetFromDB {
         Data[][] data = ds.getData();
         int nbRows = ds.getNbRows() ;
         int nbCols = ds.getNbCol() ;
-        System.out.println("******update data : "+nbRows+" / "+nbCols);
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 if (data[i][j] != null)

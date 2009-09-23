@@ -65,7 +65,7 @@ public class DataControllerDB implements ControllerInterface{
     /* liste des visualisations possibles */
     private TypeVisualization[] tabTypeVisual;
     /* dataset */
-    private Dataset dataset;
+    private ArrayList<Dataset> listDataset;
 
     private long dbKeyMission;
     private long dbKeyUser;
@@ -77,6 +77,7 @@ public class DataControllerDB implements ControllerInterface{
         this.dbKeyUser = dbKeyUser ;
         this.dataURL = url;
         dbC = new DataBaseCommunication(dataURL, MyConstants.DB_COPEX, dbKeyMission, ""+dbKeyUser);
+        this.listDataset = new ArrayList();
     }
     
     
@@ -89,7 +90,6 @@ public class DataControllerDB implements ControllerInterface{
 
     /* chargement et initialisation des donnees pour une msision et un user donne */
     public CopexReturn load(long dbKeyMission, long dbKeyUser){
-        System.out.println("debut load "+dbKeyMission+" - "+dbKeyUser);
         // initialisation de l'utilisateur et de la mission
         System.out.println("load mission");
         ArrayList v = new ArrayList();
@@ -115,27 +115,29 @@ public class DataControllerDB implements ControllerInterface{
         dbC.updateDb(MyConstants.DB_COPEX_DATA);
         // chargement des donnees
         // chargement des types d'operation
-        System.out.println("load type operation");
         v = new ArrayList();
         cr = OperationFromDB.getAllTypeOperation(dbC,getLocale(), v);
         if(cr.isError())
             return cr;
         tabTypeOperations = (TypeOperation[])v.get(0);
         // liste des visualisations possibles
-        System.out.println("load visualization");
         cr  = loadTypeVisual();
         if (cr.isError())
             return cr;
-        System.out.println("load dataset");
         v = new ArrayList();
         cr = DatasetFromDB.getAllDatasetFromDB(dbC, toolUser.getDbKey(), mission, tabTypeOperations,tabTypeVisual, v);
         if (cr.isError()){
             return cr;
         }
-        dataset = (Dataset)v.get(0);
+        listDataset = (ArrayList<Dataset>)v.get(0);
         
+        if(listDataset.size()==0){
+            v = new ArrayList();
+            cr = createTable("Dataset", v);
+            if(cr.isError())
+                return cr;
+        }
         // clone les objets
-        System.out.println("clone");
         TypeVisualization[] tabTypeVisualC = new TypeVisualization[tabTypeVisual.length];
         for (int i=0; i<tabTypeVisual.length; i++){
             tabTypeVisualC[i] = (TypeVisualization)tabTypeVisual[i].clone();
@@ -144,10 +146,11 @@ public class DataControllerDB implements ControllerInterface{
         for (int i=0; i<tabTypeOperations.length; i++){
             tabTypeOpC[i] = (TypeOperation)tabTypeOperations[i].clone();
         }
-        Dataset dsC = (Dataset)dataset.clone();
-        System.out.println("init applet");
-        this.dataToolPanel.initDataProcessingTool(tabTypeVisualC, tabTypeOpC, dsC);
-        System.out.println("fin load");
+        ArrayList<Dataset> listDsC = new ArrayList();
+        for (int i=0; i<listDataset.size(); i++){
+            listDsC.add((Dataset)listDataset.get(i).clone());
+        }
+        this.dataToolPanel.initDataProcessingTool(tabTypeVisualC, tabTypeOpC, listDsC);
         return new CopexReturn();
     }
 
@@ -156,6 +159,14 @@ public class DataControllerDB implements ControllerInterface{
     /* locale de l'applet */
     private Locale getLocale(){
         return this.dataToolPanel.getLocale() ;
+    }
+
+    private int getIdDataset(long dbKey){
+        for (int i=0; i<listDataset.size(); i++){
+            if(listDataset.get(i).getDbKey() == dbKey)
+                return i;
+        }
+        return -1;
     }
     
     
@@ -228,7 +239,7 @@ public class DataControllerDB implements ControllerInterface{
         return -1;
     }
     /* creation d'une table retourne en v[0] l'objet DataSet cree */
-    public CopexReturn createTable(ArrayList v) {
+    public CopexReturn createTable(String name, ArrayList v) {
         // par defaut on cree une table de 10 lignes par 2 colonnes
         int nbRows = 10;
         int nbCol = 2;
@@ -236,14 +247,27 @@ public class DataControllerDB implements ControllerInterface{
         ArrayList<Visualization> listVis = new ArrayList();
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
+        for (int i=0; i<nbCol; i++){
+            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+" "+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i);
+            tabHeader[i] = h;
+        }
         // enregistrement base 
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, "", nbRows,  nbCol, toolUser.getDbKey(), mission.getDbKey(), v2);
+        CopexReturn cr = DatasetFromDB.createDatasetInDB(dbC, dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), nbRows,  nbCol, toolUser.getDbKey(), mission.getDbKey(), v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
+        for (int i=0; i<nbCol; i++){
+            v2 = new ArrayList();
+            cr = DatasetFromDB.createDataHeaderInDB(dbC,tabHeader[i].getValue(), tabHeader[i].getUnit(), i, dbKey, v2 );
+            if (cr.isError())
+                return cr;
+            long dbKeyH = (Long)v2.get(0);
+            tabHeader[i].setDbKey(dbKeyH);
+        }
         // creation ds
-        dataset = new Dataset(dbKey, "", nbCol, nbRows, tabHeader, data, listOp, listVis);
+        Dataset dataset = new Dataset(dbKey, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        listDataset.add(dataset);
         v.add(dataset.clone());
         return new CopexReturn();
         
@@ -255,24 +279,34 @@ public class DataControllerDB implements ControllerInterface{
     /* suppression d'un dataset */
     @Override
     public CopexReturn deleteDataset(Dataset ds){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // suppression en base
         CopexReturn cr = DatasetFromDB.deleteDatasetFromDB(dbC, dataset.getDbKey());
         if (cr.isError())
             return cr;
         // suppression en memoire
-        dataset = null;
+        listDataset.remove(idDs);
         return new CopexReturn();
     }
 
     /*creation dataset par default */
     @Override
-    public CopexReturn createDefaultDataset(ArrayList v){
-        return createTable(v);
+    public CopexReturn createDefaultDataset(String name, ArrayList v){
+        return createTable(name, v);
     }
 
     /*change le statut valeur ignoree - retourne en v[0] le nouveau dataset */
     @Override
     public CopexReturn setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         CopexReturn cr = setDataIgnored(ds, isIgnored, listData);
         if(cr.isError())
             return cr;
@@ -284,6 +318,11 @@ public class DataControllerDB implements ControllerInterface{
     }
 
     private CopexReturn setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // maj base
         CopexReturn cr = DatasetFromDB.setDataIgnoredInDB(dbC, listData, isIgnored);
         if (cr.isError())
@@ -301,7 +340,11 @@ public class DataControllerDB implements ControllerInterface{
     /* creation d'une nouvelle operation - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
     @Override
     public CopexReturn createOperation(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo, ArrayList v){
-        
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         long dbKey = -1;
         TypeOperation typeOp = getTypeOperation(typeOperation);
         if (typeOp == null)
@@ -325,6 +368,11 @@ public class DataControllerDB implements ControllerInterface{
     /* creation d'une nouvelle operation parametree - retourne en v[0] le nouveau dataset et en v[1] le nouveau DataOperation */
     @Override
     public CopexReturn createOperationParam(Dataset ds, int typeOperation, boolean isOnCol, ArrayList<Integer> listNo,String[] tabValue,  ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         long dbKey = -1;
         TypeOperation typeOp = getTypeOperation(typeOperation);
         if (typeOp == null)
@@ -386,6 +434,11 @@ public class DataControllerDB implements ControllerInterface{
     /* mise a jour d'une valeur : titre header */
     @Override
     public CopexReturn updateDataHeader(Dataset ds, int colIndex, String title, String unit, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         CopexReturn cr = setDataHeader(ds, colIndex, title, unit);
         if(cr.isError())
             return cr;
@@ -395,6 +448,11 @@ public class DataControllerDB implements ControllerInterface{
     }
 
     private CopexReturn setDataHeader(Dataset ds, int colIndex, String title, String unit){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // header existe t il deja ?
         DataHeader header = dataset.getDataHeader(colIndex);
         if(header == null){
@@ -420,6 +478,11 @@ public class DataControllerDB implements ControllerInterface{
     /* mise a jour d'une valeur : titre operation */
     @Override
     public CopexReturn updateDataOperation(Dataset ds, DataOperation operation, String title, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idOp = getIdOperation(dataset, operation);
         if (idOp == -1)
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_DATA"), false);
@@ -437,6 +500,11 @@ public class DataControllerDB implements ControllerInterface{
     /* mise a jour d'une valeur : donnee dataset */
     @Override
     public CopexReturn updateData(Dataset ds, int rowIndex, int colIndex, Double value, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         CopexReturn cr = setData(ds, rowIndex, colIndex, value);
         if(cr.isError())
             return cr;
@@ -448,6 +516,11 @@ public class DataControllerDB implements ControllerInterface{
     }
 
     private CopexReturn setData(Dataset ds, int rowIndex, int colIndex, Double value){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // data existe t il deja ?
         Data data = dataset.getData(rowIndex, colIndex);
         if(data == null && value != null){
@@ -476,6 +549,11 @@ public class DataControllerDB implements ControllerInterface{
     /* fermeture d'une visualization */
     @Override
     public CopexReturn closeVisualization(Dataset ds, Visualization vis){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idVis = ds.getIdVisualization(vis.getDbKey()) ;
         if (idVis == -1 )
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_CLOSE_GRAPH"), false);
@@ -486,6 +564,11 @@ public class DataControllerDB implements ControllerInterface{
     /* suppression d'une visualization */
     @Override
     public CopexReturn deleteVisualization(Dataset ds, Visualization vis){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idVis = ds.getIdVisualization(vis.getDbKey()) ;
         if (idVis == -1 )
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DELETE_GRAPH"), false);
@@ -502,6 +585,11 @@ public class DataControllerDB implements ControllerInterface{
     // TODO enregistrement BD
     @Override
     public CopexReturn createVisualization(Dataset ds, Visualization vis, boolean findAxisParam, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // creation en base
         ArrayList v2 = new ArrayList();
         CopexReturn cr = VisualizationFromDB.createVisualizationInDB(dbC, dataset.getDbKey(), vis, v2);
@@ -528,6 +616,11 @@ public class DataControllerDB implements ControllerInterface{
     /* update nom graphe */
     @Override
     public CopexReturn updateVisualizationName(Dataset ds, Visualization vis, String newName){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idVis = ds.getIdVisualization(vis.getDbKey()) ;
         if (idVis == -1 )
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_VISUALIZATION_NAME"), false);
@@ -543,8 +636,12 @@ public class DataControllerDB implements ControllerInterface{
    
     /* suppression de donnees et/ou operation sur un dataset */
     @Override
-    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
-        Dataset myDs = dataset;
+    public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // suppression des operations
         CopexReturn cr = OperationFromDB.deleteOperationFromDB(dbC,  listOperation);
         if (cr.isError())
@@ -552,17 +649,17 @@ public class DataControllerDB implements ControllerInterface{
         int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             DataOperation op = listOperation.get(i);
-            myDs.removeOperation(op);
+            dataset.removeOperation(op);
         }
         int nbRowsSel = listRowAndCol[0].size();
         int nbColsSel = listRowAndCol[1].size();
         // suppression de donnees :
         // si toutes les colonnes ou toutes les lignes sont sel : on supprime tout le dataset apres confirmation
-        boolean allData = nbRowsSel == myDs.getNbRows() || nbColsSel == myDs.getNbCol();
+        boolean allData = nbRowsSel == dataset.getNbRows() || nbColsSel == dataset.getNbCol();
         if (allData){
             if (confirm){
                 // suppression du dataset
-                cr = deleteDataset(myDs);
+                cr = deleteDataset(dataset);
                 if (cr.isError())
                     return cr;
                 //dataToolPanel.removeDataset(dataset);
@@ -582,8 +679,8 @@ public class DataControllerDB implements ControllerInterface{
             if(nbColsSel > 0){
                 // suppression header
                 for (int i=0; i<nbColsSel; i++){
-                    if (myDs.getDataHeader(listRowAndCol[1].get(i)) != null)
-                        listDataHeader.add(myDs.getDataHeader(listRowAndCol[1].get(i)));
+                    if (dataset.getDataHeader(listRowAndCol[1].get(i)) != null)
+                        listDataHeader.add(dataset.getDataHeader(listRowAndCol[1].get(i)));
                     listNoHeader.add(listRowAndCol[1].get(i));
                 }
                 cr = DatasetFromDB.deleteDataHeaderFromDB(dbC, listDataHeader);
@@ -593,7 +690,7 @@ public class DataControllerDB implements ControllerInterface{
             if (nbRowsSel > 0 || nbColsSel > 0){
                 // on supprime les operations liees a ces colonnes ou ces lignes
                 // puis on supprime les operations qui ne portent plus sur aucune colonne ou ligne
-                ArrayList<DataOperation> myListOp = myDs.getListOperation();
+                ArrayList<DataOperation> myListOp = dataset.getListOperation();
                 int nbTotOp = myListOp.size();
                 ArrayList<DataOperation> copyListOp = new ArrayList();
                 for (int i=0; i<nbTotOp; i++){
@@ -635,7 +732,7 @@ public class DataControllerDB implements ControllerInterface{
                     return cr;
 
                 // visualization : si porte sur la ligne ou la colonne => suppression
-                ArrayList<Visualization> myListVis = myDs.getListVisualization();
+                ArrayList<Visualization> myListVis = dataset.getListVisualization();
                 int nbTotVis = myListVis.size();
                 for (int i=0; i<nbRowsSel; i++){
                     for (int j=0; j<nbTotVis; j++){
@@ -663,30 +760,30 @@ public class DataControllerDB implements ControllerInterface{
             // mise a jour en memoire et appel de l'applet
             //remove listDataHeader
             for (int i=0; i<listNoHeader.size(); i++){
-                myDs.removeHeader(listNoHeader.get(i));
+                dataset.removeHeader(listNoHeader.get(i));
             }
             //remove listNoToDel
             for (int i=0; i<listNoToDel.size(); i++){
                 long dbKeyOp = (Long)((ArrayList)listNoToDel.get(i)).get(0);
                 int no = (Integer)((ArrayList)listNoToDel.get(i)).get(1);
-                myDs.removeNoOperation(dbKeyOp, no);
+                dataset.removeNoOperation(dbKeyOp, no);
             }
             //remove listOperationToDel
             for(int i=0; i<listOperationToDel.size(); i++){
-                myDs.removeOperation(listOperationToDel.get(i));
+                dataset.removeOperation(listOperationToDel.get(i));
             }
              //remove listVisualizationToDel
             for(int i=0; i<listVisualizationToDel.size(); i++){
-                myDs.removeVisualization(listVisualizationToDel.get(i));
+                dataset.removeVisualization(listVisualizationToDel.get(i));
             }
             //remove data
-            myDs.removeData(listRowAndCol);
+            dataset.removeData(listRowAndCol);
             // mise a jour des no : header, data, operation, visualizaion
-            cr = DatasetFromDB.updateNoInDB(dbC, myDs);
+            cr = DatasetFromDB.updateNoInDB(dbC, dataset);
             if (cr.isError())
                 return cr;
             // appel applet
-            dataToolPanel.updateDataset((Dataset)myDs.clone());
+            v.add((Dataset)dataset.clone());
 
         }
         return new CopexReturn();
@@ -718,7 +815,8 @@ public class DataControllerDB implements ControllerInterface{
                    return new CopexReturn(""+e, false);
             }
         }
-        dataset = ds;
+       listDataset.add(ds);
+
         ///this.dataToolPanel.createDataset((Dataset)ds.clone());
         return new CopexReturn();
     }
@@ -812,14 +910,21 @@ public class DataControllerDB implements ControllerInterface{
                 tabNo = new int[2];
                 tabNo[0] = g.getX_axis();
                 tabNo[1] = g.getY_axis();
-                ParamGraph paramGraph = new ParamGraph(g.getXName(), g.getYName(), g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), false);
+                DataHeader hX =dataHeader[g.getX_axis()];
+                DataHeader hY =dataHeader[g.getY_axis()];
+                ParamGraph paramGraph = new ParamGraph(hX, hY, g.getXMin(), g.getXMax(), g.getYMin(), g.getYMax(), g.getDeltaX(), g.getDeltaY(), false);
                 ArrayList<FunctionModel> listFunctionModel  = null;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> lfm = g.getListFunctionModel();
                 if (lfm != null){
                     listFunctionModel = new ArrayList();
                     int n = lfm.size();
                     for(int j=0; j<n; j++){
-                        FunctionModel fm = new FunctionModel(-1, lfm.get(j).getDescription(), new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ));
+                        ArrayList<FunctionParam> listParam = new ArrayList();
+                        int np = lfm.get(j).getListParam().size();
+                        for (int k=0; k<np; k++){
+                            listParam.add(new FunctionParam(-1, lfm.get(j).getListParam().get(k).getParam(), lfm.get(j).getListParam().get(k).getValue()));
+                        }
+                        FunctionModel fm = new FunctionModel(-1, lfm.get(j).getDescription(), new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam);
                         listFunctionModel.add(fm);
                     }
                 }
@@ -852,19 +957,23 @@ public class DataControllerDB implements ControllerInterface{
    @Override
     public Element getPDS(Dataset ds){
         // ELO format
-        ProcessedDatasetELO pdsELO = dataset.toELO(dataToolPanel.getLocale());
+        ProcessedDatasetELO pdsELO = ds.toELO(dataToolPanel.getLocale());
         return pdsELO.toXML() ;
 
     }
 
    /* ajout ou modification d'une fonction modeme */
     @Override
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList v){
-        Dataset myDs = dataset;
-        int idVis = myDs.getIdVisualization(vis.getDbKey()) ;
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, Color fColor, ArrayList<FunctionParam> listParam,ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        int idVis = dataset.getIdVisualization(vis.getDbKey()) ;
         if (idVis == -1)
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_SET_FUNCTION_MODEL"), false);
-        Visualization myVis = myDs.getListVisualization().get(idVis);
+        Visualization myVis = dataset.getListVisualization().get(idVis);
         if (! (myVis instanceof Graph))
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_SET_FUNCTION_MODEL"), false);
         Graph graph = (Graph)myVis;
@@ -873,12 +982,13 @@ public class DataControllerDB implements ControllerInterface{
             // creation de la fonction
             // creation en base
             ArrayList v2 = new ArrayList();
-            CopexReturn cr = VisualizationFromDB.createFunctionModelInDB(dbC, graph.getDbKey(), description, fColor,  v2);
+            CopexReturn cr = VisualizationFromDB.createFunctionModelInDB(dbC, graph.getDbKey(), description, fColor,  listParam, v2);
             if (cr.isError())
                 return cr;
             long dbKey = (Long)v2.get(0);
+            listParam = (ArrayList<FunctionParam>)v2.get(1);
             // memoire
-            FunctionModel myFm = new FunctionModel(dbKey, description, fColor);
+            FunctionModel myFm = new FunctionModel(dbKey, description, fColor, listParam);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
             //mise a jour
@@ -890,19 +1000,27 @@ public class DataControllerDB implements ControllerInterface{
                 ((Graph)dataset.getListVisualization().get(idVis)).deleteFunctionModel(fColor);
             }else{
                 // modification
-                CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description);
+                ArrayList v2 = new ArrayList();
+                CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description, listParam, v2);
                 if (cr.isError())
                     return cr;
+                listParam = (ArrayList<FunctionParam>)v2.get(0);
                 fm.setDescription(description);
+                fm.setListParam(listParam);
             }
         }
-        v.add(myDs.clone());
+        v.add(dataset.clone());
         return new CopexReturn();
     }
 
     /* insertion de lignes ou de colonnes */
     @Override
     public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int newNbRow = dataset.getNbRows() ;
         int newNbCol = dataset.getNbCol() ;
         if (isOnCol)
@@ -927,9 +1045,9 @@ public class DataControllerDB implements ControllerInterface{
 
     /* impression */
     @Override
-    public CopexReturn printDataset(DataTableModel model, ArrayList<Object> listGraph){
+    public CopexReturn printDataset(Dataset dataset, boolean printDataset, DataTableModel model, ArrayList<Visualization> listVis, ArrayList<Object> listGraph){
         String fileName = "copex-"+mission.getCode();
-        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, toolUser,dataset, model, listGraph, fileName );
+        DataPrint pdfPrint = new DataPrint(dataToolPanel, mission, toolUser,dataset, model, printDataset, listVis, listGraph,fileName );
         CopexReturn cr = pdfPrint.printDocument();
         return cr;
     }
@@ -944,6 +1062,11 @@ public class DataControllerDB implements ControllerInterface{
     // TODO  enregistre on en base 
     @Override
     public CopexReturn updateDatasetRow(Dataset ds, Vector exchange, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         dataset.exchange(exchange);
         v.add(dataset.clone());
         return new CopexReturn();
@@ -975,7 +1098,8 @@ public class DataControllerDB implements ControllerInterface{
             tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i);
         }
         // creation ds
-        dataset = new Dataset(dbKey, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        Dataset dataset = new Dataset(dbKey, name, nbCol, nbRows, tabHeader, data, listOp, listVis);
+        listDataset.add(dataset);
         v.add(dataset.clone());
         return new CopexReturn();
     }
@@ -985,6 +1109,11 @@ public class DataControllerDB implements ControllerInterface{
     /* ajout d'une ligne de donnees */
     @Override
     public CopexReturn addData(long dbKeyDs, Double[] values, boolean autoScale, ArrayList v){
+        int idDs = getIdDataset(dbKeyDs);
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         if(values.length != dataset.getNbCol())
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_ADD_DATA"), false);
         ArrayList v2 = new ArrayList();
@@ -1023,6 +1152,11 @@ public class DataControllerDB implements ControllerInterface{
     // TODO enregistrement base
     @Override
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph paramGraph, ArrayList v){
+        int idDs = getIdDataset(dbKeyDs);
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idVis = dataset.getIdVisualization(dbKeyVis);
         if (idVis == -1)
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
@@ -1080,7 +1214,7 @@ public class DataControllerDB implements ControllerInterface{
         double  y_max  = maxY +maxY/10;
         double deltaX = (x_max - x_min) / 10 ;
         double deltaY = (y_max - y_min) / 10 ;
-        ParamGraph pg = new ParamGraph(vis.getParamGraph().getX_name(), vis.getParamGraph().getY_name(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
+        ParamGraph pg = new ParamGraph(vis.getParamGraph().getHeaderX(), vis.getParamGraph().getHeaderY(), x_min, x_max, y_min, y_max, deltaX, deltaY, vis.getParamGraph().isAutoscale());
 
         v.add(pg);
         return new CopexReturn();
@@ -1090,6 +1224,11 @@ public class DataControllerDB implements ControllerInterface{
     // TODO enregistrement BD
     @Override
     public CopexReturn setAutoScale(long dbKeyDs, long dbKeyVis, boolean autoScale, ArrayList v){
+        int idDs = getIdDataset(dbKeyDs);
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         int idVis = dataset.getIdVisualization(dbKeyVis);
         if (idVis == -1)
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_UPDATE_PARAM_GRAPH"), false);
@@ -1103,17 +1242,27 @@ public class DataControllerDB implements ControllerInterface{
 
     /*merge un ELO avec l'ELO courant*/
     @Override
-    public CopexReturn mergeELO(Element elo){
+    public CopexReturn mergeELO(Dataset ds ,Element elo){
         return new CopexReturn();
     }
 
     /* copie-colle */
-    //TODO Bd
     @Override
     public CopexReturn paste(long dbKeyDs, Dataset subData, int[] selCell, ArrayList v){
+        int idDs = getIdDataset(dbKeyDs);
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        Dataset oldDs = (Dataset)dataset.clone() ;
         if (selCell == null){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PASTE"), false);
         }
+        ArrayList<Data[]> listData = new ArrayList();
+        ArrayList<DataHeader[]> listDataHeader = new ArrayList();
+        ArrayList<Integer>[] listRowAndCol = new ArrayList[2];
+        ArrayList<Integer> listNoRow = new ArrayList();
+        ArrayList<Integer> listNoCol = new ArrayList();
         int idR = selCell[0] ;
         int idC = selCell[1] ;
         int nbRowsToPaste = subData.getNbRows();
@@ -1123,14 +1272,24 @@ public class DataControllerDB implements ControllerInterface{
 
         if(idC == nbC){
             dataset.insertCol(nbColsToPaste, idC);
+            for (int i=0; i<nbColsToPaste; i++){
+                listNoCol.add(idC+i);
+            }
         }
         if(idC == -1){
             dataset.insertCol(nbColsToPaste, 0);
             idC = 0 ;
+            for (int i=0; i<nbColsToPaste; i++){
+                listNoCol.add(i);
+            }
         }
         if(idR == nbR ){
             dataset.insertRow(nbRowsToPaste, idR);
+            for (int i=0; i<nbRowsToPaste; i++){
+                listNoRow.add(idR+i);
+            }
         }
+
         boolean pasteHeader = false;
         if(idR == -1 && idC > -1 && idC <=nbR){
             pasteHeader = true;
@@ -1138,60 +1297,98 @@ public class DataControllerDB implements ControllerInterface{
         }else if (idR == -1){
             dataset.insertRow(nbRowsToPaste, 0);
             idR = 0;
+            for (int i=0; i<nbRowsToPaste; i++){
+                listNoRow.add(i);
+            }
         }
 
+        
         nbR = dataset.getNbRows() ;
         nbC = dataset.getNbCol() ;
 
         if(idR+nbRowsToPaste > nbR ){
             // insertion de nouvelles lignes
             dataset.insertRow((idR+nbRowsToPaste) - nbR , nbR);
+            for (int i=0; i<(idR+nbRowsToPaste) - nbR; i++){
+                listNoRow.add(nbR+i);
+            }
         }
         if(idC+nbColsToPaste > nbC){
             // insertion de nouvelles colonnes
             dataset.insertCol((idC+nbColsToPaste) - nbC, nbC);
+            for (int i=0; i<(idC+nbColsToPaste) - nbC; i++){
+                listNoCol.add(nbC+i);
+            }
         }
+
+        CopexReturn cr = DatasetFromDB.updateNoInDB(dbC, dataset);
+        if (cr.isError())
+            return cr;
+
+
+        
         if(pasteHeader){
            for (int j=0; j<nbColsToPaste; j++){
                DataHeader header = null;
                if (subData.getDataHeader(j) != null){
-                   CopexReturn  cr = setDataHeader(dataset, idC+j, subData.getDataHeader(j).getValue(), subData.getDataHeader(j).getUnit());
+                   header = new DataHeader(-1, subData.getDataHeader(j).getValue(),subData.getDataHeader(j).getUnit(),  idC+j);
+                   ArrayList v2 = new ArrayList();
+                   cr = DatasetFromDB.createDataHeaderInDB(dbC, header.getValue(), header.getUnit(), header.getNoCol(), dataset.getDbKey(), v2);
                    if(cr.isError())
                        return cr;
-               }else{
-                   CopexReturn cr = setDataHeader(dataset, idC+j, "", "");
-                   if(cr.isError())
-                       return cr;
+                   long dbKeyH = (Long)v2.get(0);
+                   header.setDbKey(dbKeyH);
+                   DataHeader[] headers = new DataHeader[2];
+                   headers[0] = null;
+                   if(idC+j< oldDs.getNbCol()){
+                       headers[0] = oldDs.getDataHeader(idC+j);
+                   }
+                   headers[1] = header;
+                   listDataHeader.add(headers);
                }
+               dataset.setDataHeader(header, idC+j);
            }
         }
         for (int i=0; i<nbRowsToPaste; i++){
             for (int j=0; j<nbColsToPaste; j++){
                 Data d = subData.getData(i, j);
                 Data nd = null;
-                if(d != null){
-                    CopexReturn cr = setData(dataset, idR+i, idC+j, d.getValue());
+                if (d != null){
+                    nd = new Data(-1, d.getValue(), idR+i, idC+j, d.isIgnoredData()) ;
+                    ArrayList v2 = new ArrayList();
+                    cr = DatasetFromDB.createDataInDB(dbC, nd.getValue(), nd.getNoRow(), nd.getNoCol(), dataset.getDbKey(), v2);
                     if(cr.isError())
                         return cr;
-                    ArrayList<Data> listD = new ArrayList();
-                    listD.add(dataset.getData(idR+i, idC+j)) ;
-                    cr = setDataIgnored(dataset, d.isIgnoredData(),listD);
-                    if(cr.isError())
-                        return cr;
-                }else{
-                    CopexReturn cr = setDataNull(dataset, idR+i, idC+j);
-                    if (cr.isError())
-                        return cr;
+                    long dbKeyD = (Long)v2.get(0);
+                    nd.setDbKey(dbKeyD);
+                    Data[] datas = new Data[2];
+                   datas[0] = null;
+                   if(idC+j< oldDs.getNbCol() && idR+i <oldDs.getNbRows()){
+                       datas[0] = oldDs.getData(idR+i, idC+j);
+                   }
+                   datas[1] = nd;
+                   listData.add(datas);
                 }
+                dataset.setData(nd, idR+i, idC+j);
             }
         }
         // recalcule des operations
         dataset.calculateOperation();
         v.add(dataset.clone());
+        v.add(listData);
+        v.add(listDataHeader);
+        listRowAndCol[0] = listNoRow ;
+        listRowAndCol[1] = listNoCol;
+        v.add(listRowAndCol);
         return new CopexReturn();
     }
 
     private CopexReturn setDataNull(Dataset ds, int rowIndex, int colIndex){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
         // data existe t il deja ?
         Data data = dataset.getData(rowIndex, colIndex);
         if(data != null){
@@ -1272,6 +1469,32 @@ public class DataControllerDB implements ControllerInterface{
         }catch(FileNotFoundException e){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
         }
+        return new CopexReturn();
+    }
+
+    /* mise a jour du nom du dataset */
+    @Override
+    public CopexReturn renameDataset(Dataset ds, String name){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        CopexReturn cr = DatasetFromDB.updateDatasetNameInDB(dbC, ds.getDbKey(), name);
+        if(cr.isError())
+            return cr;
+        dataset.setName(name);
+        return new CopexReturn();
+    }
+
+    /* fermeture d'un dataset */
+    @Override
+    public CopexReturn closeDataset(Dataset ds){
+        int id = getIdDataset(ds.getDbKey());
+        if(id == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        this.listDataset.remove(id);
         return new CopexReturn();
     }
 }

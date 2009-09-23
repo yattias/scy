@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.db;
 
+import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
@@ -147,7 +148,7 @@ public class VisualizationFromDB {
     }
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
-    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, Color fColor, ArrayList v){
+    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v){
         String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, COLOR_R, COLOR_G, COLOR_B) VALUES (NULL, '"+desc+"',"+fColor.getRed()+" , "+fColor.getGreen()+","+fColor.getBlue()+" ) ;";
         String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_MODEL`))   FROM FUNCTION_MODEL ;";
@@ -163,31 +164,95 @@ public class VisualizationFromDB {
         querys[0] = queryLink;
         v2 = new ArrayList();
         cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+        // creation des parametres
+        int nbParam = listParam.size();
+        for(int i=0; i<nbParam; i++){
+            v2 = new ArrayList();
+            cr = createFunctionParamInDB(dbC, dbKey, listParam.get(i), v2);
+            if(cr.isError())
+                return cr;
+            listParam.set(i, (FunctionParam)v2.get(0));
+        }
         v.add(dbKey);
-        return cr;
+        v.add(listParam);
+        return new CopexReturn();
     }
 
+    /* creation d'un param d'une fonction */
+    public static CopexReturn createFunctionParamInDB(DataBaseCommunication dbC, long dbKeyFunction, FunctionParam param, ArrayList v){
+        String name  = MyUtilities.replace("\'",param.getParam(),"''") ;
+        String query = "INSERT INTO FUNCTION_PARAM (ID_FUNCTION_PARAM, PARAM_NAME, PARAM_VALUE) VALUES (NULL, '"+name+"',"+param.getValue()+"  ) ;";
+        String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_PARAM`))   FROM FUNCTION_PARAM ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        // lien
+        String queryLink = "INSERT INTO LINK_FUNCTION_PARAM (ID_FUNCTION_MODEL, ID_FUNCTION_PARAM) VALUES ("+dbKeyFunction+", "+dbKey+") ;";
+        String[] querys = new String[1];
+        querys[0] = queryLink;
+        v2 = new ArrayList();
+        cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+        param.setDbKey(dbKey);
+        v.add(param);
+        return new CopexReturn();
+
+    }
     /* suppression d'une fonction modele */
     public static CopexReturn deleteFunctionModelFromDB(DataBaseCommunication dbC, long dbKey){
+        CopexReturn cr = deleteFunctionParamFromDB(dbC, dbKey);
+        if(cr.isError())
+            return cr;
         String queryLink = "DELETE FROM LINK_GRAPH_FUNCTION_MODEL WHERE ID_FUNCTION_MODEL = "+dbKey;
         String queryDel = "DELETE FROM FUNCTION_MODEL WHERE ID_FUNCTION_MODEL = "+dbKey;
         String[] querys = new String[2];
         querys[0] = queryLink ;
         querys[1] = queryDel  ;
         ArrayList v = new ArrayList();
+        cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+     /* suppression des parametres d'une fonction modele*/
+    public static CopexReturn deleteFunctionParamFromDB(DataBaseCommunication dbC, long dbKeyFunction){
+        String queryParam = "DELETE FROM FUNCTION_PARAM WHERE ID_FUNCTION_PARAM IN (SELECT ID_FUNCTION_PARAM FROM LINK_FUNCTION_PARAM WHERE ID_FUNCTION_MODEL = "+dbKeyFunction+") ;";
+        String queryLinkParam = "DELETE FROM LINK_FUNCTION_PARAM WHERE ID_FUNCTION_MODEL = "+dbKeyFunction+" ;";
+        String[] querys = new String[2];
+        querys[0] = queryParam;
+        querys[1] = queryLinkParam;
+        ArrayList v = new ArrayList();
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
     }
 
      /* mise a jour d'une fonction modele */
-    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description){
+    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description, ArrayList<FunctionParam> listParam, ArrayList v){
+        // suppression et creation des param
+        CopexReturn cr = deleteFunctionParamFromDB(dbC, dbKey);
+        if(cr.isError())
+            return cr;
+        int nbP = listParam.size();
+        for(int k=0; k<nbP; k++){
+            ArrayList v2 = new ArrayList();
+            cr = createFunctionParamInDB(dbC, dbKey, listParam.get(k), v2);
+            if(cr.isError())
+                return cr;
+            listParam.set(k, (FunctionParam)v2.get(0));
+        }
         String desc  = MyUtilities.replace("\'",description,"''") ;
         String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
         String[] querys = new String[1];
         querys[0] = query ;
-        ArrayList v = new ArrayList();
-        CopexReturn cr = dbC.executeQuery(querys, v);
-        return cr;
+        ArrayList v2 = new ArrayList();
+        cr = dbC.executeQuery(querys, v2);
+        if(cr.isError())
+            return cr;
+        return new CopexReturn();
     }
 
     /* suppression de plusieurs visualizations */

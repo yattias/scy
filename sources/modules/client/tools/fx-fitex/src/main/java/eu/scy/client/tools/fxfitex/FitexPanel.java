@@ -14,50 +14,32 @@ import org.jdom.Element;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import roolo.elo.JDomStringConversion;
 import java.io.File;
-import roolo.elo.api.IMetadataKey;
-//import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.communications.datasync.event.IDataSyncListener;
-import java.util.Date;
 
 /**
  *
  * @author Marjolaine
  */
-public class FitexPanel extends JPanel implements IDataSyncListener {
+public class FitexPanel extends JPanel implements IDataSyncListener{
 //public class FitexPanel extends JPanel{
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
-    private IDataSyncService dataSyncService;
-
-    private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.fitex";
-    private static final String HARD_CODED_USER_NAME = "obama";
-    private static final String HARD_CODED_PASSWORD = "obama";
-
+    
     /* Constructor data Tool panel - blank */
     public FitexPanel() {
         super();
         this.setLayout(new BorderLayout());
         initDataProcessTool();
         load();
-        initializeSynchService();
     }
 
-    /* initialize synch service - collaboration service */
-    private void initializeSynchService(){
-//        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-//        dataSyncService = tbi.getDataSyncService();
-//        dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-    }
-
-
-
+    
 
     private void initDataProcessTool(){
-        dataProcessPanel = new DataProcessToolPanel();
+        dataProcessPanel = new DataProcessToolPanel(true);
         add(dataProcessPanel, BorderLayout.CENTER);
-        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
-        setPreferredSize(getSize());
+//        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
+//        setPreferredSize(getSize());
     }
 
     public void load(){
@@ -91,9 +73,7 @@ public class FitexPanel extends JPanel implements IDataSyncListener {
     @Override
     public void handleDataSyncEvent(IDataSyncEvent e) {
         ISyncMessage syncMessage = e.getSyncMessage();
-        Date date = new java.util.Date(System.currentTimeMillis());
-        java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
     }
 
-
+    
 }

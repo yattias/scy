@@ -75,8 +75,11 @@ public class FitexNode extends CustomNode, Resizable {
                         Button {
                            text: "Open"
                            action: function() {
-                              eloFitexActionWrapper.loadFitexAction();
+                              var dsElo = eloFitexActionWrapper.loadFitexAction();
 										setScyWindowTitle();
+                                        if(dsElo != null){
+                                            eloFitexActionWrapper.loadElo(dsElo);
+                                        }
                            }
                         }
                         Button {
@@ -121,7 +124,7 @@ public class FitexNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height);
+      var size = new Dimension(width,height-25);
       // setPreferredSize is needed
       fitexPanel.setPreferredSize(size);
       // setSize is not visual needed

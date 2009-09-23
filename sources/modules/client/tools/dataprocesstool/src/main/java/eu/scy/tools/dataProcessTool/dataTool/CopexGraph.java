@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class CopexGraph extends JPanel{
     // PROPERTY
     /*data tool panel */
-    protected DataProcessToolPanel owner;
+    protected FitexToolPanel owner;
     /* id dataset */
     protected long dbKeyDs;
     /* visualisation */
@@ -26,7 +26,7 @@ public class CopexGraph extends JPanel{
     protected  Component graphComponent ;
 
     // CONSTRUCTOR
-    public CopexGraph(DataProcessToolPanel owner, long dbKeyDs, Visualization vis, Component graphComponent) {
+    public CopexGraph(FitexToolPanel owner, long dbKeyDs, Visualization vis, Component graphComponent) {
         super();
         this.owner = owner;
         this.dbKeyDs = dbKeyDs;
