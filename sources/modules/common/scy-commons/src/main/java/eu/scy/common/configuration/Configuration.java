@@ -89,5 +89,17 @@ public class Configuration {
 	public String getSqlSpacesServerHost() {
 		return props.getProperty("communication.sqlspaces.server.host");
 	}
+
+	public long getDatasyncMessageDefaultExpiration() {	
+		return Long.parseLong(props.getProperty("communication.datasync.message.default.expiration"));
+	}
+
+	public String getDatasyncServerHost() {
+		return props.getProperty("communication.datasync.server.host");
+	}
+
+	public String getDatasyncMessageHubAddress() {
+		return getDatasyncMessageHub() + "." + getDatasyncServerHost();
+	}
 	
 }
