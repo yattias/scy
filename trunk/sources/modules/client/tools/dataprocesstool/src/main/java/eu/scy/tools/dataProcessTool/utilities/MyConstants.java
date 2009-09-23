@@ -21,4 +21,6 @@ public class MyConstants {
     public final static int DB_COPEX_EDP = 1;
     /* base data tool */
     public final static int DB_COPEX_DATA = 2 ;
+
+    public final static int MAX_LENGHT_DATASET_NAME=32;
 }

@@ -6,6 +6,7 @@
 package eu.scy.tools.dataProcessTool.common;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * modele de fonctions
@@ -19,12 +20,15 @@ public class FunctionModel implements Cloneable{
     private String description;
     /* couleur */
     private Color color ;
+    /* liste des parametres */
+    private ArrayList<FunctionParam> listParam;
 
     // CONSTRUCTOR
-     public FunctionModel(long dbKey, String description, Color color) {
+     public FunctionModel(long dbKey, String description, Color color, ArrayList<FunctionParam> listParam) {
         this.dbKey = dbKey ;
         this.description = description;
         this.color = color;
+        this.listParam = listParam;
     }
 
     public long getDbKey() {
@@ -53,6 +57,14 @@ public class FunctionModel implements Cloneable{
         this.description = description;
     }
 
+    public ArrayList<FunctionParam> getListParam() {
+        return listParam;
+    }
+
+    public void setListParam(ArrayList<FunctionParam> listParam) {
+        this.listParam = listParam;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
@@ -63,7 +75,11 @@ public class FunctionModel implements Cloneable{
             fm.setDbKey(this.dbKey);
             fm.setDescription(descriptionC);
             fm.setColor(colorC);
-
+            ArrayList l = new ArrayList();
+            int n = listParam.size();
+            for (int i=0; i<n; i++){
+                l.add((FunctionParam)listParam.get(i).clone());
+            }
             return fm;
         } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable

@@ -7,8 +7,8 @@ package eu.scy.tools.dataProcessTool.undoRedo;
 
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
@@ -25,7 +25,7 @@ public class EditDataUndoRedo extends DataUndoRedo{
     private int idR;
     private int idC;
 
-    public EditDataUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, Double oldValue, Double newValue, int idR, int idC) {
+    public EditDataUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, Double oldValue, Double newValue, int idR, int idC) {
         super(table, dataToolPanel, controller);
         this.oldValue = oldValue;
         this.newValue = newValue;

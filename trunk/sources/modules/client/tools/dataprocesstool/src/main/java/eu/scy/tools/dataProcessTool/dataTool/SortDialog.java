@@ -25,7 +25,7 @@ public class SortDialog extends javax.swing.JDialog {
 
     // PROPERTY 
     /* owner */
-    private DataProcessToolPanel owner ;
+    private FitexToolPanel owner ;
     /* liste des cles a trier */
     private Vector listOfColumns ;
     /* texte pour aucun critere */
@@ -60,7 +60,7 @@ public class SortDialog extends javax.swing.JDialog {
 	boolean isKey1Croi=true,isKey2Croi=true,isKey3Croi=true;
 
     // CONSTRUCTOR 
-    public SortDialog(DataProcessToolPanel owner, Vector listOfColumns, String selColumn) {
+    public SortDialog(FitexToolPanel owner, Vector listOfColumns, String selColumn) {
         super();
         this.owner = owner;
         this.listOfColumns = listOfColumns;

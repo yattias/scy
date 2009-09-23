@@ -11,6 +11,8 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.common.DataHeader;
+import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
@@ -24,17 +26,20 @@ import java.text.DecimalFormat;
 public class GraphParamDialog extends javax.swing.JDialog {
 
     /* owner */
-    private DataProcessToolPanel dataToolPanel;
-
-    private ParamGraph paramGraph;
+    private FitexToolPanel dataToolPanel;
+    private Graph graph;
     private DecimalFormat decimalFormat;
+    private DataHeader[] listCol;
+    /* liste des colonnes pour le deuxieme axe*/
+    private DataHeader[] listCol2;
 
-    public GraphParamDialog(DataProcessToolPanel dataToolPanel, ParamGraph paramGraph) {
+    public GraphParamDialog(FitexToolPanel dataToolPanel, Graph Graph, DataHeader[] listCol) {
         super();
         this.dataToolPanel = dataToolPanel;
-        this.paramGraph = paramGraph;
+        this.graph = Graph;
         this.decimalFormat = new DecimalFormat();
         this.decimalFormat.setDecimalSeparatorAlwaysShown(false);
+        this.listCol = listCol;
         initComponents();
         initGUI();
         setLocationRelativeTo(dataToolPanel);
@@ -52,13 +57,23 @@ public class GraphParamDialog extends javax.swing.JDialog {
 
 
     private void initGUI(){
+        String s = dataToolPanel.getBundleString("LABEL_AXIS_CHOICE");
+        s  = MyUtilities.replace(s, 0, "0");
+        labelPlot1.setText(s);
         resizeElements();
-        if (paramGraph != null){
-            textFieldXNameAxis.setText(paramGraph.getX_name());
+        for (int i=0; i<listCol.length; i++){
+            if(listCol[i] != null){
+                cbXAxis.addItem(listCol[i].getValue());
+            }
+        }
+        cbXAxis.setSelectedIndex(0);
+        if (graph != null && graph.getParamGraph() != null){
+            ParamGraph paramGraph = graph.getParamGraph();
+            cbXAxis.setSelectedItem(paramGraph.getHeaderX().getValue());
             textFieldXMin.setText(""+decimalFormat.format(paramGraph.getX_min()));
             textFieldXMax.setText(""+decimalFormat.format(paramGraph.getX_max()));
             textFieldDeltaX.setText(""+decimalFormat.format(paramGraph.getDeltaX()));
-            textFieldYNameAxis.setText(paramGraph.getY_name());
+            //cbYAxis.setSelectedItem(paramGraph.getY_name());
             textFieldYMin.setText(""+decimalFormat.format(paramGraph.getY_min()));
             textFieldYMax.setText(""+decimalFormat.format(paramGraph.getY_max()));
             textFieldDeltaY.setText(""+decimalFormat.format(paramGraph.getDeltaY()));
@@ -66,6 +81,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
     }
 
     private void resizeElements(){
+        this.labelPlot1.setSize(MyUtilities.lenghtOfString(this.labelPlot1.getText(), getFontMetrics(this.labelPlot1.getFont())), this.labelPlot1.getHeight());
        // x
        this.labelXNameAxis.setSize(MyUtilities.lenghtOfString(this.labelXNameAxis.getText(), getFontMetrics(this.labelXNameAxis.getFont())), this.labelXNameAxis.getHeight());
        this.labelXMin.setSize(MyUtilities.lenghtOfString(this.labelXMin.getText(), getFontMetrics(this.labelXMin.getFont())), this.labelXMin.getHeight());
@@ -84,21 +100,9 @@ public class GraphParamDialog extends javax.swing.JDialog {
 
     private void validParamGraph(){
         // x
-        String xName = textFieldXNameAxis.getText() ;
-        if (xName.length() > DataConstants.MAX_LENGHT_AXIS_NAME){
-            String msg = dataToolPanel.getBundleString("MSG_LENGHT_MAX");
-            msg  = MyUtilities.replace(msg, 0, dataToolPanel.getBundleString("LABEL_X_NAME_AXIS"));
-            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_AXIS_NAME);
-            dataToolPanel.displayError(new CopexReturn(msg, false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
-            return;
-        }
-        if (xName.length() == 0){
-            String msg = dataToolPanel.getBundleString("MSG_ERROR_FIELD_NULL");
-            msg  = MyUtilities.replace(msg, 0, dataToolPanel.getBundleString("LABEL_X_NAME_AXIS"));
-            dataToolPanel.displayError(new CopexReturn(msg ,false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
-            return;
-        }
+        DataHeader headerX = listCol[cbXAxis.getSelectedIndex()];
         String s = textFieldXMin.getText();
+        s = s.replace(",", ".");
         double xMin;
         try{
             xMin = Double.parseDouble(s);
@@ -107,6 +111,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         s = textFieldXMax.getText();
+        s = s.replace(",", ".");
         double xMax;
         try{
             xMax = Double.parseDouble(s);
@@ -115,6 +120,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         s = textFieldDeltaX.getText();
+        s = s.replace(",", ".");
         double deltaX;
         try{
             deltaX = Double.parseDouble(s);
@@ -123,21 +129,9 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         //y
-        String yName = textFieldYNameAxis.getText() ;
-        if (yName.length() > DataConstants.MAX_LENGHT_AXIS_NAME){
-            String msg = dataToolPanel.getBundleString("MSG_LENGHT_MAX");
-            msg  = MyUtilities.replace(msg, 0, dataToolPanel.getBundleString("LABEL_Y_NAME_AXIS"));
-            msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_AXIS_NAME);
-            dataToolPanel.displayError(new CopexReturn(msg, false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
-            return;
-        }
-        if (yName.length() == 0){
-            String msg = dataToolPanel.getBundleString("MSG_ERROR_FIELD_NULL");
-            msg  = MyUtilities.replace(msg, 0, dataToolPanel.getBundleString("LABEL_Y_NAME_AXIS"));
-            dataToolPanel.displayError(new CopexReturn(msg ,false), dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
-            return;
-        }
+        DataHeader headerY = listCol2[cbYAxis.getSelectedIndex()];
         s = textFieldYMin.getText();
+        s = s.replace(",", ".");
         double yMin;
         try{
             yMin = Double.parseDouble(s);
@@ -146,6 +140,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         s = textFieldYMax.getText();
+        s = s.replace(",", ".");
         double yMax;
         try{
             yMax = Double.parseDouble(s);
@@ -154,6 +149,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
             return;
         }
         s = textFieldDeltaY.getText();
+        s = s.replace(",", ".");
         double deltaY;
         try{
             deltaY = Double.parseDouble(s);
@@ -167,8 +163,9 @@ public class GraphParamDialog extends javax.swing.JDialog {
              return;
         }
         //
-        ParamGraph newParamGraph = new ParamGraph(xName, yName, xMin, xMax, yMin, yMax, deltaX, deltaY, paramGraph == null ? false : paramGraph.isAutoscale());
-        boolean isOk = dataToolPanel.updateGraphParam(newParamGraph);
+        ParamGraph paramGraph = graph.getParamGraph();
+        ParamGraph newParamGraph = new ParamGraph(headerX, headerY, xMin, xMax, yMin, yMax, deltaX, deltaY, paramGraph == null ? false : paramGraph.isAutoscale());
+        boolean isOk = dataToolPanel.updateGraphParam(graph, newParamGraph);
         if(isOk){
             this.dispose();
         }
@@ -201,32 +198,59 @@ public class GraphParamDialog extends javax.swing.JDialog {
         buttonOk = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
         labelXNameAxis = new javax.swing.JLabel();
-        textFieldXNameAxis = new javax.swing.JTextField();
         labelYNameAxis = new javax.swing.JLabel();
-        textFieldYNameAxis = new javax.swing.JTextField();
+        cbXAxis = new javax.swing.JComboBox();
+        cbYAxis = new javax.swing.JComboBox();
+        labelPlot1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(dataToolPanel.getBundleString("TITLE_DIALOG_GRAPH_PARAM"));
+        setMinimumSize(new java.awt.Dimension(480, 200));
         setModal(true);
         setResizable(false);
+        getContentPane().setLayout(null);
 
         labelXMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelXMin.setText(dataToolPanel.getBundleString("LABEL_XMIN"));
+        getContentPane().add(labelXMin);
+        labelXMin.setBounds(10, 10, 50, 14);
 
         labelXMax.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelXMax.setText(dataToolPanel.getBundleString("LABEL_XMAX"));
+        getContentPane().add(labelXMax);
+        labelXMax.setBounds(160, 10, 50, 14);
 
         labelDeltaX.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelDeltaX.setText(dataToolPanel.getBundleString("LABEL_DELTAX"));
+        getContentPane().add(labelDeltaX);
+        labelDeltaX.setBounds(320, 10, 50, 14);
 
         labelYMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelYMin.setText(dataToolPanel.getBundleString("LABEL_YMIN"));
+        getContentPane().add(labelYMin);
+        labelYMin.setBounds(10, 50, 50, 14);
 
         labelYMax.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelYMax.setText(dataToolPanel.getBundleString("LABEL_YMAX"));
+        getContentPane().add(labelYMax);
+        labelYMax.setBounds(160, 50, 50, 14);
 
         labelDeltaY.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelDeltaY.setText(dataToolPanel.getBundleString("LABEL_DELTAY"));
+        getContentPane().add(labelDeltaY);
+        labelDeltaY.setBounds(320, 50, 50, 14);
+        getContentPane().add(textFieldXMin);
+        textFieldXMin.setBounds(70, 7, 80, 20);
+        getContentPane().add(textFieldXMax);
+        textFieldXMax.setBounds(220, 7, 80, 20);
+        getContentPane().add(textFieldDeltaX);
+        textFieldDeltaX.setBounds(380, 7, 80, 20);
+        getContentPane().add(textFieldYMin);
+        textFieldYMin.setBounds(70, 47, 80, 20);
+        getContentPane().add(textFieldYMax);
+        textFieldYMax.setBounds(220, 47, 80, 20);
+        getContentPane().add(textFieldDeltaY);
+        textFieldDeltaY.setBounds(380, 47, 80, 20);
 
         buttonOk.setText(dataToolPanel.getBundleString("BUTTON_OK"));
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +258,8 @@ public class GraphParamDialog extends javax.swing.JDialog {
                 buttonOkActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonOk);
+        buttonOk.setBounds(80, 140, 99, 23);
 
         buttonCancel.setText(dataToolPanel.getBundleString("BUTTON_CANCEL"));
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -241,97 +267,34 @@ public class GraphParamDialog extends javax.swing.JDialog {
                 buttonCancelActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonCancel);
+        buttonCancel.setBounds(270, 140, 99, 23);
 
         labelXNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelXNameAxis.setText(dataToolPanel.getBundleString("LABEL_X_NAME_AXIS"));
+        labelXNameAxis.setText(dataToolPanel.getBundleString("LABEL_X"));
+        getContentPane().add(labelXNameAxis);
+        labelXNameAxis.setBounds(90, 90, 30, 14);
 
         labelYNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelYNameAxis.setText(dataToolPanel.getBundleString("LABEL_Y_NAME_AXIS"));
+        labelYNameAxis.setText(dataToolPanel.getBundleString("LABEL_Y"));
+        getContentPane().add(labelYNameAxis);
+        labelYNameAxis.setBounds(260, 90, 30, 14);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelXNameAxis)
-                                    .addComponent(labelXMax)
-                                    .addComponent(labelDeltaX))
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(textFieldXNameAxis)
-                                    .addComponent(textFieldXMin)
-                                    .addComponent(textFieldXMax)
-                                    .addComponent(textFieldDeltaX, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)))
-                            .addComponent(labelXMin))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonOk)
-                        .addGap(50, 50, 50)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelYNameAxis)
-                            .addComponent(labelYMin)
-                            .addComponent(labelYMax)
-                            .addComponent(labelDeltaY))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldDeltaY, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(textFieldYMax, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(textFieldYNameAxis, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(textFieldYMin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(buttonCancel)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelXNameAxis)
-                            .addComponent(textFieldXNameAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFieldYNameAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 11, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelXMin)
-                            .addComponent(textFieldXMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelYMin)
-                            .addComponent(textFieldYMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelXMax)
-                            .addComponent(textFieldXMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFieldYMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelYMax))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelDeltaX)
-                            .addComponent(textFieldDeltaX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFieldDeltaY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelDeltaY))
-                        .addGap(47, 47, 47))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(labelYNameAxis)))
-                .addGap(35, 35, 35))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonCancel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonOk, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(22, 22, 22))
-        );
+        cbXAxis.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbXAxisItemStateChanged(evt);
+            }
+        });
+        getContentPane().add(cbXAxis);
+        cbXAxis.setBounds(120, 87, 90, 20);
+
+        getContentPane().add(cbYAxis);
+        cbYAxis.setBounds(290, 87, 90, 20);
+
+        labelPlot1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelPlot1.setText("jLabel1");
+        getContentPane().add(labelPlot1);
+        labelPlot1.setBounds(20, 90, 60, 14);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -343,6 +306,10 @@ public class GraphParamDialog extends javax.swing.JDialog {
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         quitParamGraph();
     }//GEN-LAST:event_buttonCancelActionPerformed
+
+    private void cbXAxisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbXAxisItemStateChanged
+        cbXAxisChange();
+    }//GEN-LAST:event_cbXAxisItemStateChanged
 
     /**
     * @param args the command line arguments
@@ -364,8 +331,11 @@ public class GraphParamDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
+    private javax.swing.JComboBox cbXAxis;
+    private javax.swing.JComboBox cbYAxis;
     private javax.swing.JLabel labelDeltaX;
     private javax.swing.JLabel labelDeltaY;
+    private javax.swing.JLabel labelPlot1;
     private javax.swing.JLabel labelXMax;
     private javax.swing.JLabel labelXMin;
     private javax.swing.JLabel labelXNameAxis;
@@ -376,10 +346,32 @@ public class GraphParamDialog extends javax.swing.JDialog {
     private javax.swing.JTextField textFieldDeltaY;
     private javax.swing.JTextField textFieldXMax;
     private javax.swing.JTextField textFieldXMin;
-    private javax.swing.JTextField textFieldXNameAxis;
     private javax.swing.JTextField textFieldYMax;
     private javax.swing.JTextField textFieldYMin;
-    private javax.swing.JTextField textFieldYNameAxis;
     // End of variables declaration//GEN-END:variables
 
+
+    private void cbXAxisChange(){
+        if(cbYAxis == null)
+            return;
+        this.listCol2 = new DataHeader[this.listCol.length - 1];
+        int id1 = cbXAxis.getSelectedIndex() ;
+        int j=0;
+        for (int i=0; i<this.listCol.length; i++){
+            if (i != id1){
+                this.listCol2[j] = this.listCol[i];
+            }
+        }
+        cbYAxis.removeAllItems();
+        for (int i=0; i<listCol2.length; i++){
+            if(listCol2[i] != null){
+                cbYAxis.addItem(listCol2[i].getValue());
+            }
+        }
+        cbYAxis.setSelectedIndex(0);
+        if(this.graph != null && this.graph.getParamGraph() != null){
+            cbYAxis.setSelectedItem(graph.getParamGraph().getHeaderY().getValue());
+        }
+        repaint();
+    }
 }

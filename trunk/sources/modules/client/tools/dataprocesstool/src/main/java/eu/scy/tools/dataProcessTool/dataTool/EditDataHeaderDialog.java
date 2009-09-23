@@ -22,14 +22,14 @@ import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
  * @author Marjolaine
  */
 public class EditDataHeaderDialog extends javax.swing.JDialog {
-    private DataProcessToolPanel owner;
+    private FitexToolPanel owner;
     private char right;
     private DataHeader header;
     private Dataset dataset;
     private int noCol;
 
 
-    public EditDataHeaderDialog(DataProcessToolPanel owner, Dataset dataset, DataHeader header, int noCol, char right) {
+    public EditDataHeaderDialog(FitexToolPanel owner, Dataset dataset, DataHeader header, int noCol, char right) {
         super();
         this.owner = owner;
         this.header = header;

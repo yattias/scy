@@ -8,8 +8,8 @@ package eu.scy.tools.dataProcessTool.undoRedo;
 import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
+import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
@@ -24,7 +24,7 @@ public class InsertUndoRedo extends DataUndoRedo {
     private int nbInsert;
     private int idBefore;
 
-    public InsertUndoRedo(DataTable table, DataProcessToolPanel dataToolPanel, ControllerInterface controller, boolean isOnCol, int nbInsert, int idBefore) {
+    public InsertUndoRedo(DataTable table, FitexToolPanel dataToolPanel, ControllerInterface controller, boolean isOnCol, int nbInsert, int idBefore) {
         super(table, dataToolPanel, controller);
         this.isOnCol = isOnCol;
         this.nbInsert = nbInsert;
@@ -74,10 +74,15 @@ public class InsertUndoRedo extends DataUndoRedo {
                 }
             }
         }
-        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, new ArrayList(), listRowAndCol);
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.deleteData(true, getDataset(), listData, new ArrayList(), listRowAndCol, v);
         if (cr.isError()){
             dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
             return;
+        }
+        if(v.size()> 0){
+            Dataset newDs = (Dataset)v.get(0);
+            dataToolPanel.updateDataset(newDs);
         }
     }
 

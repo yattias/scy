@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 public class ParamOperationDialog extends javax.swing.JDialog {
 
     /* owner */
-    private DataProcessToolPanel owner ;
+    private FitexToolPanel owner ;
 
     /* operation */
     private TypeOperationParam operation;
@@ -46,7 +46,7 @@ public class ParamOperationDialog extends javax.swing.JDialog {
     ArrayList<Integer> listNo ;
 
     // CONSTRUCTOR
-    public ParamOperationDialog(DataProcessToolPanel owner, TypeOperationParam operation, Dataset ds,  boolean isOnCol, ArrayList<Integer> listNo) {
+    public ParamOperationDialog(FitexToolPanel owner, TypeOperationParam operation, Dataset ds,  boolean isOnCol, ArrayList<Integer> listNo) {
         super();
         this.owner = owner;
         this.operation = operation;

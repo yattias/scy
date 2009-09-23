@@ -5,7 +5,6 @@
 
 package eu.scy.tools.dataProcessTool.utilities;
 
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import java.awt.event.*;
 import java.awt.*;
 
@@ -19,9 +18,9 @@ import javax.swing.UIManager;
  */
 public class MyMenuItem extends JMenuItem implements  MouseListener {
     // ATTRIBUTS
+    private ActionMenu action;
     private Image bg ;
     private Color bgColor;
-    private DataProcessToolPanel owner;
     private ImageIcon img;
     private ImageIcon imgSurvol;
     private ImageIcon imgClic;
@@ -30,9 +29,8 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
     private boolean isEnabled;
 
     // CONSTRUCTEURS
-    public MyMenuItem(DataProcessToolPanel owner, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
+    public MyMenuItem(String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
         //super(null, img);
-        this.owner = owner;
         this.bgColor = bcolor;
         this.bg = img.getImage();
         this.img = img;
@@ -55,6 +53,8 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         MyMenuItemUI myMenuItemUI = new MyMenuItemUI(SystemColor.control);
         setUI(myMenuItemUI);
     }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         //g.setColor(bgColor);
@@ -65,16 +65,20 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         g.drawImage(bg, 0, 0, null);
     }
 
+    public void addActionMenu(ActionMenu action){
+        this.action = action;
+    }
      // EVENEMENTS SOURIS
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     public void mousePressed(MouseEvent e) {
         if (isEnabled){
             bg = this.imgClic.getImage();
             repaint();
-            this.owner.clickMenuEvent(this);
+            if(action != null)
+                action.actionClick(this);
             bg = this.img.getImage();
             repaint();
         }
@@ -100,20 +104,20 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
             repaint();
         }
     }
-   
-    
-    
 
-    // OPERATIONS 
+
+
+
+    // OPERATIONS
     @Override
     public void setEnabled(boolean b) {
        super.setEnabled(b);
         this.isEnabled = b;
-       
+
         if (b){
             this.bg = this.img.getImage();
         }else{
-            
+
             this.bg = this.imgDisabled.getImage();
         }
         repaint();
@@ -124,7 +128,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         this.img = newImg;
         this.bg = newImg.getImage();
         repaint();
-        
+
     }
     public void setItemClicIcon(ImageIcon newImg){
         this.imgClic = newImg;
@@ -132,7 +136,5 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
     public void setItemRolloverIcon(ImageIcon newImg){
         this.imgSurvol = newImg;
     }
-    
-    
-    
+
 }

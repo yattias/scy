@@ -24,16 +24,17 @@ public class EditVisualizationDialog extends javax.swing.JDialog {
 
     //PROPERTY
     /* owner */
-    private DataProcessToolPanel owner;
+    private FitexToolPanel owner;
     /* Visualisation */
     private Visualization visualization  ;
 
     // CONSTRUCTOR
-    public EditVisualizationDialog(DataProcessToolPanel owner, Visualization visualization) {
+    public EditVisualizationDialog(FitexToolPanel owner, Visualization visualization) {
         super();
         this.owner = owner;
         this.visualization = visualization;
         initComponents();
+        init();
         setResizable(false);
         setModal(true);
         setLocationRelativeTo(owner);
@@ -111,7 +112,7 @@ public class EditVisualizationDialog extends javax.swing.JDialog {
         setTitle(this.owner.getBundleString("TITLE_DIALOG_EDIT_VISUALIZATION"));
 
         labelName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelName.setText(this.owner.getBundleString("LABEL_NAME")+" :");
+        labelName.setText(this.owner.getBundleString("LABEL_NAME"));
 
         buttonOk.setText(this.owner.getBundleString("BUTTON_OK"));
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -134,28 +135,28 @@ public class EditVisualizationDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelName)
-                .addGap(51, 51, 51)
+                .addGap(18, 18, 18)
                 .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(56, 56, 56)
                 .addComponent(buttonOk)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(buttonCancel)
-                .addGap(98, 98, 98))
+                .addGap(55, 55, 55))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelName)
                     .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonOk)
-                    .addComponent(buttonCancel))
-                .addContainerGap(53, Short.MAX_VALUE))
+                    .addComponent(buttonCancel)
+                    .addComponent(buttonOk))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();

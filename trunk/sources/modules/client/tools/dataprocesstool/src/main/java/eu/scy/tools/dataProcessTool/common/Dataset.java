@@ -349,7 +349,7 @@ public class Dataset implements Cloneable{
                 ParamGraph pg = g.getParamGraph() ;
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionModel> listFunction = getListFunctionModel(g.getListFunctionModel());
                 vis = new GraphVisualization(DataConstants.TYPE_VIS_GRAPH, myVis.getName(), myVis.isOnCol,g.getTabNo()[0], g.getTabNo()[1],
-                        pg.getX_name(), pg.getY_name(), pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
+                        pg.getHeaderX().getValue(), pg.getHeaderY().getValue(), pg.getX_min(), pg.getX_max(), pg.getDeltaX(), pg.getY_min(), pg.getY_max(), pg.getDeltaY(),
                         DrawPanel.SCATTER_PLOT_COLOR.getRed(), DrawPanel.SCATTER_PLOT_COLOR.getGreen(), DrawPanel.SCATTER_PLOT_COLOR.getBlue(),
                         listFunction);
             }else if (type.getCode() == DataConstants.VIS_PIE){
@@ -372,12 +372,24 @@ public class Dataset implements Cloneable{
             list = new LinkedList();
             for (int i=0; i<nb; i++){
                 FunctionModel fm = listFm.get(i);
-                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue());
+                List<eu.scy.tools.dataProcessTool.pdsELO.FunctionParam> listParam = getListFunctionParam(listFm.get(i));
+                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue(), listParam);
                 list.add(f);
             }
         }
         return list;
     }
+
+    private List<eu.scy.tools.dataProcessTool.pdsELO.FunctionParam> getListFunctionParam(FunctionModel functionModel){
+        List<eu.scy.tools.dataProcessTool.pdsELO.FunctionParam> listParam = new LinkedList();
+        int nb = functionModel.getListParam().size();
+        for (int i=0; i<nb; i++){
+            eu.scy.tools.dataProcessTool.pdsELO.FunctionParam p = new eu.scy.tools.dataProcessTool.pdsELO.FunctionParam(functionModel.getListParam().get(i).getParam(), functionModel.getListParam().get(i).getValue());
+            listParam.add(p);
+        }
+        return listParam;
+    }
+
 
     /* indice d'une operation */
     public int getIdOperation(long dbKey){
@@ -911,5 +923,14 @@ public class Dataset implements Cloneable{
             }
         }
         calculateOperation();
+    }
+
+    public Visualization getVisualization(long dbKeyVis){
+        int nb = this.listVisualization.size();
+        for (int i=0; i<nb; i++){
+            if(listVisualization.get(i).getDbKey() == dbKeyVis)
+                return listVisualization.get(i);
+        }
+        return null;
     }
 }

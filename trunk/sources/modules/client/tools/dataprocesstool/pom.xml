@@ -11,7 +11,34 @@
     <artifactId>dataprocesstool</artifactId>
     <packaging>jar</packaging>
     <name>DataProcessTool</name>
- 
+
+    <developers>
+        <developer>
+			<id>cedric</id>
+			<name>Cedric D'Ham</name>
+			<email>cedric.dham@imag.fr</email>
+			<url>www.liglab.fr</url>
+			<organization>Joseph Fourier University</organization>
+			<organizationUrl>www.ujf-grenoble.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>marjolaine</id>
+			<name>Marjolaine Bodin</name>
+			<email>marjolaine.bodin@imag.fr</email>
+			<url>www.liglab.fr</url>
+			<organization>Joseph Fourier University</organization>
+			<organizationUrl>www.ujf-grenoble.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
     <build>
         <plugins>
             <plugin>
