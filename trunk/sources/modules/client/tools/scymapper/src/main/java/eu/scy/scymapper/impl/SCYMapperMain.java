@@ -23,6 +23,7 @@ import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.datasync.client.IDataSyncService;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -47,7 +48,6 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 	private IAwarenessService awarenessService;
 	private ToolBrokerAPI<IMetadataKey> toolBroker;
 	//init props
-	private CommunicationProperties props = new CommunicationProperties();
 	private JTextArea logView;
 	private final static Logger logger = Logger.getLogger(SCYMapperMain.class);
 	private JToolBar toolBar;
@@ -189,11 +189,11 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 	@Override
 	public void handleDataSyncEvent(IDataSyncEvent e) {
 		ISyncMessage syncMessage = e.getSyncMessage();
-		if (syncMessage.getEvent().equals(props.clientEventCreateSession)) {
+		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventCreateSession())) {
 			currentToolSessionId = syncMessage.getToolSessionId();
 			logView.append("GOT SESSION ID: " + currentToolSessionId);
 		}
-		if (syncMessage.getEvent().equals(props.clientEventSynchronize)) {
+		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventSynchronize())) {
 			logger.debug("GOT SYNCH" + syncMessage.getContent());
 		}
 	}
@@ -232,7 +232,7 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 	public void moved(INodeModel node) {
 		logger.debug("User moved node");
 		dataSyncService.sendMessage(SyncMessageHelper.createSyncMessage(currentToolSessionId, "eu.scy.scymapper", "obama", "bjoerge",
-				"NODE MOVED", props.clientEventSynchronize,  "something", 2323));
+				"NODE MOVED", Configuration.getInstance().getClientEventSynchronize(),  "something", 2323));
 	}
 
 	@Override

@@ -101,5 +101,9 @@ public class Configuration {
 	public String getDatasyncMessageHubAddress() {
 		return getDatasyncMessageHub() + "." + getDatasyncServerHost();
 	}
+
+	public int getDatasyncServerPort() {
+		return Integer.parseInt(props.getProperty("communication.datasync.server.port"));
+	}
 	
 }

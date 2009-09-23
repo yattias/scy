@@ -22,6 +22,7 @@ import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.notification.api.INotificationService;
@@ -60,8 +61,6 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private ICollaborationService collaborationService;
 
     private IDataSyncService dataSyncService;
-
-    private CommunicationProperties communicationProps;
 
     private ConnectionConfiguration config;
 
@@ -210,16 +209,14 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     @Override
     public XMPPConnection getConnection(String userName, String password) {
     	if(xmppConnection == null) {
-	        communicationProps = new CommunicationProperties(); 
 	        
 	        this.userName = userName;
 	        this.password = password;
 	        
 	        //make it a jid
 	        //userName = userName + "@" + communicationProps.datasyncServerHost;
-	
-	              
-	        config = new ConnectionConfiguration(communicationProps.datasyncServerHost, new Integer(communicationProps.datasyncServerPort).intValue());
+	        
+	        config = new ConnectionConfiguration(Configuration.getInstance().getDatasyncServerHost(), Configuration.getInstance().getDatasyncServerPort());
 	        config.setCompressionEnabled(true);
 	        config.setReconnectionAllowed(true);
 	        this.xmppConnection = new XMPPConnection(config);

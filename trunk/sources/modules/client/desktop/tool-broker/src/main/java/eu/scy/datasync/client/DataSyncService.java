@@ -12,6 +12,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.provider.ProviderManager;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.event.DataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
@@ -37,7 +38,6 @@ public class DataSyncService implements IDataSyncService {
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
-    public CommunicationProperties communicationProps = new CommunicationProperties();
     private String LOGIN;
     
     
@@ -78,7 +78,7 @@ public class DataSyncService implements IDataSyncService {
     @Override
     public void createSession(String toolId, String userName) {
         ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(null, toolId, userName, null, null,
-                communicationProps.clientEventCreateSession, null,1000*60*60*24);
+                Configuration.getInstance().getClientEventCreateSession(), null,1000*60*60*24);
         this.sendMessage(syncMessage);
     }
 
@@ -93,7 +93,7 @@ public class DataSyncService implements IDataSyncService {
     @Override
     public void getSessions(ISyncMessage syncMessage) {
         ISyncMessage newSyncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, syncMessage.getToolId(), syncMessage.getFrom(), syncMessage.getTo(), null,
-                communicationProps.clientEventCreateSession, null);
+                Configuration.getInstance().getClientEventCreateSession(), null);
         this.sendMessage(newSyncMessage);
     }
 
@@ -134,7 +134,7 @@ public class DataSyncService implements IDataSyncService {
     @Override
     public void joinSession(String sessionId, String toolId, String userName) {
         ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(sessionId, null, userName, null, null,
-                communicationProps.clientEventJoinSession, null);
+                Configuration.getInstance().getClientEventJoinSession(), null);
         this.sendMessage(syncMessage);
         
     }
