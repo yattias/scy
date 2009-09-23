@@ -50,13 +50,20 @@ var highlighter = {
   onLoad: function() {
     // initialization code
     this.initialized = true;
-    this.strings = top.window.document.getElementById("highlighter-strings");
+	//XX1
+	this.strings = top.window.document.getElementById("highlighter-strings");
+	//XX1
     document.getElementById("contentAreaContextMenu")
             .addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
   },
   getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
-	//window.alert("B");
+	
+	//XX2
+	//var mainWindow = window.QueryInterface()....
+	var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+	
 	//only select Span-Tags, because only these tags are highlighted
+	
     var arrElements = top.window.content.document.getElementsByTagName("SPAN");
 	//window.alert(arrElements.length);
     var arrReturnElements = new Array();
@@ -72,33 +79,39 @@ var highlighter = {
             }
         }
     }
+	//window.alert("arrReturnElements.length: "+arrReturnElements.length);
     return arrReturnElements;
 },
 
   showContextMenu: function(event) {
     // show or hide the menuitem based on what the context menu is on
     // see http://kb.mozillazine.org/Adding_items_to_menus
+	
+	//XX1
     document.getElementById("context-highlighter").hidden = gContextMenu.onImage;
   },
   deleteSelection: function(){
 
   var list = document.getElementById('summaryBox');
-  window.alert("list==null: " + (list==null));
+  //window.alert("list==null: " + (list==null));
   var count = list.selectedCount;
   
   while (count--){
     var item = list.selectedItems[0];
-	
-	//XXX
 	var unhighlightNodes=this.getElementsByAttributeDOM("belongsTo",item.value);
 	//window.alert("item.value: " + item.value);
 	//window.alert("unhighlightNodes.length: " + unhighlightNodes.length);
 	for(i=0;i<unhighlightNodes.length;i++){
 		if (unhighlightNodes[i]!=null){
+		//window.alert("unhighlightNode "+i+" is not null");
 		unhighlightNodes[i].style.backgroundColor = "white";
 		}
 	}
-    var undoNode = document.getElementById(item.value);
+	
+	var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+		
+    var undoNode = top.window.content.document.getElementById(item.value);
+	//window.alert("undoNode: "+undoNode);
     //undoNode.style.backgroundColor = "white";
 	if (undoNode!=null){
 	undoNode.style.backgroundColor = undoNode.parentNode.style.backgroundColor;
@@ -109,21 +122,20 @@ var highlighter = {
   
   },
   onMenuItemCommand: function(e) {
- 
     count = count + 1;
 	//XXX 
-	window.alert("document.getElementById('summaryBox'): "+ top.document.getElementById('summaryBox'));
-    var summaryBox = document.getElementById('summaryBox');
-	window.alert("summaryBox: " (summaryBox==null));
-    var urlBox = document.getElementById('urlBox');
-	window.alert("urlBox: " (urlBox==null));
-    var theSelection = window.content.getSelection()
-	window.alert("theSelection: " (theSelection==null));;
+	var sidebarWindow = document.getElementById("sidebar").contentWindow;
+
+    var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+    var urlBox = sidebarWindow.document.getElementById('urlBox');
+	
+	//XX1
+    var theSelection = top.window.content.document.getSelection();
+	//var theSelection = window.content.getSelection();
+	
     var itemText = theSelection;
     var newNodeId = "selection_" + count;
     var item = summaryBox.appendItem(itemText,newNodeId);
-	//var item = document.getElementById(newNodeId);
-	//window.alert(item);
 	item.setAttribute("tooltiptext",itemText);
 	item.setAttribute("crop","center");
 	var listId = "list_"+newNodeId;
@@ -193,16 +205,27 @@ var highlighter = {
     */
     
     if (urlBox.value==""){
-        urlBox.value=window.content.document.location;
-    }
-    if (urlBox.value.search(window.content.document.location)==-1){
-        urlBox.value = urlBox.value +"\n"+ window.content.document.location;
-        } else {
+		//XX1
+        //urlBox.value=window.content.document.location;
+		urlBox.value=top.window.content.document.location;
+    } else {
+	
+		if (urlBox.value.search(top.window.content.document.location)!=-1){
+		//XX1
+        //urlBox.value = urlBox.value +"\n"+ window.content.document.location;
+		urlBox.value = urlBox.value +"\n"+ top.window.content.document.location;
+        } 
+		else {
         urlBox.value = urlBox.value;
      }
+	
+	}
+	
+	 
 },
 highlightDoc: function() {
-	//window.alert("A");
+
+	//XX1
     var node = document.popupNode;
     var win = node.ownerDocument.defaultView;
     var sel = win.getSelection();
@@ -382,6 +405,11 @@ highlightDoc: function() {
     highlighter.onMenuItemCommand(e);
   },
   saveELO: function(){
+  
+		//XXX
+		//var mainWindow = window.QueryInterface(Components.interfaces.nnsIInterfaces)...
+		var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+		
         //for testing, a c# webservice was used
         //there is also a RESTful approach
   
@@ -402,35 +430,38 @@ highlightDoc: function() {
         
         //a problem with c# webservices was the &-symbol, which causes the transmission of the string to break
         //a solution might be to replace all occurences of & by another string
-        var rawDoc = window.content.document.documentElement.innerHTML;
+		
+        //var rawDoc = window.content.document.documentElement.innerHTML;
+		//var rawDoc = mainWindow.document.documentElement.innerHTML;
+		
         //eventually parse the String for HTML Special Chars like &nbsp;
         //var clearedDoc = rawDoc.replace("&nbsp;", " ");
         
         
         //A marker for the &, which causes errors when submitting the html document to the server
-        var clearedDoc = rawDoc.replace(/&/g, "XXXYYYZZZ");
+        //var clearedDoc = rawDoc.replace(/&/g, "XXXYYYZZZ");
         
         //replacing src-attributes
-        var newSrcTag = "src=\""+window.content.document.location;
+        //var newSrcTag = "src=\""+window.content.document.location;
+		//var newSrcTag = "src=\""+mainWindow.document.location;
         //Problem: replace src-tags, but only relative sources...
         //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,newSrcTag);
         
         //1. normalize src (remove spaces)
-        clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,"src=\"");
+        //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,"src=\"");
         
         //2. mark every src that begins with http: with a space
         //the url shouldnt be appended at absolute Paths
-        clearedDoc = clearedDoc.replace(/src="http/g,"src =\"http");
+        //clearedDoc = clearedDoc.replace(/src="http/g,"src =\"http");
         
         //3. remove paths like ../..
-        clearedDoc = clearedDoc.replace(/src="\.\.\/\.\./g,"src=\"");
+        //clearedDoc = clearedDoc.replace(/src="\.\.\/\.\./g,"src=\"");
         
         //4. append the site URL to relative Paths
-        clearedDoc = clearedDoc.replace(/src="/g,newSrcTag);
+        //clearedDoc = clearedDoc.replace(/src="/g,newSrcTag);
         
         
-        var htmlDoc = "<html>"+clearedDoc+"</html>";
-        //if htmlDoc = ;
+        //var htmlDoc = "<html>"+clearedDoc+"</html>";
         //window.alert(clearedDoc);
         
         /*
@@ -503,6 +534,9 @@ highlightDoc: function() {
         params.password = password;
         var jsonParams = JSON.stringify(params);
 		
+		//the highlighter-strings from the stringbundle
+		this.strings = top.window.document.getElementById("highlighter-strings");
+		
         req.onreadystatechange = function (aEvt) {
 		try{
 		 if (req.readyState == 4) {
@@ -510,16 +544,17 @@ highlightDoc: function() {
 				//var responseText = req.responseText;
 				//var alertString = this.strings.getString(responseText);
                 //window.alert(alertString);
-				window.alert(document.getElementById("highlighter-strings").getString(req.responseText));
+				window.alert(top.window.document.getElementById("highlighter-strings").getString(req.responseText));
                }
             else {
-				var alertString = document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
+				var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
                 window.alert(alertString); 
                }
           } else {
+		  
 			}
 		}catch (e) {
-		  var alertString = document.getElementById("highlighter-strings").getString("noServerResponse");
+		  var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
 		  window.alert(alertString);
 
 		  }
@@ -536,7 +571,7 @@ highlightDoc: function() {
         req.open('POST', serverURL, true);
         //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         req.setRequestHeader("Content-Type","application/json");
-		//httpRequest.setRequestHeader("Timeout", 10);
+		//req.setRequestHeader("Timeout", 0.1);
         req.send(jsonParams);
         }
         
@@ -565,8 +600,8 @@ highlightDoc: function() {
     var node = document.popupNode;
     if(node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("highlighter")) {
 		var selectionId = "list_"+node.getAttribute("belongsTo");
-		var listItem = document.getElementById(selectionId);
-		var summaryBox = document.getElementById("summaryBox");
+		var listItem =  document.getElementById("sidebar").contentDocument.getElementById(selectionId);
+		var summaryBox = document.getElementById("sidebar").contentDocument.getElementById("summaryBox");
 		summaryBox.removeItemAt(summaryBox.getIndexOfItem(listItem));
       var n = node.nextHighlight;
       while(n instanceof HTMLSpanElement && n.hasAttribute("highlighter")) {
@@ -615,7 +650,7 @@ highlightDoc: function() {
 		
 		//Loading the stringbundle from the xul document -->highlighter.properties
 		this.strings = top.window.document.getElementById("highlighter-strings");
-		window.alert(this.strings==null);
+		//window.alert(this.strings==null);
 		
   
         //---------------------------------------------------
@@ -633,7 +668,6 @@ highlightDoc: function() {
 						"</style></head>";
         
         summaryHTML = summaryHTML + header + "<body>";
-        
         //append title
         var titleBox = document.getElementById('titleBox');
         summaryHTML = summaryHTML + "<h1>"+ titleBox.value + "</h1>";
@@ -641,7 +675,7 @@ highlightDoc: function() {
         //append summary from the summmaryBox
         summaryBox = document.getElementById('summaryBox');
         var bullets = "";
-		window.alert("summaryBox.value==null");
+		//window.alert("summaryBox.value==null");
 		for(i = 0; i < summaryBox.itemCount; i++){
 			bullets = bullets + "<li>"+summaryBox.getItemAtIndex(i).label;
 		}
@@ -669,7 +703,6 @@ highlightDoc: function() {
         //window.alert("summaryHTML: \n --------------------------------------------\n"+summaryHTML);
         
         //---------------------------------------------------
-  
 	//opens a new Browser-Window without Navigation and sets the preview to the documents content
     myWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=520');
     myWindow.document.body.innerHTML = summaryHTML;

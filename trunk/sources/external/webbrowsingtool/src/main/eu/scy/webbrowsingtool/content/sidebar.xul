@@ -2,5 +2,47 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE page SYSTEM "chrome://highlighter/locale/highlighter.dtd">
 <page id="sbSidebar" title="&sidebar.title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="overlay.js"/>
+<script src="sidebar.js"/>
+  <vbox id="sidebarvbox">
+    <!--<groupbox>
+      <caption id="testcaption" label="Summary"/>-->
+      
+      <!--Title-->
+      <label id="titleLabel" value="&highlighter.title;"/>
+      <textbox id="titleBox" multiline="false" value="&highlighter.addTitle;" />
+      
+      <!--Selection-->
+      <label id="selectionLabel" value="&highlighter.selection;"/>
+      <!--<textbox id="summaryBox" multiline="true" value="Add content by highlighting text" rows ="10" />-->
+      <listbox id="summaryBox" rows ="10" flex="0">
+        
+      </listbox>
+
+      <!--Delete-Button-->
+      <button label="&highlighter.deleteSelected;" oncommand="highlighter.deleteSelection();"/>
+
+
+      <!--Comments-->
+      <label id="commentsLabel" value="&highlighter.comments;"/>
+      <textbox id="commentBox" multiline="true" value="&highlighter.addComments;" rows ="7" />
+
+      <!--Sources-->
+      <label control="{buddy control id}" value="&highlighter.sources;"/>
+    <!--<listbox id="urlBox" rows ="6">
+
+       </listbox>-->
+      <textbox id="urlBox" multiline="true" value="" rows ="6" readonly="true"/>
+    <!--</groupbox>-->
+
+    <hbox>
+      <button label="&highlighter.preview;" oncommand="highlighter.preview();"/>
+      <button label="&highlighter.saveELO;" oncommand="highlighter.saveELO();"/>
+    </hbox>
+    <spacer flex="5"/>
+	<spacer flex="5"/>
+	<spacer flex="5"/>
+	<spacer flex="5"/>
+  </vbox>
+
+  
 </page>
