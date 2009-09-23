@@ -19,6 +19,7 @@ import java.awt.*;
  */
 public class SCYPlannerFrame extends JFrame {
     private final static int DEFAULT_BORDER_SIZE = 7;
+    private JComponent currentComponentInsideContentArea = null;
 
     public SCYPlannerFrame() throws HeadlessException {
         super("SCYPlanner");
@@ -32,7 +33,17 @@ public class SCYPlannerFrame extends JFrame {
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
-        getContentPane().add(CreateDefaultPedagogicalPlanPanel(missionList.getList(), scenarioList.getList()), BorderLayout.CENTER);
+        currentComponentInsideContentArea = CreateDefaultPedagogicalPlanPanel(missionList.getList(), scenarioList.getList());
+        getContentPane().add(currentComponentInsideContentArea, BorderLayout.CENTER);
+    }
+
+    public void setContent(JComponent component) {
+        if (currentComponentInsideContentArea != null) {
+            getContentPane().remove(currentComponentInsideContentArea);
+        }
+
+        currentComponentInsideContentArea = component;
+        getContentPane().add(BorderLayout.CENTER, currentComponentInsideContentArea);
     }
 
     private JPanel createMissionScenarioPanel(TitledList missionList, TitledList scenarioList) {

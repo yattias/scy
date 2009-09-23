@@ -1,6 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.components.titled.TitledPanel;
+import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -24,6 +25,8 @@ public class DefaultPedagogicalPlanInformationPanel extends TitledPanel {
         JLabel mission = new JLabel();
         add(BorderLayout.NORTH, mission);
 
+        add(BorderLayout.EAST, new JButton(new OpenSCYPlannerDemo()));
+
         JLabel scenario = new JLabel();
         add(BorderLayout.SOUTH, scenario);
 
@@ -35,7 +38,7 @@ public class DefaultPedagogicalPlanInformationPanel extends TitledPanel {
         list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    label.setText(String.valueOf(list.getModel().getElementAt(e.getFirstIndex())));
+                    label.setText(String.valueOf(list.getModel().getElementAt(list.getSelectedIndex())));
                 }
             }
         });
@@ -45,7 +48,7 @@ public class DefaultPedagogicalPlanInformationPanel extends TitledPanel {
         list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    label.setText(String.valueOf(list.getModel().getElementAt(e.getFirstIndex())));
+                    label.setText(String.valueOf(list.getModel().getElementAt(list.getSelectedIndex())));
                 }
             }
         });
