@@ -1,5 +1,6 @@
 package eu.scy.scyhub;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.ComponentException;
@@ -13,14 +14,12 @@ import org.xmpp.component.ComponentException;
  */
 public class SCYHubStarter {
     
-    private static CommunicationProperties props = new CommunicationProperties();
-
     private SCYHubComponent scyHubComponent;
 
     public SCYHubStarter(SCYHubComponent scyHubComponent) {
         setScyHubComponent(scyHubComponent);
-        final ExternalComponentManager manager = new ExternalComponentManager(props.datasyncExternalComponentHost, props.datasyncExternalComponentPort);
-        manager.setSecretKey(props.datasyncMessageHub, props.datasyncExternalComponentSecretKey);
+        final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
+        manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
         System.out.println("Setting up scy hub");
         try {
@@ -28,7 +27,7 @@ public class SCYHubStarter {
                 System.out.println("SCY HUB COMPOMENT IS NULL!");
             }
             if(manager != null) {
-            manager.addComponent(props.datasyncMessageHub, getScyHubComponent());
+            manager.addComponent(Configuration.getInstance().getDatasyncMessageHub(), getScyHubComponent());
             } else {
                 System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");   
             }
