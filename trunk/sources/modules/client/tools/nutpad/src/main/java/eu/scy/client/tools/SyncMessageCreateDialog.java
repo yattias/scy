@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.impl.SyncMessage;
 
@@ -30,8 +31,6 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
     private JTextField toolSessionId = new JTextField(25);
     private JTextField expiration = new JTextField(25);
     private JPanel allTextsPanel;
-
-    CommunicationProperties props = new CommunicationProperties();
     
     public SyncMessageCreateDialog(JFrame parentFrame) {
         super(parentFrame, "Create ScyMessage", true);   
@@ -45,7 +44,7 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         this.toolId.setText(toolId);
         this.from.setText(userName);
         this.event.setText(event);
-        this.expiration.setText(String.valueOf(props.datasyncMessageDefaultExpiration));
+        this.expiration.setText(String.valueOf(Configuration.getInstance().getDatasyncMessageDefaultExpiration()));
         initialize();
     }
     

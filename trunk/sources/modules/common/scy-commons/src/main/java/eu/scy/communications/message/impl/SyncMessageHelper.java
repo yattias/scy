@@ -4,6 +4,7 @@ package eu.scy.communications.message.impl;
 import org.apache.commons.lang.StringUtils;
 import org.xmpp.packet.Message;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
@@ -16,8 +17,6 @@ import eu.scy.communications.packet.extension.datasync.DataSyncPacketExtension;
  */
 public class SyncMessageHelper {
     
-    private static CommunicationProperties props = new CommunicationProperties();
-
     /**
      *  Creates a SyncMessage from a bunch of strings. Typically when coming from a tool.
      *  
@@ -56,7 +55,7 @@ public class SyncMessageHelper {
      * @return
      */
     public static ISyncMessage createSyncMessageWithDefaultExp(String toolSessionId, String toolId, String from, String to, String content, String event, String persistenceId) {
-        return createSyncMessage(toolSessionId, toolId, from, to, content, event, persistenceId, props.datasyncMessageDefaultExpiration);
+        return createSyncMessage(toolSessionId, toolId, from, to, content, event, persistenceId, Configuration.getInstance().getDatasyncMessageDefaultExpiration());
     }
 
     /**
@@ -88,11 +87,11 @@ public class SyncMessageHelper {
         }
         
         if (!syncMessage.getFrom().contains("@")) {
-            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);
-            syncMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
+            xmppMessage.setFrom(syncMessage.getFrom() + "@" + Configuration.getInstance().getDatasyncServerHost());
+            syncMessage.setFrom(syncMessage.getFrom() + "@" + Configuration.getInstance().getDatasyncServerHost());            
         }
         
-        xmppMessage.setTo(props.datasyncMessageHubAddress);
+        xmppMessage.setTo(Configuration.getInstance().getDatasyncMessageHubAddress());
         DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
         xmppMessage.addExtension(extension);
         return xmppMessage;
@@ -108,11 +107,11 @@ public class SyncMessageHelper {
         }
         
         if (!syncMessage.getFrom().contains("@")) {
-            xmppMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
-            syncMessage.setFrom(syncMessage.getFrom() + "@" + props.datasyncServerHost);            
+            xmppMessage.setFrom(syncMessage.getFrom() + "@" + Configuration.getInstance().getDatasyncServerHost());            
+            syncMessage.setFrom(syncMessage.getFrom() + "@" + Configuration.getInstance().getDatasyncServerHost());            
         }
         
-        xmppMessage.setTo(props.datasyncMessageHubAddress);
+        xmppMessage.setTo(Configuration.getInstance().getDatasyncMessageHubAddress());
         DataSyncPacketExtension extension = new DataSyncPacketExtension(syncMessage);
         xmppMessage.addExtension(extension);
         return xmppMessage;

@@ -2,6 +2,7 @@ package eu.scy.client.tools;
 
 import static org.junit.Assert.*;
 import roolo.elo.api.IMetadataKey;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.datasync.session.IDataSyncSession;
 import eu.scy.communications.message.ISyncMessage;
@@ -25,28 +26,31 @@ public class NutpadTestCase {
     private static final String TEST_EVENT = "test event";
     private static final String TEST_PERSISTENCE_ID = "1239999999";
 
-    private static final String HARD_CODED_USER_NAME = "obama";
-    private static final String HARD_CODED_PASSWORD = "obama";
+    private static final String HARD_CODED_USER_NAME = "merkel";
+    private static final String HARD_CODED_PASSWORD = "merkel";
     
     private IDataSyncSession dataSyncSession;
     private ToolBrokerImpl<IMetadataKey> tbi;
     private IDataSyncService dataSyncService;
-    private static CommunicationProperties props = new CommunicationProperties();
     
     public NutpadTestCase() {        
     }
     
     private void init() {
+    	System.out.println("* init start *");
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+        System.out.println("* tbi: "+tbi);
         dataSyncService = tbi.getDataSyncService();
+        System.out.println("* datasyncservice: "+dataSyncService);
         dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-        dataSyncService.createSession("obama", "obama");
+        dataSyncService.createSession(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD);
+        System.out.println("* init done *");
     }
     
     @org.junit.Test
     public void testInit() {
         init();
-        assertTrue(props != null);
+        assertTrue(Configuration.getInstance() != null);
         assertTrue(dataSyncService != null);
     }
 }
