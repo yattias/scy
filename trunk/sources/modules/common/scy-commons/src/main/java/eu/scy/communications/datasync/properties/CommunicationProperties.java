@@ -38,6 +38,7 @@ public class CommunicationProperties {
     
     
     public CommunicationProperties() {
+    	System.out.println("CommunicationProperties initializing...");
         try {
             props.load(CommunicationProperties.class.getResourceAsStream("communication.properties"));
         } catch (FileNotFoundException e) {
@@ -47,16 +48,20 @@ public class CommunicationProperties {
         }
         
         sqlSpacesServerHost = props.getProperty("sqlspaces.server.host");
+        System.out.println("sqlspaces.server.host = "+sqlSpacesServerHost);
+        
         sqlSpacesServerPort = Integer.parseInt(props.getProperty("sqlspaces.server.port"));
         sqlSpacesServerSpaceDatasync = props.getProperty("sqlspaces.server.space.datasync");
 
         datasyncServerHost = props.getProperty("datasync.server.host");
+        System.out.println("datasync.server.host = "+datasyncServerHost);
         datasyncServerPort = props.getProperty("datasync.server.port");
         datasyncMessageHub = props.getProperty("datasync.messageHub");
         datasyncMessageHubAddress = datasyncMessageHub + "." + datasyncServerHost;
         datasyncMessageDefaultExpiration = Long.parseLong(props.getProperty("datasync.message.default.expiration"));
         
         datasyncExternalComponentHost = props.getProperty("datasync.server.externalComponent.host");
+        System.out.println("datasync.server.externalComponent.host = "+datasyncExternalComponentHost);
         datasyncExternalComponentPort = Integer.parseInt(props.getProperty("datasync.server.externalComponent.port"));
         datasyncExternalComponentSecretKey = props.getProperty("datasync.server.externalComponent.secretKey");
 
