@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.event.DataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
@@ -35,7 +36,7 @@ public class DataSyncModule implements IDataSyncModule {
     
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
-    private CommunicationProperties props = new CommunicationProperties();
+    private Configuration props = Configuration.getInstance();
     private Map<String, IDataSyncSession> sessionMap = new HashMap<String, IDataSyncSession>();
     
     
@@ -58,7 +59,7 @@ public class DataSyncModule implements IDataSyncModule {
             }
         });
         
-        ISyncMessage allSessions = SyncMessageHelper.createSyncMessageWithDefaultExp(null, null, null, null, null, props.clientEventCreateSession, null);
+        ISyncMessage allSessions = SyncMessageHelper.createSyncMessageWithDefaultExp(null, null, null, null, null, props.getClientEventCreateSession(), null);
         ArrayList<IDataSyncSession> sss = getSessions(allSessions);
         
         if (sss != null && !sss.isEmpty()) {
@@ -75,7 +76,7 @@ public class DataSyncModule implements IDataSyncModule {
     public void processSyncMessage(ISyncMessage message) throws DataSyncUnkownEventException {
         
         //check event
-        if (props.clientEventCreateData.equals(message.getEvent())) {
+        if (props.getClientEventCreateData().equals(message.getEvent())) {
             try {
                 create(message);
             } catch (DataSyncException e) {
@@ -155,7 +156,7 @@ public class DataSyncModule implements IDataSyncModule {
     @Override
     public ArrayList<ISyncMessage> synchronizeClientState(String userName, String toolId, String session, boolean includeChangesByUser) {
         //would have been nice to do a precise query, instead of filtering away userName afterwards
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, null, null, null, null, props.clientEventCreateData, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, null, null, null, null, props.getClientEventCreateData(), null, 0);
         ArrayList<ISyncMessage> messages = this.scyCommunicationAdapter.doQuery(queryMessage);
 
         ArrayList<ISyncMessage> messagesFiltered = new ArrayList<ISyncMessage>();
@@ -170,7 +171,7 @@ public class DataSyncModule implements IDataSyncModule {
         }
         
         for (ISyncMessage syncMessage : messagesFiltered) {
-            syncMessage.setEvent(props.clientEventSynchronize);
+            syncMessage.setEvent(props.getClientEventSynchronize());
             syncMessage.setFrom(userName);
             for (IDataSyncListener cl : dataSyncListeners) {
                 if (cl != null) {
@@ -190,7 +191,7 @@ public class DataSyncModule implements IDataSyncModule {
         //add to the map
         sessionMap.put(dataSyncSession.getId(), dataSyncSession);
         
-        ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName,null, props.clientEventCreateSession , null);
+        ISyncMessage sessionMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName,null, props.getClientEventCreateSession() , null);
         this.create(sessionMessage);
         return dataSyncSession;
     }
@@ -224,7 +225,7 @@ public class DataSyncModule implements IDataSyncModule {
             dataSyncSession.addUser(userName);
         }
         
-        ISyncMessage joinSessionMessage = SyncMessageHelper.createSyncMessage(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName, null, props.clientEventJoinSession, null, 60*60*1000*24);
+        ISyncMessage joinSessionMessage = SyncMessageHelper.createSyncMessage(dataSyncSession.getId(), dataSyncSession.getToolId(), userName, userName, null, props.getClientEventJoinSession(), null, 60*60*1000*24);
         try {
             this.create(joinSessionMessage);
         } catch (DataSyncException e) {
@@ -259,7 +260,7 @@ public class DataSyncModule implements IDataSyncModule {
     
     @Override
     public ArrayList<IDataSyncSession> getSessions(String session, String userName, String toolName) {
-        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, userName, null, props.clientEventCreateSession, null, 0);
+        ISyncMessage queryMessage = SyncMessageHelper.createSyncMessage(session, toolName, null, userName, null, props.getClientEventCreateSession(), null, 0);
         ArrayList<ISyncMessage> messages = this.doQuery(queryMessage);
         ArrayList<IDataSyncSession> sessions = new ArrayList<IDataSyncSession>();
         StringBuilder newGirlFriend = new StringBuilder();
@@ -278,7 +279,7 @@ public class DataSyncModule implements IDataSyncModule {
         //contruct uber message
         ISyncMessage resultMessage = new SyncMessage();
         resultMessage.setContent(newGirlFriend.toString());
-        resultMessage.setEvent(props.clientEventGetSessions);
+        resultMessage.setEvent(props.getClientEventGetSessions());
         resultMessage.setFrom(userName);
         for (IDataSyncListener cl : dataSyncListeners) {
             if (cl != null) {

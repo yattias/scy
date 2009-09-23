@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.datasync.adapter.sqlspaces.ISQLSpaceAdapterListener;
@@ -26,9 +27,6 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
     public static final long DEFAULT_EXPIRATION_TIME = 30 * 1000;
     private SQLSpaceAdapter tupleAdapter;
     private ArrayList<IScyCommunicationListener> communicationListeners = new ArrayList<IScyCommunicationListener>();
-    
-    private CommunicationProperties props = new CommunicationProperties();
-    
     
     public ScyCommunicationAdapter() {
     }
@@ -54,7 +52,7 @@ public class ScyCommunicationAdapter implements IScyCommunicationAdapter, ISQLSp
         if (tupleAdapter == null) {
             tupleAdapter = SQLSpacesAdapterHelper.getInstance();
             try {
-                tupleAdapter.initialize(this.getClass().getName(), props.sqlSpacesServerSpaceDatasync);
+                tupleAdapter.initialize(this.getClass().getName(), Configuration.getInstance().getSqlSpacesServerSpaceDatasync());
                 tupleAdapter.addSQLSpacesAdapterListener(this);
             } catch (TupleSpaceException e) {
                 logger.error("Tuple space fluke " + e);

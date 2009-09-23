@@ -7,6 +7,7 @@ import junit.framework.Test;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
@@ -28,9 +29,6 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     private static final String TEST_FROM = "passerby@wiki.intermedia.uio.no";
     private static final String TEST_TO = "passerby@wiki.intermedia.uio.no";
     
-    private static CommunicationProperties props = new CommunicationProperties();
-    
-    
     public ScyCommunicationAdapterTestCase() {
     }   
 
@@ -44,7 +42,7 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
         if (sqlSpaceAdapter == null) {
             sqlSpaceAdapter = new SQLSpaceAdapter();
             try {
-                sqlSpaceAdapter.initialize("thomasd", props.sqlSpacesServerSpaceDatasync);
+                sqlSpaceAdapter.initialize("thomasd", Configuration.getInstance().getSqlSpacesServerSpaceDatasync());
             } catch (TupleSpaceException e) {
                 logger.error("Tuple space fluke " + e);
                 e.printStackTrace();
