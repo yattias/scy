@@ -1,5 +1,6 @@
 package eu.scy.scyhub;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.scyhub.SCYHubComponent;
 
@@ -33,8 +34,6 @@ public class SCYHubConnector implements ServletContextListener {
 
     private Logger log = Logger.getLogger("SCYHubConnector.class");
 
-    private static CommunicationProperties props = new CommunicationProperties();
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ApplicationContext ctx = initializeContext(servletContextEvent.getServletContext());
@@ -42,15 +41,15 @@ public class SCYHubConnector implements ServletContextListener {
         log.info("** ** ** *************************");
         log.info("** ** ** CONNECTING TO THE SCY-HUB");
         log.info("** ** ** *************************");
-        final ExternalComponentManager manager = new ExternalComponentManager(props.datasyncExternalComponentHost, props.datasyncExternalComponentPort);
-        manager.setSecretKey(props.datasyncMessageHub, props.datasyncExternalComponentSecretKey);
+        final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
+        manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
 
         try {
             SCYHubComponent scyHubComponent = (SCYHubComponent) ctx.getBean("SCYHubComponent");
             initializeScyHubComponent(scyHubComponent);
-            log.info("MESSAGE: " + props.datasyncMessageHub);
-            manager.addComponent(props.datasyncMessageHub, scyHubComponent);
+            log.info("MESSAGE: " + Configuration.getInstance().getDatasyncMessageHub());
+            manager.addComponent(Configuration.getInstance().getDatasyncMessageHub(), scyHubComponent);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
