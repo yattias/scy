@@ -1,21 +1,20 @@
 package eu.scy.scymapper.impl.ui.awareness;
 
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.AwarenessServiceException;
-import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarePresenceEvent;
-import eu.scy.awareness.event.IAwarenessRosterListener;
+import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import java.util.List;
 import java.awt.*;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.builder.PanelBuilder;
-import org.apache.log4j.Logger;
+import java.util.List;
 
 /**
  * User: Bjoerge Naess

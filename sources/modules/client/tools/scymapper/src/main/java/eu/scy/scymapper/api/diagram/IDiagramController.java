@@ -8,8 +8,8 @@ package eu.scy.scymapper.api.diagram;
  * To change this template use File | Settings | File Templates.
  */
 public interface IDiagramController {
-    public void setName(String name);
-    public void addNode(INodeModel n, boolean preventOverlap);
-    public void addNode(INodeModel n);
-    public void addLink(ILinkModel l);
+    void setName(String name);
+    void addNode(INodeModel n, boolean preventOverlap);
+    void addNode(INodeModel n);
+    void addLink(ILinkModel l);
 }

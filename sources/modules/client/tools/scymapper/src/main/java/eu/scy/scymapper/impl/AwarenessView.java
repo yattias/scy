@@ -1,23 +1,17 @@
 package eu.scy.scymapper.impl;
 
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.event.*;
 import eu.scy.scymapper.impl.ui.awareness.BuddyPane;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import javax.swing.border.TitledBorder;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.builder.PanelBuilder;
-
 import java.awt.*;
-import java.util.List;
-
-import org.apache.log4j.Logger;
 
 /**
  * User: Bjoerge Naess

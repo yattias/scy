@@ -1,17 +1,16 @@
 package eu.scy.scymapper.impl.ui.awareness;
 
-import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Presence;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Bjoerge Naess

@@ -1,15 +1,13 @@
 package eu.scy.scymapper.impl.ui.awareness;
 
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessUser;
+import org.xmpp.packet.Presence;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.builder.PanelBuilder;
-import org.xmpp.packet.Presence;
 
 /**
  * User: Bjoerge Naess

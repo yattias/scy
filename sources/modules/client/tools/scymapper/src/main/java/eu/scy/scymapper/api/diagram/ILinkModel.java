@@ -11,24 +11,29 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 18:29:15
  */
-public interface ILinkModel extends ILinkModelObservable {
-    public String getLabel();
-    public void setLabel(String label);
+public interface ILinkModel {
+    String getLabel();
+    void setLabel(String label);
 
-    public boolean isLabelHidden();
-    public void setLabelHidden(boolean labelHidden);
+    boolean isLabelHidden();
+    void setLabelHidden(boolean labelHidden);
 
-    public Point getFrom();
-    public void setFrom(Point p);
+    Point getFrom();
+    void setFrom(Point p);
 
-    public Point getTo();
-    public void setTo(Point p);
+    Point getTo();
+    void setTo(Point p);
 
-    public ILinkShape getShape();
+    ILinkShape getShape();
 
-    public void setShape(ILinkShape shape);
+    void setShape(ILinkShape shape);
 
-    public void setStyle(ILinkStyle style);
+    void setStyle(ILinkStyle style);
 
-    public ILinkStyle getStyle();
+    ILinkStyle getStyle();
+
+    void addListener(ILinkModelListener listener);
+    void removeListener(ILinkModelListener listener);
+
+    void notifyUpdated();
 }

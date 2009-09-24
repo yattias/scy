@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.INodeModelObserver;
+import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleObserver;
@@ -19,14 +19,14 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     private INodeShape shape;
     private Dimension size;
     private Point location;
-    private ArrayList<INodeModelObserver> observers;
+    private ArrayList<INodeModelListener> listeners;
     private String label;
     private INodeStyle style;
-    private boolean selected = false;
     private boolean labelHidden = false;
+	private boolean selected = false;
 
-    public NodeModel() {
-        observers = new ArrayList<INodeModelObserver>();
+	public NodeModel() {
+        listeners = new ArrayList<INodeModelListener>();
 
     }
     public NodeModel(INodeShape shape) {
@@ -62,16 +62,16 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
         else if (!style.hasObserver((this))) style.addObserver(this);
     }
 
-    @Override
+	@Override
+	public void setSelected(boolean b) {
+		selected = b;
+		notifySelected();
+	}
+
+	@Override
     public INodeStyle getStyle() {
         if (style == null) style = new DefaultNodeStyle(); 
         return style;
-    }
-
-    @Override
-    public void setSelected(boolean b) {
-        this.selected = true;
-        notifySelected();
     }
 
     @Override
@@ -118,55 +118,61 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     }
 
     @Override
-    public void addObserver(INodeModelObserver observer) {
-        observers.add(observer);
+    public void addObserver(INodeModelListener listener) {
+        listeners.add(listener);
     }
 
     @Override
-    public void removeObserver(INodeModelObserver observer) {
-        observers.remove(observer);
+    public void removeObserver(INodeModelListener listener) {
+        listeners.remove(listener);
     }
 
     @Override
     public void notifyMoved() {
-        for (INodeModelObserver observer : observers) {
-            observer.moved(this);
+        for (INodeModelListener listener : listeners) {
+            listener.moved(this);
         }
     }
 
     @Override
     public void notifyResized() {
-        for (INodeModelObserver observer : observers) {
-            observer.resized(this);
+        for (INodeModelListener listener : listeners) {
+            listener.resized(this);
         }
     }
 
     @Override
     public void notifyLabelChanged() {
-        for (INodeModelObserver observer : observers) {
-            observer.labelChanged(this);
+        for (INodeModelListener listener : listeners) {
+            listener.labelChanged(this);
         }
     }
     @Override
     public void notifyStyleChanged() {
-        for (INodeModelObserver observer : observers) {
-            observer.styleChanged(this);
+        for (INodeModelListener listener : listeners) {
+            listener.styleChanged(this);
         }
     }
 
     @Override
     public void notifyShapeChanged() {
-        for (INodeModelObserver observer : observers) {
-            observer.shapeChanged(this);
+        for (INodeModelListener listener : listeners) {
+            listener.shapeChanged(this);
         }
     }
-    @Override
-    public void notifySelected() {
-        for (INodeModelObserver observer : observers) {
-            observer.nodeSelected(this);
+	@Override
+	public void notifySelected() {
+		for (INodeModelListener listener : listeners) {
+            listener.nodeSelected(this);
         }
-    }
-    public void setLabel(String label) {
+	}
+
+	@Override
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setLabel(String label) {
         this.label = label;
         notifyLabelChanged();
     }

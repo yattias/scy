@@ -4,8 +4,7 @@ import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.INodeModelObserver;
-import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.api.diagram.INodeModelListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,7 @@ import java.awt.event.KeyListener;
  * Time: 11:24:47
  * To change this template use File | Settings | File Templates.
  */
-public class ConceptLinkView extends LinkView implements KeyListener, INodeModelObserver {
+public class ConceptLinkView extends LinkView implements KeyListener, INodeModelListener {
 
     private JTextField labelEditor;
 
@@ -104,7 +103,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
     public void shapeChanged(INodeModel node) {}
 
     @Override
-    public void nodeSelected(NodeModel conceptNode) {
+    public void nodeSelected(INodeModel conceptNode) {
         
     }
 

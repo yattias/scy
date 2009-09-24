@@ -2,7 +2,7 @@ package eu.scy.scymapper.impl.component;
 
 import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.ILinkModelObserver;
+import eu.scy.scymapper.api.diagram.ILinkModelListener;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.impl.model.DefaultLinkStyle;
 
@@ -14,7 +14,7 @@ import java.awt.*;
  * Date: 23.jun.2009
  * Time: 16:23:37
  */
-public class LinkView extends Container implements ILinkModelObserver {
+public class LinkView extends Container implements ILinkModelListener {
 
     static final ILinkStyle DEFAULT_LINKSTYLE = new DefaultLinkStyle();
 
@@ -29,7 +29,7 @@ public class LinkView extends Container implements ILinkModelObserver {
         this.model = model;
 
         // I want to observe changes in my model
-        this.model.addObserver(this);
+        this.model.addListener(this);
 
         setLayout(null);
 

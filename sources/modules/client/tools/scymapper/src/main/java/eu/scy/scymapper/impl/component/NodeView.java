@@ -2,11 +2,10 @@ package eu.scy.scymapper.impl.component;
 
 import eu.scy.scymapper.api.diagram.INodeController;
 import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.INodeModelObserver;
+import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,23 +22,23 @@ import java.net.URL;
  * Date: 22.jun.2009
  * Time: 19:27:37
  */
-public class NodeView extends JComponent implements INodeModelObserver, KeyListener {
+public class NodeView extends JComponent implements INodeModelListener, KeyListener {
 
     private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
     private JComponent resizeHandle;
-    private INodeController controller;
+	private INodeController controller;
     private INodeModel model;
     private JTextField labelEditor;
 
     private static final INodeStyle DEFAULT_NODESTYLE = new DefaultNodeStyle();
-    private Color highlight;
+	private boolean connectionCandidate;
 
-    public NodeView(INodeController controller, INodeModel model) {
+	public NodeView(INodeController controller, INodeModel model) {
 
         super();
 
-        this.controller = controller;
+		this.controller = controller;
         this.model = model;
 
         // Subscribe to events in the model
@@ -147,7 +146,6 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         resizeHandle.setBackground(getBackground());
     }
 
-
     public INodeModel getModel() {
         return model;
     }
@@ -182,13 +180,12 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
     }
 
     @Override
-    public void nodeSelected(NodeModel conceptNode) {
-        // Do nothing
-        // Todo: paint with selectedstyle?
+    public void nodeSelected(INodeModel conceptNode) {
+		repaint();
     }
 
-    public void setHighlight(Color c) {
-        this.highlight = c;
+    public void setConnectionCandidate(boolean b) {
+        this.connectionCandidate = b;
         repaint();
     }
 
@@ -201,9 +198,7 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         INodeStyle style = model.getStyle();
         if (style == null) style = DEFAULT_NODESTYLE;
 
-        if (highlight != null) g2.setColor(highlight);
-        else g2.setColor(style.getBackground());
-
+        g2.setColor(style.getBackground());
         g2.setStroke(style.getStroke());
 
         INodeShape shape = model.getShape();
@@ -215,8 +210,32 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
             shape.paint(g2, getBounds());
         }
 
+		if (model.isSelected()) {
+			g2.setColor(new Color(0xbbbbbb));
+			// Paint a dotted rectangle around
+			g2.setStroke(new BasicStroke(1f,
+										  BasicStroke.CAP_BUTT,
+										  BasicStroke.JOIN_ROUND,
+										  2.0f, new float[]{2.0f}, 2.0f));
+			g2.drawRect(0, 0, getWidth()-2, getHeight()-2);
+
+			g2.setColor(new Color(0xffffff));
+			// Paint a dotted rectangle around
+			g2.setStroke(new BasicStroke(1f,
+										  BasicStroke.CAP_BUTT,
+										  BasicStroke.JOIN_ROUND,
+										  2.0f, new float[]{2.0f}, 0.0f));
+			g2.drawRect(0, 0, getWidth()-2, getHeight()-2);
+		}
+		if (connectionCandidate) {
+
+			g2.setColor(new Color(51, 204, 0));
+			// Paint a dotted rectangle around
+			g2.setStroke(new BasicStroke(2f));
+			g2.drawRect(0, 0, getWidth()-2, getHeight()-2);
+		}
         // Continue painting any other component
-        super.paint(g2);
+        super.paint(g);
     }
 
     public Point getRelativeCenter() {
@@ -250,7 +269,7 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
                 '}';
     }
 
-    private final class MouseEventsListener implements MouseMotionListener, MouseListener {
+	private final class MouseEventsListener implements MouseMotionListener, MouseListener {
         private Point relativePos = null;
         private Point lastLocation = null;
 
@@ -304,7 +323,6 @@ public class NodeView extends JComponent implements INodeModelObserver, KeyListe
         @Override
         public void mouseClicked(MouseEvent e) {
             requestFocus();
-            controller.setSelected(true);
         }
 
         @Override

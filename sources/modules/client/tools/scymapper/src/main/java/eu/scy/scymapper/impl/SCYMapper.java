@@ -3,64 +3,73 @@ package eu.scy.scymapper.impl;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.looks.Options;
 import com.jgoodies.looks.LookUtils;
+import com.jgoodies.looks.Options;
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.event.IAwarenessEvent;
 import eu.scy.awareness.event.IAwarenessMessageListener;
-import eu.scy.scymapper.impl.ui.palette.PalettePane;
-import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.impl.shapes.concepts.Star;
-import eu.scy.scymapper.impl.shapes.concepts.Ellipse;
-import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.api.IConceptLinkModel;
-import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.sessionmanager.SessionManager;
-import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
+import eu.scy.datasync.client.IDataSyncService;
+import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.shapes.ILinkShape;
+import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.model.DefaultNodeStyle;
+import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.impl.shapes.concepts.Ellipse;
+import eu.scy.scymapper.impl.shapes.concepts.Star;
+import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.ui.palette.PalettePane;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * User: Bjoerge
  * Date: 27.aug.2009
  * Time: 13:29:56
  */
-public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagramModelObserver, INodeModelObserver {
+public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramModelListener, INodeModelListener {
 	//private JXTaskPaneContainer taskPaneContainer;
 	private JTabbedPane conceptMapTabPane;
 	private IAwarenessService awarenessService;
 	private ToolBrokerAPI<IMetadataKey> toolBroker;
 	//init props
 	private JTextArea logView;
-	private final static Logger logger = Logger.getLogger(SCYMapperMain.class);
+	private final static Logger logger = Logger.getLogger(SCYMapper.class);
 	private JToolBar toolBar;
-	private SessionManager sessionManager;
 	private String currentToolSessionId;
 	private DiagramModel diagramModel;
 	private IDataSyncService dataSyncService;
+	private String username;
+	private String passwd;
+	private static SCYMapper INSTANCE;
 
 	public static void main(String[] args) {
-		new SCYMapperMain().setVisible(true);
+		getInstance().setVisible(true);
 	}
 
-	public SCYMapperMain() throws HeadlessException {
+	public static SCYMapper getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new SCYMapper();
+		return INSTANCE;
+	}
+
+	private SCYMapper() throws HeadlessException {
 		super("SCYMapper");
 
 		diagramModel = new DiagramModel();
@@ -90,8 +99,8 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 
 	private void initToolBroker() {
 
-		String username = JOptionPane.showInputDialog("Enter username");
-		String passwd = JOptionPane.showInputDialog("Enter password");
+		username = "obama";// JOptionPane.showInputDialog("Enter username");
+		passwd = "obama";// JOptionPane.showInputDialog("Enter password");
 
 		toolBroker = new ToolBrokerImpl<IMetadataKey>();
 		awarenessService = toolBroker.getAwarenessService();
@@ -144,10 +153,8 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 
 	private void initToolBar() {
 		toolBar = new JToolBar();
-		toolBar.add(new JButton("Do"));
-		toolBar.add(new JButton("The"));
-		toolBar.add(new JButton("Toolbar"));
-		toolBar.add(new JButton("Boogie"));
+		toolBar.add(new JButton("Save"));
+		toolBar.add(new JButton("Open"));
 	}
 
 	private void initComponents() {
@@ -155,6 +162,14 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 		initMenuBar();
 
 		initToolBar();
+
+		ArrayList<INodeShape> availNodeShapes = new ArrayList<INodeShape>();
+		availNodeShapes.add(new Star());
+		availNodeShapes.add(new eu.scy.scymapper.impl.shapes.concepts.RoundRectangle());
+		availNodeShapes.add(new Ellipse());
+
+		ArrayList<ILinkShape> availLinkShapes = new ArrayList<ILinkShape>();
+		availLinkShapes.add(new Arrow());
 
 		// Tab pane
 		conceptMapTabPane = new JTabbedPane();
@@ -179,7 +194,7 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 		CellConstraints cc = new CellConstraints();
 
 		builder.add(toolBar, cc.xyw(1, 1, 3, CellConstraints.FILL, CellConstraints.FILL));
-		builder.add(new PalettePane(), cc.xy(1, 3, CellConstraints.FILL, CellConstraints.FILL));
+		builder.add(new PalettePane(availLinkShapes, availNodeShapes), cc.xy(1, 3, CellConstraints.FILL, CellConstraints.FILL));
 		builder.add(conceptMapTabPane, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.FILL));
 		builder.add(new JScrollPane(logView), cc.xyw(1, 5, 3, CellConstraints.FILL, CellConstraints.FILL));
 
@@ -231,7 +246,7 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 	@Override
 	public void moved(INodeModel node) {
 		logger.debug("User moved node");
-		dataSyncService.sendMessage(SyncMessageHelper.createSyncMessage(currentToolSessionId, "eu.scy.scymapper", "obama", "bjoerge",
+		dataSyncService.sendMessage(SyncMessageHelper.createSyncMessage(currentToolSessionId, "eu.scy.scymapper", username, "bjoerge",
 				"NODE MOVED", Configuration.getInstance().getClientEventSynchronize(),  "something", 2323));
 	}
 
@@ -252,11 +267,6 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 
 	@Override
 	public void shapeChanged(INodeModel node) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void nodeSelected(NodeModel conceptNode) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
@@ -289,5 +299,9 @@ public class SCYMapperMain extends JFrame implements IDataSyncListener, IDiagram
 		link.setShape(new Arrow());
 		link.setLabel("I'm in between");
 		diagramModel.addLink(link);
+	}
+
+	public ConceptMapEditorPane getCurrentEditor() {
+		return (ConceptMapEditorPane)conceptMapTabPane.getSelectedComponent();
 	}
 }

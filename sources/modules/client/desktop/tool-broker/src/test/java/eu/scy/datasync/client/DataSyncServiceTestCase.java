@@ -17,6 +17,7 @@ import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.common.configuration.Configuration;
 
 /**
  * Testing the client side of data sync. 
@@ -41,14 +42,14 @@ public class DataSyncServiceTestCase {
     private String sessions;
     private String synchronizedData = "";
     
-    private CommunicationProperties props;
+    private Configuration props;
     private String joinSessionId;
     
     @Ignore
     public void init() {
         logger.debug("================ Setting up stuff before the tests can begin");
 
-        props = new CommunicationProperties();
+        props = Configuration.getInstance();
         tbi = new ToolBrokerImpl<IMetadataKey>();
         dataSyncService = tbi.getDataSyncService();
         dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
@@ -62,26 +63,26 @@ public class DataSyncServiceTestCase {
             public void handleDataSyncEvent(IDataSyncEvent e) {
                 ISyncMessage syncMessage = e.getSyncMessage();
                
-                if (syncMessage.getEvent().equals(props.clientEventCreateSession)) {
+                if (syncMessage.getEvent().equals(props.getClientEventCreateSession())) {
                     logger.debug("-------- CREATE SESSION ---------");
                     //write to global field so the test can see if anything happened
                     currentSession = syncMessage.getToolSessionId();                    
                     logger.debug(syncMessage.toString());
-                } else if (syncMessage.getEvent().equals(props.clientEventGetSessions)) {
+                } else if (syncMessage.getEvent().equals(props.getClientEventGetSessions())) {
                     logger.debug("-------- GET SESSIONS ---------");
                     //write to global field so the test can see if anything happened
                     sessions = syncMessage.getContent();
                     logger.debug(sessions);
-                } else if (syncMessage.getEvent().equals(props.clientEventCreateData)) {
+                } else if (syncMessage.getEvent().equals(props.getClientEventCreateData())) {
                     logger.debug("-------- CREATE DATA ---------");
                     //write to global field so the test can see if anything happened
                     logger.debug(syncMessage.getContent());
-                } else if (syncMessage.getEvent().equals(props.clientEventSynchronize)) {
+                } else if (syncMessage.getEvent().equals(props.getClientEventCreateData())) {
                     logger.debug("-------- DATA SYNCHRONIZATION ---------");
                     //write to global field so the test can see if anything happened
                     synchronizedData = synchronizedData + syncMessage.getContent();
                     logger.debug(synchronizedData);
-                } else if(syncMessage.getEvent().equals(props.clientEventJoinSession)) {
+                } else if(syncMessage.getEvent().equals(props.getClientEventJoinSession())) {
                     logger.debug("-------- JOIN SESSION ---------");
                     //write to global field so the test can see if anything happened
                     joinSessionId = syncMessage.getToolSessionId();
@@ -128,7 +129,7 @@ public class DataSyncServiceTestCase {
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, null, props.clientEventGetSessions, null);
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, null, props.getClientEventGetSessions(), null);
         assertNotNull(syncMessage);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
@@ -151,11 +152,11 @@ public class DataSyncServiceTestCase {
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 1", props.clientEventCreateData, null);
+        ISyncMessage syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 1", props.getClientEventCreateData(), null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
-        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 2", props.clientEventCreateData, null);
+        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 2", props.getClientEventCreateData(), null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
-        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.clientEventCreateData, null);
+        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, HARD_CODED_CONTENT + " == 3", props.getClientEventCreateData(), null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
             //wait for messages to reach the persistence layer
@@ -165,7 +166,7 @@ public class DataSyncServiceTestCase {
         }
         
         //synchronize the data back to this client
-        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, null, props.clientEventSynchronize, null);
+        syncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(currentSession, HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME, HARD_CODED_USER_NAME, null, props.getClientEventSynchronize(), null);
         dataSyncService.sendMessage((SyncMessage) syncMessage);
         try {
             //wait for the sync to begin
