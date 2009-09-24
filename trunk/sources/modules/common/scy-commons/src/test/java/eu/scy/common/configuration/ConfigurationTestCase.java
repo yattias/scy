@@ -15,4 +15,10 @@ public class ConfigurationTestCase {
 		assertTrue(Configuration.getInstance().getTestString() != null);
 		assertEquals(testString, Configuration.getInstance().getTestString());
 	}
+
+    @org.junit.Test
+    public void testMessageDefaultExpiration() {
+        assertEquals(Configuration.getInstance().getDatasyncMessageDefaultExpiration(), 3600000);
+
+    }
 }
