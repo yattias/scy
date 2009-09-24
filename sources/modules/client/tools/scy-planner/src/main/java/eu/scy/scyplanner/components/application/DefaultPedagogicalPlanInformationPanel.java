@@ -25,8 +25,6 @@ public class DefaultPedagogicalPlanInformationPanel extends TitledPanel {
         JLabel mission = new JLabel();
         add(BorderLayout.NORTH, mission);
 
-        add(BorderLayout.EAST, new JButton(new OpenSCYPlannerDemo()));
-
         JLabel scenario = new JLabel();
         add(BorderLayout.SOUTH, scenario);
 
