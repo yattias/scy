@@ -109,5 +109,9 @@ public class Configuration {
 	public String getSqlSpacesServerSpaceDatasync() {
 		return props.getProperty("communication.sqlspaces.server.space.datasync");
 	}
+
+    public String getEventQuery() {
+        return props.getProperty("communication.client.event.query");
+    }
 	
 }
