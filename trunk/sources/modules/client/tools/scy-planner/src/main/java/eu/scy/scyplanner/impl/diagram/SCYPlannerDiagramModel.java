@@ -1,7 +1,7 @@
 package eu.scy.scyplanner.impl.diagram;
 
 import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.IDiagramModelObserver;
+import eu.scy.scymapper.api.diagram.IDiagramModelListener;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 
@@ -19,11 +19,11 @@ public class SCYPlannerDiagramModel implements IDiagramModel {
 private String name;
     private Set<INodeModel> nodes;
     private Set<ILinkModel> links;
-    private Collection<IDiagramModelObserver> observers;
+    private Collection<IDiagramModelListener> listeners;
     private INodeModel selectedNode;
 
-    public SCYPlannerDiagramModel() {
-        observers = new ArrayList<IDiagramModelObserver>();
+	public SCYPlannerDiagramModel() {
+        listeners = new ArrayList<IDiagramModelListener>();
         nodes = new HashSet<INodeModel>();
         links = new HashSet<ILinkModel>();
     }
@@ -66,54 +66,47 @@ private String name;
     }
 
     @Override
-    public void addObserver(IDiagramModelObserver o) {
-        observers.add(o);
+    public void addObserver(IDiagramModelListener o) {
+        listeners.add(o);
     }
 
     @Override
-    public void removeObserver(IDiagramModelObserver o) {
-        observers.remove(o);
+    public void removeObserver(IDiagramModelListener o) {
+        listeners.remove(o);
     }
 
     @Override
     public void notifyUpdated() {
-        for (IDiagramModelObserver observer : observers) {
-            observer.updated(this);
+        for (IDiagramModelListener listener : listeners) {
+            listener.updated(this);
         }
     }
 
     @Override
     public void notifyNodeAdded(INodeModel node) {
-        for (IDiagramModelObserver observer : observers) {
-            observer.nodeAdded(node);
+        for (IDiagramModelListener listener : listeners) {
+            listener.nodeAdded(node);
         }
     }
 
     @Override
     public void notifyNodeRemoved(INodeModel n) {
-        for (IDiagramModelObserver observer : observers) {
-            observer.nodeRemoved(n);
+        for (IDiagramModelListener listener : listeners) {
+            listener.nodeRemoved(n);
         }
     }
 
     @Override
     public void notifyLinkAdded(ILinkModel link) {
-        for (IDiagramModelObserver observer : observers) {
-            observer.linkAdded(link);
+        for (IDiagramModelListener listener : listeners) {
+            listener.linkAdded(link);
         }
     }
 
     @Override
     public void notifyLinkRemoved(ILinkModel link) {
-        for (IDiagramModelObserver observer : observers) {
-            observer.linkRemoved(link);
-        }
-    }
-
-    @Override
-    public void notifyNodeSelected(INodeModel node) {
-        for (IDiagramModelObserver observer : observers) {
-            observer.nodeSelected(node);
+        for (IDiagramModelListener listener : listeners) {
+            listener.linkRemoved(link);
         }
     }
 }

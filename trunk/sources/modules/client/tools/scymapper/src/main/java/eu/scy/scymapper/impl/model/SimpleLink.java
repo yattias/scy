@@ -1,8 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.ILinkModelObservable;
-import eu.scy.scymapper.api.diagram.ILinkModelObserver;
+import eu.scy.scymapper.api.diagram.ILinkModelListener;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleObserver;
@@ -16,17 +15,17 @@ import java.util.ArrayList;
  * Date: 23.jun.2009
  * Time: 15:46:06
  */
-public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleObserver {
+public class SimpleLink implements ILinkModel, ILinkStyleObserver {
     private Point from;
     private Point to;
     private String label;
     private ILinkShape shape;
-    private ArrayList<ILinkModelObserver> observers;
+    private ArrayList<ILinkModelListener> listeners;
     private ILinkStyle style;
     private boolean labelHidden = false;
 
-    public SimpleLink() {
-        observers = new ArrayList<ILinkModelObserver>();
+	public SimpleLink() {
+        listeners = new ArrayList<ILinkModelListener>();
     }
 
     public SimpleLink(ILinkShape shape) {
@@ -89,26 +88,26 @@ public class SimpleLink implements ILinkModel, ILinkModelObservable, ILinkStyleO
     }
 
     @Override
-    public void addObserver(ILinkModelObserver observer) {
-        observers.add(observer);
+    public void addListener(ILinkModelListener listener) {
+        listeners.add(listener);
     }
 
     @Override
-    public void removeObserver(ILinkModelObserver observer) {
-        observers.remove(observer);
+    public void removeListener(ILinkModelListener listener) {
+        listeners.remove(listener);
     }
 
     @Override
     public void notifyUpdated() {
-        for (ILinkModelObserver observer : observers) {
-            observer.updated(this);
+        for (ILinkModelListener listener : listeners) {
+            listener.updated(this);
         }
     }
 
     @Override
     public void styleChanged(ILinkStyle s) {
-        for (ILinkModelObserver observer : observers) {
-            observer.updated(this);
+        for (ILinkModelListener listener : listeners) {
+            listener.updated(this);
         }
     }
 

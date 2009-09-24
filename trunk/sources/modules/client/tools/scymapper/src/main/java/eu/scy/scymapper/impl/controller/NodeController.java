@@ -14,7 +14,7 @@ import java.awt.*;
 public class NodeController implements INodeController {
     private INodeModel model;
 
-    public NodeController(INodeModel node) {
+	public NodeController(INodeModel node) {
         this.model = node;
     }
 
@@ -36,8 +36,8 @@ public class NodeController implements INodeController {
         model.setLabel(text);
     }
 
-    @Override
-    public void setSelected(boolean b) {
-        model.setSelected(true);
-    }
+	@Override
+	public void setSelected(boolean b) {
+		model.setSelected(b);
+	}
 }

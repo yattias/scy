@@ -11,36 +11,46 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 19:00:33
  */
-public interface INodeModel extends INodeModelObservable {
-    public String getLabel();
+public interface INodeModel {
+    String getLabel();
 
-    public void setLabel(String label);
+    void setLabel(String label);
 
-    public Point getLocation();
+    Point getLocation();
 
-    public void setLocation(Point location);
+    void setLocation(Point location);
 
-    public Dimension getSize();
+    Dimension getSize();
 
-    public void setSize(Dimension size);
+    void setSize(Dimension size);
 
-    public Point getCenterLocation();
+    Point getCenterLocation();
 
-    public int getDistanceToPerimeter(Point p);
+    int getDistanceToPerimeter(Point p);
 
-    public Point getConnectionPoint(Point p);
+    Point getConnectionPoint(Point p);
 
-    public INodeShape getShape();
+    INodeShape getShape();
 
-    public void setShape(INodeShape shape);
+    void setShape(INodeShape shape);
 
-    public void setStyle(INodeStyle style);
+    void setStyle(INodeStyle style);
 
-    public INodeStyle getStyle();
+    void setSelected(boolean b);
+	boolean isSelected();
 
-    public void setSelected(boolean b);
+    INodeStyle getStyle();
 
-    public boolean isLabelHidden();
+    boolean isLabelHidden();
 
-    public void setLabelHidden(boolean labelHidden);
+    void setLabelHidden(boolean labelHidden);
+
+    void addObserver(INodeModelListener listener);
+    void removeObserver(INodeModelListener listener);
+    void notifyMoved();
+    void notifyResized();
+    void notifyLabelChanged();
+    void notifyStyleChanged();
+    void notifyShapeChanged();
+    void notifySelected();
 }

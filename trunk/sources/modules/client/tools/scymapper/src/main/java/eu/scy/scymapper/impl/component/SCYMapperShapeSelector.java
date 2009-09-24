@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.component;
 
-import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.shapes.ILinkShape;
+import eu.scy.scymapper.api.shapes.INodeShape;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -55,7 +55,7 @@ public class SCYMapperShapeSelector extends JPanel {
                 try {
                     INodeShape figure = (INodeShape) clazz.newInstance();
                     //Shape shape = figure.paint(new Rectangle(50, 50));
-                    //ShapedButton b = new ShapedButton(clazz.getSimpleName(), shape);
+                    //ShapeButton b = new ShapeButton(clazz.getSimpleName(), shape);
                     //shapePanel.add(b);
 
                 } catch (InstantiationException e) {
@@ -85,8 +85,8 @@ public class SCYMapperShapeSelector extends JPanel {
                     ILinkShape figure = (ILinkShape) clazz.newInstance();
                     Shape shape = figure.getShape(new Point(0, 10), new Point(150, 10));
                     System.out.println(" s.gb()= " + shape.getBounds());
-                    ShapedButton b = new ShapedButton(clazz.getSimpleName(), shape);
-                    connectorPanel.add(b);
+                    //ShapeButton b = new ShapeButton(clazz.getSimpleName(), shape);
+                    //connectorPanel.add(b);
 
                 } catch (InstantiationException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

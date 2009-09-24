@@ -9,20 +9,33 @@ import java.util.Set;
  * Time: 11:26:58
  * This is the Diagram model
  */
-public interface IDiagramModel extends IDiagramModelObservable {
+public interface IDiagramModel {
 
-    public void setName(String name);
+    void setName(String name);
 
-    public String getName();
+    String getName();
 
-    public void addNode(INodeModel n);
+    void addNode(INodeModel n);
 
-    public void removeNode(INodeModel n);
+    void removeNode(INodeModel n);
 
-    public void addLink(ILinkModel n);
+    void addLink(ILinkModel n);
 
-    public Set<ILinkModel> getLinks();
+    Set<ILinkModel> getLinks();
+	
+    Set<INodeModel> getNodes();
 
-    public Set<INodeModel> getNodes();
+	void addObserver(IDiagramModelListener o);
 
+    void removeObserver(IDiagramModelListener o);
+
+    void notifyUpdated();
+
+    void notifyNodeAdded(INodeModel node);
+
+    void notifyNodeRemoved(INodeModel node);
+
+    void notifyLinkAdded(ILinkModel link);
+
+    void notifyLinkRemoved(ILinkModel link);
 }

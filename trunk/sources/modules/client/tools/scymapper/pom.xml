@@ -85,7 +85,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>eu.scy.scymapper.impl.SCYMapperMain</mainClass>
+                    <mainClass>eu.scy.scymapper.impl.SCYMapper</mainClass>
                 </configuration>
             </plugin>
             <plugin>

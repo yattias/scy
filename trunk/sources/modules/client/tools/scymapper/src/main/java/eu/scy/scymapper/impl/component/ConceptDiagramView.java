@@ -6,7 +6,6 @@ import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 
@@ -26,23 +25,30 @@ import java.net.URL;
  * Time: 06:40:09
  * To change this template use File | Settings | File Templates.
  */
-public class ConceptDiagramView extends JPanel implements IDiagramModelObserver, INodeModelObserver {
+public class ConceptDiagramView extends JPanel implements IDiagramModelListener, INodeModelListener {
 
     private IDiagramModel model;
     private IDiagramController controller;
 
-    private static final String CONNECTOR_FILENAME = "add_connector.png";
-    private NodeMouseListener nodeMouseListener;
+	private IDiagramSelectionModel selectionModel;
 
-    public ConceptDiagramView(IDiagramController controller, IDiagramModel model) {
+    private static final String CONNECTOR_FILENAME = "add_connector.png";
+    private NodeMouseMotionListener nodeMouseMotionListener;
+	private SelectionMouseListener selectionMouseListener;
+
+	public ConceptDiagramView(IDiagramController controller, IDiagramModel model, IDiagramSelectionModel selectionModel) {
         this.controller = controller;
         this.model = model;
+		this.selectionModel = selectionModel;
 
-        // Register myself as observer for changes in the model
+		// Register myself as observer for changes in the model
         this.model.addObserver(this);
 
         // Create the listener for node mouseover
-        nodeMouseListener = new NodeMouseListener();
+        nodeMouseMotionListener = new NodeMouseMotionListener();
+        selectionMouseListener = new SelectionMouseListener();
+
+		addMouseListener(selectionMouseListener);
 
         setLayout(null);
 
@@ -65,14 +71,15 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
         NodeView view = new NodeView(new NodeController(node), node);
 
         // Subscribe to mouse events in this nodes component to display the add-link button
-        view.addMouseMotionListener(nodeMouseListener);
+        view.addMouseMotionListener(nodeMouseMotionListener);
+
+        view.addMouseListener(selectionMouseListener);
 
         // I want to listen for mouseover in the component of this node to be able to add new links
         view.addFocusListener(new NodeFocusListener());
 
         // Subscribe to changes in this node
         node.addObserver(this);
-
         add(view);
         repaint(view.getBounds());
     }
@@ -104,11 +111,6 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
     @Override
     public void updated(IDiagramModel diagramModel) {
         System.out.println("ConceptDiagramView.updated");
-    }
-
-    @Override
-    public void nodeSelected(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeSelected");
     }
 
     @Override
@@ -144,7 +146,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
     public void labelChanged(INodeModel node) {
         System.out.println("NodeModel label changed: "+node);
     }
- 
+
     @Override
     public void styleChanged(INodeModel node) {
         System.out.println("ConceptDiagramView.styleChanged");
@@ -156,10 +158,45 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
     }
 
     @Override
-    public void nodeSelected(NodeModel conceptNode) {
-        
+    public void nodeSelected(INodeModel conceptNode) {
+		
     }
-    private class NodeMouseListener implements MouseMotionListener {
+
+	private class SelectionMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Component comp = e.getComponent();
+			if (!e.isControlDown()) selectionModel.clearSelection();
+			if (comp instanceof NodeView) {
+				INodeModel node = ((NodeView)comp).getModel();
+				if (e.isControlDown() && node.isSelected())
+					selectionModel.unselect(node);
+				else
+					selectionModel.select(node);
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+	}
+	private class NodeMouseMotionListener implements MouseMotionListener {
         Component connectSymbol = null;
         private ConnectorButtonListener connectorButtonListener;
 
@@ -216,7 +253,6 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
 
             connectSymbol.setVisible(true);
             setComponentZOrder(connectSymbol, 0);
-
         }
 
         private NodeView getNearestNode(Point p) {
@@ -296,12 +332,12 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
 
                 link.setTo(targetNode.getConnectionPoint(from));
 
-                targetNode.setHighlight(new Color(255, 255, 204));
+                targetNode.setConnectionCandidate(true);
 
                 currentTarget = targetNode;
 
             } else if (currentTarget != null) {
-                currentTarget.setHighlight(null);
+                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             else {
@@ -340,7 +376,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
                 newLink.setShape(new Arrow());
                 controller.addLink(newLink);
 
-                currentTarget.setHighlight(null);
+                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             getTemplink().setVisible(false);
@@ -365,7 +401,9 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelObserver,
     private class NodeFocusListener implements FocusListener {
         @Override
         public void focusGained(FocusEvent e) {
-            setComponentZOrder(e.getComponent(), 0);
+
+			Component comp = e.getComponent();
+            setComponentZOrder(comp, 0);
             repaint();
         }
 

@@ -1,0 +1,101 @@
+package eu.scy.scymapper.impl.model;
+
+import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
+import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.INodeModel;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+/**
+ * User: Bjoerge Naess
+ * Date: 24.sep.2009
+ * Time: 16:29:39
+ */
+public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
+
+	private Stack<INodeModel> selectedNodes = new Stack<INodeModel>();
+	private Stack<ILinkModel> selectedLinks = new Stack<ILinkModel>();
+	private ArrayList<IDiagramSelectionListener> listeners = new ArrayList<IDiagramSelectionListener>();
+
+	@Override
+	public void select(INodeModel node) {
+		if (!selectedNodes.contains(node)) {
+			selectedNodes.add(node);
+			node.setSelected(true);
+			notifySelectionChanged();
+		}
+	}
+
+	@Override
+	public void select(ILinkModel link) {
+		selectedLinks.add(link);
+		notifySelectionChanged();
+	}
+
+	@Override
+	public void unselect(INodeModel node) {
+		selectedNodes.remove(node);
+		node.setSelected(false);
+		notifySelectionChanged();
+	}
+
+	@Override
+	public void unselect(ILinkModel link) {
+		selectedLinks.remove(link);
+		notifySelectionChanged();
+	}
+
+	@Override
+	public void clearSelection() {
+		for (INodeModel node : selectedNodes) {
+			node.setSelected(false);
+		}
+		selectedLinks.removeAllElements();
+		selectedNodes.removeAllElements();
+		notifySelectionChanged();
+	}
+
+	@Override
+	public INodeModel getSelectedNode() {
+		return selectedNodes.size() > 0 ? selectedNodes.peek() : null;
+	}
+
+	@Override
+	public ILinkModel getSelectedLink() {
+		return selectedLinks.peek();
+	}
+
+	@Override
+	public boolean isMultipleSelection() {
+		return selectedNodes.size() + selectedLinks.size() > 1;
+	}
+
+	@Override
+	public Stack<INodeModel> getSelectedNodes() {
+		return selectedNodes;
+	}
+
+	@Override
+	public Stack<ILinkModel> getSelectedLinks() {
+		return selectedLinks;
+	}
+
+	@Override
+	public void addSelectionObserver(IDiagramSelectionListener listener) {
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeSelectionObserver(IDiagramSelectionListener listener) {
+		listeners.remove(listener);
+	}
+
+	@Override
+	public void notifySelectionChanged() {
+		for (IDiagramSelectionListener listener : listeners) {
+			listener.selectionChanged(this);
+		}
+	}
+}

@@ -1,26 +1,18 @@
 package eu.scy.scymapper.impl;
 
+import com.jgoodies.forms.builder.PanelBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.scymapper.api.diagram.IDiagramModel;
+import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
 import eu.scy.scymapper.impl.component.ConceptDiagramView;
 import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.model.DefaultNodeStyle;
-import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.impl.shapes.concepts.Star;
-import eu.scy.scymapper.impl.shapes.concepts.Ellipse;
-import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 import eu.scy.sessionmanager.SessionManager;
 
 import javax.swing.*;
 import java.awt.*;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.builder.PanelBuilder;
 
 /**
  * User: Bjoerge Naess
@@ -34,17 +26,27 @@ public class ConceptMapEditorPane extends JPanel {
 	private AwarenessView awarenessPanel;
 	private SessionManager session;
 	private IAwarenessService awarenessService;
+	private IDiagramSelectionModel selectionModel;
+
 
 	public ConceptMapEditorPane(IAwarenessService awarenessService, IDiagramModel diagramModel) {
 		this.awarenessService = awarenessService;
 		this.diagramModel = diagramModel;
+		selectionModel = new DefaultDiagramSelectionModel();
 		initComponents();
+	}
+
+	public IDiagramSelectionModel getSelectionModel() {
+		return selectionModel;
 	}
 
 	private void initComponents() {
 
 		setLayout(new BorderLayout());
-		diagramView = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel);
+		diagramView = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel,  selectionModel);
+
+
+
 		diagramView.setBackground(Color.WHITE);
 
 		awarenessPanel = new AwarenessView(awarenessService);

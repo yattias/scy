@@ -5,15 +5,12 @@ import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import eu.scy.scymapper.impl.shapes.concepts.*;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
-import eu.scy.scyplanner.impl.model.LearningActivitySpaceNodeModel;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
-import eu.scy.scyplanner.impl.shapes.LASShape;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -27,7 +24,7 @@ import java.io.IOException;
  * Date: 28.aug.2009
  * Time: 12:28:20
  */
-public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INodeModelObserver {
+public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INodeModelListener {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -209,10 +206,6 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INo
     }
 
     @Override
-    public void nodeSelected(INodeModel n) {
-    }
-
-    @Override
     public void moved(INodeModel node) {
     }
 
@@ -233,7 +226,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INo
     }
 
     @Override
-    public void nodeSelected(NodeModel conceptNode) {
+    public void nodeSelected(INodeModel conceptNode) {
         selectedNode = conceptNode;
         selectedLabel.setText("You clicked: " + conceptNode.getLabel());
     }

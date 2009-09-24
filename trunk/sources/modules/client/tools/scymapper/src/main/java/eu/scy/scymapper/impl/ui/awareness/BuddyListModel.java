@@ -1,16 +1,14 @@
 package eu.scy.scymapper.impl.ui.awareness;
 
+import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.AwarenessServiceException;
-import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarePresenceEvent;
+import eu.scy.awareness.event.IAwarenessPresenceListener;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 
 /**
  * User: Bjoerge Naess

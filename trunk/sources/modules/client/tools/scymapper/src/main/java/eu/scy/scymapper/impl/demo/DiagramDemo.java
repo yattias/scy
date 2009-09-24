@@ -7,6 +7,7 @@ import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.component.ConceptDiagramView;
 import eu.scy.scymapper.impl.controller.DiagramController;
+import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
@@ -26,7 +27,7 @@ import java.net.URL;
  * Date: 27.aug.2009
  * Time: 15:09:32
  */
-public class DiagramDemo  extends JFrame implements IDiagramModelObserver, INodeModelObserver {
+public class DiagramDemo  extends JFrame implements IDiagramModelListener, INodeModelListener {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -53,7 +54,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelObserver, INode
         // Ok, so I'm adding a few nodes to the impl before instantiating the impl component
         testAddNodes1();
 
-        ConceptDiagramView view = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel);
+        ConceptDiagramView view = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel, new DefaultDiagramSelectionModel());
 
         JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
         testButton.addActionListener(new ActionListener() {
@@ -210,11 +211,6 @@ public class DiagramDemo  extends JFrame implements IDiagramModelObserver, INode
     }
 
     @Override
-    public void nodeSelected(INodeModel n) {
-        System.out.println("DiagramImplTest.nodeSelected");
-    }
-
-    @Override
     public void moved(INodeModel node) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -239,7 +235,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelObserver, INode
     }
 
     @Override
-    public void nodeSelected(NodeModel conceptNode) {
+    public void nodeSelected(INodeModel conceptNode) {
         selectedNode = conceptNode;
         selectedLabel.setText("You clicked: "+conceptNode.getLabel());
     }

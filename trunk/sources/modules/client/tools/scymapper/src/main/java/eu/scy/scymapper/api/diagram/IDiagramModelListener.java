@@ -6,7 +6,7 @@ package eu.scy.scymapper.api.diagram;
  * Date: 24.jun.2009
  * Time: 11:27:10
  */
-public interface IDiagramModelObserver {
+public interface IDiagramModelListener {
     void linkAdded(ILinkModel link);
 
     void linkRemoved(ILinkModel link);

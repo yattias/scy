@@ -7,6 +7,6 @@ package eu.scy.scymapper.api.diagram;
  * Time: 20:46:43
  * To change this template use File | Settings | File Templates.
  */
-public interface ILinkModelObserver {
+public interface ILinkModelListener {
     public void updated(ILinkModel subject);
 }

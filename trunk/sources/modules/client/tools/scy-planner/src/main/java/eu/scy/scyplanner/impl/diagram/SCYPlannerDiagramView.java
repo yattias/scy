@@ -30,7 +30,7 @@ import java.io.IOException;
  * Date: 28.aug.2009
  * Time: 11:40:29
  */
-public class SCYPlannerDiagramView extends JPanel implements INodeModelObserver, IDiagramModelObserver {
+public class SCYPlannerDiagramView extends JPanel implements INodeModelListener, IDiagramModelListener {
 	private IDiagramModel model;
     private IDiagramController controller;
 
@@ -139,11 +139,6 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelObserver,
     @Override
     public void shapeChanged(INodeModel node) {
         System.out.println("ConceptDiagramView.shapeChanged");
-    }
-
-    @Override
-    public void nodeSelected(NodeModel conceptNode) {
-
     }
 
     private class ComponentFocusListener implements FocusListener {
@@ -298,12 +293,12 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelObserver,
 
                 link.setTo(targetNode.getConnectionPoint(from));
 
-                targetNode.setHighlight(new Color(255, 255, 204));
+                targetNode.setConnectionCandidate(true);
 
                 currentTarget = targetNode;
 
             } else if (currentTarget != null) {
-                currentTarget.setHighlight(null);
+                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             else {
@@ -342,7 +337,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelObserver,
                 newLink.setShape(new Arrow());
                 controller.addLink(newLink);
 
-                currentTarget.setHighlight(null);
+                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             getTemplink().setVisible(false);
