@@ -11,7 +11,6 @@ import eu.scy.scymapper.impl.component.LinkView;
 import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
-import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
@@ -24,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Observer;
+import java.util.Observable;
 
 /**
  * User: Bjoerge Naess
@@ -36,6 +37,8 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
     private static final String CONNECTOR_FILENAME = "add_connector.png";
     private NodeMouseListener nodeMouseListener;
+
+    private ObservableView observable = new ObservableView();
 
     public SCYPlannerDiagramView(IDiagramController controller, IDiagramModel model) {
         this.controller = controller;
@@ -52,7 +55,11 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         initializeGUI();
     }
 
-	private void initializeGUI() {
+    public void addObserver(Observer observer) {
+        observable.addObserver(observer);
+    }
+
+    private void initializeGUI() {
 
         // Create views for links in my model
         for (ILinkModel link : model.getLinks()) {
@@ -70,6 +77,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
         // Subscribe to mouse events in this nodes component to display the add-link button
         view.addMouseMotionListener(nodeMouseListener);
+        view.addMouseListener(nodeMouseListener);
 
         // I want to listen for mouseover in the component of this node to be able to add new links
         view.addFocusListener(new NodeFocusListener());
@@ -156,7 +164,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         }
     }
 
-    private class NodeMouseListener implements MouseMotionListener {
+    private class NodeMouseListener implements MouseMotionListener, MouseListener {
         Component connectSymbol = null;
         private ConnectorButtonListener connectorButtonListener;
 
@@ -262,6 +270,39 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
                 add(connectSymbol);
             }
             return connectSymbol;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            Component c = e.getComponent();
+            if (c instanceof NodeView) {
+                if (e.getClickCount() >= 2) {
+                    NodeView node = (NodeView) c;
+                    observable.observableChanged();
+                    observable.notifyObservers(node.getModel());
+                    observable.clearObservableChanged();
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 
@@ -369,6 +410,16 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         @Override
         public void focusLost(FocusEvent e) {
 
+        }
+    }
+
+    private class ObservableView extends Observable {
+        private void observableChanged() {
+            setChanged();
+        }
+
+        private void clearObservableChanged() {
+            clearChanged();
         }
     }
 }

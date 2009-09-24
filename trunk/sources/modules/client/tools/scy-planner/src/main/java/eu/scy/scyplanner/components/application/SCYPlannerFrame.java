@@ -20,6 +20,8 @@ import java.awt.*;
 public class SCYPlannerFrame extends JFrame {
     private final static int DEFAULT_BORDER_SIZE = 7;
     private JComponent currentComponentInsideContentArea = null;
+    private JComponent defaultScreen = null;
+
 
     public SCYPlannerFrame() throws HeadlessException {
         super("SCYPlanner");
@@ -28,25 +30,28 @@ public class SCYPlannerFrame extends JFrame {
         setSize(1024, 748);
         setLocationRelativeTo(null);
 
-        TitledList missionList = new TitledList("Available missions", createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, DEFAULT_BORDER_SIZE, 0));
-        TitledList scenarioList = new TitledList("Available scenarios", creatScenarioListModel());
+        setJMenuBar(new SCYPlannerMenu());
 
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
-        currentComponentInsideContentArea = CreateDefaultPedagogicalPlanPanel(missionList.getList(), scenarioList.getList());
-        getContentPane().add(currentComponentInsideContentArea, BorderLayout.CENTER);
+
+        getContentPane().add(BorderLayout.NORTH, new SCYPlannerToolBar());
+
+        defaultScreen = setUpDefaultScreen();
+        currentComponentInsideContentArea = defaultScreen;
+        setDefaultScreen();
     }
 
     public void setContent(JComponent component) {
-        if (currentComponentInsideContentArea != null) {
-            getContentPane().remove(currentComponentInsideContentArea);
-        }
-
+        getContentPane().remove(currentComponentInsideContentArea);
         currentComponentInsideContentArea = component;
         getContentPane().add(BorderLayout.CENTER, currentComponentInsideContentArea);
         getContentPane().invalidate();
         getContentPane().validate();
         getContentPane().repaint();
+    }
+
+    public void setDefaultScreen() {
+        setContent(defaultScreen);
     }
 
     private JPanel createMissionScenarioPanel(TitledList missionList, TitledList scenarioList) {
@@ -105,5 +110,16 @@ public class SCYPlannerFrame extends JFrame {
         scenario.setName(name);
 
         return scenario;
+    }
+
+    private JComponent setUpDefaultScreen() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        TitledList missionList = new TitledList("Available missions", createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, DEFAULT_BORDER_SIZE, 0));
+        TitledList scenarioList = new TitledList("Available scenarios", creatScenarioListModel());
+        panel.add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
+        panel.add(CreateDefaultPedagogicalPlanPanel(missionList.getList(), scenarioList.getList()), BorderLayout.CENTER);
+
+        return panel;
     }
 }

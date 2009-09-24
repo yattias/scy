@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.*;
 import java.net.URL;
 import java.io.IOException;
+import java.util.Observer;
+import java.util.Observable;
 
 /**
  * User: Bjoerge Naess
@@ -31,7 +33,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
     private JLabel selectedLabel;
 
     public SCYPlannerDemo() {
-        JTabbedPane tabbedPane = new JTabbedPane();
+        final JTabbedPane tabbedPane = new JTabbedPane();
 
         diagramModel = getInitialPedagogicalPlanModel();
 
@@ -39,8 +41,14 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
         tabbedPane.addTab("Test", view);
+        view.addObserver(new Observer() {
+            public void update(Observable observable, Object object) {
+                INodeModel model = (INodeModel) object;
+                tabbedPane.addTab(model.getLabel(), new JPanel());
+            }
+        });
 
-        JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
+        /*JButton testButton = new JButton("Click me to change the shape, style and size of the last selected concept");
         testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,10 +58,10 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
                     selectedNode.getStyle().setBackground(new Color(0xff9900));
                 }
             }
-        });
+        });*/
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);
-        add(testButton, BorderLayout.PAGE_START);
+        //add(testButton, BorderLayout.PAGE_START);
 
         selectedLabel = new JLabel("No node selected yet");
         add(selectedLabel, BorderLayout.PAGE_END);
