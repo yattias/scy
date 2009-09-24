@@ -140,14 +140,14 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INo
         //eloNodeModel.setLabel("I'm a fried SVG egg");
         //eloNodeModel.setStyle(new DefaultNodeStyle());
         //eloNodeModel.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
-        URL theurl = getClass().getResource("impl/shapes/LASShape.svg");
+        URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/LASShape.svg");
 
         try {
 
             INodeShape s = new SVGConcept(theurl);
             las.setShape(s);
         } catch (IOException e) {
-            System.err.println("File not found: "+theurl);
+            System.err.println("File not found: /eu/scy/scyplanner/impl/shapes/LASShape.svg");
         }
 
         //las.setShape(new LASShape());
@@ -162,13 +162,13 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INo
 
         INodeModel eloNodeModel = new NodeModel();
 
-        URL theurl = getClass().getResource("impl/shapes/ELOShape.svg");
+        URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/ELOShape.svg");
 
         try {
             INodeShape s = new SVGConcept(theurl);
             eloNodeModel.setShape(s);
         } catch (IOException e) {
-            System.err.println("File not found: "+theurl);
+            System.err.println("File not found /eu/scy/scyplanner/impl/shapes/ELOShape.svg");
         }
 
         eloNodeModel.setLocation(new Point(xPos, yPos));
@@ -182,7 +182,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelObserver, INo
         IConceptLinkModel link = new LearningActivitySpaceLinkModel(from, to);
         link.setLabelHidden(true);
         link.getStyle().setColor(new Color(0x4f81bc));
-        link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));
+        link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));        
 
         link.setShape(new Arrow());
         diagramModel.addLink(link);
