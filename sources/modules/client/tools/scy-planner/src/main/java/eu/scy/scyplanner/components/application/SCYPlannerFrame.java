@@ -44,6 +44,9 @@ public class SCYPlannerFrame extends JFrame {
 
         currentComponentInsideContentArea = component;
         getContentPane().add(BorderLayout.CENTER, currentComponentInsideContentArea);
+        getContentPane().invalidate();
+        getContentPane().validate();
+        getContentPane().repaint();
     }
 
     private JPanel createMissionScenarioPanel(TitledList missionList, TitledList scenarioList) {
