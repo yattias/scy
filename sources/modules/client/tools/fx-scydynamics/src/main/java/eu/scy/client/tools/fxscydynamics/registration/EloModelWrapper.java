@@ -44,7 +44,7 @@ public class EloModelWrapper {
     private IELOFactory eloFactory;
     private IMetadataKey uriKey;
     private IMetadataKey titleKey;
-    private IMetadataKey typeKey;
+//    private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
     private IMetadataKey usesRelationKey;
@@ -141,7 +141,7 @@ public class EloModelWrapper {
 
     public void loadModelAction() {
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(typeKey,BasicSearchOperations.EQUALS, scyModelType, null);
+        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS, scyModelType, null);
         query = metadataQuery;
         List<ISearchResult> searchResults = repository.search(query);
         URI[] simconfigUris = new URI[searchResults.size()];
@@ -160,7 +160,7 @@ public class EloModelWrapper {
         logger.info("Trying to load elo " + eloUri);
         IELO newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
-            String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
+            String eloType = newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
             if (!scyModelType.equals(eloType)) {
                 throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
             }
@@ -200,7 +200,7 @@ public class EloModelWrapper {
             eloDataSet.setDefaultLanguage(Locale.ENGLISH);
             eloDataSet.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
             eloDataSet.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.CANADA);
-            eloDataSet.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/dataset");
+            eloDataSet.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/dataset");
             eloDataSet.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
                     new Long(System.currentTimeMillis()));
             try {
@@ -247,7 +247,7 @@ public class EloModelWrapper {
             eloModel.setDefaultLanguage(Locale.ENGLISH);
             eloModel.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
             eloModel.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.CANADA);
-            eloModel.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/model");
+            eloModel.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/model");
             eloModel.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
                     new Long(System.currentTimeMillis()));
             try {

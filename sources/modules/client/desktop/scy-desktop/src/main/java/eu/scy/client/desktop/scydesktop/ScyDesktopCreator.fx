@@ -91,12 +91,17 @@ public class ScyDesktopCreator {
    }
 
    function handleToolRegistration(){
-      if (config.getRegisterWindowContentCreators()!=null){
-         for (registerWindowContentCreators in config.getRegisterWindowContentCreators()){
-            registerWindowContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
-            registerWindowContentCreators.registerNewEloCreation(newEloCreationRegistry);
+      if (config.getRegisterContentCreators()!=null){
+         for (registerContentCreators in config.getRegisterContentCreators()){
+            registerContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
+            registerContentCreators.registerDrawerContentCreators(drawerContentCreatorRegistryFX);
+            registerContentCreators.registerNewEloCreation(newEloCreationRegistry);
          }
       }
+      for (newEloDescription in config.getNewEloDescriptions()){
+         newEloCreationRegistry.registerEloCreation(newEloDescription.getType(),newEloDescription.getDisplay());
+      }
+
    }
 
    function readMissionModel(){

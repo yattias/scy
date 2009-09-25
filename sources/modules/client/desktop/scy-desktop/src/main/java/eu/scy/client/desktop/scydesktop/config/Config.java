@@ -5,8 +5,9 @@
 
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.elofactory.RegisterWindowContentCreators;
+import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import java.util.List;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
@@ -25,7 +26,12 @@ public interface Config {
    public IELOFactory getEloFactory();
 
    public IMetadataKey getTitleKey();
+   public IMetadataKey getTechnicalFormatKey();
 
    public MissionModelCreator getMissionModelCreator();
-   public RegisterWindowContentCreators[] getRegisterWindowContentCreators();
+   public RegisterContentCreators[] getRegisterContentCreators();
+
+   public EloConfig getEloConfig(String eloType);
+
+   public List<NewEloDescription> getNewEloDescriptions();
 }

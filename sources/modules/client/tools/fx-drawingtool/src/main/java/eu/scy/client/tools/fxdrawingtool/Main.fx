@@ -14,25 +14,33 @@ import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
 
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+
 /**
  * @author sikkenj
  */
 
 InitLog4JFX.initLog4J();
 
-def scyDrawingType = "scy/drawing";
+//def scyDrawingType = "scy/drawing";
+def scyDrawingId = "drawing";
 
 var scyDesktopCreator = ScyDesktopCreator{
    configClassPathConfigLocation:"config/scyDesktopDrawingTestConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator{},scyDrawingType);
-scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyDrawingType,"drawing");
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator{},scyDrawingId);
+//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyDrawingType,"drawing");
+
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
 scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
       scyDesktop:scyDesktop;
+      repository:scyDesktopCreator.config.getRepository();
+      titleKey:scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
    }
 
 

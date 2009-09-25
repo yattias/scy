@@ -160,7 +160,7 @@ public class ScyWindowControl{
          title: eloInfoControl.getEloTitle(eloUri);
       }
       applyMetadataAttributes(scyWindow,eloUri);
-      windowContentFactory.fillWindowContent(eloUri,scyWindow);
+      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
       windowStyler.style(scyWindow, eloUri);
       return scyWindow;
    }

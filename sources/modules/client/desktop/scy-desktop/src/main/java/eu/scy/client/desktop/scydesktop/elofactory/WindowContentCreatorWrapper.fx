@@ -48,5 +48,7 @@ public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
       }
    }
 
-
+   public override function supportType(type: String): Boolean{
+      return windowContentCreator.supportType(type);
+   }
 }

@@ -12,6 +12,7 @@
 package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 
 import java.net.URI;
+import org.apache.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 
@@ -20,6 +21,8 @@ import roolo.elo.api.IELO;
  * @author sikkenj
  */
 public class EloXmlViewer extends javax.swing.JPanel {
+
+   private final static Logger logger = Logger.getLogger(EloXmlViewer.class);
 
     /** Creates new form EloXmlViewer */
     public EloXmlViewer() {
@@ -40,11 +43,16 @@ public class EloXmlViewer extends javax.swing.JPanel {
       xmlViewer = new javax.swing.JTextArea();
 
       updateButton.setText("Update");
+      updateButton.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            updateButtonActionPerformed(evt);
+         }
+      });
 
-      xmlViewer.setColumns(20);
+      xmlViewer.setColumns(1);
       xmlViewer.setEditable(false);
       xmlViewer.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-      xmlViewer.setRows(5);
+      xmlViewer.setRows(1);
       xmlViewerScrollPane.setViewportView(xmlViewer);
 
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -62,6 +70,11 @@ public class EloXmlViewer extends javax.swing.JPanel {
             .add(updateButton))
       );
    }// </editor-fold>//GEN-END:initComponents
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_updateButtonActionPerformed
+    {//GEN-HEADEREND:event_updateButtonActionPerformed
+       showXml();
+    }//GEN-LAST:event_updateButtonActionPerformed
 
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -106,6 +119,7 @@ public class EloXmlViewer extends javax.swing.JPanel {
          }
       }
       xmlViewer.setText(xml);
+//      logger.info("new xml: " + xml);
    }
 
 }

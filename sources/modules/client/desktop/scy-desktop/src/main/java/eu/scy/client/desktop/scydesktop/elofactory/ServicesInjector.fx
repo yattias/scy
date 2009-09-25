@@ -76,7 +76,8 @@ public class ServicesInjector {
             logger.info("the variable {propertyName} in {object.getClass().getName()} is set");
          }
          catch (e:Exception){
-            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}", e);
+            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}");
+//            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}", e);
          }
       }
       else{

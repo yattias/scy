@@ -74,8 +74,10 @@ var scyDesktop = scyDesktopCreator.createScyDesktop();
 
 scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
       scyDesktop:scyDesktop;
+      repository:scyDesktopCreator.config.getRepository();
+      titleKey:scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
    }
-
 
 var stage = Stage {
     title: title

@@ -21,19 +21,19 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
    private List<String> typeNames = new ArrayList<String>();
 
    @Override
-   public void registerEloCreation(String eloType, String typeName)
+   public void registerEloCreation(String eloType, String displayName)
    {
-      logger.info("registering new elo creation for type " + eloType + " with name " + typeName);
+      logger.info("registering new elo creation for type " + eloType + " with name " + displayName);
       if (!registry.containsKey(eloType))
       {
-         if (!registry.containsValue(typeName))
+         if (!registry.containsValue(displayName))
          {
-            registry.put(typeName,eloType);
-            typeNames.add(typeName);
+            registry.put(displayName,eloType);
+            typeNames.add(displayName);
          }
          else
          {
-            throw new IllegalArgumentException("typeName is allready used: " + typeName);
+            throw new IllegalArgumentException("displayName is allready used: " + displayName);
          }
       }
       else
