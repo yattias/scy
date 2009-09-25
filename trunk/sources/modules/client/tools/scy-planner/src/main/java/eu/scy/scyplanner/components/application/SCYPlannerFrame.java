@@ -29,7 +29,7 @@ public class SCYPlannerFrame extends JFrame {
         getContentPane().add(BorderLayout.NORTH, new SCYPlannerToolBar());
 
         setContentPane(desktop);
-        setContent("Create New Pedagogical Plan", new WelcomePanel(), true, false, true, false, true);
+        setContent("SCYPlanner", new WelcomePanel(), true, false, true, false, true);
         currentComponentInsideContentArea = defaultScreen;
     }
 

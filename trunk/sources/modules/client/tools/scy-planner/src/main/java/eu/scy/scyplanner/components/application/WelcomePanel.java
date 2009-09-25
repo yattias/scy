@@ -1,6 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.components.frontpage.StartupMenuItem;
+import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.scyplanner.application.SCYPlannerActionManager;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
@@ -16,14 +17,28 @@ import java.awt.*;
  */
 public class WelcomePanel extends JPanel {
     public WelcomePanel() {
-        TitledPanel panel = new TitledPanel("Actions", new GridLayout(0, 1));
-        panel.setBackground(Color.WHITE);
+        JPanel panel = getPanel(new BorderLayout());
 
-        panel.add(new StartupMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION), null));
-        panel.add(new StartupMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION), null));
+        JPanel infoPanel = getPanel(new GridLayout(0, 1));        
+        infoPanel.add(new StartUpInformationItem("Welcome to SCYPlanner - the teacher's best friend", "Click on any action to continue", null));
+        panel.add(BorderLayout.NORTH, infoPanel);
+
+        TitledPanel actionPanel = new TitledPanel("Actions", new GridLayout(0, 1));
+        actionPanel.setBackground(Color.WHITE);
+        actionPanel.add(new StartupMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION), null));
+        actionPanel.add(new StartupMenuItem(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION), null));
+        panel.add(BorderLayout.CENTER, actionPanel);
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        add(BorderLayout.NORTH, SCYPlannerApplicationManager.getApplicationManager().createDefaultBorderForTitledPanel(panel, Color.WHITE));
+        panel.setBorder(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorder());
+        add(BorderLayout.NORTH, panel);
+    }
+
+    private JPanel getPanel(LayoutManager layout) {
+        JPanel panel = new JPanel(layout);
+        panel.setBackground(Color.WHITE);
+
+        return panel;
     }
 }
