@@ -6,9 +6,7 @@
 
 package eu.scy.client.desktop.scydesktop.elofactory;
 
-import java.util.HashMap;
 
-import java.lang.IllegalArgumentException;
 
 import org.apache.log4j.Logger;
 
@@ -18,33 +16,18 @@ import org.apache.log4j.Logger;
 
 var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorRegistryFXImpl");
 
-public class WindowContentCreatorRegistryFXImpl extends WindowContentCreatorRegistryFX {
+public class WindowContentCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX, WindowContentCreatorRegistryFX {
 
-   var windowContentCreatorsFXMap = new HashMap();
-
-   public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, type: String):Void{
-      logger.info("registering WindowContentCreatorFX for type {type}, class {windowContentCreator.getClass()}");
-      checkIfTypeIsDefined(type);
-      windowContentCreatorsFXMap.put(type, windowContentCreator);
+   public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, id: String):Void{
+      logger.info("registering WindowContentCreatorFX for id {id}, class {windowContentCreator.getClass()}");
+      registerContentCreatorFX(windowContentCreator,id);
    }
 
-   public override function registerWindowContentCreator( windowContentCreator: WindowContentCreator,  type: String): Void{
-      registerWindowContentCreatorFX(WindowContentCreatorWrapper{windowContentCreator:windowContentCreator },type);
+   public override function registerWindowContentCreator( windowContentCreator: WindowContentCreator,  id: String): Void{
+      registerWindowContentCreatorFX(WindowContentCreatorWrapper{windowContentCreator:windowContentCreator },id);
    }
 
-   function checkIfTypeIsDefined(type:String){
-      if (typeUsed(type)){
-         throw new IllegalArgumentException("type {type} is allready defined");
-      }
+   public override function getWindowContentCreatorFX(id:String):WindowContentCreatorFX{
+      return getContentCreatorFX(id) as WindowContentCreatorFX
    }
-
-   function typeUsed(type:String):Boolean{
-      return getWindowContentCreatorFX(type)!=null;
-   }
-
-   public override function getWindowContentCreatorFX(type:String):WindowContentCreatorFX{
-      return windowContentCreatorsFXMap.get(type) as WindowContentCreatorFX
-   }
-
-
 }

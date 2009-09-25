@@ -26,4 +26,14 @@ public interface WindowContentCreator {
     *
     */
    public JComponent getScyWindowContentNew();
+
+   /**
+    * Call to check if this window content creator can generate can generate content for the specified type.
+    *
+    * This method is not meant for the selection of the correct content creator. It is a safegaurd method.
+    * 
+    * @param type
+    * @return
+    */
+   public boolean supportType(String type);
 }

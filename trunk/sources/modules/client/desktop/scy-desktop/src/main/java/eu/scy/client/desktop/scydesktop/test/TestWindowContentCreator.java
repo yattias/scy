@@ -28,4 +28,10 @@ public class TestWindowContentCreator implements WindowContentCreator {
       return new JCheckBox("Swing: new");
    }
 
+   @Override
+   public boolean supportType(String type)
+   {
+      return true;
+   }
+
 }

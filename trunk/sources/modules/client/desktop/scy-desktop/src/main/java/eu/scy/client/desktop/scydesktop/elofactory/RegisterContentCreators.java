@@ -8,10 +8,12 @@ package eu.scy.client.desktop.scydesktop.elofactory;
  *
  * @author sikkenj
  */
-public interface RegisterWindowContentCreators
+public interface RegisterContentCreators
 {
 
    public void registerWindowContentCreators(WindowContentCreatorRegistry windowContentCreatorRegistry);
+
+   public void registerDrawerContentCreators(DrawerContentCreatorRegistry drawerContentCreatorRegistry);
 
    public void registerNewEloCreation(NewEloCreationRegistry newEloCreationRegistry);
 }

@@ -4,8 +4,13 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.elofactory.RegisterWindowContentCreators;
+import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
@@ -23,8 +28,12 @@ public class BasicConfig implements Config
    private IMetadataTypeManager metadataTypeManager;
    private IELOFactory eloFactory;
    private IMetadataKey titleKey;
+   private IMetadataKey technicalFormatKey;
    private MissionModelCreator missionModelCreator;
-   private RegisterWindowContentCreators[] registerWindowContentCreators;
+   private RegisterContentCreators[] registerContentCreators;
+
+   private Map<String,EloConfig> eloConfigs;
+   private List<NewEloDescription> newEloDescriptions;
 
    @Override
    public IELOFactory getEloFactory()
@@ -71,14 +80,14 @@ public class BasicConfig implements Config
    }
 
    @Override
-   public RegisterWindowContentCreators[] getRegisterWindowContentCreators()
+   public RegisterContentCreators[] getRegisterContentCreators()
    {
-      return registerWindowContentCreators;
+      return registerContentCreators;
    }
 
-   public void setRegisterWindowContentCreators(RegisterWindowContentCreators[] registerWindowContentCreators)
+   public void setRegisterContentCreators(RegisterContentCreators[] registerContentCreators)
    {
-      this.registerWindowContentCreators = registerWindowContentCreators;
+      this.registerContentCreators = registerContentCreators;
    }
 
    @Override
@@ -101,5 +110,41 @@ public class BasicConfig implements Config
    public void setTitleKey(IMetadataKey titleKey)
    {
       this.titleKey = titleKey;
+   }
+
+   @Override
+   public IMetadataKey getTechnicalFormatKey()
+   {
+      return technicalFormatKey;
+   }
+
+   public void setTechnicalFormatKey(IMetadataKey technicalFormatKey)
+   {
+      this.technicalFormatKey = technicalFormatKey;
+   }
+
+   public void setEloConfigs(List<BasicEloConfig> eloConfigList)
+   {
+      eloConfigs = new HashMap<String, EloConfig>();
+      List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
+      for (BasicEloConfig basicEloConfig : eloConfigList){
+         eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
+         if (basicEloConfig.isCreatable()){
+            realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
+         }
+      }
+      newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
+    }
+
+   @Override
+   public EloConfig getEloConfig(String eloType)
+   {
+      return eloConfigs.get(eloType);
+   }
+
+   @Override
+   public List<NewEloDescription> getNewEloDescriptions()
+   {
+      return newEloDescriptions;
    }
 }

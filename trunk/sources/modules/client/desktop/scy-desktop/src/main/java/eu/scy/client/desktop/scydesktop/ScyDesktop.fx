@@ -46,6 +46,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentFactory;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 
@@ -63,6 +64,8 @@ import eu.scy.client.desktop.scydesktop.test.SwingSizeTestPanelCreator;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+
+import eu.scy.client.desktop.scydesktop.config.EloConfig;
 
 
 /**
@@ -89,6 +92,7 @@ public class ScyDesktop extends CustomNode {
    var windows: WindowManager;
 
    var windowContentFactory: WindowContentFactory;
+   var drawerContentFactory: DrawerContentFactory;
    var scyWindowControl:ScyWindowControl;
    var missionMap: MissionMap;
 
@@ -134,6 +138,10 @@ public class ScyDesktop extends CustomNode {
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
          config:config;
       }
+      drawerContentFactory = DrawerContentFactory{
+         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+         config:config;
+      }
 
       missionMap = MissionMap{
          missionModel: missionModelFX
@@ -177,10 +185,10 @@ public class ScyDesktop extends CustomNode {
 
     }
 
-    public override function create(): Node {
-       logger.info("create");
-       checkProperties();
-       createElements();
+   public override function create(): Node {
+      logger.info("create");
+      checkProperties();
+      createElements();
       Group{
          content:[
             windows.scyWindows,
@@ -190,23 +198,49 @@ public class ScyDesktop extends CustomNode {
             bottomLeftCorner
          ]
       }
-    }
+   }
 
-    public function addScyWindow(window:ScyWindow){
-       if (window.scyContent==null and window.setScyContent==null){
-          window.setScyContent=fillNewScyWindow
-       }
-
+   public function addScyWindow(window:ScyWindow){
+      if (window.scyContent==null and window.setScyContent==null){
+         window.setScyContent=fillNewScyWindow
+      }
+      var eloType = window.eloType;
+      var eloConfig = config.getEloConfig(window.eloType);
+      logger.info("eloType: {window.eloType} -> eloConfig: {eloConfig}");
       windowStyler.style(window);
+      addDrawerTools(window,eloConfig);
       windows.addScyWindow(window);
       scyWindowControl.addOtherScyWindow(window);
       scyWindowControl.positionWindows(true);
-    }
+   }
 
-    function fillNewScyWindow(window: ScyWindow):Void{
-      windowContentFactory.fillWindowContent(window);
-    }
+   function fillNewScyWindow(window: ScyWindow):Void{
+      var eloConfig = config.getEloConfig(window.eloType);
+      if (window.eloUri==null){
+         windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
+      }
+      else{
+         windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
+      }
+   }
 
+    function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
+       if (window.eloUri==null){
+          // no elo, no drawer tools
+          return;
+       }
+       if (window.eloType==null){
+
+       }
+//       println("retrieving eloConfig for type {window.eloType}");
+       if (eloConfig==null){
+          return;
+       }
+       window.topDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getTopDrawerCreatorId(), window);
+       window.rightDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getRightDrawerCreatorId(), window);
+       window.bottomDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getBottomDrawerCreatorId(), window);
+       window.leftDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getLeftDrawerCreatorId(), window);
+    }
 
  }
 
@@ -292,7 +326,9 @@ function run(){
       }
 
    var newScyWindowTool = NewScyWindowTool{
-
+      repository:config.getRepository();
+      titleKey:config.getTitleKey();
+      technicalFormatKey:config.getTechnicalFormatKey();
    }
 
    var windowContentCreatorRegistryFX:WindowContentCreatorRegistryFX =WindowContentCreatorRegistryFXImpl{
@@ -313,6 +349,7 @@ function run(){
       };
       windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
       newEloCreationRegistry: NewEloCreationRegistryImpl{};
+      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
 //      topLeftCornerTool:MissionMap{
 //         missionModel: missionModel
 //      }

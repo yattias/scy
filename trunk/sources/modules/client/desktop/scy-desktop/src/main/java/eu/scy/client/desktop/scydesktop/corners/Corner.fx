@@ -52,13 +52,17 @@ public abstract class Corner extends CustomNode {
       }
       width = newWidth;
       height = newHeight;
+//      println("corner.resize(), width:{width} * height:{height}, clb:{content.layoutBounds}");
       placeInCorner();
    }
 
    function newContent(){
-      resize();
       delete contentGroup.content;
       insert content into contentGroup.content;
+//      resize();
+      // the resize has to be delayed, otherwise a wrong height (and width?) is used
+      // it could have something to do, with not yet "layed out" or so
+      FX.deferAction(resize);
    }
 
 

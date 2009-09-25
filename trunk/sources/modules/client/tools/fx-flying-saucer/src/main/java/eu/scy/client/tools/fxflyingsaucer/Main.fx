@@ -15,6 +15,8 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
 
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+
 /**
  * @author sikkenj
  */
@@ -22,18 +24,24 @@ import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreato
 InitLog4JFX.initLog4J();
 
 def scyFlyingSaucerType = "scy/text/xhtml";
+def scyFlyingSaucerId = "flying-saucer";
 
 var scyDesktopCreator = ScyDesktopCreator{
    configClassPathConfigLocation:"config/scyDesktopFlyingSaucerTestConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator{},scyFlyingSaucerType);
-scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFlyingSaucerType,"Flying saucer");
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator{},scyFlyingSaucerId);
+//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFlyingSaucerType,"Flying saucer");
+
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
 scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
       scyDesktop:scyDesktop;
+      repository:scyDesktopCreator.config.getRepository();
+      titleKey:scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
    }
 
 

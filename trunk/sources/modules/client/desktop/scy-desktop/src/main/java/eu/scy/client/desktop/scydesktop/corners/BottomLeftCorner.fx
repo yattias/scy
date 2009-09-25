@@ -15,6 +15,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+
 /**
  * @author sikkenj
  */
@@ -71,9 +74,31 @@ function run(){
    }
    bottomLeftCorner2.content = Rectangle {
                      x: 0, y: 0
-                     width: 50, height: 20
+                     width: 50, height: 40
                      fill: Color.GRAY
                   }
+
+   var bottomLeftCorner3 = BottomLeftCorner{
+      color:Color.BLUE;
+   }
+   bottomLeftCorner3.content = 
+      VBox {
+         spacing:5;
+         content:[
+            Button {
+               text: "One"
+               action: function() {
+
+               }
+            }
+            Button {
+               text: "Two"
+               action: function() {
+
+               }
+            }
+         ]
+      }
 
    Stage {
       title : "Test corner"
@@ -81,7 +106,7 @@ function run(){
          width: 200
          height: 200
          content: [
-            bottomLeftCorner2
+            bottomLeftCorner3
 
          ]
       }

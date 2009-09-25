@@ -470,6 +470,7 @@ public class StandardScyWindow extends ScyWindow {
          bottomDrawer = null;
       }
       if (bottomDrawerTool!=null){
+         println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer{
             color:bind drawerColor;
             highliteColor:controlColor;

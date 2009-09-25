@@ -29,4 +29,9 @@ public mixin class WindowContentCreatorFX {
     *
     */
    public abstract function getScyWindowContentNew(scyWindow:ScyWindow):Node;
+
+   public function supportType(type: String): Boolean{
+      return true;
+   }
+
 }

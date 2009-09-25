@@ -16,9 +16,16 @@
 
 	<logger name="org.scy">
 		<level value="debug" />
-		
 	</logger>
-	
+
+	<logger name="eu.scy.client.desktop.elofactory.ServicesInjector">
+		<level value="error" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl">
+		<level value="error" />
+	</logger>
+
 	<logger name="org.apache">
 		<level value="info" />
 	</logger>

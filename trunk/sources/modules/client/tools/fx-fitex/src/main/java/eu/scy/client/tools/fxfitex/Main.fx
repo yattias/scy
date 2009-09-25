@@ -13,6 +13,8 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+
 /**
  * @author Marjolaine
  */
@@ -20,19 +22,25 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 InitLog4JFX.initLog4J();
 
-def scyFitexType = "scy/fitex";
+//def scyFitexType = "scy/fitex";
+def scyFitexId = "fitex";
 
 var scyDesktopCreator = ScyDesktopCreator{
     configClassPathConfigLocation:"config/scyDesktopFitexTestConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator{},scyFitexType);
-scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"fitex");
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator{},scyFitexId);
+//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"fitex");
+
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
 scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
-    scyDesktop:scyDesktop;
+      scyDesktop:scyDesktop;
+      repository:scyDesktopCreator.config.getRepository();
+      titleKey:scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
 }
 
 

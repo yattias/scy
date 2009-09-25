@@ -17,12 +17,32 @@
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
       <property name="titleKey" ref="titleKey"/>
+      <property name="technicalFormatKey" ref="technicalFormatKey"/>
       <!--
       <property name="missionModelCreator" ref="missionModelCreator"/>
       -->
-      <property name="registerWindowContentCreators">
+      <property name="registerContentCreators">
          <list>
-            <bean class="eu.scy.client.desktop.scydesktop.test.TestRegisterWindowContentCreators"/>
+            <bean class="eu.scy.client.desktop.scydesktop.test.TestRegisterContentCreators"/>
+         </list>
+      </property>
+
+      <property name="eloConfigs">
+         <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/test"/>
+               <property name="display" value="Test elo"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="test"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/tst"/>
+               <property name="display" value="Tst elo"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="tst"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
          </list>
       </property>
    </bean>

@@ -34,4 +34,10 @@ public class SwingSizeTestPanelCreator implements WindowContentCreator {
       return swingSizeTestPanel;
    }
 
+   @Override
+   public boolean supportType(String type)
+   {
+      return true;
+   }
+
 }

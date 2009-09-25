@@ -1,0 +1,46 @@
+/*
+ * BasicContentCreatorRegistryFX.fx
+ *
+ * Created on 24-sep-2009, 9:21:33
+ */
+
+package eu.scy.client.desktop.scydesktop.elofactory;
+
+import java.lang.IllegalArgumentException;
+import java.util.HashMap;
+import org.apache.log4j.Logger;
+
+/**
+ * @author sikkenj
+ */
+
+// place your code here
+
+var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.BasicContentCreatorRegistryFX");
+
+public class BasicContentCreatorRegistryFX{
+
+   var contentCreatorsFXMap = new HashMap();
+
+   protected function registerContentCreatorFX(contentCreator: Object, id: String):Void{
+      logger.info("registering DrawerContentCreatorFX with id {id}, class {contentCreator.getClass()}");
+      checkIfIdIsDefined(id);
+      contentCreatorsFXMap.put(id, contentCreator);
+   }
+
+   function checkIfIdIsDefined(id:String){
+      if (idUsed(id)){
+         throw new IllegalArgumentException("id {id} is already defined");
+      }
+   }
+
+   function idUsed(id:String):Boolean{
+      return getContentCreatorFX(id)!=null;
+   }
+
+   protected function getContentCreatorFX(id:String):Object{
+      return contentCreatorsFXMap.get(id)
+   }
+
+
+}

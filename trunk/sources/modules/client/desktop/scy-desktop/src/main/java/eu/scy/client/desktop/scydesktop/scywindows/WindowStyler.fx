@@ -38,6 +38,7 @@ public mixin class WindowStyler {
       var color = getScyColor(type);
       var ch = getScyIconCharacter(type);
       window.color = color;
+      window.drawerColor = color;
       window.iconCharacter = ch;
    }
 
@@ -45,6 +46,7 @@ public mixin class WindowStyler {
       var color = getScyColor(window.eloType);
       var ch = getScyIconCharacter(window.eloType);
       window.color = color;
+      window.drawerColor = color;
       window.iconCharacter = ch;
    }
 
