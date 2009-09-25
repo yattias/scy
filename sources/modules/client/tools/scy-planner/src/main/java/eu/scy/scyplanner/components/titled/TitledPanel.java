@@ -20,4 +20,9 @@ public class TitledPanel extends JPanel {
         setBorder(new TitledBorder(title));
         setLayout(layout);
     }
+
+    public TitledPanel(String title, LayoutManager layout, JPanel panel, Object constraints) {
+        this(title, layout);
+        add(panel, constraints);
+    }
 }

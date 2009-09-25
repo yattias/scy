@@ -25,6 +25,11 @@ public abstract class AbstractSCYPlannerAction extends AbstractAction {
     public AbstractSCYPlannerAction(String title, Icon icon) {
         super(title, icon);
     }
+
+    public AbstractSCYPlannerAction(String title, Icon icon, String description) {
+        super(title, icon);
+        putValue(Action.SHORT_DESCRIPTION, description);
+    }
                     
     public void actionPerformed(ActionEvent actionEvent) {
         SCYPlannerApplicationManager.getApplicationManager().showWaitCursor(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame());

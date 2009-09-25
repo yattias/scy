@@ -9,8 +9,5 @@ package eu.scy.core.model.pedagogicalplan;
  */
 public interface LearningActivitySpaceBase extends BaseObject {
 
-    public String getDescription();
-    public void setDescription(String description);
-
 
 }

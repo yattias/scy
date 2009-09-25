@@ -15,8 +15,7 @@ import java.awt.event.ActionEvent;
  */
 public class OpenCreateNewPedagogicalPlanAction extends AbstractSCYPlannerAction {
     public OpenCreateNewPedagogicalPlanAction() {
-        super("Create New Pedagogical Plan", null);
-        putValue(Action.SHORT_DESCRIPTION, "Select mission and scenario to compose a new default pedagogical plan to be fine-tuned by you");
+        super("Create New Pedagogical Plan", null, "Select mission and scenario to compose a new default pedagogical plan to be fine-tuned by you");        
     }
 
     @Override

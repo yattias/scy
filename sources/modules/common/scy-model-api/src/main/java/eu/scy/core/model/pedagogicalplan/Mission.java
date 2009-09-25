@@ -19,7 +19,4 @@ public interface Mission extends LearningGoalContainer{
 
     public void setTargetGroup(String targetGroup); 
     public String getTargetGroup();
-
-
-
 }
