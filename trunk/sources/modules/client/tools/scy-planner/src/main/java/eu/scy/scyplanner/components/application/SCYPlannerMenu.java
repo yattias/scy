@@ -20,6 +20,8 @@ public class SCYPlannerMenu extends JMenuBar {
         addItemToMenu(menu, SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION));
 
         add(menu);
+
+        add(new WindowMenu());
     }
 
     private void addItemToMenu(JMenu menu, Action action) {
