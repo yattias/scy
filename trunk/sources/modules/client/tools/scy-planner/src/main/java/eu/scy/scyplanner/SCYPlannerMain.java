@@ -1,6 +1,6 @@
 package eu.scy.scyplanner;
 
-import eu.scy.scyplanner.application.ApplicationManager;
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.SCYPlannerSplashWindow;
 
@@ -20,7 +20,7 @@ public class SCYPlannerMain {
         //updateUIManagerWithSensibleValues();
 
         SCYPlannerFrame frame = new SCYPlannerFrame();
-        ApplicationManager.getApplicationManager().setScyPlannerFrame(frame);
+        SCYPlannerApplicationManager.getApplicationManager().setScyPlannerFrame(frame);
         frame.setVisible(true);
 
         splashWindow.setVisible(false);

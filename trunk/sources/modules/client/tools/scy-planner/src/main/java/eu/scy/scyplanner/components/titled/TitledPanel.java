@@ -12,9 +12,12 @@ import java.awt.*;
  * Time: 12:43:35
  */
 public class TitledPanel extends JPanel {
-    public TitledPanel(String title, Border border) {
-        setLayout(new BorderLayout());
+    public TitledPanel(String title) {
+        this(title, new BorderLayout());
+    }
+    
+    public TitledPanel(String title, LayoutManager layout) {
         setBorder(new TitledBorder(title));
-        setBorder(border);
+        setLayout(layout);
     }
 }

@@ -1,15 +1,8 @@
 package eu.scy.scyplanner.components.application;
 
-import eu.scy.scyplanner.components.titled.TitledList;
-import eu.scy.scyplanner.components.titled.TitledPanel;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.Scenario;
-import eu.scy.core.model.impl.pedagogicalplan.MissionImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
-
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.beans.PropertyVetoException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,10 +11,9 @@ import java.awt.*;
  * Time: 12:38:30
  */
 public class SCYPlannerFrame extends JFrame {
-    private final static int DEFAULT_BORDER_SIZE = 7;
     private JComponent currentComponentInsideContentArea = null;
     private JComponent defaultScreen = null;
-
+    private JDesktopPane desktop = new JDesktopPane();
 
     public SCYPlannerFrame() throws HeadlessException {
         super("SCYPlanner");
@@ -36,90 +28,32 @@ public class SCYPlannerFrame extends JFrame {
 
         getContentPane().add(BorderLayout.NORTH, new SCYPlannerToolBar());
 
-        defaultScreen = setUpDefaultScreen();
+        setContentPane(desktop);
+        setContent("Create New Pedagogical Plan", new WelcomePanel(), true, false, true, false, true);
         currentComponentInsideContentArea = defaultScreen;
-        setDefaultScreen();
     }
 
-    public void setContent(JComponent component) {
-        getContentPane().remove(currentComponentInsideContentArea);
-        currentComponentInsideContentArea = component;
-        getContentPane().add(BorderLayout.CENTER, currentComponentInsideContentArea);
-        getContentPane().invalidate();
-        getContentPane().validate();
-        getContentPane().repaint();
+    public void setContent(String title, JComponent component) {
+        setContent(title, component, true, true, true, true);
     }
 
-    public void setDefaultScreen() {
-        setContent(defaultScreen);
+    public void setContent(String title, JComponent component, boolean resizeable, boolean cloesable, boolean maximizable, boolean iconifiable) {
+        setContent(title, component, resizeable, cloesable, maximizable, iconifiable, false);
     }
 
-    private JPanel createMissionScenarioPanel(TitledList missionList, TitledList scenarioList) {
-        JPanel panel = new JPanel(new GridLayout(0, 1));
-        panel.setPreferredSize(new Dimension(250, 100));
-        panel.setBorder(BorderFactory.createEmptyBorder(DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE));
+    public void setContent(String title, JComponent component, boolean resizeable, boolean cloesable, boolean maximizable, boolean iconifiable, boolean maximizedImmediately) {
+        JInternalFrame frame = new JInternalFrame("", resizeable, cloesable, maximizable, iconifiable);
+        frame.setTitle(title);
+        frame.add(component);
+        frame.setVisible(true);
+        frame.setSize(500, 500);
+        desktop.add(frame);
 
-        panel.add(missionList);
-        panel.add(scenarioList);
-
-        return panel;
-    }
-
-    private JPanel CreateDefaultPedagogicalPlanPanel(JList missionList, JList scenarioList) {
-        DefaultPedagogicalPlanInformationPanel panel = new DefaultPedagogicalPlanInformationPanel("Default pedagogical plan", BorderFactory.createEmptyBorder(DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE), missionList, scenarioList);
-
-        return panel;
-    }
-
-    private DefaultListModel createMissionListModel() {
-        DefaultListModel model = new DefaultListModel();
-
-        model.addElement(createMission("Mission 1"));
-        model.addElement(createMission("Mission 2"));
-        model.addElement(createMission("Mission 3"));
-        model.addElement(createMission("Mission 4"));
-
-        return model;
-    }
-
-    private Mission createMission(String name) {
-        Mission mission = new MissionImpl();
-        mission.setName(name);
-
-        return mission;
-    }
-
-    private DefaultListModel creatScenarioListModel() {
-        DefaultListModel model = new DefaultListModel();
-        model.addElement(createScenario("Design Challenge"));
-        model.addElement(createScenario("Inquiry Learning"));
-        model.addElement(createScenario("Problem Resolution"));
-        model.addElement(createScenario("Close a Case"));
-        model.addElement(createScenario("Decision Console"));
-        model.addElement(createScenario("Grasp a Model"));
-        model.addElement(createScenario("Designing an Experimental Procedure"));
-        model.addElement(createScenario("The Big Project"));
-        model.addElement(createScenario("Collaborative Controversies"));
-        model.addElement(createScenario("Co-Learn"));
-
-        return model;
-    }
-
-    private Scenario createScenario(String name) {
-        Scenario scenario = new ScenarioImpl();
-        scenario.setName(name);
-
-        return scenario;
-    }
-
-    private JComponent setUpDefaultScreen() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        TitledList missionList = new TitledList("Available missions", createMissionListModel(), BorderFactory.createEmptyBorder(0, 0, DEFAULT_BORDER_SIZE, 0));
-        TitledList scenarioList = new TitledList("Available scenarios", creatScenarioListModel());
-        panel.add(createMissionScenarioPanel(missionList, scenarioList), BorderLayout.WEST);
-        panel.add(CreateDefaultPedagogicalPlanPanel(missionList.getList(), scenarioList.getList()), BorderLayout.CENTER);
-
-        return panel;
+        try {
+            frame.setSelected(true);
+            frame.setMaximum(maximizedImmediately);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }                
     }
 }

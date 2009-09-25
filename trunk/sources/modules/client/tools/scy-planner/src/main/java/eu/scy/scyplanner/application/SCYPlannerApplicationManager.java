@@ -1,7 +1,9 @@
 package eu.scy.scyplanner.application;
 
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
+import eu.scy.scyplanner.components.titled.TitledPanel;
 
+import javax.swing.border.Border;
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,14 +13,17 @@ import java.awt.*;
  * Date: 23.sep.2009
  * Time: 23:29:42
  */
-public class ApplicationManager{
-    private final static ApplicationManager applicationManager = new ApplicationManager();
+public class SCYPlannerApplicationManager {
+    public final static Color LINK_COLOR = Color.LIGHT_GRAY;
+    public final static int DEFAULT_BORDER_SIZE = 7;
+
+    private final static SCYPlannerApplicationManager applicationManager = new SCYPlannerApplicationManager();
     private SCYPlannerFrame scyPlannerFrame = null;
 
-    private ApplicationManager() {        
+    private SCYPlannerApplicationManager() {
     }
 
-    public static ApplicationManager getApplicationManager() {
+    public static SCYPlannerApplicationManager getApplicationManager() {
         return applicationManager;
     }
 
@@ -44,6 +49,25 @@ public class ApplicationManager{
 
     public void showDefaultCursor(Component component) {
         setCursor(component, new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    public Border createDefaultBorder() {
+        return BorderFactory.createEmptyBorder(DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE, DEFAULT_BORDER_SIZE);
+    }
+
+    public JPanel createDefaultBorderForTitledPanel(TitledPanel panel) {
+        JPanel p = new JPanel(new BorderLayout());
+        p.add(panel);
+        p.setBorder(createDefaultBorder());
+
+        return p;
+    }
+
+    public JPanel createDefaultBorderForTitledPanel(TitledPanel panel, Color background) {
+        JPanel p = createDefaultBorderForTitledPanel(panel);
+        p.setBackground(background);
+        
+        return p;
     }
 
     private void setCursor(Component component, Cursor cursor) {
