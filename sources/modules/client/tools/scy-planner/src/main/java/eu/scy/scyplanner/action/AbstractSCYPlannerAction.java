@@ -1,6 +1,6 @@
 package eu.scy.scyplanner.action;
 
-import eu.scy.scyplanner.application.ApplicationManager;
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ public abstract class AbstractSCYPlannerAction extends AbstractAction {
     }
                     
     public void actionPerformed(ActionEvent actionEvent) {
-        ApplicationManager.getApplicationManager().showWaitCursor(ApplicationManager.getApplicationManager().getScyPlannerFrame());
+        SCYPlannerApplicationManager.getApplicationManager().showWaitCursor(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame());
         try {
             doActionPerformed(actionEvent);
         } catch (Throwable throwable) {
@@ -36,9 +36,9 @@ public abstract class AbstractSCYPlannerAction extends AbstractAction {
             textArea.setPreferredSize(new Dimension(350, 150));
             textArea.setText(throwable.toString());
             JOptionPane.showMessageDialog(null, textArea, "Exception occured", JOptionPane.ERROR_MESSAGE);
-            ApplicationManager.getApplicationManager().showDefaultCursor();
+            SCYPlannerApplicationManager.getApplicationManager().showDefaultCursor();
         }
-        ApplicationManager.getApplicationManager().showDefaultCursor();
+        SCYPlannerApplicationManager.getApplicationManager().showDefaultCursor();
     }
 
     protected abstract void doActionPerformed(ActionEvent actionEvent);

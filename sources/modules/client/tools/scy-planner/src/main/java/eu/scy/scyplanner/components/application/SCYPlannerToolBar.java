@@ -1,7 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
-import eu.scy.scyplanner.action.demo.CloseSCYPlannerDemo;
+import eu.scy.scyplanner.application.SCYPlannerActionManager;
 
 import javax.swing.*;
 
@@ -13,7 +13,8 @@ import javax.swing.*;
  */
 public class SCYPlannerToolBar extends JToolBar {
     public SCYPlannerToolBar() {
-        add(new OpenSCYPlannerDemo());
-        add(new CloseSCYPlannerDemo());
+        add(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_CREATE_NEW_PEDAGOGICAL_PLAN_PANEL_ACTION));
+        addSeparator();
+        add(SCYPlannerActionManager.getActionManager().getAction(SCYPlannerActionManager.OPEN_SCY_PLANNER_DEMO_ACTION));
     }
 }

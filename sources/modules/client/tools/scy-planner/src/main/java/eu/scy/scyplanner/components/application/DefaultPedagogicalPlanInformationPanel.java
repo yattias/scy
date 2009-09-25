@@ -1,13 +1,11 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.components.titled.TitledPanel;
-import eu.scy.scyplanner.action.demo.OpenSCYPlannerDemo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListDataListener;
 import java.awt.*;
 
 /**
@@ -17,8 +15,8 @@ import java.awt.*;
  * Time: 15:24:36
  */
 public class DefaultPedagogicalPlanInformationPanel extends TitledPanel {
-    public DefaultPedagogicalPlanInformationPanel(String title, Border border, JList missionList, JList scenarioList) {
-        super(title, border);
+    public DefaultPedagogicalPlanInformationPanel(String title, JList missionList, JList scenarioList) {
+        super(title);
 
         setLayout(new BorderLayout());
 
