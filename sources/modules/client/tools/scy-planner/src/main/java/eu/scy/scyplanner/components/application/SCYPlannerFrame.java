@@ -1,5 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyVetoException;
@@ -44,6 +46,7 @@ public class SCYPlannerFrame extends JFrame {
     public void setContent(String title, JComponent component, boolean resizeable, boolean cloesable, boolean maximizable, boolean iconifiable, boolean maximizedImmediately) {
         JInternalFrame frame = new JInternalFrame("", resizeable, cloesable, maximizable, iconifiable);
         frame.setTitle(title);
+        frame.addInternalFrameListener(SCYPlannerApplicationManager.getApplicationManager().getWindowMenu());
         frame.add(component);
         frame.setVisible(true);
         frame.setSize(500, 500);

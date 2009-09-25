@@ -1,6 +1,7 @@
 package eu.scy.scyplanner.application;
 
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
+import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 
 import javax.swing.border.Border;
@@ -19,6 +20,7 @@ public class SCYPlannerApplicationManager {
 
     private final static SCYPlannerApplicationManager applicationManager = new SCYPlannerApplicationManager();
     private SCYPlannerFrame scyPlannerFrame = null;
+    private WindowMenu windowMenu = null;
 
     private SCYPlannerApplicationManager() {
     }
@@ -33,6 +35,14 @@ public class SCYPlannerApplicationManager {
 
     public void setScyPlannerFrame(SCYPlannerFrame scyPlannerFrame) {
         this.scyPlannerFrame = scyPlannerFrame;
+    }
+
+    public WindowMenu getWindowMenu() {
+        return windowMenu;
+    }
+
+    public void setWindowMenu(WindowMenu windowMenu) {
+        this.windowMenu = windowMenu;
     }
 
     public void showWaitCursor(Component component) {
