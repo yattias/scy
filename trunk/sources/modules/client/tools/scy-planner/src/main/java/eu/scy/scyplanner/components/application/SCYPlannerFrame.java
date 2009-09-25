@@ -49,7 +49,7 @@ public class SCYPlannerFrame extends JFrame {
         frame.addInternalFrameListener(SCYPlannerApplicationManager.getApplicationManager().getWindowMenu());
         frame.add(component);
         frame.setVisible(true);
-        frame.setSize(500, 500);
+        frame.setSize(750, 600);        
         desktop.add(frame);
 
         try {

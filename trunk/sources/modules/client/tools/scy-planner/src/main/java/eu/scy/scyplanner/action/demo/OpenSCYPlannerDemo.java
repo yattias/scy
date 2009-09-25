@@ -16,8 +16,7 @@ import javax.swing.Action;
  */
 public class OpenSCYPlannerDemo extends AbstractSCYPlannerAction {
     public OpenSCYPlannerDemo() {
-        super("Open SCYPlanner demo", null);
-        putValue(Action.SHORT_DESCRIPTION, "Dummy-data that demonstrates how the SCYPlanner might work in the future");
+        super("Open SCYPlanner demo", null, "Dummy-data that demonstrates how the SCYPlanner might work in the future");        
     }
 
     @Override

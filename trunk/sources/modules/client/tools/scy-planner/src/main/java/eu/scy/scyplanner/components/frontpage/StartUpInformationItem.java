@@ -1,14 +1,10 @@
 package eu.scy.scyplanner.components.frontpage;
 
-import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.components.text.SCYPlannerTextArea;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,17 +15,13 @@ import java.awt.event.MouseEvent;
 public class StartUpInformationItem extends JPanel {
     private final JLabel heading = new JLabel();
     private SCYPlannerTextArea description = new SCYPlannerTextArea();
+    private final static String EMPTY_STRING = "";
 
-    public StartUpInformationItem(String title, String descriptionText, ImageIcon icon) {
+    public StartUpInformationItem(String title, String descritpion, ImageIcon icon) {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(2, 2, 22, 2));
-        heading.setFont(StartupMenuItem.DEFAULT_STARTUP_PANEL_FONT);
-        if (title != null) {
-            heading.setText("<html>" + title + "</html>");
-            heading.setForeground(Color.BLACK);
-        } else {
-            heading.setText("null");
-        }
+        heading.setFont(StartUpMenuItem.DEFAULT_STARTUP_PANEL_FONT);
+        setTitle(title);
 
         setOpaque(false);
 
@@ -40,15 +32,28 @@ public class StartUpInformationItem extends JPanel {
         description.setEditable(false);
         description.setOpaque(false);
         description.setFocusable(false);
-        if (descriptionText != null) {
-            description.setText(descriptionText);
-        } else {
-            description.setText("null");
-        }
+        setDescription(descritpion);
 
         nameAndDescriptionPanel.add(BorderLayout.NORTH, heading);
         nameAndDescriptionPanel.add(BorderLayout.CENTER, description);
         add(BorderLayout.CENTER, nameAndDescriptionPanel);
         add(BorderLayout.WEST, new JLabel(icon));
+    }
+
+    public void setTitle(String title) {
+        if (title != null) {
+            heading.setText("<html>" + title + "</html>");
+            heading.setForeground(Color.BLACK);
+        } else {
+            heading.setText(EMPTY_STRING);
+        }
+    }
+
+    public void setDescription(String descritpion) {
+        if (descritpion != null) {
+            description.setText(descritpion);
+        } else {
+            description.setText(EMPTY_STRING);
+        }
     }
 }

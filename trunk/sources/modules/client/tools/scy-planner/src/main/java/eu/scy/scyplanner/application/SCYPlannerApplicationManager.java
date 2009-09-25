@@ -15,8 +15,9 @@ import java.awt.*;
  * Time: 23:29:42
  */
 public class SCYPlannerApplicationManager {
-    public final static Color LINK_COLOR = Color.LIGHT_GRAY;
-    public final static int DEFAULT_BORDER_SIZE = 7;
+    private final static Color LINK_COLOR = Color.LIGHT_GRAY;
+    private final static Color ALTERNATIVE_BACKGROUND_COLOR = Color.WHITE;
+    private final static int DEFAULT_BORDER_SIZE = 7;
 
     private final static SCYPlannerApplicationManager applicationManager = new SCYPlannerApplicationManager();
     private SCYPlannerFrame scyPlannerFrame = null;
@@ -47,6 +48,18 @@ public class SCYPlannerApplicationManager {
 
     public void showWaitCursor(Component component) {
         setCursor(component, new Cursor(Cursor.WAIT_CURSOR));
+    }
+
+    public static Color getLinkColor() {
+        return LINK_COLOR;
+    }
+
+    public static Color getAlternativeBackgroundColor() {
+        return ALTERNATIVE_BACKGROUND_COLOR;
+    }
+
+    public static int getDefaultBorderSize() {
+        return DEFAULT_BORDER_SIZE;
     }
 
     public void showDefaultCursor() {

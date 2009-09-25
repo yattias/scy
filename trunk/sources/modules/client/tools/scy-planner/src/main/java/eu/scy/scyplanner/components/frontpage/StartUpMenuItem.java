@@ -16,19 +16,19 @@ import java.awt.event.MouseEvent;
  * Date: 25.sep.2009
  * Time: 09:51:27
  */
-public class StartupMenuItem extends JPanel {
+public class StartUpMenuItem extends JPanel {
     public final static Font DEFAULT_STARTUP_PANEL_FONT = new Font("Arial", Font.BOLD, 16);
 
     private final JLabel heading = new JLabel();
     private SCYPlannerTextArea description = new SCYPlannerTextArea();
 
-    public StartupMenuItem(final Action action, ImageIcon icon) {
+    public StartUpMenuItem(final Action action, ImageIcon icon) {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(2, 2, 22, 2));
         heading.setFont(DEFAULT_STARTUP_PANEL_FONT);
         if (action != null) {
             heading.setText("<html><u>" + String.valueOf(action.getValue(Action.NAME) + "</u></html>"));
-            heading.setForeground(SCYPlannerApplicationManager.LINK_COLOR);
+            heading.setForeground(SCYPlannerApplicationManager.getLinkColor());
         } else {
             heading.setText("null");
         }

@@ -10,6 +10,7 @@ import eu.scy.core.model.pedagogicalplan.BaseObject;
  */
 public class BaseObjectImpl  implements BaseObject {
     private String name = null;
+    private String description = null;
 
     public String getName() {
         return name;
@@ -21,5 +22,13 @@ public class BaseObjectImpl  implements BaseObject {
 
     public String toString() {
         return getName();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
