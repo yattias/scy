@@ -141,7 +141,8 @@
                            <classpath refid="javafx.classpath"/>
                         </javafxc>
                      </tasks>
-                  </configuration>                   <goals>
+                  </configuration>
+                  <goals>
                      <goal>run</goal>
                   </goals>
                </execution>
@@ -167,17 +168,17 @@
                <excludeTransitive>false</excludeTransitive>
 
            <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <!--<libPath>lib</libPath>-->
+               <libPath>lib</libPath>
 
            <!-- JNLP generation -->
                <jnlp>
              <!-- default values -->
              <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
                   <inputTemplate>src/main/jnlp/template.vm</inputTemplate> <!-- relative to inputTemplateResourcePath -->
-                  <outputFile>scylab.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+                  <outputFile>scy-lab.jnlp</outputFile> <!-- defaults to launch.jnlp -->
              <!-- used to automatically identify the jar containing the main class. -->
              <!-- this is perhaps going to change -->
-                  <mainClass>eu.scy.client.desktop.scydesktop.Main</mainClass>
+                  <mainClass>eu.scy.client.desktop.scylab.Main</mainClass>
                </jnlp>
 
                <sign>
