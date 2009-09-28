@@ -36,6 +36,7 @@ public class Ellipse extends INodeShape {
     @Override
     public void paint(Graphics g, java.awt.Rectangle bounds) {
         Graphics2D g2 = (Graphics2D) g.create();
+		g2.translate(bounds.x, bounds.y);
         switch (getMode()) {
             case DRAW:
                 g2.draw(new Ellipse2D.Float(0, 0, bounds.width - 1, bounds.height - 1));

@@ -54,8 +54,11 @@ public class ImageShape extends INodeShape {
         AffineTransform at = AffineTransform.getScaleInstance(getSX(bounds), getSY(bounds));
 
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+
+		g2d.translate(bounds.x, bounds.y);
+
         g2d.drawRenderedImage(image, at);
 
-        g2d.dispose();
     }
 }

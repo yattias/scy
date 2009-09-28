@@ -14,33 +14,20 @@ import java.awt.geom.Point2D;
  * To change this template use File | Settings | File Templates.
  */
 public class Line implements ILinkShape {
-    private Point2D from;
-    private Point2D to;
 
     public Line() {
     }
-    public Line(Point from, Point to) {
-        this.from = from;
-        this.to = to;
-    }
-	public static double getAngle(Point2D from, Point2D to) {
+	public static double getAngle(Point from, Point to) {
 		return Math.atan2(from.getY() - to.getY(), from.getX() - to.getX());
 	}
 
-	public double getAngle() {
-		return getAngle(from, to);
+	@Override
+	public void paint(Graphics g, Point from, Point to) {
+		Graphics2D g2d = (Graphics2D)g.create();
+		g2d.draw(getShape(from, to));
 	}
-    public double getLength() {
-        return from.distance(to);
-    }
 
-    public Shape getShape() {
-        return new Line2D.Double(from, to);
-    }
-
-
-    @Override
-    public Shape getShape(Point from, Point to) {
-        return new Line(from, to).getShape();
-    }
+	public Shape getShape(Point from, Point to) {
+		return new Line2D.Double(from, to);
+	}
 }

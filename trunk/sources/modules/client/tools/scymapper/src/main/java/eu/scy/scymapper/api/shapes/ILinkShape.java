@@ -11,10 +11,10 @@ import java.awt.*;
  */
 public interface ILinkShape {
     /**
-     * This returns the shape at the size of the given bounds.
-     * @param from The returned shape starts at this point
-     * @param to The returned shape ends at this point
-     * @return The shape defined by the specific implementation of this interface
+     * This method paints the link between the given two points.
+     * @param g The graphics object to paint on
+	 * @param from The point where the painted link starts
+     * @param to The point where the painted link ends
      */
-	public Shape getShape(Point from, Point to);
+	public void paint(Graphics g, Point from, Point to);
 }

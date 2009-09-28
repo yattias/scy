@@ -12,11 +12,23 @@ import java.awt.geom.GeneralPath;
  * To change this template use File | Settings | File Templates.
  */
 public class Arrowhead {
-    private double angle;
-    private double length;
-    private double rotation = Double.NaN;
+    private double angle = Math.PI/3;
 
-    /**
+	private double length = 25;
+    private double rotation = Double.NaN;
+	private boolean fixedSize;
+
+	public Arrowhead() {
+	}
+
+	/**
+     * @param length Shaft size
+     */
+    public Arrowhead(int length) {
+        this.length = (double)length;
+    }
+
+	/**
      * @param length Shaft size
      * @param angle  The angle between the shafts (i.e. 90: _|)
      */
@@ -55,4 +67,19 @@ public class Arrowhead {
         }
         return at.createTransformedShape(path);
     }
+
+	public void setFixedSize(boolean b) {
+		this.fixedSize = b;
+	}
+	public double getLength() {
+		return length;
+	}
+
+	public void setLength(double length) {
+		this.length = length;
+	}
+
+	public boolean isFixedSize() {
+		return fixedSize;
+	}
 }

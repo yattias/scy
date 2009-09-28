@@ -81,6 +81,9 @@ public class Star extends INodeShape {
 
         // Scale it according to bounds
         AffineTransform at = AffineTransform.getScaleInstance(getSX(bounds), getSY(bounds));
+
+		g2.translate(bounds.x, bounds.y);
+
         switch (getMode()) {
             case DRAW:
                 g2.draw(at.createTransformedShape(star));

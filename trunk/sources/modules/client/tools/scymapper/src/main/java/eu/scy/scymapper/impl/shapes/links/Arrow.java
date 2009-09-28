@@ -5,6 +5,7 @@ import eu.scy.scymapper.api.shapes.ILinkShape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,42 +16,51 @@ import java.awt.geom.GeneralPath;
 public class Arrow implements ILinkShape {
     private boolean bidirectional;
 
-    private Point from;
-    private Point to;
+	private Arrowhead arrowhead;
 
-    public Arrow() {
+	public Arrow() {
     }
 
-    @Override
-    public Shape getShape(Point from, Point to) {
-        return new Arrow(from, to, false).getShape();
-    }
+	public void setArrowhead(Arrowhead arrowhead) {
+		this.arrowhead = arrowhead;
+	}
 
-    public Arrow(Point from, Point to, boolean bidirectional) {
-        this.from = from;
-        this.to = to;
+    public Arrow(boolean bidirectional) {
         this.bidirectional = bidirectional;
     }
 
-    public Shape getShape() {
+    public Shape getShape(Point from, Point to) {
 
-        Line line = new Line(from, to);
+        Line line = new Line();
 
         GeneralPath gp = new GeneralPath();
-        gp.append(line.getShape(), false);
+        gp.append(line.getShape(from, to), false);
 
-        Arrowhead head = new Arrowhead(25, Math.PI/3);
-        head.setRotation(line.getAngle());
-        AffineTransform at = AffineTransform.getTranslateInstance(to.x, to.y);
-        gp.append(at.createTransformedShape(head.getShape()), false);
+		Point2D from2d = new Point2D.Double(from.x, from.y);
+		Point2D to2d = new Point2D.Double(to.x, to.y);
 
-        if (bidirectional) {
-            Arrowhead tail = new Arrowhead(25, Math.PI/3);
-            tail.setRotation(line.getAngle()+Math.PI);
-            at = AffineTransform.getTranslateInstance(from.x, from.y);
-            gp.append(at.createTransformedShape(tail.getShape()), false);
-        }
+		if (arrowhead != null) {
+			arrowhead.setRotation(Line.getAngle(from, to));
+			AffineTransform at = AffineTransform.getTranslateInstance(to.x, to.y);
+			gp.append(at.createTransformedShape(arrowhead.getShape()), false);
+
+			if (bidirectional) {
+				Arrowhead tail = new Arrowhead();
+				tail.setRotation(Line.getAngle(from , to)+Math.PI);
+				at = AffineTransform.getTranslateInstance(from.x, from.y);
+				gp.append(at.createTransformedShape(tail.getShape()), false);
+			}
+		}
         return gp;
-
     }
+
+	@Override
+	public void paint(Graphics g, Point from, Point to) {
+		Graphics2D g2d = (Graphics2D)g.create();
+		g2d.draw(getShape(from, to));
+	}
+
+	public void setBidirectional(boolean bidirectional) {
+		this.bidirectional = bidirectional;
+	}
 }
