@@ -1267,10 +1267,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* sauvegarde*/
     private void saveFitex(){
-        String s = "lastUsedFile null";
-        if(lastUsedFile != null)
-            s = lastUsedFile.getName();
-        System.out.println("saveFitex : "+s);
         Element pds = getPDS() ;
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());

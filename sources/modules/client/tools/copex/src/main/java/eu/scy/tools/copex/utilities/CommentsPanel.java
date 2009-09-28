@@ -5,7 +5,6 @@
 
 package eu.scy.tools.copex.utilities;
 
-import eu.scy.tools.copex.edp.CopexApplet;
 import eu.scy.tools.copex.edp.EdPPanel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -75,17 +74,22 @@ public class CommentsPanel extends CopexPanelHideShow {
 
     @Override
     public void setPanelDetailsShown() {
-        super.setPanelDetailsShown();
-        getPanelDetails().add(getScrollPaneComments());
-        panelDetails.setSize(panelDetails.getWidth(), 90);
-        setSize(width,120);
-        setPreferredSize(getSize());
-        actionComment.actionComment();
-        actionComment.setComment();
-        revalidate();
-        repaint();
+        if(!isDetails()){
+            super.setPanelDetailsShown();
+            getPanelDetails().add(getScrollPaneComments());
+            panelDetails.setSize(panelDetails.getWidth(), 90);
+            setSize(width,120);
+            setPreferredSize(getSize());
+            actionComment.actionComment();
+            actionComment.setComment();
+            revalidate();
+            repaint();
+        }
     }
 
+    private boolean isDetails(){
+        return this.scrollPaneComments != null;
+    }
     private void resizePanel(){
         if(this.scrollPaneComments != null){
             scrollPaneComments.setSize(this.getWidth(), this.getHeight()-60);

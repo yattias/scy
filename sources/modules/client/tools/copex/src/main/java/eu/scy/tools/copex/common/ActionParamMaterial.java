@@ -56,4 +56,10 @@ public class ActionParamMaterial extends ActionParam{
         return p;
     }
 
+    /* description dans l'arbre*/
+    @Override
+    public String toDescription(){
+        return material.getName();
+    }
+
 }

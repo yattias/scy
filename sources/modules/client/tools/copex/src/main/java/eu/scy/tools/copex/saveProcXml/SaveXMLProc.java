@@ -6,6 +6,7 @@
 package eu.scy.tools.copex.saveProcXml;
 
 import eu.scy.tools.copex.common.ExperimentalProcedure;
+import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.edp.CopexApplet;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class SaveXMLProc {
     // METHODES
     
     /* creation du fichier */
-    static public CopexReturn saveProc(CopexApplet applet, long idUser, ExperimentalProcedure proc, String date, String time){
+    static public CopexReturn saveProc(CopexApplet applet, long idUser, LearnerProcedure proc, String date, String time){
             //String date = CopexUtilities.getCurrentDate()+"T";
             //String time = CopexUtilities.getCurrentTime().toString();
             date += "T";
@@ -35,7 +36,7 @@ public class SaveXMLProc {
     }
 
     /* creation du fichier */
-    static public CopexReturn saveProc(URL copexURL, long idUser, ExperimentalProcedure proc, String date, String time){
+    static public CopexReturn saveProc(URL copexURL, long idUser, LearnerProcedure proc, String date, String time){
             //String date = CopexUtilities.getCurrentDate()+"T";
             //String time = CopexUtilities.getCurrentTime().toString();
             date += "T";

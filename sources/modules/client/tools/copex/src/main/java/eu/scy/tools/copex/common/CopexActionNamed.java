@@ -5,7 +5,7 @@
 
 package eu.scy.tools.copex.common;
 
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import org.jdom.Element;
 
 
@@ -63,7 +63,7 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
     }
      /* construction de la description de l'action dans le cas d'une action parametree */
     @Override
-     public String toDescription(EdPPanel edP){
+     public String toDescription(CopexPanel copex){
          return this.getName() + (this.description == null || this.description.length() == 0 ? "" : " : "+this.description);
 
      }

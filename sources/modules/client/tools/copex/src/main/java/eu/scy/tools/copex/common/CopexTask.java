@@ -7,6 +7,7 @@ package eu.scy.tools.copex.common;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.ArrayList;
 import org.jdom.Element;
 
 
@@ -184,6 +185,7 @@ public abstract  class CopexTask implements Cloneable {
 
     public void setTaskRepeat(TaskRepeat taskRepeat) {
         this.taskRepeat = taskRepeat;
+        updateParameter();
     }
     
     
@@ -318,6 +320,9 @@ public abstract  class CopexTask implements Cloneable {
             return null;
         return CopexUtilities.stringToXml(s);
     }
-    
+
+    protected void updateParameter(){
+        
+    }
     
 }

@@ -91,5 +91,46 @@ public class TaskRepeat implements Cloneable {
         }
     }
 
+    /* retourne la liste des repetitiosn pour un param donne, null sinon */
+    public ArrayList<ActionParam> getListActionParam(InitialActionParam initParam){
+        ArrayList<ActionParam> l = null;
+        if (listParam == null)
+            return l;
+        l = new ArrayList();
+        int nb = this.listParam.size();
+        for (int i=0; i<nb; i++){
+            if(listParam.get(i) instanceof TaskRepeatParamData){
+                TaskRepeatParamData t = (TaskRepeatParamData)listParam.get(i);
+                if (t.getInitialParamData().getDbKey() == initParam.getDbKey()){
+                    ArrayList<TaskRepeatValueParamData> listValue = t.getListValue();
+                    int n = listValue.size();
+                    for (int j=0; j<n; j++){
+                        l.add(listValue.get(j).getActionParamData());
+                    }
+                }
+            }else if (listParam.get(i) instanceof TaskRepeatParamMaterial){
+                TaskRepeatParamMaterial t = (TaskRepeatParamMaterial)listParam.get(i);
+                if (t.getInitialParamMaterial().getDbKey() == initParam.getDbKey()){
+                    ArrayList<TaskRepeatValueParamMaterial> listValue = t.getListValue();
+                    int n = listValue.size();
+                    for (int j=0; j<n; j++){
+                        l.add(listValue.get(j).getActionParamMaterial());
+                    }
+                }
+            }else if (listParam.get(i) instanceof TaskRepeatParamQuantity){
+                TaskRepeatParamQuantity t = (TaskRepeatParamQuantity)listParam.get(i);
+                if (t.getInitialParamQuantity().getDbKey() == initParam.getDbKey()){
+                    ArrayList<TaskRepeatValueParamQuantity> listValue = t.getListValue();
+                    int n = listValue.size();
+                    for (int j=0; j<n; j++){
+                        l.add(listValue.get(j).getActionParamQuantity());
+                    }
+                }
+            }
+        }
+        return l;
+    }
+
+
     
 }

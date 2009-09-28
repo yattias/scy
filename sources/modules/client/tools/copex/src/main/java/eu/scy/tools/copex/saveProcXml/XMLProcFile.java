@@ -229,8 +229,10 @@ public class XMLProcFile {
         long dbKeyC = task.getDbKeyChild() ;
         if(dbKeyC != -1){
             CopexTask firstC = getTask(dbKeyC);
-            if(firstC != null)
-                listT.add(firstC);
+            if(firstC == null){
+                return listT;
+            }
+            listT.add(firstC);
             ArrayList<CopexTask> listB = getBrothers(firstC);
             int nbB = listB.size() ;
             for (int i=0; i<nbB; i++){

@@ -6,7 +6,9 @@
 package eu.scy.tools.copex.db;
 
 import eu.scy.tools.copex.common.CopexUnit;
+import eu.scy.tools.copex.common.MaterialStrategy;
 import eu.scy.tools.copex.common.PhysicalQuantity;
+import eu.scy.tools.copex.common.TypeMaterial;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -77,6 +79,72 @@ public class ParamFromDB {
             listUnit.add(unit);
         }
         v.add(listUnit);
+        return new CopexReturn();
+    }
+
+    /* charge le type de material par default*/
+    public static CopexReturn getDefaultTypeMaterialFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
+        TypeMaterial  type = null;
+        String query = "SELECT ID_TYPE, TYPE_NAME FROM MATERIAL_TYPE WHERE DEFAULT_TYPE = 1 ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_TYPE");
+        listFields.add("TYPE_NAME");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_TYPE");
+            if (s==null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String name = rs.getColumnData("TYPE_NAME");
+            type = new TypeMaterial(dbKey, name);
+        }
+        v.add(type);
+        return new CopexReturn();
+    }
+
+    /* charge les strategies de materiel */
+    public static CopexReturn getAllStrategyMaterialFromDB(DataBaseCommunication dbC, Locale locale, ArrayList v){
+        ArrayList<MaterialStrategy> listStrategy = new ArrayList();
+        String query = "SELECT ID_STRATEGY, CODE, ITEM, ITEM_LIBELLE_"+locale.getLanguage()+", ADD_MAT, CHOOSE_MAT, COMMENTS_MAT FROM MATERIAL_STRATEGY ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_STRATEGY");
+        listFields.add("CODE");
+        listFields.add("ITEM");
+        listFields.add("ITEM_LIBELLE_"+locale.getLanguage());
+        listFields.add("ADD_MAT");
+        listFields.add("CHOOSE_MAT");
+        listFields.add("COMMENTS_MAT");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_STRATEGY");
+            if (s==null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String code  = rs.getColumnData("CODE");
+            s = rs.getColumnData("ITEM");
+            boolean isItem = s.equals("1");
+            String item = rs.getColumnData("ITEM_LIBELLE_"+locale.getLanguage());
+            s = rs.getColumnData("ADD_MAT");
+            boolean addMat = s.equals("1");
+            s = rs.getColumnData("CHOOSE_MAT");
+            boolean chooseMat = s.equals("1");
+            s = rs.getColumnData("COMMENTS_MAT");
+            boolean commentsMat = s.equals("1");
+            MaterialStrategy strategy = new MaterialStrategy(dbKey, code, isItem, item, addMat, chooseMat, commentsMat);
+            listStrategy.add(strategy);
+        }
+        v.add(listStrategy);
         return new CopexReturn();
     }
 }

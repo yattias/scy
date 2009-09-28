@@ -14,6 +14,7 @@ import eu.scy.tools.copex.controller.ControllerInterface;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
 /**
@@ -32,6 +33,7 @@ public class EditProcDialog extends javax.swing.JDialog {
     private char right = MyConstants.EXECUTE_RIGHT;
     /* protocole */
     private LearnerProcedure proc;
+    private boolean isMission;
     
     
     // CONSTRUCTEURS
@@ -41,12 +43,13 @@ public class EditProcDialog extends javax.swing.JDialog {
         initComponents();
     }
 
-    public EditProcDialog(EdPPanel edP, ControllerInterface controller, LearnerProcedure proc) {
+    public EditProcDialog(EdPPanel edP, boolean isMission, ControllerInterface controller, LearnerProcedure proc) {
         super();
         this.edP = edP;
         this.controller = controller;
         this.proc = (LearnerProcedure)proc.clone();
         this.right = proc.getRight();
+        this.isMission = isMission;
         this.setLocationRelativeTo(edP);
         initComponents();
         setModal(true);
@@ -68,6 +71,24 @@ public class EditProcDialog extends javax.swing.JDialog {
         resizeElements();
         if (right == MyConstants.NONE_RIGHT)
             setDisabled();
+        if(!isMission){
+            this.remove(labelMission);
+            this.remove(jScrollPane1);
+            labelMission = null;
+            jScrollPane1 = null;
+            textAreaMission = null;
+            this.labelProc.setBounds(10,10,labelProc.getWidth(), labelProc.getHeight());
+            this.textFieldProc.setBounds(labelProc.getX()+labelProc.getWidth()+5, labelProc.getY()-3, textFieldProc.getWidth(), textFieldProc.getHeight());
+            if(buttonOk != null){
+                buttonOk.setBounds(buttonOk.getX(), textFieldProc.getY()+textFieldProc.getHeight()+20, buttonOk.getWidth(), buttonOk.getHeight());
+            }
+            buttonCancel.setBounds(buttonCancel.getX(), textFieldProc.getY()+textFieldProc.getHeight()+20, buttonCancel.getWidth(), buttonCancel.getHeight());
+            int h = buttonCancel.getY()+buttonCancel.getHeight()+40;
+            Dimension dim = new Dimension(this.getWidth(), h);
+            setMinimumSize(dim);
+            setSize(dim);
+            setPreferredSize(dim);
+        }
         repaint();
     }
     
@@ -78,13 +99,13 @@ public class EditProcDialog extends javax.swing.JDialog {
      */
    private void resizeElements(){
        // label mission
-       this.labelMission .setSize(CopexUtilities.lenghtOfString(this.labelMission.getText(), getFontMetrics(this.labelMission.getFont())), this.labelMission.getHeight());
+       this.labelMission .setSize(CopexUtilities.lenghtOfString(this.labelMission.getText(), getFontMetrics(this.labelMission.getFont())), 14);
        // label proc
-       this.labelProc.setSize(CopexUtilities.lenghtOfString(this.labelProc.getText(), getFontMetrics(this.labelProc.getFont())), this.labelProc.getHeight());
+       this.labelProc.setSize(CopexUtilities.lenghtOfString(this.labelProc.getText(), getFontMetrics(this.labelProc.getFont())), 14);
        // bouton Ok
-       this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
+       this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), 23);
        // bouton Annuler
-       this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
+       this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), 23);
    }
    
    private void validDialog(){
@@ -143,25 +164,37 @@ public class EditProcDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(edP.getBundleString("TITLE_DIALOG_PROC"));
+        setMinimumSize(new java.awt.Dimension(380, 230));
         setModal(true);
         setResizable(false);
+        getContentPane().setLayout(null);
 
-        labelMission.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelMission.setText(edP.getBundleString("LABEL_MISSION")+" :");
+        labelMission.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelMission.setText(edP.getBundleString("LABEL_MISSION"));
         labelMission.setName("labelMission"); // NOI18N
+        getContentPane().add(labelMission);
+        labelMission.setBounds(20, 10, 75, 14);
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         textAreaMission.setColumns(20);
         textAreaMission.setEditable(false);
+        textAreaMission.setLineWrap(true);
         textAreaMission.setRows(5);
+        textAreaMission.setWrapStyleWord(true);
         textAreaMission.setEnabled(false);
         textAreaMission.setName("textAreaMission"); // NOI18N
+        textAreaMission.setPreferredSize(new java.awt.Dimension(300, 70));
         jScrollPane1.setViewportView(textAreaMission);
 
-        labelProc.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelProc.setText(edP.getBundleString("LABEL_PROC")+" :");
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(110, 10, 250, 90);
+
+        labelProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelProc.setText(edP.getBundleString("LABEL_PROC"));
         labelProc.setName("labelProc"); // NOI18N
+        getContentPane().add(labelProc);
+        labelProc.setBounds(20, 110, 75, 14);
 
         textFieldProc.setName("textFieldProc"); // NOI18N
         textFieldProc.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -169,6 +202,8 @@ public class EditProcDialog extends javax.swing.JDialog {
                 textFieldProcKeyReleased(evt);
             }
         });
+        getContentPane().add(textFieldProc);
+        textFieldProc.setBounds(110, 110, 250, 20);
 
         buttonOk.setText(edP.getBundleString("BUTTON_OK"));
         buttonOk.setName("buttonOk"); // NOI18N
@@ -177,6 +212,8 @@ public class EditProcDialog extends javax.swing.JDialog {
                 buttonOkActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonOk);
+        buttonOk.setBounds(60, 160, 99, 23);
 
         buttonCancel.setText(edP.getBundleString("BUTTON_CANCEL"));
         buttonCancel.setName("buttonCancel"); // NOI18N
@@ -185,45 +222,8 @@ public class EditProcDialog extends javax.swing.JDialog {
                 buttonCancelActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(labelProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelMission, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(textFieldProc)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(buttonOk)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                .addComponent(buttonCancel)
-                .addGap(53, 53, 53))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelMission))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelProc)
-                    .addComponent(textFieldProc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonOk)
-                    .addComponent(buttonCancel))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
+        getContentPane().add(buttonCancel);
+        buttonCancel.setBounds(220, 160, 99, 23);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

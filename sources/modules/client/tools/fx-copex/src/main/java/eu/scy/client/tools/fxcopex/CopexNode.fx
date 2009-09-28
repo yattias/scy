@@ -27,7 +27,7 @@ import java.awt.Dimension;
  */
 
 public class CopexNode extends CustomNode, Resizable {
-    public-init var copexPanel:CopexPanel;
+    public-init var copexPanel:ScyCopexPanel;
     public-init var eloCopexActionWrapper:EloCopexActionWrapper;
 	public var scyWindow:ScyWindow on replace {
 		setScyWindowTitle()};

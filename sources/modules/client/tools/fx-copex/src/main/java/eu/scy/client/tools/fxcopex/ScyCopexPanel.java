@@ -5,23 +5,26 @@
 
 package eu.scy.client.tools.fxcopex;
 
+
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.edp.CopexPanel;
+import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import org.jdom.Element;
-
 /**
  *
  * @author Marjolaine
  */
-public class CopexPanel extends JPanel{
-    private EdPPanel copex;
+public class ScyCopexPanel extends JPanel implements ActionCopex{
+    private CopexPanel copex;
 
-    public CopexPanel() {
+    public ScyCopexPanel() {
         super();
         this.setLayout(new BorderLayout());
-        copex = new EdPPanel();
+        copex = new CopexPanel(true);
+        copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
         copex.loadData();
     }
@@ -36,7 +39,11 @@ public class CopexPanel extends JPanel{
     }
 
     public Element getExperimentalProcedure(){
-        return this.copex.getExperimentalProcedure();
+        return this.copex.getXProc();
     }
 
+    @Override
+    public void loadHelpProc(LearnerProcedure helpProc) {
+        
+    }
 }

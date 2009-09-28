@@ -45,6 +45,8 @@ public class CopexPanelHideShow extends JPanel {
     public CopexPanelHideShow() {
         initComponents();
     }
+
+   
     // retourne la position de fin du label
     protected int getLabelEndX(){
         return this.labelTitle.getX()+this.labelTitle.getWidth();

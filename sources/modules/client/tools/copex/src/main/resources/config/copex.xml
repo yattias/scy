@@ -532,6 +532,51 @@
             </possible_unit>
         </quantity>
     </quantities>
+    <strategy_material>
+        <strategy>
+            <code>S0</code>
+            <is_item>0</is_item>
+            <add_mat>0</add_mat>
+            <choose_mat>0</choose_mat>
+            <comments_mat>1</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S1</code>
+            <is_item>1</is_item>
+            <item language="fr">Matériel à utiliser</item>
+            <item language="en">Material to use</item>
+            <add_mat>0</add_mat>
+            <choose_mat>0</choose_mat>
+            <comments_mat>1</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S2</code>
+            <is_item>1</is_item>
+            <item language="fr">Matériel disponible</item>
+            <item language="en">Material available</item>
+            <add_mat>0</add_mat>
+            <choose_mat>1</choose_mat>
+            <comments_mat>1</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S3</code>
+            <is_item>1</is_item>
+            <item language="fr">Matériel proposé</item>
+            <item language="en">Material proposed</item>
+            <add_mat>1</add_mat>
+            <choose_mat>1</choose_mat>
+            <comments_mat>1</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S4</code>
+            <is_item>1</is_item>
+            <item language="fr">Matériel utilisé</item>
+            <item language="en">Material used</item>
+            <add_mat>1</add_mat>
+            <choose_mat>1</choose_mat>
+            <comments_mat>1</comments_mat>
+        </strategy>
+    </strategy_material>
     <materials>
         <type_material>
             <type>

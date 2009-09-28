@@ -38,5 +38,9 @@ public class ActionParamData extends ActionParam implements Cloneable{
         return p;
     }
 
-
+    /* description dans l'arbre*/
+    @Override
+    public String toDescription(){
+        return data.getName();
+    }
 }

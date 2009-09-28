@@ -357,7 +357,7 @@ public class AddProcDialog extends JDialog {
         getContentPane().add(buttonCancel);
         buttonCancel.setBounds(340, 280, 99, 23);
 
-        rbNewProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        rbNewProc.setFont(new java.awt.Font("Tahoma", 1, 11));
         rbNewProc.setSelected(true);
         rbNewProc.setText(edP.getBundleString("LABEL_ADD_NEW_PROC"));
         rbNewProc.setMaximumSize(new java.awt.Dimension(300, 23));
@@ -445,14 +445,14 @@ public class AddProcDialog extends JDialog {
         getContentPane().add(labelProcNameCopy);
         labelProcNameCopy.setBounds(40, 110, 75, 14);
 
-        labelOpenProcMission.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelOpenProcMission.setText(edP.getBundleString("LABEL_MISSION")+" :");
+        labelOpenProcMission.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelOpenProcMission.setText(edP.getBundleString("LABEL_MISSION"));
         labelOpenProcMission.setName("labelOpenProcMission"); // NOI18N
         getContentPane().add(labelOpenProcMission);
         labelOpenProcMission.setBounds(30, 190, 75, 14);
 
-        labelOpenProcProc.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelOpenProcProc.setText(edP.getBundleString("LABEL_PROC")+" :");
+        labelOpenProcProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelOpenProcProc.setText(edP.getBundleString("LABEL_PROC"));
         labelOpenProcProc.setName("labelOpenProcProc"); // NOI18N
         getContentPane().add(labelOpenProcProc);
         labelOpenProcProc.setBounds(30, 220, 75, 14);

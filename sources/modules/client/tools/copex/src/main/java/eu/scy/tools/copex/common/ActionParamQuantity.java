@@ -39,5 +39,10 @@ public class ActionParamQuantity extends ActionParam{
         return p;
     }
 
+    /* description dans l'arbre*/
+    @Override
+    public String toDescription(){
+        return Double.toString(parameter.getValue())+" "+parameter.getUnit().getSymbol();
+    }
 
 }

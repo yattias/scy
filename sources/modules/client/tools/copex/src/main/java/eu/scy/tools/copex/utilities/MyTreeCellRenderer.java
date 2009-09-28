@@ -32,13 +32,13 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
     // CONSTANTES
     static private Color BG_COLOR = Color.WHITE;
     static private Color COMMENT_COLOR = Color.LIGHT_GRAY;
-    static private Color SELECTED_COLOR = UIManager.getColor("Tree.selectionBackground").brighter().brighter();
+    static private Color SELECTED_COLOR = new Color(167, 225, 255);
     static private Font FONT_COMMENT = new Font("Dialog", Font.ITALIC, 10);
     static private Font FONT_NODE = new Font("Dialog", Font.PLAIN, 11);
     /* longueur minimum du texte dans l'arbre, avant declenchement scroll*/
     static private final int TEXT_AREA_MIN_WIDTH = 200;
-    static private int HEIGHT_ONE_LINE = 20;
-    static private int HEIGHT_ONE_LINE_COMMENT = 19;
+    static private int HEIGHT_ONE_LINE = 19;
+    static private int HEIGHT_ONE_LINE_COMMENT = 18;
     
     
     // ATTRIBUTS
@@ -224,7 +224,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
         labelNode.setText(textNode);
         int textWidth = CopexUtilities.lenghtOfString(textNode, getFontMetrics(labelNode.getFont()))+5;
         int nbL = labelNode.getLineCount() ;
-        int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
+        int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth()- labelRepeat.getWidth();
         boolean oneLine = false;
         if (textWidth < widthTree){
             widthTree = textWidth ;
@@ -244,7 +244,7 @@ public class MyTreeCellRenderer extends JPanel implements  TreeCellRenderer {
             this.panelNode.remove(commentNode);
             commentNode = null;
         }else{
-            widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
+            widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth()-labelRepeat.getWidth();
             // taille du text area des commentaires
             int nbLC = commentNode.getLineCount() ;
             int commentTextWidth = CopexUtilities.lenghtOfString(comment, getFontMetrics(commentNode.getFont()))+5;

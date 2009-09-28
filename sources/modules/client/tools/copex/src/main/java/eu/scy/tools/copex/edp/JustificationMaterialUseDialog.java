@@ -99,7 +99,7 @@ public class JustificationMaterialUseDialog extends javax.swing.JDialog {
         setResizable(false);
 
         labelJustification.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelJustification.setText(edP.getBundleString("LABEL_JUSTIFICATION")+" : ");
+        labelJustification.setText(edP.getBundleString("LABEL_JUSTIFICATION"));
         labelJustification.setName("labelJustification"); // NOI18N
 
         jScrollPaneJustification.setName("jScrollPaneJustification"); // NOI18N

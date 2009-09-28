@@ -11,6 +11,8 @@
 
 package eu.scy.tools.copex.edp;
 
+import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,9 +21,9 @@ import java.net.URL;
  *
  * @author Marjolaine
  */
-public class CopexApplication extends javax.swing.JFrame {
+public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     /* edp panel*/
-    private EdPPanel edP;
+    private CopexPanel copex;
 
     private static URL copexURL;
     private static String idUser ;
@@ -51,19 +53,20 @@ public class CopexApplication extends javax.swing.JFrame {
             System.out.println(t);
             this.stop();
         }
-        edP = new EdPPanel(copexURL, idUser, dbKeyMission, mode, userName, firstName);
-        add(edP, BorderLayout.CENTER);
-        setSize(EdPPanel.PANEL_WIDTH, EdPPanel.PANEL_HEIGHT);
+        copex = new CopexPanel(copexURL, idUser, dbKeyMission, mode, userName, firstName);
+        copex.addActionCopex(this);
+        add(copex, BorderLayout.CENTER);
+        setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
         
     }
 
     public void loadEdP(){
-        edP.loadData();
+        copex.loadData();
         setSize(695,495);
         //repaint();
     }
     public void stop() {
-        edP.stop();
+        copex.stop();
         this.dispose();
     }
 
@@ -131,6 +134,11 @@ public class CopexApplication extends javax.swing.JFrame {
                 copex.loadEdP();
             }
         });
+        
+    }
+
+    @Override
+    public void loadHelpProc(LearnerProcedure helpProc) {
         
     }
 

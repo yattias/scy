@@ -26,7 +26,7 @@ public class CloseProcDialog extends JDialog {
 
     // ATTRIBUTS
     /* fenetre mere */
-    private EdPPanel edP;
+    private CopexPanel edP;
     /* controller */
     private ControllerInterface controller;
     /* boolean indiquant si protocole est a fermer (true) ou a supprimer (false) */
@@ -35,7 +35,7 @@ public class CloseProcDialog extends JDialog {
     private LearnerProcedure proc;
 
     // CONSTRUCTEURS 
-    public CloseProcDialog(EdPPanel edP, ControllerInterface controller, LearnerProcedure proc) {
+    public CloseProcDialog(CopexPanel edP, ControllerInterface controller, LearnerProcedure proc) {
         super();
         this.edP = edP;
         this.controller = controller;

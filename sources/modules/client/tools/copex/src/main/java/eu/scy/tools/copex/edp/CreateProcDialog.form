@@ -103,7 +103,7 @@
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="edP.getBundleString(&quot;LABEL_PROC_NAME&quot;)+&quot; :&quot;" type="code"/>
+          <Connection code="edP.getBundleString(&quot;LABEL_PROC_NAME&quot;)" type="code"/>
         </Property>
         <Property name="name" type="java.lang.String" value="labelNameProc" noResource="true"/>
       </Properties>

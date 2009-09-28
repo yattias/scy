@@ -27,7 +27,6 @@ import eu.scy.tools.copex.common.InitialTreatmentOutput;
 import eu.scy.tools.copex.common.Material;
 import eu.scy.tools.copex.common.Parameter;
 import eu.scy.tools.copex.common.QData;
-import eu.scy.tools.copex.common.Quantity;
 import eu.scy.tools.copex.common.TaskRepeat;
 import eu.scy.tools.copex.common.TaskRepeatParam;
 import eu.scy.tools.copex.common.TaskRepeatParamData;
@@ -100,9 +99,9 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     private ArrayList<ArrayList<Object>> listParamPanel;
 
     /* liste des objets cree dans les iterations precedentes */
-    // [indice panel , noRepeat, material]
-    private ArrayList<ArrayList<Object>> listMaterialProd;
-    private ArrayList<ArrayList<Object>> listDataProd;
+    // [noRepeat, material, indice panel]
+    private ArrayList<Object[]> listMaterialProdRepeat;
+    private ArrayList<Object[]> listDataProdRepeat;
 
     /* liste des param selectionnees */
     private ArrayList<Object> listCbSel;
@@ -126,14 +125,11 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         setLayout(null);
         this.listPanels = new ArrayList();
         this.listParamPanel = new ArrayList();
-        this.listMaterialProd = new ArrayList();
-        this.listDataProd = new ArrayList();
+        this.listMaterialProdRepeat = new ArrayList();
+        this.listDataProdRepeat = new ArrayList();
         setTaskRepeatLabels();
         // cas ou il n'y a pas de parametres
-        if(nbRepeat > 1){
-            setPanelParam();
-        }else
-            resizePanel();
+        resizePanel();
     }
 
      /**
@@ -215,7 +211,6 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         panelParam.revalidate();
         updateButtons();
         this.add(panelParam);
-        resizePanel();
     }
 
     private void updatePanelParam(){
@@ -313,6 +308,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         this.listParamPanel.add(listCb);
         this.listCbSel.add(o);
         cb.setSelectedIndex(0);
+        changeCbSelection(cb);
         return panel;
     }
 
@@ -384,58 +380,64 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         Object source = evt.getSource() ;
         if(source instanceof JComboBox){
             JComboBox cb = (JComboBox)source;
-            int id  = getIdComboBox(cb);
-            if( id != -1){
-                Object oldSel = this.listCbSel.get(id);
-                ParamRepeatPanel table = getTableWithId(id);
-                boolean none = getSelectedNone(id);
-                if (none){
-                    table.setNone();
-                    actionTaskRepeat.actionSetSelected(oldSel, new String(""));
+            changeCbSelection(cb);
+        }
+    }
+
+    private void changeCbSelection(JComboBox cb){
+        int id  = getIdComboBox(cb);
+        if( id != -1){
+            Object oldSel = this.listCbSel.get(id);
+            ParamRepeatPanel table = getTableWithId(id);
+            boolean none = getSelectedNone(id);
+            if (none){
+                table.setNone();
+                actionTaskRepeat.actionSetSelected(oldSel, new String(""));
+            }else{
+                InitialActionParam p = getSelectedParam(id);
+                if (p != null){
+                    if(p instanceof InitialParamQuantity){
+                        ArrayList<CopexUnit> listUnit = ((InitialParamQuantity)p).getListUnit();
+                        table.setParamQuantity((InitialParamQuantity)p, listUnit, ((InitialParamQuantity)p).getQuantityName());
+                        actionTaskRepeat.actionSetSelected(oldSel,(InitialParamQuantity)p);
+                    }else if (p instanceof InitialParamMaterial){
+                        ArrayList<Material> materials = edP.getListMaterial(((InitialParamMaterial)p).getTypeMaterial(), ((InitialParamMaterial)p).getTypeMaterial2(), ((InitialParamMaterial)p).isAndTypes(), modeAdd);
+                        ArrayList<Object[]> listMaterialProdDuringRepeat = getListMaterialProdRepeat((InitialParamMaterial)p);
+                        table.setParamMaterial((InitialParamMaterial)p, materials, listMaterialProdDuringRepeat);
+                        actionTaskRepeat.actionSetSelected(oldSel,(InitialParamMaterial)p);
+                    }else if (p instanceof InitialParamData){
+                        ArrayList<QData> datas = edP.getDataProd( modeAdd);
+                        table.setParamData((InitialParamData)p, datas);
+                        actionTaskRepeat.actionSetSelected(oldSel,(InitialParamData)p);
+                    }
                 }else{
-                    InitialActionParam p = getSelectedParam(id);
-                    if (p != null){
-                        if(p instanceof InitialParamQuantity){
-                            ArrayList<CopexUnit> listUnit = ((InitialParamQuantity)p).getListUnit();
-                            table.setParamQuantity(listUnit, ((InitialParamQuantity)p).getQuantityName());
-                            actionTaskRepeat.actionSetSelected(oldSel,(InitialParamQuantity)p);
-                        }else if (p instanceof InitialParamMaterial){
-                            ArrayList<Material> materials = edP.getListMaterial(((InitialParamMaterial)p).getTypeMaterial(), ((InitialParamMaterial)p).getTypeMaterial2(), ((InitialParamMaterial)p).isAndTypes(), modeAdd);
-                            table.setParamMaterial(materials);
-                            actionTaskRepeat.actionSetSelected(oldSel,(InitialParamMaterial)p);
-                        }else if (p instanceof InitialParamData){
-                            ArrayList<QData> datas = edP.getDataProd( modeAdd);
-                            table.setParamData(datas);
-                            actionTaskRepeat.actionSetSelected(oldSel,(InitialParamData)p);
-                        }
-                    }else{
-                        InitialOutput o = getSelectedOutput(id);
-                        if (o != null){
-                            if(o instanceof InitialManipulationOutput){
-                                ArrayList<Material> listMat = edP.getMaterialProd(modeAdd);
-                                ArrayList<TypeMaterial> listType = ((InitialManipulationOutput)o).getTypeMaterialProd();
-                                table.setOutputMaterial(listMat, listType);
-                                actionTaskRepeat.actionSetSelected(oldSel,(InitialManipulationOutput)o);
-                            }else if (o instanceof InitialAcquisitionOutput || o instanceof InitialTreatmentOutput){
-                                CopexUnit unit = null;
-                                if (o instanceof InitialAcquisitionOutput){
-                                    unit =((InitialAcquisitionOutput)o).getUnitDataProd()[0];
-                                    actionTaskRepeat.actionSetSelected(oldSel,(InitialAcquisitionOutput)o);
-                                }
-                                else if (o instanceof InitialTreatmentOutput){
-                                    unit =((InitialTreatmentOutput)o).getUnitDataProd()[0];
-                                    actionTaskRepeat.actionSetSelected(oldSel,(InitialTreatmentOutput)o);
-                                }
-                                table.setOutputData(unit);
+                    InitialOutput o = getSelectedOutput(id);
+                    if (o != null){
+                        if(o instanceof InitialManipulationOutput){
+                            ArrayList<Material> listMat = edP.getMaterialProd(modeAdd);
+                            ArrayList<TypeMaterial> listType = ((InitialManipulationOutput)o).getTypeMaterialProd();
+                            ArrayList<Object[]> listMatRepeat = getListMaterialProdRepeat((InitialManipulationOutput)o);
+                            table.setOutputMaterial((InitialManipulationOutput)o, listMat, listType, listMatRepeat);
+                            actionTaskRepeat.actionSetSelected(oldSel,(InitialManipulationOutput)o);
+                        }else if (o instanceof InitialAcquisitionOutput || o instanceof InitialTreatmentOutput){
+                            CopexUnit unit = null;
+                            if (o instanceof InitialAcquisitionOutput){
+                                unit =((InitialAcquisitionOutput)o).getUnitDataProd()[0];
+                                actionTaskRepeat.actionSetSelected(oldSel,(InitialAcquisitionOutput)o);
                             }
+                            else if (o instanceof InitialTreatmentOutput){
+                                unit =((InitialTreatmentOutput)o).getUnitDataProd()[0];
+                                actionTaskRepeat.actionSetSelected(oldSel,(InitialTreatmentOutput)o);
+                            }
+                            table.setOutputData((InitialOutput)o, unit);
                         }
                     }
                 }
             }
-            resizePanel();
-            updateButtons();
-            repaint();
         }
+        resizePanel();
+        updateButtons();
+        repaint();
     }
 
     /* retourne l'indice de la combo en param */
@@ -458,7 +460,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             ImageIcon buttonAddSurvol = edP.getCopexImage("Bouton-onglet_ouverture_sur.png");
             ImageIcon buttonAddClic = edP.getCopexImage("Bouton-onglet_ouverture_cli.png");
             ImageIcon buttonAddDisabled = edP.getCopexImage("Bouton-onglet_ouverture_grise.png");
-            buttonAddParam = new CopexButtonPanel(edP, 28, buttonAdd.getImage(), buttonAddSurvol.getImage(), buttonAddClic.getImage(), buttonAddDisabled.getImage());
+            buttonAddParam = new CopexButtonPanel(28, buttonAdd.getImage(), buttonAddSurvol.getImage(), buttonAddClic.getImage(), buttonAddDisabled.getImage());
             buttonAddParam.addActionCopexButton(this);
             buttonAddParam.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ADD_TASK_REPEAT_PARAM"));
             int nb = listPanels.size()-1;
@@ -474,7 +476,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             ImageIcon buttonRemoveSurvol = edP.getCopexImage("Bouton-onglet_moins_sur.png");
             ImageIcon buttonRemoveClic = edP.getCopexImage("Bouton-onglet_moins_cli.png");
             ImageIcon buttonRemoveDisabled = edP.getCopexImage("Bouton-onglet_moins_grise.png");
-            buttonRemoveParam = new CopexButtonPanel(edP, 28, buttonRemove.getImage(), buttonRemoveSurvol.getImage(), buttonRemoveClic.getImage(), buttonRemoveDisabled.getImage());
+            buttonRemoveParam = new CopexButtonPanel(28, buttonRemove.getImage(), buttonRemoveSurvol.getImage(), buttonRemoveClic.getImage(), buttonRemoveDisabled.getImage());
             buttonRemoveParam.addActionCopexButton(this);
             buttonRemoveParam.setToolTipText(edP.getBundleString("TOOLTIPTEXT_REMOVE_TASK_REPEAT_PARAM"));
             buttonRemoveParam.setBounds(buttonAddParam.getX()+buttonAddParam.getWidth()+5, buttonAddParam.getY(), 28,20);
@@ -483,7 +485,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     }
 
      private ParamRepeatPanel getTableParam(int index, int x){
-         ParamRepeatPanel p = new ParamRepeatPanel(index, nbRepeat);
+         ParamRepeatPanel p = new ParamRepeatPanel(edP,index, nbRepeat);
          p.setName("table");
          p.addActionSelectParamTaskRepeat(this);
          p.setBounds(x, 10, p.getWidth(), p.getHeight());
@@ -495,11 +497,13 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             if(panelRepeatParam != null){
                 panelRepeatParam.removeAll();
             }
-            panelParam.removeAll();
+            if(panelParam != null){
+                panelParam.removeAll();
+                remove(panelParam);
+            }
             labelModifyParam = null;
             listPanels = new ArrayList();
             listParamPanel = new ArrayList();
-            remove(panelParam);
             panelParam = null;
             resizePanel();
         }
@@ -510,7 +514,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         int width = getWidth();
         int nb = this.listPanels.size();
         int height = 20;
-        if(panelParam != null){
+        if(panelParam != null && buttonAddParam !=null){
             int h1 = nb*HEIGHT_PANEL_PARAM;
             int h = scrollPaneParam.getHeight()+buttonAddParam.getHeight()+20+labelModifyParam.getHeight()+10;
             panelParam.setSize(width, h);
@@ -534,6 +538,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             scrollPaneParam.setSize(width, scrollPaneParam.getHeight());
         }
         revalidate();
+        repaint();
         setSize(width, height);
         setPreferredSize(getSize());
         if(actionTaskRepeat != null)
@@ -594,23 +599,29 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             return;
         }else{
             int value = (Integer)o;
-            if(value < 1){
-                edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_NB_TASK_REPEAT"), false), edP.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            int oldR = nbRepeat;
-            nbRepeat = value;
-            if(value == 1)
-                deletePanelParam();
-            else{
-                if(oldR == 1)
-                    setPanelParam();
-                else
-                    updatePanelParam();
-            }
-            resizePanel();
-            actionTaskRepeat.actionUpdateNbRepeat(nbRepeat);
+            changeSpinnerValue(value);
         }
+    }
+
+    private void changeSpinnerValue(int value){
+        if(value < 1){
+            edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_NB_TASK_REPEAT"), false), edP.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        int oldR = nbRepeat;
+        if(oldR==value)
+            return;
+        nbRepeat = value;
+        if(value == 1)
+            deletePanelParam();
+        else{
+            if(oldR == 1)
+                setPanelParam();
+            else
+                updatePanelParam();
+        }
+        resizePanel();
+        actionTaskRepeat.actionUpdateNbRepeat(nbRepeat);
     }
     /* rend disabled les combo box jusqu'a id non compris*/
     private void disabledCb(int id){
@@ -624,9 +635,11 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     }
 
     private void updateButtons(){
+        if(buttonAddParam== null || buttonRemoveParam ==null)
+            return;
         int nb = listPanels.size();
         buttonRemoveParam.setEnabled(nb > 1);
-        int nbTot = listAllParams.size();
+        int nbTot = listAllParams.size()+listOutput.size();
         buttonAddParam.setEnabled(nb < nbTot);
         if(nb == 1 && getSelectedNone(0))
             buttonAddParam.setEnabled(false);
@@ -654,8 +667,6 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         panelRepeatParam.revalidate();
         updateButtons();
         resizePanel();
-        deleteMaterialProd(id);
-        deleteDataProd(id);
     }
 
     /* renvoit true si cas sans param */
@@ -668,18 +679,21 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         return (Integer)this.spinnerNbRepeat.getValue();
     }
 
-    /* met les valeurs d'une tacke repeat */
+    /* met les valeurs d'une task repeat */
     public void setTaskRepeat(TaskRepeat taskRepeat){
         this.taskRepeat = taskRepeat;
         if(taskRepeat == null)
             return;
+        //this.nbRepeat = taskRepeat.getNbRepeat();
+        changeSpinnerValue(taskRepeat.getNbRepeat());
         this.nbRepeat = taskRepeat.getNbRepeat();
         this.spinnerNbRepeat.setValue(nbRepeat);
         if(nbRepeat > 1){
             ArrayList<TaskRepeatParam> listP = taskRepeat.getListParam();
             int nb = listP.size();
             for (int i=0; i<nb; i++){
-                addParam();
+                if(i > 0)
+                    addParam();
                 String name = "";
                 if (listP.get(i) instanceof TaskRepeatParamData)
                     name = ((TaskRepeatParamData)listP.get(i)).getInitialParamData().getParamName() ;
@@ -754,59 +768,31 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
 
     @Override
     public void addOutputMaterial(int index, int noRepeat, Material material) {
-        System.out.println("ajout d'un materiel : "+material.getName()+" en "+noRepeat);
-
+        Object[] o = new Object[3];
+        o[0] = noRepeat;
+        o[1] = material;
+        o[2] = index;
+        this.listMaterialProdRepeat.add(o);
+        updateListsMaterial(o);
     }
 
-    // retourne la liste de material prod selon le type d'action
-    private ArrayList<Material> getMaterialProd(InitialParamMaterial param){
-        ArrayList<Material> list = new ArrayList();
-        int nb = listMaterialProd.size();
-        for (int i=0; i<nb; i++){
-            ArrayList<Object> l = listMaterialProd.get(i);
-            Material m = (Material)l.get(2);
-            if (param.canAccept(m)){
-                list.add(m);
-            }
-        }
-        return list;
-    }
-
+   
 
     @Override
     public void addOutputData(int index, int noRepeat, QData data) {
        System.out.println("ajout d'un donnees : "+data.getName()+" en "+noRepeat);
     }
 
-    // suppression du material cree dans un panel
-    private void deleteMaterialProd(int index){
-        int nb = listMaterialProd.size();
-        for (int i=nb-1; i>=0; i++){
-            ArrayList<Object> list = listMaterialProd.get(i);
-            int id = (Integer)list.get(0);
-            if (id == index)
-                listMaterialProd.remove(i);
-        }
-    }
-
-    //suppression des data prod dansun panel
-    private void deleteDataProd(int index){
-        int nb = listDataProd.size();
-        for (int i=nb-1; i>=0; i++){
-            ArrayList<Object> list = listDataProd.get(i);
-            int id = (Integer)list.get(0);
-            if (id == index)
-                listDataProd.remove(i);
-        }
-    }
+    
 
     // renvoit la task repeat ainsi constituee
-    public TaskRepeat getTaskRepeat(){
+    public CopexReturn  getTaskRepeat(ArrayList v){
         long dbKey = -1;
         if (taskRepeat != null)
             dbKey = taskRepeat.getDbKey();
         ArrayList<TaskRepeatParam> listP = new ArrayList();
         int nb = listPanels.size() ;
+        String msg = "";
         for (int i=0; i<nb; i++){
             boolean none = getSelectedNone(i);
             if (!none){
@@ -817,11 +803,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                         ArrayList<TaskRepeatValueMaterialProd> listValue= new ArrayList();
                         ParamRepeatPanel valuePanel = getTableWithId(i);
                         if (valuePanel != null){
-                            ArrayList<Material> list = valuePanel.getOutputMaterial();
-                            int nbV = list.size();
-                            for (int k=0; k<nbV; k++){
-                                TaskRepeatValueMaterialProd value = new TaskRepeatValueMaterialProd(-1, k, list.get(k));
-                                listValue.add(value);
+                            ArrayList v2 = new ArrayList();
+                            CopexReturn cr = valuePanel.getOutputMaterial(v2);
+                            if (cr.isError()){
+                                msg += cr.getText();
+                            }else{
+                                ArrayList<Material> list = (ArrayList<Material>)v2.get(0);
+                                int nbV = list.size();
+                                for (int k=0; k<nbV; k++){
+                                    TaskRepeatValueMaterialProd value = new TaskRepeatValueMaterialProd(-1, k, list.get(k));
+                                    listValue.add(value);
+                                }
                             }
                         }
                         TaskRepeatParamOutputManipulation out = new TaskRepeatParamOutputManipulation(-1, (InitialManipulationOutput)output, listValue);
@@ -830,11 +822,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                         ArrayList<TaskRepeatValueDataProd> listValue= new ArrayList();
                         ParamRepeatPanel valuePanel = getTableWithId(i);
                         if (valuePanel != null){
-                            ArrayList<QData> list = valuePanel.getOutputData();
-                            int nbV = list.size();
-                            for (int k=0; k<nbV; k++){
-                                TaskRepeatValueDataProd value = new TaskRepeatValueDataProd(-1, k, list.get(k));
-                                listValue.add(value);
+                            ArrayList v2 = new ArrayList();
+                            CopexReturn cr = valuePanel.getOutputData(v2);
+                            if(cr.isError()){
+                                msg += cr.getText();
+                            }else{
+                                ArrayList<QData> list = (ArrayList<QData>)v2.get(0);
+                                int nbV = list.size();
+                                for (int k=0; k<nbV; k++){
+                                    TaskRepeatValueDataProd value = new TaskRepeatValueDataProd(-1, k, list.get(k));
+                                    listValue.add(value);
+                                }
                             }
                         }
                         TaskRepeatParamOutputAcquisition out = new TaskRepeatParamOutputAcquisition(-1, (InitialAcquisitionOutput)output, listValue);
@@ -843,11 +841,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                         ArrayList<TaskRepeatValueDataProd> listValue= new ArrayList();
                         ParamRepeatPanel valuePanel = getTableWithId(i);
                         if (valuePanel != null){
-                            ArrayList<QData> list = valuePanel.getOutputData();
-                            int nbV = list.size();
-                            for (int k=0; k<nbV; k++){
-                                TaskRepeatValueDataProd value = new TaskRepeatValueDataProd(-1, k, list.get(k));
-                                listValue.add(value);
+                            ArrayList v2 = new ArrayList();
+                            CopexReturn cr = valuePanel.getOutputData(v2);
+                            if(cr.isError()){
+                                msg += cr.getText();
+                            }else{
+                                ArrayList<QData> list = (ArrayList<QData>)v2.get(0);
+                                int nbV = list.size();
+                                for (int k=0; k<nbV; k++){
+                                    TaskRepeatValueDataProd value = new TaskRepeatValueDataProd(-1, k, list.get(k));
+                                    listValue.add(value);
+                                }
                             }
                         }
                         TaskRepeatParamOutputTreatment out = new TaskRepeatParamOutputTreatment(-1, (InitialTreatmentOutput)output, listValue);
@@ -886,12 +890,18 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                         ArrayList<TaskRepeatValueParamQuantity> listValue = new ArrayList();
                         ParamRepeatPanel valuePanel = getTableWithId(i);
                         if (valuePanel != null){
-                            ArrayList<Parameter> list = valuePanel.getParamQuantity();
-                            int nbV = list.size();
-                            for (int k=0; k<nbV; k++){
-                                ActionParamQuantity actionParamQuantity = new ActionParamQuantity(-1,(InitialParamQuantity)param , list.get(k));
-                                TaskRepeatValueParamQuantity value = new TaskRepeatValueParamQuantity(-1, k, actionParamQuantity);
-                                listValue.add(value);
+                            ArrayList v2 = new ArrayList();
+                            CopexReturn cr  = valuePanel.getParamQuantity(v2);
+                            if(cr.isError()){
+                                msg += cr.getText();
+                            }else{
+                                ArrayList<Parameter> list = (ArrayList<Parameter>)v2.get(0);
+                                int nbV = list.size();
+                                for (int k=0; k<nbV; k++){
+                                    ActionParamQuantity actionParamQuantity = new ActionParamQuantity(-1,(InitialParamQuantity)param , list.get(k));
+                                    TaskRepeatValueParamQuantity value = new TaskRepeatValueParamQuantity(-1, k, actionParamQuantity);
+                                    listValue.add(value);
+                                }
                             }
                         }
                         TaskRepeatParamQuantity p = new TaskRepeatParamQuantity(-1, (InitialParamQuantity)param, listValue);
@@ -900,9 +910,61 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                 }
             }
         }
-        taskRepeat = new TaskRepeat(dbKey, nbRepeat, listP);
-        return taskRepeat;
+        if(msg.equals("")){
+            taskRepeat = new TaskRepeat(dbKey, nbRepeat, listP);
+            v.add(taskRepeat);
+            return new CopexReturn();
+        }else{
+            return new CopexReturn(msg, false);
+        }
     }
+
+    /* retourne la liste du mat prod pendant la repetition*/
+    private ArrayList<Object[]> getListMaterialProdRepeat(InitialParamMaterial p){
+        ArrayList<Object[]> list = new ArrayList();
+        int nb = this.listMaterialProdRepeat.size();
+        for (int i=0; i<nb; i++){
+            Material m = (Material)this.listMaterialProdRepeat.get(i)[1];
+            if(p.canAccept(m)){
+                list.add(this.listMaterialProdRepeat.get(i));
+            }
+        }
+        return list;
+    }
+
+    /* retourne la liste du mat prod pendant la repetition*/
+    private ArrayList<Object[]> getListMaterialProdRepeat(InitialManipulationOutput o){
+        ArrayList<Object[]> list = new ArrayList();
+        int nb = this.listMaterialProdRepeat.size();
+        for (int i=0; i<nb; i++){
+            Material m = (Material)this.listMaterialProdRepeat.get(i)[1];
+            if(o.canAccept(m)){
+                list.add(this.listMaterialProdRepeat.get(i));
+            }
+        }
+        return list;
+    }
+
+    /* mise à jour des listes existantes d'un nouveau mat */
+    private void updateListsMaterial(Object[] o){
+        int nb = this.listPanels.size();
+        for (int i=0; i<nb; i++){
+            ParamRepeatPanel table = getTableWithId(i);
+            if(table != null){
+                if(table.getInitialParamMaterial() != null){
+                    Material m  = (Material)o[1];
+                    if(table.getInitialParamMaterial().canAccept(m))
+                        table.updateMaterial(o);
+                }else if(table.getInitialManipulationOutput() != null){
+                    Material m  = (Material)o[1];
+                    if(table.getInitialManipulationOutput().canAccept(m))
+                        table.updateMaterialOutput(o);
+                }
+            }
+        }
+    }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

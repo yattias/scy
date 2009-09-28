@@ -103,16 +103,7 @@ public class CopexUtilities {
 	
     }
 
-    /* retourne extension du fichier */
-    public static String getExtensionFile(File file){
-        String fileName = file.getAbsolutePath() ;
-        int idP = fileName.indexOf(".");
-        if (idP== -1)
-            return "";
-        else{
-            return fileName.substring(idP+1, fileName.length());
-        }
-    }
+    
 
     /* ajoute une extension au fichier */
     public static  File setExtensionFile(File file, String extension){
@@ -189,6 +180,18 @@ public class CopexUtilities {
             Logger.getLogger(CopexUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
+    }
+
+    public static boolean isXMLFile(File file){
+        String ext = getExtensionFile(file);
+        return ext.equals("xml");
+    }
+
+    public static  String getExtensionFile(File file){
+        int id = file.getName().lastIndexOf(".");
+        if(id == -1 || id==file.getName().length()-1)
+            return "";
+        return file.getName().substring(id+1);
     }
 
 }

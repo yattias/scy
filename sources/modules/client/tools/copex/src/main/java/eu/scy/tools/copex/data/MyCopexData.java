@@ -7,6 +7,7 @@ package eu.scy.tools.copex.data;
 
 import eu.scy.tools.copex.common.CopexUnit;
 import eu.scy.tools.copex.common.PhysicalQuantity;
+import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
@@ -18,15 +19,15 @@ import java.util.ArrayList;
 public class MyCopexData {
    
     /* chargement qtt physiques */
-    public static CopexReturn getAllPhysicalQuantities(EdPPanel edP, ArrayList v){
+    public static CopexReturn getAllPhysicalQuantities(CopexPanel copex, ArrayList v){
         ArrayList<PhysicalQuantity> listQuant = new ArrayList();
         long id = 1;
         String name = null;
         do{
-            name = edP.getBundleStringKey("PHYSICAL_QUANTITY_"+id) ;
+            name = copex.getBundleStringKey("PHYSICAL_QUANTITY_"+id) ;
             if (name != null){
                 ArrayList v2 = new ArrayList();
-                CopexReturn cr = getAllUnit(edP, id, v2);
+                CopexReturn cr = getAllUnit(copex, id, v2);
                 if(cr.isError())
                     return cr;
                 ArrayList<CopexUnit> listUnit = (ArrayList<CopexUnit>)v2.get(0);
@@ -40,14 +41,14 @@ public class MyCopexData {
     }
 
     /* chargement des unites*/
-    private static CopexReturn getAllUnit(EdPPanel edP, long idQtt, ArrayList v){
+    private static CopexReturn getAllUnit(CopexPanel copex, long idQtt, ArrayList v){
         ArrayList<CopexUnit> listUnit = new ArrayList();
         int id = 1;
         String u = null;
         do{
-            u = edP.getBundleStringKey("UNIT_"+idQtt+"_"+id);
+            u = copex.getBundleStringKey("UNIT_"+idQtt+"_"+id);
             if(u != null){
-                String symbol = edP.getBundleStringKey("UNIT_SYMB_"+idQtt+"_"+id);
+                String symbol = copex.getBundleStringKey("UNIT_SYMB_"+idQtt+"_"+id);
                 CopexUnit unit = new CopexUnit(id, u, symbol);
                 listUnit.add(unit);
                 id++;
