@@ -118,6 +118,7 @@ var connectButton: SwingButton = SwingButton {
                customTable.disable = false;
                inputText.disable = false;
                chatHistory.disable = false;
+               serverInput.disable = true;
                nameInput.disable = true;
                passInput.disable = true;
            }
