@@ -14,7 +14,7 @@ import java.util.Collection;
  * Time: 15:13:45
  */
 public class DefaultNodeStyle implements INodeStyle {
-    private Color foregroundColor = new Color(0xffffff);
+    private Color foregroundColor = new Color(0x000000);
     private Color backgroundColor = new Color(0xaaaaaa);
 
     private Stroke stroke = new BasicStroke(2f);
@@ -34,6 +34,7 @@ public class DefaultNodeStyle implements INodeStyle {
     @Override
     public void setForeground(Color c) {
         foregroundColor = c;
+		notifyStyleChanged(this);
     }
 
     @Override
@@ -44,11 +45,13 @@ public class DefaultNodeStyle implements INodeStyle {
     @Override
     public void setBackground(Color c) {
         backgroundColor = c;
+		notifyStyleChanged(this);
     }
 
     @Override
     public void setStroke(Stroke s) {
         stroke = s;
+		notifyStyleChanged(this);
     }
 
     @Override
@@ -59,6 +62,7 @@ public class DefaultNodeStyle implements INodeStyle {
     @Override
     public void setFillStyle(int s) {
         fillStyle = s;
+		notifyStyleChanged(this);
     }
 
     @Override

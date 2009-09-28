@@ -83,7 +83,7 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 	}
 
 	@Override
-	public void addSelectionObserver(IDiagramSelectionListener listener) {
+	public void addSelectionListener(IDiagramSelectionListener listener) {
 		listeners.add(listener);
 	}
 
@@ -97,5 +97,12 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 		for (IDiagramSelectionListener listener : listeners) {
 			listener.selectionChanged(this);
 		}
+	}
+
+	@Override
+	public boolean hasSelection() {
+		System.out.println("selectedNodes = " + selectedNodes);
+		System.out.println(selectedNodes.size() + selectedLinks.size());
+		return selectedNodes.size() + selectedLinks.size() > 0;
 	}
 }

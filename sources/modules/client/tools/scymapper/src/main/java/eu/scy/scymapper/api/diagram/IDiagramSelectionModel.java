@@ -72,7 +72,7 @@ public interface IDiagramSelectionModel {
 	 * @param listener The selection observer
 	 * @see IDiagramSelectionListener
 	 */
-	void addSelectionObserver(IDiagramSelectionListener listener);
+	void addSelectionListener(IDiagramSelectionListener listener);
 
 	/**
 	 * Remove an observer
@@ -85,4 +85,6 @@ public interface IDiagramSelectionModel {
 	 * This is just added to the interface to ensure its implementation. Notifies all observers about selection change.
 	 */
 	void notifySelectionChanged();
+
+	boolean hasSelection();
 }

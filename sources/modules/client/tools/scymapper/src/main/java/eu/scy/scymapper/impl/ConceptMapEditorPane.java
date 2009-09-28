@@ -64,4 +64,7 @@ public class ConceptMapEditorPane extends JPanel {
 		add(builder.getPanel());
 	}
 
+	public IDiagramModel getModel() {
+		return diagramModel;
+	}
 }

@@ -37,6 +37,8 @@ public class LinkView extends Container implements ILinkModelListener {
 
     public void paint(Graphics g) {
 
+		g = g.create();
+
         Point from = model.getFrom();
         Point to = model.getTo();
 
