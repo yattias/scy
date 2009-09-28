@@ -73,6 +73,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
         labelEditor.setBackground(style.getBackground());
         labelEditor.setForeground(style.getForeground());
+		labelEditor.setBorder(BorderFactory.createEmptyBorder());
 
         add(labelEditor);
         labelEditor.addFocusListener(new FocusListener() {
@@ -80,12 +81,14 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
             public void focusGained(FocusEvent e) {
                 labelEditor.setEditable(true);
                 labelEditor.setOpaque(true);
+				labelEditor.setBorder(BorderFactory.createEtchedBorder());
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 labelEditor.setEditable(false);
                 labelEditor.setOpaque(false);
+				labelEditor.setBorder(BorderFactory.createEmptyBorder());
             }
         });
 
@@ -172,11 +175,15 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
     @Override
     public void styleChanged(INodeModel node) {
+        layoutComponents();
+		revalidate();
+		repaint();
+		System.out.println("STYLE CHANGED");
     }
 
     @Override
     public void shapeChanged(INodeModel node) {
-        repaint();
+		repaint();
     }
 
     @Override
@@ -236,6 +243,11 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 			g2.setStroke(new BasicStroke(2f));
 			g2.drawRect(0, 0, getWidth()-2, getHeight()-2);
 		}
+
+		// Update colors of label component TODO: Should have a style listener instead
+		labelEditor.setForeground(getModel().getStyle().getForeground());
+		labelEditor.setBackground(getModel().getStyle().getBackground());
+
         // Continue painting any other component
         super.paint(g);
     }

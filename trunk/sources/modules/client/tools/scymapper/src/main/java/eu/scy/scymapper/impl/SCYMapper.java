@@ -55,7 +55,6 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 	private final static Logger logger = Logger.getLogger(SCYMapper.class);
 	private JToolBar toolBar;
 	private String currentToolSessionId;
-	private DiagramModel diagramModel;
 	private IDataSyncService dataSyncService;
 	private String username;
 	private String passwd;
@@ -73,10 +72,6 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 
 	private SCYMapper() throws HeadlessException {
 		super("SCYMapper");
-
-		diagramModel = new DiagramModel();
-		addSomeTestConcepts();
-		diagramModel.addObserver(this);
 
 		initLAF();
 		initToolBroker();
@@ -157,6 +152,14 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		toolBar = new JToolBar();
 		toolBar.add(new JButton("Save"));
 		toolBar.add(new JButton("Open"));
+		JButton addConceptBtn = new JButton("Add concept");
+		addConceptBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getCurrentEditor().getModel().addNode(new NodeModel());
+			}
+		});
+		toolBar.add(addConceptBtn);
 	}
 
 	private void initComponents() {
@@ -186,8 +189,18 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		// A Concept map editor contains two components:
 		// 1. The concept map with nodes and vertices
 		// 2. A list of collaborators (awareness view)
-		ConceptMapEditorPane cmep = new ConceptMapEditorPane(awarenessService, diagramModel);
-		conceptMapTabPane.add("Hardcoded concept map", cmep);
+		// This means that the user can have several concept maps open at the same time, collaborating with different
+		// groups of users
+		IDiagramModel mockDiagram1 = createAMockDiagram();
+		IDiagramModel mockDiagram2 = createAnotherMockDiagram();
+		mockDiagram1.addObserver(this);
+		mockDiagram2.addObserver(this);
+
+		ConceptMapEditorPane mockMap1 = new ConceptMapEditorPane(awarenessService, mockDiagram1);
+		ConceptMapEditorPane mockMap2 = new ConceptMapEditorPane(awarenessService, mockDiagram2);
+		conceptMapTabPane.add("Hardcoded concept map", mockMap1);
+		conceptMapTabPane.add("Another concept map", mockMap2);
+		conceptMapTabPane.setSelectedIndex(0);
 
 		// Message log
 		logView = new JTextArea();
@@ -202,7 +215,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		CellConstraints cc = new CellConstraints();
 
 		builder.add(toolBar, cc.xyw(1, 1, 3, CellConstraints.FILL, CellConstraints.FILL));
-		builder.add(new PalettePane(availLinkShapes, availNodeShapes), cc.xy(1, 3, CellConstraints.FILL, CellConstraints.FILL));
+		builder.add(new PalettePane(mockMap1.getSelectionModel(), availLinkShapes, availNodeShapes), cc.xy(1, 3, CellConstraints.FILL, CellConstraints.FILL));
 		builder.add(conceptMapTabPane, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.FILL));
 		builder.add(new JScrollPane(logView), cc.xyw(1, 5, 3, CellConstraints.FILL, CellConstraints.FILL));
 
@@ -278,7 +291,8 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
-	private void addSomeTestConcepts() {
+	private IDiagramModel createAMockDiagram() {
+		IDiagramModel diagram = new DiagramModel();
 		INodeModel redStar = new NodeModel();
 		redStar.setStyle(new DefaultNodeStyle());
 		redStar.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
@@ -287,7 +301,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		redStar.setLabel("I'm a NODE. Hurray!");
 		redStar.setLocation(new Point(300, 150));
 		redStar.setSize(new Dimension(200, 200));
-		diagramModel.addNode(redStar);
+		diagram.addNode(redStar);
 		redStar.addObserver(this);
 
 		INodeModel ellipse = new NodeModel();
@@ -298,7 +312,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		ellipse.setLocation(new Point(300, 450));
 		ellipse.setSize(new Dimension(150, 100));
 		ellipse.setShape(new Ellipse());
-		diagramModel.addNode(ellipse);
+		diagram.addNode(ellipse);
 		ellipse.addObserver(this);
 
 		IConceptLinkModel link = new NodeLinkModel(redStar, ellipse);
@@ -310,7 +324,47 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		arrow.setArrowhead(arrowhead);
 		link.setShape(arrow);
 		link.setLabel("I'm in between");
-		diagramModel.addLink(link);
+		diagram.addLink(link);
+		return diagram;
+	}
+
+	private IDiagramModel createAnotherMockDiagram() {
+		IDiagramModel diagram = new DiagramModel();
+		INodeModel greenCircle = new NodeModel();
+		greenCircle.setStyle(new DefaultNodeStyle());
+		greenCircle.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+		greenCircle.getStyle().setBackground(Color.green);
+		greenCircle.setShape(new Star());
+		greenCircle.setLabel("I'm a green circle!");
+		greenCircle.setLocation(new Point(300, 150));
+		greenCircle.setSize(new Dimension(200, 200));
+		diagram.addNode(greenCircle);
+
+		greenCircle.addObserver(this);
+
+		INodeModel blueStar = new NodeModel();
+		blueStar.setStyle(new DefaultNodeStyle());
+		blueStar.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+		blueStar.getStyle().setBackground(new Color(0x0099ff));
+		blueStar.setLabel("I'm a blue star!");
+		blueStar.setLocation(new Point(300, 450));
+		blueStar.setSize(new Dimension(150, 100));
+		blueStar.setShape(new Ellipse());
+		diagram.addNode(blueStar);
+		blueStar.addObserver(this);
+
+		IConceptLinkModel link = new NodeLinkModel(greenCircle, blueStar);
+		link.getStyle().setColor(new Color(0x444444));
+		link.getStyle().setStroke(new BasicStroke(1.0f));
+		Arrow arrow = new Arrow();
+		arrow.setBidirectional(true);
+		Arrowhead arrowhead = new Arrowhead(25, Math.PI/3);
+		arrowhead.setFixedSize(true);
+		arrow.setArrowhead(arrowhead);
+		link.setShape(arrow);
+		link.setLabel("I'm going both ways");
+		diagram.addLink(link);
+		return diagram;
 	}
 
 	public ConceptMapEditorPane getCurrentEditor() {

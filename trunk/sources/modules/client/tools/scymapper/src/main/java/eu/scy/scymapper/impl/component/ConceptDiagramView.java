@@ -150,12 +150,12 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 
     @Override
     public void styleChanged(INodeModel node) {
-        System.out.println("ConceptDiagramView.styleChanged");
+        revalidate();
     }
 
     @Override
     public void shapeChanged(INodeModel node) {
-        System.out.println("ConceptDiagramView.shapeChanged");
+        repaint();
     }
 
     @Override

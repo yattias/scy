@@ -5,6 +5,7 @@ import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleObserver;
+import eu.scy.scymapper.impl.shapes.concepts.DefaultNodeShape;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import java.util.ArrayList;
  * Time: 19:47:53
  */
 public class NodeModel implements INodeModel, INodeStyleObserver {
-    private INodeShape shape;
-    private Dimension size;
-    private Point location;
+    private INodeShape shape = new DefaultNodeShape();
+    private Dimension size = new Dimension(150, 50);
+    private Point location = new Point(50, 50);
     private ArrayList<INodeModelListener> listeners;
-    private String label;
-    private INodeStyle style;
+    private String label = "New concept";
+    private INodeStyle style = new DefaultNodeStyle();
     private boolean labelHidden = false;
 	private boolean selected = false;
 
