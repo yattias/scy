@@ -19,7 +19,7 @@ public class MyWhiteBoardPanel extends JPanel{
 
     /* whiteboard panel */
     private WhiteboardPanel whiteBoardPanel;
-    
+
     public MyWhiteBoardPanel() {
         super();
         setLayout(new BorderLayout());

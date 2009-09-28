@@ -43,5 +43,13 @@ public class InitialManipulationOutput extends InitialOutput implements Cloneabl
         return a;
     }
 
+    public boolean canAccept(Material m){
+        int nb = this.typeMaterialProd.size();
+        for (int i=0; i<nb; i++){
+            if(m.isType(typeMaterialProd.get(i)))
+                return true;
+        }
+        return false;
+    }
 
 }

@@ -6,8 +6,7 @@
 package eu.scy.tools.copex.utilities;
 
 import eu.scy.tools.copex.common.LearnerProcedure;
-import eu.scy.tools.copex.edp.CopexTabbedPane;
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,8 +20,7 @@ import javax.swing.*;
 public class CloseTab extends JPanel implements MouseListener, ActionCopexButton {
 
     // ATTRIBUTS
-    private EdPPanel edP;
-    private CopexTabbedPane tabbedPane;
+    private ActionCloseTab action;
     private LearnerProcedure proc;
     private JLabel labelTitle;
     private String title;
@@ -36,9 +34,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     
     
     // CONSTRUCTEURS
-    public CloseTab(EdPPanel edP, CopexTabbedPane tabbedPane, LearnerProcedure proc, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
-        this.edP = edP;
-        this.tabbedPane = tabbedPane;
+    public CloseTab(LearnerProcedure proc, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
         this.proc = proc;
         this.title = title;
         this.icon = icon;
@@ -48,6 +44,11 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         this.toolTipText = toolTipText;
         init();
     }
+
+    public LearnerProcedure getProc() {
+        return proc;
+    }
+
     
     // METHODES
     private void init(){
@@ -60,7 +61,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         labelTitle.setBounds(0, 0, l+5, 19);
         add(labelTitle);
         //add(Box.createHorizontalStrut(5));
-        labelIcon = new CopexButtonPanel(edP, 20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
+        labelIcon = new CopexButtonPanel(20, this.icon.getImage(), this.iconRollOver.getImage(), this.iconClic.getImage(), this.iconDisabled.getImage());
         labelIcon.addActionCopexButton(this);
         //labelIcon.setBackground(Color.WHITE);
         Dimension d;
@@ -78,6 +79,15 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         setSelected(false);
         this.addMouseListener(this);
     }
+
+    /**
+    * Instancie l'objet ActionCloseTab.
+    * @param action ActionCloseTab
+    */
+    public void addActionCloseTab(ActionCloseTab action){
+        this.action=action;
+    }
+
     
     /* met le label selectionne */
     public void setSelected(boolean selected){
@@ -87,7 +97,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
             color = Color.WHITE;
         }else{
             //color = new Color(238, 238, 238);
-            color = EdPPanel.backgroundColor;
+            color = CopexPanel.backgroundColor;
         }
         setBackground(color);
         labelIcon.setBackground(color);
@@ -114,14 +124,15 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         repaint();
     }
     
+    @Override
     public void mouseClicked(MouseEvent e) {
       if (this.title != null)
-            this.tabbedPane.setSelected(this);
+            this.action.setSelectedTab(this);
         if (e.getClickCount() == 2){
             // double-clic : 
             if (this.title == null || !this.isSelected)
                 return;
-            edP.doubleClickTab(tabbedPane, this);
+            this.action.doubleClickTab(this);
         }
     }
 
@@ -166,9 +177,9 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     @Override
     public void actionCopexButtonClic(CopexButtonPanel button) {
         if(proc == null){
-            edP.openDialogAddProc();
+            action.openDialogAddProc();
         }else{
-            edP.openDialogCloseProc(proc);
+            action.openDialogCloseProc(proc);
         }
     }
 }

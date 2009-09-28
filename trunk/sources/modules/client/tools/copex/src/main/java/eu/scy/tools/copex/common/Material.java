@@ -43,6 +43,7 @@ public class Material implements Cloneable {
     }
     
     public Material(String name, String description, ArrayList<TypeMaterial> listType, ArrayList<Parameter> listParameters, boolean advisedLearner) {
+        this.dbKey = -1;
         this.name = name;
         this.description = description;
         this.listType = listType;

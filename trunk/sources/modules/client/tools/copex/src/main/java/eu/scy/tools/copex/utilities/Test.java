@@ -24,9 +24,10 @@ public class Test {
     public static void main(String args[]) {
         URL url;
         try {
-            url = new URL("http://copex.imag.fr/espaces/");
+            //url = new URL("http://copex.imag.fr/espaces/");
+            url = new URL("http://copex-clement.imag.fr/espaces/");
             DataBaseCommunication dbC = new DataBaseCommunication(url, MyConstants.DB_COPEX_EDP, 1, "1");
-            String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Determiner la structure a modifier' WHERE ID_TASK = 1981 ;";
+            String query = "UPDATE COPEX_TASK SET DESCRIPTION = 'Matériel à utiliser' WHERE ID_TASK = 1450 ;";
             //String query = "UPDATE MATERIAL SET DESCRIPTION = 'Organisme animal ou vegetal adapte a son milieu' WHERE ID_MATERIAL in (169,170) ;";
 
             String description = "<p>Vous allez chercher a repondre au probleme suivant :  Comment modifier l'information genetique d'un etre vivant " +

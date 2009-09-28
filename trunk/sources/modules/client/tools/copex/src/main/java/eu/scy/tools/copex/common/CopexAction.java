@@ -5,7 +5,7 @@
 
 package eu.scy.tools.copex.common;
 
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.utilities.MyConstants;
 import org.jdom.Element;
 
@@ -29,7 +29,7 @@ public class CopexAction extends CopexTask implements Cloneable {
         
     }
      /* construction de la description de l'action dans le cas d'une action parametree */
-     public String toDescription(EdPPanel edP){
+     public String toDescription(CopexPanel copex){
          return this.description ;
      }
 

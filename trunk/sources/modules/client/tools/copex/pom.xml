@@ -12,6 +12,22 @@
     <packaging>jar</packaging>
     <name>Copex</name>
 
+    <developers>
+		<developer>
+			<id>marjolaine</id>
+			<name>Marjolaine Bodin</name>
+			<email>marjolaine.bodin@imag.fr</email>
+			<url>www.liglab.fr</url>
+			<organization>Joseph Fourier University</organization>
+			<organizationUrl>www.ujf-grenoble.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+    
 	<dependencies>
         <dependency>
             <groupId>org.jdom</groupId>

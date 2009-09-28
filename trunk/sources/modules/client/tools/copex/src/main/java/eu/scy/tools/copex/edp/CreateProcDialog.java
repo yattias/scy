@@ -29,7 +29,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
 
     // PROPERTY 
     /* editeur de protocole */
-    private EdPPanel edP;
+    private CopexPanel edP;
     /* controller */
     private ControllerInterface controller;
     /* liste des proc initiaux */
@@ -38,7 +38,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
     private boolean setDefaultProcName = false;
 
     // CONSTRUCTOR
-    public CreateProcDialog(EdPPanel edP, ControllerInterface controller, ArrayList<InitialProcedure> listInitialProc) {
+    public CreateProcDialog(CopexPanel edP, ControllerInterface controller, ArrayList<InitialProcedure> listInitialProc) {
         super();
         setLocationRelativeTo(edP);
         this.edP = edP;
@@ -172,8 +172,8 @@ public class CreateProcDialog extends javax.swing.JDialog {
             }
         });
 
-        labelNameProc.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelNameProc.setText(edP.getBundleString("LABEL_PROC_NAME")+" :");
+        labelNameProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelNameProc.setText(edP.getBundleString("LABEL_PROC_NAME"));
         labelNameProc.setName("labelNameProc"); // NOI18N
 
         fieldProcName.setName("fieldProcName"); // NOI18N

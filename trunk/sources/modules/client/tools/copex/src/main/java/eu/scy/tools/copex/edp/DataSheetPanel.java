@@ -6,7 +6,6 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.common.DataSheet;
-import eu.scy.tools.copex.utilities.ActionComment;
 import eu.scy.tools.copex.utilities.ActionCopexButton;
 import eu.scy.tools.copex.utilities.CopexButtonPanel;
 import eu.scy.tools.copex.utilities.CopexPanelHideShow;
@@ -78,7 +77,7 @@ public class DataSheetPanel extends CopexPanelHideShow implements ActionCopexBut
     
     public CopexButtonPanel getButtonTab(){
         if (buttonTab == null){
-            buttonTab = new CopexButtonPanel(edP, 22,  
+            buttonTab = new CopexButtonPanel(22,  
                     imgDataSheet.getImage(),
                     imgDataSheetSelect.getImage(),
                     imgDataSheetClic.getImage(),
@@ -86,15 +85,13 @@ public class DataSheetPanel extends CopexPanelHideShow implements ActionCopexBut
             buttonTab.addActionCopexButton(this);
            buttonTab.setBounds(this.getLabelEndX() + 20, 2, buttonTab.getWidth(), buttonTab.getHeight());
            buttonTab.setToolTipText(edP.getBundleString("TOOLTIPTEXT_DATASHEET"));
-           if (edP.noProc())
-               buttonTab.setVisible(false);
         }
         return buttonTab;
     }
 
     public CopexButtonPanel getButtonExport(){
         if (buttonExport == null){
-            buttonExport = new CopexButtonPanel(edP, 28,
+            buttonExport = new CopexButtonPanel(28,
                     imgExport.getImage(),
                     imgExportSelect.getImage(),
                     imgExportClic.getImage(),
@@ -105,8 +102,6 @@ public class DataSheetPanel extends CopexPanelHideShow implements ActionCopexBut
                x = this.buttonTab.getX()+buttonTab.getWidth()+5;
             buttonExport.setBounds(x, 2, buttonExport.getWidth(), 25);
            buttonExport.setToolTipText(edP.getBundleString("TOOLTIPTEXT_EXPORT"));
-           if (edP.noProc())
-               buttonExport.setVisible(false);
         }
         return buttonExport;
     }

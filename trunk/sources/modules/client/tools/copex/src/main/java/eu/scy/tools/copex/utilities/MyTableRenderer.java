@@ -5,7 +5,7 @@
 
 package eu.scy.tools.copex.utilities;
 
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;
@@ -24,7 +24,7 @@ public class MyTableRenderer extends DefaultTableCellRenderer {
         if (row == 0){
             cell.setBackground(new Color(247,204,102));
         }else
-            cell.setBackground(EdPPanel.backgroundColor);
+            cell.setBackground(CopexPanel.backgroundColor);
         return cell;
     }
     

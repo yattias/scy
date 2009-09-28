@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.synchro;
 
 import eu.scy.tools.copex.db.DataBaseCommunication;
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 public class ActivatorThread extends Thread{
     /* editeur proc */
-    private EdPPanel edP;
+    private CopexPanel copex;
     /*connection db */
     private DataBaseCommunication dbC;
     /** Le locker pour garder le contact dans ce thread avec le reste de l'execution. */
 	private Locker locker = null;
 
     // CONSTRUCTOR
-    public ActivatorThread(EdPPanel edP, DataBaseCommunication dbC, Locker l) {
+    public ActivatorThread(CopexPanel copex, DataBaseCommunication dbC, Locker l) {
         super("ActivatorThread");
-        this.edP  = edP;
+        this.copex = copex;
         this.dbC = dbC;
         this.locker = l;
     }
@@ -63,7 +63,7 @@ public class ActivatorThread extends Thread{
                 querys[0] = query ;
                 CopexReturn cr = dbC.executeQuery(querys, v);
                 if (cr.isError()){
-                    edP.displayError(cr, edP.getBundleString("TITLE_ERROR_DIALOG"));
+                    copex.displayError(cr, copex.getBundleString("TITLE_ERROR_DIALOG"));
                 }
             }
         }

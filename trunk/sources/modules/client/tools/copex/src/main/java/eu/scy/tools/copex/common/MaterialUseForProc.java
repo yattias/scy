@@ -6,8 +6,8 @@
 package eu.scy.tools.copex.common;
 
 /**
- * materiel utilise pour un protocole
- * materiel + justification eventuelle
+ * materiel utilise pour un protocole par un eleve
+ * materiel + commentaire eventuel
  * @author MBO
  */
 public class MaterialUseForProc implements Cloneable {

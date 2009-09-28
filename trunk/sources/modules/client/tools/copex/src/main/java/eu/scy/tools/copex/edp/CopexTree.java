@@ -321,7 +321,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                     return "";
 
             if (node.getTask() instanceof CopexAction ){
-                    return ((CopexAction)node.getTask()).toDescription(edP) ;
+                    return ((CopexAction)node.getTask()).toDescription(edP.getCopexPanel()) ;
             }else
                 return node.getTask().getDescription() ;
        }else
@@ -348,7 +348,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                if (princ != null && princ.length() > 0){
                    if (s.length()> 0)
                        s += "\n";
-                   s += edP.getBundleString("LABEL_GENERAL_PRINCIPLE")+" : "+princ;
+                   s += edP.getBundleString("LABEL_GENERAL_PRINCIPLE")+" "+princ;
                }
                return s;
             }
@@ -432,9 +432,9 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
        if (edP.getTaskImage(currentNode.getTask().getTaskImage()) != null)
            img = new ImageIcon(edP.getTaskImage(currentNode.getTask().getTaskImage()));
        InitialNamedAction actionNamed = null;
-       ActionParam[] tabParam = null;
-       ArrayList<Material> materialProd = null;
-       ArrayList<QData> dataProd = null;
+       Object[] tabParam = null;
+       ArrayList<Object> materialProd = null;
+       ArrayList<Object> dataProd = null;
        if (currentNode.getTask() instanceof CopexActionNamed){
            actionNamed = ((CopexActionNamed)currentNode.getTask()).getNamedAction();
        }
@@ -1063,21 +1063,15 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     public void keyReleased(KeyEvent e) {
         // Evenements souris 
         if (e.getKeyCode() == KeyEvent.VK_C && canCopy()){
-            CopexReturn cr = this.controller.copy();
-            if (cr.isError())
-                edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            edP.copy();
         }else if (e.getKeyCode() == KeyEvent.VK_M && canAddE()){
-            this.controller.addEtape();
+            edP.addEtape();
         }else if (e.getKeyCode() == KeyEvent.VK_N && canAddA()){
-            this.controller.addAction();
+            edP.addAction();
         }else if (e.getKeyCode() == KeyEvent.VK_X && canCut()){
-            CopexReturn cr = this.controller.cut();
-            if (cr.isError())
-                edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            edP.cut();
         }else if (e.getKeyCode() == KeyEvent.VK_V && canPaste()){
-            CopexReturn cr = this.controller.paste();
-            if (cr.isError())
-                edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            edP.paste();
         }else if (e.getKeyCode() == KeyEvent.VK_DELETE && canSuppr()){
             this.edP.suppr();
         }else if (e.getKeyCode() == KeyEvent.VK_E && isOnlyOneElementIsSel()){
@@ -1587,21 +1581,21 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
       /* retourne vrai si au moins une  action utilise le materiel produit par cette tache */
       private boolean isActionLinkedByMaterial(CopexTask task){
           if (task instanceof CopexActionManipulation){
-              ArrayList<CopexTask> listTask = proc.getListTask();
-              int nbT = listTask.size();
-              ArrayList<Material> listMaterialProd = ((CopexActionManipulation)task).getListMaterialProd() ;
+              ArrayList<Object> listMaterialProd = ((CopexActionManipulation)task).getListMaterialProd() ;
               int nbMat = listMaterialProd.size();
               for (int i=0; i<nbMat; i++){
-                  long dbKeyMatProd = listMaterialProd.get(i).getDbKey();
-                  for (int j=0; j<nbT; j++){
-                      if (listTask.get(j) instanceof CopexActionAcquisition || listTask.get(j) instanceof CopexActionChoice || listTask.get(j) instanceof CopexActionManipulation || listTask.get(j) instanceof CopexActionTreatment){
-                          ActionParam[] tabParam = ((CopexActionParam)listTask.get(j)).getTabParam();
-                          for (int k=0; k<tabParam.length; k++){
-                              if (tabParam[k] instanceof ActionParamMaterial){
-                                  if (((ActionParamMaterial)tabParam[k]).getMaterial().getDbKey() == dbKeyMatProd)
-                                      return true;
-                              }
-                          }
+                  if(listMaterialProd.get(i) instanceof Material){
+                    long dbKeyMatProd = ((Material)listMaterialProd.get(i)).getDbKey();
+                    boolean isL=  isMaterialLinked(dbKeyMatProd);
+                    if(isL)
+                        return true;
+                  }else if (listMaterialProd.get(i) instanceof ArrayList){
+                      int nb = ((ArrayList)listMaterialProd.get(i)).size();
+                      for (int k=0; k<nb; k++){
+                          Material m = ((ArrayList<Material>)listMaterialProd.get(i)).get(k);
+                          boolean isL=  isMaterialLinked(m.getDbKey());
+                          if(isL)
+                            return true;
                       }
                   }
               }
@@ -1609,34 +1603,88 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
           return false;
       }
 
+      private boolean isMaterialLinked(long dbKeyMatProd){
+          ArrayList<CopexTask> listTask = proc.getListTask();
+          int nbT = listTask.size();
+          for (int j=0; j<nbT; j++){
+            if (listTask.get(j) instanceof CopexActionAcquisition || listTask.get(j) instanceof CopexActionChoice || listTask.get(j) instanceof CopexActionManipulation || listTask.get(j) instanceof CopexActionTreatment){
+                Object[] tabParam = ((CopexActionParam)listTask.get(j)).getTabParam();
+                for (int k=0; k<tabParam.length; k++){
+                    if (tabParam[k] instanceof ActionParamMaterial){
+                        if (((ActionParamMaterial)tabParam[k]).getMaterial().getDbKey() == dbKeyMatProd)
+                            return true;
+                    }
+                    else if (tabParam[k] instanceof ArrayList){
+                        ArrayList<ActionParam> p = (ArrayList<ActionParam>)tabParam[k];
+                        int np = p.size();
+                        for (int l=0; l<np; l++){
+                            if(p.get(l) instanceof ActionParamMaterial && ((ActionParamMaterial)p.get(l)).getMaterial().getDbKey() == dbKeyMatProd)
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+      }
+
+
        /* retourne vrai si au moins une  action utilise la data produite par cette tache */
       private boolean isActionLinkedByData(CopexTask task){
           if (task instanceof CopexActionTreatment || task instanceof CopexActionAcquisition){
               ArrayList<CopexTask> listTask = proc.getListTask();
               int nbT = listTask.size();
-              ArrayList<QData> listDataProd = new ArrayList();
+              ArrayList<Object> listDataProd = new ArrayList();
               if (task instanceof CopexActionAcquisition)
                   listDataProd = ((CopexActionAcquisition)task).getListDataProd() ;
               else if (task instanceof CopexActionTreatment)
                   listDataProd = ((CopexActionTreatment)task).getListDataProd() ;
               int nbData = listDataProd.size();
               for (int i=0; i<nbData; i++){
-                  long dbKeyDataProd = listDataProd.get(i).getDbKey();
-                  for (int j=0; j<nbT; j++){
-                      if (listTask.get(j) instanceof CopexActionAcquisition || listTask.get(j) instanceof CopexActionChoice || listTask.get(j) instanceof CopexActionManipulation || listTask.get(j) instanceof CopexActionTreatment){
-                          ActionParam[] tabParam = ((CopexActionParam)listTask.get(j)).getTabParam();
-                          for (int k=0; k<tabParam.length; k++){
-                              if (tabParam[k] instanceof ActionParamData){
-                                  if (((ActionParamData)tabParam[k]).getData().getDbKey() == dbKeyDataProd)
-                                      return true;
-                              }
-                          }
+                  if(listDataProd.get(i) instanceof QData){
+                    long dbKeyDataProd = ((QData)listDataProd.get(i)).getDbKey();
+                    boolean isL=  isDataLinked(dbKeyDataProd);
+                    if(isL)
+                        return true;
+                  }else if (listDataProd.get(i) instanceof ArrayList){
+                      int nb = ((ArrayList)listDataProd.get(i)).size();
+                      for (int k=0; k<nb; k++){
+                          QData m = ((ArrayList<QData>)listDataProd.get(i)).get(k);
+                          boolean isL=  isDataLinked(m.getDbKey());
+                          if(isL)
+                            return true;
                       }
                   }
               }
           }
           return false;
       }
+
+      private boolean isDataLinked(long dbKeyDataProd){
+          ArrayList<CopexTask> listTask = proc.getListTask();
+          int nbT = listTask.size();
+          for (int j=0; j<nbT; j++){
+            if (listTask.get(j) instanceof CopexActionAcquisition || listTask.get(j) instanceof CopexActionChoice || listTask.get(j) instanceof CopexActionManipulation || listTask.get(j) instanceof CopexActionTreatment){
+                Object[] tabParam = ((CopexActionParam)listTask.get(j)).getTabParam();
+                for (int k=0; k<tabParam.length; k++){
+                    if (tabParam[k] instanceof ActionParamData){
+                        if (((ActionParamData)tabParam[k]).getData().getDbKey() == dbKeyDataProd)
+                            return true;
+                    }
+                    else if (tabParam[k] instanceof ArrayList){
+                        ArrayList<ActionParam> p = (ArrayList<ActionParam>)tabParam[k];
+                        int np = p.size();
+                        for (int l=0; l<np; l++){
+                            if(p.get(l) instanceof ActionParamData && ((ActionParamData)p.get(l)).getData().getDbKey() == dbKeyDataProd)
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+      }
+
 
       /* retourne vrai si le deplacement du sous arbre pose probleme du point de vue du material produit */
     public  boolean isProblemWithMaterialProd(CopexTreeNode insertNode, SubTree subTreeToMove){
@@ -1647,13 +1695,26 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         int nbT = listTaskToMove.size();
         for (int i=0; i<nbT; i++){
             if (listTaskToMove.get(i) instanceof CopexActionAcquisition || listTaskToMove.get(i) instanceof CopexActionChoice || listTaskToMove.get(i) instanceof CopexActionManipulation ||listTaskToMove.get(i) instanceof CopexActionTreatment ){
-                ActionParam[] tabParam = ((CopexActionParam)listTaskToMove.get(i)).getTabParam();
+                Object[] tabParam = ((CopexActionParam)listTaskToMove.get(i)).getTabParam();
                 for (int j=0; j<tabParam.length; j++){
                     if (tabParam[j] instanceof ActionParamMaterial){
                         long dbKeyMaterialUse = ((ActionParamMaterial)tabParam[j]).getMaterial().getDbKey();
                         if(!edP.isMaterialFromMission(dbKeyMaterialUse)){
                             if (!isMaterialCreateInList(dbKeyMaterialUse, listTaskBefore)){
                                 return true;
+                            }
+                        }
+                    }else if (tabParam[j] instanceof ArrayList){
+                        ArrayList<ActionParam> p = (ArrayList<ActionParam>)tabParam[j];
+                        int np = p.size();
+                        for (int k=0; k<np; k++){
+                            if (p.get(k) instanceof ActionParamMaterial){
+                                long dbKeyMaterialUse = ((ActionParamMaterial)p.get(k)).getMaterial().getDbKey();
+                                if(!edP.isMaterialFromMission(dbKeyMaterialUse)){
+                                    if (!isMaterialCreateInList(dbKeyMaterialUse, listTaskBefore)){
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1672,13 +1733,24 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         int nbT = listTaskToMove.size();
         for (int i=0; i<nbT; i++){
             if (listTaskToMove.get(i) instanceof CopexActionAcquisition || listTaskToMove.get(i) instanceof CopexActionChoice || listTaskToMove.get(i) instanceof CopexActionManipulation ||listTaskToMove.get(i) instanceof CopexActionTreatment ){
-                ActionParam[] tabParam = ((CopexActionParam)listTaskToMove.get(i)).getTabParam();
+                Object[] tabParam = ((CopexActionParam)listTaskToMove.get(i)).getTabParam();
                 for (int j=0; j<tabParam.length; j++){
                     if (tabParam[j] instanceof ActionParamData){
                         long dbKeyDataUse = ((ActionParamData)tabParam[j]).getData().getDbKey();
                         if (!isDataCreateInList(dbKeyDataUse, listTaskBefore)){
                                 return true;
                             }
+                    }else if (tabParam[j] instanceof ArrayList){
+                        ArrayList<ActionParam> p = (ArrayList<ActionParam>)tabParam[j];
+                        int np = p.size();
+                        for (int k=0; k<np; k++){
+                            if (p.get(k) instanceof ActionParamData){
+                                long dbKeyDataUse = ((ActionParamData)p.get(k)).getData().getDbKey();
+                                if (!isDataCreateInList(dbKeyDataUse, listTaskBefore)){
+                                    return true;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1693,11 +1765,19 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         int nbT = listTask.size();
         for (int i=0; i<nbT; i++){
             if (listTask.get(i) instanceof CopexActionManipulation){
-                ArrayList<Material> listMaterialProd = ((CopexActionManipulation)listTask.get(i)).getListMaterialProd();
+                ArrayList<Object> listMaterialProd = ((CopexActionManipulation)listTask.get(i)).getListMaterialProd();
                 int nbMP = listMaterialProd.size();
                 for (int j=0; j<nbMP; j++){
-                    if (listMaterialProd.get(j).getDbKey() == dbKeyMaterial)
-                        return true;
+                    if(listMaterialProd.get(j) instanceof Material){
+                        if (((Material)listMaterialProd.get(j)).getDbKey() == dbKeyMaterial)
+                            return true;
+                    }else if (listMaterialProd.get(j) instanceof ArrayList){
+                        int nb = ((ArrayList)listMaterialProd.get(j)).size();
+                        for (int k=0; k<nb; k++){
+                            if (((ArrayList<Material>)listMaterialProd.get(j)).get(k).getDbKey() == dbKeyMaterial)
+                                return true;
+                        }
+                    }
                 }
             }
         }
@@ -1709,15 +1789,23 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         int nbT = listTask.size();
         for (int i=0; i<nbT; i++){
             if (listTask.get(i) instanceof CopexActionAcquisition || listTask.get(i) instanceof CopexActionTreatment){
-                ArrayList<QData> listDataProd = new ArrayList();
+                ArrayList<Object> listDataProd = new ArrayList();
                 if (listTask.get(i) instanceof CopexActionAcquisition)
                     listDataProd = ((CopexActionAcquisition)listTask.get(i)).getListDataProd();
                 else if (listTask.get(i) instanceof CopexActionTreatment)
                     listDataProd = ((CopexActionTreatment)listTask.get(i)).getListDataProd();
                 int nbDP = listDataProd.size();
                 for (int j=0; j<nbDP; j++){
-                    if (listDataProd.get(j).getDbKey() == dbKeyData)
-                        return true;
+                    if(listDataProd.get(j) instanceof QData){
+                        if (((QData)listDataProd.get(j)).getDbKey() == dbKeyData)
+                            return true;
+                    }else if (listDataProd.get(j) instanceof ArrayList){
+                        int nb = ((ArrayList)listDataProd.get(j)).size();
+                        for (int k=0; k<nb; k++){
+                            if (((ArrayList<QData>)listDataProd.get(j)).get(k).getDbKey() == dbKeyData)
+                                return true;
+                        }
+                    }
                 }
             }
         }

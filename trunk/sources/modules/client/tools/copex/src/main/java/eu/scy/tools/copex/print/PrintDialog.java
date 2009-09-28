@@ -93,8 +93,8 @@ public class PrintDialog extends JDialog {
             }
         });
 
-        labelPrint.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelPrint.setText(edP.getBundleString("LABEL_PRINT")+" :");
+        labelPrint.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelPrint.setText(edP.getBundleString("LABEL_PRINT"));
         labelPrint.setName("labelPrint"); // NOI18N
 
         cbProc.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -112,7 +112,7 @@ public class PrintDialog extends JDialog {
         cbComments.setText(edP.getBundleString("LABEL_COMMENTS_PROC"));
         cbComments.setName("cbComments"); // NOI18N
 
-        cbDataSheet.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cbDataSheet.setFont(new java.awt.Font("Tahoma", 1, 11));
         cbDataSheet.setText(edP.getBundleString("LABEL_PRINT_DATASHEET"));
         cbDataSheet.setEnabled(false);
         cbDataSheet.setName("cbDataSheet"); // NOI18N

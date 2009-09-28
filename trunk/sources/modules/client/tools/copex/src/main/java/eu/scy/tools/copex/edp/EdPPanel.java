@@ -6,81 +6,53 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.common.*;
-import eu.scy.tools.copex.controller.CopexControllerAppletDB;
 import eu.scy.tools.copex.controller.ControllerInterface;
-import eu.scy.tools.copex.controller.CopexController;
-import eu.scy.tools.copex.controller.CopexControllerDB;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.print.PrintDialog;
 import eu.scy.tools.copex.utilities.*;
 import java.awt.*;
 import java.io.File;
-import java.net.URL;
-import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
 import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 /**
- * main edp panel
+ * panel copex : menu and tree
  * @author Marjolaine
  */
 public class EdPPanel extends JPanel {
-    // CONSTANTES
-    /* activation de l'ajout de protocole */
-    public  static boolean CAN_ADD_PROC = true;
-    /* activation des cellules editables dans le dataSheet */
-    public  static boolean CAN_EDIT_DATASHEET = true;
-    /*panel size*/
-    public final static int PANEL_WIDTH = 550;
-    public final static int PANEL_HEIGHT = 370;
-
-    /* version */
-    private String version = "Version 1.2.1";
-    protected ControllerInterface controller;
-    public final static Color backgroundColor = SystemColor.control;
-    /* locale */
-    protected Locale locale ;
-    /* ressource bundle */
-    protected ResourceBundle bundle;
-    /* images de l'editeur */
-    private ArrayList<CopexImage> listImage;
-    /* identifiant user */
-    protected String idUser;
-    /* identifiant mission */
-    protected long dbKeyMission;
-    /* mode de l'applet */
-    protected int mode;
-    /* nom de l'utilisateur */
-    protected String userName;
-    /* prenom de l'utilisateur */
-    protected String firstName;
-    
-    
+    private CopexPanel copexPanel;
+    private ControllerInterface controller;
     // mission
     private CopexMission mission = null;
-    // liste des protocoles ouverts
-    private ArrayList<LearnerProcedure> listProc = null;
+    // proc
+    private LearnerProcedure proc = null;
+    private CopexTree copexTree;
     /* liste protocole initial */
     private ArrayList<InitialProcedure> listInitProc = null;
-    // protocole actif
-    private LearnerProcedure procActiv = null;
-    /* mode d'affichage des commentaires */
-    private char modeComments = MyConstants.COMMENTS;
+   
     /* liste des grandeurs physiques */
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
 
-
+    private File lastUsedFile = null;
+    private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+    
+     /* mode d'affichage des commentaires */
+    private char modeComments = MyConstants.COMMENTS;
     /* level affiche */
     private int levelMenu = 1;
+
 
     /* elements copies */
     private SubTree subTreeCopy;
     /* panel */
+    private JPanel backgroundPanel;
     private JPanel panelRight;
     private JPanel panelLeft ;
-    /* bordure */
-    private BorderPanel backgroundPanel;
 
     // boutons du menu
     private JMenuBar menuBar ;
@@ -88,6 +60,7 @@ public class EdPPanel extends JPanel {
     private JSeparator sep2;
     private JSeparator sep3;
     private JSeparator sep4;
+    private JSeparator sep5;
     private MyMenu menuArbo = null;
     private MyMenuItem menuItem1 = null;
     private MyMenuItem menuItem2 = null;
@@ -110,8 +83,8 @@ public class EdPPanel extends JPanel {
     private MyMenuItem menuItemSuppr = null;
     private MyMenuItem menuItemPrint = null;
     private MyMenuItem menuItemHelp = null;
+    private MyMenuItem menuItemSave = null;
 
-    //
     private JSplitPane splitPaneFrame = null;
     // panel de droite
     private JLayeredPane layeredPane = null;
@@ -120,52 +93,50 @@ public class EdPPanel extends JPanel {
     private MySeparator sepMaterial = null;
     private MySeparator sepDataSheet = null;
     // panel de gauche
-    private CopexTabbedPane tabbedPaneProc = null;
     private JScrollPane scrollPaneTabbedPane = null;
 
-    /* liste des images des taches */
-    private ArrayList<CopexImage> listTaskImage;
+   
 
     /* chemin fichier export datasheet */
     private String currentExportPath = null;
 
-    private boolean openQuestionDialog;
 
     /* action du panel*/
     private EdPAction action;
 
-    public EdPPanel(){
-        this.idUser = "1";
-        this.dbKeyMission = 1;
-        this.mode = MyConstants.COPEX_MODE;
-        this.userName = "";
-        this.firstName = "";
-        this.listTaskImage = new ArrayList();
-        initEdP(null, null);
+    public EdPPanel(CopexPanel copexPanel, LearnerProcedure proc, ControllerInterface controller, CopexMission mission , ArrayList<InitialProcedure> listInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity) {
+        super();
+        this.copexPanel = copexPanel;
+        this.proc = proc;
+        this.controller = controller;
+        this.mission = mission;
+        this.listInitProc = listInitProc;
+        this.listPhysicalQuantity = listPhysicalQuantity;
+        initGUI();
     }
 
 
-    public EdPPanel(CopexApplet applet, String idUser, long dbKeyMission, int mode, String userName, String firstName) {
-        this.idUser = idUser;
-        this.dbKeyMission = dbKeyMission;
-        this.mode = mode;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.listTaskImage = new ArrayList();
-        initEdP(applet, null);
-    }
-
-    public EdPPanel(URL copexURL, String idUser, long dbKeyMission, int mode, String userName, String firstName) {
-        this.idUser = idUser;
-        this.dbKeyMission = dbKeyMission;
-        this.mode = mode;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.listTaskImage = new ArrayList();
-        initEdP(null, copexURL);
+    private void initGUI(){
+       setLayout(new BorderLayout());
+       setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
+       initCopex();
+       setMenuBar();
+       setPanels();
+       if(isMaterialAvailable()){
+            panelMaterial.setPanelDetailsShown();
+            panelMaterial.setButtonEnabled(true);
+       }
+       if (this.controller.useDataSheet())
+           panelDataSheet.setPanelDetailsShown();
+       updateMenu();
+       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
 
+
+    public String getVersion(){
+        return copexPanel.getVersion();
+    }
      /**
     * Instancie l'objet EdPAction.
     * @param action EdPAction
@@ -175,228 +146,28 @@ public class EdPPanel extends JPanel {
     }
 
     public  ImageIcon getCopexImage(String img){
-        ImageIcon imgIcon = new ImageIcon(getClass().getResource( "/" +img));
-        if (imgIcon == null){
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_IMAGE")+img, false), getBundleString("TITLE_DIALOG_ERROR"));
-            return null;
-        }else
-            return imgIcon;
+        return copexPanel.getCopexImage(img);
     }
     
     /* affichage des erreurs*/
     public boolean displayError(CopexReturn dr, String title) {
-        if (dr.mustConfirm ()){
-            int erreur = JOptionPane.showConfirmDialog(this ,dr.getText() , title,JOptionPane.OK_CANCEL_OPTION);
-            if (erreur == JOptionPane.OK_OPTION)
-		return true;
-
-
-	}else if (dr.isError()){
-            JOptionPane.showMessageDialog(this ,dr.getText() , title,JOptionPane.ERROR_MESSAGE);
-
-
-	}else if (dr.isWarning()){
-            JOptionPane.showMessageDialog(this ,dr.getText() , title,JOptionPane.WARNING_MESSAGE);
-
-	}
-        return false;
+        return copexPanel.displayError(dr, title);
     }
     /* retourne un message selon cle*/
     public String getBundleString(String key){
-        String s = getBundleStringKey(key);
-        if(s == null){
-            try{
-                String msg = this.bundle.getString("ERROR_KEY");
-                msg = CopexUtilities.replace(msg, 0, key);
-                displayError(new CopexReturn(msg, false) , this.bundle.getString("TITLE_DIALOG_ERROR"));
-            }catch(Exception e2){
-                System.out.println("No message found : "+key);
-                displayError(new CopexReturn("No message found !", false) ,"ERROR");
-             }
-        }
-        return s;
+        return copexPanel.getBundleString(key);
     }
-
-    /* retourne un message selon cle*/
-    public String getBundleStringKey(String key){
-        String s = "";
-        try{
-            s = this.bundle.getString(key);
-            return s;
-        }catch(Exception e){
-            return null;
-        }
-    }
-
 
     
     /**
      * retourne l'image de la tache correspondant au nom
      */
     public  Image getTaskImage(String img){
-        if (img == null || img.equals(""))
-            return null;
-       int nbImg = listTaskImage.size();
-       for(int i=0; i<nbImg; i++){
-           if (listTaskImage.get(i).getImgName().equals(img)){
-               return listTaskImage.get(i).getImg();
-           }
-       }
-      displayError(new CopexReturn(getBundleString("MSG_ERROR_IMAGE")+img, false), getBundleString("TITLE_DIALOG_ERROR"));
-       return null;
+        return copexPanel.getTaskImage(img);
     }
 
-    /**
-     * initialisation de l'applet
-     */
-    public void initEdP(CopexApplet applet, URL url){
-        setLayout(new BorderLayout());
-        // i18n
-        locale = Locale.getDefault();
-        locale = new Locale("en", "GB");
-        try{
-            this.bundle = ResourceBundle.getBundle("CopexBundle", locale);
-        }catch(MissingResourceException e){
-          try{
-              // par defaut on prend l'anglais
-              locale = new Locale("en", "GB");
-              bundle = ResourceBundle.getBundle("CopexBundle");
-          }catch (MissingResourceException e2){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR lors du chargement de copex, la langue specifiee "+locale+" n'existe pas : "+e);
-            displayError(new CopexReturn("ERREUR lors du chargement de copex : "+e, false), "ERROR LANGUAGE");
-            return;
-            }
-        }
-      // Initialisation du look and feel
-        try{
-            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(myLookAndFeel);
-        }catch(Exception e){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
-            JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
-        }
-      setSize(PANEL_WIDTH, PANEL_HEIGHT);
-      initPanel() ;
-      setCursor(new Cursor(Cursor.WAIT_CURSOR));
-      if(applet == null)
-        if(url != null){
-            this.controller = new CopexControllerDB(this, url);
-        }else
-            this.controller = new CopexController(this) ;
-      else{
-          this.controller = new CopexControllerAppletDB(this, applet);
-      }
-      //long dbKeyUser = 1;
-      //long dbKeyMission = 1;
-      listProc = new ArrayList();
-      procActiv = null;
-      mission = null;
-      setMenuBar();
-      setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-      displayPanelRightComponent("initEdp");
-    }
-
-    /* affichage composants */
-    private void displayPanelRightComponent(String txt){
-//        System.out.println("****"+txt);
-//        if (panelRight != null){
-//            int nb = panelRight.getComponentCount();
-//            System.out.println("nb Composants : "+nb);
-//            for (int i=0; i<nb; i++){
-//                System.out.println("comp "+i+" :"+panelRight.getComponent(i) == null ?"" : panelRight.getComponent(i).getName());
-//                System.out.println(panelRight.getComponent(i).getClass());
-//            }
-//        }
-//        System.out.println("**************");
-    }
-
-    /* chargement des donnees */
-    public void loadData(){
-      setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // appel au noyau : chargement des donnees
-      String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
-      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, logFileName);
-      if (cr.isError()){
-          setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          System.out.println("erreur chargement des donnees ....");
-          displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-          this.stop();
-      }
-      setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-    }
-
-    /* initialisation de l'application avec les donnees */
-    public void initEdp(CopexMission mission, ArrayList<LearnerProcedure> listProc, ArrayList<InitialProcedure> listInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity) {
-       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // mise a jour des donnees :
-       this.mission = mission;
-       this.listProc = listProc;
-       this.listInitProc = listInitProc ;
-       this.listPhysicalQuantity = listPhysicalQuantity ;
-       // determine le proc actif:
-       for (Iterator iter=listProc.iterator();iter.hasNext();){
-           LearnerProcedure p = (LearnerProcedure)iter.next();
-           if (p.isActiv(mission)){
-               this.procActiv = p;
-               break;
-           }
-       }
-       // mise a jour graphique
-       setPanels();
-       if(isMaterialAvailable()){
-            panelMaterial.setPanelDetailsShown();
-            panelMaterial.setButtonEnabled(true);
-       }else{
-           //panelMaterial.setPanelDetailsHide();
-           // panelMaterial.setButtonEnabled(false);
-       }
-       if (this.controller.useDataSheet())
-           panelDataSheet.setPanelDetailsShown();
-       if(! canAddProc())
-            getTabbedPaneProc().setAddProcDisabled();
-       getTabbedPaneProc().beginRegister();
-       JScrollBar vsb = this.scrollPaneTabbedPane.getVerticalScrollBar() ;
-       this.scrollPaneTabbedPane.getVerticalScrollBar().setValues(0, getTabbedPaneProc().getHeight(), 0, vsb.getMaximum());
-       updateMenu();
-       // augmente temps d'affichage du tooltiptext
-       ToolTipManager.sharedInstance().setDismissDelay(10000);
-       ToolTipManager.sharedInstance().setInitialDelay(0);
-       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-       //if(openQuestionDialog )
-       //     openQuestionDialog();
-       Enumeration<Object> list =  UIManager.getDefaults().keys();
-       for (Enumeration e = list ; e.hasMoreElements() ;) {
-            Object o = e.nextElement();
-            //if(o.toString().startsWith("Tree"))
-             //   System.out.println(o.toString());
-     }
-    displayPanelRightComponent("fin loadData");
-    }
-
-
-    /* maj des donnees */
-    public void updateMission(CopexMission mission, ArrayList<LearnerProcedure> listProc, ArrayList<InitialProcedure> listInitProc){
-        // mise a jour des donnees :
-       this.mission = mission;
-       this.listProc = listProc;
-       this.listInitProc = listInitProc ;
-    }
-
-
-    /*retourne la version */
-    public String getVersion(){
-        return this.version ;
-    }
-
-    /* double clic sur l'onglet */
-    public void doubleClickTab(CopexTabbedPane tabbedPane, CloseTab closeTab){
-        if (tabbedPane instanceof CopexTabbedPane){
-            // ouverture de dialog permettant de renommer un proc
-            openDialogEditProc();
-        }
-    }
+  
+    
 
     /*
      * retourne le controleur
@@ -405,14 +176,7 @@ public class EdPPanel extends JPanel {
         return this.controller;
     }
     
-    /* mise en place d'une bordure */
-    private void setBorder(){
-        backgroundPanel = new BorderPanel();
-        backgroundPanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
-        add(backgroundPanel, BorderLayout.CENTER);
-    }
-
-
+    
     /**
      * initialisation de la barre de menu
      */
@@ -422,6 +186,10 @@ public class EdPPanel extends JPanel {
         this.menuBar.setSize(this.getWidth(), 28);
         //this.menuBar.setBackground(backgroundColor);
         this.menuBar.setPreferredSize(this.menuBar.getSize());
+        if(copexPanel.canSave()){
+            menuBar.add(getMenuItemSave());
+            menuBar.add(getSep5());
+        }
         menuBar.add(getMenuItemAddQ());
         menuBar.add(getMenuItemAddE());
         menuBar.add(getMenuItemAddA());
@@ -437,16 +205,16 @@ public class EdPPanel extends JPanel {
         menuBar.add(getMenuItemUndo());
         menuBar.add(getMenuItemRedo());
         menuBar.add(getSep4());
-        menuBar.add(getMenuItemPrint());
+        if(copexPanel.canPrint())
+            menuBar.add(getMenuItemPrint());
         menuBar.add(getMenuItemHelp());
         menuBar.setBounds(0, 0, this.getWidth(), menuBar.getHeight());
-        backgroundPanel.add(menuBar, BorderLayout.NORTH);
+        this.add(menuBar, BorderLayout.NORTH);
     }
 
     private JSeparator getSep1(){
         if (sep1 == null){
             sep1 = new JSeparator(JSeparator.VERTICAL);
-            sep1.setBackground(Color.DARK_GRAY);
             sep1.setBounds(menuItemSuppr.getX()+menuItemSuppr.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep1;
@@ -454,7 +222,6 @@ public class EdPPanel extends JPanel {
     private JSeparator getSep2(){
         if (sep2 == null){
             sep2 = new JSeparator(JSeparator.VERTICAL);
-            sep2.setBackground(Color.DARK_GRAY);
             sep2.setBounds(menuItemPaste.getX()+menuItemPaste.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep2;
@@ -462,7 +229,6 @@ public class EdPPanel extends JPanel {
     private JSeparator getSep3(){
         if (sep3 == null){
             sep3 = new JSeparator(JSeparator.VERTICAL);
-            sep3.setBackground(Color.DARK_GRAY);
             sep3.setBounds(menuItemComm.getX()+menuItemComm.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep3;
@@ -470,15 +236,33 @@ public class EdPPanel extends JPanel {
     private JSeparator getSep4(){
         if (sep4 == null){
             sep4 = new JSeparator(JSeparator.VERTICAL);
-            sep4.setBackground(Color.DARK_GRAY);
             sep4.setBounds(menuItemRedo.getX()+menuItemRedo.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep4;
     }
+    private JSeparator getSep5(){
+        if (sep5 == null){
+            sep5 = new JSeparator(JSeparator.VERTICAL);
+            sep5.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
+        }
+        return sep5;
+    }
+    private MyMenuItem getMenuItemSave(){
+        if (menuItemSave == null){
+            menuItemSave = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
+            menuItemSave.setBounds(0, 0, menuItemSave.getWidth(), menuItemSave.getHeight());
+        }
+        return menuItemSave;
+    }
+
     private MyMenuItem getMenuItemAddQ(){
         if (menuItemAddQ == null){
             menuItemAddQ = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_ADDQ"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_question.png"), getCopexImage("Bouton-AdT-28_question_surv.png"),  getCopexImage("Bouton-AdT-28_question_clic.png"), getCopexImage("Bouton-AdT-28_question_gris.png"));
-            menuItemAddQ.setBounds(0, 0, menuItemAddQ.getWidth(), menuItemAddQ.getHeight());
+            int x = 0;
+            if(copexPanel.canSave()){
+                x = sep5.getX()+sep5.getWidth();
+            }
+            menuItemAddQ.setBounds(x, 0, menuItemAddQ.getWidth(), menuItemAddQ.getHeight());
         }
         return menuItemAddQ;
     }
@@ -509,7 +293,7 @@ public class EdPPanel extends JPanel {
     }
      private MyMenuItem getMenuItemComm(){
         if (menuItemComm == null){
-            menuItemComm = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment-yes.png"), getCopexImage("Bouton-AdT-28_comment-yes_s.png"), getCopexImage("Bouton-AdT-28_comment-yes_c.png"), getCopexImage("Bouton-AdT-28_comment-no.png"));
+            menuItemComm = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_clicsur.png"), getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment.png"));
             menuItemComm.setBounds(menuArbo.getX()+menuArbo.getWidth(), 0, menuItemComm.getWidth(), menuItemComm.getHeight());
         }
         return menuItemComm;
@@ -532,7 +316,10 @@ public class EdPPanel extends JPanel {
      private MyMenuItem getMenuItemHelp(){
         if (menuItemHelp == null){
             menuItemHelp = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
-            menuItemHelp.setBounds(menuItemPrint.getX()+menuItemPrint.getWidth(), 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
+            int x = sep4.getX()+sep4.getWidth();
+            if(copexPanel.canPrint())
+                x = menuItemPrint.getX()+menuItemPrint.getWidth();
+            menuItemHelp.setBounds(x, 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
         }
         return menuItemHelp;
     }
@@ -694,7 +481,7 @@ public class EdPPanel extends JPanel {
         setPanelLeft();
         setPanelRight();
         splitPaneFrame = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, panelLeft, panelRight);
-        splitPaneFrame.setBounds(0, this.menuBar.getHeight(), this.getWidth(), this.getHeight()-this.menuBar.getHeight());
+        //splitPaneFrame.setBounds(0, this.menuBar.getHeight(), this.getWidth(), this.getHeight()-this.menuBar.getHeight());
         splitPaneFrame.setOneTouchExpandable(true);
         splitPaneFrame.setDividerLocation(this.getWidth()*2/3);
         splitPaneFrame.setDividerSize(10);
@@ -708,17 +495,6 @@ public class EdPPanel extends JPanel {
      * initialisation panel droite : materiel + datasheet
      */
     private void setPanelRight(){
-        /*layeredPane = new JLayeredPane();
-        this.panelRight.setBounds(this.panelLeft.getWidth(), this.menuBar.getHeight(), this.getWidth()/3, this.getHeight()-this.menuBar.getHeight());
-        layeredPane.add(getPanelMaterial(),0);
-        layeredPane.setPreferredSize(getPanelMaterial().getPreferredSize());
-        layeredPane.setSize(getPanelMaterial().getPreferredSize());
-        layeredPane.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
-        this.panelRight.add(layeredPane);
-        sepMaterial = new MySeparator(this.panelRight.getWidth());
-        sepMaterial.setBounds(0, layeredPane.getHeight(), sepMaterial.getWidth(), sepMaterial.getHeight());
-        this.panelRight.add(sepMaterial);
-         */
         this.panelRight.setBounds(this.panelLeft.getWidth(), this.menuBar.getHeight(), this.getWidth()/3, this.getHeight()-this.menuBar.getHeight());
         if(isMaterialAvailable()){
             getPanelMaterial();
@@ -750,46 +526,23 @@ public class EdPPanel extends JPanel {
      */
     private void setPanelLeft(){
         this.panelLeft.setBounds(0, this.menuBar.getHeight(), this.getWidth()*2/3,this.getHeight()-this.menuBar.getHeight() );
-        //this.panelLeft.setMaximumSize(new Dimension(0, 0));
         getScrollPaneTabbedPane();
         this.panelLeft.add(this.scrollPaneTabbedPane);
-        // on ajoute les protocoles
-        int size = listProc.size();
-        LearnerProcedure procActif = null;
-        for (int i=0;i< size; i++){
-            LearnerProcedure p = (LearnerProcedure)listProc.get(i);
-           if (p != null){
-                addProc(p, false);
-                if (p.isActiv(this.mission))
-                    procActif = p;
-           }
-        }
-        // proc actif
-        if (procActif != null){
-            getTabbedPaneProc().setSelected(procActif);
-        }
-
     }
+
     private JScrollPane getScrollPaneTabbedPane(){
         if (scrollPaneTabbedPane == null){
-            scrollPaneTabbedPane = new JScrollPane(getTabbedPaneProc());
+            scrollPaneTabbedPane = new JScrollPane(getCopexTree());
             scrollPaneTabbedPane.setBounds(0, 0, panelLeft.getWidth(), panelLeft.getHeight());
         }
         return scrollPaneTabbedPane;
-    }
-    private CopexTabbedPane getTabbedPaneProc(){
-        if (tabbedPaneProc == null){
-            tabbedPaneProc = new CopexTabbedPane(this);
-            //tabbedPaneProc.setBounds(0, 0, panelLeft.getWidth(), panelLeft.getHeight());
-        }
-        return tabbedPaneProc;
     }
     /*
      * construction du panel materiel
      */
     private CopexPanelHideShow getPanelMaterial(){
         if (panelMaterial == null){
-           panelMaterial = new MaterialPanel(this, this.panelRight, this.layeredPane, procActiv == null ? new ArrayList() : procActiv.getInitialProc().getListMaterial(), procActiv == null ? new ArrayList() :procActiv.getListMaterialUse(), procActiv == null ? MyConstants.NONE_RIGHT : procActiv.getRight() );
+           panelMaterial = new MaterialPanel(this, this.panelRight, this.layeredPane, proc == null ? new ArrayList() : proc.getInitialProc().getListMaterial(), proc == null ? new ArrayList() :proc.getListMaterialUse(), proc == null ? MyConstants.NONE_RIGHT : proc.getRight() );
            panelMaterial.setName("panelMaterial");
         }
         return panelMaterial;
@@ -803,8 +556,8 @@ public class EdPPanel extends JPanel {
         if (panelDataSheet == null){
             panelDataSheet = new DataSheetPanel(this, this.panelRight);
             panelDataSheet.setName("panelDataSheet");
-            if (this.procActiv != null){
-                panelDataSheet.setDataSheet(procActiv.getDataSheet());
+            if (this.proc != null){
+                panelDataSheet.setDataSheet(proc.getDataSheet());
 
             }
             panelDataSheet.setBounds(0, y, panelDataSheet.getWidth(), panelDataSheet.getHeight());
@@ -814,11 +567,18 @@ public class EdPPanel extends JPanel {
 
 
 
+    private CopexTree getCopexTree(){
+        if(copexTree == null){
+            copexTree = new CopexTree(this, proc, proc.getInitialProc(), controller, this.getWidth());
+
+        }
+        return copexTree;
+    }
     /*
      * mise a jour du menu
      */
    public void updateMenu(){
-       if (procActiv == null){
+       if (proc == null){
         // pas de protocole actif => on grise les menus
            getMenuItemAddQ().setEnabled(false);
            getMenuItemAddE().setEnabled(false);
@@ -831,34 +591,36 @@ public class EdPPanel extends JPanel {
            getMenuItemCut().setEnabled(false);
            getMenuItemCopy().setEnabled(false);
            getMenuItemPaste().setEnabled(false);
-           getMenuItemPrint().setEnabled(false);
+           if(copexPanel.canPrint())
+                getMenuItemPrint().setEnabled(false);
        }else{ // un protocole est actif :
            // ajout d'une sous-question : si un element est selectionne et possible d'ajouter une sous question
-           getMenuItemAddQ().setEnabled(getTabbedPaneProc().canAddQ());
+           getMenuItemAddQ().setEnabled(copexTree.canAddQ());
            // ajout d'une etape : si un element de l'arbre est sel
-           getMenuItemAddE().setEnabled(getTabbedPaneProc().canAddE());
+           getMenuItemAddE().setEnabled(copexTree.canAddE());
            // ajout d'une action : si un element de l'arbre est sel
-           getMenuItemAddA().setEnabled(getTabbedPaneProc().canAddA());
+           getMenuItemAddA().setEnabled(copexTree.canAddA());
            // arbor : mise a jour du menu / arbo du protocole
            getMenuArbo().setEnabled(true);
            updateMenuArbo();
            // commentaires
-           getMenuItemComm().setEnabled(getTabbedPaneProc().isComments());
+           getMenuItemComm().setEnabled(copexTree.isComments());
            // undo
-            getMenuItemUndo().setEnabled(getTabbedPaneProc().canUndo());
+            getMenuItemUndo().setEnabled(copexTree.canUndo());
            // redo
-           getMenuItemRedo().setEnabled(getTabbedPaneProc().canRedo());
+           getMenuItemRedo().setEnabled(copexTree.canRedo());
            // cut :
-           getMenuItemCut().setEnabled(getTabbedPaneProc().canCut());
+           getMenuItemCut().setEnabled(copexTree.canCut());
            // copy
-           getMenuItemCopy().setEnabled(getTabbedPaneProc().canCopy());
+           getMenuItemCopy().setEnabled(copexTree.canCopy());
            // paste
-           boolean canPaste = getTabbedPaneProc().canPaste();
+           boolean canPaste = copexTree.canPaste();
            getMenuItemPaste().setEnabled(canPaste);
            // suppr
-           getMenuItemSuppr().setEnabled(getTabbedPaneProc().canSuppr());
+           getMenuItemSuppr().setEnabled(copexTree.canSuppr());
            // print
-           getMenuItemPrint().setEnabled(true);
+           if(copexPanel.canPrint())
+            getMenuItemPrint().setEnabled(true);
        }
        repaint();
    }
@@ -870,7 +632,7 @@ public class EdPPanel extends JPanel {
 
    // mise a jour du menu arbo :
    private void updateMenuArbo(){
-       updateLevel(getTabbedPaneProc().getLevel());
+       updateLevel(copexTree.getLevelTree());
    }
     public void updateLevel(int level){
         // dans le menu arboresence on met jusqu'au niveau demande
@@ -911,67 +673,58 @@ public class EdPPanel extends JPanel {
      * evenement souris
      */
     public void clickMenuEvent(MyMenuItem item){
-        if (item == getMenuItemAddQ()){
-            this.controller.addQuestion();
-        }else if (item == getMenuItemAddE()){
-            this.controller.addEtape();
-        }else if (item == getMenuItemAddA()){
-            this.controller.addAction();
-        }else if (item == getMenuItemPrint()){
-            this.controller.print();
-        }else if (item == getMenuItemComm()){
+        if (item.equals(getMenuItemAddQ())){
+            addQuestion();
+        }else if (item.equals(getMenuItemAddE())){
+            addEtape();
+        }else if (item.equals(getMenuItemAddA())){
+            addAction();
+        }else if (copexPanel.canPrint() && item.equals(getMenuItemPrint())){
+            print();
+        }else if (item.equals(getMenuItemComm())){
             setDisplayComments();
-        }else if (item == getMenuItem1()){
+        }else if (item.equals(getMenuItem1())){
             displayLevel(1);
-        }else if (item == getMenuItem2()){
+        }else if (item.equals(getMenuItem2())){
             displayLevel(2);
-        }else if (item == getMenuItem3()){
+        }else if (item.equals(getMenuItem3())){
             displayLevel(3);
-        }else if (item == getMenuItem4()){
+        }else if (item.equals(getMenuItem4())){
             displayLevel(4);
-        }else if (item == getMenuItem5()){
+        }else if (item.equals(getMenuItem5())){
             displayLevel(5);
-        }else if (item == getMenuItem6()){
+        }else if (item.equals(getMenuItem6())){
             displayLevel(6);
-        }else if (item == getMenuItem7()){
+        }else if (item.equals(getMenuItem7())){
             displayLevel(7);
-        }else if (item == getMenuItem8()){
+        }else if (item.equals(getMenuItem8())){
             displayLevel(8);
-        }else if (item == getMenuItem9()){
+        }else if (item.equals(getMenuItem9())){
             displayLevel(9);
-        }else if (item == getMenuItemSuppr()){
+        }else if (item.equals(getMenuItemSuppr())){
             this.suppr();
-        }else if (item == getMenuItemCopy()){
-            CopexReturn cr = this.controller.copy();
-            if (cr.isError()){
-                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-            }
-        }else if (item == getMenuItemPaste()){
+        }else if (item.equals(getMenuItemCopy())){
+            copy();
+        }else if (item.equals(getMenuItemPaste())){
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            CopexReturn cr = this.controller.paste();
-            if (cr.isError()){
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-            }
+            paste();
              setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }else if (item == getMenuItemCut()){
+        }else if (item.equals(getMenuItemCut())){
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            CopexReturn cr = this.controller.cut();
-            if (cr.isError()){
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-            }
+            cut();
              setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }else if (item.equals(getMenuItemUndo())){
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            getTabbedPaneProc().undo();
+            copexTree.undo();
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }else if (item.equals(getMenuItemRedo())){
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            getTabbedPaneProc().redo();
+            copexTree.redo();
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }else if (item == getMenuItemHelp()){
+        }else if (item.equals(getMenuItemHelp())){
             this.openDialogHelp();
+        }else if(item.equals(menuItemSave)){
+            save();
         }
     }
     
@@ -1001,7 +754,6 @@ public class EdPPanel extends JPanel {
 
     /* ouverture de la fenetre de dialogue permettant la creation d'une etape */
     public void openDialogAddE() {
-        LearnerProcedure proc = getProcActiv();
         if (proc == null)
             return;
         InitialProcedure initProc = proc.getInitialProc() ;
@@ -1010,7 +762,6 @@ public class EdPPanel extends JPanel {
     }
     // ouverture de la fenetre de dialoguer permettant d'ajouter une action
     public void openDialogAddA() {
-        LearnerProcedure proc = getProcActiv();
         if (proc == null)
             return;
         InitialProcedure initProc = proc.getInitialProc() ;
@@ -1036,62 +787,21 @@ public class EdPPanel extends JPanel {
     /* ouverture de la fenetre d'ajout d'un tableau pour resultat */
     public void openDialogDataSheet() {
         DataSheetDialog dataSheetD;
-        procActiv = getProcActiv();
-        if (procActiv != null){
-            DataSheet dataSheet = procActiv.getDataSheet();
+        if (proc != null){
+            DataSheet dataSheet = proc.getDataSheet();
             if (dataSheet == null){
-                dataSheetD = new DataSheetDialog(this, procActiv);
+                dataSheetD = new DataSheetDialog(this, proc);
             }else{
-                dataSheetD = new DataSheetDialog(this, procActiv, dataSheet.getNbRows(), dataSheet.getNbColumns());
+                dataSheetD = new DataSheetDialog(this, proc, dataSheet.getNbRows(), dataSheet.getNbColumns());
             }
             dataSheetD.setVisible(true);
         }
     }
 
-    /* ouverture de la fenetre de dialogue pour fermer un protocole */
-     public void openDialogCloseProc(LearnerProcedure proc) {
-        CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
-        closeD.setVisible(true);
-    }
-
-     /* ouverture de la fenetre de dialogue qui permet de creer un nouveau protocole */
-     public void openDialogAddProc() {
-         if ( !CAN_ADD_PROC)
-             return ;
-         // liste des protocoles a copier :
-         ArrayList v = new ArrayList();
-         CopexReturn cr = this.controller.getListProcToCopyOrOpen(v);
-         if (cr.isError()){
-             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-             return;
-         }
-         ArrayList<LearnerProcedure> listProcOn = (ArrayList)v.get(0);
-         ArrayList<CopexMission> listMission = (ArrayList) v.get(1);
-         ArrayList<ArrayList<LearnerProcedure>> listProcMission = (ArrayList<ArrayList<LearnerProcedure>>) v.get(2);
-         AddProcDialog addProcD = new AddProcDialog(this, this.controller, listProcOn, listMission, listProcMission, listInitProc);
-         addProcD.setVisible(true);
-    }
-
-     /* ajout d'un protocole */
-     public void addProc(LearnerProcedure proc){
-         addProc(proc, true);
-     }
-    /*ajout d'un protocole */
-    private void addProc(LearnerProcedure proc, boolean addList){
-        System.out.println("addProc");
-        if (addList)
-            listProc.add(proc);
-       procActiv = proc;
-       CopexTree treeProc = new CopexTree(this, proc, proc.getInitialProc(), this.controller, this.panelLeft.getWidth());
-       getTabbedPaneProc().addTab(proc.getName(), treeProc);
-       updateMenu();
-    }
+    
 
     // impression
     public void printCopex(boolean printProc, boolean printComments, boolean printDataSheet){
-        LearnerProcedure proc = null;
-        if (printProc)
-            proc = getProcActiv() ;
         CopexReturn cr = controller.printCopex(proc, printComments, printDataSheet);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -1105,28 +815,27 @@ public class EdPPanel extends JPanel {
             case MyConstants.COMMENTS :
                 // on enleve commentaires et on met a jour le bouton du menu
                 modeComments = MyConstants.NO_COMMENTS;
-                getTabbedPaneProc().setComments(modeComments);
-                getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment-no.png"));
-                getMenuItemComm().setItemClicIcon(getCopexImage("Bouton-AdT-28_comment-no_cl.png"));
-                getMenuItemComm().setItemRolloverIcon(getCopexImage("Bouton-AdT-28_comment-no_su.png"));
+                getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment.png"));
+                getMenuItemComm().setItemClicIcon(getCopexImage("Bouton-AdT-28_comment_clic.png"));
+                getMenuItemComm().setItemRolloverIcon(getCopexImage("Bouton-AdT-28_comment_survol.png"));
                 getMenuItemComm().setToolTipText(getBundleString("TOOLTIPTEXT_MENU_COMM"));
                 break;
             case MyConstants.NO_COMMENTS :
                 modeComments = MyConstants.COMMENTS;
-                getTabbedPaneProc().setComments(modeComments);
-                getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment-yes.png"));
-                getMenuItemComm().setItemClicIcon(getCopexImage("Bouton-AdT-28_comment-yes_c.png"));
-                getMenuItemComm().setItemRolloverIcon(getCopexImage("Bouton-AdT-28_comment-yes_s.png"));
+                getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment_clic.png"));
+                getMenuItemComm().setItemClicIcon(getCopexImage("Bouton-AdT-28_comment_clic.png"));
+                getMenuItemComm().setItemRolloverIcon(getCopexImage("Bouton-AdT-28_comment_clicsur.png"));
                 getMenuItemComm().setToolTipText(getBundleString("TOOLTIPTEXT_MENU_NO_COMM"));
                 break;
         }
+        copexTree.setComments(modeComments);
         repaint();
     }
 
     /* ajout d'une nouvelle action */
     public CopexReturn addAction(CopexAction newAction){
         // determine le protocole actif et la position de l'ajout de l'action
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
 
@@ -1136,8 +845,8 @@ public class EdPPanel extends JPanel {
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
         updateProc(newProc);
-        getTabbedPaneProc().addTask(newAction,ts);
-        getTabbedPaneProc().addEdit_addTask(getTabbedPaneProc().getTaskSelected(newAction), ts);
+        copexTree.addTask(newAction,ts);
+        copexTree.addEdit_addTask(copexTree.getTaskSelected(newAction), ts);
         updateMenu();
         return new CopexReturn();
     }
@@ -1145,7 +854,7 @@ public class EdPPanel extends JPanel {
     /* modification action */
     public CopexReturn updateAction(CopexAction newAction){
         // determine le protocole actif et la position de l'ajout de l'action
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null || ts.getSelectedTask() == null)
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_ACTION"), false);
         CopexTask  t = ts.getSelectedTask();
@@ -1156,8 +865,8 @@ public class EdPPanel extends JPanel {
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_ACTION"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        getTabbedPaneProc().updateProc(newProc);
-        getTabbedPaneProc().updateTask(newAction, ts);
+        copexTree.updateProc(newProc);
+        copexTree.updateTask(newAction, ts);
         updateMenu();
         return new CopexReturn();
     }
@@ -1165,7 +874,7 @@ public class EdPPanel extends JPanel {
     /* ajout d'une nouvelle etape */
     public CopexReturn addStep(Step newStep){
         // determine le protocole actif et la position de l'ajout de l'etape
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
 
@@ -1174,9 +883,9 @@ public class EdPPanel extends JPanel {
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        getTabbedPaneProc().updateProc(newProc);
-        getTabbedPaneProc().addTask(newStep, ts);
-        getTabbedPaneProc().addEdit_addTask(getTabbedPaneProc().getTaskSelected(newStep), ts);
+        copexTree.updateProc(newProc);
+        copexTree.addTask(newStep, ts);
+        copexTree.addEdit_addTask(copexTree.getTaskSelected(newStep), ts);
         updateMenu();
         return new CopexReturn();
     }
@@ -1184,7 +893,7 @@ public class EdPPanel extends JPanel {
     /* modification etape */
     public CopexReturn updateStep(Step newStep){
         // determine le protocole actif
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null || ts.getSelectedTask() == null)
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_STEP"), false);
         CopexTask  t = ts.getSelectedTask();
@@ -1195,8 +904,8 @@ public class EdPPanel extends JPanel {
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_STEP"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        getTabbedPaneProc().updateProc(newProc);
-        getTabbedPaneProc().updateTask(newStep,ts);
+        copexTree.updateProc(newProc);
+        copexTree.updateTask(newStep,ts);
         updateMenu();
         return new CopexReturn();
     }
@@ -1204,7 +913,7 @@ public class EdPPanel extends JPanel {
     /* modification sous question */
     public CopexReturn updateQuestion(Question newQuestion){
         // determine le protocole actif
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null || ts.getSelectedTask() == null)
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_QUESTION"), false);
         CopexTask  t = ts.getSelectedTask();
@@ -1215,8 +924,8 @@ public class EdPPanel extends JPanel {
         if (cr.isError())
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_QUESTION"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        getTabbedPaneProc().updateProc(newProc);
-        getTabbedPaneProc().updateTask(newQuestion,ts);
+        copexTree.updateProc(newProc);
+        copexTree.updateTask(newQuestion,ts);
         updateMenu();
         return new CopexReturn();
     }
@@ -1224,7 +933,7 @@ public class EdPPanel extends JPanel {
      /* ajout d'une nouvelle sous question */
     public CopexReturn addQuestion(Question newQuestion){
         // determine le protocole actif et la position de l'ajout de la sous question
-        TaskSelected ts = getTabbedPaneProc().getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_QUESTION"), false);
 
@@ -1234,15 +943,15 @@ public class EdPPanel extends JPanel {
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_QUESTION"), false);
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
         updateProc(newProc);
-        getTabbedPaneProc().addTask(newQuestion,ts);
-        getTabbedPaneProc().addEdit_addTask(getTabbedPaneProc().getTaskSelected(newQuestion), ts);
+        copexTree.addTask(newQuestion,ts);
+        copexTree.addEdit_addTask(copexTree.getTaskSelected(newQuestion), ts);
         updateMenu();
         return new CopexReturn();
     }
 
     /* affichage d'un niveau d'arboresence */
     private void displayLevel(int level){
-        getTabbedPaneProc().displayLevel(level);
+        copexTree.displayLevel(level);
         // change icone du menu selon le niveau
         levelMenu = level;
         updateIconMenu();
@@ -1268,9 +977,9 @@ public class EdPPanel extends JPanel {
     }
     /* suppression avec ou non demande de confirmation */
     public void suppr(boolean confirm){
-        CopexReturn cr = suppr(getTabbedPaneProc().getTasksSelected(), confirm);
+        CopexReturn cr = suppr(copexTree.getTasksSelected(), confirm);
         if (cr.isError()){
-            displayError(cr , this.bundle.getString("TITLE_DIALOG_ERROR"));
+            displayError(cr , getBundleString("TITLE_DIALOG_ERROR"));
         }
     }
     /* suppression de la selection de l'arbre */
@@ -1298,7 +1007,7 @@ public class EdPPanel extends JPanel {
             int nbTs = listTsSuppr.size();
             for (int i=0;i<nbTs; i++){
                 CopexTask task = listTsSuppr.get(i).getTaskToAttach();
-                 TaskSelected ts = getTabbedPaneProc().getTaskSelected(task);
+                 TaskSelected ts = copexTree.getTaskSelected(task);
                  list.add(ts);
             }
             CopexReturn cr = this.controller.suppr(listTs, v, confirm, MyConstants.NOT_UNDOREDO);
@@ -1306,11 +1015,11 @@ public class EdPPanel extends JPanel {
                 return new CopexReturn(getBundleString("MSG_ERROR_DELETE_TASK"), false);
             LearnerProcedure newProc = (LearnerProcedure)v.get(0);
             updateProc(newProc);
-            getTabbedPaneProc().suppr(listTs);
+            copexTree.suppr(listTs);
 
             if (confirm){ // suppression
                 subTreeCopy = null;
-                getTabbedPaneProc().addEdit_deleteTask(listTsSuppr, list);
+                copexTree.addEdit_deleteTask(listTsSuppr, list);
             }else{ // CUT
                 addEdit_cut(listTsSuppr, list, subTreeCopy);
             }
@@ -1334,7 +1043,7 @@ public class EdPPanel extends JPanel {
                int n = lc.size();
                for (int k=0; k<n; k++){
                    // ajoute
-                   listT.add(getTabbedPaneProc().getTaskSelected(lc.get(k)));
+                   listT.add(copexTree.getTaskSelected(lc.get(k)));
                }
             }
 
@@ -1365,81 +1074,30 @@ public class EdPPanel extends JPanel {
     }
 
 
-    /* creation d'un nouveau protocole */
-    public void createProc(LearnerProcedure proc) {
-        addProc(proc, true);
-
-    }
-
-    /* recherche de l'indice d'un protocole */
-    private int getIdProc(long dbKey){
-        int id = -1;
-        int nbP = listProc.size();
-        for (int i=0; i<nbP; i++){
-            if (listProc.get(i).getDbKey() == dbKey)
-                return i;
-        }
-        return id;
-    }
-    /* fermeture d'un protocole */
-    public void closeProc(LearnerProcedure proc) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1){
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_CLOSE_PROC"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        listProc.remove(idP);
-        getTabbedPaneProc().removeProc(proc);
-        if (listProc.size() == 0 && this.controller.useDataSheet())
-            this.panelDataSheet.setDataSheet(null);
-        updateMenu();
-    }
-
-    /* suppression d'un protocole */
-    public void deleteProc(LearnerProcedure proc) {
-        closeProc(proc);
-    }
-
-    /* copie des elements selectionnes */
-    public void copy() {
-        subTreeCopy = getTabbedPaneProc().copy();
-        updateMenu();
-    }
-
-
-
-    /* retourne le protocole actif */
-    public LearnerProcedure getProcActiv() {
-        return this.getTabbedPaneProc().getProcActiv();
-    }
+    
 
     public TaskSelected getSelectedTask() {
-        return this.getTabbedPaneProc().getTaskSelected();
+        return this.copexTree.getTaskSelected();
     }
 
-    /* renommer un protocole*/
-    public void updateProcName(LearnerProcedure proc, String name) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_RENAME_PROC"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        listProc.get(idP).setName(name);
-        getTabbedPaneProc().updateProcName(proc, name);
-    }
-
+    
     // ouverture de la fenetre de dialoguer permettant de renommer un protocole
     public void openDialogEditProc() {
-        LearnerProcedure proc = getProcActiv();
         if (proc != null){
-            EditProcDialog editProcD = new EditProcDialog(this, controller, proc);
+            EditProcDialog editProcD = new EditProcDialog(this, copexPanel.isMission(),controller,  proc);
             editProcD.setVisible(true);
         }
     }
 
+    public LearnerProcedure getLearnerProc(){
+        return this.proc;
+    }
+
     /* mise a jour du statut actif d'un protocole */
-    public void setActiv(LearnerProcedure p, boolean register){
-         this.procActiv = p;
+    public void setActiv(boolean register){
         if (this.controller.useDataSheet() && this.panelDataSheet != null){
-            this.panelDataSheet.setDataSheet(procActiv.getDataSheet());
-            this.panelDataSheet.setRight(procActiv.getRight() != MyConstants.NONE_RIGHT);
+            this.panelDataSheet.setDataSheet(proc.getDataSheet());
+            this.panelDataSheet.setRight(proc.getRight() != MyConstants.NONE_RIGHT);
         }
          if(isMaterialAvailable()){
              if(panelMaterial == null){
@@ -1460,7 +1118,7 @@ public class EdPPanel extends JPanel {
              }
          }
          if (this.panelMaterial != null){
-             this.panelMaterial.setListMaterial(procActiv.getRight(), procActiv.getInitialProc().getListMaterial(), procActiv.getListMaterialUse());
+             this.panelMaterial.setListMaterial(proc.getRight(), proc.getInitialProc().getListMaterial(), proc.getListMaterialUse());
              if(isMaterialAvailable()){
                  this.panelMaterial.setPanelDetailsShown();
                  this.panelMaterial.setButtonEnabled(true);
@@ -1472,8 +1130,8 @@ public class EdPPanel extends JPanel {
         //resizeHideShowPanel();
         panelRightComponentResized(null);
         if (register){
-            p.setActiv(true);
-            CopexReturn cr = controller.setProcActiv(p);
+            proc.setActiv(true);
+            CopexReturn cr = controller.setProcActiv(proc);
             if (cr.isError())
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }
@@ -1484,18 +1142,15 @@ public class EdPPanel extends JPanel {
         return this.subTreeCopy;
     }
 
-    public void paste(LearnerProcedure proc, ArrayList<CopexTask> listTask, TaskSelected t, char undoRedo) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP != -1)
-            this.listProc.set(idP, proc);
-        getTabbedPaneProc().updateProc(proc);
-        getTabbedPaneProc().addTasks(listTask, getSubTreeCopy(), t);
+    public void paste(ArrayList<CopexTask> listTask, TaskSelected t, char undoRedo) {
+        copexTree.updateProc(proc);
+        copexTree.addTasks(listTask, getSubTreeCopy(), t);
         updateMenu();
         //if (undoRedo == CopexUtilities.NOT_UNDOREDO){
             ArrayList<TaskSelected> listTs = new ArrayList();
             int nbT = listTask.size();
             for (int i=0; i<nbT; i++){
-                TaskSelected ts = getTabbedPaneProc().getTaskSelected(listTask.get(i));
+                TaskSelected ts = copexTree.getTaskSelected(listTask.get(i));
                 listTs.add(ts);
             }
             addEdit_paste(subTreeCopy, t, listTs);
@@ -1504,16 +1159,6 @@ public class EdPPanel extends JPanel {
 
    /* replace les differents panneaux dans le panel droite */
     public void resizeHideShowPanel(){
-        /* if(layeredPane != null){
-            layeredPane.setSize(getPanelMaterial().getSize());
-            layeredPane.setBounds(0, 0, layeredPane.getWidth(), layeredPane.getHeight());
-            sepMaterial.setBounds(0, layeredPane.getHeight(), panelRight.getWidth(), sepMaterial.getHeight());
-            if (this.controller.useDataSheet())
-                this.panelDataSheet.setBounds(0, layeredPane.getHeight()+sepMaterial.getHeight(), panelRight.getWidth(), panelDataSheet.getHeight());
-            //layeredPane.repaint();
-
-        }
-         */
          if( panelMaterial !=null){
             panelMaterial.setBounds(0, 0, panelMaterial.getWidth(), panelMaterial.getHeight());
             sepMaterial.setBounds(0, panelMaterial.getHeight(), panelRight.getWidth(), sepMaterial.getHeight());
@@ -1535,23 +1180,19 @@ public class EdPPanel extends JPanel {
     }
 
     /* creation d'une feuille de donnees */
-    public void createDataSheet(LearnerProcedure proc) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1){
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_CREATE_DATASHEET"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        listProc.get(idP).setDataSheet(proc.getDataSheet());
-        this.panelDataSheet.setDataSheet(proc.getDataSheet());
+    public void createDataSheet(DataSheet ds) {
+        proc.setDataSheet(ds);
+        this.panelDataSheet.setDataSheet(ds);
     }
 
     /* mise a jour d'une donnee du tableau DataSheet */
     public void updateDataSheet(String value, int noRow, int noCol){
-        DataSheet datasheet = procActiv.getDataSheet();
+        DataSheet datasheet = proc.getDataSheet();
         String oldValue = "";
         if (datasheet.getDataAt(noRow, noCol) != null)
             oldValue = datasheet.getDataAt(noRow, noCol).getData() ;
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.updateDataSheet(procActiv, value, noRow, noCol, v, MyConstants.NOT_UNDOREDO);
+        CopexReturn cr = this.controller.updateDataSheet(proc, value, noRow, noCol, v, MyConstants.NOT_UNDOREDO);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
@@ -1566,42 +1207,19 @@ public class EdPPanel extends JPanel {
         this.panelDataSheet.updateDataSheet(dataSheet);
     }
     /* modification d'une feuille de donnees*/
-    public void updateDataSheet(LearnerProcedure proc) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1){
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_UPDATE_DATASHEET"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        listProc.get(idP).setDataSheet(proc.getDataSheet());
+    public void updateDataSheet(DataSheet ds) {
+        this.proc.setDataSheet(ds);
         this.panelDataSheet.setDataSheet(proc.getDataSheet());
     }
 
     
     /* mise a jour proc*/
-     public void updateProc(LearnerProcedure proc) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_DRAG_AND_DROP"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        listProc.set(idP, proc);
-        getTabbedPaneProc().updateProc(proc);
+     public void updateProc(LearnerProcedure p) {
+        this.proc = p;
+        copexTree.updateProc(proc);
     }
 
-     /* renvoit vrai si aucun proc n'est ouvert */
-     public boolean noProc(){
-         return listProc.size() == 0;
-     }
-
      
-
-     
-
-    
-
-
-
-     public String getDirectoryPhp(){
-        return "../editeurProtocole/InterfaceServer/";
-      }
-
     
     private void panelRightComponentResized(java.awt.event.ComponentEvent evt){
         int  height = this.panelRight.getHeight() / 2 - (2*MySeparator.HEIGHT_SEP);
@@ -1616,13 +1234,15 @@ public class EdPPanel extends JPanel {
         resizeHideShowPanel();
     }
 
-    private void initPanel(){
-        setBorder();
+    public void initCopex(){
+        backgroundPanel = new JPanel();
+        backgroundPanel.setLayout(new BorderLayout());
+        this.add(backgroundPanel, BorderLayout.CENTER);
         panelRight = new javax.swing.JPanel();
 
         panelLeft = new javax.swing.JPanel();
 
-        panelRight.setName("panelRight"); // NOI18N
+        panelRight.setName("panelRight"); 
         panelRight.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -1636,47 +1256,43 @@ public class EdPPanel extends JPanel {
             }
         });
         panelRight.setLayout(null);
-        panelRight.setBackground(backgroundColor);
-        backgroundPanel.add(panelRight, java.awt.BorderLayout.CENTER);
+        panelRight.setBackground(CopexPanel.backgroundColor);
+        //backgroundPanel.add(panelRight, java.awt.BorderLayout.CENTER);
 
-        panelLeft.setName("panelLeft"); // NOI18N
+        panelLeft.setName("panelLeft"); 
         panelLeft.setLayout(new java.awt.BorderLayout());
-        backgroundPanel.add(panelLeft, java.awt.BorderLayout.PAGE_START);
+        //backgroundPanel.add(panelLeft, java.awt.BorderLayout.PAGE_START);
     }
 
     /* ajout d'un evenement de undo redo pour renommer un protocole */
     public void  addEdit_renameProc(LearnerProcedure proc, String name){
-        getTabbedPaneProc().addEdit_renameProc(proc, name);
+        copexTree.addEdit_renameProc(proc, name);
         updateMenu();
     }
 
     /* ajout d'un evenement : creation d'un datasheet */
      public void addEdit_createDataSheet(int nbRows, int nbCols, DataSheet dataSheet){
-         getTabbedPaneProc().addEdit_createDataSheet(nbRows, nbCols, dataSheet);
+         copexTree.addEdit_createDataSheet(nbRows, nbCols, dataSheet);
          updateMenu();
      }
 
       /* ajout d'un evenement : modification d'un datasheet */
      public void addEdit_updateDataSheet(DataSheet dataSheet, int oldNbRows, int oldNbCols, int newNbRows, int newNbCols){
-         getTabbedPaneProc().addEdit_updateDataSheet(dataSheet, oldNbRows, oldNbCols, newNbRows, newNbCols);
+         copexTree.addEdit_updateDataSheet(dataSheet, oldNbRows, oldNbCols, newNbRows, newNbCols);
          updateMenu();
      }
 
      /* ajout d'un evenement : edition d'une donnee d'un datasheet */
      public void addEdit_editDataSheet(DataSheet dataSheet, String oldData, String newData, int noRow, int noCol){
-          getTabbedPaneProc().addEdit_editDataSheet(dataSheet, oldData, newData, noRow, noCol);
+         copexTree.addEdit_editDataSheet(dataSheet, oldData, newData, noRow, noCol);
          updateMenu();
      }
 
 
     /* suppression d'une feuille de donnees */
-    public void deleteDataSheet(LearnerProcedure proc) {
-       int idP = getIdProc(proc.getDbKey());
-        if (idP == -1){
-            displayError(new CopexReturn(getBundleString("MSG_ERROR_CREATE_DATASHEET"), false), getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        listProc.get(idP).setDataSheet(null);
-        this.panelDataSheet.setDataSheet(null);
+    public void deleteDataSheet() {
+       proc.setDataSheet(null);
+       this.panelDataSheet.setDataSheet(null);
     }
 
     /* mise a jour de l'arbre */
@@ -1686,97 +1302,48 @@ public class EdPPanel extends JPanel {
 
      /* ajout d'un evenement : cut */
      public void addEdit_cut(ArrayList<TaskSelected> listTask, ArrayList<TaskSelected> listTs, SubTree subTree ){
-         getTabbedPaneProc().addEdit_cut(listTask, listTs, subTree);
+         copexTree.addEdit_cut(listTask, listTs, subTree);
          updateMenu();
      }
 
      /* coller */
       public void addEdit_paste(SubTree subTree, TaskSelected ts, ArrayList<TaskSelected> listTask){
-         getTabbedPaneProc().addEdit_paste(subTree, ts, listTask);
+         copexTree.addEdit_paste(subTree, ts, listTask);
          updateMenu();
       }
 
-    public void stop() {
-        CopexReturn cr = this.controller.stopEdP();
-        if (cr.isError())
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-    }
-
-    /* retourne le chemin et nom du fichier de parametres */
-    public String getFileParameters(){
-        return "../editeurProtocole/parameters.txt";
-    }
-
-   
-
-    /* affichage du proc d'aide */
-    public void displayHelpProc(){
-        ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.getHelpProc(v);
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-            return;
-        }
-        cr = this.controller.openHelpProc();
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        CopexMission helpMission = (CopexMission)v.get(0);
-        LearnerProcedure helpProc = (LearnerProcedure)v.get(1);
-        ArrayList<Material> listMat = (ArrayList<Material>)v.get(2);
-        if (getIdProc(helpProc.getDbKey()) == -1)
-            addProc(helpProc);
-        else
-            getTabbedPaneProc().setSelected(helpProc);
-    }
-
-    /* fermeture fenetre aide*/
-    public void closeHelpDialog(){
-        CopexReturn cr = this.controller.closeHelpDialog();
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-        }
-    }
 
     public boolean addMaterialUseForProc(Material m, String j, char undoRedo){
-        LearnerProcedure p = getProcActiv() ;
-        CopexReturn cr = this.controller.addMaterialUseForProc(p, m, j, undoRedo);
+       CopexReturn cr = this.controller.addMaterialUseForProc(proc, m, j, undoRedo);
         if (cr.isError()){
             displayError(cr, getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"));
             return false;
         }
-        int idP = getIdProc(p.getDbKey());
         MaterialUseForProc matUse = new MaterialUseForProc(m, j);
-        if (idP != -1){
-            listProc.get(idP).addMaterialUse(matUse);
-        }
+        proc.addMaterialUse(matUse);
         this.panelMaterial.addMaterialUse((MaterialUseForProc)matUse.clone());
         if (undoRedo == MyConstants.NOT_UNDOREDO){
-            getTabbedPaneProc().addEdit_addMaterialUseForProc(p, m, j);
+            copexTree.addEdit_addMaterialUseForProc(proc, m, j);
         }
         updateMenu();
         return true;
     }
 
     public boolean updateMaterialUseForProc(Material m, String j, char undoRedo){
-        LearnerProcedure p = getProcActiv() ;
-        CopexReturn cr = this.controller.updateMaterialUseForProc(p, m, j, undoRedo);
+        CopexReturn cr = this.controller.updateMaterialUseForProc(proc, m, j, undoRedo);
         if (cr.isError()){
             displayError(cr, getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"));
             return false;
         }
-        int idP = getIdProc(p.getDbKey());
         MaterialUseForProc matUse = new MaterialUseForProc(m, j);
         String oldJ = "";
-        if (idP != -1){
-            MaterialUseForProc  oldMatUse = listProc.get(idP).getMaterialUse(m);
-            if (oldMatUse != null && oldMatUse.getJustification() != null)
-                oldJ = new String(oldMatUse.getJustification());
-            listProc.get(idP).updateMaterialUse(matUse);
-        }
+        MaterialUseForProc  oldMatUse = proc.getMaterialUse(m);
+        if (oldMatUse != null && oldMatUse.getJustification() != null)
+            oldJ = new String(oldMatUse.getJustification());
+        proc.updateMaterialUse(matUse);
         this.panelMaterial.updateMaterialUse((MaterialUseForProc)matUse.clone());
         if (undoRedo == MyConstants.NOT_UNDOREDO){
-            getTabbedPaneProc().addEdit_updateMaterialUseForProc(p, m, oldJ, j);
+            copexTree.addEdit_updateMaterialUseForProc(proc, m, oldJ, j);
         }
          updateMenu();
         return true;
@@ -1784,34 +1351,30 @@ public class EdPPanel extends JPanel {
 
     /* supprime l'utilisation de ce materiel*/
     public void removeMaterialUse(Material m, char undoRedo){
-        LearnerProcedure p = getProcActiv() ;
-        CopexReturn cr = this.controller.removeMaterialUseForProc(p, m, undoRedo);
+        CopexReturn cr = this.controller.removeMaterialUseForProc(proc, m, undoRedo);
         if (cr.isError()){
             displayError(cr, getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"));
             return;
         }
-        int idP = getIdProc(p.getDbKey());
         String justification = "";
-        if (idP != -1){
-            ArrayList<MaterialUseForProc> listMat = listProc.get(idP).getListMaterialUse();
-            if (listMat != null){
-                int id = -1;
-                int n = listMat.size();
-                for (int i=0; i<n; i++){
-                    if (listMat.get(i).getMaterial().getDbKey() == m.getDbKey()){
-                        id = i;
-                        justification = listMat.get(i).getJustification() == null ? "" : new String(listMat.get(i).getJustification());
-                        break;
-                    }
+        ArrayList<MaterialUseForProc> listMat = proc.getListMaterialUse();
+        if (listMat != null){
+            int id = -1;
+            int n = listMat.size();
+            for (int i=0; i<n; i++){
+                if (listMat.get(i).getMaterial().getDbKey() == m.getDbKey()){
+                    id = i;
+                    justification = listMat.get(i).getJustification() == null ? "" : new String(listMat.get(i).getJustification());
+                    break;
                 }
-                if (id !=-1){
-                    listMat.remove(id);
-                }
+            }
+            if (id !=-1){
+               listMat.remove(id);
             }
         }
         this.panelMaterial.removeMaterialUse(m);
         if (undoRedo == MyConstants.NOT_UNDOREDO){
-            getTabbedPaneProc().addEdit_removeMaterialUseForProc(p, m, justification);
+            copexTree.addEdit_removeMaterialUseForProc(proc, m, justification);
         }
          updateMenu();
     }
@@ -1822,15 +1385,14 @@ public class EdPPanel extends JPanel {
 
     /* resize arbre*/
     private void panelLeftComponentResized(java.awt.event.ComponentEvent evt){
-        if (this.tabbedPaneProc != null){
-            this.tabbedPaneProc.resizeWidth(this.panelLeft.getWidth());
+        if (this.copexTree != null){
+            this.copexTree.resizeWidth(this.panelLeft.getWidth());
         }
      }
 
     /* retourne la liste des materiels de la mission de ce type de materiel */
     public ArrayList<Material> getListMaterial(TypeMaterial type,TypeMaterial type2, boolean andTypes, boolean modeAdd){
         ArrayList<Material> listMaterial = new ArrayList();
-        LearnerProcedure proc = getProcActiv();
         if (proc == null)
             return listMaterial ;
         if(type == null){
@@ -1852,35 +1414,23 @@ public class EdPPanel extends JPanel {
             }
         }
         // on ajoute les materiels de ce type qui ont ete cree jusqu'a maintenant
-        ArrayList<CopexTask> listTaskBefore = getTabbedPaneProc().getListTaskBeforeSel(modeAdd);
+        ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
         int nb = listTaskBefore.size();
         for (int i=0; i<nb; i++){
             if (listTaskBefore.get(i) instanceof CopexActionManipulation){
-                ArrayList<Material> matProd = ((CopexActionManipulation)listTaskBefore.get(i)).getListMaterialProd() ;
+                ArrayList<Object> matProd = ((CopexActionManipulation)listTaskBefore.get(i)).getListMaterialProd() ;
                 for (int j=0 ;j<matProd.size(); j++){
-                    
-                    if (matProd.get(j).isType(type.getDbKey())){
-                        if ((controlType2 && matProd.get(j).isType(dbKeyType2)) || !controlType2 || (controlType2 && !andTypes)){
-                            boolean isInList = false;
-                            for (int l=0; l<listMaterial.size(); l++){
-                                if (listMaterial.get(l).getName().equals(matProd.get(j).getName())){
-                                    isInList = true;
-                                    break;
-                                }
-                            }
-                            if (!isInList)
-                                listMaterial.add(matProd.get(j));
+                    if(matProd.get(j) instanceof Material){
+                        Material m = (Material)matProd.get(j);
+                        if(isAddMaterial(m, type.getDbKey(), dbKeyType2, listMaterial, controlType2, andTypes))
+                            listMaterial.add(m);
+                    }else if (matProd.get(j) instanceof ArrayList){
+                        int n = ((ArrayList)matProd.get(j)).size();
+                        for (int r=0; r<n;r++){
+                            Material m =((ArrayList<Material>)matProd.get(j)).get(r);
+                            if(isAddMaterial(m, type.getDbKey(), dbKeyType2, listMaterial, controlType2, andTypes))
+                                listMaterial.add(m);
                         }
-                    }else if (controlType2 && !andTypes && matProd.get(j).isType(type2.getDbKey())){
-                        boolean isInList = false;
-                            for (int l=0; l<listMaterial.size(); l++){
-                                if (listMaterial.get(l).getName().equals(matProd.get(j).getName())){
-                                    isInList = true;
-                                    break;
-                                }
-                            }
-                            if (!isInList)
-                                listMaterial.add(matProd.get(j));
                     }
                  }
             }
@@ -1888,23 +1438,65 @@ public class EdPPanel extends JPanel {
         return listMaterial ;
     }
 
+    private boolean isAddMaterial(Material m, long dbKeyType, long dbKeyType2, ArrayList<Material> listMaterial, boolean controlType2, boolean andTypes){
+        if (m.isType(dbKeyType)){
+            if ((controlType2 && m.isType(dbKeyType2)) || !controlType2 || (controlType2 && !andTypes)){
+                boolean isInList = false;
+                for (int l=0; l<listMaterial.size(); l++){
+                    if (listMaterial.get(l).getName().equals(m.getName())){
+                        isInList = true;
+                        break;
+                     }
+                }
+                if (!isInList)
+                    return true;
+             }
+       }else if (controlType2 && !andTypes && m.isType(dbKeyType2)){
+            boolean isInList = false;
+            for (int l=0; l<listMaterial.size(); l++){
+                if (listMaterial.get(l).getName().equals(m.getName())){
+                    isInList = true;
+                    break;
+                }
+            }
+            if (!isInList)
+                return true;
+       }
+        return false;
+    }
+
+
     /* retourne la liste du materiel produit jusqu'ici */
     public ArrayList<Material> getMaterialProd(boolean modeAdd){
         ArrayList<Material> listMaterialProd = new ArrayList();
-        ArrayList<CopexTask> listTaskBefore = getTabbedPaneProc().getListTaskBeforeSel(modeAdd);
+        ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
         int nb = listTaskBefore.size();
         for (int i=0; i<nb; i++){
             if (listTaskBefore.get(i) instanceof CopexActionManipulation){
-                ArrayList<Material> matProd = ((CopexActionManipulation)listTaskBefore.get(i)).getListMaterialProd() ;
+                ArrayList<Object> matProd = ((CopexActionManipulation)listTaskBefore.get(i)).getListMaterialProd() ;
                 for (int j=0 ;j<matProd.size(); j++){
-                    boolean isInList = false;
-                    for (int k=0; k<listMaterialProd.size(); k++){
-                        if (listMaterialProd.get(k).getName().equals(matProd.get(j).getName()))
-                            isInList = true;
+                    if(matProd.get(j) instanceof Material){
+                        boolean isInList = false;
+                        for (int k=0; k<listMaterialProd.size(); k++){
+                            if (listMaterialProd.get(k).getName().equals(((Material)matProd.get(j)).getName()))
+                                isInList = true;
+                        }
+                        //if (listMaterialProd.indexOf(matProd.get(j)) == -1)
+                        if (!isInList)
+                            listMaterialProd.add((Material)matProd.get(j));
+                    }else if (matProd.get(j) instanceof ArrayList){
+                        int n = ((ArrayList)matProd.get(j)).size();
+                        for (int r=0; r<n; r++){
+                            boolean isInList = false;
+                            for (int k=0; k<listMaterialProd.size(); k++){
+                                if (listMaterialProd.get(k).getName().equals(((ArrayList<Material>)matProd.get(j)).get(r).getName()))
+                                    isInList = true;
+                            }
+                            //if (listMaterialProd.indexOf(matProd.get(j)) == -1)
+                            if (!isInList)
+                                listMaterialProd.add(((ArrayList<Material>)matProd.get(j)).get(r));
+                        }
                     }
-                    //if (listMaterialProd.indexOf(matProd.get(j)) == -1)
-                    if (!isInList)
-                        listMaterialProd.add(matProd.get(j));
                 }
             }
         }
@@ -1914,24 +1506,38 @@ public class EdPPanel extends JPanel {
     /* retourne la liste du data produit jusqu'ici */
     public ArrayList<QData> getDataProd(boolean modeAdd){
         ArrayList<QData> listDataProd = new ArrayList();
-        ArrayList<CopexTask> listTaskBefore = getTabbedPaneProc().getListTaskBeforeSel(modeAdd);
+        ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
         int nb = listTaskBefore.size();
         for (int i=0; i<nb; i++){
             if (listTaskBefore.get(i) instanceof CopexActionAcquisition || listTaskBefore.get(i) instanceof CopexActionTreatment){
-                ArrayList<QData> dataProd = new ArrayList();
+                ArrayList<Object> dataProd = new ArrayList();
                 if (listTaskBefore.get(i) instanceof CopexActionAcquisition)
                     dataProd = ((CopexActionAcquisition)listTaskBefore.get(i)).getListDataProd() ;
                 else if (listTaskBefore.get(i) instanceof CopexActionTreatment)
                     dataProd = ((CopexActionTreatment)listTaskBefore.get(i)).getListDataProd() ;
                 for (int j=0 ;j<dataProd.size(); j++){
-                    boolean isInList = false;
-                    for (int k=0; k<listDataProd.size(); k++){
-                        if (listDataProd.get(k).getName().equals(dataProd.get(j).getName()))
-                            isInList = true;
+                    if(dataProd.get(j) instanceof QData){
+                        boolean isInList = false;
+                        for (int k=0; k<listDataProd.size(); k++){
+                            if (listDataProd.get(k).getName().equals(((QData)dataProd.get(j)).getName()))
+                                isInList = true;
+                        }
+                        if (!isInList)
+                            listDataProd.add((QData)dataProd.get(j));
+                    }else if (dataProd.get(j) instanceof ArrayList){
+                        int n = ((ArrayList)dataProd.get(j)).size();
+                        for (int r=0; r<n; r++){
+                            boolean isInList = false;
+                            for (int k=0; k<listDataProd.size(); k++){
+                                if (listDataProd.get(k).getName().equals(((ArrayList<QData>)dataProd.get(j)).get(r).getName()))
+                                    isInList = true;
+                            }
+                            //if (listMaterialProd.indexOf(matProd.get(j)) == -1)
+                            if (!isInList)
+                                listDataProd.add(((ArrayList<QData>)dataProd.get(j)).get(r));
+                        }
                     }
-                    //if (listMaterialProd.indexOf(matProd.get(j)) == -1)
-                    if (!isInList)
-                        listDataProd.add(dataProd.get(j));
+
                 }
             }
         }
@@ -1946,7 +1552,6 @@ public class EdPPanel extends JPanel {
 
     /* retourne vrai s'il s'agit d'un material de la mission du proc */
     public boolean isMaterialFromMission(long dbKeyMaterial){
-        LearnerProcedure proc = getProcActiv();
         if (proc == null)
             return false;
         ArrayList<Material> listMaterial = proc.getInitialProc().getListMaterial();
@@ -1958,16 +1563,11 @@ public class EdPPanel extends JPanel {
         return false;
     }
 
-    /* retourne le tooltiptext sur le bouton d'ouverture */
-    public String getToolTipTextOpen(){
-        return getBundleString("TOOLTIPTEXT_OPEN_PROC");
-    }
-
+    
     /* exportation de la feuille de donnees */
     public void exportDataSheet(){
         String extension = "xls";
-        ExperimentalProcedure p = getProcActiv();
-        if (p == null || p.getDataSheet() == null){
+        if (proc == null || proc.getDataSheet() == null){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 displayError(new CopexReturn(getBundleString("MSG_WARNING_NO_DATASHEET"), true), getBundleString("TITLE_DIALOG_WARNING"));
                 return;
@@ -1989,7 +1589,7 @@ public class EdPPanel extends JPanel {
             }
             currentExportPath = file.getPath() ;
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            CopexReturn cr = this.controller.exportDataSheet(getProcActiv(), file) ;
+            CopexReturn cr = this.controller.exportDataSheet(proc, file) ;
             if (cr.isError()){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -2004,30 +1604,13 @@ public class EdPPanel extends JPanel {
         return new Point( (int)this.getLocationOnScreen().getX() +(this.getWidth() /3), (int)this.getLocationOnScreen().getY()+this.menuBar.getHeight());
     }
 
-    /* affichage d'un message concernant les proc lockes */
-    public void displayProcLocked(ArrayList<String> listProcNameLocked){
-        if(listProcNameLocked == null)
-            return;
-        int nb = listProcNameLocked.size();
-        if (nb == 0)
-            return;
-        String msg = getBundleString("MSG_WARNING_PROC_LOCKED");
-        for (int i=0; i<nb; i++){
-            msg += " \n"+listProcNameLocked.get(i);
-        }
-        displayError(new CopexReturn(msg, true), getBundleString("TITLE_DIALOG_WARNING"));
-    }
-
+    
     /* retourne vrai si applet est visiblee */
     public boolean isAppletVisible(){
         return this.isVisible();
     }
 
-    /* demande quel proc initial pour creation d'un proc */
-    public void askForInitialProc(){
-        CreateProcDialog dialog = new CreateProcDialog(this, controller, listInitProc) ;
-        dialog.setVisible(true);
-    }
+    
 
     /* TP Muriel  :retourne vrai si affichage des hypotheses */
     public boolean isDisplayHypothesis(){
@@ -2038,10 +1621,9 @@ public class EdPPanel extends JPanel {
 
     /* retourne vrai si il y a une liste de materiel a afficher */
     public boolean isMaterialAvailable(){
-        LearnerProcedure p = getProcActiv();
-        if(p == null)
+        if(proc == null)
             return false;
-        return p.getInitialProc().getListMaterial().size() > 0 ;
+        return proc.getInitialProc().getListMaterial().size() > 0 ;
     }
 
     /* ouverture auto de la fenetre d'edition de la question */
@@ -2050,10 +1632,7 @@ public class EdPPanel extends JPanel {
         //getTabbedPaneProc().openQuestionDialog();
     }
 
-    public void setQuestionDialog(){
-       this.openQuestionDialog = true;
-    }
-
+    
     /* chargement ELO */
     public void loadELO(Element xmlContent){
         CopexReturn cr = this.controller.loadELO(xmlContent);
@@ -2062,32 +1641,19 @@ public class EdPPanel extends JPanel {
         }
     }
 
-    /* creation nouvel ELO */
-    public void newELO(){
-        CopexReturn cr = this.controller.newELO();
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-        }
-    }
-
+    
     /* retourne ELO proc */
     public Element getExperimentalProcedure(){
-        if(this.getProcActiv() != null)
-            return this.controller.getExperimentalProcedure(this.getProcActiv());
+        if(proc != null)
+            return this.controller.getExperimentalProcedure(proc);
         return null;
     }
 
-    /* retourne vrai si dans la mission on peut ajouter un proc */
-    public boolean canAddProc(){
-        if(mission == null)
-            return true;
-        return this.mission.getOptions().isCanAddProc();
-    }
+    
 
     /* retourne la liste des parametres des actions de l'etape */
     public ArrayList<InitialActionParam> getStepInitialParam(Step step){
         ArrayList v = new ArrayList();
-        LearnerProcedure proc = getProcActiv();
         if (proc != null){
             CopexReturn cr =this.controller.getTaskInitialParam(proc, step, v);
             if(cr.isError()){
@@ -2103,7 +1669,6 @@ public class EdPPanel extends JPanel {
     /* retourne la liste des output des actions de l'etape */
     public ArrayList<InitialOutput> getStepInitialOutput(Step step){
         ArrayList v = new ArrayList();
-        LearnerProcedure proc = getProcActiv();
         if (proc != null){
             CopexReturn cr =this.controller.getTaskInitialOutput(proc, step, v);
             if(cr.isError()){
@@ -2115,6 +1680,150 @@ public class EdPPanel extends JPanel {
         return new ArrayList();
     }
 
-   
+   /* renvoit le type de materiel par defaut*/
+    public TypeMaterial getDefaultMaterialType(){
+        return this.controller.getDefaultMaterialType();
+    }
 
+    /* affichage du proc d'aide */
+    public void displayHelpProc(){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.getHelpProc(v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        cr = this.controller.openHelpProc();
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
+        CopexMission helpMission = (CopexMission)v.get(0);
+        LearnerProcedure helpProc = (LearnerProcedure)v.get(1);
+        ArrayList<Material> listMat = (ArrayList<Material>)v.get(2);
+        copexPanel.displayHelpProc(helpProc);
+    }
+
+
+
+    /* fermeture fenetre aide*/
+    public void closeHelpDialog(){
+        CopexReturn cr = this.controller.closeHelpDialog();
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
+    }
+
+    public void addQuestion() {
+        openDialogAddQ();
+    }
+
+   public void addEtape() {
+        openDialogAddE();
+    }
+
+    public void addAction() {
+        openDialogAddA();
+    }
+    public void print(){
+        openDialogPrint();
+    }
+    /* renommer un protocole*/
+    public void updateProcName(String name) {
+        proc.setName(name);
+        copexTree.updateProcName(name);
+    }
+
+    public void beginregister(){
+        this.copexTree.beginregister();
+    }
+
+     public void resizeWidth(int width){
+         this.copexTree.resizeWidth(width);
+     }
+
+     public void cut() {
+        copy();
+        TaskSelected ts = getSelectedTask();
+        LearnerProcedure p = ts.getProc();
+        SubTree subTree = getSubTreeCopy();
+        suppr(false);
+        CopexReturn cr = this.controller.cut(p, subTree, ts);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+    }
+
+    public void copy() {
+        subTreeCopy = copexTree.getSubTreeCopy(false);
+        updateMenu();
+        TaskSelected ts = getSelectedTask();
+        LearnerProcedure p = ts.getProc();
+        SubTree subTree = getSubTreeCopy();
+        CopexReturn cr = this.controller.copy(p, ts, subTree);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        
+    }
+
+    public void paste(){
+       // tache selectionnee et protocole ou il faut copier
+        TaskSelected ts = getSelectedTask();
+        LearnerProcedure p = ts.getProc();
+        // liste des taches a copier
+        SubTree subTree = getSubTreeCopy();
+        CopexReturn cr = this.controller.paste(p, ts, subTree);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        
+    }
+
+    public CopexPanel getCopexPanel(){
+        return this.copexPanel;
+    }
+
+    private void save(){
+        Element xproc = getExperimentalProcedure() ;
+        JFileChooser aFileChooser = new JFileChooser();
+        aFileChooser.setFileFilter(new MyFileFilterXML());
+        if (lastUsedFile != null)
+			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+        int r = aFileChooser.showSaveDialog(this);
+        if (r == JFileChooser.APPROVE_OPTION){
+            File file = aFileChooser.getSelectedFile();
+            if(!CopexUtilities.isXMLFile(file)){
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_XML"), false), getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+			lastUsedFile = file;
+			FileWriter fileWriter = null;
+			try
+			{
+				fileWriter = new FileWriter(file);
+				xmlOutputter.output(xproc, fileWriter);
+			}
+			catch (IOException e)
+			{
+				displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+			}
+			finally
+			{
+				if (fileWriter != null)
+					try
+					{
+						fileWriter.close();
+					}
+					catch (IOException e)
+					{
+						displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+					}
+			}
+        }
+    }
+
+    
 }

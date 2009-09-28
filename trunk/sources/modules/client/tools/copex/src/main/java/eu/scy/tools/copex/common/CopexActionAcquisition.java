@@ -5,7 +5,7 @@
 
 package eu.scy.tools.copex.common;
 
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import java.util.ArrayList;
 import org.jdom.Element;
 
@@ -15,53 +15,70 @@ import org.jdom.Element;
  */
 public class CopexActionAcquisition extends CopexActionParam{
     // PROPERTY
-    /* liste des data prod*/
-    private ArrayList<QData> listDataProd;
+    /* liste des data prod ou de liste de data prod */
+    private ArrayList<Object> listDataProd;
 
     // CONSTRUCTOR
-    public CopexActionAcquisition(String description, String comments, InitialNamedAction namedAction, ActionParam[] tabParam, ArrayList<QData> listDataProd) {
+    public CopexActionAcquisition(String description, String comments, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listDataProd) {
         super(description, comments, namedAction, tabParam);
         this.listDataProd = listDataProd;
     }
 
-    public CopexActionAcquisition(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, long dbkeyBrother, long dbKeyChild, InitialNamedAction namedAction, ActionParam[] tabParam, ArrayList<QData> listDataProd, TaskRepeat taskRepeat) {
+    public CopexActionAcquisition(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, long dbkeyBrother, long dbKeyChild, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listDataProd, TaskRepeat taskRepeat) {
         super(dbKey, name, description, comments, taskImage, draw, isVisible, taskRight, dbkeyBrother, dbKeyChild, namedAction, tabParam, taskRepeat);
         this.listDataProd = listDataProd;
     }
 
-    public CopexActionAcquisition(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, InitialNamedAction namedAction, ActionParam[] tabParam, ArrayList<QData> listDataProd, TaskRepeat taskRepeat) {
+    public CopexActionAcquisition(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listDataProd, TaskRepeat taskRepeat) {
         super(dbKey, name, description, comments, taskImage,draw,  isVisible, taskRight, namedAction, tabParam, taskRepeat);
         this.listDataProd = listDataProd;
     }
 
 
     // GETTER AND SETTER
-    public ArrayList<QData> getListDataProd() {
+    public ArrayList<Object> getListDataProd() {
         return listDataProd;
     }
 
-    public void setListDataProd(ArrayList<QData> listDataProd) {
+    public void setListDataProd(ArrayList<Object> listDataProd) {
         this.listDataProd = listDataProd;
     }
     // OVERRIDE
     @Override
     public Object clone() {
         CopexActionAcquisition a = (CopexActionAcquisition) super.clone() ;
-        ArrayList<QData> listDataProdC = new ArrayList();
+        ArrayList<Object> listDataProdC = new ArrayList();
         int nbD = this.listDataProd.size() ;
         for (int i=0; i<nbD; i++){
-            listDataProdC.add((QData)this.listDataProd.get(i).clone());
+            if(this.listDataProd.get(i) instanceof QData){
+                listDataProdC.add((QData)((QData)this.listDataProd.get(i)).clone());
+            }else if (this.listDataProd.get(i) instanceof ArrayList){
+                int n = ((ArrayList)this.listDataProd.get(i)).size();
+                ArrayList<QData> l = new ArrayList();
+                for (int j=0; j<n;j++){
+                    l.add((QData)((ArrayList<QData>)this.listDataProd.get(i)).get(j).clone());
+                }
+                listDataProdC.add(l);
+            }
         }
         a.setListDataProd(listDataProdC);
         return a;
     }
 
     @Override
-    public String toDescription(EdPPanel edP) {
+    public String toDescription(CopexPanel edP) {
         String s = super.toDescription(edP);
         int nbDataProd = listDataProd.size();
         for (int i=0; i<nbDataProd; i++){
-            s += "\n "+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd()+" : "+listDataProd.get(i).getName();
+            if (this.listDataProd.get(i) instanceof QData){
+                s += "\n"+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd()+" : "+((QData)listDataProd.get(i)).getName();
+            }else if (this.listDataProd.get(i) instanceof ArrayList){
+                int n = ((ArrayList)this.listDataProd.get(i)).size();
+                s += "\n"+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd()+" : ";
+                for (int j=0; j<n; j++){
+                    s += ((ArrayList<QData>)this.listDataProd.get(i)).get(j).getName()+" | ";
+                }
+            }
         }
         return s;
     }

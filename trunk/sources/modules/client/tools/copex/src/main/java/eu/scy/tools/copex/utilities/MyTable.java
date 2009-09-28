@@ -86,8 +86,6 @@ public class MyTable extends JTable {
                 
     @Override
     public boolean isCellEditable(int row, int column) {
-        if (!EdPPanel.CAN_EDIT_DATASHEET)
-            return false ;
         return (row == 0) ;
     }
 

@@ -6,7 +6,6 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.controller.ControllerInterface;
-import eu.scy.tools.copex.utilities.CopexReturn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -86,6 +85,7 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
         this.add(this.itemEdit);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.itemSsQ){
             addSsQuestion();
@@ -108,15 +108,12 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
     
     /* insertion d'une sous question */
     private void addSsQuestion(){
-        this.controller.addQuestion();
+        this.edP.addQuestion();
     }
 
     /* colle */
     private void paste() {
-        CopexReturn cr = this.controller.paste();
-        if (cr.isError()){
-            this.edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
-        }
+        this.edP.paste();
     }
 
     /* supprimer */
@@ -126,28 +123,22 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
     
     /* ajout d'une action*/
     private void addAction() {
-        this.controller.addAction();
+        this.edP.addAction();
     }
 
     /* ajout d'une etape */
     private void addStep() {
-        this.controller.addEtape();
+        this.edP.addEtape();
     }
 
     /* copier */
     private void copy() {
-        CopexReturn cr = this.controller.copy();
-        if (cr.isError()){
-            this.edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
-        }
+        edP.copy();
     }
 
     /* couper */
     private void cut() {
-        CopexReturn cr = this.controller.cut();
-        if (cr.isError()){
-            this.edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
-        }
+        edP.cut();
     }
 
     /*edition */

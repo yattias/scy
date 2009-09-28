@@ -21,6 +21,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.tools.copex.common.*;
+import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
@@ -33,7 +34,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 
 /**
@@ -42,7 +42,7 @@ import javax.swing.ImageIcon;
  */
 public class PrintPDF {
     
-    private EdPPanel edP;
+    private CopexPanel copex;
     private String fileName;
     private CopexUser user;
     private CopexMission mission;
@@ -52,8 +52,8 @@ public class PrintPDF {
 
     private Document document ;
 
-    public PrintPDF(EdPPanel edP, String fileName, CopexUser user,CopexMission mission,  ExperimentalProcedure proc, boolean printComments, boolean printDataSheet) {
-        this.edP = edP;
+    public PrintPDF(CopexPanel copex, String fileName, CopexUser user,CopexMission mission,  ExperimentalProcedure proc, boolean printComments, boolean printDataSheet) {
+        this.copex = copex;
         this.fileName = fileName;
         this.mission = mission;
         this.user = user;
@@ -104,10 +104,10 @@ public class PrintPDF {
             return new CopexReturn();
         } catch (DocumentException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }catch(IOException ex){
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }
     }
 
@@ -175,8 +175,8 @@ public class PrintPDF {
     /* logo copex*/
     private CopexReturn setHeader(){
         String name = (user.getUserFirstName() == null ?"" : user.getUserFirstName()+" ")+user.getUserName() ;
-        String missionName = edP.getBundleString("LABEL_MISSION")+" : "+mission.getName() ;
-        String procName = edP.getBundleString("LABEL_PROC")+" : "+proc.getName() ;
+        String missionName = copex.getBundleString("LABEL_MISSION")+" "+mission.getName() ;
+        String procName = copex.getBundleString("LABEL_PROC")+" "+proc.getName() ;
         try {
             String img = "logo-copex.gif" ;
             Image image = Image.getInstance(getClass().getResource( "/" +img));
@@ -200,16 +200,16 @@ public class PrintPDF {
             return new CopexReturn();
         } catch (BadElementException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } catch (MalformedURLException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } catch (IOException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }catch (DocumentException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }
     }
 
@@ -229,7 +229,7 @@ public class PrintPDF {
                 return cr;
         } catch (DocumentException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } 
 
         return new CopexReturn();
@@ -298,13 +298,13 @@ public class PrintPDF {
             return new CopexReturn();
         }catch (DocumentException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } catch (MalformedURLException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } catch (IOException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }
     }
 
@@ -312,7 +312,7 @@ public class PrintPDF {
     /* retourne le texte de la description de la tache */
     private String getTaskDescription(CopexTask task){
         if (task instanceof CopexAction ){
-            return ((CopexAction)task).toDescription(edP);
+            return ((CopexAction)task).toDescription(copex);
         }else
             return task.getDescription() ;
     }
@@ -326,11 +326,11 @@ public class PrintPDF {
         if (task.isQuestion()){
             String hyp = ((Question)task).getHypothesis() ;
             if (hyp != null && hyp.length() > 0){
-                comm += edP.getBundleString("LABEL_HYPOTHESIS")+" "+hyp+" \n";
+                comm += copex.getBundleString("LABEL_HYPOTHESIS")+" "+hyp+" \n";
             }
             String princ = ((Question)task).getGeneralPrinciple() ;
             if (princ != null && princ.length() > 0){
-                comm += edP.getBundleString("LABEL_GENERAL_PRINCIPLE")+" : "+princ+" \n";
+                comm += copex.getBundleString("LABEL_GENERAL_PRINCIPLE")+" "+princ+" \n";
             }
          }
         return comm;
@@ -454,13 +454,13 @@ public class PrintPDF {
                     dsTable.addCell(aCell);
                 }
             }
-            Chunk c = new Chunk("\n"+edP.getBundleString("LABEL_DATASHEET")+"\n",getNormalFont());
+            Chunk c = new Chunk("\n"+copex.getBundleString("LABEL_DATASHEET")+"\n",getNormalFont());
             document.add(c);
             document.add(dsTable);
             return new CopexReturn();
         }catch (DocumentException ex) {
             Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
-            return new CopexReturn(edP.getBundleString("MSG_ERROR_PRINT"), false);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         } 
     }
 

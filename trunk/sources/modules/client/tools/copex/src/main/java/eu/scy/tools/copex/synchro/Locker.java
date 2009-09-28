@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.synchro;
 
 import eu.scy.tools.copex.db.DataBaseCommunication;
-import eu.scy.tools.copex.edp.EdPPanel;
+import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class Locker {
 
 
     /* editeur de protocoles */
-    private  EdPPanel edP;
+    private  CopexPanel copex;
     /* connection base */
     private  DataBaseCommunication dbC;
     /** Le user de l'application. */
@@ -42,14 +42,14 @@ public class Locker {
     /**
     * Constructeur du locker. Il s'agit essentiellement de lancer le thread en batch qui reactive periodiquement les verrous decrits dans le vector lockers.
     */
-    public Locker(EdPPanel edP, DataBaseCommunication dbC, long idUser) {
-        this.edP = edP;
+    public Locker(CopexPanel copex, DataBaseCommunication dbC, long idUser) {
+        this.copex = copex;
         this.dbC = dbC;
         // Sauvegarde du user
         this.idUser = idUser;
         this.lockers = new ArrayList();
         // Creation du Thread de reactivation des verrous.
-        thread = new ActivatorThread(edP, dbC, this) ;
+        thread = new ActivatorThread(copex, dbC, this) ;
         thread.start();
 
     }
@@ -73,7 +73,7 @@ public class Locker {
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbP; i++){
             lockers.add(procs.get(i));
@@ -90,7 +90,7 @@ public class Locker {
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         this.lockers.add(idProc);
         return new CopexReturn();
@@ -104,7 +104,7 @@ public class Locker {
         querys[0] = query;
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         this.lockers.remove(idProc);
         return new CopexReturn();
@@ -120,7 +120,7 @@ public class Locker {
         }
         CopexReturn cr = dbC.executeQuery(querys, v);
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         for (int i=0; i<nbP; i++){
             this.lockers.remove(procs.get(i));
@@ -133,7 +133,7 @@ public class Locker {
         // suppression des anciens verrous
         CopexReturn cr = deleteOldLockers();
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
         String query = "SELECT * FROM VERROU WHERE ID_PROC = "+idProc+" ;";
         ArrayList v2 = new ArrayList();
@@ -142,7 +142,7 @@ public class Locker {
 
         cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
-            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+            copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }
         int nbR = v2.size();

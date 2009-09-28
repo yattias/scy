@@ -63,11 +63,11 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
     /* affichage du nom */
     private boolean viewName;
      /* tableau des parametres de l'action */
-    private ActionParam[] tabParam ;
+    private Object[] tabParam ;
     /* liste des material prod */
-    private ArrayList<Material> materialsProd;
+    private ArrayList<Object> materialsProd;
     /* liste des data prod */
-    private ArrayList<QData> datasProd;
+    private ArrayList<Object> datasProd;
     /* liste des composants : a chaque indice du parametre on fait correspondre :
      * _ param de type Quantity : un text Field, une comboBox avec sa liste d'objets
      * _ param de type Material : une comboBox avec sa liste d'objets
@@ -126,7 +126,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
     }
 
     /* constructeur de la fenetre d'edition de l'action */
-    public ActionDialog2(EdPPanel edP, boolean modeAdd, String description, String comments, ImageIcon taskImage, Element taskDraw, InitialNamedAction actionNamed, char right, char procRight, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, ActionParam[] tabParam, ArrayList<Material> materialsProd, ArrayList<QData> datasProd, boolean isActionRepeat, TaskRepeat tr ) {
+    public ActionDialog2(EdPPanel edP, boolean modeAdd, String description, String comments, ImageIcon taskImage, Element taskDraw, InitialNamedAction actionNamed, char right, char procRight, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, Object[] tabParam, ArrayList<Object> materialsProd, ArrayList<Object> datasProd, boolean isActionRepeat, TaskRepeat tr ) {
         super();
         this.edP = edP;
         this.modeAdd = modeAdd;
@@ -259,7 +259,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
     /* label name*/
     private JLabel getLabelName(){
         if (labelName == null){
-            labelName = new JLabel(edP.getBundleString("LABEL_NAME")+" :");
+            labelName = new JLabel(edP.getBundleString("LABEL_NAME"));
             labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelName.setName("labelName");
             int w = CopexUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont()));
@@ -423,7 +423,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
             drawPanel = new MyWhiteBoardPanel();
             drawPanel.setName("whiteboardPanel");
             if(!modeAdd && taskDraw !=null ){
-                drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
+//                drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
             }
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(labelImage != null){
@@ -440,9 +440,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
             taskRepeatPanel = new TaskRepeatPanel(edP, listAllParam, listOutput, true, modeAdd);
             taskRepeatPanel.addActionTaskRepeat(this);
             taskRepeatPanel.setName("taskRepeatPanel");
-            if(!modeAdd && this.taskRepeat != null){
-                taskRepeatPanel.setTaskRepeat(taskRepeat);
-            }
+            
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(drawPanel != null){
                 y = drawPanel.getY()+drawPanel.getHeight()+20;
@@ -450,6 +448,10 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
             taskRepeatPanel.setBounds(posx, y, areaW, taskRepeatPanel.getHeight());
+            if(!modeAdd && this.taskRepeat != null){
+                taskRepeatPanel.setSize(290, taskRepeatPanel.getHeight());
+                taskRepeatPanel.setTaskRepeat(taskRepeat);
+            }
         }
         return taskRepeatPanel ;
     }
@@ -672,13 +674,26 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
        this.panelComments.setPanelDetailsShown();
        // recupere les donnees :
        InitialNamedAction a = null;
-       ActionParam[] tabP = null;
+       Object[] tabP = null;
+       // recuperation des repetitions
        int nbTaskRepeat = 1;
         if(taskRepeatPanel != null){
             nbTaskRepeat = taskRepeatPanel.getNbRepeat();
         }
+       if(nbTaskRepeat > 1){
+           ArrayList v2 = new ArrayList();
+           CopexReturn cr=  taskRepeatPanel.getTaskRepeat(v2);
+           if(cr.isError()){
+               edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+               return;
+           }
+           taskRepeat = (TaskRepeat)v2.get(0);
 
-        if (nbTaskRepeat <=1 && viewName){
+        }else
+            taskRepeat = null;
+
+        // recuperation des param
+        if (viewName){
             boolean ex = false;
             int id = this.cbActionName.getSelectedIndex() ;
             if (!isFreeAction && id == 0){
@@ -691,16 +706,20 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
             }
             /** if (!(id == 0 && isFreeAction)){
                 a = isFreeAction ? this.listInitialNamedAction.get(id-1) : this.listInitialNamedAction.get(id);
-            }*/if (ex){
+            }*/
+            if (ex){
 
             }else
             if(a != null && a.isSetting()){
-                tabP = new ActionParam[a.getVariable().getNbParam()];
+                tabP = new Object[a.getVariable().getNbParam()];
                 int nbP = tabP.length ;
                 for (int i=0; i<nbP; i++){
                     InitialActionParam initActionParam = a.getVariable().getTabParam()[i] ;
+                    ArrayList<ActionParam> l = null;
+                    if(taskRepeat != null)
+                        l = taskRepeat.getListActionParam(initActionParam);
+                    if(l == null || l.size() == 0){
                     if(initActionParam instanceof InitialParamQuantity){
-                        System.out.println("param de type quantite");
                         // param de type quantite
                         ArrayList param = (ArrayList)listComponent.get(i);
                         // en 0 le textField
@@ -729,7 +748,6 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                         tabP[i] = paramQ;
 
                     }else if(initActionParam instanceof InitialParamMaterial){
-                        System.out.println("param de type material ");
                         // param de type material
                         ArrayList paramCB = (ArrayList)listComponent.get(i);
                         // en 0 la combo et en 1 la liste correspondate
@@ -740,7 +758,6 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                         ActionParamMaterial paramM = new ActionParamMaterial(-1, initActionParam, material, null);
                         tabP[i] = paramM ;
                     }else if (initActionParam instanceof InitialParamData){
-                        System.out.println("param de type data ");
                         // param de type data
                         ArrayList paramCB = (ArrayList)listComponent.get(i);
                         // en 0 la combo et en 1 la liste correspondate
@@ -761,18 +778,20 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                         }
                         ActionParamData paramD = new ActionParamData(-1, initActionParam, data);
                         tabP[i] = paramD ;
-
+                    }
+                    }else{
+                        tabP[i] = l;
                     }
                 }
                 // on rattache eventuellement les parametres quantite  aux parametres material
                 for (int i=0; i<tabP.length; i++){
                     if (tabP[i] instanceof ActionParamMaterial){
-                        if ((tabP[i].getInitialParam() instanceof InitialParamMaterial && ((InitialParamMaterial)(tabP[i].getInitialParam())).getParamQuantity() !=null  )){
+                        if ((((ActionParamMaterial)tabP[i]).getInitialParam() instanceof InitialParamMaterial && ((InitialParamMaterial)(((ActionParamMaterial)tabP[i]).getInitialParam())).getParamQuantity() !=null  )){
                             // recherche le param quantite
-                            long dbKeyIQ = ((InitialParamMaterial)(tabP[i].getInitialParam())).getParamQuantity().getDbKey() ;
+                            long dbKeyIQ = ((InitialParamMaterial)(((ActionParamMaterial)tabP[i]).getInitialParam())).getParamQuantity().getDbKey() ;
                             ActionParamQuantity paramQ = null;
                             for (int j=0; j<tabP.length; j++){
-                                if (tabP[j].getInitialParam() instanceof InitialParamQuantity && ((InitialParamQuantity)tabP[j].getInitialParam()).getDbKey() ==  dbKeyIQ){
+                                if (tabP[j] instanceof ActionParam && ((ActionParam)tabP[j]).getInitialParam() instanceof InitialParamQuantity && ((InitialParamQuantity)((ActionParam)tabP[j]).getInitialParam()).getDbKey() ==  dbKeyIQ){
                                     paramQ = (ActionParamQuantity)tabP[j] ;
                                 }
                             }
@@ -782,48 +801,6 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                 }
             }
         }
-       if(nbTaskRepeat > 1){
-//            long oldKey = -1;
-//            if (taskRepeat != null)
-//                oldKey = taskRepeat.getDbKey();
-//            taskRepeat = new TaskRepeat(oldKey, nbTaskRepeat);
-            taskRepeat = taskRepeatPanel.getTaskRepeat();
-        }
-
-        if(viewName && nbTaskRepeat >1 && taskRepeat != null){
-            ArrayList<ActionParam> listActionParam = new ArrayList();
-            int nb = taskRepeat.getListParam().size();
-            for (int i=0; i<nb; i++){
-                TaskRepeatParam p = taskRepeat.getListParam().get(i);
-                if (p instanceof TaskRepeatParamData){
-                    ArrayList<TaskRepeatValueParamData> listValue = ((TaskRepeatParamData)p).getListValue();
-                    int nbV= listValue.size();
-                    for (int j=0; j<nbV; j++){
-                        listActionParam.add(listValue.get(j).getActionParamData());
-                    }
-                }else if (p instanceof TaskRepeatParamMaterial){
-                    ArrayList<TaskRepeatValueParamMaterial> listValue = ((TaskRepeatParamMaterial)p).getListValue();
-                    int nbV= listValue.size();
-                    for (int j=0; j<nbV; j++){
-                        listActionParam.add(listValue.get(j).getActionParamMaterial());
-                    }
-                }else if (p instanceof TaskRepeatParamQuantity){
-                    ArrayList<TaskRepeatValueParamQuantity> listValue = ((TaskRepeatParamQuantity)p).getListValue();
-                    int nbV= listValue.size();
-                    for (int j=0; j<nbV; j++){
-                        listActionParam.add(listValue.get(j).getActionParamQuantity());
-                    }
-                }
-            }
-
-            int nbTot = listActionParam.size();
-            tabP = new ActionParam[nbTot];
-            for (int i=0; i<nbTot; i++){
-                tabP[i] = listActionParam.get(i);
-            }
-        }
-
-
 
         String d = "";
         if (this.labelDescription != null){
@@ -854,30 +831,23 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
 
         CopexAction newAction = new CopexAction(d, c) ;
         if (a != null){
-            System.out.println("creation d'une action nommee");
             newAction = new CopexActionNamed(d, c, a) ;
             newAction.getTaskRight().setDrawRight(a.isDraw() ? MyConstants.EXECUTE_RIGHT : MyConstants.NONE_RIGHT);
             if (tabP != null){
                 if (a instanceof InitialActionChoice ){
-                    System.out.println("creation d'une action choice");
                     newAction = new CopexActionChoice(d, c, a, tabP) ;
                 }else if (a instanceof InitialActionManipulation){
-                    System.out.println("creation d'une action manipulation");
                     ArrayList v = new ArrayList();
                     newAction = new CopexActionManipulation(d, c, a, tabP, getListMaterialProd(a, v));
                     if (v.get(0) != null &&  !((Boolean)v.get(0)))
                         return;
                 }else if (a instanceof InitialActionTreatment){
-                    System.out.println("creation d'une action treatment");
                     ArrayList v = new ArrayList();
                     newAction = new CopexActionTreatment(d, c, a, tabP, getListDataProd(a, v));
-                    System.out.println("a : "+a.getDbKey());
-                    System.out.println("tabP : "+tabP.length);
 
                     if (v.get(0) != null &&  !((Boolean)v.get(0)))
                         return;
                 }else if (a instanceof InitialActionAcquisition){
-                    System.out.println("creation d'une action acquisition");
                     ArrayList v = new ArrayList();
                     newAction = new CopexActionAcquisition(d, c, a, tabP, getListDataProd(a, v));
                     if (v.get(0) != null &&  !((Boolean)v.get(0)))
@@ -914,32 +884,41 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
    }
 
     /* retourne la liste des data produit */
-   private ArrayList<QData> getListDataProd(InitialNamedAction action, ArrayList v){
-       ArrayList<QData> ld = new ArrayList();
+   private ArrayList<Object> getListDataProd(InitialNamedAction action, ArrayList v){
+       ArrayList<Object> ld = new ArrayList();
         if (!(action instanceof InitialActionTreatment || action instanceof InitialActionAcquisition)){
            System.out.println("ceci n'est pas une action treatment ou acquisition !!");
             v.add(true);
             return ld;
        }
-       if(taskRepeat != null && taskRepeat.getNbRepeat() > 1){
+
+       if(taskRepeat != null && taskRepeat.getListParam().size() > 0 && taskRepeat.getNbRepeat() > 1){
            int nbP = taskRepeat.getListParam().size();
            for (int i=0; i<nbP; i++){
                TaskRepeatParam param = taskRepeat.getListParam().get(i);
                if(param instanceof TaskRepeatParamOutputAcquisition){
+                   ArrayList<QData> l = new ArrayList();
                    int nbO = ((TaskRepeatParamOutputAcquisition)param).getListValue().size();
                    for (int j=0; j<nbO; j++){
-                       ld.add(((TaskRepeatParamOutputAcquisition)param).getListValue().get(j).getData());
+                       l.add(((TaskRepeatParamOutputAcquisition)param).getListValue().get(j).getData());
                    }
-               }else if(param instanceof TaskRepeatParamOutputTreatment){
+                   ld.add(l);
+               }else if (param instanceof TaskRepeatParamOutputTreatment){
+                   ArrayList<QData> l = new ArrayList();
                    int nbO = ((TaskRepeatParamOutputTreatment)param).getListValue().size();
                    for (int j=0; j<nbO; j++){
-                       ld.add(((TaskRepeatParamOutputTreatment)param).getListValue().get(j).getData());
+                       l.add(((TaskRepeatParamOutputTreatment)param).getListValue().get(j).getData());
                    }
+                   ld.add(l);
                }
            }
-           v.add(true);
-           return ld;
+           if(ld.size() > 0){
+                v.add(true);
+                return ld;
+           }
        }
+
+
        for (int i=0; i<this.listDataProd.size(); i++){
            String s = ((JTextField)listDataProd.get(i)).getText();
            if (s.length() == 0){
@@ -971,26 +950,30 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
 
 
    /* retourne la liste du materiel produit */
-   private ArrayList<Material> getListMaterialProd(InitialNamedAction action, ArrayList v){
-       ArrayList<Material> lm = new ArrayList();
+   private ArrayList<Object> getListMaterialProd(InitialNamedAction action, ArrayList v){
+       ArrayList<Object> lm = new ArrayList();
        if (!(action instanceof InitialActionManipulation)){
            System.out.println("Attention ce n'est pas une action manipulation !! ");
            v.add(true);
            return lm;
        }
-       if(taskRepeat != null && taskRepeat.getNbRepeat() > 1){
+       if(taskRepeat != null && taskRepeat.getListParam().size() > 0 && taskRepeat.getNbRepeat() > 1){
            int nbP = taskRepeat.getListParam().size();
            for (int i=0; i<nbP; i++){
                TaskRepeatParam param = taskRepeat.getListParam().get(i);
                if(param instanceof TaskRepeatParamOutputManipulation){
+                   ArrayList<Material> l = new ArrayList();
                    int nbO = ((TaskRepeatParamOutputManipulation)param).getListValue().size();
                    for (int j=0; j<nbO; j++){
-                       lm.add(((TaskRepeatParamOutputManipulation)param).getListValue().get(j).getMaterial());
+                       l.add(((TaskRepeatParamOutputManipulation)param).getListValue().get(j).getMaterial());
                    }
+                   lm.add(l);
                }
            }
-           v.add(true);
-           return lm;
+           if(lm.size() > 0){
+                v.add(true);
+                return lm;
+           }
        }
 
        for (int i=0; i<this.listMaterialProd.size(); i++){
@@ -1072,7 +1055,6 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
            if(a.getVariable() != null){
                 for (int i=0; i<a.getVariable().getTabParam().length; i++){
                     listAllParams.add(a.getVariable().getTabParam()[i]);
-                    System.out.println("action dialog : "+a.getVariable().getTabParam()[i].toString());
                 }
            }
            ArrayList<InitialOutput> listOutput = new ArrayList();
@@ -1137,7 +1119,7 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                tf.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ACTION_PARAM_VALUE"));
                panelSetting.add(tf);
                if (!modeAdd && tabParam != null && tabParam[i] != null && tabParam[i] instanceof ActionParamQuantity){
-                   tf.setText(""+((ActionParamQuantity)tabParam[i]).getParameter().getValue());
+                   tf.setText(Double.toString(((ActionParamQuantity)tabParam[i]).getParameter().getValue()));
                }
                // combo box unites
                JComboBox cb = new JComboBox();
@@ -1197,14 +1179,13 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
              panelSetting.add(label);
        }
        // material / data produces
-       System.out.println("action produces : "+action);
        if (action instanceof InitialActionManipulation){
            System.out.println("action manipulation");
            int nbMat = ((InitialActionManipulation)action).getNbMaterialProd() ;
            System.out.println("nb Material prod : "+nbMat);
            for (int i=0; i<nbMat; i++){
                 textProd  = ((InitialActionManipulation)action).getListOutput().get(i).getTextProd();
-                JLabel label = new JLabel(textProd+" :") ;
+                JLabel label = new JLabel(textProd+":") ;
                 label.setFont(new java.awt.Font("Tahoma", 1, 11));
                 label.setSize(CopexUtilities.lenghtOfString(label.getText(), getFontMetrics(label.getFont())), 20);
                 panelSetting.add(label);
@@ -1221,9 +1202,9 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                 }
                 panelSetting.add(cb);
                 listMaterialProd.add(cb);
-                if (!modeAdd ){
+                if (!modeAdd &&  this.materialsProd.get(i) instanceof Material){
                   //tf.setText(this.materialsProd.get(i).getName());
-                    cb.setSelectedItem(this.materialsProd.get(i).getName());
+                    cb.setSelectedItem(((Material)(this.materialsProd.get(i))).getName());
                 }
            }
        }else if (action instanceof InitialActionAcquisition){
@@ -1240,13 +1221,13 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                 tf.setPreferredSize(new Dimension(80,20));
                 panelSetting.add(tf);
                 listDataProd.add(tf);
-                if (!modeAdd ){
-                   tf.setText(this.datasProd.get(i).getName());
+                if (!modeAdd && this.datasProd.get(i) instanceof QData){
+                   tf.setText(((QData)this.datasProd.get(i)).getName());
                 }
            }
        }else if (action instanceof InitialActionTreatment){
-           System.out.println("action treatment");
            int nbData = ((InitialActionTreatment)action).getNbDataProd() ;
+           System.out.println("action treatment "+nbData);
            for (int i=0; i<nbData; i++){
                 textProd  = ((InitialActionTreatment)action).getListOutput().get(i).getTextProd();
                 JLabel label = new JLabel(textProd+" :") ;
@@ -1258,16 +1239,17 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
                 tf.setPreferredSize(new Dimension(80,20));
                 panelSetting.add(tf);
                 listDataProd.add(tf);
-                if (!modeAdd ){
-                   tf.setText(this.datasProd.get(i).getName());
+                if (!modeAdd && this.datasProd.get(i) instanceof QData){
+                   tf.setText(((QData)this.datasProd.get(i)).getName());
                 }
            }
        }
-       if((maxWidthLabel+20) > this.getWidth()){
-            this.panelSetting.setSize(maxWidthLabel+10, this.panelSetting.getHeight());
-       }else{
-           this.panelSetting.setSize(325,125);
-       }
+//       if((maxWidthLabel+20) > this.getWidth()){
+//            this.panelSetting.setSize(maxWidthLabel+10, this.panelSetting.getHeight());
+//       }else{
+//           this.panelSetting.setSize(325,125);
+//       }
+       this.panelSetting.setSize(325,125);
        this.panelSetting.revalidate();
        int y = posy;
        if (viewName)
@@ -1500,9 +1482,5 @@ public class ActionDialog2 extends JDialog implements ActionComment, ActionTaskR
         setElementEnabled(oldSel, true);
         setElementEnabled(newSel, false);
     }
-
-
-
     
-
 }

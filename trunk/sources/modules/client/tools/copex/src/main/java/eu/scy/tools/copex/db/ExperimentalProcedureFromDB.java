@@ -34,7 +34,7 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn getProcMissionFromDB_xml(DataBaseCommunication dbC, Locker locker, Locale locale, long dbKeyMission, long dbKeyUser, ArrayList<Long> listIdInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v) {
         ArrayList<LearnerProcedure> listP = new ArrayList();
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = getInitialProcFromDB(dbC, locale, dbKeyMission, dbKeyUser, listIdInitProc, listPhysicalQuantity, v2) ;
+        CopexReturn cr = getInitialProcFromDB(dbC, locale, dbKeyUser, listIdInitProc, listPhysicalQuantity, v2) ;
         if (cr.isError())
             return cr;
         ArrayList<InitialProcedure> listInitProc = (ArrayList<InitialProcedure>)v2.get(0);
@@ -969,7 +969,7 @@ public class ExperimentalProcedureFromDB {
             String name = rs.getColumnData("O."+lib);
             String textprod = rs.getColumnData("O.TEXT_PROD");
             ArrayList v3 = new ArrayList();
-            cr = getInitialTypeMaterialManipulationFromDB(dbC, dbKey, v3);
+            cr = getInitialTypeMaterialManipulationFromDB(dbC, dbKeyAction, v3);
             if (cr.isError())
                 return cr;
             ArrayList<TypeMaterial> typeMaterialProd = (ArrayList<TypeMaterial>)v3.get(0);
@@ -984,8 +984,12 @@ public class ExperimentalProcedureFromDB {
     /* retourne en v[0] la liste du type de  material prod par une tache de manipulation */
     private static CopexReturn getInitialTypeMaterialManipulationFromDB(DataBaseCommunication dbC, long dbKeyAction,  ArrayList v){
         ArrayList<TypeMaterial> typeMaterialProd = new ArrayList();
-        String query = "SELECT T.ID_TYPE, T.TYPE_NAME FROM MATERIAL_TYPE T, INITIAL_TYPE_MATERIAL_MANIPULATION I, LINK_INITIAL_MATERIAL_MANIPULATION L  " +
-                "WHERE T.ID_TYPE = I.ID_TYPE AND I.ID_INITIAL_TYPE_MATERIAL_MANIPULATION = L.ID_INITIAL_TYPE_MATERIAL AND L.ID_ACTION = "+dbKeyAction+" ;";
+        String query = "SELECT DISTINCT T.ID_TYPE, T.TYPE_NAME " +
+                "FROM MATERIAL_TYPE T, INITIAL_TYPE_MATERIAL_MANIPULATION M, LINK_INITIAL_MANIPULATION_MATERIAL L, INITIAL_MANIPULATION_OUTPUT O, LINK_INITIAL_MANIPULATION_OUTPUT L2 " +
+                "WHERE T.ID_TYPE = M.ID_TYPE AND " +
+                "M.ID_INITIAL_TYPE_MATERIAL_MANIPULATION = L.ID_INITIAL_TYPE_MATERIAL AND " +
+                "L.ID_OUTPUT = L2.ID_OUTPUT AND " +
+                "L2.ID_ACTION = "+dbKeyAction+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("T.ID_TYPE");
@@ -1044,11 +1048,11 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* retourne en v[0] la liste des unites des data prod par une tache d'acquisition */
-    private static CopexReturn getInitialUnitDataAcquisitionFromDB(DataBaseCommunication dbC, long dbKeyAction, int nbDataProd, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
+    private static CopexReturn getInitialUnitDataAcquisitionFromDB(DataBaseCommunication dbC, long dbKeyOutput, int nbDataProd, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
         int nbPhysQ = listPhysicalQuantity.size();
         CopexUnit[] unitDataProd = new CopexUnit[nbDataProd];
-        String query = "SELECT I.ID_UNIT  FROM INITIAL_UNIT_DATA_ACQUISITION I, LINK_INITIAL_DATA_ACQUISITION  L  " +
-                "WHERE I.ID_INITIAL_UNIT_DATA_ACQUISITION = L.ID_INITIAL_DATA AND L.ID_ACTION = "+dbKeyAction+" ;";
+        String query = "SELECT I.ID_UNIT  FROM INITIAL_UNIT_DATA_ACQUISITION I, LINK_INITIAL_ACQUISITION_DATA  L  " +
+                "WHERE I.ID_INITIAL_UNIT_DATA_ACQUISITION = L.ID_INITIAL_UNIT AND L.ID_OUTPUT = "+dbKeyOutput+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("I.ID_UNIT");
@@ -1115,11 +1119,11 @@ public class ExperimentalProcedureFromDB {
 
 
     /* retourne en v[0] la liste des unites des data prod par une tache de treatment */
-    private static CopexReturn getInitialUnitDataTreatmentFromDB(DataBaseCommunication dbC, long dbKeyAction, int nbDataProd, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
+    private static CopexReturn getInitialUnitDataTreatmentFromDB(DataBaseCommunication dbC, long dbKeyOutput, int nbDataProd, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
         int nbPhysQ = listPhysicalQuantity.size();
         CopexUnit[] unitDataProd = new CopexUnit[nbDataProd];
-        String query = "SELECT I.ID_UNIT  FROM INITIAL_UNIT_DATA_TREATMENT I, LINK_INITIAL_DATA_TREATMENT  L  " +
-                "WHERE I.ID_INITIAL_UNIT_DATA_TREATMENT = L.ID_INITIAL_DATA AND L.ID_ACTION = "+dbKeyAction+" ;";
+        String query = "SELECT I.ID_UNIT  FROM INITIAL_UNIT_DATA_TREATMENT I, LINK_INITIAL_TREATMENT_DATA  L  " +
+                "WHERE I.ID_INITIAL_UNIT_DATA_TREATMENT = L.ID_INITIAL_DATA AND L.ID_OUTPUT = "+dbKeyOutput+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("I.ID_UNIT");
@@ -1150,7 +1154,7 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* chargement proc initial */
-    public static CopexReturn getInitialProcFromDB(DataBaseCommunication dbC, Locale locale, long dbKeyMission , long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
+    public static CopexReturn getInitialProcFromDB(DataBaseCommunication dbC, Locale locale,  long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
         ArrayList<InitialProcedure> listInitProc = new ArrayList();
         // chargement du protocole initial
         String list = "("+listIdInitProc.get(0);
@@ -1161,7 +1165,7 @@ public class ExperimentalProcedureFromDB {
         list += ")";
         String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, I.IS_FREE_ACTION,I.IS_TASK_REPEAT, I.CODE_PROC " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_PROC L, INITIAL_PROC I " +
-                   "WHERE L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+ " AND "+
+                   "WHERE L.ID_USER = "+dbKeyUser+ " AND "+
                    "L.ID_PROC IN "+list+" AND "+
                    "L.ID_PROC  = E.ID_PROC AND L.ID_PROC = I.ID_PROC  " +
                    " ORDER BY I.CODE_PROC  ;";
@@ -1291,7 +1295,7 @@ public class ExperimentalProcedureFromDB {
         System.out.println("*** chargement proc initial");
         ArrayList<Long> listIdInitProc = new ArrayList();
         listIdInitProc.add(dbKeyInitProc);
-        CopexReturn cr = getInitialProcFromDB(dbC, locale, dbKeyMission, dbKeyUser, listIdInitProc, listPhysicalQuantity, v2);
+        CopexReturn cr = getInitialProcFromDB(dbC, locale,  dbKeyUser, listIdInitProc, listPhysicalQuantity, v2);
         if (cr.isError())
             return cr;
         ArrayList<InitialProcedure> listInitProc = (ArrayList<InitialProcedure>)v2.get(0);

@@ -5,7 +5,6 @@
  */
 
 package eu.scy.tools.copex.utilities;
-import eu.scy.tools.copex.edp.EdPPanel;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
@@ -17,7 +16,6 @@ import javax.swing.*;
 public class CopexButtonPanel extends JPanel {
 
     // ATTRIBUTS
-    private EdPPanel edP;
     private int l;
     /* action de clic */
     private ActionCopexButton actionCopexButton;
@@ -43,9 +41,8 @@ public class CopexButtonPanel extends JPanel {
     private Image bgDisabled;
     private boolean modeEnabled = true;
 
-    public CopexButtonPanel(EdPPanel edP, int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
+    public CopexButtonPanel(int l, Image bgSimple, Image bgSurvol, Image bgClic, Image bgDisabled) {
         super();
-        this.edP = edP;
         this.bgSimple = bgSimple;
         this.bg = bgSimple;
         this.bgSurvol = bgSurvol;
@@ -78,9 +75,6 @@ public class CopexButtonPanel extends JPanel {
         if (bg == null){
             System.out.println("bg null !!");
             bg = bgSimple;
-        }
-        if (bg.getWidth(edP) == -1){
-            System.out.println("image a -1");
         }
         boolean d  =g.drawImage(bg, 0, 0, null) ;
         while (!d){

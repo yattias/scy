@@ -26,7 +26,6 @@ import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //CONSTANTES
     public final static Color backgroundColor = SystemColor.control;
     /* width */
-    public static final int PANEL_WIDTH = 500;
+    public static final int PANEL_WIDTH = 530;
     /* height */
     public static final int PANEL_HEIGHT = 330;
 
@@ -253,6 +252,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         setMinimumSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
         setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
         if(action != null)
             action.resizeDataToolPanel(getWidth(), getHeight());
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

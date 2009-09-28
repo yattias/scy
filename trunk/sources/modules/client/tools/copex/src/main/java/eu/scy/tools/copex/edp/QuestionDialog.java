@@ -439,8 +439,8 @@ public class QuestionDialog extends JDialog implements ActionComment {
         getContentPane().add(labelHypothesis);
         labelHypothesis.setBounds(20, 120, 110, 14);
 
-        labelGeneralPrinciple.setFont(new java.awt.Font("Tahoma", 1, 11));
-        labelGeneralPrinciple.setText(edP.getBundleString("LABEL_GENERAL_PRINCIPLE")+" :");
+        labelGeneralPrinciple.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelGeneralPrinciple.setText(edP.getBundleString("LABEL_GENERAL_PRINCIPLE"));
         labelGeneralPrinciple.setName("labelGeneralPrinciple"); // NOI18N
         getContentPane().add(labelGeneralPrinciple);
         labelGeneralPrinciple.setBounds(20, 250, 110, 14);

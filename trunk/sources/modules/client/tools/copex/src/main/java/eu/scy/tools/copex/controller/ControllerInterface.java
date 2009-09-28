@@ -8,13 +8,12 @@ package eu.scy.tools.copex.controller;
 import eu.scy.tools.copex.common.CopexAction;
 import eu.scy.tools.copex.common.CopexMission;
 import eu.scy.tools.copex.common.CopexTask;
-import eu.scy.tools.copex.common.InitialActionParam;
-import eu.scy.tools.copex.common.InitialOutput;
 import eu.scy.tools.copex.common.InitialProcedure;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.common.Material;
 import eu.scy.tools.copex.common.Question;
 import eu.scy.tools.copex.common.Step;
+import eu.scy.tools.copex.common.TypeMaterial;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.edp.TaskSelected;
 import eu.scy.tools.copex.utilities.CopexReturn;
@@ -31,12 +30,6 @@ public interface ControllerInterface {
     public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstname, String logFileName);
     /* retourne vrai si utilisation datasheet */
     public boolean useDataSheet();
-    /* ajout d'une sous question */
-    public void addQuestion();
-    /* ajout d'une etape */
-    public void addEtape();
-    /* ajout d'une action */
-    public void addAction();
     /* ajout d'une tache */
     public CopexReturn addTask(CopexTask task, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v, char undoRedo, boolean cut) ;
     /* ajout d'une action */
@@ -54,18 +47,13 @@ public interface ControllerInterface {
      /* modification d'une tache */
     public CopexReturn updateTask(CopexTask newTask, LearnerProcedure proc, CopexTask oldTask, char undoRedo, ArrayList v);
    
-    /* imprimer */
-    public void print();
-    /* couper */
-    public CopexReturn cut();
-    /* copier */
-    public CopexReturn copy();
-    /* coller */
-    public CopexReturn paste();
     public CopexReturn paste(LearnerProcedure proc, SubTree subTree, TaskSelected ts, char undoRedo, ArrayList v);
     
     /* supprimer */
     public CopexReturn suppr(ArrayList<TaskSelected> listTs, ArrayList v, boolean suppr, char undoRedo);
+    public CopexReturn cut(LearnerProcedure proc,SubTree subTree, TaskSelected ts);
+    public CopexReturn copy(LearnerProcedure proc , TaskSelected ts,SubTree subTree);
+    public CopexReturn paste(LearnerProcedure proc , TaskSelected ts,SubTree subTree);
      /* couper depuis undo redo */
     public CopexReturn cut(ArrayList<TaskSelected> listTs, SubTree subTree, ArrayList v,char undoRedo);
         /* creation d'un nouveau dataSheet pour le protocole */
@@ -132,4 +120,9 @@ public interface ControllerInterface {
     public CopexReturn  getTaskInitialParam(LearnerProcedure proc, CopexTask task, ArrayList v);
     /* retourne la liste des output des actions de l'etape */
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v);
+    /* retourne le type de material par defaut */
+    public TypeMaterial getDefaultMaterialType();
+
+    /* copy d'un ELO*/
+    public CopexReturn copyELO(String name, Element xmlContent);
 }

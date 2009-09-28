@@ -10,6 +10,7 @@ package eu.scy.tools.copex.common;
  * parametres d'une action :
  * - de type quantite
  * - de type material
+ * - de type data
  * @author Marjolaine
  */
 public class ActionParam implements Cloneable {
@@ -53,5 +54,10 @@ public class ActionParam implements Cloneable {
 	    // this shouldn't happen, since we are Cloneable
 	    throw new InternalError();
         }
+    }
+
+    /* description dans l'arbre*/
+    public String toDescription(){
+        return "";
     }
 }

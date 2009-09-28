@@ -51,13 +51,13 @@ public class EloCopexActionWrapper {
 //	private IMetadataKey missionKey;
    private IMetadataKey authorKey;
    private JDomStringConversion jdomStringConversion = new JDomStringConversion();
-   private CopexPanel copexPanel;
+   private ScyCopexPanel copexPanel;
    private File lastUsedFile = null;
    private String docName = untitledDocName;
    private IELO elo = null;
    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
 
-   public EloCopexActionWrapper(CopexPanel copexPanel)
+   public EloCopexActionWrapper(ScyCopexPanel copexPanel)
    {
       this.copexPanel = copexPanel;
    }

@@ -27,8 +27,7 @@ public class ExperimentalProcedure implements Cloneable {
      * question associee
      */
     protected Question question;
-    /* mission */
-    protected CopexMission mission;
+    
     /* actif */
     protected boolean activ;
     /* droit */
@@ -78,9 +77,7 @@ public class ExperimentalProcedure implements Cloneable {
         return question;
     }
 
-    public CopexMission getMission() {
-        return mission;
-    }
+    
 
     public java.sql.Date getDateLastModification() {
         return dateLastModification;
@@ -117,9 +114,7 @@ public class ExperimentalProcedure implements Cloneable {
     public long getDbKey() {
         return dbKey;
     }
-    public void setMission(CopexMission mission) {
-        this.mission = mission;
-    }
+    
     // CONSTRUCTEURS 
     public ExperimentalProcedure(long dbKey, String name, java.sql.Date dateLastModification, boolean isActiv, char right) {
         this.dbKey = dbKey;
@@ -136,10 +131,9 @@ public class ExperimentalProcedure implements Cloneable {
     
     
     /*creation d'un nouveau protocole */ 
-    public ExperimentalProcedure(String name, CopexMission mission, java.sql.Date dateLastModification){
+    public ExperimentalProcedure(String name,  java.sql.Date dateLastModification){
         this.dbKey = -1;
         this.name = name;
-        this.mission = mission;
         this.dateLastModification = dateLastModification;
         this.activ = true;
         this.right = MyConstants.EXECUTE_RIGHT;
@@ -152,7 +146,6 @@ public class ExperimentalProcedure implements Cloneable {
     public ExperimentalProcedure(ExperimentalProcedure proc) {
         this.dbKey = proc.getDbKey();
         this.name = proc.getName();
-        this.mission = proc.getMission();
         this.dateLastModification = proc.getDateLastModification();
         this.activ = proc.isActiv();
         this.right = proc.getRight();
@@ -177,9 +170,7 @@ public class ExperimentalProcedure implements Cloneable {
             if(question != null){
                 questionC = (Question)this.question.clone();
             }
-            CopexMission missionC = null;
-            if (mission != null)
-                missionC  =(CopexMission)this.mission.clone();
+            
             char taskRightC = new Character(this.right);
             boolean activC = this.activ;
             boolean openC = this.open;
@@ -206,7 +197,6 @@ public class ExperimentalProcedure implements Cloneable {
             proc.setName(nameC);
             proc.setDateLastModification(dateLastModifC);
             proc.setQuestion(questionC);
-            proc.setMission(missionC);
             proc.setActiv(activC);
             proc.setRight(taskRightC);
             proc.setListTask(listTaskC);
@@ -222,10 +212,6 @@ public class ExperimentalProcedure implements Cloneable {
     
     // METHODES
     
-    /* retourne true si le protocole est actif pour sa mission */
-    public boolean isActiv(CopexMission m){
-        return (m.getDbKey() == this.mission.getDbKey() && activ);
-    }
     
     /* retourne true si le protocole est actif  */
     public boolean isActiv(){

@@ -43,6 +43,8 @@ public class CopexMission implements Cloneable{
     /* options */
     private OptionMission options;
 
+    private ArrayList<InitialProcedure> listInitialProc;
+
     // CONSTRUCTEURS
     public CopexMission(long dbKey, String name, String code, String sumUp, char statut, OptionMission options){
         this.dbKey = dbKey;
@@ -54,26 +56,6 @@ public class CopexMission implements Cloneable{
         this.activ = true;
         this.options = options;
     }
-    public CopexMission(long dbKey, String name, String code, String sumUp, String description, char statut, OptionMission options){
-        this.dbKey = dbKey;
-        this.name = name;
-        this.code = code;
-        this.sumUp = sumUp;
-        this.description = description;
-        this.statut = statut;
-        this.activ = true;
-        this.options = options;
-    }
-    public CopexMission(String name, String code, String sumUp, char statut, boolean activ, OptionMission options) {
-        this.name = name;
-        this.code = code;
-        this.sumUp = sumUp;
-        this.description = null;
-        this.statut = statut;
-        this.activ = activ;
-        this.options = options;
-    }
-
    public CopexMission(String code, String name, String sumUp, String description, OptionMission options){
        this.name = name;
        this.code = code;
@@ -83,7 +65,18 @@ public class CopexMission implements Cloneable{
        this.statut = STATUT_MISSION_ON ;
        this.activ = true;
        this.options = options;
+       this.listInitialProc = null;
    }
+
+    public ArrayList<InitialProcedure> getListInitialProc() {
+        return listInitialProc;
+    }
+
+    public void setListInitialProc(ArrayList<InitialProcedure> listInitialProc) {
+        this.listInitialProc = listInitialProc;
+    }
+
+
    
      @Override
     public Object clone()  {
@@ -102,6 +95,14 @@ public class CopexMission implements Cloneable{
                 descriptionC = new String(description);
             char statutC = new Character(this.statut);
             boolean activC = this.activ;
+            ArrayList<InitialProcedure> listIP = null;
+            if(listInitialProc != null){
+                listIP = new ArrayList();
+                int nb = this.listInitialProc.size();
+                for (int i=0; i<nb; i++){
+                    listIP.add((InitialProcedure)this.listInitialProc.get(i).clone());
+                }
+            }
             
             if(this.options != null)
                 mission.setOptions((OptionMission)options.clone());
@@ -112,6 +113,7 @@ public class CopexMission implements Cloneable{
             mission.setDescription(descriptionC);
             mission.setStatut(statutC);
             mission.setActiv(activC);
+            mission.setListInitialProc(listInitialProc);
             return mission;
         } catch (CloneNotSupportedException e) { 
 	    // this shouldn't happen, since we are Cloneable

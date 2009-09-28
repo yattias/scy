@@ -39,7 +39,7 @@ public class CopexContentCreator  extends WindowContentCreatorFX {
    }
 
 	function createCopexNode(scyWindow:ScyWindow):CopexNode{
-		var copexPanel= new CopexPanel();
+		var copexPanel= new ScyCopexPanel();
 		var eloCopexActionWrapper= new EloCopexActionWrapper(copexPanel);
 		eloCopexActionWrapper.setRepository(repository);
 		eloCopexActionWrapper.setMetadataTypeManager(metadataTypeManager);
@@ -55,4 +55,6 @@ public class CopexContentCreator  extends WindowContentCreatorFX {
       scyWindow.minimumWidth = 320;
       scyWindow.minimumHeight = 100;
    }
+
+
 }

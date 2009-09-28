@@ -50,17 +50,7 @@ public class DataBaseCommunication {
     private ObjectOutputStream out = null;
     private String dataBD = "";
 
-    public DataBaseCommunication(CopexApplet applet,   int db, long idMission, String idUser) {
-        this.codeBase = applet.getCodeBase();
-        this.directoryData = applet.getDirectoryData();
-        this.directoryPhP = applet.getDirectoryPhp() ;
-        this.dataBD = "";
-        this.db = db;
-        this.idMission = idMission;
-        this.idUser = idUser;
-        this.fileName = "db"+idMission+"-"+idUser+".xml";
-    }
-
+   
     public DataBaseCommunication(URL copexURL,   int db, long idMission, String idUser) {
         this.codeBase = copexURL;
         this.directoryData = getDirectoryData();

@@ -7,7 +7,9 @@ package eu.scy.tools.copex.edp;
 
 
 import eu.scy.tools.copex.common.Material;
+import eu.scy.tools.copex.common.MaterialStrategy;
 import eu.scy.tools.copex.common.MaterialUseForProc;
+import eu.scy.tools.copex.common.MaterialUsed;
 import eu.scy.tools.copex.utilities.ActionCopexButton;
 import eu.scy.tools.copex.utilities.CopexButtonPanel;
 import eu.scy.tools.copex.utilities.CopexPanelHideShow;
@@ -82,7 +84,7 @@ public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButt
     
     public CopexButtonPanel getButtonSortType(){
         if (buttonSortType == null){
-            buttonSortType = new CopexButtonPanel(edP, 25,  
+            buttonSortType = new CopexButtonPanel(25,  
                     imgSortType.getImage(),
                     imgSortTypeSelec.getImage(),
                     imgSortTypeClic.getImage(),
@@ -95,7 +97,7 @@ public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButt
     }
     public CopexButtonPanel getButtonLearner(){
         if (buttonLearner == null){
-           buttonLearner = new CopexButtonPanel(edP, 25,  
+           buttonLearner = new CopexButtonPanel(25,  
                     imgLearner.getImage(),
                     imgLearnerSelec.getImage(),
                     imgLearnerClic.getImage(),
@@ -185,7 +187,16 @@ public class MaterialPanel extends CopexPanelHideShow implements ActionCopexButt
         sortByType = !sortByType;
         this.myListMat.sortByType(showOnlyAdvise, sortByType);
         updateSortIcon();
-        
+        //TODO MBO A SUPPRIMER
+        //MaterialStrategy materialStrategy = new MaterialStrategy(1, "S1", true, "Matériel à utiliser", false, false, true);
+//        MaterialStrategy materialStrategy = new MaterialStrategy(1, "S2", true, "Matériel disponible", true, true, true);
+//        ArrayList<MaterialUsed> listMaterialUsed = new ArrayList();
+//        int nb = this.listMaterial.size();
+//        for (int i=0; i<nb; i++){
+//            listMaterialUsed.add(new MaterialUsed((Material)listMaterial.get(i).clone(), null, true, false));
+//        }
+//        MaterialDialog dialog = new MaterialDialog(edP, listMaterialUsed, materialStrategy);
+//        dialog.setVisible(true);
     }
     private void updateSortIcon(){
         if (sortByType)

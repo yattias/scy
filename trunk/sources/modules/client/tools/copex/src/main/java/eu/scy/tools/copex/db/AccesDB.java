@@ -44,12 +44,7 @@ public class AccesDB {
      
     
     // CONSTRUCTEUR
-    public AccesDB(CopexApplet edP, long idMission, String idUser){
-        this.edP = edP;
-       this.idUser = idUser;
-        //System.out.println("connection adresse IP applet signee v10");
-        dbC = new DataBaseCommunication(edP, MyConstants.DB_COPEX_EDP, idMission, idUser);
-    }
+    
     public AccesDB(URL copexURL, long idMission, String idUser){
        this.idUser = idUser;
         //System.out.println("connection adresse IP applet signee v10");
@@ -219,7 +214,7 @@ public class AccesDB {
     }
     
     /* mise a jour de la date de modif d'un protocole et de sa mission associee */
-    public CopexReturn updateDateProc(ExperimentalProcedure proc){
+    public CopexReturn updateDateProc(LearnerProcedure proc){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         
         CopexReturn cr = MissionFromDB.updateDateMissionInDB_xml(dbC, proc.getMission().getDbKey(), date);
