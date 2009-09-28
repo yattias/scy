@@ -1,2 +1,2 @@
-Sep 18, 2009 9:56:04 AM info.collide.sqlspaces.client.TupleSpace <init>
-INFO: Connecting to 129.240.212.15:2525 in XML mode to spaces [notifications] as null
+Sep 28, 2009 4:49:46 PM info.collide.sqlspaces.client.XMLClientConnector <init>
+SEVERE: IOException while connecting to 129.240.212.15:2525 - exception: java.net.ConnectException: Connection refused
