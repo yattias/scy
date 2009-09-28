@@ -16,22 +16,45 @@ public class ShapeButton extends JButton {
 	private INodeShape shape;
 
 	public ShapeButton(String text, INodeShape shape) {
-        super(text);
+        super(new ShapedIcon(shape, 20, 20));
+		setText(text);
 		this.shape = shape;
     }
 
 	public INodeShape getShape() {
 		return shape;
 	}
+	static class ShapedIcon implements Icon {
+		private INodeShape shape;
+		private int iconHeight;
+		private int iconWidth;
 
-	public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-		Rectangle shrinked = new Rectangle(getBounds());
-		shrinked.grow(-6, -6);
-		g.translate(6, 6);
-		shape.setMode(INodeShape.FILL);
-		g.setColor(new Color(200, 200, 200, 200));
-        shape.paint(g, shrinked);
-		g.dispose();
-    }
+		ShapedIcon(INodeShape shape, int iconHeight, int iconWidth) {
+			this.shape = shape;
+			this.iconHeight = iconHeight;
+			this.iconWidth = iconWidth;
+		}
+
+		@Override
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			Graphics2D g2d = (Graphics2D) g.create();
+
+			shape.setMode(INodeShape.FILL);
+			g2d.setColor(c.getForeground());
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+			Rectangle rect = new Rectangle(x, y, iconWidth, iconHeight);
+			shape.paint(g2d, rect);
+		}
+
+		@Override
+		public int getIconWidth() {
+			return iconWidth;
+		}
+
+		@Override
+		public int getIconHeight() {
+			return iconHeight;
+		}
+	}
 }

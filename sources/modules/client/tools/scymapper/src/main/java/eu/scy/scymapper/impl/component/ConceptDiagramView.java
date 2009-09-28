@@ -8,6 +8,7 @@ import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.shapes.links.Arrowhead;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -347,7 +348,9 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 
         private LinkView getTemplink() {
             if (tempLink == null) {
-                ILinkModel linkModel = new SimpleLink(new Arrow());
+				Arrow arrow = new Arrow();
+				arrow.setArrowhead(new Arrowhead());
+				ILinkModel linkModel = new SimpleLink(arrow);
                 tempLink = new LinkView(new LinkConnectorController(linkModel), linkModel);
                 add(tempLink);
             }
@@ -373,7 +376,9 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
             if (currentTarget != null) {
 
                 IConceptLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
-                newLink.setShape(new Arrow());
+				Arrow arrow = new Arrow();
+				arrow.setArrowhead(new Arrowhead());
+				newLink.setShape(arrow);
                 controller.addLink(newLink);
 
                 currentTarget.setConnectionCandidate(false);

@@ -26,6 +26,8 @@ import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.Ellipse;
 import eu.scy.scymapper.impl.shapes.concepts.Star;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.shapes.links.Line;
+import eu.scy.scymapper.impl.shapes.links.Arrowhead;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -169,7 +171,13 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		availNodeShapes.add(new Ellipse());
 
 		ArrayList<ILinkShape> availLinkShapes = new ArrayList<ILinkShape>();
-		availLinkShapes.add(new Arrow());
+		Arrow a = new Arrow();
+		a.setBidirectional(false);
+		Arrowhead arrowhead = new Arrowhead(10);
+		arrowhead.setFixedSize(true);
+		a.setArrowhead(arrowhead);
+		availLinkShapes.add(a);
+		availLinkShapes.add(new Line());
 
 		// Tab pane
 		conceptMapTabPane = new JTabbedPane();
@@ -296,7 +304,11 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramMode
 		IConceptLinkModel link = new NodeLinkModel(redStar, ellipse);
 		link.getStyle().setColor(new Color(0x444444));
 		link.getStyle().setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
-		link.setShape(new Arrow());
+		Arrow arrow = new Arrow();
+		Arrowhead arrowhead = new Arrowhead(25, Math.PI/3);
+		arrowhead.setFixedSize(true);
+		arrow.setArrowhead(arrowhead);
+		link.setShape(arrow);
 		link.setLabel("I'm in between");
 		diagramModel.addLink(link);
 	}

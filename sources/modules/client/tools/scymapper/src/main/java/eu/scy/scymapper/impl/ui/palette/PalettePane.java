@@ -36,7 +36,7 @@ public class PalettePane extends JPanel {
 
 	private void initComponents() {
 
-		setBorder(new TitledBorder("Shape palette"));
+		setBorder(new TitledBorder("Palette"));
 
 		//
 		FormLayout layout = new FormLayout(
@@ -46,13 +46,12 @@ public class PalettePane extends JPanel {
 		PanelBuilder builder = new PanelBuilder(layout);
 		CellConstraints cc = new CellConstraints();
 
-		JPanel nodePanel = new JPanel();
-		nodePanel.setLayout(new GridLayout(0, 1));
+		JPanel nodePanel = new JPanel(new GridLayout(0, 2));
+		nodePanel.setBorder(BorderFactory.createTitledBorder("Nodes"));
 
 		for (INodeShape nodeShape : nodeShapes) {
 			final ShapeButton c = new ShapeButton(nodeShape.getClass().getSimpleName(), nodeShape);
 			c.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					IDiagramSelectionModel selectionModel = SCYMapper.getInstance().getCurrentEditor().getSelectionModel();
@@ -66,15 +65,13 @@ public class PalettePane extends JPanel {
 					else selectionModel.getSelectedNode().setShape(c.getShape());
 				}
 			});
-			c.setPreferredSize(new Dimension(100, 50));
 			nodePanel.add(c);
 		}
 
-		JPanel linkPanel = new JPanel();
-		linkPanel.setLayout(new GridLayout(1, 0));
-
+		JPanel linkPanel = new JPanel(new GridLayout(0, 2));
+		linkPanel.setBorder(BorderFactory.createTitledBorder("Links"));
 		for (ILinkShape linkShape : linkShapes) {
-			JButton c = new LinkButton(linkShape.getClass().getSimpleName(), linkShape);
+			LinkButton c = new LinkButton(linkShape.getClass().getSimpleName(), linkShape);
 			linkPanel.add(c);
 		}
 

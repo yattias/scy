@@ -55,7 +55,7 @@ public class LinkView extends Container implements ILinkModelListener {
 
         g2.setStroke(style.getStroke());
         g2.setColor(style.getColor());
-        g2.draw(model.getShape().getShape(relFrom, relTo));
+        model.getShape().paint(g2, relFrom, relTo);
 
         g2.dispose();
 

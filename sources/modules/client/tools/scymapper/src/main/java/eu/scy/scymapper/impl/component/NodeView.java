@@ -201,19 +201,21 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         g2.setColor(style.getBackground());
         g2.setStroke(style.getStroke());
 
+		Rectangle relativeBounds = new Rectangle(new Point(0,0), getSize());
+
         INodeShape shape = model.getShape();
         if (shape != null) {
             if (style.getFillStyle() == INodeStyle.FILLSTYLE_FILLED)
                 shape.setMode(INodeShape.FILL);
             else
                 shape.setMode(INodeShape.DRAW);
-            shape.paint(g2, getBounds());
+            shape.paint(g2, relativeBounds);
         }
 
 		if (model.isSelected()) {
-			g2.setColor(new Color(0xbbbbbb));
+			g2.setColor(new Color(0xaaaaaa));
 			// Paint a dotted rectangle around
-			g2.setStroke(new BasicStroke(1f,
+			g2.setStroke(new BasicStroke(2f,
 										  BasicStroke.CAP_BUTT,
 										  BasicStroke.JOIN_ROUND,
 										  2.0f, new float[]{2.0f}, 2.0f));
@@ -221,7 +223,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
 			g2.setColor(new Color(0xffffff));
 			// Paint a dotted rectangle around
-			g2.setStroke(new BasicStroke(1f,
+			g2.setStroke(new BasicStroke(2f,
 										  BasicStroke.CAP_BUTT,
 										  BasicStroke.JOIN_ROUND,
 										  2.0f, new float[]{2.0f}, 0.0f));

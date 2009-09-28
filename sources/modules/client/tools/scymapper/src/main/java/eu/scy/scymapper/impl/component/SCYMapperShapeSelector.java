@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Date: 17.jun.2009
  * Time: 16:04:19
  * To change this template use File | Settings | File Templates.
+ * @deprecated
  */
 public class SCYMapperShapeSelector extends JPanel {
     private static final String FIGURES_PACKAGE = "eu.scy.colemo.client.eu.scy.scymapper.impl.shapes.concepts";
@@ -83,8 +84,8 @@ public class SCYMapperShapeSelector extends JPanel {
                 }
                 try {
                     ILinkShape figure = (ILinkShape) clazz.newInstance();
-                    Shape shape = figure.getShape(new Point(0, 10), new Point(150, 10));
-                    System.out.println(" s.gb()= " + shape.getBounds());
+
+                    
                     //ShapeButton b = new ShapeButton(clazz.getSimpleName(), shape);
                     //connectorPanel.add(b);
 
