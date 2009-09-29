@@ -22,7 +22,7 @@ public class StartUpInformationItem extends JPanel {
     public StartUpInformationItem(String title, String descritpion, ImageIcon icon) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(SCYPlannerApplicationManager.getDefaultBorderSize(), SCYPlannerApplicationManager.getDefaultBorderSize(), 22, SCYPlannerApplicationManager.getDefaultBorderSize()));
-        heading.setFont(StartUpMenuItemm.DEFAULT_STARTUP_PANEL_FONT);
+        heading.setFont(StartUpMenuItem.DEFAULT_STARTUP_PANEL_FONT);
 
         setTitle(title);
 
