@@ -7,9 +7,7 @@
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
 import javafx.scene.CustomNode;
-import javafx.scene.Node;
 
 import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
@@ -20,11 +18,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.missionmap.AnchorFX;
 import java.net.URI;
 
-import javafx.scene.Group;
 
 import org.apache.log4j.Logger;
 
@@ -34,12 +30,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
-import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
-import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
-import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
-import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 
-import java.lang.IllegalArgumentException;
 import javafx.scene.control.Button;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -66,6 +57,21 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
 import eu.scy.client.desktop.scydesktop.config.EloConfig;
+import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
+
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
+import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
+import java.lang.IllegalArgumentException;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.String;
 
 
 /**
@@ -104,6 +110,15 @@ public class ScyDesktop extends CustomNode {
    init{
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(function(){MouseBlocker.initMouseBlocker(scene.stage);});
+      logger.info("repository class: {config.getRepository().getClass()}");
+      if (config.getRepository() instanceof RepositoryWrapper){
+         var repositoryWrapper = config.getRepository() as RepositoryWrapper;
+         var eloSavedActionHandler = EloSavedActionHandler{
+
+         }
+         repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
+         logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
+      }
    }
 
    function initialWindowPositioning(){
