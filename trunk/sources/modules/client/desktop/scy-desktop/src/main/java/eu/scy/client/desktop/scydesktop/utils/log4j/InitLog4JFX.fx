@@ -22,8 +22,14 @@ public function initLog4J(fileName) {
       var object = new Object();
 		try {
          var configUrl = object.getClass().getResource(configFileName);
-         println("reading log4j config from {configUrl}");
-         DOMConfigurator.configure (configUrl);
+         if (configUrl!=null){
+            println("reading log4j config from {configUrl}");
+            DOMConfigurator.configure (configUrl);
+         }
+         else{
+            println("cannot find log4j configuration file: {configFileName}");
+         }
+
 		} catch (e) {
          println("Problems with loading log4j config, from {configFileName}");
 			e.printStackTrace();

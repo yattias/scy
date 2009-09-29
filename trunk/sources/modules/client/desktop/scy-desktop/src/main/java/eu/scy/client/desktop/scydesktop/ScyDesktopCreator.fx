@@ -24,6 +24,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
+import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
+import java.lang.Thread;
+
 /**
  * @author sikkenj
  */
@@ -42,6 +45,7 @@ public class ScyDesktopCreator {
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
 
    init{
+      Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       findConfig();
       if (windowStyler==null){
          windowStyler = DummyWindowStyler{};
