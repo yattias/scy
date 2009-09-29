@@ -1,10 +1,6 @@
-package eu.scy.scymapper.impl.component;
+package eu.scy.scymapper.impl.ui.diagram;
 
-import eu.scy.scymapper.api.IConceptLinkModel;
-import eu.scy.scymapper.api.diagram.ILinkController;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.INodeModelListener;
+import eu.scy.scymapper.api.diagram.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,12 +20,12 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
 
     private JTextField labelEditor;
 
-    public ConceptLinkView(ILinkController controller, IConceptLinkModel model) {
+    public ConceptLinkView(ILinkController controller, INodeLinkModel model) {
         super(controller, model);
 
         // I want to observe changes in my connected nodes
-        if (model.getFromNode() != null) model.getFromNode().addObserver(this);
-        if (model.getToNode() != null) model.getToNode().addObserver(this);
+        if (model.getFromNode() != null) model.getFromNode().addListener(this);
+        if (model.getToNode() != null) model.getToNode().addListener(this);
 
         labelEditor = new JTextField(model.getLabel());
         labelEditor.setHorizontalAlignment(JTextField.CENTER);
@@ -97,8 +93,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
     // Do nothing when these events happens in one of my nodes
     @Override
     public void labelChanged(INodeModel node) {}
-    @Override
-    public void styleChanged(INodeModel node) {}
+
     @Override
     public void shapeChanged(INodeModel node) {}
 

@@ -9,23 +9,28 @@ import java.awt.*;
  * Time: 15:04:05
  * To change this template use File | Settings | File Templates.
  */
-public interface INodeStyle extends INodeStyleObservable {
-    public static final int FILLSTYLE_STROKED = 0;
-    public static final int FILLSTYLE_FILLED = 1;
+public interface INodeStyle {
+    static final int FILLSTYLE_STROKED = 0;
+    static final int FILLSTYLE_FILLED = 1;
 
-    public Color getForeground();
+    Color getForeground();
 
-    public void setForeground(Color c);
+    void setForeground(Color c);
 
-    public Color getBackground();
+    Color getBackground();
 
-    public void setBackground(Color c);
+    void setBackground(Color c);
 
-    public void setStroke(Stroke s);
+    void setStroke(Stroke s);
 
-    public Stroke getStroke();
+    Stroke getStroke();
 
-    public void setFillStyle(int s);
+    void setFillStyle(int s);
 
-    public int getFillStyle();
+    int getFillStyle();
+
+    void addStyleListener(INodeStyleListener l);
+    void removeStyleListener(INodeStyleListener l);
+    boolean hasObserver(INodeStyleListener l);
+    void notifyStyleChanged(INodeStyle s);
 }

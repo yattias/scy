@@ -4,7 +4,6 @@ import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.api.styling.INodeStyleObserver;
 import eu.scy.scymapper.impl.shapes.concepts.DefaultNodeShape;
 
 import java.awt.*;
@@ -16,10 +15,10 @@ import java.util.ArrayList;
  * Date: 22.jun.2009
  * Time: 19:47:53
  */
-public class NodeModel implements INodeModel, INodeStyleObserver {
+public class NodeModel implements INodeModel {
     private INodeShape shape = new DefaultNodeShape();
     private Dimension size = new Dimension(150, 50);
-    private Point location = new Point(50, 50);
+    private Point location = new Point(20, 20);
     private ArrayList<INodeModelListener> listeners;
     private String label = "New concept";
     private INodeStyle style = new DefaultNodeStyle();
@@ -59,8 +58,6 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     @Override
     public void setStyle(INodeStyle style) {
         this.style = style;
-        if (!this.style.equals(style)) notifyStyleChanged();
-        else if (!style.hasObserver((this))) style.addObserver(this);
     }
 
 	@Override
@@ -119,12 +116,12 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
     }
 
     @Override
-    public void addObserver(INodeModelListener listener) {
+    public void addListener(INodeModelListener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeObserver(INodeModelListener listener) {
+    public void removeListener(INodeModelListener listener) {
         listeners.remove(listener);
     }
 
@@ -148,13 +145,6 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
             listener.labelChanged(this);
         }
     }
-    @Override
-    public void notifyStyleChanged() {
-        for (INodeModelListener listener : listeners) {
-            listener.styleChanged(this);
-        }
-    }
-
     @Override
     public void notifyShapeChanged() {
         for (INodeModelListener listener : listeners) {
@@ -183,10 +173,5 @@ public class NodeModel implements INodeModel, INodeStyleObserver {
         return "NodeModel{" +
                 "label='" + label + '\'' +
                 '}';
-    }
-
-    @Override
-    public void styleChanged(INodeStyle s) {
-        notifyStyleChanged();
     }
 }

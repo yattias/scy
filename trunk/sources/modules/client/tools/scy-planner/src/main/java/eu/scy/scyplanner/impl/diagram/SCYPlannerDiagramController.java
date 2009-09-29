@@ -2,9 +2,8 @@ package eu.scy.scyplanner.impl.diagram;
 
 import eu.scy.scymapper.api.diagram.IDiagramController;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 /**
  * User: Bjoerge Naess

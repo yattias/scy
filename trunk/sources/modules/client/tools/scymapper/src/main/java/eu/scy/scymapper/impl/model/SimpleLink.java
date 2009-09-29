@@ -4,7 +4,7 @@ import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.ILinkModelListener;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
-import eu.scy.scymapper.api.styling.ILinkStyleObserver;
+import eu.scy.scymapper.api.styling.ILinkStyleListener;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Date: 23.jun.2009
  * Time: 15:46:06
  */
-public class SimpleLink implements ILinkModel, ILinkStyleObserver {
+public class SimpleLink implements ILinkModel, ILinkStyleListener {
     private Point from;
     private Point to;
     private String label;

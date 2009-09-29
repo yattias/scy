@@ -1,10 +1,11 @@
-package eu.scy.scymapper.impl.component;
+package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.INodeController;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 
 import javax.imageio.ImageIO;
@@ -22,7 +23,7 @@ import java.net.URL;
  * Date: 22.jun.2009
  * Time: 19:27:37
  */
-public class NodeView extends JComponent implements INodeModelListener, KeyListener {
+public class NodeView extends JComponent implements INodeModelListener, KeyListener, INodeStyleListener {
 
     private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
@@ -42,7 +43,10 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         this.model = model;
 
         // Subscribe to events in the model
-        this.model.addObserver(this);
+        this.model.addListener(this);
+
+        // Subscribe to events in the models style
+        this.model.getStyle().addStyleListener(this);
 
         // Listen for user input
         MouseEventsListener mouseListener = new MouseEventsListener();
@@ -174,14 +178,6 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
     }
 
     @Override
-    public void styleChanged(INodeModel node) {
-        layoutComponents();
-		revalidate();
-		repaint();
-		System.out.println("STYLE CHANGED");
-    }
-
-    @Override
     public void shapeChanged(INodeModel node) {
 		repaint();
     }
@@ -282,6 +278,11 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
                 "model=" + model +
                 '}';
     }
+
+	@Override
+	public void styleChanged(INodeStyle s) {
+		repaint();
+	}
 
 	private final class MouseEventsListener implements MouseMotionListener, MouseListener {
         private Point relativePos = null;

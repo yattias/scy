@@ -1,10 +1,11 @@
 package eu.scy.scymapper.impl;
 
+import eu.scy.scymapper.api.diagram.IDiagramListener;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.IDiagramModelListener;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,10 +21,10 @@ public class DiagramModel implements IDiagramModel {
     private String name;
     private Set<INodeModel> nodes;
     private Set<ILinkModel> links;
-    private Collection<IDiagramModelListener> listeners;
+    private Collection<IDiagramListener> listeners;
 
 	public DiagramModel() {
-        listeners = new ArrayList<IDiagramModelListener>();
+        listeners = new ArrayList<IDiagramListener>();
         nodes = new HashSet<INodeModel>();
         links = new HashSet<ILinkModel>();
     }
@@ -38,12 +39,35 @@ public class DiagramModel implements IDiagramModel {
         return name;
     }
     @Override
-    public void addNode(INodeModel n) {
-        nodes.add(n);
-        notifyNodeAdded(n);
+    public void addNode(INodeModel node) {
+		nodes.add(node);
+        notifyNodeAdded(node);
     }
 
-    @Override
+	@Override
+	public void addNode(INodeModel node, boolean preventOverlap) {
+		if (preventOverlap) {
+			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+			Point location = getFreeSpace(b).getLocation();
+			node.setLocation(location);
+		}
+		addNode(node);
+	}
+
+	private Rectangle getFreeSpace(Rectangle bounds) {
+		while (hasNodes(bounds)) {
+			bounds.setLocation(bounds.x+10, bounds.y+10);
+		}
+		return bounds;
+	}
+	private boolean hasNodes(Rectangle rect) {
+		for (INodeModel node : nodes) {
+			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+			if (b.contains(rect.getLocation())) return true;
+		}
+		return false;
+	}
+	@Override
     public void removeNode(INodeModel n) {
         nodes.add(n);
         notifyNodeRemoved(n);
@@ -66,46 +90,46 @@ public class DiagramModel implements IDiagramModel {
     }
 
 	@Override
-    public void addObserver(IDiagramModelListener o) {
+    public void addDiagramListener(IDiagramListener o) {
         listeners.add(o);
     }
 
     @Override
-    public void removeObserver(IDiagramModelListener o) {
+    public void removeDiagramListener(IDiagramListener o) {
         listeners.remove(o);
     }
 
     @Override
     public void notifyUpdated() {
-        for (IDiagramModelListener listener : listeners) {
+        for (IDiagramListener listener : listeners) {
             listener.updated(this);
         }
     }
 
     @Override
     public void notifyNodeAdded(INodeModel node) {
-        for (IDiagramModelListener listener : listeners) {
+        for (IDiagramListener listener : listeners) {
             listener.nodeAdded(node);
         }
     }
 
     @Override
     public void notifyNodeRemoved(INodeModel n) {
-        for (IDiagramModelListener listener : listeners) {
+        for (IDiagramListener listener : listeners) {
             listener.nodeRemoved(n);
         }
     }
 
     @Override
     public void notifyLinkAdded(ILinkModel link) {
-        for (IDiagramModelListener listener : listeners) {
+        for (IDiagramListener listener : listeners) {
             listener.linkAdded(link);
         }
     }
 
     @Override
     public void notifyLinkRemoved(ILinkModel link) {
-        for (IDiagramModelListener listener : listeners) {
+        for (IDiagramListener listener : listeners) {
             listener.linkRemoved(link);
         }
     }

@@ -1,32 +1,28 @@
 package eu.scy.scyplanner.components.demo;
 
 import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.shapes.concepts.*;
+import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
-import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.model.LearningActivitySpaceLinkModel;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
-import java.net.URL;
 import java.io.IOException;
-import java.util.Observer;
+import java.net.URL;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: Bjoerge Naess
  * Date: 28.aug.2009
  * Time: 12:28:20
  */
-public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INodeModelListener {
+public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeModelListener {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -37,7 +33,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
 
         diagramModel = getInitialPedagogicalPlanModel();
 
-        diagramModel.addObserver(this);
+        diagramModel.addDiagramListener(this);
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
         tabbedPane.addTab("Test", view);
@@ -130,7 +126,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
     }
 
     private void addNode(SCYPlannerDiagramModel pedagogicalPlan, INodeModel node) {
-        node.addObserver(this);
+        node.addListener(this);
         pedagogicalPlan.addNode(node);
     }
 
@@ -184,7 +180,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
     }
 
     private void connectNodes(SCYPlannerDiagramModel diagramModel, INodeModel from, INodeModel to) {
-        IConceptLinkModel link = new LearningActivitySpaceLinkModel(from, to);
+        INodeLinkModel link = new LearningActivitySpaceLinkModel(from, to);
         link.setLabelHidden(true);
         link.getStyle().setColor(new Color(0x4f81bc));
         link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));        
@@ -223,10 +219,6 @@ public class SCYPlannerDemo extends JPanel implements IDiagramModelListener, INo
 
     @Override
     public void labelChanged(INodeModel node) {
-    }
-
-    @Override
-    public void styleChanged(INodeModel node) {
     }
 
     @Override

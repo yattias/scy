@@ -12,45 +12,51 @@ import java.awt.*;
  * Time: 19:00:33
  */
 public interface INodeModel {
-    String getLabel();
+	String getLabel();
 
-    void setLabel(String label);
+	void setLabel(String label);
 
-    Point getLocation();
+	Point getLocation();
 
-    void setLocation(Point location);
+	void setLocation(Point location);
 
-    Dimension getSize();
+	Dimension getSize();
 
-    void setSize(Dimension size);
+	void setSize(Dimension size);
 
-    Point getCenterLocation();
+	Point getCenterLocation();
 
-    int getDistanceToPerimeter(Point p);
+	int getDistanceToPerimeter(Point p);
 
-    Point getConnectionPoint(Point p);
+	Point getConnectionPoint(Point p);
 
-    INodeShape getShape();
+	INodeShape getShape();
 
-    void setShape(INodeShape shape);
+	void setShape(INodeShape shape);
 
-    void setStyle(INodeStyle style);
+	void setStyle(INodeStyle style);
 
-    void setSelected(boolean b);
+	void setSelected(boolean b);
+
 	boolean isSelected();
 
-    INodeStyle getStyle();
+	INodeStyle getStyle();
 
-    boolean isLabelHidden();
+	boolean isLabelHidden();
 
-    void setLabelHidden(boolean labelHidden);
+	void setLabelHidden(boolean labelHidden);
 
-    void addObserver(INodeModelListener listener);
-    void removeObserver(INodeModelListener listener);
-    void notifyMoved();
-    void notifyResized();
-    void notifyLabelChanged();
-    void notifyStyleChanged();
-    void notifyShapeChanged();
-    void notifySelected();
+	void addListener(INodeModelListener listener);
+
+	void removeListener(INodeModelListener listener);
+
+	void notifyMoved();
+
+	void notifyResized();
+
+	void notifyLabelChanged();
+
+	void notifyShapeChanged();
+
+	void notifySelected();
 }

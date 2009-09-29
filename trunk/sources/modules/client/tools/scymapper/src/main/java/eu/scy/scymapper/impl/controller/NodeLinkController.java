@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.controller;
 
-import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.diagram.INodeLinkController;
+import eu.scy.scymapper.api.diagram.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.awt.*;
@@ -14,9 +14,9 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class NodeLinkController implements INodeLinkController {
-    private IConceptLinkModel model;
+    private INodeLinkModel model;
 
-    public NodeLinkController(IConceptLinkModel link) {
+    public NodeLinkController(INodeLinkModel link) {
         this.model = link;
     }
 

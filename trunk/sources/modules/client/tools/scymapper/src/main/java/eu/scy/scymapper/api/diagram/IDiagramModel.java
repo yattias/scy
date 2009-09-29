@@ -17,6 +17,8 @@ public interface IDiagramModel {
 
     void addNode(INodeModel n);
 
+	void addNode(INodeModel n, boolean preventOverlap);
+
     void removeNode(INodeModel n);
 
     void addLink(ILinkModel n);
@@ -25,9 +27,9 @@ public interface IDiagramModel {
 	
     Set<INodeModel> getNodes();
 
-	void addObserver(IDiagramModelListener o);
+	void addDiagramListener(IDiagramListener o);
 
-    void removeObserver(IDiagramModelListener o);
+    void removeDiagramListener(IDiagramListener o);
 
     void notifyUpdated();
 
