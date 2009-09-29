@@ -14,5 +14,8 @@ public interface LearningGoalContainer extends BaseObject {
     public Set<LearningGoal> getLearningGoals();
     public void setLearningGoals(Set <LearningGoal> learningGoals);
 
+    public void addLearningGoal(LearningGoal learningGoal);
+    public void removeLearningGoal(LearningGoal learningGoal);
+
 
 }

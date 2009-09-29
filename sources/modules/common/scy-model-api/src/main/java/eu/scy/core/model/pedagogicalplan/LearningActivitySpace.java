@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface LearningActivitySpace extends LearningActivitySpaceBase, Assessable {
 
-    public LearningActivitySpaceBase getLearningActivitySpaceTemplate();
-    public void setLearningActivitySpaceTemplate(LearningActivitySpaceBase learningActivitiSpaceTemplate);
+    public LearningActivitySpaceTemplate getLearningActivitySpaceTemplate();
+    public void setLearningActivitySpaceTemplate(LearningActivitySpaceTemplate learningActivitiSpaceTemplate);
 
     public Set<AnchorELO> getProduces();
     public void setProduces(Set <AnchorELO> anchorELOs);

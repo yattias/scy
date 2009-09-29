@@ -5,6 +5,8 @@ import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
 
 import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,7 +15,7 @@ import java.util.Set;
  * Time: 15:08:34
  */
 public class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
-    private Set<LearningGoal> learningGoals = null;
+    private Set<LearningGoal> learningGoals = new HashSet<LearningGoal>();
 
     public Set<LearningGoal> getLearningGoals() {
         return learningGoals;
@@ -21,5 +23,13 @@ public class LearningGoalContainerImpl extends BaseObjectImpl implements Learnin
 
     public void setLearningGoals(Set<LearningGoal> learningGoals) {
         this.learningGoals = learningGoals;
+    }
+
+    public void addLearningGoal(LearningGoal learningGoal) {
+        learningGoals.add(learningGoal);
+    }
+
+    public void removeLearningGoal(LearningGoal learningGoal) {
+        learningGoals.remove(learningGoal);
     }
 }

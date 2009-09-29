@@ -3,10 +3,11 @@ package eu.scy.scyplanner.components.application;
 import eu.scy.scyplanner.components.titled.TitledList;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
-import eu.scy.core.model.pedagogicalplan.Mission;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.model.impl.pedagogicalplan.MissionImpl;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
+import eu.scy.core.model.impl.pedagogicalplan.LearningGoalImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,42 +43,51 @@ public class NewPedagogicalPlanPanel extends JPanel {
     private DefaultListModel createMissionListModel() {
         DefaultListModel model = new DefaultListModel();
 
-        model.addElement(createMission("Mission 1", "Building a CO2 neutral house"));
-        model.addElement(createMission("Mission 2", "Building a CO2 neutral bike"));
-        model.addElement(createMission("Mission 3", "Building a CO2 neutral car"));
-        model.addElement(createMission("Mission 4", "Building a CO2 neutral aeroplane"));
+        model.addElement(createMission("Mission 1", "Building a CO2 neutral house", new String[] {"Students gain awareness on environmental (and political issues) concerning emissions of CO2", "Students identify key issues that are important when designing a CO2-friendly house"}));
+        model.addElement(createMission("Mission 2", "Building a CO2 neutral bike", new String[] {"Goal 1", "Goal 2"}));
+        model.addElement(createMission("Mission 3", "Building a CO2 neutral car", new String[] {"Goal 3", "Goal 4"}));
+        model.addElement(createMission("Mission 4", "Building a CO2 neutral aeroplane", new String[] {"Goal 5", "Goal 6"}));
 
         return model;
     }
 
-    private Mission createMission(String name, String description) {
+    private Mission createMission(String name, String description, String[] learningGoals) {
         Mission mission = new MissionImpl();
         mission.setName(name);
         mission.setDescription(description);
+
+        for (String learningGoal : learningGoals) {
+            LearningGoal goal = new LearningGoalImpl();
+            goal.setName(learningGoal);
+            mission.addLearningGoal(goal);
+        }
 
         return mission;
     }
 
     private DefaultListModel createScenarioListModel() {
         DefaultListModel model = new DefaultListModel();
-        model.addElement(createScenario("Design Challenge", "A desing never seen before"));
-        model.addElement(createScenario("Inquiry Learning", "Inquire and become a better learner"));
-        model.addElement(createScenario("Problem Resolution", "A problem is never too large"));
-        model.addElement(createScenario("Close a Case", "Get done with the case"));
-        model.addElement(createScenario("Decision Console", "A decision console, not a Wii console"));
-        model.addElement(createScenario("Grasp a Model", "Do you get it?"));
-        model.addElement(createScenario("Designing an Experimental Procedure", "Experiment and "));
-        model.addElement(createScenario("The Big Project", "The largest project ever seen"));
-        model.addElement(createScenario("Collaborative Controversies", "Enjoyable controversies for better learning"));
-        model.addElement(createScenario("Co-Learn", "Controversies is old fashioned, collaboration is in!"));
+        model.addElement(createScenario("Design Challenge", "A desing never seen before", new LearningActivitySpaceImpl(), "Orientation"));
+        model.addElement(createScenario("Inquiry Learning", "Inquire and become a better learner", new LearningActivitySpaceImpl(), "Conceptualisation"));
+        model.addElement(createScenario("Problem Resolution", "A problem is never too large", new LearningActivitySpaceImpl(), "Design"));
+        model.addElement(createScenario("Close a Case", "Get done with the case", new LearningActivitySpaceImpl(), "Conceptualisation"));
+        model.addElement(createScenario("Decision Console", "A decision console, not a Wii console", new LearningActivitySpaceImpl(), "Orientation"));
+        model.addElement(createScenario("Grasp a Model", "Do you get it?", new LearningActivitySpaceImpl(), "Design"));
+        model.addElement(createScenario("Designing an Experimental Procedure", "Experiment and ", new LearningActivitySpaceImpl(), "Conceptualisation"));
+        model.addElement(createScenario("The Big Project", "The largest project ever seen", new LearningActivitySpaceImpl(), "Design"));
+        model.addElement(createScenario("Collaborative Controversies", "Enjoyable controversies for better learning", new LearningActivitySpaceImpl(), "Conceptualisation"));
+        model.addElement(createScenario("Co-Learn", "Controversies is old fashioned, collaboration is in!", new LearningActivitySpaceImpl(), "Orientation"));
 
         return model;
     }
 
-    private Scenario createScenario(String name, String description) {
+    private Scenario createScenario(String name, String description, LearningActivitySpace las, String lasName) {
         Scenario scenario = new ScenarioImpl();
         scenario.setName(name);
         scenario.setDescription(description);
+
+        las.setName(lasName);
+        scenario.setLearningActivitySpace(las);
 
         return scenario;
     }
