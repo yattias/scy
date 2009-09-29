@@ -25,8 +25,9 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.SystemColor;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -523,10 +524,10 @@ public class CopexPanel extends JPanel {
 
     //load/openELO
     public void openProc(File file){
-        FileReader fileReader = null;
+        InputStreamReader fileReader = null;
         try{
             lastUsedFileOpen = file;
-            fileReader = new FileReader(file);
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             loadELO(doc.getRootElement());
         }catch (Exception e){
@@ -545,10 +546,10 @@ public class CopexPanel extends JPanel {
 
     // copy an elo
     public void copyProc(String name, File file){
-        FileReader fileReader = null;
+        InputStreamReader fileReader = null;
         try{
             lastUsedFileCopy = file;
-            fileReader = new FileReader(file);
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             copyELO(name, doc.getRootElement());
         }catch (Exception e){

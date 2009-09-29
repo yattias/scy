@@ -5,6 +5,7 @@
 
 package eu.scy.tools.dataProcessTool.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import eu.scy.elo.contenttype.dataset.DataSet;
@@ -30,12 +31,15 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
@@ -224,7 +228,7 @@ public class DataController implements ControllerInterface{
     }
 
     /* retourne un dataset construit a partir d'un ELO pds */
-    private Dataset getPDS(ProcessedDatasetELO eloPDS, String name){
+    private Dataset getPDS(ProcessedDatasetELO eloPDS){
         // pas d'operations, pas de visualization
         ArrayList<DataOperation> listOperation = new ArrayList();
         ArrayList<Visualization> listVisualization = new ArrayList();
@@ -333,7 +337,7 @@ public class DataController implements ControllerInterface{
             listVisualization.add(myVis);
         }
         // creation du dataset
-        Dataset ds = new Dataset(idDataSet++, name, nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
+        Dataset ds = new Dataset(idDataSet++, pds.getName(), nbCols, nbRows,  dataHeader, data, listOperation,listVisualization  );
         return ds;
     }
 
@@ -1171,7 +1175,7 @@ public class DataController implements ControllerInterface{
         }else{
             try{
                 ProcessedDatasetELO edoPds = new ProcessedDatasetELO(xmlContent);
-                ds = getPDS(edoPds, "ELO");
+                ds = getPDS(edoPds);
                 if (ds == null)
                     return null ;
             }catch(JDOMException e){
@@ -1323,7 +1327,13 @@ public class DataController implements ControllerInterface{
         StringTokenizer lineParser;
         try{
             CopexReturn cr=  new CopexReturn();
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            InputStreamReader fileReader = null;
+            try {
+                fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DataController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BufferedReader reader = new BufferedReader(fileReader);
             List<DataSetHeader> headers = new LinkedList<DataSetHeader>();
             DataSetHeader header;
             List<DataSetColumn> listC = new LinkedList<DataSetColumn>();
@@ -1359,6 +1369,8 @@ public class DataController implements ControllerInterface{
                     id++;
                 }
             }catch(IOException e){
+                cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE"), false);
+            }catch(Exception ex){
                 cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE"), false);
             }
             finally

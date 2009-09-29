@@ -22,7 +22,6 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.tools.copex.common.*;
 import eu.scy.tools.copex.edp.CopexPanel;
-import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;

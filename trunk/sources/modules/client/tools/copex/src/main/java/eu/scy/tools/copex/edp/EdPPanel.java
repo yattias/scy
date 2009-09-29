@@ -12,8 +12,10 @@ import eu.scy.tools.copex.print.PrintDialog;
 import eu.scy.tools.copex.utilities.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import javax.swing.*;
 import org.jdom.Element;
@@ -621,6 +623,8 @@ public class EdPPanel extends JPanel {
            // print
            if(copexPanel.canPrint())
             getMenuItemPrint().setEnabled(true);
+           if(copexPanel.canSave())
+               getMenuItemSave().setEnabled(proc.getRight() == MyConstants.EXECUTE_RIGHT);
        }
        repaint();
    }
@@ -1800,10 +1804,10 @@ public class EdPPanel extends JPanel {
                 return;
             }
 			lastUsedFile = file;
-			FileWriter fileWriter = null;
+			OutputStreamWriter fileWriter = null;
 			try
 			{
-				fileWriter = new FileWriter(file);
+                fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(xproc, fileWriter);
 			}
 			catch (IOException e)

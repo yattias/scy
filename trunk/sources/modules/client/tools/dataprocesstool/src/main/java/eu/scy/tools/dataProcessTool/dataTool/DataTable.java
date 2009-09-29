@@ -1143,6 +1143,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return tableModel.getBorders(row, col);
     }
 
+    public void setCellSelected(int rowIndex, int colIndex){
+        changeSelection(rowIndex, colIndex, false, false);
+        owner.updateMenuData();
+    }
+
    
 
   

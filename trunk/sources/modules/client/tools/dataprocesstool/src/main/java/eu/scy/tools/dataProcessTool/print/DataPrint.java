@@ -16,6 +16,8 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.tools.dataProcessTool.common.Dataset;
@@ -152,8 +154,11 @@ public class DataPrint {
             txtCell.setBorder(0);
             Chunk c1 = new Chunk(name+"\n",getNormalFont());
             Chunk c2 = new Chunk(missionName+"\n", getNormalFont());
+            String d = dataset == null ? "" : dataset.getName();
+            Chunk c3 = new Chunk(d+"\n", getNormalFont());
             txtCell.add(c1);
             txtCell.add(c2);
+            txtCell.add(c3);
             txtCell.setBorder(0);
             txtCell.setHorizontalAlignment(Element.ALIGN_RIGHT) ;
             headerTable.addCell(txtCell);
@@ -169,6 +174,18 @@ public class DataPrint {
     }
 
     private Font getNormalFont(){
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont);
+            return font;
+        } catch (DocumentException ex) {
+            Logger.getLogger(DataPrint.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DataPrint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
         return FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.NORMAL, Color.BLACK) ;
     }
     
@@ -184,13 +201,16 @@ public class DataPrint {
             for (int i=0; i<nbRow; i++){
                 for (int j=0; j<nbCol; j++){
                     String s = "";
+                    PdfPCell aCell = new PdfPCell();
                     if (model.getValueAt(i, j) != null){
                         if (model.getValueAt(i, j) instanceof String[]){
                             s = ((String[])model.getValueAt(i, j))[0]+"("+((String[])model.getValueAt(i, j))[1]+")";
                         }else
                             s = model.getValueAt(i, j).toString();
                     }
-                    table.addCell(s);
+                    Chunk c = new Chunk(s, getNormalFont());
+                    aCell.addElement(c);
+                    table.addCell(aCell);
                 }
             }
             document.add(table);
@@ -219,7 +239,8 @@ public class DataPrint {
                 Logger.getLogger(DataPrint.class.getName()).log(Level.SEVERE, null, ex);
             }
         try {
-            document.add(new Paragraph(vis.getName()+"\n"));
+            Chunk c = new Chunk(vis.getName()+"\n", getNormalFont());
+            document.add(new Paragraph(c));
             if (jpg != null)
                 document.add(jpg);
         } catch (DocumentException ex) {
@@ -254,7 +275,8 @@ public class DataPrint {
                 float p =dw*100/fitexGraph.getWidth() ;
                 img.scalePercent(p);
             }
-            document.add(new Paragraph(fitexVis.getName()+"\n"));
+            Chunk c = new Chunk(fitexVis.getName()+"\n", getNormalFont());
+            document.add(new Paragraph(c));
             document.add(img);
 
         } catch (BadElementException ex) {

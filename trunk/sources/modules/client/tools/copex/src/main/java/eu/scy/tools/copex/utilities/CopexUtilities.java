@@ -172,13 +172,13 @@ public class CopexUtilities {
 	}
 
     public static String getUTF8String(String s){
-        byte[] bytes;
-        try {
-            bytes = s.getBytes("UTF8");
-            s = new String(bytes);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(CopexUtilities.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        byte[] bytes;
+//        try {
+//            bytes = s.getBytes("UTF8");
+//            s = new String(bytes);
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(CopexUtilities.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         return s;
     }
 
