@@ -33,6 +33,62 @@
          <artifactId>scy-desktop</artifactId>
          <version>${pom.version}</version>
       </dependency>
+      
+      <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>jnlp</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+      <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>awareness-api</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>scy-commons</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>scy-model-impl</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>collaboration-service-api</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+                <groupId>eu.scy.common</groupId>
+                <artifactId>collaboration-service-impl</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+                <groupId>eu.scy.client.desktop</groupId>
+                <artifactId>tool-broker</artifactId>
+                <version>${pom.version}</version>
+        </dependency>
 
    </dependencies>
 
