@@ -574,6 +574,10 @@ public class OpenFitexDialog extends JDialog {
                 this.dispose();
                 return;
             }else{
+                if(lastUsedFileOpen == null){
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    return;
+                }
                 actionData.openELO(lastUsedFileOpen);
                 this.dispose();
                 return;
@@ -581,6 +585,10 @@ public class OpenFitexDialog extends JDialog {
         }
         boolean importCsv = this.rbImport.isSelected();
         if(importCsv){
+            if(lastUsedFileImport == null){
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    return;
+            }
             actionData.importELO(lastUsedFileImport);
             this.dispose();
             return;
@@ -595,6 +603,10 @@ public class OpenFitexDialog extends JDialog {
                 this.dispose();
                 return;
             }else{
+                if(lastUsedFileMerge == null){
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_MERGE_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    return;
+                }
                 actionData.mergeELO(lastUsedFileMerge);
                 this.dispose();
                 return;

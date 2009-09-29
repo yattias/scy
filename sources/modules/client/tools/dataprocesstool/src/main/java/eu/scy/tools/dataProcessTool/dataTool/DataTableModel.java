@@ -200,7 +200,7 @@ public class DataTableModel extends AbstractTableModel {
             }
             if (operation == null){
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_UPDATE_DATA"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                super.setValueAt(oldValue, rowIndex, columnIndex);
+                table.setValueAt(oldValue, rowIndex, columnIndex);
                 return;
             }
             owner.updateDataOperation(dataset, v1, operation);
@@ -212,7 +212,9 @@ public class DataTableModel extends AbstractTableModel {
                 }
             }catch(NumberFormatException e){
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                super.setValueAt(oldValue, rowIndex, columnIndex);
+                //setValueAt(oldValue, rowIndex, columnIndex);
+                table.setValueAt(oldValue, rowIndex, columnIndex);
+                table.setCellSelected(rowIndex, columnIndex);
                 return;
             }
             owner.updateData(dataset,val, rowIndex-1, columnIndex-1);

@@ -25,8 +25,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -463,10 +464,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //load/openELO
     @Override
     public void openELO(File file){
-        FileReader fileReader = null;
+        InputStreamReader fileReader = null;
         try{
             lastUsedFileOpen = file;
-            fileReader = new FileReader(file);
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             loadELO(new JDomStringConversion().xmlToString(doc.getRootElement()));
         }catch (Exception e){
@@ -521,9 +522,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     @Override
     public void mergeELO(File file){
         lastUsedFileMerge = file;
-        FileReader fileReader = null;
+        InputStreamReader fileReader = null;
 		try{
-            fileReader = new FileReader(file);
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             mergeELO(doc.getRootElement());
         }catch (Exception e){

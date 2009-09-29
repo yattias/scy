@@ -40,8 +40,9 @@ import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -880,6 +881,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 Dataset newDs = (Dataset)v.get(0);
                 updateDataset(newDs);
             }
+        }else{
+            if(v.size() == 0){
+                //suppression
+            }else{
+                Dataset newDs = (Dataset)v.get(0);
+                updateDataset(newDs);
+            }
         }
         datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, listData, listHeader, listRowAndCol, listOperation));
     }
@@ -1280,10 +1288,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 return;
             }
 			lastUsedFile = file;
-			FileWriter fileWriter = null;
+			OutputStreamWriter fileWriter = null;
 			try
 			{
-				fileWriter = new FileWriter(file);
+				fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(pds, fileWriter);
 			}
 			catch (IOException e)

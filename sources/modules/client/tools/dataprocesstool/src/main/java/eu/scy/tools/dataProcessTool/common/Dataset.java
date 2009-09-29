@@ -360,7 +360,7 @@ public class Dataset implements Cloneable{
             if(vis != null)
                 listVisualizations.add(vis);
         }
-        ProcessedData pds = new ProcessedData(iData, listOperations, listVisualizations);
+        ProcessedData pds = new ProcessedData(this.name, iData, listOperations, listVisualizations);
         ProcessedDatasetELO pdsELO = new ProcessedDatasetELO(ds, pds);
         return pdsELO ;
     }

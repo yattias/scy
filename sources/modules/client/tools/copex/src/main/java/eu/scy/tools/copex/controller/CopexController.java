@@ -1650,10 +1650,14 @@ public class CopexController implements ControllerInterface {
         CopexMission missionToPrint  =(CopexMission)mission.clone();
         ExperimentalProcedure proc = null;
         if (procToPrint != null){
-            int idP = getIdProc(procToPrint.getDbKey());
-            if (idP== -1)
-                return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
-            proc = (ExperimentalProcedure)(listProc.get(idP).clone());
+            if(procToPrint.getDbKey() == -2)
+                proc = helpProc;
+            else{
+                int idP = getIdProc(procToPrint.getDbKey());
+                if (idP== -1)
+                    return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+                proc = (ExperimentalProcedure)(listProc.get(idP).clone());
+            }
         }
         // enregistrement trace
         if (setTrace()){

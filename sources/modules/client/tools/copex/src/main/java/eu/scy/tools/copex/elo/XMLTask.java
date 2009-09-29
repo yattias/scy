@@ -6,12 +6,9 @@
 package eu.scy.tools.copex.elo;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 

@@ -625,6 +625,11 @@ public class OpenCopexDialog  extends JDialog  {
                     return;
                 }
             }else{
+                if(lastUsedFileCopy == null){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_COPY_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    return;
+                }
                 owner.copyProc(name, lastUsedFileCopy);
             }
         }else if (this.rbOpen.isSelected()){
@@ -662,6 +667,11 @@ public class OpenCopexDialog  extends JDialog  {
                 }
             }else{
                 // open a file
+                if(lastUsedFileOpen == null){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                    return;
+                }
                 owner.openProc(lastUsedFileOpen);
             }
         }

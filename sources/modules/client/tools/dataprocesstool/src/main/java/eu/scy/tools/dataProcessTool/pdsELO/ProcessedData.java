@@ -23,7 +23,10 @@ import roolo.elo.JDomStringConversion ;
 public class ProcessedData {
     /*tag name  */
     public static final String TAG_PROCESSED_DATA = "processed_dataset" ;
+    public static final String TAG_PROCESSED_DATA_NAME = "name";
 
+    /* name*/
+    private String name;
     /*list of ignored data */
     private IgnoredData ignoredData;
     /* list operations */
@@ -31,7 +34,8 @@ public class ProcessedData {
     /* list visualizations */
     private List<Visualization> listVisualization;
 
-    public ProcessedData(IgnoredData ignoredData, List<Operation> listOperations, List<Visualization> listVisualization) {
+    public ProcessedData(String name, IgnoredData ignoredData, List<Operation> listOperations, List<Visualization> listVisualization) {
+        this.name = name;
         this.ignoredData = ignoredData;
         this.listOperations = listOperations;
         this.listVisualization = listVisualization ;
@@ -39,6 +43,9 @@ public class ProcessedData {
 
     public ProcessedData(Element xmlElem) throws JDOMException {
 		if (xmlElem.getName().equals(TAG_PROCESSED_DATA)) {
+            if(xmlElem.getChild(TAG_PROCESSED_DATA_NAME) != null )
+                name = xmlElem.getChild(TAG_PROCESSED_DATA_NAME).getText() ;
+            else name = "Dataset";
 			ignoredData = new IgnoredData(xmlElem.getChild(IgnoredData.TAG_IGNORED_DATA));
             listOperations = new LinkedList<Operation>();
 			for (Iterator<Element> variableElem = xmlElem.getChildren(Operation.TAG_OPERATION).iterator(); variableElem.hasNext();) {
@@ -76,9 +83,14 @@ public class ProcessedData {
         return listVisualization;
     }
 
+    public String getName() {
+        return name;
+    }
+
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_PROCESSED_DATA);
+        element.addContent(new Element(TAG_PROCESSED_DATA_NAME).setText(this.name));
 		for (Iterator<Operation> op = listOperations.iterator(); op.hasNext();) {
 				element.addContent(op.next().toXML());
 		}
