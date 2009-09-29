@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.component;
+package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.diagram.ILinkModel;

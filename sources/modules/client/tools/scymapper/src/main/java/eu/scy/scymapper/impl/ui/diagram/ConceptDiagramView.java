@@ -1,6 +1,5 @@
-package eu.scy.scymapper.impl.component;
+package eu.scy.scymapper.impl.ui.diagram;
 
-import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.controller.LinkController;
@@ -26,7 +25,7 @@ import java.net.URL;
  * Time: 06:40:09
  * To change this template use File | Settings | File Templates.
  */
-public class ConceptDiagramView extends JPanel implements IDiagramModelListener, INodeModelListener {
+public class ConceptDiagramView extends JPanel implements IDiagramListener, INodeModelListener {
 
     private IDiagramModel model;
     private IDiagramController controller;
@@ -43,7 +42,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 		this.selectionModel = selectionModel;
 
 		// Register myself as observer for changes in the model
-        this.model.addObserver(this);
+        this.model.addDiagramListener(this);
 
         // Create the listener for node mouseover
         nodeMouseMotionListener = new NodeMouseMotionListener();
@@ -61,7 +60,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 
         // Create views for links in my model
         for (ILinkModel link : model.getLinks()) {
-            addLink((IConceptLinkModel)link);
+            addLink((INodeLinkModel)link);
         }
         // Create views for nodes in my model
         for (INodeModel node : model.getNodes()) {
@@ -80,12 +79,12 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
         view.addFocusListener(new NodeFocusListener());
 
         // Subscribe to changes in this node
-        node.addObserver(this);
+        node.addListener(this);
         add(view);
         repaint(view.getBounds());
     }
 
-    private void addLink(IConceptLinkModel link) {
+    private void addLink(INodeLinkModel link) {
         ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
         add(view);
     }
@@ -121,7 +120,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 
     @Override
     public void linkAdded(ILinkModel link) {
-        addLink((IConceptLinkModel)link);
+        addLink((INodeLinkModel)link);
     }
 
     @Override
@@ -146,11 +145,6 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
 	@Override
     public void labelChanged(INodeModel node) {
         System.out.println("NodeModel label changed: "+node);
-    }
-
-    @Override
-    public void styleChanged(INodeModel node) {
-        revalidate();
     }
 
     @Override
@@ -375,7 +369,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramModelListener,
         public void mouseReleased(MouseEvent e) {
             if (currentTarget != null) {
 
-                IConceptLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
+                INodeLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
 				Arrow arrow = new Arrow();
 				arrow.setArrowhead(new Arrowhead());
 				newLink.setShape(arrow);

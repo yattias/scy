@@ -4,12 +4,9 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
-import eu.scy.scymapper.impl.component.ConceptDiagramView;
+import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
-import eu.scy.sessionmanager.SessionManager;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,33 +16,27 @@ import java.awt.*;
  * Date: 03.sep.2009
  * Time: 12:46:21
  */
-public class ConceptMapEditorPane extends JPanel {
+public class ConceptMapEditorPane extends JPanel{
 
-	private IDiagramModel diagramModel;
 	private ConceptDiagramView diagramView;
 	private AwarenessView awarenessPanel;
-	private SessionManager session;
 	private IAwarenessService awarenessService;
-	private IDiagramSelectionModel selectionModel;
 
 
-	public ConceptMapEditorPane(IAwarenessService awarenessService, IDiagramModel diagramModel) {
+	private IConceptMap conceptMap;
+
+	public ConceptMapEditorPane(IAwarenessService awarenessService, IConceptMap conceptMap) {
 		this.awarenessService = awarenessService;
-		this.diagramModel = diagramModel;
-		selectionModel = new DefaultDiagramSelectionModel();
+		this.conceptMap = conceptMap;
 		initComponents();
 	}
-
-	public IDiagramSelectionModel getSelectionModel() {
-		return selectionModel;
+	public IConceptMap getConceptMap() {
+		return conceptMap;
 	}
-
 	private void initComponents() {
 
 		setLayout(new BorderLayout());
-		diagramView = new ConceptDiagramView(new DiagramController(diagramModel), diagramModel,  selectionModel);
-
-
+		diagramView = new ConceptDiagramView(new DiagramController(conceptMap.getDiagram()), conceptMap.getDiagram(),  conceptMap.getDiagramSelectionModel());
 
 		diagramView.setBackground(Color.WHITE);
 
@@ -62,9 +53,5 @@ public class ConceptMapEditorPane extends JPanel {
 		builder.add(awarenessPanel, cc.xy(3, 1, CellConstraints.FILL, CellConstraints.FILL));
 
 		add(builder.getPanel());
-	}
-
-	public IDiagramModel getModel() {
-		return diagramModel;
 	}
 }

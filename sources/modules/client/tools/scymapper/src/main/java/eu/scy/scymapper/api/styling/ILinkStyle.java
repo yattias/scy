@@ -8,13 +8,18 @@ import java.awt.*;
  * Date: 24.jun.2009
  * Time: 17:10:41
  */
-public interface ILinkStyle extends ILinkStyleObservable {
-    public Color getColor();
+public interface ILinkStyle {
+    Color getColor();
 
-    public void setColor(Color c);
+    void setColor(Color c);
 
-    public void setStroke(Stroke s);
+    void setStroke(Stroke s);
 
-    public Stroke getStroke();
+    Stroke getStroke();
+
+    void addStyleListener(ILinkStyleListener o);
+    void removeStyleListener(ILinkStyleListener o);
+    boolean hasStyleListener(ILinkStyleListener o);
+    void notifyStyleChanged(ILinkStyle s);
 
 }

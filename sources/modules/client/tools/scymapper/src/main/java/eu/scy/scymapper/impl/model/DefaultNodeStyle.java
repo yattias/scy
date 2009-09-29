@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.styling.INodeStyle;
-import eu.scy.scymapper.api.styling.INodeStyleObserver;
+import eu.scy.scymapper.api.styling.INodeStyleListener;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ public class DefaultNodeStyle implements INodeStyle {
     private Stroke stroke = new BasicStroke(2f);
     private int fillStyle = FILLSTYLE_STROKED;
 
-    private Collection<INodeStyleObserver> observers;
+    private Collection<INodeStyleListener> listeners;
 
-    public DefaultNodeStyle() {
-        observers = new ArrayList<INodeStyleObserver>();
+	public DefaultNodeStyle() {
+        listeners = new ArrayList<INodeStyleListener>();
     }
 
     @Override
@@ -71,23 +71,23 @@ public class DefaultNodeStyle implements INodeStyle {
     }
 
     @Override
-    public void addObserver(INodeStyleObserver o) {
-        observers.add(o);
+    public void addStyleListener(INodeStyleListener o) {
+        listeners.add(o);
     }
 
     @Override
-    public void removeObserver(INodeStyleObserver o) {
-        observers.remove(o);
+    public void removeStyleListener(INodeStyleListener o) {
+        listeners.remove(o);
     }
     @Override
-    public boolean hasObserver(INodeStyleObserver o) {
-        return observers.contains(o);
+    public boolean hasObserver(INodeStyleListener o) {
+        return listeners.contains(o);
     }
 
     @Override
     public void notifyStyleChanged(INodeStyle s) {
-        for (INodeStyleObserver observer : observers) {
-            observer.styleChanged(s);
+        for (INodeStyleListener listener : listeners) {
+            listener.styleChanged(s);
         }
     }
 }

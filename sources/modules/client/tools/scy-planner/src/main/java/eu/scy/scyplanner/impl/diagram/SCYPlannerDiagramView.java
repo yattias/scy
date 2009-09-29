@@ -1,37 +1,34 @@
 package eu.scy.scyplanner.impl.diagram;
 
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.IConceptLinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.impl.component.NodeView;
-import eu.scy.scymapper.impl.component.ConceptLinkView;
-import eu.scy.scymapper.impl.component.ConnectionPoint;
-import eu.scy.scymapper.impl.component.LinkView;
-import eu.scy.scymapper.impl.controller.NodeController;
-import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.LinkConnectorController;
-import eu.scy.scymapper.impl.model.SimpleLink;
+import eu.scy.scymapper.impl.controller.LinkController;
+import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
+import eu.scy.scymapper.impl.ui.diagram.ConnectionPoint;
+import eu.scy.scymapper.impl.ui.diagram.LinkView;
+import eu.scy.scymapper.impl.ui.diagram.NodeView;
 
-import javax.swing.*;
 import javax.imageio.ImageIO;
-import java.awt.event.*;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Observer;
+import java.net.URL;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: Bjoerge Naess
  * Date: 28.aug.2009
  * Time: 11:40:29
  */
-public class SCYPlannerDiagramView extends JPanel implements INodeModelListener, IDiagramModelListener {
+public class SCYPlannerDiagramView extends JPanel implements INodeModelListener, IDiagramListener {
 	private IDiagramModel model;
     private IDiagramController controller;
 
@@ -45,7 +42,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         this.model = model;
 
         // Register myself as observer for changes in the model
-        this.model.addObserver(this);
+        this.model.addDiagramListener(this);
 
         // Create the listener for node mouseover
         nodeMouseListener = new NodeMouseListener();
@@ -63,7 +60,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
         // Create views for links in my model
         for (ILinkModel link : model.getLinks()) {
-            addLink((IConceptLinkModel)link);
+            addLink((INodeLinkModel)link);
         }
         // Create views for nodes in my model
         for (INodeModel node : model.getNodes()) {
@@ -83,13 +80,13 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         view.addFocusListener(new NodeFocusListener());
 
         // Subscribe to changes in this node
-        node.addObserver(this);
+        node.addListener(this);
 
         add(view);
         repaint(view.getBounds());
     }
 
-    private void addLink(IConceptLinkModel link) {
+    private void addLink(INodeLinkModel link) {
         ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
         add(view);
     }
@@ -111,7 +108,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
     @Override
     public void linkAdded(ILinkModel link) {
-        addLink((IConceptLinkModel)link);
+        addLink((INodeLinkModel)link);
     }
 
     @Override
@@ -137,11 +134,6 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
     @Override
     public void labelChanged(INodeModel node) {
         System.out.println("NodeModel label changed: "+node);
-    }
-
-    @Override
-    public void styleChanged(INodeModel node) {
-        System.out.println("ConceptDiagramView.styleChanged");
     }
 
     @Override
@@ -374,7 +366,7 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
         public void mouseReleased(MouseEvent e) {
             if (currentTarget != null) {
 
-                IConceptLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
+                INodeLinkModel newLink = new NodeLinkModel(source.getModel(), currentTarget.getModel());
                 newLink.setShape(new Arrow());
                 controller.addLink(newLink);
 

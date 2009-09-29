@@ -3,18 +3,16 @@ package eu.scy.scymapper.impl.ui.palette;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import eu.scy.scymapper.api.IConceptMap;
+import eu.scy.scymapper.api.IConceptMapManager;
+import eu.scy.scymapper.api.IConceptMapSelectionChangeListener;
+import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.shapes.INodeShape;
-import eu.scy.scymapper.impl.SCYMapper;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.colorchooser.ColorSelectionModel;
-import javax.swing.colorchooser.DefaultColorSelectionModel;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,17 +25,21 @@ import java.util.Stack;
  * Date: 03.sep.2009
  * Time: 13:24:59
  */
-public class PalettePane extends JPanel {
-	private IDiagramSelectionModel nodeSelectionModel;
+public class PalettePane extends JPanel implements IConceptMapSelectionChangeListener {
 
+	private IConceptMapManager conceptMapManager;
 	private ArrayList<ILinkShape> linkShapes;
 	private ArrayList<INodeShape> nodeShapes;
+	private IDiagramSelectionModel selectionModel;
+	private FillStyleCheckbox opaqueCheckbox;
+	private volatile NodeColorChooserPanel nodeColorChooser;
 
-	public PalettePane(IDiagramSelectionModel nodeSelectionModel, ArrayList<ILinkShape> linkShapes, ArrayList<INodeShape> nodeShapes) {
-		this.nodeSelectionModel = nodeSelectionModel;
+	public PalettePane(IConceptMapManager conceptMapManager, ArrayList<ILinkShape> linkShapes, ArrayList<INodeShape> nodeShapes) {
+		this.conceptMapManager = conceptMapManager;
 		this.linkShapes = linkShapes;
 		this.nodeShapes = nodeShapes;
 		initComponents();
+		this.conceptMapManager.addSelectionChangeListener(this);
 	}
 
 	private void initComponents() {
@@ -52,11 +54,14 @@ public class PalettePane extends JPanel {
 		PanelBuilder builder = new PanelBuilder(layout);
 		CellConstraints cc = new CellConstraints();
 
+		nodeColorChooser = new NodeColorChooserPanel();
+		nodeColorChooser .setSelectionModel(conceptMapManager.getSelected().getDiagramSelectionModel());
 		JPanel nodeStylePane = new JPanel(new GridLayout(1, 2));
-		nodeStylePane.add(new NodeColorChooserPanel(nodeSelectionModel));
+		nodeStylePane.add(nodeColorChooser);
 		nodeStylePane.setBorder(BorderFactory.createTitledBorder("Style"));
 
-		JCheckBox opaqueCheckbox = new FillStyleCheckbox(nodeSelectionModel);
+		opaqueCheckbox = new FillStyleCheckbox();
+		opaqueCheckbox.setSelectionModel(conceptMapManager.getSelected().getDiagramSelectionModel());
 		nodeStylePane.add(opaqueCheckbox);
 
 		JPanel nodePanel = new JPanel(new GridLayout(0, 2));
@@ -67,14 +72,14 @@ public class PalettePane extends JPanel {
 			c.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					IDiagramSelectionModel selectionModel = SCYMapper.getInstance().getCurrentEditor().getSelectionModel();
-					if (selectionModel.getSelectedNode() == null) {
+					IDiagramSelectionModel diagramSelectionModel = conceptMapManager.getSelected().getDiagramSelectionModel();
+					if (diagramSelectionModel.getSelectedNode() == null) {
 						return;
 					}
-					if (selectionModel.isMultipleSelection()) {
-						for (INodeModel node : selectionModel.getSelectedNodes())
+					if (diagramSelectionModel.isMultipleSelection()) {
+						for (INodeModel node : diagramSelectionModel.getSelectedNodes())
 							node.setShape(c.getShape());
-					} else selectionModel.getSelectedNode().setShape(c.getShape());
+					} else diagramSelectionModel.getSelectedNode().setShape(c.getShape());
 				}
 			});
 			nodePanel.add(c);
@@ -93,11 +98,24 @@ public class PalettePane extends JPanel {
 		add(builder.getPanel());
 	}
 
-	private class NodeColorChooserPanel extends JPanel implements ActionListener, IDiagramSelectionListener {
+	@Override
+	public void selectionChanged(IConceptMapManager manager, IConceptMap cmap) {
+		nodeColorChooser.setSelectionModel(manager.getSelected().getDiagramSelectionModel());
+		opaqueCheckbox.setSelectionModel(manager.getSelected().getDiagramSelectionModel());
+	}
+
+	@Override
+	public void conceptMapAdded(IConceptMapManager manager, IConceptMap map) {}
+
+	@Override
+	public void conceptMapRemoved(IConceptMapManager manager, IConceptMap map) {}
+
+	private static class NodeColorChooserPanel extends JPanel implements ActionListener, IDiagramSelectionListener {
 		private Button bgColorButton;
 		private Button fgColorButton;
+		private IDiagramSelectionModel selectionModel;
 
-		public NodeColorChooserPanel(IDiagramSelectionModel nodeSelectionModel) {
+		public NodeColorChooserPanel() {
 			setLayout(null);
 
 			fgColorButton = new Button();
@@ -112,8 +130,6 @@ public class PalettePane extends JPanel {
 			add(bgColorButton);
 
 			setPreferredSize(new Dimension(40, 40));
-
-			nodeSelectionModel.addSelectionListener(this);
 		}
 
 		@Override
@@ -126,7 +142,7 @@ public class PalettePane extends JPanel {
 		}
 
 		@Override
-		public void selectionChanged(IDiagramSelectionModel selectionModel) {
+		public void selectionChanged(IDiagramSelectionModel s) {
 			bgColorButton.setEnabled(selectionModel.hasSelection());
 			fgColorButton.setEnabled(selectionModel.hasSelection());
 			if (selectionModel.hasSelection()) {
@@ -139,10 +155,9 @@ public class PalettePane extends JPanel {
 		}
 
 		void selectFgColor() {
-			nodeSelectionModel = SCYMapper.getInstance().getCurrentEditor().getSelectionModel();
-			if (nodeSelectionModel.hasSelection()) {
-				Stack<INodeModel> selectedNodes = nodeSelectionModel.getSelectedNodes();
-				Color c = JColorChooser.showDialog(this, "Choose a color", nodeSelectionModel.getSelectedNode().getStyle().getForeground());
+			if (selectionModel.hasSelection()) {
+				Stack<INodeModel> selectedNodes = selectionModel.getSelectedNodes();
+				Color c = JColorChooser.showDialog(this, "Choose a color", selectionModel.getSelectedNode().getStyle().getForeground());
 				if (c == null) return;
 				for (INodeModel node : selectedNodes) {
 					node.getStyle().setForeground(c);
@@ -152,10 +167,9 @@ public class PalettePane extends JPanel {
 		}
 
 		void selectBgColor() {
-			nodeSelectionModel = SCYMapper.getInstance().getCurrentEditor().getSelectionModel();
-			if (nodeSelectionModel.hasSelection()) {
-				Stack<INodeModel> selectedNodes = nodeSelectionModel.getSelectedNodes();
-				Color c = JColorChooser.showDialog(this, "Choose a color", nodeSelectionModel.getSelectedNode().getStyle().getBackground());
+			if (selectionModel.hasSelection()) {
+				Stack<INodeModel> selectedNodes = selectionModel.getSelectedNodes();
+				Color c = JColorChooser.showDialog(this, "Choose a color", selectionModel.getSelectedNode().getStyle().getBackground());
 				if (c == null) return;
 				for (INodeModel node : selectedNodes) {
 					node.getStyle().setBackground(c);
@@ -164,27 +178,40 @@ public class PalettePane extends JPanel {
 			}
 		}
 
+		public void setSelectionModel(IDiagramSelectionModel selectionModel) {
+			this.selectionModel = selectionModel;
+			this.selectionModel.removeSelectionListener(this);
+			this.selectionModel.addSelectionListener(this);
+			selectionChanged(selectionModel);
+		}
 	}
 
-	private class FillStyleCheckbox extends JCheckBox implements ActionListener, IDiagramSelectionListener {
-		public FillStyleCheckbox(IDiagramSelectionModel nodeSelectionModel) {
+	private static class FillStyleCheckbox extends JCheckBox implements ActionListener, IDiagramSelectionListener {
+		private IDiagramSelectionModel selectionModel;
+
+		public FillStyleCheckbox() {
 			setText("Opaque");
-			nodeSelectionModel.addSelectionListener(this);
 			addActionListener(this);
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			nodeSelectionModel.getSelectedNode().getStyle().setFillStyle(this.isSelected() ? INodeShape.FILL : INodeShape.DRAW);
+			selectionModel.getSelectedNode().getStyle().setFillStyle(this.isSelected() ? INodeShape.FILL : INodeShape.DRAW);
 		}
 
 		@Override
-		public void selectionChanged(IDiagramSelectionModel selectionModel) {
-
+		public void selectionChanged(IDiagramSelectionModel s) {
 			setEnabled(selectionModel.hasSelection());
 			if (selectionModel.hasSelection()) {
 				setSelected(selectionModel.getSelectedNode().getStyle().getFillStyle() == INodeShape.FILL);
 			}
+		}
+
+		public void setSelectionModel(IDiagramSelectionModel selectionModel) {
+			this.selectionModel = selectionModel;
+			this.selectionModel.removeSelectionListener(this);
+			this.selectionModel.addSelectionListener(this);
+			selectionChanged(selectionModel);
 		}
 	}
 }

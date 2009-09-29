@@ -1,11 +1,9 @@
 package eu.scy.scymapper.impl.demo;
 
-import eu.scy.scymapper.api.IConceptLinkModel;
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.DiagramModel;
-import eu.scy.scymapper.impl.component.ConceptDiagramView;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
@@ -13,6 +11,7 @@ import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.*;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,7 +26,7 @@ import java.net.URL;
  * Date: 27.aug.2009
  * Time: 15:09:32
  */
-public class DiagramDemo  extends JFrame implements IDiagramModelListener, INodeModelListener {
+public class DiagramDemo  extends JFrame implements IDiagramListener, INodeModelListener {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -49,7 +48,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
         diagramModel = new DiagramModel();
 
         // Observe the diagramModel
-        diagramModel.addObserver(this);
+        diagramModel.addDiagramListener(this);
 
         // Ok, so I'm adding a few nodes to the impl before instantiating the impl component
         testAddNodes1();
@@ -105,7 +104,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
         svgNode.setSize(new Dimension(101, 101));
         addNode(svgNode);
 
-        IConceptLinkModel link = new NodeLinkModel(n1, svgNode);
+        INodeLinkModel link = new NodeLinkModel(n1, svgNode);
         link.getStyle().setColor(new Color(0x339900));
         link.setShape(new Arrow());
         link.setLabel("Hello");
@@ -135,7 +134,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
         n7.setShape(new Ellipse());
         addNode(n7);
 
-        IConceptLinkModel link = new NodeLinkModel(node, n7);
+        INodeLinkModel link = new NodeLinkModel(node, n7);
         link.getStyle().setColor(new Color(0xffff00));
         link.getStyle().setStroke(new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
         link.setShape(new Arrow());
@@ -181,7 +180,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
 
     private void addNode(INodeModel node) {
         // subscribe to changes in this node
-        node.addObserver(this);
+        node.addListener(this);
         diagramModel.addNode(node);
     }
 
@@ -222,11 +221,6 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
 
     @Override
     public void labelChanged(INodeModel node) {
-    }
-
-    @Override
-    public void styleChanged(INodeModel node) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -271,7 +265,7 @@ public class DiagramDemo  extends JFrame implements IDiagramModelListener, INode
         diagramModel.addNode(egg);
 
         // Add a link between the star and the egg
-        IConceptLinkModel link = new NodeLinkModel(star, egg);
+        INodeLinkModel link = new NodeLinkModel(star, egg);
         link.getStyle().setColor(new Color(0xffff00));
         link.getStyle().setStroke(new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f, new float[]{6.0f}, 0.0f));
         link.setShape(new Arrow());

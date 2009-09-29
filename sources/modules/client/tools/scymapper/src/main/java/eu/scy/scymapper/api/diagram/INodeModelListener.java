@@ -13,8 +13,6 @@ public interface INodeModelListener {
 
     public void labelChanged(INodeModel node);
 
-    public void styleChanged(INodeModel node);
-
     public void shapeChanged(INodeModel node);
 
     public void nodeSelected(INodeModel node);

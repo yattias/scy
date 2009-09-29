@@ -1,7 +1,4 @@
-package eu.scy.scymapper.api;
-
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+package eu.scy.scymapper.api.diagram;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +7,7 @@ import eu.scy.scymapper.api.diagram.INodeModel;
  * Time: 18:59:55
  * To change this template use File | Settings | File Templates.
  */
-public interface IConceptLinkModel extends ILinkModel {
+public interface INodeLinkModel extends ILinkModel {
 
     public INodeModel getFromNode();
     public void setFromNode(INodeModel node);

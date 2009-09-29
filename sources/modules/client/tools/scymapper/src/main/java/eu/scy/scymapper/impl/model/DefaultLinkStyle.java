@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.styling.ILinkStyle;
-import eu.scy.scymapper.api.styling.ILinkStyleObserver;
+import eu.scy.scymapper.api.styling.ILinkStyleListener;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,10 +17,10 @@ import java.util.Collection;
 public class DefaultLinkStyle implements ILinkStyle {
     private Color color = new Color(0x000000);
     private Stroke stroke = new BasicStroke(2f);
-    private Collection<ILinkStyleObserver> observers;
+    private Collection<ILinkStyleListener> listeners;
 
-    public DefaultLinkStyle() {
-        observers = new ArrayList<ILinkStyleObserver>();
+	public DefaultLinkStyle() {
+        listeners = new ArrayList<ILinkStyleListener>();
     }
 
     @Override
@@ -44,23 +44,23 @@ public class DefaultLinkStyle implements ILinkStyle {
     }
 
     @Override
-    public void addObserver(ILinkStyleObserver o) {
-        observers.add(o);
+    public void addStyleListener(ILinkStyleListener o) {
+        listeners.add(o);
     }
 
     @Override
-    public void removeObserver(ILinkStyleObserver o) {
-        observers.remove(o);
+    public void removeStyleListener(ILinkStyleListener o) {
+        listeners.remove(o);
     }
     @Override
-    public boolean hasObserver(ILinkStyleObserver o) {
-        return observers.contains(o);
+    public boolean hasStyleListener(ILinkStyleListener o) {
+        return listeners.contains(o);
     }
 
     @Override
     public void notifyStyleChanged(ILinkStyle s) {
-        for (ILinkStyleObserver observer : observers) {
-            observer.styleChanged(s);
+        for (ILinkStyleListener listener : listeners) {
+            listener.styleChanged(s);
         }
     }
 }

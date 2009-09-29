@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.IConceptLinkModel;
+import eu.scy.scymapper.api.diagram.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 18:40:14
  */
-public class NodeLinkModel extends SimpleLink implements IConceptLinkModel {
+public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
     private INodeModel fromNode;
     private INodeModel toNode;
 
