@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <version>9.8.0-SNAPSHOT</version>
     <name>scy</name>
-    <url>http://www.scy-net.eu</url>
+    <url>http://www.scy-lab.eu</url>
 
     <repositories>
         <repository>
