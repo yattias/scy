@@ -1,7 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
-import eu.scy.scyplanner.components.frontpage.StartUpMenuItemm;
+import eu.scy.scyplanner.components.frontpage.StartUpMenuItem;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.action.AbstractSCYPlannerAction;
 import eu.scy.core.model.pedagogicalplan.Scenario;
@@ -84,7 +84,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
     private class CreateNewPedagogicalPlanFromDefaultPedagogicalPlan extends AbstractSCYPlannerAction {
         private Mission mission = null;
         private Scenario scenario = null;
-        private StartUpMenuItemm item = null;
+        private StartUpMenuItem item = null;
 
         private CreateNewPedagogicalPlanFromDefaultPedagogicalPlan() {
             super("Create New Pedagogical Plan", null, "Copies the default selected pedagogical plan that is available for the selected combination of mission and scenario. You can use the copy directly without any changes or fine-tune it according to your needs");
@@ -124,7 +124,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
             if (item != null) {
                 remove(item);
             }
-            item = new StartUpMenuItemm(action, null);
+            item = new StartUpMenuItem(action, null);
             item.setBorder(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorder());
             add(BorderLayout.SOUTH, item);
         }
