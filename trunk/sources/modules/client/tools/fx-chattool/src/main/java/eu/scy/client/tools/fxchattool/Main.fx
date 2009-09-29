@@ -14,10 +14,8 @@ import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxchattool.registration.ChattoolContentCreator;
 
-import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
-
 /**
- * @author sikkenj
+ * @author jeremyt
  */
 
 InitLog4JFX.initLog4J();
@@ -25,23 +23,20 @@ InitLog4JFX.initLog4J();
 //def scychatType = "scy/chat";
 def scychatId = "chat";
 
-var scyDesktopCreator = ScyDesktopCreator{
-   configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
+var scyDesktopCreator = ScyDesktopCreator {
+    configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
 }
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolContentCreator{},scychatId);
-//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scychatType,"chat");
-
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
-      scyDesktop:scyDesktop;
-      repository:scyDesktopCreator.config.getRepository();
-      titleKey:scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
-   }
+scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+    scyDesktop:scyDesktop;
+    repository:scyDesktopCreator.config.getRepository();
+    titleKey:scyDesktopCreator.config.getTitleKey();
+    technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
+}
 
 
 var stage = Stage {
