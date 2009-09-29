@@ -12,7 +12,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>SCY client desktop</name>
-	<url>http://www.scy-net.eu</url>
+	<url>http://www.scy-lab.eu</url>
 
 	<dependencies>
 
