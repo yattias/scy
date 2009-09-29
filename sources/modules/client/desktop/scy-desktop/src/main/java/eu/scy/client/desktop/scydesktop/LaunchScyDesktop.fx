@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
 
 /**
  * @author sikkenj
@@ -69,6 +70,8 @@ var scyDesktopCreator = ScyDesktopCreator{
    configClassPathConfigLocation:classPathConfigLocation;
    configFileSystemConfigLocation:fileSystemConfigLocation;
 }
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, "text");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
