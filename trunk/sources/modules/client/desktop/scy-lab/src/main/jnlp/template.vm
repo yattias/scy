@@ -5,7 +5,7 @@
   <information>
     <title>SCY-Lab</title>
     <vendor>SCY</vendor>
-    <homepage href="http://www.scy-net.org"/>
+    <homepage href="http://www.scy-net.eu"/>
 #if($offlineAllowed)
     <offline-allowed/>
 #end
