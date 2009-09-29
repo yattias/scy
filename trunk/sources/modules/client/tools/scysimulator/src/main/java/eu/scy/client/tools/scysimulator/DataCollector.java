@@ -12,10 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -98,7 +100,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         sandboxbutton.setSelected(false);
         sandboxbutton.setActionCommand("sandbox");
         sandboxbutton.addActionListener(this);
-        buttonPanel.add(sandboxbutton);
+        //buttonPanel.add(sandboxbutton);
 
         checkbox = new JCheckBox("add datapoints continuosly");
         checkbox.setSelected(false);
@@ -173,11 +175,20 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         try {
             config = new SimConfig(xmlSimConfig);
             if (config.getSimulationName().equals(getSimQuestViewer().getApplication().getTopic(0).getName())) {
-                for (Iterator<ModelVariable> variables = getSimulationVariables().iterator(); variables.hasNext();) {
-                    var = variables.next();
-                    // if the variable name cannot be found in the config, a nullpointerex. is thrown
-                    var.setValue(config.getVariables().get(var.getName()));
-                }
+//                for (Iterator<ModelVariable> variables = getSimulationVariables().iterator(); variables.hasNext();) {
+//                    var = variables.next();
+//                    // if the variable name cannot be found in the config, a nullpointerex. is thrown
+//                    var.setValue(config.getVariables().get(var.getName()));
+//                }
+                
+            	for (Iterator<Entry<String, String>> it = config.getVariables().entrySet().iterator(); it.hasNext();) {
+            		Entry<String, String> entry = it.next();
+            		var = getVariableByName(entry.getKey());
+            		if (var != null) {
+            			var.setValue(entry.getValue());
+            		}
+            		
+            	}
             } else {
                 // the simulation names doesn't match
                 JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.",
@@ -234,6 +245,18 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
             text.setText("");
         }
         logger.logSelectedVariables(selectedVariables);
+    }
+    
+    private ModelVariable getVariableByName(String name) {
+    	ModelVariable modelVar = null;
+    	List<ModelVariable> varList = getSimQuestViewer().getDataServer().getVariables("dummy");
+    	for (Iterator<ModelVariable> it = varList.iterator(); it.hasNext();) {
+    		ModelVariable var = it.next();
+    		if (var.getName().equals(name)) {
+    			modelVar = var;
+    		}
+    	}
+    	return modelVar;
     }
 
     private void initSandbox() {
