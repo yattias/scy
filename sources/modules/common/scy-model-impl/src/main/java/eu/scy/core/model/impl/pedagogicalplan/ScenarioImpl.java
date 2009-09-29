@@ -32,4 +32,14 @@ public class ScenarioImpl extends BaseObjectImpl implements Scenario {
     public void setLearningGoals(Set<LearningGoal> learningGoals) {
 
     }
+
+    @Override
+    public void addLearningGoal(LearningGoal learningGoal) {
+
+    }
+
+    @Override
+    public void removeLearningGoal(LearningGoal learningGoal) {
+
+    }
 }
