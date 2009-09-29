@@ -2,8 +2,6 @@ package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.LearningMaterial;
-import eu.scy.core.model.pedagogicalplan.LearningGoal;
-import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 
 import java.util.Set;
 

@@ -1,9 +1,11 @@
 package eu.scy.scyplanner.components.frontpage;
 
-import eu.scy.scyplanner.components.text.SCYPlannerTextArea;
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.MutableAttributeSet;
 import java.awt.*;
 
 /**
@@ -14,13 +16,14 @@ import java.awt.*;
  */
 public class StartUpInformationItem extends JPanel {
     private final JLabel heading = new JLabel();
-    private SCYPlannerTextArea description = new SCYPlannerTextArea();
+    private JTextPane description = new JTextPane();
     private final static String EMPTY_STRING = "";
 
     public StartUpInformationItem(String title, String descritpion, ImageIcon icon) {
         setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(2, 2, 22, 2));
-        heading.setFont(StartUpMenuItem.DEFAULT_STARTUP_PANEL_FONT);
+        setBorder(BorderFactory.createEmptyBorder(SCYPlannerApplicationManager.getDefaultBorderSize(), SCYPlannerApplicationManager.getDefaultBorderSize(), 22, SCYPlannerApplicationManager.getDefaultBorderSize()));
+        heading.setFont(StartUpMenuItemm.DEFAULT_STARTUP_PANEL_FONT);
+
         setTitle(title);
 
         setOpaque(false);
@@ -29,6 +32,8 @@ public class StartUpInformationItem extends JPanel {
         nameAndDescriptionPanel.setLayout(new BorderLayout());
         nameAndDescriptionPanel.setOpaque(false);
 
+        description.setContentType("text/html");
+        description.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         description.setEditable(false);
         description.setOpaque(false);
         description.setFocusable(false);
@@ -52,8 +57,22 @@ public class StartUpInformationItem extends JPanel {
     public void setDescription(String descritpion) {
         if (descritpion != null) {
             description.setText(descritpion);
+            setJTextPaneFont(description, new Font("Dialog", Font.PLAIN, 12));
         } else {
             description.setText(EMPTY_STRING);
         }
+    }
+
+    public static void setJTextPaneFont(JTextPane jtp, Font font) {
+        MutableAttributeSet attrs = jtp.getInputAttributes();
+
+        StyleConstants.setFontFamily(attrs, font.getFamily());
+        StyleConstants.setFontSize(attrs, font.getSize());
+        /*StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
+        StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);*/
+
+        StyledDocument doc = jtp.getStyledDocument();
+
+        doc.setCharacterAttributes(0, doc.getLength() + 1, attrs, false);
     }
 }

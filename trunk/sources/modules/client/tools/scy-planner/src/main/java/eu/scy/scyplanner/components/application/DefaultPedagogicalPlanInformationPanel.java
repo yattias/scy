@@ -1,19 +1,19 @@
 package eu.scy.scyplanner.components.application;
 
-import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.scyplanner.components.frontpage.StartUpInformationItem;
-import eu.scy.scyplanner.components.frontpage.StartUpMenuItem;
+import eu.scy.scyplanner.components.frontpage.StartUpMenuItemm;
 import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.action.AbstractSCYPlannerAction;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Mission;
+import eu.scy.core.model.pedagogicalplan.LearningGoal;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,6 +22,9 @@ import java.awt.event.ActionEvent;
  * Time: 15:24:36
  */
 public class DefaultPedagogicalPlanInformationPanel extends JPanel {
+    private final static String LINE_BREAK = System.getProperty("line.separator");
+    private final static String ONE_SPACE_STRING = " ";
+    private final static String COLON_ONE_SPACE_STRING = ": ";
     private CreateNewPedagogicalPlanFromDefaultPedagogicalPlan action = new CreateNewPedagogicalPlanFromDefaultPedagogicalPlan();
 
     public DefaultPedagogicalPlanInformationPanel(JList missionList, JList scenarioList) {
@@ -32,16 +35,16 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(0, 1));
 
-        StartUpInformationItem mission = new StartUpInformationItem("Mission", "Not selected", null);
-        panel.add(mission);
+        StartUpInformationItem missionInfo = new StartUpInformationItem("Mission", "Not selected", null);
+        panel.add(missionInfo);
 
-        StartUpInformationItem scenario = new StartUpInformationItem("Scenario", "Not selected", null);
-        panel.add(scenario);
+        StartUpInformationItem scenarioInfo = new StartUpInformationItem("Scenario", "Not selected", null);
+        panel.add(scenarioInfo);
 
         add(BorderLayout.NORTH, panel);
 
-        addMissionListSelectionListener(missionList, mission);
-        addScenarioListSelectionListener(scenarioList, scenario);
+        addMissionListSelectionListener(missionList, missionInfo);
+        addScenarioListSelectionListener(scenarioList, scenarioInfo);
     }
 
     private void addMissionListSelectionListener(final JList list, final StartUpInformationItem label) {
@@ -51,7 +54,15 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
                     Mission mission = (Mission) list.getModel().getElementAt(list.getSelectedIndex());
                     action.setMission(mission);
                     label.setTitle(mission.getName());
-                    label.setDescription(mission.getDescription());
+                    StringBuffer buffer = new StringBuffer("<i>").append(mission.getDescription()).append("</i>");
+                    buffer.append("<br/><br/>Learning goals:<br/>");
+                    Iterator<LearningGoal> learningGoals = mission.getLearningGoals().iterator();
+                    buffer.append("<ol>");
+                    while (learningGoals.hasNext()) {
+                        buffer.append("<li>").append(learningGoals.next().getName()).append("</li>");
+                    }
+                    buffer.append("</ol>");
+                    label.setDescription(buffer.toString());
                 }
             }
         });
@@ -73,6 +84,7 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
     private class CreateNewPedagogicalPlanFromDefaultPedagogicalPlan extends AbstractSCYPlannerAction {
         private Mission mission = null;
         private Scenario scenario = null;
+        private StartUpMenuItemm item = null;
 
         private CreateNewPedagogicalPlanFromDefaultPedagogicalPlan() {
             super("Create New Pedagogical Plan", null, "Copies the default selected pedagogical plan that is available for the selected combination of mission and scenario. You can use the copy directly without any changes or fine-tune it according to your needs");
@@ -80,7 +92,8 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
 
         @Override
         protected void doActionPerformed(ActionEvent actionEvent) {
-
+            PedagogicalPlanPanel panel = new PedagogicalPlanPanel(mission, scenario);
+            SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame().setContent("Pedagogical plan", panel);
         }
 
         public Mission getMission() {
@@ -108,7 +121,12 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
         }
 
         private void addToPanel() {
-            add(BorderLayout.SOUTH, new StartUpMenuItem(action, null));
+            if (item != null) {
+                remove(item);
+            }
+            item = new StartUpMenuItemm(action, null);
+            item.setBorder(SCYPlannerApplicationManager.getApplicationManager().createDefaultBorder());
+            add(BorderLayout.SOUTH, item);
         }
 
         @Override

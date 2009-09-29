@@ -13,15 +13,14 @@ import java.util.Set;
  * Time: 15:07:38
  */
 public class ScenarioImpl extends BaseObjectImpl implements Scenario {
+    private LearningActivitySpace learningActivitySpace = null;
 
-    @Override
     public LearningActivitySpace getLearningActivitySpace() {
-        return null;
+        return learningActivitySpace;
     }
 
-    @Override
     public void setLearningActivitySpace(LearningActivitySpace learningActivitySpace) {
-
+        this.learningActivitySpace = learningActivitySpace;
     }
 
     @Override
