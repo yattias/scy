@@ -24,7 +24,7 @@ import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class Logger implements ActionListener, IDataClient {
 
-	private String username;
+	private String username = "default_username";
 
 	private String toolname;
 
@@ -62,7 +62,7 @@ public class Logger implements ActionListener, IDataClient {
 		this.dataServer = dataServer;
 		xmlOutputter = new XMLOutputter();
 		// TODO: these properties have to be fetched from the SCY environment
-		username = System.getProperty("user.name");
+		//username = System.getProperty("user.name");
 		missionname = "mission 1";
 		toolname = "scysimulator";
 		DataAgent dataAgent = new BasicDataAgent(this, dataServer);
@@ -113,8 +113,8 @@ public class Logger implements ActionListener, IDataClient {
 		});
 		outputVariableTimer.setRepeats(false);
 
-		ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-		actionLogger = tbi.getActionLogger();
+		//ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+		//actionLogger = tbi.getActionLogger();
 
 	}
 
@@ -232,7 +232,7 @@ public class Logger implements ActionListener, IDataClient {
 	}
 
 	private void write(IAction action) {
-		actionLogger.log(username, toolname, action);
+		//actionLogger.log(username, toolname, action);
 		// outputter.output(action.getXML(), System.out);
 	}
 
