@@ -27,9 +27,13 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryF
 import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
 import java.lang.Thread;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author sikkenj
  */
+
+var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreator");
 
 public class ScyDesktopCreator {
 
@@ -78,9 +82,11 @@ public class ScyDesktopCreator {
       if (config==null){
          var springConfigFactory = new SpringConfigFactory();
          if (configClassPathConfigLocation!=null){
+            logger.info("reading config from class path: {configClassPathConfigLocation}");
             springConfigFactory.initFromClassPath(configClassPathConfigLocation);
          }
          else if (configFileSystemConfigLocation!=null){
+            logger.info("reading config from file system: {configFileSystemConfigLocation}");
             springConfigFactory.initFromFileSystem(configFileSystemConfigLocation);
          }
          else{
