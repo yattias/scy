@@ -25,7 +25,7 @@ public class SCYSimulatorStandalone {
 
 		JPanel simquestPanel = new JPanel();
 		DataCollector dataCollector = null;
-		EloSimQuestWrapper eloSimQuestWrapper = new EloSimQuestWrapper();
+		EloSimQuestWrapper eloSimQuestWrapper = null;
 
 		try {
 			simquestViewer.run();
@@ -37,8 +37,8 @@ public class SCYSimulatorStandalone {
 					BorderLayout.CENTER);
 
 			dataCollector = new DataCollector(simquestViewer);
+                        eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);
 			simquestPanel.add(dataCollector, BorderLayout.SOUTH);
-
 		} catch (java.lang.Exception e) {
 			System.out
 			.println("SimQuestNode.createSimQuestNode(). exception caught:");

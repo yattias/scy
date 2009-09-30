@@ -12,28 +12,33 @@ import sqv.SimQuestViewer;
 import javax.swing.JPanel;
 import eu.scy.client.tools.scysimulator.DataCollector;
 import eu.scy.client.tools.scysimulator.EloSimQuestWrapper;
+import eu.scy.client.tools.scysimulator.SimConfig;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JTextArea;
+import roolo.elo.api.IELO;
 
 public class SimulatorContentCreator extends WindowContentCreatorFX {
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
+   public var simulationUriString:String = "http://scy.collide.info/balance.sqzx";
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
+      var newElo:IELO  = repository.retrieveELO(eloUri);
+      var simConfig:SimConfig = new SimConfig(newElo.getContent().getXmlString());
+      simulationUriString = simConfig.getSimulationUri();
       var simulatorNode:SimulatorNode = createSimulatorNode(scyWindow);
       simulatorNode.loadElo(eloUri);
       return simulatorNode;
    }
-
 
    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
       return createSimulatorNode(scyWindow);
    }
 
    function createSimulatorNode(scyWindow:ScyWindow):SimulatorNode{
-		var fileUri = new URI("http://scy.collide.info/balance.sqzx");
+	var fileUri = new URI(simulationUriString);
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
         var simquestViewer = new SimQuestViewer(false);
         //var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
@@ -46,7 +51,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
 
         var simquestPanel = new JPanel();
         var dataCollector:DataCollector;
-        var eloSimQuestWrapper = new EloSimQuestWrapper();
+        var eloSimQuestWrapper:EloSimQuestWrapper;
 
         try {
             simquestViewer.run();
@@ -59,10 +64,10 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
             dataCollector = new DataCollector(simquestViewer);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 
-            eloSimQuestWrapper.setDataCollector(dataCollector);
+            eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);
             eloSimQuestWrapper.setRepository(repository);
-			eloSimQuestWrapper.setMetadataTypeManager(metadataTypeManager);
-			eloSimQuestWrapper.setEloFactory(eloFactory);
+	    eloSimQuestWrapper.setMetadataTypeManager(metadataTypeManager);
+	    eloSimQuestWrapper.setEloFactory(eloFactory);
         } catch (e:java.lang.Exception) {
         	System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
             e.printStackTrace();

@@ -1,6 +1,6 @@
 package eu.scy.client.tools.scysimulator;
 
-import eu.scy.client.tools.scysimulator.logger.Logger;
+//import eu.scy.client.tools.scysimulator.logger.Logger;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,14 +52,14 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
     private BalanceSlider balanceSlider;
-	private Logger logger;
+    //private Logger logger;
 
     public DataCollector(ISimQuestViewer simquestViewer) {
         // initialize the logger
-    	logger = new Logger(simquestViewer.getDataServer());
+    	//logger = new Logger(simquestViewer.getDataServer());
     	// initialize user interface
         initGUI();
-        logger.toolStarted();
+        //logger.toolStarted();
 
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
@@ -108,7 +107,9 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
         this.add(buttonPanel, BorderLayout.NORTH);
 
-        JScrollPane pane = new JScrollPane(text);
+        JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+                                          JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        pane.setViewportView(text);
         this.add(pane, BorderLayout.CENTER);
     }
 
@@ -128,7 +129,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         text.append("\n");
         DataSetRow newRow = new DataSetRow(values);
         dataset.addRow(newRow);
-        logger.logAddRow(newRow);
+        //logger.logAddRow(newRow);
         if (sandboxbutton.isSelected()) {
             sandbox.sendDataSetRow(newRow);
         }
@@ -227,9 +228,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         return simquestViewer;
     }
 
-    public void setSelectedVariables(List<ModelVariable> selection) {
-        selectedVariables = selection;
-        ModelVariable var;
+    public void cleanDataSet(){
+       ModelVariable var;
         List<DataSetColumn> datasetvariables = new LinkedList<DataSetColumn>();
         List<DataSetHeader> datasetheaders = new LinkedList<DataSetHeader>();
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
@@ -244,7 +244,12 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         if (text != null) {
             text.setText("");
         }
-        logger.logSelectedVariables(selectedVariables);
+    }
+
+    public void setSelectedVariables(List<ModelVariable> selection) {
+        selectedVariables = selection;
+        cleanDataSet();
+        //logger.logSelectedVariables(selectedVariables);
     }
     
     private ModelVariable getVariableByName(String name) {
@@ -272,13 +277,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowActivated(WindowEvent e) {
-      logger.focusGained();
+      //logger.focusGained();
         
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-        logger.toolStopped();
+        //logger.toolStopped();
         
     }
 
@@ -290,19 +295,19 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        logger.focusLost();
+        //logger.focusLost();
         
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-        logger.focusGained();
+        //logger.focusGained();
         
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-        logger.focusLost();
+        //logger.focusLost();
         
     }
 
