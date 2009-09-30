@@ -132,10 +132,11 @@ public class NewScyWindowTool extends CustomNode {
             if (results!=null and results.size()>0){
                var eloUri = askUri(results);
                if (eloUri!=null){
-                  var eloMetadata = repository.retrieveMetadata(eloUri);
-                  var title = eloMetadata.getMetadataValueContainer(titleKey).getValue() as String;
-                  var realEloType = eloMetadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-                  createScyWindow(eloUri,realEloType,title);
+                  scyDesktop.addScyWindow(eloUri);
+//                  var eloMetadata = repository.retrieveMetadata(eloUri);
+//                  var title = eloMetadata.getMetadataValueContainer(titleKey).getValue() as String;
+//                  var realEloType = eloMetadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
+//                  createScyWindow(eloUri,realEloType,title);
                }
             }
             else{

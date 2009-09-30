@@ -51,7 +51,7 @@ public class TextEditorNode extends CustomNode, Resizable {
          return;
       }
       logger.info("set title to {eloTextEditorActionWrapper.getDocName()} and eloUri to {eloTextEditorActionWrapper.getEloUri()}");
-		scyWindow.title = "Text: {eloTextEditorActionWrapper.getDocName()}";
+		scyWindow.title = eloTextEditorActionWrapper.getDocName();
 		var eloUri = eloTextEditorActionWrapper.getEloUri();
 		scyWindow.eloUri = eloUri
 	};
