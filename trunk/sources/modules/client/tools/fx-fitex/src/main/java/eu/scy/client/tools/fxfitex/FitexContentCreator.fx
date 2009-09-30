@@ -39,11 +39,13 @@ public class FitexContentCreator  extends WindowContentCreatorFX {
    }
 
 	function createFitexNode(scyWindow:ScyWindow):FitexNode{
+      setWindowProperties(scyWindow);
 		var fitexPanel= new FitexPanel();
 		var eloFitexActionWrapper= new EloFitexActionWrapper(fitexPanel);
 		eloFitexActionWrapper.setRepository(repository);
 		eloFitexActionWrapper.setMetadataTypeManager(metadataTypeManager);
 		eloFitexActionWrapper.setEloFactory(eloFactory);
+		eloFitexActionWrapper.setDocName(scyWindow.title);
 		return FitexNode{
 			fitexPanel:fitexPanel;
 			eloFitexActionWrapper:eloFitexActionWrapper;

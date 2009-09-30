@@ -143,7 +143,7 @@ public class EloFitexActionWrapper {
       }
    }
 
-   private void setDocName(String docName)
+   public void setDocName(String docName)
    {
       this.docName = docName;
       String windowTitle = "Data processing: ";
