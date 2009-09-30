@@ -19,12 +19,16 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author sikken
  */
 
 // place your code here
 public class TextEditorNode extends CustomNode, Resizable {
+
+   def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorNode");
 
    public-init var textEditor:TextEditor;
    public-init var eloTextEditorActionWrapper:EloTextEditorActionWrapper;
@@ -42,15 +46,17 @@ public class TextEditorNode extends CustomNode, Resizable {
    }
 
 	function setScyWindowTitle(){
-		if (scyWindow == null)
-		return;
+		if (scyWindow == null){
+         logger.info("could not set window title, because scyWindow == null");
+         return;
+      }
+      logger.info("set title to {eloTextEditorActionWrapper.getDocName()} and eloUri to {eloTextEditorActionWrapper.getEloUri()}");
 		scyWindow.title = "Text: {eloTextEditorActionWrapper.getDocName()}";
 		var eloUri = eloTextEditorActionWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+		scyWindow.eloUri = eloUri
 	};
+
+   def spacing = 5.0;
 
    public override function create(): Node {
       wrappedTextEditor = SwingComponent.wrap(textEditor);
@@ -58,12 +64,12 @@ public class TextEditorNode extends CustomNode, Resizable {
          blocksMouse:true;
          content: [
             VBox{
-               translateY:5;
-               spacing:5;
+               translateY:spacing;
+               spacing:spacing;
                content:[
                   HBox{
-                     translateX:5;
-                     spacing:5;
+                     translateX:spacing;
+                     spacing:spacing;
                      content:[
                         Button {
                            text: "New"
@@ -103,8 +109,10 @@ public class TextEditorNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
-      var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY);
+//      println("wrappedTextEditor.boundsInParent: {wrappedTextEditor.boundsInParent}");
+//      println("wrappedTextEditor.layoutY: {wrappedTextEditor.layoutY}");
+//      println("wrappedTextEditor.translateY: {wrappedTextEditor.translateY}");
+      var size = new Dimension(width,height-wrappedTextEditor.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       textEditor.setPreferredSize(size);
       // setSize is not visual needed
