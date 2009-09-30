@@ -39,11 +39,13 @@ public class CopexContentCreator  extends WindowContentCreatorFX {
    }
 
 	function createCopexNode(scyWindow:ScyWindow):CopexNode{
+      setWindowProperties(scyWindow);
 		var copexPanel= new ScyCopexPanel();
 		var eloCopexActionWrapper= new EloCopexActionWrapper(copexPanel);
 		eloCopexActionWrapper.setRepository(repository);
 		eloCopexActionWrapper.setMetadataTypeManager(metadataTypeManager);
 		eloCopexActionWrapper.setEloFactory(eloFactory);
+		eloCopexActionWrapper.setDocName(scyWindow.title);
 		return CopexNode{
 			copexPanel:copexPanel;
 			eloCopexActionWrapper:eloCopexActionWrapper;
