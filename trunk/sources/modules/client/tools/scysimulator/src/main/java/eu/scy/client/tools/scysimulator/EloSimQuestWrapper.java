@@ -116,7 +116,7 @@ public class EloSimQuestWrapper {
         }
     }
 
-    private void setDocName(String docName) {
+    public void setDocName(String docName) {
         this.docName = docName;
         String windowTitle = "SimConfig: ";
         if (StringUtils.hasText(docName)) {
