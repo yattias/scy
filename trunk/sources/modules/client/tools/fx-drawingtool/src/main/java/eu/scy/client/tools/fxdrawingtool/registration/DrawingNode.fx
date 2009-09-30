@@ -48,12 +48,9 @@ public class DrawingNode extends CustomNode, Resizable {
 	function setScyWindowTitle(){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Drawing: {eloDrawingActionWrapper.getDocName()}";
+		scyWindow.title = eloDrawingActionWrapper.getDocName();
 		var eloUri = eloDrawingActionWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+      scyWindow.eloUri = eloUri;
 	};
 
    public override function create(): Node {
