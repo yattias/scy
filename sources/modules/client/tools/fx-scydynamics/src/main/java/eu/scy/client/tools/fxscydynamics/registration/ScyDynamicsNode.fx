@@ -25,6 +25,9 @@ public class ScyDynamicsNode extends CustomNode, Resizable {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
    
+   var wrappedModelEditor:SwingComponent;
+   def spacing = 5.0;
+
    public function loadElo(uri:URI){
       eloModelWrapper.loadElo(uri);
       setScyWindowTitle();
@@ -33,12 +36,9 @@ public class ScyDynamicsNode extends CustomNode, Resizable {
 	function setScyWindowTitle(){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Model: {eloModelWrapper.getDocName()}";
+		scyWindow.title = eloModelWrapper.getDocName();
 		var eloUri = eloModelWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+      scyWindow.eloUri = eloUri;
 	};
 
 
@@ -47,12 +47,12 @@ public override function create(): Node {
          blocksMouse:true;
          content: [
             VBox{
-               translateY:5;
-               spacing:5;
+               translateY:spacing;
+               spacing:spacing;
                content:[
                   HBox{
-                     translateX:5;
-                     spacing:5;
+                     translateX:spacing;
+                     spacing:spacing;
                      content:[
                         Button {
                            text: "New"
@@ -98,7 +98,7 @@ public override function create(): Node {
                         }
                      ]
                   }
-                  SwingComponent.wrap(modelEditor)
+                  wrappedModelEditor = SwingComponent.wrap(modelEditor)
                ]
             }
          ]
@@ -108,7 +108,7 @@ public override function create(): Node {
   
 
    function resizeContent(){
-      var size = new Dimension(width,height);
+      var size = new Dimension(width,height-wrappedModelEditor.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       editorPanel.setPreferredSize(size);
       // setSize is not visual needed

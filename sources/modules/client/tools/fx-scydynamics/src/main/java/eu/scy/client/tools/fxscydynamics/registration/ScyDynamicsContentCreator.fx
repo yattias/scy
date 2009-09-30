@@ -29,12 +29,13 @@ public class ScyDynamicsContentCreator extends WindowContentCreatorFX {
    }
 
    function createScyDynamicsNode(scyWindow:ScyWindow):ScyDynamicsNode{
+      setWindowProperties(scyWindow);
 	var modelEditor = new ModelEditor();
         var eloModelWrapper = new EloModelWrapper(modelEditor);
         eloModelWrapper.setRepository(repository);
 		eloModelWrapper.setMetadataTypeManager(metadataTypeManager);
 		eloModelWrapper.setEloFactory(eloFactory);
-
+      eloModelWrapper.setDocName(scyWindow.title);
         return ScyDynamicsNode{
             modelEditor:modelEditor;
             eloModelWrapper:eloModelWrapper;
