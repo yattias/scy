@@ -34,7 +34,8 @@ public class SimulatorNode extends CustomNode, Resizable {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   var wrappedWhiteboardPanel:SwingComponent;
+   var wrappedSimquestPanel:SwingComponent;
+   def spacing = 5.0;
 
    public function loadElo(uri:URI){
       eloSimQuestWrapper.loadSimConfig(uri);
@@ -50,17 +51,17 @@ public class SimulatorNode extends CustomNode, Resizable {
 	};
 
 
-public override function create(): Node {
+   public override function create(): Node {
       return Group {
          blocksMouse:true;
          content: [
             VBox{
-               translateY:5;
-               spacing:5;
+               translateY:spacing;
+               spacing:spacing;
                content:[
                   HBox{
-                     translateX:5;
-                     spacing:5;
+                     translateX:spacing;
+                     spacing:spacing;
                      content:[
                         Button {
                            text: "New"
@@ -106,7 +107,7 @@ public override function create(): Node {
                         }                  
                      ]
                   }
-                  SwingComponent.wrap(simquestPanel)
+                  wrappedSimquestPanel= SwingComponent.wrap(simquestPanel)
                ]
             }
          ]
@@ -116,7 +117,7 @@ public override function create(): Node {
   
 
    function resizeContent(){
-      var size = new Dimension(width,height);
+      var size = new Dimension(width,height-wrappedSimquestPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       simquestPanel.setPreferredSize(size);
       // setSize is not visual needed
