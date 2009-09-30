@@ -13,6 +13,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxchattool.registration.ChattoolContentCreator;
+import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 
 /**
  * @author jeremyt
@@ -28,6 +29,7 @@ var scyDesktopCreator = ScyDesktopCreator {
 }
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolContentCreator{},scychatId);
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, "chat");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
