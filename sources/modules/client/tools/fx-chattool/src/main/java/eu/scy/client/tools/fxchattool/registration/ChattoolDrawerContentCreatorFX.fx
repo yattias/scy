@@ -6,18 +6,18 @@
 
 package eu.scy.client.tools.fxchattool.registration;
 
-import eu.scy.client.desktop.scydesktop.elofactory.ContentCreator;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 import javafx.scene.Node;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 
 /**
  * @author jeremyt
  */
 
-public class ChattoolDrawerContentCreatorFX extends ContentCreator {
+public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     
-     public function getDrawerContent(eloUri:URI, scyWindow:ScyWindow):Node{
+    public override function getDrawerContent(eloUri:URI, scyWindow:ScyWindow):Node{
         return createChatNode(scyWindow);
     }
 

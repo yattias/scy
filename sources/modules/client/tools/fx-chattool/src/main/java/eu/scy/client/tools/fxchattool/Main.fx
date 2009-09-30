@@ -29,7 +29,7 @@ var scyDesktopCreator = ScyDesktopCreator {
 }
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolContentCreator{},scychatId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, "chat");
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 
