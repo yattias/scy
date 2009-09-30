@@ -35,12 +35,14 @@ public class TextEditorToolContentCreator extends WindowContentCreatorFX {
    }
 
 	function createTextEditorNode(scyWindow:ScyWindow):TextEditorNode{
+      setWindowProperties(scyWindow);
 		var textEditor= new TextEditor();
 		//whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
 		var eloTextEditorActionWrapper= new EloTextEditorActionWrapper(textEditor);
 		eloTextEditorActionWrapper.setRepository(repository);
 		eloTextEditorActionWrapper.setMetadataTypeManager(metadataTypeManager);
 		eloTextEditorActionWrapper.setEloFactory(eloFactory);
+      eloTextEditorActionWrapper.setDocName(scyWindow.title);
 		return TextEditorNode{
 			textEditor:textEditor;
          eloTextEditorActionWrapper:eloTextEditorActionWrapper
