@@ -44,12 +44,9 @@ public class SimulatorNode extends CustomNode, Resizable {
 	function setScyWindowTitle(){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Simulation: {eloSimQuestWrapper.getDocName()}";
+		scyWindow.title = eloSimQuestWrapper.getDocName();
 		var eloUri = eloSimQuestWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+      scyWindow.eloUri = eloUri;
 	};
 
 
