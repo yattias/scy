@@ -38,7 +38,8 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
    }
 
    function createSimulatorNode(scyWindow:ScyWindow):SimulatorNode{
-	var fileUri = new URI(simulationUriString);
+      setWindowProperties(scyWindow);
+      var fileUri = new URI(simulationUriString);
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
         var simquestViewer = new SimQuestViewer(false);
         //var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
