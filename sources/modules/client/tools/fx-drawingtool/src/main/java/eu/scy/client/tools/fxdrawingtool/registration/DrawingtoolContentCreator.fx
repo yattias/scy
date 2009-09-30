@@ -39,12 +39,14 @@ public class DrawingtoolContentCreator extends WindowContentCreatorFX {
    }
 
 	function createDrawingNode(scyWindow:ScyWindow):DrawingNode{
+      setWindowProperties(scyWindow);
 		var whiteboardPanel= new WhiteboardPanel();
 		//whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
 		var eloDrawingActionWrapper= new EloDrawingActionWrapper(whiteboardPanel);
 		eloDrawingActionWrapper.setRepository(repository);
 		eloDrawingActionWrapper.setMetadataTypeManager(metadataTypeManager);
 		eloDrawingActionWrapper.setEloFactory(eloFactory);
+      eloDrawingActionWrapper.setDocName(scyWindow.title);
 		return DrawingNode{
 			whiteboardPanel:whiteboardPanel;
 			eloDrawingActionWrapper:eloDrawingActionWrapper;
