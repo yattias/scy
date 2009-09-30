@@ -114,7 +114,7 @@ public class ScyDesktop extends CustomNode {
       if (config.getRepository() instanceof RepositoryWrapper){
          var repositoryWrapper = config.getRepository() as RepositoryWrapper;
          var eloSavedActionHandler = EloSavedActionHandler{
-
+            scyDesktop:this;
          }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
@@ -214,6 +214,36 @@ public class ScyDesktop extends CustomNode {
          ]
       }
    }
+
+   public function addScyWindow(uri:URI){
+      if (windows.findScyWindow(uri)!=null){
+        // window is already there, nothing to do
+        logger.info("there is already a window for uri: {uri}");
+        return;
+      }
+      addScyWindow(createScyWindow(uri));
+      logger.info("added new window for uri: {uri}");
+   }
+
+   function createScyWindow(eloUri:URI):ScyWindow{
+      var eloMetadata = config.getRepository().retrieveMetadata(eloUri);
+      var title = eloMetadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+      var eloType = eloMetadata.getMetadataValueContainer(config.getTechnicalFormatKey()).getValue() as String;
+
+       var window:ScyWindow = StandardScyWindow{
+         title:title
+         eloUri:eloUri;
+         eloType:eloType;
+//         id:"new://{title}"
+         allowClose: true;
+         allowResize: true;
+         allowRotate: true;
+         allowMinimize: true;
+         cache:true;
+      }
+   }
+
+
 
    public function addScyWindow(window:ScyWindow){
       if (window.scyContent==null and window.setScyContent==null){

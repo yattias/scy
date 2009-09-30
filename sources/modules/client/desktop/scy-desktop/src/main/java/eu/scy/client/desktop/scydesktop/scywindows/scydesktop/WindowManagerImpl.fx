@@ -22,6 +22,8 @@ import javafx.scene.paint.Color;
 
 import javafx.scene.Group;
 
+import java.net.URI;
+
 /**
  * @author sikkenj
  */
@@ -136,6 +138,18 @@ public class WindowManagerImpl extends WindowManager {
       for (window in scyWindows.content){
          if (window.id == id)
          return window as ScyWindow;
+      }
+      return null;
+   }
+
+	public override  function findScyWindow(uri:URI):ScyWindow{
+      for (node in scyWindows.content){
+         if (node instanceof ScyWindow){
+            var window = node as ScyWindow;
+           if (window.eloUri == uri){
+              return window;
+           }
+         }
       }
       return null;
    }
