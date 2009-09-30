@@ -36,6 +36,7 @@ public class CopexNode extends CustomNode, Resizable {
    public override var height on replace {resizeContent()};
 
    var wrappedCopexPanel:SwingComponent;
+   def spacing = 5.0;
 
    public function loadElo(uri:URI){
         eloCopexActionWrapper.loadElo(uri);
@@ -45,12 +46,9 @@ public class CopexNode extends CustomNode, Resizable {
 	function setScyWindowTitle(){
 		if (scyWindow == null)
 		return;
-		scyWindow.title = "Experimental procedure: {eloCopexActionWrapper.getDocName()}";
+		scyWindow.title = eloCopexActionWrapper.getDocName();
 		var eloUri = eloCopexActionWrapper.getEloUri();
-		if (eloUri != null)
-			scyWindow.id = eloUri.toString()
-		else
-			scyWindow.id = "";
+      scyWindow.eloUri = eloUri;
 	};
 
    public override function create(): Node {
@@ -59,12 +57,12 @@ public class CopexNode extends CustomNode, Resizable {
          blocksMouse:true;
          content: [
             VBox{
-               translateY:5;
-               spacing:5;
+               translateY:spacing;
+               spacing:spacing;
                content:[
                   HBox{
-                     translateX:5;
-                     spacing:5;
+                     translateX:spacing;
+                     spacing:spacing;
                      content:[
                         Button {
                            text: "New"
@@ -104,7 +102,7 @@ public class CopexNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height);
+      var size = new Dimension(width,height-wrappedCopexPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       copexPanel.setPreferredSize(size);
       // setSize is not visual needed
