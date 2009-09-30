@@ -40,7 +40,9 @@ public class DrawingNode extends CustomNode, Resizable {
 
    var wrappedWhiteboardPanel:SwingComponent;
 
-   public function loadElo(uri:URI){
+   def spacing = 5.0;
+
+public function loadElo(uri:URI){
       eloDrawingActionWrapper.loadElo(uri);
 		setScyWindowTitle();
    }
@@ -59,12 +61,12 @@ public class DrawingNode extends CustomNode, Resizable {
          blocksMouse:true;
          content: [
             VBox{
-               translateY:5;
-               spacing:5;
+               translateY:spacing;
+               spacing:spacing;
                content:[
                   HBox{
-                     translateX:5;
-                     spacing:5;
+                     translateX:spacing;
+                     spacing:spacing;
                      content:[
                         Button {
                            text: "New"
@@ -104,7 +106,7 @@ public class DrawingNode extends CustomNode, Resizable {
    }
 
    function resizeContent(){
-      var size = new Dimension(width,height);
+      var size = new Dimension(width,height-wrappedWhiteboardPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed
       whiteboardPanel.setPreferredSize(size);
       // setSize is not visual needed
