@@ -37,7 +37,7 @@ public class SimulatorNode extends CustomNode, Resizable {
    var wrappedWhiteboardPanel:SwingComponent;
 
    public function loadElo(uri:URI){
-      eloSimQuestWrapper.loadElo(uri);
+      eloSimQuestWrapper.loadSimConfig(uri);
       setScyWindowTitle();
    }
 
@@ -73,23 +73,9 @@ public override function create(): Node {
                            }
                         }
                         Button {
-                           text: "Load"
+                           text: "Load Config"
                            action: function() {
                               eloSimQuestWrapper.loadSimConfigAction();
-                              setScyWindowTitle();
-                           }
-                        }
-                        Button {
-                           text: "Save DataSet"
-                           action: function() {
-                              eloSimQuestWrapper.saveDataSetAction();
-                              setScyWindowTitle();
-                           }
-                        }
-                        Button {
-                           text: "SaveAs DataSet"
-                           action: function() {
-                              eloSimQuestWrapper.saveAsDataSetAction();
                               setScyWindowTitle();
                            }
                         }
@@ -107,6 +93,20 @@ public override function create(): Node {
                               setScyWindowTitle();
                            }
                         }
+                        Button {
+                           text: "Save DataSet"
+                           action: function() {
+                              eloSimQuestWrapper.saveDataSetAction();
+                              setScyWindowTitle();
+                           }
+                        }
+                        Button {
+                           text: "SaveAs DataSet"
+                           action: function() {
+                              eloSimQuestWrapper.saveAsDataSetAction();
+                              setScyWindowTitle();
+                           }
+                        }                  
                      ]
                   }
                   SwingComponent.wrap(simquestPanel)

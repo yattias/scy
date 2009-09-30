@@ -18,6 +18,7 @@ public class SimConfig {
     private Element element;
     private HashMap<String, String> variableValueMap;
     private String simulationName;
+    private String simulationUri;
 
     public SimConfig(DataCollector datacollector) {
         variableValueMap = new HashMap();
@@ -28,6 +29,9 @@ public class SimConfig {
             variableValueMap.put(var.getName(), var.getValueString());
         }
         simulationName = datacollector.getSimQuestViewer().getApplication().getTopic(0).getName();
+        simulationUri = datacollector.getSimQuestViewer().getFile().toString();
+        System.out.println("SimConfig.simulationName: "+simulationName);
+        System.out.println("SimConfig.simulationUri: "+simulationUri);
     }
 
     public SimConfig(String xmlString) throws JDOMException {
@@ -39,6 +43,7 @@ public class SimConfig {
         if (xmlElem.getName().equals("simconfig")) {
             this.element = xmlElem;
             this.simulationName = xmlElem.getAttributeValue("simulationname");
+            this.simulationUri = xmlElem.getAttributeValue("simulationuri");
             Element xmlVariable;
             for (Iterator<Element> xmlVariables = xmlElem.getChildren().iterator(); xmlVariables.hasNext();) {
                 xmlVariable = xmlVariables.next();
@@ -54,10 +59,15 @@ public class SimConfig {
         return simulationName;
     }
 
+    public String getSimulationUri() {
+        return simulationUri;
+    }
+
     public Element toXML() {
         if (element == null) {
             element = new Element("simconfig");
             element.setAttribute("simulationname", simulationName);
+            element.setAttribute("simulationuri", simulationUri);
             Element variableElement;
             String variableName;
             for (Iterator<String> variables = variableValueMap.keySet().iterator(); variables.hasNext();) {
