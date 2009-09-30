@@ -69,6 +69,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
             eloSimQuestWrapper.setRepository(repository);
 	    eloSimQuestWrapper.setMetadataTypeManager(metadataTypeManager);
 	    eloSimQuestWrapper.setEloFactory(eloFactory);
+       eloSimQuestWrapper.setDocName(scyWindow.title);
         } catch (e:java.lang.Exception) {
         	System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
             e.printStackTrace();
