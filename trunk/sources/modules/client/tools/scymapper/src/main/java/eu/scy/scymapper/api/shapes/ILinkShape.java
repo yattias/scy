@@ -1,6 +1,7 @@
 package eu.scy.scymapper.api.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +10,7 @@ import java.awt.*;
  * Time: 16:10:07
  * To change this template use File | Settings | File Templates.
  */
-public interface ILinkShape {
+public interface ILinkShape extends Serializable {
     /**
      * This method paints the link between the given two points.
      * @param g The graphics object to paint on

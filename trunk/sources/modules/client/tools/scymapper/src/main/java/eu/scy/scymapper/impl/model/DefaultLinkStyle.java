@@ -17,7 +17,7 @@ import java.util.Collection;
 public class DefaultLinkStyle implements ILinkStyle {
     private Color color = new Color(0x000000);
     private Stroke stroke = new BasicStroke(2f);
-    private Collection<ILinkStyleListener> listeners;
+    private transient Collection<ILinkStyleListener> listeners;
 
 	public DefaultLinkStyle() {
         listeners = new ArrayList<ILinkStyleListener>();

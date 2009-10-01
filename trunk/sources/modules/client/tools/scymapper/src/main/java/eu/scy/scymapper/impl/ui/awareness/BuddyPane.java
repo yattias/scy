@@ -62,13 +62,15 @@ public class BuddyPane extends JPanel implements IAwarenessPresenceListener, IAw
 	}
 
 	private void updateBuddyList() {
-		try {
-			List<IAwarenessUser> buddies = this.awarenessService.getBuddies();
-			logger.info("Buddy list is now " + buddies);
-			buddyList.setModel(new BuddyListModel(buddies));
-			buddyList.repaint();
-		} catch (AwarenessServiceException e) {
-			logger.error("Exception when getting buddies", e);
+		if (awarenessService.isConnected()) {
+			try {
+				List<IAwarenessUser> buddies = awarenessService.getBuddies();
+				logger.info("Buddy list is now " + buddies);
+				buddyList.setModel(new BuddyListModel(buddies));
+				buddyList.repaint();
+			} catch (AwarenessServiceException e) {
+				logger.error("Exception when getting buddies", e);
+			}
 		}
 	}
 

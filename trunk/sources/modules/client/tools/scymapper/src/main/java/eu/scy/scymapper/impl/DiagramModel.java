@@ -7,7 +7,6 @@ import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,15 +17,18 @@ import java.util.Set;
  * Time: 12:53:40
  */
 public class DiagramModel implements IDiagramModel {
-    private String name;
-    private Set<INodeModel> nodes;
-    private Set<ILinkModel> links;
-    private Collection<IDiagramListener> listeners;
+	private String name;
+	private Set<INodeModel> nodes = new HashSet<INodeModel>();
+    private Set<ILinkModel> links = new HashSet<ILinkModel>();
+
+    private transient java.util.List<IDiagramListener> listeners = new ArrayList<IDiagramListener>();
+
+	private Object readResolve() {
+		listeners = new ArrayList<IDiagramListener>();
+		return this;
+	}
 
 	public DiagramModel() {
-        listeners = new ArrayList<IDiagramListener>();
-        nodes = new HashSet<INodeModel>();
-        links = new HashSet<ILinkModel>();
     }
 
     @Override

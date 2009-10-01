@@ -1,11 +1,9 @@
 package eu.scy.scymapper.impl.ui.palette;
 
 import eu.scy.scymapper.api.shapes.ILinkShape;
-import eu.scy.scymapper.api.shapes.INodeShape;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Bjoerge Naess

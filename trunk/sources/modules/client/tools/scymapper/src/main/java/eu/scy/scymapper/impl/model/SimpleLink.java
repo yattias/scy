@@ -16,14 +16,20 @@ import java.util.ArrayList;
  * Time: 15:46:06
  */
 public class SimpleLink implements ILinkModel, ILinkStyleListener {
-    private Point from;
-    private Point to;
-    private String label;
-    private ILinkShape shape;
-    private ArrayList<ILinkModelListener> listeners;
-    private ILinkStyle style;
+	private Point from;
+	private Point to;
+	private String label;
+	private ILinkShape shape;
+
+    private transient java.util.List<ILinkModelListener> listeners;
+
+	private ILinkStyle style;
     private boolean labelHidden = false;
 
+	private Object readResolve() {
+		listeners = new ArrayList<ILinkModelListener>();
+		return this;
+	}
 	public SimpleLink() {
         listeners = new ArrayList<ILinkModelListener>();
     }

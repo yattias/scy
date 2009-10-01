@@ -13,8 +13,8 @@ import java.awt.geom.GeneralPath;
  * Time: 17:35:34
  */
 public class Star extends INodeShape {
-    int xPoints[] = {55, 67, 109, 73, 83, 55, 27, 37, 1, 43};
-    int yPoints[] = {0, 36, 36, 54, 96, 72, 96, 54, 36, 36};
+    private int xPoints[] = {55, 67, 109, 73, 83, 55, 27, 37, 1, 43};
+    private int yPoints[] = {0, 36, 36, 54, 96, 72, 96, 54, 36, 36};
     private GeneralPath star = null;
 
     @Override

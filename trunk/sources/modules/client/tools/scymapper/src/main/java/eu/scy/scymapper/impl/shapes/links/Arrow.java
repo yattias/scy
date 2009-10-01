@@ -5,7 +5,6 @@ import eu.scy.scymapper.api.shapes.ILinkShape;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,9 +13,9 @@ import java.awt.geom.Point2D;
  * Time: 13:26:09
  */
 public class Arrow implements ILinkShape {
-    private boolean bidirectional;
+	private boolean bidirectional;
 
-	private Arrowhead arrowhead;
+	private Arrowhead arrowhead = new Arrowhead();
 
 	public Arrow() {
     }
@@ -36,9 +35,6 @@ public class Arrow implements ILinkShape {
         GeneralPath gp = new GeneralPath();
         gp.append(line.getShape(from, to), false);
 
-		Point2D from2d = new Point2D.Double(from.x, from.y);
-		Point2D to2d = new Point2D.Double(to.x, to.y);
-
 		if (arrowhead != null) {
 			arrowhead.setRotation(Line.getAngle(from, to));
 			AffineTransform at = AffineTransform.getTranslateInstance(to.x, to.y);
@@ -51,6 +47,7 @@ public class Arrow implements ILinkShape {
 				gp.append(at.createTransformedShape(tail.getShape()), false);
 			}
 		}
+		System.out.println("arrowhead = " + arrowhead);
         return gp;
     }
 

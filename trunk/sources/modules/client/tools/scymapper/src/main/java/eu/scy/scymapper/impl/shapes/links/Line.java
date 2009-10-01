@@ -4,7 +4,6 @@ import eu.scy.scymapper.api.shapes.ILinkShape;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
