@@ -29,8 +29,8 @@ public class ScyOpenFirePlugin implements Plugin, PacketInterceptor, IScyCommuni
     
     private static final Logger logger = Logger.getLogger(ScyOpenFirePlugin.class.getName());
     private static final String SUBJECT = "relayed presence info";
-    private static final JID AGENTSMITH_JID = new JID("agentsmith@wiki.intermedia.uio.no");
-    private static final JID SYSTEM_JID = new JID("thematrix@wiki.intermedia.uio.no");
+    private static final JID AGENTSMITH_JID = new JID("obama@scy.intermedia.uio.no");
+    private static final JID SYSTEM_JID = new JID("obama@scy.intermedia.uio.no");
 
     private static PluginManager pluginManager;
     
