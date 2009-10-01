@@ -29,7 +29,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable {
    def spacing = 5.0;
 
    public function loadElo(uri:URI){
-      eloModelWrapper.loadElo(uri);
+      eloModelWrapper.loadModelElo(uri);
       setScyWindowTitle();
    }
 
@@ -62,23 +62,9 @@ public override function create(): Node {
                            }
                         }
                         Button {
-                           text: "Load"
+                           text: "Load Model"
                            action: function() {
                               eloModelWrapper.loadModelAction();
-                              setScyWindowTitle();
-                           }
-                        }
-                        Button {
-                           text: "Save DataSet"
-                           action: function() {
-                              eloModelWrapper.saveDatasetAction();
-                              setScyWindowTitle();
-                           }
-                        }
-                        Button {
-                           text: "SaveAs DataSet"
-                           action: function() {
-                              eloModelWrapper.saveAsDatasetAction();
                               setScyWindowTitle();
                            }
                         }
@@ -102,7 +88,7 @@ public override function create(): Node {
                ]
             }
          ]
-      };;;
+      }
    }
 
   
