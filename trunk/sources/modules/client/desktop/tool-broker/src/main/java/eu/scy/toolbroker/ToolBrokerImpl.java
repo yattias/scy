@@ -81,7 +81,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         
         actionLogger = (IActionLogger) context.getBean("actionlogger");
         // FIXME: init action logger with XMPP connection with fixed credentials!
-        ((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
+        //((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
+        logger.debug("################################## no action logger");
         
         notificationService = (INotificationService) context.getBean("notificationService");
         
