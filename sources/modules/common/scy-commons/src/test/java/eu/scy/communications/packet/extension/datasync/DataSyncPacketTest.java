@@ -24,8 +24,8 @@ public class DataSyncPacketTest {
 	private final String TEST_EVENT = "important event";
 	private final String TEST_TOOL_ID = "eu.scy.test."+ DataSyncPacketTest.class.getName();
 	private final String TEST_TOOL_SESSION_ID = "1234567890";
-	private final String TEST_FROM = "obama@scy.intermedia.uio.no";
-	private final String TEST_TO = "obama@scy.intermedia.uio.no";
+	private final String TEST_FROM = "passerby@scy.intermedia.uio.no";
+	private final String TEST_TO = "passerby@scy.intermedia.uio.no";
 	private final String TEST_PERSISTENCE_ID = "123";
 
     private static Configuration props = Configuration.getInstance();
