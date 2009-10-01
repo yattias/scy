@@ -18,9 +18,17 @@ public interface IConceptMapManager {
 
 	IConceptMap getSelected();
 
-	void addSelectionChangeListener(IConceptMapSelectionChangeListener listener);
+	void addSelectionChangeListener(IConceptMapSelectionListener listener);
 
-	void removeChangeListener(IConceptMapSelectionChangeListener listener);
+	void removeChangeListener(IConceptMapSelectionListener listener);
+
+	void addConceptMapManagerListener(IConceptMapManagerListener listener);
+
+	void removeConceptMapManagerListener(IConceptMapManagerListener listener);
+
+	void notifyConceptMapAdded(IConceptMap cmap);
+
+	void notifyConceptMapRemoved(IConceptMap cmap);
 
 	void notifySelectionChange();
 }

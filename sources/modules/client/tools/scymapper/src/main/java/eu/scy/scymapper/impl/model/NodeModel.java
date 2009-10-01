@@ -16,15 +16,26 @@ import java.util.ArrayList;
  * Time: 19:47:53
  */
 public class NodeModel implements INodeModel {
-    private INodeShape shape = new DefaultNodeShape();
-    private Dimension size = new Dimension(150, 50);
-    private Point location = new Point(20, 20);
-    private ArrayList<INodeModelListener> listeners;
-    private String label = "New concept";
-    private INodeStyle style = new DefaultNodeStyle();
-    private boolean labelHidden = false;
-	private boolean selected = false;
 
+	private transient java.util.List<INodeModelListener> listeners;
+
+	private INodeShape shape = new DefaultNodeShape();
+
+	private Dimension size = new Dimension(150, 50);
+
+	private Point location = new Point(20, 20);
+
+	private String label = "New concept";
+
+	private INodeStyle style = new DefaultNodeStyle();
+
+	private boolean labelHidden = false;
+	private transient boolean selected = false;
+
+	private Object readResolve() {
+		listeners = new ArrayList<INodeModelListener>();
+		return this;
+	}
 	public NodeModel() {
         listeners = new ArrayList<INodeModelListener>();
 

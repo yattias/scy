@@ -1,5 +1,6 @@
 package eu.scy.scymapper.api.diagram;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Set;
  * Time: 11:26:58
  * This is the Diagram model
  */
-public interface IDiagramModel {
+public interface IDiagramModel extends Serializable {
 
     void setName(String name);
 

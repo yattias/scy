@@ -5,7 +5,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptMapManager;
-import eu.scy.scymapper.api.IConceptMapSelectionChangeListener;
+import eu.scy.scymapper.api.IConceptMapSelectionListener;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
@@ -25,7 +25,7 @@ import java.util.Stack;
  * Date: 03.sep.2009
  * Time: 13:24:59
  */
-public class PalettePane extends JPanel implements IConceptMapSelectionChangeListener {
+public class PalettePane extends JPanel implements IConceptMapSelectionListener {
 
 	private IConceptMapManager conceptMapManager;
 	private ArrayList<ILinkShape> linkShapes;
@@ -103,12 +103,6 @@ public class PalettePane extends JPanel implements IConceptMapSelectionChangeLis
 		nodeColorChooser.setSelectionModel(manager.getSelected().getDiagramSelectionModel());
 		opaqueCheckbox.setSelectionModel(manager.getSelected().getDiagramSelectionModel());
 	}
-
-	@Override
-	public void conceptMapAdded(IConceptMapManager manager, IConceptMap map) {}
-
-	@Override
-	public void conceptMapRemoved(IConceptMapManager manager, IConceptMap map) {}
 
 	private static class NodeColorChooserPanel extends JPanel implements ActionListener, IDiagramSelectionListener {
 		private Button bgColorButton;

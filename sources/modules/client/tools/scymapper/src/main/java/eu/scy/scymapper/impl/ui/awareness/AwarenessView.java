@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl;
+package eu.scy.scymapper.impl.ui.awareness;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -6,8 +6,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.*;
-import eu.scy.scymapper.impl.ui.awareness.BuddyPane;
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.XMPPConnection;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -19,10 +19,12 @@ import java.awt.*;
  * Time: 15:31:09
  */
 public class AwarenessView extends JPanel implements IAwarenessMessageListener, IAwarenessRosterListener, IAwarenessPresenceListener {
+	private XMPPConnection connection;
 	private IAwarenessService awarenessService;
 	private JTabbedPane chatPane;
 	private JPanel buddiesPane;
 	private JPanel statusPane;
+	private JLabel connectionStatus;
 	private JList buddyListComponent;
 	private final static Logger logger = Logger.getLogger(AwarenessView.class);
 
@@ -39,7 +41,7 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 		chatPane = new JTabbedPane();
 		chatPane.add("Collaborators", new BuddyPane(awarenessService));
 
-		statusPane = new PresenceStatusPane();
+		statusPane = new PresenceStatusPane(awarenessService);
 		statusPane.setBorder(BorderFactory.createEmptyBorder());
 
 		FormLayout layout = new FormLayout(
@@ -81,15 +83,24 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 		logger.info("updateStatus!");
 	}
 
-	class PresenceStatusPane extends JPanel {
+	class PresenceStatusPane extends JPanel implements IAwarenessMessageListener, IAwarenessPresenceListener {
 
-		PresenceStatusPane() {
-			this.initComponents();
+		private JLabel connectionStatus;
+		private JLabel userName;
+
+		PresenceStatusPane(IAwarenessService awarenessService) {
+			initComponents();
+			awarenessService.addAwarenessMessageListener(this);
+			awarenessService.addAwarenessPresenceListener(this);
 		}
 
 		private void initComponents() {
 			setBorder(BorderFactory.createEmptyBorder());
 			setLayout(new BorderLayout());
+
+			connectionStatus = new JLabel(awarenessService.isConnected() ? "Online" : "Offline");
+			userName = new JLabel("");
+
 			FormLayout layout = new FormLayout(
 					"left:pref, 4dlu, left:pref:grow",
 					"pref, 2dlu, pref"
@@ -98,15 +109,27 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 			PanelBuilder builder = new PanelBuilder(layout);
 			CellConstraints cc = new CellConstraints();
 
-			builder.add(new JLabel("Username"), cc.xy(1, 1));
-			builder.add(new JLabel("obama"), cc.xy(3, 1));
+			builder.add(new JLabel("Status"), cc.xy(1, 1));
+			builder.add(connectionStatus, cc.xy(3, 1));
+			builder.add(new JLabel("Username"), cc.xy(1, 3));
+			builder.add(userName, cc.xy(3, 3));
 
 			add(builder.getPanel());
+		}
+
+		@Override
+		public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
+
+		}
+
+		@Override
+		public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
+			connectionStatus.setText(e.getPresence());
+			userName.setText(e.getUser());
 		}
 	}
 
 	static class BuddyListCellRenderer extends JLabel implements ListCellRenderer {
-
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			IAwarenessUser user = (IAwarenessUser) value;
 			setText(user.getName());

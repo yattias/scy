@@ -4,9 +4,11 @@ import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptMapListener;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
+import eu.scy.scymapper.impl.DiagramModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * User: Bjoerge Naess
@@ -14,10 +16,21 @@ import java.util.List;
  * Time: 15:36:54
  */
 public class DefaultConceptMap implements IConceptMap {
-	private String name;
-	private IDiagramModel diagram;
-	private List<IConceptMapListener> listeners = new ArrayList <IConceptMapListener>();
-	private IDiagramSelectionModel selectionModel = new DefaultDiagramSelectionModel();
+	private String name = "No name";
+	private IDiagramModel diagram = new DiagramModel();
+
+	private transient List<IConceptMapListener> listeners = new ArrayList<IConceptMapListener>();
+
+	private transient IDiagramSelectionModel selectionModel = new DefaultDiagramSelectionModel();
+
+
+	private Object readResolve() {
+		listeners = new ArrayList<IConceptMapListener>();
+		selectionModel = new DefaultDiagramSelectionModel();
+		System.out.println("After instantiating MyExecutor");
+		// at the end returns itself
+		return this;
+	}
 
 	public DefaultConceptMap(String name, IDiagramModel diagram) {
 		this.name = name;

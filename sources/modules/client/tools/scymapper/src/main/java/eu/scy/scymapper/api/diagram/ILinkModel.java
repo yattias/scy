@@ -4,6 +4,7 @@ import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +12,7 @@ import java.awt.*;
  * Date: 22.jun.2009
  * Time: 18:29:15
  */
-public interface ILinkModel {
+public interface ILinkModel extends Serializable {
     String getLabel();
     void setLabel(String label);
 

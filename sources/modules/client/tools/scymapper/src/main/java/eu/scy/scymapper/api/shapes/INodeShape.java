@@ -1,6 +1,7 @@
 package eu.scy.scymapper.api.shapes;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +10,7 @@ import java.awt.*;
  * Time: 13:24:30
  * To change this template use File | Settings | File Templates.
  */
-public abstract class INodeShape {
+public abstract class INodeShape implements Serializable {
 
     public static final int DRAW = 0;
     public static final int FILL = 1;

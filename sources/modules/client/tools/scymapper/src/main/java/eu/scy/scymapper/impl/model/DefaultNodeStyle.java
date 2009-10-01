@@ -5,7 +5,6 @@ import eu.scy.scymapper.api.styling.INodeStyleListener;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,16 +13,23 @@ import java.util.Collection;
  * Time: 15:13:45
  */
 public class DefaultNodeStyle implements INodeStyle {
-    private Color foregroundColor = new Color(0x000000);
-    private Color backgroundColor = new Color(0xaaaaaa);
+
+	private Color foregroundColor = new Color(0x000000);
+
+	private Color backgroundColor = new Color(0xaaaaaa);
 
     private Stroke stroke = new BasicStroke(2f);
-    private int fillStyle = FILLSTYLE_STROKED;
 
-    private Collection<INodeStyleListener> listeners;
+	private int fillStyle = FILLSTYLE_STROKED;
 
+    private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
+
+	private Object readResolve() {
+		listeners = new ArrayList<INodeStyleListener>();
+		return this;
+	}
 	public DefaultNodeStyle() {
-        listeners = new ArrayList<INodeStyleListener>();
+
     }
 
     @Override

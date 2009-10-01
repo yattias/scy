@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl;
+package eu.scy.scymapper.impl.ui.tabpane;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -6,6 +6,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.impl.controller.DiagramController;
+import eu.scy.scymapper.impl.ui.awareness.AwarenessView;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
@@ -16,20 +17,21 @@ import java.awt.*;
  * Date: 03.sep.2009
  * Time: 12:46:21
  */
-public class ConceptMapEditorPane extends JPanel{
+public class ConceptMapEditor extends JPanel{
 
 	private ConceptDiagramView diagramView;
 	private AwarenessView awarenessPanel;
 	private IAwarenessService awarenessService;
 
-
 	private IConceptMap conceptMap;
 
-	public ConceptMapEditorPane(IAwarenessService awarenessService, IConceptMap conceptMap) {
+	public ConceptMapEditor(IAwarenessService awarenessService, IConceptMap conceptMap) {
+		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		this.awarenessService = awarenessService;
 		this.conceptMap = conceptMap;
 		initComponents();
 	}
+
 	public IConceptMap getConceptMap() {
 		return conceptMap;
 	}

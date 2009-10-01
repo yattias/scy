@@ -2,7 +2,8 @@ package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptMapManager;
-import eu.scy.scymapper.api.IConceptMapSelectionChangeListener;
+import eu.scy.scymapper.api.IConceptMapManagerListener;
+import eu.scy.scymapper.api.IConceptMapSelectionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,19 @@ import java.util.List;
 public class DefaultConceptMapManager implements IConceptMapManager {
 	private List<IConceptMap> conceptMaps = new ArrayList<IConceptMap>();
 	private IConceptMap selected;
-	private List<IConceptMapSelectionChangeListener> listeners = new ArrayList<IConceptMapSelectionChangeListener>();
+	private List<IConceptMapSelectionListener> selectionListeners = new ArrayList<IConceptMapSelectionListener>();
+	private List<IConceptMapManagerListener> managerListeners = new ArrayList<IConceptMapManagerListener>();
 
 	@Override
 	public void add(IConceptMap cmap) {
 		conceptMaps.add(cmap);
+		notifyConceptMapAdded(cmap);
 	}
 
 	@Override
 	public void remove(IConceptMap cmap) {
 		conceptMaps.remove(cmap);
+		notifyConceptMapRemoved(cmap);
 	}
 
 	@Override
@@ -44,18 +48,42 @@ public class DefaultConceptMapManager implements IConceptMapManager {
 	}
 
 	@Override
-	public void addSelectionChangeListener(IConceptMapSelectionChangeListener listener) {
-		listeners.add(listener);
+	public void addSelectionChangeListener(IConceptMapSelectionListener listener) {
+		selectionListeners.add(listener);
 	}
 
 	@Override
-	public void removeChangeListener(IConceptMapSelectionChangeListener listener) {
-		listeners.remove(listener);
+	public void removeChangeListener(IConceptMapSelectionListener listener) {
+		selectionListeners.remove(listener);
+	}
+
+	@Override
+	public void addConceptMapManagerListener(IConceptMapManagerListener listener) {
+		managerListeners.add(listener);
+	}
+
+	@Override
+	public void removeConceptMapManagerListener(IConceptMapManagerListener listener) {
+		managerListeners.remove(listener);
+	}
+
+	@Override
+	public void notifyConceptMapAdded(IConceptMap cmap) {
+		for (IConceptMapManagerListener listener : managerListeners) {
+			listener.conceptMapAdded(this, cmap);
+		}
+	}
+
+	@Override
+	public void notifyConceptMapRemoved(IConceptMap cmap) {
+		for (IConceptMapManagerListener listener : managerListeners) {
+			listener.conceptMapRemoved(this, cmap);
+		}
 	}
 
 	@Override
 	public void notifySelectionChange() {
-		for (IConceptMapSelectionChangeListener listener : listeners) {
+		for (IConceptMapSelectionListener listener : selectionListeners) {
 			listener.selectionChanged(this, getSelected());
 		}
 	}
