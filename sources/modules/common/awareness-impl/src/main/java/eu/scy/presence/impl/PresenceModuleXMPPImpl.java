@@ -42,7 +42,7 @@ import eu.scy.presence.PresenceRosterEvent;
 public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener, RosterListener, PacketListener {
     
     private static final Logger logger = Logger.getLogger(PresenceModuleXMPPImpl.class.getName());
-    public static final String OPENFIRE_SYSTEM_JID = "thematrix@wiki.intermedia.uio.no";
+    public static final String OPENFIRE_SYSTEM_JID = "obama@scy.intermedia.uio.no";
     
     private ConnectionConfiguration config;
     private XMPPConnection xmppConnection;
@@ -82,7 +82,7 @@ public class PresenceModuleXMPPImpl implements IPresenceModule, MessageListener,
             username = props.getProperty("presence.service.username");
             password = props.getProperty("presence.service.password");
         }
-        //as.config = new ConnectionConfiguration("wiki.intermedia.uio.no", 5222, "AwarenessService");
+        //as.config = new ConnectionConfiguration("scy.intermedia.uio.no", 5222, "AwarenessService");
         config = new ConnectionConfiguration(address, new Integer(port).intValue(), name);
         //config = new ConnectionConfiguration("imediamac09.uio.no", 5275, "eclipse");
         xmppConnection = new XMPPConnection(config);

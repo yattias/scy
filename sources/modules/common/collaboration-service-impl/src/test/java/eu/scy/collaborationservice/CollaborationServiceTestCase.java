@@ -118,7 +118,7 @@ public class CollaborationServiceTestCase {
 //        ArrayList<String> buddies = as.getBuddies("bling");
 //        assertNotNull(buddies);
 //        assertTrue(buddies.size() > 0);
-//        assertEquals(buddies.get(0), "aperritano@wiki.intermedia.uio.no");
+//        assertEquals(buddies.get(0), "aperritano@scy.intermedia.uio.no");
 //    }
     
     
