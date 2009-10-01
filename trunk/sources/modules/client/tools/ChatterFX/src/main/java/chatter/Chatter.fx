@@ -92,7 +92,7 @@ public class Chatter extends CustomNode {
 
     var serverInput: SwingTextField = SwingTextField {
         columns: 15;
-        text: "wiki.intermedia.uio.no";
+        text: "scy.intermedia.uio.no";
         editable: true;
         disable: true;
     };
