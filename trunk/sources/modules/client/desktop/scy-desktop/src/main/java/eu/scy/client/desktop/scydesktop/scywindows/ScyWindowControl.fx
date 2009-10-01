@@ -11,8 +11,8 @@ import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.scywindows.window_positions.WindowPositionerCenterMinimized;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
+import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
 import java.lang.Math;
 import java.net.URI;
 import javafx.scene.Node;
@@ -66,7 +66,8 @@ public class ScyWindowControl{
       activeAnchorChanged()
    };
    var activeAnchorWindow: ScyWindow;
-   var windowPositioner: WindowPositioner = WindowPositionerCenterMinimized{
+//   var windowPositioner: WindowPositioner = WindowPositionerCenterMinimized{
+   var windowPositioner: WindowPositioner = SimpleWindowPositioner{
       width: bind width;
       height: bind height;
       //        width: bind size.x;
@@ -263,7 +264,7 @@ public class ScyWindowControl{
       if (onlyNewWindows){
          windowPositioner.setFixedWindows(placedWindows);
       }
-//      windowPositioner.positionWindows();
+      windowPositioner.positionWindows();
       if (onlyNewWindows){
          for (window in newPlacedWindows){
             if (Sequences.indexOf(placedWindows,window) < 0){
