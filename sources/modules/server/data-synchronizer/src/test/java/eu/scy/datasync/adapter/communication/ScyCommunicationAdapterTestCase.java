@@ -26,8 +26,8 @@ public class ScyCommunicationAdapterTestCase implements IScyCommunicationAdapter
     private static final String TEST_EVENT = "important event";
     private static final String TEST_TOOL_ID = "eu.scy.test." + ScyCommunicationAdapterTestCase.class.getName();
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
-    private static final String TEST_FROM = "obama@scy.intermedia.uio.no";
-    private static final String TEST_TO = "obama@scy.intermedia.uio.no";
+    private static final String TEST_FROM = "passerby@scy.intermedia.uio.no";
+    private static final String TEST_TO = "passerby@scy.intermedia.uio.no";
     
     public ScyCommunicationAdapterTestCase() {
     }   
