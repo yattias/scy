@@ -20,7 +20,7 @@ public class NutpadTestCase {
 
     private static final String TEST_TOOL_SESSION_ID = "1234567890";
     private static final String TEST_TOOL_ID = "eu.scy.test." + NutpadTestCase.class.getName();
-    private static final String TEST_FROM = "passerby@scy.intermedia.uio.no";
+    private static final String TEST_FROM = "biden@scy.intermedia.uio.no";
     private static final String TEST_TO = "obama@scy.intermedia.uio.no";
     private static final String TEST_CONTENT = "This is the content, but there isn't much.";
     private static final String TEST_EVENT = "test event";
@@ -36,7 +36,7 @@ public class NutpadTestCase {
     public NutpadTestCase() {        
     }
     
-    private void init() {
+ /*   private void init() {
     	System.out.println("* init start *");
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
         System.out.println("* tbi: "+tbi);
@@ -52,5 +52,5 @@ public class NutpadTestCase {
         init();
         assertTrue(Configuration.getInstance() != null);
         assertTrue(dataSyncService != null);
-    }
+    } */
 }
