@@ -1,16 +1,24 @@
 package eu.scy.client.tools.fxscydynamics.registration;
 
+import colab.um.xml.model.JxmModel;
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
@@ -36,28 +44,25 @@ import roolo.elo.metadata.keys.Contribute;
 public class EloModelWrapper {
 
     private static final Logger logger = Logger.getLogger(EloModelWrapper.class.getName());
-    public static final String untitledDocName = "untitled";
-    public static final String scyDatasetType = "scy/dataset";
     public static final String scyModelType = "scy/model";
+    public static final String untitledDocName = "untitled";
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
     private IELOFactory eloFactory;
-    private IMetadataKey uriKey;
+    private IMetadataKey identifierKey;
     private IMetadataKey titleKey;
-//    private IMetadataKey typeKey;
+    private IMetadataKey technicalFormatKey;
     private IMetadataKey dateCreatedKey;
-    private IMetadataKey missionKey;
-    private IMetadataKey usesRelationKey;
     private IMetadataKey authorKey;
     private JDomStringConversion jdomStringConversion = new JDomStringConversion();
     private String docName = untitledDocName;
-    private IELO eloDataSet = null;
     private IELO eloModel = null;
     private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
-    private IMetadataKey identifierKey;
-    private IMetadataKey technicalFormatKey;
+    private final ModelEditor editor;
 
-    public EloModelWrapper(ModelEditor editor) {}
+    public EloModelWrapper(ModelEditor editor) {
+        this.editor = editor;
+    }
 
     public void addELOLoadedChangedListener(ELOLoadedChangedListener eloLoadedChangedListener) {
         if (!eloLoadedChangedListeners.contains(eloLoadedChangedListener)) {
@@ -65,14 +70,16 @@ public class EloModelWrapper {
         }
     }
 
-    public void removeELOLoadedChangedListener(ELOLoadedChangedListener eloLoadedChangedListener) {
+    public void removeELOLoadedChangedListener(
+            ELOLoadedChangedListener eloLoadedChangedListener) {
         if (eloLoadedChangedListeners.contains(eloLoadedChangedListener)) {
             eloLoadedChangedListeners.remove(eloLoadedChangedListener);
         }
     }
 
     private void sendELOLoadedChangedListener() {
-        ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(this, eloDataSet);
+        ELOLoadedChangedEvent eloLoadedChangedEvent = new ELOLoadedChangedEvent(
+                this, eloModel);
         for (ELOLoadedChangedListener eloLoadedChangedListener : eloLoadedChangedListeners) {
             eloLoadedChangedListener.eloLoadedChanged(eloLoadedChangedEvent);
         }
@@ -83,19 +90,17 @@ public class EloModelWrapper {
     }
 
     public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
-       this.metadataTypeManager = metadataTypeManager;
-      identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-      logger.info("retrieved key " + identifierKey.getId());
-      titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-      logger.info("retrieved key " + titleKey.getId());
-      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-      logger.info("retrieved key " + technicalFormatKey.getId());
-      dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-      logger.info("retrieved key " + dateCreatedKey.getId());
-//		missionKey = metadataTypeManager.getMetadataKey("mission");
-//		logger.info("retrieved key " + missionKey.getId());
-      authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-      logger.info("retrieved key " + authorKey.getId());
+        this.metadataTypeManager = metadataTypeManager;
+        identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
+        logger.info("retrieved key " + identifierKey.getId());
+        titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        logger.info("retrieved key " + titleKey.getId());
+        technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        logger.info("retrieved key " + technicalFormatKey.getId());
+        dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+        logger.info("retrieved key " + dateCreatedKey.getId());
+        authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
+        logger.info("retrieved key " + authorKey.getId());
     }
 
     public void setEloFactory(IELOFactory eloFactory) {
@@ -103,18 +108,18 @@ public class EloModelWrapper {
     }
 
     public URI getEloUri() {
-        if (eloDataSet == null) {
+        if (eloModel == null) {
             return null;
         } else {
-            return eloDataSet.getUri();
+            return eloModel.getUri();
         }
     }
 
     public String getELOTitle() {
-        if (eloDataSet == null) {
+        if (eloModel == null) {
             return null;
         } else {
-            return (String) eloDataSet.getMetadata().getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH);
+            return (String) eloModel.getMetadata().getMetadataValueContainer(titleKey).getValue(Locale.ENGLISH);
         }
     }
 
@@ -124,7 +129,6 @@ public class EloModelWrapper {
         if (StringUtils.hasText(docName)) {
             windowTitle += docName;
         }
-    // setTitle(windowTitle);
     }
 
     public String getDocName() {
@@ -132,8 +136,7 @@ public class EloModelWrapper {
     }
 
     public void newAction() {
-        // TODO
-        //editor.newModel();
+        editor.setNewModel();
         eloModel = null;
         docName = untitledDocName;
         sendELOLoadedChangedListener();
@@ -141,23 +144,24 @@ public class EloModelWrapper {
 
     public void loadModelAction() {
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS, scyModelType, null);
+        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,
+                BasicSearchOperations.EQUALS, scyModelType, null);
         query = metadataQuery;
         List<ISearchResult> searchResults = repository.search(query);
-        URI[] simconfigUris = new URI[searchResults.size()];
+        URI[] modelUris = new URI[searchResults.size()];
         int i = 0;
         for (ISearchResult searchResult : searchResults) {
-            simconfigUris[i++] = searchResult.getUri();
+            modelUris[i++] = searchResult.getUri();
         }
-        URI simconfigUri = (URI) JOptionPane.showInputDialog(null, "Select model", "Select model",
-                JOptionPane.QUESTION_MESSAGE, null, simconfigUris, null);
-        if (simconfigUri != null) {
-            loadElo(simconfigUri);
+        URI modelUri = (URI) JOptionPane.showInputDialog(null, "Select model", "Select model",
+                JOptionPane.QUESTION_MESSAGE, null, modelUris, null);
+        if (modelUri != null) {
+            loadModelElo(modelUri);
         }
     }
 
-    public void loadElo(URI eloUri) {
-        logger.info("Trying to load elo " + eloUri);
+    public void loadModelElo(URI eloUri) {
+        logger.info("Trying to load model elo " + eloUri);
         IELO newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             String eloType = newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
@@ -167,72 +171,21 @@ public class EloModelWrapper {
             IMetadata metadata = newElo.getMetadata();
             IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
             // TODO fixe the locale problem!!!
-            Object titleObject = metadataValueContainer.getValue();
-            Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
             Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-
             setDocName(titleObject3.toString());
-            //TODO
-            //editor.loadModel(newElo.getContent().getXmlString());
+            JxmModel xmlModel = xmlModel = JxmModel.readStringXML(newElo.getContent().getXmlString());
+	    editor.setXmModel(xmlModel);
             eloModel = newElo;
             sendELOLoadedChangedListener();
         }
     }
 
-    public void saveDatasetAction() {
-        logger.fine("save dataset");
-        if (eloDataSet == null) {
-            saveAsDatasetAction();
-        } else {
-            //TODO
-            //eloDataSet.getContent().setXmlString(jdomStringConversion.xmlToString(editor.getDataSet().toXML()));
-            IMetadata resultMetadata = repository.updateELO(eloDataSet);
-            eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
-        }
-    }
-
-    public void saveAsDatasetAction() {
-        logger.fine("save as dataset");
-        String datasetName = JOptionPane.showInputDialog("Enter DataSet name:", docName);
-        if (StringUtils.hasText(datasetName)) {
-            setDocName(datasetName);
-            eloDataSet = eloFactory.createELO();
-            eloDataSet.setDefaultLanguage(Locale.ENGLISH);
-            eloDataSet.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
-            eloDataSet.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.CANADA);
-            eloDataSet.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/dataset");
-            eloDataSet.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
-                    new Long(System.currentTimeMillis()));
-            try {
-                eloDataSet.getMetadata().getMetadataValueContainer(missionKey).setValue(
-                        new URI("roolo://somewhere/myMission.mission"));
-                eloDataSet.getMetadata().getMetadataValueContainer(authorKey).setValue(
-                        new Contribute("my vcard", System.currentTimeMillis()));
-                if (eloModel!=null) {
-                    eloDataSet.getMetadata().getMetadataValueContainer(usesRelationKey).setValue(eloModel.getUri());
-                }
-            } catch (URISyntaxException e) {
-                logger.log(Level.WARNING, "failed to create uri", e);
-            }
-            IContent content = eloFactory.createContent();
-            //TODO
-            //content.setXmlString(jdomStringConversion.xmlToString(editor.getDataSet().toXML()));
-            eloDataSet.setContent(content);
-            IMetadata resultMetadata = repository.addNewELO(eloDataSet);
-            eloFactory.updateELOWithResult(eloDataSet, resultMetadata);
-            // updateEloWithNewMetadata(elo, eloMetadata);
-            // logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
-            sendELOLoadedChangedListener();
-        }
-    }
-
     public void saveModelAction() {
-        logger.fine("save model");
+        logger.fine("saveas model");
         if (eloModel == null) {
             saveAsModelAction();
         } else {
-            //TODO
-            //eloModel.getContent().setXmlString(jdomStringConversion.xmlToString(editor.getModel().toXML()));
+            eloModel.getContent().setXmlString(editor.getModelXML());
             IMetadata resultMetadata = repository.updateELO(eloModel);
             eloFactory.updateELOWithResult(eloModel, resultMetadata);
         }
@@ -240,28 +193,17 @@ public class EloModelWrapper {
 
     public void saveAsModelAction() {
         logger.fine("save as model");
-        String datasetName = JOptionPane.showInputDialog("Enter model name:", docName);
-        if (StringUtils.hasText(datasetName)) {
-            setDocName(datasetName);
+        String modelName = JOptionPane.showInputDialog("Enter model name:", docName);
+        if (StringUtils.hasText(modelName)) {
+            setDocName(modelName);
             eloModel = eloFactory.createELO();
             eloModel.setDefaultLanguage(Locale.ENGLISH);
             eloModel.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
-            eloModel.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.CANADA);
+            eloModel.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.ENGLISH);
             eloModel.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/model");
-            eloModel.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
-                    new Long(System.currentTimeMillis()));
-            try {
-                eloModel.getMetadata().getMetadataValueContainer(missionKey).setValue(
-                        new URI("roolo://somewhere/myMission.mission"));
-                eloModel.getMetadata().getMetadataValueContainer(authorKey).setValue(
-                        new Contribute("my vcard", System.currentTimeMillis()));
-            } catch (URISyntaxException e) {
-                logger.log(Level.WARNING, "failed to create uri", e);
-            }
-            IContent content = eloFactory.createContent();
-            //TODO
-            //content.setXmlString(jdomStringConversion.xmlToString(editor.getModel().toXML()));
-            eloModel.setContent(content);
+            eloModel.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Long(System.currentTimeMillis()));
+            eloModel.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis()));
+            eloModel.getContent().setXmlString(editor.getModelXML());
             IMetadata resultMetadata = repository.addNewELO(eloModel);
             eloFactory.updateELOWithResult(eloModel, resultMetadata);
             sendELOLoadedChangedListener();
@@ -271,4 +213,26 @@ public class EloModelWrapper {
     public void setRepository(IRepository repository) {
         this.repository = repository;
     }
+
+    public static Element findTag(Element root, String tag)
+			throws IllegalArgumentException {
+		if (root == null)
+			throw new IllegalArgumentException("Element is null.");
+		List enumChilds = root.getChildren();
+		Iterator iter = enumChilds.iterator();
+		while (iter.hasNext()) {
+			Element childElement = (Element) iter.next();
+			if (childElement.getName().equals(tag)) {
+				return childElement;
+			}
+			try {
+				Element foundElement = findTag(childElement, tag);
+				if (foundElement != null)
+					return foundElement;
+			} catch (IllegalArgumentException e) {
+			}
+		}
+		return null;
+	}
+
 }

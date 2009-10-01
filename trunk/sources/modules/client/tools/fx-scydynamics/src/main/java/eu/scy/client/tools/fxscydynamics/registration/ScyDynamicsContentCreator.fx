@@ -2,10 +2,9 @@ package eu.scy.client.tools.fxscydynamics.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import javafx.scene.Node;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
+import java.util.Properties;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -23,29 +22,29 @@ public class ScyDynamicsContentCreator extends WindowContentCreatorFX {
       return scyDynamicsNode;
    }
 
-
    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
       return createScyDynamicsNode(scyWindow);
    }
 
    function createScyDynamicsNode(scyWindow:ScyWindow):ScyDynamicsNode{
       setWindowProperties(scyWindow);
-	var modelEditor = new ModelEditor();
-        var eloModelWrapper = new EloModelWrapper(modelEditor);
-        eloModelWrapper.setRepository(repository);
-		eloModelWrapper.setMetadataTypeManager(metadataTypeManager);
-		eloModelWrapper.setEloFactory(eloFactory);
+      var props:Properties = new Properties();
+      props.put("show.filetoolbar", "false");
+      var modelEditor = new ModelEditor(props);
+      var eloModelWrapper = new EloModelWrapper(modelEditor);
+      eloModelWrapper.setRepository(repository);
+      eloModelWrapper.setMetadataTypeManager(metadataTypeManager);
+      eloModelWrapper.setEloFactory(eloFactory);
       eloModelWrapper.setDocName(scyWindow.title);
-        return ScyDynamicsNode{
-            modelEditor:modelEditor;
-            eloModelWrapper:eloModelWrapper;
-    }
-	}
+      return ScyDynamicsNode{
+        modelEditor:modelEditor;
+        eloModelWrapper:eloModelWrapper;
+      }
+   }
 
    function setWindowProperties(scyWindow:ScyWindow){
       scyWindow.minimumWidth = 320;
       scyWindow.minimumHeight = 100;
    }
-
 
 }
