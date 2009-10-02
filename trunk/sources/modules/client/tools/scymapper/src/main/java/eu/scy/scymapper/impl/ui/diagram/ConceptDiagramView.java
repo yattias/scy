@@ -125,12 +125,32 @@ public class ConceptDiagramView extends JPanel implements IDiagramListener, INod
 
     @Override
     public void linkRemoved(ILinkModel link) {
-        System.out.println("ConceptDiagramView.linkRemoved");
+        for (Component component : getComponents()) {
+			if (component instanceof LinkView) {
+				LinkView lw = (LinkView) component;
+				if (lw.getModel().equals(link)) {
+					remove(lw);
+					repaint();
+					return;
+				}
+			}
+		}
     }
 
     @Override
     public void nodeRemoved(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeRemoved");
+		System.out.println("ConceptDiagramView.nodeRemoved: "+n);
+        for (Component component : getComponents()) {
+			if (component instanceof NodeView) {
+				NodeView nw = (NodeView) component;
+				if (nw.getModel().equals(n)) {
+					remove(nw);
+					repaint();
+					nodeMouseMotionListener.connectSymbol.setVisible(false);
+					return;
+				}
+			}
+		}
     }
 
     @Override
@@ -204,7 +224,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramListener, INod
             }
         }
 
-        @Override
+		@Override
         public void mouseMoved(MouseEvent e) {
             Component c = e.getComponent();
             if (c instanceof NodeView) {

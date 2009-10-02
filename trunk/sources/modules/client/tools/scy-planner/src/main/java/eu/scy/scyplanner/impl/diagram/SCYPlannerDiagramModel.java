@@ -50,7 +50,7 @@ private String name;
 
 	@Override
     public void removeNode(INodeModel n) {
-        nodes.add(n);
+        nodes.remove(n);
         notifyNodeRemoved(n);
     }
 
@@ -60,7 +60,13 @@ private String name;
         notifyLinkAdded(l);
     }
 
-    @Override
+	@Override
+	public void removeLink(ILinkModel l) {
+        links.remove(l);
+        notifyLinkRemoved(l);
+	}
+
+	@Override
     public Set<ILinkModel> getLinks() {
         return links;
     }

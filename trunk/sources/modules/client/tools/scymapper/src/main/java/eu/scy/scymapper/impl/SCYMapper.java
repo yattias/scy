@@ -198,9 +198,6 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				IQuery query = null;
-				//		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(titleKey,
-				//					BasicSearchOperations.LESS, "n", null);
-				//		query = metadataQuery;
 				java.util.List<ISearchResult> searchResults = repository.search(query);
 				URI[] uris = new URI[searchResults.size()];
 				int i = 0;
@@ -223,6 +220,27 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 			}
 		});
 		toolBar.add(addConceptBtn);
+
+		JButton removeConceptBtn = new JButton("Remove concept", new ImageIcon(getClass().getResource("icons/delete.png")));
+		removeConceptBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				INodeModel selectedNode = conceptMapManager.getSelected().getDiagramSelectionModel().getSelectedNode();
+				IDiagramModel diagram = conceptMapManager.getSelected().getDiagram();
+				Set<INodeLinkModel> toBeRemoved = new HashSet<INodeLinkModel>();
+				for (ILinkModel link : diagram.getLinks()) {
+					if (link instanceof INodeLinkModel) {
+						INodeLinkModel nodeLink = (INodeLinkModel) link;
+						if (selectedNode.equals(nodeLink.getFromNode()) || selectedNode.equals(nodeLink.getToNode())) {
+							toBeRemoved.add(nodeLink);
+						}
+					}
+				}
+				for (INodeLinkModel link : toBeRemoved) diagram.removeLink(link);
+				conceptMapManager.getSelected().getDiagram().removeNode(selectedNode);
+			}
+		});
+		toolBar.add(removeConceptBtn);
 	}
 
 	public void saveELO(IConceptMap cmap) {
