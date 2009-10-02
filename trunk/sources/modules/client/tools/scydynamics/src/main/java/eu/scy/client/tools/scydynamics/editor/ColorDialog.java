@@ -4,16 +4,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
+import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 
 public class ColorDialog extends javax.swing.JDialog implements
 java.awt.event.ActionListener {
 	
-	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA,
-											Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW};
+	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW};
+	private static final int size = 20;
 	private VariableDialog variableDialog;
 
 	
@@ -26,7 +28,12 @@ java.awt.event.ActionListener {
 		
 		JButton colorButton;		
 		for (Color color : colors) {
-			colorButton = new JButton();
+                        BufferedImage image = new BufferedImage(size, size,
+					BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = image.createGraphics();
+			g.setColor(color);
+			g.fillRect(0, 0, size, size);
+			colorButton = new JButton(new javax.swing.ImageIcon(image));
 			colorButton.setPreferredSize(new Dimension(20,20));
 			colorButton.setBackground(color);
 			colorButton.setActionCommand("color");
