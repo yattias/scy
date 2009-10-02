@@ -50,7 +50,8 @@ scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(CopexContentCreator{},scyCopexId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyCopexType,"xproc");
 
-var simulationUriString:String = "http://scy.collide.info/balance.sqzx";
+var simulationUriString:String = "http://www.scy-lab.eu/sqzx/HouseNew.sqzx";
+//var simulationUriString:String = "http://www.scy-lab.eu/sqzx/balance.sqzx";
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SimulatorContentCreator{simulationUriString:simulationUriString},scySimulatorId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scySimulatorType,"simulator");
 
