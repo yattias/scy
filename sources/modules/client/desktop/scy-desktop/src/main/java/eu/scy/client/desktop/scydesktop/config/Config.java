@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import java.io.File;
 import java.util.List;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -34,4 +35,7 @@ public interface Config {
    public EloConfig getEloConfig(String eloType);
 
    public List<NewEloDescription> getNewEloDescriptions();
+
+   public File getLoggingDirectory();
+   public boolean isRedirectSystemStreams();
 }

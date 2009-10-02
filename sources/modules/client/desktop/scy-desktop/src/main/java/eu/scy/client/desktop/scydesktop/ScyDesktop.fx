@@ -73,6 +73,16 @@ import java.lang.Integer;
 import java.lang.Object;
 import java.lang.String;
 
+import javafx.scene.image.Image;
+
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+
+import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
+
+import java.io.File;
+
 
 /**
  * @author sikkenj
@@ -106,8 +116,13 @@ public class ScyDesktop extends CustomNode {
    var topRightCorner:Corner;
    var bottomRightCorner:Corner;
    var bottomLeftCorner:Corner;
+   var backgroundImage:Image;
+   var backgroundImageView:ImageView;
 
    init{
+      if (config.isRedirectSystemStreams() and config.getLoggingDirectory()!=null){
+         RedirectSystemStreams.redirect(config.getLoggingDirectory());
+      }
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(function(){MouseBlocker.initMouseBlocker(scene.stage);});
       logger.info("repository class: {config.getRepository().getClass()}");
@@ -147,6 +162,16 @@ public class ScyDesktop extends CustomNode {
    }
 
    function createElements(){
+      backgroundImage = Image {
+          url: "{__DIR__}bckgrnd_1.png"
+      }
+      backgroundImageView = ImageView {
+         image: backgroundImage
+         fitWidth: bind scene.width
+         fitHeight:bind scene.height
+         preserveRatio:false
+         cache:true
+      }
       windows = WindowManagerImpl{
       }
       windowContentFactory = WindowContentFactory{
@@ -206,6 +231,7 @@ public class ScyDesktop extends CustomNode {
       createElements();
       Group{
          content:[
+            backgroundImageView,
             windows.scyWindows,
             topLeftCorner,
             topRightCorner,
@@ -262,7 +288,18 @@ public class ScyDesktop extends CustomNode {
    function fillNewScyWindow(window: ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);
       if (window.eloUri==null){
-         windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
+         var pleaseWait = Text {
+               font : Font {
+                  size: 14
+               }
+               x: 5, y: 20
+               content: "Loading, please wait..."
+            }
+         window.scyContent = pleaseWait;
+
+         FX.deferAction(function(){
+               windowContentFactory.fillWindowContent(window,eloConfig.getContentCreatorId());
+            });
       }
       else{
          windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
