@@ -30,10 +30,10 @@ public abstract class ScyWindow extends CustomNode {
 	public var drawerColor = Color.LIGHTGREEN;
 	public var backgroundColor = color.WHITE;
 
-	public var width: Number = 100;
+	public var width: Number = 150;
 	public var height: Number = 100;
 
-   public var minimumWidth: Number = 70;
+   public var minimumWidth: Number = 150;
    public var minimumHeight: Number = 50;
 
    public var maximumWidth: Number = Number.MAX_VALUE;

@@ -43,7 +43,7 @@ public class StandardScyWindow extends ScyWindow {
 	public override var color = Color.GREEN;
 	public override var drawerColor = Color.LIGHTGREEN;
 	public override var backgroundColor = color.WHITE;
-	public override var width = 100 on replace{
+	public override var width = 150 on replace{
 		if (not isAnimating){
 			width = Math.max(width,minimumWidth);
 		}

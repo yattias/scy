@@ -6,6 +6,7 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +35,9 @@ public class BasicConfig implements Config
 
    private Map<String,EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
+
+   private File loggingDirectory;
+   private boolean redirectSystemStreams = false;
 
    @Override
    public IELOFactory getEloFactory()
@@ -146,5 +150,27 @@ public class BasicConfig implements Config
    public List<NewEloDescription> getNewEloDescriptions()
    {
       return newEloDescriptions;
+   }
+
+   @Override
+   public File getLoggingDirectory()
+   {
+      return loggingDirectory;
+   }
+
+   public void setLoggingDirectory(File loggingDirectory)
+   {
+      this.loggingDirectory = loggingDirectory;
+   }
+
+   @Override
+   public boolean isRedirectSystemStreams()
+   {
+      return redirectSystemStreams;
+   }
+
+   public void setRedirectSystemStreams(boolean redirectSystemStreams)
+   {
+      this.redirectSystemStreams = redirectSystemStreams;
    }
 }

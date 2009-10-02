@@ -69,6 +69,10 @@
    <build>
       <resources>
          <resource>
+            <targetPath></targetPath>
+            <directory>src/main/resources</directory>
+         </resource>
+         <resource>
             <targetPath>config</targetPath>
             <directory>src/main/java/config</directory>
          </resource>
@@ -76,6 +80,8 @@
             <directory>src/main/java</directory>
             <includes>
                <include>client.properties</include>
+               <include>*.jpg</include>
+               <include>*.png</include>
             </includes>
          </resource>
       </resources>
