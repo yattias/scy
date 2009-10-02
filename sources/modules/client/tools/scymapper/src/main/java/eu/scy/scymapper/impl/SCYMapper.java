@@ -49,11 +49,14 @@ import roolo.elo.metadata.keys.Contribute;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.util.*;
+import java.io.IOException;
 
 /**
  * User: Bjoerge
@@ -88,6 +91,11 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 
 	private SCYMapper() throws HeadlessException {
 		super("SCYMapper");
+		try {
+			setIconImage(ImageIO.read(getClass().getResourceAsStream("scy-mapper.png")));
+		} catch (IOException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
 		conceptMapManager.addSelectionChangeListener(this);
 		conceptMapManager.addConceptMapManagerListener(this);
 
@@ -297,16 +305,13 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		// 2. A list of collaborators (awareness view)
 		// This means that the user can have several concept maps open at the same time, collaborating with different
 		// groups of users
-		IConceptMap mockConceptMap = createMockConceptMap();
-		IConceptMap anotherMockConceptMap = createAnotherMockConceptMap();
 
-		ConceptMapEditor mockMapEditorPane1 = new ConceptMapEditor(awarenessService, mockConceptMap);
-		ConceptMapEditor anotherMockMapEditor = new ConceptMapEditor(awarenessService, anotherMockConceptMap);
+		IDiagramModel diagram = new DiagramModel();
+		IConceptMap cmap = new DefaultConceptMap("New diagram", diagram);
+		conceptMapManager.add(cmap);
+		diagram.addDiagramListener(this);
 
-		conceptMapTabPane.add(mockMapEditorPane1);
-		conceptMapTabPane.add(anotherMockMapEditor);
-
-		conceptMapManager.setSelected(anotherMockConceptMap);
+		//createMockConceptMaps();
 
 		// Message log
 		logView = new JTextArea();
@@ -443,6 +448,32 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
+
+	public void setRepository(IRepository repo) {
+		repository = repo;
+	}
+
+	public void setEloFactory(IELOFactory eloFactory) {
+		this.eloFactory = eloFactory;
+	}
+
+
+	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
+		this.metadataTypeManager = metadataTypeManager;
+	}
+
+	private void createMockConceptMaps() {
+		IConceptMap mockConceptMap = createMockConceptMap();
+		IConceptMap anotherMockConceptMap = createAnotherMockConceptMap();
+
+		ConceptMapEditor mockMapEditorPane1 = new ConceptMapEditor(awarenessService, mockConceptMap);
+		ConceptMapEditor anotherMockMapEditor = new ConceptMapEditor(awarenessService, anotherMockConceptMap);
+
+		conceptMapTabPane.add(mockMapEditorPane1);
+		conceptMapTabPane.add(anotherMockMapEditor);
+
+		conceptMapManager.setSelected(anotherMockConceptMap);
+	}
 	private IConceptMap createMockConceptMap() {
 		IDiagramModel diagram = new DiagramModel();
 		INodeModel redStar = new NodeModel();
@@ -521,18 +552,5 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		diagram.addDiagramListener(this);
 
 		return new DefaultConceptMap("Mock concept map #2", diagram);
-	}
-
-	public void setRepository(IRepository repo) {
-		repository = repo;
-	}
-
-
-	public void setEloFactory(IELOFactory eloFactory) {
-		this.eloFactory = eloFactory;
-	}
-
-	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
-		this.metadataTypeManager = metadataTypeManager;
 	}
 }
