@@ -40,9 +40,10 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.packet.Presence;
 import roolo.api.IRepository;
+import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
 import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.api.metadata.RooloMetadataKeys;
 import roolo.elo.metadata.keys.Contribute;
 
 import javax.swing.*;
@@ -52,8 +53,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * User: Bjoerge
@@ -189,7 +189,20 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		openConceptMapBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Not implemented yet");
+				IQuery query = null;
+				//		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(titleKey,
+				//					BasicSearchOperations.LESS, "n", null);
+				//		query = metadataQuery;
+				java.util.List<ISearchResult> searchResults = repository.search(query);
+				URI[] uris = new URI[searchResults.size()];
+				int i = 0;
+				for (ISearchResult searchResult : searchResults) {
+					uris[i++] = searchResult.getUri();
+				}
+				URI drawingUri = (URI) JOptionPane.showInputDialog(null, "Select concept map", "Select concept map", JOptionPane.QUESTION_MESSAGE, null, uris, null);
+				if (drawingUri != null) {
+					loadElo(drawingUri);
+				}
 			}
 		});
 		toolBar.add(openConceptMapBtn);
@@ -215,47 +228,37 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(cmap.getName());
 		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(cmap.getName(), Locale.CANADA);
 		elo.getMetadata().getMetadataValueContainer(typeKey).setValue(SCYMAPPER_ELOTYPE);
-		elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
-				new Long(System.currentTimeMillis()));
+		elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Long(System.currentTimeMillis()));
 
-		elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
-				new Contribute("my vcard", System.currentTimeMillis()));
+		elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis()));
 		IContent content = eloFactory.createContent();
 		XStream xstream = new XStream(new DomDriver());
 		String xml = xstream.toXML(cmap);
 		content.setXmlString(xml);
 		elo.setContent(content);
-		repository.addNewELO(elo);
-		// updateEloWithNewMetadata(elo, eloMetadata);
-		// logger.fine("metadata xml: \n" + elo.getMetadata().getXml());
+		IMetadata resultMetadata = repository.addNewELO(elo);
+		eloFactory.updateELOWithResult(elo, resultMetadata);
 	}
 
+
 	public void loadElo(URI eloUri) {
-		IMetadataKey typeKey = metadataTypeManager.getMetadataKey(RooloMetadataKeys.TYPE.getId());
 		logger.info("Trying to load elo " + eloUri);
-		IELO<IMetadataKey> newElo = repository.retrieveELO(eloUri);
-		if (newElo != null) {
-			String eloType = newElo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
+		IELO elo = repository.retrieveELO(eloUri);
+		if (elo != null) {
+			IMetadataKey titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+			IMetadataKey typeKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+			IMetadataKey dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
+
+			String eloType = elo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
+
 			if (!eloType.equals(SCYMAPPER_ELOTYPE))
-				throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
+				throw new IllegalArgumentException("ELO (" + eloUri + ") is of wrong type: " + eloType + " should be " + SCYMAPPER_ELOTYPE);
+			IMetadata metadata = elo.getMetadata();
+			IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
 
-			String xml = newElo.getContent().getXmlString();
-
-			logger.info("XML:" + xml);
-			/*IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
-						// TODO fixe the locale problem!!!
-						Object titleObject = metadataValueContainer.getValue();
-						Object titleObject2 = metadataValueContainer.getValue(Locale.getDefault());
-						Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
-						*/
-			/*
-						setDocName(titleObject3.toString());
-						whiteboardPanel.deleteAllWhiteboardContainers();
-						whiteboardPanel.setContentStatus(jdomStringConversion.stringToXml(newElo.getContent()
-								.getXmlString()));
-						elo = newElo;
-						sendELOLoadedChangedListener();
-						*/
+			XStream xstream = new XStream(new DomDriver());
+			IConceptMap cmap = (IConceptMap) xstream.fromXML(elo.getContent().getXmlString());
+			conceptMapManager.add(cmap);
 		}
 	}
 
