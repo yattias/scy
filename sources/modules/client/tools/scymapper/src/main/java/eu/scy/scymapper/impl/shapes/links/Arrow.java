@@ -47,7 +47,6 @@ public class Arrow implements ILinkShape {
 				gp.append(at.createTransformedShape(tail.getShape()), false);
 			}
 		}
-		System.out.println("arrowhead = " + arrowhead);
         return gp;
     }
 
