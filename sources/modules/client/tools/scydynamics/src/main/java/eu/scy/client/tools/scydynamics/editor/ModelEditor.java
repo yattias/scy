@@ -82,6 +82,9 @@ ActionListener {
 	private EditorTab editorTab;
 	private ArrayList<String> modelCheckMessages = new ArrayList();
 	private final Properties properties;
+	private JTabbedPane tabbedPane;
+	private GraphTab graphTab;
+	private TableTab tableTab;
 
 	// -------------------------------------------------------------------------
 	public ModelEditor() {
@@ -89,6 +92,7 @@ ActionListener {
 	}
 
 	public ModelEditor(Properties newProps) {
+		this.setName("Model Editor");
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
 		logger = new DevNullActionLogger();
@@ -115,7 +119,14 @@ ActionListener {
 		props.put("sqlspaces.ip", "127.0.0.1");
 		props.put("sqlspaces.port", "2525");
 		props.put("sqlspaces.space", "scydynamics_actionlog");
+		props.put("show.graph", "true");
+		props.put("show.table", "true");
+		props.put("show.filetoolbar", "true");
 		return props;
+	}
+	
+	public Properties getProperties() {
+		return properties;
 	}
 
 	public IModellingLogger getActionLogger() {
@@ -123,7 +134,7 @@ ActionListener {
 	}
 
 	private void initComponents() {
-		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent evt) {
 				JTabbedPane pane = (JTabbedPane) evt.getSource();
@@ -138,12 +149,20 @@ ActionListener {
 		editorTab = new EditorTab(this);
 		this.aCanvas = ((EditorTab) editorTab).getEditorPanel();
 		this.toolbar = ((EditorTab) editorTab).getToolbar();
-		JPanel graphTab = new GraphTab(this);
-		JPanel tableTab = new TableTab(this);
+		graphTab = new GraphTab(this);
+		tableTab = new TableTab(this);
 
 		tabbedPane.addTab("model", new ImageIcon(JTools.getSysResourceImage("JvtEditor")), editorTab);
-		tabbedPane.addTab("graph", new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);
-		tabbedPane.addTab("table", new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);
+		if (properties.get("show.graph").equals("true")) {addGraph();}
+		if (properties.get("show.table").equals("true")) {addTable();}		
+	}
+	
+	public void addGraph() {
+		tabbedPane.addTab("graph", new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);		
+	}
+	
+	public void addTable() {
+		tabbedPane.addTab("table", new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);		
 	}
 
 	// ---------------------------------------------------------------------------
