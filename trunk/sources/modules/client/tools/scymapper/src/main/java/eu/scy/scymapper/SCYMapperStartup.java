@@ -27,6 +27,7 @@ public class SCYMapperStartup {
 		IMetadataTypeManager metadataTypeManager = (IMetadataTypeManager) factory.getBean("metadataTypeManager");
 
 		SCYMapper scyMapper = SCYMapper.getInstance();
+
 		scyMapper.setRepository(repo);
 		scyMapper.setEloFactory(eloFactory);
 		scyMapper.setMetadataTypeManager(metadataTypeManager);
