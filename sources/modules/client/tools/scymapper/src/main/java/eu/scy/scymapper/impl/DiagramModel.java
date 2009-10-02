@@ -70,24 +70,30 @@ public class DiagramModel implements IDiagramModel {
 		return false;
 	}
 	@Override
-    public void removeNode(INodeModel n) {
-        nodes.add(n);
+    public synchronized void removeNode(INodeModel n) {
+        nodes.remove(n);
         notifyNodeRemoved(n);
     }
 
     @Override
-    public void addLink(ILinkModel l) {
+    public synchronized void addLink(ILinkModel l) {
         links.add(l);
         notifyLinkAdded(l);
     }
 
-    @Override
-    public Set<ILinkModel> getLinks() {
+	@Override
+	public synchronized void removeLink(ILinkModel l) {
+		links.remove(l);
+		notifyLinkRemoved(l);
+	}
+
+	@Override
+    public synchronized Set<ILinkModel> getLinks() {
         return links;
     }
 
     @Override
-    public Set<INodeModel> getNodes() {
+    public synchronized Set<INodeModel> getNodes() {
         return nodes;
     }
 

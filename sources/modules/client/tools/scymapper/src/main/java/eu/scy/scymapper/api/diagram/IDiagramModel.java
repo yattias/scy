@@ -24,6 +24,8 @@ public interface IDiagramModel extends Serializable {
 
     void addLink(ILinkModel n);
 
+	void removeLink(ILinkModel l);
+
     Set<ILinkModel> getLinks();
 	
     Set<INodeModel> getNodes();
