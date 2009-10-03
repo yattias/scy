@@ -20,17 +20,17 @@ public class SCYMapperStartup {
 	}
 
 	public SCYMapperStartup() {
-		BeanFactory factory = new XmlBeanFactory(new UrlResource(getClass().getResource("rooloConfig.xml")));
+		/*BeanFactory factory = new XmlBeanFactory(new UrlResource(getClass().getResource("rooloConfig.xml")));
 
 		IRepository repo = (IRepository) factory.getBean("repository");
 		IELOFactory eloFactory = (IELOFactory) factory.getBean("eloFactory");
 		IMetadataTypeManager metadataTypeManager = (IMetadataTypeManager) factory.getBean("metadataTypeManager");
-
+        */
 		SCYMapper scyMapper = SCYMapper.getInstance();
 
-		scyMapper.setRepository(repo);
-		scyMapper.setEloFactory(eloFactory);
-		scyMapper.setMetadataTypeManager(metadataTypeManager);
+		//scyMapper.setRepository(repo);
+		//scyMapper.setEloFactory(eloFactory);
+		//scyMapper.setMetadataTypeManager(metadataTypeManager);
 		scyMapper.setVisible(true);
 	}
 }
