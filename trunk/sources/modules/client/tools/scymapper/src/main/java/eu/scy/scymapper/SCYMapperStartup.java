@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
  * Time: 19:53:10
  */
 public class SCYMapperStartup {
-	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/rooloConfig.xml";
+	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/scyLabLocalConfig.xml";
 	private ApplicationContext appContext;
 
 	public static void main(String[] args) {
