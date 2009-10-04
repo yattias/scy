@@ -130,7 +130,7 @@
                 <version>1.0-alpha-2</version>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>jnlp</goal>
                             <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
