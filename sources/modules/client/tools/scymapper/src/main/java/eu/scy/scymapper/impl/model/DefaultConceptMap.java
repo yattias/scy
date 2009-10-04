@@ -45,6 +45,7 @@ public class DefaultConceptMap implements IConceptMap {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+		notifyListeners();
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package eu.scy.scymapper.impl.ui.tabpane;
 
+import eu.scy.scymapper.api.IConceptMap;
+import eu.scy.scymapper.api.IConceptMapListener;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
@@ -11,25 +14,36 @@ import java.awt.event.ActionListener;
  * Date: 30.sep.2009
  * Time: 13:36:42
  */
-public class ConceptMapTabButton extends JPanel {
+public class ConceptMapTabButton extends JPanel implements IConceptMapListener {
     private final JTabbedPane pane;
+	private IConceptMap cmap;
+	private JLabel labelField;
 
-    public ConceptMapTabButton(String title, final JTabbedPane pane) {
+	public ConceptMapTabButton(IConceptMap cmap, final JTabbedPane pane) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        if (pane == null) {
+
+		if (pane == null) {
             throw new NullPointerException("TabbedPane is null");
         }
+
+		this.cmap = cmap;
+		this.cmap.addConceptMapListener(this);
         this.pane = pane;
         setOpaque(false);
 
         //make JLabel read titles from JTabbedPane
-        JLabel label = new JLabel(title);
-        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-        add(label);
+        labelField = new JLabel(cmap.getName());
+        labelField.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+        add(labelField);
         JButton button = new TabCloseButton();
         add(button);
     }
+
+	@Override
+	public void conceptMapUpdated(IConceptMap cmap) {
+		labelField.setText(cmap.getName());
+	}
 
 	private class TabCloseButton extends JButton implements ActionListener {
         public TabCloseButton() {

@@ -11,6 +11,6 @@ public class ConceptMapTabbedPane extends JTabbedPane {
 
 	public void add(ConceptMapEditor cmapEditor) {
 		super.add(cmapEditor.getConceptMap().getName(), cmapEditor);
-		setTabComponentAt(indexOfComponent(cmapEditor), new ConceptMapTabButton(cmapEditor.getConceptMap().getName(), this));
+		setTabComponentAt(indexOfComponent(cmapEditor), new ConceptMapTabButton(cmapEditor.getConceptMap(), this));
 	}
 }

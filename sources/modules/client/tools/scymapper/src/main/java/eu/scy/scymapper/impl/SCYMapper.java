@@ -82,6 +82,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	private IDataSyncService dataSyncService;
 	private IRepository repository;
 	private static final String SCYMAPPER_ELOTYPE = "scy/conceptmap";
+	private static final String DEFAULT_CMAP_NAME = "New Concept Map";
 	private XMPPConnection connection;
 
 	public static SCYMapper getInstance() {
@@ -180,7 +181,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		newConceptMapBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IConceptMap cmap = new DefaultConceptMap("New Concept Map", new DiagramModel());
+				IConceptMap cmap = new DefaultConceptMap(DEFAULT_CMAP_NAME, new DiagramModel());
 				conceptMapManager.add(cmap);
 				conceptMapManager.setSelected(cmap);
 			}
@@ -243,8 +244,16 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		});
 		toolBar.add(removeConceptBtn);
 	}
-
 	public void saveELO(IConceptMap cmap) {
+		saveELO(cmap, false);
+	}
+	public void saveELO(IConceptMap cmap, boolean saveAs) {
+
+		if (saveAs || cmap.getName() == null || cmap.getName().equals(DEFAULT_CMAP_NAME)) {
+			String name = JOptionPane.showInputDialog("Enter name:", cmap.getName());
+			cmap.setName(name);
+		}
+
 		IELO elo = eloFactory.createELO();
 		elo.setDefaultLanguage(Locale.ENGLISH);
 		IMetadataKey uriKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
