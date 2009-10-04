@@ -4,10 +4,7 @@ import eu.scy.scymapper.api.diagram.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,6 +28,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
         labelEditor.setHorizontalAlignment(JTextField.CENTER);
         labelEditor.addKeyListener(this);
         labelEditor.setEditable(false);
+		labelEditor.setBorder(BorderFactory.createLineBorder(new Color(0xe0e0e0), 1));
 
         add(labelEditor);
         labelEditor.addFocusListener(new FocusListener() {
@@ -44,6 +42,12 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
                 labelEditor.setEditable(false);
             }
         });
+		labelEditor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == 10) ConceptLinkView.this.requestFocus();
+			}
+		});
 
         updatePosition();
         layoutComponents();

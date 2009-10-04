@@ -97,7 +97,6 @@ public class LinkView extends Container implements ILinkModelListener {
         setBounds(x - minWidth / 2, y - minHeight / 2, w + minWidth, h + minHeight);
     }
 
-
     @Override
     public void updated(ILinkModel m) {
         updatePosition();

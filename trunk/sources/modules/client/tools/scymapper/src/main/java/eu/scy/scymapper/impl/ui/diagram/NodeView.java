@@ -61,7 +61,6 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         //  addFocusListener(nfl);
 
         setOpaque(false);
-        setBackground(new Color(0xaaaaaa));
         setLayout(null);
         setFocusable(true);
 
@@ -75,8 +74,6 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
         if (style == null) style = DEFAULT_NODESTYLE;
 
-        labelEditor.setBackground(style.getBackground());
-        labelEditor.setForeground(style.getForeground());
 		labelEditor.setBorder(BorderFactory.createEmptyBorder());
 
         add(labelEditor);
@@ -95,6 +92,13 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 				labelEditor.setBorder(BorderFactory.createEmptyBorder());
             }
         });
+
+		labelEditor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == 10) NodeView.this.requestFocus();
+			}
+		});
 
         resizeHandle = createResizeHandle();
         add(resizeHandle);
