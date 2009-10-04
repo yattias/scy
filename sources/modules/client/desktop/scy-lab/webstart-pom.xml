@@ -141,7 +141,7 @@
                 <version>1.0-alpha-2</version>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>jnlp</goal>
                             <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
@@ -211,7 +211,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/scylab</outputDirectory>
                             <resources>
                                 <resource>
                                     <includes>
@@ -230,7 +230,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/scylab</outputDirectory>
                             <resources>
                                 <resource>
                                     <includes>
