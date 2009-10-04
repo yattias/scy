@@ -75,7 +75,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	private JToolBar toolBar;
 	private String currentToolSessionId;
 	private static SCYMapper INSTANCE;
-	private IConceptMapManager conceptMapManager = new DefaultConceptMapManager();
+	private IConceptMapManager conceptMapManager;
 	private IELOFactory eloFactory;
 
 	private IMetadataTypeManager metadataTypeManager;
@@ -98,6 +98,8 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		} catch (IOException e) {
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
+
+	 	conceptMapManager = DefaultConceptMapManager.getInstance();
 		conceptMapManager.addSelectionChangeListener(this);
 		conceptMapManager.addConceptMapManagerListener(this);
 
@@ -250,7 +252,12 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	public void saveELO(IConceptMap cmap, boolean saveAs) {
 
 		if (saveAs || cmap.getName() == null || cmap.getName().equals(DEFAULT_CMAP_NAME)) {
-			String name = JOptionPane.showInputDialog("Enter name:", cmap.getName());
+
+			String name = "";
+
+			do name = JOptionPane.showInputDialog("Enter name:", cmap.getName());
+			while (name.trim().equals(""));
+
 			cmap.setName(name);
 		}
 
@@ -335,7 +342,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		// groups of users
 
 		IDiagramModel diagram = new DiagramModel();
-		IConceptMap cmap = new DefaultConceptMap("New diagram", diagram);
+		IConceptMap cmap = new DefaultConceptMap(DEFAULT_CMAP_NAME, diagram);
 		conceptMapManager.add(cmap);
 		diagram.addDiagramListener(this);
 
@@ -401,15 +408,16 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	}
 
 	@Override
-	public void conceptMapAdded(IConceptMapManager manager, IConceptMap map) {
-		ConceptMapEditor panel = new ConceptMapEditor(awarenessService, map);
-		conceptMapTabPane.add(panel);
-		conceptMapManager.setSelected(map);
+	public void conceptMapAdded(IConceptMapManager manager, IConceptMap cmap) {
+		ConceptMapEditor editor = new ConceptMapEditor(awarenessService, cmap);
+		conceptMapTabPane.add(editor);
+		conceptMapManager.setSelected(cmap);
 	}
 
 	@Override
 	public void conceptMapRemoved(IConceptMapManager manager, IConceptMap map) {
-
+		logger.debug("Concept map was removed from manager");
+		conceptMapManager.setSelected(((ConceptMapEditor)conceptMapTabPane.getSelectedComponent()).getConceptMap());
 	}
 
 	@Override

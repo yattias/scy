@@ -18,6 +18,15 @@ public class DefaultConceptMapManager implements IConceptMapManager {
 	private IConceptMap selected;
 	private List<IConceptMapSelectionListener> selectionListeners = new ArrayList<IConceptMapSelectionListener>();
 	private List<IConceptMapManagerListener> managerListeners = new ArrayList<IConceptMapManagerListener>();
+	private static IConceptMapManager instance;
+
+	public static IConceptMapManager getInstance() {
+		if (instance == null)
+			instance = new DefaultConceptMapManager();
+		return instance;
+	}
+
+	private DefaultConceptMapManager() {}
 
 	@Override
 	public void add(IConceptMap cmap) {
