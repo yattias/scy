@@ -2,6 +2,7 @@ package eu.scy.scymapper.impl.ui.tabpane;
 
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptMapListener;
+import eu.scy.scymapper.impl.model.DefaultConceptMapManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -68,7 +69,8 @@ public class ConceptMapTabButton extends JPanel implements IConceptMapListener {
             int i = pane.indexOfTabComponent(ConceptMapTabButton.this);
             if (i != -1 && pane.getTabCount() != 1) {
                 pane.remove(i);
-            }
+				DefaultConceptMapManager.getInstance().remove(cmap);
+			}
         }
 
         //paint the cross
