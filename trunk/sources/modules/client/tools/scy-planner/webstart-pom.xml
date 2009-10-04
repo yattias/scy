@@ -122,7 +122,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/scyplanner</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/scyplanner</outputDirectory>
                             <resources>
                                 <resource>
                                     <includes>
@@ -141,7 +141,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/scyplanner</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes/scyplanner</outputDirectory>
                             <resources>
                                 <resource>
                                     <includes>
