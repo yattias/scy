@@ -45,6 +45,7 @@ import roolo.api.search.ISearchResult;
 import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
+import roolo.elo.JDomBasicELOFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -73,12 +74,12 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	private final static Logger logger = Logger.getLogger(SCYMapper.class);
 	private JToolBar toolBar;
 	private String currentToolSessionId;
-	private IDataSyncService dataSyncService;
 	private static SCYMapper INSTANCE;
 	private IConceptMapManager conceptMapManager = new DefaultConceptMapManager();
-
 	private IELOFactory eloFactory;
+
 	private IMetadataTypeManager metadataTypeManager;
+	private IDataSyncService dataSyncService;
 	private IRepository repository;
 	private static final String SCYMAPPER_ELOTYPE = "scy/conceptmap";
 	private XMPPConnection connection;
