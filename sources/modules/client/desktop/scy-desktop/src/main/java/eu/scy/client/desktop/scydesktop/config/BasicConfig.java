@@ -39,6 +39,9 @@ public class BasicConfig implements Config
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
 
+   private String backgroundImageFileName;
+   private boolean backgroundImageFileNameRelative;
+
    @Override
    public IELOFactory getEloFactory()
    {
@@ -172,5 +175,27 @@ public class BasicConfig implements Config
    public void setRedirectSystemStreams(boolean redirectSystemStreams)
    {
       this.redirectSystemStreams = redirectSystemStreams;
+   }
+
+   @Override
+   public String getBackgroundImageFileName()
+   {
+      return backgroundImageFileName;
+   }
+
+   public void setBackgroundImageFileName(String backgroundImageFileName)
+   {
+      this.backgroundImageFileName = backgroundImageFileName;
+   }
+
+   @Override
+   public boolean isBackgroundImageFileNameRelative()
+   {
+      return backgroundImageFileNameRelative;
+   }
+
+   public void setBackgroundImageFileNameRelative(boolean backgroundImageFileNameRelative)
+   {
+      this.backgroundImageFileNameRelative = backgroundImageFileNameRelative;
    }
 }

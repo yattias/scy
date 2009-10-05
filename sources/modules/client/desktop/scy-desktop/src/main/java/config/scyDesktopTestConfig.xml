@@ -54,6 +54,10 @@
             </bean>
          </list>
       </property>
+
+      <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
+      <property name="backgroundImageFileNameRelative" value="true"/>
+
    </bean>
 
    <bean  name="missionModelCreator" class="eu.scy.client.desktop.scydesktop.test.TestMissionModelCreator"/>

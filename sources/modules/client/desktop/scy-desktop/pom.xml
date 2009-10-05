@@ -77,11 +77,11 @@
             <directory>src/main/java/config</directory>
          </resource>
          <resource>
+            <targetPath></targetPath>
             <directory>src/main/java</directory>
             <includes>
-               <include>client.properties</include>
-               <include>*.jpg</include>
-               <include>*.png</include>
+               <include>**/*.jpg</include>
+               <include>**/*.png</include>
             </includes>
          </resource>
       </resources>
