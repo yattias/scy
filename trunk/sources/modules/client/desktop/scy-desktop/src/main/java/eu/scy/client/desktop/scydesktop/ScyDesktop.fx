@@ -162,16 +162,27 @@ public class ScyDesktop extends CustomNode {
    }
 
    function createElements(){
-      backgroundImage = Image {
-          url: "{__DIR__}bckgrnd_1.png"
+      var backgroundImageUrl;
+      if (config.getBackgroundImageFileName()!=null){
+         if (config.isBackgroundImageFileNameRelative()){
+            backgroundImageUrl = "{__DIR__}{config.getBackgroundImageFileName()}";
+         }
+         else{
+            backgroundImageUrl = config.getBackgroundImageFileName();
+         }
+         backgroundImage = Image {
+             url: backgroundImageUrl
+         }
+         logger.info("background image: {backgroundImage.url}, error: {backgroundImage.error}");
+         backgroundImageView = ImageView {
+            image: backgroundImage
+            fitWidth: bind scene.width
+            fitHeight:bind scene.height
+            preserveRatio:false
+            cache:true
+         }
       }
-      backgroundImageView = ImageView {
-         image: backgroundImage
-         fitWidth: bind scene.width
-         fitHeight:bind scene.height
-         preserveRatio:false
-         cache:true
-      }
+
       windows = WindowManagerImpl{
       }
       windowContentFactory = WindowContentFactory{

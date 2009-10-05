@@ -38,4 +38,7 @@ public interface Config {
 
    public File getLoggingDirectory();
    public boolean isRedirectSystemStreams();
+
+   public String getBackgroundImageFileName();
+   public boolean isBackgroundImageFileNameRelative();
 }
