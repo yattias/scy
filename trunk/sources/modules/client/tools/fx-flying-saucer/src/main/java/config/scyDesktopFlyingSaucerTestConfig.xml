@@ -22,7 +22,7 @@
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/text/xhtml"/>
+               <property name="type" value="scy/url"/>
                <property name="display" value="XHTML web page"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="flying-saucer"/>

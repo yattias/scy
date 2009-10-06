@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.net.URL;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 import org.xhtmlrenderer.event.DocumentListener;
 import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.FSScrollPane;
@@ -21,6 +22,8 @@ import org.xhtmlrenderer.util.GeneralUtil;
  */
 public class FlyingSaucerPanel extends javax.swing.JPanel
 {
+
+   private static final Logger logger = Logger.getLogger(FlyingSaucerPanel.class);
 
    /** Creates new form SwingBrowserPanel */
    public FlyingSaucerPanel()
@@ -85,7 +88,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
-      urlField.setText("http://www.scy-lab.eu/xhtml/borders.xhtml");
+      urlField.setText("");
       urlField.addKeyListener(new java.awt.event.KeyAdapter()
       {
 
@@ -117,11 +120,21 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt)
    {
-      if ((evt.getModifiers()&ActionEvent.CTRL_MASK)!=0){
-         //
-         saveUrlAsHome(browser.getURL());
+      if ((evt.getModifiers() & ActionEvent.CTRL_MASK) != 0)
+      {
+         if (isPageLoaded)
+         {
+            saveUrlAsHome(browser.getURL());
+         }
+         else
+         {
+            logger.info("can't save url, because it is not loaded");
+         }
       }
-      loadUrl(homeUrl);
+      else
+      {
+         loadUrl(homeUrl);
+      }
    }
 
    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt)
@@ -144,19 +157,25 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private javax.swing.JButton loadButton;
    private javax.swing.JTextField urlField;
    // End of variables declaration
-
    private String homeUrl = null;
+   private boolean isPageLoaded = false;
 
    public void setHomeUrl(String homeUrl)
    {
       this.homeUrl = homeUrl;
-      homeButton.setEnabled(homeUrl!=null && homeUrl.length()>0);
+      boolean urlIsNotEmpty = homeUrl != null && homeUrl.length() > 0;
+      homeButton.setEnabled(urlIsNotEmpty);
+      if (urlIsNotEmpty)
+      {
+         loadUrl(homeUrl);
+      }
    }
 
    protected void saveUrlAsHome(URL url)
    {
       String newHomeUrl = null;
-      if (url!=null){
+      if (url != null)
+      {
          newHomeUrl = url.toString();
       }
       setHomeUrl(newHomeUrl);
@@ -167,6 +186,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       try
       {
          browser.setDocument(url);
+         isPageLoaded = true;
       }
       catch (Exception e)
       {
@@ -209,6 +229,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void handlePageLoadFailed(String url_text, Exception ex)
    {
+      isPageLoaded = false;
       final XMLResource xr;
       final String rootCause = getRootCause(ex);
       final String msg = GeneralUtil.escapeHTML(addLineBreaks(rootCause, 80));
@@ -274,5 +295,4 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       System.out.println("Broken! " + broken.toString());
       return broken.toString();
    }
-
 }
