@@ -1245,6 +1245,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         this.subTree = subTree;
         this.newTs = ts;
         this.oldTs = ots;
+        this.edP.setModification();
         return true;
     }
     

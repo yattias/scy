@@ -343,8 +343,12 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             CloseDatasetDialog closeFitexDialog = new CloseDatasetDialog(this, ds);
             closeFitexDialog.setVisible(true);
         }else{
-            int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MESSAGE_DATASET_CLOSE"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
-            if(ok == JOptionPane.OK_OPTION){
+            if(activFitex.hasModification()){
+                int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MESSAGE_DATASET_CLOSE"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
+                if(ok == JOptionPane.OK_OPTION){
+                    fitexTabbedPane.removeDataset(ds);
+                }
+            }else{
                 fitexTabbedPane.removeDataset(ds);
             }
         }

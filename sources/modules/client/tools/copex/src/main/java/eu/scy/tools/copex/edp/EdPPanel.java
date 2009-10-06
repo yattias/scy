@@ -47,6 +47,8 @@ public class EdPPanel extends JPanel {
     /* level affiche */
     private int levelMenu = 1;
 
+    private boolean procModif;
+
 
     /* elements copies */
     private SubTree subTreeCopy;
@@ -113,6 +115,7 @@ public class EdPPanel extends JPanel {
         this.mission = mission;
         this.listInitProc = listInitProc;
         this.listPhysicalQuantity = listPhysicalQuantity;
+        this.procModif = false;
         initGUI();
     }
 
@@ -851,6 +854,7 @@ public class EdPPanel extends JPanel {
         copexTree.addTask(newAction,ts);
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newAction), ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -871,6 +875,7 @@ public class EdPPanel extends JPanel {
         copexTree.updateProc(newProc);
         copexTree.updateTask(newAction, ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -890,6 +895,7 @@ public class EdPPanel extends JPanel {
         copexTree.addTask(newStep, ts);
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newStep), ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -910,6 +916,7 @@ public class EdPPanel extends JPanel {
         copexTree.updateProc(newProc);
         copexTree.updateTask(newStep,ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -930,6 +937,7 @@ public class EdPPanel extends JPanel {
         copexTree.updateProc(newProc);
         copexTree.updateTask(newQuestion,ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -949,6 +957,7 @@ public class EdPPanel extends JPanel {
         copexTree.addTask(newQuestion,ts);
         copexTree.addEdit_addTask(copexTree.getTaskSelected(newQuestion), ts);
         updateMenu();
+        procModif = true;
         return new CopexReturn();
     }
 
@@ -1027,6 +1036,7 @@ public class EdPPanel extends JPanel {
                 addEdit_cut(listTsSuppr, list, subTreeCopy);
             }
         }
+        procModif = true;
         updateMenu();
 
         return new CopexReturn();
@@ -1149,6 +1159,7 @@ public class EdPPanel extends JPanel {
         copexTree.updateProc(proc);
         copexTree.addTasks(listTask, getSubTreeCopy(), t);
         updateMenu();
+        procModif = true;
         //if (undoRedo == CopexUtilities.NOT_UNDOREDO){
             ArrayList<TaskSelected> listTs = new ArrayList();
             int nbT = listTask.size();
@@ -1328,6 +1339,7 @@ public class EdPPanel extends JPanel {
         if (undoRedo == MyConstants.NOT_UNDOREDO){
             copexTree.addEdit_addMaterialUseForProc(proc, m, j);
         }
+        procModif = true;
         updateMenu();
         return true;
     }
@@ -1348,6 +1360,7 @@ public class EdPPanel extends JPanel {
         if (undoRedo == MyConstants.NOT_UNDOREDO){
             copexTree.addEdit_updateMaterialUseForProc(proc, m, oldJ, j);
         }
+        procModif = true;
          updateMenu();
         return true;
     }
@@ -1379,6 +1392,7 @@ public class EdPPanel extends JPanel {
         if (undoRedo == MyConstants.NOT_UNDOREDO){
             copexTree.addEdit_removeMaterialUseForProc(proc, m, justification);
         }
+        procModif = true;
          updateMenu();
     }
     /* retourne vrai s'il existe un panel datasheet */
@@ -1755,6 +1769,7 @@ public class EdPPanel extends JPanel {
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
+        procModif = true;
     }
 
     public void copy() {
@@ -1793,14 +1808,18 @@ public class EdPPanel extends JPanel {
         Element xproc = getExperimentalProcedure() ;
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFile != null)
+        if (lastUsedFile != null){
 			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFile);
+        }else{
+            File file = new File(aFileChooser.getCurrentDirectory(), proc.getName()+".xml");
+            aFileChooser.setSelectedFile(file);
+        }
         int r = aFileChooser.showSaveDialog(this);
         if (r == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
             if(!CopexUtilities.isXMLFile(file)){
-                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_XML"), false), getBundleString("TITLE_DIALOG_ERROR"));
-                return;
+                file = CopexUtilities.getXMLFile(file);
             }
 			lastUsedFile = file;
 			OutputStreamWriter fileWriter = null;
@@ -1808,6 +1827,7 @@ public class EdPPanel extends JPanel {
 			{
                 fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(xproc, fileWriter);
+                procModif=false;
 			}
 			catch (IOException e)
 			{
@@ -1828,5 +1848,14 @@ public class EdPPanel extends JPanel {
         }
     }
 
+    public boolean hasModification(){
+        if(proc.getDbKey() == -2)
+            return false;
+        return procModif;
+    }
+
+    public void setModification(){
+        this.procModif = true;
+    }
     
 }
