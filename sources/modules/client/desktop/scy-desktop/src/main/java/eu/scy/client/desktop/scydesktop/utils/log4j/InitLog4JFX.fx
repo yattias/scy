@@ -18,20 +18,20 @@ public function initLog4J() {
    initLog4J(configFileName);
 }
 
-public function initLog4J(fileName) {
+public function initLog4J(fileName:String) {
       var object = new Object();
 		try {
-         var configUrl = object.getClass().getResource(configFileName);
+         var configUrl = object.getClass().getResource(fileName);
          if (configUrl!=null){
             println("reading log4j config from {configUrl}");
             DOMConfigurator.configure (configUrl);
          }
          else{
-            println("cannot find log4j configuration file: {configFileName}");
+            println("cannot find log4j configuration file: {fileName}");
          }
 
 		} catch (e) {
-         println("Problems with loading log4j config, from {configFileName}");
+         println("Problems with loading log4j config, from {fileName}");
 			e.printStackTrace();
 		}
 
