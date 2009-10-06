@@ -4,6 +4,7 @@
  */
 package eu.scy.client.tools.fxflyingsaucer;
 
+import java.awt.event.ActionEvent;
 import java.io.StringReader;
 import java.net.URL;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    public FlyingSaucerPanel()
    {
       initComponents();
+      setHomeUrl("http://www.scy-lab.eu/xhtml/borders.xhtml");
    }
 
    /** This method is called from within the constructor to
@@ -36,6 +38,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private void initComponents()
    {
 
+      homeButton = new javax.swing.JButton();
       urlField = new javax.swing.JTextField();
       loadButton = new javax.swing.JButton();
       browserScrollPane = new FSScrollPane();
@@ -71,6 +74,17 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          }
       });
 
+      homeButton.setText("Home");
+      homeButton.setEnabled(false);
+      homeButton.addActionListener(new java.awt.event.ActionListener()
+      {
+
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            homeButtonActionPerformed(evt);
+         }
+      });
+
       urlField.setText("http://www.scy-lab.eu/xhtml/borders.xhtml");
       urlField.addKeyListener(new java.awt.event.KeyAdapter()
       {
@@ -96,10 +110,19 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
       this.setLayout(layout);
       layout.setHorizontalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(loadButton)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(loadButton)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
       layout.setVerticalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(loadButton)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(loadButton)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
    }// </editor-fold>
+
+   private void homeButtonActionPerformed(java.awt.event.ActionEvent evt)
+   {
+      if ((evt.getModifiers()&ActionEvent.CTRL_MASK)!=0){
+         //
+         saveUrlAsHome(browser.getURL());
+      }
+      loadUrl(homeUrl);
+   }
 
    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt)
    {
@@ -117,9 +140,27 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    // Variables declaration - do not modify
    private XHTMLPanel browser;
    private FSScrollPane browserScrollPane;
+   private javax.swing.JButton homeButton;
    private javax.swing.JButton loadButton;
    private javax.swing.JTextField urlField;
    // End of variables declaration
+
+   private String homeUrl = null;
+
+   public void setHomeUrl(String homeUrl)
+   {
+      this.homeUrl = homeUrl;
+      homeButton.setEnabled(homeUrl!=null && homeUrl.length()>0);
+   }
+
+   protected void saveUrlAsHome(URL url)
+   {
+      String newHomeUrl = null;
+      if (url!=null){
+         newHomeUrl = url.toString();
+      }
+      setHomeUrl(newHomeUrl);
+   }
 
    public void loadUrl(String url)
    {
@@ -233,4 +274,5 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       System.out.println("Broken! " + broken.toString());
       return broken.toString();
    }
+
 }
