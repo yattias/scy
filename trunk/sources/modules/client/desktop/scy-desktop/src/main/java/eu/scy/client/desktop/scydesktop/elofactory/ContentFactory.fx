@@ -20,12 +20,15 @@ public class ContentFactory{
    public var config:Config;
 
    def servicesInjectedSet = new HashSet();
+   def servicesInjector = ServicesInjector{
+            config:config;
+         }
 
    protected function checkIfServicesInjected(object:Object){
       if (not servicesInjectedSet.contains(object)){
-         var servicesInjector = ServicesInjector{
-            config:config;
-         }
+//         var servicesInjector = ServicesInjector{
+//            config:config;
+//         }
          servicesInjector.injectServices(object);
          servicesInjectedSet.add(object);
       }

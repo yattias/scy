@@ -28,7 +28,7 @@ import javafx.reflect.FXType;
  * @author sikkenj
  */
 
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.ServicesInjector");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.ServicesInjector");
 
 public class ServicesInjector {
    public var config:Config;
