@@ -30,6 +30,10 @@ public class BoxSpinner extends javax.swing.JPanel {
     public  ImageIcon getFitexImage(String img){
         return new ImageIcon(getClass().getResource( "/" +img));
     }
+
+    public void setFocus(){
+        this.champValeur.requestFocusInWindow();
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -75,6 +79,11 @@ public class BoxSpinner extends javax.swing.JPanel {
         champValeur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champValeurActionPerformed(evt);
+            }
+        });
+        champValeur.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                champValeurFocusLost(evt);
             }
         });
         add(champValeur);
@@ -125,15 +134,12 @@ public class BoxSpinner extends javax.swing.JPanel {
     }//GEN-LAST:event_nextMousePressed
 
     private void champValeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champValeurActionPerformed
-        try {
-            value = Double.parseDouble(champValeur.getText()) ;
-            owner.maJParametreDansFonction(label.getText(), value);
-            majStep(champValeur.getText());
-        } catch (NumberFormatException e) {
-            System.out.println("Le nombre entre n'est pas reconnu.");
-            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-        } 
+       updateValue();
     }//GEN-LAST:event_champValeurActionPerformed
+
+    private void champValeurFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champValeurFocusLost
+        updateValue();
+    }//GEN-LAST:event_champValeurFocusLost
     
     public void majParametre (){
         NumberFormat nfE = NumberFormat.getNumberInstance(owner.getLocale());
@@ -145,8 +151,14 @@ public class BoxSpinner extends javax.swing.JPanel {
         if (value>-1E-16 && value<1E-16) champValeur.setText("0");
         else if ((value>-0.09999 && value<0.099999) || value>=1E6 || value<=-1E6)
             champValeur.setText(formatE.format(value));
-        else
+        else{
+            int id = Double.toString(step).indexOf(".");
+            if(id != -1){
+                int nb = Double.toString(step).length()-id-1;
+                format.setMinimumFractionDigits(nb);
+            }
             champValeur.setText(format.format(value));
+        }
         owner.maJParametreDansFonction(label.getText(), value);
     }
     
@@ -195,6 +207,19 @@ public class BoxSpinner extends javax.swing.JPanel {
         //height=champValeur.getHeight() ;
         //System.out.println("height = "+ height);
         return height ;
+    }
+
+    private void updateValue(){
+        String s = champValeur.getText();
+        s = s.replace(",", ".");
+        try {
+            value = Double.parseDouble(s) ;
+            owner.maJParametreDansFonction(label.getText(), value);
+            majStep(s);
+        } catch (NumberFormatException e) {
+            System.out.println("Le nombre entre n'est pas reconnu. "+s);
+            owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

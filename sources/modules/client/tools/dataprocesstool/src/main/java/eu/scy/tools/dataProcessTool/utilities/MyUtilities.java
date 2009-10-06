@@ -117,4 +117,8 @@ public class MyUtilities {
             return "";
         return file.getName().substring(id+1);
     }
+
+    public static File getXMLFile(File file){
+        return new File(file.getParent(), file.getName()+".xml");
+    }
 }

@@ -200,7 +200,7 @@ public class CopexController implements ControllerInterface {
     }
 
     private InitialProcedure getInitialProcedure(){
-        String procName = "COPEX";
+        String procName = "Procedure";
 //        if(mission1)
 //            procName = "thermostat setting";
         InitialProcedure initProc = new InitialProcedure(idProc++, procName,CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT, procName, true, false, null ) ;

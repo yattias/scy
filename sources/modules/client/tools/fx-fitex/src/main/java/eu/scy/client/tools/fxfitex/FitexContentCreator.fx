@@ -54,7 +54,7 @@ public class FitexContentCreator  extends WindowContentCreatorFX {
 	}
 
    function setWindowProperties(scyWindow:ScyWindow){
-      scyWindow.minimumWidth = 320;
-      scyWindow.minimumHeight = 100;
+      scyWindow.minimumWidth = 470;
+      scyWindow.minimumHeight = 280;
    }
 }

@@ -51,20 +51,14 @@ public class OpenFitexDialog extends JDialog {
     private JComboBox cbMissionOpen;
     private JLabel labelDsOpen;
     private JComboBox cbDsOpen;
-    private JLabel labelFileOpen;
-    private JButton buttonExplOpen;
 
     private JRadioButton rbImport;
-    private JLabel labelFileImport;
-    private JButton buttonExplImport;
 
     private JRadioButton rbMerge;
     private JLabel labelMissionMerge;
     private JComboBox cbMissionMerge;
     private JLabel labelDsMerge;
     private JComboBox cbDsMerge;
-    private JLabel labelFileMerge;
-    private JButton buttonExplMerge;
 
     private JButton buttonOk;
     private JButton buttonCancel;
@@ -97,14 +91,9 @@ public class OpenFitexDialog extends JDialog {
             this.add(getCbMissionOpen());
             this.add(getLabelDsOpen());
             this.add(getCbDsOpen());
-        }else{
-            this.add(getButtonExplOpen());
-            this.add(getLabelFileOpen());
         }
 
         this.add(getRbImport());
-        this.add(getButtonExplImport());
-        this.add(getLabelFileImport());
 
         this.add(getRbMerge());
         if(dbMode){
@@ -112,11 +101,7 @@ public class OpenFitexDialog extends JDialog {
             this.add(getCbMissionMerge());
             this.add(getLabelDsMerge());
             this.add(getCbDsMerge());
-        }else{
-            this.add(getButtonExplMerge());
-            this.add(getLabelFileMerge());
         }
-
         // largeur
         int width = fieldName.getX()+fieldName.getWidth()+10;
         int height = 200;
@@ -191,34 +176,7 @@ public class OpenFitexDialog extends JDialog {
         return rbOpen;
     }
 
-      private JButton getButtonExplOpen(){
-         if(buttonExplOpen == null){
-             buttonExplOpen = new JButton();
-             buttonExplOpen.setName("buttonExplOpen");
-             buttonExplOpen.setIcon(owner.getCopexImage("Button-Expl.png"));
-             buttonExplOpen.setBounds(10, rbOpen.getY()+rbOpen.getHeight()+5, 22,22);
-             buttonExplOpen.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonExplOpen();
-                }
-            });
-         }
-         return buttonExplOpen;
-     }
-
-     private JLabel getLabelFileOpen(){
-         if(labelFileOpen == null){
-             labelFileOpen = new JLabel();
-             labelFileOpen.setName("labelFileOpen");
-             if(lastUsedFileOpen != null)
-                 labelFileOpen.setText(lastUsedFileOpen.getPath());
-             labelFileOpen.setFont(new java.awt.Font("Tahoma", 2, 11));
-             labelFileOpen.setBounds(buttonExplOpen.getX()+buttonExplOpen.getWidth()+5,buttonExplOpen.getY()+4, 280,14);
-         }
-         return labelFileOpen;
-     }
-    
-
+      
      private JLabel getLabelMissionOpen(){
          if(this.labelMissionOpen == null){
             labelMissionOpen = new JLabel();
@@ -287,39 +245,13 @@ public class OpenFitexDialog extends JDialog {
             if(dbMode){
                 y = cbDsOpen.getY()+cbDsOpen.getHeight()+10;
             }else{
-                y = labelFileOpen.getY()+labelFileOpen.getHeight()+10;
+                y = rbOpen.getY()+rbOpen.getHeight()+10;
             }
             rbImport.setBounds(10,y,rbImport.getWidth(), rbImport.getHeight());
         }
         return rbImport;
     }
 
-     private JButton getButtonExplImport(){
-         if(buttonExplImport == null){
-             buttonExplImport = new JButton();
-             buttonExplImport.setName("buttonExplImport");
-             buttonExplImport.setIcon(owner.getCopexImage("Button-Expl.png"));
-             buttonExplImport.setBounds(10, rbImport.getY()+rbImport.getHeight()+5, 22,22);
-             buttonExplImport.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonExplImport();
-                }
-            });
-         }
-         return buttonExplImport;
-     }
-
-     private JLabel getLabelFileImport(){
-         if(labelFileImport == null){
-             labelFileImport = new JLabel();
-             labelFileImport.setName("labelFileImport");
-             if(lastUsedFileImport != null)
-                 labelFileImport.setText(lastUsedFileImport.getPath());
-             labelFileImport.setFont(new java.awt.Font("Tahoma", 2, 11));
-             labelFileImport.setBounds(buttonExplImport.getX()+buttonExplImport.getWidth()+5,buttonExplImport.getY()+4, 280,14);
-         }
-         return labelFileImport;
-     }
      
 
      private JRadioButton getRbMerge(){
@@ -336,38 +268,12 @@ public class OpenFitexDialog extends JDialog {
                     selectRb(4);
                 }
             });
-            rbMerge.setBounds(10,labelFileImport.getY()+labelFileImport.getHeight()+10,rbMerge.getWidth(), rbMerge.getHeight());
+            rbMerge.setBounds(10,rbImport.getY()+rbImport.getHeight()+10,rbMerge.getWidth(), rbMerge.getHeight());
         }
         return rbMerge;
     }
 
-     private JButton getButtonExplMerge(){
-         if(buttonExplMerge == null){
-             buttonExplMerge = new JButton();
-             buttonExplMerge.setName("buttonExplMerge");
-             buttonExplMerge.setIcon(owner.getCopexImage("Button-Expl.png"));
-             buttonExplMerge.setBounds(10, rbMerge.getY()+rbMerge.getHeight()+5, 22,22);
-             buttonExplMerge.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonExplMerge();
-                }
-            });
-         }
-         return buttonExplMerge;
-     }
-
-     private JLabel getLabelFileMerge(){
-         if(labelFileMerge == null){
-             labelFileMerge = new JLabel();
-             labelFileMerge.setName("labelFileMerge");
-             if(lastUsedFileMerge != null)
-                 labelFileMerge.setText(lastUsedFileMerge.getPath());
-             labelFileMerge.setFont(new java.awt.Font("Tahoma", 2, 11));
-             labelFileMerge.setBounds(buttonExplMerge.getX()+buttonExplMerge.getWidth()+5,buttonExplMerge.getY()+4, 280,14);
-         }
-         return labelFileMerge;
-     }
-     
+    
 
      private JLabel getLabelMissionMerge(){
          if(this.labelMissionMerge == null){
@@ -429,7 +335,7 @@ public class OpenFitexDialog extends JDialog {
              if(dbMode){
                  y += labelDsMerge.getY()+labelDsMerge.getHeight();
              }else{
-                 y += labelFileMerge.getY()+labelFileMerge.getHeight();
+                 y += rbMerge.getY()+rbMerge.getHeight();
              }
              buttonOk.setBounds(this.getWidth()/4, y, buttonOk.getWidth(), buttonOk.getHeight());
              buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -473,17 +379,12 @@ public class OpenFitexDialog extends JDialog {
         if(dbMode){
             cbMissionOpen.setEnabled(open);
             cbDsOpen.setEnabled(open);
-        }else{
-            buttonExplOpen.setEnabled(open);
         }
         this.rbImport.setSelected(importCsv);
-        buttonExplImport.setEnabled(importCsv);
         this.rbMerge.setSelected(merge);
         if(dbMode){
             cbMissionMerge.setEnabled(merge);
             cbDsMerge.setEnabled(merge);
-        }else{
-            buttonExplMerge.setEnabled(merge);
         }
     }
 
@@ -497,8 +398,10 @@ public class OpenFitexDialog extends JDialog {
     private void buttonExplOpen(){
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFileOpen != null)
+        if (lastUsedFileOpen != null){
             aFileChooser.setCurrentDirectory(lastUsedFileOpen.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileOpen);
+        }
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
@@ -507,14 +410,22 @@ public class OpenFitexDialog extends JDialog {
                 return;
             }
             lastUsedFileOpen = file;
-            labelFileOpen.setText(file.getPath());
+            if(lastUsedFileOpen == null){
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            actionData.openELO(lastUsedFileOpen);
+            this.dispose();
+            return;
         }
     }
     private void buttonExplImport(){
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterCSV());
-        if (lastUsedFileImport != null)
+        if (lastUsedFileImport != null){
             aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileImport);
+        }
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
@@ -523,14 +434,22 @@ public class OpenFitexDialog extends JDialog {
                 return;
             }
             lastUsedFileImport = file;
-            labelFileImport.setText(file.getPath());
+            if(lastUsedFileImport == null){
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            actionData.importELO(lastUsedFileImport);
+            this.dispose();
+            return;
         }
     }
     private void buttonExplMerge(){
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFileMerge != null)
+        if (lastUsedFileMerge != null){
             aFileChooser.setCurrentDirectory(lastUsedFileMerge.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileMerge);
+        }
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
@@ -539,7 +458,13 @@ public class OpenFitexDialog extends JDialog {
                 return;
             }
             lastUsedFileMerge = file;
-            labelFileMerge.setText(file.getPath());
+            if(lastUsedFileMerge == null){
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_MERGE_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            actionData.mergeELO(lastUsedFileMerge);
+            this.dispose();
+            return;
         }
     }
 
@@ -574,23 +499,13 @@ public class OpenFitexDialog extends JDialog {
                 this.dispose();
                 return;
             }else{
-                if(lastUsedFileOpen == null){
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                actionData.openELO(lastUsedFileOpen);
-                this.dispose();
+                buttonExplOpen();
                 return;
             }
         }
         boolean importCsv = this.rbImport.isSelected();
         if(importCsv){
-            if(lastUsedFileImport == null){
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-            }
-            actionData.importELO(lastUsedFileImport);
-            this.dispose();
+            buttonExplImport();
             return;
         }
         boolean merge = this.rbMerge.isSelected();
@@ -603,12 +518,7 @@ public class OpenFitexDialog extends JDialog {
                 this.dispose();
                 return;
             }else{
-                if(lastUsedFileMerge == null){
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_MERGE_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                actionData.mergeELO(lastUsedFileMerge);
-                this.dispose();
+                buttonExplMerge();
                 return;
             }
         }

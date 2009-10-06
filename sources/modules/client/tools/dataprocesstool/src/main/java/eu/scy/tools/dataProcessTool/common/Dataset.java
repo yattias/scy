@@ -300,7 +300,7 @@ public class Dataset implements Cloneable{
         for (int i=0; i<nbR; i++){
             List<String> values = new LinkedList<String>();
             for (int j=0; j<nbC; j++){
-                values.add(new String(getData(i, j) == null ?"":Double.toString(getData(i, j).getValue())));
+                values.add(new String(getData(i, j) == null ?Double.toString(Double.NaN):Double.toString(getData(i, j).getValue())));
                 if (getData(i, j) != null && getData(i, j).isIgnoredData())
                     listIgnoredData.add(new eu.scy.tools.dataProcessTool.pdsELO.Data(Integer.toString(i), Integer.toString(j)));
             }
@@ -407,6 +407,7 @@ public class Dataset implements Cloneable{
         if (id == -1)
             return;
         listOperation.remove(id);
+        listOperationResult.remove(id);
     }
 
     /* suppression d'un header , attention ne supprime pas les data */
@@ -652,6 +653,9 @@ public class Dataset implements Cloneable{
                    newData[i][j] = this.data[i][j];
                }else {
                    newData[i][j+nbColsToInsert] = this.data[i][j];
+                   if(newData[i][j] != null){
+                       newData[i][j].setNoCol(j);
+                   }
                }
            }
        }
@@ -661,8 +665,12 @@ public class Dataset implements Cloneable{
        for (int i=0; i< this.listDataHeader.length; i++){
            if (i< idBefore)
                headers[i] =  this.listDataHeader[i];
-           else
+           else{
                headers[i+nbColsToInsert] = this.listDataHeader[i];
+               if(headers[i+nbColsToInsert] != null){
+                       headers[i+nbColsToInsert].setNoCol(i+nbColsToInsert);
+                   }
+           }
        }
        setListDataHeader(headers);
        // list operation : mise a jour des no
@@ -895,7 +903,38 @@ public class Dataset implements Cloneable{
                 }
             }
         }
-
+        // on met les lignes blanches à la fin si besoin
+        for (int i=0; i<nbRows; i++){
+            boolean nullLine = true;
+            for (int j=0; j<nbCol;j++ ){
+                if(newData[i][j] != null){
+                    nullLine = false;
+                    break;
+                }
+            }
+            if(nullLine){
+                // on cherche la derniere ligne non null derriere
+                for (int k=i+1; k<nbRows; k++){
+                    boolean nullLineS = true;
+                    for (int l=0; l<nbCol; l++){
+                        if(newData[k][l] != null){
+                            nullLineS = false;
+                            break;
+                        }
+                    }
+                    if(!nullLineS){
+                        // on intervertit
+                        for (int j=0; j<nbCol; j++){
+                            newData[i][j] = newData[k][j];
+                            if (newData[i][j] != null){
+                                newData[i][j].setNoRow(i);
+                            }
+                            newData[k][j] = null;
+                        }
+                    }
+                }
+            }
+        }
         setData(newData);
         // operations
         int nbOp = listOperation.size();

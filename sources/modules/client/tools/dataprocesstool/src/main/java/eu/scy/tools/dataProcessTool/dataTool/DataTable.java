@@ -325,6 +325,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 break;
             }
         }
+        if(nb==0)
+            return false;
         return isData;
     }
 
@@ -792,6 +794,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                     element = Double.toString(o);
             }
             String element1="";
+            boolean isNull = element.equals("");
             // maxSize est la longueur max des objets dans chq colonne
 //            int maxSize = ds.getValueMaxSizeIn(col);
 //            if (maxSize == -1){
@@ -830,7 +833,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 else
                     element = "0"+element;
             }
-            boolean invers = (order==0 && !neg) || (order==1 && neg);
+            
+            boolean invers = (order==0 && !neg) || (order==1 && neg) ;
 //             ordre decroissant
 //             on inverse
 //             char est borne entre 0 et 255
@@ -840,6 +844,17 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                   for(int k=0; k<element.length(); k++){
                     int c = 255 - element.charAt(k);
                     element1+=c;
+                  }
+            }
+            if(isNull && order==1){
+                for (int o=0; o<maxSize; o++){
+                    element1 += "Z";
+                }
+            }
+            if(isNull && order==0){
+                element1 = "";
+                for (int o=0; o<maxSize; o++){
+                    element1 += "9";
                 }
             }
             // ordre croissant
@@ -1148,6 +1163,9 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         owner.updateMenuData();
     }
 
+    public boolean isAllSelectionIgnore(){
+        return this.tableModel.isAllSelectionIgnore(getSelectedCells());
+    }
    
 
   

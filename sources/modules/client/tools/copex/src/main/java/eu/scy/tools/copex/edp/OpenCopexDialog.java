@@ -33,14 +33,11 @@ public class OpenCopexDialog  extends JDialog  {
     private CopexPanel owner;
     private boolean dbMode;
     private File lastUsedFileOpen = null;
-    private File lastUsedFileCopy = null;
 
     /* controller */
     private ControllerInterface controller;
     /* liste des proc initiaux*/
     private ArrayList<InitialProcedure> listInitialProc;
-    /* liste des protocoles de la mission en cours */
-    private ArrayList<LearnerProcedure> listProcMission;
     /* liste des missions */
     private ArrayList<CopexMission> listMission;
     /* liste des protocoles de toutes les missions */
@@ -54,32 +51,23 @@ public class OpenCopexDialog  extends JDialog  {
     private JLabel labelCreateName;
     private JTextField fieldName;
 
-    private JRadioButton rbCopy;
-    private JComboBox cbProcCopy;
-    private JLabel labelFileCopy;
-    private JButton buttonExplCopy;
-    private JLabel labelCreateNameCopy;
-    private JTextField fieldNameCopy;
-
+   
     private JRadioButton rbOpen;
     private JLabel labelMissionOpen;
     private JComboBox cbMissionOpen;
     private JLabel labelProcOpen;
     private JComboBox cbProcOpen;
-    private JLabel labelFileOpen;
-    private JButton buttonExplOpen;
 
 
     private JButton buttonOk;
     private JButton buttonCancel;
 
-    public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, File copyFile,ArrayList<InitialProcedure> listInitialProc) {
+    public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, ArrayList<InitialProcedure> listInitialProc) {
         super();
         this.owner = owner;
         this.controller = controller;
         this.dbMode = false;
         this.lastUsedFileOpen = openFile;
-        this.lastUsedFileCopy = copyFile;
         int nb = listInitialProc.size();
         onlyOneInitProc = (nb == 1);
         this.listInitialProc = listInitialProc ;
@@ -89,16 +77,14 @@ public class OpenCopexDialog  extends JDialog  {
         setLocationRelativeTo(owner);
     }
 
-    public OpenCopexDialog(CopexPanel owner,ControllerInterface controller, ArrayList<LearnerProcedure> listProcMission, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, ArrayList<InitialProcedure> listInitialProc) {
+    public OpenCopexDialog(CopexPanel owner,ControllerInterface controller, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, ArrayList<InitialProcedure> listInitialProc) {
         super();
         this.owner = owner;
         this.controller = controller;
         this.dbMode = true;
         this.lastUsedFileOpen = null;
-        this.lastUsedFileCopy = null;
         int nb = listInitialProc.size();
         onlyOneInitProc = (nb == 1);
-        this.listProcMission = listProcMission;
         this.listMission = listMission;
         this.listAllProc = listAllProc;
         this.listInitialProc = listInitialProc ;
@@ -118,28 +104,14 @@ public class OpenCopexDialog  extends JDialog  {
         }
         this.add(getLabelCreateName());
         this.add(getFieldCreateName());
-
-        this.add(getRbCopy());
-        if(dbMode){
-            this.add(getCbProcCopy());
-        }else{
-            this.add(getButtonExplCopy());
-            this.add(getLabelFileCopy());
-        }
-        this.add(getLabelCreateNameCopy());
-        this.add(getFieldNameCopy());
-
+        
         this.add(getRbOpen());
         if(dbMode){
             this.add(getLabelMissionOpen());
             this.add(getCbMissionOpen());
             this.add(getLabelProcOpen());
             this.add(getCbProcOpen());
-        }else{
-            this.add(getButtonExplOpen());
-            this.add(getLabelFileOpen());
         }
-
 
         // largeur
         int width = fieldName.getX()+fieldName.getWidth()+10;
@@ -220,94 +192,7 @@ public class OpenCopexDialog  extends JDialog  {
         return fieldName;
     }
 
-    private JRadioButton getRbCopy(){
-        if(rbCopy == null){
-            rbCopy = new JRadioButton();
-            rbCopy.setName("rbCopy");
-            rbCopy.setText(owner.getBundleString("LABEL_ADD_NEW_PROC_COPY"));
-            rbCopy.setSelected(true);
-            rbCopy.setFont(new java.awt.Font("Tahoma", 1, 11));
-            rbCopy.setSize(60+CopexUtilities.lenghtOfString(this.rbCopy.getText(), getFontMetrics(this.rbCopy.getFont())), 23);
-            rbCopy.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectRb(2);
-                }
-            });
-            rbCopy.setBounds(10,fieldName.getY()+fieldName.getHeight()+10,rbCopy.getWidth(), rbCopy.getHeight());
-        }
-        return rbCopy;
-    }
-    private JComboBox getCbProcCopy(){
-        if(this.cbProcCopy == null){
-             cbProcCopy = new JComboBox();
-             cbProcCopy.setName("cbProcCopy");
-             int n = listProcMission.size();
-             for (int i=0; i<n; i++){
-                 cbProcCopy.addItem(listProcMission.get(i).getName());
-             }
-             cbProcCopy.addItemListener(new java.awt.event.ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    changeProcCopy();
-                }
-             });
-             if (listProcMission.size() > 0)
-                cbProcCopy.setSelectedIndex(0);
-             else
-                rbCopy.setEnabled(false);
-             cbProcCopy.setBounds(rbCopy.getX()+rbCopy.getWidth()+5, rbCopy.getY(), 100,20);
-        }
-        return cbProcCopy;
-    }
-    private JButton getButtonExplCopy(){
-        if(buttonExplCopy == null){
-             buttonExplCopy = new JButton();
-             buttonExplCopy.setName("buttonExplCopy");
-             buttonExplCopy.setIcon(owner.getCopexImage("Button-Expl.png"));
-             buttonExplCopy.setBounds(10, rbCopy.getY()+rbCopy.getHeight()+5, 22,22);
-             buttonExplCopy.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonExplCopy();
-                }
-            });
-         }
-         return buttonExplCopy;
-    }
-    private JLabel getLabelFileCopy(){
-        if(labelFileCopy == null){
-             labelFileCopy = new JLabel();
-             labelFileCopy.setName("labelFileCopy");
-             if(lastUsedFileCopy != null)
-                 labelFileCopy.setText(lastUsedFileCopy.getPath());
-             labelFileCopy.setFont(new java.awt.Font("Tahoma", 2, 11));
-             labelFileCopy.setBounds(buttonExplCopy.getX()+buttonExplCopy.getWidth()+5,buttonExplCopy.getY()+4, 280,14);
-         }
-         return labelFileCopy;
-    }
-
-    private JLabel getLabelCreateNameCopy(){
-        if(this.labelCreateNameCopy == null){
-            labelCreateNameCopy = new JLabel();
-            labelCreateNameCopy.setName("labelCreateName");
-            labelCreateNameCopy.setText(owner.getBundleString("LABEL_PROC_NAME"));
-            labelCreateNameCopy.setFont(new java.awt.Font("Tahoma", 1, 11));
-            labelCreateNameCopy.setSize(CopexUtilities.lenghtOfString(this.labelCreateNameCopy.getText(), getFontMetrics(this.labelCreateNameCopy.getFont())), 14);
-            int y = rbCopy.getY()+rbCopy.getHeight()+5;
-            if(!dbMode)
-                y = labelFileCopy.getY()+labelFileCopy.getHeight()+5;
-            labelCreateNameCopy.setBounds(10,y , labelCreateNameCopy.getWidth(), labelCreateNameCopy.getHeight());
-        }
-        return labelCreateNameCopy;
-    }
-
-    private JTextField getFieldNameCopy(){
-        if(fieldNameCopy == null){
-            fieldNameCopy = new JTextField();
-            fieldNameCopy.setName("fieldNameCopy");
-            fieldNameCopy.setBounds(labelCreateNameCopy.getX()+labelCreateNameCopy.getWidth()+5, labelCreateNameCopy.getY()-3, 230,20);
-        }
-        return fieldNameCopy;
-    }
+    
      private JRadioButton getRbOpen(){
         if(rbOpen == null){
             rbOpen = new JRadioButton();
@@ -319,42 +204,15 @@ public class OpenCopexDialog  extends JDialog  {
             rbOpen.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    selectRb(3);
+                    selectRb(2);
                 }
             });
-            rbOpen.setBounds(10,fieldNameCopy.getY()+fieldNameCopy.getHeight()+10,rbOpen.getWidth(), rbOpen.getHeight());
+            rbOpen.setBounds(10,fieldName.getY()+fieldName.getHeight()+10,rbOpen.getWidth(), rbOpen.getHeight());
         }
         return rbOpen;
     }
 
-      private JButton getButtonExplOpen(){
-         if(buttonExplOpen == null){
-             buttonExplOpen = new JButton();
-             buttonExplOpen.setName("buttonExplOpen");
-             buttonExplOpen.setIcon(owner.getCopexImage("Button-Expl.png"));
-             buttonExplOpen.setBounds(10, rbOpen.getY()+rbOpen.getHeight()+5, 22,22);
-             buttonExplOpen.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonExplOpen();
-                }
-            });
-         }
-         return buttonExplOpen;
-     }
-
-     private JLabel getLabelFileOpen(){
-         if(labelFileOpen == null){
-             labelFileOpen = new JLabel();
-             labelFileOpen.setName("labelFileOpen");
-             if(lastUsedFileOpen != null)
-                 labelFileOpen.setText(lastUsedFileOpen.getPath());
-             labelFileOpen.setFont(new java.awt.Font("Tahoma", 2, 11));
-             labelFileOpen.setBounds(buttonExplOpen.getX()+buttonExplOpen.getWidth()+5,buttonExplOpen.getY()+4, 280,14);
-         }
-         return labelFileOpen;
-     }
-
-
+      
      private JLabel getLabelMissionOpen(){
          if(this.labelMissionOpen == null){
             labelMissionOpen = new JLabel();
@@ -421,7 +279,7 @@ public class OpenCopexDialog  extends JDialog  {
              if(dbMode){
                  y += labelProcOpen.getY()+labelProcOpen.getHeight();
              }else{
-                 y += labelFileOpen.getY()+labelFileOpen.getHeight();
+                 y += rbOpen.getY()+rbOpen.getHeight();
              }
              buttonOk.setBounds(this.getWidth()/4, y, buttonOk.getWidth(), buttonOk.getHeight());
              buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -450,28 +308,19 @@ public class OpenCopexDialog  extends JDialog  {
      }
 
     private boolean rbNull(){
-        return rbCreate == null || rbCopy == null || rbOpen == null;
+        return rbCreate == null ||  rbOpen == null;
     }
     private void selectRb(int rb){
         if(rbNull())
             return;
         boolean create = rb==1;
-        boolean copy = rb==2;
-        boolean open = rb==3;
+        boolean open = rb==2;
         this.rbCreate.setSelected(create);
         fieldName.setEditable(create);
-        this.rbCopy.setSelected(copy);
-        if(dbMode)
-            this.cbProcCopy.setEnabled(copy);
-        else
-            this.buttonExplCopy.setEnabled(copy);
-        fieldNameCopy.setEditable(copy);
         this.rbOpen.setSelected(open);
         if(dbMode){
             cbMissionOpen.setEnabled(open);
             cbProcOpen.setEnabled(open);
-        }else{
-            buttonExplOpen.setEnabled(open);
         }
     }
 
@@ -496,10 +345,7 @@ public class OpenCopexDialog  extends JDialog  {
         repaint();
     }
    
-    private void changeProcCopy(){
-
-    }
-
+   
     private void changeCreateProcInit(){
         if(setDefaultProcName){
             int id = this.cbCreateProcInit.getSelectedIndex() ;
@@ -525,22 +371,7 @@ public class OpenCopexDialog  extends JDialog  {
             labelFileOpen.setText(file.getPath());
         }
     }
-    private void buttonExplCopy(){
-        JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFileCopy != null)
-            aFileChooser.setCurrentDirectory(lastUsedFileCopy.getParentFile());
-        int userResponse = aFileChooser.showOpenDialog(this);
-        if (userResponse == JFileChooser.APPROVE_OPTION){
-            File file = aFileChooser.getSelectedFile();
-            if(!CopexUtilities.isXMLFile(file)){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_XML"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            lastUsedFileCopy = file;
-            labelFileCopy.setText(file.getPath());
-        }
-    }
+    
 
     
     private void buttonOk(){
@@ -585,53 +416,6 @@ public class OpenCopexDialog  extends JDialog  {
             this.dispose();
             owner.openQuestionDialog();
             return;
-        }else if (this.rbCopy.isSelected()){
-            // copie d'un protocole existant  dans la mission
-            // nom de la copie
-            String name = fieldNameCopy.getText();
-            if (name.length() == 0){
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                String msg = owner.getBundleString("MSG_ERROR_FIELD_NULL");
-                msg = CopexUtilities.replace(msg, 0, owner.getBundleString("LABEL_PROC_NAME"));
-                owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            if (name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                String msg = owner.getBundleString("MSG_LENGHT_MAX");
-                msg  = CopexUtilities.replace(msg, 0, owner.getBundleString("LABEL_PROC_NAME"));
-                msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_PROC_NAME);
-                owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-            // on recupere le protocole a copier
-            if(dbMode){
-                int id = this.cbProcCopy.getSelectedIndex();
-                if (id == -1){
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_COPY_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                LearnerProcedure procToCopy = listProcMission.get(id);
-                if (procToCopy == null){
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_COPY_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                CopexReturn cr = this.controller.copyProc(name, procToCopy);
-                if (cr.isError()){
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    owner.displayError(cr, owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-            }else{
-                if(lastUsedFileCopy == null){
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_COPY_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                owner.copyProc(name, lastUsedFileCopy);
-            }
         }else if (this.rbOpen.isSelected()){
             if(dbMode){
                 // on recupere la mission et le protocole selectionne

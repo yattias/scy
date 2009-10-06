@@ -211,6 +211,7 @@ public class DataTableModel extends AbstractTableModel {
                     val = Double.parseDouble(v1);
                 }
             }catch(NumberFormatException e){
+                System.out.println("excep : "+e);
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_DOUBLE_VALUE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 //setValueAt(oldValue, rowIndex, columnIndex);
                 table.setValueAt(oldValue, rowIndex, columnIndex);
@@ -754,5 +755,19 @@ public class DataTableModel extends AbstractTableModel {
        return borders;
    }
 
+   public boolean isAllSelectionIgnore(ArrayList<int[]> listSelected){
+        int nb = listSelected.size();
+        for (int i=0; i<nb; i++){
+            int[] selCell = listSelected.get(i);
+            if (isValueData(selCell[0], selCell[1])){
+                if(datas[selCell[0]-1][selCell[1]-1] == null)
+                    return false;
+                if(!datas[selCell[0]-1][selCell[1]-1].isIgnoredData())
+                    return false;
+            }else
+                return false;
+        }
+        return true ;
+   }
     
 }

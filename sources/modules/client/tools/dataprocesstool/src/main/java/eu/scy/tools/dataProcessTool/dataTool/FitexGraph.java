@@ -39,7 +39,7 @@ public class FitexGraph extends CopexGraph implements ActionFitex {
 
     @Override
     public void setParam(DataHeader headerX, DataHeader headerY, boolean autoScale, double xmin, double xmax, double deltaX, double ymin, double ymax, double deltaY) {
-        owner.updateGraphParam((Graph)vis, new ParamGraph(headerX, headerY,  xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
+        owner.updateGraphParam((Graph)vis, vis.getName(), new ParamGraph(headerX, headerY,  xmin, xmax, ymin, ymax, deltaX, deltaY, autoScale));
     }
 
     @Override

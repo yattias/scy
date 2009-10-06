@@ -19,7 +19,6 @@ import eu.scy.tools.dataProcessTool.common.ParamGraph;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
-import eu.scy.tools.fitex.dataStruct.Parametre;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -39,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -93,6 +93,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     private JPanel panelFctParam;
     private JPanel parametresFn;
+    private JSeparator sepDrawFct;
 
 
 
@@ -133,14 +134,14 @@ public class FitexPanel extends javax.swing.JPanel {
         }
         initComponents();
         getPanelFct();
-        isPanelFunction = true;
+        isPanelFunction = false;
 
         // functionSelector.setVisible(false);
         width = 400;
         height = 400;
         zoneDeTrace = new DrawPanel(this, datas, paramGraph, width, height) ;
         this.add(zoneDeTrace, BorderLayout.CENTER);
-        this.add(getPanelFctModel(), BorderLayout.NORTH);
+        //this.add(getPanelFctModel(), BorderLayout.NORTH);
         setInitialListFunction(listFunctionModel);
     }
 
@@ -149,13 +150,21 @@ public class FitexPanel extends javax.swing.JPanel {
         return this.zoneDeTrace ;
     }
 
+    private JSeparator getSepDrawFct(){
+        if(this.sepDrawFct == null){
+            sepDrawFct = new JSeparator(JSeparator.HORIZONTAL);
+        }
+        return this.sepDrawFct;
+    }
+
     
     private JPanel getPanelFctModel(){
         if (panelFctModel == null){
             panelFctModel = new JPanel();
             panelFctModel.setName("panelFctModel");
             panelFctModel.setLayout(new BorderLayout());
-            panelFctModel.add(getPanelFct(), BorderLayout.CENTER);
+            panelFctModel.add(getPanelFct(), BorderLayout.NORTH);
+            panelFctModel.add(getSepDrawFct(), BorderLayout.SOUTH);
         }
         return panelFctModel;
     }
@@ -269,6 +278,9 @@ public class FitexPanel extends javax.swing.JPanel {
                 @Override
                 public void focusLost(FocusEvent e) {
                     drawFct();
+                    for (String param:mapDesFonctions.get(couleurSelect).getMapParametre().keySet()) {
+                        mapDesSpinners.get(param).setFocus();
+                    }
                 }
             });
         }
@@ -285,11 +297,11 @@ public class FitexPanel extends javax.swing.JPanel {
             panelDist = null;
             parametresFn = null;
         }
-        panelFctModel.add(getPanelFctParam(), BorderLayout.PAGE_END);
+        panelFctModel.add(getPanelFctParam(), BorderLayout.CENTER);
         panelFctModel.revalidate();
         panelFctModel.repaint();
         recupererFn();
-        zoneDeTrace.setSize(zoneDeTrace.getWidth(), zoneDeTrace.getHeight() - panelFctParam.getHeight());
+        formComponentResized(null);
     }
 
 
@@ -297,9 +309,8 @@ public class FitexPanel extends javax.swing.JPanel {
         if (panelDist == null){
             panelDist = new JPanel();
             panelDist.setName("panelDist");
-            panelDist.setMaximumSize(new java.awt.Dimension(32767, 25));
-            panelDist.setMinimumSize(new java.awt.Dimension(50, 25));
-            panelDist.setPreferredSize(new java.awt.Dimension(60, 25));
+            panelDist.setMaximumSize(new Dimension(32767, 25));
+            panelDist.setMinimumSize(new Dimension(50, 25));
             panelDist.setLayout(new FlowLayout(FlowLayout.LEFT));
             panelDist.add(getLabelDist());
             panelDist.add(getPanelDistBlue());
@@ -325,6 +336,7 @@ public class FitexPanel extends javax.swing.JPanel {
             panelDistBlue.setName("panelDistBlue");
             panelDistBlue.setBorder(javax.swing.BorderFactory.createEtchedBorder());
             panelDistBlue.setMinimumSize(new java.awt.Dimension(60, 20));
+            panelDistBlue.setPreferredSize(new java.awt.Dimension(60, 20));
             javax.swing.GroupLayout panelDistBlueLayout = new javax.swing.GroupLayout(panelDistBlue);
             panelDistBlue.setLayout(panelDistBlueLayout);
             getLabelKBlue();
@@ -361,6 +373,7 @@ public class FitexPanel extends javax.swing.JPanel {
             panelDistGreen.setName("panelDistGreen");
             panelDistGreen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
             panelDistGreen.setMinimumSize(new java.awt.Dimension(60, 20));
+            panelDistGreen.setPreferredSize(new java.awt.Dimension(60, 20));
             javax.swing.GroupLayout panelDistGreenLayout = new javax.swing.GroupLayout(panelDistGreen);
             panelDistGreen.setLayout(panelDistGreenLayout);
             getLabelKGreen();
@@ -397,6 +410,7 @@ public class FitexPanel extends javax.swing.JPanel {
             panelDistBlack.setName("panelDistBlack");
             panelDistBlack.setBorder(javax.swing.BorderFactory.createEtchedBorder());
             panelDistBlack.setMinimumSize(new java.awt.Dimension(60, 20));
+            panelDistBlack.setPreferredSize(new java.awt.Dimension(60, 20));
             javax.swing.GroupLayout panelDistBlackLayout = new javax.swing.GroupLayout(panelDistBlack);
             panelDistBlack.setLayout(panelDistBlackLayout);
             getLabelKBlack();
@@ -607,10 +621,9 @@ public class FitexPanel extends javax.swing.JPanel {
                 parametresFn.add(mapDesSpinners.get(param));
                 mapDesSpinners.get(param).setTextLabel(param);
                 double valParam = mapDesFonctions.get(coul).getMapParametre().get(param).valeur() ;
-                System.out.println("valParam : "+valParam);
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
-                heightPanel = heightPanel + mapDesSpinners.get(param).getHauteur() ;
+                heightPanel = mapDesSpinners.get(param).getHauteur() ;
             }
         }
         dim.setSize(widthPanel, heightPanel) ;
@@ -623,7 +636,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     /** A chaque fois qu'un spinner est modifie, il appelle cette methode */
     public void maJParametreDansFonction(String param, double val) {
-        // mise a jour de la valeur du parametre
+         // mise a jour de la valeur du parametre
         mapDesFonctions.get(couleurSelect).setValeurParametre(param , val) ;
         //tracer la fonction
         zoneDeTrace.repaint();
@@ -642,9 +655,14 @@ public class FitexPanel extends javax.swing.JPanel {
         else
             textFieldFct.setText("");
         textFieldFct.requestFocusInWindow();
-
+        
         // MaJ de la variable globale couleurSelect
         couleurSelect=coul ;
+        drawFct();
+        if(mapDesFonctions.get(coul) != null)
+            for (String param:mapDesFonctions.get(coul).getMapParametre().keySet()) {
+                mapDesSpinners.get(param).setFocus();
+            }
         // faire apparaitre les parametres pour l'utilisateur
         repaint() ;
     }
@@ -668,6 +686,10 @@ public class FitexPanel extends javax.swing.JPanel {
        if (isPanelFunction){
            this.remove(panelFctModel);
            panelFctModel = null;
+           panelFct = null;
+           panelFctParam = null;
+           panelDist = null;
+           parametresFn = null;
        }else{
            this.add(getPanelFctModel(), BorderLayout.NORTH);
        }
@@ -698,6 +720,7 @@ public class FitexPanel extends javax.swing.JPanel {
            parametresFn = new JPanel();
            parametresFn.setName("parametresFn");
            parametresFn.setLayout(new FlowLayout(FlowLayout.LEFT));
+           parametresFn.setPreferredSize(new Dimension(0,0));
        }
        return parametresFn;
    }
@@ -719,11 +742,10 @@ public class FitexPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        //System.out.println("fitex panel : "+this.getWidth()+", "+this.getHeight());
-
         int h = 0;
-        if (panelFctModel != null)
-            h = panelFct.getHeight();
+        if (panelFctModel != null){
+            h = (int)panelFctModel.getPreferredSize().getHeight();
+        }
         if(zoneDeTrace != null)
             this.zoneDeTrace.updateSize(this.getWidth(), this.getHeight()-h);
     }//GEN-LAST:event_formComponentResized
