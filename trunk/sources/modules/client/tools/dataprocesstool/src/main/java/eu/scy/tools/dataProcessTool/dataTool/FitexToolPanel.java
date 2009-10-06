@@ -87,6 +87,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private JDesktopPane desktopPane;
     private ArrayList<InternalGraphFrame> listGraphFrame;
     private int nbIcon;
+    private boolean datasetModif;
     /* menu Bar */
     private JPanel panelMenuData;
     private JMenuBar menuBarData;
@@ -125,6 +126,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         this.controller = controller;
         this.tabTypeVis = tabTypeVis;
         this.tabTypeOp = tabTypeOp;
+        this.datasetModif = false;
         initGUI();
     }
 
@@ -659,6 +661,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
+        datasetModif = true;
         vis = (Visualization)v.get(1);
         createInternalGraphFrame(vis);
         return true;
@@ -712,6 +715,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataset = nds;
         datasetTable.updateDataset(nds, true);
         updateGraphs(nds, true);
+        datasetModif = true;
         datasetTable.addUndo(new IgnoreDataUndoRedo(datasetTable, this, controller, isIgnored, listData));
     }
 
@@ -744,6 +748,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataset = nds;
         DataOperation operation = (DataOperation)v.get(1);
         datasetTable.createOperation(nds,  operation);
+        datasetModif = true;
         datasetTable.addUndo(new OperationUndoRedo(datasetTable, this, controller, operation));
     }
 
@@ -760,6 +765,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataset = nds;
         datasetTable.updateDataset(nds, true);
         updateGraphs(nds, true);
+        datasetModif = true;
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
     }
     /* mise a jour d'une donnees header */
@@ -775,6 +781,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
+        datasetModif = true;
         datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex));
         return true;
     }
@@ -790,6 +797,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetTable.updateDataset(nds, false);
+        datasetModif = true;
     }
 
 
@@ -898,6 +906,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 updateDataset(newDs);
             }
         }
+        datasetModif = true;
+        updateMenuData();
         datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, listData, listHeader, listRowAndCol, listOperation));
     }
 
@@ -941,6 +951,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
+        datasetModif = true;
     }
 
     /* insertion de lignes ou colonnes */
@@ -958,6 +969,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             datasetTable.selectCols(idBefore, nb);
         else
             datasetTable.selectRows(idBefore, nb);
+        datasetModif = true;
+        updateMenuData();
         datasetTable.addUndo(new InsertUndoRedo(datasetTable, this, controller, isOnCol, nb, idBefore));
     }
 
@@ -982,6 +995,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         dataset = nds;
         DataOperation operation = (DataOperation)v.get(1);
         datasetTable.createOperation(nds,  operation);
+        datasetModif = true;
         return true;
     }
 
@@ -1165,6 +1179,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if(ok == JOptionPane.OK_OPTION){
             deleteVisualization(vis);
             int nb = dataset.getListVisualization().size();
+            datasetModif = true;
             return true;
         }else
             return false;
@@ -1308,6 +1323,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 			{
 				fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(pds, fileWriter);
+                datasetModif = false;
 			}
 			catch (IOException e)
 			{
@@ -1330,5 +1346,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     private boolean isAllSelectionIgnore(){
         return this.datasetTable.isAllSelectionIgnore();
+    }
+
+    public boolean hasModification(){
+        return datasetModif;
+    }
+    public void setModification(){
+        this.datasetModif = true;
     }
 }

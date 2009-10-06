@@ -87,7 +87,6 @@ public class CopexPanel extends JPanel {
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
 
     private File lastUsedFileOpen = null;
-    private File lastUsedFileCopy = null;
     private transient SAXBuilder builder = new SAXBuilder(false);
     
     private CopexTabbedPane copexTabbedPane;
@@ -492,8 +491,15 @@ public class CopexPanel extends JPanel {
             CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
             closeD.setVisible(true);
         }else{
-            int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MSG_CLOSE_PROC"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
-            if(ok == JOptionPane.OK_OPTION){
+            if(hasModification()){
+                int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MSG_CLOSE_PROC"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
+                if(ok == JOptionPane.OK_OPTION){
+                    CopexReturn cr = controller.closeProc(proc);
+                    if (cr.isError()){
+                        displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                    }
+                }
+            }else{
                 CopexReturn cr = controller.closeProc(proc);
                 if (cr.isError()){
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -514,10 +520,10 @@ public class CopexPanel extends JPanel {
             ArrayList<LearnerProcedure> listProcOn = (ArrayList)v.get(0);
             ArrayList<CopexMission> listMission = (ArrayList) v.get(1);
             ArrayList<ArrayList<LearnerProcedure>> listProcMission = (ArrayList<ArrayList<LearnerProcedure>>) v.get(2);
-            OpenCopexDialog openDialog = new OpenCopexDialog(this, controller, listProcOn, listMission, listProcMission, mission.getListInitialProc());
+            OpenCopexDialog openDialog = new OpenCopexDialog(this, controller, listMission, listProcMission, mission.getListInitialProc());
             openDialog.setVisible(true);
         }else{
-            OpenCopexDialog openDialog = new OpenCopexDialog(this,  controller, lastUsedFileOpen, lastUsedFileCopy,mission.getListInitialProc());
+            OpenCopexDialog openDialog = new OpenCopexDialog(this,  controller, lastUsedFileOpen, mission.getListInitialProc());
             openDialog.setVisible(true);
         }
     }
@@ -544,28 +550,7 @@ public class CopexPanel extends JPanel {
        }
     }
 
-    // copy an elo
-    public void copyProc(String name, File file){
-        InputStreamReader fileReader = null;
-        try{
-            lastUsedFileCopy = file;
-            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
-            Document doc = builder.build(fileReader, file.getAbsolutePath());
-            copyELO(name, doc.getRootElement());
-        }catch (Exception e){
-            e.printStackTrace();
-            displayError(new CopexReturn("Erreur durant le chargement "+e, false), "Erreur");
-        }
-        finally{
-            if (fileReader != null)
-            try{
-                fileReader.close();
-            }catch (IOException e){
-                displayError(new CopexReturn("Erreur durant le chargement, fermeture fichier "+e, false), "Erreur");
-            }
-       }
-    }
-
+    
 
     // load/open ELO SCY ou non
     public void loadELO(Element elo){
@@ -582,21 +567,7 @@ public class CopexPanel extends JPanel {
         }
      }
 
-    // copy ELO SCY ou non
-    public void copyELO(String name, Element elo){
-        if(scyMode){
-            CopexReturn cr = this.controller.deleteProc(activCopex.getLearnerProc());
-            if(cr.isError()){
-                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-                return;
-            }
-        }
-        CopexReturn cr = this.controller.copyELO(name, elo);
-        if (cr.isError()){
-            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-        }
-     }
-
+    
     // new ELO SCY
     public void newELO(){
         // scyMode est vrai
@@ -616,6 +587,10 @@ public class CopexPanel extends JPanel {
     // SCY : retourne l'elo courant
     public Element getXProc(){
         return activCopex.getExperimentalProcedure();
+    }
+
+    private boolean hasModification(){
+        return activCopex.hasModification();
     }
 
 }

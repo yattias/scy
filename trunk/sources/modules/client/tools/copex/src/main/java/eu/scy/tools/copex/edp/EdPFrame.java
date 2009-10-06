@@ -14,19 +14,24 @@ package eu.scy.tools.copex.edp;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
  * test frame edp
  * @author Marjolaine
  */
-public class EdPFrame extends javax.swing.JFrame implements ActionCopex{
+public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowListener{
     private CopexPanel copex;
 
     /** Creates new form EdPFrame */
     public EdPFrame() {
         super();
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(this);
         initEdP();
     }
 
@@ -86,6 +91,44 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex{
     @Override
     public void loadHelpProc(LearnerProcedure helpProc) {
         
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        int ok = JOptionPane.showConfirmDialog(this, copex.getBundleString("MESSAGE_COPEX_EXIT"), copex.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
+        if(ok == JOptionPane.OK_OPTION){
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

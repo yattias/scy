@@ -949,6 +949,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         boolean isOk = owner.paste(copySubData, tableModel.getSelectedCell(getSelectedCells()));
         if (isOk){
             owner.updateMenuData();
+            owner.setModification();
         }
     }
 

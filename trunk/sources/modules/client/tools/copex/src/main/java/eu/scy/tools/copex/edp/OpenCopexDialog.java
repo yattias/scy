@@ -356,10 +356,13 @@ public class OpenCopexDialog  extends JDialog  {
     }
     
     private void buttonExplOpen(){
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFileOpen != null)
+        if (lastUsedFileOpen != null){
             aFileChooser.setCurrentDirectory(lastUsedFileOpen.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileOpen);
+        }
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
@@ -368,7 +371,14 @@ public class OpenCopexDialog  extends JDialog  {
                 return;
             }
             lastUsedFileOpen = file;
-            labelFileOpen.setText(file.getPath());
+            // open a file
+            if(lastUsedFileOpen == null){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            owner.openProc(lastUsedFileOpen);
+            this.dispose();
         }
     }
     
@@ -450,13 +460,7 @@ public class OpenCopexDialog  extends JDialog  {
                     return;
                 }
             }else{
-                // open a file
-                if(lastUsedFileOpen == null){
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_OPEN_PROC"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
-                    return;
-                }
-                owner.openProc(lastUsedFileOpen);
+                buttonExplOpen();
             }
         }
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
