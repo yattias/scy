@@ -107,7 +107,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
                     panelData.add(getCbData2());
                 }
                 String s = owner.getBundleString("LABEL_AXIS_CHOICE");
-                s  = MyUtilities.replace(s, 0, "0");
+               //s  = MyUtilities.replace(s, 0, "0");
                 this.labelDataChoice.setText(s);
                 this.labelDataChoice.setSize(MyUtilities.lenghtOfString(this.labelDataChoice.getText(), getFontMetrics(this.labelDataChoice.getFont())), this.labelDataChoice.getHeight());
                 int x = labelDataChoice.getX()+labelDataChoice.getWidth()+5;
@@ -133,6 +133,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         for (int i=0; i<this.listCol.length; i++){
             if (i != id1){
                 this.listCol2[j] = this.listCol[i];
+                j++;
             }
         }
         cbData2.removeAllItems();
@@ -301,7 +302,7 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
             labelDataChoice = new JLabel();
             labelDataChoice.setName("labelDataChoice");
             String s = owner.getBundleString("LABEL_AXIS_CHOICE");
-            s  = MyUtilities.replace(s, 0, "0");
+            //s  = MyUtilities.replace(s, 0, "0");
             labelDataChoice.setText(s);
             labelDataChoice.setFont(new java.awt.Font("Tahoma", 1, 11));
             this.labelDataChoice.setSize(MyUtilities.lenghtOfString(this.labelDataChoice.getText(), getFontMetrics(this.labelDataChoice.getFont())), 14);

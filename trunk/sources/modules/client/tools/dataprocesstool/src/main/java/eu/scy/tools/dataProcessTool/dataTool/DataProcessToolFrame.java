@@ -8,17 +8,18 @@ package eu.scy.tools.dataProcessTool.dataTool;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 /**
  *
  * @author Marjolaine
  */
-public class DataProcessToolFrame extends JFrame implements ActionDataProcessTool{
+public class DataProcessToolFrame extends JFrame implements ActionDataProcessTool, WindowListener{
+
     private DataProcessToolPanel dataProcessPanel;
-
-    
-
     public DataProcessToolFrame() {
         super();
         initGUI();
@@ -63,8 +64,9 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     }
 
     private void initGUI(){
+        this.addWindowListener(this);
         setMinimumSize(new Dimension(530, 330));
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FITEX ");
         setLayout(new BorderLayout());
     }
@@ -75,6 +77,44 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     @Override
     public void resizeDataToolPanel(int width, int height) {
         this.setSize(width, height);
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        int ok = JOptionPane.showConfirmDialog(this, dataProcessPanel.getBundleString("MESSAGE_FITEX_EXIT"), dataProcessPanel.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
+        if(ok == JOptionPane.OK_OPTION){
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 
 

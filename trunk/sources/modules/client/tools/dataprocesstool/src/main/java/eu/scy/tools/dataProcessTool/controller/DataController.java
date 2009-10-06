@@ -209,13 +209,17 @@ public class DataController implements ControllerInterface{
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 String s = listRows.get(i).getValues().get(j);
-                double value;
-                try{
-                    value = Double.parseDouble(s);
-                }catch(NumberFormatException e){
-                    return null;
+                if(s == null || s.equals("")){
+                    data[i][j] = null;
+                }else{
+                    double value;
+                    try{
+                        value = Double.parseDouble(s);
+                    }catch(NumberFormatException e){
+                        return null;
+                    }
+                    data[i][j] = new Data(-1, value, i, j, false);
                 }
-                data[i][j] = new Data(-1, value, i, j, false);
             }
         }
         if(nbRows == 0){
@@ -249,13 +253,17 @@ public class DataController implements ControllerInterface{
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 String s = listRows.get(i).getValues().get(j);
-                double value;
-                try{
-                    value = Double.parseDouble(s);
-                }catch(NumberFormatException e){
-                    return null;
+                if(s != null && s.equals(Double.toString(Double.NaN))){
+                    data[i][j] = null;
+                }else{
+                    double value;
+                    try{
+                        value = Double.parseDouble(s);
+                    }catch(NumberFormatException e){
+                        return null;
+                    }
+                    data[i][j] = new Data(-1, value, i, j, false);
                 }
-                data[i][j] = new Data(-1, value, i, j, false);
             }
         }
         // liste des donnees ignorees
@@ -818,6 +826,7 @@ public class DataController implements ControllerInterface{
             }
             //remove data
             dataset.removeData(listRowAndCol);
+            dataset.calculateOperation();
             // appel applet
             listDataset.set(idDs, dataset);
             v.add((Dataset)dataset.clone());
@@ -884,8 +893,6 @@ public class DataController implements ControllerInterface{
         else
             dataset.insertRow(nb, idBefore);
 
-//        if(DataProcessToolPanel.DEBUG_MODE)
-//            System.out.println(dataset.toString());
         v.add(dataset.clone());
         listDataset.set(idDs, dataset);
         return new CopexReturn();

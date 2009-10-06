@@ -481,6 +481,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         getMenuItemCut().setEnabled(datasetTable.canCut());
         getMenuItemSort().setEnabled(datasetTable.canSort());
         this.menuItemIgnore.setEnabled(datasetTable.canIgnore());
+        if(isAllSelectionIgnore()){
+            this.menuItemIgnore.setItemIcon(getCopexImage("Bouton-AdT-28_ignore_push.png"));
+            this.menuItemIgnore.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_ignore_surcli.png"));
+        }else{
+            this.menuItemIgnore.setItemIcon(getCopexImage("Bouton-AdT-28_ignore.png"));
+            this.menuItemIgnore.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_ignore_sur.png"));
+        }
         getMenuItemUndo().setEnabled(datasetTable.canUndo());
         getMenuItemRedo().setEnabled(datasetTable.canRedo());
         boolean canOp = datasetTable.canOperations();
@@ -584,12 +591,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
 
     public void openDialogGraphParam(Visualization vis){
-        ParamGraph paramGraph = null;
-        if (vis != null && vis instanceof Graph){
-            paramGraph = ((Graph)vis).getParamGraph();
+        if(vis instanceof Graph){
+            GraphParamDialog dialog = new GraphParamDialog(this, vis, dataset.getListDataHeader());
+            dialog.setVisible(true);
+        }else{
+            GraphParamDialog dialog = new GraphParamDialog(this, vis);
+            dialog.setVisible(true);
         }
-        GraphParamDialog dialog = new GraphParamDialog(this, ((Graph)vis), dataset.getListDataHeader());
-        dialog.setVisible(true);
     }
 
 
@@ -751,6 +759,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
+        updateGraphs(nds, true);
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
     }
     /* mise a jour d'une donnees header */
@@ -944,7 +953,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
-        int newId = idBefore + nb-1;
         datasetTable.updateDataset(nds, true);
         if(isOnCol)
             datasetTable.selectCols(idBefore, nb);
@@ -1032,7 +1040,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* mis a jour des parametres */
-    public boolean updateGraphParam(Graph graph, ParamGraph pg){
+    public boolean updateGraphParam(Graph graph, String graphName, ParamGraph pg){
+        if(!graph.getName().equals(graphName)){
+            updateVisualizationName(graph, graphName);
+        }
         DataHeader hxold = graph.getParamGraph().getHeaderX();
         DataHeader hyold = graph.getParamGraph().getHeaderY();
         DataHeader hx = pg.getHeaderX();
@@ -1278,14 +1289,18 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Element pds = getPDS() ;
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
-        if (lastUsedFile != null)
+        if (lastUsedFile != null){
 			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFile);
+        }else{
+            File file = new File(aFileChooser.getCurrentDirectory(), dataset.getName()+".xml");
+            aFileChooser.setSelectedFile(file);
+        }
         int r = aFileChooser.showSaveDialog(this);
         if (r == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
             if(!MyUtilities.isXMLFile(file)){
-                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_XML"), false), getBundleString("TITLE_DIALOG_ERROR"));
-                return;
+                file = MyUtilities.getXMLFile(file);
             }
 			lastUsedFile = file;
 			OutputStreamWriter fileWriter = null;
@@ -1311,5 +1326,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 					}
 			}
         }
+    }
+
+    private boolean isAllSelectionIgnore(){
+        return this.datasetTable.isAllSelectionIgnore();
     }
 }

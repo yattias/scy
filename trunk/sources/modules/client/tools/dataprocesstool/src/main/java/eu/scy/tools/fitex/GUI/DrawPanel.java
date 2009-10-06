@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import eu.scy.tools.fitex.dataStruct.Expression;
 import java.awt.Font;
+import java.awt.geom.Rectangle2D;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -271,7 +272,7 @@ public class DrawPanel extends javax.swing.JPanel {
 
      /** Tracie des graduations et des axes du graphique */
     public void tracerAxes(Graphics g) {
-
+        //System.out.println("******tracerAxes : "+xToXEcran(x_min)+", "+xToXEcran(x_max)+" // "+yToYEcran(y_min)+", "+yToYEcran(y_max));
         int k0 ;
         int k1 ;
 
@@ -290,41 +291,71 @@ public class DrawPanel extends javax.swing.JPanel {
             tracerSegment(g, Color.LIGHT_GRAY, x_min, i*delta_y, x_max, i*delta_y);
         }
 
-        // tracie des axes
+        // trace des axes
         // axe des X
+        boolean decalX = false;
         if (y_min*y_max<=0) { // la zone de tracie contient l'axe des x
             tracerSegment(g, Color.GRAY,x_min,0.0,x_max,0.0);
-            // xmin et xmax
+            // xmin 
             g.setFont(axisFont);
-            g.drawString(""+decimalFormat.format(x_min), xToXEcran(x_min),yToYEcran(0.2));
+            int y= yToYEcran(0)-10;
+            boolean decal = false;
+            if(y <yToYEcran(y_max)){
+                y = yToYEcran(0)+10;
+                decalX = true;
+                decal = true;
+            }
+            g.drawString(""+decimalFormat.format(x_min), xToXEcran(x_min),y);
+            // xmax
             String s = ""+decimalFormat.format(x_max) ;
             int l = MyUtilities.lenghtOfString(s, g.getFontMetrics());
-            int x =xToXEcran(x_max-0.2)-l;
-            if (x_max <= 0)
-                x = xToXEcran(x_max+0.2)+l;
-            g.drawString(s, x, yToYEcran(0.2));
+            int x =xToXEcran(x_max)-l-10;
+            g.drawString(s, x, y);
             //nom axe x
             g.setFont(axisNameFont);
             l = MyUtilities.lenghtOfString(x_axisName, g.getFontMetrics());
-            x =xToXEcran(x_max-0.2)-l;
-            if (x_max <= 0)
-                x = xToXEcran(x_max+0.2)+l;
-            g.drawString(x_axisName,x, yToYEcran(-0.5));
+            x =xToXEcran(x_max)-l-5;
+            y = yToYEcran(0)+10;
+            if(decal)
+                y = yToYEcran(0)+20;
+            if(y> yToYEcran(y_min))
+                y = yToYEcran(0)-20;
+            g.drawString(x_axisName,x, y);
         }
         // axe des Y
         if (x_min*x_max<=0) { // la zone de tracie contient l'axe des y
             tracerSegment(g, Color.GRAY,0.0,y_min,0.0,y_max);
-            // xmin et xmax
+            // ymin
             g.setFont(axisFont);
-            g.drawString(""+decimalFormat.format(y_min), xToXEcran(0.2), yToYEcran(y_min));
-            int y =yToYEcran(y_max-0.5);
-            if (y_max <= 0)
-                y =  yToYEcran(y_max+0.5);
-            g.drawString(""+decimalFormat.format(y_max), xToXEcran(0.2), y);
+            int x = xToXEcran(0)+5;
+            int l = MyUtilities.lenghtOfString(""+decimalFormat.format(y_min), g.getFontMetrics());
+            int y = yToYEcran(y_min);
+            boolean decal = false;
+            if(x+l > xToXEcran(x_max)){
+                x = xToXEcran(0)-l-5;
+                decal = true;
+            }
+            g.drawString(""+decimalFormat.format(y_min), x, y);
+            //ymax
+            if(decalX && decal)
+                x = xToXEcran(0)-l-40;
+            y =yToYEcran(y_max)+10;
+            g.drawString(""+decimalFormat.format(y_max), x, y);
             //nom axe y
             g.setFont(axisNameFont);
-            int l = MyUtilities.lenghtOfString(y_axisName, g.getFontMetrics());
-            g.drawString(y_axisName, xToXEcran(-0.2)-l, y);
+            l = MyUtilities.lenghtOfString(y_axisName, g.getFontMetrics());
+            x = xToXEcran(0)-l-5;
+            if(decalX && decal)
+                x = xToXEcran(0)-l-40;
+            if(x < xToXEcran(x_min)){
+                x = xToXEcran(0)+5;
+                decal = true;
+            }
+            y = yToYEcran(y_max)+10;
+            if(decal)
+                y = yToYEcran(y_max)+20;
+            //g.drawString(y_axisName, xToXEcran(-0.2)-l, y);
+            g.drawString(y_axisName,x, y);
         }
     }
 
@@ -629,7 +660,8 @@ public class DrawPanel extends javax.swing.JPanel {
             // move mode
             x_move2 = evtX ;
             y_move2 = evtY ;
-            if (x_move1 != x_move2 && y_move1 != y_move2) {
+            //if (x_move1 != x_move2 && y_move1 != y_move2) {
+            if(true){
                 // met a jour les coordonnees
                 double x1 = x_min;
                 double x2 = x_max;
@@ -652,8 +684,12 @@ public class DrawPanel extends javax.swing.JPanel {
                     y2 = y_max - deltay;
                 }
                 if(x1 < x2 && y1 < y2)
-                    fitexPanel.setParameters(chiffresSignificatifs(x1,3),chiffresSignificatifs(x2,3), chiffresSignificatifs(y1,3), chiffresSignificatifs(y2,3));
+                    fitexPanel.setParameters(chiffresSignificatifs(x1,3),
+                            chiffresSignificatifs(x2,3),
+                            chiffresSignificatifs(y1,3),
+                            chiffresSignificatifs(y2,3));
              }
+             
             setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
         }
 }//GEN-LAST:event_zoneDeTraceMouseReleased

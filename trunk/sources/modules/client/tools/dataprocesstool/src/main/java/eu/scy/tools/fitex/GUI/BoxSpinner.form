@@ -61,6 +61,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="champValeurActionPerformed"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="champValeurFocusLost"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
