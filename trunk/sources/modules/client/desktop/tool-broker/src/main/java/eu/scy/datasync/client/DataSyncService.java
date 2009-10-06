@@ -93,7 +93,7 @@ public class DataSyncService implements IDataSyncService {
     @Override
     public void getSessions(ISyncMessage syncMessage) {
         ISyncMessage newSyncMessage = SyncMessageHelper.createSyncMessageWithDefaultExp(null, syncMessage.getToolId(), syncMessage.getFrom(), syncMessage.getTo(), null,
-                Configuration.getInstance().getClientEventCreateSession(), null);
+                Configuration.getInstance().getClientEventGetSessions(), null);
         this.sendMessage(newSyncMessage);
     }
 
