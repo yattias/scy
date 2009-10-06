@@ -21,9 +21,9 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
  * @author sikkenj
  */
 
-InitLog4JFX.initLog4J();
+InitLog4JFX.initLog4J("/config/scy-flying-saucer-log4j.xml");
 
-def scyFlyingSaucerType = "scy/text/xhtml";
+//def scyFlyingSaucerType = "scy/url";
 def scyFlyingSaucerId = "flying-saucer";
 
 var scyDesktopCreator = ScyDesktopCreator{

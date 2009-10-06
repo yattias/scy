@@ -12,10 +12,16 @@ import javafx.scene.Node;
 import java.net.URI;
 
 import javafx.ext.swing.SwingComponent;
-import eu.scy.client.tools.fxflyingsaucer.FlyingSaucerPanel;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+
+import roolo.api.IRepository;
+import roolo.elo.api.IMetadataTypeManager;
+
+import eu.scy.client.tools.fxflyingsaucer.EloFlyingSaucerPanel;
+
+import roolo.elo.api.IELOFactory;
 
 
 /**
@@ -25,13 +31,29 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 // place your code here
 public class FlyingSaucerContentCreator extends WindowContentCreatorFX {
 
+   public var repository:IRepository;
+   public var metadataTypeManager:IMetadataTypeManager;
+   public var eloFactory:IELOFactory;
+
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-      return SwingComponent.wrap(new FlyingSaucerPanel());
+      setWindowProperties(scyWindow);
+      var flyingSaucerPanel = createEloFlyingSaucerPanel();
+      flyingSaucerPanel.setHomeElo(eloUri);
+      return SwingComponent.wrap(flyingSaucerPanel);
    }
 
-
    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      return SwingComponent.wrap(new FlyingSaucerPanel());
+      setWindowProperties(scyWindow);
+      var flyingSaucerPanel = createEloFlyingSaucerPanel();
+      return SwingComponent.wrap(flyingSaucerPanel);
+   }
+
+   function createEloFlyingSaucerPanel():EloFlyingSaucerPanel{
+      var flyingSaucerPanel = new EloFlyingSaucerPanel();
+      flyingSaucerPanel.setRepository(repository);
+      flyingSaucerPanel.setMetadataTypeManager(metadataTypeManager);
+      flyingSaucerPanel.setEloFactory(eloFactory);
+      return flyingSaucerPanel;
    }
 
    function setWindowProperties(scyWindow:ScyWindow){
