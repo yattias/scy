@@ -20,6 +20,8 @@ import eu.scy.client.tools.fxcopex.CopexContentCreator;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
+import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
+
 /**
  * @author sikkenj
  */
@@ -36,6 +38,8 @@ def scyCopexId = "copex";
 def scySimulatorId = "simulator";
 //def scyModelType = "scy/model";
 def scyModelId = "scy-dynamics";
+def scyFlyingSaucerId = "flying-saucer";
+
 
 var scyDesktopCreator = ScyDesktopCreator {
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
@@ -57,6 +61,8 @@ scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ScyDynamicsContentCreator{},scyModelId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyModelType,"model");
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator{},scyFlyingSaucerId);
 
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
