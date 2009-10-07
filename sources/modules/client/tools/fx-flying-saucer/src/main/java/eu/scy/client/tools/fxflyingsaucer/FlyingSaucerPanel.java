@@ -52,33 +52,34 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          @Override
          public void documentStarted()
          {
-            System.out.println("Start loading document: " + browser.getURL());
+//            System.out.println("Start loading document: " + browser.getURL());
          }
 
          @Override
          public void documentLoaded()
          {
-            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
+//            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
             urlField.setText(browser.getURL().toString());
          }
 
          @Override
          public void onLayoutException(Throwable e)
          {
-            System.err.println("Exception during layout in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
+//            System.err.println("Exception during layout in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
             e.printStackTrace(System.err);
          }
 
          @Override
          public void onRenderException(Throwable e)
          {
-            System.err.println("Exception during rendering in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
+//            System.err.println("Exception during rendering in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
             e.printStackTrace(System.err);
          }
       });
 
       homeButton.setText("Home");
       homeButton.setEnabled(false);
+      homeButton.setToolTipText("Press control to save url");
       homeButton.addActionListener(new java.awt.event.ActionListener()
       {
 
