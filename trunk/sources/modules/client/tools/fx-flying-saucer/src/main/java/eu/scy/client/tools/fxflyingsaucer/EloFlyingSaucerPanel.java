@@ -7,6 +7,8 @@ package eu.scy.client.tools.fxflyingsaucer;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
@@ -14,6 +16,7 @@ import roolo.api.IRepository;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -34,6 +37,32 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
    private IMetadataTypeManager metadataTypeManager;
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
+   private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
+
+   public void addEloSavedListener(EloSavedListener eloSavedListener)
+   {
+      if (!eloSavedListeners.contains(eloSavedListener))
+      {
+         eloSavedListeners.add(eloSavedListener);
+      }
+   }
+
+   public void removeEloSavedListener(EloSavedListener eloSavedListener)
+   {
+      if (eloSavedListeners.contains(eloSavedListener))
+      {
+         eloSavedListeners.remove(eloSavedListener);
+      }
+   }
+
+   private void sendEloSavedMessage(IELO elo, String name)
+   {
+      EloSavedEvent eloSavedEvent = new EloSavedEvent(this, elo, name);
+      for (EloSavedListener eloSavedListener : eloSavedListeners)
+      {
+         eloSavedListener.eloSaved(eloSavedEvent);
+      }
+   }
 
    public void setRepository(IRepository repository)
    {
@@ -81,7 +110,9 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
             newHomeElo.getMetadata().getMetadataValueContainer(titleKey).setValue(name);
             newHomeElo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyUrlType);
             setUrlInContent(newHomeElo.getContent(), url.toString());
-            repository.addNewELO(newHomeElo);
+            IMetadata newMetadata = repository.addNewELO(newHomeElo);
+            eloFactory.updateELOWithResult(newHomeElo, newMetadata);
+            sendEloSavedMessage(newHomeElo, name);
          }
       }
    }
