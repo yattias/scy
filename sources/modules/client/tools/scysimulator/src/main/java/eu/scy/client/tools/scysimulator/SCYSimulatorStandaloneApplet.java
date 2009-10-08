@@ -2,11 +2,17 @@ package eu.scy.client.tools.scysimulator;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import sqv.SimQuestViewer;
 
@@ -55,6 +61,28 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 	
 	public void injectSimConfig(String simConfig) {
 		dataCollector.setSimConfig(simConfig);
+	}
+	
+	public String getSimConfigPrettyFormat() {
+		Element element = dataCollector.getSimConfig().toXML();
+		StringWriter stringWriter = new StringWriter();
+		try {
+			new XMLOutputter(Format.getPrettyFormat()).output(element, stringWriter);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return stringWriter.toString();
+	}
+	
+	public String getSimConfigCompactFormat() {
+		Element element = dataCollector.getSimConfig().toXML();
+		StringWriter stringWriter = new StringWriter();
+		try {
+			new XMLOutputter(Format.getCompactFormat()).output(element, stringWriter);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return stringWriter.toString();
 	}
 
 	private void createSimQuestViewer() {
