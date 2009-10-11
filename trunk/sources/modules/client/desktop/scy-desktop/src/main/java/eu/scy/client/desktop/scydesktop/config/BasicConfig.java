@@ -5,8 +5,8 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
+import eu.scy.client.desktop.scydesktop.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -205,7 +205,7 @@ public class BasicConfig implements Config
       // "convert" the list
       List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
       for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors){
-         missionAnchors.add(basicMissionAnchor);
+//         missionAnchors.add(basicMissionAnchor);
       }
       return missionAnchors;
    }
