@@ -6,8 +6,8 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
+import eu.scy.client.desktop.scydesktop.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.io.File;
 import java.util.List;
 import roolo.api.IExtensionManager;
