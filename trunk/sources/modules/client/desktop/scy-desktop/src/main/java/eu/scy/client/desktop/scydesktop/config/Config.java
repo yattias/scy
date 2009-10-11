@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.io.File;
 import java.util.List;
 import roolo.api.IExtensionManager;
@@ -33,6 +34,8 @@ public interface Config {
    public RegisterContentCreators[] getRegisterContentCreators();
 
    public EloConfig getEloConfig(String eloType);
+
+   public List<MissionAnchor> getMissionAnchors();
 
    public List<NewEloDescription> getNewEloDescriptions();
 

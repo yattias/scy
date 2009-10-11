@@ -6,15 +6,20 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 
@@ -24,6 +29,8 @@ import roolo.elo.api.IMetadataTypeManager;
  */
 public class BasicConfig implements Config
 {
+
+   private static final Logger logger = Logger.getLogger(BasicConfig.class);
    private IRepository repository;
    private IExtensionManager extensionManager;
    private IMetadataTypeManager metadataTypeManager;
@@ -32,13 +39,11 @@ public class BasicConfig implements Config
    private IMetadataKey technicalFormatKey;
    private MissionModelCreator missionModelCreator;
    private RegisterContentCreators[] registerContentCreators;
-
-   private Map<String,EloConfig> eloConfigs;
+   private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
-
+   private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
-
    private String backgroundImageFileName;
    private boolean backgroundImageFileNameRelative;
 
@@ -134,14 +139,16 @@ public class BasicConfig implements Config
    {
       eloConfigs = new HashMap<String, EloConfig>();
       List<NewEloDescription> realNewDescriptions = new ArrayList<NewEloDescription>();
-      for (BasicEloConfig basicEloConfig : eloConfigList){
+      for (BasicEloConfig basicEloConfig : eloConfigList)
+      {
          eloConfigs.put(basicEloConfig.getType(), basicEloConfig);
-         if (basicEloConfig.isCreatable()){
+         if (basicEloConfig.isCreatable())
+         {
             realNewDescriptions.add(new NewEloDescription(basicEloConfig.getType(), basicEloConfig.getDisplay()));
          }
       }
       newEloDescriptions = Collections.unmodifiableList(realNewDescriptions);
-    }
+   }
 
    @Override
    public EloConfig getEloConfig(String eloType)
@@ -153,6 +160,54 @@ public class BasicConfig implements Config
    public List<NewEloDescription> getNewEloDescriptions()
    {
       return newEloDescriptions;
+   }
+
+   public void setBasicMissionAnchorConfigs(List<BasicMissionAnchorConfig> basicMissionAnchorConfigs)
+   {
+      this.basicMissionAnchorConfigs = basicMissionAnchorConfigs;
+   }
+
+   @Override
+   public List<MissionAnchor> getMissionAnchors()
+   {
+      List<BasicMissionAnchor> basicMissionAnchors = new ArrayList<BasicMissionAnchor>();
+      Map<String, BasicMissionAnchor> basicMissionAnchorsMap = new HashMap<String, BasicMissionAnchor>();
+      // create the list of BasicMissionAnchorConfig
+      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
+      {
+         BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
+         try
+         {
+            missionAnchor.setEloUri(new URI(basicMissionAnchorConfig.getUri()));
+            IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
+            if (metadata != null)
+            {
+               missionAnchor.setExisting(true);
+               missionAnchor.setTitle((String) metadata.getMetadataValueContainer(titleKey).getValue());
+            }
+            else
+            {
+               missionAnchor.setExisting(false);
+            }
+            missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
+            missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
+            missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
+            basicMissionAnchors.add(missionAnchor);
+            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getUri(), missionAnchor);
+         }
+         catch (URISyntaxException ex)
+         {
+            logger.error("invalid uri '" + basicMissionAnchorConfig.getUri() + "'  used, " + ex.getMessage());
+         }
+      }
+      // fill in the links
+      // TODO
+      // "convert" the list
+      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
+      for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors){
+         missionAnchors.add(basicMissionAnchor);
+      }
+      return missionAnchors;
    }
 
    @Override
