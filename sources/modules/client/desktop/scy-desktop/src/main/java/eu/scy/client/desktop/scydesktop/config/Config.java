@@ -6,7 +6,7 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionAnchor;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
 import java.io.File;
 import java.util.List;
@@ -35,6 +35,8 @@ public interface Config {
 
    public EloConfig getEloConfig(String eloType);
 
+   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs();
+   public String getActiveMissionAnchorUri();
    public List<MissionAnchor> getMissionAnchors();
 
    public List<NewEloDescription> getNewEloDescriptions();

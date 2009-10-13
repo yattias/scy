@@ -5,7 +5,7 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionAnchor;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
 import java.io.File;
 import java.net.URI;
@@ -42,6 +42,7 @@ public class BasicConfig implements Config
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
    private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
+   private String activeMissionAnchorUri;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
    private String backgroundImageFileName;
@@ -168,8 +169,30 @@ public class BasicConfig implements Config
    }
 
    @Override
+   public List<BasicMissionAnchorConfig> getBasicMissionAnchorConfigs()
+   {
+      return basicMissionAnchorConfigs;
+   }
+
+   public void setActiveMissionAnchorUri(String activeMissionAnchorUri)
+   {
+      this.activeMissionAnchorUri = activeMissionAnchorUri;
+   }
+
+   @Override
+   public String getActiveMissionAnchorUri()
+   {
+      return activeMissionAnchorUri;
+   }
+
+   @Override
    public List<MissionAnchor> getMissionAnchors()
    {
+      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
+      if (basicMissionAnchorConfigs == null)
+      {
+         return missionAnchors;
+      }
       List<BasicMissionAnchor> basicMissionAnchors = new ArrayList<BasicMissionAnchor>();
       Map<String, BasicMissionAnchor> basicMissionAnchorsMap = new HashMap<String, BasicMissionAnchor>();
       // create the list of BasicMissionAnchorConfig
@@ -201,11 +224,34 @@ public class BasicConfig implements Config
          }
       }
       // fill in the links
-      // TODO
+      for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
+      {
+         BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getUri());
+         if (missionAnchor != null)
+         {
+            List<MissionAnchor> nextMissionAnchors = new ArrayList<MissionAnchor>();
+            if (basicMissionAnchorConfig.getNextMissionAnchorConfigUris() != null)
+            {
+               for (String uri : basicMissionAnchorConfig.getNextMissionAnchorConfigUris())
+               {
+                  BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(uri);
+                  if (nextMissionAnchor != null)
+                  {
+                     nextMissionAnchors.add(nextMissionAnchor);
+                  }
+                  else
+                  {
+                     logger.info("can't find next mission anchor with uri: " + uri);
+                  }
+               }
+            }
+            missionAnchor.setNextMissionAnchors(nextMissionAnchors);
+         }
+      }
       // "convert" the list
-      List<MissionAnchor> missionAnchors = new ArrayList<MissionAnchor>();
-      for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors){
-//         missionAnchors.add(basicMissionAnchor);
+      for (BasicMissionAnchor basicMissionAnchor : basicMissionAnchors)
+      {
+         missionAnchors.add(basicMissionAnchor);
       }
       return missionAnchors;
    }

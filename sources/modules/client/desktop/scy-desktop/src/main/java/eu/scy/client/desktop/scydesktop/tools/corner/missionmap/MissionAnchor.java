@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.desktop.scydesktop.missionmap;
+package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 
 import java.awt.Color;
 import java.net.URI;

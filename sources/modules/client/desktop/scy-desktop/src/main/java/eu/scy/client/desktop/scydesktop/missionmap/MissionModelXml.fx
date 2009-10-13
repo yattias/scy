@@ -106,8 +106,8 @@ public function convertToMissionModel(xml:String):MissionModelFX{
 
 function createAnchor(anchorRoot:Element):AnchorFX{
    var anchor = AnchorFX{
-      xPos: java.lang.Integer.parseInt(anchorRoot.getChildText(xPosName));
-      yPos: java.lang.Integer.parseInt(anchorRoot.getChildText(yPosName));
+      xPos: java.lang.Float.parseFloat(anchorRoot.getChildText(xPosName));
+      yPos: java.lang.Float.parseFloat(anchorRoot.getChildText(yPosName));
       eloUri: new URI(anchorRoot.getChildText(eloUriName))
    }
    var relations = anchorRoot.getChild(relationsName);

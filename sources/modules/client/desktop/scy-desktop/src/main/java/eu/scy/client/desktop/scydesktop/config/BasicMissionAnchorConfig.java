@@ -53,7 +53,7 @@ public class BasicMissionAnchorConfig {
       return xPosition;
    }
 
-   public void setXPosition(float xPosition)
+   public void setxPosition(float xPosition)
    {
       this.xPosition = xPosition;
    }
@@ -63,7 +63,7 @@ public class BasicMissionAnchorConfig {
       return yPosition;
    }
 
-   public void setYPosition(float yPosition)
+   public void setyPosition(float yPosition)
    {
       this.yPosition = yPosition;
    }
