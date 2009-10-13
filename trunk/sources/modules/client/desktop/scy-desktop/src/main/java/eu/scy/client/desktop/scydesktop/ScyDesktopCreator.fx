@@ -8,14 +8,16 @@ package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFXImpl;
 
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
+import eu.scy.client.desktop.scydesktop.config.MissionModelUtils;
 import java.lang.IllegalStateException;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
@@ -28,6 +30,8 @@ import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
 import java.lang.Thread;
 
 import org.apache.log4j.Logger;
+import javafx.scene.paint.Color;
+
 
 /**
  * @author sikkenj
@@ -115,14 +119,61 @@ public class ScyDesktopCreator {
    }
 
    function readMissionModel(){
-      if (config.getMissionModelCreator().createMissionModel()!=null){
-         var missionModel = config.getMissionModelCreator().createMissionModel();
-         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
+//      if (config.getMissionModelCreator().createMissionModel()!=null){
+//         var missionModel = config.getMissionModelCreator().createMissionModel();
+//         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
+//      }
+//      else
+      if (config.getMissionAnchors()!=null){
+         missionModelFX = MissionModelUtils.createBasicMissionModelFX(config);
+         missionModelFX.activeAnchor=getActiveMissionAnchor(missionModelFX,config.getActiveMissionAnchorUri());
       }
+
       if (missionModelFX==null){
          missionModelFX = MissionModelFX{};
       }
+      addEloStatusInformationToMissionModel();
    }
+
+   function addEloStatusInformationToMissionModel(){
+      for (missionAnchor in missionModelFX.anchors){
+         // fill in the missing info
+         var type = eloInfoControl.getEloType(missionAnchor.eloUri);
+         missionAnchor.color = windowStyler.getScyColor(type);
+         missionAnchor.iconCharacter = windowStyler.getScyIconCharacter(type);
+         var metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+         if (metadata!=null){
+            missionAnchor.exists=true;
+            missionAnchor.title = metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+         }
+         else{
+            missionAnchor.exists=false;
+            // change the color, to show the elo does not exists
+            missionAnchor.color = getNotExistingColor(missionAnchor.color);
+         }
+      }
+   }
+
+   function getNotExistingColor(color:Color):Color{
+      Color.color(getLighterColorComponent(color.red), getLighterColorComponent(color.green), getLighterColorComponent(color.blue));
+   }
+
+   function getLighterColorComponent(value:Number):Number{
+      return 1 - (1-value)/2.0;
+   }
+
+
+
+   function getActiveMissionAnchor(missionModel:MissionModelFX, uri:String):MissionAnchorFX{
+     for (missionAnchor in missionModel.anchors){
+        if (uri == missionAnchor.eloUri.toString()){
+           return missionAnchor;
+        }
+     }
+     logger.info("failed to active mission anchor with uri: {uri}");
+     return null;
+   }
+
 
 
    public function createScyDesktop():ScyDesktop{

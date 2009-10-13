@@ -9,10 +9,11 @@ package eu.scy.client.desktop.scydesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import javafx.scene.CustomNode;
 
-import eu.scy.client.desktop.scydesktop.missionmap.MissionMap;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -81,7 +82,6 @@ import javafx.scene.text.Font;
 
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 
-import java.io.File;
 
 
 /**
@@ -196,8 +196,8 @@ public class ScyDesktop extends CustomNode {
 
       missionMap = MissionMap{
          missionModel: missionModelFX
-         translateX:40;
-         translateY:40;
+//         translateX:40;
+//         translateY:40;
       }
       missionMap.scyWindowControl=scyWindowControl;
       topLeftCorner = TopLeftCorner{
@@ -220,8 +220,8 @@ public class ScyDesktop extends CustomNode {
       scyWindowControl = ScyWindowControl{
           windowContentFactory: windowContentFactory;
           scyDesktop: windows;
-          missionModel: missionModelFX;
-          missionMap: missionMap;
+//          missionModel: missionModelFX;
+//          missionMap: missionMap;
           eloInfoControl:eloInfoControl;
           windowStyler:windowStyler;
           forbiddenNodes:[
@@ -395,8 +395,8 @@ function run(){
    anchor4.nextAnchors=[anchor1,anchor2,anchor3,anchor5];
 
    var missionModel = MissionModelFX{
-       anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
-       activeAnchor:anchor0
+//       anchors: [anchor0,anchor1,anchor2,anchor3,anchor4,anchor5];
+//       activeAnchor:anchor0
    }
    missionModel = MissionModelFX{
        anchors: [];

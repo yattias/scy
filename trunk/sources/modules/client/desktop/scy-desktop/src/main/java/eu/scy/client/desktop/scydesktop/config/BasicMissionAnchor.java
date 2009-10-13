@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.missionmap.MissionAnchor;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.awt.Color;
 import java.net.URI;
 import java.util.List;
