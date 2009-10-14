@@ -46,8 +46,6 @@ public class MisspellingProcessELO extends AbstractELOAgent {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(IELO elo) {
-		// System.err
-		// .println("*********************** Misspelling: Processing elo************************");
 		if (elo == null) {
 			return;
 		}

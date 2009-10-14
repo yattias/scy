@@ -15,6 +15,7 @@ import com.swabunga.spell.event.StringWordTokenizer;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractProcessingAgent;
+import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * Checks the received content for misspellings.
@@ -76,7 +77,8 @@ public class CheckMisspellingAgent extends AbstractProcessingAgent {
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple());
+				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+						AgentProtocol.ALIVE_INTERVAL);
 				String content = (String) trigger.getField(3).getValue();
 				content = content.replaceAll("<[^>]*>", "");
 				String uri = (String) trigger.getField(1).getValue();

@@ -26,6 +26,7 @@ public class EnrichConceptMapAgentTest extends ConceptMapAgentsTestFixture {
 		agent.setMetadataTypeManager(typeManager);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testProcessElo() {
 		agent.processElo(elo);
