@@ -15,6 +15,7 @@
         <!--mapping class="eu.scy.core.model.impl.UserRoleImpl"/-->
 
         <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
         <!--mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentGrantedAuthority" />
         <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclEntry" />
         <mapping class="net.sf.sail.webapp.domain.authentication.impl.PersistentAclSid" />

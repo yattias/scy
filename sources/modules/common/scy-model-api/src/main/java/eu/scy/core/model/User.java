@@ -11,7 +11,8 @@ import java.util.List;
  * Time: 05:49:08
  * A user in the SCY system.
  */
-public interface User extends net.sf.sail.webapp.domain.User{
+@Deprecated
+public interface User {
     /*
     public String getUserName();
 

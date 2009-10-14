@@ -31,7 +31,7 @@ public class GroupTest {
         testGroup = new SCYGroupImpl();
         testGroup.setName(GROUP_NAME);
 
-        user1 = new SCYUserImpl();
+        //user1 = new SCYUserImpl();
         //user1.setUserName("User_1");
 
     }

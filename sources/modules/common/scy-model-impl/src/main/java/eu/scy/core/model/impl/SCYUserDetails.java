@@ -1,8 +1,5 @@
 package eu.scy.core.model.impl;
 
-import org.telscenter.sail.webapp.domain.authentication.impl.StudentUserDetails;
-
-import javax.persistence.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,8 +8,9 @@ import javax.persistence.*;
  * Time: 12:23:59
  * Overridden details class in order to add SCY specific user fields
  */
-@Entity (name = "eu.scy.core.model.impl.SCYUserDetails")
-public class SCYUserDetails extends StudentUserDetails {
+@Deprecated
+//Entity (name = "eu.scy.core.model.impl.SCYUserDetails")
+public class SCYUserDetails /*extends StudentUserDetails */{
 
 
 

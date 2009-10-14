@@ -199,6 +199,16 @@
 
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
         <filters>
             <filter>${filter.test.file}</filter>
         </filters>
