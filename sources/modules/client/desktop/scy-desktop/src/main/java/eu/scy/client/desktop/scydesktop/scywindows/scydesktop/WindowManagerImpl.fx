@@ -10,7 +10,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 
-import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -23,6 +22,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.Group;
 
 import java.net.URI;
+
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 /**
  * @author sikkenj
@@ -51,7 +52,7 @@ public class WindowManagerImpl extends WindowManager {
    }
    def inactiveWindowEffect: Effect = null;
 
-   function switchActiveAnchor(previousAnchor : Anchor){
+   function switchActiveAnchor(previousAnchor : MissionAnchorFX){
       windowStateListMap.put(previousAnchor,getCurrentWindowsStates());
    }
 

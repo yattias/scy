@@ -58,24 +58,24 @@
       <property name="basicMissionAnchorConfigs">
          <list>
             <bean name="missionDescription" class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="uri" value="roolo://memory/0/0/missionDescription.xhtml"/>
+               <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
                <property name="xPosition" value="0"/>
                <property name="yPosition" value="0"/>
                <property name="nextMissionAnchorConfigUris">
                   <list>
-                     <value>roolo://memory/1/0/missionBackground.xhtml</value>
+                     <value>roolo://memory/1/0/Mission_background.text</value>
                   </list>
                </property>
             </bean>
             <bean name="missionBackground" class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="uri" value="roolo://memory/1/0/missionBackground.xhtml"/>
+               <property name="uri" value="roolo://memory/1/0/Mission_background.text"/>
                <property name="xPosition" value="40"/>
                <property name="yPosition" value="40"/>
             </bean>
          </list>
       </property>
 
-      <property name="activeMissionAnchorUri" value="roolo://memory/0/0/missionDescription.xhtml"/>
+      <property name="activeMissionAnchorUri" value="roolo://memory/1/0/Mission_background.text"/>
 
       <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
       <property name="backgroundImageFileNameRelative" value="true"/>

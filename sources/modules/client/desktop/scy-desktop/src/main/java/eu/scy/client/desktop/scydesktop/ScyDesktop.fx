@@ -82,6 +82,8 @@ import javafx.scene.text.Font;
 
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
+
 
 
 /**
@@ -184,6 +186,7 @@ public class ScyDesktop extends CustomNode {
       }
 
       windows = WindowManagerImpl{
+         activeAnchor: bind missionModelFX.activeAnchor;
       }
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
@@ -217,7 +220,7 @@ public class ScyDesktop extends CustomNode {
          content:bottomLeftCornerTool;
          color:Color.GRAY;
       }
-      scyWindowControl = ScyWindowControl{
+      scyWindowControl = ScyWindowControlImpl{
           windowContentFactory: windowContentFactory;
           scyDesktop: windows;
 //          missionModel: missionModelFX;
