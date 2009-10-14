@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.agents</groupId>
@@ -26,7 +27,10 @@
 				<configuration>
 					<mainClass>eu.scy.agents.AgentFramework</mainClass>
 					<arguments>
-						<!-- fill in here other agents that should be started at debug sessions (without spring) -->
+						<!--
+							fill in here other agents that should be started at debug
+							sessions (without spring)
+						-->
 						<argument>eu.scy.agents.serviceprovider.ontology.OntologyLookupAgent</argument>
 					</arguments>
 				</configuration>
@@ -34,7 +38,7 @@
 		</plugins>
 	</build>
 	<dependencies>
-	<dependency>
+		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
 			<version>${pom.version}</version>
@@ -87,15 +91,20 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>de.fhg.iais.kd.tm</groupId>
+			<artifactId>obwious-mallet</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
-	
+
 
 	<!--
-	<scm>
+		<scm>
 		<connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection>
 		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection>
-		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url>
-	</scm>
+		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url> </scm>
 	-->
 </project>

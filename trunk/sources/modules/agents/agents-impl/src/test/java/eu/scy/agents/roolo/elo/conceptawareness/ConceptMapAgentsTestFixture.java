@@ -3,15 +3,12 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import roolo.api.IExtensionManager;
-import roolo.elo.BasicELO;
-import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.content.BasicContent;
+import eu.scy.agents.AbstractTestFixture;
 
-public class ConceptMapAgentsTestFixture {
+public class ConceptMapAgentsTestFixture extends AbstractTestFixture {
 
 	protected static final String CONCEPT_MAP_CONTENT = "<conceptmap>\n"
 			+ "  <nodes>\n"
@@ -52,29 +49,20 @@ public class ConceptMapAgentsTestFixture {
 	protected List<String> elo1LinkLabelList = Arrays.asList(new String[] {
 			"-", "+", "is_a", "13768021-13768021", "Determines" });
 
-	protected BasicELO elo;
-	protected IMetadataTypeManager typeManager;
-	protected IExtensionManager extensionManager;
+	protected IELO elo;
 
 	public ConceptMapAgentsTestFixture() {
 		super();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void setUp() throws Exception {
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"test-config.xml");
+		super.setUp();
 
-		typeManager = (IMetadataTypeManager) applicationContext
-				.getBean("metadataTypeManager");
-		extensionManager = (IExtensionManager) applicationContext
-				.getBean("extensionManager");
-
-		elo = new BasicELO();
-		elo.setIdentifierKey(typeManager.getMetadataKey("identifier"));
+		elo = createNewElo();
 
 		IMetadataValueContainer typeContainer = elo.getMetadata()
-				.getMetadataValueContainer(typeManager.getMetadataKey("technicalFormat"));
+				.getMetadataValueContainer(
+						typeManager.getMetadataKey("technicalFormat"));
 		typeContainer.setValue("scy/scymapping");
 
 		IMetadataValueContainer titleContainer = elo.getMetadata()

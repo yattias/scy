@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractCommunicationAgent;
+import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
 
@@ -38,7 +39,8 @@ public class MisspellingNotificationAgent extends AbstractCommunicationAgent {
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple());
+				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+						AgentProtocol.ALIVE_INTERVAL);
 				String uri = (String) trigger.getField(1).getValue();
 				Integer numberOfErrors = (Integer) trigger.getField(3)
 						.getValue();
