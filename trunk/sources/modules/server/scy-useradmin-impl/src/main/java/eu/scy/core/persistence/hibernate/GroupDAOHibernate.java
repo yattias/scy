@@ -2,7 +2,6 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.SCYGroup;
 import eu.scy.core.model.SCYProject;
-import net.sf.sail.webapp.domain.User;
 import eu.scy.core.model.impl.*;
 import eu.scy.core.persistence.GroupDAO;
 
@@ -57,7 +56,7 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
         return Collections.EMPTY_LIST;
     }
 
-    public List <User> getUsers(SCYGroup group) {
+    public List getUsers(SCYGroup group) {
         List returnList =  getSession().createQuery("select connection.user from UserGroupConnectionImpl connection where connection.group = :group")
                 .setEntity("group", group)
                 .list();

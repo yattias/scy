@@ -10,8 +10,6 @@ import eu.scy.core.model.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import net.sf.sail.webapp.domain.authentication.MutableGrantedAuthority;
-import net.sf.sail.webapp.dao.authentication.GrantedAuthorityDao;
 import org.springframework.beans.factory.annotation.Required;
 
 
@@ -26,14 +24,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     private static Logger log = Logger.getLogger("UserDAOHibernate.class");
 
-    private GrantedAuthorityDao<MutableGrantedAuthority> grantedAuthorityDao;
-
-    @Required
-    public void setGrantedAuthorityDao(
-            GrantedAuthorityDao<MutableGrantedAuthority> grantedAuthorityDao) {
-        this.grantedAuthorityDao = grantedAuthorityDao;
-    }
-    
+   
 
     public User getUser(Long id) {
         log.finest("Getting user with id: " + id);
@@ -60,7 +51,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public User addUser(SCYProject project, SCYGroup group, User user) {
-        if (isExistingUsername(user)) {
+        /*if (isExistingUsername(user)) {
             user.getUserDetails().setUsername(getSecureUserName(user.getUserDetails().getUsername()));
         }
 
@@ -72,6 +63,8 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
         log.info("SAVING USER: " + user.getUserDetails().getUsername());
         return (User) save(user);
+        */
+        return null;
     }
 
     public String getSecureUserName(String userName) {
@@ -94,7 +87,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
 
     public boolean isExistingUsername(User user) {
         User result = (User) getSession().createQuery("from SCYUserImpl where userDetails.username = :username")
-                .setString("username", user.getUserDetails().getUsername())
+                //.setString("username", user.getUserDetails().getUsername())
                 .setMaxResults(1)
                 .uniqueResult();
         return result != null;
