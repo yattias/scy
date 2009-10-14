@@ -17,12 +17,7 @@ import org.testng.annotations.Test;
 public class UserGroupConnectionTest {
 
     public void testSetGroupAndUser() {
-        User user = new SCYUserImpl();
-        SCYGroup group = new SCYGroupImpl();
-
-        UserGroupConnection connection = new UserGroupConnectionImpl(user, group);
-        assert (connection.getUser() != null);
-        assert (connection.getGroup() != null);
+        
     }
 
 }

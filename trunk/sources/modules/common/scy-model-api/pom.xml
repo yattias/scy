@@ -23,7 +23,7 @@
 
         <!-- SAIL PORTAL -->
 
-        <dependency>
+        <!--dependency>
             <groupId>net.sf.sail</groupId>
             <artifactId>sail-webapp-all</artifactId>
             <version>0.1.0-SNAPSHOT</version>
@@ -133,7 +133,7 @@
                     <artifactId>pas-curnitmap</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
     </dependencies>
 
 </project>
