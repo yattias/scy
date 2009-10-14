@@ -31,32 +31,34 @@ public function createBasicMissionModelFX(config:Config):MissionModelFX{
    var missionModelFX = MissionModelFX{
 
    }
-   var missionAnchorFXMap = new HashMap();
-   // create the list of MissionAnchorFX
-   for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
-   {
-      var missionAnchorFX = MissionAnchorFX{
-         eloUri: new URI(basicMissionAnchorConfig.getUri())
-         xPos: basicMissionAnchorConfig.getXPosition()
-         yPos: basicMissionAnchorConfig.getYPosition()
-         relationNames: toStringSequence(basicMissionAnchorConfig.getRelationNames())
+   if (config.getBasicMissionAnchorConfigs()!=null){
+      var missionAnchorFXMap = new HashMap();
+      // create the list of MissionAnchorFX
+      for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
+      {
+         var missionAnchorFX = MissionAnchorFX{
+            eloUri: new URI(basicMissionAnchorConfig.getUri())
+            xPos: basicMissionAnchorConfig.getXPosition()
+            yPos: basicMissionAnchorConfig.getYPosition()
+            relationNames: toStringSequence(basicMissionAnchorConfig.getRelationNames())
+         }
+         missionAnchorFXMap.put(basicMissionAnchorConfig.getUri(), missionAnchorFX);
+         insert missionAnchorFX into missionModelFX.anchors;
       }
-      missionAnchorFXMap.put(basicMissionAnchorConfig.getUri(), missionAnchorFX);
-      insert missionAnchorFX into missionModelFX.anchors;
-   }
-   // fill in the sequences of next anchors
-   for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
-   {
-      var missionAnchorFX = missionAnchorFXMap.get(basicMissionAnchorConfig.getUri()) as MissionAnchorFX;
-      if (basicMissionAnchorConfig.getNextMissionAnchorConfigUris()!=null){
-         for (uri in basicMissionAnchorConfig.getNextMissionAnchorConfigUris()){
-            var nextMissionAnchorFX = missionAnchorFXMap.get(uri) as MissionAnchorFX;
-            if (nextMissionAnchorFX != null){
-               insert nextMissionAnchorFX into missionAnchorFX.nextAnchors;
-            }
-            else
-            {
-               logger.info("can't find next mission anchor with uri: {uri}");
+      // fill in the sequences of next anchors
+      for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
+      {
+         var missionAnchorFX = missionAnchorFXMap.get(basicMissionAnchorConfig.getUri()) as MissionAnchorFX;
+         if (basicMissionAnchorConfig.getNextMissionAnchorConfigUris()!=null){
+            for (uri in basicMissionAnchorConfig.getNextMissionAnchorConfigUris()){
+               var nextMissionAnchorFX = missionAnchorFXMap.get(uri) as MissionAnchorFX;
+               if (nextMissionAnchorFX != null){
+                  insert nextMissionAnchorFX into missionAnchorFX.nextAnchors;
+               }
+               else
+               {
+                  logger.info("can't find next mission anchor with uri: {uri}");
+               }
             }
          }
       }

@@ -8,9 +8,10 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 
 import javafx.scene.Group;
 
-import eu.scy.client.desktop.scydesktop.missionmap.Anchor;
 
 import java.net.URI;
+
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 /**
  * @author sikkenj
@@ -20,7 +21,7 @@ public mixin class WindowManager {
 
    public var scyWindows:Group;
 
-   public var activeAnchor:Anchor;
+   public var activeAnchor:MissionAnchorFX;
 
    public function addScyWindow(scyWindow:ScyWindow){
    }
