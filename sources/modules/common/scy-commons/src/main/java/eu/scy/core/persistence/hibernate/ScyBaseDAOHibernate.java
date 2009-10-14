@@ -4,7 +4,6 @@ import eu.scy.core.persistence.SCYBaseDAO;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import net.sf.sail.webapp.domain.Persistable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,7 +33,7 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
             } else {
                 getHibernateTemplate().saveOrUpdate(object);
             }
-        } else if(object instanceof Persistable) {
+        } /*else if(object instanceof Persistable) {
             Persistable persistable = (Persistable) object;
             if(persistable.getId() != null) {
                 persistable = (Persistable) getHibernateTemplate().merge(persistable);
@@ -42,7 +41,7 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
             } else {
                 getHibernateTemplate().saveOrUpdate(persistable);
             }
-        } else {
+        } */else {
             throw new RuntimeException("WAS NOT ABLE TO STORE OBJECT : " + object + "_____" + object.getClass().getName());
         }
 
