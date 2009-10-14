@@ -68,7 +68,6 @@
         <property name="sessionFactory">
             <ref local="sessionFactory"/>
         </property>
-        <property name="grantedAuthorityDao" ref="grantedAuthorityDao" />
     </bean>
 
     <!-- PROJECT DAO: Hibernate implementation -->
@@ -92,10 +91,10 @@
 
     </bean>
 
-    <bean id="grantedAuthorityDao"
+    <!--bean id="grantedAuthorityDao"
         class="net.sf.sail.webapp.dao.authentication.impl.HibernateGrantedAuthorityDao">
         <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+    </bean-->
     
 
     <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">
