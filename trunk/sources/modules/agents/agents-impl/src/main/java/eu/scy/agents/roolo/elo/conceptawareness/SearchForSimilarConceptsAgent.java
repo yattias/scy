@@ -53,8 +53,6 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 	private HashMap<URI, Double> score;
 	private IRepository repository;
 
-	private Timer aliveTask;
-
 	private boolean stopped;
 
 	/**
@@ -237,7 +235,6 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 
 	@Override
 	protected void doStop() {
-		aliveTask.cancel();
 		stopped = true;
 	}
 

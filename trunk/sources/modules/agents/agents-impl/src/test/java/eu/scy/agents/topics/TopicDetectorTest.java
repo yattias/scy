@@ -83,26 +83,26 @@ public class TopicDetectorTest extends AbstractTestFixture {
 								.getMetadataKey(TopicDetector.KEY_TOPIC_SCORES))
 				.getValueList();
 		assertEquals(10, topicScores.size());
-		assertEquals(0.0017892133644281931, getTopicScore(topicScores.get(0)),
+		assertEquals("wrong probability for topic 0", 0.0017892133644281931,
+				getTopicScore(topicScores.get(0)), 0.005);
+		assertEquals("wrong probability for topic 1", 0.002575589897297382, getTopicScore(topicScores.get(1)),
+				0.01);
+		assertEquals("wrong probability for topic 4", 0.00227468953178241, getTopicScore(topicScores.get(4)),
 				0.005);
-		assertEquals(0.002575589897297382, getTopicScore(topicScores.get(1)),
+		assertEquals("wrong probability for topic 5", 0.0016823702862740107, getTopicScore(topicScores.get(5)),
 				0.005);
-		assertEquals(0.00227468953178241, getTopicScore(topicScores.get(4)),
+		assertEquals("wrong probability for topic 6", 0.001945861865589766, getTopicScore(topicScores.get(6)),
 				0.005);
-		assertEquals(0.0016823702862740107, getTopicScore(topicScores.get(5)),
+		assertEquals("wrong probability for topic 7", 0.002655118753113757, getTopicScore(topicScores.get(7)),
 				0.005);
-		assertEquals(0.001945861865589766, getTopicScore(topicScores.get(6)),
-				0.005);
-		assertEquals(0.002655118753113757, getTopicScore(topicScores.get(7)),
-				0.005);
-		assertEquals(0.0019143937827241963, getTopicScore(topicScores.get(8)),
+		assertEquals("wrong probability for topic 8", 0.0019143937827241963, getTopicScore(topicScores.get(8)),
 				0.005);
 
-		assertEquals(0.1603676990866432, getTopicScore(topicScores.get(2)),
+		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores.get(2)),
 				0.03);
-		assertEquals(0.05110776312074621, getTopicScore(topicScores.get(3)),
+		assertEquals("wrong probability for topic 3", 0.05110776312074621, getTopicScore(topicScores.get(3)),
 				0.03);
-		assertEquals(0.7885358343528651, getTopicScore(topicScores.get(9)),
+		assertEquals("wrong probability for topic 9", 0.7885358343528651, getTopicScore(topicScores.get(9)),
 				0.03);
 	}
 
