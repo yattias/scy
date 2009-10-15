@@ -139,7 +139,7 @@ public class Layout extends TapestryContextAware {
         BaseAction action = getActionManager().getActionById(actionId);
         action.setActionManager(getActionManager());
         action.setProject(getCurrentProject());
-        action.setUser(getCurrentUser());
+        //action.setUser(getCurrentUser());
         if (action != null) {
             Object theObject = action.actionPerformed(scyBaseObject);
             String pageId = getPageManager().getPageIdForObject(theObject);

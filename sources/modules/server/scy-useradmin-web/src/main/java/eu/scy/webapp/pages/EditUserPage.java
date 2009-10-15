@@ -10,7 +10,7 @@ import java.util.Collections;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.annotations.Service;
 import org.apache.tapestry5.annotations.Property;
-import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
+//import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +22,7 @@ import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
 public class EditUserPage extends ScyModelPage {
 
     @Inject
-    private UserDetailsService userDetailsService;
+    //private UserDetailsService userDetailsService;
 
 
 
@@ -48,8 +48,8 @@ public class EditUserPage extends ScyModelPage {
 
 
 
-    public SCYUserDetails getUserDetails() {
-        return (SCYUserDetails) user.getUserDetails();
+    public Object getUserDetails() {
+        return null;//(SCYUserDetails) user.getUserDetails();
     }
 
     public Object onSuccess() {
@@ -63,14 +63,14 @@ public class EditUserPage extends ScyModelPage {
     }
   */
     public Boolean getDisabled() {
-        return getUserDetails().isEnabled();
+        return true;//getUserDetails().isEnabled();
     }
 
     public List getRoles() {
          //getUser().
         return Collections.EMPTY_LIST;
     }
-
+   /*
    public UserDetailsService getUserDetailsService() {
         return userDetailsService;
     }
@@ -78,6 +78,7 @@ public class EditUserPage extends ScyModelPage {
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
+    */
 }
 
 

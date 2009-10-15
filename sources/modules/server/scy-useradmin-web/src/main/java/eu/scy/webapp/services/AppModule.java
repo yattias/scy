@@ -15,8 +15,8 @@ import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 
 import org.slf4j.Logger;
-import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
-import org.telscenter.sail.webapp.service.authentication.impl.UserDetailsServiceImpl;
+//import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
+//import org.telscenter.sail.webapp.service.authentication.impl.UserDetailsServiceImpl;
 import eu.scy.framework.*;
 import eu.scy.core.model.impl.ScyBaseObject;
 import eu.scy.core.model.impl.SCYUserImpl;
@@ -45,7 +45,7 @@ public class AppModule {
 
     public static void bind(ServiceBinder binder) {
         binder.bind(PageManager.class, PageManagerImpl.class);
-        binder.bind(UserDetailsService.class, UserDetailsServiceImpl.class);
+        //binder.bind(UserDetailsService.class, UserDetailsServiceImpl.class);
         System.out.println("BIDING SERVICES!");
 
         //binder.bind(User.class, SCYUserImpl.class);

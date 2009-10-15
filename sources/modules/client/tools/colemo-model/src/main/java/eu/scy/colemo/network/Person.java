@@ -20,7 +20,7 @@ public class Person extends SCYUserImpl implements Serializable{
 	private boolean typing = false;
 	
 	public Person(String userName) {
-		getUserDetails().setUsername(userName);
+		//getUserDetails().setUsername(userName);
 	}
 
 	/**

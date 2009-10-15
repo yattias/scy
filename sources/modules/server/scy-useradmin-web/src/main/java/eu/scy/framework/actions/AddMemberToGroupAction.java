@@ -8,7 +8,6 @@ import eu.scy.core.model.impl.SCYUserDetails;
 
 import java.util.Date;
 
-import org.telscenter.sail.webapp.domain.authentication.Gender;
 
 
 /**
@@ -30,7 +29,7 @@ public class    AddMemberToGroupAction extends BaseAction {
 
     protected Object doAction(Object model) {
        log.info("Adding member to group:" + model);
-        User user = new SCYUserImpl();
+        /*User user = new SCYUserImpl();
         SCYUserDetails userDetails = new SCYUserDetails();
         userDetails.setFirstname("New User");
         userDetails.setLastname("New User");
@@ -44,9 +43,9 @@ public class    AddMemberToGroupAction extends BaseAction {
         userDetails.setNumberOfLogins(0);
         user.setUserDetails(userDetails);
         user = (User) getActionManager().getUserDAOHibernate().save(user);
+         */
+        //getActionManager().getUserDAOHibernate().addUser(getProject(), (SCYGroup) model, user);
 
-        getActionManager().getUserDAOHibernate().addUser(getProject(), (SCYGroup) model, user);
-
-        return user;
+        return null;
     }
 }

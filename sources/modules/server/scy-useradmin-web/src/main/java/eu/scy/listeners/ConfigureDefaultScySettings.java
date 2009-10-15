@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.ContextLoader;
-import org.telscenter.sail.webapp.domain.authentication.Gender;
+
 
 
 /**
@@ -158,7 +158,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         }
 
         //UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
-        User defaultGlobalAdmin = new SCYUserImpl();
+        /*User defaultGlobalAdmin = new SCYUserImpl();
         SCYUserDetails vaderDetails = new SCYUserDetails();
         vaderDetails.setUsername("scy");
         vaderDetails.setPassword("scy");
@@ -171,6 +171,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         vaderDetails.setAccountQuestion("Who are you");
         vaderDetails.setAccountAnswer("vader");
         defaultGlobalAdmin.setUserDetails(vaderDetails);
+        */
 /*
         User lukeSkywalkekr = new SCYUserImpl();
         lukeSkywalkekr.setUserName("luke");
@@ -182,17 +183,17 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
         //User lukeSkywalker = (User) ctx.getBean("lukeSkywalker");
 
 
-        if (defaultGlobalAdmin != null) {
+        /*if (defaultGlobalAdmin != null) {
             setupUser(defaultGlobalAdmin, ctx);
             //setupUser(lukeSkywalkekr, ctx);
 
-        }
+        } */
 
     }
 
 
     private static void setupUser(User userToBeSetup, XmlWebApplicationContext ctx) {
-        log.info("SETTING UP USER");
+        /*log.info("SETTING UP USER");
         UserDAO userDAO = (UserDAO) ctx.getBean("userDAO");
         User theUser = userDAO.getUserByUsername(userToBeSetup.getUserDetails().getUsername());
             if (theUser == null) {
@@ -204,7 +205,7 @@ public class ConfigureDefaultScySettings implements ServletContextListener {
             } else {
                 log.info("User " + userToBeSetup.getUserDetails().getUsername() + " already exists");
             }
-
+          */
     }
 
 
