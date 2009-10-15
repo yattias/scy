@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.apache.log4j.Logger;
 import org.xmpp.packet.Message;
 
+import eu.scy.communications.datasync.message.SyncMessageHelper;
 import eu.scy.communications.message.ISyncMessage;
 
 
