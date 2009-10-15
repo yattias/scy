@@ -17,7 +17,7 @@ public class DeleteUser extends DeleteAction{
 
     protected Object doAction(Object model) {
         User user = (User) model;
-        getActionManager().getUserDAOHibernate().deleteUser(user.getId());
+        getActionManager().getUserDAOHibernate().deleteUser(null);
         return null;
     }
 }

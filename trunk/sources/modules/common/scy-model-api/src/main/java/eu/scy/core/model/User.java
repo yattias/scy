@@ -12,7 +12,7 @@ import java.util.List;
  * A user in the SCY system.
  */
 @Deprecated
-public interface User {
+public interface User   {
     /*
     public String getUserName();
 

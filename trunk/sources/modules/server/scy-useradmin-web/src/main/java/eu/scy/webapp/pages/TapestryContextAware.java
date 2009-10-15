@@ -6,7 +6,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ComponentSource;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
-import org.telscenter.sail.webapp.service.authentication.UserDetailsService;
+
 import eu.scy.core.model.SCYProject;
 
 import eu.scy.core.model.ScyBase;
@@ -19,7 +19,7 @@ import eu.scy.framework.PageManager;
 
 import java.util.logging.Logger;
 
-import net.sf.sail.webapp.domain.User;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -74,8 +74,8 @@ public class TapestryContextAware {
 
     }
 
-    public User getCurrentUser() {
-        return getUserDAO().getUserByUsername(getCurrentUsersUserName());
+    public Object getCurrentUser() {
+        return null;//getUserDAO().getUserByUsername(getCurrentUsersUserName());
     }
 
     @BeginRender

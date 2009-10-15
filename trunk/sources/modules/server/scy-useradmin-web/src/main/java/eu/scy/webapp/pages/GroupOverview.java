@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.logging.Logger;
 
-import net.sf.sail.webapp.domain.User;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +25,7 @@ public class GroupOverview extends ScyModelPage {
 
     private static Logger log = Logger.getLogger("GroupOverview.class");
 
-    private User currentUser;
+    //private User currentUser;
 
     @InjectPage
     private EditUserPage editUserPage;
@@ -61,7 +61,7 @@ public class GroupOverview extends ScyModelPage {
     }
       */
 
-
+    /*
     public SCYUserDetails getUserDetails() {
         return (SCYUserDetails) getCurrentUser().getUserDetails();
     }
@@ -70,7 +70,7 @@ public class GroupOverview extends ScyModelPage {
         SCYGroupImpl group = (SCYGroupImpl) getModel();
         return getGroupDAO().getUsers(group);
     }
-
+      */
     @InjectPage
     private EditGroup editGroup;
 

@@ -76,7 +76,7 @@ public class BreadCrumbs extends TapestryContextAware {
 
     public String getTitle() {
         if(getCurrentObject() == null) return "null";
-        if(getCurrentObject() instanceof User) return ((User)currentObject).getUserDetails().getUsername();
+        if(getCurrentObject() instanceof User) return "HIHI";//((User)currentObject).getUserDetails().getUsername();
         else return getCurrentObject().getName();
     }
 

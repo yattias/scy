@@ -6,7 +6,7 @@ import eu.scy.core.model.SCYProject;
 
 import java.util.logging.Logger;
 
-import net.sf.sail.webapp.domain.User;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +23,7 @@ public abstract class BaseAction {
     private ActionManager actionManager;
 
     private SCYProject project;
-    private User user;
+    //private User user;
     private Object userObject;
 
     public Object getUserObject() {
@@ -42,13 +42,13 @@ public abstract class BaseAction {
         this.project = project;
     }
 
-    public User getUser() {
+    /*public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
+    } */
 
     public String getName() {
         return name;

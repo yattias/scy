@@ -21,7 +21,6 @@ import org.springframework.context.ApplicationContext;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import net.sf.sail.webapp.spring.SpringConfiguration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -59,11 +58,13 @@ public class SCYHubConnector implements ServletContextListener {
         log.info("-------------- > > INITIALIZING SPRING CONTEXT FROM SPRING CONFIG CLASS...");
         try {
             ConfigurableApplicationContext applicationContext = null;
-            SpringConfiguration springConfig = (SpringConfiguration) BeanUtils.instantiateClass(Class.forName("eu.scy.webapp.spring.impl.SpringConfigurationImpl"));
-            applicationContext = new ClassPathXmlApplicationContext(springConfig.getRootApplicationContextConfigLocations());
+            //SpringConfiguration springConfig = (SpringConfiguration) BeanUtils.instantiateClass(Class.forName("eu.scy.webapp.spring.impl.SpringConfigurationImpl"));
+            //applicationContext = new ClassPathXmlApplicationContext(springConfig.getRootApplicationContextConfigLocations());
             log.info("--------------  > > CONTEXT INITIALIZED!");
-            return applicationContext;
-        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("HENRIK FIX THIS ONE!!");
+
+            //return applicationContext;
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         throw new RuntimeException("Cannot initialize spring context!");
