@@ -84,19 +84,19 @@ public class TopicDetectorTest extends AbstractTestFixture {
 				.getValueList();
 		assertEquals(10, topicScores.size());
 		assertEquals("wrong probability for topic 0", 0.0017892133644281931,
-				getTopicScore(topicScores.get(0)), 0.005);
+				getTopicScore(topicScores.get(0)), 0.01);
 		assertEquals("wrong probability for topic 1", 0.002575589897297382, getTopicScore(topicScores.get(1)),
 				0.01);
 		assertEquals("wrong probability for topic 4", 0.00227468953178241, getTopicScore(topicScores.get(4)),
-				0.005);
+				0.01);
 		assertEquals("wrong probability for topic 5", 0.0016823702862740107, getTopicScore(topicScores.get(5)),
-				0.005);
+				0.01);
 		assertEquals("wrong probability for topic 6", 0.001945861865589766, getTopicScore(topicScores.get(6)),
-				0.005);
+				0.01);
 		assertEquals("wrong probability for topic 7", 0.002655118753113757, getTopicScore(topicScores.get(7)),
-				0.005);
+				0.01);
 		assertEquals("wrong probability for topic 8", 0.0019143937827241963, getTopicScore(topicScores.get(8)),
-				0.005);
+				0.01);
 
 		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores.get(2)),
 				0.03);
