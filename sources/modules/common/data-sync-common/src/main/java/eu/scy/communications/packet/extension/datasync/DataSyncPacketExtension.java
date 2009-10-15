@@ -4,8 +4,8 @@ import org.dom4j.Element;
 import org.dom4j.QName;
 import org.xmpp.packet.PacketExtension;
 
+import eu.scy.communications.datasync.message.SyncMessageHelper;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessageHelper;
 
 /**
  * used by the xmpp message xmlify data sync.
