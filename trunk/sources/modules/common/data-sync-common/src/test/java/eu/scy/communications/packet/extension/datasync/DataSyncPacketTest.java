@@ -6,10 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import org.apache.log4j.Logger;
 
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.communications.datasync.message.SyncMessageHelper;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.communications.message.impl.SyncMessageHelper;
 
 /**
  * Tests the data sync packet extenison.
