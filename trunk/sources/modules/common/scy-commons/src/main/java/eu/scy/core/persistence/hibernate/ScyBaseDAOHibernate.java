@@ -23,8 +23,10 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
      * Dangerous method - need to use ACL to be sure this one does not mess up a lot!
      */
     public Object save(Object object) {
+        logger.info("***saving: " + object);
         assert(object != null);
         if(object instanceof ScyBase) {
+            logger.info("SAVING SCY BASE!");
             ScyBase scyBaseObject = (ScyBase) object;
 
             if(scyBaseObject.getId() != null) {
