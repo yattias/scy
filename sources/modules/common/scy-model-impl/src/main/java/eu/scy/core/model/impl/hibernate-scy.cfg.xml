@@ -20,21 +20,29 @@
 <!-- $Id: hibernate-extensions.cfg.xml 2380 2009-05-15 21:04:45Z honchikun@gmail.com $ -->
 
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
     <session-factory>
         <!--  specify when hibernate should release JDBC connections -->
-        <property name="hibernate.connection.release_mode">after_statement</property>
+        <!--property name="hibernate.connection.release_mode">after_statement</property-->
         <property name="hibernate.auto_close_session">true</property>
         <property name="hibernate.flush_before_completion">true</property>
         <property name="hibernate.c3p0_acquire_increment">1</property>
-        <property name="hibernate.c3p0_idle_test_period">100</property>          <!-- seconds -->
+        <property name="hibernate.c3p0_idle_test_period">100</property>
+        <!-- seconds -->
         <property name="hibernate.c3p0_max_size">100</property>
         <property name="hibernate.c3p0_max_statements">0</property>
         <property name="hibernate.c3p0_min_size">10</property>
-        <property name="hibernate.c3p0_timeout">100</property><!-- seconds -->
-        <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl" />
+        <property name="hibernate.c3p0_timeout">100</property>
+        <!-- seconds -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- General settings -->
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.connection.release_mode">auto</property>
+
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
     </session-factory>
 </hibernate-configuration>

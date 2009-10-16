@@ -2,6 +2,7 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,8 +15,16 @@ import java.util.List;
  */
 public class ScenarioDAOHibernate extends ScyBaseDAOHibernate implements ScenarioDAO {
 
+
+    public void createScenario(Scenario scenario) {
+        super.save(scenario);
+    }
+
+
     public List<Scenario> getScenarios() {
         return getSession().createQuery("from ScenarioImpl order by name")
                 .list();
     }
+
+    
 }
