@@ -39,7 +39,7 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
         ScenarioImpl scenario = new ScenarioImpl();
         scenario.setName("first scenario");
         assertNull(scenario.getId());
-        ScenarioImpl newScenario = (ScenarioImpl) getScenarioDAO().createScenario(scenario);
+        ScenarioImpl newScenario = (ScenarioImpl) getScenarioDAO().save(scenario);
         assertNotNull(scenario.getId());
     }
 
