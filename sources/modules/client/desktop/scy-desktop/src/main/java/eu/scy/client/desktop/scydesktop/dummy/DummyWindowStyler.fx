@@ -26,6 +26,7 @@ public class DummyWindowStyler extends WindowStyler {
    public def textType = "scy/text";
    public def mappingType = "scy/mapping";
    public def meloType = "scy/melo";
+   public def urlType = "scy/url";
 
    public def scyGreen = Color.web("#8db800");
    public def scyPurple = Color.web("#7243db");
@@ -48,7 +49,9 @@ public class DummyWindowStyler extends WindowStyler {
         else if (type == meloType)
       return scyOrange
         else if (type == textType)
-      return scyGreen
+      return scyBlue
+        else if (type == urlType)
+      return scyOrange
         else
       return scyMagenta;
    }
@@ -70,6 +73,8 @@ public class DummyWindowStyler extends WindowStyler {
       return "I"
         else if (type == mappingType)
       return "M"
+        else if (type == urlType)
+      return "W"
       else
       return "?";
    }
