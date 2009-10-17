@@ -55,6 +55,12 @@
                </key>
                <value>.melo</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/url</value>
+               </key>
+               <value>.url</value>
+            </entry>
          </map>
       </property>
    </bean>
