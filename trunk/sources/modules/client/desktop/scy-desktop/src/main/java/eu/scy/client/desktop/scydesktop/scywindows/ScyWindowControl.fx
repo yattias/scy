@@ -14,6 +14,8 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 
 /**
+ * ScyWindowControl controls which windows (elos) are shown on the desktop
+ *
  * @author sikken
  */
 

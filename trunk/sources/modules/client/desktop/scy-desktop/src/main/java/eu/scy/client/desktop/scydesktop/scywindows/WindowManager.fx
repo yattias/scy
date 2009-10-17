@@ -14,6 +14,8 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 /**
+ * The WindowManager manages the windows on the desktop. It does not care if the window contains a anchor elo or not.
+ *
  * @author sikkenj
  */
 

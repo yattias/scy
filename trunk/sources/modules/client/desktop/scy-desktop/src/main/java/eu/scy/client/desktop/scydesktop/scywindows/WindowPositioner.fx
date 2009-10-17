@@ -9,6 +9,13 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 import javafx.scene.Node;
 
 /**
+ * The WindowPositioner task is the position (or reposition) the windows on the desktop.
+ * It works with three kinds of windows:
+ * - active anchor elo window (setCenterWindow)
+ * - other anchor windows (addLinkedWindows, direction is calculated from the mission map)
+ * - other windows (addOtherWindows)
+ * - fixed windows, I don't remember
+ *
  * @author sikkenj
  */
 
