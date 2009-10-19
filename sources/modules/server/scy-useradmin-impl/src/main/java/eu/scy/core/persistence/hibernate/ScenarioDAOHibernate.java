@@ -1,5 +1,6 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,9 @@ public class ScenarioDAOHibernate extends ScyBaseDAOHibernate implements Scenari
 
 
     public void createScenario(Scenario scenario) {
+        logger.info("BEFORE:" + getScenarios().size());
         super.save(scenario);
+        logger.info("AFTER:" + getScenarios().size());
     }
 
 
