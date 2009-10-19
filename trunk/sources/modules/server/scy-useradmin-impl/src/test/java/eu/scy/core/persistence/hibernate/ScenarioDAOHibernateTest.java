@@ -36,11 +36,14 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
 
     @Test
     public void testSaveScenario() {
+        int scenarioCount = getScenarioDAO().getScenarios().size();
         ScenarioImpl scenario = new ScenarioImpl();
         scenario.setName("first scenario");
         assertNull(scenario.getId());
         ScenarioImpl newScenario = (ScenarioImpl) getScenarioDAO().save(scenario);
         assertNotNull(scenario.getId());
+        int newScenarioCount = getScenarioDAO().getScenarios().size();
+        assertEquals(scenarioCount, newScenarioCount -1 );
     }
 
 }

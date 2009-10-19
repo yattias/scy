@@ -2,6 +2,8 @@ package eu.scy.core;
 
 import eu.scy.core.model.pedagogicalplan.Scenario;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -10,6 +12,8 @@ import eu.scy.core.model.pedagogicalplan.Scenario;
  * To change this template use File | Settings | File Templates.
  */
 public interface ScenarioService {
+
+    public List getScenarios();
 
     public void createScenario(Scenario scenario);
 

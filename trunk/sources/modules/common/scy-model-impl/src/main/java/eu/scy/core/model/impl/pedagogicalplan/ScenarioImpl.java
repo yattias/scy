@@ -4,9 +4,7 @@ import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -18,6 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="scenario")
+//Inheritance( strategy = InheritanceType.SINGLE_TABLE)
 public class ScenarioImpl extends BaseObjectImpl implements Scenario {
 
     private LearningActivitySpace learningActivitySpace = null;

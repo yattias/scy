@@ -1,8 +1,11 @@
 package eu.scy.core;
 
+import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +18,9 @@ public class ScenarioServiceImpl implements ScenarioService{
 
     private ScenarioDAO scenarioDAO;
 
-
+    public List getScenarios() {
+        return scenarioDAO.getScenarios();
+    }
 
     @Transactional
     public void createScenario(Scenario scenario) {
