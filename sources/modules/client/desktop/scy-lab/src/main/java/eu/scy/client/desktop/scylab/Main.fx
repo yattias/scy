@@ -39,7 +39,7 @@ def scySimulatorId = "simulator";
 //def scyModelType = "scy/model";
 def scyModelId = "scy-dynamics";
 def scyFlyingSaucerId = "flying-saucer";
-
+def scyMapperId = "conceptmap";
 
 var scyDesktopCreator = ScyDesktopCreator {
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
@@ -53,6 +53,8 @@ scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(CopexContentCreator{},scyCopexId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyCopexType,"xproc");
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator{},scyMapperId);
 
 var simulationUriString:String = "http://www.scy-lab.eu/sqzx/HouseNew.sqzx";
 //var simulationUriString:String = "http://www.scy-lab.eu/sqzx/balance.sqzx";

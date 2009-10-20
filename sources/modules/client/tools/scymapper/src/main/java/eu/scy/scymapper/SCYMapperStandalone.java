@@ -31,7 +31,7 @@ public class SCYMapperStandalone extends JFrame {
 		IELOFactory eloFactory = (IELOFactory) appContext.getBean("eloFactory");
 		IMetadataTypeManager metadataTypeManager = (IMetadataTypeManager) appContext.getBean("metadataTypeManager");
 
-		SCYMapperPanel scyMapperPanel = SCYMapperPanel.getInstance();
+		SCYMapperPanel scyMapperPanel = new SCYMapperPanel();
 
 		scyMapperPanel.setRepository(repo);
 		scyMapperPanel.setEloFactory(eloFactory);

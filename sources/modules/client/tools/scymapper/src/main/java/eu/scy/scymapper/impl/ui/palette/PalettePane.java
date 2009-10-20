@@ -105,18 +105,18 @@ public class PalettePane extends JPanel implements IConceptMapSelectionListener 
 	}
 
 	private static class NodeColorChooserPanel extends JPanel implements ActionListener, IDiagramSelectionListener {
-		private Button bgColorButton;
-		private Button fgColorButton;
+		private JButton bgColorButton;
+		private JButton fgColorButton;
 		private IDiagramSelectionModel selectionModel;
 
 		public NodeColorChooserPanel() {
 			setLayout(null);
 
-			fgColorButton = new Button();
+			fgColorButton = new JButton();
 			fgColorButton.setBounds(5, 5, 25, 25);
 			fgColorButton.addActionListener(this);
 
-			bgColorButton = new Button();
+			bgColorButton = new JButton();
 			bgColorButton.setBounds(10, 10, 25, 25);
 			bgColorButton.addActionListener(this);
 
@@ -128,7 +128,7 @@ public class PalettePane extends JPanel implements IConceptMapSelectionListener 
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Button source = (Button) e.getSource();
+			JButton source = (JButton) e.getSource();
 			if (source == fgColorButton)
 				selectFgColor();
 			else if (source == bgColorButton)
