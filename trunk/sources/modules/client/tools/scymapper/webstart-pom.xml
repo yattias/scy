@@ -104,7 +104,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>eu.scy.scymapper.SCYMapperStartup</mainClass>
+                    <mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -122,7 +122,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>eu.scy.scymapper.SCYMapperStartup</mainClass>
+                            <mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
@@ -163,7 +163,7 @@
                         <!-- defaults to launch.jnlp -->
                         <!-- used to automatically identify the jar containing the main class. -->
                         <!-- this is perhaps going to change -->
-                        <mainClass>eu.scy.scymapper.SCYMapperStartup</mainClass>
+                        <mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
                     </jnlp>
 
                     <sign>

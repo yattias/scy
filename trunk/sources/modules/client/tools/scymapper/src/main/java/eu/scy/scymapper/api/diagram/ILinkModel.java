@@ -37,4 +37,8 @@ public interface ILinkModel extends Serializable {
     void removeListener(ILinkModelListener listener);
 
     void notifyUpdated();
+
+	boolean isSelected();
+
+	void setSelected(boolean b);
 }

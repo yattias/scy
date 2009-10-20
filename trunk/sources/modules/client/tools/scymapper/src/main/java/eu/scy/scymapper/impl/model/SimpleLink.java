@@ -25,6 +25,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
 
 	private ILinkStyle style;
     private boolean labelHidden = false;
+	private transient boolean selected;
 
 	private Object readResolve() {
 		listeners = new ArrayList<ILinkModelListener>();
@@ -110,7 +111,18 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
         }
     }
 
-    @Override
+	@Override
+	public boolean isSelected() {
+		return selected;
+	}
+
+	@Override
+	public void setSelected(boolean b) {
+		selected = b;
+		notifyUpdated();
+	}
+
+	@Override
     public void styleChanged(ILinkStyle s) {
         for (ILinkModelListener listener : listeners) {
             listener.updated(this);

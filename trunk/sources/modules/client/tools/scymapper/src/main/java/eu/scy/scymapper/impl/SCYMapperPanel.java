@@ -37,7 +37,6 @@ import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.packet.Presence;
 import roolo.api.IRepository;
 import roolo.api.search.IQuery;
@@ -45,36 +44,31 @@ import roolo.api.search.ISearchResult;
 import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
-import roolo.elo.JDomBasicELOFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.util.*;
-import java.io.IOException;
 
 /**
  * User: Bjoerge
  * Date: 27.aug.2009
  * Time: 13:29:56
  */
-public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramListener, INodeModelListener, IConceptMapSelectionListener, IConceptMapManagerListener {
+public class SCYMapperPanel extends JPanel implements IDataSyncListener, IDiagramListener, INodeModelListener, IConceptMapSelectionListener, IConceptMapManagerListener {
 	private ConceptMapTabbedPane conceptMapTabPane;
-	private IAwarenessService awarenessService;
 	private ToolBrokerAPI<IMetadataKey> toolBroker;
 
 	//init props
 	private JTextArea logView;
-	private final static Logger logger = Logger.getLogger(SCYMapper.class);
+	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 	private JToolBar toolBar;
 	private String currentToolSessionId;
-	private static SCYMapper INSTANCE;
+	private static SCYMapperPanel INSTANCE;
 	private IConceptMapManager conceptMapManager;
 	private IELOFactory eloFactory;
 
@@ -85,30 +79,23 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	private static final String DEFAULT_CMAP_NAME = "New Concept Map";
 	private XMPPConnection connection;
 
-	public static SCYMapper getInstance() {
+	public static SCYMapperPanel getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new SCYMapper();
+			INSTANCE = new SCYMapperPanel();
 		return INSTANCE;
 	}
 
-	private SCYMapper() throws HeadlessException {
-		super("SCYMapper");
-		try {
-			setIconImage(ImageIO.read(getClass().getResourceAsStream("scy-mapper.png")));
-		} catch (IOException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
+	private SCYMapperPanel() {
 
 	 	conceptMapManager = DefaultConceptMapManager.getInstance();
 		conceptMapManager.addSelectionChangeListener(this);
 		conceptMapManager.addConceptMapManagerListener(this);
 
+		setLayout(new BorderLayout());
+
 		initLAF();
 		initToolBroker();
 		initComponents();
-
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(1400, 900);
 	}
 
 	private void initLAF() {
@@ -127,20 +114,10 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 	private void initToolBroker() {
 
 		toolBroker = new ToolBrokerImpl<IMetadataKey>();
-		awarenessService = toolBroker.getAwarenessService();
-		//awarenessService.init(toolBroker.getConnection(username, password));
 
 		//logger.debug("Getting datasync-service");
 		//dataSyncService = toolBroker.getDataSyncService();
 		//dataSyncService.init(toolBroker.getConnection(username, password));
-
-		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
-			@Override
-			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
-				logView.append(awarenessEvent.getUser() + " says:\n");
-				logView.append(awarenessEvent.getMessage() + "\n\n");
-			}
-		});
 
 		//dataSyncService.addDataSyncListener(this);
 		//dataSyncService.createSession("eu.scy.scymapper", username);
@@ -163,7 +140,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		menuBar.add(fileMenu);
 		//menuBar.add(editMenu);
 
-		setJMenuBar(menuBar);
+		//setJMenuBar(menuBar);
 	}
 
 	private void initToolBar() {
@@ -392,14 +369,6 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 			String username = userField.getText();
 			String password = new String(passField.getPassword());
 			connection = toolBroker.getConnection(username, password);
-			awarenessService.init(connection);
-			try {
-				awarenessService.setPresence(Presence.Mode.available.toString());
-			} catch (AwarenessServiceException e) {
-				e.printStackTrace();
-			}
-
-
 			return true;
 		}
 
@@ -409,7 +378,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 
 	@Override
 	public void conceptMapAdded(IConceptMapManager manager, IConceptMap cmap) {
-		ConceptMapEditor editor = new ConceptMapEditor(awarenessService, cmap);
+		ConceptMapEditor editor = new ConceptMapEditor(cmap);
 		conceptMapTabPane.add(editor);
 		conceptMapManager.setSelected(cmap);
 	}
@@ -444,7 +413,7 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 
 	@Override
 	public void nodeAdded(INodeModel n) {
-		System.out.println("SCYMapper.nodeAdded");
+		System.out.println("SCYMapperPanel.nodeAdded");
 	}
 
 	@Override
@@ -502,8 +471,8 @@ public class SCYMapper extends JFrame implements IDataSyncListener, IDiagramList
 		IConceptMap mockConceptMap = createMockConceptMap();
 		IConceptMap anotherMockConceptMap = createAnotherMockConceptMap();
 
-		ConceptMapEditor mockMapEditorPane1 = new ConceptMapEditor(awarenessService, mockConceptMap);
-		ConceptMapEditor anotherMockMapEditor = new ConceptMapEditor(awarenessService, anotherMockConceptMap);
+		ConceptMapEditor mockMapEditorPane1 = new ConceptMapEditor(mockConceptMap);
+		ConceptMapEditor anotherMockMapEditor = new ConceptMapEditor(anotherMockConceptMap);
 
 		conceptMapTabPane.add(mockMapEditorPane1);
 		conceptMapTabPane.add(anotherMockMapEditor);

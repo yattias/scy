@@ -161,10 +161,6 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         return model;
     }
 
-    public void setModel(INodeModel model) {
-        this.model = model;
-    }
-
     @Override
     public void moved(INodeModel model) {
         setLocation(model.getLocation());

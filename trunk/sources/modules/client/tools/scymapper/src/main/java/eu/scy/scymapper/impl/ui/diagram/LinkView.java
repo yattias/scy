@@ -6,6 +6,7 @@ import eu.scy.scymapper.api.diagram.ILinkModelListener;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.impl.model.DefaultLinkStyle;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,7 +15,7 @@ import java.awt.*;
  * Date: 23.jun.2009
  * Time: 16:23:37
  */
-public class LinkView extends Container implements ILinkModelListener {
+public class LinkView extends JComponent implements ILinkModelListener {
 
     static final ILinkStyle DEFAULT_LINKSTYLE = new DefaultLinkStyle();
 
@@ -59,6 +60,35 @@ public class LinkView extends Container implements ILinkModelListener {
         g2.setColor(style.getColor());
         model.getShape().paint(g2, relFrom, relTo);
 
+		System.out.println("model.isSelected(): "+model.isSelected());
+		if (model.isSelected()) {
+
+			Point outlineFrom = new Point(relFrom);
+			outlineFrom.translate(-2, -2);
+
+			Point outlineTo = new Point(relTo);
+			outlineTo.translate(-2, -2);
+
+			g2.setColor(new Color(0xaaaaaa));
+			// Paint a dotted rectangle around
+			g2.setStroke(new BasicStroke(2f,
+										  BasicStroke.CAP_BUTT,
+										  BasicStroke.JOIN_ROUND,
+										  2.0f, new float[]{2.0f}, 2.0f));
+
+			model.getShape().paint(g2, outlineFrom, outlineTo);
+
+			g2.setColor(new Color(0xffffff));
+
+			// Paint a dotted outline around the link
+			g2.setStroke(new BasicStroke(2f,
+										  BasicStroke.CAP_BUTT,
+										  BasicStroke.JOIN_ROUND,
+										  2.0f, new float[]{2.0f}, 0.0f));
+
+			model.getShape().paint(g2, outlineFrom, outlineTo);
+		}
+
         g2.dispose();
 
         // Continue painting other component on top
@@ -100,6 +130,7 @@ public class LinkView extends Container implements ILinkModelListener {
     @Override
     public void updated(ILinkModel m) {
         updatePosition();
+		repaint();
     }
 
     public ILinkModel getModel() {
