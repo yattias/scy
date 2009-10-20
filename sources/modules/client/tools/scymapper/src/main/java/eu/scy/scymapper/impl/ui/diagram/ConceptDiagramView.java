@@ -86,6 +86,7 @@ public class ConceptDiagramView extends JPanel implements IDiagramListener, INod
 
     private void addLink(INodeLinkModel link) {
         ConceptLinkView view = new ConceptLinkView(new LinkController(link), link);
+		view.addMouseListener(selectionMouseListener);
         add(view);
     }
 
@@ -189,6 +190,13 @@ public class ConceptDiagramView extends JPanel implements IDiagramListener, INod
 					selectionModel.unselect(node);
 				else
 					selectionModel.select(node);
+			}
+			if (comp instanceof LinkView) {
+				ILinkModel link = ((LinkView)comp).getModel();
+				if (e.isControlDown() && link.isSelected())
+					selectionModel.unselect(link);
+				else
+					selectionModel.select(link);
 			}
 		}
 

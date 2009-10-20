@@ -139,7 +139,7 @@ public class PalettePane extends JPanel implements IConceptMapSelectionListener 
 		public void selectionChanged(IDiagramSelectionModel s) {
 			bgColorButton.setEnabled(selectionModel.hasSelection());
 			fgColorButton.setEnabled(selectionModel.hasSelection());
-			if (selectionModel.hasSelection()) {
+			if (selectionModel.hasNodeSelection()) {
 				bgColorButton.setBackground(selectionModel.getSelectedNode().getStyle().getBackground());
 				fgColorButton.setBackground(selectionModel.getSelectedNode().getStyle().getForeground());
 			} else {
@@ -195,8 +195,8 @@ public class PalettePane extends JPanel implements IConceptMapSelectionListener 
 
 		@Override
 		public void selectionChanged(IDiagramSelectionModel s) {
-			setEnabled(selectionModel.hasSelection());
-			if (selectionModel.hasSelection()) {
+			setEnabled(selectionModel.hasNodeSelection());
+			if (selectionModel.hasNodeSelection()) {
 				setSelected(selectionModel.getSelectedNode().getStyle().getFillStyle() == INodeShape.FILL);
 			}
 		}

@@ -27,13 +27,6 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 			notifySelectionChanged();
 		}
 	}
-
-	@Override
-	public void select(ILinkModel link) {
-		selectedLinks.add(link);
-		notifySelectionChanged();
-	}
-
 	@Override
 	public void unselect(INodeModel node) {
 		selectedNodes.remove(node);
@@ -42,8 +35,17 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 	}
 
 	@Override
+	public void select(ILinkModel link) {
+		System.out.println("Link selected");
+		selectedLinks.add(link);
+		link.setSelected(true);
+		notifySelectionChanged();
+	}
+
+	@Override
 	public void unselect(ILinkModel link) {
 		selectedLinks.remove(link);
+		link.setSelected(false);
 		notifySelectionChanged();
 	}
 
@@ -51,6 +53,9 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 	public void clearSelection() {
 		for (INodeModel node : selectedNodes) {
 			node.setSelected(false);
+		}
+		for (ILinkModel link : selectedLinks) {
+			link.setSelected(false);
 		}
 		selectedLinks.removeAllElements();
 		selectedNodes.removeAllElements();
@@ -102,5 +107,15 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 	@Override
 	public boolean hasSelection() {
 		return selectedNodes.size() + selectedLinks.size() > 0;
+	}
+
+	@Override
+	public boolean hasNodeSelection() {
+		return selectedNodes.size() > 0;
+	}
+
+	@Override
+	public boolean hasLinkSelection() {
+		return selectedLinks.size() > 0;
 	}
 }

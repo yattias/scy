@@ -103,7 +103,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>eu.scy.scymapper.SCYMapperStartup</mainClass>
+                    <mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -121,7 +121,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>eu.scy.scymapper.SCYMapperStartup</mainClass>
+                            <mainClass>eu.scy.scymapper.SCYMapperStandalone</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

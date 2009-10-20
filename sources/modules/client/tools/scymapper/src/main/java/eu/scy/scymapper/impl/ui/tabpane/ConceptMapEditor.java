@@ -22,18 +22,15 @@ import java.awt.*;
 public class ConceptMapEditor extends JPanel{
 
 	private ConceptDiagramView diagramView;
-	private AwarenessView awarenessPanel;
-	private IAwarenessService awarenessService;
 	private IConceptMapManager manager;
 
 	private IConceptMap conceptMap;
 
-	public ConceptMapEditor(IAwarenessService awarenessService, IConceptMap cmap) {
+	public ConceptMapEditor(IConceptMap conceptMap) {
 
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		this.awarenessService = awarenessService;
 		this.manager = DefaultConceptMapManager.getInstance();
-		this.conceptMap = cmap;
+		this.conceptMap = conceptMap;
 		initComponents();
 	}
 
@@ -46,19 +43,14 @@ public class ConceptMapEditor extends JPanel{
 		diagramView = new ConceptDiagramView(new DiagramController(conceptMap.getDiagram()), conceptMap.getDiagram(), conceptMap.getDiagramSelectionModel());
 
 		diagramView.setBackground(Color.WHITE);
-
-		awarenessPanel = new AwarenessView(awarenessService);
-
 		FormLayout layout = new FormLayout(
-				"default:grow, 2dlu, 150dlu", // columns
+				"default:grow", // columns
 				"default:grow");		// rows
 
 		PanelBuilder builder = new PanelBuilder(layout);
 		CellConstraints cc = new CellConstraints();
 
 		builder.add(new JScrollPane(diagramView), cc.xy(1, 1, CellConstraints.FILL, CellConstraints.FILL));
-		builder.add(awarenessPanel, cc.xy(3, 1, CellConstraints.FILL, CellConstraints.FILL));
-
 		add(builder.getPanel());
 	}
 }

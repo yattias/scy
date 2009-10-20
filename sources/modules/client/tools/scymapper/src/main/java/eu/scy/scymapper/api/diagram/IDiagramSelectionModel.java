@@ -87,4 +87,8 @@ public interface IDiagramSelectionModel {
 	void notifySelectionChanged();
 
 	boolean hasSelection();
+
+	boolean hasNodeSelection();
+
+	boolean hasLinkSelection();
 }
