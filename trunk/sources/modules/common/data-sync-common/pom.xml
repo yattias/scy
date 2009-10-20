@@ -11,7 +11,7 @@
   <dependencies>
   	<dependency>
   		<groupId>eu.scy.common</groupId>
-  		<artifactId>data-sync-api</artifactId>
+  		<artifactId>scy-commons</artifactId>
   		<version>9.8.0-SNAPSHOT</version>
   	</dependency>
   </dependencies>
