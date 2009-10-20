@@ -1,9 +1,13 @@
 package eu.scy.agents;
 
+import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,6 +19,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.manager.AgentManager;
 
 public class AbstractTestFixture {
@@ -24,7 +29,11 @@ public class AbstractTestFixture {
 	protected IRepository repository;
 	private static Configuration conf;
 
+	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
+
 	protected void setUp() throws Exception {
+		agentMap.clear();
+
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 				"test-config.xml");
 
@@ -61,10 +70,11 @@ public class AbstractTestFixture {
 		}
 	}
 
-	public static void startAgentFramework(
-			Map<String, Map<String, Object>> agents) {
+	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
 		AgentManager agentFramework = new AgentManager("localhost", conf
 				.getNonSSLPort());
+		agentFramework.setRepository(repository);
+		agentFramework.setMetadataTypeManager(typeManager);
 		for (String agentName : agents.keySet()) {
 			Map<String, Object> params = agents.get(agentName);
 			try {
@@ -74,6 +84,11 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public TupleSpace getTupleSpace() throws TupleSpaceException {
+		return new TupleSpace(new User("test"), "localhost", Configuration
+				.getConfiguration().getNonSSLPort(), false, false,
+				AgentProtocol.COMMAND_SPACE_NAME);
 	}
 }
