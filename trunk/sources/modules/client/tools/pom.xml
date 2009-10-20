@@ -23,6 +23,7 @@
 		<module>fx-copex</module>
 		<module>fx-simulator</module>
 		<module>fx-flying-saucer</module>
+		<module>fx-scymapper</module>
 		<module>colemo-model</module>
 		<module>scymapper</module>
 		<module>scydynamics</module>
