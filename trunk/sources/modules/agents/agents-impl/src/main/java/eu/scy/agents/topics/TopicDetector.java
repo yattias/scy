@@ -1,8 +1,15 @@
 package eu.scy.agents.topics;
 
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
+import roolo.api.IRepository;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import cc.mallet.topics.TopicModelAnnotator;
@@ -11,19 +18,23 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.api.IRepositoryAgent;
+import eu.scy.agents.impl.AbstractProcessingAgent;
+import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
-import eu.scy.agents.impl.elo.AbstractELOAgent;
 
 /**
  * Detects topics in a text ELOs. Intended to be a before agent.
  * 
- * ELO Saved -> ("topicDetector":String, <ELOUri>:String,
- * topicModelScores:Map<Integer,Double>)
+ * ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String,
+ * <ELOUri>:String, topicModelScores:Map<Integer,Double>)
  * 
  * @author Florian Schulz
  * 
  */
-public class TopicDetector extends AbstractELOAgent {
+public class TopicDetector extends AbstractProcessingAgent implements
+		IRepositoryAgent {
 
 	static final String KEY_TOPIC_SCORES = "topicScores";
 
@@ -35,19 +46,44 @@ public class TopicDetector extends AbstractELOAgent {
 	private PersistentStorage agentDatabase;
 	private String modelName;
 
-	public TopicDetector(String modelName) {
-		super(NAME, modelName);
+	private IMetadataTypeManager metadataTypeManager;
+
+	private IRepository repository;
+
+	public TopicDetector(Map<String, Object> params) {
+		super(NAME, (String) params.get("id"));
 		agentDatabase = new PersistentStorage();
-		this.modelName = modelName;
+		modelName = (String) params.get(MODEL_NAME);
 	}
 
 	@Override
-	public void processElo(IELO elo) {
-		if (elo != null && isValidType(elo)) {
-			Document doc = convertEloToDocument(elo);
-			Map<Integer, Double> topicScores = getTopicScores(doc);
-			addTopicMetadata(elo, topicScores);
+	public void doRun() throws TupleSpaceException, AgentLifecycleException {
+		while (status == Status.Running) {
+			Tuple tuple = getTupleSpace().waitToTake(getTemplateTuple(),
+					AgentProtocol.ALIVE_INTERVAL);
+			if (tuple != null) {
+				String uri = "";
+				try {
+					uri = (String) tuple.getField(1).getValue();
+					IELO elo = repository.retrieveELO(new URI(uri));
+					if (isValidType(elo)) {
+						Document doc = convertEloToDocument(elo);
+						Map<Integer, Double> topicScores = getTopicScores(doc);
+						addTopicMetadata(elo, topicScores);
+						repository.addMetadata(new URI(uri), elo.getMetadata());
+					}
+				} catch (URISyntaxException e) {
+					throw new AgentLifecycleException("malformed uri: " + uri,
+							e);
+				}
+			} else {
+				sendAliveUpdate();
+			}
 		}
+	}
+
+	private Tuple getTemplateTuple() {
+		return new Tuple("topicDetector", String.class);
 	}
 
 	private boolean isValidType(IELO elo) {
@@ -92,5 +128,31 @@ public class TopicDetector extends AbstractELOAgent {
 		String text = new String(elo.getContent().getBytes());
 		document.setFeature(Features.TEXT, text);
 		return document;
+	}
+
+	@Override
+	protected void doStop() {
+		status = Status.Stopping;
+	}
+
+	@Override
+	protected Tuple getIdentifyTuple(String queryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isStopped() {
+		return status == Status.Stopping;
+	}
+
+	@Override
+	public void setMetadataTypeManager(IMetadataTypeManager manager) {
+		metadataTypeManager = manager;
+	}
+
+	@Override
+	public void setRepository(IRepository rep) {
+		repository = rep;
 	}
 }
