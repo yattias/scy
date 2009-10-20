@@ -22,12 +22,12 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 
 InitLog4JFX.initLog4J();
 
-def scyMapperId = "conceptmap";
 
 var scyDesktopCreator = ScyDesktopCreator{
    configClassPathConfigLocation:"config/scyDesktopSCYMapperTestConfig.xml";
 }
 
+def scyMapperId = "conceptmap";
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator{},scyMapperId);
 
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");

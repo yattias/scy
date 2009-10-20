@@ -79,13 +79,7 @@ public class SCYMapperPanel extends JPanel implements IDataSyncListener, IDiagra
 	private static final String DEFAULT_CMAP_NAME = "New Concept Map";
 	private XMPPConnection connection;
 
-	public static SCYMapperPanel getInstance() {
-		if (INSTANCE == null)
-			INSTANCE = new SCYMapperPanel();
-		return INSTANCE;
-	}
-
-	private SCYMapperPanel() {
+	public SCYMapperPanel() {
 
 	 	conceptMapManager = DefaultConceptMapManager.getInstance();
 		conceptMapManager.addSelectionChangeListener(this);

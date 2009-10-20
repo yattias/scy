@@ -41,6 +41,9 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 	function createScyMapperNode(scyWindow:ScyWindow):SCYMapperNode{
       setWindowProperties(scyWindow);
 		var scymapperPanel= new SCYMapperPanel();
+		scymapperPanel.setRepository(repository);
+		scymapperPanel.setEloFactory(eloFactory);
+		scymapperPanel.setMetadataTypeManager(metadataTypeManager);
 		//scymapperPanel.setPreferredSize(new Dimension(2000,2000));
 		var eloScyMapperActionWrapper= new EloScyMapperActionWrapper(scymapperPanel);
 		eloScyMapperActionWrapper.setRepository(repository);
