@@ -99,9 +99,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 				JOptionPane.showMessageDialog( null, "Couldn't parse the simulation settings.\nPlease check."); 
 				return;
 			}
-			
-			
-			
+					
 			// create the SimQuest model from the CoLab model
 			sqModel = new SimquestModel(editor.getModel());
 			sqv.Model model = new sqv.Model(sqModel, dataServer);
@@ -122,6 +120,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener  
 				}
 			}
 			
+			tableModel = null;
 			tablePanel.remove(scrollPane);
 			tableModel = new SimulationTableModel(selectedVariables, dataServer);
 			table = new JTable(tableModel);
