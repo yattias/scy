@@ -4,8 +4,17 @@
 
 <beans>
 
+    <bean id="sharedTransactionTemplate"
+          class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+    </bean>
+
+
     <bean id="scenarioDAO" class="eu.scy.core.persistence.hibernate.ScenarioDAOHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="transactionTemplate" ref="sharedTransactionTemplate"/>
     </bean>
 
 </beans>

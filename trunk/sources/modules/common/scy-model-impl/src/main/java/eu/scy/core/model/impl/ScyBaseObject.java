@@ -45,7 +45,6 @@ public class ScyBaseObject implements ScyBase, Serializable {
         this.id = id;
     }
 
-    @Transient
     public String getDescription() {
         return description;
     }

@@ -3,6 +3,8 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,14 +18,14 @@ import java.util.Set;
 
 @Entity
 @Table(name="scenario")
-//Inheritance( strategy = InheritanceType.SINGLE_TABLE)
 public class ScenarioImpl extends BaseObjectImpl implements Scenario {
 
     private LearningActivitySpace learningActivitySpace = null;
 
     private Set<LearningGoal> learningGoals;
 
-    @Transient
+    @OneToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="learningActivitySpace_primKey")
     public LearningActivitySpace getLearningActivitySpace() {
         return learningActivitySpace;
     }

@@ -3,7 +3,10 @@ package eu.scy.core.persistence.hibernate;
 import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -16,11 +19,11 @@ import java.util.List;
  */
 public class ScenarioDAOHibernate extends ScyBaseDAOHibernate implements ScenarioDAO {
 
+    private TransactionTemplate transactionTemplate;
 
-    public void createScenario(Scenario scenario) {
-        logger.info("BEFORE:" + getScenarios().size());
-        super.save(scenario);
-        logger.info("AFTER:" + getScenarios().size());
+
+    public Object createScenario(final Scenario scenario) {
+        return getHibernateTemplate().save(scenario);
     }
 
 
@@ -29,5 +32,11 @@ public class ScenarioDAOHibernate extends ScyBaseDAOHibernate implements Scenari
                 .list();
     }
 
-    
+    public TransactionTemplate getTransactionTemplate() {
+        return transactionTemplate;
+    }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+    }
 }
