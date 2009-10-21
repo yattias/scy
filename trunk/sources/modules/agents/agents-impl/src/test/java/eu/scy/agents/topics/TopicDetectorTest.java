@@ -24,7 +24,6 @@ import roolo.elo.content.BasicContent;
 import cc.mallet.topics.TopicModelParameter;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.impl.PersistentStorage;
-import eu.scy.agents.roolo.elo.helper.ELOFiller;
 
 public class TopicDetectorTest extends AbstractTestFixture {
 
@@ -61,11 +60,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 		// topicDetectorAgent = new TopicDetector("co2_scy_english");
 		// topicDetectorAgent.setMetadataTypeManager(typeManager);
 
-		elo = createNewElo();
-		ELOFiller eloFiller = new ELOFiller(elo, typeManager);
-		eloFiller.fillValue(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
-				"scy/text");
-		eloFiller.fillValue(CoreRooloMetadataKeyIds.TITLE.getId(), "testELO");
+		elo = createNewElo("testELO", "scy/text");
 		elo.setContent(new BasicContent(TEXT.getBytes()));
 		IMetadata data = repository.addNewELO(elo);
 		eloURI = (URI) data.getMetadataValueContainer(

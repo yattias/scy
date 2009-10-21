@@ -84,7 +84,6 @@ public class GraphConverterAgent extends AbstractELOAgent {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void calculateScore(IELO elo) {
 		int score = 0;
 		IMetadataKey allScoreKey = getMetadataTypeManager().getMetadataKey(

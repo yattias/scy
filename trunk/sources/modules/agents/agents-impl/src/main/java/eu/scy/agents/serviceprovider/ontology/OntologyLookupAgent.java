@@ -8,7 +8,7 @@ import eu.scy.agents.impl.AbstractForeignAgent;
 
 public class OntologyLookupAgent extends AbstractForeignAgent {
 
-    public OntologyLookupAgent(@SuppressWarnings("unused") Map<String, Object> map) {
+    public OntologyLookupAgent(Map<String, Object> map) {
         super("Ontology Lookup Agent", (String) map.get("id"));
     }
 
