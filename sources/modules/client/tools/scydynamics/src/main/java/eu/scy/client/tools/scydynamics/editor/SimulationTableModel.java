@@ -106,7 +106,7 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 	public void deleteFirstAndLast() {
 		try {
 			data.remove(0);
-			data.remove(data.size());
+			data.remove(data.size()-1);
 		} catch (Exception ex) {
 		// catched in case there is no first or last element due to weird simulation settings
 		}
