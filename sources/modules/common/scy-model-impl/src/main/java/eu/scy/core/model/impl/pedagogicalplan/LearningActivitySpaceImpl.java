@@ -2,6 +2,8 @@ package eu.scy.core.model.impl.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.*;
 
+import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.List;
 
@@ -11,10 +13,16 @@ import java.util.List;
  * Date: 28.sep.2009
  * Time: 15:46:03
  */
+@Entity
+@Table(name="learningactivityspace")
 public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl implements LearningActivitySpace, Assessable {
+
     private Assessment assessment = null;
     private LearningActivitySpaceTemplate learningActivitySpaceTemplate = null;
 
+    private List activities;
+
+    @Transient
     public Assessment getAssessment() {
         return assessment;
     }
@@ -23,6 +31,7 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
         this.assessment = assessment;
     }
 
+    @Transient
     public LearningActivitySpaceTemplate getLearningActivitySpaceTemplate() {
         return learningActivitySpaceTemplate;
     }
@@ -31,7 +40,7 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
         this.learningActivitySpaceTemplate = learningActivitySpaceTemplate;
     }
 
-    @Override
+    @Transient
     public Set<AnchorELO> getProduces() {
         return null;
     }
@@ -41,17 +50,26 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     }
 
-    @Override
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.LAZY)
     public List<Activity> getActivities() {
-        return null;
+        if(activities == null) {
+            activities = new LinkedList();
+        }
+        return activities;
+    }
+
+    public void addActivity(Activity activity) {
+        getActivities().add(activity);
+        activity.setLearningActivitySpace(this);
     }
 
     @Override
     public void setActivities(List<Activity> activities) {
+        this.activities = activities;
 
     }
 
-    @Override
+    @Transient
     public Set<LearningActivitySpaceScaffoldConfiguration> getLearningActivitySpaceScaffoldConfigurations() {
         return null;
     }

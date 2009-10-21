@@ -25,4 +25,5 @@ public interface LearningActivitySpace extends LearningActivitySpaceBase, Assess
     public void setLearninigActivitySpaceScaffoldConfigurations(Set <LearningActivitySpaceScaffoldConfiguration> learninigActivitySpaceScaffoldConfigurations);
 
 
+    void addActivity(Activity activity);
 }

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ScenarioDAO extends SCYBaseDAO{
 
-    public void createScenario(Scenario scenario);
+    public Object createScenario(Scenario scenario);
 
     public List<Scenario> getScenarios();
 
