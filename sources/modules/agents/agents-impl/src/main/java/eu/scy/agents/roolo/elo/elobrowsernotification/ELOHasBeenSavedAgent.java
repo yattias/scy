@@ -3,6 +3,7 @@ package eu.scy.agents.roolo.elo.elobrowsernotification;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.rmi.dgc.VMID;
 import java.util.Map;
 
 import roolo.elo.api.IELO;
@@ -26,13 +27,12 @@ public class ELOHasBeenSavedAgent extends AbstractELOAgent {
 	 * @param map
 	 *            Parameters needed to initialize the agent.
 	 */
-	public ELOHasBeenSavedAgent(Map<String, Object> map) {
-		super("NotifiyELOBroserAgent", (String) map.get("id"));
+	public ELOHasBeenSavedAgent() {
+		super("NotifiyELOBroserAgent", new VMID().toString());
 	}
 
 	@Override
 	public void processElo(IELO elo) {
-
 		if (elo == null) {
 			return;
 		}

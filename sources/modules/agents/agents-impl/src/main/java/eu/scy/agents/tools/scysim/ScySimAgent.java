@@ -125,7 +125,6 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
             String actionID = afterTuple.getField(0).getValue().toString().trim();
             String time = afterTuple.getField(1).getValue().toString().trim();
             String type = afterTuple.getField(2).getValue().toString().trim();
-            ;
             String user = afterTuple.getField(3).getValue().toString().trim();
             // String tool = action.getContext("tool");
             // String mission = action.getContext("mission");

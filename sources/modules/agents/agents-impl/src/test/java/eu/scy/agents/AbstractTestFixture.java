@@ -17,6 +17,7 @@ import roolo.api.IRepository;
 import roolo.elo.BasicELO;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
@@ -49,6 +50,26 @@ public class AbstractTestFixture {
 		BasicELO elo = new BasicELO();
 		elo.setIdentifierKey(typeManager
 				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		return elo;
+	}
+
+	protected IELO createNewElo(String title, String type) {
+		BasicELO elo = new BasicELO();
+		elo.setIdentifierKey(typeManager
+				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		IMetadataValueContainer titleContainer = elo.getMetadata()
+				.getMetadataValueContainer(
+						typeManager
+								.getMetadataKey(CoreRooloMetadataKeyIds.TITLE
+										.getId()));
+		titleContainer.setValue(title);
+		IMetadataValueContainer typeContainer = elo
+				.getMetadata()
+				.getMetadataValueContainer(
+						typeManager
+								.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
+										.getId()));
+		typeContainer.setValue(type);
 		return elo;
 	}
 

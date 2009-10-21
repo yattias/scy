@@ -43,7 +43,6 @@ public class MisspellingProcessELO extends AbstractELOAgent {
 		super("MisspellingProcessELO", (String) map.get("id"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void processElo(IELO elo) {
 		if (elo == null) {
