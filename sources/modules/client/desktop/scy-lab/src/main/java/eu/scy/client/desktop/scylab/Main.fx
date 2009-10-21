@@ -17,6 +17,7 @@ import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 import eu.scy.client.tools.fxfitex.FitexContentCreator;
 import eu.scy.client.tools.fxcopex.CopexContentCreator;
+import eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
