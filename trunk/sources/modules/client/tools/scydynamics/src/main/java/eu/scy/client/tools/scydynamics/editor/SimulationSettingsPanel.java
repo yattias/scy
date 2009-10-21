@@ -25,10 +25,12 @@ public class SimulationSettingsPanel extends JPanel {
 	private JTextField stepField;
 	private JComboBox methodbox;
 	String[] methods = { "RungeKuttaFehlberg", "euler", "static"};
+	private String calculationMethod;
 
 	public SimulationSettingsPanel(ModelEditor editor, ActionListener listener) {
 		super();
 		this.editor = editor;
+		calculationMethod = (String) editor.getProperties().get("editor.fixedcalculationmethod");
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder("simulation settings"));
 		initUI(listener);
@@ -48,7 +50,7 @@ public class SimulationSettingsPanel extends JPanel {
 		stepField = new JTextField(10);
 		northPanel.add(stepField);
 		northPanel.add(new JLabel("method"));
-		methodbox = new JComboBox(methods);
+		methodbox = getMethodBox();
 		northPanel.add(methodbox);
 		JButton run = new JButton("run simulation");
 		run.setActionCommand("run");
@@ -60,13 +62,27 @@ public class SimulationSettingsPanel extends JPanel {
 		northPanel.add(export);
 		this.add(northPanel, BorderLayout.NORTH);
 	}
+	
+	private JComboBox getMethodBox() {
+		JComboBox box = new JComboBox(methods);
+		if (calculationMethod!=null && !calculationMethod.equals("false") ) {
+			box.setSelectedItem(calculationMethod);
+			box.setEnabled(false);
+		}
+		return box;
+	}
 
 	public void updateSettings() {
 		Model model = editor.getModel();
 		startField.setText(model.getStart() + "");
 		stopField.setText(model.getStop() + "");
 		stepField.setText(model.getStep() + "");
-		methodbox.setSelectedItem(model.getMethod());
+		if (calculationMethod!=null && !calculationMethod.equals("false") ) {
+			methodbox.setSelectedItem(calculationMethod);
+			methodbox.setEnabled(false);
+		} else {
+			methodbox.setSelectedItem(model.getMethod());
+		}
 	}
 
 	public String getStart() {

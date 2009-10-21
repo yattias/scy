@@ -122,6 +122,7 @@ ActionListener {
 		props.put("show.graph", "true");
 		props.put("show.table", "true");
 		props.put("show.filetoolbar", "true");
+		props.put("editor.fixedcalculationmethod", "false");
 		return props;
 	}
 	
