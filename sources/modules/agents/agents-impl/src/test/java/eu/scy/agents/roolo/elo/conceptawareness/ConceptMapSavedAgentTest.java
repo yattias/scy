@@ -2,35 +2,44 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.server.Server;
 
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import eu.scy.agents.AbstractTestFixture;
+
+import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataValueContainer;
 
-public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
+public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 
 	private ConceptMapSavedAgent agent;
-	private TupleSpace ts;
+	private IELO elo;
+
+	@BeforeClass
+	public static void beforeAll() {
+		startTupleSpaceServer();
+	}
+
+	@AfterClass
+	public static void tearDown() {
+		stopTupleSpaceServer();
+	}
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
-		if (!Server.isRunning()) {
-			Configuration.getConfiguration().setSSLEnabled(false);
-			Server.startServer();
-		}
 		super.setUp();
+
+		elo = createNewElo("TestELO", "scy/scymapping");
 
 		IMetadataValueContainer uriContainer = elo.getMetadata()
 				.getMetadataValueContainer(
@@ -42,24 +51,14 @@ public class ConceptMapSavedAgentTest extends ConceptMapAgentsTestFixture {
 		map.put("id", agentId);
 		agent = new ConceptMapSavedAgent(map);
 		agent.setMetadataTypeManager(typeManager);
-		ts = new TupleSpace("command");
-	}
-
-	@After
-	public void tearDown() {
-		try {
-			Server.stopServer();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
 	public void testProcessElo() throws TupleSpaceException {
 		agent.processElo(elo);
 
-		Tuple t = ts.waitToTake(new Tuple(String.class, Long.class,
-				String.class), 10 * 1000);
+		Tuple t = getTupleSpace().waitToTake(
+				new Tuple(String.class, Long.class, String.class), 5 * 1000);
 		assertNotNull("no tuple written", t);
 		assertEquals("scymapper", t.getField(0).getValue());
 		assertEquals(
