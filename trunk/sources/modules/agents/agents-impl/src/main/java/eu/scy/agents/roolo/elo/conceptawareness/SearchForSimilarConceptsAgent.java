@@ -24,6 +24,7 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractProcessingAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -41,7 +42,8 @@ import eu.scy.agents.impl.AgentProtocol;
  * @author Florian Schulz
  * 
  */
-public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
+public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent
+		implements IRepositoryAgent {
 
 	/**
 	 * Name of the agent.
@@ -51,8 +53,6 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 	private IMetadataTypeManager metadataTypeManager;
 	private HashMap<URI, Double> score;
 	private IRepository repository;
-
-	private boolean stopped;
 
 	/**
 	 * Create a new SearchForSimilarConceptsAgent filtering agent. The argument
@@ -68,22 +68,6 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 
 	@Override
 	protected void doRun() throws AgentLifecycleException {
-		// aliveTask = new Timer(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME
-		// + "alive_updater");
-		// aliveTask.scheduleAtFixedRate(new TimerTask() {
-		// @Override
-		// public void run() {
-		// try {
-		// sendAliveUpdate();
-		// } catch (TupleSpaceException e) {
-		// // try {
-		// // stop();
-		// // } catch (AgentLifecycleException e1) {
-		// // e1.printStackTrace();
-		// // }
-		// }
-		// }
-		// }, 0, AgentProtocol.ALIVE_INTERVAL);
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
@@ -234,12 +218,12 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent {
 
 	@Override
 	protected void doStop() {
-		stopped = true;
+		status = Status.Stopping;
 	}
 
 	@Override
 	public boolean isStopped() {
-		return stopped;
+		return status == Status.Stopping;
 	}
 
 	@Override
