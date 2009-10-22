@@ -3,6 +3,9 @@ package eu.scy.agents.topics;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -28,7 +31,7 @@ import eu.scy.agents.impl.PersistentStorage;
  * Detects topics in a text ELOs. Intended to be a before agent.
  * 
  * ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String,
- * <ELOUri>:String, topicModelScores:Map<Integer,Double>)
+ * <ELOUri>:String, <topicModelScore>:byte[](HashMap<Integer,Double>))
  * 
  * @author Florian Schulz
  * 
@@ -70,16 +73,40 @@ public class TopicDetector extends AbstractProcessingAgent implements
 						Document doc = convertEloToDocument(elo);
 						Map<Integer, Double> topicScores = getTopicScores(doc);
 						addTopicMetadata(elo, topicScores);
-						repository.addMetadata(new URI(uri), elo.getMetadata());
+						repository.addMetadata(elo.getUri(), elo.getMetadata());
+						sendTopicsToTS(elo, topicScores);
 					}
 				} catch (URISyntaxException e) {
 					throw new AgentLifecycleException("malformed uri: " + uri,
 							e);
+				} catch (IOException e) {
+					throw new AgentLifecycleException("Could not send tuple", e);
 				}
 			} else {
 				sendAliveUpdate();
 			}
 		}
+	}
+
+	/**
+	 * Sends ("topicDetector":String, <ELOUri>:String,
+	 * topicModelScores:byte[](HashMap<Integer,Double>))
+	 * 
+	 * @throws IOException
+	 * @throws TupleSpaceException
+	 */
+	private void sendTopicsToTS(IELO elo, Map<Integer, Double> topicScores)
+			throws IOException, TupleSpaceException {
+
+		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+		ObjectOutputStream out = new ObjectOutputStream(bytesOut);
+
+		out.writeObject(topicScores);
+		bytesOut.toByteArray();
+
+		Tuple topicsDetectedTuple = new Tuple("topicDetector", elo.getUri()
+				.toString(), bytesOut.toByteArray());
+		getTupleSpace().write(topicsDetectedTuple);
 	}
 
 	private Tuple getTemplateTuple() {

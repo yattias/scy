@@ -1,13 +1,16 @@
 package eu.scy.agents.topics;
 
 import static org.junit.Assert.assertEquals;
+import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
@@ -89,14 +92,46 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testProcessElo() throws TupleSpaceException,
-			InterruptedException {
+			InterruptedException, IOException, ClassNotFoundException,
+			URISyntaxException {
 		// topicDetectorAgent.processElo(elo);
 
 		getTupleSpace().write(new Tuple("topicDetector", eloURI.toString()));
 
-		Thread.sleep(5000);
+		Tuple t = getTupleSpace().waitToTake(
+				new Tuple("topicDetector", String.class, Field
+						.createWildCardField()), 5000);
 
-		elo = repository.retrieveELO(eloURI);
+		ObjectInputStream bytesIn = new ObjectInputStream(
+				new ByteArrayInputStream((byte[]) t.getField(2).getValue()));
+		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
+				.readObject();
+
+		assertEquals(10, topicScoresMap.size());
+		assertEquals("wrong probability for topic 0", 0.0017892133644281931,
+				topicScoresMap.get(0), 0.01);
+		assertEquals("wrong probability for topic 1", 0.002575589897297382,
+				topicScoresMap.get(1), 0.01);
+		assertEquals("wrong probability for topic 4", 0.00227468953178241,
+				topicScoresMap.get(4), 0.01);
+		assertEquals("wrong probability for topic 5", 0.0016823702862740107,
+				topicScoresMap.get(5), 0.01);
+		assertEquals("wrong probability for topic 6", 0.001945861865589766,
+				topicScoresMap.get(6), 0.01);
+		assertEquals("wrong probability for topic 7", 0.002655118753113757,
+				topicScoresMap.get(7), 0.01);
+		assertEquals("wrong probability for topic 8", 0.0019143937827241963,
+				topicScoresMap.get(8), 0.01);
+
+		assertEquals("wrong probability for topic 2", 0.1603676990866432,
+				topicScoresMap.get(2), 0.03);
+		assertEquals("wrong probability for topic 3", 0.05110776312074621,
+				topicScoresMap.get(3), 0.03);
+		assertEquals("wrong probability for topic 9", 0.7885358343528651,
+				topicScoresMap.get(9), 0.03);
+
+		elo = repository
+				.retrieveELO(new URI((String) t.getField(1).getValue()));
 		List<String> topicScores = (List<String>) elo
 				.getMetadata()
 				.getMetadataValueContainer(
@@ -125,6 +160,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 				getTopicScore(topicScores.get(3)), 0.03);
 		assertEquals("wrong probability for topic 9", 0.7885358343528651,
 				getTopicScore(topicScores.get(9)), 0.03);
+
 	}
 
 	// public static void main(String[] args) throws IOException,
