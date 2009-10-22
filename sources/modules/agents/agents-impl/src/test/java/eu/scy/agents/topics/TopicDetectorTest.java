@@ -1,6 +1,7 @@
 package eu.scy.agents.topics;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -15,6 +16,7 @@ import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,6 +28,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import cc.mallet.topics.TopicModelParameter;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.PersistentStorage;
 
 public class TopicDetectorTest extends AbstractTestFixture {
@@ -72,6 +75,11 @@ public class TopicDetectorTest extends AbstractTestFixture {
 		System.out.println("EloURI " + eloURI);
 	}
 
+	@After
+	public void tearDown() throws AgentLifecycleException {
+		stopAgentFrameWork();
+	}
+
 	private void initModel() {
 		ObjectInputStream in = null;
 		try {
@@ -102,6 +110,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 				new Tuple("topicDetector", String.class, Field
 						.createWildCardField()), 5000);
 
+		assertNotNull("tuple is null", t);
 		ObjectInputStream bytesIn = new ObjectInputStream(
 				new ByteArrayInputStream((byte[]) t.getField(2).getValue()));
 		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
