@@ -7,6 +7,7 @@ import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +32,13 @@ public class AbstractTestFixture {
 	private static Configuration conf;
 
 	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
+	private AgentManager agentFramework;
+	private ArrayList<String> agentList;
 
 	protected void setUp() throws Exception {
 		agentMap.clear();
+
+		agentList = new ArrayList<String>();
 
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 				"test-config.xml");
@@ -86,20 +91,21 @@ public class AbstractTestFixture {
 	}
 
 	protected static void stopTupleSpaceServer() {
-		if (Server.isRunning()) {
-			Server.stopServer();
-		}
+		// if (Server.isRunning()) {
+		Server.stopServer();
+		// }
 	}
 
 	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
-		AgentManager agentFramework = new AgentManager("localhost", conf
-				.getNonSSLPort());
+		agentList.clear();
+		agentFramework = new AgentManager("localhost", conf.getNonSSLPort());
 		agentFramework.setRepository(repository);
 		agentFramework.setMetadataTypeManager(typeManager);
 		for (String agentName : agents.keySet()) {
 			Map<String, Object> params = agents.get(agentName);
 			try {
-				agentFramework.startAgent(agentName, params);
+				agentList.add(agentFramework.startAgent(agentName, params)
+						.getId());
 			} catch (AgentLifecycleException e) {
 				// TODO what to do with these exception.
 				e.printStackTrace();
@@ -111,5 +117,11 @@ public class AbstractTestFixture {
 		return new TupleSpace(new User("test"), "localhost", Configuration
 				.getConfiguration().getNonSSLPort(), false, false,
 				AgentProtocol.COMMAND_SPACE_NAME);
+	}
+
+	protected void stopAgentFrameWork() throws AgentLifecycleException {
+		for (String agentId : agentList) {
+			agentFramework.killAgent(agentId);
+		}
 	}
 }
