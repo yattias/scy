@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,7 +33,7 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 7882682383942333318L;
 	private DataCollector collector;
 	private JPanel variablePanel;
-	private Map<JCheckBox, ModelVariable> variables;
+	private Map<ComparableJCheckBox, ModelVariable> variables;
 
 	public VariableSelectionDialog(Frame owner, DataCollector collector) {
 		super(owner, true); // modal
@@ -51,8 +51,8 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		variablePanel = new JPanel();
 		// we need +3 because we have three more selection buttons
 		variablePanel.setLayout(new GridLayout(variables.size(), 1));
-		JCheckBox checkbox;
-		for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes
+		ComparableJCheckBox checkbox;
+		for (Iterator<ComparableJCheckBox> boxes = variables.keySet().iterator(); boxes
 		.hasNext();) {
 			checkbox = boxes.next();
 			variablePanel.add(checkbox);
@@ -119,9 +119,9 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getActionCommand().equals("save")) {
 			List<ModelVariable> selectedVariables = new LinkedList<ModelVariable>();
-			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes
+			for (Iterator<ComparableJCheckBox> boxes = variables.keySet().iterator(); boxes
 			.hasNext();) {
-				JCheckBox box = boxes.next();
+				ComparableJCheckBox box = boxes.next();
 				if (box.isSelected()) {
 					selectedVariables.add(variables.get(box));
 					// System.out.println("VariableSelectionDialog.actionPerformed(). add variable "+variables.get(box).getExternalName());
@@ -133,38 +133,38 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		} else if (evt.getActionCommand().equals("cancel")) {
 			dispose();
 		} else if (evt.getActionCommand().equals("all")) {
-			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes
+			for (Iterator<ComparableJCheckBox> boxes = variables.keySet().iterator(); boxes
 			.hasNext();) {
-				JCheckBox box = boxes.next();
+				ComparableJCheckBox box = boxes.next();
 				box.setSelected(true);
 			}
 		} else if (evt.getActionCommand().equals("none")) {
-			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes
+			for (Iterator<ComparableJCheckBox> boxes = variables.keySet().iterator(); boxes
 			.hasNext();) {
-				JCheckBox box = boxes.next();
+				ComparableJCheckBox box = boxes.next();
 				box.setSelected(false);
 			}
 		} else if (evt.getActionCommand().equals("invert")) {
-			for (Iterator<JCheckBox> boxes = variables.keySet().iterator(); boxes
+			for (Iterator<ComparableJCheckBox> boxes = variables.keySet().iterator(); boxes
 			.hasNext();) {
-				JCheckBox box = boxes.next();
+				ComparableJCheckBox box = boxes.next();
 				box.setSelected(!box.isSelected());
 			}
 		}
 	}
 
-	private Map<JCheckBox, ModelVariable> createVariables(
+	private Map<ComparableJCheckBox, ModelVariable> createVariables(
 			List<ModelVariable> simulationvariables) {
-		Map<JCheckBox, ModelVariable> temp = new HashMap<JCheckBox, ModelVariable>();
+		Map<ComparableJCheckBox, ModelVariable> temp = new TreeMap<ComparableJCheckBox, ModelVariable>();
 		ModelVariable var;
-		JCheckBox checkbox;
+		ComparableJCheckBox checkbox;
 		for (Iterator<ModelVariable> i = collector.getSimulationVariables()
 				.iterator(); i.hasNext();) {
 			var = i.next();
 			if ((var.getKind() == ModelVariable.VK_INPUT)
 					|| (var.getKind() == ModelVariable.VK_OUTPUT)
 					|| (var.getKind() == ModelVariable.VK_TIME)) {
-				checkbox = new JCheckBox(var.getName() + ": "
+				checkbox = new ComparableJCheckBox(var.getName() + ": "
 						+ var.getExternalName());
 				if (collector.getSelectedVariables().contains(var)) {
 					checkbox.setSelected(true);
@@ -172,6 +172,13 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 				temp.put(checkbox, var);
 			}
 		}
+
+                for (Iterator<ComparableJCheckBox> boxes = temp.keySet().iterator(); boxes
+		.hasNext();) {
+			checkbox = boxes.next();
+			System.out.println("VariableSelectionDialog variable: "+checkbox.getText());
+		}
+
 		return temp;
 	}
 
