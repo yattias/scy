@@ -3,14 +3,11 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 import java.util.Arrays;
 import java.util.List;
 
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 
 public class ConceptMapAgentsTestFixture extends AbstractTestFixture {
 
-	protected static final String CONCEPT_MAP_CONTENT = "<conceptmap>\n"
+	public static final String CONCEPT_MAP_CONTENT = "<conceptmap>\n"
 			+ "  <nodes>\n"
 			+ "    <node id=\"28208946\" name=\"total moment\" xpos=\"304\" ypos=\"681\"/>\n"
 			+ "    <node id=\"6051961\" name=\"moment child 1\" xpos=\"203\" ypos=\"517\"/>\n"
@@ -41,34 +38,54 @@ public class ConceptMapAgentsTestFixture extends AbstractTestFixture {
 			+ "    <link from=\"28208946\" id=\"ID-1238181177527\" label=\"Determines\" to=\"11136287\" />\n"
 			+ "    <link from=\"6051961\" id=\"ID-1238181123288\" label=\"+\" to=\"28208946\" />\n"
 			+ "  </links>\n" + "</conceptmap>";
+	public static final String CONCEPT_MAP1 = "<conceptmap>\n"
+			+ "  <nodes>\n"
+			+ "    <node id=\"25507275\" name=\"total moment\" xpos=\"443\" ypos=\"509\"/>\n"
+			+ "    <node id=\"21773414\" name=\"moment child 1\" xpos=\"261\" ypos=\"309\"/>\n"
+			+ "    <node id=\"21214799\" name=\"moment child 2\" xpos=\"621\" ypos=\"306\"/>\n"
+			+ "    <node id=\"837138\" name=\"moment\" xpos=\"415\" ypos=\"83\"/>\n"
+			+ "    <node id=\"25507275\" name=\"total moment\" xpos=\"443\" ypos=\"509\"/>\n"
+			+ "    <node id=\"21214799\" name=\"moment child 2\" xpos=\"621\" ypos=\"306\"/>\n"
+			+ "  </nodes>\n"
+			+ "  <links>\n"
+			+ "    <link from=\"21214799\" id=\"ID-1238181943959\" label=\"is a\" to=\"837138\"/>\n"
+			+ "    <link from=\"21214799\" id=\"ID-1238181998609\" label=\"+\" to=\"25507275\"/>\n"
+			+ "    <link from=\"21773414\" id=\"ID-1238182022119\" label=\"equals\" to=\"21214799\"/>\n"
+			+ "    <link from=\"21773414\" id=\"ID-1238181986379\" label=\"+\" to=\"25507275\"/>\n"
+			+ "    <link from=\"21773414\" id=\"ID-1238181922662\" label=\"is a\" to=\"837138\"/>\n"
+			+ "  </links>\n" + "</conceptmap>\n";
 
-	protected List<String> elo1NodeLabelList = Arrays.asList(new String[] {
+	public static final String CONCEPT_MAP2 = "<conceptmap>\n"
+			+ "<nodes>\n"
+			+ "<node id=\"2698971\" name=\"force\" xpos=\"35\" ypos=\"129\"/>\n"
+			+ "<node id=\"24575663\" name=\"mass\" xpos=\"275\" ypos=\"131\"/>\n"
+			+ "<node id=\"31452704\" name=\"moment\" xpos=\"32\" ypos=\"5\"/>\n"
+			+ "<node id=\"14074896\" name=\"distance\" xpos=\"271\" ypos=\"45\"/>\n"
+			+ "<node id=\"24575663\" name=\"mass\" xpos=\"275\" ypos=\"131\"/>\n"
+			+ "<node id=\"2698971\" name=\"force\" xpos=\"35\" ypos=\"129\"/>\n"
+			+ "<node id=\"14074896\" name=\"distance\" xpos=\"271\" ypos=\"45\"/>\n"
+			+ "<node id=\"31452704\" name=\"moment\" xpos=\"32\" ypos=\"5\"/>\n"
+			+ "</nodes>\n"
+			+ "<links>\n"
+			+ "<link from=\"14074896\" id=\"ID-1238182344922\" label=\"+\" to=\"2698971\"/>\n"
+			+ "<link from=\"2698971\" id=\"ID-1238182364029\" label=\"+\" to=\"31452704\"/>\n"
+			+ "<link from=\"14074896\" id=\"ID-1238182384867\" label=\"+\" to=\"31452704\"/>\n"
+			+ "<link from=\"24575663\" id=\"ID-1238182326498\" label=\"+\" to=\"2698971\"/>\n"
+			+ "</links>\n" + "</conceptmap>\n";
+
+	public static List<String> elo2NodeLabelList = Arrays.asList(new String[] {
+			"total moment", "moment child 1", "moment child 2", "moment", });
+	public static List<String> elo2LinkLabelList = Arrays.asList(new String[] {
+			"is_a", "+", "equals" });
+	public static List<String> elo3NodeLabelList = Arrays.asList(new String[] {
+			"force", "mass", "moment", "distance" });
+	public static List<String> elo3LinkLabelList = Arrays
+			.asList(new String[] { "+" });
+
+	public static List<String> elo1NodeLabelList = Arrays.asList(new String[] {
 			"total moment", "moment child 1", "force", "moment child 2",
 			"mass", "moment", "balance state", "distance" });
 
-	protected List<String> elo1LinkLabelList = Arrays.asList(new String[] {
+	public static List<String> elo1LinkLabelList = Arrays.asList(new String[] {
 			"-", "+", "is_a", "13768021-13768021", "Determines" });
-
-	protected IELO elo;
-
-	public ConceptMapAgentsTestFixture() {
-		super();
-	}
-
-	protected void setUp() throws Exception {
-		super.setUp();
-
-		elo = createNewElo();
-
-		IMetadataValueContainer typeContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						typeManager.getMetadataKey("technicalFormat"));
-		typeContainer.setValue("scy/scymapping");
-
-		IMetadataValueContainer titleContainer = elo.getMetadata()
-				.getMetadataValueContainer(typeManager.getMetadataKey("title"));
-		titleContainer.setValue("testELO1");
-
-		elo.setContent(new BasicContent(CONCEPT_MAP_CONTENT));
-	}
 }

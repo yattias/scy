@@ -9,16 +9,26 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import roolo.elo.api.IMetadataValueContainer;
+import eu.scy.agents.AbstractTestFixture;
 
-public class EnrichConceptMapAgentTest extends ConceptMapAgentsTestFixture {
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.content.BasicContent;
+
+public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 
 	private EnrichConceptMapAgent agent;
+	private IELO elo;
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+
+		elo = createNewElo("test", "scy/scymapping");
+		elo.setContent(new BasicContent(
+				ConceptMapAgentsTestFixture.CONCEPT_MAP_CONTENT));
+
 		String agentId = new VMID().toString();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", agentId);
