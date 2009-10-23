@@ -37,7 +37,7 @@
 
         <!-- APACHE CXF -->
 
-        <dependency>
+        <!--dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-core</artifactId>
             <version>${cxf.version}</version>
@@ -86,7 +86,7 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-common-utilities</artifactId>
             <version>${cxf.version}</version>
-        </dependency>
+        </dependency-->
 
     </dependencies>
 
