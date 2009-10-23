@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.server</groupId>
+        <version>9.8.0-SNAPSHOT</version>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>scy-server-utils</artifactId>
+    <name>Server utils</name>
+    <packaging>jar</packaging>
+    
+    <dependencies>
+        <!-- SQLSPACES -->
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-server</artifactId>
+            <version>${sqlspaces-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jsp-api-2.1</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jsp-2.1</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-client</artifactId>
+            <version>${sqlspaces-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-commons</artifactId>
+            <version>${sqlspaces-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>stax</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.woodstox</groupId>
+                    <artifactId>wstx-lgpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+
+
+    </dependencies>
+
+    <properties>
+        <filter.file>src/main/filters/serverfilter.properties</filter.file>
+    </properties>
+</project>
