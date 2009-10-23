@@ -14,6 +14,10 @@ delete from ofproperty where name like 'provider.securityAudit.className';
 delete from ofproperty where name like 'provider.user.className';
 delete from ofproperty where name like 'provider.vcard.className';
 
+delete from ofproperty where name like 'xmpp.component.defaultSecret';
+delete from ofproperty where name like 'xmpp.component.socket.active';
+delete from ofproperty where name like 'xmpp.session.conflict-limit';
+
 
 insert into ofproperty (name, propValue) values ('jdbcAuthProvider.passwordSQL', 'SELECT username FROM user_details where username like ?');
 insert into ofproperty (name, propValue) values ('jdbcUserProvider.loadUserSQL', 'SELECT username,email_address FROM user_details WHERE username=?');
@@ -30,6 +34,10 @@ insert into ofproperty (name, propValue) values ('provider.lockout.className', '
 insert into ofproperty (name, propValue) values ('provider.securityAudit.className', 'org.jivesoftware.openfire.security.DefaultSecurityAuditProvider');
 insert into ofproperty (name, propValue) values ('provider.user.className', 'org.jivesoftware.openfire.user.JDBCUserProvider');
 insert into ofproperty (name, propValue) values ('provider.vcard.className', 'org.jivesoftware.openfire.vcard.DefaultVCardProvider');
+
+insert into ofproperty (name, propValue) values ('xmpp.component.defaultSecret', 'java');
+insert into ofproperty (name, propValue) values ('xmpp.component.socket.active', 'true');
+insert into ofproperty (name, propValue) values ('xmpp.session.conflict-limit', 0);
 
 delete from ofextcomponentconf where subdomain like 'scyhub';
 insert into ofextcomponentconf (subdomain, wildcard, secret, permission) values ('scyhub', 0, 'java', 'allowed');
