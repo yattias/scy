@@ -22,6 +22,7 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     }
 
     function createChatNode(scyWindow:ScyWindow):ChatNode {
+        
         return ChatNode{
             scyWindow: scyWindow;
         }
