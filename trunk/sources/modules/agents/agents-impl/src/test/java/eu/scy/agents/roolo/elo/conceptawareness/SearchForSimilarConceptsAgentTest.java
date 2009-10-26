@@ -3,7 +3,6 @@ package eu.scy.agents.roolo.elo.conceptawareness;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -100,12 +99,12 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testRun() throws TupleSpaceException {
-		TupleSpace ts = new TupleSpace("command");
 		Tuple triggerTuple = new Tuple("scymapper", System.currentTimeMillis(),
 				elo.getUri().toString());
-		ts.write(triggerTuple);
-		Tuple resultTuple = ts.waitToTake(new Tuple("searchSimilarElosAgent",
-				String.class, String.class, String.class), 2 * 1000);
+		getTupleSpace().write(triggerTuple);
+		Tuple resultTuple = getTupleSpace().waitToTake(
+				new Tuple("searchSimilarElosAgent", String.class, String.class,
+						String.class), 2 * 1000);
 		assertNotNull(resultTuple);
 		assertEquals(elo.getUri().toString(), resultTuple.getField(3)
 				.getValue());
@@ -115,12 +114,15 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testNullELORun() throws TupleSpaceException {
-		TupleSpace ts = new TupleSpace();
 		Tuple triggerTuple = new Tuple("scymapper", System.currentTimeMillis(),
 				"http://something.thatis.not/a/urlpointing_to_something");
-		ts.write(triggerTuple);
-		Tuple resultTuple = ts.waitToTake(new Tuple("searchSimilarElosAgent",
-				String.class, String.class, String.class), 2 * 1000);
+		System.err.println("Writing tuple");
+		getTupleSpace().write(triggerTuple);
+		System.err.println("Waiting for tuple");
+		Tuple resultTuple = getTupleSpace().waitToTake(
+				new Tuple("searchSimilarElosAgent", String.class, String.class,
+						String.class), 2 * 1000);
+		System.err.println("Got tuple");
 		assertNull(resultTuple);
 	}
 

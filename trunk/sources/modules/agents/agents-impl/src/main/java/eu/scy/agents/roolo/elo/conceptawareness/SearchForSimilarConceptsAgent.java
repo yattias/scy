@@ -126,7 +126,9 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			} catch (TupleSpaceException e) {
-				stop();
+				if (status != Status.Stopping) {
+					stop();
+				}
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package eu.scy.agents.roolo.elo.conceptawareness;
 
-import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -49,8 +48,9 @@ public class ConceptMapSavedAgent extends AbstractELOAgent {
 		System.err.println("concept map elo saved");
 
 		try {
-			getTupleSpace().write(new Tuple("scymapper", System.currentTimeMillis(), elo
-					.getUri().toString()));
+			getTupleSpace().write(
+					new Tuple("scymapper", System.currentTimeMillis(), elo
+							.getUri().toString()));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
