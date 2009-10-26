@@ -27,6 +27,9 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="chat"/>
                <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="topDrawerCreatorId" value="presence"/>
+               <property name="bottomDrawerCreatorId" value="task"/>
+               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
          </list>
       </property>
