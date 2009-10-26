@@ -12,8 +12,6 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
-import roolo.api.IRepository;
-import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * @author jeremyt
@@ -21,8 +19,8 @@ import roolo.elo.api.IMetadataTypeManager;
 
 public class StudenPlanningContentCreator extends WindowContentCreatorFX {
     public var node:Node;
-    public var metadataTypeManager: IMetadataTypeManager;
-    public var repository:IRepository;
+   //public var metadataTypeManager: IMetadataTypeManager;
+   // public var repository:IRepository;
 
     public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node {
         return node;

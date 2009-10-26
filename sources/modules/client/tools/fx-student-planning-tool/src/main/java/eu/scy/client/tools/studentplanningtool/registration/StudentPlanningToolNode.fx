@@ -26,7 +26,6 @@ import javafx.scene.CustomNode;
 public class StudentPlanningToolNode extends CustomNode {
 
     public-init var eloChatActionWrapper:EloStudenPlanningActionWrapper;
-
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
