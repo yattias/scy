@@ -12,7 +12,7 @@ public class ChatHistoryBox extends SwingComponent, ChatInput {
     var js: JScrollPane;
     var ready: Boolean;
     public override function createJComponent(){
-        textarea = new JTextArea(10,40);
+        textarea = new JTextArea(10,20);
         js = new JScrollPane(textarea);
         ready = true;
         return js;

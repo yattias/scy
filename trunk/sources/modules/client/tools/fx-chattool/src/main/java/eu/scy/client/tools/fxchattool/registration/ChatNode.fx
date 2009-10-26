@@ -1,3 +1,5 @@
+
+
 /*
  * ChatNode.fx
  *
@@ -37,9 +39,30 @@ import javafx.stage.Alert;
 public class ChatNode extends CustomNode {
 
     public-init var eloChatActionWrapper:EloChatActionWrapper;
+
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle()
+        setScyWindowTitle();
     };
+
+    function initTBI() {
+        //we should get that TBI from above
+        var tbi:ToolBrokerImpl = new ToolBrokerImpl();
+        awarenessService = tbi.getAwarenessService();
+        var connection:XMPPConnection = tbi.getConnection("obama", "obama");
+        if (connection != null) {
+            startListeners(connection);
+            customTable.disable = false;
+            inputText.disable = false;
+            chatHistory.disable = false;
+            //serverInput.disable = true;
+            nameInput.disable = true;
+            passInput.disable = true;
+        }
+        else {
+            Alert.inform("The connection with the credentials provided failed");
+        }
+    }
+
 
     public function loadElo(uri:URI){
         eloChatActionWrapper.loadElo(uri);
@@ -118,17 +141,17 @@ public class ChatNode extends CustomNode {
     };
 
     var inputText: SwingTextField = SwingTextField {
-        columns: 40;
+        columns: 20;
         text: "";
         editable: true;
     };
 
-    var serverInput: SwingTextField = SwingTextField {
+ /*   var serverInput: SwingTextField = SwingTextField {
         columns: 15;
         text: "scy.intermedia.uio.no";
         editable: true;
         disable: true;
-    };
+    }; */
 
     var nameInput: SwingTextField = SwingTextField {
         columns: 15;
@@ -145,7 +168,7 @@ public class ChatNode extends CustomNode {
     var connectButton: SwingButton = SwingButton {
         text: "Connect"
         action: function() {
-            if(serverInput.text != "" and nameInput.text != "" and passInput.text != "") {
+            if(nameInput.text != "" and passInput.text != "") {
                var tbi:ToolBrokerImpl = new ToolBrokerImpl();
                awarenessService = tbi.getAwarenessService();
                var connection:XMPPConnection = tbi.getConnection(nameInput.text, passInput.text);
@@ -154,7 +177,7 @@ public class ChatNode extends CustomNode {
                    customTable.disable = false;
                    inputText.disable = false;
                    chatHistory.disable = false;
-                   serverInput.disable = true;
+                   //serverInput.disable = true;
                    nameInput.disable = true;
                    passInput.disable = true;
                }
@@ -225,6 +248,7 @@ public class ChatNode extends CustomNode {
     }
 
    public override function create(): Node {
+     //initTBI();
      return Group {
          blocksMouse:true;
          content: [
@@ -233,7 +257,7 @@ public class ChatNode extends CustomNode {
                         VBox {
                             spacing: 10
                             content: [
-                                HBox {
+                               /* HBox {
                                     spacing: 5
                                     content: [
                                         serverInput,
@@ -241,11 +265,11 @@ public class ChatNode extends CustomNode {
                                         passInput,
                                         connectButton
                                     ]
-                                },
+                                },*/
                                 HBox {
                                     spacing: 10
                                     content: [
-                                        VBox {
+                                        /*VBox {
                                             spacing: 10
                                             content: [
                                                 Group{
@@ -275,19 +299,20 @@ public class ChatNode extends CustomNode {
                                                     ]
                                                 }
                                             ]
-                                        },
+                                        },*/
                                         VBox {
                                             spacing: 10
                                             content: [
-                                                HBox {
+                                               /* HBox {
                                                     spacing: 10
                                                     content: [
                                                         inputText,
                                                         sendButton
                                                     ]
-                                                }
-                                                chatHistory
-
+                                                }*/
+                                                chatHistory,
+                                                inputText,
+                                                sendButton
                                             ]
                                         }
                                    ]
