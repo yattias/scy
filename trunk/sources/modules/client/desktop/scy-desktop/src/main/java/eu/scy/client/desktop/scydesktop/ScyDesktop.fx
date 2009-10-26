@@ -323,14 +323,14 @@ public class ScyDesktop extends CustomNode {
     function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
        if (window.eloUri==null){
           // no elo, no drawer tools
-          return;
+          //return;
        }
        if (window.eloType==null){
 
        }
 //       println("retrieving eloConfig for type {window.eloType}");
        if (eloConfig==null){
-          return;
+          //return;
        }
        window.topDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getTopDrawerCreatorId(), window);
        window.rightDrawerTool = drawerContentFactory.createDrawerTool(eloConfig.getRightDrawerCreatorId(), window);

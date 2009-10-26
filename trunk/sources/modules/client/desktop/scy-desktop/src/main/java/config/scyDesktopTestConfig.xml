@@ -77,8 +77,8 @@
 
       <property name="activeMissionAnchorUri" value="roolo://memory/1/0/Mission_background.text"/>
 
-      <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
-      <property name="backgroundImageFileNameRelative" value="true"/>
+    <!--  <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
+      <property name="backgroundImageFileNameRelative" value="true"/> -->
 
    </bean>
 
