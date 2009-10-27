@@ -44,14 +44,14 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 
 	@Test
 	public void testProcessElo() throws TupleSpaceException {
-		// agent.processElo(elo);
-		//
-		// Tuple tuple = getTupleSpace().waitToRead(
-		// new Tuple("topicDetector", String.class), 5000);
-		//
-		// assertNotNull("no tuple sent", tuple);
-		// getTupleSpace().takeTupleById(tuple.getTupleID());
-		// assertEquals("Uri not the same", elo.getUri().toString(), tuple
-		// .getField(1).getValue());
+		agent.processElo(elo);
+
+		Tuple tuple = getTupleSpace().waitToRead(
+				new Tuple("topicDetector", String.class), 5000);
+
+		assertNotNull("no tuple sent", tuple);
+		getTupleSpace().takeTupleById(tuple.getTupleID());
+		assertEquals("Uri not the same", elo.getUri().toString(), tuple
+				.getField(1).getValue());
 	}
 }
