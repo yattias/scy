@@ -65,9 +65,6 @@ public class TopicDetectorTest extends AbstractTestFixture {
 		agentMap.put("eu.scy.agents.topics.TopicDetector", params);
 		startAgentFramework(agentMap);
 
-		// topicDetectorAgent = new TopicDetector("co2_scy_english");
-		// topicDetectorAgent.setMetadataTypeManager(typeManager);
-
 		elo = createNewElo("testELO", "scy/text");
 		elo.setContent(new BasicContent(TEXT.getBytes()));
 		IMetadata data = repository.addNewELO(elo);
@@ -104,7 +101,6 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	public void testProcessElo() throws TupleSpaceException,
 			InterruptedException, IOException, ClassNotFoundException,
 			URISyntaxException {
-		// topicDetectorAgent.processElo(elo);
 
 		getTupleSpace().write(new Tuple("topicDetector", eloURI.toString()));
 
@@ -173,17 +169,6 @@ public class TopicDetectorTest extends AbstractTestFixture {
 				getTopicScore(topicScores.get(9)), 0.03);
 
 	}
-
-	// public static void main(String[] args) throws IOException,
-	// ClassNotFoundException {
-	// InputStream inStream = TopicDetectorTest.class
-	// .getResourceAsStream("/lda_model.dat");
-	// ObjectInputStream in = new ObjectInputStream(inStream);
-	// LDAHyper ldaModel = (LDAHyper) in.readObject();
-	// in.close();
-	// TopicModelParameter tmParameter = new TopicModelParameter(ldaModel);
-	// tmParameter.write(new File("model.dat"));
-	// }
 
 	private double getTopicScore(String topicScores) {
 		String score = topicScores.substring(topicScores.indexOf(':') + 1);
