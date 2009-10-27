@@ -30,7 +30,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startServer() {
-		//startTupleSpaceServer();
+		// startTupleSpaceServer();
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@AfterClass
 	public static void afterAll() throws Exception {
-		//stopTupleSpaceServer();
+		// stopTupleSpaceServer();
 		// TestHelper.deleteDirectory(eloStoreDir.getParentFile());
 	}
 
@@ -106,7 +106,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 		Tuple resultTuple = getTupleSpace().waitToTake(
 				new Tuple("searchSimilarElosAgent", String.class, String.class,
 						String.class), 2 * 1000);
-		assertNotNull(resultTuple);
+		assertNotNull("tuple is null, should not be", resultTuple);
 		assertEquals(elo.getUri().toString(), resultTuple.getField(3)
 				.getValue());
 		assertEquals("user1", resultTuple.getField(2).getValue());
