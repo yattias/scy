@@ -31,6 +31,20 @@ public abstract class AbstractELOAgent extends AbstractAgent implements
 	}
 
 	/**
+	 * Create a new AbstractELOAgent with <code>name</code> and <code>id</code>.
+	 * 
+	 * @param name
+	 *            The name of the agent.
+	 * @param id
+	 *            The id of the agent.
+	 * @param tsHost
+	 * @param tsPort
+	 */
+	protected AbstractELOAgent(String name, String id, String tsHost, int tsPort) {
+		super(name, id, tsHost, tsPort);
+	}
+
+	/**
 	 * Get the {@link IMetadataTypeManager} used by this filtering agent.
 	 * 
 	 * @return The used {@link IMetadataTypeManager}.

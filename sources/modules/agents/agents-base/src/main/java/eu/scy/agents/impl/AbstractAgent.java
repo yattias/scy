@@ -19,9 +19,9 @@ public abstract class AbstractAgent implements IAgent {
 
 	private boolean runAutonomous;
 
-	private int port;
+	protected int port;
 
-	private String host;
+	protected String host;
 
 	/**
 	 * The name of the agent.
