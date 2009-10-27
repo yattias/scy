@@ -144,6 +144,11 @@ public class AgentManager implements Callback {
 				e.printStackTrace();
 			}
 		}
+		try {
+			tupleSpace.disconnect();
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 		agentIdMap.clear();
 		oldAgents.clear();
 		startParameters.clear();
