@@ -63,8 +63,7 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 		// assertNotNull("no tuple written", t);
 		// assertEquals("scymapper", t.getField(0).getValue());
 		// assertEquals(
-		// "http://unittest.conceptmapsavedagent.de/1/bla.scymapping",
-		// // "roolo://memory/0/testELO1.scy",
-		// t.getField(2).getValue());
+		// // "http://unittest.conceptmapsavedagent.de/1/bla.scymapping",
+		// "roolo://memory/0/testELO.scy", t.getField(2).getValue());
 	}
 }
