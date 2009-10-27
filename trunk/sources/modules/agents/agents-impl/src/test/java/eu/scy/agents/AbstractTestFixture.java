@@ -22,14 +22,18 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.impl.manager.AgentManager;
 
 public class AbstractTestFixture {
 
+	// protected static final String TSHOST = "localhost";
+	protected static final String TSHOST = "scy.collide.info";
+	protected static final int TSPORT = 2525;
+
 	protected IMetadataTypeManager typeManager;
 	protected IExtensionManager extensionManager;
 	protected IRepository repository;
-	private static Configuration conf;
 
 	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 	private AgentManager agentFramework;
@@ -80,12 +84,12 @@ public class AbstractTestFixture {
 
 	protected static void startTupleSpaceServer() {
 		if (!Server.isRunning()) {
-			conf = Configuration.getConfiguration();
+			Configuration conf = Configuration.getConfiguration();
+			conf.setNonSSLPort(TSPORT);
 			conf.setSSLEnabled(false);
 			conf.setDbType(Database.HSQL);
 			conf.setWebEnabled(false);
 			conf.setWebServicesEnabled(false);
-
 			Server.startServer();
 		}
 	}
@@ -98,7 +102,7 @@ public class AbstractTestFixture {
 
 	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
 		agentList.clear();
-		agentFramework = new AgentManager("localhost", conf.getNonSSLPort());
+		agentFramework = new AgentManager(TSHOST, TSPORT);
 		agentFramework.setRepository(repository);
 		agentFramework.setMetadataTypeManager(typeManager);
 		for (String agentName : agents.keySet()) {
@@ -114,14 +118,21 @@ public class AbstractTestFixture {
 	}
 
 	public TupleSpace getTupleSpace() throws TupleSpaceException {
-		return new TupleSpace(new User("test"), "localhost", Configuration
-				.getConfiguration().getNonSSLPort(), false, false,
+		// return new TupleSpace(new User("test"), "localhost", Configuration
+		// .getConfiguration().getNonSSLPort(), false, false,
+		// AgentProtocol.COMMAND_SPACE_NAME);
+		return new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
 				AgentProtocol.COMMAND_SPACE_NAME);
+
 	}
 
 	protected void stopAgentFrameWork() throws AgentLifecycleException {
 		for (String agentId : agentList) {
 			agentFramework.killAgent(agentId);
 		}
+	}
+
+	protected PersistentStorage getPersistentStorage() {
+		return new PersistentStorage(TSHOST, TSPORT);
 	}
 }

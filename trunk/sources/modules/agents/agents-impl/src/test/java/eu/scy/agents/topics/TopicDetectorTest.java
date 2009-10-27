@@ -44,12 +44,12 @@ public class TopicDetectorTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startTS() {
-		startTupleSpaceServer();
+		// startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void stopTS() {
-		stopTupleSpaceServer();
+		// stopTupleSpaceServer();
 	}
 
 	@Before
@@ -59,6 +59,8 @@ public class TopicDetectorTest extends AbstractTestFixture {
 		initModel();
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", new VMID());
+		params.put("tsHost", TSHOST);
+		params.put("tsPort", TSPORT);
 		params.put(TopicDetector.MODEL_NAME, "co2_scy_english");
 		agentMap.put("eu.scy.agents.topics.TopicDetector", params);
 		startAgentFramework(agentMap);
@@ -88,7 +90,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 			in = new ObjectInputStream(inStream);
 			TopicModelParameter model = (TopicModelParameter) in.readObject();
 			in.close();
-			PersistentStorage storage = new PersistentStorage();
+			PersistentStorage storage = getPersistentStorage();
 			storage.put("co2_scy_english", model);
 		} catch (IOException e) {
 			e.printStackTrace();

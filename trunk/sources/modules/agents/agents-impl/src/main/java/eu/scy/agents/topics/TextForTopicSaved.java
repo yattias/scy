@@ -19,6 +19,10 @@ public class TextForTopicSaved extends AbstractELOAgent {
 		super(NAME, new VMID().toString());
 	}
 
+	public TextForTopicSaved(String tsHost, int tsPort) {
+		super(NAME, new VMID().toString(), tsHost, tsPort);
+	}
+
 	@Override
 	public void processElo(IELO elo) {
 		if (elo != null) {

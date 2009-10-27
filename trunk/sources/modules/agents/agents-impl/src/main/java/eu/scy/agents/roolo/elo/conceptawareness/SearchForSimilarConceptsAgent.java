@@ -23,6 +23,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
+import weka.gui.SysErrLog;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractProcessingAgent;
@@ -63,6 +64,12 @@ public class SearchForSimilarConceptsAgent extends AbstractProcessingAgent
 	 */
 	public SearchForSimilarConceptsAgent(Map<String, Object> map) {
 		super(SEARCH_FOR_SIMILAR_CONCEPTS_AGENT_NAME, (String) map.get("id"));
+		if (map.containsKey("tsHost")) {
+			host = (String) map.get("tsHost");
+		}
+		if (map.containsKey("tsHost")) {
+			port = (Integer) map.get("tsPort");
+		}
 		score = new HashMap<URI, Double>();
 	}
 

@@ -28,6 +28,12 @@ public class ConceptMapSavedAgent extends AbstractELOAgent {
 	 */
 	public ConceptMapSavedAgent(Map<String, Object> map) {
 		super("ConceptMapSavedAgent", (String) map.get("id"));
+		if (map.containsKey("tsHost")) {
+			host = (String) map.get("tsHost");
+		}
+		if (map.containsKey("tsPort")) {
+			port = (Integer) map.get("tsPort");
+		}
 	}
 
 	@Override

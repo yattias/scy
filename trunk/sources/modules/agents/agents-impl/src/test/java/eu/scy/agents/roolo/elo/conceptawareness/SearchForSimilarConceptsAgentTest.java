@@ -30,7 +30,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startServer() {
-		startTupleSpaceServer();
+		//startTupleSpaceServer();
 	}
 
 	@Override
@@ -78,7 +78,8 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 		String agentId = new VMID().toString();
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", agentId);
-
+		params.put("tsHost", TSHOST);
+		params.put("tsPort", TSPORT);
 		agentMap
 				.put(
 						"eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent",
@@ -93,7 +94,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@AfterClass
 	public static void afterAll() throws Exception {
-		stopTupleSpaceServer();
+		//stopTupleSpaceServer();
 		// TestHelper.deleteDirectory(eloStoreDir.getParentFile());
 	}
 
