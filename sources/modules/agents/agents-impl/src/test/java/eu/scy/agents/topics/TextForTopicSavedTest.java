@@ -18,12 +18,12 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startTS() {
-		startTupleSpaceServer();
+		// startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void stopTS() {
-		stopTupleSpaceServer();
+		// stopTupleSpaceServer();
 	}
 
 	private TextForTopicSaved agent;
@@ -33,7 +33,7 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		agent = new TextForTopicSaved();
+		agent = new TextForTopicSaved(TSHOST, TSPORT);
 		agent.setMetadataTypeManager(typeManager);
 
 		elo = createNewElo("testElo", "scy/text");

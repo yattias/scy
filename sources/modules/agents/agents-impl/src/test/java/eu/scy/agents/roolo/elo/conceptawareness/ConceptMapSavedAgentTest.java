@@ -14,10 +14,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import eu.scy.agents.AbstractTestFixture;
-
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataValueContainer;
+import eu.scy.agents.AbstractTestFixture;
 
 public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 
@@ -26,12 +25,12 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void beforeAll() {
-		startTupleSpaceServer();
+		// startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void tearDown() {
-		stopTupleSpaceServer();
+		// stopTupleSpaceServer();
 	}
 
 	@Override
@@ -49,6 +48,8 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 		String agentId = new VMID().toString();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", agentId);
+		map.put("tsHost", TSHOST);
+		map.put("tsPort", TSPORT);
 		agent = new ConceptMapSavedAgent(map);
 		agent.setMetadataTypeManager(typeManager);
 	}
@@ -58,7 +59,7 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 		// agent.processElo(elo);
 		//
 		// Tuple t = getTupleSpace().waitToTake(
-		// new Tuple(String.class, Long.class, String.class), 5 * 1000);
+		// new Tuple("scymapper", Long.class, String.class), 5 * 1000);
 		// assertNotNull("no tuple written", t);
 		// assertEquals("scymapper", t.getField(0).getValue());
 		// assertEquals(

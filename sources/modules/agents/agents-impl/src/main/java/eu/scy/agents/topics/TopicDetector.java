@@ -55,6 +55,12 @@ public class TopicDetector extends AbstractProcessingAgent implements
 
 	public TopicDetector(Map<String, Object> params) {
 		super(NAME, (String) params.get("id"));
+		if (params.containsKey("tsHost")) {
+			host = (String) params.get("tsHost");
+		}
+		if (params.containsKey("tsPort")) {
+			port = (Integer) params.get("tsPort");
+		}
 		agentDatabase = new PersistentStorage();
 		modelName = (String) params.get(MODEL_NAME);
 	}
