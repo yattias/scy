@@ -147,7 +147,7 @@ public class AgentManager implements Callback {
 		try {
 			tupleSpace.disconnect();
 		} catch (TupleSpaceException e) {
-			e.printStackTrace();
+			logger.info("Already disconnected");
 		}
 		agentIdMap.clear();
 		oldAgents.clear();
