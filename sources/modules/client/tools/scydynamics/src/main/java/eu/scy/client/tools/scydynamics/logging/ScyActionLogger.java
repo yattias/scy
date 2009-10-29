@@ -3,7 +3,7 @@ package eu.scy.client.tools.scydynamics.logging;
 import java.awt.Component;
 import java.awt.IllegalComponentStateException;
 
-import roolo.elo.api.IMetadataKey;
+//import roolo.elo.api.IMetadataKey;
 
 import colab.um.draw.JdAux;
 import colab.um.draw.JdConst;
@@ -16,7 +16,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
-import eu.scy.toolbroker.ToolBrokerImpl;
+//import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class ScyActionLogger implements IModellingLogger {
 
@@ -29,8 +29,8 @@ public class ScyActionLogger implements IModellingLogger {
 	public ScyActionLogger(String user) {
 		this.user = user;
 		System.out.println("ActionLogger. initializing TBI and logger.");
-		ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-		logger = tbi.getActionLogger();
+		//ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+		//logger = tbi.getActionLogger();
 	}
 	
 	/* (non-Javadoc)
