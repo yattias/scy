@@ -12,6 +12,8 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
 
+import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+
 /**
  * @author sikkenj
  */
@@ -72,6 +74,7 @@ var scyDesktopCreator = ScyDesktopCreator{
 }
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, "text");
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 

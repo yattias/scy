@@ -170,7 +170,7 @@ public class ScyDesktopCreator {
            return missionAnchor;
         }
      }
-     logger.info("failed to active mission anchor with uri: {uri}");
+     logger.info("failed to get active mission anchor with uri: {uri}");
      return null;
    }
 

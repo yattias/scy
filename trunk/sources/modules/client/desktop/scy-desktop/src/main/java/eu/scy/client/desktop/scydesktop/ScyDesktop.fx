@@ -223,8 +223,8 @@ public class ScyDesktop extends CustomNode {
       scyWindowControl = ScyWindowControlImpl{
           windowContentFactory: windowContentFactory;
           scyDesktop: windows;
-//          missionModel: missionModelFX;
-//          missionMap: missionMap;
+          missionModel: missionModelFX;
+          missionMap: missionMap;
           eloInfoControl:eloInfoControl;
           windowStyler:windowStyler;
           forbiddenNodes:[

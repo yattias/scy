@@ -23,4 +23,9 @@ public class MissionAnchorFX {
     public var color = Color.LIGHTGRAY;
     public var iconCharacter = "?";
     public var title = "?";
+
+    public override function toString():String{
+       return "eloUri:{eloUri}";
+    }
+
 }
