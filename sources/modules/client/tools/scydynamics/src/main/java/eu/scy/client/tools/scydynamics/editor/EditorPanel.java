@@ -9,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import eu.scy.client.tools.scydynamics.model.Model;
@@ -22,6 +24,8 @@ public class EditorPanel extends JPanel {
   private int startX, startY;   // The starting position of the mouse.
   //public javax.swing.Timer rtimer; // timer
   private String tip = null;
+  private BufferedImage backgroundImage = null;
+  private int alpha;
   private int tip_x,tip_y;
   private Font tip_font = new Font("Arial", Font.PLAIN, 10); // label font  
 
@@ -49,13 +53,27 @@ public Dimension getPreferredSize() {
     //return JTools.getSysResourceSize("EditorCanvas");
 	return new Dimension(400,400);
  }
-  //-------------------------------------------------------------------------
-  // paint
-  //-------------------------------------------------------------------------
+
+public void setBackgroundImage(BufferedImage image, int alpha) {
+	backgroundImage = image;
+	this.alpha = alpha;
+}
+
+public void setBackgroundImage(BufferedImage image) {
+	setBackgroundImage(image, 0);
+}
+
 public void paintComponent(Graphics g) {
     clear(g);
     if (dModel==null) return;
     Graphics2D g2d = (Graphics2D) g;
+    
+    if (backgroundImage != null) {
+    	g2d.drawImage(backgroundImage, 0, 0, null);
+    	g2d.setColor(new Color (255, 255, 255, alpha)); // R,G,B,Alpha)
+    	g2d.fillRect(0, 0, backgroundImage.getWidth(), backgroundImage.getHeight());
+     }
+    
     //AffineTransform atb = g2d.getTransform();
     //g2d.scale(2,2);
     for (JdObject obj: dModel.getObjects().values()) {

@@ -36,7 +36,6 @@ public class FileToolbar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = -5071178017935714682L;
 	private ModelEditor editor;
-	private SimquestModel sqModel;
 	private String filename = null;
 
 	public FileToolbar(ModelEditor editor) {
