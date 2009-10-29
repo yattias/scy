@@ -217,10 +217,14 @@ public class VariableDialog extends javax.swing.JDialog implements
 			String oldExpr = (String)props.get("expr");
 			String oldUnit = (String)props.get("unit");
 				
-			// removing spaces in variable name
+			// removing spaces and special chars in variable name
 			// (as they may crash the simulation engine
+			// or xml serialising)
 			String newName = nameField.getText();
 			newName = newName.replaceAll("\\s+", "_");
+			newName = newName.replaceAll("<", "");
+			newName = newName.replaceAll(">", "");
+			newName = newName.replaceAll("&", "");
 			
 			props.put("label", newName);
 			props.put("expr", valueField.getText());
