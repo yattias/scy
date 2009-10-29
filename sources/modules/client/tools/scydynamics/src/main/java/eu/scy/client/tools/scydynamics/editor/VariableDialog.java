@@ -225,10 +225,20 @@ public class VariableDialog extends javax.swing.JDialog implements
 			newName = newName.replaceAll("<", "");
 			newName = newName.replaceAll(">", "");
 			newName = newName.replaceAll("&", "");
+			// cleaning some bad chars in expression
+			String express = valueField.getText();
+			express = express.replaceAll("<", "");
+			express = express.replaceAll(">", "");
+			express = express.replaceAll("&", "");
+			// cleaning some bad chars in unit
+			String unit = (String)unitsBox.getSelectedItem();
+			unit = unit.replaceAll("<", "");
+			unit = unit.replaceAll(">", "");
+			unit = unit.replaceAll("&", "");
 			
 			props.put("label", newName);
-			props.put("expr", valueField.getText());
-			props.put("unit", (String)unitsBox.getSelectedItem());
+			props.put("expr", express);
+			props.put("unit", unit);
 			editor.setFigureProperties(oldName, props);
 								
 			if (!newColor.equals(editor.getModel().getObjectOfName((String)figure.getProperties().get("label")).getLabelColor()) || !oldName.equals(newName) || !oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem())) {
