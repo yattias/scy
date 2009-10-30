@@ -95,7 +95,7 @@ public class StudentPlanningToolMain {
 //				
 //				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 //				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-				frame.add(doInit());
+				frame.add(createStudentPlanningPanel());
 				//frame.setPreferredSize(new Dimension(500, 600));
 				// when you close the frame, the app exits
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -133,7 +133,7 @@ public class StudentPlanningToolMain {
 	}
 
 	/** creates a JXLabel and attaches a painter to it. */
-	private Component doInit() {
+	public JComponent createStudentPlanningPanel() {
 		
 		// tweak with the UI defaults for the taskpane and taskpanecontainer
 		changeUIdefaults();
