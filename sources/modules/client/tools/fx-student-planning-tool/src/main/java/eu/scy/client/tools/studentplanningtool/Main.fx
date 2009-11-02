@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningContentCreator;
+import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningToolContentCreator.StudentPlanningToolContentCreator;
 
 
 /**
@@ -22,13 +22,13 @@ import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningConten
 InitLog4JFX.initLog4J();
 
 //def scychatType = "scy/chat";
-def scystudenplanningId = "studenplanning";
+def scystudenplanningId = "studenplanningtool";
 
 var scyDesktopCreator = ScyDesktopCreator {
-    configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
+    configClassPathConfigLocation:"config/scyDesktopStudenPlanningToolConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudenPlanningContentCreator{},scystudenplanningId);
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scystudenplanningId);
 
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
@@ -42,7 +42,7 @@ scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
 
 
 var stage = Stage {
-    title: "SCY desktop with StudenPlanning tool"
+    title: "SCY desktop with StudenPlanningTool"
     width: 400
     height: 300
     scene: Scene {

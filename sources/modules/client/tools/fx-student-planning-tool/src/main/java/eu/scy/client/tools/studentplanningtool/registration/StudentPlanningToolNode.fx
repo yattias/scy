@@ -13,19 +13,24 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-
 import javafx.scene.CustomNode;
+import javafx.ext.swing.SwingComponent;
+import eu.scy.tools.planning.StudentPlanningToolMain;
 
 
 
 /**
- * @author sikkenj
+ * @author aperritano
  */
 
  // place your code here
 public class StudentPlanningToolNode extends CustomNode {
 
     public-init var eloChatActionWrapper:EloStudenPlanningActionWrapper;
+
+
+    public var wrappedSPTPanel:SwingComponent;
+    public var studentPlanningTool:StudentPlanningToolMain;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -40,7 +45,7 @@ public class StudentPlanningToolNode extends CustomNode {
             return;
         }
 
-        scyWindow.title = "StudenPlanning: {eloChatActionWrapper.getDocName()}";
+        scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
@@ -52,16 +57,19 @@ public class StudentPlanningToolNode extends CustomNode {
 
    public override function create(): Node {
      //initTBI();
+
+
+    // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
+
+        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel());
      return Group {
          blocksMouse:true;
-         content: [
-            Group {
-                   content: [
-                        
-                     
-                   ]
-                }
-         ]
+         content:
+
+            wrappedSPTPanel;
+
+
+
       };
    }
 }
