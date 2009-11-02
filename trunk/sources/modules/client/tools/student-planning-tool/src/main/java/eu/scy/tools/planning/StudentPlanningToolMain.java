@@ -79,6 +79,11 @@ public class StudentPlanningToolMain {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 		
+
+	}
+	
+	public void launchInFrame() {
+		
 		JFrame frame = new JFrame("Launcher");
 
 		// add the panel to this frame
@@ -130,6 +135,8 @@ public class StudentPlanningToolMain {
 		frame.pack();
 		frame.setVisible(true);
 
+		
+		
 	}
 
 	/** creates a JXLabel and attaches a painter to it. */
