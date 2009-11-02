@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
- 
+
    <parent>
       <artifactId>parent</artifactId>
       <groupId>eu.scy.client.tools</groupId>
       <version>9.8.0-SNAPSHOT</version>
    </parent>
- 
+
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>fx-chattool</artifactId>
-   <name>FX chattool</name>
+   <artifactId>fx-studentplanningtool</artifactId>
+   <name>FX Student Planning Tool</name>
    <packaging>jar</packaging>
 
    <licenses>
@@ -19,7 +19,7 @@
          <name>lgpl</name>
       </license>
    </licenses>
- 
+
    <dependencies>
 
       <dependency>
@@ -33,7 +33,7 @@
          <artifactId>scy-desktop</artifactId>
          <version>${pom.version}</version>
       </dependency>
-      
+
       <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -88,6 +88,11 @@
                 <groupId>eu.scy.client.desktop</groupId>
                 <artifactId>tool-broker</artifactId>
                 <version>${pom.version}</version>
+        </dependency>
+          <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>student-planning-tool</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
    </dependencies>
