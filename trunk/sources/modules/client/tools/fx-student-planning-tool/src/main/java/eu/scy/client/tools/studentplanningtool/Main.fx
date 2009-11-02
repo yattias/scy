@@ -22,10 +22,10 @@ import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningToolCo
 InitLog4JFX.initLog4J();
 
 //def scychatType = "scy/chat";
-def scystudenplanningId = "studenplanningtool";
+def scystudenplanningId = "studentplanningtool";
 
 var scyDesktopCreator = ScyDesktopCreator {
-    configClassPathConfigLocation:"config/scyDesktopStudenPlanningToolConfig.xml";
+    configClassPathConfigLocation:"config/scyDesktopStudentPlanningToolConfig.xml";
 }
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scystudenplanningId);
