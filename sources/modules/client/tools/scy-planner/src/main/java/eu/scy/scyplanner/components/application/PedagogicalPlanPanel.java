@@ -144,6 +144,11 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     }
 
     @Override
+    public void nodeSelected(INodeModel n) {
+        System.out.println("PedagogicalPlanPanel.nodeSelected");
+    }
+
+    @Override
     public void moved(INodeModel node) {
     }
 
@@ -160,6 +165,6 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     }
 
     @Override
-    public void nodeSelected(INodeModel conceptNode) {
+    public void selectionChanged(INodeModel conceptNode) {
     }
 }

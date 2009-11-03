@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl.shapes.concepts;
 
 import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.api.styling.INodeStyle;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -14,6 +15,7 @@ import java.awt.geom.Ellipse2D;
 public class Ellipse extends INodeShape {
     public Ellipse() {
     }
+
     /**
      *
      * @param point The location of the point located outside of the bounding box

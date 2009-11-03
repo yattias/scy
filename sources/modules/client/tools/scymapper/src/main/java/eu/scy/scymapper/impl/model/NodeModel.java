@@ -18,19 +18,18 @@ import java.util.ArrayList;
 public class NodeModel implements INodeModel {
 
 	private transient java.util.List<INodeModelListener> listeners;
+	private transient boolean selected = false;
 
-	private INodeShape shape = new DefaultNodeShape();
-
-	private Dimension size = new Dimension(150, 50);
+	private Dimension size = new Dimension(100, 100);
 
 	private Point location = new Point(20, 20);
 
 	private String label = "New concept";
 
+	private INodeShape shape = new DefaultNodeShape();
 	private INodeStyle style = new DefaultNodeStyle();
 
 	private boolean labelHidden = false;
-	private transient boolean selected = false;
 
 	private Object readResolve() {
 		listeners = new ArrayList<INodeModelListener>();
@@ -38,7 +37,6 @@ public class NodeModel implements INodeModel {
 	}
 	public NodeModel() {
         listeners = new ArrayList<INodeModelListener>();
-
     }
     public NodeModel(INodeShape shape) {
         this();
@@ -79,7 +77,7 @@ public class NodeModel implements INodeModel {
 
 	@Override
     public INodeStyle getStyle() {
-        if (style == null) style = new DefaultNodeStyle(); 
+        if (style == null) style = new DefaultNodeStyle();
         return style;
     }
 
@@ -165,7 +163,7 @@ public class NodeModel implements INodeModel {
 	@Override
 	public void notifySelected() {
 		for (INodeModelListener listener : listeners) {
-            listener.nodeSelected(this);
+            listener.selectionChanged(this);
         }
 	}
 

@@ -1,0 +1,19 @@
+package eu.scy.scymapper.impl.ui.diagr.modes;
+
+import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Bjørge
+ * Date: 03.nov.2009
+ * Time: 15:16:10
+ * To change this template use File | Settings | File Templates.
+ * TODO: Refactor to API
+ */
+public interface IDiagramMode {
+    public MouseListener getMouseListener();
+    public MouseMotionListener getMouseMotionListener();
+    public FocusListener getFocusListener();
+}

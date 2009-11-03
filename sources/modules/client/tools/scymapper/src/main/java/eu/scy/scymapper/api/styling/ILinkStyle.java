@@ -22,4 +22,6 @@ public interface ILinkStyle {
     boolean hasStyleListener(ILinkStyleListener o);
     void notifyStyleChanged(ILinkStyle s);
 
+    Color getSelectionColor();
+    void setSelectionColor(Color c);
 }

@@ -5,8 +5,11 @@ import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +26,7 @@ public class DiagramModel implements IDiagramModel {
 
     private transient java.util.List<IDiagramListener> listeners = new ArrayList<IDiagramListener>();
 
-	private Object readResolve() {
+    private Object readResolve() {
 		listeners = new ArrayList<IDiagramListener>();
 		return this;
 	}
@@ -40,6 +43,7 @@ public class DiagramModel implements IDiagramModel {
     public String getName() {
         return name;
     }
+
     @Override
     public void addNode(INodeModel node) {
 		nodes.add(node);
@@ -97,7 +101,7 @@ public class DiagramModel implements IDiagramModel {
         return nodes;
     }
 
-	@Override
+    @Override
     public void addDiagramListener(IDiagramListener o) {
         listeners.add(o);
     }
@@ -140,5 +144,25 @@ public class DiagramModel implements IDiagramModel {
         for (IDiagramListener listener : listeners) {
             listener.linkRemoved(link);
         }
+    }
+
+    @Override
+    public void removeAll() {
+        INodeModel[] nodesCopy = nodes.toArray(new INodeModel[nodes.size()]);
+        ILinkModel[] linksCopy = links.toArray(new ILinkModel[nodes.size()]);
+        nodes.clear();
+        links.clear();
+
+        for (INodeModel n : nodesCopy) notifyNodeRemoved(n);
+        for (ILinkModel l : linksCopy) notifyLinkRemoved(l);
+    }
+
+    @Override
+    public INodeModel getNodeAt(Point point) {
+        for (INodeModel node : nodes) {
+			Rectangle b = new Rectangle(node.getLocation(), node.getSize());
+			if (b.contains(point)) return node;
+		}
+        return null;
     }
 }

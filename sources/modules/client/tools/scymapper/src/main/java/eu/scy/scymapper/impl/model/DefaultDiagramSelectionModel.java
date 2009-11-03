@@ -17,7 +17,7 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 
 	private Stack<INodeModel> selectedNodes = new Stack<INodeModel>();
 	private Stack<ILinkModel> selectedLinks = new Stack<ILinkModel>();
-	private ArrayList<IDiagramSelectionListener> listeners = new ArrayList<IDiagramSelectionListener>();
+	private transient ArrayList<IDiagramSelectionListener> listeners = new ArrayList<IDiagramSelectionListener>();
 
 	@Override
 	public void select(INodeModel node) {

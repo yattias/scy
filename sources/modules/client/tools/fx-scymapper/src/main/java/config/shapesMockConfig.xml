@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-autowire="byName">
+
+
+    <bean id="configuration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration">
+        <property name="availableConceptTypes">
+            <list>
+                <ref bean="phenomena"/>
+                <ref bean="safe_to_eat"/>
+                <ref bean="star"/>
+                <ref bean="redstar"/>
+                <ref bean="egg"/>
+                <ref bean="factory"/>
+                <ref bean="redcircle"/>
+                <ref bean="greenoval"/>
+            </list>
+        </property>
+        <property name="availableLinkTypes">
+            <list>
+                <ref bean="leads_to"/>
+                <ref bean="related_to"/>
+                <ref bean="consequence_of"/>
+                <ref bean="causes"/>
+                <ref bean="mutually_influence"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.concepts.RoundRectangle">
+    </bean>
+    <bean id="starshape" class="eu.scy.scymapper.impl.shapes.concepts.Star"/>
+    <bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
+
+    <bean id="arrow" class="eu.scy.scymapper.impl.shapes.links.Arrow">
+        <property name="head">
+            <bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">
+                <property name="fixedSize" value="true"/>
+                <property name="length" value="10"/>
+            </bean>
+        </property>
+    </bean>
+    <bean id="bidirectional_arrow" parent="arrow">
+        <property name="tail">
+            <bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">
+                <property name="fixedSize" value="true"/>
+                <property name="length" value="10"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="phenomena" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Pollution"/>
+        <property name="description" value=""/>
+        <property name="nodeShape" ref="roundRectangle"/>
+        <property name="height" value="75"/>
+        <property name="width" value="150"/>
+        <property name="nodeStyle" ref="redNonOpaque"/>
+    </bean>
+
+    <bean id="safe_to_eat" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Safe to eat"/>
+        <property name="description" value=""/>
+        <property name="nodeShape" ref="roundRectangle"/>
+        <property name="nodeStyle" ref="blueOpaque"/>
+        <property name="height" value="75"/>
+        <property name="width" value="175"/>
+    </bean>
+
+    <bean id="egg" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Egg"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+                <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="factory" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Factory"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+                <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/factory.svg"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="leads_to" class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+        <property name="label" value="Leads to"/>
+        <property name="linkShape" ref="arrow"/>
+    </bean>
+    <bean id="consequence_of" class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+        <property name="label" value="Consequence of"/>
+        <property name="linkShape" ref="arrow"/>
+    </bean>
+    <bean id="causes" class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+        <property name="label" value="Causes"/>
+        <property name="linkShape" ref="arrow"/>
+    </bean>
+    <bean id="mutually_influence" class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+        <property name="label" value="Mutually influences"/>
+        <property name="linkShape" ref="bidirectional_arrow"/>
+    </bean>
+    <bean id="related_to" class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+        <property name="label" value="Related to"/>
+        <property name="linkShape" ref="line"/>
+    </bean>
+
+    <bean id="star" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Star"/>
+        <property name="nodeShape" ref="starshape"/>
+    </bean>
+
+    <bean id="redstar" parent="star">
+        <property name="name" value="Red non-filled star"/>
+        <property name="nodeStyle" ref="redNonOpaque"/>
+    </bean>
+
+    <bean id="blueOpaque" class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+        <property name="background">
+            <bean class="java.awt.Color">
+                <constructor-arg value="0x5599ff"/>
+            </bean>
+        </property>
+        <property name="opaque" value="true"/>
+    </bean>
+
+    <bean id="redOpaque" class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+        <property name="background">
+            <bean class="java.awt.Color">
+                <constructor-arg value="0xff5555"/>
+            </bean>
+        </property>
+        <property name="opaque" value="true"/>
+    </bean>
+    <bean id="redNonOpaque" parent="redOpaque">
+        <property name="opaque" value="false"/>
+    </bean>
+    <bean id="bergen" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Bergen"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.ImageShape">
+                <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bergen.jpg"/>
+            </bean>
+        </property>
+        <property name="width" value="125"/>
+        <property name="height" value="83"/>
+    </bean>
+    <bean id="redcircle" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Red circle"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
+        </property>
+        <property name="nodeStyle" ref="redOpaque"/>
+        <property name="width" value="100"/>
+        <property name="height" value="100"/>
+    </bean>
+    <bean id="greenoval" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Green Oval"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
+        </property>
+        <property name="nodeStyle">
+            <bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+                <property name="background">
+                    <bean class="java.awt.Color">
+                        <constructor-arg value="0x99ff55"/>
+                    </bean>
+                </property>
+                <property name="opaque" value="true"/>
+            </bean>
+        </property>
+        <property name="width" value="150"/>
+        <property name="height" value="75"/>
+    </bean>
+</beans>

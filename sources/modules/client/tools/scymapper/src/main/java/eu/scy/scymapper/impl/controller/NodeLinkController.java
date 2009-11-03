@@ -27,12 +27,12 @@ public class NodeLinkController implements INodeLinkController {
 
     @Override
     public void setTo(Point p) {
-
+        model.setTo(p);
     }
 
     @Override
     public void setFrom(Point p) {
-        
+        model.setFrom(p);
     }
 
     @Override

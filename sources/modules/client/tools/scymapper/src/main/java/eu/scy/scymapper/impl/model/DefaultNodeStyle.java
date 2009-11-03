@@ -19,12 +19,13 @@ public class DefaultNodeStyle implements INodeStyle {
 	private Color backgroundColor = new Color(0xaaaaaa);
 
     private Stroke stroke = new BasicStroke(2f);
+    private Color selectionColor = new Color(0x2244ff);
 
-	private int fillStyle = FILLSTYLE_STROKED;
+    private boolean opaque = true;
 
     private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
 
-	private Object readResolve() {
+    private Object readResolve() {
 		listeners = new ArrayList<INodeStyleListener>();
 		return this;
 	}
@@ -66,14 +67,14 @@ public class DefaultNodeStyle implements INodeStyle {
     }
 
     @Override
-    public void setFillStyle(int s) {
-        fillStyle = s;
+    public void setOpaque(boolean b) {
+        opaque = b;
 		notifyStyleChanged(this);
     }
 
     @Override
-    public int getFillStyle() {
-        return fillStyle;
+    public boolean isOpaque() {
+        return opaque;
     }
 
     @Override
@@ -95,5 +96,15 @@ public class DefaultNodeStyle implements INodeStyle {
         for (INodeStyleListener listener : listeners) {
             listener.styleChanged(s);
         }
+    }
+
+    @Override
+    public Color getSelectionColor() {
+        return selectionColor;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSelectionColor(Color c) {
+        selectionColor = c;
     }
 }

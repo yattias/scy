@@ -5,6 +5,7 @@ import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -119,5 +120,21 @@ private String name;
         for (IDiagramListener listener : listeners) {
             listener.linkRemoved(link);
         }
+    }
+
+    @Override
+    public void removeAll() {
+        INodeModel[] nodesCopy = nodes.toArray(new INodeModel[nodes.size()]);
+        ILinkModel[] linksCopy = links.toArray(new ILinkModel[nodes.size()]);
+        nodes.clear();
+        links.clear();
+
+        for (INodeModel n : nodesCopy) notifyNodeRemoved(n);
+        for (ILinkModel l : linksCopy) notifyLinkRemoved(l);
+    }
+
+    @Override
+    public INodeModel getNodeAt(Point point) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

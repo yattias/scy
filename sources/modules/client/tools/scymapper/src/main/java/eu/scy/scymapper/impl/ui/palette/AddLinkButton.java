@@ -10,16 +10,17 @@ import java.awt.*;
  * Date: 23.sep.2009
  * Time: 15:47:33
  */
-public class LinkButton extends JButton {
+public class AddLinkButton extends JToggleButton {
 
 	private ILinkShape shape;
 
-	public LinkButton(String text, ILinkShape shape) {
+	public AddLinkButton(String text, ILinkShape shape) {
         super(new LinkIcon(shape, 20, 20));
 		this.shape = shape;
 		setText(text);
     }
-	static class LinkIcon implements Icon {
+
+    static class LinkIcon implements Icon {
 		private ILinkShape shape;
 		private int iconHeight;
 		private int iconWidth;

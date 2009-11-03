@@ -10,5 +10,4 @@
 	<bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
 		<constructor-arg index="0" ref="metadataTypeManager"/>
 	</bean>
-
 </beans>

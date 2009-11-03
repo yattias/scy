@@ -1,10 +1,16 @@
 package eu.scy.scymapper.impl.shapes.concepts;
 
+import eu.scy.scymapper.api.IConceptMapListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,12 +19,25 @@ import java.awt.image.BufferedImage;
  * Time: 12:38:07
  */
 public class ImageShape extends INodeShape {
-    private BufferedImage image;
+    private transient BufferedImage image;
+    private URL url;
 
-    public ImageShape(BufferedImage i) {
+    public ImageShape(String url) throws IOException {
+        this(ImageShape.class.getResource(url));
+    }
+    public ImageShape(URL url) throws IOException {
+        this.url = url;
+        image = ImageIO.read(url);
+    }
+
+    private ImageShape(BufferedImage i) {
         image = i;
     }
 
+	private Object readResolve() throws IOException {
+        image = ImageIO.read(url);
+		return this;
+	}
     @Override
     public Point getConnectionPoint(Point point, Rectangle bounds) {
         double x = point.x;

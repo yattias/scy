@@ -10,8 +10,6 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public interface INodeStyle {
-    static final int FILLSTYLE_STROKED = 0;
-    static final int FILLSTYLE_FILLED = 1;
 
     Color getForeground();
 
@@ -25,12 +23,15 @@ public interface INodeStyle {
 
     Stroke getStroke();
 
-    void setFillStyle(int s);
+    void setOpaque(boolean b);
 
-    int getFillStyle();
+    boolean isOpaque();
 
     void addStyleListener(INodeStyleListener l);
     void removeStyleListener(INodeStyleListener l);
     boolean hasObserver(INodeStyleListener l);
     void notifyStyleChanged(INodeStyle s);
+
+    Color getSelectionColor();
+    void setSelectionColor(Color c);
 }

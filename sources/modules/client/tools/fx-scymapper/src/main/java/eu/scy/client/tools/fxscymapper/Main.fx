@@ -24,7 +24,7 @@ InitLog4JFX.initLog4J();
 
 
 var scyDesktopCreator = ScyDesktopCreator{
-   configClassPathConfigLocation:"config/scyDesktopSCYMapperTestConfig.xml";
+   configClassPathConfigLocation:"config/scyMapperTestConfig.xml";
 }
 
 def scyMapperId = "conceptmap";

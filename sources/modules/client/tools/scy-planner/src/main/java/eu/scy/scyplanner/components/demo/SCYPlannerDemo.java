@@ -50,7 +50,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
             public void actionPerformed(ActionEvent e) {
                 if (selectedNode != null) {
                     selectedNode.setShape(new Star());
-                    selectedNode.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+                    selectedNode.getStyle().setOpaque(INodeStyle.FILLSTYLE_FILLED);
                     selectedNode.getStyle().setBackground(new Color(0xff9900));
                 }
             }
@@ -134,13 +134,13 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
     private INodeModel createLASElement(String name, Integer xPos, Integer yPos) {
         //INodeModel las = new LearningActivitySpaceNodeModel();
         //las.setStyle(new DefaultNodeStyle());
-        //las.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+        //las.getStyle().setOpaque(INodeStyle.FILLSTYLE_FILLED);
         //las.getStyle().setBackground(new Color(0xcc0000));
 
         INodeModel las = new NodeModel();
         //eloNodeModel.setLabel("I'm a fried SVG egg");
         //eloNodeModel.setStyle(new DefaultNodeStyle());
-        //eloNodeModel.getStyle().setFillStyle(INodeStyle.FILLSTYLE_FILLED);
+        //eloNodeModel.getStyle().setOpaque(INodeStyle.FILLSTYLE_FILLED);
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/LASShape.svg");
 
         try {
@@ -210,6 +210,11 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
     }
 
     @Override
+    public void nodeSelected(INodeModel n) {
+        System.out.println("SCYPlannerDemo.nodeSelected");
+    }
+
+    @Override
     public void moved(INodeModel node) {
     }
 
@@ -226,7 +231,7 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
     }
 
     @Override
-    public void nodeSelected(INodeModel conceptNode) {
+    public void selectionChanged(INodeModel conceptNode) {
         selectedNode = conceptNode;
         selectedLabel.setText("You clicked: " + conceptNode.getLabel());
     }

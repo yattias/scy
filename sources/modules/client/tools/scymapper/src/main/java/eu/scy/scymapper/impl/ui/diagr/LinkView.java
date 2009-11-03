@@ -1,10 +1,10 @@
-package eu.scy.scymapper.impl.ui.diagram;
+package eu.scy.scymapper.impl.ui.diagr;
 
 import eu.scy.scymapper.api.diagram.ILinkController;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.ILinkModelListener;
 import eu.scy.scymapper.api.styling.ILinkStyle;
-import eu.scy.scymapper.impl.model.DefaultLinkStyle;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,13 +17,13 @@ import java.awt.*;
  */
 public class LinkView extends JComponent implements ILinkModelListener {
 
-    static final ILinkStyle DEFAULT_LINKSTYLE = new DefaultLinkStyle();
-
     private ILinkController controller;
     private ILinkModel model;
 
     private int minWidth = 100;
     private int minHeight = 100;
+
+    private final static Logger logger = Logger.getLogger(LinkView.class);
 
     public LinkView(ILinkController controller, ILinkModel model) {
         this.controller = controller;
@@ -33,7 +33,7 @@ public class LinkView extends JComponent implements ILinkModelListener {
         this.model.addListener(this);
 
         setLayout(null);
-
+        updatePosition();
     }
 
     public void paint(Graphics g) {
@@ -43,7 +43,10 @@ public class LinkView extends JComponent implements ILinkModelListener {
         Point from = model.getFrom();
         Point to = model.getTo();
 
-        if (from == null || to == null) return;
+        if (from == null || to == null) {
+            logger.warn("From or to is null");
+            return;
+        }
         Point relFrom = new Point(from);
         relFrom.translate(-getX(), -getY());
 
@@ -57,37 +60,10 @@ public class LinkView extends JComponent implements ILinkModelListener {
         ILinkStyle style = model.getStyle();
 
         g2.setStroke(style.getStroke());
-        g2.setColor(style.getColor());
+
+        g2.setColor(model.isSelected() ? style.getSelectionColor() : style.getColor());
+
         model.getShape().paint(g2, relFrom, relTo);
-
-		System.out.println("model.isSelected(): "+model.isSelected());
-		if (model.isSelected()) {
-
-			Point outlineFrom = new Point(relFrom);
-			outlineFrom.translate(-2, -2);
-
-			Point outlineTo = new Point(relTo);
-			outlineTo.translate(-2, -2);
-
-			g2.setColor(new Color(0xaaaaaa));
-			// Paint a dotted rectangle around
-			g2.setStroke(new BasicStroke(2f,
-										  BasicStroke.CAP_BUTT,
-										  BasicStroke.JOIN_ROUND,
-										  2.0f, new float[]{2.0f}, 2.0f));
-
-			model.getShape().paint(g2, outlineFrom, outlineTo);
-
-			g2.setColor(new Color(0xffffff));
-
-			// Paint a dotted outline around the link
-			g2.setStroke(new BasicStroke(2f,
-										  BasicStroke.CAP_BUTT,
-										  BasicStroke.JOIN_ROUND,
-										  2.0f, new float[]{2.0f}, 0.0f));
-
-			model.getShape().paint(g2, outlineFrom, outlineTo);
-		}
 
         g2.dispose();
 
@@ -133,6 +109,13 @@ public class LinkView extends JComponent implements ILinkModelListener {
 		repaint();
     }
 
+    @Override
+    public void selectionChanged(ILinkModel node) {
+        System.out.println("LinkView.selectionChanged");
+        //setBorder(BorderFactory.createLineBorder(Color.blue, 1));
+        repaint();
+    }
+
     public ILinkModel getModel() {
         return model;
     }
@@ -143,9 +126,5 @@ public class LinkView extends JComponent implements ILinkModelListener {
 
     public ILinkController getController() {
         return controller;
-    }
-
-    public void setController(ILinkController controller) {
-        this.controller = controller;
     }
 }
