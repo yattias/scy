@@ -23,7 +23,6 @@ public class DefaultConceptMap implements IConceptMap {
 
 	private transient IDiagramSelectionModel selectionModel = new DefaultDiagramSelectionModel();
 
-
 	private Object readResolve() {
 		listeners = new ArrayList<IConceptMapListener>();
 		selectionModel = new DefaultDiagramSelectionModel();
@@ -58,7 +57,7 @@ public class DefaultConceptMap implements IConceptMap {
 		return selectionModel;
 	}
 
-	@Override
+    @Override
 	public void setSelectionModel(IDiagramSelectionModel selectionModel) {
 		this.selectionModel = selectionModel;
 	}

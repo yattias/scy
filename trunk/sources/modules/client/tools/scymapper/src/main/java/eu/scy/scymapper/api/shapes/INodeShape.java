@@ -1,5 +1,7 @@
 package eu.scy.scymapper.api.shapes;
 
+import eu.scy.scymapper.api.styling.INodeStyle;
+
 import java.awt.*;
 import java.io.Serializable;
 
@@ -33,7 +35,7 @@ public abstract class INodeShape implements Serializable {
     public abstract Point getConnectionPoint(Point p, Rectangle bounds);
 
     /**
-     * This returns the shape at the size of the given bounds.
+     * Paints the shape on the given graphics object.
      * @param bounds The returned shape conforms to these bounds. Typically, a shape should fit the size of these bounds
      * @param g The graphics object to paint on
      */

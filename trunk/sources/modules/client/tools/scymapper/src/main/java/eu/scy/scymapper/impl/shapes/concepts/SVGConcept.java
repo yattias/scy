@@ -11,6 +11,7 @@ import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -24,19 +25,29 @@ import java.net.URL;
  */
 public class SVGConcept extends INodeShape {
 
-    private GraphicsNode rootNode;
-    private SVGDocument document;
+    private transient GraphicsNode rootNode;
+    private transient SVGDocument document;
 
-    public SVGConcept(URL url) throws IOException {
-        if (url == null) throw new IOException("URL cannot be null");
+    private URL url;
+    private String name;
+
+	private Object readResolve() throws IOException {
         String parser = XMLResourceDescriptor.getXMLParserClassName();
         SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(parser);
         this.document = (SVGDocument) factory.createDocument(url.toString());
         this. rootNode = getRootNode(document);
+		return this;
+	}
+    public SVGConcept(String urlStr) throws IOException {
+        this(SVGConcept.class.getResource(urlStr));
     }
 
-    public SVGConcept(SVGDocument shape) {
-        this.document = shape;
+    public SVGConcept(URL url) throws IOException {
+        if (url == null) throw new IOException("URL cannot be null");
+        this.url = url;
+        String parser = XMLResourceDescriptor.getXMLParserClassName();
+        SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(parser);
+        this.document = (SVGDocument) factory.createDocument(url.toString());
         this. rootNode = getRootNode(document);
     }
 
@@ -92,11 +103,21 @@ public class SVGConcept extends INodeShape {
         AffineTransform usr2dev = ViewBox.getViewTransform(null, elt, width, height, null);
 
         usr2dev.scale(getSX(bounds), getSY(bounds));
+
+        g2.translate(bounds.x, bounds.y);
         g2.transform(usr2dev);
 
         rootNode.paint(g2);
 
         g2.dispose();
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

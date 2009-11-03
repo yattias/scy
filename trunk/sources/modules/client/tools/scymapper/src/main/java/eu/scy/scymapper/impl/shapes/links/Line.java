@@ -24,6 +24,7 @@ public class Line implements ILinkShape {
 	public void paint(Graphics g, Point from, Point to) {
 		Graphics2D g2d = (Graphics2D)g.create();
 		g2d.draw(getShape(from, to));
+        g2d.dispose();
 	}
 
 	public Shape getShape(Point from, Point to) {

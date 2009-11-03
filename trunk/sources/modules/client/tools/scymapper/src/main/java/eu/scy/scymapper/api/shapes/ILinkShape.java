@@ -1,5 +1,7 @@
 package eu.scy.scymapper.api.shapes;
 
+import eu.scy.scymapper.api.styling.ILinkStyle;
+
 import java.awt.*;
 import java.io.Serializable;
 

@@ -13,19 +13,26 @@ import java.awt.geom.GeneralPath;
  * Time: 13:26:09
  */
 public class Arrow implements ILinkShape {
-	private boolean bidirectional;
-
 	private Arrowhead arrowhead = new Arrowhead();
+	private Arrowhead tail;
 
 	public Arrow() {
     }
 
-	public void setArrowhead(Arrowhead arrowhead) {
+	public void setHead(Arrowhead arrowhead) {
 		this.arrowhead = arrowhead;
 	}
 
-    public Arrow(boolean bidirectional) {
-        this.bidirectional = bidirectional;
+	public void setTail(Arrowhead tail) {
+		this.tail = tail;
+	}
+
+	public Arrowhead getTail() {
+		return tail;
+	}
+
+    boolean isBidirectional() {
+        return tail != null;
     }
 
     public Shape getShape(Point from, Point to) {
@@ -40,8 +47,7 @@ public class Arrow implements ILinkShape {
 			AffineTransform at = AffineTransform.getTranslateInstance(to.x, to.y);
 			gp.append(at.createTransformedShape(arrowhead.getShape()), false);
 
-			if (bidirectional) {
-				Arrowhead tail = new Arrowhead();
+			if (isBidirectional()) {
 				tail.setRotation(Line.getAngle(from , to)+Math.PI);
 				at = AffineTransform.getTranslateInstance(from.x, from.y);
 				gp.append(at.createTransformedShape(tail.getShape()), false);
@@ -54,9 +60,6 @@ public class Arrow implements ILinkShape {
 	public void paint(Graphics g, Point from, Point to) {
 		Graphics2D g2d = (Graphics2D)g.create();
 		g2d.draw(getShape(from, to));
-	}
-
-	public void setBidirectional(boolean bidirectional) {
-		this.bidirectional = bidirectional;
+        g2d.dispose();
 	}
 }

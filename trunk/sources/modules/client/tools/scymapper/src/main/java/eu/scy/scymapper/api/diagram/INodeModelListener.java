@@ -15,5 +15,5 @@ public interface INodeModelListener {
 
     public void shapeChanged(INodeModel node);
 
-    public void nodeSelected(INodeModel node);
+    public void selectionChanged(INodeModel node);
 }

@@ -9,4 +9,5 @@ package eu.scy.scymapper.api.diagram;
  */
 public interface ILinkModelListener {
     public void updated(ILinkModel subject);
+    public void selectionChanged(ILinkModel node);
 }

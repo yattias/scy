@@ -9,6 +9,8 @@ package eu.scy.scymapper.api.diagram;
  */
 public interface INodeLinkModel extends ILinkModel {
 
+    public boolean isConnected();
+
     public INodeModel getFromNode();
     public void setFromNode(INodeModel node);
 

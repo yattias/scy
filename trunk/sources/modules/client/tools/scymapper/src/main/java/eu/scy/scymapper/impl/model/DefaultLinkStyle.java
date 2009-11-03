@@ -15,11 +15,12 @@ import java.util.Collection;
  * To change this template use File | Settings | File Templates.
  */
 public class DefaultLinkStyle implements ILinkStyle {
-    private Color color = new Color(0x000000);
-    private Stroke stroke = new BasicStroke(2f);
+    private Color color = new Color(0x333333);
+    private Stroke stroke = new BasicStroke(1f);
     private transient Collection<ILinkStyleListener> listeners;
+    private Color selectionColor = new Color(0x2244ff);
 
-	public DefaultLinkStyle() {
+    public DefaultLinkStyle() {
         listeners = new ArrayList<ILinkStyleListener>();
     }
 
@@ -62,5 +63,15 @@ public class DefaultLinkStyle implements ILinkStyle {
         for (ILinkStyleListener listener : listeners) {
             listener.styleChanged(s);
         }
+    }
+
+    @Override
+    public Color getSelectionColor() {
+        return selectionColor;
+    }
+
+    @Override
+    public void setSelectionColor(Color c) {
+        selectionColor = c;
     }
 }

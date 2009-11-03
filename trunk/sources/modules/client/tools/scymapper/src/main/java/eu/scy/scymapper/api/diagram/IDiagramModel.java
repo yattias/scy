@@ -1,5 +1,7 @@
 package eu.scy.scymapper.api.diagram;
 
+import java.awt.*;
+import java.awt.event.MouseListener;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -43,4 +45,8 @@ public interface IDiagramModel extends Serializable {
     void notifyLinkAdded(ILinkModel link);
 
     void notifyLinkRemoved(ILinkModel link);
+
+    void removeAll();
+
+    INodeModel getNodeAt(Point point);
 }

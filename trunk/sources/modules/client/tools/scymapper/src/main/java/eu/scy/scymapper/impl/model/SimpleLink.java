@@ -16,22 +16,23 @@ import java.util.ArrayList;
  * Time: 15:46:06
  */
 public class SimpleLink implements ILinkModel, ILinkStyleListener {
-	private Point from;
-	private Point to;
-	private String label;
-	private ILinkShape shape;
+    protected Point from;
+    protected Point to;
+    private String label;
+    private ILinkShape shape;
 
     private transient java.util.List<ILinkModelListener> listeners;
 
-	private ILinkStyle style;
+    private ILinkStyle style;
     private boolean labelHidden = false;
-	private transient boolean selected;
+    private transient boolean selected;
 
-	private Object readResolve() {
-		listeners = new ArrayList<ILinkModelListener>();
-		return this;
-	}
-	public SimpleLink() {
+    private Object readResolve() {
+        listeners = new ArrayList<ILinkModelListener>();
+        return this;
+    }
+
+    public SimpleLink() {
         listeners = new ArrayList<ILinkModelListener>();
     }
 
@@ -40,7 +41,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
         this.shape = shape;
     }
 
-	@Override
+    @Override
     public String getLabel() {
         return label;
     }
@@ -111,18 +112,24 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
         }
     }
 
-	@Override
-	public boolean isSelected() {
-		return selected;
-	}
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 
-	@Override
-	public void setSelected(boolean b) {
-		selected = b;
-		notifyUpdated();
-	}
+    @Override
+    public void setSelected(boolean b) {
+        selected = b;
+        notifySelectionChanged();
+    }
 
-	@Override
+    private void notifySelectionChanged() {
+        for (ILinkModelListener listener : listeners) {
+            listener.selectionChanged(this);
+        }
+    }
+
+    @Override
     public void styleChanged(ILinkStyle s) {
         for (ILinkModelListener listener : listeners) {
             listener.updated(this);

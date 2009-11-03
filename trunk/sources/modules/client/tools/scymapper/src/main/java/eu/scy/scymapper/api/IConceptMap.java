@@ -11,7 +11,9 @@ import java.io.Serializable;
  * Time: 14:15:27
  */
 public interface IConceptMap extends Serializable, Cloneable {
-	String getName();
+    final String DEFAULT_CMAP_NAME = "New Concept Map";
+
+    String getName();
 
 	void setName(String name);
 

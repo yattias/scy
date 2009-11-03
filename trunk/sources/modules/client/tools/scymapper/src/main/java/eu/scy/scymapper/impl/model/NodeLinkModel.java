@@ -15,6 +15,11 @@ public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
     private INodeModel fromNode;
     private INodeModel toNode;
 
+    public NodeLinkModel(Point from, Point to) {
+        this.from = from;
+        this.to = to;
+    }
+
     public NodeLinkModel(INodeModel fromNode, INodeModel toNode) {
         this.fromNode = fromNode;
         this.toNode = toNode;
@@ -22,6 +27,9 @@ public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
 
 	@Override
     public Point getFrom() {
+
+        if (!isConnected()) return from;
+
         Point to = toNode.getConnectionPoint(fromNode.getCenterLocation());
         return fromNode.getConnectionPoint(to);
 
@@ -29,8 +37,16 @@ public class NodeLinkModel extends SimpleLink implements INodeLinkModel {
 
     @Override
     public Point getTo() {
+
+        if (!isConnected()) return to;
+
         Point from = fromNode.getConnectionPoint(toNode.getCenterLocation());
         return toNode.getConnectionPoint(from);
+    }
+
+    @Override
+    public boolean isConnected() {
+        return this.fromNode != null && this.toNode != null; 
     }
 
     @Override

@@ -7,10 +7,10 @@ import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
-import eu.scy.scymapper.impl.ui.diagram.ConnectionPoint;
-import eu.scy.scymapper.impl.ui.diagram.LinkView;
-import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagr.ConceptLinkView;
+import eu.scy.scymapper.impl.ui.diagr.ConnectionPoint;
+import eu.scy.scymapper.impl.ui.diagr.LinkView;
+import eu.scy.scymapper.impl.ui.diagr.NodeView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -98,7 +98,12 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
     @Override
     public void nodeSelected(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeSelected");
+        System.out.println("SCYPlannerDiagramView.nodeSelected");
+    }
+
+    @Override
+    public void selectionChanged(INodeModel n) {
+        System.out.println("ConceptDiagramView.selectionChanged");
     }
 
     @Override
@@ -326,12 +331,9 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
                 link.setTo(targetNode.getConnectionPoint(from));
 
-                targetNode.setConnectionCandidate(true);
-
                 currentTarget = targetNode;
 
             } else if (currentTarget != null) {
-                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             else {
@@ -370,7 +372,6 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
                 newLink.setShape(new Arrow());
                 controller.addLink(newLink);
 
-                currentTarget.setConnectionCandidate(false);
                 currentTarget = null;
             }
             getTemplink().setVisible(false);
