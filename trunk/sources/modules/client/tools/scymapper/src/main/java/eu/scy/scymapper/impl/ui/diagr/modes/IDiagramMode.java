@@ -6,7 +6,7 @@ import java.awt.event.MouseMotionListener;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 03.nov.2009
  * Time: 15:16:10
  * To change this template use File | Settings | File Templates.

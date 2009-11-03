@@ -5,7 +5,7 @@ import eu.scy.scymapper.api.shapes.ILinkShape;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 30.okt.2009
  * Time: 13:25:41
  */

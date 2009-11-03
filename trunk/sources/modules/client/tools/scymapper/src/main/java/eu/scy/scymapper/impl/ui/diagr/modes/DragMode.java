@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 03.nov.2009
  * Time: 15:10:18
  */
