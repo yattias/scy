@@ -73,7 +73,7 @@ public class RepositoryService {
 	@WebMethod(action = "saveELO")
 	public String saveELO(@WebParam MobileELO elo) {
 		log.info("KICKING OFF WITH THIS FUNKY MOBILE ELO: " + elo);
-		IELO<IMetadataKey> iElo = storeEloToRoolo(elo);
+		IELO iElo = storeEloToRoolo(elo);
 		return "Your picture was successfully saved to: " + iElo.getUri();
 	}
 
@@ -97,9 +97,9 @@ public class RepositoryService {
 	}
 
 	@XmlTransient
-	private IELO<IMetadataKey> storeEloToRoolo(MobileELO melo) {
+	private IELO storeEloToRoolo(MobileELO melo) {
 		if (rooloManager.getEloFactory() != null) {
-			IELO<IMetadataKey> elo = rooloManager.getEloFactory().createELO();
+			IELO elo = rooloManager.getEloFactory().createELO();
 			elo.setDefaultLanguage(Locale.ENGLISH);
 			elo.getMetadata().getMetadataValueContainer(
 					rooloManager.getMetadataTypeManager().getMetadataKey(
