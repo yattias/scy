@@ -7,7 +7,7 @@ import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 30.okt.2009
  * Time: 13:25:49
  */

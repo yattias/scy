@@ -15,7 +15,7 @@ import java.net.URL;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 29.okt.2009
  * Time: 19:33:00
  * This panel contains two sub-components: the toolbar that allows manipulation of the concept map diagram

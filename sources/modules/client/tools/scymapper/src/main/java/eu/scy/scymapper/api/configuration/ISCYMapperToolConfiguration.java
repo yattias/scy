@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjørge
+ * User: Bjoerge
  * Date: 30.okt.2009
  * Time: 12:06:18
  * To change this template use File | Settings | File Templates.
