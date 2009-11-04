@@ -1,5 +1,7 @@
 package eu.scy.actionlogging.api;
 
+import java.util.Map;
+
 
 public interface IAction
 {
@@ -7,6 +9,8 @@ public interface IAction
     /**
      * This interface describes how Actions should be logged.
      */
+
+	public String getId();
 	
 	/**
      * adds a new 'context property'
@@ -27,6 +31,8 @@ public interface IAction
     public void addAttribute(String key, String value);
     
     public String getAttribute(String key);
+    
+    public Map<String, String> getAttributes();
     
     public void setContext(IContext context);
     

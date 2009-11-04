@@ -33,19 +33,21 @@ public class Action extends ScyBaseObject implements IAction {
 	
     public Action() {
     	setId(UUID.randomUUID().toString());
-    	time = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601();
-    	
+    	time = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601(); 	
     	attributes = new HashMap<String, String>();
     }
-    
+     
+    @Override
     public void setContext(IContext context) {
     	this.context = context;
     }
     
+    @Override
     public IContext getContext() {
     	return context;
     }
     
+    @Override
     public void addContext(ContextConstants constant, String value) {
     	if(context == null) {
     		context = new Context();
@@ -53,6 +55,7 @@ public class Action extends ScyBaseObject implements IAction {
     	context.set(constant, value);
     }
     
+    @Override
 	public String getContext(ContextConstants constant) {
 		return context.get(constant);
 	}
@@ -70,6 +73,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the user
 	 */
+    @Override
 	public String getUser() {
 		return user;
 	}
@@ -77,6 +81,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @param user the user to set
 	 */
+    @Override
 	public void setUser(String user) {
 		this.user = user;
 	}
@@ -84,6 +89,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the time
 	 */
+    @Override
 	public String getTime() {
 		return time;
 	}
@@ -91,6 +97,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @param time the time to set
 	 */
+    @Override
 	public void setTime(String time) {
 		this.time = time;
 	}
@@ -98,6 +105,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the type
 	 */
+    @Override
 	public String getType() {
 		return type;
 	}
@@ -105,6 +113,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @param type the type to set
 	 */
+    @Override
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -112,6 +121,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the dataType
 	 */
+    @Override
 	public String getDataType() {
 		return dataType;
 	}
@@ -119,6 +129,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @param dataType the dataType to set
 	 */
+    @Override
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
 	}
@@ -126,6 +137,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the data
 	 */
+    @Override
 	public String getData() {
 		return data;
 	}
@@ -133,6 +145,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @param data the data to set
 	 */
+    @Override
 	public void setData(String data) {
 		this.data = data;
 	}
@@ -140,6 +153,7 @@ public class Action extends ScyBaseObject implements IAction {
 	/**
 	 * @return the attributes
 	 */
+	@Override
 	public Map<String, String> getAttributes() {
 		return attributes;
 	}
