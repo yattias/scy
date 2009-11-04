@@ -1,43 +1,56 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<!DOCTYPE page SYSTEM "chrome://highlighter/locale/highlighter.dtd">
+<window id="openELOWindow" title="&openELOWindowTitle;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script src="sidebar.js"/>
 
     <vbox>
         <!--Filters-->
-        <label control="" value="Filter"/>
+		<groupbox>
+			<caption label="Filter" />
+		<!--<label control="" value="Filter"/>-->
         <hbox>
-            <label control="filterAuthor" value="Filter Author"/>
+            <label control="filterAuthor" value="Author"/>
             <textbox value="Author/Contributors" text="AuthorLabel" id="filterAuthor"/>
-            <label control="filterTitle" value="Filter Title"/>
+            <label control="filterTitle" value="Title"/>
             <textbox value="Title" text="TitleLabel" id="filterTitle"/>
-            <label control="filterDate" value="Filter Date"/>
-            <textbox value="Date" text="DateLabel" id="filterDate"/>
+            <label control="filterDate" value="Date"/>
+			<datepicker id="filterDate" type="popup"/>
+			<label control="filterKeywords" value="Keywords"/>
+            <textbox value="Keywords" text="KeywordsLabel" id="filterKeywords"/>
         </hbox>
+		</groupbox>
 
 
         <!--Results-->
-        <hbox>
-           <grid flex="1">
-            <rows>
-                <row>
-               
-                    <hbox>
-                        <textbox value="Author/Contributors" text="AuthorLabel"/>
-                        <textbox value="Title" text="TitleLabel"/>
-                        <textbox value="Date" text="DateLabel"/>
-                    </hbox>
-               
-                </row>
-            </rows>
-           </grid>
-        </hbox>
+        <groupbox>
+			<caption label="Search-Results" />
+			<listbox id="elolist" rows="10">
+				<listcols>
+					<listcol flex="1" />
+					<splitter class="tree-splitter" />
+					<listcol flex="1" />
+					<splitter class="tree-splitter" />
+					<listcol flex="1" />
+					<splitter class="tree-splitter" />
+					<listcol flex="1" />
+				</listcols>
+				<listhead>
+					<listheader label="Title" />
+					<listheader label="Author" />
+					<listheader label="Date" />
+					<listheader label="URI" />
+				</listhead>
 
+			</listbox>
+		</groupbox>
 
         <!--Buttons-->
         <hbox>
-           <button label="Preview"/>
-           <button label="Open ELO"/>
+			<button label="Search" oncommand="highlighter.retrieveELOList();"/>
+			<button label="Preview" oncommand="highlighter.showPreviewELOWindow();"/>
+			<button label="Open ELO" oncommand="highlighter.showELOWindow();"/>
         </hbox>
-    </vbox>   
+    </vbox>
 
 </window>

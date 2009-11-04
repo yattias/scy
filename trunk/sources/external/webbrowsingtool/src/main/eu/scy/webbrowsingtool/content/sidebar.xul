@@ -6,16 +6,16 @@
   <vbox id="sidebarvbox">
     <!--<groupbox>
       <caption id="testcaption" label="Summary"/>-->
-      
+
       <!--Title-->
       <label id="titleLabel" value="&highlighter.title;"/>
       <textbox id="titleBox" multiline="false" value="&highlighter.addTitle;" />
-      
+
       <!--Selection-->
       <label id="selectionLabel" value="&highlighter.selection;"/>
       <!--<textbox id="summaryBox" multiline="true" value="Add content by highlighting text" rows ="10" />-->
       <listbox id="summaryBox" rows ="10" flex="0">
-        
+
       </listbox>
 
       <!--Delete-Button-->
@@ -35,7 +35,8 @@
     <!--</groupbox>-->
 
     <hbox>
-      <button label="&highlighter.preview;" oncommand="highlighter.preview();"/>
+      <button label="&highlighter.openELO;" oncommand="highlighter.openELO();"/>
+	  <button label="&highlighter.preview;" oncommand="highlighter.preview();"/>
       <button label="&highlighter.saveELO;" oncommand="highlighter.saveELO();"/>
     </hbox>
     <spacer flex="5"/>
@@ -44,5 +45,5 @@
 	<spacer flex="5"/>
   </vbox>
 
-  
+
 </page>
