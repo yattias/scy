@@ -7,7 +7,6 @@ import colab.um.draw.JdNode;
 import colab.um.draw.JdObject;
 import colab.um.draw.JdPopups;
 import colab.um.draw.JdRelation;
-import colab.um.draw.JdSelection;
 import colab.um.draw.JdTools;
 import colab.um.parser.JParserException;
 import colab.um.parser.JParserExpr;
@@ -21,31 +20,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
+import javax.swing.KeyStroke;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
 import eu.scy.client.tools.scydynamics.logging.FileActionLogger;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
+import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.SQLSpacesActionLogger;
 import eu.scy.client.tools.scydynamics.logging.ScyActionLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
@@ -69,7 +67,7 @@ ActionListener {
 
 	private JdPopups aPopups;
 	private Model aModel = null;
-	private JdSelection aSelection;
+	private ModelSelection aSelection;
 	private EditorPanel aCanvas;
 	private JScrollPane aScrollPane;
 	private String userMessage = null;
@@ -95,7 +93,7 @@ ActionListener {
 		this.setName("Model Editor");
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
-		logger = new DevNullActionLogger();
+		logger = new ModellingLogger(new DevNullActionLogger(), "obama");
 		/*if (props.get("actionlog.to.scy").equals("true")) {
                         logger = new ScyActionLogger("obama");
 		} else if (props.get("actionlog.to.file").equals("true")) {
@@ -107,11 +105,15 @@ ActionListener {
 		}*/
 
 		jtools = new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
-		aSelection = new JdSelection();
+		aSelection = new ModelSelection();
 		initComponents();
 		setNewModel();
 	}
 
+	public void setLogger(IActionLogger newLogger, String username) {
+		this.logger = new ModellingLogger(newLogger, username);
+	}
+	
 	public static Properties getDefaultProperties() {
 		Properties props = new Properties();
 		props.put("actionlog.to.file", "false");
@@ -155,7 +157,13 @@ ActionListener {
 
 		tabbedPane.addTab("model", new ImageIcon(JTools.getSysResourceImage("JvtEditor")), editorTab);
 		if (properties.get("show.graph").equals("true")) {addGraph();}
-		if (properties.get("show.table").equals("true")) {addTable();}		
+		if (properties.get("show.table").equals("true")) {addTable();}
+		
+		this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    this.registerKeyboardAction(this, "copy",  KeyStroke.getKeyStroke(KeyEvent.VK_C,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(KeyEvent.VK_V,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    this.registerKeyboardAction(this, "cut",   KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    this.registerKeyboardAction(this, "all",   KeyStroke.getKeyStroke(KeyEvent.VK_A,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 	
 	public void addGraph() {
@@ -653,7 +661,7 @@ ActionListener {
 	// ---------------------------------------------------------------------------
 	// selection: undo/copy/paste/cut
 	// ---------------------------------------------------------------------------
-	public JdSelection getSelection() {
+	public ModelSelection getSelection() {
 		return aSelection;
 	}
 
@@ -663,31 +671,31 @@ ActionListener {
 	}
 
 	public void pasteSelection() {
-		// aSelection.pasteSelection(this,aModel);
+		aSelection.pasteSelection(this,aModel);
 	}
 
 	public void cutSelection() {
-		// aSelection.cutSelection(this);
+		aSelection.cutSelection(this);
 	}
 
 	public void deleteSelection() {
-		// aSelection.deleteSelection(this);
+		aSelection.deleteSelection(this);
 	}
 
-	public void undoModel() {
-		// aSelection.undoModel(this);
-	}
+//	public void undoModel() {
+//		aSelection.undoModel(this);
+//	}
 
 	public void saveModel() {
-		// aSelection.saveModel(this);
+		aSelection.saveModel(this);
 	}
 
 	public void clearSaveFirstModel() {
-		// aSelection.clearSaveFirstModel();
+		aSelection.clearSaveFirstModel();
 	}
 
 	public void saveFirstModel() {
-		// aSelection.saveFirstModel(this);
+		aSelection.saveFirstModel(this);
 	}
 
 	public void clearUndoModel() {
@@ -695,9 +703,9 @@ ActionListener {
 	}
 
 	// ---------------------------------------------------------------------------
-	public void enableUndoButton(boolean b) {
-		// aEditorVT.enableUndoButton(b);
-	}
+//	public void enableUndoButton(boolean b) {
+//		aEditorVT.enableUndoButton(b);
+//	}
 
 	// ---------------------------------------------------------------------------
 	public Hashtable<String, JdObject> getCopySelection() {
@@ -1045,7 +1053,7 @@ ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String aCmd = e.getActionCommand();
 		if ("delete".equals(aCmd)) {
-			// aSelection.deleteSelection(this);
+			 aSelection.deleteSelection(this);
 			// sendVisualToolEvent("DeleteSelection", "DeleteSelection");
 		} else if ("all".equals(aCmd)) {
 			selectAllObjects();
