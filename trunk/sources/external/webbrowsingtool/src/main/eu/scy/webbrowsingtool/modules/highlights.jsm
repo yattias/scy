@@ -1,3 +1,18 @@
-var EXPORTED_SYMBOLS=["highlights"];
+var EXPORTED_SYMBOLS=["bullets","sourcesStore","titleStore","commentsStore"];
 
-var highlights;
+var bullets={
+ itemTexts: new Array(),
+ nodeIDs: new Array()
+};
+
+var sourcesStore={
+ value:""
+};
+
+var titleStore={
+ value:""
+};
+
+var commentsStore={
+ value:""
+};
