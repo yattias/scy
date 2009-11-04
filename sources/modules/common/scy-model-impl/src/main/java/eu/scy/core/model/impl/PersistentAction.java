@@ -253,4 +253,9 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     public String getData() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public Map<String, String> getAttributes() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
 }
