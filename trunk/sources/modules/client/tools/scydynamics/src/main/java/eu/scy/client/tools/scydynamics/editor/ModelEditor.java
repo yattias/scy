@@ -41,15 +41,9 @@ import javax.swing.event.ChangeListener;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
-import eu.scy.client.tools.scydynamics.logging.FileActionLogger;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
-import eu.scy.client.tools.scydynamics.logging.SQLSpacesActionLogger;
-import eu.scy.client.tools.scydynamics.logging.ScyActionLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
-import java.awt.Color;
-import java.awt.Dimension;
-
 
 public class ModelEditor extends JPanel implements AdjustmentListener,
 ActionListener {
