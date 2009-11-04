@@ -2,13 +2,10 @@ package eu.scy.agents.topics;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import roolo.elo.api.IELO;
@@ -16,16 +13,6 @@ import roolo.elo.api.IMetadata;
 import eu.scy.agents.AbstractTestFixture;
 
 public class TextForTopicSavedTest extends AbstractTestFixture {
-
-	@BeforeClass
-	public static void startTS() {
-		// startTupleSpaceServer();
-	}
-
-	@AfterClass
-	public static void stopTS() {
-		// stopTupleSpaceServer();
-	}
 
 	private TextForTopicSaved agent;
 	private IELO elo;
