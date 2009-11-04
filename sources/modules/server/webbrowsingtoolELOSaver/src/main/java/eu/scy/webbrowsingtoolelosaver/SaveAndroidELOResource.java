@@ -76,13 +76,13 @@ import roolo.elo.metadata.value.validators.StringValidator;
  *
  * @author __SVEN__
  */
-@Path("/saveELO")
-public class SaveELOResource {
+@Path("/saveAndroidFormELO")
+public class SaveAndroidELOResource {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
+    private final static Logger log = Logger.getLogger(SaveAndroidELOResource.class.getName());
     private IELO elo;
     private IMetadataKey uriKey;
     private IMetadataKey titleKey;
@@ -93,7 +93,7 @@ public class SaveELOResource {
     private IMetadataKey technicalFormat;
 
     /** Creates a new instance of SaveELOResource */
-    public SaveELOResource() {
+    public SaveAndroidELOResource() {
         //configure the Logger
         BasicConfigurator.configure();
     }
@@ -132,23 +132,23 @@ public class SaveELOResource {
     @Produces("text/plain")
     public String saveHtmlELO(JSONObject jsonData) {
 
-        String annotations = null;
-        String html = null;
-        String preview = null;
+        String content = null;
         String username = null;
         String password = null;
         String language = null;
+        String country = null;
         String title = null;
+        String description = null;
         try {
-            annotations = jsonData.getString("annotations");
-            html = jsonData.getString("html");
-            preview = jsonData.getString("preview");
+            content = jsonData.getString("content");
             username = jsonData.getString("username");
             password = jsonData.getString("password");
             language = jsonData.getString("language");
+            country = jsonData.getString("country");
             title = jsonData.getString("title");
+            description = jsonData.getString("description");
         } catch (JSONException ex) {
-            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaveAndroidELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
@@ -174,7 +174,7 @@ public class SaveELOResource {
                 elo = configLoader.getConfig().getEloFactory().createELO();
 
                 log.info("ELO created");
-                Locale defaultLocale = new Locale(language);
+                Locale defaultLocale = new Locale(language,country);
                 elo.setDefaultLanguage(defaultLocale);
 //                elo.setDefaultLanguage(Locale.ENGLISH);
 
@@ -184,7 +184,7 @@ public class SaveELOResource {
                     configLoader.getTypeManager().registerMetadataKey(typeKey);
                 }
                 elo.getMetadata().addMetadataPair(typeKey, container);
-                String docName = "Webbrowsing-ELO by " + username + " at " + timestamp;
+//                String docName = "Webbrowsing-ELO by " + username + " at " + timestamp;
 
                 /*//Logging the Key IDs...
                 log.warning("MetadataKeys-Size: " + configLoader.getTypeManager().getMetadataKeys().size());
@@ -222,7 +222,7 @@ public class SaveELOResource {
                 log.info("Metadata set");
                 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
+                //String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
                 elo.setContent(new BasicContent(content));
                 try {
                     configLoader.getRepository().addNewELO(elo);
