@@ -27,7 +27,7 @@ import eu.scy.agents.impl.AgentProtocol;
  * Detects topics in text .
  * 
  * ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String,
- * <ELOUri>:String, <topicModelScore>:byte[](HashMap<Integer,Double>))
+ * <ELOUri>:String)
  * 
  * @author Florian Schulz
  * 
@@ -127,16 +127,18 @@ public class DetectTopicForElos extends AbstractProcessingAgent implements
 	}
 
 	private void addTopicMetadata(IELO elo, Map<Integer, Double> topicScores) {
-		IMetadataValueContainer topicScoresContainer = elo
-				.getMetadata()
-				.getMetadataValueContainer(
-						metadataTypeManager
-								.getMetadataKey(TopicDetector.KEY_TOPIC_SCORES));
-		for (Integer topicId : topicScores.keySet()) {
-			Double topicProbability = topicScores.get(topicId);
-			String value = topicId + ":" + topicProbability;
-			topicScoresContainer.addValue(value);
-		}
+		// IMetadataKey key = metadataTypeManager
+		// .getMetadataKey(TopicDetector.KEY_TOPIC_SCORES);
+		// IMetadataValueContainer topicScoresContainer = elo.getMetadata()
+		// .getMetadataValueContainer(key);
+		// for (Integer topicId : topicScores.keySet()) {
+		// KeyValuePair entry = new KeyValuePair();
+		// entry.setKey("" + topicId);
+		// entry.setValue("" + topicScores.get(topicId));
+		// // Double topicProbability =
+		// // String value = +":" + topicProbability;
+		// topicScoresContainer.addValue(entry);
+		// }
 	}
 
 	@Override
