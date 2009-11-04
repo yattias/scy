@@ -12,6 +12,7 @@
 <!ENTITY highlighter.summary "Summary">
 <!ENTITY highlighter.title "Title">
 <!ENTITY highlighter.addComments "Add comment">
+<!ENTITY highlighter.openELO "Open ELO!">
 <!ENTITY highlighter.preview "Preview!">
 <!ENTITY highlighter.saveELO "Save ELO!">
 <!ENTITY dehighlighter.label "De-Highlight Selection">
@@ -22,3 +23,4 @@
 <!ENTITY sidebar.title "SCY Sidebar">
 <!ENTITY openSidebar.commandkey "E">
 <!ENTITY openSidebar.modifierskey "shift accel">
+<!ENTITY openELOWindowTitle "Open ELO....">

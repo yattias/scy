@@ -12,6 +12,7 @@
 <!ENTITY highlighter.summary "Zusammenfassung">
 <!ENTITY highlighter.title "Titel">
 <!ENTITY highlighter.addComments "Kommentare hinzufügen">
+<!ENTITY highlighter.openELO "Öffne ELO!">
 <!ENTITY highlighter.preview "Vorschau!">
 <!ENTITY highlighter.saveELO "Speichere ELO!">
 <!ENTITY dehighlighter.label "Markierung entfernen">
@@ -24,3 +25,4 @@
 <!ENTITY openSidebar.modifierskey "shift accel">
 <!ENTITY openELO.modifierskey "shift accel">
 <!ENTITY openELO.modifierskey "shift accel">
+<!ENTITY openELOWindowTitle "Öffne ELO....">
