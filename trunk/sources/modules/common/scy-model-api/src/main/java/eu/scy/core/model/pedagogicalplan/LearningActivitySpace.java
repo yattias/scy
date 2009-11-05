@@ -17,9 +17,12 @@ public interface LearningActivitySpace extends LearningActivitySpaceBase, Assess
 
     public Set<AnchorELO> getProduces();
     public void setProduces(Set <AnchorELO> anchorELOs);
+    public void addAnchorELO(AnchorELO anchorELO);
+
 
     public List <Activity> getActivities();
     public void setActivities(List <Activity> activities );
+
 
     public Set <LearningActivitySpaceScaffoldConfiguration> getLearningActivitySpaceScaffoldConfigurations();
     public void setLearninigActivitySpaceScaffoldConfigurations(Set <LearningActivitySpaceScaffoldConfiguration> learninigActivitySpaceScaffoldConfigurations);
