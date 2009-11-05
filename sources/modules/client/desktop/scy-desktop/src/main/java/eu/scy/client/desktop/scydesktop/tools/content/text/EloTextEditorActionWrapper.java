@@ -8,9 +8,10 @@ import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+import org.jdom.Element;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
@@ -26,7 +27,6 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.Contribute;
 
 /**
  *
@@ -38,6 +38,7 @@ public class EloTextEditorActionWrapper
    private static final Logger logger = Logger.getLogger(EloTextEditorActionWrapper.class.getName());
    public static final String scyTextType = "scy/text";
    public static final String untitledDocName = "untitled";
+   private static final String textTagName = "text";
    private IRepository repository;
    private IMetadataTypeManager metadataTypeManager;
    private IELOFactory eloFactory;
@@ -171,14 +172,16 @@ public class EloTextEditorActionWrapper
          Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
 
          setDocName(titleObject3.toString());
-         textEditor.setText(eloContentXmlToText(newElo.getContent().getXmlString()));
+         String text = eloContentXmlToText(newElo.getContent().getXmlString());
+         textEditor.setText(text);
+         logger.info("elo text content: '" + text + "'");
          elo = newElo;
       }
    }
 
    public void saveTextAction()
    {
-      logger.fine("save text");
+      logger.info("save text");
       if (elo == null)
       {
          saveAsTextAction();
@@ -194,8 +197,8 @@ public class EloTextEditorActionWrapper
 
    public void saveAsTextAction()
    {
-      logger.fine("save as drawing");
-      String drawingName = JOptionPane.showInputDialog("Enter drawing name:", docName);
+      logger.info("save as text");
+      String drawingName = JOptionPane.showInputDialog("Enter text name:", docName);
       if (StringUtils.hasText(drawingName))
       {
          setDocName(drawingName);
@@ -232,11 +235,17 @@ public class EloTextEditorActionWrapper
 
    private String textToEloContentXml(String text)
    {
-      return text;
+      Element textElement= new Element(textTagName);
+      textElement.setText(text);
+      return jdomStringConversion.xmlToString(textElement);
    }
 
    private String eloContentXmlToText(String text)
    {
-      return text;
+      Element textElement=jdomStringConversion.stringToXml(text);
+      if (!textTagName.equals(textElement.getName())){
+         logger.error("wrong tag name, expected " + textTagName + ", but got " + textElement.getName());
+      }
+      return textElement.getTextTrim();
    }
 }

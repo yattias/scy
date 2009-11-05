@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.DrawerContentCreatorRegistryFXImpl");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.DrawerContentCreatorRegistryFXImpl");
 
 public class DrawerContentCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX, DrawerContentCreatorRegistryFX{
 

@@ -14,9 +14,6 @@ import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javax.swing.JOptionPane;
 
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
-
 import javafx.scene.layout.VBox;
 
 import roolo.cms.repository.mock.BasicMetadataQuery;
@@ -34,20 +31,30 @@ import java.util.List;
 
 import roolo.api.search.ISearchResult;
 
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
+
 /**
  * @author sikkenj
  */
 
 // place your code here
 
-var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool");
 
 public class NewScyWindowTool extends CustomNode {
 
    public var scyDesktop: ScyDesktop;
+   public var scyWindowControl: ScyWindowControl;
    public var repository:IRepository;
    public var titleKey : IMetadataKey;
    public var technicalFormatKey : IMetadataKey;
+
+   init{
+      if (scyWindowControl==null){
+         scyWindowControl = scyDesktop.scyWindowControl;
+      }
+   }
+
 
    var newWindowCounter = 0;
    var newButton:Button;
@@ -81,7 +88,8 @@ public class NewScyWindowTool extends CustomNode {
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
             var title = "new {eloTypeName} {++newWindowCounter}";
-            createScyWindow(null,eloType,title);
+            var scyWindow = scyWindowControl.addOtherScyWindow(eloType);
+            scyWindow.title = title;
          }
       }
    }
@@ -104,22 +112,6 @@ public class NewScyWindowTool extends CustomNode {
       return null;
    }
 
-   function createScyWindow(eloUri:URI,eloType:String,title:String){
-      var window:ScyWindow = StandardScyWindow{
-         title:title
-         eloUri:eloUri;
-         eloType:eloType;
-//         id:"new://{title}"
-         allowClose: true;
-         allowResize: true;
-         allowRotate: true;
-         allowMinimize: true;
-         cache:true;
-      }
-      scyDesktop.addScyWindow(window);
-   }
-
-
    function loadElo(){
       if (not checkStatus()) return;
       var eloTypeName = getNewEloTypeName("Open ELO");
@@ -132,11 +124,7 @@ public class NewScyWindowTool extends CustomNode {
             if (results!=null and results.size()>0){
                var eloUri = askUri(results);
                if (eloUri!=null){
-                  scyDesktop.addScyWindow(eloUri);
-//                  var eloMetadata = repository.retrieveMetadata(eloUri);
-//                  var title = eloMetadata.getMetadataValueContainer(titleKey).getValue() as String;
-//                  var realEloType = eloMetadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-//                  createScyWindow(eloUri,realEloType,title);
+                  scyWindowControl.addOtherScyWindow(eloUri);
                }
             }
             else{
@@ -161,19 +149,5 @@ public class NewScyWindowTool extends CustomNode {
       return null;
 
    }
-
-
-
-//   function getNewEloType():String{
-//      var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
-//      if (typeNames.length>0){
-//         var choice = JOptionPane.showInputDialog(null, "Select type", "Create new ELO", JOptionPane.QUESTION_MESSAGE, null, typeNames, null) as String;
-//         if (choice!=null){
-//            return scyDesktop.newEloCreationRegistry.getEloType(choice);
-//         }
-//      }
-//      return null;
-//   }
-
 }
 

@@ -17,9 +17,13 @@ import javafx.stage.Stage;
 import java.net.URI;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author sikken
  */
+
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap");
 
 public class MissionMap extends CustomNode {
    public var missionModel: MissionModelFX;
@@ -31,7 +35,15 @@ public class MissionMap extends CustomNode {
 
    postinit {
       if (missionModel.activeAnchor != null){
-         getAnchorDisplay(missionModel.activeAnchor).selected = true;
+         if (missionModel.activeAnchor.exists){
+            getAnchorDisplay(missionModel.activeAnchor).selected = true;
+         }
+         else{
+            // the active anchor elo does not exist
+            logger.error("the specified active anchor elo does not exists: {missionModel.activeAnchor.eloUri}");
+            missionModel.activeAnchor = null;
+         }
+
       }
    }
 
@@ -79,7 +91,7 @@ public class MissionMap extends CustomNode {
          var selectedAnchorDisplay = getAnchorDisplay(missionModel.activeAnchor);
          if (selectedAnchorDisplay == anchorDisplay){
             // already selected, but do reposition the windows again
-            scyWindowControl.positionWindows();
+//            scyWindowControl.positionWindows();
             return;
          }
          selectedAnchorDisplay.selected = false;

@@ -23,19 +23,16 @@ import javafx.scene.Group;
 
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 /**
  * @author sikkenj
  */
-var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl");
 
 public class WindowManagerImpl extends WindowManager {
    public-read override var scyWindows = Group{};
-   public override var activeAnchor on replace previousAnchor{
-         switchActiveAnchor(previousAnchor);
-   };
-   var activeWindow:ScyWindow on replace previousActiveWindow {
+
+var activeWindow:ScyWindow on replace previousActiveWindow {
       if (previousActiveWindow!=null){
          setDeactiveWindowState(previousActiveWindow);
       }
@@ -52,26 +49,6 @@ public class WindowManagerImpl extends WindowManager {
    }
    def inactiveWindowEffect: Effect = null;
 
-   function switchActiveAnchor(previousAnchor : MissionAnchorFX){
-      windowStateListMap.put(previousAnchor,getCurrentWindowsStates());
-   }
-
-   function getCurrentWindowsStates():WindowState[]{
-      var windowStates:WindowState[];
-      for (window in scyWindows.content){
-         insert WindowState{} into windowStates;
-      }
-      return windowStates
-   }
-
-   function setWindowStates(windowStates:WindowState[]){
-      delete scyWindows.content;
-      for (windowState in windowStates){
-         windowState.applyState();
-         insert windowState.window into scyWindows.content;
-      }
-   }
-
    function setActiveWindowState(scyWindow:ScyWindow){
       scyWindow.effect = activeWindowEffect;
    }
@@ -82,46 +59,46 @@ public class WindowManagerImpl extends WindowManager {
 
 
    public override function addScyWindow(scyWindow:ScyWindow){
-      logger.info("addScyWindow({scyWindow.id})");
+      logger.info("addScyWindow({scyWindow.eloUri})");
       scyWindow.scyDesktop = this;
       setDeactiveWindowState(scyWindow);
 		if (not desktopContainsWindow(scyWindow)){
 			insert scyWindow into scyWindows.content;
 		}
 		else {
-         logger.warn("Trying to add scyWindow {scyWindow.id}, but it is allready there");
+         logger.warn("Trying to add scyWindow {scyWindow.eloUri}, but it is allready there");
 		}
    }
 
    public override function removeScyWindow(scyWindow:ScyWindow){
-      logger.info("removeScyWindow({scyWindow.id})");
+      logger.info("removeScyWindow({scyWindow.eloUri})");
       var index = Sequences.indexOf(scyWindows.content, scyWindow);
       if (index>=0){
          delete scyWindows.content[index];
       }
       else {
-         logger.warn("Trying to remove scyWindow {scyWindow.id}, but it is not there");
+         logger.warn("Trying to remove scyWindow {scyWindow.eloUri}, but it is not there");
       }
    }
 
    public override function activateScyWindow(scyWindow:ScyWindow){
-      logger.info("activateScyWindow({scyWindow.id})");
+      logger.info("activateScyWindow({scyWindow.eloUri})");
 		if (desktopContainsWindow(scyWindow)){
 			activeWindow = scyWindow;
          activeWindow.toFront();
 		}
 		else {
-         logger.warn("There is no scyWindow {scyWindow.id}");
+         logger.warn("There is no scyWindow {scyWindow.eloUri}");
 		}
    }
 
    public override function hideScyWindow(scyWindow:ScyWindow){
-      logger.info("hideScyWindow({scyWindow.id})");
+      logger.info("hideScyWindow({scyWindow.eloUri})");
 		if (desktopContainsWindow(scyWindow)){
 			scyWindow.visible = false;
 		}
 		else {
-         logger.warn("There is no scyWindow {scyWindow.id}");
+         logger.warn("There is no scyWindow {scyWindow.eloUri}");
 		}
    }
 
@@ -131,16 +108,8 @@ public class WindowManagerImpl extends WindowManager {
 			scyWindow.visible = true;
 		}
 		else {
-         logger.warn("There is no scyWindow {scyWindow.id}");
+         logger.warn("There is no scyWindow {scyWindow.eloUri}");
 		}
-   }
-
-	public override  function findScyWindow(id:String):ScyWindow{
-      for (window in scyWindows.content){
-         if (window.id == id)
-         return window as ScyWindow;
-      }
-      return null;
    }
 
 	public override  function findScyWindow(uri:URI):ScyWindow{
@@ -165,6 +134,11 @@ public class WindowManagerImpl extends WindowManager {
    function desktopContainsWindow(scyWindow:ScyWindow) : Boolean{
       var index = Sequences.indexOf(scyWindows.content, scyWindow);
       return index>=0;
+   }
+
+   public override function removeAllScyWindows():Void{
+      delete scyWindows.content;
+      activeWindow = null;
    }
 
 }

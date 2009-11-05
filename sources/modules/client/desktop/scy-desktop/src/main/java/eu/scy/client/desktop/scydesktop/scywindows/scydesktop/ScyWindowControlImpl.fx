@@ -19,46 +19,48 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
+import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
+
+import java.util.HashMap;
+
 /**
  * @author sikken
  */
 
 public class ScyWindowControlImpl extends ScyWindowControl {
 
-   public override var width on replace {
-      sizeChanged()
-   };
-   public override var height on replace {
-      sizeChanged()
-   };
-
-   def interWindowSpace = 20.0;
-
-   var activeAnchor = bind missionModel.activeAnchor on replace{
-      activeAnchorChanged()
+   var activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{
+      activeAnchorChanged(oldActiveAnchor)
    };
    var activeAnchorWindow: ScyWindow;
 //   var windowPositioner: WindowPositioner = WindowPositionerCenterMinimized{
-   var windowPositioner: WindowPositioner = SimpleWindowPositioner{
-      width: bind width;
-      height: bind height;
-      //        width: bind size.x;
-      //        height: bind size.y;
-      forbiddenNodes: bind forbiddenNodes
-   }
-   var otherWindows: ScyWindow[];
-   var relatedWindows: ScyWindow[];
-   var placedWindows: ScyWindow[];
+//   var windowPositioner: WindowPositioner = SimpleWindowPositioner{
+//      width: bind width;
+//      height: bind height;
+//      //        width: bind size.x;
+//      //        height: bind size.y;
+//      forbiddenNodes: bind forbiddenNodes
+//   }
+//   var otherWindows: ScyWindow[];
+//   var relatedWindows: ScyWindow[];
+//   var placedWindows: ScyWindow[];
 //   var titleKey: IMetadataKey;
 
-   function sizeChanged(){
-      //logger.info("new size ({width}*{height})");
-      positionWindows(false);
+   var scyWindows = new HashMap();
+   var desktopStates = new HashMap();
+
+   public override function addOtherScyWindow(eloUri:URI): ScyWindow{
+      var scyWindow = getScyWindow(eloUri);
+      windowManager.addScyWindow(scyWindow);
+      windowPositioner.placeOtherWindow(scyWindow);
+      return scyWindow;
    }
 
-   public override function addOtherScyWindow(otherWindow:ScyWindow){
-      println("addOtherScyWindow, id:{otherWindow.id}");
-      insert otherWindow into otherWindows;
+   public override function addOtherScyWindow(eloType:String):ScyWindow{
+      var scyWindow = createScyWindow(eloType);
+      windowManager.addScyWindow(scyWindow);
+      windowPositioner.placeOtherWindow(scyWindow);
+      return scyWindow;
    }
 
 //   public function newEloSaved(eloUri : URI){
@@ -77,171 +79,276 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //   }
 
 
-   public function activeAnchorChanged(){
+   function activeAnchorChanged(oldActiveAnchor:MissionAnchorFX){
+      if (oldActiveAnchor!=null){
+         // store window state of the old active anchor
+         desktopStates.put(oldActiveAnchor.eloUri, getDesktopState());
+      }
+
       if (activeAnchor!=null){
-         activeAnchorWindow = getScyWindow(activeAnchor);
-         if (activeAnchorWindow != null){
-            scyDesktop.addScyWindow(activeAnchorWindow);
-            positionWindows();
-   // TODO         scyDesktop.checkVisibilityScyWindows(isRelevantScyWindow);
-            scyDesktop.activateScyWindow(activeAnchorWindow);
-         }
+         // remove all windows from the desktop
+         windowManager.removeAllScyWindows();
+         windowPositioner.clearWindows();
+         // place the correct windows on the desktop
+         var desktopState = desktopStates.get(activeAnchor.eloUri) as DesktopState;
+         placeWindowsOnDesktop(desktopState);
       }
    }
 
-   function getScyWindow(anchor:MissionAnchorFX):ScyWindow{
-      var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri.toString());
-      if (scyWindow == null){
-         scyWindow = createScyWindow(anchor.eloUri);
-         scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
-//         scyWindow = ScyWindow{
-//            id: anchor.eloUri.toString();
-//            title: anchor.title;
-//            color: anchor.color;
-//            scyWindowAttributes: [
-//               missionMap.getAnchorAttribute(anchor)
-//            ]
-//         }
-//         applyMetadataAttributes(scyWindow,anchor.eloUri);
-//         windowContentFactory.fillWindowContent(anchor.eloUri,scyWindow);
-//         windowStyler.style(scyWindow, anchor.eloUri);
+   function getDesktopState(){
+      var eloUris:URI[];
+      for (window in windowManager.getScyWindows()){
+         if (window.eloUri!=null){
+            insert window.eloUri into eloUris;
+         }
+         else{
+            // TODO, handle window with a new and not saved elo
+         }
       }
-      return scyWindow;
+      DesktopState{
+         eloUris: eloUris;
+         windowPositionsState:windowPositioner.getWindowPositionsState()
+      }
+   }
+
+   function placeWindowsOnDesktop(desktopState:DesktopState){
+      var activeAnchorWindow = getScyWindow(activeAnchor.eloUri);
+      windowManager.addScyWindow(activeAnchorWindow);
+      windowPositioner.setActiveAnchorWindow(activeAnchorWindow);
+      for (anchor in activeAnchor.nextAnchors){
+         if (anchor.exists){
+            var anchorWindow = getScyWindow(anchor.eloUri);
+            windowManager.addScyWindow(anchorWindow);
+            windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+         }
+      }
+      for (relationName in activeAnchor.relationNames){
+         // add the related elos
+      }
+      if (desktopState!=null){
+         // add the user elos
+         for (eloUri in desktopState.eloUris){
+            var scyWindow = windowManager.findScyWindow(eloUri);
+            if (scyWindow==null){
+               scyWindow = getScyWindow(eloUri);
+               windowManager.addScyWindow(scyWindow);
+               windowPositioner.addOtherWindow(scyWindow);
+            }
+         }
+      }
+      // all windows are placed on the desktop and now it is time to position them
+      if (desktopState!=null and desktopState.windowPositionsState!=null){
+         // put the windows on the original positions
+         windowPositioner.positionWindows(desktopState.windowPositionsState);
+      }
+      else{
+         // no old position information
+         windowPositioner.positionWindows();
+      }
    }
 
    function getScyWindow(eloUri:URI):ScyWindow{
-      var scyWindow: ScyWindow = scyDesktop.findScyWindow(eloUri.toString());
-      if (scyWindow == null){
+      var scyWindow = scyWindows.get(eloUri) as ScyWindow;
+      if (scyWindow==null){
          scyWindow = createScyWindow(eloUri);
-//         scyWindow = ScyWindow{
-//            id: eloUri.toString();
-////                    title: anchor.title;
-//
-//         }
-//         applyMetadataAttributes(scyWindow,eloUri);
-//         windowContentFactory.fillWindowContent(eloUri,scyWindow);
-//         windowStyler.style(scyWindow, eloUri);
+         scyWindows.put(eloUri, scyWindow);
       }
       return scyWindow;
    }
 
    function createScyWindow(eloUri:URI):ScyWindow{
       var scyWindow = StandardScyWindow{
-         id: eloUri.toString();
          eloUri: eloUri;
          eloType: eloInfoControl.getEloType(eloUri);
          title: eloInfoControl.getEloTitle(eloUri);
+         setScyContent:setScyContent;
       }
-      applyMetadataAttributes(scyWindow,eloUri);
-      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
+      var anchor = getAnchor(eloUri);
+      if (anchor!=null){
+          scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
+      }
+//      applyMetadataAttributes(scyWindow,eloUri);
+//      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
       windowStyler.style(scyWindow, eloUri);
       return scyWindow;
    }
 
-
-   function applyMetadataAttributes(scyWindow:ScyWindow,eloUri:URI){
-      var title = eloInfoControl.getEloTitle(eloUri);
-      if (title!=null){
-         scyWindow.title = title;
+   function createScyWindow(eloType:String):ScyWindow{
+      var scyWindow = StandardScyWindow{
+         eloType: eloType;
+         setScyContent:setScyContent;
       }
+      windowStyler.style(scyWindow);
+      return scyWindow;
+   }
 
-//      var metadata = repository.retrieveMetadata(eloUri);
-//      if (metadata == null){
-//         println("Couldn't find elo {eloUri}");
+   function getAnchor(eloUri:URI):MissionAnchorFX{
+      for (anchor in missionModel.anchors){
+         if (anchor.eloUri==eloUri){
+            return anchor;
+         }
+      }
+      return null;
+   }
+
+   function getAnchorDirection(anchor:MissionAnchorFX):Number{
+      return Math.atan2(anchor.yPos - activeAnchor.yPos , anchor.xPos - activeAnchor.xPos);
+   }
+
+
+//   function getScyWindow(anchor:MissionAnchorFX):ScyWindow{
+//      var scyWindow: ScyWindow = windowManager.findScyWindow(anchor.eloUri);
+//      if (scyWindow == null){
+//         scyWindow = createScyWindow(anchor.eloUri);
+//         scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
+////         scyWindow = ScyWindow{
+////            id: anchor.eloUri.toString();
+////            title: anchor.title;
+////            color: anchor.color;
+////            scyWindowAttributes: [
+////               missionMap.getAnchorAttribute(anchor)
+////            ]
+////         }
+////         applyMetadataAttributes(scyWindow,anchor.eloUri);
+////         windowContentFactory.fillWindowContent(anchor.eloUri,scyWindow);
+////         windowStyler.style(scyWindow, anchor.eloUri);
+//      }
+//      return scyWindow;
+//   }
+//
+//   function getScyWindow(eloUri:URI):ScyWindow{
+//      var scyWindow: ScyWindow = windowManager.findScyWindow(eloUri);
+//      if (scyWindow == null){
+//         scyWindow = createScyWindow(eloUri);
+////         scyWindow = ScyWindow{
+////            id: eloUri.toString();
+//////                    title: anchor.title;
+////
+////         }
+////         applyMetadataAttributes(scyWindow,eloUri);
+////         windowContentFactory.fillWindowContent(eloUri,scyWindow);
+////         windowStyler.style(scyWindow, eloUri);
+//      }
+//      return scyWindow;
+//   }
+//
+//   function createScyWindow(eloUri:URI):ScyWindow{
+//      var scyWindow = StandardScyWindow{
+//         id: eloUri.toString();
+//         eloUri: eloUri;
+//         eloType: eloInfoControl.getEloType(eloUri);
+//         title: eloInfoControl.getEloTitle(eloUri);
+//      }
+//      applyMetadataAttributes(scyWindow,eloUri);
+//      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
+//      windowStyler.style(scyWindow, eloUri);
+//      return scyWindow;
+//   }
+//
+//
+//   function applyMetadataAttributes(scyWindow:ScyWindow,eloUri:URI){
+//      var title = eloInfoControl.getEloTitle(eloUri);
+//      if (title!=null){
+//         scyWindow.title = title;
+//      }
+//
+////      var metadata = repository.retrieveMetadata(eloUri);
+////      if (metadata == null){
+////         println("Couldn't find elo {eloUri}");
+////         return;
+////      }
+////      var tk = getTitleKey();
+////      if (metadata.metadataKeyExists(tk)){
+////         var title = metadata.getMetadataValueContainer(tk).getValue();
+////         if (title != null){
+////            scyWindow.title = title as String;
+////         }
+////      }
+//   }
+//
+////   function getTitleKey():IMetadataKey{
+////      if (titleKey == null){
+////         titleKey = metadataTypeManager.getMetadataKey("title");
+////      }
+////      return titleKey;
+////   }
+//
+//   function isRelevantScyWindow(scyWindow:ScyWindow):Boolean{
+//      if (scyWindow.id != null){
+//         var scyWindowUri = new URI(scyWindow.id);
+//         if (scyWindowUri == activeAnchor.eloUri){
+//            return true;
+//         }
+//         for (anchor in activeAnchor.nextAnchors){
+//            if (scyWindowUri == anchor.eloUri){
+//               return true;
+//            }
+//         }
+//         if (Sequences.indexOf(relatedWindows, scyWindow) >= 0){
+//            return true;
+//         }
+//         if (Sequences.indexOf(otherWindows, scyWindow) >= 0){
+//            return true;
+//         }
+//
+//      }
+//      return false;
+//   }
+//
+//   public override function positionWindows(onlyNewWindows:Boolean){
+//      //logger.info("for size ({width}*{height}) and {scyDesktop.scyWindows.content.size()} windows");
+//      if (windowManager.scyWindows.content.size()==0){
+//         // no windows, nothing to do
 //         return;
 //      }
-//      var tk = getTitleKey();
-//      if (metadata.metadataKeyExists(tk)){
-//         var title = metadata.getMetadataValueContainer(tk).getValue();
-//         if (title != null){
-//            scyWindow.title = title as String;
+//      var newPlacedWindows: ScyWindow[];
+//      if (not onlyNewWindows){
+//         delete placedWindows;
+//      }
+//      windowPositioner.clearWindows();
+//      windowPositioner.setCenterWindow(activeAnchorWindow);
+//      if (not onlyNewWindows){
+//         insert activeAnchorWindow into placedWindows;
+//      }
+//         insert activeAnchorWindow into newPlacedWindows;
+//      for (anchor in activeAnchor.nextAnchors){
+//         var scyWindow = getScyWindow(anchor);
+//         windowManager.addScyWindow(scyWindow);
+//         var anchorDirection = getAnchorDirection(anchor);
+//         windowPositioner.addLinkedWindow(scyWindow, anchorDirection);
+//         if (not onlyNewWindows){
+//               insert scyWindow into placedWindows;
+//         }
+//            insert scyWindow into newPlacedWindows;
+//      }
+////      findRelatedWindows();
+//      for (window in relatedWindows){
+//         windowPositioner.addOtherWindow(window);
+//         if (not onlyNewWindows){
+//               insert window into placedWindows;
+//         }
+//            insert window into newPlacedWindows;
+//      }
+//      for (window in otherWindows){
+//         windowPositioner.addOtherWindow(window);
+//         if (not onlyNewWindows){
+//               insert window into placedWindows;
+//         }
+//            insert window into newPlacedWindows;
+//      }
+//      if (onlyNewWindows){
+//         windowPositioner.setFixedWindows(placedWindows);
+//      }
+//      windowPositioner.positionWindows();
+//      if (onlyNewWindows){
+//         for (window in newPlacedWindows){
+//            if (Sequences.indexOf(placedWindows,window) < 0){
+//                 insert window into placedWindows;
+//            }
 //         }
 //      }
-   }
-
-//   function getTitleKey():IMetadataKey{
-//      if (titleKey == null){
-//         titleKey = metadataTypeManager.getMetadataKey("title");
-//      }
-//      return titleKey;
+//
 //   }
-
-   function isRelevantScyWindow(scyWindow:ScyWindow):Boolean{
-      if (scyWindow.id != null){
-         var scyWindowUri = new URI(scyWindow.id);
-         if (scyWindowUri == activeAnchor.eloUri){
-            return true;
-         }
-         for (anchor in activeAnchor.nextAnchors){
-            if (scyWindowUri == anchor.eloUri){
-               return true;
-            }
-         }
-         if (Sequences.indexOf(relatedWindows, scyWindow) >= 0){
-            return true;
-         }
-         if (Sequences.indexOf(otherWindows, scyWindow) >= 0){
-            return true;
-         }
-
-      }
-      return false;
-   }
-
-   public override function positionWindows(onlyNewWindows:Boolean){
-      //logger.info("for size ({width}*{height}) and {scyDesktop.scyWindows.content.size()} windows");
-      if (scyDesktop.scyWindows.content.size()==0){
-         // no windows, nothing to do
-         return;
-      }
-      var newPlacedWindows: ScyWindow[];
-      if (not onlyNewWindows){
-         delete placedWindows;
-      }
-      windowPositioner.clearWindows();
-      windowPositioner.setCenterWindow(activeAnchorWindow);
-      if (not onlyNewWindows){
-         insert activeAnchorWindow into placedWindows;
-      }
-         insert activeAnchorWindow into newPlacedWindows;
-      for (anchor in activeAnchor.nextAnchors){
-         var scyWindow = getScyWindow(anchor);
-         scyDesktop.addScyWindow(scyWindow);
-         var anchorDirection = getAnchorDirection(anchor);
-         windowPositioner.addLinkedWindow(scyWindow, anchorDirection);
-         if (not onlyNewWindows){
-               insert scyWindow into placedWindows;
-         }
-            insert scyWindow into newPlacedWindows;
-      }
-//      findRelatedWindows();
-      for (window in relatedWindows){
-         windowPositioner.addOtherWindow(window);
-         if (not onlyNewWindows){
-               insert window into placedWindows;
-         }
-            insert window into newPlacedWindows;
-      }
-      for (window in otherWindows){
-         windowPositioner.addOtherWindow(window);
-         if (not onlyNewWindows){
-               insert window into placedWindows;
-         }
-            insert window into newPlacedWindows;
-      }
-      if (onlyNewWindows){
-         windowPositioner.setFixedWindows(placedWindows);
-      }
-      windowPositioner.positionWindows();
-      if (onlyNewWindows){
-         for (window in newPlacedWindows){
-            if (Sequences.indexOf(placedWindows,window) < 0){
-                 insert window into placedWindows;
-            }
-         }
-      }
-
-   }
 
 //   var usedEdgeSourceWindows: ScyWindow[]; // TODO, don't use a "global" variable for it
 //   function findRelatedWindows(){
@@ -319,8 +426,5 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //
 
 
-   function getAnchorDirection(anchor:MissionAnchorFX):Number{
-      return Math.atan2(anchor.yPos - activeAnchor.yPos , anchor.xPos - activeAnchor.xPos);
-   }
 
 }

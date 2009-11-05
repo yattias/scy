@@ -87,7 +87,10 @@ public class AnchorDisplay extends CustomNode {
 
 
    public override function create(): Node {
-      cursor = Cursor.HAND;
+      disable = not anchor.exists;
+      if (anchor.exists){
+         cursor = Cursor.HAND;
+      }
       var titleDisplay = Text {
          font: titleFont,
          x: 0,

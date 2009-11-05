@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  * @author sikkenj
  */
 
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorRegistryFXImpl");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorRegistryFXImpl");
 
 public class WindowContentCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX, WindowContentCreatorRegistryFX {
 

@@ -6,12 +6,17 @@
 
 package eu.scy.client.desktop.scydesktop.scywindows;
 
-import javafx.scene.Node;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
+
+import java.net.URI;
+
+import roolo.api.IExtensionManager;
+import roolo.api.IRepository;
+import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * ScyWindowControl controls which windows (elos) are shown on the desktop
@@ -24,24 +29,24 @@ public mixin class ScyWindowControl {
    public var missionMap: MissionMap;
    public var windowContentFactory: WindowContentFactory;
    public var windowStyler: WindowStyler;
-   public var scyDesktop: WindowManager;
+   public var windowManager: WindowManager;
+   public var windowPositioner: WindowPositioner;
    public var stage: Stage;
    public var eloInfoControl: EloInfoControl;
-//   public var metadataTypeManager: IMetadataTypeManager;
-//   public var extensionManager: IExtensionManager;
-//   public var repository: IRepository;
+   public var metadataTypeManager: IMetadataTypeManager;
+   public var extensionManager: IExtensionManager;
+   public var repository: IRepository;
+
+   public var setScyContent:function(window: ScyWindow):Void;
    //   public var edgesManager: EdgesManager;
-   public var width: Number= 400;
-   public var height: Number = 300;
 
-   public var forbiddenNodes: Node[];
+   public abstract function addOtherScyWindow(eloUri:URI): ScyWindow;
+   public abstract function addOtherScyWindow(eloType:String): ScyWindow;
 
-   public abstract function addOtherScyWindow(otherWindow:ScyWindow): Void;
-
-   public function positionWindows():Void{
-      positionWindows(false);
-   }
-
-   public abstract function positionWindows(onlyNewWindows:Boolean):Void;
+//   public function positionWindows():Void{
+//      positionWindows(false);
+//   }
+//
+//   public abstract function positionWindows(onlyNewWindows:Boolean):Void;
 
 }

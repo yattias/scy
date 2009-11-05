@@ -12,9 +12,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author sikkenj
  */
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler");
 
 public class DummyWindowStyler extends WindowStyler {
 
@@ -36,47 +39,47 @@ public class DummyWindowStyler extends WindowStyler {
    public def scyMagenta = Color.web("#0ea7bf");
 
    public override function getScyColor(type:String):Color{
+      var scyColor = scyMagenta;
       if (type == drawingType)
-      return scyGreen
-        else if (type == datasetType)
-      return scyPurple
-        else if (type == simulationConfigType)
-      return scyPink
-        else if (type == mappingType)
-      return scyBlue
-        else if (type == imageType)
-      return scyOrange
-        else if (type == meloType)
-      return scyOrange
-        else if (type == textType)
-      return scyBlue
-        else if (type == urlType)
-      return scyOrange
-        else
-      return scyMagenta;
+         scyColor = scyGreen
+      else if (type == datasetType)
+         scyColor = scyPurple
+      else if (type == simulationConfigType)
+         scyColor = scyPink
+      else if (type == mappingType)
+         scyColor = scyBlue
+      else if (type == imageType)
+         scyColor = scyOrange
+      else if (type == meloType)
+         scyColor = scyOrange
+      else if (type == textType)
+         scyColor = scyBlue
+      else if (type == urlType)
+         scyColor = scyOrange;
+      return scyColor;
    }
 
    public override function getScyIconCharacter(type:String):String{
+      var iconChar = "?";
       if (type == drawingType)
-      return "D"
-          else if (type == datasetType)
-      return "V"
-        else if (type == simulationConfigType)
-      return "S"
-        else if (type == datasetProcessingType)
-      return "P"
-        else if (type == textType)
-      return "T"
-        else if (type == imageType)
-      return "I"
-        else if (type == meloType)
-      return "I"
-        else if (type == mappingType)
-      return "M"
-        else if (type == urlType)
-      return "W"
-      else
-      return "?";
+         iconChar = "D"
+      else if (type == datasetType)
+         iconChar = "V"
+      else if (type == simulationConfigType)
+         iconChar = "S"
+      else if (type == datasetProcessingType)
+         iconChar = "P"
+      else if (type == textType)
+         iconChar = "T"
+      else if (type == imageType)
+         iconChar = "I"
+      else if (type == meloType)
+         iconChar = "I"
+      else if (type == mappingType)
+         iconChar = "M"
+      else if (type == urlType)
+         iconChar = "W";
+      return iconChar;
    }
 }
 

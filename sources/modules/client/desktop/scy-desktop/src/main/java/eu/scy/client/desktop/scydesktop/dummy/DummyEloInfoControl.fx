@@ -30,6 +30,7 @@ public class DummyEloInfoControl extends EloInfoControl {
       if (eloUri==null){
          return null;
       }
-      return UriUtils.getTitle(eloUri);
+      var eloTitle = UriUtils.getTitle(eloUri);
+      return eloTitle;
    }
 }

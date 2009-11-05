@@ -81,7 +81,7 @@ public class MissionMap extends CustomNode {
          var selectedAnchorDisplay = getAnchorDisplay(missionModel.activeAnchor);
          if (selectedAnchorDisplay == anchorDisplay){
             // already selected, but do reposition the windows again
-            scyWindowControl.positionWindows();
+//            scyWindowControl.positionWindows();
             return;
          }
          selectedAnchorDisplay.selected = false;

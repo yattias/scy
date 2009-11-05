@@ -26,7 +26,7 @@ import java.lang.IllegalStateException;
  * @author sikkenj
  */
 
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFactory");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFactory");
 
 public class WindowContentFactory extends ContentFactory {
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;

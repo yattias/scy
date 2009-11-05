@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  * @author sikken
  */
 
- var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX");
 
 public class MissionModelFX {
    public var anchors:MissionAnchorFX[];

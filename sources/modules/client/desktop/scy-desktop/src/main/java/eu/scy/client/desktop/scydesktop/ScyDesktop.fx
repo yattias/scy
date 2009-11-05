@@ -84,12 +84,16 @@ import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
 
+import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
+
+import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
+
 
 
 /**
  * @author sikkenj
  */
-var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktop");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktop");
 
 public class ScyDesktop extends CustomNode {
 
@@ -111,7 +115,8 @@ public class ScyDesktop extends CustomNode {
 
    var windowContentFactory: WindowContentFactory;
    var drawerContentFactory: DrawerContentFactory;
-   var scyWindowControl:ScyWindowControl;
+   var windowPositioner: WindowPositioner;
+   public-read var scyWindowControl:ScyWindowControl;
    var missionMap: MissionMap;
 
    var topLeftCorner:Corner;
@@ -125,13 +130,15 @@ public class ScyDesktop extends CustomNode {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory()!=null){
          RedirectSystemStreams.redirect(config.getLoggingDirectory());
       }
+//      missionMap.missionModel = missionModelFX;
+      scyWindowControl.missionModel = missionModelFX;
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(function(){MouseBlocker.initMouseBlocker(scene.stage);});
       logger.info("repository class: {config.getRepository().getClass()}");
       if (config.getRepository() instanceof RepositoryWrapper){
          var repositoryWrapper = config.getRepository() as RepositoryWrapper;
          var eloSavedActionHandler = EloSavedActionHandler{
-            scyDesktop:this;
+            scyWindowControl:this.scyWindowControl;
          }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
@@ -139,7 +146,7 @@ public class ScyDesktop extends CustomNode {
    }
 
    function initialWindowPositioning(){
-      scyWindowControl.positionWindows();
+//      scyWindowControl.positionWindows();
    }
 
    function checkProperties(){
@@ -220,13 +227,7 @@ public class ScyDesktop extends CustomNode {
          content:bottomLeftCornerTool;
          color:Color.GRAY;
       }
-      scyWindowControl = ScyWindowControlImpl{
-          windowContentFactory: windowContentFactory;
-          scyDesktop: windows;
-          missionModel: missionModelFX;
-          missionMap: missionMap;
-          eloInfoControl:eloInfoControl;
-          windowStyler:windowStyler;
+      windowPositioner = SimpleWindowPositioner{
           forbiddenNodes:[
                topLeftCorner,
                topRightCorner,
@@ -235,6 +236,19 @@ public class ScyDesktop extends CustomNode {
             ];
           width: bind scene.width;
           height: bind scene.height;
+      }
+      scyWindowControl = ScyWindowControlImpl{
+          windowContentFactory: windowContentFactory;
+          windowManager: windows;
+          windowPositioner:windowPositioner;
+          missionModel: missionModelFX;
+          missionMap: missionMap;
+          eloInfoControl:eloInfoControl;
+          windowStyler:windowStyler;
+          extensionManager:config.getExtensionManager();
+          repository:config.getRepository();
+          metadataTypeManager:config.getMetadataTypeManager();
+          setScyContent:fillNewScyWindow;
       };
 
     }
@@ -255,49 +269,49 @@ public class ScyDesktop extends CustomNode {
       }
    }
 
-   public function addScyWindow(uri:URI){
-      if (windows.findScyWindow(uri)!=null){
-        // window is already there, nothing to do
-        logger.info("there is already a window for uri: {uri}");
-        return;
-      }
-      addScyWindow(createScyWindow(uri));
-      logger.info("added new window for uri: {uri}");
-   }
-
-   function createScyWindow(eloUri:URI):ScyWindow{
-      var eloMetadata = config.getRepository().retrieveMetadata(eloUri);
-      var title = eloMetadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
-      var eloType = eloMetadata.getMetadataValueContainer(config.getTechnicalFormatKey()).getValue() as String;
-
-       var window:ScyWindow = StandardScyWindow{
-         title:title
-         eloUri:eloUri;
-         eloType:eloType;
-//         id:"new://{title}"
-         allowClose: true;
-         allowResize: true;
-         allowRotate: true;
-         allowMinimize: true;
-         cache:true;
-      }
-   }
-
-
-
-   public function addScyWindow(window:ScyWindow){
-      if (window.scyContent==null and window.setScyContent==null){
-         window.setScyContent=fillNewScyWindow
-      }
-      var eloType = window.eloType;
-      var eloConfig = config.getEloConfig(window.eloType);
-      logger.info("eloType: {window.eloType} -> eloConfig: {eloConfig}");
-      windowStyler.style(window);
-      addDrawerTools(window,eloConfig);
-      windows.addScyWindow(window);
-      scyWindowControl.addOtherScyWindow(window);
-      scyWindowControl.positionWindows(true);
-   }
+//   public function XXaddScyWindow(uri:URI){
+//      if (windows.findScyWindow(uri)!=null){
+//        // window is already there, nothing to do
+//        logger.info("there is already a window for uri: {uri}");
+//        return;
+//      }
+//      addScyWindow(createScyWindow(uri));
+//      logger.info("added new window for uri: {uri}");
+//   }
+//
+//   function createScyWindow(eloUri:URI):ScyWindow{
+//      var eloMetadata = config.getRepository().retrieveMetadata(eloUri);
+//      var title = eloMetadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
+//      var eloType = eloMetadata.getMetadataValueContainer(config.getTechnicalFormatKey()).getValue() as String;
+//
+//       var window:ScyWindow = StandardScyWindow{
+//         title:title
+//         eloUri:eloUri;
+//         eloType:eloType;
+////         id:"new://{title}"
+//         allowClose: true;
+//         allowResize: true;
+//         allowRotate: true;
+//         allowMinimize: true;
+//         cache:true;
+//      }
+//   }
+//
+//
+//
+//   public function XXaddScyWindow(window:ScyWindow){
+//      if (window.scyContent==null and window.setScyContent==null){
+//         window.setScyContent=fillNewScyWindow
+//      }
+//      var eloType = window.eloType;
+//      var eloConfig = config.getEloConfig(window.eloType);
+//      logger.info("eloType: {window.eloType} -> eloConfig: {eloConfig}");
+//      windowStyler.style(window);
+//      addDrawerTools(window,eloConfig);
+//      windows.addScyWindow(window);
+//      scyWindowControl.addOtherScyWindow(window);
+//      scyWindowControl.positionWindows(true);
+//   }
 
    function fillNewScyWindow(window: ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);
@@ -417,7 +431,7 @@ function run(){
               allowRotate: true;
               allowMinimize: true;
             }
-            scyDesktop.addScyWindow(window);
+            scyDesktop.windows.addScyWindow(window);
          }
       }
 

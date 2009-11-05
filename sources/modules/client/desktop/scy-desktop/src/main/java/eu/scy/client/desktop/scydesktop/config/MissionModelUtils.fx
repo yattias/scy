@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  * @author sikken
  */
 
-var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.config.MissionModelUtils");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.config.MissionModelUtils");
 
 public class MissionModelUtils {
 

@@ -8,12 +8,15 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
+import java.net.URI;
+
 /**
  * @author sikkenj
  */
 
 public class WindowState {
    public var window:ScyWindow on replace {updateState()};
+   public var eloUri:URI;
    var x: Number;
    var y: Number;
    var width: Number;
