@@ -7,10 +7,10 @@ import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.ui.diagr.ConceptLinkView;
-import eu.scy.scymapper.impl.ui.diagr.ConnectionPoint;
-import eu.scy.scymapper.impl.ui.diagr.LinkView;
-import eu.scy.scymapper.impl.ui.diagr.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
+import eu.scy.scymapper.impl.ui.diagram.ConnectionPoint;
+import eu.scy.scymapper.impl.ui.diagram.LinkView;
+import eu.scy.scymapper.impl.ui.diagram.NodeView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

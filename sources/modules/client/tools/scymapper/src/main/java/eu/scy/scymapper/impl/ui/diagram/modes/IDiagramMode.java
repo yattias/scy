@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.ui.diagr.modes;
+package eu.scy.scymapper.impl.ui.diagram.modes;
 
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;

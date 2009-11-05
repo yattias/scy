@@ -1,8 +1,5 @@
 package eu.scy.scymapper.impl.ui.awareness;
 
-import com.jgoodies.forms.builder.PanelBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.*;
@@ -43,19 +40,6 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 
 		statusPane = new PresenceStatusPane(awarenessService);
 		statusPane.setBorder(BorderFactory.createEmptyBorder());
-
-		FormLayout layout = new FormLayout(
-				"default:grow",
-				"pref, 2dlu, 50dlu, 2dlu, pref:grow"
-		);
-
-		PanelBuilder builder = new PanelBuilder(layout);
-		CellConstraints cc = new CellConstraints();
-		builder.addSeparator("Status", cc.xy(1, 1));
-		builder.add(statusPane, cc.xy(1, 3, CellConstraints.FILL, CellConstraints.FILL));
-		builder.add(chatPane, cc.xy(1, 5, CellConstraints.FILL, CellConstraints.FILL));
-
-		add(builder.getPanel());
 	}
 
 	private void setupListeners() {
@@ -101,20 +85,6 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 			connectionStatus = new JLabel(awarenessService.isConnected() ? "Online" : "Offline");
 			userName = new JLabel("");
 
-			FormLayout layout = new FormLayout(
-					"left:pref, 4dlu, left:pref:grow",
-					"pref, 2dlu, pref"
-			);
-
-			PanelBuilder builder = new PanelBuilder(layout);
-			CellConstraints cc = new CellConstraints();
-
-			builder.add(new JLabel("Status"), cc.xy(1, 1));
-			builder.add(connectionStatus, cc.xy(3, 1));
-			builder.add(new JLabel("Username"), cc.xy(1, 3));
-			builder.add(userName, cc.xy(3, 3));
-
-			add(builder.getPanel());
 		}
 
 		@Override

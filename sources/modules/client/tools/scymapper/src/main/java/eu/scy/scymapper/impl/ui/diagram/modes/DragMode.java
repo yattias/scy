@@ -1,8 +1,8 @@
-package eu.scy.scymapper.impl.ui.diagr.modes;
+package eu.scy.scymapper.impl.ui.diagram.modes;
 
-import eu.scy.scymapper.impl.ui.diagr.ConceptDiagramView;
-import eu.scy.scymapper.impl.ui.diagr.NodeView;
-import eu.scy.scymapper.impl.ui.diagr.modes.IDiagramMode;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
 import java.awt.*;
 import java.awt.event.*;

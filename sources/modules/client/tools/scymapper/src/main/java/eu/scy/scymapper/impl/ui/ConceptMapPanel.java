@@ -5,7 +5,7 @@ import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
-import eu.scy.scymapper.impl.ui.diagr.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
 import java.awt.*;

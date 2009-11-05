@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.ui.diagr;
+package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.INodeController;
 import eu.scy.scymapper.api.diagram.INodeModel;
