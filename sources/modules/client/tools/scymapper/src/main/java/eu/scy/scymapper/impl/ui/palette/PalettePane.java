@@ -68,13 +68,17 @@ public class PalettePane extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     diagramView.getDiagramView().addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed(MouseEvent e) {
+                        public void mouseClicked(MouseEvent e) {
                             INodeModel node = new NodeModel();
                             node.setLabel(conceptPrototype.getName());
                             node.setShape(conceptPrototype.getNodeShape());
-                            node.setSize(new Dimension(conceptPrototype.getWidth(), conceptPrototype.getHeight()));
+                            int h = conceptPrototype.getWidth();
+                            int w = conceptPrototype.getHeight();
+                            node.setSize(new Dimension(w, h));
                             node.setStyle(conceptPrototype.getNodeStyle());
-                            node.setLocation(new Point(e.getPoint()));
+                            Point loc = new Point(e.getPoint());
+                            loc.translate(w/-2, h/-2);
+                            node.setLocation(loc);
                             conceptMap.getDiagram().addNode(node);
                             diagramView.getDiagramView().removeMouseListener(this);
                             diagramView.getDiagramView().setCursor(null);

@@ -170,13 +170,13 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
     @Override
     public void selectionChanged(INodeModel conceptNode) {
         setBorder(
-                conceptNode.isSelected() ? BorderFactory.createLineBorder(model.getStyle().getSelectionColor(), 1) :
+                conceptNode.isSelected() ? BorderFactory.createLineBorder(new Color(0xc0c0c0), 1) :
                         BorderFactory.createEmptyBorder()
         );
         if (conceptNode.isSelected()) requestFocus();
     }
 
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g.create();
 
@@ -201,7 +201,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 		labelEditor.setBackground(getModel().getStyle().getBackground());
 
         // Continue painting any other component
-        super.paint(g);
+        super.paintComponent(g);
     }
 
     @Override
