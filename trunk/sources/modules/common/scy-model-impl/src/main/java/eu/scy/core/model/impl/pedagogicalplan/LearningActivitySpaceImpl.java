@@ -3,6 +3,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.List;
@@ -21,6 +22,7 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
     private LearningActivitySpaceTemplate learningActivitySpaceTemplate = null;
 
     private List activities;
+    private Set produces;
 
     @Transient
     public Assessment getAssessment() {
@@ -42,12 +44,18 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
 
     @Transient
     public Set<AnchorELO> getProduces() {
-        return null;
+        return produces;
     }
 
-    @Override
     public void setProduces(Set<AnchorELO> anchorELOs) {
+        this.produces = anchorELOs;
+    }
 
+    public void addAnchorELO(AnchorELO anchorELO) {
+        if(produces == null) {
+            produces = new HashSet();
+        }
+        produces.add(anchorELO);
     }
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.LAZY)
@@ -63,7 +71,6 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
         activity.setLearningActivitySpace(this);
     }
 
-    @Override
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
 
