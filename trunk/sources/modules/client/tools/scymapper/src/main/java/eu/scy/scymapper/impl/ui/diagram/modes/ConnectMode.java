@@ -1,12 +1,12 @@
-package eu.scy.scymapper.impl.ui.diagr.modes;
+package eu.scy.scymapper.impl.ui.diagram.modes;
 
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.impl.ui.diagr.ConceptDiagramView;
-import eu.scy.scymapper.impl.ui.diagr.LinkView;
-import eu.scy.scymapper.impl.ui.diagr.modes.IDiagramMode;
-import eu.scy.scymapper.impl.ui.diagr.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.diagram.LinkView;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
+import eu.scy.scymapper.impl.ui.diagram.NodeView;
 
 import javax.swing.*;
 import java.awt.*;

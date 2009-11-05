@@ -1,4 +1,4 @@
-package eu.scy.scymapper.impl.ui.diagr;
+package eu.scy.scymapper.impl.ui.diagram;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

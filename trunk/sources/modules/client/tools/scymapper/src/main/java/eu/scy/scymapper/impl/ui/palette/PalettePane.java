@@ -10,8 +10,8 @@ import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
-import eu.scy.scymapper.impl.ui.diagr.LinkView;
-import eu.scy.scymapper.impl.ui.diagr.modes.ConnectMode;
+import eu.scy.scymapper.impl.ui.diagram.LinkView;
+import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

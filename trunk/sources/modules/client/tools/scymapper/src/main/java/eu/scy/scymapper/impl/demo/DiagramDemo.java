@@ -9,7 +9,7 @@ import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.*;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
-import eu.scy.scymapper.impl.ui.diagr.ConceptDiagramView;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
 import javax.swing.*;
 import java.awt.*;

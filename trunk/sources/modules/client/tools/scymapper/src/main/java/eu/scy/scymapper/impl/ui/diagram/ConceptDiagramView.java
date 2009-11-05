@@ -1,10 +1,10 @@
-package eu.scy.scymapper.impl.ui.diagr;
+package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.NodeController;
-import eu.scy.scymapper.impl.ui.diagr.modes.DragMode;
-import eu.scy.scymapper.impl.ui.diagr.modes.IDiagramMode;
+import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
