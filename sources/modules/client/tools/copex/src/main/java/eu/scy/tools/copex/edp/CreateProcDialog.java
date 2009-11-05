@@ -17,7 +17,7 @@ import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.awt.Cursor;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ouverture editeur de proc, si aucun proc dans la mission et si plusieurs proc initiaux
@@ -33,12 +33,12 @@ public class CreateProcDialog extends javax.swing.JDialog {
     /* controller */
     private ControllerInterface controller;
     /* liste des proc initiaux */
-    private ArrayList<InitialProcedure> listInitialProc;
+    private List<InitialProcedure> listInitialProc;
 
     private boolean setDefaultProcName = false;
 
     // CONSTRUCTOR
-    public CreateProcDialog(CopexPanel edP, ControllerInterface controller, ArrayList<InitialProcedure> listInitialProc) {
+    public CreateProcDialog(CopexPanel edP, ControllerInterface controller, List<InitialProcedure> listInitialProc) {
         super();
         setLocationRelativeTo(edP);
         this.edP = edP;
@@ -48,6 +48,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
         setModal(true);
         setLocation(edP.getLocationDialog());
         init();
+        setIconImage(edP.getIconDialog());
     }
 
 
@@ -68,7 +69,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
         if (nb > 0){
             cbInitialProc.setSelectedIndex(0);
             if(setDefaultProcName)
-                this.fieldProcName.setText(this.listInitialProc.get(0).getName());
+                this.fieldProcName.setText(this.listInitialProc.get(0).getName(edP.getLocale()));
         }
         // resize des elements
         resizeElements();
@@ -95,7 +96,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
        if(setDefaultProcName){
         int id = this.cbInitialProc.getSelectedIndex() ;
         if(id > 0){
-            fieldProcName.setText(listInitialProc.get(id).getName());
+            fieldProcName.setText(listInitialProc.get(id).getName(edP.getLocale()));
         }
        }
    }
@@ -137,7 +138,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         this.setVisible(false);
         this.dispose();
-        edP.openQuestionDialog();
+        edP.setQuestionDialog();
 }
 
     /** This method is called from within the constructor to

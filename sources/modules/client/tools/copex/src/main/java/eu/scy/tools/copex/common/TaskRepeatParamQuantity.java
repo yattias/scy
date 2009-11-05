@@ -6,12 +6,16 @@
 package eu.scy.tools.copex.common;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+import java.util.List;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 /**
  *
  * @author Marjolaine
  */
 public class TaskRepeatParamQuantity extends TaskRepeatParam {
+    public final static String TAG_TASK_REPEAT_PARAM_QUANTITY = "task_repeat_param_quantity";
     /* param quantity */
     private InitialParamQuantity initialParamQuantity;
     private ArrayList<TaskRepeatValueParamQuantity> listValue;
@@ -20,6 +24,22 @@ public class TaskRepeatParamQuantity extends TaskRepeatParam {
         super(dbKey);
         this.initialParamQuantity = initialParamQuantity;
         this.listValue = listValue;
+    }
+
+    public TaskRepeatParamQuantity(Element xmlElem, long idParam, List<InitialParamQuantity> listInitialParamQuantity, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
+        super(xmlElem);
+        if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_QUANTITY)) {
+            dbKey = idParam++;
+            initialParamQuantity = new InitialParamQuantity(xmlElem.getChild(InitialParamQuantity.TAG_INITIAL_PARAM_QUANTITY_REF), listInitialParamQuantity);
+            listValue = new ArrayList();
+            for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueParamData.TAG_TASK_REPEAT_VALUE_PARAM_DATA).iterator(); variableElem.hasNext();){
+                Element e = variableElem.next();
+                TaskRepeatValueParamQuantity v = new TaskRepeatValueParamQuantity(e, idValue++, idActionParam++, idQuantity++, listPhysicalQuantity, listInitialParamQuantity);
+                listValue.add(v);
+            }
+		} else {
+			throw(new JDOMException("Task repeat  param quantity expects <"+TAG_TASK_REPEAT_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
     }
 
     public InitialParamQuantity getInitialParamQuantity() {
@@ -50,6 +70,16 @@ public class TaskRepeatParamQuantity extends TaskRepeatParam {
         }
         p.setListValue(list);
         return p;
+    }
+
+    @Override
+    public Element toXML(){
+        Element element = new Element(TAG_TASK_REPEAT_PARAM_QUANTITY);
+        element.addContent(initialParamQuantity.toXMLRef());
+        for(Iterator<TaskRepeatValueParamQuantity> v = listValue.iterator();v.hasNext();){
+            element.addContent(v.next().toXML());
+        }
+        return element;
     }
 
 }

@@ -14,10 +14,11 @@ package eu.scy.tools.copex.edp;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.UIManager;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 /**
  * test frame edp
@@ -30,6 +31,7 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     public EdPFrame() {
         super();
         initComponents();
+        setMinimumSize(new Dimension(550,350));
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(this);
         initEdP();
@@ -37,13 +39,15 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
 
     public void load(){
         copex.loadData();
-        setSize(695,495);
+        copex.setQuestionDialog();
+        setSize(550,350);
     }
     private void initEdP(){
         copex = new CopexPanel(false);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
+        setIconImage(copex.getIconDialog());
     }
 
     

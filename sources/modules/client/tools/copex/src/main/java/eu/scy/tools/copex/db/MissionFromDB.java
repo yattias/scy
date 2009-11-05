@@ -181,12 +181,11 @@ public class MissionFromDB {
 
     /* chargement des options de la mission */
     public static CopexReturn getMissionOptionFromDB(DataBaseCommunication dbC, long dbKey, ArrayList v){
-        String query = "SELECT ADD_PROC, USE_DATASHEET, TRACE FROM OPTION_MISSION WHERE ID_MISSION = "+dbKey+" ;";
+        String query = "SELECT ADD_PROC,  TRACE FROM OPTION_MISSION WHERE ID_MISSION = "+dbKey+" ;";
         dbC.updateDb(MyConstants.DB_COPEX);
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ADD_PROC");
-        listFields.add("USE_DATASHEET");
         listFields.add("TRACE");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         dbC.updateDb(MyConstants.DB_COPEX_EDP);
@@ -198,11 +197,9 @@ public class MissionFromDB {
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String s = rs.getColumnData("ADD_PROC");
             boolean addProc = s.equals("1");
-            s = rs.getColumnData("USE_DATASHEET");
-            boolean useDs = s.equals("1");
             s = rs.getColumnData("TRACE");
             boolean trace = s.equals("1");
-            options = new OptionMission(addProc, useDs, trace);
+            options = new OptionMission(addProc,  trace);
         }
         v.add(options);
         return new CopexReturn();

@@ -45,6 +45,7 @@ public class CloseProcDialog extends JDialog {
         setModal(true);
         setLocation(edP.getLocationDialog());
         init();
+        setIconImage(edP.getIconDialog());
     }
     
     
@@ -59,10 +60,10 @@ public class CloseProcDialog extends JDialog {
     private void init(){
         // parametres dans le texte des rb
         String s = edP.getBundleString("LABEL_CLOSE_PROC");
-        s = CopexUtilities.replace(s,0, proc.getName());
+        s = CopexUtilities.replace(s,0, proc.getName(edP.getLocale()));
         rbClose.setText(s);
         s = edP.getBundleString("LABEL_SUPPR_PROC");
-        s = CopexUtilities.replace(s,0, proc.getName());
+        s = CopexUtilities.replace(s,0, proc.getName(edP.getLocale()));
         rbSuppr.setText(s);
         if (proc.getRight() == MyConstants.NONE_RIGHT)
             this.rbSuppr.setEnabled(false);

@@ -17,6 +17,7 @@ import java.awt.Cursor;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -37,7 +38,7 @@ public class OpenCopexDialog  extends JDialog  {
     /* controller */
     private ControllerInterface controller;
     /* liste des proc initiaux*/
-    private ArrayList<InitialProcedure> listInitialProc;
+    private List<InitialProcedure> listInitialProc;
     /* liste des missions */
     private ArrayList<CopexMission> listMission;
     /* liste des protocoles de toutes les missions */
@@ -62,7 +63,7 @@ public class OpenCopexDialog  extends JDialog  {
     private JButton buttonOk;
     private JButton buttonCancel;
 
-    public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, ArrayList<InitialProcedure> listInitialProc) {
+    public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, List<InitialProcedure> listInitialProc) {
         super();
         this.owner = owner;
         this.controller = controller;
@@ -75,9 +76,10 @@ public class OpenCopexDialog  extends JDialog  {
         setResizable(false);
         setModal(true);
         setLocationRelativeTo(owner);
+        setIconImage(owner.getIconDialog());
     }
 
-    public OpenCopexDialog(CopexPanel owner,ControllerInterface controller, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, ArrayList<InitialProcedure> listInitialProc) {
+    public OpenCopexDialog(CopexPanel owner,ControllerInterface controller, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, List<InitialProcedure> listInitialProc) {
         super();
         this.owner = owner;
         this.controller = controller;
@@ -157,6 +159,7 @@ public class OpenCopexDialog  extends JDialog  {
                 cbCreateProcInit.addItem(initProc.getCode());
              }
              cbCreateProcInit.addItemListener(new java.awt.event.ItemListener() {
+                @Override
                 public void itemStateChanged(ItemEvent e) {
                     changeCreateProcInit();
                 }
@@ -164,7 +167,7 @@ public class OpenCopexDialog  extends JDialog  {
              if (nb > 0){
                 cbCreateProcInit.setSelectedIndex(0);
                 if(setDefaultProcName)
-                    fieldName.setText(listInitialProc.get(0).getName());
+                    fieldName.setText(listInitialProc.get(0).getName(owner.getLocale()));
             }
              cbCreateProcInit.setBounds(rbCreate.getX()+rbCreate.getWidth()+5, rbCreate.getY(), 100,20);
          }
@@ -336,7 +339,7 @@ public class OpenCopexDialog  extends JDialog  {
                 int nb = list.size();
                 for (int i=0; i<nb; i++){
                     LearnerProcedure p = list.get(i);
-                    cbProcOpen.addItem(p.getName());
+                    cbProcOpen.addItem(p.getName(owner.getLocale()));
                 }
                 if (list.size() > 0)
                     cbProcOpen.setSelectedIndex(0);
@@ -350,7 +353,7 @@ public class OpenCopexDialog  extends JDialog  {
         if(setDefaultProcName){
             int id = this.cbCreateProcInit.getSelectedIndex() ;
             if(id > 0){
-                fieldName.setText(listInitialProc.get(id).getName());
+                fieldName.setText(listInitialProc.get(id).getName(owner.getLocale()));
             }
        }
     }
@@ -378,6 +381,7 @@ public class OpenCopexDialog  extends JDialog  {
                 return;
             }
             owner.openProc(lastUsedFileOpen);
+            owner.setQuestionDialog();
             this.dispose();
         }
     }
@@ -424,7 +428,7 @@ public class OpenCopexDialog  extends JDialog  {
             }
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             this.dispose();
-            owner.openQuestionDialog();
+            owner.setQuestionDialog();
             return;
         }else if (this.rbOpen.isSelected()){
             if(dbMode){
@@ -459,6 +463,7 @@ public class OpenCopexDialog  extends JDialog  {
                     owner.displayError(cr, owner.getBundleString("TITLE_DIALOG_ERROR"));
                     return;
                 }
+                owner.setQuestionDialog();
             }else{
                 buttonExplOpen();
             }

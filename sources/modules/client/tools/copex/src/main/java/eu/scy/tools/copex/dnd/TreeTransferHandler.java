@@ -5,8 +5,9 @@
 
 package eu.scy.tools.copex.dnd;
 
+import eu.scy.tools.copex.edp.CopexNode;
 import eu.scy.tools.copex.edp.CopexTree;
-import eu.scy.tools.copex.edp.CopexTreeNode;
+import eu.scy.tools.copex.utilities.MyConstants;
 import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.io.IOException;
@@ -64,10 +65,9 @@ public class TreeTransferHandler extends TransferHandler {
                 if (o instanceof SubTreeTransferable){
                         SubTree subTreeToMove = ((SubTreeTransferable)o).getSubTree();
                         Vector v = new Vector();
-                        CopexTreeNode insertNode = getNodeInsert(dropLocation, subTreeToMove.getOwner(), v);
+                        CopexNode insertNode = getNodeInsert(dropLocation, subTreeToMove.getOwner(), v);
                         boolean brother = (Boolean )v.get(0);
                         boolean markNode = (Boolean)v.get(1);
-                        
                         // si le noeud insertion appartient au sous arbre => on refuse le drag and drop
                         if (subTreeToMove.containNode(insertNode)){
                             return false;
@@ -75,8 +75,14 @@ public class TreeTransferHandler extends TransferHandler {
                         if (subTreeToMove.isQuestion() && !insertNode.isQuestion()){
                             return false;
                         }
+                        boolean nodeCanBeParent = (insertNode.isManipulation() &&subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT  ) ||
+                                (!insertNode.isManipulation() && insertNode.canBeParent());
+                        boolean parentNodeCanBeParent = insertNode.getParent() != null &&
+                            ( ((CopexNode)insertNode.getParent()).isManipulation() && subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT)
+                            || (! ((CopexNode)insertNode.getParent()).isManipulation() && ((CopexNode)insertNode.getParent()).canBeParent());
                         // si le noeud d'insertion ne peut avoir d'enfants => on refuse
-                        if ((! brother && !insertNode.canBeParent()) || (brother && insertNode.getParent() != null && !((CopexTreeNode)insertNode.getParent()).canBeParent()) )
+                        //if ((! brother && !insertNode.canBeParent() ) || (brother && insertNode.getParent() != null && !((CopexNode)insertNode.getParent()).canBeParent()))
+                        if((!brother && !nodeCanBeParent) || (brother && !parentNodeCanBeParent))
                             return false;
                         // si on deplace des taches qui contiennent des materials produits apres => on refuse
                         if (isProblemWithMaterialProd(insertNode, subTreeToMove))
@@ -96,9 +102,8 @@ public class TreeTransferHandler extends TransferHandler {
                         if( (!insertNode.isAction() && !brother && insertNode.getChildCount() == 0)){
                                 insertNode.setMouseover(true);
                         }
-                        
-                         if ((insertNode.isAction() && insertNode.getParent() != null && ((CopexTreeNode)insertNode.getParent()).getIndex(insertNode) == ((CopexTreeNode)insertNode.getParent()).getChildCount()-1 )){
-                             ((CopexTreeNode)insertNode.getParent()).setMouseover(true);
+                         if ((insertNode.isAction() && insertNode.getParent() != null && ((CopexNode)insertNode.getParent()).getIndex(insertNode) == ((CopexNode)insertNode.getParent()).getChildCount()-1 )){
+                             ((CopexNode)insertNode.getParent()).setMouseover(true);
                         }
                         subTreeToMove.getOwner().revalidate();
                         subTreeToMove.getOwner().repaint();
@@ -119,30 +124,30 @@ public class TreeTransferHandler extends TransferHandler {
     }
 
     /* retourne vrai si le deplacement du sous arbre pose probleme du point de vue du material produit */
-    private boolean isProblemWithMaterialProd(CopexTreeNode insertNode, SubTree subTreeToMove){
+    private boolean isProblemWithMaterialProd(CopexNode insertNode, SubTree subTreeToMove){
         return subTreeToMove.getOwner().isProblemWithMaterialProd(insertNode, subTreeToMove);
     }
 
     /* retourne vrai si le deplacement du sous arbre pose probleme du point de vue du data produit */
-    private boolean isProblemWithDataProd(CopexTreeNode insertNode, SubTree subTreeToMove){
+    private boolean isProblemWithDataProd(CopexNode insertNode, SubTree subTreeToMove){
         return subTreeToMove.getOwner().isProblemWithDataProd(insertNode, subTreeToMove);
     }
 
 
     /* retourne le noeud d'insertion */
-    private CopexTreeNode getNodeInsert(JTree.DropLocation dropLocation, CopexTree tree , Vector v){
+    private CopexNode getNodeInsert(JTree.DropLocation dropLocation, CopexTree tree , Vector v){
         boolean brother = false;
-        CopexTreeNode insertNode = null;
+        CopexNode insertNode = null;
         TreePath tp = dropLocation.getPath();
         Point point = dropLocation.getDropPoint();
         // tp est en fait le parent ou il faut inserer => recherche index ou inserer 
         int id = dropLocation.getChildIndex();
         // Attention id =0 peut signifier qu'on insere en tant que frere ou en tant que premier enfant
-        CopexTreeNode node = (CopexTreeNode)tp.getLastPathComponent();
+        CopexNode node = (CopexNode)tp.getLastPathComponent();
         insertNode = node;
         if (id  > 0)
-            insertNode = (CopexTreeNode)node.getChildAt(id-1);
-        //System.out.println("*****insertNode : "+insertNode.getTask().getDescription());
+            insertNode = (CopexNode)node.getChildAt(id-1);
+        //System.out.println("*****insertNode : "+insertNode.getDebug(tree.getLocale()));
         TreePath path = tree.getPathForLocation((int)point.getX(), (int)point.getY());
         boolean markNode = false;
 //        if (path != null){
@@ -180,12 +185,12 @@ public class TreeTransferHandler extends TransferHandler {
             if (path == null){
                 brother = true;
             }else{
-                CopexTreeNode realNode = (CopexTreeNode)path.getLastPathComponent();
-                //System.out.println("realNode : "+realNode.getTask().getDescription());
+                CopexNode realNode = (CopexNode)path.getLastPathComponent();
+                //System.out.println("realNode : "+realNode.getDebug(tree.getLocale()));
                 // si node =realNode => sur dossier => a la fin de node
                 if(realNode.equals(insertNode)){
                     if(insertNode.getChildCount() != 0){
-                        insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
+                        insertNode = (CopexNode)insertNode.getChildAt(insertNode.getChildCount() -1);
                         brother = true;
                         markNode = true;
                     }
@@ -199,7 +204,7 @@ public class TreeTransferHandler extends TransferHandler {
                     brother = true;
                 }
                 // si realNode = frere de node => frere de node
-                else if (insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey()){
+                else if (insertNode.getTask() != null && realNode.getTask() != null && insertNode.getTask().getDbKeyBrother() == realNode.getTask().getDbKey()){
                     brother = true;
                 }
             }
@@ -207,7 +212,7 @@ public class TreeTransferHandler extends TransferHandler {
           //System.out.println("brother : "+brother);
           v.add(brother);
           v.add(markNode);
-          //System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getTask().getDescription());
+          System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
           return insertNode;     
     }
     
@@ -222,7 +227,7 @@ public class TreeTransferHandler extends TransferHandler {
                SubTree subTreeToMove = ((SubTreeTransferable)o).getSubTree();
                 CopexTree tree = subTreeToMove.getOwner();
                 Vector v = new Vector();
-                CopexTreeNode dropNode = getNodeInsert(dropLocation, tree, v);
+                CopexNode dropNode = getNodeInsert(dropLocation, tree, v);
                 boolean brother = (Boolean )v.get(0);
                 boolean isOk =  tree.moveSubTree(subTreeToMove, dropNode, brother);
                 tree.refreshMouseOver();

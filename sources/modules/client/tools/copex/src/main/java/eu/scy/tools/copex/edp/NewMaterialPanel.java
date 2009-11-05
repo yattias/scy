@@ -14,8 +14,9 @@ import eu.scy.tools.copex.utilities.CommentsPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
-import java.awt.Font;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -68,10 +69,10 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
     }
 
     private void initMaterial(){
-        this.fieldName.setText(mUsed.getMaterial().getName());
-        this.areaDescription.setText(mUsed.getMaterial().getDescription());
+        this.fieldName.setText(mUsed.getMaterial().getName(edP.getLocale()));
+        this.areaDescription.setText(mUsed.getMaterial().getDescription(edP.getLocale()));
         this.cboxUsed.setSelected(mUsed.isUsed());
-        this.panelComments.setComments(mUsed.getComments());
+        this.panelComments.setComments(mUsed.getComment(edP.getLocale()));
     }
 
     private JLabel getLabelName(){
@@ -189,12 +190,12 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
             return new CopexReturn(msg, false);
         }
         // liste des types => type inconnu par defaut
-        ArrayList<TypeMaterial> listType = new ArrayList();
+        List<TypeMaterial> listType = new LinkedList();
         listType.add(edP.getDefaultMaterialType());
         // liste des parametres
-        ArrayList<Parameter> listParameters = new ArrayList();
+        List<Parameter> listParameters = new LinkedList();
         // creation du material
-        Material m = new Material(name, description, listType, listParameters, false);
+        Material m = new Material(CopexUtilities.getLocalText(name, edP.getLocale()), CopexUtilities.getLocalText(description, edP.getLocale()), listType, listParameters);
         // used
         boolean used = this.cboxUsed.isSelected();
         // comments
@@ -206,8 +207,10 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
             return new CopexReturn(msg, false);
         }
         // creation du materiel utilise
-        MaterialUsed materialUsed = new MaterialUsed(m, comments, used, true);
+        MaterialUsed materialUsed = new MaterialUsed(m, CopexUtilities.getLocalText(comments, edP.getLocale()), used, true);
         v.add(materialUsed);
         return new CopexReturn();
     }
+
+    
 }

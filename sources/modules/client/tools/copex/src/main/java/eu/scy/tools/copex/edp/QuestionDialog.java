@@ -37,22 +37,14 @@ public class QuestionDialog extends JDialog implements ActionComment {
     private boolean modeAdd;
     /* sous question */
     private String question;
-    /* hypotheses */
-    private String hypothesis;
     /* commentaires */
     private String comments;
-    /* principe generaux */
-    private String principle;
-    /* image */
-    private ImageIcon taskImage;
     /* droit sur la fenetre */
     private char right = MyConstants.EXECUTE_RIGHT;
     /* droit proc*/
     private char procRight = MyConstants.EXECUTE_RIGHT;
      /* panelComments */
     private CommentsPanel panelComments;
-    /*boolean qui indique si affiche hypotheses ou non */
-    private boolean displayHypothesis;
     /* commentaire en cours */
     private String comment;
     
@@ -72,24 +64,20 @@ public class QuestionDialog extends JDialog implements ActionComment {
         initComponents();
         setModal(true);
         setLocation(edP.getLocationDialog());
-        this.displayHypothesis = edP.isDisplayHypothesis();
         init();
+        setIconImage(edP.getIconDialog());
     }
 
     // constructeur edition
-    public QuestionDialog(EdPPanel edP, char right, boolean modeAdd,  String question, String hypothesis, String comments, String principle, ImageIcon taskImage, char procRight) {
+    public QuestionDialog(EdPPanel edP, char right, boolean modeAdd,  String question, String comments, char procRight) {
         super();
         this.edP = edP;
         this.right = right;
         this.modeAdd = modeAdd;
         this.question = question;
-        this.hypothesis = hypothesis;
-        this.principle = principle;
         this.comments = comments;
-        this.taskImage = taskImage ;
         this.procRight = procRight;
         this.comment = "";
-        this.displayHypothesis = edP.isDisplayHypothesis();
         if(edP.isShowing())
             this.setLocationRelativeTo(edP);
         initComponents();
@@ -101,22 +89,15 @@ public class QuestionDialog extends JDialog implements ActionComment {
 
     // METHODES 
     private void init(){
-        setSize(340,600);
+        setSize(340,400);
         setPreferredSize(getSize());
         getContentPane().add(getPanelComments());
         if (!modeAdd){
             // mode edit
             this.setTitle(edP.getBundleString("TITLE_DIALOG_QUESTION"));
             this.textAreaDescription.setText(this.question);
-            if(displayHypothesis)
-                this.textAreaHypothesis.setText(this.hypothesis);
             this.panelComments.setComments(this.comments);
             this.comment = this.comments ;
-            this.textAreaGeneralPrinciple.setText(this.principle);
-            // image 
-            if (this.taskImage != null ){
-                this.labelImage.setIcon(this.taskImage);
-            }
             // gestion des droits 
             if (right == MyConstants.NONE_RIGHT)
                setDisabled();
@@ -126,17 +107,6 @@ public class QuestionDialog extends JDialog implements ActionComment {
         
         textAreaDescription.setLineWrap(true);
         textAreaDescription.setWrapStyleWord(true);
-        textAreaGeneralPrinciple.setLineWrap(true);
-        textAreaGeneralPrinciple.setWrapStyleWord(true);
-        textAreaHypothesis.setLineWrap(true);
-        textAreaHypothesis.setWrapStyleWord(true);
-        if (!displayHypothesis){
-            remove(this.scrollPaneHypothesis);
-            remove(this.labelHypothesis);
-            labelHypothesis = null;
-            scrollPaneHypothesis = null;
-            textAreaHypothesis = null;
-        }
         resizeElements();
         actionComment();
         setResizable(false);
@@ -146,13 +116,14 @@ public class QuestionDialog extends JDialog implements ActionComment {
         repaint();
     }
 
+   
     private CommentsPanel getPanelComments(){
         JPanel p = new JPanel();
         p.setSize(320,150);
         p.setPreferredSize(getSize());
         panelComments = new CommentsPanel(edP, p, edP.getBundleString("LABEL_ADD_COMMENT"), 300);
         panelComments.addActionComment(this);
-        panelComments.setBounds(20,370,300,panelComments.getHeight());
+        panelComments.setBounds(20,jScrollPaneDescription.getY()+jScrollPaneDescription.getHeight()+20,300,panelComments.getHeight());
         return panelComments ;
     }
     
@@ -168,14 +139,6 @@ public class QuestionDialog extends JDialog implements ActionComment {
         this.textAreaDescription.setEnabled(false);
         this.textAreaDescription.setFont(new Font("Monospaced", Font.BOLD, 11));
         this.textAreaDescription.setBackground(new Color(240,240,240));
-        this.textAreaGeneralPrinciple.setEnabled(false);
-        this.textAreaGeneralPrinciple.setFont(new Font("Monospaced", Font.BOLD, 11));
-        this.textAreaGeneralPrinciple.setBackground(new Color(240,240,240));
-        if(displayHypothesis){
-            this.textAreaHypothesis.setEnabled(false);
-            this.textAreaHypothesis.setFont(new Font("Monospaced", Font.BOLD, 11));
-            this.textAreaHypothesis.setBackground(new Color(240,240,240));
-        }
         this.panelComments.setEnabled(false);
         remove(this.buttonOk);
         this.buttonOk = null;
@@ -192,21 +155,12 @@ public class QuestionDialog extends JDialog implements ActionComment {
    private void resizeElements(){
        // label question
        this.labelQuestion.setSize(CopexUtilities.lenghtOfString(this.labelQuestion.getText(), getFontMetrics(this.labelQuestion.getFont())), this.labelQuestion.getHeight());
-       // label hypothese
-       if(displayHypothesis){
-        this.labelHypothesis.setSize(CopexUtilities.lenghtOfString(this.labelHypothesis.getText(), getFontMetrics(this.labelHypothesis.getFont())), this.labelHypothesis.getHeight());
-       }
-       this.labelGeneralPrinciple.setSize(CopexUtilities.lenghtOfString(this.labelGeneralPrinciple.getText(), getFontMetrics(this.labelGeneralPrinciple.getFont())), this.labelGeneralPrinciple.getHeight());
-       // label image 
-       if (this.taskImage != null )
-            this.labelImage.setSize(this.taskImage.getIconWidth(), this.taskImage.getIconHeight());
        if (this.procRight != MyConstants.NONE_RIGHT){
             // bouton Ok
             this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
             // bouton Annuler
             this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
        }
-       if (this.taskImage == null){
            // remonte les boutons 
            int m = 50;
            if (this.procRight != MyConstants.NONE_RIGHT){
@@ -215,19 +169,6 @@ public class QuestionDialog extends JDialog implements ActionComment {
            this.buttonCancel.setBounds(this.buttonCancel.getX(), this.buttonCancel.getY() - m, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
            this.setSize(this.getWidth(), this.getHeight() - m);
            this.setPreferredSize(this.getSize());
-       }
-       if(!displayHypothesis){
-           int m = 130;
-           this.labelGeneralPrinciple.setBounds(this.labelGeneralPrinciple.getX(), this.labelGeneralPrinciple.getY()-m, this.labelGeneralPrinciple.getWidth(), this.labelGeneralPrinciple.getHeight());
-           this.scrollPaneGeneralPrinciple.setBounds(this.scrollPaneGeneralPrinciple.getX(), this.scrollPaneGeneralPrinciple.getY()-m, this.scrollPaneGeneralPrinciple.getWidth(), this.scrollPaneGeneralPrinciple.getHeight());
-           this.panelComments.setBounds(this.panelComments.getX(), this.panelComments.getY()-m, this.panelComments.getWidth(), this.panelComments.getHeight());
-           if (this.procRight != MyConstants.NONE_RIGHT){
-            this.buttonOk.setBounds(this.buttonOk.getX(), this.buttonOk.getY() - m, this.buttonOk.getWidth(), this.buttonOk.getHeight());
-           }
-           this.buttonCancel.setBounds(this.buttonCancel.getX(), this.buttonCancel.getY() - m, this.buttonCancel.getWidth(), this.buttonCancel.getHeight());
-           this.setSize(this.getWidth(), this.getHeight() - m);
-           this.setPreferredSize(this.getSize());
-       }
    }
     
     private void validDialog(){
@@ -242,62 +183,31 @@ public class QuestionDialog extends JDialog implements ActionComment {
             edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   if (d.length() == 0){
-       String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_QUESTION"));
-       edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   String c = this.panelComments.getComments();
-   if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
-       String msg = edP.getBundleString("MSG_LENGHT_MAX");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
-       msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
-       edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   String h = "";
-   if (displayHypothesis){
-       h = this.textAreaHypothesis.getText();
-        if (h.length() > MyConstants.MAX_LENGHT_QUESTION_HYPOTHESIS){
-            String msg = edP.getBundleString("MSG_LENGHT_MAX");
-            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_HYPOTHESIS"));
-            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_QUESTION_HYPOTHESIS);
+        if (d.length() == 0){
+            String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_QUESTION"));
             edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   }
-   Question newQuestion = new Question(d, h, c) ;
-   String p = "";
-   p = this.textAreaGeneralPrinciple.getText();
-   if (p.length() > MyConstants.MAX_LENGHT_QUESTION_GENERAL_PRINCIPLE){
-        String msg = edP.getBundleString("MSG_LENGHT_MAX");
-        msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_GENERAL_PRINCIPLE"));
-        msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_QUESTION_GENERAL_PRINCIPLE);
-        edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-        return; 
-    }
-   newQuestion.setGeneralPrinciple(p);
-   if (modeAdd){
-        // Cree la question 
-        CopexReturn cr = edP.addQuestion(newQuestion);
-        if (cr.isError()){
-            edP.displayError(cr , edP.getBundleString("TITLE_DIALOG_ERROR")); 
+        String c = this.panelComments.getComments();
+        if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = edP.getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   }else{
-       // mode modification
-       CopexReturn cr = edP.updateQuestion(newQuestion);
+        Question newQuestion = new Question(edP.getLocale(),d, c) ;
+        CopexReturn cr = edP.updateQuestion(newQuestion);
         if (cr.isError()){
-            edP.displayError(cr ,edP.getBundleString("TITLE_DIALOG_ERROR")); 
+            edP.displayError(cr ,edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-   }
-  
-    this.dispose();
+        this.dispose();
     }
 
     /* affichage ou non des commentaires*/
+    @Override
     public void actionComment() {
            if (this.buttonOk != null)
                 this.buttonOk.setBounds(this.buttonOk.getX(), panelComments.getHeight()+panelComments.getY()+20, this.buttonOk.getWidth(), this.buttonOk.getHeight());
@@ -309,11 +219,13 @@ public class QuestionDialog extends JDialog implements ActionComment {
     }
 
     /* sauvegarde des commentaires */
+    @Override
     public void saveComment(){
         this.comment = panelComments.getComments() ;
     }
 
     /* met a jour le texte des commenraires */
+    @Override
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }
@@ -326,20 +238,6 @@ public class QuestionDialog extends JDialog implements ActionComment {
             textAreaDescription.setForeground(defaultTextColor);
             textAreaDescription.setText(edP.getBundleString("DEFAULT_TEXT_QUESTION"));
         }
-        if(displayHypothesis){
-            s = textAreaHypothesis.getText();
-            if (s == null || s.length() == 0){
-                textAreaHypothesis.setFont(defaultTextFont);
-                textAreaHypothesis.setForeground(defaultTextColor);
-                textAreaHypothesis.setText(edP.getBundleString("DEFAULT_TEXT_HYPOTHESIS"));
-            }
-        }
-        s = textAreaGeneralPrinciple.getText();
-        if (s == null || s.length() == 0){
-            textAreaGeneralPrinciple.setFont(defaultTextFont);
-            textAreaGeneralPrinciple.setForeground(defaultTextColor);
-            textAreaGeneralPrinciple.setText(edP.getBundleString("DEFAULT_TEXT_PRINCIPLE"));
-        }
     }
     /* enleve texte par default description */
     private void removeDefaultTextQuestion(){
@@ -350,32 +248,11 @@ public class QuestionDialog extends JDialog implements ActionComment {
         textAreaDescription.setFont(areaFont);
         textAreaDescription.setForeground(areaTextColor);
     }
-    /* enleve texte par default hypotheses */
-    private void removeDefaultTextHypothesis(){
-        if (!displayHypothesis)
-            return;
-        String s = textAreaHypothesis.getText();
-        if (s != null && s.equals(edP.getBundleString("DEFAULT_TEXT_HYPOTHESIS"))){
-            textAreaHypothesis.setText("");
-        }
-        textAreaHypothesis.setFont(areaFont);
-        textAreaHypothesis.setForeground(areaTextColor);
-    }
-    /* enleve texte par default principle */
-    private void removeDefaultTextPrinciple(){
-        String s = textAreaGeneralPrinciple.getText();
-        if (s != null && s.equals(edP.getBundleString("DEFAULT_TEXT_PRINCIPLE"))){
-            textAreaGeneralPrinciple.setText("");
-        }
-        textAreaGeneralPrinciple.setFont(areaFont);
-        textAreaGeneralPrinciple.setForeground(areaTextColor);
-    }
+    
 
     /*enleve les textes par default */
     private void removeDefaultText(){
         removeDefaultTextQuestion();
-        removeDefaultTextHypothesis();
-        removeDefaultTextPrinciple();
     }
 
     
@@ -391,18 +268,11 @@ public class QuestionDialog extends JDialog implements ActionComment {
         buttonOk = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
         labelQuestion = new javax.swing.JLabel();
-        labelHypothesis = new javax.swing.JLabel();
-        labelGeneralPrinciple = new javax.swing.JLabel();
-        scrollPaneGeneralPrinciple = new javax.swing.JScrollPane();
-        textAreaGeneralPrinciple = new javax.swing.JTextArea();
-        labelImage = new javax.swing.JLabel();
-        scrollPaneHypothesis = new javax.swing.JScrollPane();
-        textAreaHypothesis = new javax.swing.JTextArea();
         jScrollPaneDescription = new javax.swing.JScrollPane();
         textAreaDescription = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(edP.getBundleString("TITLE_DIALOG_ADD_QUESTION"));
+        setTitle(edP.getBundleString("TITLE_DIALOG_QUESTION"));
         setMinimumSize(new java.awt.Dimension(200, 200));
         setModal(true);
         getContentPane().setLayout(null);
@@ -415,7 +285,7 @@ public class QuestionDialog extends JDialog implements ActionComment {
             }
         });
         getContentPane().add(buttonOk);
-        buttonOk.setBounds(40, 370, 99, 23);
+        buttonOk.setBounds(60, 170, 99, 23);
 
         buttonCancel.setText(edP.getBundleString("BUTTON_CANCEL"));
         buttonCancel.setName("buttonCancel"); // NOI18N
@@ -425,60 +295,13 @@ public class QuestionDialog extends JDialog implements ActionComment {
             }
         });
         getContentPane().add(buttonCancel);
-        buttonCancel.setBounds(180, 370, 99, 23);
+        buttonCancel.setBounds(190, 170, 99, 23);
 
-        labelQuestion.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelQuestion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelQuestion.setText(edP.getBundleString("LABEL_QUESTION"));
         labelQuestion.setName("labelQuestion"); // NOI18N
         getContentPane().add(labelQuestion);
         labelQuestion.setBounds(20, 10, 90, 14);
-
-        labelHypothesis.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelHypothesis.setText(edP.getBundleString("LABEL_HYPOTHESIS"));
-        labelHypothesis.setName("labelHypothesis"); // NOI18N
-        getContentPane().add(labelHypothesis);
-        labelHypothesis.setBounds(20, 120, 110, 14);
-
-        labelGeneralPrinciple.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelGeneralPrinciple.setText(edP.getBundleString("LABEL_GENERAL_PRINCIPLE"));
-        labelGeneralPrinciple.setName("labelGeneralPrinciple"); // NOI18N
-        getContentPane().add(labelGeneralPrinciple);
-        labelGeneralPrinciple.setBounds(20, 250, 110, 14);
-
-        scrollPaneGeneralPrinciple.setName("scrollPaneGeneralPrinciple"); // NOI18N
-
-        textAreaGeneralPrinciple.setColumns(20);
-        textAreaGeneralPrinciple.setRows(5);
-        textAreaGeneralPrinciple.setName("textAreaGeneralPrinciple"); // NOI18N
-        textAreaGeneralPrinciple.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                textAreaGeneralPrincipleFocusGained(evt);
-            }
-        });
-        scrollPaneGeneralPrinciple.setViewportView(textAreaGeneralPrinciple);
-
-        getContentPane().add(scrollPaneGeneralPrinciple);
-        scrollPaneGeneralPrinciple.setBounds(20, 270, 300, 86);
-
-        labelImage.setName("labelImage"); // NOI18N
-        getContentPane().add(labelImage);
-        labelImage.setBounds(20, 330, 70, 10);
-
-        scrollPaneHypothesis.setName("scrollPaneHypothesis"); // NOI18N
-        scrollPaneHypothesis.setPreferredSize(new java.awt.Dimension(146, 90));
-
-        textAreaHypothesis.setColumns(20);
-        textAreaHypothesis.setRows(5);
-        textAreaHypothesis.setName("textAreaHypothesis"); // NOI18N
-        textAreaHypothesis.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                textAreaHypothesisFocusGained(evt);
-            }
-        });
-        scrollPaneHypothesis.setViewportView(textAreaHypothesis);
-
-        getContentPane().add(scrollPaneHypothesis);
-        scrollPaneHypothesis.setBounds(20, 140, 300, 90);
 
         jScrollPaneDescription.setName("jScrollPaneDescription"); // NOI18N
         jScrollPaneDescription.setPreferredSize(new java.awt.Dimension(146, 90));
@@ -511,14 +334,6 @@ private void textAreaDescriptionFocusGained(java.awt.event.FocusEvent evt) {//GE
     removeDefaultTextQuestion();
 }//GEN-LAST:event_textAreaDescriptionFocusGained
 
-private void textAreaHypothesisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAreaHypothesisFocusGained
-    removeDefaultTextHypothesis();
-}//GEN-LAST:event_textAreaHypothesisFocusGained
-
-private void textAreaGeneralPrincipleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textAreaGeneralPrincipleFocusGained
-    removeDefaultTextPrinciple();
-}//GEN-LAST:event_textAreaGeneralPrincipleFocusGained
-
     /**
     * @param args the command line arguments
     */
@@ -541,15 +356,10 @@ private void textAreaGeneralPrincipleFocusGained(java.awt.event.FocusEvent evt) 
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
     private javax.swing.JScrollPane jScrollPaneDescription;
-    private javax.swing.JLabel labelGeneralPrinciple;
-    private javax.swing.JLabel labelHypothesis;
-    private javax.swing.JLabel labelImage;
     private javax.swing.JLabel labelQuestion;
-    private javax.swing.JScrollPane scrollPaneGeneralPrinciple;
-    private javax.swing.JScrollPane scrollPaneHypothesis;
     private javax.swing.JTextArea textAreaDescription;
-    private javax.swing.JTextArea textAreaGeneralPrinciple;
-    private javax.swing.JTextArea textAreaHypothesis;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }

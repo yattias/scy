@@ -54,8 +54,8 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
             }else {
                 taskParent  = ts.getSelectedTask();
             }
-            System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription());
-            System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription()+" ("+task.attachLikeBrother()+")");
+            System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
+            System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
            
             CopexReturn cr = this.controller.addTask(task.getSelectedTask(), tree.getProc(), taskBrother ,taskParent, v, MyConstants.UNDO, false);
             if (cr.isError()){

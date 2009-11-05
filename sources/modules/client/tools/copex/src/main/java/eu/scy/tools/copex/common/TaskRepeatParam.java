@@ -5,6 +5,9 @@
 
 package eu.scy.tools.copex.common;
 
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 
 
 /**
@@ -19,6 +22,9 @@ public abstract class TaskRepeatParam implements Cloneable {
         this.dbKey = dbKey;
     }
 
+    public TaskRepeatParam(Element xmlElem) throws JDOMException {
+
+    }
     public long getDbKey() {
         return dbKey;
     }
@@ -41,5 +47,10 @@ public abstract class TaskRepeatParam implements Cloneable {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
+    }
+
+     // toXML
+    public Element toXML(){
+        return null;
     }
 }

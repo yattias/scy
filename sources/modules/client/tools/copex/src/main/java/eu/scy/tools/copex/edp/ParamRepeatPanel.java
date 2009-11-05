@@ -39,6 +39,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -74,11 +76,11 @@ public class ParamRepeatPanel extends JPanel{
 
 
     private ArrayList<Material> listParamMaterial;
-    private ArrayList<CopexUnit> listParamUnit;
+    private List<CopexUnit> listParamUnit;
     private String quantityName;
     private ArrayList<QData> listParamData;
     private ArrayList<Material> listOutMaterial;
-    private ArrayList<TypeMaterial> listOutTypeMaterial;
+    private List<TypeMaterial> listOutTypeMaterial;
     private CopexUnit outputUnit;
 
     private ArrayList<Object[]> listMaterialProdRepeat;
@@ -172,7 +174,7 @@ public class ParamRepeatPanel extends JPanel{
         switch (mode){
             case MODE_PARAM_QTT :
                 for (int i=0; i<nb; i++){
-                    listItem.add(listParamUnit.get(i).getSymbol());
+                    listItem.add(listParamUnit.get(i).getSymbol(edP.getLocale()));
                 }
                 for (int i=0; i<nb; i++){
                     addParamQuantity(listItem);
@@ -181,7 +183,7 @@ public class ParamRepeatPanel extends JPanel{
             case MODE_PARAM_MAT :
                 n = listParamMaterial.size();
                 for (int i=0; i<n; i++){
-                    listItem.add(listParamMaterial.get(i).getName());
+                    listItem.add(listParamMaterial.get(i).getName(edP.getLocale()));
                 }
                 for (int i=0; i<nb; i++){
                     addParamMaterial(listItem);
@@ -190,7 +192,7 @@ public class ParamRepeatPanel extends JPanel{
             case MODE_PARAM_DATA :
                 n = listParamData.size();
                 for (int i=0; i<n; i++){
-                    listItem.add(listParamData.get(i).getName());
+                    listItem.add(listParamData.get(i).getName(edP.getLocale()));
                 }
                 for (int i=0; i<nb; i++){
                     addParamData(listItem);
@@ -199,7 +201,7 @@ public class ParamRepeatPanel extends JPanel{
             case MODE_OUT_MAT :
                 n = listOutMaterial.size();
                 for (int i=0; i<n; i++){
-                    listItem.add(listOutMaterial.get(i).getName());
+                    listItem.add(listOutMaterial.get(i).getName(edP.getLocale()));
                 }
                 for (int i=0; i<nb; i++){
                     addOutputMaterial(listItem);
@@ -225,7 +227,7 @@ public class ParamRepeatPanel extends JPanel{
     }
 
     /* affichage param quantity : text fields + cb des unites*/
-    public void setParamQuantity(InitialParamQuantity initialParamQuantity, ArrayList<CopexUnit> listUnit, String quantityName){
+    public void setParamQuantity(InitialParamQuantity initialParamQuantity, List<CopexUnit> listUnit, String quantityName){
         setNone();
         setMode(MODE_PARAM_QTT);
         this.listParamUnit = listUnit ;
@@ -234,7 +236,7 @@ public class ParamRepeatPanel extends JPanel{
         int nb = listUnit.size();
         Vector listItem = new Vector();
         for (int i=0; i<nb; i++){
-            listItem.add(listUnit.get(i).getSymbol());
+            listItem.add(listUnit.get(i).getSymbol(edP.getLocale()));
         }
         for (int i=0; i<nbRepeat; i++){
             addParamQuantity(listItem);
@@ -274,7 +276,7 @@ public class ParamRepeatPanel extends JPanel{
                 }
                 int id = ((JComboBox)listComponents.get(i).getComponent(1)).getSelectedIndex();
                 CopexUnit unit = this.listParamUnit.get(id);
-                Parameter p = new Parameter(-1, quantityName, "", value, "", unit);
+                Parameter p = new Parameter(-1,CopexUtilities.getLocalText(quantityName, edP.getLocale()),CopexUtilities.getLocalText("", edP.getLocale()), value ,CopexUtilities.getLocalText("", edP.getLocale()), unit);
                 list.add(p);
             }
         }
@@ -293,7 +295,7 @@ public class ParamRepeatPanel extends JPanel{
         Vector listItem = new Vector();
         int nb = listMaterial.size();
         for (int i=0; i<nb; i++){
-            listItem.add(listMaterial.get(i).getName());
+            listItem.add(listMaterial.get(i).getName(edP.getLocale()));
         }
         nb = listMaterialProdRepeat.size();
 
@@ -301,7 +303,7 @@ public class ParamRepeatPanel extends JPanel{
             for (int j=0; j<nb; j++){
                 int idR = (Integer)(((Object[])listMaterialProdRepeat.get(j))[0]);
                 if(idR >= i){
-                    listItem.add(((Material)(((Object[])listMaterialProdRepeat.get(j))[1])).getName());
+                    listItem.add(((Material)(((Object[])listMaterialProdRepeat.get(j))[1])).getName(edP.getLocale()));
                 }
             }
             addParamMaterial(listItem);
@@ -330,7 +332,7 @@ public class ParamRepeatPanel extends JPanel{
         int nb = listComponents.size();
         int start = id+1;
         for (int i=start; i<nb; i++){
-            ((JComboBox)listComponents.get(i).getComponent(0)).addItem(m.getName());
+            ((JComboBox)listComponents.get(i).getComponent(0)).addItem(m.getName(edP.getLocale()));
         }
         revalidate();
     }
@@ -375,7 +377,7 @@ public class ParamRepeatPanel extends JPanel{
         Vector listItem = new Vector();
         int nb = listData.size();
         for (int i=0; i<nb; i++){
-            listItem.add(listData.get(i).getName());
+            listItem.add(listData.get(i).getName(edP.getLocale()));
         }
         for (int i=0; i<nbRepeat; i++){
             addParamData(listItem);
@@ -421,13 +423,13 @@ public class ParamRepeatPanel extends JPanel{
         Vector listItem = new Vector();
         int nb = listOutput.size();
         for (int i=0; i<nb; i++){
-            listItem.add(listOutput.get(i).getName());
+            listItem.add(listOutput.get(i).getName(edP.getLocale()));
         }
         for (int i=0; i<nbRepeat; i++){
             for (int j=0; j<nb; j++){
                 int idR = (Integer)(((Object[])listMaterialProdRepeat.get(j))[0]);
                 if(idR >= i){
-                    listItem.add(((Material)(((Object[])listMaterialProdRepeat.get(j))[1])).getName());
+                    listItem.add(((Material)(((Object[])listMaterialProdRepeat.get(j))[1])).getName(edP.getLocale()));
                 }
             }
             addOutputMaterial(listItem);
@@ -463,7 +465,7 @@ public class ParamRepeatPanel extends JPanel{
         int nb = listComponents.size();
         int start = id+1;
         for (int i=start; i<nb; i++){
-            ((JComboBox)listComponents.get(i).getComponent(0)).addItem(m.getName());
+            ((JComboBox)listComponents.get(i).getComponent(0)).addItem(m.getName(edP.getLocale()));
         }
         revalidate();
     }
@@ -476,20 +478,20 @@ public class ParamRepeatPanel extends JPanel{
                 String s = (String)((JComboBox)listComponents.get(i).getComponent(0)).getSelectedItem();
                 if (s == null || s.length() == 0){
                     String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-                    msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName());
+                    msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName(edP.getLocale()));
                     return new CopexReturn(msg ,false);
                 }
                 if (s.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
                     String msg = edP.getBundleString("MSG_LENGHT_MAX");
-                    msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName());
+                    msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName(edP.getLocale()));
                     msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_NAME);
                     return new CopexReturn(msg, false);
                 }
 
                 Material m = getMaterialOutput(s);
                 if (m == null){
-                    ArrayList<Parameter> listParameters = new ArrayList();
-                    m = new Material(s, s, listOutTypeMaterial, listParameters, false);
+                    List<Parameter> listParameters = new LinkedList();
+                    m = new Material(CopexUtilities.getLocalText(s, edP.getLocale()), CopexUtilities.getLocalText(s, edP.getLocale()), listOutTypeMaterial, listParameters);
                 }
                 list.add(m);
             }
@@ -506,8 +508,8 @@ public class ParamRepeatPanel extends JPanel{
             return;
         if(idCb >-1 && actionTaskRepeat != null && !isMaterialOutput(matName)){
             // liste des parametres
-            ArrayList<Parameter> listParameters = new ArrayList();
-            Material m = new Material(matName, matName, listOutTypeMaterial, listParameters, false);
+            List<Parameter> listParameters = new LinkedList();
+            Material m = new Material(CopexUtilities.getLocalText(matName, edP.getLocale()), CopexUtilities.getLocalText(matName, edP.getLocale()), listOutTypeMaterial, listParameters);
             actionTaskRepeat.addOutputMaterial(index,idCb, m);
         }
     }
@@ -536,7 +538,7 @@ public class ParamRepeatPanel extends JPanel{
     private boolean isMaterialOutput(String name){
         int nb = listOutMaterial.size();
         for (int i=0; i<nb; i++){
-            if (listOutMaterial.get(i).getName().equals(name))
+            if (listOutMaterial.get(i).getName(edP.getLocale()).equals(name))
                 return true;
         }
         return false;
@@ -544,12 +546,12 @@ public class ParamRepeatPanel extends JPanel{
     private Material getMaterialOutput(String name){
         int nb = listOutMaterial.size();
         for (int i=0; i<nb; i++){
-            if (listOutMaterial.get(i).getName().equals(name))
+            if (listOutMaterial.get(i).getName(edP.getLocale()).equals(name))
                 return listOutMaterial.get(i);
         }
         nb = this.listMaterialProdRepeat.size();
         for (int i=0; i<nb; i++){
-            if(((Material)listMaterialProdRepeat.get(i)[1]).getName().equals(name))
+            if(((Material)listMaterialProdRepeat.get(i)[1]).getName(edP.getLocale()).equals(name))
                 return (Material)listMaterialProdRepeat.get(i)[1];
         }
         return null;
@@ -596,16 +598,16 @@ public class ParamRepeatPanel extends JPanel{
                 String s = ((JTextField)listComponents.get(i).getComponent(0)).getText();
                 if (s.length() == 0){
                     String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-                    msg  = CopexUtilities.replace(msg, 0, initialOutput.getName());
+                    msg  = CopexUtilities.replace(msg, 0, initialOutput.getName(edP.getLocale()));
                     return new CopexReturn(msg ,false);
                 }
                 if (s.length() > MyConstants.MAX_LENGHT_QUANTITY_NAME){
                     String msg = edP.getBundleString("MSG_LENGHT_MAX");
-                    msg  = CopexUtilities.replace(msg, 0, initialOutput.getName());
+                    msg  = CopexUtilities.replace(msg, 0, initialOutput.getName(edP.getLocale()));
                     msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_QUANTITY_NAME);
                     return new CopexReturn(msg, false);
                 }
-                QData data = new QData(-1, s, "", 0, "", outputUnit);
+                QData data = new QData(-1,CopexUtilities.getLocalText(s, edP.getLocale()), CopexUtilities.getLocalText("", edP.getLocale()), 0, CopexUtilities.getLocalText(s, edP.getLocale()), outputUnit);
                 list.add(data);
             }
         }
@@ -618,7 +620,7 @@ public class ParamRepeatPanel extends JPanel{
         String name = ((JTextField)evt.getSource()).getText();
         int idF = getFieldId((JTextField)evt.getSource());
         if (idF != -1  && actionTaskRepeat != null){
-            QData data = new QData(-1, name, "", 0, "", outputUnit);
+            QData data = new QData(-1, CopexUtilities.getLocalText(name, edP.getLocale()), CopexUtilities.getLocalText("", edP.getLocale()), 0, CopexUtilities.getLocalText(name, edP.getLocale()), outputUnit);
             actionTaskRepeat.addOutputData(index, idF, data);
         }
     }
@@ -646,39 +648,39 @@ public class ParamRepeatPanel extends JPanel{
             ArrayList<TaskRepeatValueParamData> listValue = ((TaskRepeatParamData)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getActionParamData().getData().getName());
+                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getActionParamData().getData().getName(edP.getLocale()));
             }
         }else if (param instanceof TaskRepeatParamMaterial && mode == MODE_PARAM_MAT){
             ArrayList<TaskRepeatValueParamMaterial> listValue = ((TaskRepeatParamMaterial)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getActionParamMaterial().getMaterial().getName());
+                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getActionParamMaterial().getMaterial().getName(edP.getLocale()));
             }
         }else if (param instanceof TaskRepeatParamQuantity && mode == MODE_PARAM_QTT){
             ArrayList<TaskRepeatValueParamQuantity> listValue = ((TaskRepeatParamQuantity)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
                 ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(Double.toString(listValue.get(i).getActionParamQuantity().getParameter().getValue()));
-                ((JComboBox)(this.listComponents.get(i).getComponent(1))).setSelectedItem(listValue.get(i).getActionParamQuantity().getParameter().getUnit().getSymbol());
+                ((JComboBox)(this.listComponents.get(i).getComponent(1))).setSelectedItem(listValue.get(i).getActionParamQuantity().getParameter().getUnit().getSymbol(edP.getLocale()));
             }
         }else if (param instanceof TaskRepeatParamOutputAcquisition && mode == MODE_OUT_DATA){
             ArrayList<TaskRepeatValueDataProd> listValue = ((TaskRepeatParamOutputAcquisition)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(""+listValue.get(i).getData().getName());
+                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(""+listValue.get(i).getData().getName(edP.getLocale()));
 
             }
         }else if (param instanceof TaskRepeatParamOutputManipulation && mode == MODE_OUT_MAT){
             ArrayList<TaskRepeatValueMaterialProd> listValue = ((TaskRepeatParamOutputManipulation)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getMaterial().getName());
+                ((JComboBox)(this.listComponents.get(i).getComponent(0))).setSelectedItem(listValue.get(i).getMaterial().getName(edP.getLocale()));
             }
         }else if (param instanceof TaskRepeatParamOutputTreatment && mode == MODE_OUT_DATA){
             ArrayList<TaskRepeatValueDataProd> listValue = ((TaskRepeatParamOutputTreatment)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(""+listValue.get(i).getData().getName());
+                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(""+listValue.get(i).getData().getName(edP.getLocale()));
             }
         }
     }

@@ -31,7 +31,6 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
     private JMenuItem itemSuppr= null;
     private JMenuItem itemEdit= null;
     private JMenu menuItemInserer= null;
-    private JMenuItem itemSsQ = null;
     private JMenuItem itemStep = null;
     private JMenuItem itemAction = null;
 
@@ -47,8 +46,6 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
     
     // METHODES
     private void init(){
-        this.itemSsQ = new JMenuItem(edP.getBundleString("MENU_SS_QUESTION"));
-        this.itemSsQ.addActionListener(this);
         this.itemStep = new JMenuItem(edP.getBundleString("MENU_STEP"), KeyEvent.VK_M);
         this.itemStep.addActionListener(this);
         this.itemStep.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK));
@@ -56,7 +53,6 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
         this.itemAction.addActionListener(this);
         this.itemAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 	this.menuItemInserer = new JMenu(edP.getBundleString("MENU_ADD"));
-        this.menuItemInserer.add(this.itemSsQ);
         this.menuItemInserer.add(this.itemStep);
         this.menuItemInserer.add(this.itemAction);
         this.itemCut = new JMenuItem(edP.getBundleString("TOOLTIPTEXT_MENU_CUT"));
@@ -87,9 +83,7 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.itemSsQ){
-            addSsQuestion();
-        }else if (e.getSource() == this.itemStep){
+        if (e.getSource() == this.itemStep){
             addStep();
         }else if (e.getSource() == this.itemAction){
             addAction();
@@ -106,10 +100,6 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
         }
     }
     
-    /* insertion d'une sous question */
-    private void addSsQuestion(){
-        this.edP.addQuestion();
-    }
 
     /* colle */
     private void paste() {
@@ -151,10 +141,6 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
         this.menuItemInserer.setEnabled(enabled);
     }
     
-    /* rend enabled l'item ajout ss question  */
-    public void setAddQEnabled(boolean enabled){
-        this.itemSsQ.setEnabled(enabled);
-    }
     /* rend enabled l'item ajout etape  */
     public void setAddSEnabled(boolean enabled){
         this.itemStep.setEnabled(enabled);

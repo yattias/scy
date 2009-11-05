@@ -7,8 +7,13 @@ package eu.scy.tools.copex.common;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Attribute;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 
 
 /**
@@ -20,15 +25,23 @@ import org.jdom.Element;
  * @author MBO
  */
 public abstract  class CopexTask implements Cloneable {
-    // ATTRIBUTS
+    /*tag names */
+    public final static String TAG_TASK_NAME = "task_name";
+    public final static String TAG_TASK_DESCRIPTION = "description";
+    public final static String TAG_TASK_COMMENTS = "comments";
+    public final static String TAG_TASK_IMAGE = "image";
+    public final static String TAG_TASK_DRAW="draw";
+
+
+
     /* identifiant base de donnees */
-    private long dbKey;
+    protected long dbKey;
     /* nom de la tache*/
-    protected String name;
+    protected List<LocalText> listName;
     /*description de la tache */
-    protected String description;
+    protected List<LocalText> listDescription;
     /* commentaires */
-    protected String comments;
+    protected List<LocalText> listComments;
     /* image associee => nom du fichier */
     protected String taskImage ;
     /* dessin associe : element xml */
@@ -45,14 +58,14 @@ public abstract  class CopexTask implements Cloneable {
     /* boolean indiquant s'il s'agit de la racine ou non */
     private boolean root;
     /* repetition - null sinon */
-    private TaskRepeat taskRepeat;
+    protected TaskRepeat taskRepeat;
 
     // CONSTRUCTEURS
-    public CopexTask(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, boolean root, TaskRepeat taskRepeat) {
+    public CopexTask(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, boolean root, TaskRepeat taskRepeat) {
         this.dbKey = dbKey;
-        this.name = name;
-        this.description = description;
-        this.comments = comments;
+        this.listName = listName;
+        this.listDescription = listDescription;
+        this.listComments = listComments;
         this.taskRight = taskRight;
         this.taskImage = taskImage;
         this.draw = draw;
@@ -64,11 +77,11 @@ public abstract  class CopexTask implements Cloneable {
     }
 
     
-    public CopexTask(long dbKey, String name, String description, String comments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, boolean root, long dbKeyBrother, long dbKeyChild, TaskRepeat taskRepeat) {
+    public CopexTask(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, boolean root, long dbKeyBrother, long dbKeyChild, TaskRepeat taskRepeat) {
         this.dbKey = dbKey;
-        this.name = name;
-        this.description = description;
-        this.comments = comments;
+        this.listName = listName;
+        this.listDescription = listDescription;
+        this.listComments = listComments;
         this.taskRight = taskRight;
         this.taskImage = taskImage ;
         this.draw = draw;
@@ -79,11 +92,14 @@ public abstract  class CopexTask implements Cloneable {
         this.taskRepeat = taskRepeat;
     }
     
-    public CopexTask(){
+    public CopexTask(Locale locale){
         this.dbKey = -1;
-        this.name = "FICTIV";
-        this.description = "root fictive";
-        this.comments = "";
+        this.listName = new LinkedList();
+        this.listName.add(new LocalText("FICTIV", locale));
+        this.listDescription = new LinkedList();
+        this.listDescription.add(new LocalText("root fictive", locale));
+        this.listComments = new LinkedList();
+        this.listComments.add(new LocalText("", locale));
         this.taskImage = null ;
         this.draw = null;
         this.taskRight = new TaskRight(MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
@@ -94,19 +110,51 @@ public abstract  class CopexTask implements Cloneable {
         this.taskRepeat = null;
     }
    
-   
+
+    public CopexTask(Element xmlElem) throws JDOMException {
+		
+	}
 
     // GETTER AND SETTER
      public void setDbKey(long dbKey) {
         this.dbKey = dbKey;
     }
 
-    public String getComments() {
-        return comments;
+    public List<LocalText> getListComments() {
+        return listComments;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setListComments(List<LocalText> listComments) {
+        this.listComments = listComments;
+    }
+
+    public List<LocalText> getListDescription() {
+        return listDescription;
+    }
+
+    public void setListDescription(List<LocalText> listDescription) {
+        this.listDescription = listDescription;
+    }
+
+    public List<LocalText> getListName() {
+        return listName;
+    }
+
+    public void setListName(List<LocalText> listName) {
+        this.listName = listName;
+    }
+
+    public String getComments(Locale locale) {
+        return CopexUtilities.getText(listComments, locale);
+    }
+
+    public void setComments(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listComments);
+        if(id ==-1){
+            this.listComments.add(text);
+        }else{
+            this.listComments.set(id, text);
+        }
     }
 
     public String getTaskImage() {
@@ -117,20 +165,30 @@ public abstract  class CopexTask implements Cloneable {
         this.taskImage = taskImage;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription(Locale locale) {
+        return CopexUtilities.getText(listDescription, locale);
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listDescription);
+        if(id ==-1){
+            this.listDescription.add(text);
+        }else{
+            this.listDescription.set(id, text);
+        }
     }
 
-    public String getName() {
-        return name;
+    public String getName(Locale locale) {
+        return CopexUtilities.getText(listName, locale);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listName);
+        if(id ==-1){
+            this.listName.add(text);
+        }else{
+            this.listName.set(id, text);
+        }
     }
 
     public long getDbKey() {
@@ -190,9 +248,8 @@ public abstract  class CopexTask implements Cloneable {
     
     
     // OVERRIDE
-    @Override
-    public String toString() {
-        return getDescription();
+    public String toString(Locale locale) {
+        return getDescription(locale);
     }
     
     // METHODES
@@ -272,13 +329,21 @@ public abstract  class CopexTask implements Cloneable {
         try {
             CopexTask task = (CopexTask) super.clone() ;
             long dbKeyC = this.dbKey;
-            String nameC = new String(this.name);
-            String descriptionC = "";
-            if (this.description != null)
-                   descriptionC= new String(this.description);
-            String commentsC = "";
-            if (this.comments != null)
-                    commentsC = new String (this.comments);
+            List<LocalText> listNameC = new LinkedList();
+            for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
+                listNameC.add((LocalText)t.next().clone());
+            }
+            task.setListName(listNameC);
+            List<LocalText> listDescriptionC = new LinkedList();
+            for (Iterator<LocalText> t = listDescription.iterator(); t.hasNext();) {
+                listDescriptionC.add((LocalText)t.next().clone());
+            }
+            task.setListDescription(listDescriptionC);
+            List<LocalText> listCommentsC = new LinkedList();
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                listCommentsC.add((LocalText)t.next().clone());
+            }
+            task.setListComments(listCommentsC);
             String taskImgC = "";
             if (this.taskImage != null)
                     taskImgC = new String (this.taskImage);
@@ -296,9 +361,6 @@ public abstract  class CopexTask implements Cloneable {
                 tr = (TaskRepeat)this.taskRepeat.clone();
             }
             task.setDbKey(dbKeyC);
-            task.setName(nameC);
-            task.setDescription(descriptionC);
-            task.setComments(commentsC);
             task.setTaskRight(taskRightC);
             task.setDbKeyBrother(dbKeyBrotherC);
             task.setDbKeyChild(dbKeyChildC);
@@ -314,15 +376,68 @@ public abstract  class CopexTask implements Cloneable {
         }
     }
 
-    /* retourne l'element correspondant a la chaine*/
-    public static Element getElement(String s){
-        if(s == null ||s.length() == 0)
-            return null;
-        return CopexUtilities.stringToXml(s);
-    }
-
+   
     protected void updateParameter(){
         
     }
+
+    // toXML
+    public Element toXML(){
+        return null;
+    }
+
     
+    public Element toXML(Element element){
+        if(listName != null && listName.size() > 0){
+            for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_TASK_NAME);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        if(listDescription != null && listDescription.size() > 0){
+            for (Iterator<LocalText> t = listDescription.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_TASK_DESCRIPTION);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        if(listComments != null && listComments.size() > 0){
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_TASK_COMMENTS);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        if (taskImage != null && !taskImage.equals(""))
+            element.addContent(new Element(TAG_TASK_IMAGE).setText(taskImage));
+        if(draw != null){
+            Element e = new Element(TAG_TASK_DRAW) ;
+            e.addContent(draw);
+            element.addContent(e);
+        }
+        element.addContent(taskRight.toXML());
+        if(taskRepeat != null){
+            element.addContent(taskRepeat.toXML());
+        }
+		return element;
+    }
+
+    public List<Material> getAllMaterialProd(){
+        return new LinkedList();
+    }
+
+    public List<QData> getAllDataProd(){
+        return new LinkedList();
+    }
+
+    public List<Material> getMaterialUsed(){
+        return new LinkedList();
+    }
 }

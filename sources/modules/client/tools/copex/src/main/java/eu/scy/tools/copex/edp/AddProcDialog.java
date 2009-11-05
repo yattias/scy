@@ -63,6 +63,7 @@ public class AddProcDialog extends JDialog {
         setModal(true);
         setLocation(edP.getLocationDialog());
         init();
+        setIconImage(edP.getIconDialog());
     }
     
     // METHODES
@@ -83,14 +84,14 @@ public class AddProcDialog extends JDialog {
             if (nb > 0){
                 cbProcInit.setSelectedIndex(0);
                 if(setDefaultProcName)
-                    textFieldProcName.setText(listInitialProc.get(0).getName());
+                    textFieldProcName.setText(listInitialProc.get(0).getName(edP.getLocale()));
             }
         }
         // initialisation liste des protocoles de la mission en cours
         int nb = listProcMission.size();
         for (int i=0; i<nb; i++){
             ExperimentalProcedure p = (ExperimentalProcedure)listProcMission.get(i);
-            cbListProc.addItem(p.getName());
+            cbListProc.addItem(p.getName(edP.getLocale()));
         }
         if (listProcMission.size() > 0)
             cbListProc.setSelectedIndex(0);
@@ -161,7 +162,7 @@ public class AddProcDialog extends JDialog {
        for (int i=0; i<nb; i++){
            int n1 = this.listAllProc.get(i).size();
            for (int j=0; j<n1; j++){
-               int s = CopexUtilities.lenghtOfString(this.listAllProc.get(i).get(j).getName(),getFontMetrics(this.cbListMissionProc.getFont()) );
+               int s = CopexUtilities.lenghtOfString(this.listAllProc.get(i).get(j).getName(edP.getLocale()),getFontMetrics(this.cbListMissionProc.getFont()) );
                m = Math.max(m, s);
            }
        }
@@ -181,7 +182,7 @@ public class AddProcDialog extends JDialog {
        if(setDefaultProcName){
         int id = this.cbProcInit.getSelectedIndex() ;
         if(id > 0){
-           textFieldProcName.setText(listInitialProc.get(id).getName());
+           textFieldProcName.setText(listInitialProc.get(id).getName(edP.getLocale()));
         }
        }
    }
@@ -227,7 +228,7 @@ public class AddProcDialog extends JDialog {
             }
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             this.dispose();
-            edP.openQuestionDialog();
+            edP.setQuestionDialog();
             return;
         }else if (this.rbCopyProc.isSelected()){
             // copie d'un protocole existant  dans la mission
@@ -527,7 +528,7 @@ private void cbListMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             int nb = list.size();
             for (int i=0; i<nb; i++){
                 LearnerProcedure p = list.get(i);
-                cbListMissionProc.addItem(p.getName());
+                cbListMissionProc.addItem(p.getName(edP.getLocale()));
             }
             if (list.size() > 0)
                 cbListMissionProc.setSelectedIndex(0);

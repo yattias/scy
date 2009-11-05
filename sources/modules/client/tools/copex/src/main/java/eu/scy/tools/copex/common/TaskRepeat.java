@@ -6,6 +6,10 @@
 package eu.scy.tools.copex.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 
 
 /**
@@ -13,7 +17,10 @@ import java.util.ArrayList;
  * @author Marjolaine
  */
 public class TaskRepeat implements Cloneable {
-    // ATTRIBUTS
+    /*tag names */
+    public final static String TAG_REPEAT_TASK = "repeat_task";
+    private final static String TAG_REPEAT_TASK_NB = "nb_repeat_task";
+
     /* identifiant de la repetition */
     private long dbKey;
     /*nombre de repetition */
@@ -35,6 +42,37 @@ public class TaskRepeat implements Cloneable {
         this.listParam = listParam;
     }
 
+    public TaskRepeat(Element xmlElem, long idRepeat, long idParam, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, List<InitialParamData> listInitialParamData, List<InitialParamMaterial> listInitialParamMaterial, List<InitialParamQuantity> listInitialParamQuantity, List<InitialAcquisitionOutput> listInitialAcquisitionOutput, List<InitialManipulationOutput> listInitialManipulationOutput, List<InitialTreatmentOutput> listInitialTreatmentOutput, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
+		if (xmlElem.getName().equals(TAG_REPEAT_TASK)) {
+            this.dbKey = idRepeat;
+            nbRepeat = Integer.parseInt(xmlElem.getChild(TAG_REPEAT_TASK_NB).getText());
+            listParam = new ArrayList();
+            for (Iterator<Element> variableElem = xmlElem.getChildren().iterator(); variableElem.hasNext();){
+                Element e =variableElem.next();
+                if(e.getName().equals(TaskRepeatParamData.TAG_TASK_REPEAT_PARAM_DATA)){
+                    TaskRepeatParamData p = new TaskRepeatParamData(e, idParam++, listInitialParamData, idValue, idActionParam, idQuantity,listPhysicalQuantity );
+                    listParam.add(p);
+                }else if(e.getName().equals(TaskRepeatParamMaterial.TAG_TASK_REPEAT_PARAM_MATERIAL)){
+                    TaskRepeatParamMaterial p = new TaskRepeatParamMaterial(e, idParam++, listInitialParamMaterial, idValue++, idActionParam++, listMaterial, listPhysicalQuantity, listActionParamQuantity);
+                    listParam.add(p);
+                }else if(e.getName().equals(TaskRepeatParamQuantity.TAG_TASK_REPEAT_PARAM_QUANTITY)){
+                    TaskRepeatParamQuantity p = new TaskRepeatParamQuantity(e, idParam++, listInitialParamQuantity, idValue++, idActionParam++, idQuantity++, listPhysicalQuantity);
+                    listParam.add(p);
+                }else if (e.getName().equals(TaskRepeatParamOutputAcquisition.TAG_TASK_REPEAT_PARAM_OUTPUT_ACQUISITION)){
+                    TaskRepeatParamOutputAcquisition p = new TaskRepeatParamOutputAcquisition(e, idParam++, listInitialAcquisitionOutput, idValue++, idQuantity++, listPhysicalQuantity);
+                    listParam.add(p);
+                }else if(e.getName().equals(TaskRepeatParamOutputManipulation.TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION)){
+                    TaskRepeatParamOutputManipulation p  = new TaskRepeatParamOutputManipulation(e, idParam++, listInitialManipulationOutput, idValue++, idQuantity++, idParam++, listPhysicalQuantity, listTypeMaterial);
+                    listParam.add(p);
+                }else if(e.getName().equals(TaskRepeatParamOutputTreatment.TAG_TASK_REPEAT_PARAM_OUTPUT_TREATMENT)){
+                    TaskRepeatParamOutputTreatment p = new TaskRepeatParamOutputTreatment(e, idParam, listInitialTreatmentOutput, idValue++, idQuantity++, listPhysicalQuantity);
+                    listParam.add(p);
+                }
+            }
+		} else {
+			throw(new JDOMException("Task repeat expects <"+TAG_REPEAT_TASK+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+	}
    
 
    
@@ -131,6 +169,16 @@ public class TaskRepeat implements Cloneable {
         return l;
     }
 
+
+     // toXML
+    public Element toXML(){
+        Element element = new Element(TAG_REPEAT_TASK);
+        element.addContent(new Element(TAG_REPEAT_TASK_NB).setText(Integer.toString(nbRepeat)));
+        for(Iterator<TaskRepeatParam> t = listParam.iterator();t.hasNext();){
+            element.addContent(t.next().toXML());
+        }
+		return element;
+    }
 
     
 }

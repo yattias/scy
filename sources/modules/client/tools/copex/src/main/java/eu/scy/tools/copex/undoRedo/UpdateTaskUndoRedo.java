@@ -10,7 +10,7 @@ import eu.scy.tools.copex.common.CopexTask;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.controller.ControllerInterface;
 import eu.scy.tools.copex.edp.CopexTree;
-import eu.scy.tools.copex.edp.CopexTreeNode;
+import eu.scy.tools.copex.edp.CopexNode;
 import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.MyConstants;
@@ -25,12 +25,12 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
     /* ancienne tache */
     private CopexTask oldTask;
     /*noeud */
-    private CopexTreeNode node;
+    private CopexNode node;
     /* nouvelle tache */
     private CopexTask newTask;
 
     // CONSTRUCTEURS
-    public UpdateTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, CopexTask oldTask, CopexTreeNode node, CopexTask newTask) {
+    public UpdateTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, CopexTask oldTask, CopexNode node, CopexTask newTask) {
         super(edP, controller, tree);
         this.oldTask = (CopexTask)oldTask.clone();
         this.node = node;
@@ -50,7 +50,6 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
         }
         LearnerProcedure newproc = (LearnerProcedure)v.get(0);
         edP.updateProc(newproc);
-        System.out.println("MODIFICATION DE LA TACHE : "+newTask.getDescription() +" => "+oldTask.getDescription());
         tree.updateTask(oldTask, node);
     }
     
@@ -66,7 +65,6 @@ public class UpdateTaskUndoRedo extends CopexUndoRedo{
         }
         LearnerProcedure newproc = (LearnerProcedure)v.get(0);
         edP.updateProc(newproc);
-        System.out.println("MODIFICATION DE LA TACHE : "+oldTask.getDescription() +" => "+newTask.getDescription());
         tree.updateTask(newTask, node);
     }
     

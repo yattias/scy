@@ -62,6 +62,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
 
     public void loadEdP(){
         copex.loadData();
+        copex.setQuestionDialog();
         setSize(695,495);
         //repaint();
     }

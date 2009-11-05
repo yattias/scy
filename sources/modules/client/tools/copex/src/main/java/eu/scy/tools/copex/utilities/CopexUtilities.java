@@ -6,15 +6,13 @@
 package eu.scy.tools.copex.utilities;
 
 
-import java.awt.*;
+import eu.scy.tools.copex.common.LocalText;
+import java.awt.FontMetrics;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -194,7 +192,43 @@ public class CopexUtilities {
         return file.getName().substring(id+1);
     }
 
+     /* retourne l'element correspondant a la chaine*/
+    public static Element getElement(String s){
+        if(s == null ||s.length() == 0)
+            return null;
+        return stringToXml(s);
+    }
+
     public static File getXMLFile(File file){
         return new File(file.getParent(), file.getName()+".xml");
+ 	}
+
+    public static  List<LocalText> getLocalText(String text, Locale locale){
+        LinkedList<LocalText> list = new LinkedList<LocalText>();
+        LocalText localText = new LocalText(text, locale);
+        list.add(localText);
+        return list;
     }
+
+    public static LocalText getTextLocal(String text, Locale locale){
+        return new LocalText(text, locale);
+    }
+     public static String getText(List<LocalText> list, Locale locale){
+        for (Iterator<LocalText> t= list.iterator(); t.hasNext();) {
+            LocalText locaText = t.next();
+            if(locaText.getLocale().getLanguage().equals(locale.getLanguage()))
+                return locaText.getText();
+        }
+        return null;
+
+    }
+
+     public static int getIdText(Locale locale, List<LocalText> list){
+         int nb  = list.size();
+         for (int i=0; i<nb; i++){
+             if(list.get(i).getLocale().getLanguage().equals(locale.getLanguage()))
+                 return i;
+         }
+         return -1;
+     }
 }

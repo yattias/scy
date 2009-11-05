@@ -15,6 +15,7 @@ import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 
@@ -31,10 +32,10 @@ public class ExperimentalProcedureFromDB {
      en v[2] : le nom des proc lockes
      en v[3] ; un boolean qui indique si ts les proc de cet utilisateurs pour cette mission sont lockes
      */
-    public static CopexReturn getProcMissionFromDB_xml(DataBaseCommunication dbC, Locker locker, Locale locale, long dbKeyMission, long dbKeyUser, ArrayList<Long> listIdInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v) {
+    public static CopexReturn getProcMissionFromDB_xml(DataBaseCommunication dbC, Locker locker, Locale locale, long dbKeyMission, long dbKeyUser, ArrayList<Long> listIdInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList<MaterialStrategy> listMaterialStrategy,  ArrayList v) {
         ArrayList<LearnerProcedure> listP = new ArrayList();
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = getInitialProcFromDB(dbC, locale, dbKeyUser, listIdInitProc, listPhysicalQuantity, v2) ;
+        CopexReturn cr = getInitialProcFromDB(dbC, locale, dbKeyUser, listIdInitProc, listPhysicalQuantity, listMaterialStrategy, v2) ;
         if (cr.isError())
             return cr;
         ArrayList<InitialProcedure> listInitProc = (ArrayList<InitialProcedure>)v2.get(0);
@@ -106,11 +107,17 @@ public class ExperimentalProcedureFromDB {
                     return cr;
                 InitialProcedure initProcCorresp = (InitialProcedure)v3.get(0);
                 ArrayList<Material> listMaterial = initProcCorresp.getListMaterial() ;
-                LearnerProcedure proc = new LearnerProcedure(dbKey, name, dateLastModif, isActiv, r, initProcCorresp);
+                // recuperation materiel utilise
+                v3 = new ArrayList();
+                cr = getMaterialUsedFromDB(dbC, locale,dbKey, listMaterial, listPhysicalQuantity, v3);
+                if(cr.isError())
+                    return cr;
+                ArrayList<MaterialUsed> listMaterialUsed = (ArrayList<MaterialUsed>)v3.get(0);
+                LearnerProcedure proc = new LearnerProcedure(dbKey, CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, initProcCorresp, listMaterialUsed);
                 // recuperation de la question
                 Profiler.start("xml_loadQuestion");
                 v3 = new ArrayList();
-                cr = getQuestionProcFromDB_xml(dbC, dbKey, v3);
+                cr = getQuestionProcFromDB_xml(dbC, locale,dbKey, v3);
                 if (cr.isError())
                     return cr;
                 Question question = (Question)v3.get(0);
@@ -119,7 +126,7 @@ public class ExperimentalProcedureFromDB {
                 // recuperation de l'arbre des taches
                 Profiler.start("xml_loadTasks");
                 v3 = new ArrayList();
-                cr = TaskFromDB.getAllTaskFromDB_xml(dbC, dbKey, question.getDbKey(), initProcCorresp.getListNamedAction(), listMaterial, listPhysicalQuantity, v3);
+                cr = TaskFromDB.getAllTaskFromDB_xml(dbC, locale, dbKey, question.getDbKey(), initProcCorresp.getListNamedAction(), listMaterial, listPhysicalQuantity, v3);
                 if (cr.isError())
                     return cr;
                 ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
@@ -132,13 +139,34 @@ public class ExperimentalProcedureFromDB {
                         question.setDbKeyChild(listTask.get(k).getDbKeyChild());
                     }
                 }
-                // materiel utilise pour proc
+
+                // recuperation de l'hypothese
                 v3 = new ArrayList();
-                cr = getMaterialUseForProcFromDB_xml(dbC, dbKey, listMaterial, v3);
-                if (cr.isError())
+                cr = getHypothesisFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
                     return cr;
-                ArrayList<MaterialUseForProc> listMaterialUse = (ArrayList<MaterialUseForProc>)v3.get(0);
-                proc.setListMaterialUse(listMaterialUse);
+                Hypothesis hypothesis = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    hypothesis = (Hypothesis)v3.get(0);
+                proc.setHypothesis(hypothesis);
+                // general principle
+                v3 = new ArrayList();
+                cr = getGeneralPrincipleFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
+                    return cr;
+                GeneralPrinciple principle = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    principle = (GeneralPrinciple)v3.get(0);
+                proc.setGeneralPrinciple(principle);
+                // recuperation de l'evaluation
+                v3 = new ArrayList();
+                cr = getEvaluationFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
+                    return cr;
+                Evaluation evaluation = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    evaluation = (Evaluation)v3.get(0);
+                proc.setEvaluation(evaluation);
                 // ajoute dans la liste
                 listP.add(proc);
             }
@@ -183,7 +211,7 @@ public class ExperimentalProcedureFromDB {
         return new CopexReturn();
     }
     /* chargement des noms des procs d'une mission */
-    public static CopexReturn getShortProcMissionFromDB_xml(DataBaseCommunication dbC, long dbKeyMission, long dbKeyUser ,  ArrayList v){
+    public static CopexReturn getShortProcMissionFromDB_xml(DataBaseCommunication dbC, Locale locale,long dbKeyMission, long dbKeyUser ,  ArrayList v){
         ArrayList<LearnerProcedure> listP = new ArrayList();
          String query = "SELECT E.ID_PROC, E.PROC_NAME, L.ID_INITIAL_PROC  " +
                 " FROM EXPERIMENTAL_PROCEDURE E, LINK_LEARNER_INITIAL_PROC L, LINK_MISSION_PROC M, LEARNER_PROC P " +
@@ -214,12 +242,12 @@ public class ExperimentalProcedureFromDB {
             ArrayList v3 = new ArrayList();
             ArrayList<Long> listInitProc = new ArrayList();
             listInitProc.add(dbKeyInitProc);
-            cr = getSimpleInitialProcFromDB(dbC, dbKeyMission, dbKeyUser, listInitProc, v3);
+            cr = getSimpleInitialProcFromDB(dbC, locale,dbKeyMission, dbKeyUser, listInitProc, v3);
             if(cr.isError())
                 return cr;
             ArrayList<InitialProcedure> listIP = (ArrayList<InitialProcedure>)v3.get(0);
             InitialProcedure initProc = listIP.get(0);
-            LearnerProcedure proc = new LearnerProcedure(dbKey, name, null, true,MyConstants.NONE_RIGHT, initProc );
+            LearnerProcedure proc = new LearnerProcedure(dbKey, CopexUtilities.getLocalText(name, locale), null, true,MyConstants.NONE_RIGHT, initProc, null );
             // ajoute dans la liste
             listP.add(proc);
         }
@@ -229,8 +257,8 @@ public class ExperimentalProcedureFromDB {
 
 
      /* chargement de la question d'un protocole */
-    public static CopexReturn getQuestionProcFromDB_xml(DataBaseCommunication dbC, long dbKeyProc, ArrayList v) {
-        String query = "SELECT L.ID_TASK, T.TASK_NAME, T.DESCRIPTION, T.COMMENTS, T.TASK_IMAGE, T.DRAW_ELO, T.IS_VISIBLE, R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT, Q.HYPOTHESIS, Q.GENERAL_PRINCIPLE  " +
+    public static CopexReturn getQuestionProcFromDB_xml(DataBaseCommunication dbC,Locale locale, long dbKeyProc, ArrayList v) {
+        String query = "SELECT L.ID_TASK, T.TASK_NAME, T.DESCRIPTION, T.COMMENTS, T.TASK_IMAGE, T.DRAW_ELO, T.IS_VISIBLE, R.EDIT_RIGHT, R.DELETE_RIGHT, R.COPY_RIGHT, R.MOVE_RIGHT, R.PARENT_RIGHT, R.DRAW_RIGHT, R.REPEAT_RIGHT  " +
                 " FROM COPEX_TASK T, QUESTION Q, LINK_PROC_TASK L, TASK_RIGHT R " +
                 "WHERE L.ID_PROC = "+dbKeyProc+" AND L.QUESTION = 1 AND " +
                 "T.ID_TASK = L.ID_TASK AND " +
@@ -254,8 +282,6 @@ public class ExperimentalProcedureFromDB {
         listFields.add("R.PARENT_RIGHT");
         listFields.add("R.DRAW_RIGHT");
         listFields.add("R.REPEAT_RIGHT");
-        listFields.add("Q.HYPOTHESIS");
-        listFields.add("Q.GENERAL_PRINCIPLE");
         
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
@@ -280,7 +306,7 @@ public class ExperimentalProcedureFromDB {
             if (taskImage == null)
                 continue;
             s = rs.getColumnData("T.DRAW_ELO");
-            Element draw = CopexTask.getElement(s);
+            Element draw = CopexUtilities.getElement(s);
             s = rs.getColumnData("T.IS_VISIBLE");
             if (s == null)
                 continue;
@@ -319,13 +345,7 @@ public class ExperimentalProcedureFromDB {
             if (right == null)
                 continue;
             char repeatR = right.charAt(0);
-            String hypothesis = rs.getColumnData("Q.HYPOTHESIS");
-            if (hypothesis == null)
-                continue;
-            String generalPrinciple = rs.getColumnData("Q.GENERAL_PRINCIPLE");
-            if (generalPrinciple == null)
-                continue;
-            question = new Question(dbKeyQuestion, name, description, hypothesis, comments, taskImage, draw, generalPrinciple, isVisible, new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR), true);
+            question = new Question(dbKeyQuestion,locale, name, description,  comments, taskImage, draw, isVisible, new TaskRight(editR, deleteR, copyR, moveR, parentR, drawR, repeatR), true);
         } 
         v.add(question);
         return new CopexReturn();
@@ -335,8 +355,8 @@ public class ExperimentalProcedureFromDB {
     
    
     
-    static public CopexReturn createProcedureInDB_xml(DataBaseCommunication dbC, LearnerProcedure proc, long idLearner, ArrayList v){
-        String name = proc.getName() != null ? proc.getName() :"";
+    static public CopexReturn createProcedureInDB_xml(DataBaseCommunication dbC,Locale locale, LearnerProcedure proc, long idLearner, ArrayList v){
+        String name = proc.getName(locale) != null ? proc.getName(locale) :"";
         name =  AccesDB.replace("\'",name,"''") ;
         int activ = 0;
         if (proc.isActiv())
@@ -344,7 +364,7 @@ public class ExperimentalProcedureFromDB {
         char right = proc.getRight();
         // question 
         ArrayList v2 = new ArrayList();
-        CopexReturn cr = TaskFromDB.createQuestionInDB_xml(dbC, proc.getQuestion(), v2);
+        CopexReturn cr = TaskFromDB.createQuestionInDB_xml(dbC, locale, proc.getQuestion(), v2);
         if (cr.isError()){
            return cr;
         }
@@ -466,79 +486,7 @@ public class ExperimentalProcedureFromDB {
         return cr;
     }
     
-     /* chargement du materiel utilise pour le proc */
-    public static CopexReturn getMaterialUseForProcFromDB_xml(DataBaseCommunication dbC, long dbKeyProc, ArrayList<Material> listMaterial,  ArrayList v) {
-        int nbM =  listMaterial.size();
-        ArrayList<MaterialUseForProc> listMaterialUse = new ArrayList();
-        String query = "SELECT ID_MATERIAL, JUSTIFICATION FROM MATERIAL_USE_PROC WHERE ID_PROC = "+dbKeyProc+" ; ";
-        ArrayList v2 = new ArrayList();
-        ArrayList<String> listFields = new ArrayList();
-        listFields.add("ID_MATERIAL");
-        listFields.add("JUSTIFICATION");
-        
-        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
-        if (cr.isError())
-            return cr;
-        int nbR = v2.size();
-        for (int i=0; i<nbR; i++){
-            ResultSetXML rs = (ResultSetXML)v2.get(i);
-            String s = rs.getColumnData("ID_MATERIAL");
-            if (s == null)
-                continue;
-            long dbKeyMaterial = Long.parseLong(s);
-            String justification = rs.getColumnData("JUSTIFICATION");
-            if (justification == null)
-                continue;
-            // on cherche l'indice dans la liste 
-            int idM = -1;
-            for (int j=0; j<nbM; j++){
-                if (listMaterial.get(j).getDbKey() == dbKeyMaterial){
-                    idM = j;
-                    break;
-                }
-            }
-            if (idM != -1){
-                Material m = listMaterial.get(idM);
-                MaterialUseForProc mu = new MaterialUseForProc(m, justification);
-                listMaterialUse.add(mu);
-            }
-        } 
-        v.add(listMaterialUse);
-        return new CopexReturn();
-    }
     
-    /* ajout d'un materiel utlise pour un proc */
-    public static CopexReturn addMaterialUseForProcInDB_xml(DataBaseCommunication dbC, long dbKeyProc, long dbKeyMat, String justification){
-        justification =  AccesDB.replace("\'",justification,"''") ;
-        String query = "INSERT INTO MATERIAL_USE_PROC (ID_PROC, ID_MATERIAL, JUSTIFICATION) VALUES ("+dbKeyProc+","+dbKeyMat+" , '"+justification+"') ;";
-        ArrayList v = new ArrayList();
-        String[] querys = new String[1];
-        querys[0] = query ;
-        CopexReturn cr = dbC.executeQuery(querys, v);
-        return cr;
-    }
-    
-     /* modification d'un materiel utlise pour un proc */
-    public static CopexReturn updateMaterialUseForProcInDB_xml(DataBaseCommunication dbC, long dbKeyProc, long dbKeyMat, String justification){
-        justification =  AccesDB.replace("\'",justification,"''") ;
-        String query = "UPDATE MATERIAL_USE_PROC SET JUSTIFICATION = '"+justification+"' WHERE ID_PROC = "+dbKeyProc+" AND ID_MATERIAL = "+dbKeyMat+";";
-        ArrayList v = new ArrayList();
-        String[] querys = new String[1];
-        querys[0] = query ;
-        CopexReturn cr = dbC.executeQuery(querys, v);
-        return cr;
-    }
-    
-     /* suppression d'un materiel utlise pour un proc */
-    public static CopexReturn removeMaterialUseForProcFromDB_xml(DataBaseCommunication dbC, long dbKeyProc, long dbKeyMat){
-       String query = "DELETE FROM  MATERIAL_USE_PROC WHERE ID_PROC = "+dbKeyProc+" AND ID_MATERIAL = "+dbKeyMat+";";
-        ArrayList v = new ArrayList();
-        String[] querys = new String[1];
-        querys[0] = query ;
-        CopexReturn cr = dbC.executeQuery(querys, v);
-        return cr;
-    }
-
     /* retourne en v[0] la liste des actions nommees */
     public static  CopexReturn getListNamedActionFromDB(DataBaseCommunication dbC, long dbKeyProc, Locale locale, ArrayList<TypeMaterial> listTypeMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
         ArrayList<InitialNamedAction> l = new ArrayList();
@@ -606,7 +554,7 @@ public class ExperimentalProcedureFromDB {
 
 
             }else
-                action = new InitialNamedAction(dbKey, code, libelle, isSetting, variable, draw, repeat);
+                action = new InitialNamedAction(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat);
             l.add(action);
         }
         v.add(l);
@@ -670,7 +618,7 @@ public class ExperimentalProcedureFromDB {
                 s= rs2.getColumnData("D.ID_PARAM");
                 long dbKeyParamD = Long.parseLong(s);
                 String paramName = rs2.getColumnData("I."+lib2);
-                InitialParamData d = new InitialParamData(dbKeyParamD, paramName) ;
+                InitialParamData d = new InitialParamData(dbKeyParamD, CopexUtilities.getLocalText(paramName, locale)) ;
                 if (id >= tabParam.length){
                     System.out.println("param data : depassement nbParam");
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
@@ -706,7 +654,7 @@ public class ExperimentalProcedureFromDB {
                 }
                 String qName = rs2.getColumnData("Q.QUANTITY_NAME");
                 String paramName = rs2.getColumnData("I."+lib2);
-                InitialParamQuantity p = new InitialParamQuantity(dbKeyParamQ, paramName, physQ, qName);
+                InitialParamQuantity p = new InitialParamQuantity(dbKeyParamQ, CopexUtilities.getLocalText(paramName, locale), physQ, CopexUtilities.getLocalText(qName, locale));
                 if (id >= tabParam.length){
                     System.out.println("param quantity : depassement nbParam");
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
@@ -788,7 +736,7 @@ public class ExperimentalProcedureFromDB {
                         return new CopexReturn("ERROR LOAD ACTION PARAM", false);
                     }
                 }
-                InitialParamMaterial p = new InitialParamMaterial(dbKeyParamM, paramName, typeMat,typeMat2, andTypes,paramQ, allType);
+                InitialParamMaterial p = new InitialParamMaterial(dbKeyParamM, CopexUtilities.getLocalText(paramName, locale), typeMat,typeMat2, andTypes,paramQ, allType);
                 if (id >= tabParam.length){
                     System.out.println("param material : depassement nbParam");
                     return new CopexReturn("ERROR LOAD ACTION PARAM", false);
@@ -797,7 +745,7 @@ public class ExperimentalProcedureFromDB {
                 id++;
             }
             // variable
-            variable = new InitialActionVariable(dbKey, code, nbParam, libelle, tabParam) ;
+            variable = new InitialActionVariable(dbKey, locale,code, nbParam, CopexUtilities.getLocalText(libelle, locale), tabParam) ;
         }
 
         v.add(variable);
@@ -841,7 +789,7 @@ public class ExperimentalProcedureFromDB {
             String s = rs2.getColumnData("ID_ACTION");
             if (s == null)
                 continue;
-            action = new InitialActionChoice(dbKey, code, libelle, isSetting, variable, draw, repeat) ;
+            action = new InitialActionChoice(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat) ;
             v.add(action);
             return new CopexReturn();
         }
@@ -873,7 +821,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialManipulationOutput> listOutput = (ArrayList<InitialManipulationOutput>)v3.get(0);
-            action = new InitialActionManipulation(dbKey, code, libelle, isSetting, variable, draw, repeat, nbMaterialProd, listOutput);
+            action = new InitialActionManipulation(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbMaterialProd, listOutput);
             v.add(action);
             return new CopexReturn();
          }
@@ -905,7 +853,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialAcquisitionOutput> listOutput = (ArrayList<InitialAcquisitionOutput>)v3.get(0);
-            action = new InitialActionAcquisition(dbKey, code, libelle, isSetting, variable, draw, repeat, nbDataProd, listOutput);
+            action = new InitialActionAcquisition(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput);
             v.add(action);
             return new CopexReturn();
          }
@@ -937,7 +885,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialTreatmentOutput> listOutput = (ArrayList<InitialTreatmentOutput>)v3.get(0);
-            action = new InitialActionTreatment(dbKey, code, libelle, isSetting, variable, draw, repeat, nbDataProd, listOutput);
+            action = new InitialActionTreatment(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput);
             v.add(action);
             return new CopexReturn();
          }
@@ -969,11 +917,11 @@ public class ExperimentalProcedureFromDB {
             String name = rs.getColumnData("O."+lib);
             String textprod = rs.getColumnData("O.TEXT_PROD");
             ArrayList v3 = new ArrayList();
-            cr = getInitialTypeMaterialManipulationFromDB(dbC, dbKeyAction, v3);
+            cr = getInitialTypeMaterialManipulationFromDB(dbC,locale,  dbKeyAction, v3);
             if (cr.isError())
                 return cr;
             ArrayList<TypeMaterial> typeMaterialProd = (ArrayList<TypeMaterial>)v3.get(0);
-            InitialManipulationOutput out = new InitialManipulationOutput(dbKey, textprod, name, typeMaterialProd);
+            InitialManipulationOutput out = new InitialManipulationOutput(dbKey, CopexUtilities.getLocalText(textprod, locale), CopexUtilities.getLocalText(name, locale), typeMaterialProd);
             list.add(out);
         }
         v.add(list);
@@ -982,7 +930,7 @@ public class ExperimentalProcedureFromDB {
 
 
     /* retourne en v[0] la liste du type de  material prod par une tache de manipulation */
-    private static CopexReturn getInitialTypeMaterialManipulationFromDB(DataBaseCommunication dbC, long dbKeyAction,  ArrayList v){
+    private static CopexReturn getInitialTypeMaterialManipulationFromDB(DataBaseCommunication dbC,Locale locale,  long dbKeyAction,  ArrayList v){
         ArrayList<TypeMaterial> typeMaterialProd = new ArrayList();
         String query = "SELECT DISTINCT T.ID_TYPE, T.TYPE_NAME " +
                 "FROM MATERIAL_TYPE T, INITIAL_TYPE_MATERIAL_MANIPULATION M, LINK_INITIAL_MANIPULATION_MATERIAL L, INITIAL_MANIPULATION_OUTPUT O, LINK_INITIAL_MANIPULATION_OUTPUT L2 " +
@@ -1005,7 +953,7 @@ public class ExperimentalProcedureFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String name = rs.getColumnData("T.TYPE_NAME");
-            TypeMaterial type = new TypeMaterial(dbKey, name);
+            TypeMaterial type = new TypeMaterial(dbKey, CopexUtilities.getLocalText(name, locale));
             typeMaterialProd.add(type);
         }
         v.add(typeMaterialProd);
@@ -1040,7 +988,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             CopexUnit[] unitDataProd = (CopexUnit[])v3.get(0);
-            InitialAcquisitionOutput out = new InitialAcquisitionOutput(dbKey, textprod, name, unitDataProd);
+            InitialAcquisitionOutput out = new InitialAcquisitionOutput(dbKey, CopexUtilities.getLocalText(textprod, locale), CopexUtilities.getLocalText(name, locale), unitDataProd);
             list.add(out);
         }
         v.add(list);
@@ -1110,7 +1058,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             CopexUnit[] unitDataProd = (CopexUnit[])v3.get(0);
-            InitialTreatmentOutput out = new InitialTreatmentOutput(dbKey, textprod, name, unitDataProd);
+            InitialTreatmentOutput out = new InitialTreatmentOutput(dbKey, CopexUtilities.getLocalText(textprod, locale), CopexUtilities.getLocalText(name, locale), unitDataProd);
             list.add(out);
         }
         v.add(list);
@@ -1154,7 +1102,7 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* chargement proc initial */
-    public static CopexReturn getInitialProcFromDB(DataBaseCommunication dbC, Locale locale,  long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
+    public static CopexReturn getInitialProcFromDB(DataBaseCommunication dbC, Locale locale,  long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList<MaterialStrategy> listMaterialStrategy, ArrayList v){
         ArrayList<InitialProcedure> listInitProc = new ArrayList();
         // chargement du protocole initial
         String list = "("+listIdInitProc.get(0);
@@ -1163,7 +1111,8 @@ public class ExperimentalProcedureFromDB {
             list += ","+listIdInitProc.get(i);
         }
         list += ")";
-        String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, I.IS_FREE_ACTION,I.IS_TASK_REPEAT, I.CODE_PROC " +
+        String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, " +
+                "I.IS_FREE_ACTION,I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_PROC L, INITIAL_PROC I " +
                    "WHERE L.ID_USER = "+dbKeyUser+ " AND "+
                    "L.ID_PROC IN "+list+" AND "+
@@ -1180,6 +1129,10 @@ public class ExperimentalProcedureFromDB {
         listFields.add("I.IS_FREE_ACTION");
         listFields.add("I.IS_TASK_REPEAT");
         listFields.add("I.CODE_PROC");
+        listFields.add("I.HYPOTHESIS_MODE");
+        listFields.add("I.PRINCIPLE_MODE");
+        listFields.add("I.DRAW_PRINCIPLE");
+        listFields.add("I.EVALUATION_MODE");
 
         CopexReturn cr = dbC.sendQuery(queryInit, listFields, v2);
         if (cr.isError())
@@ -1235,9 +1188,30 @@ public class ExperimentalProcedureFromDB {
             }
             boolean isTaskRepeat = (f == 1);
             String code = rs.getColumnData("I.CODE_PROC");
-            // material
+            s = rs.getColumnData("I.HYPOTHESIS_MODE");
+            char hypothesisMode = s.charAt(0);
+            s = rs.getColumnData("I.PRINCIPLE_MODE");
+            char principleMode = s.charAt(0);
+            s = rs.getColumnData("I.DRAW_PRINCIPLE");
+            int d = 0;
+            try{
+                d = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            boolean drawPrinciple = (d == 1);
+            s = rs.getColumnData("I.EVALUATION_MODE");
+            char evaluationMode = s.charAt(0);
+
+            // strategy material
             ArrayList v3 = new ArrayList();
-            cr = getInitialProcMaterialFromDB(dbC, dbKey, listPhysicalQuantity, v3 );
+            cr = getInitialMaterialStrategyFromDB(dbC, dbKey, listMaterialStrategy, v3);
+            if(cr.isError())
+                return cr;
+            MaterialStrategy materialStrategy = (MaterialStrategy)v3.get(0);
+            // material
+            v3 = new ArrayList();
+            cr = getInitialProcMaterialFromDB(dbC, locale, dbKey, listPhysicalQuantity, v3 );
             if (cr.isError())
                 return cr;
             ArrayList<Material> listMaterial = (ArrayList<Material>)v3.get(0);
@@ -1249,13 +1223,13 @@ public class ExperimentalProcedureFromDB {
                 return cr;
             ArrayList<InitialNamedAction> listAction = (ArrayList<InitialNamedAction>)v3.get(0);
             // initial proc
-            InitialProcedure initProc = new InitialProcedure(dbKey, name, dateLastModif, isActiv, r, code, isFreeAction,isTaskRepeat,  listAction);
+            InitialProcedure initProc = new InitialProcedure(dbKey, CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction,isTaskRepeat,  listAction, hypothesisMode, principleMode, drawPrinciple, evaluationMode, materialStrategy);
             
             initProc.setListMaterial(listMaterial);
                     
             v3 = new ArrayList();
             Profiler.start("xml_loadQuestionInitial");
-            cr = getQuestionProcFromDB_xml(dbC, dbKey, v3);
+            cr = getQuestionProcFromDB_xml(dbC,locale, dbKey, v3);
             if (cr.isError())
                 return cr;
             Question question = (Question)v3.get(0);
@@ -1264,7 +1238,7 @@ public class ExperimentalProcedureFromDB {
             // recuperation de l'arbre des taches
             Profiler.start("xml_loadTasksInitial");
             v3 = new ArrayList();
-            cr = TaskFromDB.getAllTaskFromDB_xml(dbC, dbKey, question.getDbKey(), listAction, listMaterial, listPhysicalQuantity, v3);
+            cr = TaskFromDB.getAllTaskFromDB_xml(dbC, locale, dbKey, question.getDbKey(), listAction, listMaterial, listPhysicalQuantity, v3);
             if (cr.isError())
                 return cr;
             ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
@@ -1277,7 +1251,33 @@ public class ExperimentalProcedureFromDB {
                     question.setDbKeyChild(listTask.get(k).getDbKeyChild());
                 }
             }
-            
+            // recuperation de l'hypothese
+            v3 = new ArrayList();
+            cr = getHypothesisFromDB(dbC, locale,initProc, v3);
+            if(cr.isError())
+                return cr;
+            Hypothesis hypothesis = null;
+            if(v3.size()>0 && v3.get(0) != null)
+                hypothesis = (Hypothesis)v3.get(0);
+            initProc.setHypothesis(hypothesis);
+            // general principle
+            v3 = new ArrayList();
+            cr = getGeneralPrincipleFromDB(dbC, locale,initProc, v3);
+            if(cr.isError())
+                return cr;
+            GeneralPrinciple principle = null;
+            if(v3.size()>0 && v3.get(0) != null)
+                principle = (GeneralPrinciple)v3.get(0);
+            initProc.setGeneralPrinciple(principle);
+            // recuperation de l'evaluation
+            v3 = new ArrayList();
+            cr = getEvaluationFromDB(dbC, locale,initProc, v3);
+            if(cr.isError())
+                return cr;
+            Evaluation evaluation = null;
+            if(v3.size()>0 && v3.get(0) != null)
+                evaluation = (Evaluation)v3.get(0);
+            initProc.setEvaluation(evaluation);
             listInitProc.add(initProc);
         }
         v.add(listInitProc);
@@ -1288,14 +1288,14 @@ public class ExperimentalProcedureFromDB {
      * MBO le 27/02/09 : proc lockes
      en v[0] : le proc, null so locke et que l'on doit faire le controle
      */
-    public static CopexReturn getProcMissionFromDB_xml(DataBaseCommunication dbC, Locker locker, boolean controlLock, Locale locale,  long dbKeyMission, long dbKeyUser, long dbKeyProc,  long dbKeyInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v) {
+    public static CopexReturn getProcMissionFromDB_xml(DataBaseCommunication dbC, Locker locker, boolean controlLock, Locale locale,  long dbKeyMission, long dbKeyUser, long dbKeyProc,  long dbKeyInitProc, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy, ArrayList v) {
         System.out.println("getProcMissionFromDB_xml");
         LearnerProcedure proc  = null;
         ArrayList v2 = new ArrayList();
         System.out.println("*** chargement proc initial");
         ArrayList<Long> listIdInitProc = new ArrayList();
         listIdInitProc.add(dbKeyInitProc);
-        CopexReturn cr = getInitialProcFromDB(dbC, locale,  dbKeyUser, listIdInitProc, listPhysicalQuantity, v2);
+        CopexReturn cr = getInitialProcFromDB(dbC, locale,  dbKeyUser, listIdInitProc, listPhysicalQuantity, listMaterialStrategy, v2);
         if (cr.isError())
             return cr;
         ArrayList<InitialProcedure> listInitProc = (ArrayList<InitialProcedure>)v2.get(0);
@@ -1354,18 +1354,23 @@ public class ExperimentalProcedureFromDB {
                     return cr;
                 InitialProcedure initProcCorresp = (InitialProcedure)v3.get(0);
                 ArrayList<Material> listMaterial = initProcCorresp.getListMaterial();
-
-                proc = new LearnerProcedure(dbKeyProc, name, dateLastModif, isActiv, r, initProcCorresp);
+                // recuperation materiel utilise
+                v3 = new ArrayList();
+                cr = getMaterialUsedFromDB(dbC, locale,dbKeyProc, listMaterial,listPhysicalQuantity,  v3);
+                if(cr.isError())
+                    return cr;
+                ArrayList<MaterialUsed> listMaterialUsed = (ArrayList<MaterialUsed>)v3.get(0);
+                proc = new LearnerProcedure(dbKeyProc, CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, initProcCorresp, listMaterialUsed);
                 // recuperation de la question
                 v3 = new ArrayList();
-                cr = getQuestionProcFromDB_xml(dbC, dbKeyProc, v3);
+                cr = getQuestionProcFromDB_xml(dbC, locale,dbKeyProc, v3);
                 if (cr.isError())
                     return cr;
                 Question question = (Question)v3.get(0);
                 proc.setQuestion(question);
                 // recuperation de l'arbre des taches
                 v3 = new ArrayList();
-                cr = TaskFromDB.getAllTaskFromDB_xml(dbC, dbKeyProc, question.getDbKey(), initProcCorresp.getListNamedAction(), listMaterial, listPhysicalQuantity, v3);
+                cr = TaskFromDB.getAllTaskFromDB_xml(dbC, locale, dbKeyProc, question.getDbKey(), initProcCorresp.getListNamedAction(), listMaterial, listPhysicalQuantity, v3);
                 if (cr.isError())
                     return cr;
                 ArrayList<CopexTask> listTask = (ArrayList<CopexTask>)v3.get(0);
@@ -1377,13 +1382,33 @@ public class ExperimentalProcedureFromDB {
                         question.setDbKeyChild(listTask.get(k).getDbKeyChild());
                     }
                 }
-                // materiel utilise pour proc
+                // recuperation de l'hypothese
                 v3 = new ArrayList();
-                cr = getMaterialUseForProcFromDB_xml(dbC, dbKeyProc, listMaterial, v3);
-                if (cr.isError())
+                cr = getHypothesisFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
                     return cr;
-                ArrayList<MaterialUseForProc> listMaterialUse = (ArrayList<MaterialUseForProc>)v3.get(0);
-                proc.setListMaterialUse(listMaterialUse);
+                Hypothesis hypothesis = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    hypothesis = (Hypothesis)v3.get(0);
+                proc.setHypothesis(hypothesis);
+                // general principle
+                v3 = new ArrayList();
+                cr = getGeneralPrincipleFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
+                    return cr;
+                GeneralPrinciple principle = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    principle = (GeneralPrinciple)v3.get(0);
+                proc.setGeneralPrinciple(principle);
+                // recuperation de l'evaluation
+                v3 = new ArrayList();
+                cr = getEvaluationFromDB(dbC, locale,proc, v3);
+                if(cr.isError())
+                    return cr;
+                Evaluation evaluation = null;
+                if(v3.size()>0 && v3.get(0) != null)
+                    evaluation = (Evaluation)v3.get(0);
+                proc.setEvaluation(evaluation);
             }
         }
 
@@ -1395,16 +1420,16 @@ public class ExperimentalProcedureFromDB {
      * - en v[0] : la liste du materiel
      * - en v[1] : la liste du type de materiel
      */
-    public static CopexReturn getInitialProcMaterialFromDB(DataBaseCommunication dbC, long dbKey,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
+    public static CopexReturn getInitialProcMaterialFromDB(DataBaseCommunication dbC,Locale locale, long dbKey,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
         // recuperation des types de materiel
         ArrayList v2 = new ArrayList();
-       CopexReturn cr = getAllTypeMaterialFromDB_xml(dbC, v2);
+       CopexReturn cr = getAllTypeMaterialFromDB_xml(dbC, locale,v2);
        if (cr.isError())
            return cr;
        ArrayList<TypeMaterial> listTypeMat = (ArrayList<TypeMaterial>)v2.get(0);
        ArrayList<Material> listM = new ArrayList();
 
-        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION, M2.ADVISE FROM " +
+        String query = "SELECT M.ID_MATERIAL, M.MATERIAL_NAME, M.DESCRIPTION FROM " +
                "MATERIAL M, LINK_INIT_PROC_MATERIAL M2 WHERE " +
                "M2.ID_PROC = "+dbKey+" AND M2.ID_MATERIAL = M.ID_MATERIAL ORDER BY M.MATERIAL_NAME  ;" ;
 
@@ -1413,7 +1438,6 @@ public class ExperimentalProcedureFromDB {
         listFields.add("M.ID_MATERIAL");
         listFields.add("M.MATERIAL_NAME");
         listFields.add("M.DESCRIPTION");
-        listFields.add("M2.ADVISE");
 
         cr = dbC.sendQuery(query, listFields, v3);
         if (cr.isError())
@@ -1431,20 +1455,11 @@ public class ExperimentalProcedureFromDB {
             String description = rs.getColumnData("M.DESCRIPTION");
             if (description == null)
                 continue;
-            s = rs.getColumnData("M2.ADVISE");
-            if (s == null)
-                continue;
-            int advise = 0;
-            try{
-                advise = Integer.parseInt(s);
-            }catch(NumberFormatException e){
-
-            }
-            Material m = new Material(idMat, matName, description);
-            m.setAdvisedLearner(advise == 1);
+            
+            Material m = new Material(idMat, CopexUtilities.getLocalText(matName, locale), CopexUtilities.getLocalText(description, locale));
             // on recupere les parametres
             ArrayList v4 = new ArrayList();
-            cr = getMaterialParametersFromDB_xml(dbC, idMat, listPhysicalQuantity, v4);
+            cr = getMaterialParametersFromDB_xml(dbC, locale,idMat, listPhysicalQuantity, v4);
             if (cr.isError())
                 return cr;
 
@@ -1487,7 +1502,7 @@ public class ExperimentalProcedureFromDB {
     }
 
      /* charge tous les types de materiel */
-    public static CopexReturn getAllTypeMaterialFromDB_xml(DataBaseCommunication dbC, ArrayList v){
+    public static CopexReturn getAllTypeMaterialFromDB_xml(DataBaseCommunication dbC, Locale locale,ArrayList v){
         ArrayList<TypeMaterial> listT = new ArrayList();
         String query = "SELECT ID_TYPE, TYPE_NAME FROM MATERIAL_TYPE ";
 
@@ -1509,7 +1524,7 @@ public class ExperimentalProcedureFromDB {
             String type = rs.getColumnData("TYPE_NAME");
             if (type == null)
                 continue;
-            TypeMaterial t = new TypeMaterial(dbKey, type);
+            TypeMaterial t = new TypeMaterial(dbKey, CopexUtilities.getLocalText(type, locale));
             listT.add(t);
         }
         v.add(listT);
@@ -1517,7 +1532,7 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* retourne la liste des parametres pour un materiel */
-    public static CopexReturn getMaterialParametersFromDB_xml(DataBaseCommunication dbC, long idMat,ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
+    public static CopexReturn getMaterialParametersFromDB_xml(DataBaseCommunication dbC, Locale locale,long idMat,ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
         ArrayList<Parameter> listP = new ArrayList();
         int nbPhysQ = listPhysicalQuantity.size();
         String query = "SELECT ID_QUANTITY, QUANTITY_NAME, TYPE, VALUE, UNCERTAINTY, UNIT " +
@@ -1569,7 +1584,7 @@ public class ExperimentalProcedureFromDB {
                     break;
                 }
             }
-            Parameter p = new Parameter(dbKey, name, type, value, uncertainty, unit);
+            Parameter p = new Parameter(dbKey, locale,name, type, value, uncertainty, unit);
             listP.add(p);
         }
         v.add(listP);
@@ -1632,7 +1647,7 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* chargement proc initial simplifiee : uniquement le code et le nom*/
-    public static CopexReturn getSimpleInitialProcFromDB(DataBaseCommunication dbC,  long dbKeyMission , long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList v){
+    public static CopexReturn getSimpleInitialProcFromDB(DataBaseCommunication dbC,  Locale locale,long dbKeyMission , long dbKeyUser, ArrayList<Long> listIdInitProc,  ArrayList v){
         ArrayList<InitialProcedure> listInitProc = new ArrayList();
         // chargement du protocole initial
         String list = "("+listIdInitProc.get(0);
@@ -1641,7 +1656,8 @@ public class ExperimentalProcedureFromDB {
             list += ","+listIdInitProc.get(i);
         }
         list += ")";
-        String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, I.IS_FREE_ACTION, I.IS_TASK_REPEAT, I.CODE_PROC " +
+        String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, " +
+                "I.IS_FREE_ACTION, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE  " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_PROC L, INITIAL_PROC I " +
                    "WHERE L.ID_MISSION = "+dbKeyMission+" AND L.ID_USER = "+dbKeyUser+ " AND "+
                    "L.ID_PROC IN "+list+" AND "+
@@ -1658,6 +1674,10 @@ public class ExperimentalProcedureFromDB {
         listFields.add("I.IS_FREE_ACTION");
         listFields.add("I.IS_TASK_REPEAT");
         listFields.add("I.CODE_PROC");
+        listFields.add("I.HYPOTHESIS_MODE");
+        listFields.add("I.PRINCIPLE_MODE");
+        listFields.add("I.DRAW_PRINCIPLE");
+        listFields.add("I.EVALUATION_MODE");
 
         CopexReturn cr = dbC.sendQuery(queryInit, listFields, v2);
         if (cr.isError())
@@ -1714,8 +1734,22 @@ public class ExperimentalProcedureFromDB {
             boolean isTaskRepeat = (f == 1);
             String code = rs.getColumnData("I.CODE_PROC");
 
+            s = rs.getColumnData("I.HYPOTHESIS_MODE");
+            char hypothesisMode = s.charAt(0);
+            s = rs.getColumnData("I.PRINCIPLE_MODE");
+            char principleMode = s.charAt(0);
+            s = rs.getColumnData("I.DRAW_PRINCIPLE");
+            int d = 0;
+            try{
+                d = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            boolean drawPrinciple = (d == 1);
+            s = rs.getColumnData("I.EVALUATION_MODE");
+            char evaluationMode = s.charAt(0);
             // initial proc
-            InitialProcedure initProc = new InitialProcedure(dbKey, name, dateLastModif, isActiv, r, code, isFreeAction, isTaskRepeat, null);
+            InitialProcedure initProc = new InitialProcedure(dbKey,CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction, isTaskRepeat, null, hypothesisMode, principleMode, drawPrinciple, evaluationMode, null);
 
 
             listInitProc.add(initProc);
@@ -1723,5 +1757,495 @@ public class ExperimentalProcedureFromDB {
         v.add(listInitProc);
         return new CopexReturn();
 
+    }
+
+    public static CopexReturn deleteHypothesisFromDB(DataBaseCommunication dbC, ExperimentalProcedure proc ){
+        String queryDel = "DELETE FROM HYPOTHESIS WHERE ID_HYPOTHESIS IN (SELECT ID_HYPOTHESIS FROM LINK_PROC_HYPOTHESIS WHERE ID_PROC = "+proc.getDbKey()+") ;";
+        String queryDelLink = "DELETE FROM LINK_PROC_HYPOTHESIS WHERE ID_PROC = "+proc.getDbKey()+" ;";
+        ArrayList v = new ArrayList();
+        String[] querys = new String[2];
+        querys[0] = queryDel ;
+        querys[1] = queryDelLink ;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+    public static CopexReturn createHypothesisInDB(DataBaseCommunication dbC,Locale locale,  ExperimentalProcedure proc, Hypothesis hypothesis,  ArrayList v){
+        String hyp = hypothesis.getHypothesis(locale);
+        hyp =  AccesDB.replace("\'",hyp,"''");
+        int hide = hypothesis.isHide() ? 1 : 0;
+        String query = "INSERT INTO HYPOTHESIS (ID_HYPOTHESIS, HYPOTHESIS, HYP_HIDE) " +
+                    " VALUES (NULL,'"+hyp+"' , "+hide+" ); ";
+        String queryID = "SELECT max(last_insert_id(`ID_HYPOTHESIS`))   FROM HYPOTHESIS ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        hypothesis.setDbKey(dbKey);
+        // creation des liens
+        String[] querys = new String[1];
+        String queryD = "INSERT INTO LINK_PROC_HYPOTHESIS (ID_PROC, ID_HYPOTHESIS) VALUES ("+proc.getDbKey()+", "+dbKey+") ;";
+        querys[0] = queryD;
+        ArrayList v3 =new ArrayList();
+        cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        v.add(hypothesis);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn updateHypothesisInDB(DataBaseCommunication dbC, Locale locale,Hypothesis hypothesis){
+        String hyp = hypothesis.getHypothesis(locale);
+        hyp =  AccesDB.replace("\'",hyp,"''");
+        int hide = hypothesis.isHide() ? 1 : 0;
+        String query = "UPDATE HYPOTHESIS SET HYPOTHESIS = '"+hyp+"', HYP_HIDE = "+hide+" WHERE ID_HYPOTHESIS = "+hypothesis.getDbKey()+" ;";
+        String[] querys = new String[1];
+        querys[0] = query;
+        ArrayList v3 =new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        return new CopexReturn();
+    }
+
+    public static CopexReturn getHypothesisFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
+        Hypothesis hypothesis = null;
+        String query = "SELECT H.ID_HYPOTHESIS, H.HYPOTHESIS, H.HYP_HIDE FROM HYPOTHESIS H , LINK_PROC_HYPOTHESIS L " +
+                "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_HYPOTHESIS = H.ID_HYPOTHESIS ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("H.ID_HYPOTHESIS");
+        listFields.add("H.HYPOTHESIS");
+        listFields.add("H.HYP_HIDE");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("H.ID_HYPOTHESIS");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String hyp = rs.getColumnData("H.HYPOTHESIS");
+            s = rs.getColumnData("H.HYP_HIDE");
+            boolean hide = s.equals("1");
+            hypothesis = new Hypothesis(dbKey, CopexUtilities.getLocalText(hyp, locale), hide);
+        }
+        v.add(hypothesis);
+        return new CopexReturn();
+    }
+
+
+
+    public static CopexReturn deleteGeneralPrincipleFromDB(DataBaseCommunication dbC, ExperimentalProcedure proc ){
+        String queryDel = "DELETE FROM GENERAL_PRINCIPLE WHERE ID_PRINCIPLE IN (SELECT ID_PRINCIPLE FROM LINK_PROC_PRINCIPLE WHERE ID_PROC = "+proc.getDbKey()+") ;";
+        String queryDelLink = "DELETE FROM LINK_PROC_PRINCIPLE WHERE ID_PROC = "+proc.getDbKey()+" ;";
+        ArrayList v = new ArrayList();
+        String[] querys = new String[2];
+        querys[0] = queryDel ;
+        querys[1] = queryDelLink ;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+    public static CopexReturn createGeneralPrincipleInDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, GeneralPrinciple principle,  ArrayList v){
+        String gp = principle.getPrinciple(locale);
+        gp =  AccesDB.replace("\'",gp,"''");
+        int hide = principle.isHide() ? 1 : 0;
+        String draw = null;
+        if(principle.getDrawing() != null){
+            draw = CopexUtilities.xmlToString(principle.getDrawing());
+        }
+        String query = "INSERT INTO GENERAL_PRINCIPLE (ID_PRINCIPLE, GENERAL_PRINCIPLE, PRINC_HIDE, PRINCIPLE_DRAWING) " +
+                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+draw+"'); ";
+        String queryID = "SELECT max(last_insert_id(`ID_PRINCIPLE`))   FROM GENERAL_PRINCIPLE ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        principle.setDbKey(dbKey);
+        // creation des liens
+        String[] querys = new String[1];
+        String queryD = "INSERT INTO LINK_PROC_PRINCIPLE (ID_PROC, ID_PRINCIPLE) VALUES ("+proc.getDbKey()+", "+dbKey+") ;";
+        querys[0] = queryD;
+        ArrayList v3 =new ArrayList();
+        cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        v.add(principle);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn updateGeneralPrincipleInDB(DataBaseCommunication dbC, Locale locale,GeneralPrinciple principle){
+        String gp = principle.getPrinciple(locale);
+        gp =  AccesDB.replace("\'",gp,"''");
+        int hide = principle.isHide() ? 1 : 0;
+        String draw = null;
+        if(principle.getDrawing() != null){
+            draw = CopexUtilities.xmlToString(principle.getDrawing());
+        }
+        String query = "UPDATE GENERAL_PRINCIPLE SET GENERAL_PRINCIPLE = '"+gp+"', PRINC_HIDE = "+hide+", PRINCIPLE_DRAWING = '"+draw+"' WHERE ID_PRINCIPLE = "+principle.getDbKey()+" ;";
+        String[] querys = new String[1];
+        querys[0] = query;
+        ArrayList v3 =new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        return new CopexReturn();
+    }
+
+    public static CopexReturn getGeneralPrincipleFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
+        GeneralPrinciple principle = null;
+        String query = "SELECT P.ID_PRINCIPLE, P.GENERAL_PRINCIPLE, P.PRINC_HIDE, P.PRINCIPLE_DRAWING FROM GENERAL_PRINCIPLE P, LINK_PROC_PRINCIPLE L " +
+                "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_PRINCIPLE = P.ID_PRINCIPLE;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("P.ID_PRINCIPLE");
+        listFields.add("P.GENERAL_PRINCIPLE");
+        listFields.add("P.PRINC_HIDE");
+        listFields.add("P.PRINCIPLE_DRAWING");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("P.ID_PRINCIPLE");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String p = rs.getColumnData("P.GENERAL_PRINCIPLE");
+            s = rs.getColumnData("P.PRINC_HIDE");
+            boolean hide = s.equals("1");
+            s = rs.getColumnData("P.PRINCIPLE_DRAWING");
+            Element drawing = CopexUtilities.getElement(s);
+            principle = new GeneralPrinciple(dbKey, CopexUtilities.getLocalText(p, locale), drawing, hide);
+        }
+        v.add(principle);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn deleteEvaluationFromDB(DataBaseCommunication dbC, ExperimentalProcedure proc ){
+        String queryDel = "DELETE FROM EVALUATION WHERE ID_EVALUATION IN (SELECT ID_EVALUATION FROM LINK_PROC_EVALUATION WHERE ID_PROC = "+proc.getDbKey()+") ;";
+        String queryDelLink = "DELETE FROM LINK_PROC_EVALUATION WHERE ID_PROC = "+proc.getDbKey()+" ;";
+        ArrayList v = new ArrayList();
+        String[] querys = new String[2];
+        querys[0] = queryDel ;
+        querys[1] = queryDelLink ;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
+    }
+
+    public static CopexReturn createEvaluationInDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, Evaluation evaluation,  ArrayList v){
+        String eval = evaluation.getEvaluation(locale);
+        eval =  AccesDB.replace("\'",eval,"''");
+        int hide = evaluation.isHide() ? 1 : 0;
+        String query = "INSERT INTO EVALUATION (ID_EVALUATION, EVALUATION, EVAL_HIDE) " +
+                    " VALUES (NULL,'"+eval+"', "+hide+"  ); ";
+        String queryID = "SELECT max(last_insert_id(`ID_EVALUATION`))   FROM EVALUATION ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        evaluation.setDbKey(dbKey);
+        // creation des liens
+        String[] querys = new String[1];
+        String queryD = "INSERT INTO LINK_PROC_EVALUATION (ID_PROC, ID_EVALUATION) VALUES ("+proc.getDbKey()+", "+dbKey+") ;";
+        querys[0] = queryD;
+        ArrayList v3 =new ArrayList();
+        cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        v.add(evaluation);
+        return new CopexReturn();
+    }
+
+    public static CopexReturn updateEvaluationInDB(DataBaseCommunication dbC,Locale locale, Evaluation evaluation){
+        String eval = evaluation.getEvaluation(locale);
+        eval =  AccesDB.replace("\'",eval,"''");
+        int hide = evaluation.isHide() ? 1 : 0;
+        String query = "UPDATE EVALUATION SET EVALUATION = '"+eval+"', EVAL_HIDE = "+hide+" WHERE ID_EVALUATION = "+evaluation.getDbKey()+" ;";
+        String[] querys = new String[1];
+        querys[0] = query;
+        ArrayList v3 =new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            return cr;
+        }
+        return new CopexReturn();
+    }
+
+    public static CopexReturn getEvaluationFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
+        Evaluation evaluation = null;
+        String query = "SELECT E.ID_EVALUATION, E.EVALUATION, E.EVAL_HIDE FROM EVALUATION E , LINK_PROC_EVALUATION L " +
+                "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_EVALUATION = E.ID_EVALUATION ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("E.ID_EVALUATION");
+        listFields.add("E.EVALUATION");
+        listFields.add("E.EVAL_HIDE");
+
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("E.ID_EVALUATION");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String eval = rs.getColumnData("E.EVALUATION");
+            s = rs.getColumnData("E.EVAL_HIDE");
+            boolean hide = s.equals("1");
+            evaluation = new Evaluation(dbKey, CopexUtilities.getLocalText(eval, locale), hide);
+        }
+        v.add(evaluation);
+        return new CopexReturn();
+    }
+
+    // material strategy of an init proc
+    public static CopexReturn getInitialMaterialStrategyFromDB(DataBaseCommunication dbC, long dbKeyProc, ArrayList<MaterialStrategy> listMaterialStrategy, ArrayList v){
+        MaterialStrategy strategy = null;
+        int nb = listMaterialStrategy.size();
+        String query = "SELECT ID_STRATEGY FROM LINK_INIT_PROC_STRATEGY_MATERIAL WHERE ID_PROC = "+dbKeyProc+" ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_STRATEGY");
+        CopexReturn cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_STRATEGY");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            for (int k=0; k<nb; k++){
+                if(listMaterialStrategy.get(k).getDbKey() == dbKey){
+                    strategy = listMaterialStrategy.get(k);
+                    break;
+                }
+            }
+        }
+        v.add(strategy);
+        return new CopexReturn();
+    }
+
+    private static CopexReturn getMaterialUsedFromDB(DataBaseCommunication dbC, Locale locale, long dbKeyProc, ArrayList<Material> listMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList v){
+        ArrayList<MaterialUsed> listMaterialUsed = new ArrayList();
+        // charge le materiel lie au proc
+        ArrayList v3 = new ArrayList();
+        CopexReturn cr = getInitialProcMaterialFromDB(dbC, locale, dbKeyProc, listPhysicalQuantity, v3);
+        if(cr.isError())
+            return cr;
+        ArrayList<Material> listMaterialProc = (ArrayList<Material>)v3.get(0);
+        int nbMatP = listMaterialProc.size();
+        int nbMat = listMaterial.size();
+        String query = "SELECT ID_MATERIAL, COMMENTS, MAT_USED " +
+                "FROM MATERIAL_USED " +
+                "WHERE ID_PROC = "+dbKeyProc+" ;";
+        ArrayList v2 = new ArrayList();
+        ArrayList<String> listFields = new ArrayList();
+        listFields.add("ID_MATERIAL");
+        listFields.add("COMMENTS");
+        listFields.add("MAT_USED");
+        cr = dbC.sendQuery(query, listFields, v2);
+        if (cr.isError())
+            return cr;
+        int nbR = v2.size();
+        for (int i=0; i<nbR; i++){
+            ResultSetXML rs = (ResultSetXML)v2.get(i);
+            String s = rs.getColumnData("ID_MATERIAL");
+            if (s == null)
+                continue;
+            long dbKey = Long.parseLong(s);
+            String comments = rs.getColumnData("COMMENTS");
+            s = rs.getColumnData("MAT_USED");
+            boolean matUsed = s.equals("1");
+            // mat est il dans la liste?
+            Material material = null;
+            boolean userMaterial = false;
+            for (int j=0;j<nbMat; j++){
+                if(listMaterial.get(j).getDbKey() == dbKey){
+                    material = listMaterial.get(j);
+                    break;
+                }
+            }
+            if(material == null){
+                for (int j=0;j<nbMatP; j++){
+                if(listMaterialProc.get(j).getDbKey() == dbKey){
+                    material = listMaterialProc.get(j);
+                    userMaterial = true;
+                    break;
+                }
+                }
+            }
+            MaterialUsed mUsed = new MaterialUsed(material, CopexUtilities.getLocalText(comments, locale), matUsed, userMaterial);
+            listMaterialUsed.add(mUsed);
+        }
+        v.add(listMaterialUsed);
+        return  new CopexReturn();
+    }
+
+    public static CopexReturn createListMaterialUsedInDB(DataBaseCommunication dbC,Locale locale,  long dbKeyProc, List<MaterialUsed> listMaterialUsed){
+        int nb = listMaterialUsed.size();
+        String[] querys = new String[nb];
+        for (int i=0; i<nb; i++){
+            String comment = listMaterialUsed.get(i).getComment(locale);
+            comment =  AccesDB.replace("\'",comment,"''");
+            int isUsed = listMaterialUsed.get(i).isUsed() ? 1 : 0;
+            String query = "INSERT INTO MATERIAL_USED (ID_MATERIAL, ID_PROC, COMMENTS, MAT_USED) " +
+                    "VALUES ("+listMaterialUsed.get(i).getMaterial().getDbKey()+", "+dbKeyProc+", '"+comment+"', "+isUsed+"); ";
+            querys[i] = query;
+        }
+        ArrayList v2 =new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+    public static CopexReturn deleteMaterialUsedFromDB(DataBaseCommunication dbC,  long dbKeyProc,List<MaterialUsed> listMaterialUsed){
+        int nb = listMaterialUsed.size();
+        for (int i=0; i<nb; i++){
+            if(listMaterialUsed.get(i).isUserMaterial()){
+                // on supprime le material
+                CopexReturn cr = deleteMaterialFromDB(dbC, listMaterialUsed.get(i).getMaterial());
+                if(cr.isError())
+                    return cr;
+            }
+            String query = "DELETE FROM MATERIAL_USED WHERE ID_MATERIAL = "+listMaterialUsed.get(i).getMaterial().getDbKey()+" AND ID_PROC = "+dbKeyProc+" ;";
+            ArrayList v = new ArrayList();
+            String[] querys = new String[2];
+            querys[0] = query ;
+            CopexReturn cr = dbC.executeQuery(querys, v);
+            if(cr.isError())
+                return cr;
+        }
+        return new CopexReturn();
+    }
+
+    public static CopexReturn updateMaterialUsedInDB(DataBaseCommunication dbC, Locale locale, long dbKeyProc, ArrayList<MaterialUsed> listMaterialUsed){
+        int nb = listMaterialUsed.size();
+        String[] querys = new String[nb];
+        for (int k=0; k<nb; k++){
+            if(listMaterialUsed.get(k).isUserMaterial()){
+                // modif material
+                CopexReturn cr = updateMaterialInDB(dbC, locale, listMaterialUsed.get(k).getMaterial());
+                if(cr.isError())
+                    return cr;
+            }
+            String comments = listMaterialUsed.get(k).getComment(locale);
+            comments = AccesDB.replace("\'",comments,"''");
+            int isUsed = listMaterialUsed.get(k).isUsed() ? 1 : 0;
+            String query = "UPDATE MATERIAL_USED SET COMMENTS = '"+comments+"', MAT_USED = "+isUsed+" WHERE ID_MATERIAL = "+listMaterialUsed.get(k).getMaterial().getDbKey()+" AND ID_PROC = "+dbKeyProc+" ;";
+            querys[k] = query;
+        }
+        ArrayList v2 =new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+    public static CopexReturn createMaterialInDB(DataBaseCommunication dbC,Locale locale, Material material, ArrayList v){
+        String name = material.getName(locale) ;
+        name =  AccesDB.replace("\'",name,"''") ;
+        String description  = material.getDescription(locale);
+        description =  AccesDB.replace("\'",description,"''") ;
+        String query = "INSERT INTO MATERIAL (ID_MATERIAL, MATERIAL_NAME, DESCRIPTION) VALUES (NULL, '"+name+"', '"+description+"') ;";
+        String queryID = "SELECT max(last_insert_id(`ID_MATERIAL`))   FROM MATERIAL ;";
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
+        if (cr.isError())
+            return cr;
+        long dbKey = (Long)v2.get(0);
+        material.setDbKey(dbKey);
+        // creation du type
+        int nbT = material.getListType().size() ;
+        String[] querys = new String[nbT];
+        int id=0;
+        for (int j=0; j<nbT; j++){
+            String queryType = "INSERT INTO LINK_TYPE_MATERIAL (ID_TYPE, ID_MATERIAL) VALUES ("+material.getListType().get(j).getDbKey()+", "+dbKey+"); ";
+            querys[id] = queryType ;
+            id++;
+        }
+        cr = dbC.executeQuery(querys, v2);
+        if (cr.isError())
+            return cr;
+        // creation des parametres
+        int nbParam = material.getListParameters().size();
+        for (int j=0; j<nbParam; j++){
+            String qName = material.getListParameters().get(j).getName(locale);
+            qName =  AccesDB.replace("\'",qName,"''") ;
+            String qType = material.getListParameters().get(j).getType(locale) ;
+            qType =  AccesDB.replace("\'",qType,"''") ;
+            double qValue = material.getListParameters().get(j).getValue() ;
+            String qUncertainty = material.getListParameters().get(j).getUncertainty(locale) ;
+            qUncertainty =  AccesDB.replace("\'",qUncertainty,"''") ;
+            long dbKeyUnit = material.getListParameters().get(j).getUnit().getDbKey() ;
+            String queryQ = "INSERT INTO QUANTITY (ID_QUANTITY, QUANTITY_NAME, TYPE, VALUE, UNCERTAINTY, UNIT) " +
+            " VALUES (NULL,'"+qName+"' , '"+qType+"',"+qValue+" , '"+qUncertainty+"',"+dbKeyUnit+" ); ";
+            String queryIDQ = "SELECT max(last_insert_id(`ID_QUANTITY`))   FROM QUANTITY ;";
+            ArrayList v3 = new ArrayList();
+            cr = dbC.getNewIdInsertInDB(queryQ, queryIDQ, v3);
+            if (cr.isError())
+                return cr;
+            long dbKeyQ = (Long)v3.get(0);
+            querys = new String[2];
+            String queryP = "INSERT INTO COPEX_PARAMETER (ID_PARAMETER) VALUES ("+dbKeyQ+"); ";
+            querys[0] = queryP ;
+            String queryL =  "INSERT INTO LINK_MATERIAL_PARAMETERS (ID_MATERIAL, ID_PARAMETER) VALUES ("+dbKey+", "+dbKeyQ+") ;";
+            querys[1] = queryL;
+            v3 = new ArrayList();
+            cr = dbC.executeQuery(querys, v3);
+            if (cr.isError())
+                return cr;
+            material.getListParameters().get(j).setDbKey(dbKeyQ);
+        }
+        v.add(material);
+        return new CopexReturn();
+    }
+
+    private static CopexReturn updateMaterialInDB(DataBaseCommunication dbC, Locale locale, Material material){
+        String name = material.getName(locale) ;
+        name =  AccesDB.replace("\'",name,"''") ;
+        String description  = material.getDescription(locale);
+        description =  AccesDB.replace("\'",description,"''") ;
+        String query = "UPDATE MATERIAL SET MATERIAL_NAME = '"+name+"', DESCRIPTION = '"+description+"' WHERE ID_MATERIAL = "+material.getDbKey()+" ;";
+        String querys[] = new String[1];
+        ArrayList v2 = new ArrayList();
+        querys[0] = query;
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
+    }
+
+   // suppression d'un materiel
+    private static CopexReturn deleteMaterialFromDB(DataBaseCommunication dbC, Material material){
+        int nb = 5;
+        int i=0;
+        ArrayList v = new ArrayList();
+        String[] querys = new String[nb];
+        String queryDelLinkType = "DELETE FROM LINK_TYPE_MATERIAL WHERE ID_MATERIAL = "+material.getDbKey()+" ; ";
+        querys[i++] = queryDelLinkType;
+        String queryDelQuantity = "DELETE FROM QUANTITY WHERE ID_QUANTITY IN (SELECT ID_PARAMETER FROM LINK_MATERIAL_PARAMETERS WHERE ID_MATERIAL= "+material.getDbKey()+" );" ;
+        querys[i++] = queryDelQuantity;
+        String queryDelParameter = "DELETE FROM COPEX_PARAMETER WHERE ID_PARAMETER IN (SELECT ID_PARAMETER FROM LINK_MATERIAL_PARAMETERS WHERE ID_MATERIAL  = "+material.getDbKey()+" );" ;
+        querys[i++] = queryDelParameter;
+        String queryDelLinkParamMat = "DELETE FROM LINK_MATERIAL_PARAMETERS WHERE ID_MATERIAL = "+material.getDbKey()+" ;" ;
+        querys[i++] = queryDelLinkParamMat;
+        String queryDelMaterial = "DELETE FROM MATERIAL WHERE ID_MATERIAL = "+material.getDbKey()+" ;";
+        querys[i++] = queryDelMaterial;
+        CopexReturn cr = dbC.executeQuery(querys, v);
+        return cr;
     }
 }

@@ -5,17 +5,25 @@
 
 package eu.scy.tools.copex.common;
 
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 /**
  * valeur d'un parametre pour une tache iterative
  * @author Marjolaine
  */
 public abstract class TaskRepeatValue implements Cloneable{
+    public final static String TAG_TASK_REPEAT_NO_REPEAT = "no_repeat";
     protected long dbKey ;
     protected int noRepeat;
 
     public TaskRepeatValue(long dbKey, int noRepeat) {
         this.dbKey = dbKey;
         this.noRepeat = noRepeat;
+    }
+
+    public TaskRepeatValue(Element xmlElem) throws JDOMException {
+
     }
 
     public long getDbKey() {
@@ -47,5 +55,14 @@ public abstract class TaskRepeatValue implements Cloneable{
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
+    }
+
+    public Element toXML(){
+        return null;
+    }
+
+    public Element toXML(Element element){
+        element.addContent(new Element(TAG_TASK_REPEAT_NO_REPEAT).setText(Integer.toString(noRepeat)));
+        return element;
     }
 }

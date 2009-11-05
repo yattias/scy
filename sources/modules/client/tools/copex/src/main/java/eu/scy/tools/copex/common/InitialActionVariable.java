@@ -5,13 +5,27 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
+import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 /**
  * Variable action nommee parametree
  * @author Marjolaine
  */
 public class InitialActionVariable implements Cloneable{
+    public final static String TAG_INITIAL_ACTION_VARIABLE = "initial_action_variable";
+    public final static String TAG_INITIAL_ACTION_VARIABLE_REF = "initial_action_variable_ref";
+    public final static String TAG_INITIAL_ACTION_VARIABLE_CODE = "id";
+    public final static String TAG_INITIAL_ACTION_VARIABLE_NB_PARAM = "nb_param";
+    public final static String TAG_INITIAL_ACTION_VARIABLE_LIBELLE = "libelle";
 
-    // PROPERTY
     /*identifiant */
     private long dbKey ;
     /*code */
@@ -19,19 +33,73 @@ public class InitialActionVariable implements Cloneable{
     /* nombre de parametres */
     private int nbParam;
     /* libelle */
-    private String libelle;
+    private List<LocalText> listLibelle;
     /* tableau des parametres */
     private InitialActionParam[] tabParam;
 
     // CONSTRUCTOR
-    public InitialActionVariable(long dbKey, String code, int nbParam, String libelle, InitialActionParam[] tabParam) {
+    public InitialActionVariable(long dbKey, Locale locale, String code, int nbParam, List<LocalText> listLibelle, InitialActionParam[] tabParam) {
         this.dbKey = dbKey;
         this.code = code;
         this.nbParam = nbParam;
-        this.libelle = libelle;
+        this.listLibelle = listLibelle;
         this.tabParam = tabParam;
-        sortParam();
+        sortParam(locale);
     }
+
+    public InitialActionVariable(Element xmlElem, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial) throws JDOMException {
+		if (xmlElem.getName().equals(TAG_INITIAL_ACTION_VARIABLE)) {
+			code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
+            listLibelle = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_ACTION_VARIABLE_LIBELLE).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listLibelle.add(new LocalText(e.getText(), l));
+            }
+            nbParam = Integer.parseInt(xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_NB_PARAM).getText());
+            if(nbParam >0){
+                tabParam = new InitialActionParam[nbParam];
+                int i=0;
+                for (Iterator<Element> variableElem = xmlElem.getChildren(InitialParamData.TAG_INITIAL_PARAM_DATA).iterator(); variableElem.hasNext();) {
+                    Element e = variableElem.next();
+                    tabParam[i++] = new InitialParamData(e, idActionParam++);
+                }
+                List<InitialParamQuantity> listParamQuantity = new LinkedList();
+                for (Iterator<Element> variableElem = xmlElem.getChildren(InitialParamQuantity.TAG_INITIAL_PARAM_QUANTITY).iterator(); variableElem.hasNext();) {
+                    Element e = variableElem.next();
+                    InitialParamQuantity q = new InitialParamQuantity(e, idActionParam++, listPhysicalQuantity);
+                    tabParam[i++] = q;
+                    listParamQuantity.add(q);
+                }
+                for (Iterator<Element> variableElem = xmlElem.getChildren(InitialParamMaterial.TAG_INITIAL_PARAM_MATERIAL).iterator(); variableElem.hasNext();) {
+                    Element e = variableElem.next();
+                    tabParam[i++] = new InitialParamMaterial(e, idActionParam++, listTypeMaterial, listParamQuantity);
+                }
+                sortParam(locale);
+            }
+        }
+		else {
+			throw(new JDOMException("Initial Action Variable expects <"+TAG_INITIAL_ACTION_VARIABLE+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
+    public InitialActionVariable(Element xmlElem, List<InitialActionVariable> list)  throws JDOMException{
+        if (xmlElem.getName().equals(TAG_INITIAL_ACTION_VARIABLE_REF)) {
+			code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
+            for(Iterator<InitialActionVariable> q = list.iterator();q.hasNext();){
+                InitialActionVariable p = q.next();
+                if(p.getCode().equals(code)){
+                    this.dbKey = p.getDbKey();
+                    this.nbParam = p.getNbParam();
+                    this.listLibelle = p.getListLibelle();
+                    this.tabParam = p.getTabParam();
+                }
+            }
+        }else {
+			throw(new JDOMException("InitialActionVariable expects <"+TAG_INITIAL_ACTION_VARIABLE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
 
     // GETTER AND SETTER
     public String getCode() {
@@ -50,12 +118,25 @@ public class InitialActionVariable implements Cloneable{
         this.dbKey = dbKey;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public String getLibelle(Locale locale) {
+         return CopexUtilities.getText(listLibelle, locale);
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setLibelle(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listLibelle);
+        if(id ==-1){
+            this.listLibelle.add(text);
+        }else{
+            this.listLibelle.set(id, text);
+        }
+    }
+
+    public List<LocalText> getListLibelle() {
+        return listLibelle;
+    }
+
+    public void setListLibelle(List<LocalText> listLibelle) {
+        this.listLibelle = listLibelle;
     }
 
     public int getNbParam() {
@@ -72,7 +153,11 @@ public class InitialActionVariable implements Cloneable{
 
     public void setTabParam(InitialActionParam[] tabParam) {
         this.tabParam = tabParam;
-        sortParam();
+    }
+
+    public void setTabParam(Locale locale, InitialActionParam[] tabParam) {
+        this.tabParam = tabParam;
+        sortParam(locale);
     }
 
     @Override
@@ -82,7 +167,11 @@ public class InitialActionVariable implements Cloneable{
             v.setDbKey(this.getDbKey());
             v.setCode(new String (this.getCode()));
             v.setNbParam(this.getNbParam());
-            v.setLibelle(new String(this.getLibelle()));
+            List<LocalText> listLibelleC = new LinkedList();
+            for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
+                listLibelleC.add((LocalText)t.next().clone());
+            }
+            v.setListLibelle(listLibelleC);
             InitialActionParam[] tabParamC = null;
             if (tabParam != null){
                 tabParamC = new InitialActionParam[this.tabParam.length];
@@ -99,9 +188,9 @@ public class InitialActionVariable implements Cloneable{
     }
 
     /* range les parametres dans l'ordre d'apparition */
-    private void sortParam(){
+    private void sortParam(Locale locale){
         InitialActionParam[] tabParamC = new InitialActionParam[nbParam];
-        String s = new String (libelle);
+        String s = new String (getLibelle(locale));
 
         String po="{";
         String pf="}";
@@ -138,7 +227,8 @@ public class InitialActionVariable implements Cloneable{
      *                              => 1 : et surtout
      * si id -1 : texte fin :       => -1 : ok ?
      */
-    public String getTextLibelle(int i){
+    public String getTextLibelle(Locale locale, int i){
+        String libelle = getLibelle(locale);
         String pf = "}";
         if (i == -1){
             // indice du dernier {}
@@ -167,6 +257,35 @@ public class InitialActionVariable implements Cloneable{
         }
     }
 
+
+    // toXML
+    public Element toXML(){
+        Element element = new Element(TAG_INITIAL_ACTION_VARIABLE);
+		element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
+        if(listLibelle != null && listLibelle.size() > 0){
+            for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_INITIAL_ACTION_VARIABLE_LIBELLE);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_NB_PARAM).setText(Integer.toString(nbParam)));
+        if(nbParam >0){
+            for (int i=0; i<nbParam; i++){
+                element.addContent(tabParam[i].toXML());
+            }
+        }
+		return element;
+    }
+
+    // toXML
+    public Element toXMLRef(){
+        Element element = new Element(TAG_INITIAL_ACTION_VARIABLE_REF);
+		element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
+        return element;
+    }
 
     
 }

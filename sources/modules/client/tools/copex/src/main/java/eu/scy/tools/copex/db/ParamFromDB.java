@@ -10,7 +10,10 @@ import eu.scy.tools.copex.common.MaterialStrategy;
 import eu.scy.tools.copex.common.PhysicalQuantity;
 import eu.scy.tools.copex.common.TypeMaterial;
 import eu.scy.tools.copex.utilities.CopexReturn;
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -43,8 +46,8 @@ public class ParamFromDB {
             cr = getAllUnitFromDB(dbC, dbKey, locale, v3);
             if (cr.isError())
                 return cr;
-            ArrayList<CopexUnit> listUnit = (ArrayList<CopexUnit>)v3.get(0);
-            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, name, listUnit);
+            List<CopexUnit> listUnit = (List<CopexUnit>)v3.get(0);
+            PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), listUnit);
             listPhysicalQuantities.add(quantity);
         }
         v.add(listPhysicalQuantities);
@@ -53,7 +56,7 @@ public class ParamFromDB {
 
      /* charge les unites pour une grandeur gerees dans COPEX */
     public static CopexReturn getAllUnitFromDB(DataBaseCommunication dbC,  long dbKeyQ, Locale locale, ArrayList v) {
-        ArrayList<CopexUnit> listUnit = new ArrayList();
+        List<CopexUnit> listUnit = new LinkedList();
         String symbol = "SYMBOL_"+locale.getLanguage() ;
         String query = "SELECT U.ID_UNIT, U.UNIT_NAME, U."+symbol+" FROM UNIT U, LINK_UNIT_QUANTITY L " +
                 " WHERE L.ID_QUANTITY = "+dbKeyQ+" AND L.ID_UNIT = U.ID_UNIT ;"  ;
@@ -75,7 +78,7 @@ public class ParamFromDB {
             long dbKey = Long.parseLong(s);
             String name = rs.getColumnData("U.UNIT_NAME");
             String symb = rs.getColumnData("U."+symbol);
-            CopexUnit unit = new CopexUnit(dbKey, name, symb) ;
+            CopexUnit unit = new CopexUnit(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symb, locale)) ;
             listUnit.add(unit);
         }
         v.add(listUnit);
@@ -102,7 +105,7 @@ public class ParamFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String name = rs.getColumnData("TYPE_NAME");
-            type = new TypeMaterial(dbKey, name);
+            type = new TypeMaterial(dbKey, CopexUtilities.getLocalText(name, locale));
         }
         v.add(type);
         return new CopexReturn();
@@ -141,7 +144,7 @@ public class ParamFromDB {
             boolean chooseMat = s.equals("1");
             s = rs.getColumnData("COMMENTS_MAT");
             boolean commentsMat = s.equals("1");
-            MaterialStrategy strategy = new MaterialStrategy(dbKey, code, isItem, item, addMat, chooseMat, commentsMat);
+            MaterialStrategy strategy = new MaterialStrategy(dbKey, code, isItem, CopexUtilities.getLocalText(item, locale), addMat, chooseMat, commentsMat);
             listStrategy.add(strategy);
         }
         v.add(listStrategy);

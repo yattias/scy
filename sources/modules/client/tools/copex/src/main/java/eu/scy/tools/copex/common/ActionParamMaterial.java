@@ -5,14 +5,18 @@
 
 package eu.scy.tools.copex.common;
 
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 
 /**
  * parametre de l'action de type materiel
  * @author Marjolaine
  */
 public class ActionParamMaterial extends ActionParam{
-
-    // PROPERTY
+    public final static String TAG_ACTION_PARAM_MATERIAL = "action_param_material";
     /* material associe */
     private Material material ;
     /* eventuellement quantite associee */
@@ -24,6 +28,23 @@ public class ActionParamMaterial extends ActionParam{
         this.material = material;
         this.quantity = quantity;
     }
+
+    public ActionParamMaterial(Element xmlElem, long idActionParam, List<InitialParamMaterial> listInitialParamMaterial, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
+        super(xmlElem);
+        if (xmlElem.getName().equals(TAG_ACTION_PARAM_MATERIAL)) {
+			dbKey = idActionParam;
+            initialParam = new InitialParamMaterial(xmlElem.getChild(InitialParamMaterial.TAG_INITIAL_PARAM_MATERIAL_REF), listInitialParamMaterial);
+            if(xmlElem.getChild(Material.TAG_MATERIAL_REF) != null)
+                material = new Material(xmlElem.getChild(Material.TAG_MATERIAL_REF), listMaterial);
+            if(xmlElem.getChild(ActionParamQuantity.TAG_ACTION_PARAM_QUANTITY_REF) != null)
+                quantity = new ActionParamQuantity(xmlElem.getChild(ActionParamQuantity.TAG_ACTION_PARAM_QUANTITY_REF), listActionParamQuantity);
+        }
+		else {
+			throw(new JDOMException("Action Param Material expects <"+TAG_ACTION_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+        
+    }
+
 
     // GETTER AND SETTER
     public Material getMaterial() {
@@ -58,8 +79,18 @@ public class ActionParamMaterial extends ActionParam{
 
     /* description dans l'arbre*/
     @Override
-    public String toDescription(){
-        return material.getName();
+    public String toDescription(Locale locale){
+        return material.getName(locale);
+    }
+
+    @Override
+    public Element toXML(){
+        Element element = new Element(TAG_ACTION_PARAM_MATERIAL);
+        element.addContent(initialParam.toXMLRef());
+        element.addContent(material.toXMLRef());
+        if(this.quantity != null)
+            element.addContent(quantity.toXML());
+		return element;
     }
 
 }

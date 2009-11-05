@@ -38,11 +38,6 @@
             <artifactId>itext</artifactId>
             <version>2.1.4</version>
         </dependency>
-       <dependency>
-            <groupId>jexcelapi</groupId>
-            <artifactId>jxl</artifactId>
-            <version>2.4.2</version>
-        </dependency>
         <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>drawingtool</artifactId>

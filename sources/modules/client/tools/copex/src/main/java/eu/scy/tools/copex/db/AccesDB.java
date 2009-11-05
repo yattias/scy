@@ -103,12 +103,6 @@ public class AccesDB {
    
     
 
-    public CopexReturn getDataSheetFromDB(ArrayList<LearnerProcedure> listProc, ArrayList v) {
-        return DataSheetFromDB.getAllDataSheetFromDB_xml(this.dbC, listProc , v);
-    }
-
-   
-
     public CopexReturn getMissionFromDB(long dbKeyMission, long dbKeyUser ,ArrayList v) {
         return MissionFromDB.getMissionFromDB_xml(this.dbC, dbKeyMission, dbKeyUser, v);
     }
@@ -118,27 +112,27 @@ public class AccesDB {
     }
     
    
-    public CopexReturn getProcMissionFromDB(Locker locker, boolean controlLock, long dbKeyMission, long dbKeyUser,long dbKeyProc, Locale locale, long dbKeyInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v) {
-        return ExperimentalProcedureFromDB.getProcMissionFromDB_xml(this.dbC, locker, controlLock, locale, dbKeyMission , dbKeyUser, dbKeyProc,  dbKeyInitProc, listPhysicalQuantity,  v);
+    public CopexReturn getProcMissionFromDB(Locker locker, boolean controlLock, long dbKeyMission, long dbKeyUser,long dbKeyProc, Locale locale, long dbKeyInitProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy,  ArrayList v) {
+        return ExperimentalProcedureFromDB.getProcMissionFromDB_xml(this.dbC, locker, controlLock, locale, dbKeyMission , dbKeyUser, dbKeyProc,  dbKeyInitProc, listPhysicalQuantity, listMaterialStrategy,  v);
     }
     
     /* ajout d'une tache, retourne en v2[0] le nouvel id */
-    public CopexReturn addTaskBrotherInDB(CopexTask task, long idProc, CopexTask brotherTask, ArrayList v){
+    public CopexReturn addTaskBrotherInDB(Locale locale,CopexTask task, long idProc, CopexTask brotherTask, ArrayList v){
      
-        CopexReturn cr = TaskFromDB.addTaskBrotherInDB_xml(this.dbC, task, idProc, brotherTask, v);
+        CopexReturn cr = TaskFromDB.addTaskBrotherInDB_xml(this.dbC,locale, task, idProc, brotherTask, v);
         return cr;
     }
     /* ajout d'une tache, retourne en v2[0] le nouvel id */
-    public CopexReturn addTaskParentInDB(CopexTask task, long idProc, CopexTask parentTask, ArrayList v){
-        return TaskFromDB.addTaskParentInDB_xml(this.dbC, task, idProc, parentTask, v);
+    public CopexReturn addTaskParentInDB(Locale locale,CopexTask task, long idProc, CopexTask parentTask, ArrayList v){
+        return TaskFromDB.addTaskParentInDB_xml(this.dbC,locale, task, idProc, parentTask, v);
        
     }
     
     
     
     /* modification d'une tache*/
-    public CopexReturn updateTaskInDB(CopexTask newTask, long idProc, CopexTask oldTask, ArrayList v){
-        return TaskFromDB.updateTaskInDB_xml(this.dbC, newTask, idProc, oldTask, v);
+    public CopexReturn updateTaskInDB(Locale locale,CopexTask newTask, long idProc, CopexTask oldTask, ArrayList v){
+        return TaskFromDB.updateTaskInDB_xml(this.dbC,locale, newTask, idProc, oldTask, v);
        
     }
     
@@ -155,21 +149,32 @@ public class AccesDB {
     }
     
       /* suppression d'un protocole */
-    public CopexReturn removeProcInDB(ExperimentalProcedure proc, long dbKeyUser){
+    public CopexReturn removeProcInDB(LearnerProcedure proc, long dbKeyUser){
         
             CopexReturn cr;
             String msg = "";
-            // supprime la feuille de donnees liee au protocole 
-            DataSheet dataSheet = proc.getDataSheet();
-            if (dataSheet != null){
-                cr = DataSheetFromDB.deleteDataSheetFromDB_xml(this.dbC, dataSheet.getDbKey());
-                if (cr.isError()){
-                    return cr;
-                }
-            }
+            
             // supprime les taches liees au protocole 
             cr = TaskFromDB.deleteTasksFromDB_xml(this.dbC, false,  proc.getDbKey(), proc.getListTask());
             
+            if (cr.isError()){
+                return cr;
+            }
+            // suppression hypothese, principle et evaluation
+            cr = ExperimentalProcedureFromDB.deleteHypothesisFromDB(dbC, proc);
+            if (cr.isError()){
+                return cr;
+            }
+            cr = ExperimentalProcedureFromDB.deleteGeneralPrincipleFromDB(dbC, proc);
+            if (cr.isError()){
+                return cr;
+            }
+            cr = ExperimentalProcedureFromDB.deleteEvaluationFromDB(dbC, proc);
+            if (cr.isError()){
+                return cr;
+            }
+            // suppression du mat used
+            cr = ExperimentalProcedureFromDB.deleteMaterialUsedFromDB(dbC, proc.getDbKey(), proc.getListMaterialUsed());
             if (cr.isError()){
                 return cr;
             }
@@ -183,7 +188,7 @@ public class AccesDB {
     }
     
     /* retourne les missions de l'utilisateur sauf celle avec cet id ainsi que les protocoles associes */
-    public CopexReturn getAllMissionsFromDB(long dbKeyUser, long dbKeyMission, ArrayList v){
+    public CopexReturn getAllMissionsFromDB(Locale locale,long dbKeyUser, long dbKeyMission, ArrayList v){
             ArrayList v2 = new ArrayList();
            CopexReturn cr = MissionFromDB.getAllMissionsFromDB_xml(this.dbC, dbKeyUser, dbKeyMission, v2);
            if (cr.isError()){
@@ -195,7 +200,7 @@ public class AccesDB {
            int nbM = listMission.size();
            for (int m=0; m<nbM; m++){
                v2 = new ArrayList();
-              cr = ExperimentalProcedureFromDB.getShortProcMissionFromDB_xml(dbC, listMission.get(m).getDbKey(), dbKeyUser,   v2);
+              cr = ExperimentalProcedureFromDB.getShortProcMissionFromDB_xml(dbC, locale,listMission.get(m).getDbKey(), dbKeyUser,   v2);
                if (cr.isError()){
                     return cr;
                }
