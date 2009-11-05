@@ -20,19 +20,22 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
 
     private LearningActivitySpace learningActivitySpace;
 
+    private AnchorELO anchorELO;
+
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.anchorELO = anchorELO;
     }
 
-    @Transient
+
+    @OneToOne  (targetEntity = AnchorELOImpl.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="activity_primKey")
     public AnchorELO getAnchorELO() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return anchorELO;
     }
 
     @ManyToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "learningActivitySpace_primKey")
-    
     public LearningActivitySpace getLearningActivitySpace() {
         return learningActivitySpace;
     }
