@@ -9,6 +9,7 @@ package eu.scy.client.desktop.scydesktop.scywindows.window_positions;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
 
 import org.apache.log4j.Logger;
 
@@ -25,7 +26,7 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.windo
 
 public class SimpleWindowPositioner extends WindowPositioner {
 
-   var otherWindows:ScyWindow[];
+   var windows:ScyWindow[];
 
    def initialX = 10;
    def initialY = 10;
@@ -34,47 +35,60 @@ public class SimpleWindowPositioner extends WindowPositioner {
 
    def maximumIntersectionTarget = 1.0;
 
-    public override function clearWindows():Void{
-//       logger.info("clearWindows");
-    }
+   public override function clearWindows():Void{
+   //       logger.info("clearWindows");
+   delete windows;
+   }
 
-    public override function setCenterWindow(window:ScyWindow):Void{
-//       logger.info("setCenterWindow");
+   public override function setActiveAnchorWindow(window:ScyWindow):Void{
+   //       logger.info("setCenterWindow");
+      addWindowImmediately(window);
+   }
 
-    }
+   public override function addNextAnchorWindow(window:ScyWindow, direction:Number):Void{
+   //       logger.info("addLinkedWindow");
+      addWindowImmediately(window);
+   }
 
-    public override function addLinkedWindow(window:ScyWindow, direction:Number):Void{
-//       logger.info("addLinkedWindow");
+   public override function addOtherWindow(window:ScyWindow):Void{
+   //       logger.info("addOtherWindow({window.title})");
+      addWindowImmediately(window);
+   }
 
-    }
+   public override function placeOtherWindow(window:ScyWindow):Void{
+      addWindowImmediately(window);
+   }
 
-    public override function addOtherWindow(window:ScyWindow):Void{
-//       logger.info("addOtherWindow({window.title})");
-       if (not isKnownOtherWindow(window)){
-          positionWindow(window);
-          insert window into otherWindows;
-       }
-    }
+   public override function positionWindows():Void{
+      // nothing to to, all window are positioned immediately
+   }
 
-    public override function setFixedWindows(fixedWindows:ScyWindow[]):Void{
-//       logger.info("setFixedWindows");
+   public override function positionWindows(windowPositionsState:WindowPositionsState):Void{
+      // nothing to to, all window are positioned immediately
+   }
 
-    }
+   public override function getWindowPositionsState():WindowPositionsState{
+      WindowPositionsState{
 
-    public override function positionWindows():Void{
-//       logger.info("positionWindows");
+      }
+   }
 
-    }
 
-    function isKnownOtherWindow(window:ScyWindow){
-       for (win in otherWindows){
-          if (FX.isSameObject(window, win)){
-             return true;
-          }
-       }
-       return false;
-    }
+   function isKnownOtherWindow(window:ScyWindow){
+      for (win in windows){
+         if (FX.isSameObject(window, win)){
+            return true;
+         }
+      }
+      return false;
+   }
 
+   function addWindowImmediately(window:ScyWindow){
+      if (not isKnownOtherWindow(window)){
+         positionWindow(window);
+         insert window into windows;
+      }
+   }
 
    function positionWindow(window:ScyWindow){
       var startNanos = System.nanoTime();
@@ -118,7 +132,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
       }
       var usedNanos = System.nanoTime()-startNanos;
       var usedMillis = usedNanos/1e6;
-//      logger.info("found position in {tryCount} tries and in {usedMillis} ms, intersection: {minimumIntersection}");
+      logger.info("with {sizeof windows} other windows, found position in {tryCount} tries and in {usedMillis} ms, intersection: {minimumIntersection}");
    }
 
     function calculateMaximumIntersection(window:ScyWindow, currentMinimumIntersection:Number):Number{
@@ -133,7 +147,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
           }
           maximumIntersection = Math.max(maximumIntersection, intersection);
        }
-       for (win in otherWindows){
+       for (win in windows){
           var winBounds = win.boundsInParent;
           var intersection = calculateRectangleIntersection(newWindowBounds,winBounds);
           maximumIntersection = Math.max(maximumIntersection, intersection);
@@ -145,7 +159,6 @@ public class SimpleWindowPositioner extends WindowPositioner {
 //       logger.info("maximumIntersection: {maximumIntersection}");
        return maximumIntersection;
     }
-
 
    function calculateRectangleIntersection(rect1:Bounds,rect2:Bounds):Number{
       if (rect1.intersects(rect2)){

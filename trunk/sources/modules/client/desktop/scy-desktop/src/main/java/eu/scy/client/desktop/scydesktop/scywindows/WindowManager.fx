@@ -25,26 +25,28 @@ public mixin class WindowManager {
 
    public var activeAnchor:MissionAnchorFX;
 
-   public function addScyWindow(scyWindow:ScyWindow){
+   public function addScyWindow(scyWindow:ScyWindow):Void{
    }
 
-   public function removeScyWindow(scyWindow:ScyWindow){
+   public function removeScyWindow(scyWindow:ScyWindow):Void{
    }
 
-   public function activateScyWindow(scyWindow:ScyWindow){
+   public function activateScyWindow(scyWindow:ScyWindow):Void{
    }
 
-   public function hideScyWindow(scyWindow:ScyWindow){
+   public function hideScyWindow(scyWindow:ScyWindow):Void{
    }
 
-   public function showScyWindow(scyWindow:ScyWindow){
+   public function showScyWindow(scyWindow:ScyWindow):Void{
    }
 
-	public abstract function findScyWindow(id:String):ScyWindow;
+//	public abstract function findScyWindow(id:String):ScyWindow;
    
 	public abstract function findScyWindow(uri:URI):ScyWindow;
 
    public abstract function getScyWindows():ScyWindow[];
+
+   public abstract function removeAllScyWindows():Void;
 
 //   public function checkVisibilityScyWindows(showIt: function(ScyWindow):Boolean){
 //   }

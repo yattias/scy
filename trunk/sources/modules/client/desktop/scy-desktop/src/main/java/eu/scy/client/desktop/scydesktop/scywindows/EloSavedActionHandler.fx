@@ -10,7 +10,6 @@ import eu.scy.client.desktop.scydesktop.hacks.EloSavedListener;
 
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * @author sikkenj
@@ -19,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 // place your code here
 
 public class EloSavedActionHandler extends EloSavedListener{
-   public var scyDesktop:ScyDesktop;
+   public var scyWindowControl:ScyWindowControl;
 
    public override function newEloSaved(eloUri : URI):Void{
       println("EloSavedActionHandler.newEloSaved({eloUri})");
@@ -38,7 +37,7 @@ public class EloSavedActionHandler extends EloSavedListener{
 
    function getAddScyWindow(eloUri : URI):function(){
       function(){
-         scyDesktop.addScyWindow(eloUri);
+         scyWindowControl.addOtherScyWindow(eloUri);
       }
    }
 

@@ -19,7 +19,7 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 /**
  * @author sikkenj
  */
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorWrapper");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorWrapper");
 
 public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
    public var config:Config on replace {injectServices()};

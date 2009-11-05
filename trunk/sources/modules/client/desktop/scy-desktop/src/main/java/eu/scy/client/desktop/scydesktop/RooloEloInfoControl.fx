@@ -29,7 +29,8 @@ public class RooloEloInfoControl extends EloInfoControl {
       if (eloUri==null){
          return null;
       }
-      return extensionManager.getType(eloUri);
+      var eloType = extensionManager.getType(eloUri);
+      return eloType;
    }
 
    public override function getEloTitle(eloUri:URI):String{
@@ -40,6 +41,7 @@ public class RooloEloInfoControl extends EloInfoControl {
       if (metadata==null){
          return null
       }
-      return metadata.getMetadataValueContainer(titleKey).getValue() as String;
+      var eloTitle = metadata.getMetadataValueContainer(titleKey).getValue() as String;
+      return eloTitle;
    }
 }

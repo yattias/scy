@@ -14,7 +14,6 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 
-import java.lang.Thread;
 
 /**
  * @author sikken
@@ -54,7 +53,7 @@ public class TextEditorToolContentCreator extends WindowContentCreatorFX {
 	}
 
    function setWindowProperties(scyWindow:ScyWindow){
-      scyWindow.minimumWidth = 320;
+      scyWindow.minimumWidth = 220;
       scyWindow.minimumHeight = 100;
    }
 

@@ -118,7 +118,7 @@ public class ScyWindowControl{
    }
 
    function getScyWindow(anchor:AnchorFX):ScyWindow{
-      var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri.toString());
+      var scyWindow: ScyWindow = scyDesktop.findScyWindow(anchor.eloUri);
       if (scyWindow == null){
          scyWindow = createScyWindow(anchor.eloUri);
          scyWindow.scyWindowAttributes = missionMap.getAnchorAttribute(anchor);
@@ -138,7 +138,7 @@ public class ScyWindowControl{
    }
 
    function getScyWindow(eloUri:URI):ScyWindow{
-      var scyWindow: ScyWindow = scyDesktop.findScyWindow(eloUri.toString());
+      var scyWindow: ScyWindow = scyDesktop.findScyWindow(eloUri);
       if (scyWindow == null){
          scyWindow = createScyWindow(eloUri);
 //         scyWindow = ScyWindow{

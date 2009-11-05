@@ -27,7 +27,7 @@ import java.awt.Dimension;
  */
 
 // place your code here
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.SwingContentWrapper");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.SwingContentWrapper");
 
 public class SwingContentWrapper extends CustomNode, Resizable {
    public var swingContent: JComponent;

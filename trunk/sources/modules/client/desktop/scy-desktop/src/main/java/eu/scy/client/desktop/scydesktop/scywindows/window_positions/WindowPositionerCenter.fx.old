@@ -91,7 +91,7 @@ public class WindowPositionerCenter extends WindowPositioner {
    }
 
 
-   public override function setCenterWindow(window:ScyWindow){
+   public override function setActiveAnchorWindow(window:ScyWindow){
       centerWindowPosition = WindowPosition{
          window: window;
       };

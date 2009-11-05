@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-var logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.elofactory.DrawerContentFactory");
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.elofactory.DrawerContentFactory");
 
 public class DrawerContentFactory extends ContentFactory{
 

@@ -12,7 +12,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
 
-import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
 /**
  * @author sikkenj
@@ -29,7 +28,7 @@ def fileSystemConfigLocationOption = "fileSystemConfigLocation";
 InitLog4JFX.initLog4J();
 
 // argument values
-var title = "Swing SCY desktop";
+var title = "SCY-Desktop";
 var classPathConfigLocation = "config/scyDesktopTestConfig.xml";
 var fileSystemConfigLocation = "";
 
@@ -80,6 +79,7 @@ var scyDesktop = scyDesktopCreator.createScyDesktop();
 
 scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
       scyDesktop:scyDesktop;
+      scyWindowControl:scyDesktop.scyWindowControl;
       repository:scyDesktopCreator.config.getRepository();
       titleKey:scyDesktopCreator.config.getTitleKey();
       technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();

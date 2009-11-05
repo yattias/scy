@@ -16,11 +16,11 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-var logger = Logger.getLogger("eu.scy.client.desktop.elofactory.BasicContentCreatorRegistryFX");
+def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.BasicContentCreatorRegistryFX");
 
 public class BasicContentCreatorRegistryFX{
 
-   var contentCreatorsFXMap = new HashMap();
+   def contentCreatorsFXMap = new HashMap();
 
    protected function registerContentCreatorFX(contentCreator: Object, id: String):Void{
       logger.info("registering DrawerContentCreatorFX with id {id}, class {contentCreator.getClass()}");

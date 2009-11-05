@@ -37,7 +37,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-Mission description
+<text>Mission description</text>
 </content>
 <resources>
 </resources>
