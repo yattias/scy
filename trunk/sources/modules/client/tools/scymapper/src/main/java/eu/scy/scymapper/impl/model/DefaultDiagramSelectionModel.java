@@ -36,7 +36,6 @@ public class DefaultDiagramSelectionModel implements IDiagramSelectionModel {
 
 	@Override
 	public void select(ILinkModel link) {
-		System.out.println("Link selected");
 		selectedLinks.add(link);
 		link.setSelected(true);
 		notifySelectionChanged();

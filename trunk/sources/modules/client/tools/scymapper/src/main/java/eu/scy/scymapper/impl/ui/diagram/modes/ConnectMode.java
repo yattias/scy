@@ -32,28 +32,6 @@ public class ConnectMode implements IDiagramMode {
         view.setComponentZOrder(connector, 0);
     }
 
-    /**
-     * Display the new connector button for a concept node
-     *
-     * @param
-     */
-
-    private NodeView getNearestNode(Point p) {
-        double closestDistance = Double.MAX_VALUE;
-        NodeView foundNode = null;
-        for (Component c : view.getComponents()) {
-            if (!(c instanceof NodeView)) continue;
-            NodeView node = (NodeView) c;
-            Point connectionPoint = node.getConnectionPoint(p);
-            double this_dist = connectionPoint.distance(p.x, p.y);
-            if (this_dist < closestDistance) {
-                closestDistance = this_dist;
-                foundNode = node;
-            }
-        }
-        return foundNode;
-    }
-
     private INodeModel sourceNode;
     private final MouseListener mouseListener = new MouseAdapter() {
         @Override
@@ -82,6 +60,7 @@ public class ConnectMode implements IDiagramMode {
                 link.setShape(connectorLink.getShape());
                 link.setStyle(connectorLink.getStyle());
                 view.getModel().addLink(link);
+                view.remove(connector);
                 view.setMode(new DragMode(view));
                 node.setBorder(BorderFactory.createEmptyBorder());
                 getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
