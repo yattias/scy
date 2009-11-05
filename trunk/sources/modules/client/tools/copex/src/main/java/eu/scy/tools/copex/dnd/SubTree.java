@@ -8,8 +8,10 @@ package eu.scy.tools.copex.dnd;
 
 import eu.scy.tools.copex.common.*;
 import eu.scy.tools.copex.controller.ControllerInterface;
+import eu.scy.tools.copex.edp.CopexNode;
 import eu.scy.tools.copex.edp.CopexTree;
-import eu.scy.tools.copex.edp.CopexTreeNode;
+import eu.scy.tools.copex.edp.CopexTreeModel;
+import eu.scy.tools.copex.edp.TaskTreeNode;
 import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.io.Serializable;
@@ -27,7 +29,7 @@ public class SubTree extends JTree implements Serializable {
     /* controller */
     private ControllerInterface controller;
     /* protocole initial */
-    private ExperimentalProcedure proc;
+    private LearnerProcedure proc;
     /* arbre auquel il appartient a l'origine */
     private CopexTree owner;
     /* modele de donnees */
@@ -35,18 +37,19 @@ public class SubTree extends JTree implements Serializable {
     /* liste des taches representees */
     private ArrayList<CopexTask> listTask;
     /* liste des noeuds sources */
-    private ArrayList<CopexTreeNode> listNodes;
+    private ArrayList<CopexNode> listNodes;
     /* tache frere */
     private long lastBrother = -1;
     /* premier noeud origine */
     private CopexTask firstTaskOriginal;
     /* provient d'un drag and drop*/
     private boolean dragNdrop;
+    private Question fictivTask;
 
     // CONSTRUCTEURS 
     
     
-    public SubTree(EdPPanel edP, ControllerInterface controller, ExperimentalProcedure proc, CopexTree owner, ArrayList<CopexTask> listTask, ArrayList<CopexTreeNode> listNode, boolean dragNdrop) {
+    public SubTree(EdPPanel edP, ControllerInterface controller, LearnerProcedure proc, CopexTree owner, ArrayList<CopexTask> listTask, ArrayList<CopexNode> listNode, boolean dragNdrop) {
         super();
         this.edP = edP;
         this.controller = controller;
@@ -73,7 +76,7 @@ public class SubTree extends JTree implements Serializable {
         
         // creation du modele
         // on cree une racine fictive
-        Question fictivTask = new Question();
+        fictivTask = new Question(edP.getLocale());
         fictivTask.setDbKeyChild(listTask.get(0).getDbKey());
         subTreeModel = new CopexTreeModel(proc, listTask, fictivTask);
         // sur la derniere tache a connecter on enleve le lien frere eventuel 
@@ -103,9 +106,14 @@ public class SubTree extends JTree implements Serializable {
     /* retourne l'indice de la derniere tache a connecter : ie le dernier enfant de 
      la racine, sinon elle meme */
     public int getIdLastTask(){
-        CopexTreeNode rootNode = (CopexTreeNode)this.subTreeModel.getRoot();
-        CopexTreeNode lastNode = (CopexTreeNode)rootNode.getChildAt(rootNode.getChildCount()-1);
-        return this.listTask.indexOf(lastNode.getTask());
+        CopexNode rootNode = (CopexNode)this.subTreeModel.getManipulationNode();
+        CopexNode lastNode = (CopexNode)rootNode.getChildAt(rootNode.getChildCount()-1);
+        CopexTask task = null;
+        if(lastNode.isQuestion())
+            task = (Question)lastNode.getNode();
+        else 
+            task = ((CopexNode)lastNode).getTask();
+        return this.listTask.indexOf(task);
     }
 
     /* retourne la premiere tache */
@@ -119,29 +127,29 @@ public class SubTree extends JTree implements Serializable {
     }
     
     /* retourne le noeud d'une tache */
-    public CopexTreeNode getNode(CopexTask task){
-        return getNode(task, (CopexTreeNode)subTreeModel.getRoot());
+    public TaskTreeNode getNode(CopexTask task){
+        return getNode(task, (TaskTreeNode)subTreeModel.getRoot());
     }
     
      /* renvoit le noeud crorrespondant a la tache */
-    private CopexTreeNode getNode(CopexTask task, CopexTreeNode node){
+    private TaskTreeNode getNode(CopexTask task, TaskTreeNode node){
        if (node.getTask().getDbKey() == task.getDbKey())
            return node;
        else{
            // on cherche dans les enfants
            if (node.getChildCount() > 0){
                for (int k=0; k<node.getChildCount(); k++){
-                   CopexTreeNode n = getNode(task, (CopexTreeNode)subTreeModel.getChild(node, k));
+                   TaskTreeNode n = getNode(task, (TaskTreeNode)subTreeModel.getChild(node, k));
                    if (n != null)
                        return n;
                }
            }
            // on cherche dans les freres
-           CopexTreeNode parent = (CopexTreeNode)node.getParent();
+           TaskTreeNode parent = (TaskTreeNode)node.getParent();
            if (parent != null){
-               CopexTreeNode bn = (CopexTreeNode)parent.getChildAfter(node);
+               TaskTreeNode bn = (TaskTreeNode)parent.getChildAfter(node);
                if (bn != null){
-                   CopexTreeNode n = getNode(task, bn);
+                   TaskTreeNode n = getNode(task, bn);
                    if (n != null)
                        return n;
                }
@@ -152,12 +160,12 @@ public class SubTree extends JTree implements Serializable {
     }
     
     /* retourne le premier noeud */
-    public CopexTreeNode getFirstNode(){
-        return (CopexTreeNode)subTreeModel.getChild((CopexTreeNode)subTreeModel.getRoot(), 0);
+    public TaskTreeNode getFirstNode(){
+        return (TaskTreeNode)subTreeModel.getChild((TaskTreeNode)subTreeModel.getRoot(), 0);
     }
     
     /* retourne vrai si le noeud appartient au sous arbre */
-    public boolean containNode(CopexTreeNode node){
+    public boolean containNode(CopexNode node){
         int nbN = listNodes.size();
         for (int i=0; i<nbN; i++){
             if (node.equals(listNodes.get(i)))
@@ -180,7 +188,7 @@ public class SubTree extends JTree implements Serializable {
         return owner;
     }
 
-    public void setListNodes(ArrayList<CopexTreeNode> listNodes) {
+    public void setListNodes(ArrayList<CopexNode> listNodes) {
         this.listNodes = listNodes;
     }
 
@@ -188,7 +196,7 @@ public class SubTree extends JTree implements Serializable {
         return proc;
     }
 
-    public ArrayList<CopexTreeNode> getListNodes() {
+    public ArrayList<CopexNode> getListNodes() {
         return listNodes;
     }
 

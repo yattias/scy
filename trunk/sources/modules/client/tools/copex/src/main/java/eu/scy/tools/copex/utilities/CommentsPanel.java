@@ -140,4 +140,6 @@ public class CommentsPanel extends CopexPanelHideShow {
     public String getComments(){
         return areaComments == null ?"" : areaComments.getText() ;
     }
+
+    
 }

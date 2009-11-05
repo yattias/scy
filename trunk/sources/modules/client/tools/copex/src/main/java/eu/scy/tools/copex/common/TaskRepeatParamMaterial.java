@@ -6,12 +6,17 @@
 package eu.scy.tools.copex.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  *
  * @author Marjolaine
  */
 public class TaskRepeatParamMaterial extends TaskRepeatParam{
+    public final static String TAG_TASK_REPEAT_PARAM_MATERIAL = "task_repeat_param_material";
     /* initial param material */
     private InitialParamMaterial initialParamMaterial;
     private ArrayList<TaskRepeatValueParamMaterial> listValue;
@@ -20,6 +25,22 @@ public class TaskRepeatParamMaterial extends TaskRepeatParam{
         super(dbKey);
         this.initialParamMaterial = initialParamMaterial;
         this.listValue = listValue ;
+    }
+
+    public TaskRepeatParamMaterial(Element xmlElem, long idParam, List<InitialParamMaterial> listInitialParamMaterial, long idValue, long idActionParam, List<Material> listMaterial,  List<PhysicalQuantity> listPhysicalQuantity, List<ActionParamQuantity> listActionParamQuantity ) throws JDOMException {
+        super(xmlElem);
+        if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_MATERIAL)) {
+            dbKey = idParam++;
+            initialParamMaterial = new InitialParamMaterial(xmlElem.getChild(InitialParamMaterial.TAG_INITIAL_PARAM_MATERIAL_REF), listInitialParamMaterial);
+            listValue = new ArrayList();
+            for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueParamData.TAG_TASK_REPEAT_VALUE_PARAM_DATA).iterator(); variableElem.hasNext();){
+                Element e = variableElem.next();
+                TaskRepeatValueParamMaterial v = new TaskRepeatValueParamMaterial(e, idValue++, idActionParam++, listPhysicalQuantity, listInitialParamMaterial, listMaterial, listActionParamQuantity);
+                listValue.add(v);
+            }
+		} else {
+			throw(new JDOMException("Task repeat  param material expects <"+TAG_TASK_REPEAT_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
     }
 
     public InitialParamMaterial getInitialParamMaterial() {
@@ -50,6 +71,16 @@ public class TaskRepeatParamMaterial extends TaskRepeatParam{
         }
         p.setListValue(list);
         return p;
+    }
+
+    @Override
+    public Element toXML(){
+        Element element = new Element(TAG_TASK_REPEAT_PARAM_MATERIAL);
+        element.addContent(initialParamMaterial.toXMLRef());
+        for(Iterator<TaskRepeatValueParamMaterial> v = listValue.iterator();v.hasNext();){
+            element.addContent(v.next().toXML());
+        }
+        return element;
     }
 
 }

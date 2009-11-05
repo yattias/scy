@@ -12,5 +12,5 @@ import eu.scy.tools.copex.common.MaterialUsed;
  */
 public interface ActionMaterial {
     public void actionRemoveMaterial(MaterialUsed mUsed);
-    public void actionUpdateMaterial(MaterialUsed mUsed);
+    public void saveData(MaterialUsed mUsed);
 }

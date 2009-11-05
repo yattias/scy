@@ -5,8 +5,15 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+
 
 
 /**
@@ -14,74 +21,78 @@ import org.jdom.Element;
  * @author MBO
  */
 public class Question extends CopexTask implements Cloneable{
+    public final static String TAG_QUESTION = "question";
 
-    // ATTRIBUTS
-    /* hypothese */
-    private String hypothesis;
-    /* principe general, n'est valable que si c'est la question du proc */
-    private String generalPrinciple;
-
-    // CONSTRUCTEURS
-    public Question(long dbKey, String question, String description, String hypothesis, String comments, String taskImage, Element draw, String generalPrinciple, boolean isVisible, TaskRight taskRight, boolean root) {
-        super(dbKey, question, description, comments, taskImage, draw, isVisible, taskRight, root, null) ;
-        this.hypothesis = hypothesis;
-        this.generalPrinciple = generalPrinciple ;
-    }
-
-    public Question(long dbKey, String question, String description, String hypothesis, String comments, String taskImage, Element draw, String generalPrinciple, boolean isVisible, TaskRight taskRight, boolean root, long dbKeyBrother, long dbKeyChild) {
-        super(dbKey, question, description, comments, taskImage, draw, isVisible, taskRight,  root, dbKeyBrother, dbKeyChild, null) ;
-        this.hypothesis = hypothesis;
-        this.generalPrinciple = generalPrinciple ;
-    }
     
+    public Question(long dbKey, List<LocalText> listQuestion, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw,  boolean isVisible, TaskRight taskRight, boolean root) {
+        super(dbKey, listQuestion, listDescription, listComments, taskImage, draw, isVisible, taskRight, root, null) ;
+    }
+    public Question(long dbKey, Locale locale,String question, String description, String comment, String taskImage, Element draw,  boolean isVisible, TaskRight taskRight, boolean root) {
+        super(dbKey, CopexUtilities.getLocalText(question, locale), CopexUtilities.getLocalText(description, locale), CopexUtilities.getLocalText(comment, locale), taskImage, draw, isVisible, taskRight, root, null) ;
+    }
+
+    public Question(long dbKey, List<LocalText> listQuestion, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw,  boolean isVisible, TaskRight taskRight, boolean root, long dbKeyBrother, long dbKeyChild) {
+        super(dbKey, listQuestion, listDescription, listComments, taskImage, draw, isVisible, taskRight,  root, dbKeyBrother, dbKeyChild, null) ;
+    }
+
+    public Question(long dbKey, Locale locale, String question, String description, String comment, String taskImage, Element draw,  boolean isVisible, TaskRight taskRight, boolean root, long dbKeyBrother, long dbKeyChild) {
+        super(dbKey, CopexUtilities.getLocalText(question, locale), CopexUtilities.getLocalText(description, locale), CopexUtilities.getLocalText(comment, locale), taskImage, draw, isVisible, taskRight,  root, dbKeyBrother, dbKeyChild, null) ;
+    }
+
     /* constructeur appele par l'interface pour creer la sous question d'un utilisateur */
-    public Question(String description, String hypothesis, String comments){
-        super(-1, "", description, comments, null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null) ;
-        this.hypothesis = hypothesis;
-        this.generalPrinciple = null ;
+    public Question(List<LocalText> listDescription, List<LocalText> listComments){
+        super(-1, new LinkedList(), listDescription, listComments, null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null) ;
     }
-    
-    
+
+    public Question(Locale locale,String description, String comment){
+        super(-1, new LinkedList(), CopexUtilities.getLocalText(description, locale), CopexUtilities.getLocalText(comment, locale), null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null) ;
+    }
+
+
     /* racine fictive */
-    public Question(){
-        super();
-        this.hypothesis = "";
-        this.generalPrinciple = null;
+    public Question(Locale locale){
+        super(locale);
+    }
+
+    public Question(Element xmlElem, long idTask) throws JDOMException {
+        super(xmlElem);
+        if (xmlElem.getName().equals(TAG_QUESTION)) {
+			dbKey = idTask;
+            setRoot(true);
+            listName = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listName.add(new LocalText(e.getText(), l));
+            }
+            listDescription = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_DESCRIPTION).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listDescription.add(new LocalText(e.getText(), l));
+            }
+            listComments = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_COMMENTS).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listComments.add(new LocalText(e.getText(), l));
+            }
+            taskImage = xmlElem.getChildText(TAG_TASK_IMAGE);
+            draw = xmlElem.getChild(TAG_TASK_DRAW);
+            taskRight = new TaskRight(xmlElem.getChild(TaskRight.TAG_TASK_RIGHT));
+		} else {
+			throw(new JDOMException("Question expects <"+TAG_QUESTION+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
+
+    @Override
+    public Element toXML(){
+        Element element = super.toXML(new Element(TAG_QUESTION));
+        return element;
     }
 
    
-    // GETTER AND SETTER
-    public String getGeneralPrinciple() {
-        return generalPrinciple;
-    }
-
-    public void setGeneralPrinciple(String generalPrinciple) {
-        this.generalPrinciple = generalPrinciple;
-    }
-    public String getHypothesis() {
-        return hypothesis;
-    }
-
-    public void setHypothesis(String hypothesis) {
-        this.hypothesis = hypothesis;
-    }
-
-    @Override
-    public Object clone()  {
-        Question question = (Question) super.clone() ;
-        String hypothesisC = "";
-        if (this.hypothesis != null)
-            hypothesisC = new String(this.hypothesis);
-        String generalPrincipleC = "";
-        if (this.generalPrinciple != null)
-            generalPrincipleC = new String(this.generalPrinciple);
-        question.setHypothesis(hypothesisC);
-        question.setGeneralPrinciple(generalPrincipleC);
-        return question;
-    }
-
-    
-    
     
     
     

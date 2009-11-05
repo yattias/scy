@@ -25,7 +25,7 @@ public class CopexPanelHideShow extends JPanel {
     /* mode */
     private boolean modeHide;
     /* bouton fleche */
-    private ButtonArrowPanel buttonArrow;
+    protected ButtonArrowPanel buttonArrow;
 
     /* ecoute ou non evenemtn souris */
     protected boolean mouseListen;
@@ -54,9 +54,6 @@ public class CopexPanelHideShow extends JPanel {
     private void initPanel(){
         modeHide = true;
         HEIGHT_PANEL_SHOWN = owner.getHeight() / 2 - (2*MySeparator.HEIGHT_SEP) ;
-        if (!edP.useDataSheet()){
-            HEIGHT_PANEL_SHOWN = owner.getHeight() - MySeparator.HEIGHT_SEP  ;
-        }
         panelDetails = null;
         buttonArrow = new ButtonArrowPanel(edP, this);
         buttonArrow.setBounds(5, 7, buttonArrow.getWidth

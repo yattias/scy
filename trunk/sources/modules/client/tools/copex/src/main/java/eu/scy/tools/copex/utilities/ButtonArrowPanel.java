@@ -75,6 +75,7 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
         repaint();
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
        if(!buttonEnabled)
            return ;
@@ -85,23 +86,38 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
        owner.setHide(modeHide);
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
       
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         
     }
 
     public void setButtonEnabled(boolean enabled){
         this.buttonEnabled = enabled ;
+    }
+
+    public void setImgHide(ImageIcon img){
+        this.bgHide = img;
+        bg = bgHide.getImage();
+        repaint();
+    }
+
+    public void setImgShow(ImageIcon img){
+        this.bgShow = img;
+        repaint();
     }
 }

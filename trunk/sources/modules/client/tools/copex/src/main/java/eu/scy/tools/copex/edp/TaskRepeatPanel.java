@@ -50,6 +50,7 @@ import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -358,16 +359,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
         int nb = listP.size();
         for (int i=0; i<nb; i++){
-            list.add(listP.get(i).getParamName());
+            list.add(listP.get(i).getParamName(edP.getLocale()));
         }
         nb = listO.size();
         for (int i=0; i<nb; i++){
-            list.add(listO.get(i).getName());
+            list.add(listO.get(i).getName(edP.getLocale()));
         }
         JComboBox cb = new JComboBox(list);
         cb.setName("comboBox");
         cb.setBounds(5, 10, 70, 20);
         cb.addItemListener(new ItemListener() {
+            @Override
             public void itemStateChanged(ItemEvent evt) {
                 changeCbSelection(evt);
             }
@@ -397,8 +399,8 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                 InitialActionParam p = getSelectedParam(id);
                 if (p != null){
                     if(p instanceof InitialParamQuantity){
-                        ArrayList<CopexUnit> listUnit = ((InitialParamQuantity)p).getListUnit();
-                        table.setParamQuantity((InitialParamQuantity)p, listUnit, ((InitialParamQuantity)p).getQuantityName());
+                        List<CopexUnit> listUnit = ((InitialParamQuantity)p).getListUnit();
+                        table.setParamQuantity((InitialParamQuantity)p, listUnit, ((InitialParamQuantity)p).getQuantityName(edP.getLocale()));
                         actionTaskRepeat.actionSetSelected(oldSel,(InitialParamQuantity)p);
                     }else if (p instanceof InitialParamMaterial){
                         ArrayList<Material> materials = edP.getListMaterial(((InitialParamMaterial)p).getTypeMaterial(), ((InitialParamMaterial)p).getTypeMaterial2(), ((InitialParamMaterial)p).isAndTypes(), modeAdd);
@@ -696,17 +698,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                     addParam();
                 String name = "";
                 if (listP.get(i) instanceof TaskRepeatParamData)
-                    name = ((TaskRepeatParamData)listP.get(i)).getInitialParamData().getParamName() ;
+                    name = ((TaskRepeatParamData)listP.get(i)).getInitialParamData().getParamName(edP.getLocale()) ;
                 else if (listP.get(i) instanceof TaskRepeatParamMaterial)
-                    name = ((TaskRepeatParamMaterial)listP.get(i)).getInitialParamMaterial().getParamName() ;
+                    name = ((TaskRepeatParamMaterial)listP.get(i)).getInitialParamMaterial().getParamName(edP.getLocale()) ;
                 else if (listP.get(i) instanceof TaskRepeatParamQuantity)
-                    name = ((TaskRepeatParamQuantity)listP.get(i)).getInitialParamQuantity().getParamName() ;
+                    name = ((TaskRepeatParamQuantity)listP.get(i)).getInitialParamQuantity().getParamName(edP.getLocale()) ;
                 else if (listP.get(i) instanceof TaskRepeatParamOutputAcquisition)
-                    name = ((TaskRepeatParamOutputAcquisition)listP.get(i)).getOutput().getName() ;
+                    name = ((TaskRepeatParamOutputAcquisition)listP.get(i)).getOutput().getName(edP.getLocale()) ;
                 else if (listP.get(i) instanceof TaskRepeatParamOutputManipulation)
-                    name = ((TaskRepeatParamOutputManipulation)listP.get(i)).getOutput().getName() ;
+                    name = ((TaskRepeatParamOutputManipulation)listP.get(i)).getOutput().getName(edP.getLocale()) ;
                 else if (listP.get(i) instanceof TaskRepeatParamOutputTreatment)
-                    name = ((TaskRepeatParamOutputTreatment)listP.get(i)).getOutput().getName() ;
+                    name = ((TaskRepeatParamOutputTreatment)listP.get(i)).getOutput().getName(edP.getLocale()) ;
                 getCbWithId(i).setSelectedItem(name);
                 getTableWithId(i).setTaskRepeatParam(taskRepeat.getListParam().get(i));
             }
@@ -780,7 +782,12 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
 
     @Override
     public void addOutputData(int index, int noRepeat, QData data) {
-       System.out.println("ajout d'un donnees : "+data.getName()+" en "+noRepeat);
+       Object[] o = new Object[3];
+        o[0] = noRepeat;
+        o[1] = data;
+        o[2] = index;
+        this.listDataProdRepeat.add(o);
+        updateListsData(o);
     }
 
     
@@ -962,6 +969,25 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                 }
             }
         }
+    }
+
+    /* mise à jour des listes existantes d'un nouveau data */
+    private void updateListsData(Object[] o){
+        int nb = this.listPanels.size();
+//        for (int i=0; i<nb; i++){
+//            ParamRepeatPanel table = getTableWithId(i);
+//            if(table != null){
+//                if(table.getInitialParamData() != null){
+//                    QData d  = (QData)o[1];
+//                    if(table.getInitialParamData().canAccept(d))
+//                        table.updateData(o);
+//                }else if(table.getInitialManipulationOutput() != null){
+//                    Material m  = (Material)o[1];
+//                    if(table.getInitialManipulationOutput().canAccept(m))
+//                        table.updateMaterialOutput(o);
+//                }
+//            }
+//        }
     }
 
 

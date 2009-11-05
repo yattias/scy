@@ -55,11 +55,12 @@ public class EditProcDialog extends javax.swing.JDialog {
         setModal(true);
         setLocation(edP.getLocationDialog());
         init();
+        setIconImage(edP.getIconDialog());
     }
 
     private void init(){
         // nom du protocole 
-        textFieldProc.setText(this.proc.getName());
+        textFieldProc.setText(this.proc.getName(edP.getLocale()));
         // mission : nom + description 
         CopexMission mission = proc.getMission();
         String m = mission.getName();
@@ -125,7 +126,7 @@ public class EditProcDialog extends javax.swing.JDialog {
        edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
        return;
    }
-   if (!p.equals(proc.getName())){
+   if (!p.equals(proc.getName(edP.getLocale()))){
        CopexReturn cr = this.controller.updateProcName(proc, p, MyConstants.NOT_UNDOREDO);
        if (cr.isError()){
            edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));

@@ -8,16 +8,18 @@ package eu.scy.tools.copex.controller;
 import eu.scy.tools.copex.common.CopexAction;
 import eu.scy.tools.copex.common.CopexMission;
 import eu.scy.tools.copex.common.CopexTask;
+import eu.scy.tools.copex.common.Evaluation;
+import eu.scy.tools.copex.common.GeneralPrinciple;
+import eu.scy.tools.copex.common.Hypothesis;
 import eu.scy.tools.copex.common.InitialProcedure;
 import eu.scy.tools.copex.common.LearnerProcedure;
-import eu.scy.tools.copex.common.Material;
+import eu.scy.tools.copex.common.MaterialUsed;
 import eu.scy.tools.copex.common.Question;
 import eu.scy.tools.copex.common.Step;
 import eu.scy.tools.copex.common.TypeMaterial;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.edp.TaskSelected;
 import eu.scy.tools.copex.utilities.CopexReturn;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import org.jdom.Element;
@@ -28,8 +30,6 @@ import org.jdom.Element;
 public interface ControllerInterface {
     /* initialisation de l'edp */
     public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstname, String logFileName);
-    /* retourne vrai si utilisation datasheet */
-    public boolean useDataSheet();
     /* ajout d'une tache */
     public CopexReturn addTask(CopexTask task, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v, char undoRedo, boolean cut) ;
     /* ajout d'une action */
@@ -40,9 +40,7 @@ public interface ControllerInterface {
     public CopexReturn addStep(Step step, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
     /* modification d'une etape */
     public CopexReturn updateStep(Step newStep, LearnerProcedure proc, Step oldStep, ArrayList v);
-    /* ajout d'une sous question */
-    public CopexReturn addQuestion(Question question, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v);
-    /* modification d'une sous question */
+    /* modification d'une question */
     public CopexReturn updateQuestion(Question newQuestion, LearnerProcedure proc, Question oldQuestion, ArrayList v);
      /* modification d'une tache */
     public CopexReturn updateTask(CopexTask newTask, LearnerProcedure proc, CopexTask oldTask, char undoRedo, ArrayList v);
@@ -56,9 +54,7 @@ public interface ControllerInterface {
     public CopexReturn paste(LearnerProcedure proc , TaskSelected ts,SubTree subTree);
      /* couper depuis undo redo */
     public CopexReturn cut(ArrayList<TaskSelected> listTs, SubTree subTree, ArrayList v,char undoRedo);
-        /* creation d'un nouveau dataSheet pour le protocole */
-    public CopexReturn createDataSheet(LearnerProcedure proc, int nbR, int nbC, char undoRedo, ArrayList v);
-   /* creation d'un nouveau protocole "vierge" */
+    /* creation d'un nouveau protocole "vierge" */
     public CopexReturn createProc(String procName, InitialProcedure initProc);
     /* copie d'un protocole de la mission */
     public CopexReturn copyProc(String name, LearnerProcedure procToCopy);
@@ -78,14 +74,8 @@ public interface ControllerInterface {
     public CopexReturn updateProcName(LearnerProcedure proc, String name, char undoRedo);
     /* mise a jour du protocole actif */
     public CopexReturn setProcActiv(LearnerProcedure proc);
-    /* suppression dataSheet pour le protocole */
-    public CopexReturn deleteDataSheet(LearnerProcedure proc, long dbKeyDataSheet, char undoRedo);
-    /* modification d'un dataSheet pour le protocole */
-    public CopexReturn modifyDataSheet(LearnerProcedure proc, int nbR, int nbC, char undoRedo);
-    /* modification valeur dataSheet */
-    public CopexReturn updateDataSheet(LearnerProcedure proc, String value, int noRow, int noCol, ArrayList v, char undoRedo);
     /* impression */
-    public CopexReturn printCopex(LearnerProcedure procToPrint, boolean printComments, boolean printDataSheet);
+    public CopexReturn printCopex(LearnerProcedure procToPrint);
     /* drag and drop */
     public CopexReturn move(TaskSelected task, SubTree tree, char undoRedo);
     public CopexReturn finalizeDragAndDrop(LearnerProcedure proc);
@@ -95,14 +85,6 @@ public interface ControllerInterface {
     public CopexReturn updateTaskVisible(LearnerProcedure p, ArrayList<CopexTask> listTask);
     /* retourne les donnees pour le proc aide */
     public CopexReturn getHelpProc(ArrayList v);
-    /* ajout de l'utilisation d'un material pour un proc*/
-    public CopexReturn addMaterialUseForProc(LearnerProcedure p, Material m, String justification, char undoRedo);
-     /* modification de l'utilisation d'un material pour un proc*/
-    public CopexReturn updateMaterialUseForProc(LearnerProcedure p, Material m, String justification, char undoRedo);
-    /* suppression de l'utilisation d'un material pour un proc*/
-    public CopexReturn removeMaterialUseForProc(LearnerProcedure p, Material m, char undoRedo);
-    /* exportation */
-    public CopexReturn exportDataSheet(LearnerProcedure p, File file);
     /* ouverture fenetre aide*/
     public CopexReturn openHelpDialog();
     /* fermeture fenetre aide */
@@ -122,7 +104,12 @@ public interface ControllerInterface {
     public CopexReturn getTaskInitialOutput(LearnerProcedure proc, CopexTask task, ArrayList v);
     /* retourne le type de material par defaut */
     public TypeMaterial getDefaultMaterialType();
-
-    /* copy d'un ELO*/
-    public CopexReturn copyELO(String name, Element xmlContent);
+    /* hypotheses du proc*/
+    public CopexReturn setHypothesis(LearnerProcedure proc, Hypothesis hypothesis, ArrayList v);
+    /* general principe du proc*/
+    public CopexReturn setGeneralPrinciple(LearnerProcedure proc, GeneralPrinciple principle, ArrayList v);
+    /* evaluation */
+    public CopexReturn setEvaluation(LearnerProcedure proc, Evaluation evaluation, ArrayList v);
+    /* mise a jour du material used */
+    public CopexReturn setMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate, ArrayList v);
 }

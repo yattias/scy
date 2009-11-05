@@ -6,7 +6,7 @@
 package eu.scy.tools.copex.dnd;
 
 import eu.scy.tools.copex.common.*;
-import eu.scy.tools.copex.edp.CopexTreeNode;
+import eu.scy.tools.copex.edp.TaskTreeNode;
 import java.util.ArrayList;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -23,25 +23,25 @@ public class SubTreeModel extends DefaultTreeModel {
     
 
     public SubTreeModel(ArrayList<CopexTask> listTask) {
-        super(new CopexTreeNode(listTask.get(0)));
+        super(new TaskTreeNode(listTask.get(0)));
         this.listTask = listTask;
-        buildTree((CopexTreeNode)root);
+        buildTree((TaskTreeNode)root);
     }
     
     
     /* construction de l'arbre */
-    private void buildTree(CopexTreeNode node){
+    private void buildTree(TaskTreeNode node){
        CopexTask[] tabTask = getBrotherAndChild(node.getTask());
        CopexTask tB = tabTask[0];
        CopexTask tC = tabTask[1];
        if (tC != null){
-           CopexTreeNode newChild = new CopexTreeNode(tC);
+           TaskTreeNode newChild = new TaskTreeNode(tC);
            insertNodeInto(newChild, node , node.getChildCount());
            buildTree(newChild);
        }
        if (tB != null){
-           CopexTreeNode newBrother = new CopexTreeNode(tB);
-           insertNodeInto(newBrother, (CopexTreeNode)node.getParent() , node.getParent().getChildCount());
+           TaskTreeNode newBrother = new TaskTreeNode(tB);
+           insertNodeInto(newBrother, (TaskTreeNode)node.getParent() , node.getParent().getChildCount());
            buildTree(newBrother);
        }
     }

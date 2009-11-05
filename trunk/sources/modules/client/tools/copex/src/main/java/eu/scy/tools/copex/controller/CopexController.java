@@ -7,28 +7,24 @@ package eu.scy.tools.copex.controller;
 
 
 import eu.scy.tools.copex.common.*;
-import eu.scy.tools.copex.data.MyCopexData;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.edp.TaskSelected;
-import eu.scy.tools.copex.elo.*;
 import eu.scy.tools.copex.print.PrintPDF;
 import eu.scy.tools.copex.profiler.Profiler;
 import eu.scy.tools.copex.trace.*;
 import eu.scy.tools.copex.utilities.*;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 /**
  * MBO le 03/03/09 : plusieurs proc initiaux lies a une mission
@@ -51,7 +47,9 @@ public class CopexController implements ControllerInterface {
     /* utilisateur */
     private CopexUser copexUser;
     /* liste des grandeurs physiques gerees dans COPEX */
-    private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
+    private List<PhysicalQuantity> listPhysicalQuantity ;
+    /* liste des strategy de material dans copex */
+    private List<MaterialStrategy> listMaterialStrategy;
     // mission principale 
     private CopexMission mission;
     // liste des protocoles ouverts
@@ -60,8 +58,9 @@ public class CopexController implements ControllerInterface {
     private ArrayList<CopexMission> listMissionsUser = null;
     /* liste des protocoles des missions de l'utilisateur */
     private ArrayList<ArrayList<LearnerProcedure>> listProcMissionUser = null;
-    /* nom du fichier trace */
-    private String logFileName;
+    /* nom du fichier mission */
+    private String fileMission;
+    private CopexConfig config;
     
     /* mission aide */
     private CopexMission helpMission;
@@ -75,17 +74,27 @@ public class CopexController implements ControllerInterface {
     private TypeMaterial defaultMaterialType;
 
     //id
-    private long idMission = 1;
-    private long idProc = 1;
-    private long idTask = 1;
-    private long idDataSheet = 1;
-    private long idData = 1;
-    private long idParam = 1;
-    private long idMaterial = 1;
-    private long idQuantity = 1;
-    private long idTypeMaterial = 1;
+    private long idMission = 1 ;
+    private long idProc= 1 ;
+    private long idTask= 1 ;
+    private long idParam= 1 ;
+    private long idMaterial= 1 ;
+    private long idQuantity= 1 ;
+    private long idTypeMaterial= 1 ;
+    private long idHypothesis= 1 ;
+    private long idGeneralPrinciple= 1 ;
+    private long idEvaluation= 1 ;
+    private long idMaterialStrategy= 1 ;
+    private long idPhysicalQtt= 1  ;
+    private long idUnit= 1 ;
+    private long idRepeat= 1 ;
+    private long idValue= 1 ;
+    private long idActionParam= 1 ;
+    private long idInitialAction= 1 ;
+    private long idAction= 1 ;
+    private long idOutput= 1 ;
 
-    
+    private String copexConfigFileName = "copex.xml";
     // CONSTRUCTEURS
     public CopexController(CopexPanel copex) {
         this.copex = copex;
@@ -101,39 +110,53 @@ public class CopexController implements ControllerInterface {
         return mission.getOptions().isTrace();
     }
 
+    private Locale getLocale(){
+        return copex.getLocale();
+    }
+
     /* initialisation de l'application - chargement des donnees*/
     @Override
-    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstName, String logFileName) {
+    public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, int mode, String userName, String firstName, String fileMission) {
         String msgError = "";
         this.locale = locale;
-        this.logFileName = logFileName;
+        this.fileMission = fileMission;
         // recuperation utilisateur externe
         ArrayList v = new ArrayList();
-        System.out.println("controller");
         CopexReturn cr = loadUser(idUser, mode,userName, firstName,dbKeyMission, v);
         if(cr.isError())
             return cr;
         this.dbKeyUser = (Long)v.get(0);
         // chargement des parametres :
-        // chargement des grandeurs physiques
-        v = new ArrayList();
-        cr = MyCopexData.getAllPhysicalQuantities(copex, v) ;
-        if (cr.isError())
+        // lecture du fichier de config copex
+        cr = loadCopexConfig();
+        if(cr.isError())
             return cr;
-        listPhysicalQuantity = (ArrayList<PhysicalQuantity>)v.get(0);
         // chargement du type de material par defaut
-        defaultMaterialType = new TypeMaterial(idTypeMaterial++, copex.getBundleString("DEFAULT_TYPE_MATERIAL"));
+        //defaultMaterialType = new TypeMaterial(idTypeMaterial++, CopexUtilities.getLocalText(copex.getBundleString("DEFAULT_TYPE_MATERIAL"), getLocale()));
+        for(Iterator<TypeMaterial> type = config.getListTypeMaterial().iterator();type.hasNext();){
+            TypeMaterial t = type.next();
+            if(t.getCode().equals("TYPE_DEFAULT")){
+                defaultMaterialType = t;
+                break;
+            }
+        }
         // chargement user : nom et prenom
         copexUser = new CopexUser("", "", userName, firstName);
         copexUser.setLearner(true);
 
-        // chargement de la mission
-        OptionMission options = new OptionMission(true, false, false);
-        mission = new CopexMission(idMission++, "", "", "", CopexMission.STATUT_MISSION_ON, options) ;
-        // chargement de la liste des protocoles de la mission
-        ArrayList<InitialProcedure> listInitialProc = new ArrayList();
-        listInitialProc.add(getInitialProcedure());
-        mission.setListInitialProc(listInitialProc);
+//        // chargement de la mission
+//        OptionMission options = new OptionMission(true,  false);
+//        mission = new CopexMission(idMission++, "", "", "", CopexMission.STATUT_MISSION_ON, options) ;
+//        // chargement de la liste des protocoles de la mission
+//        ArrayList<InitialProcedure> listInitialProc = new ArrayList();
+//        listInitialProc.add(getInitialProcedure());
+//        mission.setListInitialProc(listInitialProc);
+        // chargement du fichier mission
+        cr = loadCopexMission();
+        if(cr.isError())
+            return cr;
+        List<InitialProcedure> listInitialProc = mission.getListInitialProc();
+        
         listProc = new ArrayList();
         boolean allProcLocked = false;
         // chargement datasheet : pas pour le protocole initial
@@ -173,17 +196,15 @@ public class CopexController implements ControllerInterface {
         // s'il n'y a pas de protocole on en cree un  :
         // MBo le 27/02/2009 : si ts les proc de la mission sont lockes on n'en cree pas d'autres
         boolean askForInitProc = false;
-        openQuestionDialog = false;
         if (listProc.size() == 0 && !allProcLocked){
             System.out.println("*****pas de proc ") ;
             System.out.println("Nombre de proc initiaux : "+nbIP);
             if (nbIP == 1){
                 System.out.println("   => creation d'un proc ");
-                cr = createProc(listInitialProc.get(0).getName(), listInitialProc.get(0), false );
+                cr = createProc(listInitialProc.get(0).getName(getLocale()), listInitialProc.get(0), false );
                 if (cr.isError()){
                     msgError += cr.getText();
                 }
-                openQuestionDialog = true;
             }else{
                 askForInitProc = true;
             }
@@ -194,8 +215,6 @@ public class CopexController implements ControllerInterface {
         copex.displayProcLocked(listProcLocked);
         if (askForInitProc)
             copex.askForInitialProc();
-        else if (openQuestionDialog)
-            copex.setQuestionDialog();
         return cr;
     }
 
@@ -203,7 +222,16 @@ public class CopexController implements ControllerInterface {
         String procName = "Procedure";
 //        if(mission1)
 //            procName = "thermostat setting";
-        InitialProcedure initProc = new InitialProcedure(idProc++, procName,CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT, procName, true, false, null ) ;
+        MaterialStrategy materialStrategy = listMaterialStrategy.get(0);
+        int nb = listMaterialStrategy.size();
+        for (int k=0; k<nb; k++){
+            if (listMaterialStrategy.get(k).getCode().equals("S1")){
+                materialStrategy = listMaterialStrategy.get(k);
+                break;
+            }
+        }
+        InitialProcedure initProc = new InitialProcedure(idProc++, CopexUtilities.getLocalText(procName, getLocale()),CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT, procName, true, false, null,
+                MyConstants.MODE_MENU, MyConstants.MODE_MENU, false,  MyConstants.MODE_MENU, materialStrategy);
         ArrayList<CopexTask> listTask = new ArrayList();
         TaskRight taskRight = new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
         String description = "";
@@ -211,36 +239,37 @@ public class CopexController implements ControllerInterface {
             //description = "How does the air-conditionning device's thermostat setting affect energy consumption ?";
             description = "Your question";
         }
-        Question q = new Question(idTask++, "", description, "", "", null, null, "", true, taskRight, true);
+        Question q = new Question(idTask++,getLocale(), "", description, "",  null, null, true, taskRight, true);
         listTask.add(q);
         initProc.setQuestion(q);
         initProc.setListTask(listTask);
+        Step step= new Step(idTask++,getLocale(),  "", "step", "", null, null, true, taskRight,null);
+        q.setDbKeyChild(step.getDbKey());
+        listTask.add(step);
         if(mission1){
             ArrayList<Material> listMaterial = new ArrayList();
             ArrayList<TypeMaterial> listType = new ArrayList();
             //Material m1 = new Material(idMaterial++, "electric meter", "Description of the electric meter");
-            Material m1 = new Material(idMaterial++, "material 1", "Description of the material 1");
-            listType.add(new TypeMaterial(idTypeMaterial++, "material of mission 1"));
+            Material m1 = new Material(idMaterial++, CopexUtilities.getLocalText("material 1", getLocale()), CopexUtilities.getLocalText("Description of the material 1", getLocale()));
+            listType.add(new TypeMaterial(idTypeMaterial++, CopexUtilities.getLocalText("material of mission 1", getLocale())));
             m1.setListType(listType);
             listMaterial.add(m1);
             //Material m2 = new Material(idMaterial++, "Thermometer", "Description of the thermometer");
-            Material m2 = new Material(idMaterial++, "material 2", "Description of the material 2");
+            Material m2 = new Material(idMaterial++, CopexUtilities.getLocalText("material 2", getLocale()), CopexUtilities.getLocalText("Description of the material 2", getLocale()));
             m2.setListType(listType);
             listMaterial.add(m2);
             initProc.setListMaterial(listMaterial);
         }else{
             initProc.setListMaterial(new ArrayList());
         }
+        initProc.setHypothesis(new Hypothesis(-1, CopexUtilities.getLocalText("", getLocale()), false));
+        initProc.setGeneralPrinciple(new GeneralPrinciple(-1, CopexUtilities.getLocalText("", getLocale()), null, false));
+        initProc.setMaterials(new MaterialProc(new ArrayList()));
+        initProc.setDataSheet(null);
+        initProc.setEvaluation(new Evaluation(-1, CopexUtilities.getLocalText("", getLocale()), false));
         return initProc;
     }
 
-    /* retourne vrai si utilisation du datasheet*/
-    @Override
-    public boolean useDataSheet(){
-       if(mission == null)
-            return true;
-        return mission.getOptions().isCanUseDataSheet();
-    }
 
     private boolean canAddProc(){
         if(mission == null)
@@ -267,7 +296,7 @@ public class CopexController implements ControllerInterface {
         if (setTrace()){
             ExperimentalProcedure proc = (listTs.get(0)).getProc() ;
             ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
-            cr = trace.addAction(new RedoCutAction(proc.getDbKey(), proc.getName(), new CutAction(proc.getDbKey(), proc.getName(), listXMLTask)));
+            cr = trace.addAction(new RedoCutAction(proc.getDbKey(), proc.getName(getLocale()), new CutAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask)));
         }
         return cr;
     }
@@ -281,7 +310,7 @@ public class CopexController implements ControllerInterface {
         int nbT = listTask.size();
         for (int i=0; i<nbT; i++){
             CopexTask task = listTask.get(i);
-            MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription());
+            MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()));
             xmlList.add(xmlT);
         }
         return xmlList;
@@ -402,6 +431,8 @@ public class CopexController implements ControllerInterface {
 
 
         expProc.addTasks(listTaskC);
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         // mise a jour date de modif 
         CopexReturn cr = updateDateProc(expProc);
         if (cr.isError()){
@@ -450,22 +481,22 @@ public class CopexController implements ControllerInterface {
                 CopexTask tp = getParentTask(expProc.getListTask(), task);
                 if (tp != null){
                     dbKeyParent = tp.getDbKey();
-                    descP = tp.getDescription();
+                    descP = tp.getDescription(getLocale());
                 }
                 CopexTask tb = getOldBrotherTask(expProc.getListTask(), task);
                 if (tb != null){
                     dbKeyB = tb.getDbKey();
-                    descB = tb.getDescription();
+                    descB = tb.getDescription(getLocale());
                     
                 }
-                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(), dbKeyParent, descP, dbKeyB, descB);
+                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()), dbKeyParent, descP, dbKeyB, descB);
                 listXMLTask.add(xmlT);
             }
-            PasteAction action =  new PasteAction(proc.getDbKey(), proc.getName(), listXMLTask) ;
+            PasteAction action =  new PasteAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask) ;
             if (undoRedo == MyConstants.NOT_UNDOREDO)
                 cr = trace.addAction(action);
             else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoPasteAction(proc.getDbKey(), proc.getName(), action));
+                cr = trace.addAction(new RedoPasteAction(proc.getDbKey(), proc.getName(getLocale()), action));
             if (cr.isError())
                 return cr;
         }
@@ -557,28 +588,30 @@ public class CopexController implements ControllerInterface {
         ArrayList<MyTask> listXMLTask = new ArrayList();
         int nbTa = listTask.size();
         for (int i=0; i<nbTa; i++){
-            MyTask xmlT = new MyTask(listTask.get(i).getDbKey(), listTask.get(i).getDescription());
+            MyTask xmlT = new MyTask(listTask.get(i).getDbKey(), listTask.get(i).getDescription(getLocale()));
             listXMLTask.add(xmlT);
         }
         // mise a jour des donnees
-         System.out.println("maj donnees");
+        System.out.println("maj donnees");
         boolean isOk = expProc.deleteTasks(listTask);
         if (!isOk){
             return new CopexReturn(copex.getBundleString("MSG_ERROR_DELETE_TASK"), false);
         }
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         // trace 
         if (setTrace()){
-            SupprAction action = new SupprAction(proc.getDbKey(), proc.getName(), listXMLTask);
+            SupprAction action = new SupprAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask);
             if (undoRedo == MyConstants.NOT_UNDOREDO && suppr)
                 cr = trace.addAction(action);
             else if (undoRedo == MyConstants.UNDO){
                 if (suppr)
-                    cr = trace.addAction(new UndoAddTaskAction(proc.getDbKey(), proc.getName(), action));
+                    cr = trace.addAction(new UndoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), action));
                 else
-                    cr = trace.addAction(new UndoPasteAction(proc.getDbKey(), proc.getName(), action));
+                    cr = trace.addAction(new UndoPasteAction(proc.getDbKey(), proc.getName(getLocale()), action));
             }
             else if (undoRedo == MyConstants.REDO && suppr){
-                cr = trace.addAction(new RedoDeleteTaskAction(proc.getDbKey(), proc.getName(), action));
+                cr = trace.addAction(new RedoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), action));
             }
             if (cr.isError())
                 return cr;
@@ -650,7 +683,7 @@ public class CopexController implements ControllerInterface {
         return proc;
     }
  /* cherche un indice dans la liste, -1 si non trouve */
-    private int getId(ArrayList<CopexTask> listT, long dbKey){
+    private int getId(List<CopexTask> listT, long dbKey){
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
             CopexTask t = listT.get(i);
@@ -691,7 +724,7 @@ public class CopexController implements ControllerInterface {
         if (setTrace()){
             Profiler.start("addTaskInTrace");
             MyTask xmlTask = (MyTask)v.get(1);
-            cr = trace.addAction(new AddActionAction(proc.getDbKey(), proc.getName(), xmlTask, action.getComments(), action.getTaskImage()));
+            cr = trace.addAction(new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, action.getComments(getLocale()), action.getTaskImage()));
             if (cr.isError())
                 return cr;
             Profiler.end("addTaskInTrace");
@@ -709,7 +742,7 @@ public class CopexController implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            trace.addAction(new UpdateActionAction(proc.getDbKey(), proc.getName(), oldAction.getDbKey(), oldAction.getDescription(), newAction.getDescription(), newAction.getComments()));
+            trace.addAction(new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldAction.getDbKey(), oldAction.getDescription(getLocale()), newAction.getDescription(getLocale()), newAction.getComments(getLocale())));
         }
         return cr;
     }
@@ -723,7 +756,7 @@ public class CopexController implements ControllerInterface {
         // trace
         if (setTrace()){
             MyTask xmlTask = (MyTask)v.get(1);
-            cr = trace.addAction(new AddStepAction(proc.getDbKey(), proc.getName(), xmlTask, step.getComments(), step.getTaskImage()));
+            cr = trace.addAction(new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, step.getComments(getLocale()), step.getTaskImage()));
         }
         return cr;
     }
@@ -735,25 +768,13 @@ public class CopexController implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            trace.addAction(new UpdateStepAction(proc.getDbKey(), proc.getName(), oldStep.getDbKey(), oldStep.getDescription(), newStep.getDescription(), newStep.getComments()));
+            trace.addAction(new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldStep.getDbKey(), oldStep.getDescription(getLocale()), newStep.getDescription(getLocale()), newStep.getComments(getLocale())));
         }
         return cr;
     }
 
     
-    /* ajout d'une sous question */
-    @Override
-    public CopexReturn addQuestion(Question question, LearnerProcedure proc, CopexTask taskBrother, CopexTask taskParent, ArrayList v) {
-        CopexReturn cr =  addTask(question, proc, taskBrother, taskParent, v, MyConstants.NOT_UNDOREDO, false);
-        if (cr.isError())
-            return cr;
-        // trace
-        if (setTrace()){
-            MyTask xmlTask = (MyTask)v.get(1);
-            cr = trace.addAction(new AddQuestionAction(proc.getDbKey(), proc.getName(), xmlTask, question.getComments(),question.getTaskImage(), question.getHypothesis()));
-        }
-        return cr;
-    }
+    
 
     /* modification d'une sous question */
     @Override
@@ -762,13 +783,13 @@ public class CopexController implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            cr = trace.addAction(new UpdateQuestionAction(proc.getDbKey(), proc.getName(), oldQuestion.getDbKey(), oldQuestion.getDescription(), newQuestion.getDescription(), newQuestion.getComments(), newQuestion.getHypothesis(), newQuestion.getGeneralPrinciple()));
+            cr = trace.addAction(new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldQuestion.getDbKey(), oldQuestion.getDescription(getLocale()), newQuestion.getDescription(getLocale()), newQuestion.getComments(getLocale())));
         }
         return cr;
     }
     
     /* retourne la tache parent */
-    private CopexTask getParentTask(ArrayList<CopexTask> listT, CopexTask task){
+    private CopexTask getParentTask(List<CopexTask> listT, CopexTask task){
         if (task == null)
             return null;
         if (task.isQuestionRoot())
@@ -784,7 +805,7 @@ public class CopexController implements ControllerInterface {
         return getParentTask(listT, getOldBrotherTask(listT, task));
     }
     /* retourne la tache grand frere */
-    private CopexTask getOldBrotherTask(ArrayList<CopexTask> listT, CopexTask task){
+    private CopexTask getOldBrotherTask(List<CopexTask> listT, CopexTask task){
         long dbKey = task.getDbKey();
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
@@ -847,8 +868,10 @@ public class CopexController implements ControllerInterface {
             // mise a jour dans la liste
             //proc.getListTask().get(idB).setDbKeyChild(newDbKey);
             listProc.get(idP).getListTask().get(idB).setDbKeyChild(newDbKey);
-            if (listProc.get(idP).getListTask().get(idB).getDbKey() == listProc.get(idP).getQuestion().getDbKey())
+            if (listProc.get(idP).getListTask().get(idB).getDbKey() == listProc.get(idP).getQuestion().getDbKey()){
                 listProc.get(idP).getQuestion().setDbKeyChild(newDbKey);
+                proc.getQuestion().setDbKeyChild(newDbKey);
+            }
         }else{
             long dbKeyOldBrother = listProc.get(idP).getListTask().get(idB).getDbKeyBrother();
             task.setDbKeyBrother(dbKeyOldBrother);
@@ -858,31 +881,33 @@ public class CopexController implements ControllerInterface {
         }
         TaskRight taskRight = new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
         if (task instanceof CopexActionChoice){
-            CopexActionChoice a = new CopexActionChoice(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(), task.getDraw(), true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionChoice)task).getTabParam(), task.getTaskRepeat());
+            CopexActionChoice a = new CopexActionChoice(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(), task.getDraw(), true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionChoice)task).getTabParam(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof CopexActionAcquisition){
-            CopexActionAcquisition a = new CopexActionAcquisition(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionAcquisition)task).getTabParam(), ((CopexActionAcquisition)task).getListDataProd(), task.getTaskRepeat());
+            CopexActionAcquisition a = new CopexActionAcquisition(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionAcquisition)task).getTabParam(), ((CopexActionAcquisition)task).getListDataProd(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof CopexActionManipulation){
-            CopexActionManipulation a = new CopexActionManipulation(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionManipulation)task).getTabParam(), ((CopexActionManipulation)task).getListMaterialProd(), task.getTaskRepeat());
+           Object[] tabParam = ((CopexActionManipulation)task).getTabParam();
+           CopexActionManipulation a = new CopexActionManipulation(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionManipulation)task).getTabParam(), ((CopexActionManipulation)task).getListMaterialProd(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof CopexActionTreatment){
-            CopexActionTreatment a = new CopexActionTreatment(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionTreatment)task).getTabParam(), ((CopexActionTreatment)task).getListDataProd(), task.getTaskRepeat());
+            CopexActionTreatment a = new CopexActionTreatment(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(), task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), ((CopexActionTreatment)task).getTabParam(), ((CopexActionTreatment)task).getListDataProd(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof CopexActionNamed){
-            CopexActionNamed a = new CopexActionNamed(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(),task.getDraw(),  true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), task.getTaskRepeat());
+            CopexActionNamed a = new CopexActionNamed(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(),task.getDraw(),  true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), ((CopexActionNamed)task).getNamedAction(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof CopexAction){
-            CopexAction a = new CopexAction(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(), task.getDraw(), true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), task.getTaskRepeat());
+            CopexAction a = new CopexAction(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(), task.getDraw(), true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), task.getTaskRepeat());
             expProc.addAction(a);
         }else if (task instanceof Step){
-            Step s = new Step(newDbKey, "", task.getDescription(), task.getComments(), task.getTaskImage(),task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), task.getTaskRepeat());
+            Step s = new Step(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(),task.getDraw(),true, taskRight, task.getDbKeyBrother(), task.getDbKeyChild(), task.getTaskRepeat());
             expProc.addStep(s);
         }else if (task instanceof Question){
-            Question q = new Question(newDbKey, "", task.getDescription(), ((Question)task).getHypothesis(), task.getComments(), task.getTaskImage(),task.getDraw(), ((Question)task).getGeneralPrinciple(), true, taskRight, false, task.getDbKeyBrother(), task.getDbKeyChild() );
+            Question q = new Question(newDbKey, task.getListName(), task.getListDescription(), task.getListComments(), task.getTaskImage(),task.getDraw(),  true, taskRight, false, task.getDbKeyBrother(), task.getDbKeyChild() );
             expProc.addQuestion(q);
         }
-        
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         // en v[0] le  protocole mis a jour
         v.add((LearnerProcedure)expProc.clone());
         if (setTrace()){
@@ -893,38 +918,32 @@ public class CopexController implements ControllerInterface {
             CopexTask tp = getParentTask(expProc.getListTask(), task);
             if (tp != null){
                 dbKeyParent = tp.getDbKey();
-                parentD = tp.getDescription();
+                parentD = tp.getDescription(getLocale());
             }
             CopexTask bt = getOldBrotherTask(expProc.getListTask(), task);
             if (bt != null){
                 dbKeyOldBrother = bt.getDbKey();
-                brotherD = bt.getDescription();
+                brotherD = bt.getDescription(getLocale());
             }
-            MyTask xmlTask = new MyTask(newDbKey, task.getDescription(), dbKeyParent, parentD, dbKeyOldBrother, brotherD);
+            MyTask xmlTask = new MyTask(newDbKey, task.getDescription(getLocale()), dbKeyParent, parentD, dbKeyOldBrother, brotherD);
             if (undoRedo == MyConstants.REDO){
                 if (task.isAction()){
-                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(), new AddActionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
+                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                 }else if (task.isStep()){
-                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(), new AddStepAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
-                }else if (task.isQuestion()){
-                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(), new AddQuestionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage(), ((Question)task).getHypothesis())));
+                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                 }
             }else if (undoRedo == MyConstants.UNDO){
                 if (cut){
                     if (task.isAction()){
-                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(), new AddActionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
+                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                     }else if (task.isStep()){
-                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(), new AddStepAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
-                    }else if (task.isQuestion()){
-                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(), new AddQuestionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage(), ((Question)task).getHypothesis())));
+                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                     }
                 }else{
                     if (task.isAction()){
-                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(), new AddActionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
+                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                     }else if (task.isStep()){
-                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(), new AddStepAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage())));
-                    }else if (task.isQuestion()){
-                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(), new AddQuestionAction(proc.getDbKey(), proc.getName(), xmlTask, task.getComments(), task.getTaskImage(), ((Question)task).getHypothesis())));
+                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
                     }
                 }
             }
@@ -945,24 +964,24 @@ public class CopexController implements ControllerInterface {
             if (undoRedo == MyConstants.UNDO){
                 UpdateTaskAction updateTaskAction = null;
                 if (oldTask instanceof Step)
-                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments());
+                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
                 else if (oldTask instanceof CopexAction)
-                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments());
+                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
                 else if (oldTask instanceof Question)
-                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments(), ((Question)newTask).getHypothesis(), ((Question)newTask).getGeneralPrinciple());
-                UndoEditTaskAction action = new UndoEditTaskAction(proc.getDbKey(), proc.getName(), updateTaskAction);
+                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                UndoEditTaskAction action = new UndoEditTaskAction(proc.getDbKey(), proc.getName(getLocale()), updateTaskAction);
                 cr = trace.addAction(action);
                 if (cr.isError())
                     return cr;
             }else{ // REDO
                 UpdateTaskAction updateTaskAction = null;
                 if (oldTask instanceof Step)
-                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments());
+                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
                 else if (oldTask instanceof CopexAction)
-                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments());
+                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
                 else if (oldTask instanceof Question)
-                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(), oldTask.getDbKey(), oldTask.getDescription(), newTask.getDescription(), newTask.getComments(), ((Question)newTask).getHypothesis(), ((Question)newTask).getGeneralPrinciple());
-                RedoEditTaskAction action = new RedoEditTaskAction(proc.getDbKey(), proc.getName(), updateTaskAction);
+                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                RedoEditTaskAction action = new RedoEditTaskAction(proc.getDbKey(), proc.getName(getLocale()), updateTaskAction);
                 cr = trace.addAction(action);
                 if (cr.isError())
                     return cr;
@@ -1071,7 +1090,8 @@ public class CopexController implements ControllerInterface {
                 }
             }
         }
-        
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         // mise a jour date de modif 
         CopexReturn cr = updateDateProc(expProc);
         if (cr.isError()){
@@ -1088,40 +1108,32 @@ public class CopexController implements ControllerInterface {
         newTask.setTaskRight(oldTask.getTaskRight());
         newTask.setVisible(oldTask.isVisible());
         newTask.setRoot(oldTask.isQuestionRoot());
-        if (newTask instanceof Question){
-            //((Question)oldTask).setHypothesis(((Question)newTask).getHypothesis());
-            ((Question)expProc.getListTask().get(idOld)).setHypothesis(((Question)newTask).getHypothesis());
-            ((Question)expProc.getListTask().get(idOld)).setGeneralPrinciple(((Question)newTask).getGeneralPrinciple());
-        }
         if (newTask instanceof CopexActionNamed){
             if ( expProc.getListTask().get(idOld) instanceof CopexActionNamed)
                 ((CopexActionNamed)expProc.getListTask().get(idOld)).setNamedAction(((CopexActionNamed)newTask).getNamedAction());
             else{
                 CopexTask ot = expProc.getListTask().get(idOld) ;
-                CopexActionNamed an = new CopexActionNamed(ot.getDbKey(), ot.getName(), ot.getDescription(), ot.getComments(), ot.getTaskImage(),ot.getDraw(),  ot.isVisible(), ot.getTaskRight(),((CopexActionNamed)newTask).getNamedAction(), ot.getTaskRepeat() );
+                CopexActionNamed an = new CopexActionNamed(ot.getDbKey(),  getLocale(),ot.getName(getLocale()), ot.getDescription( getLocale()), ot.getComments(getLocale()), ot.getTaskImage(),ot.getDraw(),  ot.isVisible(), ot.getTaskRight(),((CopexActionNamed)newTask).getNamedAction(), ot.getTaskRepeat() );
                 expProc.getListTask().set(idOld, an);
             }
         }else if (newTask instanceof CopexAction){
             if ( expProc.getListTask().get(idOld) instanceof CopexActionNamed){
                 CopexTask ot = expProc.getListTask().get(idOld) ;
-                CopexAction a = new CopexAction(ot.getDbKey(), "", ot.getDescription(), ot.getComments(), ot.getTaskImage(),ot.getDraw(),  ot.isVisible(),ot.getTaskRight(), ot.getTaskRepeat());
+                CopexAction a = new CopexAction(ot.getDbKey(),getLocale(), "", ot.getDescription(getLocale()), ot.getComments(getLocale()), ot.getTaskImage(),ot.getDraw(),  ot.isVisible(),ot.getTaskRight(), ot.getTaskRepeat());
                 expProc.getListTask().set(idOld, a);
             }
         }
-        expProc.getListTask().get(idOld).setDescription(newTask.getDescription());
-        expProc.getListTask().get(idOld).setComments(newTask.getComments());
+        expProc.getListTask().get(idOld).setListDescription(newTask.getListDescription());
+        expProc.getListTask().get(idOld).setListComments(newTask.getListComments());
         if (expProc.getListTask().get(idOld).getDbKey() == expProc.getQuestion().getDbKey()){
             // on met a jour la question du proc egalement
-            expProc.getQuestion().setDescription(newTask.getDescription());
-            expProc.getQuestion().setComments(newTask.getComments());
-            if (newTask instanceof Question){
-                expProc.getQuestion().setHypothesis(((Question)newTask).getHypothesis());
-                expProc.getQuestion().setGeneralPrinciple(((Question)newTask).getGeneralPrinciple());
-            }
+            expProc.getQuestion().setListDescription(newTask.getListDescription());
+            expProc.getQuestion().setListComments(newTask.getListComments());
         }
         
         // en v[0] le protocole mis a jour 
         v.add((LearnerProcedure)expProc.clone());
+        System.out.println("fin update question controller : "+expProc.getMaterials().getListMaterialUsed().size());
         return new CopexReturn();
     }
 
@@ -1147,6 +1159,8 @@ public class CopexController implements ControllerInterface {
         ExperimentalProcedure proc = (ExperimentalProcedure)initProc.clone();
         LearnerProcedure learnerProc = new LearnerProcedure(proc,  initProc);
         learnerProc.setMission(mission);
+        learnerProc.setListMaterialUsed(getListMaterialUsed(learnerProc));
+        learnerProc.setMaterials(new MaterialProc(learnerProc.getListMaterialUsed()));
         return copyProc(name, learnerProc, copy, setTrance, loadProcCopy);
     }
 
@@ -1161,13 +1175,16 @@ public class CopexController implements ControllerInterface {
             procToCopy = (LearnerProcedure)v.get(0);
         }
         LearnerProcedure proc = (LearnerProcedure)procToCopy.clone();
-        proc.setName(name);
+        proc.setName(CopexUtilities.getTextLocal(name, getLocale()));
         proc.setRight(MyConstants.EXECUTE_RIGHT);
         long dbKeyProc = idProc++;
         proc.setDbKey(dbKeyProc);
-        long dbKeyQuestion = idTask++;
-        proc.getQuestion().setDbKey(dbKeyQuestion);
-        proc.getListTask().get(0).setDbKey(dbKeyQuestion);
+//        long dbKeyQuestion = idTask++;
+//        proc.getQuestion().setDbKey(dbKeyQuestion);
+//        proc.getListTask().get(0).setDbKey(dbKeyQuestion);
+//        // material to used
+        if(!copy)
+            proc.setListMaterialUsed(getListMaterialUsed(proc));
         // enregistre les taches
         int nbT = proc.getListTask().size();
         for (int k=0; k<nbT; k++){
@@ -1264,22 +1281,8 @@ public class CopexController implements ControllerInterface {
                 }
             }
         }
-        // on cree le nouveau dataSheet s'il existe 
-        if (proc.getDataSheet() != null){
-            long dbKeyDataSheet = idDataSheet++;
-            proc.getDataSheet().setDbKey(dbKeyDataSheet);
-            // creation des data eventuelles
-            int nbR = proc.getDataSheet().getNbRows();
-            int nbC = proc.getDataSheet().getNbColumns();
-            for (int i=0; i<nbR; i++){
-                for (int j=0; j<nbC; j++){
-                    if (proc.getDataSheet().getDataAt(i, j) != null){
-                        CopexData newData = new CopexData(idData++, proc.getDataSheet().getDataAt(i, j).getData());
-                        proc.getDataSheet().setValueAt(newData, i, j);
-                    }
-                }
-            }
-        }
+       updateDatasheetProd(proc);
+       proc.lockMaterialUsed();
         // mise a jour date de modif 
         CopexReturn cr = updateDateProc(proc);
         if (cr.isError()){
@@ -1292,8 +1295,8 @@ public class CopexController implements ControllerInterface {
         this.listProc.add(proc);
         // trace
         if (setTrace() && setTrace){
-            CopyProcAction copyProcAction = new CopyProcAction(proc.getDbKey(), proc.getName(), procToCopy.getDbKey(), procToCopy.getName());
-            CreateProcAction createProcAction = new CreateProcAction(proc.getDbKey(), proc.getName());
+            CopyProcAction copyProcAction = new CopyProcAction(proc.getDbKey(), proc.getName(getLocale()), procToCopy.getDbKey(), procToCopy.getName(getLocale()));
+            CreateProcAction createProcAction = new CreateProcAction(proc.getDbKey(), proc.getName(getLocale()));
             if (copy){
                 cr = trace.addAction(copyProcAction);
              }else{
@@ -1348,7 +1351,7 @@ public class CopexController implements ControllerInterface {
         // trace 
         CopexReturn cr = new CopexReturn();
         if (setTrace()){
-            cr = trace.addAction(new OpenProcAction(p.getDbKey(), p.getName(), p.getMission().getDbKey(), p.getMission().getCode()));
+            cr = trace.addAction(new OpenProcAction(p.getDbKey(), p.getName(getLocale()), p.getMission().getDbKey(), p.getMission().getCode()));
         }
         //ihm
         copex.createProc((LearnerProcedure)p.clone());
@@ -1390,7 +1393,7 @@ public class CopexController implements ControllerInterface {
        listProc.remove(id);
        // trace 
        if (setTrace()){
-           DeleteProcAction action = new DeleteProcAction(proc.getDbKey(), proc.getName());
+           DeleteProcAction action = new DeleteProcAction(proc.getDbKey(), proc.getName(getLocale()));
            cr = trace.addAction(action);
            
        }
@@ -1471,7 +1474,7 @@ public class CopexController implements ControllerInterface {
         }
         
         // en memoire
-        listProc.get(idP).setName(name);
+        listProc.get(idP).setName(CopexUtilities.getTextLocal(name, getLocale()));
         
         // trace 
         if (setTrace()){
@@ -1510,145 +1513,16 @@ public class CopexController implements ControllerInterface {
         return new CopexReturn();
     }
 
-    /* creation d'une feuille de donnees vierge pour le protocole */
-    @Override
-    public CopexReturn createDataSheet(LearnerProcedure proc, int nbR, int nbC, char undoRedo, ArrayList v) {
-        DataSheet dataSheet = new DataSheet(nbR, nbC);
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_CREATE_DATASHEET"), false);
-        // recupere l'id
-        long dbKeyDataSheet = idDataSheet++;
-        dataSheet.setDbKey(dbKeyDataSheet);
-        // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        
-        // memoire
-        listProc.get(idP).setDataSheet(dataSheet);
-        // trace
-        if (setTrace()){
-            CreateDataSheetAction action = new CreateDataSheetAction(listProc.get(idP).getDbKey(), listProc.get(idP).getName(), nbR, nbC) ;
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            //else if (undoRedo == CopexUtilities.UNDO)
-              //  cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoCreateDataSheetAction(listProc.get(idP).getDbKey(), listProc.get(idP).getName(),action));
-        }
-        // ihm
-        v.add((DataSheet)dataSheet.clone());
-        copex.createDataSheet((LearnerProcedure)listProc.get(idP).clone());
-        return cr;
-    }
-
-    /* suppression dataSheet */
-    @Override
-    public CopexReturn deleteDataSheet(LearnerProcedure proc, long dbkeyDataSheet, char undoRedo){
-        CopexReturn cr = new CopexReturn() ;
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_CREATE_DATASHEET"), false);
-        
-        // memoire
-        listProc.get(idP).setDataSheet(null);
-        // trace
-        if (setTrace()){
-            DeleteDataSheetAction action = new DeleteDataSheetAction(listProc.get(idP).getDbKey(), listProc.get(idP).getName()) ;
-            if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoCreateDataSheetAction(listProc.get(idP).getDbKey(), listProc.get(idP).getName(),action));
-        }
-        // ihm
-        copex.deleteDataSheet((LearnerProcedure)listProc.get(idP).clone());
-        return cr;
-    }
     
-    
-    /* modification de la feuille de donnees */
-    @Override
-    public CopexReturn modifyDataSheet(LearnerProcedure proc, int nbR, int nbC, char undoRedo) {
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_UPDATE_DATASHEET"), false);
-        DataSheet dataSheet = proc.getDataSheet();
-        int oldNbRow = dataSheet.getNbRows();
-        int oldNbCol = dataSheet.getNbColumns();
-        
-        // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-           return cr;
-        }
-        
-        // memoire
-        dataSheet.update(nbR, nbC);
-        listProc.get(idP).setDataSheet(dataSheet);
-        // trace 
-        if (setTrace()){
-            UpdateDataSheetAction action = new UpdateDataSheetAction(proc.getDbKey(), proc.getName(), nbR, nbC) ;
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoUpdateDataSheetAction(proc.getDbKey(), proc.getName(),action));
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoUpdateDataSheetAction(proc.getDbKey(), proc.getName(),action));
-        }
-        // ihm
-        copex.updateDataSheet((LearnerProcedure)listProc.get(idP).clone());
-        return cr;
-    }
-
-    /* modification d'une cellule d'une feuille de donnees*/
-    @Override
-    public CopexReturn updateDataSheet(LearnerProcedure proc, String value, int noRow, int noCol, ArrayList v, char undoRedo) {
-        System.out.println("UDPATE DATASHEET");
-        int idP = getIdProc(proc.getDbKey());
-        if (idP == -1)
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_UPDATE_DATASHEET"), false);
-        // enregistre dans la base 
-        
-        // enregistrement du protocole
-        DataSheet ds = proc.getDataSheet();
-        long dbKeyData = ds.getDbKeyData(noRow, noCol);
-        if (dbKeyData == -1)
-            dbKeyData  = idData++;
-        CopexData newData = new CopexData(dbKeyData, value) ;
-        // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-             return cr;
-        }
-        
-        // memoire
-        listProc.get(idP).getDataSheet().setValueAt(newData, noRow, noCol);
-        v.add(newData.clone());
-        // trace
-        if (setTrace()){
-            ArrayList<DataXML> listXMLData = new ArrayList();
-            DataXML xmlD = new DataXML(newData.getDbKey(), newData.getData(), noRow, noCol);
-            listXMLData.add(xmlD);
-            EditDataSheetAction action = new EditDataSheetAction(proc.getDbKey(), proc.getName(), listXMLData);
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoEditDataSheetAction(proc.getDbKey(), proc.getName(),action));
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoEditDataSheetAction(proc.getDbKey(), proc.getName(),action));
-        }
-        return cr;
-    }
-
     /* impression :
      * @param : boolean printProc : impression du protocole actif
      * @param : boolean printComments : impression des commentaires
      * @param : boolean printDataSheet : impression de la feuille de donnees associee au protocole
      */
     @Override
-    public CopexReturn printCopex(LearnerProcedure procToPrint, boolean printComments, boolean printDataSheet) {
+    public CopexReturn printCopex(LearnerProcedure procToPrint) {
         CopexMission missionToPrint  =(CopexMission)mission.clone();
-        ExperimentalProcedure proc = null;
+        LearnerProcedure proc = null;
         if (procToPrint != null){
             if(procToPrint.getDbKey() == -2)
                 proc = helpProc;
@@ -1656,7 +1530,7 @@ public class CopexController implements ControllerInterface {
                 int idP = getIdProc(procToPrint.getDbKey());
                 if (idP== -1)
                     return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
-                proc = (ExperimentalProcedure)(listProc.get(idP).clone());
+                proc = (LearnerProcedure)(listProc.get(idP).clone());
             }
         }
         // enregistrement trace
@@ -1666,7 +1540,7 @@ public class CopexController implements ControllerInterface {
         //String fileName = "copexPrint"+dbKeyUser+"-"+mission.getDbKey() ;
         String fileName = "copex-"+mission.getCode();
         
-        PrintPDF pdfPrint = new PrintPDF(copex, fileName, copexUser, missionToPrint,proc, printComments, printDataSheet);
+        PrintPDF pdfPrint = new PrintPDF(copex, fileName, copexUser, missionToPrint,proc);
         CopexReturn cr = pdfPrint.printDocument();
         return cr;
     }
@@ -1675,13 +1549,13 @@ public class CopexController implements ControllerInterface {
     @Override
     public CopexReturn move(TaskSelected taskSel, SubTree subTree, char undoRedo) {
         System.out.println("***MOVE CONTROLLER***");
-        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription());
-        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription());
-        if (taskSel.getTaskBrother() != null){
-            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription());
-        }else{
-            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription());
-        }
+        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
+//        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
+//        if (taskSel.getTaskBrother() != null){
+//            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
+//        }else if (taskSel.getTaskParent() != null){
+//            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
+//        }
         ExperimentalProcedure proc = taskSel.getProc();
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1)
@@ -1692,7 +1566,7 @@ public class CopexController implements ControllerInterface {
         ArrayList<CopexTask> listTask = subTree.getListTask();
         // on modifie les liens des taches en base 
         // enregistre les taches 
-        // mise a jour date de modif 
+        // mise a jour date de modif
         CopexReturn cr = updateDateProc(expProc);
         if (cr.isError()){
              return cr;
@@ -1706,12 +1580,15 @@ public class CopexController implements ControllerInterface {
         CopexTask taskParent = taskSel.getTaskParent();
         int idB = -1;
         long dbKeyT ;
+        boolean b = taskBrother == null;
+        boolean p = taskParent == null;
+        System.out.println("est null ?"+b+", "+p);
         if (taskBrother == null){
             dbKeyT = taskParent.getDbKey();
-            System.out.println("tache parent : "+taskParent.getDescription());
+            System.out.println("tache parent : "+taskParent.getDescription(getLocale()));
         }else{
             dbKeyT = taskBrother.getDbKey();
-            System.out.println("tache frere : "+taskBrother.getDescription());
+            System.out.println("tache frere : "+taskBrother.getDescription(getLocale()));
         }
         
         idB = getId(expProc.getListTask(), dbKeyT);
@@ -1778,6 +1655,8 @@ public class CopexController implements ControllerInterface {
             }
         }
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
+        updateDatasheetProd(expProc);
+        expProc.lockMaterialUsed();
         System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
@@ -1792,24 +1671,24 @@ public class CopexController implements ControllerInterface {
                 CopexTask tp = getParentTask(expProc.getListTask(), task);
                 if (tp != null){
                     dbKeyParent = tp.getDbKey();
-                    descP = tp.getDescription();
+                    descP = tp.getDescription(getLocale());
                 }
                 CopexTask tb = getOldBrotherTask(expProc.getListTask(), task);
                 if (tb != null){
                     dbKeyB = tb.getDbKey();
-                    descB = tb.getDescription();
+                    descB = tb.getDescription(getLocale());
                     
                 }
-                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(), dbKeyParent, descP, dbKeyB, descB);
+                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()), dbKeyParent, descP, dbKeyB, descB);
                 listXMLTask.add(xmlT);
             }
-            DragDropAction action = new DragDropAction(proc.getDbKey(), proc.getName(), listXMLTask) ;
+            DragDropAction action = new DragDropAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask) ;
             if (undoRedo == MyConstants.NOT_UNDOREDO)
                 cr = trace.addAction(action);
             else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoDragAndDropAction(proc.getDbKey(), proc.getName(), action));
+                cr = trace.addAction(new UndoDragAndDropAction(proc.getDbKey(), proc.getName(getLocale()), action));
             else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoDragAndDropAction(proc.getDbKey(), proc.getName(), action));
+                cr = trace.addAction(new RedoDragAndDropAction(proc.getDbKey(), proc.getName(getLocale()), action));
            
             if (cr.isError())
                 return cr;
@@ -1820,9 +1699,10 @@ public class CopexController implements ControllerInterface {
     }
 
     private void printRecap(LearnerProcedure proc){
-        ArrayList<CopexTask> listTask = proc.getListTask();
+        List<CopexTask> listTask = proc.getListTask();
         int n = listTask.size();
-        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName()+" *****************");
+        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
+        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
         for (int k=0; k<n; k++){
             CopexTask task = listTask.get(k);
             String frere = " sans frere ";
@@ -1832,7 +1712,7 @@ public class CopexController implements ControllerInterface {
             if (task.getDbKeyChild() != -1)
                 enfant = " "+task.getDbKeyChild()+" ";
             String visible = task.isVisible() ? "visible" :"cachee";
-            System.out.println("  - Tache "+task.getDescription()+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
+            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
            
         }
         System.out.println("********************************************************");
@@ -1922,239 +1802,99 @@ public class CopexController implements ControllerInterface {
    /* protocole aide */
     private CopexReturn loadHelpProc(){
         // mission
-        OptionMission options = new OptionMission(false, false, false);
+        OptionMission options = new OptionMission(false, false);
         helpMission = new CopexMission(copex.getBundleString("HELP_MISSION_CODE"), copex.getBundleString("HELP_MISSION_NAME"), "", "", options);
         helpMission.setDbKey(-2);
         //protocole
-        InitialProcedure initProc = new InitialProcedure(-2, "help proc", null, false,MyConstants.NONE_RIGHT, "help proc",true,false, null);
+        MaterialStrategy helpMaterialStrategy = listMaterialStrategy.get(0);
+        int nb = listMaterialStrategy.size();
+        for (int i=0; i<nb; i++){
+            if(listMaterialStrategy.get(i).getCode().equals("S1")){
+                helpMaterialStrategy = listMaterialStrategy.get(i);
+                break;
+            }
+        }
+        InitialProcedure initProc = new InitialProcedure(-2, CopexUtilities.getLocalText("help proc", getLocale()), null, false,MyConstants.NONE_RIGHT, "help proc",true,false, null,
+                MyConstants.MODE_MENU_NO, MyConstants.MODE_MENU_NO, false, MyConstants.MODE_MENU_NO, helpMaterialStrategy);
+        // type de materiel
+        TypeMaterial typeUstensil = new TypeMaterial(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"), getLocale()));
+        TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
+        // material
+        listHelpMaterial = new ArrayList();
+        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeUstensil);
+        listHelpMaterial.add(m);
+        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeIngredient);
+        listHelpMaterial.add(m);
+        m = new Material(3, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeUstensil);
+        listHelpMaterial.add(m);
+        m = new Material(4, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeIngredient);
+        listHelpMaterial.add(m);
+        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeIngredient);
+        listHelpMaterial.add(m);
+        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeUstensil);
+        listHelpMaterial.add(m);
+        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()));
+        m.addType(typeUstensil);
+        listHelpMaterial.add(m);
+        initProc.setListMaterial(listHelpMaterial);
         ArrayList<InitialProcedure> listInitProc = new ArrayList();
         listInitProc.add(initProc);
         helpMission.setListInitialProc(listInitProc);
-        helpProc = new LearnerProcedure(copex.getBundleString("PROC_HELP_PROC_NAME"), helpMission, CopexUtilities.getCurrentDate(), initProc);
+        helpProc = new LearnerProcedure(CopexUtilities.getLocalText(copex.getBundleString("PROC_HELP_PROC_NAME"), getLocale()), helpMission, CopexUtilities.getCurrentDate(), initProc, null);
         helpProc.setRight(MyConstants.NONE_RIGHT);
         helpProc.setDbKey(-2);
+        ArrayList<MaterialUsed> listMaterialUsed = getListMaterialUsed(helpProc);
+        helpProc.setListMaterialUsed(listMaterialUsed);
         // liste des taches
         ArrayList<CopexTask> listTask = new ArrayList();
         TaskRight tr = new TaskRight(MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
-        Question question = new Question(1, "question", copex.getBundleString("PROC_HELP_QUESTION"), "", "", null, null, copex.getBundleString("PROC_HELP_GENERAL_PRINCIPLE"), true, tr, true, -1, 2);
+        Question question = new Question(1, getLocale(),"question", copex.getBundleString("PROC_HELP_QUESTION"), "",  null, null, true, tr, true, -1, 2);
         listTask.add(question);
         helpProc.setQuestion(question);
-        Step step1 = new Step(2, "step1", copex.getBundleString("PROC_HELP_STEP_1"), "", null, null,true, tr, 9, 3, null);
+        Step step1 = new Step(2,getLocale(),  "step1", copex.getBundleString("PROC_HELP_STEP_1"), "", null, null,true, tr, 9, 3, null);
         listTask.add(step1);
-        CopexAction action1_1 = new CopexAction(3, "action1-1", copex.getBundleString("PROC_HELP_ACTION_1_1"), "", null,  null,true, tr, 4, -1, null);
+        Step action1_1 = new Step(3, getLocale(), "action1_1", copex.getBundleString("PROC_HELP_ACTION_1_1"), "", null,  null,true, tr, 4, -1, null);
         listTask.add(action1_1);
-        CopexAction action1_2 = new CopexAction(4, "action1-2", copex.getBundleString("PROC_HELP_ACTION_1_2"), "", null, null,true, tr, 5, -1, null);
+        Step action1_2 = new Step(4, getLocale(),"action1-2", copex.getBundleString("PROC_HELP_ACTION_1_2"), "", null, null,true, tr, 5, -1, null);
         listTask.add(action1_2);
-        CopexAction action1_3 = new CopexAction(5, "action1-3", copex.getBundleString("PROC_HELP_ACTION_1_3"), "", null,null,true, tr, 6, -1, null);
+        Step action1_3 = new Step(5, getLocale(),"action1-3", copex.getBundleString("PROC_HELP_ACTION_1_3"), "", null,null,true, tr, 6, -1, null);
         listTask.add(action1_3);
-        CopexAction action1_4 = new CopexAction(6, "action1-4", copex.getBundleString("PROC_HELP_ACTION_1_4"), "", null, null,true, tr, 7, -1, null);
+        Step action1_4 = new Step(6, getLocale(),"action1-4", copex.getBundleString("PROC_HELP_ACTION_1_4"), "", null, null,true, tr, 7, -1, null);
         listTask.add(action1_4);
-        CopexAction action1_5 = new CopexAction(7, "action1-5", copex.getBundleString("PROC_HELP_ACTION_1_5"), "", null, null,true, tr, 8, -1, null);
+        Step action1_5 = new Step(7, getLocale(),"action1-5", copex.getBundleString("PROC_HELP_ACTION_1_5"), "", null, null,true, tr, 8, -1, null);
         listTask.add(action1_5);
-        CopexAction action1_6 = new CopexAction(8, "action1-6", copex.getBundleString("PROC_HELP_ACTION_1_6"), "", null, null,true, tr, -1, -1, null);
+        Step action1_6 = new Step(8, getLocale(),"action1-6", copex.getBundleString("PROC_HELP_ACTION_1_6"), "", null, null,true, tr, -1, -1, null);
         listTask.add(action1_6);
-        Step step2 = new Step(9, "step2", copex.getBundleString("PROC_HELP_STEP_2"), "", null, null,true, tr, 14, 10, null);
+        Step step2 = new Step(9, getLocale(), "step2", copex.getBundleString("PROC_HELP_STEP_2"), "", null, null,true, tr, 14, 10, null);
         listTask.add(step2);
-        CopexAction action2_1 = new CopexAction(10, "action2-1", copex.getBundleString("PROC_HELP_ACTION_2_1"), "", null, null,true, tr, 11, -1, null);
+        Step action2_1 = new Step(10, getLocale(),"action2-1", copex.getBundleString("PROC_HELP_ACTION_2_1"), "", null, null,true, tr, 11, -1, null);
         listTask.add(action2_1);
-        CopexAction action2_2 = new CopexAction(11, "action2-2", copex.getBundleString("PROC_HELP_ACTION_2_2"), "", null, null,true, tr, 12, -1, null);
+        Step action2_2 = new Step(11, getLocale(),"action2-2", copex.getBundleString("PROC_HELP_ACTION_2_2"), "", null, null,true, tr, 12, -1, null);
         listTask.add(action2_2);
-        CopexAction action2_3 = new CopexAction(12, "action2-3", copex.getBundleString("PROC_HELP_ACTION_2_3"), "", null, null,true, tr, 13, -1, null);
+        Step action2_3 = new Step(12, getLocale(),"action2-3", copex.getBundleString("PROC_HELP_ACTION_2_3"), "", null, null,true, tr, 13, -1, null);
         listTask.add(action2_3);
-        CopexAction action2_4 = new CopexAction(13, "action2-4", copex.getBundleString("PROC_HELP_ACTION_2_4"), "", null, null,true, tr, -1, -1, null);
+        Step action2_4 = new Step(13, getLocale(),"action2-4", copex.getBundleString("PROC_HELP_ACTION_2_4"), "", null, null,true, tr, -1, -1, null);
         listTask.add(action2_4);
-        CopexAction action_3 = new CopexAction(14, "action_3", copex.getBundleString("PROC_HELP_ACTION_3"), "", null,null,true, tr, 15, -1, null);
+        Step action_3 = new Step(14, getLocale(),"action_3", copex.getBundleString("PROC_HELP_ACTION_3"), "", null,null,true, tr, 15, -1, null);
         listTask.add(action_3);
-        CopexAction action_4 = new CopexAction(15, "action_4", copex.getBundleString("PROC_HELP_ACTION_4"), "", null, null,true, tr, -1, -1, null);
+        Step action_4 = new Step(15, getLocale(),"action_4", copex.getBundleString("PROC_HELP_ACTION_4"), "", null, null,true, tr, -1, -1, null);
         listTask.add(action_4);
         helpProc.setListTask(listTask);
-        // type de materiel
-        TypeMaterial typeUstensil = new TypeMaterial(1, copex.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"));
-        TypeMaterial typeIngredient = new TypeMaterial(2, copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"));
-        // material
-        listHelpMaterial = new ArrayList();
-        Material m = new Material(1, copex.getBundleString("HELP_MATERIAL_CUP"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeUstensil);
-        MaterialUseForProc matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(2, copex.getBundleString("HELP_MATERIAL_BAG"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeIngredient);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(3, copex.getBundleString("HELP_MATERIAL_SPOON"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeUstensil);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(4, copex.getBundleString("HELP_MATERIAL_SUGAR"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeIngredient);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(5, copex.getBundleString("HELP_MATERIAL_WATER"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeIngredient);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(6, copex.getBundleString("HELP_MATERIAL_KETTLE"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeUstensil);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        m = new Material(7, copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), "");
-        m.setAdvisedLearner(true);
-        m.addType(typeUstensil);
-        matUse = new MaterialUseForProc(m);
-        helpProc.addMaterialUse(matUse);
-        listHelpMaterial.add(m);
-        initProc.setListMaterial(listHelpMaterial);
+        
+        
+        helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()), false));
+        helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()), null, false));
+        helpProc.setMaterials(new MaterialProc(listMaterialUsed));
+        helpProc.setDataSheet(null);
+        helpProc.setEvaluation(new Evaluation(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_EVALUATION"), getLocale()), false));
        return new CopexReturn(); 
     }
-
-    /* ajout de l'utilisation d'un materiel pour un proc*/
-    @Override
-    public CopexReturn addMaterialUseForProc(LearnerProcedure p, Material m, String justification, char undoRedo) {
-        int idP = getIdProc(p.getDbKey());
-        if (idP == -1){
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"), false);
-        }
-        LearnerProcedure proc = listProc.get(idP);
-        MaterialUseForProc matUse = new MaterialUseForProc(m, justification);
-        // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        proc.addMaterialUse(matUse);
-        // trace
-        if (setTrace()){
-            AddMaterialUseForProcAction action = new AddMaterialUseForProcAction(proc.getDbKey(), proc.getName(),m.getDbKey(), m.getName(), justification);
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoDeleteMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoAddMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-        }
-        return new CopexReturn();
-    }
-
-    /* modification de l'utilisation d'un materiel pour un proc*/
-    @Override
-    public CopexReturn updateMaterialUseForProc(LearnerProcedure p, Material m, String justification, char undoRedo) {
-        int idP = getIdProc(p.getDbKey());
-        if (idP == -1){
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"), false);
-        }
-        LearnerProcedure proc = listProc.get(idP);
-        MaterialUseForProc matUse = new MaterialUseForProc(m, justification);
-         // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        String oldJustification = "";
-        MaterialUseForProc oldM = proc.getMaterialUse(m);
-        if (oldM != null && oldM.getJustification() != null)
-            oldJustification = oldM.getJustification();
-        proc.updateMaterialUse(matUse);
-        // trace
-        if (setTrace()){
-            UpdateMaterialUseForProcAction action = new UpdateMaterialUseForProcAction(proc.getDbKey(), proc.getName(),m.getDbKey(), m.getName(), oldJustification, justification);
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoUpdateMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoUpdateMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-        }
-        return new CopexReturn();
-    }
-    
-    /* suppression de l'utilisation d'un materiel pour un proc*/
-    @Override
-    public CopexReturn removeMaterialUseForProc(LearnerProcedure p, Material m, char undoRedo) {
-        int idP = getIdProc(p.getDbKey());
-        if (idP == -1){
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_UPDATE_MATERIAL_USE"), false);
-        }
-        LearnerProcedure proc = listProc.get(idP);
-        
-         // mise a jour date de modif 
-        CopexReturn cr = updateDateProc(proc);
-        if (cr.isError()){
-            return cr;
-        }
-        proc.removeMaterialUse(m);
-        // trace
-        if (setTrace()){
-            DeleteMaterialUseForProcAction action = new DeleteMaterialUseForProcAction(proc.getDbKey(), proc.getName(),m.getDbKey(), m.getName());
-            if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
-            else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoAddMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-            else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoDeleteMaterialUseForProcAction(proc.getDbKey(), proc.getName(),action));
-        }
-        return new CopexReturn();
-    }
-
-    /* exportation */
-    @Override
-    public CopexReturn exportDataSheet(LearnerProcedure p, File file){
-        int idP = getIdProc(p.getDbKey());
-        if (idP == -1)
-             return new CopexReturn(copex.getBundleString("MSG_ERROR_EXPORT_DATASHEET"), false);
-        LearnerProcedure myProc = this.listProc.get(idP);
-        DataSheet ds = myProc.getDataSheet() ;
-        if (ds == null)
-            return new CopexReturn();
-        WritableWorkbook workbook = null ;
-        try{
-                workbook = Workbook.createWorkbook(file);
-        }catch(IOException e){
-            System.out.println("Erreur lors de la creation du fichier xls");
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_EXPORT_DATASHEET"), false);
-        }
-        try{
-            WritableSheet sheet = workbook.createSheet(p.getName(), 0);
-            int nbR = ds.getNbRows() ;
-            int nbC = ds.getNbColumns() ;
-            for (int i=0; i<nbR; i++){
-                for (int j=0; j<nbC; j++){
-                    String s = "";
-                    CopexData d = ds.getDataAt(i, j) ;
-                    if(d != null){
-                        s = d.getData();
-                    }
-                    sheet.addCell(new Label(j, i, s));
-                }
-            }
-        }catch(WriteException e){
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_EXPORT_DATASHEET")+" "+e.getMessage(), false);
-        }
-
-
-        try{
-            workbook.write() ;
-            workbook.close();
-        }catch(IOException e){
-            System.out.println("Erreur lors de la creation du fichier xls");
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_EXPORT_DATASHEET"), false);
-        }
-        return new CopexReturn();
-    }
-   
-
-    
 
     /* chargement de l'utilisateur selon le mode - retourne en v[0] le dbKeyUser de COPEX */
     private CopexReturn loadUser(String idUser, int mode, String userName, String firstName, long dbKeyMission, ArrayList v){
@@ -2210,154 +1950,13 @@ public class CopexController implements ControllerInterface {
         if (id == -1)
             return null;
         LearnerProcedure proc = listProc.get(id);
-        //mission
-        XMLMission mis = getXMLMission(p.getMission());
-        //initialProc
-        String idInitProc = ""+proc.getInitialProc().getDbKey();
-        // question
-        XMLQuestion question = getXMLQuestion(proc);
-        // datasheet
-        XMLDataSheet ds = null;
-        if (proc.getDataSheet() != null){
-            List<XMLRow> listRows = new LinkedList<XMLRow>();
-            int nbR = proc.getDataSheet().getNbRows() ;
-            int nbC = proc.getDataSheet().getNbColumns() ;
-            for (int i=0; i<nbR; i++){
-                List<XMLColumn> listColumns = new LinkedList<XMLColumn>();
-                for (int j=0; j<nbC; j++){
-                    String value= "";
-                    if (proc.getDataSheet().getDataAt(i, j) != null)
-                        value=  proc.getDataSheet().getDataAt(i, j).getData() ;
-                    listColumns.add(new XMLColumn(value));
-                }
-                listRows.add(new XMLRow(listColumns));
-            }
-            ds = new XMLDataSheet(""+proc.getDataSheet().getDbKey(), ""+nbR, ""+nbC, listRows);
-        }
-        //material use
-        List<XMLMaterialUse> listMaterialUse = null;
-        if (proc.getListMaterialUse() != null){
-            int nb = proc.getListMaterialUse().size();
-            if (nb > 0){
-                listMaterialUse = new LinkedList<XMLMaterialUse>();
-                for (int i=0; i<nb; i++){
-                    listMaterialUse.add(new XMLMaterialUse(""+proc.getListMaterialUse().get(i).getMaterial().getDbKey(), proc.getListMaterialUse().get(i).getMaterial().getName(), proc.getListMaterialUse().get(i).getJustification()));
-                }
-            }
-        }
-
-        ExperimentalProcedureELO elo = new ExperimentalProcedureELO(proc.getName(), ""+proc.getDbKey(), mis, idInitProc, question,  ds, listMaterialUse );
-        return elo.toXML();
+        printRecap(proc);
+        Element e = new Element(ExperimentalProcedure.TAG_EXPERIMENTAL_PROCEDURE);
+        e.addContent(proc.getMission().toXML());
+        e.addContent(proc.toXML());
+        return e;
     }
 
-    private XMLMission getXMLMission(CopexMission m){
-        // list init proc
-        ArrayList<InitialProcedure> listIP = m.getListInitialProc();
-        List<XMLInitialProc> listInitProc = new LinkedList<XMLInitialProc>();
-        int nb = listIP.size();
-        for (int i=0; i<nb; i++){
-            listInitProc.add(getXMLInitialProc(listIP.get(i)));
-        }
-        // options
-        XMLOption option = new XMLOption(useDataSheet(), canAddProc());
-        return new XMLMission(listInitProc, option);
-    }
-
-    // material
-    private XMLMaterial getXMLMaterial(Material m){
-        // types
-        List<XMLMaterialType> listType = new LinkedList<XMLMaterialType>();
-        int nb=  m.getListType().size() ;
-        for (int i=0; i<nb; i++){
-            listType.add(new XMLMaterialType(""+m.getListType().get(i).getDbKey(),m.getListType().get(i).getType() ));
-        }
-        // param
-        List<XMLMaterialParameter> listParam = null;
-        if (m.getListParameters() != null){
-            nb = m.getListParameters().size() ;
-            listParam = new LinkedList<XMLMaterialParameter>();
-            for (int i=0; i<nb; i++){
-                Parameter p = m.getListParameters().get(i);
-                listParam.add(new XMLMaterialParameter(""+p.getDbKey(), p.getName(), p.getType(),""+p.getValue(), p.getUncertainty(), ""+p.getUnit().getDbKey() ));
-            }
-        }
-        return new XMLMaterial(""+m.getDbKey(),m.getName(), m.getDescription(), listType, listParam);
-    }
-
-    // construction proc initial
-    private XMLInitialProc getXMLInitialProc(InitialProcedure p){
-        List<XMLNamedAction> listNamedAction  = null;
-        if (p.getListNamedAction() != null){
-            listNamedAction = new LinkedList<XMLNamedAction>();
-            int nb = p.getListNamedAction().size();
-            for (int i=0; i<nb; i++){
-                listNamedAction.add(new XMLNamedAction(""+p.getListNamedAction().get(i).getDbKey(),p.getListNamedAction().get(i).getLibelle() , p.getListNamedAction().get(i).isDraw()  , p.getListNamedAction().get(i).isRepeat() ));
-            }
-        }
-        XMLActionType actionType = new XMLActionType(p.isFreeAction(), p.isTaskRepeat(), listNamedAction);
-        //list material available
-        List<XMLMaterial> listMaterialAvailable = null;
-        if(p.getListMaterial() != null){
-            listMaterialAvailable = new LinkedList<XMLMaterial>();
-            int nb = p.getListMaterial().size();
-            for (int i=0; i<nb; i++){
-                listMaterialAvailable.add(getXMLMaterial(p.getListMaterial().get(i)));
-            }
-        }
-        return new XMLInitialProc(""+p.getDbKey(), p.getName(), p.getCode(),getXMLQuestion(p), actionType, listMaterialAvailable);
-    }
-
-    // construction de la question
-    private XMLQuestion getXMLQuestion(ExperimentalProcedure proc){
-        TaskRight tr = proc.getQuestion().getTaskRight();
-        List<XMLTask> listTask = getSubTask(proc, proc.getQuestion());
-
-        XMLTaskRight questionRight = new XMLTaskRight(""+tr.getEditRight(), ""+tr.getDeleteRight(), ""+tr.getCopyRight(), ""+tr.getMoveRight(), ""+tr.getParentRight(), ""+tr.getDrawRight(), ""+tr.getRepeatRight());
-        XMLQuestion question = new XMLQuestion(""+proc.getQuestion().getDbKey(), proc.getQuestion().getDescription(),
-                proc.getQuestion().getHypothesis(), proc.getQuestion().getGeneralPrinciple(),
-                proc.getQuestion().getComments(), proc.getQuestion().getTaskImage(), proc.getQuestion().getDraw(), questionRight, listTask);
-        return question;
-    }
-
-    // retourne la liste des enfants d'une tache
-    private LinkedList<XMLTask> getSubTask(ExperimentalProcedure proc, CopexTask task){
-        LinkedList<XMLTask> listT = null;
-        boolean hasChild = task.getDbKeyChild() != -1 ;
-        if (hasChild){
-            listT = new LinkedList();
-            ArrayList<CopexTask> listChild = getChilds(proc, task);
-            int nbC = listChild.size();
-            for (int i=0; i<nbC; i++){
-                listT.add(getTask(proc, listChild.get(i)));
-            }
-
-        }
-        return listT;
-    }
-
-    // tache en tache XML
-    private XMLTask getTask(ExperimentalProcedure proc, CopexTask task){
-        String nature = "";
-        String hyp = null;
-        String princ = null;
-        String actionNamed = null;
-        if (task.isAction()){
-            nature = XMLTask.TASK_NATURE_ACTION;
-            if (((CopexAction)task) instanceof CopexActionNamed){
-                actionNamed = ""+((CopexActionNamed)task).getNamedAction().getDbKey() ;
-            }
-        }else if (task.isQuestion()){
-            nature = XMLTask.TASK_NATURE_QUESTION;
-            hyp = ((Question)task).getHypothesis() ;
-            princ = ((Question)task).getGeneralPrinciple() ;
-        }else if (task.isStep())
-            nature = XMLTask.TASK_NATURE_STEP;
-        XMLTaskRight right = new XMLTaskRight(""+task.getTaskRight().getEditRight(), ""+task.getTaskRight().getDeleteRight(), ""+task.getTaskRight().getCopyRight(), ""+task.getTaskRight().getMoveRight(), ""+task.getTaskRight().getParentRight(), ""+task.getTaskRight().getDrawRight(), ""+task.getTaskRight().getRepeatRight());
-        LinkedList<XMLTask> listSubTask = getSubTask(proc, task);
-        XMLTask t = new XMLTask(""+task.getDbKey(), nature, task.getName(), task.getDescription(),
-                task.getComments(), hyp, princ,task.getTaskImage(),task.getDraw(),  right, actionNamed, listSubTask );
-        return t;
-    }
 
     
 
@@ -2410,45 +2009,18 @@ public class CopexController implements ControllerInterface {
     @Override
     public CopexReturn loadELO(Element xmlContent){
         try {
-            ExperimentalProcedureELO elo = new ExperimentalProcedureELO(xmlContent);
-            // mission
-            OptionMission options = new OptionMission(elo.getMission().getMissionOptions().canAddProc(), elo.getMission().getMissionOptions().isUseDataSheet(), false);
-            CopexMission m = new CopexMission(idMission++,"", "", "", CopexMission.STATUT_MISSION_TREAT, options);
-            // proc initiaux
-            ArrayList<InitialProcedure> listInitialProc = new ArrayList();
-            int nb = elo.getMission().getListInitialProc().size();
-            for (int i=0; i<nb; i++){
-                InitialProcedure p = getInitialProcFromXML(elo.getMission().getListInitialProc().get(i));
-                listInitialProc.add(p);
-            }
-            m.setListInitialProc(listInitialProc);
-            //proc
-            long dbKeyIP = -1;
-            try{
-                dbKeyIP = Long.parseLong(elo.getIdInitProc() );
-            }catch(NumberFormatException e){
+            // chargment de la mission
+            mission = new CopexMission(xmlContent.getChild(CopexMission.TAG_MISSION), getLocale(), idMission++, idProc++, idRepeat++, idParam++, idValue++,idAction++,idActionParam++, idQuantity++, idMaterial++, idTask++, idHypothesis++, idGeneralPrinciple++, idEvaluation++, idTypeMaterial++, idInitialAction++,idOutput++,
+                  config.getListMaterial(), config.getListTypeMaterial(), listPhysicalQuantity, config.getListInitialNamedAction(), config.getListMaterialStrategy() );
 
-            }
-            InitialProcedure initialProc = getInitialProc(listInitialProc, dbKeyIP);
-            LearnerProcedure proc = new LearnerProcedure(idProc++, elo.getName(), CopexUtilities.getCurrentDate(), true, MyConstants.EXECUTE_RIGHT,
-                  initialProc)  ;
-            
-            //material use
-            ArrayList<MaterialUseForProc> listMaterialUse = new ArrayList();
-            if (elo.getListMaterialUse() != null){
-                listMaterialUse = new ArrayList();
-                nb = elo.getListMaterialUse().size();
-                for (int i=0; i<nb; i++){
-                    listMaterialUse.add(getMaterialUseFromXML(initialProc.getListMaterial(), elo.getListMaterialUse().get(i)));
-                }
-            }
-            proc.setListMaterialUse(listMaterialUse);
-            // taches
-            proc.setQuestion(getQuestionFromXML(elo.getQuestion()));
-            ArrayList<CopexTask> listTask = getListTaskFromXML(proc.getQuestion(), elo.getQuestion().getListTask(), initialProc.getListNamedAction());
-            listTask.add(proc.getQuestion());
-            proc.setListTask(listTask);
-            proc.setMission(m);
+             // chargement du proc
+            LearnerProcedure proc = new LearnerProcedure(xmlContent.getChild(LearnerProcedure.TAG_LEARNER_PROC), mission,
+                    idProc++, idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++, idMaterial++, idTask++,
+                    idHypothesis++, idGeneralPrinciple++, idEvaluation++,
+                    mission.getListInitialProc(), mission.getListMaterial(),mission.getListType(),  listPhysicalQuantity);
+
+            // proc initiaux
+            List<InitialProcedure> listInitialProc = proc.getMission().getListInitialProc();
             this.listProc.add(proc);
             // ihm
             int nbP = listProc.size();
@@ -2460,111 +2032,18 @@ public class CopexController implements ControllerInterface {
             for (int k=0; k<nbIP; k++){
                 listIC.add((InitialProcedure)listInitialProc.get(k).clone());
             }
+            updateDatasheetProd(proc);
+            proc.lockMaterialUsed();
             copex.createProc((LearnerProcedure)proc.clone());
         } catch (JDOMException ex) {
+            System.out.println("loadElo: "+ex);
             return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
         }
         return new CopexReturn();
     }
 
-    /* convertir elo init proc en init proc */
-    private InitialProcedure getInitialProcFromXML(XMLInitialProc p){
-        long dbKey = -1;
-        try{
-            dbKey = Long.parseLong(p.getIdProc());
-        }catch (NumberFormatException e){
-            dbKey = idProc++;
-        }
-        boolean isFreeAction = p.getActionType().isFreeAction();
-        boolean isTaskRepeat = p.getActionType().isTaskRepeat();
-        ArrayList<InitialNamedAction> listNamedAction = null;
-        if (p.getActionType().getListNamedAction() != null){
-            listNamedAction = new ArrayList();
-            int nb = p.getActionType().getListNamedAction().size();
-            for (int i=0; i<nb; i++){
-                listNamedAction.add(getInitialNamedActionFromXML(p.getActionType().getListNamedAction().get(i)));
-            }
-        }
-        InitialProcedure proc  = new InitialProcedure(dbKey, p.getProcName(), CopexUtilities.getCurrentDate(), false, MyConstants.NONE_RIGHT,p.getProcCode(),isFreeAction, isTaskRepeat, listNamedAction );
-        // taches
-        proc.setQuestion(getQuestionFromXML(p.getQuestion()));
-        ArrayList<CopexTask> listTask = getListTaskFromXML(proc.getQuestion(), p.getQuestion().getListTask(), proc.getListNamedAction());
-        listTask.add(proc.getQuestion());
-        proc.setListTask(listTask);
-        
-        // material
-        ArrayList listMaterial = new ArrayList();
-        if (p.getListMaterialAvailable() != null){
-            int nb =p.getListMaterialAvailable().size();
-            for (int i=0; i<nb; i++){
-                listMaterial.add(getMaterialFromXML(p.getListMaterialAvailable().get(i)));
-            }
-        }
-        proc.setListMaterial(listMaterial);
-        return proc;
-    }
+    
 
-    /* initial named action */
-    private InitialNamedAction getInitialNamedActionFromXML(XMLNamedAction a){
-        long dbKey = -1;
-        try{
-            dbKey = Long.parseLong(a.getIdAction());
-        }catch (NumberFormatException e){
-            dbKey = idTask++;
-        }
-        return new InitialNamedAction(dbKey, "", a.getNameAction(), false, null, a.isDraw(), a.isRepeat());
-    }
-
-    /* material */
-    private Material getMaterialFromXML(XMLMaterial m){
-        long dbKey = -1;
-        try{
-            dbKey = Long.parseLong(m.getIdMaterial());
-        }catch (NumberFormatException e){
-            dbKey = idMaterial++;
-        }
-        Material material = new Material(dbKey, m.getMaterialName(), m.getMaterialDescription());
-        ArrayList<TypeMaterial> listType = new ArrayList();
-        int nb = m.getListType().size();
-        for (int i=0; i<nb; i++){
-            long dbKeyT = -1;
-            try{
-                dbKeyT = Long.parseLong(m.getListType().get(i).getIdType());
-            }catch (NumberFormatException e){
-                dbKeyT = idTypeMaterial++;
-            }
-            listType.add(new TypeMaterial(dbKeyT, m.getListType().get(i).getTypeName()));
-        }
-        material.setListType(listType);
-        ArrayList<Parameter> listParameters = null;
-        if (m.getListParameters() != null){
-            listParameters = new ArrayList();
-            nb = m.getListParameters().size();
-            for (int i=0; i<nb; i++){
-                long dbKeyP = -1;
-                try{
-                    dbKeyP = Long.parseLong(m.getListParameters().get(i).getIdParam());
-                }catch (NumberFormatException e){
-                    dbKeyP = idParam++;
-                }
-                double value = 0;
-                try{
-                    value = Double.parseDouble(m.getListParameters().get(i).getParamValue());
-                }catch (NumberFormatException e){
-                }
-                long dbKeyU = -1;
-                try{
-                    dbKeyU = Long.parseLong(m.getListParameters().get(i).getParamUnit());
-                }catch (NumberFormatException e){
-                }
-                CopexUnit unit = getUnit(dbKeyU);
-                listParameters.add(new Parameter(dbKeyP, m.getListParameters().get(i).getParamName(), m.getListParameters().get(i).getParamType(),
-                        value, m.getListParameters().get(i).getParamUncertainty(), unit));
-            }
-        }
-        material.setListParameters(listParameters);
-        return material;
-    }
 
     /* retourne l'unite*/
     private CopexUnit getUnit(long dbKey){
@@ -2579,127 +2058,16 @@ public class CopexController implements ControllerInterface {
         return null;
     }
 
-    /* retourne le proc initial correspodant */
-    private InitialProcedure getInitialProc(ArrayList<InitialProcedure> listInitialProc, long dbKey){
-        int nb = listInitialProc.size();
-        for (int i=0; i<nb; i++){
-            if (listInitialProc.get(i).getDbKey() == dbKey)
-                return listInitialProc.get(i);
-        }
-        return null;
-    }
+   
+    
 
-    /* question */
-    private Question getQuestionFromXML(XMLQuestion q){
-        TaskRight tr = getTaskRightFromXML(q.getQuestionRight());
-        return new Question(idTask++, "", q.getDescription(), q.getHypothesis(), q.getComments(), q.getImage(), q.getDraw(), q.getGeneralPrinciple(), true, tr, true);
-    }
-
-    /* tache */
-    private CopexTask getTaskFromXML(XMLTask t, ArrayList<InitialNamedAction> listINA){
-        TaskRight tr = getTaskRightFromXML(t.getRight());
-        String nature = t.getNature();
-        if (nature.equals(XMLTask.TASK_NATURE_QUESTION)){
-            //sous question
-            return new Question(idTask++, "", t.getDescription(), t.getHypothesis(), t.getComments(), t.getImage(),t.getDraw()  ,t.getPrinciple(), true, tr, false);
-        }else if (nature.equals(XMLTask.TASK_NATURE_STEP)){
-            //etape
-            return new Step(idTask++, t.getTaskName(), t.getDescription(), t.getComments(), t.getImage(),t.getDraw(),true, tr, null );
-        }else{
-            // action
-            if(t.getActionNamed() == null || t.getActionNamed().trim().length() ==0){
-                return new CopexAction(idTask++, t.getTaskName(), t.getDescription(), t.getComments(), t.getImage(), t.getDraw(), true, tr, null);
-            }else{
-                long dbKey = -1;
-                try{
-                    dbKey = Long.parseLong(t.getActionNamed());
-                }catch(NumberFormatException e){
-                    
-                }
-                InitialNamedAction initAN = getInitialNamedAction(dbKey, listINA);
-                return new CopexActionNamed(idTask++, t.getTaskName(), t.getDescription(), t.getComments(), t.getImage(),t.getDraw(), true, tr, initAN, null);
-            }
-        }
-    }
-
-    /* recherche d'une action init*/
-    private InitialNamedAction getInitialNamedAction(long dbKey, ArrayList<InitialNamedAction> listINA){
-        if (listINA == null)
-            return null;
-        int nb = listINA.size();
-        for (int i=0; i<nb; i++){
-            if (listINA.get(i).getDbKey() == dbKey)
-                return listINA.get(i);
-        }
-        return null;
-    }
-
-    /* task right */
-    private TaskRight getTaskRightFromXML(XMLTaskRight tr){
-        return new TaskRight(getRight(tr.getEditRight()), getRight(tr.getDeleteRight()), getRight(tr.getCopyRight()), getRight(tr.getMoveRight()), getRight(tr.getParentRight()) , getRight(tr.getDrawRight()), getRight(tr.getRepeatRight()) );
-    }
-
-    /* droit */
-    private char getRight(String r){
-        char c = r.charAt(0);
-        if (c != MyConstants.NONE_RIGHT && c != MyConstants.EXECUTE_RIGHT)
-            return MyConstants.EXECUTE_RIGHT ;
-        return c;
-    }
-
-    /* material use*/
-    private MaterialUseForProc getMaterialUseFromXML(ArrayList<Material> listMaterial, XMLMaterialUse m){
-        long dbKey  = -1;
-        try{
-            dbKey = Long.parseLong(m.getIdMaterial());
-        }catch(NumberFormatException e){
-
-        }
-        Material material = getMaterial(listMaterial, dbKey);
-        return new MaterialUseForProc(material, m.getJustification());
-    }
-
-    /* recherche materieal */
-    private Material getMaterial(ArrayList<Material> listM, long dbKey){
-        int nb = listM.size();
-        for (int i=0; i<nb; i++){
-            if (listM.get(i).getDbKey() == dbKey)
-                return listM.get(i) ;
-        }
-        return null;
-    }
-
-    /* construction liste des taches a partir de  l'ELO */
-    private ArrayList<CopexTask> getListTaskFromXML(CopexTask task, List<XMLTask> listT, ArrayList<InitialNamedAction> listINA){
-        ArrayList<CopexTask> listTask = new ArrayList();
-        if(listT == null){
-            return listTask;
-        }else{
-            int nbT = listT.size();
-            long dbKeyB = -1;
-            for (int i=nbT-1; i>-1; i--){
-                CopexTask t = getTaskFromXML(listT.get(i), listINA);
-                if(i==0){
-                    task.setDbKeyChild(t.getDbKey());
-                }
-                t.setDbKeyBrother(dbKeyB);
-                dbKeyB = t.getDbKey() ;
-                listTask.add(t);
-                // taches enfants
-                ArrayList<CopexTask> listChildren = getListTaskFromXML(t, listT.get(i).getListTask(), listINA);
-                int nbC = listChildren.size();
-                for (int j=0; j<nbC; j++){
-                    listTask.add(listChildren.get(j));
-                }
-            }
-        }
-        return listTask;
-    }
-
+   
+   
+   
      /*  creation d'un nouvel ELO*/
     @Override
     public CopexReturn newELO(){
-        return createProc(mission.getListInitialProc().get(0).getName(), mission.getListInitialProc().get(0), false );
+        return createProc(mission.getListInitialProc().get(0).getName(getLocale()), mission.getListInitialProc().get(0), false );
     }
 
     /* retourne la liste des parametres des actions de l'etape */
@@ -2813,7 +2181,7 @@ public class CopexController implements ControllerInterface {
     public CopexReturn cut(LearnerProcedure proc,SubTree subTree, TaskSelected ts){
         ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
         if (setTrace()){
-            CopexReturn cr = trace.addAction(new CutAction(proc.getDbKey(), proc.getName(), listXMLTask));
+            CopexReturn cr = trace.addAction(new CutAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask));
             if (cr.isError())
                 return cr;
         }
@@ -2824,7 +2192,7 @@ public class CopexController implements ControllerInterface {
     public CopexReturn copy(LearnerProcedure proc , TaskSelected ts,SubTree subTree ){
         if (setTrace()){
             ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
-            CopexReturn cr = trace.addAction(new CopyAction(proc.getDbKey(), proc.getName(), listXMLTask));
+            CopexReturn cr = trace.addAction(new CopyAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask));
             if (cr.isError())
                 return cr;
         }
@@ -2837,54 +2205,173 @@ public class CopexController implements ControllerInterface {
         return paste(proc, subTree, ts, MyConstants.NOT_UNDOREDO, v);
     }
 
-    /* copy d'un ELO*/
+    
+    /* hypotheses du proc*/
     @Override
-    public CopexReturn copyELO(String name, Element xmlContent){
-        try {
-            ExperimentalProcedureELO elo = new ExperimentalProcedureELO(xmlContent);
-            // mission
-            OptionMission options = new OptionMission(elo.getMission().getMissionOptions().canAddProc(), elo.getMission().getMissionOptions().isUseDataSheet(), false);
-            CopexMission m = new CopexMission(idMission++,"", "", "", CopexMission.STATUT_MISSION_TREAT, options);
-            // proc initiaux
-            ArrayList<InitialProcedure> listInitialProc = new ArrayList();
-            int nb = elo.getMission().getListInitialProc().size();
-            for (int i=0; i<nb; i++){
-                InitialProcedure p = getInitialProcFromXML(elo.getMission().getListInitialProc().get(i));
-                listInitialProc.add(p);
-            }
-            m.setListInitialProc(listInitialProc);
-            //proc
-            long dbKeyIP = -1;
-            try{
-                dbKeyIP = Long.parseLong(elo.getIdInitProc() );
-            }catch(NumberFormatException e){
-
-            }
-            InitialProcedure initialProc = getInitialProc(listInitialProc, dbKeyIP);
-            LearnerProcedure proc = new LearnerProcedure(idProc++, elo.getName(), CopexUtilities.getCurrentDate(), true, MyConstants.EXECUTE_RIGHT,
-                  initialProc)  ;
-
-            //material use
-            ArrayList<MaterialUseForProc> listMaterialUse = new ArrayList();
-            if (elo.getListMaterialUse() != null){
-                listMaterialUse = new ArrayList();
-                nb = elo.getListMaterialUse().size();
-                for (int i=0; i<nb; i++){
-                    listMaterialUse.add(getMaterialUseFromXML(initialProc.getListMaterial(), elo.getListMaterialUse().get(i)));
-                }
-            }
-            proc.setListMaterialUse(listMaterialUse);
-            // taches
-            proc.setQuestion(getQuestionFromXML(elo.getQuestion()));
-            ArrayList<CopexTask> listTask = getListTaskFromXML(proc.getQuestion(), elo.getQuestion().getListTask(), initialProc.getListNamedAction());
-            listTask.add(proc.getQuestion());
-            proc.setListTask(listTask);
-            proc.setMission(m);
-            proc.setName(name);
-            return copyProc(name,  proc, true,setTrace(), false);
-
-        } catch (JDOMException ex) {
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
+    public CopexReturn setHypothesis(LearnerProcedure p, Hypothesis hypothesis, ArrayList v){
+        int idP = getIdProc(p.getDbKey());
+        if(idP == -1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_HYPOTHESIS"), false);
         }
+        if(hypothesis != null){
+            hypothesis.setDbKey(idHypothesis++);
+        }
+        listProc.get(idP).setHypothesis(hypothesis);
+        if(hypothesis != null)
+            v.add(hypothesis.clone());
+        return new CopexReturn();
+    }
+
+    /* principe general  du proc*/
+    @Override
+    public CopexReturn setGeneralPrinciple(LearnerProcedure p, GeneralPrinciple principle, ArrayList v){
+        int idP = getIdProc(p.getDbKey());
+        if(idP == -1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_GENERAL_PRINCIPLE"), false);
+        }
+        if(principle != null){
+            principle.setDbKey(idGeneralPrinciple++);
+        }
+        listProc.get(idP).setGeneralPrinciple(principle);
+        if(principle != null)
+            v.add(principle.clone());
+        return new CopexReturn();
+    }
+
+    /* evaluation  du proc*/
+    @Override
+    public CopexReturn setEvaluation(LearnerProcedure p, Evaluation evaluation, ArrayList v){
+        int idP = getIdProc(p.getDbKey());
+        if(idP == -1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_EVALUATION"), false);
+        }
+        if(evaluation != null){
+            evaluation.setDbKey(idEvaluation++);
+        }
+        listProc.get(idP).setEvaluation(evaluation);
+        if(evaluation != null)
+            v.add(evaluation.clone());
+        return new CopexReturn();
+    }
+
+    // lecture du fichier de config copex
+    private CopexReturn loadCopexConfig(){
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        //File file = new File((getClass().getResource( "/" +copexConfigFileName)).getFile());
+        try{
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream(copexConfigFileName);
+            //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            fileReader = new InputStreamReader(s, "utf-8");
+            //Document doc = builder.build(fileReader, file.getAbsolutePath());
+            Document doc = builder.build(fileReader);
+            Element copexConfig = doc.getRootElement();
+            config = new CopexConfig(copexConfig, getLocale(), idMaterialStrategy, idPhysicalQtt, idUnit, idTypeMaterial, idMaterial, idQuantity, idAction, idActionParam, idOutput);
+            dbKeyProblem();
+            // grandeurs physiques
+            listPhysicalQuantity = config.getListQuantities();
+            // strategies du materiel
+            listMaterialStrategy = config.getListMaterialStrategy();
+        }catch(IOException e1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
+
+    // lecture du fichier de  mission
+    private CopexReturn loadCopexMission(){
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        //File file = new File((getClass().getResource( "/" +fileMission)).getFile());
+        try{
+            //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            //Document doc = builder.build(fileReader, file.getAbsolutePath());
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream(fileMission);
+            fileReader = new InputStreamReader(s, "utf-8");
+            Document doc = builder.build(fileReader);
+            Element element = doc.getRootElement();
+            mission = new CopexMission(element, getLocale(), idMission++, idProc++, idRepeat++, idParam++, idValue++,idAction++,idActionParam++, idQuantity++, idMaterial++, idTask++, idHypothesis++, idGeneralPrinciple++, idEvaluation++, idTypeMaterial++, idInitialAction++,idOutput++,
+                  config.getListMaterial(), config.getListTypeMaterial(), listPhysicalQuantity, config.getListInitialNamedAction(), config.getListMaterialStrategy() );
+            dbKeyProblem();
+        }catch(IOException e1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_MISSION")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_MISSION")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
+
+    private void dbKeyProblem(){
+        idMission += 100 ;
+        idProc+= 100 ;
+        idTask+= 100 ;
+        idParam+= 100 ;
+        idMaterial+= 100 ;
+        idQuantity+= 100;
+        idTypeMaterial+= 100 ;
+        idHypothesis+= 100;
+        idGeneralPrinciple+= 100 ;
+        idEvaluation+= 100 ;
+        idMaterialStrategy+= 100 ;
+        idPhysicalQtt+= 100  ;
+        idUnit+= 100;
+        idRepeat+= 100;
+        idValue+= 100 ;
+        idActionParam+= 100 ;
+        idInitialAction+= 100 ;
+        idAction+= 100;
+        idOutput+= 100 ;
+    }
+
+
+    private void updateDatasheetProd(LearnerProcedure proc){
+        List<QData> listDataProd = proc.getListDataProd();
+        if(listDataProd.size() == 0)
+            proc.setDataSheet(null);
+        else
+            proc.setDataSheet(new DataSheet(listDataProd));
+    }
+
+
+    private ArrayList<MaterialUsed> getListMaterialUsed(LearnerProcedure proc){
+        ArrayList<MaterialUsed> listMaterialUsed = new ArrayList();
+        MaterialStrategy strategy = proc.getInitialProc().getMaterialStrategy();
+        ArrayList<Material> listMaterialProc = proc.getInitialProc().getListMaterial();
+        int nbMat = listMaterialProc.size();
+        for (int k=0; k<nbMat; k++){
+            MaterialUsed matUsed = new MaterialUsed(listMaterialProc.get(k), CopexUtilities.getLocalText("", getLocale()), !strategy.canChooseMaterial(), false);
+            listMaterialUsed.add(matUsed);
+        }
+        return listMaterialUsed;
+    }
+    
+    
+    /* mise a jour du material used */
+    @Override
+    public CopexReturn setMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate, ArrayList v){
+        int idP = getIdProc(proc.getDbKey());
+        if(idP == -1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_SET_MATERIAL_USED"), false);
+        }
+        // creation du nouveau mat
+        int nbMat = listMaterialToCreate.size();
+        for (int i=0; i<nbMat; i++){
+            listMaterialToCreate.get(i).getMaterial().setDbKey(idMaterial++);
+        }
+        listProc.get(idP).addListMaterialUsed(listMaterialToCreate);
+        // suppression du mat
+        listProc.get(idP).deleteMaterialUsed(listMaterialToDelete);
+        // mise a jour du mat
+        listProc.get(idP).updateMaterialUsed(listMaterialToUpdate);
+        ArrayList<MaterialUsed> listC = new ArrayList();
+        int nb = listProc.get(idP).getListMaterialUsed().size();
+        for (int i=0; i<nb; i++){
+            listC.add((MaterialUsed)listProc.get(idP).getListMaterialUsed().get(i).clone());
+        }
+        v.add(listC);
+        System.out.println("fin setMaterialUsed controller : "+listProc.get(idP).getMaterials().getListMaterialUsed().size());
+        return new CopexReturn();
     }
 }

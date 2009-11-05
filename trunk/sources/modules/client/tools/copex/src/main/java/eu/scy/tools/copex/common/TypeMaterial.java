@@ -5,45 +5,102 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
+import eu.scy.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * represente un type de materiel
  * @author MBO
  */
 public class TypeMaterial implements Cloneable {
-    // ATTRIBUTS
+    /* tag names */
+    public final static String TAG_TYPE = "type";
+    public final static String TAG_TYPE_REF = "type_ref";
+    private final static String TAG_TYPE_ID = "id";
+    private final static String TAG_TYPE_NAME = "name";
+
     private long dbKey;
-    private String type;
+    private List<LocalText> listType;
+    private String code;
 
     // CONSTRUCTEURS
-    public TypeMaterial(long dbKey, String type) {
+    public TypeMaterial(long dbKey, List<LocalText> listType) {
         this.dbKey = dbKey;
-        this.type = type;
+        this.listType = listType;
+        this.code = "";
     }
 
-   
+    public TypeMaterial(long dbKey, List<LocalText> listType, String code) {
+        this.dbKey = dbKey;
+        this.listType = listType;
+        this.code = code;
+    }
 
-    // GETTER AND SETTER
+   public TypeMaterial(Element xmlElem, long dbKey) throws JDOMException {
+		if (xmlElem.getName().equals(TAG_TYPE)) {
+            this.dbKey = dbKey;
+			code = xmlElem.getChild(TAG_TYPE_ID).getText();
+            listType = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TYPE_NAME).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listType.add(new LocalText(e.getText(), l));
+            }
+		} else {
+			throw(new JDOMException("Type Material expects <"+TAG_TYPE+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+	}
+
+    public TypeMaterial(Element xmlElem, List<TypeMaterial> list) throws JDOMException {
+        if (xmlElem.getName().equals(TAG_TYPE_REF)) {
+			code = xmlElem.getChild(TAG_TYPE_ID).getText();
+            for(Iterator<TypeMaterial> type = list.iterator();type.hasNext();){
+                TypeMaterial t = type.next();
+                if(t.getCode().equals(code)){
+                    this.dbKey = t.getDbKey();
+                    this.listType = t.getListType();
+                }
+            }
+        }else {
+			throw(new JDOMException("Type Material expects <"+TAG_TYPE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
      public long getDbKey() {
         return dbKey;
     }
-    public String getType() {
-        return type;
+
+    public List<LocalText> getListType() {
+        return listType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setListType(List<LocalText> listType) {
+        this.listType = listType;
     }
+    
 
     public void setDbKey(long dbKey) {
         this.dbKey = dbKey;
     }
 
-    @Override
-    public String toString() {
-        return getType();
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String toString(Locale locale) {
+        return CopexUtilities.getText(listType, locale);
     }
     
     @Override
@@ -51,10 +108,14 @@ public class TypeMaterial implements Cloneable {
         try {
             TypeMaterial t = (TypeMaterial) super.clone() ;
             long dbKeyC = this.dbKey;
-            String typeC = new String(this.type);
+            List<LocalText> listTypeC = new LinkedList();
+            for (Iterator<LocalText> s = listType.iterator(); s.hasNext();) {
+                listTypeC.add((LocalText)s.next().clone());
+            }
+            t.setListType(listTypeC);
             
             t.setDbKey(dbKeyC);
-            t.setType(typeC);
+            t.setCode(new String(code));
             
             return t;
         } catch (CloneNotSupportedException e) { 
@@ -70,6 +131,28 @@ public class TypeMaterial implements Cloneable {
                  return t;
          }
          return null;
+    }
+
+    // toXML
+    public Element toXML(){
+        Element element = new Element(TAG_TYPE);
+		element.addContent(new Element(TAG_TYPE_ID).setText(code));
+        if(listType != null && listType.size() > 0){
+            for (Iterator<LocalText> t = listType.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_TYPE_NAME);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+		return element;
+    }
+
+    public Element toXMLRef(){
+        Element element = new Element(TAG_TYPE_REF);
+		element.addContent(new Element(TAG_TYPE_ID).setText(code));
+        return element;
     }
     
 }

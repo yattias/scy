@@ -5,19 +5,36 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
+import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 /**
  * Action nommee du protocole initial
  * si parametree : peut etre de type choice, manipulation, acquisition, treatment
  * @author Marjolaine
  */
 public class InitialNamedAction implements Cloneable {
-    // PROPERTY
+    public final static String TAG_INITIAL_NAMED_ACTION = "initial_named_action";
+    public final static String TAG_INITIAL_NAMED_ACTION_REF = "initial_named_action_ref";
+    public final static String TAG_INITIAL_NAMED_ACTION_CODE = "id";
+    public final static String TAG_INITIAL_NAMED_ACTION_LIBELLE = "libelle";
+    public final static String TAG_INITIAL_NAMED_ACTION_IS_SETTING = "is_setting";
+    public final static String TAG_INITIAL_NAMED_ACTION_DRAW = "draw";
+    public final static String TAG_INITIAL_NAMED_ACTION_REPEAT = "repeat";
+    
     /* identifiant bd */
     protected long dbKey;
     /* code */
     protected String code;
     /* libelle */
-    protected String libelle;
+    protected List<LocalText> listLibelle;
     /* est parametree ?*/
     protected boolean isSetting ;
     /* si isSetting => variable de l'action */
@@ -28,16 +45,61 @@ public class InitialNamedAction implements Cloneable {
     protected boolean repeat;
 
     // CONSTRUCTOR
-    public InitialNamedAction(long dbKey, String code, String libelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat) {
+    public InitialNamedAction(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat) {
         this.dbKey = dbKey;
         this.code = code;
-        this.libelle = libelle;
+        this.listLibelle = listLibelle;
         this.isSetting = isSetting ;
         this.variable = variable ;
         this.draw = draw;
         this.repeat = repeat;
     }
 
+    public InitialNamedAction(Element xmlElem){
+    }
+    public InitialNamedAction(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial) throws JDOMException {
+		if (xmlElem.getName().equals(TAG_INITIAL_NAMED_ACTION)) {
+            this.dbKey = idAction;
+			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            listLibelle = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listLibelle.add(new LocalText(e.getText(), l));
+            }
+            isSetting = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_IS_SETTING).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            draw = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_DRAW).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            repeat = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_REPEAT).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            if(xmlElem.getChild(InitialActionVariable.TAG_INITIAL_ACTION_VARIABLE) != null){
+                variable = new InitialActionVariable(xmlElem.getChild(InitialActionVariable.TAG_INITIAL_ACTION_VARIABLE), locale, idActionParam, listPhysicalQuantity, listTypeMaterial);
+            }
+        }
+		else {
+			throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
+    public InitialNamedAction(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
+        if (xmlElem.getName().equals(TAG_INITIAL_NAMED_ACTION_REF)) {
+			this.code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
+                InitialNamedAction p = q.next();
+                if(p.getCode().equals(code)){
+                    this.dbKey = p.getDbKey();
+                    this.listLibelle = p.getListLibelle();
+                    this.isSetting = p.isSetting() ;
+                    this.variable = p.getVariable() ;
+                    this.draw = p.isDraw();
+                    this.repeat = p.isRepeat();
+                }
+            }
+        }else {
+			throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+    }
+
+
+    
     // GETTER AND SETTER
     public String getCode() {
         return code;
@@ -55,12 +117,25 @@ public class InitialNamedAction implements Cloneable {
         this.dbKey = dbKey;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public String getLibelle(Locale locale) {
+        return CopexUtilities.getText(listLibelle, locale);
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setLibelle(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listLibelle);
+        if(id ==-1){
+            this.listLibelle.add(text);
+        }else{
+            this.listLibelle.set(id, text);
+        }
+    }
+
+    public List<LocalText> getListLibelle() {
+        return listLibelle;
+    }
+
+    public void setListLibelle(List<LocalText> listLibelle) {
+        this.listLibelle = listLibelle;
     }
 
     public boolean isSetting() {
@@ -97,15 +172,17 @@ public class InitialNamedAction implements Cloneable {
 
     
 
-    // OVERRIDE
     @Override
     public Object clone(){
        try {
             InitialNamedAction a = (InitialNamedAction) super.clone() ;
-
             a.setDbKey(this.getDbKey());
             a.setCode(new String(this.getCode()));
-            a.setLibelle(new String(this.libelle));
+            List<LocalText> listlibelleC = new LinkedList();
+            for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
+                listlibelleC.add((LocalText)t.next().clone());
+            }
+            a.setListLibelle(listlibelleC);
             a.setSetting(this.isSetting);
             InitialActionVariable variableC = null;
             if (this.variable != null){
@@ -122,6 +199,41 @@ public class InitialNamedAction implements Cloneable {
         }
     }
 
-    // METHODE
+    // toXML
+    public Element toXML(){
+        Element element = new Element(TAG_INITIAL_NAMED_ACTION);
+		return toXML(element);
+    }
+
+    // toXML
+    protected Element toXML(Element element){
+		element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_CODE).setText(code));
+        if(listLibelle != null && listLibelle.size() > 0){
+            for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_INITIAL_NAMED_ACTION_LIBELLE);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_IS_SETTING).setText(isSetting ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
+        element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_DRAW).setText(draw ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
+        element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_REPEAT).setText(repeat ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
+        if(variable != null){
+            element.addContent(variable.toXML());
+        }
+		return element;
+    }
+
+    public Element toXMLRef(){
+        Element element = new Element(TAG_INITIAL_NAMED_ACTION_REF);
+		return toXMLRef(element);
+    }
+
+    protected Element toXMLRef(Element element){
+        element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_CODE).setText(code));
+        return element;
+    }
     
 }

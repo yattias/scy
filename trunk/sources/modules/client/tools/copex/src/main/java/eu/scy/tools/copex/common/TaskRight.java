@@ -5,13 +5,26 @@
 
 package eu.scy.tools.copex.common;
 
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 
 /**
  * droit d'une tache
  * @author MBO
  */
 public class TaskRight implements Cloneable {
-    // ATTRIBUTS
+    /* tag names */
+    public final static String TAG_TASK_RIGHT = "task_right";
+    private final static String TAG_EDIT_RIGHT = "edit_right";
+    private final static String TAG_DELETE_RIGHT = "delete_right";
+    private final static String TAG_MOVE_RIGHT = "move_right";
+    private final static String TAG_PARENT_RIGHT = "parent_right";
+    private final static String TAG_COPY_RIGHT = "copy_right";
+    private final static String TAG_DRAW_RIGHT = "draw_right";
+    private final static String TAG_REPEAT_RIGHT = "repeat_right";
+
+    
     /* droit edition */
     private char editRight;
     /* droit suppression */
@@ -37,6 +50,20 @@ public class TaskRight implements Cloneable {
         this.drawRight = drawRight ;
         this.repeatRight = repeatRight;
     }
+
+    public TaskRight(Element xmlElem) throws JDOMException {
+		if (xmlElem.getName().equals(TAG_TASK_RIGHT)) {
+			editRight = xmlElem.getChild(TAG_EDIT_RIGHT).getText().charAt(0);
+            deleteRight = xmlElem.getChild(TAG_DELETE_RIGHT).getText().charAt(0);
+            copyRight = xmlElem.getChild(TAG_COPY_RIGHT).getText().charAt(0);
+            moveRight = xmlElem.getChild(TAG_MOVE_RIGHT).getText().charAt(0);
+            parentRight = xmlElem.getChild(TAG_PARENT_RIGHT).getText().charAt(0);
+            drawRight = xmlElem.getChild(TAG_DRAW_RIGHT).getText().charAt(0);
+            repeatRight = xmlElem.getChild(TAG_REPEAT_RIGHT).getText().charAt(0);
+		} else {
+			throw(new JDOMException("Task Right expects <"+TAG_TASK_RIGHT+"> as root element, but found <"+xmlElem.getName()+">."));
+		}
+	}
 
     // GETTER AND SETTER
     public char getCopyRight() {
@@ -127,6 +154,19 @@ public class TaskRight implements Cloneable {
         s += "creer dessin : "+getDrawRight() ;
         s += "repeter : "+getRepeatRight() ;
         return s;
+    }
+
+    // toXML
+    public Element toXML(){
+        Element element = new Element(TAG_TASK_RIGHT);
+		element.addContent(new Element(TAG_EDIT_RIGHT).setText(Character.toString(editRight)));
+        element.addContent(new Element(TAG_DELETE_RIGHT).setText(Character.toString(deleteRight)));
+        element.addContent(new Element(TAG_COPY_RIGHT).setText(Character.toString(copyRight)));
+        element.addContent(new Element(TAG_MOVE_RIGHT).setText(Character.toString(moveRight)));
+        element.addContent(new Element(TAG_PARENT_RIGHT).setText(Character.toString(parentRight)));
+        element.addContent(new Element(TAG_DRAW_RIGHT).setText(Character.toString(drawRight)));
+        element.addContent(new Element(TAG_REPEAT_RIGHT).setText(Character.toString(repeatRight)));
+		return element;
     }
     
     

@@ -27,6 +27,8 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     private EdPPanel edP;
      /* mode de visualisation  : ajout / modification */
     private boolean modeAdd;
+    /* mode etape ou mode tache */
+    private boolean stepMode;
     /* droit sur la fenetre */
     private char right = MyConstants.EXECUTE_RIGHT;
     /* droit proc */
@@ -56,10 +58,11 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         initComponents();
     }
 
-    public StepDialog(EdPPanel edP, boolean isTaskRepeat) {
+    public StepDialog(EdPPanel edP, boolean isTaskRepeat, boolean stepMode) {
         super();
         this.edP = edP;
         this.modeAdd = true;
+        this.stepMode = stepMode;
         this.comment = "";
         //this.isTaskRepeat = isTaskRepeat;
         this.isTaskRepeat = false;
@@ -69,16 +72,18 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         setModal(true);
         setLocation(edP.getLocationDialog());
         init();
+        setIconImage(edP.getIconDialog());
     }
 
      /* constructeur de la fenetre d'edition de l'action */
-    public StepDialog(EdPPanel edP, boolean modeAdd, Step step,  ImageIcon taskImage, boolean isTaskRepeat, char right, char procRight ) {
+    public StepDialog(EdPPanel edP, boolean modeAdd, boolean stepMode, Step step,  ImageIcon taskImage, boolean isTaskRepeat, char right, char procRight ) {
         super();
         this.edP = edP;
         this.modeAdd = modeAdd;
+        this.stepMode = stepMode;
         this.step = step;
-        this.name = step.getDescription();
-        this.comments = step.getComments();
+        this.name = step.getDescription(edP.getLocale());
+        this.comments = step.getComments(edP.getLocale());
         this.right = right;
         this.procRight = procRight;
         this.taskImage = taskImage;
@@ -95,9 +100,21 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         getContentPane().add(getPanelComments());
         if(isTaskRepeat)
             setPanelTaskRepeat();
+        System.out.println("step dialog : "+stepMode);
+        if(stepMode){
+            setTitle(edP.getBundleString("TITLE_DIALOG_ADD_STEP"));
+            labelName.setText(edP.getBundleString("LABEL_NAME_STEP"));
+        }else{
+            setTitle(edP.getBundleString("TITLE_DIALOG_ADD_TASK"));
+            labelName.setText(edP.getBundleString("LABEL_NAME_TASK"));
+        }
         if (!modeAdd){
             // mode edit
-            this.setTitle(edP.getBundleString("TITLE_DIALOG_STEP"));
+            if(stepMode){
+                this.setTitle(edP.getBundleString("TITLE_DIALOG_STEP"));
+            }else{
+                this.setTitle(edP.getBundleString("TITLE_DIALOG_TASK"));
+            }
             this.textAreaDescription.setText(this.name);
             this.panelComments.setComments(this.comments);
             this.comment = this.comments ;
@@ -250,19 +267,22 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
    }
    
    private void validDialog(){
+       String champ = edP.getBundleString("LABEL_NAME_STEP");
+       if(!stepMode)
+           champ = edP.getBundleString("LABEL_NAME_TASK");
        this.panelComments.setPanelDetailsShown();
         // recupere les donnees :
         String d = this.textAreaDescription.getText();
         if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
-            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
+            msg  = CopexUtilities.replace(msg, 0, champ);
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
             edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
         if (d.length() == 0){
             String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
+            msg  = CopexUtilities.replace(msg, 0, champ);
             edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -279,7 +299,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             nbTaskRepeat = taskRepeatPanel.getNbRepeat();
         }
         
-        Step newStep = new Step(d, c) ;
+        Step newStep = new Step(CopexUtilities.getLocalText(d, edP.getLocale()), CopexUtilities.getLocalText(c, edP.getLocale()));
         if(nbTaskRepeat > 1){
             long oldKey = -1;
             if (taskRepeat != null)
@@ -307,11 +327,13 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
    }
 
    /* sauvegarde des commentaires */
+    @Override
     public void saveComment(){
         this.comment = panelComments.getComments() ;
     }
 
     /* met a jour le texte des commenraires */
+    @Override
     public void setComment(){
         this.panelComments.setComments(this.comment);
     }
@@ -454,6 +476,7 @@ private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         
     }
 
+   
     
     
 }

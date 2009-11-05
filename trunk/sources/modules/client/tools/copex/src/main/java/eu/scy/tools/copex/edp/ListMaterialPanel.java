@@ -12,6 +12,7 @@ import eu.scy.tools.copex.utilities.ActionMaterialDetail;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.MaterialDetailPanel;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -23,23 +24,19 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
     private EdPPanel edP;
     private ActionMaterial actionMaterial;
     private MaterialStrategy materialStrategy;
-    private ArrayList<MaterialUsed> listMaterialUsed;
+    private List<MaterialUsed> listMaterialUsed;
     private ArrayList<MaterialDetailPanel> listPanel;
 
-    private ArrayList<MaterialUsed> listMaterialToCreate;
-    private ArrayList<MaterialUsed> listMaterialToDelete;
-    private ArrayList<MaterialUsed> listMaterialToUpdate;
+    private int panelWidth;
 
 
-    public ListMaterialPanel(EdPPanel edP, MaterialStrategy materialStrategy, ArrayList<MaterialUsed> listMaterialUsed) {
+    public ListMaterialPanel(EdPPanel edP, MaterialStrategy materialStrategy, List<MaterialUsed> listMaterialUsed, int panelWidth) {
         super();
         this.edP = edP;
         this.materialStrategy = materialStrategy;
         this.listMaterialUsed = listMaterialUsed;
         this.listPanel = new ArrayList();
-        this.listMaterialToCreate = new ArrayList();
-        this.listMaterialToDelete = new ArrayList();
-        this.listMaterialToUpdate = new ArrayList();
+        this.panelWidth = panelWidth;
         initGUI();
     }
 
@@ -51,7 +48,7 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
             int h = setMaterial(listMaterialUsed.get(i), i);
             height += h;
         }
-        setSize(MaterialDialog.panelWidth, height);
+        setSize(panelWidth, height);
         setPreferredSize(getSize());
     }
 
@@ -68,7 +65,7 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
         int h = m.getHeight();
         int y = id*h;
         m.setBounds(0,y,MaterialDialog.panelWidth, h);
-        m.addActionComment(this);
+        m.addActionMaterialDetail(this);
         listPanel.add(m);
         this.add(m);
         return h;
@@ -97,16 +94,25 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
         this.remove(listPanel.get(id));
         this.listMaterialUsed.remove(id);
         this.listPanel.remove(id);
-        id = this.listMaterialToCreate.indexOf(mUsed);
-        if(id == -1)
-            this.listMaterialToDelete.add(mUsed);
-        else
-            this.listMaterialToCreate.remove(id);
         if(actionMaterial != null)
             actionMaterial.actionRemoveMaterial(mUsed);
         actionResize();
         revalidate();
         repaint();
+    }
+
+    public ArrayList<MaterialUsed> getListMaterialUsed(){
+        ArrayList<MaterialUsed> list = new ArrayList();
+        int nb = listPanel.size();
+        for (int i=0; i<nb; i++){
+            MaterialUsed mUsed = listPanel.get(i).getMaterialUsed();
+            list.add(mUsed);
+        }
+        return list;
+    }
+
+    public void saveData(MaterialUsed mUsed){
+        actionMaterial.saveData(mUsed);
     }
  
 }

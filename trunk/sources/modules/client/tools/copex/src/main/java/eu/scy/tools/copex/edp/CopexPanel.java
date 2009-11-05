@@ -50,7 +50,7 @@ public class CopexPanel extends JPanel {
     // CONSTANTES
     /*panel size*/
     public final static int PANEL_WIDTH = 550;
-    public final static int PANEL_HEIGHT = 370;
+    public final static int PANEL_HEIGHT = 350;
 
     /* version */
     private String version = "2.0";
@@ -162,6 +162,10 @@ public class CopexPanel extends JPanel {
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
+    @Override
+    public Locale getLocale(){
+        return this.locale;
+    }
 
     public void addActionCopex(ActionCopex actionCopex){
         this.actionCopex = actionCopex;
@@ -170,8 +174,11 @@ public class CopexPanel extends JPanel {
     public void loadData(){
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
        // appel au noyau : chargement des donnees
-      String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
-      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, logFileName);
+      //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
+      //String fileMission = "copexMission_SCI131.xml";
+      //String fileMission = "copexMission_simple.xml";
+      String fileMission = "copexMission_SCY1_CO2.xml";
+      CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
           System.out.println("erreur chargement des donnees ....");
@@ -183,6 +190,10 @@ public class CopexPanel extends JPanel {
 
     public String getVersion(){
         return this.version;
+    }
+
+    public Image getIconDialog(){
+        return getCopexImage("labbook.png").getImage();
     }
     
     public  ImageIcon getCopexImage(String img){
@@ -316,7 +327,7 @@ public class CopexPanel extends JPanel {
             System.out.println("addCopexpanel, scyMode");
             this.add(copex, BorderLayout.CENTER);
         }else{
-            copexTabbedPane.addTab(proc.getName(), copex);
+            copexTabbedPane.addTab(proc.getName(getLocale()), copex);
         }
     }
 
@@ -329,6 +340,11 @@ public class CopexPanel extends JPanel {
     /* retourne le tooltiptext sur le bouton d'ouverture */
     public String getToolTipTextOpen(){
         return getBundleString("TOOLTIPTEXT_OPEN_PROC");
+    }
+
+    public void setQuestionDialog(){
+        if(activCopex != null)
+            activCopex.setQuestionDialog();
     }
 
     /* recherche de l'indice d'un protocole */
@@ -423,14 +439,8 @@ public class CopexPanel extends JPanel {
         }
     }
 
-    /* ouverture auto de la fenetre d'edition de la question */
-    public void openQuestionDialog(){
-        
-    }
-
-    public void setQuestionDialog(){
-       
-    }
+    
+    
 
     public void deleteProc(LearnerProcedure proc){
         closeProc(proc);
@@ -444,28 +454,7 @@ public class CopexPanel extends JPanel {
         copexTabbedPane.updateProcName(proc, name);
     }
 
-    public void updateDataSheet(LearnerProcedure proc){
-        int id = getIdProc(proc.getDbKey());
-        if(id != -1){
-            listProc.set(id, proc);
-            listCopexPanel.get(id).updateDataSheet(proc.getDataSheet());
-        }
-    }
-    public void deleteDataSheet(LearnerProcedure proc){
-        int id = getIdProc(proc.getDbKey());
-        if(id != -1){
-            listProc.set(id, proc);
-            listCopexPanel.get(id).deleteDataSheet();
-        }
-    }
-
-    public void createDataSheet(LearnerProcedure proc){
-        int id = getIdProc(proc.getDbKey());
-        if(id != -1){
-            listProc.set(id, proc);
-            listCopexPanel.get(id).createDataSheet(proc.getDataSheet());
-        }
-    }
+    
 
     public void paste(LearnerProcedure proc, ArrayList<CopexTask> listTask, TaskSelected t, char undoRedo) {
         int id = getIdProc(proc.getDbKey());
@@ -589,6 +578,7 @@ public class CopexPanel extends JPanel {
         return activCopex.getExperimentalProcedure();
     }
 
+    
     private boolean hasModification(){
         return activCopex.hasModification();
     }

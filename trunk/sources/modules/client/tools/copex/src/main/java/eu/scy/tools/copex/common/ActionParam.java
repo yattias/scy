@@ -5,6 +5,10 @@
 
 package eu.scy.tools.copex.common;
 
+import java.util.Locale;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
 
 /**
  * parametres d'une action :
@@ -14,7 +18,8 @@ package eu.scy.tools.copex.common;
  * @author Marjolaine
  */
 public class ActionParam implements Cloneable {
-    // PROPERTY
+    public final static String TAG_ACTION_PARAM_ID= "id";
+
     /* identifiant */
     protected long dbKey;
     /* parametre initial auquel il est lie */
@@ -24,6 +29,10 @@ public class ActionParam implements Cloneable {
     public ActionParam(long dbKey, InitialActionParam initialParam) {
         this.dbKey = dbKey;
         this.initialParam = initialParam;
+    }
+
+    public ActionParam(Element xmlElem) throws JDOMException {
+		
     }
 
     // GETTER AND SETTER
@@ -57,7 +66,12 @@ public class ActionParam implements Cloneable {
     }
 
     /* description dans l'arbre*/
-    public String toDescription(){
+    public String toDescription(Locale locale){
         return "";
+    }
+
+    // toXML
+    public Element toXML(){
+        return null;
     }
 }

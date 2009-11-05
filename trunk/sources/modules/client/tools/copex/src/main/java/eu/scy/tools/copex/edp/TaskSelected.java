@@ -31,20 +31,20 @@ public class TaskSelected {
     private CopexTask parentTask;
     // en graphique 
     /* noeud selectionne */
-    private CopexTreeNode selectedNode;
+    private CopexNode selectedNode;
     /* noeud frere */
-    private CopexTreeNode brotherNode;
+    private CopexNode brotherNode;
     /* noeud parent */
-    private CopexTreeNode parentNode;
+    private CopexNode parentNode;
     /* noeud grand frere */
-    private CopexTreeNode oldBrotherNode;
+    private CopexNode oldBrotherNode;
     /* dernier noeud frere */
-    private CopexTreeNode lastBrotherNode;
+    private CopexNode lastBrotherNode;
     /*grand frere eventuel */
     private CopexTask oldBrother ;
 
     // CONSTRUCTEURS 
-    public TaskSelected(LearnerProcedure proc, CopexTask selectedTask, CopexTask taskBrother, CopexTask taskParent, CopexTask taskOldBrother, CopexTreeNode selectedNode, CopexTreeNode brotherNode, CopexTreeNode parentNode, CopexTreeNode oldBrotherNode, ArrayList<CopexTask> listAllChildren, CopexTask parentTask, CopexTreeNode lastBrotherNode, CopexTask oldBrother) {
+    public TaskSelected(LearnerProcedure proc, CopexTask selectedTask, CopexTask taskBrother, CopexTask taskParent, CopexTask taskOldBrother, CopexNode selectedNode, CopexNode brotherNode, CopexNode parentNode, CopexNode oldBrotherNode, ArrayList<CopexTask> listAllChildren, CopexTask parentTask, CopexNode lastBrotherNode, CopexTask oldBrother) {
         this.proc = proc;
         this.taskSelected = selectedTask;
         this.taskBrother = taskBrother;
@@ -60,7 +60,7 @@ public class TaskSelected {
         this.oldBrother = oldBrother ;
     }
 
-    public void setSelectedNode(CopexTreeNode selectedNode) {
+    public void setSelectedNode(CopexNode selectedNode) {
         this.selectedNode = selectedNode;
     }
     
@@ -71,12 +71,12 @@ public class TaskSelected {
          return this.taskSelected;
      }
 
-    public CopexTreeNode getLastBrotherNode() {
+    public CopexNode getLastBrotherNode() {
         return lastBrotherNode;
     }
      
      /* retourne la  noeud selectionne si selection simple, null sinon*/
-     public CopexTreeNode getSelectedNode(){
+     public CopexNode getSelectedNode(){
          return this.selectedNode;
      }
 
@@ -94,11 +94,11 @@ public class TaskSelected {
          return this.taskParent;
      }
 
-    public CopexTreeNode getBrotherNode() {
+    public CopexNode getBrotherNode() {
         return brotherNode;
     }
 
-    public CopexTreeNode getParentNode() {
+    public CopexNode getParentNode() {
         return parentNode;
     }
 
@@ -125,15 +125,14 @@ public class TaskSelected {
         return oldBrother != null;
     }
 
-    @Override
-    public String toString() {
-        String s = "tache sel : "+this.taskSelected.getDescription()+"("+this.taskSelected.getDbKey()+")\n";
-        s += "tache parent : "+parentTask.getDescription()+" ("+parentTask.getDbKey()+")\n";
+    public String toString(EdPPanel edP) {
+        String s = "tache sel : "+this.taskSelected.getDescription(edP.getLocale())+"("+this.taskSelected.getDbKey()+")\n";
+        s += "tache parent : "+parentTask.getDescription(edP.getLocale())+" ("+parentTask.getDbKey()+")\n";
         s += "tache frere : ";
         if (this.taskBrother == null)
             s += " null \n";
         else
-            s += taskBrother.getDescription()+" ("+taskBrother.getDbKey()+")\n";
+            s += taskBrother.getDescription(edP.getLocale())+" ("+taskBrother.getDbKey()+")\n";
         return s;
         
     }

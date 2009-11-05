@@ -5,48 +5,173 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import org.jdom.Attribute;
+import org.jdom.Element;
+import org.jdom.JDOMException;
 
 /**
  * represente un protocole
  * @author MBO
  */
 public class ExperimentalProcedure implements Cloneable {
+    /*tag name  */
+    public static final String TAG_EXPERIMENTAL_PROCEDURE = "experimental_procedure";
+    public static final String TAG_EXP_PROC_NAME = "name" ;
+    public static final String TAG_EXP_PROC_RIGHT = "right";
+    public static final String TAG_EXP_MATERIAL_PROD = "material_prod";
 
-    // ATTRIBUTS
+
     /* identifiant base de donnees */
     protected long dbKey;
     /*
      * nom du protocole
      */
-    protected String name;
+    protected List<LocalText> listName;
     /* date de derniere modif */
     protected java.sql.Date dateLastModification;
+
+
     /*
      * question associee
      */
     protected Question question;
-    
+    /* hypotheses */
+    protected Hypothesis hypothesis;
+    /* general principle */
+    protected GeneralPrinciple generalPrinciple;
+    /* liste du materiel utilise pour le protocole */
+    protected MaterialProc materials;
+    /* liste des taches */
+    protected Manipulation manipulation;
+    /* Feuille de donnees */
+    protected DataSheet dataSheet;
+    /*evaluation */
+    protected Evaluation evaluation;
+
     /* actif */
     protected boolean activ;
     /* droit */
     protected char right;
-    
-    /* liste des taches */
-    protected ArrayList<CopexTask> listTask;
-    
-    /* Feuille de donnees */
-    private DataSheet dataSheet;
-    
     /* protocole ouvert ou feme */
     protected boolean open = true;
-    /* liste du materiel utilise pour le protocole */
-    private ArrayList<MaterialUseForProc> listMaterialUse;
+
+    public Evaluation getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public GeneralPrinciple getGeneralPrinciple() {
+        return generalPrinciple;
+    }
+
+    public void setGeneralPrinciple(GeneralPrinciple generalPrinciple) {
+        this.generalPrinciple = generalPrinciple;
+    }
+
+    public Hypothesis getHypothesis() {
+        return hypothesis;
+    }
+
+    public void setHypothesis(Hypothesis hypothesis) {
+        this.hypothesis = hypothesis;
+    }
+
     
-    // GETTER AND SETTER
-    public String getName() {
-        return name;
+    
+    // CONSTRUCTEURS
+    public ExperimentalProcedure(long dbKey, List<LocalText> listName, java.sql.Date dateLastModification, boolean isActiv, char right ) {
+        this.dbKey = dbKey;
+        this.listName = listName;
+        this.dateLastModification = dateLastModification;
+        this.activ = isActiv;
+        this.right = right;
+        this.open = true;
+        this.question = null;
+        this.hypothesis = null;
+        this.generalPrinciple = null;
+        this.materials = new MaterialProc(new LinkedList());
+        this.manipulation = null;
+        this.dataSheet = null;
+        this.evaluation = null;
+    }
+
+
+
+    /*creation d'un nouveau protocole */
+    public ExperimentalProcedure(List<LocalText> listName,  java.sql.Date dateLastModification){
+        this.dbKey = -1;
+        this.listName = listName;
+        this.dateLastModification = dateLastModification;
+        this.activ = true;
+        this.right = MyConstants.EXECUTE_RIGHT;
+        this.open = true;
+        this.question = null;
+        this.hypothesis = null;
+        this.generalPrinciple = null;
+        this.materials = new MaterialProc(new LinkedList());
+        this.manipulation = null;
+        this.dataSheet = null;
+        this.evaluation = null;
+    }
+
+    public ExperimentalProcedure(ExperimentalProcedure proc) {
+        this.dbKey = proc.getDbKey();
+        this.listName = proc.getListName();
+        this.dateLastModification = proc.getDateLastModification();
+        this.activ = proc.isActiv();
+        this.right = proc.getRight();
+        this.open = proc.isOpen();
+        this.question = proc.getQuestion();
+        this.hypothesis = proc.getHypothesis();
+        this.generalPrinciple = proc.getGeneralPrinciple();
+        this.materials = proc.getMaterials();
+        if(materials == null)
+            materials= new MaterialProc(new LinkedList());
+        this.manipulation = proc.getManipulation();
+        this.dataSheet = proc.getDataSheet();
+        this.evaluation = proc.getEvaluation();
+    }
+
+    public ExperimentalProcedure(Element xmlElem) throws JDOMException {
+		
+	}
+
+    public Manipulation getManipulation() {
+        return manipulation;
+    }
+
+    public void setManipulation(Manipulation manipulation) {
+        this.manipulation = manipulation;
+    }
+
+    public MaterialProc getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(MaterialProc materials) {
+        this.materials = materials;
+    }
+    public String getName(Locale locale) {
+        return CopexUtilities.getText(listName, locale);
+    }
+
+
+    public List<LocalText> getListName() {
+        return listName;
+    }
+
+    public void setListName(List<LocalText> listName) {
+        this.listName = listName;
     }
 
     public void setDbKey(long dbKey) {
@@ -69,8 +194,13 @@ public class ExperimentalProcedure implements Cloneable {
         this.right = right;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listName);
+        if(id ==-1){
+            this.listName.add(text);
+        }else{
+            this.listName.set(id, text);
+        }
     }
 
     public Question getQuestion() {
@@ -103,58 +233,11 @@ public class ExperimentalProcedure implements Cloneable {
         this.open = open;
     }
 
-    public ArrayList<CopexTask> getListTask() {
-        return listTask;
-    }
-
-    public void setListTask(ArrayList<CopexTask> listTask) {
-        this.listTask = listTask;
-    }
-
     public long getDbKey() {
         return dbKey;
     }
     
-    // CONSTRUCTEURS 
-    public ExperimentalProcedure(long dbKey, String name, java.sql.Date dateLastModification, boolean isActiv, char right) {
-        this.dbKey = dbKey;
-        this.name = name;
-        this.dateLastModification = dateLastModification;
-        this.activ = isActiv;
-        this.right = right;
-        this.question = null;
-        this.open = true;
-        this.dataSheet = null;
-        this.listMaterialUse = new ArrayList();
-    }
-
     
-    
-    /*creation d'un nouveau protocole */ 
-    public ExperimentalProcedure(String name,  java.sql.Date dateLastModification){
-        this.dbKey = -1;
-        this.name = name;
-        this.dateLastModification = dateLastModification;
-        this.activ = true;
-        this.right = MyConstants.EXECUTE_RIGHT;
-        this.question = null;
-        this.open = true;
-        this.dataSheet = null;
-        this.listMaterialUse = new ArrayList();
-    }
-
-    public ExperimentalProcedure(ExperimentalProcedure proc) {
-        this.dbKey = proc.getDbKey();
-        this.name = proc.getName();
-        this.dateLastModification = proc.getDateLastModification();
-        this.activ = proc.isActiv();
-        this.right = proc.getRight();
-        this.question = proc.getQuestion();
-        this.open = proc.isOpen();
-        this.dataSheet = proc.getDataSheet();
-        this.listMaterialUse = proc.getListMaterialUse();
-        this.listTask = proc.getListTask() ;
-    }
 
 
     @Override
@@ -162,52 +245,57 @@ public class ExperimentalProcedure implements Cloneable {
         try {
             ExperimentalProcedure proc = (ExperimentalProcedure) super.clone() ;
             long dbKeyC = this.dbKey;
-            String nameC = new String(this.name);
+            List<LocalText> listNameC = new LinkedList();
+            for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
+                listNameC.add((LocalText)t.next().clone());
+            }
+            proc.setListName(listNameC);
             java.sql.Date  dateLastModifC = null;
             if (this.dateLastModification != null)
                 dateLastModifC = (java.sql.Date)this.dateLastModification.clone();
+            char taskRightC = new Character(this.right);
+            boolean activC = this.activ;
+            boolean openC = this.open;
+
             Question questionC = null;
             if(question != null){
                 questionC = (Question)this.question.clone();
             }
-            
-            char taskRightC = new Character(this.right);
-            boolean activC = this.activ;
-            boolean openC = this.open;
+            Hypothesis hypothesisC = null;
+            if(this.hypothesis != null)
+                hypothesisC = (Hypothesis)this.hypothesis.clone();
+            GeneralPrinciple generalPrincipleC = null;
+            if(this.generalPrinciple != null)
+                generalPrincipleC = (GeneralPrinciple)this.generalPrinciple.clone();
+            MaterialProc materialsC= null;
+            if(this.materials != null)
+                materialsC = (MaterialProc)this.materials.clone();
+            Manipulation manipulationC = null;
+            if(this.manipulation != null)
+                manipulationC = (Manipulation)this.manipulation.clone();
             DataSheet dataSheetC = null;
             if (this.dataSheet != null)
                 dataSheetC = (DataSheet)this.dataSheet.clone();
-            ArrayList<CopexTask> listTaskC = null;
-            if (listTask != null){
-                int nbT = this.listTask.size();
-                listTaskC = new ArrayList();
-                for (int i=0; i<nbT; i++){
-                    listTaskC.add((CopexTask)listTask.get(i).clone());
-                }
-            }
-            ArrayList<MaterialUseForProc> listMatC = null;
-            if (listMaterialUse != null){
-                int nb = this.listMaterialUse.size();
-                listMatC = new ArrayList();
-                for (int i=0; i<nb; i++){
-                    listMatC.add((MaterialUseForProc)listMaterialUse.get(i).clone());
-                }
-            }
+            Evaluation evaluationC = null;
+            if(this.evaluation != null)
+                evaluationC = (Evaluation)this.evaluation.clone();
             proc.setDbKey(dbKeyC);
-            proc.setName(nameC);
             proc.setDateLastModification(dateLastModifC);
-            proc.setQuestion(questionC);
             proc.setActiv(activC);
             proc.setRight(taskRightC);
-            proc.setListTask(listTaskC);
             proc.setOpen(openC);
+            proc.setQuestion(questionC);
+            proc.setHypothesis(hypothesisC);
+            proc.setGeneralPrinciple(generalPrincipleC);
+            proc.setMaterials(materialsC);
+            proc.setManipulation(manipulationC);
             proc.setDataSheet(dataSheetC);
-            proc.setListMaterialUse(listMatC);
+            proc.setEvaluation(evaluationC);
             return proc;
         } catch (CloneNotSupportedException e) { 
-	    // this shouldn't happen, since we are Cloneable
-	    throw new InternalError();
-	}
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError();
+        }
     }
     
     // METHODES
@@ -218,29 +306,22 @@ public class ExperimentalProcedure implements Cloneable {
         return  activ;
     }
 
-    public ArrayList<MaterialUseForProc> getListMaterialUse() {
-        return listMaterialUse;
-    }
-
-    public void setListMaterialUse(ArrayList<MaterialUseForProc> listMaterialUse) {
-        this.listMaterialUse = listMaterialUse;
-    }
     
     /* suppression de taches - retourne vrai si ca s'est bien passe */
     public boolean deleteTasks(ArrayList<CopexTask> listT){
         boolean isOk = true;
         int nbToDel = listT.size();
-        int nbT = listTask.size();
+        int nbT = manipulation.getListTask().size();
         for (int k=0; k<nbToDel; k++){
             int index = -1;
             for (int i=0; i<nbT; i++){
-                if (listTask.get(i).getDbKey() == listT.get(k).getDbKey()){
+                if (manipulation.getListTask().get(i).getDbKey() == listT.get(k).getDbKey()){
                     index = i;
                     break;
                 }
             }
             if (index != -1)
-                listTask.remove(index);
+                manipulation.getListTask().remove(index);
             else
                 isOk = false;
             
@@ -250,13 +331,13 @@ public class ExperimentalProcedure implements Cloneable {
     
     /* ajout d'une tache */
     public void addAction(CopexAction a){
-        this.listTask.add(a);
+        this.manipulation.add(a);
     }
     public void addStep(Step s){
-        this.listTask.add(s);
+        this.manipulation.add(s);
     }
     public void addQuestion(Question q){
-        this.listTask.add(q);
+        this.manipulation.add(q);
     }
     
     
@@ -264,7 +345,7 @@ public class ExperimentalProcedure implements Cloneable {
     public void addTasks(ArrayList<CopexTask> listT){
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
-            this.listTask.add(listT.get(i));
+            this.manipulation.add(listT.get(i));
         }
     }
     
@@ -276,42 +357,97 @@ public class ExperimentalProcedure implements Cloneable {
         return this instanceof LearnerProcedure;
     }
     
-     // suppression d'un materiel
-    public void removeMaterialUse(Material m){
-        int id = getIdMaterialUse(m.getDbKey());
-        if (id != -1)
-            this.listMaterialUse.remove(id);
+    public List<CopexTask> getListTask(){
+        if(manipulation == null)
+            return new LinkedList();
+        else
+            return manipulation.getListTask();
     }
-    
-     // ajout d'un materiel
-    public void addMaterialUse(MaterialUseForProc m){
-        if (this.listMaterialUse == null)
-            this.listMaterialUse = new ArrayList();
-        this.listMaterialUse.add(m);
+
+    public void setListTask(ArrayList<CopexTask> listTask){
+        manipulation = new Manipulation(listTask);
     }
-    
-     // modification  d'un materiel
-    public void updateMaterialUse(MaterialUseForProc m){
-        int id = getIdMaterialUse(m.getMaterial().getDbKey());
-        if (id != -1){
-            this.listMaterialUse.set(id, m);
+
+     // toXML
+    public Element toXML(){
+        return null;
+    }
+
+    public Element toXML(Element element){
+        if(listName != null && listName.size() > 0){
+            for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_EXP_PROC_NAME);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
         }
+        //element.addContent(new Element(TAG_EXP_PROC_RIGHT).setText(Character.toString(right)));
+        element.addContent(question.toXML());
+        if(hypothesis != null)
+            element.addContent(hypothesis.toXML());
+        if(generalPrinciple != null)
+            element.addContent(generalPrinciple.toXML());
+        if(evaluation != null)
+            element.addContent(evaluation.toXML());
+        List<Material> listMaterialProd  = getListMaterialProd();
+        if(listMaterialProd.size() > 0){
+            Element e = new Element(TAG_EXP_MATERIAL_PROD);
+            for(Iterator<Material> m = listMaterialProd.iterator();m.hasNext();){
+                e.addContent(m.next().toXML());
+            }
+            element.addContent(e);
+        }
+        element.addContent(manipulation.toXML());
+        return element;
     }
-    private int getIdMaterialUse(long dbKey){
-        int nb = this.listMaterialUse.size();
+
+    public List<Material> getListMaterialProd(){
+        List<Material> list = new LinkedList();
+        for(Iterator<CopexTask> t = getListTask().iterator();t.hasNext();){
+            List<Material> l = t.next().getAllMaterialProd();
+            for(Iterator<Material> m = l.iterator();m.hasNext();){
+                Material mat = m.next();
+                int idM = getIdMaterial(list,mat);
+                if(idM == -1)
+                    list.add(mat);
+            }
+        }
+        return list;
+    }
+
+    private int getIdMaterial(List<Material> list, Material m){
+        int nb = list.size();
         for (int i=0; i<nb; i++){
-            if (this.listMaterialUse.get(i).getMaterial().getDbKey() == dbKey)
+            if(m.getDbKey()==list.get(i).getDbKey() || m.getCode().equals(list.get(i).getCode())){
                 return i;
+            }
         }
         return -1;
     }
-    
-    /* retourne le materiel utlise pour un mat donne */
-    public MaterialUseForProc getMaterialUse(Material m){
-        int id = getIdMaterialUse(m.getDbKey());
-        if (id != -1){
-            return this.listMaterialUse.get(id);
+
+     public List<QData> getListDataProd(){
+        List<QData> list = new LinkedList();
+        for(Iterator<CopexTask> t = getListTask().iterator();t.hasNext();){
+            List<QData> l = t.next().getAllDataProd();
+            for(Iterator<QData> m = l.iterator();m.hasNext();){
+                QData data = m.next();
+                int idD = getIdData(list,data);
+                if(idD == -1)
+                    list.add(data);
+            }
         }
-        return null;
+        return list;
+    }
+
+    private int getIdData(List<QData> list, QData d){
+        int nb = list.size();
+        for (int i=0; i<nb; i++){
+           // if(d.getDbKey()==list.get(i).getDbKey() || d.getCode().equals(list.get(i).getCode())){
+            if( d.getCode().equals(list.get(i).getCode())){
+            }
+        }
+        return -1;
     }
 }

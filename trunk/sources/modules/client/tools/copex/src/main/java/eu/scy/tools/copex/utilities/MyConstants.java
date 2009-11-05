@@ -22,10 +22,11 @@ public class MyConstants {
     /* LONGUEUR MAX DESC CHAMPS */
     public static final int MAX_LENGHT_TASK_DESCRIPTION = 1024;
     public static final int MAX_LENGHT_TASK_COMMENTS = 1024;
-    public static final int MAX_LENGHT_QUESTION_HYPOTHESIS = 1024;
+    public static final int MAX_LENGHT_HYPOTHESIS = 1024;
     public static final int MAX_LENGHT_PROC_NAME = 32;
     public static final int MAX_LENGHT_DATA = 128;
-    public static final int MAX_LENGHT_QUESTION_GENERAL_PRINCIPLE = 1024;
+    public static final int MAX_LENGHT_GENERAL_PRINCIPLE = 1024;
+    public static final int MAX_LENGHT_EVALUATION = 1024;
     public static final int MAX_LENGHT_JUSTIFICATION = 1024;
     public static final int MAX_LENGHT_UNIT=12;
     public static final int MAX_LENGHT_MATERIAL_NAME=32;
@@ -71,4 +72,12 @@ public class MyConstants {
 
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";
+
+    /* mode menu */
+    public final static char MODE_MENU_NO='N';
+    public final static char MODE_MENU='M';
+    public final static char MODE_MENU_TREE='T';
+
+    public final static String XML_BOOLEAN_TRUE = "true";
+    public final static String XML_BOOLEAN_FALSE = "false";
 }

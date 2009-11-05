@@ -5,131 +5,66 @@
 
 package eu.scy.tools.copex.common;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+
 /**
- * represente une feuille de donnees 
+ * datasheet of the question: list of prod data
  * @author MBO
  */
 public class DataSheet implements Cloneable {
 
-    // ATTRIBUTS
-    /* cle primaire */
-    private long dbKey;
-    /* donnees */
-    private CopexData[][] data;
+    private List<QData> listDataProd;
+
+    public DataSheet(List<QData> listDataProd) {
+        this.listDataProd = listDataProd;
+    }
+
     
-    // CONSTRUCTEURS
-    public DataSheet(CopexData[][] data){
-        this.dbKey = -1;
-        this.data = data;
-    }
-    public DataSheet(int nbL, int nbC){
-        this.dbKey = -1;
-        this.data = new CopexData[nbL][nbC];
-    }
-    public DataSheet(long dbKey, int nbL, int nbC){
-        this.dbKey = dbKey;
-        this.data = new CopexData[nbL][nbC];
+    public List<QData> getListDataProd() {
+        return listDataProd;
     }
 
-   
-    // METHODES
-    public long getDbKey() {
-        return dbKey;
+    public void setListDataProd(List<QData> listDataProd) {
+        this.listDataProd = listDataProd;
     }
 
-    public void setDbKey(long dbKey) {
-        this.dbKey = dbKey;
-    }
-    public int getNbRows(){
-        return this.data.length;
-    }
-    public int getNbColumns(){
-        return this.data[0].length;
-    }
-    public String getTitleRow(int noRow){
-        return data[noRow][0].getData();
-    }
-    public String getTitleColumn(int noCol){
-        return data[0][noCol].getData();
-    }
-
-    public CopexData[][] getData() {
-        return data;
-    }
-
-    public void setData(CopexData[][] data) {
-        this.data = data;
-    }
-    
-     @Override
+    @Override
     public Object clone()  {
         try {
             DataSheet ds = (DataSheet) super.clone() ;
-            if (ds.getNbRows() > 0 ){
-                CopexData[][] d = new CopexData[getNbRows()][getNbColumns()];
-                for (int i=0; i<getNbRows(); i++){
-                    for (int j=0; j<getNbColumns(); j++){
-                        if (this.data[i][j] != null)
-                            d[i][j] = (CopexData)data[i][j].clone();
-                    }
+            List<QData> listC = null;
+            if(listDataProd != null){
+                listC = new LinkedList();
+                int nb = listDataProd.size();
+                for (int i=0; i<nb; i++){
+                    listC.add((QData)(listDataProd.get(i)).clone());
                 }
-                ds.setData(d);
             }
-            ds.setDbKey(new Long(this.dbKey));
+            ds.setListDataProd(listC);
             return ds;
-        } catch (CloneNotSupportedException e) { 
-	    // this shouldn't happen, since we are Cloneable
-	    throw new InternalError();
-	}
+        } catch (CloneNotSupportedException e) {
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError();
+        }
     }
-     
-     /* mise a jour d'une valeur */
-     public void setValueAt(CopexData data, int noRow, int noCol){
-         this.data[noRow][noCol] = data;
-     }
-     
-     /* retourne les valeurs du tableau */
-     public String[][] getStringData() {
-       String[][] dataString = null;
-       if (this.getNbRows() > 0){
-           dataString = new String[getNbRows()][getNbColumns()];
-           for (int i=0; i<getNbRows(); i++)
-               for (int j=0; j<getNbColumns(); j++){
-                   if (this.data[i][j] != null)
-                        dataString[i][j] = this.data[i][j].getData();
-                   else
-                       dataString[i][j] = "";
-               }
-       }
-       return dataString;
-     }
-     
-     /* retourne l'identifiant de la donnee, -1 si null */
-     public long getDbKeyData(int noRow, int noCol){
-         long dbKeyData = -1;
-         if (this.data[noRow][noCol] != null){
-             dbKeyData = this.data[noRow][noCol].getDbKey();
-         }
-         return dbKeyData;
-     }
-     
-     /* retourne la donnee */
-     public CopexData getDataAt(int noRow, int noCol){
-         return this.data[noRow][noCol] ;
-     }
-     
-     /* modification du nombre de colonnes et de lignes */
-     public void update(int nbR, int nbC){
-         int oldR = getNbRows();
-         int oldC = getNbColumns();
-         CopexData[][] newData = new CopexData[nbR][nbC];
-         int ml = Math.min(oldR, nbR);
-         int mc = Math.min(oldC, nbC);
-         for (int i=0; i<ml; i++){
-             for (int j=0; j<mc; j++){
-                 newData[i][j] = this.data[i][j];
-             }
-         }
-         setData(newData);
-     }
+
+    public String toTreeString(Locale locale){
+        String s = "";
+        if(listDataProd == null)
+            return s;
+        int nb = listDataProd.size();
+        for (int k=0; k<nb; k++){
+            if(listDataProd.get(k) instanceof QData){
+                s += ((QData)listDataProd.get(k)).getName(locale);
+                if(k< nb-1){
+                    s +="\n";
+                }
+            }
+        }
+        return s;
+    }
+    
+    
 }
