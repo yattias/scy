@@ -1,44 +1,47 @@
 package eu.scy.server.externalcomponents;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Henrik
- * Date: 05.nov.2009
- * Time: 13:31:21
- * To change this template use File | Settings | File Templates.
- */
 public class ExternalComponentManager {
 
-    private List<IExternalComponent> externalComponents = new LinkedList<IExternalComponent>();
+    private Set<IExternalComponent> externalComponents;
+
+    public ExternalComponentManager() {
+        externalComponents = new TreeSet<IExternalComponent>(new Comparator<IExternalComponent>() {
+
+            @Override
+            public int compare(IExternalComponent o1, IExternalComponent o2) {
+                return o1.getPriority() - o2.getPriority();
+            }
+            
+        });
+    }
 
     public void startupExternalComponents() throws ExternalComponentFailedException {
-        for (int i = 0; i < externalComponents.size(); i++) {
-            IExternalComponent iExternalComponent = externalComponents.get(i);
+        for (IExternalComponent iExternalComponent : externalComponents) {
             iExternalComponent.startComponent();
         }
     }
-    
+
     public void stopExternalComponents() throws ExternalComponentFailedException {
-        for (int i = 0; i < externalComponents.size(); i++) {
-            IExternalComponent iExternalComponent = externalComponents.get(i);
+        for (IExternalComponent iExternalComponent : externalComponents) {
             iExternalComponent.stopComponent();
         }
     }
 
     public void addExternalComponent(IExternalComponent externalComponent) {
-        if(!getExternalComponents().contains(externalComponent)) {
+        if (!getExternalComponents().contains(externalComponent)) {
             getExternalComponents().add(externalComponent);
         }
     }
 
-    public List<IExternalComponent> getExternalComponents() {
+    public Set<IExternalComponent> getExternalComponents() {
         return externalComponents;
     }
 
-    public void setExternalComponents(List<IExternalComponent> externalComponents) {
+    public void setExternalComponents(Set<IExternalComponent> externalComponents) {
         this.externalComponents = externalComponents;
     }
 }
