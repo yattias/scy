@@ -94,5 +94,48 @@ public class Context implements IContext{
 			default: throw new IllegalArgumentException("Constant " + constant + " not known!");
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mission == null) ? 0 : mission.hashCode());
+		result = prime * result + ((session == null) ? 0 : session.hashCode());
+		result = prime * result + ((tool == null) ? 0 : tool.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Context))
+			return false;
+		Context other = (Context) obj;
+		if (mission == null) {
+			if (other.mission != null)
+				return false;
+		} else if (!mission.equals(other.mission))
+			return false;
+		if (session == null) {
+			if (other.session != null)
+				return false;
+		} else if (!session.equals(other.session))
+			return false;
+		if (tool == null) {
+			if (other.tool != null)
+				return false;
+		} else if (!tool.equals(other.tool))
+			return false;
+		return true;
+	}
 	
 }
