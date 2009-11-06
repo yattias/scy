@@ -21,7 +21,6 @@ public class SQLSpacesComponent implements IExternalComponent {
         Configuration.getConfiguration().setMysqlSchema("sqlspaces");
         Configuration.getConfiguration().setDbUser("sqlspaces");
         Configuration.getConfiguration().setDbPassword("sqlspaces");
-        Configuration.getConfiguration().setWebPort(8091);
         Configuration.getConfiguration().setWebEnabled(false);
         Configuration.getConfiguration().setWebServicesEnabled(false);
         Server.startServer();
@@ -30,6 +29,11 @@ public class SQLSpacesComponent implements IExternalComponent {
     @Override
     public void stopComponent() throws ExternalComponentFailedException {
         Server.stopServer();
+    }
+
+    @Override
+    public int getPriority() {
+        return 0;
     }
 
 }
