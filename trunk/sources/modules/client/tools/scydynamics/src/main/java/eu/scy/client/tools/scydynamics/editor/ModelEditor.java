@@ -38,9 +38,9 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
-import eu.scy.client.tools.scydynamics.logging.DevNullActionLogger;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
@@ -69,7 +69,7 @@ ActionListener {
 	private int currentCursor;
 	private JdCursors cursors;
 	private EditorToolbar toolbar;
-	private IModellingLogger logger;
+	private IModellingLogger actionLogger;
 	private JTools jtools;
 	private EditorTab editorTab;
 	private ArrayList<String> modelCheckMessages = new ArrayList();
@@ -87,27 +87,28 @@ ActionListener {
 		this.setName("Model Editor");
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
-		logger = new ModellingLogger(new DevNullActionLogger(), "obama");
-		/*if (props.get("actionlog.to.scy").equals("true")) {
-                        logger = new ScyActionLogger("obama");
-		} else if (props.get("actionlog.to.file").equals("true")) {
-			logger = new FileActionLogger("obama");
-		} else if (props.get("actionlog.to.sqlspaces").equals("true")) {
-			logger = new SQLSpacesActionLogger("obama", props);
-		} else {
-			logger = new DevNullActionLogger();
-		}*/
+		actionLogger = new ModellingLogger(new DevNullActionLogger(), "obama");
+		/*
+		 * if (props.get("actionlog.to.scy").equals("true")) { logger = new
+		 * ScyActionLogger("obama"); } else if
+		 * (props.get("actionlog.to.file").equals("true")) { logger = new
+		 * FileActionLogger("obama"); } else if
+		 * (props.get("actionlog.to.sqlspaces").equals("true")) { logger = new
+		 * SQLSpacesActionLogger("obama", props); } else { logger = new
+		 * DevNullActionLogger(); }
+		 */
 
-		jtools = new JTools(JColab.JCOLABAPP_RESOURCES, JColab.JCOLABSYS_RESOURCES);
+		jtools = new JTools(JColab.JCOLABAPP_RESOURCES,
+				JColab.JCOLABSYS_RESOURCES);
 		aSelection = new ModelSelection();
 		initComponents();
 		setNewModel();
 	}
 
-	public void setLogger(IActionLogger newLogger, String username) {
-		this.logger = new ModellingLogger(newLogger, username);
+	public void setActionLogger(IActionLogger newLogger, String username) {
+		this.actionLogger = new ModellingLogger(newLogger, username);
 	}
-	
+
 	public static Properties getDefaultProperties() {
 		Properties props = new Properties();
 		props.put("actionlog.to.file", "false");
@@ -121,13 +122,13 @@ ActionListener {
 		props.put("editor.fixedcalculationmethod", "false");
 		return props;
 	}
-	
+
 	public Properties getProperties() {
 		return properties;
 	}
 
 	public IModellingLogger getActionLogger() {
-		return logger;
+		return actionLogger;
 	}
 
 	private void initComponents() {
@@ -144,28 +145,44 @@ ActionListener {
 		this.add(tabbedPane, BorderLayout.CENTER);
 
 		editorTab = new EditorTab(this);
-		this.aCanvas = ((EditorTab) editorTab).getEditorPanel();
-		this.toolbar = ((EditorTab) editorTab).getToolbar();
+		this.aCanvas = (editorTab).getEditorPanel();
+		this.toolbar = (editorTab).getToolbar();
 		graphTab = new GraphTab(this);
 		tableTab = new TableTab(this);
 
-		tabbedPane.addTab("model", new ImageIcon(JTools.getSysResourceImage("JvtEditor")), editorTab);
-		if (properties.get("show.graph").equals("true")) {addGraph();}
-		if (properties.get("show.table").equals("true")) {addTable();}
-		
-		this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	    this.registerKeyboardAction(this, "copy",  KeyStroke.getKeyStroke(KeyEvent.VK_C,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	    this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(KeyEvent.VK_V,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	    this.registerKeyboardAction(this, "cut",   KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	    this.registerKeyboardAction(this, "all",   KeyStroke.getKeyStroke(KeyEvent.VK_A,ActionEvent.CTRL_MASK,false), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		tabbedPane.addTab("model", new ImageIcon(JTools
+				.getSysResourceImage("JvtEditor")), editorTab);
+		if (properties.get("show.graph").equals("true")) {
+			addGraph();
+		}
+		if (properties.get("show.table").equals("true")) {
+			addTable();
+		}
+
+		this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(
+				KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		this.registerKeyboardAction(this, "copy", KeyStroke.getKeyStroke(
+				KeyEvent.VK_C, ActionEvent.CTRL_MASK, false),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(
+				KeyEvent.VK_V, ActionEvent.CTRL_MASK, false),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		this.registerKeyboardAction(this, "cut", KeyStroke.getKeyStroke(
+				KeyEvent.VK_X, ActionEvent.CTRL_MASK, false),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		this.registerKeyboardAction(this, "all", KeyStroke.getKeyStroke(
+				KeyEvent.VK_A, ActionEvent.CTRL_MASK, false),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
-	
+
 	public void addGraph() {
-		tabbedPane.addTab("graph", new ImageIcon(JTools.getSysResourceImage("JvtGraph")), graphTab);		
+		tabbedPane.addTab("graph", new ImageIcon(JTools
+				.getSysResourceImage("JvtGraph")), graphTab);
 	}
-	
+
 	public void addTable() {
-		tabbedPane.addTab("table", new ImageIcon(JTools.getSysResourceImage("JvtTable")), tableTab);		
+		tabbedPane.addTab("table", new ImageIcon(JTools
+				.getSysResourceImage("JvtTable")), tableTab);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -246,7 +263,7 @@ ActionListener {
 	public void setNewModel() {
 		aCanvas.removeMouseListener(mouseListener);
 		aCanvas.removeMouseMotionListener(mouseListener);
-		aModel = new Model(logger);
+		aModel = new Model(actionLogger);
 		aModel.setMethod("euler");
 		aCanvas.setModel(aModel);
 		// aControl.setModel(aModel);
@@ -457,7 +474,8 @@ ActionListener {
 						// JTools.getAppResourceString("editorMsgUnableToSimulateModel")+
 						// "\n" + errMsg;
 						// showStatusMsg(errMsg, true);
-						modelCheckMessages.add("* the element '"+o.getLabel()+"' is not defined.");
+						modelCheckMessages.add("* the element '" + o.getLabel()
+								+ "' is not defined.");
 						b = false;
 					}
 				}
@@ -497,7 +515,8 @@ ActionListener {
 					// JTools.getAppResourceString("editorMsgExpressionError",
 					// parser.getErrorMessage());
 					// showStatusMsg(errMsg,true);
-					modelCheckMessages.add("* the element '"+o.getLabel()+"' contains an invalid expression.");
+					modelCheckMessages.add("* the element '" + o.getLabel()
+							+ "' contains an invalid expression.");
 					if (parser.getErrorMessage() != null) {
 						modelCheckMessages.add(parser.getErrorMessage());
 					}
@@ -564,7 +583,9 @@ ActionListener {
 		} catch (JParserException ex) {
 		}
 		if (!b) {
-			modelCheckMessages.add("* the expression parser encoutered an error in element "+vName);
+			modelCheckMessages
+			.add("* the expression parser encoutered an error in element "
+					+ vName);
 			return false;
 		}
 		// all linked variables used?
@@ -665,7 +686,7 @@ ActionListener {
 	}
 
 	public void pasteSelection() {
-		aSelection.pasteSelection(this,aModel);
+		aSelection.pasteSelection(this, aModel);
 	}
 
 	public void cutSelection() {
@@ -676,9 +697,9 @@ ActionListener {
 		aSelection.deleteSelection(this);
 	}
 
-//	public void undoModel() {
-//		aSelection.undoModel(this);
-//	}
+	// public void undoModel() {
+	// aSelection.undoModel(this);
+	// }
 
 	public void saveModel() {
 		aSelection.saveModel(this);
@@ -697,9 +718,9 @@ ActionListener {
 	}
 
 	// ---------------------------------------------------------------------------
-//	public void enableUndoButton(boolean b) {
-//		aEditorVT.enableUndoButton(b);
-//	}
+	// public void enableUndoButton(boolean b) {
+	// aEditorVT.enableUndoButton(b);
+	// }
 
 	// ---------------------------------------------------------------------------
 	public Hashtable<String, JdObject> getCopySelection() {
@@ -1047,7 +1068,7 @@ ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String aCmd = e.getActionCommand();
 		if ("delete".equals(aCmd)) {
-			 aSelection.deleteSelection(this);
+			aSelection.deleteSelection(this);
 			// sendVisualToolEvent("DeleteSelection", "DeleteSelection");
 		} else if ("all".equals(aCmd)) {
 			selectAllObjects();
@@ -1063,10 +1084,11 @@ ActionListener {
 			// aEditorVT.sendVisualToolEvent("ActionEvent", e, aCmd);
 		}
 	}
+
 	// ---------------------------------------------------------------------------
 
 	public EditorToolbar getEditorToolbar() {
-		return this.editorTab.getEditorToolbar();		
+		return this.editorTab.getEditorToolbar();
 	}
 
 }
