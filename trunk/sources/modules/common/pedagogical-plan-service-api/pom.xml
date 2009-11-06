@@ -10,6 +10,12 @@
     <version>9.8.0-SNAPSHOT</version>
     <name>pedagogical-plan-service-api</name>
     <dependencies>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
     </dependencies>
 </project>
 

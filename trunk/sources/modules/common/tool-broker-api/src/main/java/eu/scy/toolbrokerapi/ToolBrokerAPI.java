@@ -1,5 +1,6 @@
 package eu.scy.toolbrokerapi;
 
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.jivesoftware.smack.XMPPConnection;
 
 import roolo.api.IExtensionManager;
@@ -81,5 +82,14 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return
      */
     public XMPPConnection getConnection(String username, String password);
+
+
+    /**
+     *
+     * Returns the pedagogical plan service
+     *
+     * @return  the pedagogical plan service
+     */
+    public PedagogicalPlanService getPedagogicalPlanService();
 
 }

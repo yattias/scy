@@ -5,6 +5,7 @@ import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.jivesoftware.smack.XMPPConnection;
@@ -28,12 +29,16 @@ public class SCYPlannerApplicationManager {
     private SCYPlannerFrame scyPlannerFrame = null;
     private WindowMenu windowMenu = null;
 
+    private PedagogicalPlanService  pedagogicalPlanService;
+
     private SCYPlannerApplicationManager() {
 
         ToolBrokerAPI toolBrokerAPI = new ToolBrokerImpl();
         XMPPConnection connection = toolBrokerAPI.getConnection("hhhh", "hhhh");
         IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
-        actionLogger.log("hhhh", "SCYPlanner", null);
+        //actionLogger.log("hhhh", "SCYPlanner", null);
+        pedagogicalPlanService = toolBrokerAPI.getPedagogicalPlanService();
+        pedagogicalPlanService.getScenarios();
 
     }
 

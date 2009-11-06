@@ -2,6 +2,7 @@ package eu.scy.toolbroker;
 
 import javax.security.auth.login.LoginException;
 
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -66,6 +67,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 
     private XMPPConnection xmppConnection;
 
+    private PedagogicalPlanService pedagogicalPlanService;
+
     private String userName;
 
     private String password;
@@ -90,6 +93,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         collaborationService = (ICollaborationService) context.getBean("collaborationService");
         dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+        pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
     }
     
     /**
@@ -279,5 +283,10 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     	}
         return xmppConnection;
     }
-    
+
+    @Override
+    public PedagogicalPlanService getPedagogicalPlanService() {
+        return pedagogicalPlanService;
+    }
+
 }
