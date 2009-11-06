@@ -99,7 +99,7 @@ public class ActionXMLTransformer {
             // creating the attribute list (key/value)
             Element attributesElement = actionElement.element("attributes");
             for (Iterator<Element> it = attributesElement.elementIterator("property"); it.hasNext();) {
-               Element nextElement = it.next();
+                Element nextElement = it.next();
                 String key = nextElement.attributeValue("name");
                 String value = nextElement.attributeValue("value");
                 actionPojo.addAttribute(key, value);
@@ -113,27 +113,4 @@ public class ActionXMLTransformer {
             return actionPojo;
         }
     }
-
-    public static void main(String[] args) {
-        IAction action = new Action();
-        action.setUser("test");
-        action.setType("testtype");
-        action.setContext(new Context("testtool", "testmission", "testSession"));
-        action.addAttribute("bla", "blub");
-        action.addAttribute("super", "jan");
-        action.addAttribute("chuck", "norris");
-        action.setDataType("String");
-        action.setData("The ActionXMLTransformer shall convert an IAction into a XMLElement and vice versa. It exits (twice) in the ScyDynamics Project and in the SCYSimulator. To prevent duplicate code and the sweet temptation of copy 'n paste, this should be moved to action-logging-commons");
-        ActionXMLTransformer axt = new ActionXMLTransformer(action);
-        Element actionAsElement = axt.getActionAsElement();
-        String syso = actionAsElement.toString();
-        System.out.println(syso);
-        System.out.println("----");
-        System.out.println("vice versa");
-        System.out.println("----");
-        ActionXMLTransformer axt2 = new ActionXMLTransformer(actionAsElement);
-        IAction actionAsPojo = axt2.getActionAsPojo();
-        System.out.println(actionAsPojo.toString());
-    }
-
 }
