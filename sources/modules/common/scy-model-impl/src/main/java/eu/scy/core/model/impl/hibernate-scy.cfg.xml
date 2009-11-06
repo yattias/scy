@@ -29,7 +29,6 @@
         <!--property name="hibernate.connection.release_mode">after_statement</property-->
 
 
-        
         <property name="hibernate.auto_close_session">true</property>
         <property name="hibernate.flush_before_completion">true</property>
         <property name="hibernate.c3p0_acquire_increment">1</property>
@@ -49,5 +48,6 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ActivityImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl"/>
     </session-factory>
 </hibernate-configuration>

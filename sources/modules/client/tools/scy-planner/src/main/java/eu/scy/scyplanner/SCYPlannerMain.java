@@ -14,8 +14,8 @@ import javax.swing.*;
 public class SCYPlannerMain {
 
     public static void main(String[] args) {
-        SCYPlannerSplashWindow splashWindow = new SCYPlannerSplashWindow();
-        splashWindow.setVisible(true);
+        //SCYPlannerSplashWindow splashWindow = new SCYPlannerSplashWindow();
+        //splashWindow.setVisible(true);
 
         //updateUIManagerWithSensibleValues();
 
@@ -23,8 +23,8 @@ public class SCYPlannerMain {
         SCYPlannerApplicationManager.getApplicationManager().setScyPlannerFrame(frame);
         frame.setVisible(true);
 
-        splashWindow.setVisible(false);
-        splashWindow.dispose();
+        //splashWindow.setVisible(false);
+        //splashWindow.dispose();
     }
 
     private static void updateUIManagerWithSensibleValues() {

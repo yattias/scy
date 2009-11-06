@@ -1,5 +1,10 @@
 package eu.scy.server.pedagogicalplan;
 
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.pedagogicalplan.Scenario;
+
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +13,10 @@ package eu.scy.server.pedagogicalplan;
  * To change this template use File | Settings | File Templates.
  */
 public interface PedagogicalPlanService {
+
+    public List<Scenario> getScenarios();
+
+    public List<PedagogicalPlan> getPedagogicalPlans();
+
+
 }

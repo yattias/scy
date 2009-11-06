@@ -36,6 +36,7 @@
 		<module>notification-impl</module>	
 		<module>scy-sessionmanager-api</module>
 		<module>tool-broker-api</module>
+        <module>pedagogical-plan-service-api</module>
   </modules>
 
 	<build>
