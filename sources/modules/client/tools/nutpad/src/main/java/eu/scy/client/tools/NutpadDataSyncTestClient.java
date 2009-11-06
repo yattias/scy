@@ -19,6 +19,7 @@ import javax.swing.JToolBar;
 import org.apache.log4j.Logger;
 
 import roolo.elo.api.IMetadataKey;
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
@@ -59,6 +60,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.nutpad";
     private static final String HARD_CODED_USER_NAME = "merkel";
     private static final String HARD_CODED_PASSWORD = "merkel";
+    private static final String HARD_CODED_MISSION_NAME = "nutpad mission";
     
     
     public static void main(String[] args) {
@@ -141,6 +143,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     class CreateSession extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
+       
         
         public CreateSession() {
             super("CREATE SESSION");
@@ -152,9 +155,12 @@ public class NutpadDataSyncTestClient extends JFrame{
         	System.out.println("create session");
             dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
             
-            eu.scy.actionlogging.logger.Action action = new eu.scy.actionlogging.logger.Action("create_nutpad_session", HARD_CODED_USER_NAME);
-            action.addContext("tool", HARD_CODED_TOOL_NAME);
-            action.addContext("status", "no session");
+            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setType("create_nutpad_session");
+            action.setUser(HARD_CODED_USER_NAME);
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, HARD_CODED_MISSION_NAME);
+            action.addContext(ContextConstants.session, "no session");
             action.addAttribute("sessionname", "Nutpad Session");
             
             //actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
@@ -247,11 +253,14 @@ public class NutpadDataSyncTestClient extends JFrame{
             SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(currentSession, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6],  Long.parseLong(messageStrings[7].trim()));
 //            dataSyncService.sendMessage(syncMessage);
             
-            eu.scy.actionlogging.logger.Action action = new eu.scy.actionlogging.logger.Action("send_message", HARD_CODED_USER_NAME);
-            action.addContext("tool", HARD_CODED_TOOL_NAME);
-            action.addContext("status", "in session");
+            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setType("send_message");
+            action.setUser(HARD_CODED_USER_NAME);
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.session, "in session");
             action.addAttribute("sessionname", "Nutpad Session");
-            action.addAttribute("message", "english", "<text color=\"red\">" + messageStrings[4] + "</text>");
+            action.addAttribute("message", "<text color=\"red\">" + messageStrings[4] + "</text>");
+            action.addAttribute("language", "english");
             
             actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }        
