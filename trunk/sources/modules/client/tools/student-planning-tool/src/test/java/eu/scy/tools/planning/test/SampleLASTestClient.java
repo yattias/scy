@@ -11,7 +11,8 @@ public class SampleLASTestClient {
 	public static void main(String[] args) {
 	  SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
-	      new StudentPlanningToolMain();
+	      StudentPlanningToolMain studentPlanningToolMain = new StudentPlanningToolMain();
+	      studentPlanningToolMain.launchInFrame();
 	    }
 	  });
 	}
