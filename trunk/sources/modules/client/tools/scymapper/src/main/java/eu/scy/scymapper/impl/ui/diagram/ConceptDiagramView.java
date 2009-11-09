@@ -82,7 +82,10 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         view.addFocusListener(new FocusListenerDelegator());
 
         add(view);
-        repaint(view.getBounds());
+
+        view.setLabelEditable(true);
+
+        view.repaint();
     }
 
     private void addLink(ILinkModel link) {

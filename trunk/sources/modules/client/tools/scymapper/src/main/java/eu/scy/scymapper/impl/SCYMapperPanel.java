@@ -53,7 +53,6 @@ public class SCYMapperPanel extends JPanel implements IDataSyncListener {
 		//dataSyncService.createSession("eu.scy.scymapper", username);
 	}
 
-
 	private void initComponents() {
         ConceptMapPanel cmapPanel = new ConceptMapPanel(conceptMap);
         cmapPanel.setBackground(Color.WHITE);
@@ -87,5 +86,16 @@ public class SCYMapperPanel extends JPanel implements IDataSyncListener {
 
     public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
         this.metadataTypeManager = metadataTypeManager;
+    }
+
+    public IConceptMap getConceptMap() {
+        return conceptMap;
+    }
+
+    public void setConceptMap(IConceptMap conceptMap) {
+        removeAll();
+        this.conceptMap = conceptMap;
+        initComponents();
+        repaint();
     }
 }

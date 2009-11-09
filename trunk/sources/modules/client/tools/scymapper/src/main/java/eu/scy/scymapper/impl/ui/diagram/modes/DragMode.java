@@ -16,14 +16,7 @@ import java.awt.event.*;
 public class DragMode implements IDiagramMode {
     private ConceptDiagramView view;
 
-    private Point relativePos = null;
-
     private final MouseListener mouseListener = new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            relativePos = e.getPoint();
-        }
-
         @Override
         public void mouseClicked(MouseEvent e) {
             Component com = e.getComponent();
@@ -33,8 +26,21 @@ public class DragMode implements IDiagramMode {
         }
     };
     private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
+        public Point relativePos;
+
         @Override
         public void mouseDragged(MouseEvent e) {
+
+            if (relativePos == null) {
+                relativePos = e.getPoint();
+                e.getComponent().addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        relativePos = null;
+                        e.getComponent().removeMouseListener(this);
+                    }
+                });
+            }
 
             // The relative mouse position from the component x,y
             Point relPoint = e.getPoint();

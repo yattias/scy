@@ -33,7 +33,7 @@ import java.util.Locale;
 public class SCYMapperStandalone extends JFrame {
 
     private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/standaloneConfig.xml";
-    private static final String SCYMAPPER_ELOTYPE = "scy/conceptmap";
+    private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
     private ApplicationContext appContext;
     private IRepository repository;
     private IELOFactory eloFactory;
