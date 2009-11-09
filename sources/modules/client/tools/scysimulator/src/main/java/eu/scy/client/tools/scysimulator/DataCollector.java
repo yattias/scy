@@ -1,11 +1,6 @@
 package eu.scy.client.tools.scysimulator;
 
 //import eu.scy.client.tools.scysimulator.logger.Logger;
-import eu.scy.collaborationservice.CollaborationServiceException;
-import eu.scy.elo.contenttype.dataset.DataSet;
-import eu.scy.elo.contenttype.dataset.DataSetColumn;
-import eu.scy.elo.contenttype.dataset.DataSetHeader;
-import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -25,12 +20,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
 
 import org.jdom.JDOMException;
+
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
-import javax.swing.JToggleButton;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
+import eu.scy.collaborationservice.CollaborationServiceException;
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 /**
  * This class collects datapoints from a SimQuest simulation and stores them as
@@ -52,14 +55,14 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     private JToggleButton sandboxbutton;
     private DatasetSandbox sandbox = null;
     private BalanceSlider balanceSlider;
-    //private Logger logger;
+    private ScySimLogger logger;
 
     public DataCollector(ISimQuestViewer simquestViewer) {
         // initialize the logger
-    	//logger = new Logger(simquestViewer.getDataServer());
+    	logger = new ScySimLogger(simquestViewer.getDataServer());
     	// initialize user interface
         initGUI();
-        //logger.toolStarted();
+        logger.toolStarted();
 
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
@@ -129,7 +132,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         text.append("\n");
         DataSetRow newRow = new DataSetRow(values);
         dataset.addRow(newRow);
-        //logger.logAddRow(newRow);
+        logger.logAddRow(newRow);
         if (sandboxbutton.isSelected()) {
             sandbox.sendDataSetRow(newRow);
         }
@@ -249,7 +252,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     public void setSelectedVariables(List<ModelVariable> selection) {
         selectedVariables = selection;
         cleanDataSet();
-        //logger.logSelectedVariables(selectedVariables);
+        logger.logSelectedVariables(selectedVariables);
     }
     
     private ModelVariable getVariableByName(String name) {
@@ -277,13 +280,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowActivated(WindowEvent e) {
-      //logger.focusGained();
+      logger.focusGained();
         
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-        //logger.toolStopped();
+        logger.toolStopped();
         
     }
 
@@ -295,7 +298,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        //logger.focusLost();
+        logger.focusLost();
         
     }
 
@@ -307,13 +310,13 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowIconified(WindowEvent e) {
-        //logger.focusLost();
+       // logger.focusLost();
         
     }
 
     @Override
     public void windowOpened(WindowEvent e) {
-        // TODO Auto-generated method stub
+//         TODO Auto-generated method stub
         
     }
     
