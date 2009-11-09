@@ -1,8 +1,3 @@
-/*
- * ChattoolContentCreator.fx
- *
- * Created on 8-jul-2009, 15:41:12
- */
 
 package eu.scy.client.tools.studentplanningtool.registration;
 
@@ -15,7 +10,7 @@ import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolN
 import eu.scy.tools.planning.StudentPlanningToolMain;
 
 /**
- * @author jeremyt
+ * @author aperritano
  */
 
 public class StudentPlanningToolContentCreator extends WindowContentCreatorFX {

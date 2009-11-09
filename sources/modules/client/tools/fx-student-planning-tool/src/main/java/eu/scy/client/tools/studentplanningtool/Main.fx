@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningToolContentCreator.StudentPlanningToolContentCreator;
+import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 
 
 /**
@@ -22,13 +22,13 @@ import eu.scy.client.tools.studentplanningtool.registration.StudenPlanningToolCo
 InitLog4JFX.initLog4J();
 
 //def scychatType = "scy/chat";
-def scystudenplanningId = "studentplanningtool";
+def scystudentplanningId = "studentplanningtool";
 
 var scyDesktopCreator = ScyDesktopCreator {
     configClassPathConfigLocation:"config/scyDesktopStudentPlanningToolConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scystudenplanningId);
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scystudentplanningId);
 
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
@@ -42,7 +42,7 @@ scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
 
 
 var stage = Stage {
-    title: "SCY desktop with StudenPlanningTool"
+    title: "SCY desktop with StudentPlanningTool"
     width: 400
     height: 300
     scene: Scene {

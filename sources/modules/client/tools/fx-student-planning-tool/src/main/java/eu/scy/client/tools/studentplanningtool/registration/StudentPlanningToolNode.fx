@@ -1,9 +1,7 @@
 
 
-/*
- * ChatNode.fx
- *
- * Created on 18-dec-2008, 15:19:52
+/**
+ * Student Planning Tool
  */
 
 package eu.scy.client.tools.studentplanningtool.registration;
@@ -61,7 +59,7 @@ public class StudentPlanningToolNode extends CustomNode {
 
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
 
-        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel());
+        wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel(null));
      return Group {
          blocksMouse:true;
          content:
