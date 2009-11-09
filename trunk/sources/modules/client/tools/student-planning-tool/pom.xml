@@ -1,95 +1,52 @@
-<?xml version="1.0"?>
-<project>
- 
- 	<parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
 		<artifactId>parent</artifactId>
-		<groupId>eu.scy.common</groupId>
+		<groupId>eu.scy.client.tools</groupId>
 		<version>9.8.0-SNAPSHOT</version>
-	</parent> 	
- 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>student-planning-tool</artifactId>
-    <name>student-planning-tool</name>
+	</parent>
 
-    <dependencies>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>student-planning-tool</artifactId>
+	<packaging>jar</packaging>
+	<name>student-planning-tool</name>
 
-        <dependency>
-            <groupId>${pom.groupId}</groupId>
-            <artifactId>scy-model-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+	<developers>
+		<developer>
+			<id>anthony</id>
+			<name>Anthony Perritano</name>
+			<email>aperritano@gmail.com</email>
+			<url>www.utwente.nl</url>
+			<organization>University of Oslo,  InterMedia</organization>
+			<organizationUrl>www.intermedia.uio.no</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
-        <dependency>
-            <groupId>${pom.groupId}</groupId>
-            <artifactId>action-logging-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+	<dependencies>
 
-
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>5.1</version>
-            <classifier>jdk15</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate</artifactId>
-            <version>3.2.2.ga</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>asm</groupId>
-                    <artifactId>asm-attrs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-model-impl</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.7.1</version>
+		</dependency>
 
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>3.2.1.ga</version>
-        </dependency>
 
-        <dependency>
-            <groupId>asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>2.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <version>2.1_3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.acegisecurity</groupId>
-            <artifactId>acegi-security</artifactId>
-            <version>1.0.4</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.swinglabs</groupId>
-        	<artifactId>swingx</artifactId>
-        	<version>1.0</version>
-        </dependency>
-        <dependency>
-        	<groupId>com.miglayout</groupId>
-        	<artifactId>miglayout</artifactId>
-        	<version>3.7.1</version>
-        </dependency>
-        
-
-
-    </dependencies>
+	</dependencies>
 
 </project>
