@@ -10,8 +10,6 @@ import eu.scy.common.packetextension.SCYPacketTransformer;
  *
  */
 public class ActionPacketTransformer extends SCYPacketTransformer {
-	
-	
 
 	private static final String actionPath = "/" + Action.PATH;
 
@@ -25,7 +23,7 @@ public class ActionPacketTransformer extends SCYPacketTransformer {
 		super(Action.PATH);
 	}
 
-	public ActionPacketTransformer(String name, Action pojo) {
+	public ActionPacketTransformer(Action pojo) {
 		super(Action.PATH, pojo);
 	}
 	
