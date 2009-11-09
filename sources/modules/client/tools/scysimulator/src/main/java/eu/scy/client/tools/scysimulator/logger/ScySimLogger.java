@@ -15,7 +15,7 @@ import sqv.data.DataAgent;
 import sqv.data.DataServer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.SystemOutActionLogger;
+import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
