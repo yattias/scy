@@ -17,11 +17,13 @@ import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 import eu.scy.client.tools.fxfitex.FitexContentCreator;
 import eu.scy.client.tools.fxcopex.CopexContentCreator;
+
 import eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
+import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 
 /**
  * @author sikkenj
@@ -41,10 +43,13 @@ def scySimulatorId = "simulator";
 def scyModelId = "scy-dynamics";
 def scyFlyingSaucerId = "flying-saucer";
 def scyMapperId = "conceptmap";
+def scyStudentPlanningTool = "studentplanningtool";
 
 var scyDesktopCreator = ScyDesktopCreator {
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
 }
+
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scyStudentPlanningTool);
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator{},scyDrawingId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyDrawingType,"drawing");
