@@ -66,4 +66,11 @@ public class SQLSpacesActionLogger implements IActionLogger {
 		
 	}
 
+    @Override
+    public void log(IAction action) {
+       log(null,null,action);
+        
+    }
+
+
 }
