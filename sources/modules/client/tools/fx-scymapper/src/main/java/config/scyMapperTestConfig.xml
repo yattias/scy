@@ -23,7 +23,7 @@
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/conceptmap"/>
+               <property name="type" value="scy/mapping"/>
                <property name="display" value="Concept Map"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="conceptmap"/>

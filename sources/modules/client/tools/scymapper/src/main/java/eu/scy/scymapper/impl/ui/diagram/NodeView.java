@@ -11,6 +11,10 @@ import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,11 +29,13 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
     private JComponent resizeHandle;
 	private INodeController controller;
     private INodeModel model;
-    private JTextField labelEditor;
+    private JTextArea labelTextarea;
 
     private static final INodeStyle DEFAULT_NODESTYLE = new DefaultNodeStyle();
+    private JScrollPane labelScroller;
+    private boolean isEditing;
 
-	public NodeView(INodeController controller, INodeModel model) {
+    public NodeView(INodeController controller, INodeModel model) {
 
         super();
 
@@ -49,46 +55,80 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         setLayout(null);
         setFocusable(true);
 
-        labelEditor = new JTextField(this.model.getLabel());
-        labelEditor.setHorizontalAlignment(JTextField.CENTER);
-        labelEditor.addKeyListener(this);
-        labelEditor.setEditable(false);
-        labelEditor.setOpaque(false);
+        labelTextarea = new JTextArea(this.model.getLabel());
+        //labelTextarea.setHorizontalAlignment(JTextField.CENTER);
+        labelTextarea.addKeyListener(this);
+        labelTextarea.setForeground(getModel().getStyle().getForeground());
+        labelTextarea.setWrapStyleWord(true);
+        labelTextarea.setLineWrap(true);
 
-        INodeStyle style = model.getStyle();
+        labelScroller = new JScrollPane(labelTextarea);
+        labelTextarea.setMargin(new Insets(0,0,0,0));
+        labelTextarea.setBorder(BorderFactory.createEmptyBorder());
+        labelScroller.getViewport().setOpaque(false);
+        setLabelEditable(false);
 
-        if (style == null) style = DEFAULT_NODESTYLE;
+        add(labelScroller);
 
-		labelEditor.setBorder(BorderFactory.createEmptyBorder());
+        labelTextarea.addMouseListener(new MouseAdapter() {
+            public int caretPos;
 
-        add(labelEditor);
-        labelEditor.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-                labelEditor.setEditable(true);
-                labelEditor.setOpaque(true);
-				labelEditor.setBorder(BorderFactory.createEtchedBorder());
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) caretPos = labelTextarea.getCaretPosition();
+                if (e.getClickCount() == 2)
+                    setLabelEditable(true, caretPos);
             }
-
+        });
+        labelTextarea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                labelEditor.setEditable(false);
-                labelEditor.setOpaque(false);
-				labelEditor.setBorder(BorderFactory.createEmptyBorder());
+                setLabelEditable(false);
             }
         });
 
-		labelEditor.addKeyListener(new KeyAdapter() {
+		labelTextarea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == 10) NodeView.this.requestFocus();
+				if (e.isControlDown() && e.getKeyCode() == 10) NodeView.this.requestFocus();
 			}
 		});
+
+        MouseAdapter parentEventDispatcher = new ParentComponentEventDispatcher(this) {
+            @Override
+            public void mouseClicked(MouseEvent e) {}
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (!isEditing) super.mouseDragged(e);
+            }
+        };
+        labelTextarea.addMouseMotionListener(parentEventDispatcher);
+        labelTextarea.addMouseListener(parentEventDispatcher);
 
 //        resizeHandle = createResizeHandle();
 //        add(resizeHandle);
 
         layoutComponents();
+    }
+
+    private void setLabelEditable(boolean editable, int caretPos) {
+
+        labelScroller.setOpaque(editable);
+        labelScroller.getViewport().setOpaque(editable);
+        labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        labelTextarea.setFocusable(editable);
+        labelTextarea.setEditable(editable);
+        labelTextarea.setOpaque(editable);
+
+        labelTextarea.setCaretPosition(caretPos);
+        if (editable) labelTextarea.requestFocus();
+
+        isEditing = editable;
+    }
+    void setLabelEditable(boolean editable) {
+        setLabelEditable(editable, labelTextarea.getCaretPosition());
     }
 
 //    private JComponent createResizeHandle() {
@@ -113,30 +153,34 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
 
     private void layoutComponents() {
-        FontMetrics f = labelEditor.getFontMetrics(labelEditor.getFont());
-        int width = f.stringWidth(labelEditor.getText());
-        width += labelEditor.getMargin().left + labelEditor.getMargin().right;
-        width += labelEditor.getBorder().getBorderInsets(null).left + labelEditor.getBorder().getBorderInsets(null).right;
 
-        if (width < 20) width = 20;
+        FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
+        int width = f.stringWidth(labelTextarea.getText()) + 10;
 
+        if (width < 70) width = 70;
         // Add some space
-        width += 10;
-        if (width > getWidth()) width = getWidth();
+        else width = (width + 10 > getWidth()) ? getWidth() : width +10;
 
-        int height = f.getHeight();
-        height += labelEditor.getMargin().bottom + labelEditor.getMargin().bottom;
-        height += labelEditor.getBorder().getBorderInsets(null).top + labelEditor.getBorder().getBorderInsets(null).bottom;
+        int height = labelTextarea.getPreferredScrollableViewportSize().height+10;
 
-        labelEditor.setSize(width, height);
-        labelEditor.setVisible(!getModel().isLabelHidden());
+        if (height > getHeight()) {
+            height = getHeight();
+            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        }
+        else {
+            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        }
+
+        //labelTextarea.setSize(width, height);
+        labelTextarea.setVisible(!getModel().isLabelHidden());
 
         double x = (getWidth() / 2) - (width / 2);
         double y = (getHeight() / 2d) - (height / 2d);
 
-        labelEditor.setBounds((int) x, (int) y, width, height);
+        labelScroller.setBounds((int) x, (int) y, width, height);
+        labelScroller.revalidate();
 
-//        resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
+   //     resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
 
 //        resizeHandle.setForeground(getForeground());
  //       resizeHandle.setBackground(getBackground());
@@ -195,11 +239,6 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
             shape.setMode(style.isOpaque() ? INodeShape.FILL : INodeShape.DRAW);
             shape.paint(g2, relativeBounds);
         }
-
-		// Update colors of label component TODO: Should have a style listener instead
-		labelEditor.setForeground(getModel().getStyle().getForeground());
-		labelEditor.setBackground(getModel().getStyle().getBackground());
-
         // Continue painting any other component
         super.paintComponent(g);
     }
@@ -216,7 +255,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
     @Override
     public void keyReleased(KeyEvent e) {
-        controller.setLabel(labelEditor.getText());
+        controller.setLabel(labelTextarea.getText());
     }
 
 
@@ -235,4 +274,52 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 	public void styleChanged(INodeStyle s) {
 		repaint();
 	}
+}
+
+class ParentComponentEventDispatcher extends MouseAdapter {
+    private Component reciever;
+
+    ParentComponentEventDispatcher(Component reciever) {
+        this.reciever = reciever;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        redirectMouseEvent(e);
+    }
+
+    void redirectMouseEvent(MouseEvent e) {
+        //e.translatePoint(reciever.getX(), reciever.getY());
+        reciever.dispatchEvent(SwingUtilities.convertMouseEvent(e.getComponent(), e, reciever));
+    }
 }

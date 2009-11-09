@@ -72,8 +72,8 @@ public class PalettePane extends JPanel {
                             INodeModel node = new NodeModel();
                             node.setLabel(conceptPrototype.getName());
                             node.setShape(conceptPrototype.getNodeShape());
-                            int h = conceptPrototype.getWidth();
-                            int w = conceptPrototype.getHeight();
+                            int w = conceptPrototype.getWidth();
+                            int h = conceptPrototype.getHeight();
                             node.setSize(new Dimension(w, h));
                             node.setStyle(conceptPrototype.getNodeStyle());
                             Point loc = new Point(e.getPoint());
@@ -101,8 +101,6 @@ public class PalettePane extends JPanel {
                 public void actionPerformed(ActionEvent e) {
 
                     if (selectedButton != null) selectedButton.setSelected(false);
-
-                    button.setSelected(true);
 
                     selectedButton = button;
 
