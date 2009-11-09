@@ -31,13 +31,19 @@ public class SystemOutActionLogger implements IActionLogger {
 	}
 	
 	@Override
-	public void log(String username, String source, IAction action) {
+	public void log(IAction action) {
 		// logging to the console
 		try {
 			writer.write(new ActionXMLTransformer(action).getActionAsElement());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	@Deprecated
+	public void log(String username, String source, IAction action) {
+		log(action);
 	}
 	
 }

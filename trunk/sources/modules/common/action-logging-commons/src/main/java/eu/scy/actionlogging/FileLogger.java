@@ -86,12 +86,18 @@ public class FileLogger implements IActionLogger {
 	}
 
 	@Override
+	public void log(IAction action) {
+		try {
+			write.write(new ActionXMLTransformer(action).getActionAsString()+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	@Deprecated
 	public void log(String username, String source, IAction action) {
-			try {
-				write.write(new ActionXMLTransformer(action).getActionAsString()+"\n");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		log(action);
 	}
 
 }
