@@ -66,4 +66,11 @@ public class SQLSpacesActionLogger implements IActionLogger {
 		
 	}
 
+	@Override
+	public void log(IAction arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
