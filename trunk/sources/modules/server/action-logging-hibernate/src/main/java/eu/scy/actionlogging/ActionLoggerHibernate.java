@@ -12,10 +12,16 @@ import eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate;
  * To change this template use File | Settings | File Templates.
  */
 public class ActionLoggerHibernate extends ScyBaseDAOHibernate implements IActionLogger {
-    @Override
+    
+	@Override
+    @Deprecated
     public void log(String username, String source, IAction action) {
-        if(action == null) throw new NullPointerException("Action cannot be null");
-        save(action);
-        
+    	log(action);
     }
+
+	@Override
+	public void log(IAction action) {
+		if(action == null) throw new NullPointerException("Action cannot be null");
+		save(action);
+	}
 }
