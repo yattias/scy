@@ -3,6 +3,8 @@ package eu.scy.actionlogging;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.junit.Test;
+
+import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.core.model.impl.PersistentAction;
 
 
@@ -91,7 +93,7 @@ public class ActionLoggerHibernateTest  extends AbstractTransactionalSpringConte
     }
 
     public void testAddContextAttribute() {
-        String key = "MASTER_HENRIK";
+        ContextConstants key = ContextConstants.tool;
         String value = "YODA_COMPARES_TO_NOTHING";
         action = new PersistentAction();
         action.addContext(key, value);
