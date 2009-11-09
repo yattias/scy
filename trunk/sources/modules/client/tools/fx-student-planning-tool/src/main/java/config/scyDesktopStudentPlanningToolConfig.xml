@@ -22,8 +22,8 @@
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/studenplanningtool"/>
-               <property name="display" value="StudenPlanningTool"/>
+               <property name="type" value="scy/studentplanningtool"/>
+               <property name="display" value="StudentPlanningTool"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="studentplanningtool"/>
             </bean>
