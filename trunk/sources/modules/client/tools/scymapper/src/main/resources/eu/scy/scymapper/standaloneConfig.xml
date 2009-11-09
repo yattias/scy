@@ -4,6 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-autowire="byName">
 
-    <import resource="rooloConfig.xml"/>
+    <import resource="memoryRooloConfig.xml"/>
+
+    <!--
+    Comment the above and uncomment the following to store elos to disk instead of memory.
+    Remember that you will need to create a writable eloStore directory at project root
+    -->
+
+    <!--import resource="diskRooloConfig.xml"/-->
     <import resource="mockShapes.xml"/>
 </beans>

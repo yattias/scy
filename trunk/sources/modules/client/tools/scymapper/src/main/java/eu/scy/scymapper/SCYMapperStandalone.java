@@ -19,9 +19,11 @@ import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Locale;
 
@@ -47,6 +49,10 @@ public class SCYMapperStandalone extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 SCYMapperStandalone app = new SCYMapperStandalone();
+                app.setTitle("SCYMapper Concept Mapping Tool");
+                try {
+                    app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
+                } catch (IOException e) {}
                 app.setVisible(true);
             }
         });
