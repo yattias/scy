@@ -17,8 +17,6 @@ import roolo.elo.api.IMetadataTypeManager;
 
 import eu.scy.scymapper.impl.SCYMapperPanel;
 
-import eu.scy.scymapper.impl.DiagramModel;
-import eu.scy.scymapper.impl.model.DefaultConceptMap;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 
 
@@ -26,52 +24,55 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import roolo.elo.api.IELOFactory;
 
 
-/**
- * @author sikkenj
- */
+import roolo.elo.api.IELO;
 
 public class SCYMapperContentCreator extends WindowContentCreatorFX {
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
+    public-init var eloFactory:IELOFactory;
+    public-init var metadataTypeManager: IMetadataTypeManager;
+    public-init var repository:IRepository;
 
-   public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-      var scyMapperNode = createScyMapperNode(scyWindow);
-      scyMapperNode.loadElo(eloUri);
-      return scyMapperNode;
-   }
+    var repositoryWrapper;
+
+    function initRepositoryWrapper() {
+        if (repositoryWrapper == null) {
+            repositoryWrapper = new ScyMapperRepositoryWrapper();
+            repositoryWrapper.setRepository(repository);
+            repositoryWrapper.setMetadataTypeManager(metadataTypeManager);
+            repositoryWrapper.setEloFactory(eloFactory);
+        }
+    }
 
 
-   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      return createScyMapperNode(scyWindow);
-   }
+    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
+        initRepositoryWrapper();
+        var elo = repositoryWrapper.loadELO(eloUri);
+        var scyMapperNode = createScyMapperNode(scyWindow, elo);
+        return scyMapperNode;
+    }
 
-function createScyMapperNode(scyWindow:ScyWindow):SCYMapperNode{
-      setWindowProperties(scyWindow);
-        var diagram = new DiagramModel();
-        var cmap = new DefaultConceptMap("New Concept Map", diagram);
+    public override function getScyWindowContentNew(scyWindow:ScyWindow): Node{
+        initRepositoryWrapper();
+        var elo = repositoryWrapper.createELO();
+        return createScyMapperNode(scyWindow, elo);
+    }
 
+    function createScyMapperNode(scyWindow:ScyWindow, elo:IELO): SCYMapperNode{
+        setWindowProperties(scyWindow);
         var shapesConfig = new ClassPathXmlApplicationContext("config/shapesMockConfig.xml");
 
         var configuration = (shapesConfig.getBean("configuration")  as SCYMapperToolConfiguration);
 
-        var scymapperPanel= new SCYMapperPanel(cmap, configuration);
+        var conceptMap = repositoryWrapper.getELOConceptMap(elo);
 
-        scymapperPanel.setRepository(repository);
-        scymapperPanel.setEloFactory(eloFactory);
-        scymapperPanel.setMetadataTypeManager(metadataTypeManager);
-        //scymapperPanel.setPreferredSize(new Dimension(2000,2000));
-        var eloScyMapperActionWrapper= new EloScyMapperActionWrapper(scymapperPanel);
-        eloScyMapperActionWrapper.setRepository(repository);
-        eloScyMapperActionWrapper.setMetadataTypeManager(metadataTypeManager);
-        eloScyMapperActionWrapper.setEloFactory(eloFactory);
-        eloScyMapperActionWrapper.setDocName(scyWindow.title);
+        var scymapperPanel= new SCYMapperPanel(conceptMap, configuration);
+
         return SCYMapperNode{
-                scyMapperPanel:scymapperPanel;
-                eloSCYMapperActionWrapper:eloScyMapperActionWrapper;
-        scyWindow: scyWindow;
+            scyMapperPanel:scymapperPanel;
+            repositoryWrapper:repositoryWrapper;
+            currentELO:elo;
+            scyWindow: scyWindow;
         }
-        }
+   }
 
    function setWindowProperties(scyWindow:ScyWindow){
       scyWindow.minimumWidth = 320;

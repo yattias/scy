@@ -6,7 +6,6 @@
 
 package eu.scy.client.tools.fxscymapper.registration;
 
-import java.net.URI;
 import javafx.ext.swing.SwingComponent;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
@@ -23,42 +22,43 @@ import java.awt.Dimension;
 
 import eu.scy.scymapper.impl.SCYMapperPanel;
 
+import roolo.elo.api.IELO;
 
-/**
- * @author sikkenj
- */
+import org.apache.log4j.Logger;
 
- // place your code here
+import javax.swing.JOptionPane;
+
+import org.springframework.util.StringUtils;
+
+import java.net.URI;
+
+
 public class SCYMapperNode extends CustomNode, Resizable {
 
-   public-init var scyMapperPanel:SCYMapperPanel;
-   public-init var eloSCYMapperActionWrapper:EloScyMapperActionWrapper;
-	public var scyWindow:ScyWindow on replace {
-		setScyWindowTitle()
-	};
+    public-init var scyMapperPanel:SCYMapperPanel;
+    public-init var repositoryWrapper:ScyMapperRepositoryWrapper;
+    public-init var currentELO:IELO;
 
-   public override var width on replace {resizeContent()};
-   public override var height on replace {resizeContent()};
+    public override var width on replace {resizeContent()};
+    public override var height on replace {resizeContent()};
 
-   var wrappedSCYMapperPanel:SwingComponent;
+    public var scyWindow:ScyWindow on replace {
+        setScyWindowTitle()
+    }
 
-   def spacing = 5.0;
+    var logger = Logger.getLogger(ScyMapperRepositoryWrapper.class.getName());
 
-	public function loadElo(uri:URI){
-      eloSCYMapperActionWrapper.loadElo(uri);
-		setScyWindowTitle();
-   }
+    var wrappedScyMapperPanel:SwingComponent;
 
-	function setScyWindowTitle(){
-		if (scyWindow == null)
-		return;
-		scyWindow.title = eloSCYMapperActionWrapper.getDocName();
-		var eloUri = eloSCYMapperActionWrapper.getEloUri();
-      	scyWindow.eloUri = eloUri;
-	};
+    def spacing = 5.0;
 
-   public override function create(): Node {
-      wrappedSCYMapperPanel = SwingComponent.wrap(scyMapperPanel);
+
+    function setScyWindowTitle(){
+
+    };
+
+    public override function create(): Node {
+      wrappedScyMapperPanel = SwingComponent.wrap(scyMapperPanel);
       return Group {
          blocksMouse:true;
          content: [
@@ -73,56 +73,104 @@ public class SCYMapperNode extends CustomNode, Resizable {
                         Button {
                            text: "New"
                            action: function() {
-//								eloSCYMapperActionWrapper.newConceptMapAction();
-								setScyWindowTitle();
+                                newConceptMap();
                            }
                         }
                         Button {
                            text: "Load"
                            action: function() {
-                              	//eloSCYMapperActionWrapper.loadConceptMapAction();
-								setScyWindowTitle();
+                                loadConceptMap();
                            }
                         }
                         Button {
                            text: "Save"
                            action: function() {
-//					  			eloSCYMapperActionWrapper.saveConceptMapAction();
-								setScyWindowTitle();
+                                saveConceptMap();
                            }
                         }
                         Button {
                            text: "Save as"
                            action: function() {
-  //                            	eloSCYMapperActionWrapper.saveAsConceptMapAction();
-								setScyWindowTitle();
+                                saveConceptMapAs();
                            }
                         }
                      ]
                   }
-                  wrappedSCYMapperPanel
+                  wrappedScyMapperPanel
                ]
             }
          ]
       };
-   }
+    }
 
-   function resizeContent(){
-      var size = new Dimension(width,height-wrappedSCYMapperPanel.boundsInParent.minY-spacing);
-      // setPreferredSize is needed
-      scyMapperPanel.setPreferredSize(size);
-      // setSize is not visual needed
-      // but set it, so the component react to it
-      scyMapperPanel.setSize(size);
-      //println("resized whiteboardPanel to ({width},{height})");
-   }
+    function newConceptMap() {
 
-   public override function getPrefHeight(width: Number) : Number{
-      return scyMapperPanel.getPreferredSize().getHeight();
-   }
+        var answer = JOptionPane.showConfirmDialog(null, "This will discard any changes done to the current concept map. Do you want to continue?", "Confirm discard changes", JOptionPane.YES_NO_CANCEL_OPTION);
 
-   public override function getPrefWidth(width: Number) : Number{
-      return scyMapperPanel.getPreferredSize().getWidth();
-   }
+        if (answer == JOptionPane.YES_OPTION) {
+            currentELO = repositoryWrapper.createELO();
+
+            var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
+            scyMapperPanel.setConceptMap(conceptMap);
+        }
+
+
+    }
+    function saveConceptMap() {
+
+        if (currentELO.getUri() == null) {
+            saveConceptMapAs();
+        }
+        else {
+            var conceptMap = scyMapperPanel.getConceptMap();
+            repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
+            repositoryWrapper.updateELO(currentELO);
+            JOptionPane.showMessageDialog(null, "ELO successfully saved", "ELO saved", JOptionPane.PLAIN_MESSAGE);
+        }
+
+    }
+
+    function loadConceptMap() {
+
+        var uris = repositoryWrapper.findElos();
+        var selectedUri = JOptionPane.showInputDialog(null, "Select concept map", "Select concept map", JOptionPane.QUESTION_MESSAGE, null, uris, null);
+        if (selectedUri != null) {
+            currentELO = repositoryWrapper.loadELO(selectedUri as URI);
+            var conceptMap = repositoryWrapper.getELOConceptMap(currentELO);
+            scyMapperPanel.setConceptMap(conceptMap);
+        }
+    }
+
+    function saveConceptMapAs() {
+        var conceptMap = scyMapperPanel.getConceptMap();
+
+        var name = "";
+        while (StringUtils.hasText(name) == false) {
+            name = JOptionPane.showInputDialog("Enter name:", conceptMap.getName());
+        }
+        conceptMap.setName(name);
+
+        repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
+        repositoryWrapper.saveELO(currentELO);
+        JOptionPane.showMessageDialog(null, "ELO successfully saved as {conceptMap.getName()}", "Saved", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    function resizeContent(){
+        var size = new Dimension(width,height-wrappedScyMapperPanel.boundsInParent.minY-spacing);
+        // setPreferredSize is needed
+        scyMapperPanel.setPreferredSize(size);
+        // setSize is not visual needed
+        // but set it, so the component react to it
+        scyMapperPanel.setSize(size);
+        //println("resized whiteboardPanel to ({width},{height})");
+    }
+
+    public override function getPrefHeight(width: Number) : Number{
+        return scyMapperPanel.getPreferredSize().getHeight();
+    }
+
+    public override function getPrefWidth(width: Number) : Number{
+        return scyMapperPanel.getPreferredSize().getWidth();
+    }
 
 }
