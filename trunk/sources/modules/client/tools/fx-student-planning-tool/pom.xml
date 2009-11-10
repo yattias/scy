@@ -89,11 +89,11 @@
                 <artifactId>tool-broker</artifactId>
                 <version>${pom.version}</version>
         </dependency>
-          <!--dependency>
+          <dependency>
             <groupId>eu.scy.client.tools</groupId>
             <artifactId>student-planning-tool</artifactId>
             <version>${pom.version}</version>
-        </dependency-->
+        </dependency>
 
    </dependencies>
 
