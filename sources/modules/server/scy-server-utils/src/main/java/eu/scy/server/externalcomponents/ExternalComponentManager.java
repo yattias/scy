@@ -1,5 +1,6 @@
 package eu.scy.server.externalcomponents;
 
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Comparator;
@@ -7,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-public class ExternalComponentManager implements InitializingBean {
+public class ExternalComponentManager implements InitializingBean, DisposableBean {
 
     private Logger log = Logger.getLogger("ExternalComponentManager.class");
     private Set<IExternalComponent> externalComponents;
@@ -37,8 +38,14 @@ public class ExternalComponentManager implements InitializingBean {
     }
 
     public void stopExternalComponents() throws ExternalComponentFailedException {
+        log.info("****************************************************************************");
+        log.info("****************** STOPPING EXTERNAL COMPONENTS ****************************");
+        log.info("****************************************************************************");
+
         for (IExternalComponent iExternalComponent : externalComponents) {
+            log.info("Stopping: " + iExternalComponent.getClass().getName());
             iExternalComponent.stopComponent();
+            log.info("Done stopping : " + iExternalComponent.getClass().getName());
         }
     }
 
@@ -59,5 +66,10 @@ public class ExternalComponentManager implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         startupExternalComponents();
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        stopExternalComponents();
     }
 }
