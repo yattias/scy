@@ -36,7 +36,7 @@ scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
 
 
 var stage = Stage {
-    title: "SCY desktop with drawing tool"
+    title: "SCY desktop with simulator tool"
     width: 400
     height: 300
     scene: Scene {

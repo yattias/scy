@@ -16,14 +16,6 @@ import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
-import eu.scy.client.tools.scysimulator.EloSimQuestWrapper;
-
-
-/**
- * @author sikkenj
- */
-
- // place your code here
 public class SimulatorNode extends CustomNode, Resizable {
 
    public-init var simquestPanel:JPanel;

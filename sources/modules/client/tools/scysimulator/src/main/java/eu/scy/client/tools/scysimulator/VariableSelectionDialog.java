@@ -172,13 +172,6 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 				temp.put(checkbox, var);
 			}
 		}
-
-                for (Iterator<ComparableJCheckBox> boxes = temp.keySet().iterator(); boxes
-		.hasNext();) {
-			checkbox = boxes.next();
-			System.out.println("VariableSelectionDialog variable: "+checkbox.getText());
-		}
-
 		return temp;
 	}
 
