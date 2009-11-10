@@ -30,7 +30,6 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 		createSimQuestViewer();
 		sqv.setContainer(simquestPanel);
 		dataCollector = null;
-		EloSimQuestWrapper eloSimQuestWrapper = null;
 
 		try {
 			sqv.run();
@@ -42,7 +41,6 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 					BorderLayout.CENTER);
 
 			dataCollector = new DataCollector(sqv);
-                        eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);
 			simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 			simquestPanel.add(new StandAloneMenu(dataCollector), BorderLayout.NORTH);
 

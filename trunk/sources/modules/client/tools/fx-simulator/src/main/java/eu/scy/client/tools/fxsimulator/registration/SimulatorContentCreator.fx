@@ -11,7 +11,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import sqv.SimQuestViewer;
 import javax.swing.JPanel;
 import eu.scy.client.tools.scysimulator.DataCollector;
-import eu.scy.client.tools.scysimulator.EloSimQuestWrapper;
 import eu.scy.client.tools.scysimulator.SimConfig;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -46,7 +45,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
         //fileUri = fileName.toURI();
         //var fileName = new FileName("E:/netbeans-workspaces/elo-browser/src/main/java/eu/scy/elobrowser/tool/simquest/balance.sqzx");
         //var fileName = new FileName("src/main/java/eu/scy/elobrowser/tool/simquest/co2house_0.9.sqzx");
-        System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileUri.getPath().toString()}");
+        System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileUri.getHost()} {fileUri.getPath()} {fileUri.getQuery()}");
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
 
