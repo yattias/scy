@@ -1,10 +1,12 @@
 package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.ScenarioService;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,6 +16,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
+
+    private static Logger log = Logger.getLogger("PedagogicalPlanServiceImpl.class");
 
     private ScenarioService scenarioService = null;
 

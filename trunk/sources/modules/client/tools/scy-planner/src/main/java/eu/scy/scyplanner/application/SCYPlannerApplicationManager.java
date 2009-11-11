@@ -2,6 +2,7 @@ package eu.scy.scyplanner.application;
 
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
+import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
@@ -13,6 +14,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import javax.swing.border.Border;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,16 +31,23 @@ public class SCYPlannerApplicationManager {
     private SCYPlannerFrame scyPlannerFrame = null;
     private WindowMenu windowMenu = null;
 
+    ToolBrokerAPI toolBrokerAPI = new ToolBrokerImpl();
+
     private PedagogicalPlanService  pedagogicalPlanService;
 
     private SCYPlannerApplicationManager() {
 
-        ToolBrokerAPI toolBrokerAPI = new ToolBrokerImpl();
-        XMPPConnection connection = toolBrokerAPI.getConnection("hhhh", "hhhh");
+        toolBrokerAPI = new ToolBrokerImpl();
+        XMPPConnection connection = toolBrokerAPI.getConnection("admin", "admin");
         IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
-        //actionLogger.log("hhhh", "SCYPlanner", null);
         pedagogicalPlanService = toolBrokerAPI.getPedagogicalPlanService();
-        pedagogicalPlanService.getScenarios();
+        List scenarios = pedagogicalPlanService.getScenarios();
+        for (int i = 0; i < scenarios.size(); i++) {
+            Scenario scenario = (Scenario) scenarios.get(i);
+            System.out.println(scenario.getName());
+            System.out.println(scenario.getLearningActivitySpace().getName());
+            System.out.println("size: " + scenario.getLearningActivitySpace().getActivities().size());
+        }
 
     }
 
@@ -48,6 +57,14 @@ public class SCYPlannerApplicationManager {
 
     public SCYPlannerFrame getScyPlannerFrame() {
         return scyPlannerFrame;
+    }
+
+    public ToolBrokerAPI getToolBrokerAPI() {
+        return toolBrokerAPI;
+    }
+
+    public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI) {
+        this.toolBrokerAPI = toolBrokerAPI;
     }
 
     public void setScyPlannerFrame(SCYPlannerFrame scyPlannerFrame) {

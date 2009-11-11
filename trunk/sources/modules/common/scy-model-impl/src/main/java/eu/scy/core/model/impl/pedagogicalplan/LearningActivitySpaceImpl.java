@@ -58,7 +58,7 @@ public class LearningActivitySpaceImpl extends LearningActivitySpaceBaseImpl imp
         produces.add(anchorELO);
     }
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "learningActivitySpace", targetEntity = ActivityImpl.class, fetch = FetchType.EAGER)
     public List<Activity> getActivities() {
         if(activities == null) {
             activities = new LinkedList();

@@ -1,5 +1,6 @@
 package eu.scy.core.persistence;
 
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 
 import java.util.List;
