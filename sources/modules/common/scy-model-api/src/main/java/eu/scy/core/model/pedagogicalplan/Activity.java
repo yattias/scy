@@ -52,7 +52,7 @@ public interface Activity extends BaseObject {
      *
      * @param learningActivitySpaceToolConfiguration the activity's LAS tool configuration
      */
-    public void setLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration);
+    public void addLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration);
 
     /**
      * Sets the WorkArrangementType for the activity
@@ -98,4 +98,6 @@ public interface Activity extends BaseObject {
 
     public List<PlannedELO> getPlannedELOs();
     public void setPlannedELOs(List <PlannedELO> plannedELOs);
+
+    void setLearningActivitySpaceToolConfigurations(Set<LearningActivitySpaceToolConfiguration> toolConfigurations);
 }

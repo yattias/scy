@@ -1,11 +1,9 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.AnchorELO;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -59,6 +57,13 @@ public class ScenarioTest {
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = (Activity) activities.get(i);
             assert(activity.getLearningActivitySpace() != null);
+            assert(activity.getLearningActivitySpaceToolConfigurations().size() > 0);
+
+            Iterator it = activity.getLearningActivitySpaceToolConfigurations().iterator();
+            while (it.hasNext()) {
+                LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = (LearningActivitySpaceToolConfiguration) it.next();
+                assert(learningActivitySpaceToolConfiguration.getActivity().equals(activity));
+            }
 
             AnchorELO anchorELO = activity.getAnchorELO();
 
@@ -83,6 +88,11 @@ public class ScenarioTest {
         activity.setName(name);
         activity.setDescription(description);
 
+        LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = new SCYMapperConfiguration();
+        learningActivitySpaceToolConfiguration.setName("SCYMapperConfiguration-" + name);
+        activity.addLearningActivitySpaceToolConfiguration(learningActivitySpaceToolConfiguration);
+
+
         return activity;
     }
 
@@ -95,13 +105,12 @@ public class ScenarioTest {
         scenario.setLearningActivitySpace(planning);
 
 
-        Activity firstActivity = new ActivityImpl();
-        firstActivity.setName("Gather in the big hall and listen to your teacher");
+        Activity firstActivity = createActivity("Gather in the big hall and listen to your teacher", "woooha!");
         planning.addActivity(firstActivity);
 
-        Activity conceptMappingSession = new  ActivityImpl();
-        conceptMappingSession.setName("Concept mapping");
+        Activity conceptMappingSession = createActivity("Concept mapping", "ConceptMappingSession");
         planning.addActivity(conceptMappingSession);
+
 
         AnchorELO conceptMap = new AnchorELOImpl();
         conceptMap.setName("Expected concept map");

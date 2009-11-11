@@ -1,14 +1,8 @@
 package eu.scy.server.utils;
 
 import eu.scy.core.ScenarioService;
-import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
-import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.AnchorELO;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.impl.pedagogicalplan.*;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -40,6 +34,7 @@ public class DummyDataGenerator implements InitializingBean {
 
         Activity conceptualizationActivity = createActivity("Conceptualization activity");
         conceptualisation.addActivity(conceptualizationActivity);
+        addToolToActivity(conceptualizationActivity, "SCYMapper", "A concept mapping tool");
 
         AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
         conceptualizationActivity.setAnchorELO(conceptualizationELO);
@@ -60,6 +55,16 @@ public class DummyDataGenerator implements InitializingBean {
         Activity activity = new ActivityImpl();
         activity.setName(name);
         return activity;
+    }
+
+    private LearningActivitySpaceToolConfigurationImpl addToolToActivity(Activity activity, String toolName, String toolDescription) {
+        LearningActivitySpaceToolConfigurationImpl configuration = new SCYMapperConfiguration();
+        Tool scyPlanner = new ToolImpl();
+        scyPlanner.setName(toolName);
+        scyPlanner.setDescription(toolDescription);
+        configuration.setTool(scyPlanner);
+        activity.addLearningActivitySpaceToolConfiguration(configuration);
+        return configuration;
     }
 
     private AnchorELO createAnchorELO(String name) {

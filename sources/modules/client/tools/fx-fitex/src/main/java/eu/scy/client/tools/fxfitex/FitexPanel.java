@@ -25,7 +25,7 @@ public class FitexPanel extends JPanel implements IDataSyncListener{
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
     
-    /* Constructor data Tool panel - blank */
+    /* Constructor data ToolImpl panel - blank */
     public FitexPanel() {
         super();
         this.setLayout(new BorderLayout());

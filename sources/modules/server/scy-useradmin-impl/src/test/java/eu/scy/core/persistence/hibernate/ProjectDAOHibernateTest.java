@@ -5,8 +5,8 @@ import eu.scy.core.model.SCYProject;
 import eu.scy.core.model.impl.SCYGroupImpl;
 import eu.scy.core.model.impl.SCYProjectImpl;
 import eu.scy.core.persistence.ProjectDAO;
+import org.junit.Test;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
-import org.testng.annotations.Test;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * Time: 12:34:47
  * To change this template use File | Settings | File Templates.
  */
-@Test
+
 public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextTests {
 
     private ProjectDAO projectDAO;
