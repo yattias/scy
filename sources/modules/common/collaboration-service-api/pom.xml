@@ -29,11 +29,11 @@
 			<artifactId>scy-model-api</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>scy-model-impl</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>scy-commons</artifactId>

@@ -24,7 +24,7 @@ public class ScenarioImpl extends BaseObjectImpl implements Scenario {
 
     private Set<LearningGoal> learningGoals;
 
-    @OneToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = LearningActivitySpaceImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="learningActivitySpace_primKey")
     public LearningActivitySpace getLearningActivitySpace() {
         return learningActivitySpace;

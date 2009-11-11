@@ -40,6 +40,12 @@
 			<version>${pom.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>eu.scy.common</groupId>
+                    <artifactId>scy-model-impl</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>

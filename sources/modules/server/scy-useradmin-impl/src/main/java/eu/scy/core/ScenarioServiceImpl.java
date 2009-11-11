@@ -1,11 +1,12 @@
 package eu.scy.core;
 
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.persistence.ScenarioDAO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,9 +17,12 @@ import java.util.List;
  */
 public class ScenarioServiceImpl implements ScenarioService{
 
+    private static Logger log = Logger.getLogger("ScenarioServiceImpl.class");
+
     private ScenarioDAO scenarioDAO;
 
     public List getScenarios() {
+        if(scenarioDAO == null) log.warning("SCENARIO DAO IS NULL!!!");
         return scenarioDAO.getScenarios();
     }
 
