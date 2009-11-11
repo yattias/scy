@@ -42,6 +42,7 @@ import javax.swing.plaf.FontUIResource;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXDatePicker;
@@ -72,7 +73,9 @@ public class StudentPlanningToolMain {
 
 	private static final String ACTIVITY_NAME = "ACTIVITY_NAME";
 
-	private static final Object DATE_MAP = "DATE_MAP";
+	private static final String END_DATE_MAP = "END_DATE_MAP";
+
+	private static final String START_DATE_MAP = "START_DATE_MAP";
 
 	Font activityFont = new Font("Segoe UI", Font.BOLD, 11);
 
@@ -192,14 +195,14 @@ public class StudentPlanningToolMain {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 //		panel.add(taskpanecontainer, BorderLayout.CENTER);
 //		panel.setPreferredSize(new Dimension(500, 600));
-		scrollPane.setPreferredSize(new Dimension(500, 600));
+		scrollPane.setPreferredSize(new Dimension(700, 600));
 		scrollPane.setOpaque(false);
 		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
 		JXPanel outerPanel = new JXPanel(new HorizontalLayout(1));
 		//JXPanel panel = new JXPanel();
 		outerPanel.setBackgroundPainter(getTaskPaneTitlePainter());
 		//outerPanel.setLayout(new BorderLayout());
-		outerPanel.setBorder(new TitledBorder(null, "Student Planner", 0, 0, activityFont, Color.black));
+		outerPanel.setBorder(new TitledBorder(null, null, 0, 0, activityFont, Color.black));
 		
 		
 //		scrollPane.getViewport().add(panel);
@@ -274,13 +277,16 @@ public class StudentPlanningToolMain {
 
 		// create a taskpane, and set it's title and icon
 		JXTaskPane taskpane = new JXTaskPane();
+		taskpane.setToolTipText("Click to expand.");
 		taskpane.setCollapsed(true);
 		taskpane.setTitle(las.getName());
 		taskpane.setForeground(Color.white);
 		taskpane.setBackground(Color.black);
 		taskpane.setOpaque(true);
-		Map<String, Date> dateMap = new HashMap<String, Date>();
-		taskpane.putClientProperty(DATE_MAP, dateMap);
+		Map<String, Date> endDateMap = new HashMap<String, Date>();
+		Map<String, Date> startDateMap = new HashMap<String, Date>();
+		taskpane.putClientProperty(START_DATE_MAP, startDateMap);
+		taskpane.putClientProperty(END_DATE_MAP, endDateMap);
 		//taskpane.setIcon(Images.One.getIcon(24, 24));
 
 		//cycle through all the activities
@@ -350,20 +356,27 @@ public class StudentPlanningToolMain {
 
 	private JXPanel createActivityPanel(Activity activity, final JXTaskPane taskpane, int activityNumber) {
 		
-		final JXDatePicker datePicker = new JXDatePicker();
+		final JXDatePicker endDatePicker = new JXDatePicker();
+		final JXDatePicker startDatePicker = new JXDatePicker();
 		
 		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
 	
-	    
-		datePicker.setFormats(formatter);
+	    startDatePicker.setFormats(formatter);
+		endDatePicker.setFormats(formatter);
+		
+		
 		
 	
 		
 		JXTitledPanel activityPanel = new JXTitledPanel(activityNumber + ". " + activity.getName());
 		activityPanel.setTitleFont(activityFont);
 		activityPanel.setTitleForeground(Colors.White.color());
-		datePicker.putClientProperty(ACTIVITY_NAME, activity.getName());
-		datePicker.putClientProperty(TASKPANE, taskpane);
+		
+		endDatePicker.putClientProperty(ACTIVITY_NAME, activity.getName());
+		endDatePicker.putClientProperty(TASKPANE, taskpane);
+		
+		startDatePicker.putClientProperty(ACTIVITY_NAME, activity.getName());
+		startDatePicker.putClientProperty(TASKPANE, taskpane);
 		//info
 		
 		
@@ -375,48 +388,57 @@ public class StudentPlanningToolMain {
 		    
 		    public void actionPerformed(ActionEvent e) {
 			      System.out.println("pop up date");
-			      datePicker.setEnabled(true);
+			      endDatePicker.setEnabled(true);
 			      
 		    }
 		};
 		
-		datePicker.addActionListener(new ActionListener() {
+		endDatePicker.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				JXDatePicker source = (JXDatePicker) e.getSource();
-				String activityName = (String) source.getClientProperty(ACTIVITY_NAME);
-				JXTaskPane lasTaskPane = (JXTaskPane)source.getClientProperty(TASKPANE);
 				
-				Map<String, Date> dateMap = (Map<String, Date>) lasTaskPane.getClientProperty(DATE_MAP);
+				
+				JXDatePicker endDatePicker = (JXDatePicker) e.getSource();
+				String activityName = (String) endDatePicker.getClientProperty(ACTIVITY_NAME);
+				JXTaskPane lasTaskPane = (JXTaskPane)endDatePicker.getClientProperty(TASKPANE);
+				
+				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(END_DATE_MAP);
+				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(START_DATE_MAP);
+				
+				endDateMap.put(activityName, endDatePicker.getDate());
+				lasTaskPane.putClientProperty(END_DATE_MAP, endDateMap);
 				
 				//System.out.println("client "+ activityName);
 				String title = lasTaskPane.getTitle();
 				
-				dateMap.put(activityName, datePicker.getDate());
+				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
 				
-				
-				lasTaskPane.putClientProperty(DATE_MAP, dateMap);
-				
-				List<Date> sortedDates = sortDates( dateMap );
-				
-				Date firstDate = sortedDates.get(0);
-				Date lastDate = null;
-				if( sortedDates.size()-1 != 0)
-					lastDate = sortedDates.get(sortedDates.size()-1);
-				
-				String firstDateString = formatter.format(firstDate);
-				String lastDateString = null;
-				if( lastDate != null) {
-					lastDateString = formatter.format(lastDate);
-				}
-				
-				modTaskPaneTitle(taskpane, firstDateString, lastDateString);
+			}
+
+	
+		});
+		
+		startDatePicker.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
 				
 				
+				JXDatePicker startDatePicker = (JXDatePicker) e.getSource();
+				String activityName = (String) startDatePicker.getClientProperty(ACTIVITY_NAME);
+				JXTaskPane lasTaskPane = (JXTaskPane)startDatePicker.getClientProperty(TASKPANE);
 				
+				Map<String, Date> endDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(END_DATE_MAP);
+				Map<String, Date> startDateMap = (Map<String, Date>) lasTaskPane.getClientProperty(START_DATE_MAP);
+				
+				startDateMap.put(activityName, startDatePicker.getDate());
+				lasTaskPane.putClientProperty(START_DATE_MAP, startDateMap);
+			
+				
+				modTaskPaneTitleDateRange(taskpane, startDateMap, endDateMap);
 				
 			}
 
@@ -457,7 +479,14 @@ public class StudentPlanningToolMain {
 		
 		//infoPanel.add(dateLink);
 		//infoPanel.add(progressBar);
-		infoPanel.add(datePicker);
+		
+		JXLabel startLabel = new JXLabel("Start:");
+		JXLabel endLabel = new JXLabel("End:");
+		
+		infoPanel.add(startLabel);
+		infoPanel.add(startDatePicker);
+		infoPanel.add(endLabel);
+		infoPanel.add(endDatePicker);
 		//infoPanel.add(infoLink);
 		infoPanel.setOpaque(false);
 		//infoPanel.setAlpha(0.0f);
@@ -490,6 +519,7 @@ public class StudentPlanningToolMain {
 		membersPanel.setBackground(Color.CYAN);
 		membersPanel.setPreferredSize(new Dimension(activityPanel.getMaximumSize().width/2, 100));
 		membersPanel.setDropTarget(new DropTarget(membersPanel, new JXDropTargetListener(membersPanel)));
+		membersPanel.setToolTipText("Drag the persons that will work with the task from the desktop here.");
 		
 		JXPanel resourcesPanel = new JXPanel();
 		resourcesPanel.setLayout(new BorderLayout(0,0));
@@ -498,7 +528,7 @@ public class StudentPlanningToolMain {
 		//notesPanel.setPreferredSize(new Dimension(activityPanel.getMaximumSize().width, 100));
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setText("Planned Resources...");
+		textArea.setText("What do you need to do in the task...");
         //textArea.setColumns(20);
         textArea.setLineWrap(true);
         textArea.setRows(5);
@@ -566,6 +596,7 @@ public class StudentPlanningToolMain {
 		progressBar.setValue(50);
 		progressBar.setStringPainted(true);
 		progressBar.setPreferredSize(new Dimension(activityPanel.getMaximumSize().width, progressBar.getPreferredSize().height));
+		progressBar.setToolTipText("Progress of the task in %");
         
         innerMainPanel.add(progressBar, "span, wrap, growx");
         innerMainPanel.add(membersPanel,"span, wrap, growx");
@@ -602,19 +633,48 @@ public class StudentPlanningToolMain {
 	}
 	
 
-	private void modTaskPaneTitle(JXTaskPane taskpane, String firstDateString, String lastDateString ) {
+	private void modTaskPaneTitleDateRange(JXTaskPane taskpane, Map<String, Date> startDateMap, Map<String, Date> endDateMap ) {
+		
+		final SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
+		
+		List<Date> endDateSort = sortDates( endDateMap );
+		List<Date> startDateSort = sortDates( startDateMap );
+		
+		String startDateString = " ";
+		String endDateString = " ";
+		
+		if( !endDateSort.isEmpty() ) {
+			Date endDate = endDateSort.get(endDateSort.size()-1);
+			endDateString = formatter.format(endDate);
+		}
+		if( !startDateSort.isEmpty() ) {
+			Date startDate = startDateSort.get(0);
+			startDateString = formatter.format(startDate);
+		}
+		
+		
+//		Date lastDate = null;
+//		if( endDateSort.size()-1 != 0)
+//			lastDate = endDateSort.get(endDateSort.size()-1);
+//		
+//		
+//		
+		
+		
 		int indexOf = taskpane.getTitle().indexOf("-");
 		if( indexOf == -1 ) {
-			if( lastDateString == null)
-				taskpane.setTitle(taskpane.getTitle() + " - " + firstDateString);
+			if( StringUtils.stripToNull(endDateString) == null)
+				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString);
 			else
-				taskpane.setTitle(taskpane.getTitle() + " - " + firstDateString + " to " + lastDateString);
+				taskpane.setTitle(taskpane.getTitle() + " - " + startDateString + " to " + endDateString);
 		} else {
 			StringBuilder sb = new StringBuilder(taskpane.getTitle());
-			if( lastDateString == null)
-				sb.replace(indexOf, sb.length(), "- " + firstDateString);
+			if( StringUtils.stripToNull(endDateString) == null)
+				sb.replace(indexOf, sb.length(), "- " + startDateString);
+			else if( StringUtils.stripToNull(startDateString) == null)
+					sb.replace(indexOf, sb.length(), "- " + endDateString);
 			else
-				sb.replace(indexOf, sb.length(), "- " + firstDateString + " to " + lastDateString);
+				sb.replace(indexOf, sb.length(), "- " + startDateString + " to " + endDateString);
 			taskpane.setTitle(sb.toString());
 		}
 		
