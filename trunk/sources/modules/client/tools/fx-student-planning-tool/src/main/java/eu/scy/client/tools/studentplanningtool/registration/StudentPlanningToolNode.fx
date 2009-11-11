@@ -55,10 +55,7 @@ public class StudentPlanningToolNode extends CustomNode {
 
    public override function create(): Node {
      //initTBI();
-
-
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
-
         wrappedSPTPanel = SwingComponent.wrap(studentPlanningTool.createStudentPlanningPanel(null));
      return Group {
          blocksMouse:true;
