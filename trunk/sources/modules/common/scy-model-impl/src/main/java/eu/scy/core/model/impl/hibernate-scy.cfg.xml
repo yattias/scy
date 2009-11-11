@@ -45,9 +45,17 @@
         <property name="hibernate.connection.autocommit">false</property>
         <property name="hibernate.connection.release_mode">auto</property>
 
+        <mapping class="eu.scy.core.model.impl.SCYProjectImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYGroupImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserImpl"/>
+        <mapping class="eu.scy.core.model.impl.SCYUserDetails"/>
+
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ActivityImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.SCYMapperConfiguration"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.ToolImpl"/>
     </session-factory>
 </hibernate-configuration>

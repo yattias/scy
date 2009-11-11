@@ -5,7 +5,6 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -16,7 +15,7 @@ import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 
 /**
- * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
+ * This is the interface of the ToolImpl-Broker-API. The ToolImpl-Broker-API can return
  * references to all SCY broker services like the repository, the user
  * management etc. These services can then be used by the tools.
  * 

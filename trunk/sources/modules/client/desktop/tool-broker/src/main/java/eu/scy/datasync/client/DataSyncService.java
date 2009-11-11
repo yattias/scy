@@ -16,7 +16,6 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.event.DataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.datasync.event.IDataSyncListener;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
 import eu.scy.communications.message.ISyncMessage;
 import eu.scy.communications.message.impl.SyncMessageHelper;
 import eu.scy.communications.packet.extension.datasync.DataSyncExtensionProvider;
@@ -25,7 +24,7 @@ import eu.scy.datasync.adapter.ScyCommunicationAdapter;
 
 
 /**
- * Tool client for doing data sync
+ * ToolImpl client for doing data sync
  * 
  * @author thomasd
  *

@@ -56,6 +56,33 @@ CREATE TABLE `activity` (
     CONSTRAINT `activity_las` FOREIGN KEY (`learningActivitySpace_primKey`) REFERENCES `learningactivityspace` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `toolconfiguration`;
+CREATE TABLE `toolconfiguration` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `toolid` varchar(250) default NULL,
+    `activity_primKey` varchar(55) default NULL,
+    `tool_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`),
+    KEY `tooconfigactivity_key` (`activity_primKey`),
+    KEY `tooconfigtool_key` (`tool_primKey`),
+    CONSTRAINT `toolconfiguration_activity` FOREIGN KEY (`activity_primKey`) REFERENCES `activity` (`primKey`),
+    CONSTRAINT `toolconfiguration_tool` FOREIGN KEY (`tool_primKey`) REFERENCES `tool` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tool`;
+CREATE TABLE `tool` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `learningActivitySpace_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 set FOREIGN_KEY_CHECKS=1;
 
 

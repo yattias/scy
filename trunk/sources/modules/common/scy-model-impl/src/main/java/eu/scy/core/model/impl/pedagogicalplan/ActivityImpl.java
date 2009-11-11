@@ -3,6 +3,7 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
     private LearningActivitySpace learningActivitySpace;
 
     private AnchorELO anchorELO;
+
+    private Set <LearningActivitySpaceToolConfiguration> learningActivitySpaceToolConfigurations = new HashSet<LearningActivitySpaceToolConfiguration>();
 
     @Override
     public void setAnchorELO(AnchorELO anchorELO) {
@@ -45,14 +48,19 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
         this.learningActivitySpace = learningActivitySpace;
     }
 
-    @Transient
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "activity", targetEntity = LearningActivitySpaceToolConfigurationImpl.class, fetch = FetchType.EAGER)
     public Set<LearningActivitySpaceToolConfiguration> getLearningActivitySpaceToolConfigurations() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return learningActivitySpaceToolConfigurations;
     }
 
-    @Override
-    public void setLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+    public void setLearningActivitySpaceToolConfigurations(Set<LearningActivitySpaceToolConfiguration> learningActivitySpaceToolConfigurations) {
+        this.learningActivitySpaceToolConfigurations = learningActivitySpaceToolConfigurations;
+    }
+
+    public void addLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration) {
+        getLearningActivitySpaceToolConfigurations().add(learningActivitySpaceToolConfiguration);
+        learningActivitySpaceToolConfiguration.setActivity(this);
     }
 
     @Override

@@ -129,7 +129,7 @@
                                         <include>**/*.jnlp</include>
                                     </includes>
                                     <directory>target/jnlp</directory>
-                                    <filtering>true</filtering>
+                                    <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>

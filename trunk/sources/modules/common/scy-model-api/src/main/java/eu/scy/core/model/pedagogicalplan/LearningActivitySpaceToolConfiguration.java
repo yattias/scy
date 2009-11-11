@@ -13,5 +13,7 @@ public interface LearningActivitySpaceToolConfiguration extends LearningActivity
     public Tool getTool();
 
 
+    Activity getActivity();
 
+    void setActivity(Activity activity);
 }

@@ -2,6 +2,8 @@ package eu.scy.scyplanner.application;
 
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
+import eu.scy.core.model.pedagogicalplan.Activity;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
@@ -47,6 +49,14 @@ public class SCYPlannerApplicationManager {
             System.out.println(scenario.getName());
             System.out.println(scenario.getLearningActivitySpace().getName());
             System.out.println("size: " + scenario.getLearningActivitySpace().getActivities().size());
+            if(scenario.getLearningActivitySpace().getActivities().size() > 0) {
+                Activity activity = scenario.getLearningActivitySpace().getActivities().get(0);
+                System.out.println("ACTIVITY: " + activity.getName());
+                if(activity.getLearningActivitySpaceToolConfigurations() != null) {
+                    LearningActivitySpaceToolConfiguration config = (LearningActivitySpaceToolConfiguration) activity.getLearningActivitySpaceToolConfigurations();
+                    System.out.println("CONFIG: " + config.getName() + " TOOL:: " + config.getTool().getName());
+                }
+            }
         }
 
     }

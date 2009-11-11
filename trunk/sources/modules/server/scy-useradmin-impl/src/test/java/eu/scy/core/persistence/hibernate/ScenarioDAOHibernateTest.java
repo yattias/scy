@@ -1,17 +1,14 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
-import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
-import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.AnchorELO;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.impl.pedagogicalplan.*;
+import eu.scy.core.model.impl.pedagogicalplan.ToolImpl;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.ScenarioDAO;
+import org.junit.Test;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
-import org.testng.annotations.Test;
 
+
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -81,9 +78,20 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
             assertNotNull(activity.getId());
             AnchorELO elo = activity.getAnchorELO();
             assertNotNull(elo);
-            assertNotNull(((AnchorELOImpl)elo).getId());
-            assert(elo.getInputTo() != null);
-            assertNotNull((((LearningActivitySpaceImpl)elo.getInputTo()).getId()));
+            assertNotNull(((AnchorELOImpl) elo).getId());
+            assert (elo.getInputTo() != null);
+            assertNotNull((((LearningActivitySpaceImpl) elo.getInputTo()).getId()));
+
+
+            Iterator it = activity.getLearningActivitySpaceToolConfigurations().iterator();
+            assert(it.hasNext());
+            while (it.hasNext()) {
+                LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = (LearningActivitySpaceToolConfiguration) it.next();
+                assert(learningActivitySpaceToolConfiguration.getTool() != null);
+                ToolImpl tool = (ToolImpl) learningActivitySpaceToolConfiguration.getTool();
+                assert(tool.getId() != null);
+            }
+
         }
 
     }
@@ -105,7 +113,7 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
         anchorElo.setInputTo(las2);
 
 
-        Activity firstActivity = new ActivityImpl();
+        Activity firstActivity = createActivity("THis is the first activity", "DESC: THis is the first activity");
         firstActivity.setName("THis is the first activity");
         las.addActivity(firstActivity);
         firstActivity.setAnchorELO(anchorElo);
@@ -114,6 +122,24 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
         return scenario;
 
 
+    }
+
+    private Activity createActivity(String name, String description) {
+        Activity activity = new ActivityImpl();
+        activity.setName(name);
+        activity.setDescription(description);
+
+        LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = new SCYMapperConfiguration();
+        learningActivitySpaceToolConfiguration.setName("SCYMapperConfiguration-" + name);
+        activity.addLearningActivitySpaceToolConfiguration(learningActivitySpaceToolConfiguration);
+
+        eu.scy.core.model.pedagogicalplan.Tool scyMapper = new ToolImpl();
+        scyMapper.setName("SCYMapper");
+        scyMapper.setDescription("A CONCEPTMAPPING TOOL");
+        learningActivitySpaceToolConfiguration.setTool(scyMapper);
+
+
+        return activity;
     }
 
 }
