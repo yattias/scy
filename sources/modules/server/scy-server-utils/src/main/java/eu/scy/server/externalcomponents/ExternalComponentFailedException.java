@@ -9,6 +9,32 @@ package eu.scy.server.externalcomponents;
  */
 public class ExternalComponentFailedException extends Exception {
 
+	/**
+	 * 
+	 */
+	public ExternalComponentFailedException() {
+		super();
+	}
 
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public ExternalComponentFailedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
+	/**
+	 * @param message
+	 */
+	public ExternalComponentFailedException(String message) {
+		super(message);
+	}
+
+	/**
+	 * @param cause
+	 */
+	public ExternalComponentFailedException(Throwable cause) {
+		super(cause);
+	}
 }
