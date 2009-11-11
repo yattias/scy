@@ -83,17 +83,17 @@
                 <artifactId>collaboration-service-impl</artifactId>
                 <version>${pom.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>student-planning-tool</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
         <dependency>
                 <groupId>eu.scy.client.desktop</groupId>
                 <artifactId>tool-broker</artifactId>
                 <version>${pom.version}</version>
         </dependency>
-          <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>student-planning-tool</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+
 
    </dependencies>
 
