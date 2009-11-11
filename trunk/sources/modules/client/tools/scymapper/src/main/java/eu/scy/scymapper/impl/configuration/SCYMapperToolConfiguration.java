@@ -1,5 +1,6 @@
 package eu.scy.scymapper.impl.configuration;
 
+import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.scymapper.api.IConceptPrototype;
@@ -79,5 +80,15 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     @Override
     public Tool getTool() {
         return tool;
+    }
+
+    @Override
+    public Activity getActivity() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setActivity(Activity activity) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
