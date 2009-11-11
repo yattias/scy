@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikkenj
@@ -19,24 +20,52 @@ import javafx.scene.paint.Paint;
 public abstract class Corner extends CustomNode {
    public var content: Node on replace {newContent()};
    public var color:Paint;
+   public var backgroundColor:Paint=Color.WHITE;
+//   public var backgroundColor:Paint=Color.BLACK;
+   public var resizeable:Boolean = true;
+
+   protected var background:Group = Group{
+           content: [],
+           onMouseClicked:function(evt){
+               if (evt.clickCount==2) {
+                   println("doubleclick");
+                       if (resizeable){
+                            resizeContent();
+                       }
+               }
+           }
+      };
+
+      protected var border:Group = Group{
+           content: [],
+           onMouseClicked:function(evt){
+               if (evt.clickCount==2) {
+                   println("border-doubleclick");
+               }
+           },
+           blocksMouse:true;
+      };
 
    protected var width = 20.0;
    protected var height = 20.0;
-
+   
    protected def radius = 10.0;
    protected def strokeWidth = 3.0;
    def emptyBorderWidth = 5.0;
    def sceneWidth = bind scene.width on replace{placeInCorner()};
    def sceneHeight = bind scene.height on replace{placeInCorner()};
 
-   def contentGroup = Group{};
+   def contentGroup = Group{
+           blocksMouse:true
+   };
 
    public override function create(): Node {
       newContent();
       return Group {
          content: [
+            getBackground(),
             contentGroup,
-            getCornerElements()
+            getBorder(),
          ]
       };
    }
@@ -66,10 +95,27 @@ public abstract class Corner extends CustomNode {
    }
 
 
+
+
    protected function placeInCorner(){
    }
 
+    protected abstract function resizeContent():Void;
 
-   protected abstract function getCornerElements():Group;
+
+//   protected abstract function getBorder():Group;
+   protected function getBorder():Node{
+       return border
+       }
+   
+
+   protected function getBackground():Node{
+       return background
+       }
+ 
+
+
+   
+//   protected abstract function getBackground():Group;
 }
 

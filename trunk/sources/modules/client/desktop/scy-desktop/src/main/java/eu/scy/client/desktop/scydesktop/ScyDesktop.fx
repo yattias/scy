@@ -23,7 +23,6 @@ import eu.scy.client.desktop.scydesktop.missionmap.AnchorFX;
 import java.net.URI;
 
 
-import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
@@ -87,6 +86,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlIm
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
+
+import javafx.scene.shape.Rectangle;
+
+import org.apache.log4j.Logger;
 
 
 
@@ -259,12 +262,18 @@ public class ScyDesktop extends CustomNode {
       createElements();
       Group{
          content:[
+            ///Testing only
+//            Rectangle{width:bind boundsInLocal.width,
+//                height:bind boundsInLocal.height,
+//                fill:Color.BLACK
+//            },
             backgroundImageView,
             windows.scyWindows,
             topLeftCorner,
             topRightCorner,
             bottomRightCorner,
-            bottomLeftCorner
+            bottomLeftCorner,
+            Rectangle{fill:Color.BLACK,x:100,y:100, width:boundsInLocal.width, height:boundsInLocal.height}
          ]
       }
    }
@@ -471,7 +480,8 @@ function run(){
    }
 
    newScyWindowTool.scyDesktop = scyDesktop;
-   scyDesktop.bottomLeftCornerTool= newScyWindowTool;
+   scyDesktop.bottomLeftCornerTool = newScyWindowTool;
+//   scyDesktop.bottomLeftCornerTool = Rectangle{x:10,y:10,width:100,height:100,fill:Color.BLACK};
 
    scyDesktop.newEloCreationRegistry.registerEloCreation("test","test");
    scyDesktop.newEloCreationRegistry.registerEloCreation("tst","tst");
@@ -483,7 +493,8 @@ function run(){
          width: 400
          height: 300
          content: [
-            scyDesktop,
+            scyDesktop
+
          ]
       }
    }

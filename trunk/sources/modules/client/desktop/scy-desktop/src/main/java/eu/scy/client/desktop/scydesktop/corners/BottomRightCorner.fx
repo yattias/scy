@@ -21,9 +21,37 @@ import javafx.stage.Stage;
 
 public class BottomRightCorner extends Corner {
 
-   protected override function getCornerElements():Group{
-      Group{
-         content:[
+   protected override function resizeContent(){
+
+   }
+
+   init{
+           background.content=[
+              Rectangle {
+               x: bind radius, y: 0;
+               width: bind width-radius, height: bind radius
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor
+            }
+            Arc {
+               centerX: bind radius, centerY: bind radius
+               radiusX: bind radius, radiusY: bind radius
+               startAngle: 90, length: 90
+               type: ArcType.ROUND
+               fill: bind backgroundColor
+               stroke:bind backgroundColor
+               strokeWidth:0
+            }
+            Rectangle {
+               x: 0, y: bind radius
+               width: bind width, height: bind height-radius
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+              ];
+    border.content=[
             Line {
                startX: 0, startY: bind height
                endX: 0, endY: bind radius
@@ -35,7 +63,7 @@ public class BottomRightCorner extends Corner {
                radiusX: bind radius, radiusY: bind radius
                startAngle: 90, length: 90
                type: ArcType.OPEN
-               fill: null;
+               fill: Color.TRANSPARENT;
                strokeWidth: bind strokeWidth
                stroke: bind color
             }
@@ -45,8 +73,7 @@ public class BottomRightCorner extends Corner {
                strokeWidth: bind strokeWidth
                stroke: bind color
             }
-         ]
-      }
+            ]
    }
 
    protected override function placeInCorner(){

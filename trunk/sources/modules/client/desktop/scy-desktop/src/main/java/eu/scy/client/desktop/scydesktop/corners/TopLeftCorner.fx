@@ -26,10 +26,34 @@ import javafx.scene.shape.Rectangle;
 
 public class TopLeftCorner extends Corner {
 
-   protected override function getCornerElements():Group{
-      Group{
-         content:[
-            Line {
+    init{
+      background.content=[
+              Rectangle {
+               x: 0, y: 0
+               width: bind width, height: bind height-radius
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+            Arc {
+               centerX: bind width-radius, centerY: bind height-radius
+               radiusX: bind radius, radiusY: bind radius
+               startAngle: 0, length: -90
+               type: ArcType.ROUND
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+            Rectangle {
+               x: 0, y: bind radius
+               width: bind width-radius, height: bind height-radius
+               stroke: bind backgroundColor
+               strokeWidth: 1
+               fill: bind Color.BLACK;
+            }
+              ];
+      border.content=[
+                          Line {
                startX: 0, startY: bind height
                endX: bind width-radius, endY: bind height
                strokeWidth: bind strokeWidth
@@ -50,9 +74,15 @@ public class TopLeftCorner extends Corner {
                strokeWidth: bind strokeWidth
                stroke: bind color
             }
-         ]
-      }
+];
+        
+    }
+
+
+   protected override function resizeContent(){
+       
    }
+
 
 }
 

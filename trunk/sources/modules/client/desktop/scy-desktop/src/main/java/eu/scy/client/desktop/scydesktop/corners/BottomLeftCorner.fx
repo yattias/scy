@@ -6,7 +6,6 @@
 
 package eu.scy.client.desktop.scydesktop.corners;
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -24,9 +23,33 @@ import javafx.scene.control.Button;
 
 public class BottomLeftCorner extends Corner {
 
-   protected override function getCornerElements():Group{
-      Group{
-         content:[
+    init{
+      background.content=[
+              Rectangle {
+               x: 0, y: 0;
+               width: bind width-radius, height: bind radius
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+            Arc {
+               centerX: bind width-radius, centerY: bind radius
+               radiusX: bind radius, radiusY: bind radius
+               startAngle: 0, length: 90
+               type: ArcType.ROUND
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+            Rectangle {
+               x: 0, y: bind radius
+               width: bind width, height: bind height-radius
+               stroke:bind backgroundColor
+               strokeWidth:1
+               fill: bind backgroundColor;
+            }
+              ];
+      border.content=[
             Line {
                startX: 0, startY: 0
                endX: bind width-radius, endY: 0
@@ -38,7 +61,7 @@ public class BottomLeftCorner extends Corner {
                radiusX: bind radius, radiusY: bind radius
                startAngle: 0, length: 90
                type: ArcType.OPEN
-               fill: null;
+               fill: Color.TRANSPARENT;
                strokeWidth: bind strokeWidth
                stroke: bind color
             }
@@ -47,10 +70,14 @@ public class BottomLeftCorner extends Corner {
                endX: bind width, endY: bind height
                strokeWidth: bind strokeWidth
                stroke: bind color
-            }
-         ]
-      }
+            }];
+    
+    }
+
+    protected override function resizeContent(){
+
    }
+
 
    protected override function placeInCorner(){
       translateY = scene.height-height;
