@@ -124,6 +124,13 @@
         </dependency>
 
 
+        <dependency>
+        	<groupId>eu.scy</groupId>
+        	<artifactId>scy-hub</artifactId>
+        	<version>${pom.version}</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>

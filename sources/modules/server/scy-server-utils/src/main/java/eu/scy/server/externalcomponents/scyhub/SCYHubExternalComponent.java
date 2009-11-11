@@ -1,13 +1,15 @@
 /**
  * 
  */
-package eu.scy.server.externalcomponents;
+package eu.scy.server.externalcomponents.scyhub;
 
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.ComponentException;
 
 import eu.scy.common.configuration.Configuration;
 import eu.scy.scyhub.SCYHubComponent;
+import eu.scy.server.externalcomponents.ExternalComponentFailedException;
+import eu.scy.server.externalcomponents.IExternalComponent;
 
 /**
  * @author giemza
