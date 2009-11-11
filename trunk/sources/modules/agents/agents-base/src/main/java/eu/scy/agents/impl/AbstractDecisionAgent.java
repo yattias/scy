@@ -23,4 +23,12 @@ public abstract class AbstractDecisionAgent extends AbstractThreadedAgent
 		super(name, id);
 	}
 
+	protected String convertBinaryToString(byte[] bytes) {
+		return null;
+	}
+
+	protected void sendNotification(String user, String tool, String mission,
+			String session, String... payload) {
+	}
+
 }
