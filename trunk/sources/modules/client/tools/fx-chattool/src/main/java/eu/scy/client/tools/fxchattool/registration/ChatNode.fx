@@ -48,7 +48,7 @@ public class ChatNode extends CustomNode {
         //we should get that TBI from above
         var tbi:ToolBrokerImpl = new ToolBrokerImpl();
         awarenessService = tbi.getAwarenessService();
-        var connection:XMPPConnection = tbi.getConnection("obama", "obama");
+        var connection:XMPPConnection = tbi.getConnection("jt11@scy.intermedia.uio.no", "jt11");
         if (connection != null) {
             startListeners(connection);
             customTable.disable = false;
