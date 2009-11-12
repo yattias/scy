@@ -41,7 +41,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
     
-    private static final String beanConfigurationFile = "beans.xml";
+    private static final String beanConfigurationFile = "beansWithoutNotificationFreakinService.xml";//"beans.xml";
     
     private ApplicationContext context;
     
@@ -87,7 +87,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         //((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
         logger.debug("################################## no action logger");
         
-        notificationService = (INotificationService) context.getBean("notificationService");
+        //notificationService = (INotificationService) context.getBean("notificationService");
         
         sessionManager = (SessionManager) context.getBean("sessionManager");
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
