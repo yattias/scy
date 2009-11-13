@@ -32,7 +32,7 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
 
 
     @OneToOne  (targetEntity = AnchorELOImpl.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="activity_primKey")
+    @JoinColumn(name="anchorElo_primKey")
     public AnchorELO getAnchorELO() {
         return anchorELO;
     }
