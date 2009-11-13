@@ -83,14 +83,14 @@ public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContext
             assertNotNull((((LearningActivitySpaceImpl) elo.getInputTo()).getId()));
 
 
-            Iterator it = activity.getLearningActivitySpaceToolConfigurations().iterator();
+            /*Iterator it = activity.getLearningActivitySpaceToolConfigurations().iterator();
             assert(it.hasNext());
             while (it.hasNext()) {
                 LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = (LearningActivitySpaceToolConfiguration) it.next();
                 assert(learningActivitySpaceToolConfiguration.getTool() != null);
                 ToolImpl tool = (ToolImpl) learningActivitySpaceToolConfiguration.getTool();
                 assert(tool.getId() != null);
-            }
+            } */
 
         }
 

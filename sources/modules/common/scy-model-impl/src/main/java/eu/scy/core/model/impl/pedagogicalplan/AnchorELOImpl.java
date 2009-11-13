@@ -43,7 +43,7 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     }
 
     @OneToOne(targetEntity = LearningActivitySpaceImpl.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="inputAnchorELO_primKey")
+    //JoinColumn(name="inputAnchorELO_primKey")
     public LearningActivitySpace getInputTo() {
         return inputTo;
     }
