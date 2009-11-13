@@ -11,9 +11,9 @@
 #end
   </information>
 #if($allPermissions)
-  <!--security>
+  <security>
      <all-permissions/>
-  </security-->
+  </security>
 #end
   <resources>
     <j2se version="$j2seVersion"/>
