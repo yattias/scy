@@ -26,7 +26,8 @@ public class DummyDataGenerator implements InitializingBean {
 
         Activity activity = createActivity("Use conceptmap");
         las.addActivity(activity);
-        AnchorELO elo1 = createAnchorELO("Concept map");
+        
+        /*AnchorELO elo1 = createAnchorELO("Concept map");
         activity.setAnchorELO(elo1);
 
         LearningActivitySpace conceptualisation = createLAS("Conceptualization");
@@ -36,9 +37,9 @@ public class DummyDataGenerator implements InitializingBean {
         conceptualisation.addActivity(conceptualizationActivity);
         addToolToActivity(conceptualizationActivity, "SCYMapper", "A concept mapping tool");
 
-        AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
-        conceptualizationActivity.setAnchorELO(conceptualizationELO);
-
+        //AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
+        //conceptualizationActivity.setAnchorELO(conceptualizationELO);
+        */
         getScenarioService().createScenario(scenario);
 
 
