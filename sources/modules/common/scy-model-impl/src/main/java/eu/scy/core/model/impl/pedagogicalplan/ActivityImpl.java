@@ -48,7 +48,8 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
         this.learningActivitySpace = learningActivitySpace;
     }
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "activity", targetEntity = LearningActivitySpaceToolConfigurationImpl.class, fetch = FetchType.EAGER)
+    @Transient
+    //OneToMany(cascade = {CascadeType.ALL}, mappedBy = "activity", targetEntity = LearningActivitySpaceToolConfigurationImpl.class, fetch = FetchType.EAGER)
     public Set<LearningActivitySpaceToolConfiguration> getLearningActivitySpaceToolConfigurations() {
         return learningActivitySpaceToolConfigurations;
     }
@@ -58,6 +59,7 @@ public class ActivityImpl extends BaseObjectImpl implements Activity {
         this.learningActivitySpaceToolConfigurations = learningActivitySpaceToolConfigurations;
     }
 
+    @Transient
     public void addLearningActivitySpaceToolConfiguration(LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration) {
         getLearningActivitySpaceToolConfigurations().add(learningActivitySpaceToolConfiguration);
         learningActivitySpaceToolConfiguration.setActivity(this);
