@@ -52,10 +52,10 @@ public class SCYPlannerApplicationManager {
             if(scenario.getLearningActivitySpace().getActivities().size() > 0) {
                 Activity activity = scenario.getLearningActivitySpace().getActivities().get(0);
                 System.out.println("ACTIVITY: " + activity.getName());
-                if(activity.getLearningActivitySpaceToolConfigurations() != null) {
+                /*if(activity.getLearningActivitySpaceToolConfigurations() != null) {
                     LearningActivitySpaceToolConfiguration config = (LearningActivitySpaceToolConfiguration) activity.getLearningActivitySpaceToolConfigurations();
                     System.out.println("CONFIG: " + config.getName() + " TOOL:: " + config.getTool().getName());
-                }
+                }*/
             }
         }
 
