@@ -24,8 +24,11 @@ CREATE TABLE `anchorelo` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `activity_primKey` varchar(55) default NULL,
+    `inputTo_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `activity_key` (`activity_primKey`),
+    KEY `inputTo_primKey_key` (`inputTo_primKey`),
+    CONSTRAINT `anchorelo_las` FOREIGN KEY (`inputTo_primKey`) REFERENCES `learningactivityspace` (`primKey`),
     CONSTRAINT `anchorelo_activity` FOREIGN KEY (`activity_primKey`) REFERENCES `activity` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
