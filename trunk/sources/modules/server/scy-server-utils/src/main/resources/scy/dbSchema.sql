@@ -54,9 +54,12 @@ CREATE TABLE `activity` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `learningActivitySpace_primKey` varchar(55) default NULL,
+    `anchorElo_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `activitylas_key` (`learningActivitySpace_primKey`),
-    CONSTRAINT `activity_las` FOREIGN KEY (`learningActivitySpace_primKey`) REFERENCES `learningactivityspace` (`primKey`)
+    KEY `anchorElo_primKey_key` (`anchorElo_primKey`),
+    CONSTRAINT `activity_las` FOREIGN KEY (`learningActivitySpace_primKey`) REFERENCES `learningactivityspace` (`primKey`),
+    CONSTRAINT `anchorElo_primKey_const` FOREIGN KEY (`anchorElo_primKey`) REFERENCES `anrhorelo` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `toolconfiguration`;
