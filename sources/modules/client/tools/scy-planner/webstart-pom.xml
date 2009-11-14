@@ -95,7 +95,7 @@
                         </keystoreConfig>
 
                     </sign>
-                    <unsign>false</unsign>
+                    <unsign>true</unsign>
 
                     <!-- BUILDING PROCESS -->
 
