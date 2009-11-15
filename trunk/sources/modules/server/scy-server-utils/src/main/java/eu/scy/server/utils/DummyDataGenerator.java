@@ -19,14 +19,45 @@ public class DummyDataGenerator implements InitializingBean {
 
     private void generateDummyScenario() {
         Scenario scenario = new ScenarioImpl();
-        scenario.setName("Design challenge - the freakin scy way");
+        scenario.setName("Mission 1");
 
-        LearningActivitySpace las = createLAS("Orientation");
-        scenario.setLearningActivitySpace(las);
+        LearningActivitySpace orientation = createLAS("LAS Orientation");
+        scenario.setLearningActivitySpace(orientation);
+        addActivity(orientation, "Identify goal states");
+        addActivity(orientation, "Identify learning goals");
+/*
+        LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
+        addActivity(conceptualization, "Build a model");
+        addActivity(conceptualization, "Give and classify examples");
 
-        Activity activity = createActivity("Use conceptmap");
-        las.addActivity(activity);
+        LearningActivitySpace experiment = createLAS("LAS Experiment");
+        addActivity(experiment, "Design an experimental procedure");
+        addActivity(experiment, "Run experiment");
+        addActivity(experiment, "Organize data");
+        addActivity(experiment, "Interpret data");
+
+        LearningActivitySpace information = createLAS("LAS Information");
+        addActivity(information, "Browse resources for specific information");
+
+        LearningActivitySpace reporting = createLAS("LAS Reporting");
+        addActivity(reporting, "Summarise");
+        addActivity(reporting, "Explain");
+        addActivity(reporting, "Propose a decision");
+
+        LearningActivitySpace design= createLAS("LAS Design");
+        addActivity(design, "Design a virtual artefact");
+
+        LearningActivitySpace construction= createLAS("LAS Construction");
+        addActivity(construction, "Build a virtual artefact");
         
+        LearningActivitySpace evaluation= createLAS("LAS Evaluation");
+        addActivity(evaluation, "Evaluate ELO");
+        addActivity(evaluation, "Evaluate resources");
+
+        LearningActivitySpace refleaction= createLAS("LAS Reflection");
+        addActivity(refleaction, "Identify differences between current knowledge and learning goals");
+  */
+
         /*AnchorELO elo1 = createAnchorELO("Concept map");
         activity.setAnchorELO(elo1);
 
@@ -44,6 +75,11 @@ public class DummyDataGenerator implements InitializingBean {
 
 
 
+    }
+
+    private void addActivity(LearningActivitySpace las, String activityName) {
+        Activity act = createActivity("Concept map on global warming");
+        las.addActivity(act);
     }
 
     private LearningActivitySpace createLAS(String name) {
