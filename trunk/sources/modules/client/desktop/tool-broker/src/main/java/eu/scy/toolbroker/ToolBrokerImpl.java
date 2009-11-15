@@ -246,7 +246,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	        } catch (XMPPException e1) {
 	            logger.error("xmpp login failed. bummer. " + e1);
 	            e1.printStackTrace();
-	        }        
+	        }
+
 	        
 	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
 	            
