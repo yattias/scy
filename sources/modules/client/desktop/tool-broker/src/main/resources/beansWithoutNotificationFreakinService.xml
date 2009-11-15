@@ -24,7 +24,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${serverName}:${httpPort}${contextPath}/remoting/repository-httpinvoker
+				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/repository-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -48,7 +48,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${serverName}:${httpPort}${contextPath}/remoting/metadataTypeManager-httpinvoker
+				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/metadataTypeManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -73,7 +73,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${serverName}:${httpPort}${contextPath}/remoting/extensionManager-httpinvoker
+				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/extensionManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -97,7 +97,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${serverName}:${httpPort}${contextPath}/remoting/sessionManager-httpinvoker
+				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/sessionManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -136,7 +136,7 @@
         class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
             <value>
-                http://${serverName}:${httpPort}${contextPath}/remoting/pedagogicalPlan-httpinvoker
+                http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/pedagogicalPlan-httpinvoker
             </value>
         </property>
         <property name="serviceInterface">
