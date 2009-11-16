@@ -23,7 +23,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
-import weka.gui.SysErrLog;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractProcessingAgent;
