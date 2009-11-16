@@ -15,6 +15,8 @@ import javafx.scene.text.Font;
  * @author sikkenj
  */
 
+var test:String;
+
 Stage {
     title: "Application title"
     width: 250

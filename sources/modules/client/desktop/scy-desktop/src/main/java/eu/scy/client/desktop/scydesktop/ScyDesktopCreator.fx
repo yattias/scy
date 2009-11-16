@@ -125,8 +125,9 @@ public class ScyDesktopCreator {
 //         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
 //      }
 //      else
-      if (config.getMissionAnchors()!=null){
-         missionModelFX = MissionModelUtils.createBasicMissionModelFX(config);
+      var missionAnchors = config.getMissionAnchors();
+      if (missionAnchors!=null){
+         missionModelFX = MissionModelUtils.createBasicMissionModelFX(missionAnchors);
          var activeAnchor = getActiveMissionAnchor(missionModelFX,config.getActiveMissionAnchorUri());
          if (activeAnchor.exists){
             missionModelFX.activeAnchor= activeAnchor;

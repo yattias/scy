@@ -11,6 +11,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.net.URI;
 import java.util.HashMap;
 
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import java.lang.String;
 
@@ -27,40 +28,48 @@ public class MissionModelUtils {
 
 }
 
-public function createBasicMissionModelFX(config:Config):MissionModelFX{
+public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelFX{
+   var missionAnchors:MissionAnchor[];
+   for (missionAnchor in missionAnchorsList){
+      insert missionAnchor as MissionAnchor into missionAnchors;
+   }
    var missionModelFX = MissionModelFX{
 
    }
-   if (config.getBasicMissionAnchorConfigs()!=null){
+   if (missionAnchors!=null){
       var missionAnchorFXMap = new HashMap();
       // create the list of MissionAnchorFX
-      for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
+      for (missionAnchor in missionAnchors)
       {
          var missionAnchorFX = MissionAnchorFX{
-            eloUri: new URI(basicMissionAnchorConfig.getUri())
-            xPos: basicMissionAnchorConfig.getXPosition()
-            yPos: basicMissionAnchorConfig.getYPosition()
-            relationNames: toStringSequence(basicMissionAnchorConfig.getRelationNames())
+            eloUri: missionAnchor.getEloUri()
+            xPos: missionAnchor.getXPosition()
+            yPos: missionAnchor.getYPosition()
+            relationNames: toStringSequence(missionAnchor.getRelationNames())
          }
-         missionAnchorFXMap.put(basicMissionAnchorConfig.getUri(), missionAnchorFX);
+         missionAnchorFXMap.put(missionAnchorFX.eloUri, missionAnchorFX);
          insert missionAnchorFX into missionModelFX.anchors;
       }
       // fill in the sequences of next anchors
-      for (basicMissionAnchorConfig in config.getBasicMissionAnchorConfigs())
+      for (missionAnchor in missionAnchors)
       {
-         var missionAnchorFX = missionAnchorFXMap.get(basicMissionAnchorConfig.getUri()) as MissionAnchorFX;
-         if (basicMissionAnchorConfig.getNextMissionAnchorConfigUris()!=null){
-            for (uri in basicMissionAnchorConfig.getNextMissionAnchorConfigUris()){
-               var nextMissionAnchorFX = missionAnchorFXMap.get(uri) as MissionAnchorFX;
+         var missionAnchorFX = missionAnchorFXMap.get(missionAnchor.getEloUri()) as MissionAnchorFX;
+         if (missionAnchor.getNextMissionAnchors()!=null){
+            for (nextMissionAnchor in missionAnchor.getNextMissionAnchors()){
+               var nextMissionAnchorFX = missionAnchorFXMap.get(nextMissionAnchor.getEloUri()) as MissionAnchorFX;
                if (nextMissionAnchorFX != null){
                   insert nextMissionAnchorFX into missionAnchorFX.nextAnchors;
                }
                else
                {
-                  logger.info("can't find next mission anchor with uri: {uri}");
+                  logger.info("can't find next mission anchor with uri: {nextMissionAnchor.getEloUri()}");
                }
             }
          }
+         else{
+            logger.info("no next anchors for {missionAnchor.getEloUri()}");
+         }
+
       }
    }
    return missionModelFX;
