@@ -32,6 +32,10 @@ public class ChatController {
 
     public void populateBuddyList() {
         //get this from the awareness service
+    	System.out.println("111111111111111111111111111111111111111111111111111111111111111111111111");
+    	System.out.println("populateBuddyList()");
+    	System.out.println("awarenessService: "+awarenessService);
+    	System.out.println("awarenessService.isConnected(): "+awarenessService.isConnected());
     	buddyList = new DefaultListModel();
         if( awarenessService != null && awarenessService.isConnected() ) {
             List<IAwarenessUser> buddies = null;
@@ -43,6 +47,7 @@ public class ChatController {
 			}
         
             if( buddies != null ) {
+            	System.out.println("we have buddies: "+buddies.size());
                 for (IAwarenessUser b : buddies) {
                     buddyList.addElement(b);
                     System.out.println(b.getName());
@@ -51,6 +56,7 @@ public class ChatController {
         } else {
             buddyList.addElement("no buddies");
         }
+        System.out.println("111111111111111111111111111111111111111111111111111111111111111111111111");
         
     }
 
