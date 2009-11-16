@@ -20,14 +20,11 @@ import javax.swing.JFileChooser;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.ext.swing.SwingComponent;
 
 import java.io.File;
 
 
 
-
-import com.sun.javafx.io.http.impl.Base64;
 
 import javafx.scene.control.TextBox;
 
@@ -35,6 +32,8 @@ import javafx.scene.text.Text;
 
 import javafx.scene.layout.Tile;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.EloImporterModel;
+
+import org.apache.commons.codec.binary.Base64;
 
 
 /**
@@ -75,7 +74,7 @@ public class ELOImporterNode extends CustomNode{
                     filename = file.getAbsolutePath();
                     //start Uploading the file if it can be read
                     if (file.canRead()){
-                        var fileEncoded = Base64.encode(ImportUtils.getBytesFromFile(file));
+                        var fileEncoded = new Base64().encode(ImportUtils.getBytesFromFile(file));
                     }
             }
         }
