@@ -23,8 +23,8 @@ import eu.scy.agents.api.IPersistentStorage;
  */
 public class PersistentStorage implements IPersistentStorage {
 
-	// private static final String TSHOST = "localhost";
-	private static final String TSHOST = "scy.collide.info";
+	private static final String TSHOST = "localhost";
+	// private static final String TSHOST = "scy.collide.info";
 	private static final int TSPORT = 2525;
 	private static final String PERSISTENT_STORAGE = "persistent_storage_1_0";
 	private TupleSpace tupleSpace;
@@ -39,8 +39,8 @@ public class PersistentStorage implements IPersistentStorage {
 	public PersistentStorage(String host, int port) {
 		try {
 			// TODO Configuration
-			tupleSpace = new TupleSpace(new User(PERSISTENT_STORAGE), TSHOST,
-					2525, PERSISTENT_STORAGE);
+			tupleSpace = new TupleSpace(new User(PERSISTENT_STORAGE), host,
+					port, PERSISTENT_STORAGE);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
