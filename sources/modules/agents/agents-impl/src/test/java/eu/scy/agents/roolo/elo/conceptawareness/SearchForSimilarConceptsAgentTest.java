@@ -30,7 +30,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startServer() {
-		startTupleSpaceServer();
+		// startTupleSpaceServer();
 	}
 
 	@Override
