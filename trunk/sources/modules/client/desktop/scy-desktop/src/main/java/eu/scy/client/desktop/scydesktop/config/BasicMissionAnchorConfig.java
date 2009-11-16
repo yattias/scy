@@ -12,20 +12,31 @@ import java.util.List;
  * @author sikken
  */
 public class BasicMissionAnchorConfig {
+   private String name;
    private String uri;
    private float xPosition;
    private float yPosition;
-   private List<String> nextMissionAnchorConfigUris;
+   private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
 
-   public List<String> getNextMissionAnchorConfigUris()
+   public String getName()
    {
-      return nextMissionAnchorConfigUris;
+      return name;
    }
 
-   public void setNextMissionAnchorConfigUris(List<String> nextMissionAnchorConfigUris)
+   public void setName(String name)
    {
-      this.nextMissionAnchorConfigUris = nextMissionAnchorConfigUris;
+      this.name = name;
+   }
+
+   public List<String> getNextMissionAnchorNames()
+   {
+      return nextMissionAnchorNames;
+   }
+
+   public void setNextMissionAnchorNames(List<String> nextMissionAnchorConfigUris)
+   {
+      this.nextMissionAnchorNames = nextMissionAnchorConfigUris;
    }
 
    public List<String> getRelationNames()

@@ -216,7 +216,7 @@ public class BasicConfig implements Config
             missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
             missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
             basicMissionAnchors.add(missionAnchor);
-            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getUri(), missionAnchor);
+            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
          }
          catch (URISyntaxException ex)
          {
@@ -226,24 +226,28 @@ public class BasicConfig implements Config
       // fill in the links
       for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
       {
-         BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getUri());
+         BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getName());
          if (missionAnchor != null)
          {
             List<MissionAnchor> nextMissionAnchors = new ArrayList<MissionAnchor>();
-            if (basicMissionAnchorConfig.getNextMissionAnchorConfigUris() != null)
+            if (basicMissionAnchorConfig.getNextMissionAnchorNames() != null)
             {
-               for (String uri : basicMissionAnchorConfig.getNextMissionAnchorConfigUris())
+               for (String name : basicMissionAnchorConfig.getNextMissionAnchorNames())
                {
-                  BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(uri);
+                  BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(name);
                   if (nextMissionAnchor != null)
                   {
                      nextMissionAnchors.add(nextMissionAnchor);
                   }
                   else
                   {
-                     logger.info("can't find next mission anchor with uri: " + uri);
+                     logger.info("can't find next mission anchor with name: " + name);
                   }
                }
+            }
+            else
+            {
+               logger.info("no next anchor names for " + basicMissionAnchorConfig.getUri());
             }
             missionAnchor.setNextMissionAnchors(nextMissionAnchors);
          }

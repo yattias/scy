@@ -87,7 +87,12 @@ public abstract class Corner extends CustomNode {
 
    function newContent(){
       delete contentGroup.content;
-      insert content into contentGroup.content;
+      if (content!=null){
+         insert content into contentGroup.content;
+         contentGroup.translateX -= content.boundsInLocal.minX;
+         contentGroup.translateY -= content.boundsInLocal.minY;
+      }
+
 //      resize();
       // the resize has to be delayed, otherwise a wrong height (and width?) is used
       // it could have something to do, with not yet "layed out" or so
