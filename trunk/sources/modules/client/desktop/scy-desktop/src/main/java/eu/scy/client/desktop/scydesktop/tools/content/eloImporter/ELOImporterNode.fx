@@ -50,7 +50,7 @@ public class ELOImporterNode extends CustomNode{
     }
 
 
-    public-init var eloImporterWrapper:EloImporterActionWrapper;
+    public-init var eloImporterActionWrapper:EloImporterActionWrapper;
 
 //    def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.content.eloImporter");
 
@@ -158,7 +158,7 @@ public class ELOImporterNode extends CustomNode{
                            text: "New"
                            action: function() {
                               eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
-                              eloImporterWrapper.newELOAction();
+                              eloImporterActionWrapper.newELOAction();
 										setScyWindowTitle();
                            }
                         }
@@ -173,7 +173,7 @@ public class ELOImporterNode extends CustomNode{
                            text: "Save"
                            action: function() {
                               eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
-                              eloImporterWrapper.saveImportedELOAction();
+                              eloImporterActionWrapper.saveImportedELOAction();
 										setScyWindowTitle();
                            }
                         }
@@ -181,7 +181,7 @@ public class ELOImporterNode extends CustomNode{
                            text: "Save as"
                            action: function() {
                               eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
-                              eloImporterWrapper.saveImportedELOAsAction();
+                              eloImporterActionWrapper.saveImportedELOAsAction();
 										setScyWindowTitle();
                            }
                         }
