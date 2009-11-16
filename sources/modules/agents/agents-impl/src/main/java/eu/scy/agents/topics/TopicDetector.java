@@ -29,6 +29,7 @@ import eu.scy.agents.impl.PersistentStorage;
  */
 public class TopicDetector extends AbstractRequestAgent {
 
+	static final String TOPIC_DETECTOR = "topicDetector";
 	static final String KEY_TOPIC_SCORES = "topicScores";
 	static final String NAME = "eu.scy.agents.topics.TopicDetector";
 
@@ -44,8 +45,8 @@ public class TopicDetector extends AbstractRequestAgent {
 			port = (Integer) params.get("tsPort");
 		}
 		agentDatabase = new PersistentStorage();
-		activationTuple = new Tuple("topicDetector", String.class,
-				String.class, String.class);
+		activationTuple = new Tuple(TOPIC_DETECTOR, String.class, String.class,
+				String.class);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class TopicDetector extends AbstractRequestAgent {
 		out.writeObject(topicScores);
 		bytesOut.toByteArray();
 
-		Tuple topicsDetectedTuple = new Tuple("topicDetector", queryId
+		Tuple topicsDetectedTuple = new Tuple(TOPIC_DETECTOR, queryId
 				.toString(), bytesOut.toByteArray());
 		getTupleSpace().write(topicsDetectedTuple);
 	}
