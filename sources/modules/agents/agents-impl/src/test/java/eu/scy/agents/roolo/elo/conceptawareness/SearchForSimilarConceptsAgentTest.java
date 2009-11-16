@@ -22,7 +22,7 @@ import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.roolo.elo.helper.ELOFiller;
+import eu.scy.agents.helper.ELOFiller;
 
 public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
@@ -30,7 +30,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startServer() {
-		// startTupleSpaceServer();
+		startTupleSpaceServer();
 	}
 
 	@Override
