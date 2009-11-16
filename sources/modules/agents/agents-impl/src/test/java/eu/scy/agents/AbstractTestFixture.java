@@ -38,8 +38,12 @@ public class AbstractTestFixture {
 	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 	private AgentManager agentFramework;
 	private ArrayList<String> agentList;
+	private TupleSpace tupleSpace;
 
 	protected void setUp() throws Exception {
+		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
+				false, AgentProtocol.COMMAND_SPACE_NAME);
+
 		agentMap.clear();
 
 		agentList = new ArrayList<String>();
@@ -121,9 +125,7 @@ public class AbstractTestFixture {
 		// return new TupleSpace(new User("test"), "localhost", Configuration
 		// .getConfiguration().getNonSSLPort(), false, false,
 		// AgentProtocol.COMMAND_SPACE_NAME);
-		return new TupleSpace(new User("test"), TSHOST, TSPORT, false, false,
-				AgentProtocol.COMMAND_SPACE_NAME);
-
+		return tupleSpace;
 	}
 
 	protected void stopAgentFrameWork() throws AgentLifecycleException {
