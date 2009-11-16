@@ -110,20 +110,21 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
-        ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
-        for (ModelVariable variable : dataServer.getVariables("")) {
-            if (variable.getKind() == mv) {
-                System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
-                variables.add(variable);
-            }
-        }
-        return variables;
+        return getVariables(mv, null);
+//        ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
+//        for (ModelVariable variable : dataServer.getVariables("")) {
+//            if (variable.getKind() == mv) {
+//                System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
+//                variables.add(variable);
+//            }
+//        }
+//        return variables;
     }
 
     private ArrayList<ModelVariable> getVariables(int mv, String name) {
         ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
         for (ModelVariable variable : dataServer.getVariables("")) {
-            if (variable.getKind() == mv && variable.getName().equals(name)) {
+            if (variable.getKind() == mv && (name == null || variable.getName().equals(name))) {
                 System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
                 variables.add(variable);
             }
@@ -221,7 +222,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private void write(IAction action) {
         
-        actionLogger.log(username, toolname, action);
+        actionLogger.log( action);
         // outputter.output(action.getXML(), System.out);
     }
 
