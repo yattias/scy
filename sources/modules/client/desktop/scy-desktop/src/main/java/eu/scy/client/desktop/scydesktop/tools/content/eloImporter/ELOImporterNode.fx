@@ -74,7 +74,7 @@ public class ELOImporterNode extends CustomNode{
                     filename = file.getAbsolutePath();
                     //start Uploading the file if it can be read
                     if (file.canRead()){
-                        var fileEncoded = new Base64().encode(ImportUtils.getBytesFromFile(file));
+                        var fileEncoded = Base64.encodeBase64(ImportUtils.getBytesFromFile(file));
                     }
             }
         }
