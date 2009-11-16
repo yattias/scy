@@ -292,8 +292,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     @Override
     public void windowClosing(WindowEvent e) {
-        
-        
+        logger.toolStopped();
     }
 
     @Override
