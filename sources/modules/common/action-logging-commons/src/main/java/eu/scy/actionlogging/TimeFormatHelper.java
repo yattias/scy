@@ -1,5 +1,6 @@
 package eu.scy.actionlogging;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -27,6 +28,19 @@ public class TimeFormatHelper {
 		  result = result.substring(0, result.length()-2)
 		    + ":" + result.substring(result.length()-2);
 		  return result; 
+	}
+	
+	public long getISO8601AsLong(String iso8601Time){
+	    Date parse=null;
+        try {
+            if (iso8601Time.lastIndexOf(":")==iso8601Time.length()-3){
+                iso8601Time= iso8601Time.substring(0, iso8601Time.length()-3)+iso8601Time.substring(iso8601Time.length()-2, iso8601Time.length());
+            }
+            parse = ISO8601FORMAT.parse(iso8601Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+	    return parse.getTime();
 	}
 	
 }
