@@ -4,6 +4,7 @@ import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
@@ -12,11 +13,14 @@ import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.jivesoftware.smack.XMPPConnection;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import javax.swing.border.Border;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,27 +39,46 @@ public class SCYPlannerApplicationManager {
 
     ToolBrokerAPI toolBrokerAPI = new ToolBrokerImpl();
 
-    private PedagogicalPlanService  pedagogicalPlanService;
+    private PedagogicalPlanService pedagogicalPlanService;
 
     private SCYPlannerApplicationManager() {
 
+        /*HttpInvokerProxyFactoryBean bean = (HttpInvokerProxyFactoryBean) getToolBrokerAPI().getBean("httpInvokerPedagogicalPlanServiceProxy");
+        bean.setServiceUrl("http://localhost:8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+        getToolBrokerAPI().getPedagogicalPlanService().getScenarios();
+        */
+
+        String url = JOptionPane.showInputDialog("Input host (for example localhost)");
+
+        HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+        fb.setServiceInterface(PedagogicalPlanService.class);
+        fb.setServiceUrl("http://" + url + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+        fb.afterPropertiesSet();
+        PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
+        //service.getScenarios();
+        this.pedagogicalPlanService = service;
         toolBrokerAPI = new ToolBrokerImpl();
         XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
         IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
-        pedagogicalPlanService = toolBrokerAPI.getPedagogicalPlanService();
-        List scenarios = pedagogicalPlanService.getScenarios();
+        //service = toolBrokerAPI.getPedagogicalPlanService();
+        List scenarios = service.getScenarios();
         for (int i = 0; i < scenarios.size(); i++) {
             Scenario scenario = (Scenario) scenarios.get(i);
             System.out.println(scenario.getName());
             System.out.println(scenario.getLearningActivitySpace().getName());
             System.out.println("size: " + scenario.getLearningActivitySpace().getActivities().size());
-            if(scenario.getLearningActivitySpace().getActivities().size() > 0) {
+            if (scenario.getLearningActivitySpace().getActivities().size() > 0) {
                 Activity activity = scenario.getLearningActivitySpace().getActivities().get(0);
                 System.out.println("ACTIVITY: " + activity.getName());
-                /*if(activity.getLearningActivitySpaceToolConfigurations() != null) {
-                    LearningActivitySpaceToolConfiguration config = (LearningActivitySpaceToolConfiguration) activity.getLearningActivitySpaceToolConfigurations();
-                    System.out.println("CONFIG: " + config.getName() + " TOOL:: " + config.getTool().getName());
-                }*/
+                if(activity.getLearningActivitySpaceToolConfigurations() != null) {
+                    Set configurations = (Set) activity.getLearningActivitySpaceToolConfigurations();
+                    Iterator it = configurations.iterator();
+                    while (it.hasNext()) {
+                        LearningActivitySpaceToolConfiguration learningActivitySpaceToolConfiguration = (LearningActivitySpaceToolConfiguration) it.next();
+                        System.out.println("Configuration:"+ learningActivitySpaceToolConfiguration.getName());
+                    }
+                            
+                }
             }
         }
 
@@ -132,7 +155,7 @@ public class SCYPlannerApplicationManager {
     public JPanel createDefaultBorderForTitledPanel(TitledPanel panel, Color background) {
         JPanel p = createDefaultBorderForTitledPanel(panel);
         p.setBackground(background);
-        
+
         return p;
     }
 
