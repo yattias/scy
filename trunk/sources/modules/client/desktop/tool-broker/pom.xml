@@ -13,7 +13,6 @@
     <packaging>jar</packaging>
     <name>Tool-Broker</name>
 
-    
     <dependencies>
         <dependency>
             <groupId>eu.scy</groupId>

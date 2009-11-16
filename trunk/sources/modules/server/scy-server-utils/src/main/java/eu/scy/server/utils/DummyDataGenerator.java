@@ -25,7 +25,7 @@ public class DummyDataGenerator implements InitializingBean {
         scenario.setLearningActivitySpace(orientation);
         addActivity(orientation, "Identify goal states");
         addActivity(orientation, "Identify learning goals");
-/*
+
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
         addActivity(conceptualization, "Build a model");
         addActivity(conceptualization, "Give and classify examples");
@@ -35,7 +35,7 @@ public class DummyDataGenerator implements InitializingBean {
         addActivity(experiment, "Run experiment");
         addActivity(experiment, "Organize data");
         addActivity(experiment, "Interpret data");
-
+/*
         LearningActivitySpace information = createLAS("LAS Information");
         addActivity(information, "Browse resources for specific information");
 
@@ -77,9 +77,10 @@ public class DummyDataGenerator implements InitializingBean {
 
     }
 
-    private void addActivity(LearningActivitySpace las, String activityName) {
+    private Activity addActivity(LearningActivitySpace las, String activityName) {
         Activity act = createActivity("Concept map on global warming");
         las.addActivity(act);
+        return act;
     }
 
     private LearningActivitySpace createLAS(String name) {
