@@ -50,6 +50,9 @@ public class AgentManagerTest {
 	public static void startTSServer() {
 		if (!Server.isRunning() && STANDALONE) {
 			Configuration.getConfiguration().setSSLEnabled(false);
+			Configuration.getConfiguration().setWebEnabled(false);
+			Configuration.getConfiguration().setWebServicesEnabled(false);
+			Configuration.getConfiguration().setRemoteAdminEnabled(false);
 			Server.startServer();
 		}
 	}
