@@ -341,6 +341,7 @@ public class ScyDesktop extends CustomNode {
       else{
          windowContentFactory.fillWindowContent(window.eloUri,window,eloConfig.getContentCreatorId());
       }
+      addDrawerTools(window,eloConfig);
    }
 
     function addDrawerTools(window:ScyWindow,eloConfig:EloConfig):Void{
