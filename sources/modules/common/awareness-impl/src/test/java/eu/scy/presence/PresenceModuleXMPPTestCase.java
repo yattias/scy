@@ -25,7 +25,7 @@ public class PresenceModuleXMPPTestCase {
         if (presenceModule == null) {
             try {
                 presenceModule = PresenceModuleFactory.getPresenceModule(PresenceModuleFactory.XMPP_STYLE);
-                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("agentsmith", "agentsmith");
+                ((PresenceModuleXMPPImpl) presenceModule).createPresenceModule("jt11@scy.intermedia.uio.no", "jt11");
                 initListeners();
             } catch (PresenceModuleException e) {
                 logger.severe("presence noodle test case bummer");

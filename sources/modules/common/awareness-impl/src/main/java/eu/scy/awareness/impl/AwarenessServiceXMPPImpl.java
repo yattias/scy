@@ -2,7 +2,7 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import java.util.logging.Level;
 
 import org.jivesoftware.smack.Chat;
@@ -62,7 +62,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		try {
 			chat.sendMessage(message);
 		} catch (XMPPException e) {
-			logger.severe("Error during sendMessage");
+			logger.error("sendMessage: XMPPException: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -70,8 +70,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	public void processMessage(Chat chat, Message message) {
 		if (message.getType() == Message.Type.chat) {
-			logger.fine(chat.getParticipant() + " says: " + message.getBody());
-			// process the events
+			logger.debug("processMessage: "+chat.getParticipant() + " says: " + message.getBody());
+			
 			for (IAwarenessMessageListener al : messageListeners) {
 				if (al != null) {
 					IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
@@ -111,8 +111,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		Collection<RosterEntry> rosterEntries = roster.getEntries();
 		try {
 			roster.createEntry(buddyName, buddyName, new String[] { "everybody" });
-		} catch (XMPPException e1) {
-			e1.printStackTrace();
+		} catch (XMPPException e) {
+			logger.error("addBuddy: XMPPException: "+e);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		try {
 			xmppConnection.getRoster().removeEntry(entry);
 		} catch (XMPPException e) {
-			logger.log(Level.SEVERE, "XMPP Exception when removing roster entry", e);
+			logger.error("removeBuddy: XMPPException: "+e);
 		}
 		Presence unsubbed = new Presence(Presence.Type.unsubscribed);
 		unsubbed.setTo(buddyName);
@@ -172,7 +172,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			@Override
 			public void entriesAdded(Collection<String> addresses) {
-				System.out.println("entriesAdded() " + addresses);
+				logger.debug("init: entriesAdded: "+addresses);
 
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
@@ -188,7 +188,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			@Override
 			public void entriesDeleted(Collection<String> addresses) {
-				System.out.println("entriesDeleted() " + addresses);
+				logger.debug("init: entriesDeleted: "+addresses);
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
 						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
@@ -202,7 +202,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			@Override
 			public void entriesUpdated(Collection<String> addresses) {
-				System.out.println("entriesUpdated() " + addresses);
+				logger.debug("init: entriesUpdated: "+addresses);
 				for (IAwarenessRosterListener rosterListener : rosterListeners) {
 					if (rosterListener != null) {
 						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
@@ -216,7 +216,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 			@Override
 			public void presenceChanged(Presence presence) {
-				System.out.println("presenceChanged() " + presence);
+				logger.debug("init: presenceChanged: "+presence);
 				if (presence == null)
 					return;
 
@@ -242,7 +242,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					
 					@Override
 					public void processMessage(Chat chat, Message message) {
-						System.out.println(chat.getParticipant() + " said -> " + message.getBody());
+						logger.debug("chatCreated: processMessage: "+chat.getParticipant() + " said -> " + message.getBody());
 						if (message.getType() == Message.Type.chat) {
 							for (IAwarenessMessageListener al : messageListeners) {
 								if ((al != null) && (message.getBody() != null)) {

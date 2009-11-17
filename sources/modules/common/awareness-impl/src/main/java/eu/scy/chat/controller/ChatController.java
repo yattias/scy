@@ -7,6 +7,8 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextPane;
 
+import org.apache.log4j.Logger;
+
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
@@ -16,6 +18,7 @@ import eu.scy.awareness.event.IAwarenessMessageListener;
 
 public class ChatController {
     
+	private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     private DefaultListModel buddyList = new DefaultListModel();
     private IAwarenessService awarenessService;
 
@@ -27,15 +30,14 @@ public class ChatController {
     public ChatController(IAwarenessService awarenessService) {
         this.awarenessService = awarenessService;
          //just working with the collaboration service right now
-        System.out.println("awareness starting");
+        logger.debug("ChatController: Awarness starting ... ");
     }
 
     public void populateBuddyList() {
         //get this from the awareness service
-    	System.out.println("111111111111111111111111111111111111111111111111111111111111111111111111");
-    	System.out.println("populateBuddyList()");
-    	System.out.println("awarenessService: "+awarenessService);
-    	System.out.println("awarenessService.isConnected(): "+awarenessService.isConnected());
+    	logger.debug("ChatController: populateBuddyList: ####################### begin ###########################");
+    	logger.debug("ChatController: populateBuddyList: awarenessService: "+awarenessService);
+    	logger.debug("ChatController: populateBuddyList: awarenessService.isConnected(): "+awarenessService.isConnected());
     	buddyList = new DefaultListModel();
         if( awarenessService != null && awarenessService.isConnected() ) {
             List<IAwarenessUser> buddies = null;
@@ -47,16 +49,16 @@ public class ChatController {
 			}
         
             if( buddies != null ) {
-            	System.out.println("we have buddies: "+buddies.size());
+            	logger.debug("ChatController: populateBuddyList: num of buddies: "+buddies.size());
                 for (IAwarenessUser b : buddies) {
                     buddyList.addElement(b);
-                    System.out.println(b.getName());
-                }// for
+                    logger.debug("ChatController: populateBuddyList: buddy name: "+b.getName());
+                }
             }
         } else {
             buddyList.addElement("no buddies");
         }
-        System.out.println("111111111111111111111111111111111111111111111111111111111111111111111111");
+        logger.debug("ChatController: populateBuddyList: ####################### end ###########################");
         
     }
 
