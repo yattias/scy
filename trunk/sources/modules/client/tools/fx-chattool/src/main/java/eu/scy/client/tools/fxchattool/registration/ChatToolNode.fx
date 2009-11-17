@@ -1,42 +1,32 @@
 /*
- * ChatNode.fx
+ * ChatToolNode.fx
  *
- * Created on 18-dec-2008, 15:19:52
+ * Created on Nov 17, 2009, 8:38:36 PM
  */
 
 package eu.scy.client.tools.fxchattool.registration;
 
+
 import java.net.URI;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
-
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-
 import javafx.scene.CustomNode;
+import javafx.ext.swing.SwingComponent;
 
-
-
+import eu.scy.client.tools.chattool.ChatPanelMain;
 /**
  * @author jeremyt
  */
 
- // place your code here
-public class TaskNode extends CustomNode {
-
-
-       var imageTask = ImageView {
-            image: Image {
-                url: "{__DIR__}task.png";
-                //url: "http://www.gearlive.com/blogimages/goo_goo_onesie.jpg";
-            }
-        }
-
-
+public class ChatToolNode extends CustomNode {
     public-init var eloChatActionWrapper:EloChatActionWrapper;
+
+
+    public var wrappedSPTPanel:SwingComponent;
+    public var chatTool:ChatPanelMain;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle()
+        setScyWindowTitle();
     };
 
     public function loadElo(uri:URI){
@@ -49,7 +39,7 @@ public class TaskNode extends CustomNode {
             return;
         }
 
-        scyWindow.title = "Chat: {eloChatActionWrapper.getDocName()}";
+        scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
@@ -59,14 +49,18 @@ public class TaskNode extends CustomNode {
         }
     };
 
-
-
    public override function create(): Node {
+     //initTBI();
+    // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
+        wrappedSPTPanel = SwingComponent.wrap(chatTool);
      return Group {
          blocksMouse:true;
-         content: [
-              imageTask
-             ]
+         content:
+
+            wrappedSPTPanel;
+
+
+
       };
    }
 }

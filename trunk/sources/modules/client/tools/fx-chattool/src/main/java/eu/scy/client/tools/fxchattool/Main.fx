@@ -13,9 +13,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentPresenceCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentTaskCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentProgressCreatorFX;
 
 /**
  * @author jeremyt
@@ -23,20 +20,15 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentProgress
 
 InitLog4JFX.initLog4J();
 
-//def scychatType = "scy/chat";
 def scychatId = "chat";
-def scypresenceId = "presence";
-def scytaskId = "task";
-def scyprogressId = "progress";
+
 
 var scyDesktopCreator = ScyDesktopCreator {
     configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
 }
 
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentPresenceCreatorFX{}, scypresenceId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentTaskCreatorFX{}, scytaskId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentProgressCreatorFX{}, scyprogressId);
+//scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
 
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
@@ -50,7 +42,7 @@ scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
 
 
 var stage = Stage {
-    title: "SCY desktop with chat tool"
+    title: "SCY desktop with chat"
     width: 400
     height: 300
     scene: Scene {

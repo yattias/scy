@@ -2,29 +2,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package eu.scy.client.tools.fxchattool.registration;
 
+import org.springframework.util.StringUtils;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
+import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.springframework.util.StringUtils;
+import java.util.logging.Logger;
 import roolo.api.IRepository;
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
-import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -37,11 +36,9 @@ import roolo.elo.metadata.keys.Contribute;
 
 /**
  *
- * @author sikkenj
+ * @author jeremyt
  */
-public class EloChatActionWrapper
-{
-
+public class EloChatActionWrapper {
    private static final Logger logger = Logger.getLogger(EloChatActionWrapper.class.getName());
    public static final String scyDrawType = "scy/drawing";
    public static final String untitledDocName = "untitled";
