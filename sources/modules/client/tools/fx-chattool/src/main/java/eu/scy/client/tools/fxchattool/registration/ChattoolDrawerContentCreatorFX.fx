@@ -1,14 +1,18 @@
 /*
- * ChattoolDrawerContentCreator.fx
+ * ChattoolDrawerContentCreatorFX.fx
  *
- * Created on Sep 30, 2009, 9:43:18 AM
+ * Created on Nov 17, 2009, 8:23:10 PM
  */
 
 package eu.scy.client.tools.fxchattool.registration;
 
+
+import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
-import javafx.scene.Node;
+
+import eu.scy.client.tools.chattool.ChatPanelMain;
+
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 
 /**
@@ -16,15 +20,20 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
  */
 
 public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
-    
-    public override function getDrawerContent(eloUri:URI, scyWindow:ScyWindow):Node{
-        return createChatNode(scyWindow);
+    override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
+         return createChatToolNode(scyWindow);
     }
 
-    function createChatNode(scyWindow:ScyWindow):ChatNode {
-        
-        return ChatNode{
-            scyWindow: scyWindow;
-        }
-    }
+    public var node:Node;
+   //public var metadataTypeManager: IMetadataTypeManager;
+   // public var repository:IRepository;
+
+    function createChatToolNode(scyWindow:ScyWindow):ChatToolNode{
+        var chatTool = new ChatPanelMain();
+
+        return ChatToolNode{
+            chatTool:chatTool;
+
+         }
+   }
 }
