@@ -215,13 +215,24 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     }
 
     @Override
+    @Deprecated
     public void setTime(String time) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
+    @Deprecated
     public String getTime() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+    @Override
+    public void setTimeInMillis(long timeInMillis) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+    
+    @Override
+    public long getTimeInMillis() {
+        return -1l;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
