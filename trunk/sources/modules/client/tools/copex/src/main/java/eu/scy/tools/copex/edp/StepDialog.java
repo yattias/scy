@@ -100,7 +100,6 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         getContentPane().add(getPanelComments());
         if(isTaskRepeat)
             setPanelTaskRepeat();
-        System.out.println("step dialog : "+stepMode);
         if(stepMode){
             setTitle(edP.getBundleString("TITLE_DIALOG_ADD_STEP"));
             labelName.setText(edP.getBundleString("LABEL_NAME_STEP"));

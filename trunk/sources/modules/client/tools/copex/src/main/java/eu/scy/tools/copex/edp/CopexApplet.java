@@ -8,11 +8,13 @@ package eu.scy.tools.copex.edp;
 
 
 import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.logger.CopexProperty;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import javax.swing.JApplet;
 
 /**
@@ -145,6 +147,11 @@ public class CopexApplet extends JApplet implements ActionCopex {
     @Override
     public void loadHelpProc(LearnerProcedure helpProc) {
         
+    }
+
+    @Override
+    public void logAction(String type, List<CopexProperty> attribute) {
+        //nothing
     }
 
     

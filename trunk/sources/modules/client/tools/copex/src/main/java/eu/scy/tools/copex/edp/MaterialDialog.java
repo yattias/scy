@@ -245,7 +245,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
                 id = getIdMaterial(listInitialMaterialUsed, mUsed);
                 if(id!=-1){
                     if(isDifferent(mUsed, listInitialMaterialUsed.get(id))){
-                        System.out.println("ajout dans la lsite des maj "+mUsed.getMaterial().getName(edP.getLocale()));
+                        //System.out.println("ajout dans la lsite des maj "+mUsed.getMaterial().getName(edP.getLocale()));
                         listMaterialToUpdate.add(mUsed);
                     }
                 }
@@ -425,7 +425,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
             id = getIdMaterial(listInitialMaterialUsed, mUsed);
             if(id!=-1){
                  if(isDifferent(mUsed, listInitialMaterialUsed.get(id))){
-                      System.out.println("ajout dans la lsite des maj "+mUsed.getMaterial().getName(edP.getLocale()));
+                      //System.out.println("ajout dans la lsite des maj "+mUsed.getMaterial().getName(edP.getLocale()));
                       listMaterialToUpdate.add(mUsed);
                  }
             }

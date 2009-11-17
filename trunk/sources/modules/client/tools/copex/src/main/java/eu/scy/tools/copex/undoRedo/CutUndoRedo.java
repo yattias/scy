@@ -61,10 +61,10 @@ public class CutUndoRedo extends CopexUndoRedo {
                 return;
             }
             LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-            edP.updateProc(newProc);
             tree.addTask(task.getSelectedTask(),tree.getTaskSelected(ts.getSelectedTask()), task.attachLikeBrother());
             task.setSelectedNode(tree.getNode(task.getSelectedTask()));
             edP.setSubTree(null);
+            edP.updateProc(newProc);
             edP.updateMenu();
         }
     }
@@ -80,9 +80,9 @@ public class CutUndoRedo extends CopexUndoRedo {
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        edP.updateProc(newProc);
         tree.suppr(listTask);
         edP.setSubTree(subTree);
+        edP.updateProc(newProc);
         edP.updateMenu();
     }
 }

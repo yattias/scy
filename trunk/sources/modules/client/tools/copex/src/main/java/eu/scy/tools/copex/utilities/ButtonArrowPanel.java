@@ -54,7 +54,7 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (bg == null){
-            System.out.println("image null");
+            //System.out.println("image null");
             bg = bgHide.getImage();
         }
          boolean d  =g.drawImage(bg, 0, 0, null) ;

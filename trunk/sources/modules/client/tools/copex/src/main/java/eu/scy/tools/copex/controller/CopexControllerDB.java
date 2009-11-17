@@ -11,13 +11,16 @@ import eu.scy.tools.copex.db.*;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.edp.TaskSelected;
+import eu.scy.tools.copex.logger.CopexProperty;
+import eu.scy.tools.copex.logger.TaskTreePosition;
 import eu.scy.tools.copex.print.PrintPDF;
 import eu.scy.tools.copex.profiler.Profiler;
 import eu.scy.tools.copex.synchro.Locker;
-import eu.scy.tools.copex.trace.*;
 import eu.scy.tools.copex.utilities.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
@@ -42,8 +45,6 @@ public class CopexControllerDB implements ControllerInterface {
     private URL copexURL;
     /* utilisateur */
     private long dbKeyUser;
-    /* trace */
-    private ManageTrace trace;
     /* utilisateur */
     private CopexUser copexUser;
     /* liste des grandeurs physiques gerees dans COPEX */
@@ -61,6 +62,7 @@ public class CopexControllerDB implements ControllerInterface {
     private ArrayList<ArrayList<LearnerProcedure>> listProcMissionUser = null;
     /* nom du fichier trace */
     private String logFileName;
+    private long dbKeyTrace = -1;
     
     /* mission aide */
     private CopexMission helpMission;
@@ -105,7 +107,6 @@ public class CopexControllerDB implements ControllerInterface {
         this.logFileName = logFileName;
         // recuperation utilisateur externe
         ArrayList v = new ArrayList();
-        System.out.println("controller");
         // initialisation de la connexion a la base
         db = new AccesDB(copexURL, dbKeyMission, idUser);
         CopexReturn cr = loadUser(idUser, mode,userName, firstName,dbKeyMission, v);
@@ -113,13 +114,6 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         this.dbKeyUser = (Long)v.get(0);
         db.setIdUser(""+dbKeyUser);
-         // activation de la trace
-        if (setTrace()){
-            //String fileNameTrace = applet.getDirectoryTrace()+this.logFileName;
-            //trace = new ManageTrace(edP, fileNameTrace, 1);
-            System.out.println("activation trace");
-            trace = new ManageTrace(db.getDbC(),  dbKeyUser, dbKeyMission);
-        }
         // LOCKER
         this.locker = new Locker(copex, db.getDbC(), dbKeyUser);
         // chargement des parametres :
@@ -163,7 +157,15 @@ public class CopexControllerDB implements ControllerInterface {
         Profiler.end("loadMission");
         if (mission == null)
             return new CopexReturn(copex.getBundleString("MSG_ERROR_NULL_MISSION"), false);
-        
+
+        // chargement trace
+        if(setTrace()){
+            v = new ArrayList();
+            cr = TraceFromDB.getIdTrace(db.getDbC(), dbKeyMission, dbKeyUser, v);
+            if(cr.isError())
+                return cr;
+            dbKeyTrace = (Long)v.get(0); 
+        }
         // chargement de la liste des protocoles de la mission
         System.out.println("load proc");
         v = new ArrayList();
@@ -305,7 +307,7 @@ public class CopexControllerDB implements ControllerInterface {
 
         // enregistrement trace
         if (setTrace()){
-            trace.addAction(new TraceFunction(TraceFunction.TRACE_OPEN_EDITOR));
+            copex.logStartTool();
         }
         System.out.println("clone");
         // clone les objets 
@@ -394,27 +396,24 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            ExperimentalProcedure proc = (listTs.get(0)).getProc() ;
-            ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
-            cr = trace.addAction(new RedoCutAction(proc.getDbKey(), proc.getName(getLocale()), new CutAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask)));
+            LearnerProcedure proc = (listTs.get(0)).getProc() ;
+            ArrayList<CopexTask> listTask = subTree.getListTask();
+            List<TaskTreePosition> listPositionTask = getTaskPosition(proc,listTask);
+            copex.logRedoCut(proc, listTask, listPositionTask);
         }
         return cr;
     }
-    
-   
 
-    /* retourne la liste des taches pour le xml */
-    private ArrayList<MyTask> getListXMLTask(SubTree subTree){
-        ArrayList<CopexTask> listTask = subTree.getListTask();
-        ArrayList<MyTask> xmlList = new ArrayList();
+     private List<TaskTreePosition> getTaskPosition(LearnerProcedure proc, ArrayList<CopexTask> listTask){
+        List<TaskTreePosition> listPositionTask = new LinkedList();
         int nbT = listTask.size();
         for (int i=0; i<nbT; i++){
-            CopexTask task = listTask.get(i);
-            MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()));
-            xmlList.add(xmlT);
+            listPositionTask.add(proc.getTaskTreePosition(listTask.get(i)));
         }
-        return xmlList;
+        return listPositionTask;
     }
+   
+
     
    
     @Override
@@ -497,34 +496,11 @@ public class CopexControllerDB implements ControllerInterface {
          int nbT = listT.size();
         // trace 
         if (setTrace()){
-            ArrayList<MyTask> listXMLTask  = new ArrayList();
-            for (int i=0; i<nbT; i++){
-                CopexTask task = listT.get(i);
-                long dbKeyParent = -1;
-                String descP = "";
-                long dbKeyB = -1;
-                String descB = null;
-                CopexTask tp = getParentTask(expProc.getListTask(), task);
-                if (tp != null){
-                    dbKeyParent = tp.getDbKey();
-                    descP = tp.getDescription(getLocale());
-                }
-                CopexTask tb = getOldBrotherTask(expProc.getListTask(), task);
-                if (tb != null){
-                    dbKeyB = tb.getDbKey();
-                    descB = tb.getDescription(getLocale());
-                    
-                }
-                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()), dbKeyParent, descP, dbKeyB, descB);
-                listXMLTask.add(xmlT);
-            }
-            PasteAction action =  new PasteAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask) ;
+            List<TaskTreePosition> listPosition = getTaskPosition(proc, listTaskC);
             if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
+                copex.logPaste(proc,listTaskC, listPosition);
             else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoPasteAction(proc.getDbKey(), proc.getName(getLocale()), action));
-            if (cr.isError())
-                return cr;
+                copex.logRedoPaste(proc, listTask, listPosition);
         }
         //ihm
         ArrayList<CopexTask> listTC = new ArrayList();
@@ -570,6 +546,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
             return cr;
         }
+        List<TaskTreePosition> listPositionTask = getTaskPosition(proc, listTask);
         Profiler.end("supprBD");
         Profiler.start("supprMem");
         // suppression des liens en memoire
@@ -631,13 +608,7 @@ public class CopexControllerDB implements ControllerInterface {
          updateQuestion(proc);
          updateDatasheetProd(expProc);
          expProc.lockMaterialUsed();
-        // prepare eventuellement les donnees pour la trace
-        ArrayList<MyTask> listXMLTask = new ArrayList();
-        int nbTa = listTask.size();
-        for (int i=0; i<nbTa; i++){
-            MyTask xmlT = new MyTask(listTask.get(i).getDbKey(), listTask.get(i).getDescription(getLocale()));
-            listXMLTask.add(xmlT);
-        }
+        
         // mise a jour des donnees
          System.out.println("maj donnees");
         boolean isOk = expProc.deleteTasks(listTask);
@@ -646,20 +617,17 @@ public class CopexControllerDB implements ControllerInterface {
         }
         // trace 
         if (setTrace()){
-            SupprAction action = new SupprAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask);
             if (undoRedo == MyConstants.NOT_UNDOREDO && suppr)
-                cr = trace.addAction(action);
+                copex.logDelete(proc,listTask, listPositionTask);
             else if (undoRedo == MyConstants.UNDO){
                 if (suppr)
-                    cr = trace.addAction(new UndoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), action));
+                    copex.logUndoAddTask(proc, listTask, listPositionTask);
                 else
-                    cr = trace.addAction(new UndoPasteAction(proc.getDbKey(), proc.getName(getLocale()), action));
+                    copex.logUndoPaste(proc, listTask, listPositionTask);
             }
             else if (undoRedo == MyConstants.REDO && suppr){
-                cr = trace.addAction(new RedoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), action));
+                copex.logRedoDeleteTask(proc, listTask, listPositionTask);
             }
-            if (cr.isError())
-                return cr;
         }
         Profiler.end("trace");
          Profiler.end("suppr");
@@ -772,10 +740,8 @@ public class CopexControllerDB implements ControllerInterface {
         // trace
         if (setTrace()){
             Profiler.start("addTaskInTrace");
-            MyTask xmlTask = (MyTask)v.get(1);
-            cr = trace.addAction(new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, action.getComments(getLocale()), action.getTaskImage()));
-            if (cr.isError())
-                return cr;
+            TaskTreePosition position = (TaskTreePosition)v.get(1);
+            copex.logAddAction(proc, action, position);
             Profiler.end("addTaskInTrace");
         }
         Profiler.end("addTask");
@@ -791,7 +757,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            trace.addAction(new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldAction.getDbKey(), oldAction.getDescription(getLocale()), newAction.getDescription(getLocale()), newAction.getComments(getLocale())));
+            copex.logUpdateAction(proc, oldAction, newAction);
         }
         return cr;
     }
@@ -804,8 +770,8 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         // trace
         if (setTrace()){
-            MyTask xmlTask = (MyTask)v.get(1);
-            cr = trace.addAction(new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, step.getComments(getLocale()), step.getTaskImage()));
+            TaskTreePosition position = (TaskTreePosition)v.get(1);
+            copex.logAddStep(proc, step, position);
         }
         return cr;
     }
@@ -817,7 +783,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            trace.addAction(new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldStep.getDbKey(), oldStep.getDescription(getLocale()), newStep.getDescription(getLocale()), newStep.getComments(getLocale())));
+            copex.logUpdateStep(proc, oldStep, newStep);
         }
         return cr;
     }
@@ -832,7 +798,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError())
             return cr;
         if (setTrace()){
-            cr = trace.addAction(new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldQuestion.getDbKey(), oldQuestion.getDescription(getLocale()), newQuestion.getDescription(getLocale()), newQuestion.getComments(getLocale())));
+            copex.logUpdateQuestion(proc, oldQuestion, newQuestion);
         }
         return cr;
     }
@@ -964,43 +930,21 @@ public class CopexControllerDB implements ControllerInterface {
         // en v[0] le  protocole mis a jour
         v.add((LearnerProcedure)expProc.clone());
         if (setTrace()){
-            long dbKeyParent = -1;
-            String parentD = "";
-            long dbKeyOldBrother = -1;
-            String brotherD  = null;
-            CopexTask tp = getParentTask(expProc.getListTask(), task);
-            if (tp != null){
-                dbKeyParent = tp.getDbKey();
-                parentD = tp.getDescription(getLocale());
-            }
-            CopexTask bt = getOldBrotherTask(expProc.getListTask(), task);
-            if (bt != null){
-                dbKeyOldBrother = bt.getDbKey();
-                brotherD = bt.getDescription(getLocale());
-            }
-            MyTask xmlTask = new MyTask(newDbKey, task.getDescription(getLocale()), dbKeyParent, parentD, dbKeyOldBrother, brotherD);
+            TaskTreePosition position = listProc.get(idP).getTaskTreePosition(task);
             if (undoRedo == MyConstants.REDO){
                 if (task.isAction()){
-                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
+                    copex.logRedoAddAction(proc,(CopexAction)task, position);
                 }else if (task.isStep()){
-                    trace.addAction(new RedoAddTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
+                    copex.logRedoAddStep(proc,(Step)task, position);
                 }
             }else if (undoRedo == MyConstants.UNDO){
                 if (cut){
-                    if (task.isAction()){
-                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
-                    }else if (task.isStep()){
-                        trace.addAction(new UndoCutAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
-                    }
+                    copex.logUndoCut(proc, task, position);
                 }else{
-                    if (task.isAction()){
-                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddActionAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
-                    }else if (task.isStep()){
-                        trace.addAction(new UndoDeleteTaskAction(proc.getDbKey(), proc.getName(getLocale()), new AddStepAction(proc.getDbKey(), proc.getName(getLocale()), xmlTask, task.getComments(getLocale()), task.getTaskImage())));
-                    }
+                    copex.logUndoDeleteTask(proc, task, position);
                 }
             }
-            v.add(xmlTask);
+            v.add(position);
         }
         printRecap(expProc);
         
@@ -1015,29 +959,19 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         if (setTrace()){
             if (undoRedo == MyConstants.UNDO){
-                UpdateTaskAction updateTaskAction = null;
                 if (oldTask instanceof Step)
-                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                    copex.logUndoEditStep(proc, (Step)oldTask, (Step)newTask);
                 else if (oldTask instanceof CopexAction)
-                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                    copex.logUndoEditAction(proc, (CopexAction)oldTask, (CopexAction)newTask);
                 else if (oldTask instanceof Question)
-                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
-                UndoEditTaskAction action = new UndoEditTaskAction(proc.getDbKey(), proc.getName(getLocale()), updateTaskAction);
-                cr = trace.addAction(action);
-                if (cr.isError())
-                    return cr;
+                    copex.logUndoEditQuestion(proc, (Question)oldTask, (Question)newTask);
             }else{ // REDO
-                UpdateTaskAction updateTaskAction = null;
                 if (oldTask instanceof Step)
-                    updateTaskAction = new UpdateStepAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                    copex.logRedoEditStep(proc, (Step)oldTask, (Step)newTask);
                 else if (oldTask instanceof CopexAction)
-                    updateTaskAction = new UpdateActionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
+                    copex.logRedoEditAction(proc, (CopexAction)oldTask, (CopexAction)newTask);
                 else if (oldTask instanceof Question)
-                    updateTaskAction = new UpdateQuestionAction(proc.getDbKey(), proc.getName(getLocale()), oldTask.getDbKey(), oldTask.getDescription(getLocale()), newTask.getDescription(getLocale()), newTask.getComments(getLocale()));
-                RedoEditTaskAction action = new RedoEditTaskAction(proc.getDbKey(), proc.getName(getLocale()), updateTaskAction);
-                cr = trace.addAction(action);
-                if (cr.isError())
-                    return cr;
+                    copex.logRedoEditQuestion(proc, (Question)oldTask, (Question)newTask);
             }
         }
         return new CopexReturn();
@@ -1235,13 +1169,11 @@ public class CopexControllerDB implements ControllerInterface {
         this.listProc.add(proc);
         // trace
         if (setTrace() && setTrace){
-            CopyProcAction copyProcAction = new CopyProcAction(proc.getDbKey(), proc.getName(getLocale()), procToCopy.getDbKey(), procToCopy.getName(getLocale()));
-            CreateProcAction createProcAction = new CreateProcAction(proc.getDbKey(), proc.getName(getLocale()));
             if (copy){
-                cr = trace.addAction(copyProcAction);
+                copex.logCopyProc(proc, procToCopy);
              }else{
                // creation de protocole
-                cr = trace.addAction(createProcAction);
+                copex.logCreateProc(proc);
             }
         }
         //ihm
@@ -1279,7 +1211,6 @@ public class CopexControllerDB implements ControllerInterface {
                 return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
             // on l'ajoute a la liste si il n'y est pas deja
             p = listP.get(idP);
-            System.out.println("openProc chargement du proc");
             ArrayList v = new ArrayList();
             CopexReturn cr = loadProc(p, true, v);
             if (cr.isError())
@@ -1291,7 +1222,7 @@ public class CopexControllerDB implements ControllerInterface {
         // trace 
         CopexReturn cr = new CopexReturn();
         if (setTrace()){
-            cr = trace.addAction(new OpenProcAction(p.getDbKey(), p.getName(getLocale()), p.getMission().getDbKey(), p.getMission().getCode()));
+            copex.logOpenProc(p, p.getMission().getDbKey(),  p.getMission().getCode());
         }
         //ihm
         copex.createProc((LearnerProcedure)p.clone());
@@ -1303,6 +1234,7 @@ public class CopexControllerDB implements ControllerInterface {
     public CopexReturn closeProc(LearnerProcedure proc) {
         if (proc.getDbKey() == -2){
             copex.closeProc(proc);
+            copex.logCloseHelpProc();
             return new CopexReturn();
         }
         int id = getIdProc(proc.getDbKey());
@@ -1338,8 +1270,7 @@ public class CopexControllerDB implements ControllerInterface {
        listProc.remove(id);
        // trace 
        if (setTrace()){
-           DeleteProcAction action = new DeleteProcAction(proc.getDbKey(), proc.getName(getLocale()));
-           cr = trace.addAction(action);
+           copex.logDeleteProc(proc);
            
        }
         // IHM
@@ -1426,13 +1357,12 @@ public class CopexControllerDB implements ControllerInterface {
         
         // trace 
         if (setTrace()){
-            RenameProcAction action = new RenameProcAction(proc.getDbKey(), oldName, name);
             if (undoRedo == MyConstants.NOT_UNDOREDO){
-                cr = trace.addAction(action);    
+                copex.logRenameProc(proc, oldName, name)   ;
             }else if (undoRedo == MyConstants.UNDO){
-                cr = trace.addAction(new UndoRenameProcAction(proc.getDbKey(), oldName, action));
+                copex.logUndoRenameProc(proc, oldName, name);
             }else if (undoRedo == MyConstants.REDO){
-                cr = trace.addAction(new RedoRenameProcAction(proc.getDbKey(), oldName, action));
+                copex.logRedoRenameProc(proc, oldName, name);
             }
         }
         //ihm
@@ -1484,7 +1414,7 @@ public class CopexControllerDB implements ControllerInterface {
         }
         // enregistrement trace
         if (setTrace()){
-            trace.addAction(new TraceFunction(TraceFunction.TRACE_PRINT));
+            copex.logPrintProc(proc);
         }
         //String fileName = "copexPrint"+dbKeyUser+"-"+mission.getDbKey() ;
         String fileName = "copex-"+mission.getCode();
@@ -1520,6 +1450,7 @@ public class CopexControllerDB implements ControllerInterface {
         if (cr.isError()){
              return cr;
         }
+        List<TaskTreePosition> listPosition = getTaskPosition(expProc, listTask);
         // on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee
         CopexTask taskBranch = listTask.get(0);
         int idTaskBranch = getId(expProc.getListTask(), taskBranch.getDbKey());
@@ -1651,38 +1582,14 @@ public class CopexControllerDB implements ControllerInterface {
         System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
-            ArrayList<MyTask> listXMLTask  = new ArrayList();
-            int nb = listTask.size();
-            for (int i=0; i<nb; i++){
-                CopexTask task = listTask.get(i);
-                long dbKeyParent = -1;
-                String descP = "";
-                long dbKeyB = -1;
-                String descB = null;
-                CopexTask tp = getParentTask(expProc.getListTask(), task);
-                if (tp != null){
-                    dbKeyParent = tp.getDbKey();
-                    descP = tp.getDescription(getLocale());
-                }
-                CopexTask tb = getOldBrotherTask(expProc.getListTask(), task);
-                if (tb != null){
-                    dbKeyB = tb.getDbKey();
-                    descB = tb.getDescription(getLocale());
-                    
-                }
-                MyTask xmlT = new MyTask(task.getDbKey(), task.getDescription(getLocale()), dbKeyParent, descP, dbKeyB, descB);
-                listXMLTask.add(xmlT);
-            }
-            DragDropAction action = new DragDropAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask) ;
+            TaskTreePosition insertPosition = expProc.getTaskTreePosition(taskBranch);
             if (undoRedo == MyConstants.NOT_UNDOREDO)
-                cr = trace.addAction(action);
+                copex.logDragDrop(expProc, listTask, listPosition, insertPosition);
+                //cr = trace.addAction(action);
             else if (undoRedo == MyConstants.UNDO)
-                cr = trace.addAction(new UndoDragAndDropAction(proc.getDbKey(), proc.getName(getLocale()), action));
+                copex.logUndoDragDrop(expProc, listTask, listPosition, insertPosition);
             else if (undoRedo == MyConstants.REDO)
-                cr = trace.addAction(new RedoDragAndDropAction(proc.getDbKey(), proc.getName(getLocale()), action));
-           
-            if (cr.isError())
-                return cr;
+                copex.logRedoDragDrop(expProc, listTask, listPosition, insertPosition);
         }
         //ihm
          printRecap(expProc);
@@ -1734,7 +1641,7 @@ public class CopexControllerDB implements ControllerInterface {
                return cr;
         // enregistrement trace
         if (setTrace()){
-            trace.addAction(new TraceFunction(TraceFunction.TRACE_CLOSE_EDITOR));
+            copex.logEndTool();
         }
         return new CopexReturn();
     }
@@ -1985,7 +1892,7 @@ public class CopexControllerDB implements ControllerInterface {
     @Override
     public CopexReturn openHelpDialog() {
         if(setTrace()){
-            return trace.addAction(new TraceFunction(TraceFunction.TRACE_OPEN_HELP));
+            copex.logOpenHelp();
         }
         return new CopexReturn();
     }
@@ -1994,7 +1901,7 @@ public class CopexControllerDB implements ControllerInterface {
     @Override
     public CopexReturn closeHelpDialog() {
         if(setTrace()){
-            return trace.addAction(new TraceFunction(TraceFunction.TRACE_CLOSE_HELP));
+            copex.logCloseHelp();
         }
         return new CopexReturn();
     }
@@ -2003,7 +1910,7 @@ public class CopexControllerDB implements ControllerInterface {
     @Override
     public CopexReturn openHelpProc() {
         if(setTrace()){
-            return trace.addAction(new TraceFunction(TraceFunction.TRACE_OPEN_PROC_HELP));
+            copex.logOpenHelpProc();
         }
         return new CopexReturn();
     }
@@ -2118,11 +2025,10 @@ public class CopexControllerDB implements ControllerInterface {
 
     @Override
     public CopexReturn cut(LearnerProcedure proc,SubTree subTree, TaskSelected ts){
-        ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
         if (setTrace()){
-            CopexReturn cr = trace.addAction(new CutAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask));
-            if (cr.isError())
-                return cr;
+            ArrayList<CopexTask> listTask = subTree.getListTask();
+            List<TaskTreePosition> listPositionTask = getTaskPosition(proc, listTask);
+            copex.logCut(proc, listTask, listPositionTask);
         }
         return new CopexReturn();
     }
@@ -2130,10 +2036,9 @@ public class CopexControllerDB implements ControllerInterface {
     @Override
     public CopexReturn copy(LearnerProcedure proc , TaskSelected ts,SubTree subTree ){
         if (setTrace()){
-            ArrayList<MyTask> listXMLTask = getListXMLTask(subTree);
-            CopexReturn cr = trace.addAction(new CopyAction(proc.getDbKey(), proc.getName(getLocale()), listXMLTask));
-            if (cr.isError())
-                return cr;
+            ArrayList<CopexTask> listTask = subTree.getListTask();
+            List<TaskTreePosition> listPositionTask = getTaskPosition(proc, listTask);
+            copex.logCopy(proc, listTask, listPositionTask);
         }
         return new CopexReturn();
     }
@@ -2170,9 +2075,14 @@ public class CopexControllerDB implements ControllerInterface {
                     return cr;
             }
         }
+        Hypothesis oldHypothesis = null;
+        if(listProc.get(idP).getHypothesis() != null)
+            oldHypothesis = (Hypothesis)listProc.get(idP).getHypothesis().clone();
         listProc.get(idP).setHypothesis(hypothesis);
         if(hypothesis != null)
             v.add(hypothesis.clone());
+        if(setTrace())
+            copex.logHypothesis(p, oldHypothesis,hypothesis);
         return new CopexReturn();
     }
 
@@ -2200,9 +2110,15 @@ public class CopexControllerDB implements ControllerInterface {
                     return cr;
             }
         }
+        GeneralPrinciple oldPrinciple = null;
+        if(listProc.get(idP).getGeneralPrinciple() != null)
+            oldPrinciple = (GeneralPrinciple)listProc.get(idP).getGeneralPrinciple().clone();
+        listProc.get(idP).setGeneralPrinciple(principle);
         listProc.get(idP).setGeneralPrinciple(principle);
         if(principle != null)
             v.add(principle.clone());
+        if(setTrace())
+            copex.logGeneralPrinciple(p, oldPrinciple,principle);
         return new CopexReturn();
     }
     
@@ -2230,9 +2146,14 @@ public class CopexControllerDB implements ControllerInterface {
                     return cr;
             }
         }
+        Evaluation oldEvaluation = null;
+        if(listProc.get(idP).getEvaluation() != null)
+            oldEvaluation = (Evaluation)listProc.get(idP).getEvaluation().clone();
         listProc.get(idP).setEvaluation(evaluation);
         if(evaluation != null)
             v.add(evaluation.clone());
+        if(setTrace())
+            copex.logEvaluation(p, oldEvaluation,evaluation);
         return new CopexReturn();
     }
     private ArrayList<MaterialUsed> getListMaterialUsed(LearnerProcedure proc){
@@ -2269,12 +2190,25 @@ public class CopexControllerDB implements ControllerInterface {
         if(cr.isError())
             return cr;
         listProc.get(idProc).addListMaterialUsed(listMaterialToCreate);
+        if(setTrace() && listMaterialToCreate.size()> 0)
+            copex.logCreateMaterialUsed(proc, listMaterialToCreate);
         // suppression du mat
         cr = ExperimentalProcedureFromDB.deleteMaterialUsedFromDB(db.getDbC(), listProc.get(idProc).getDbKey(), listMaterialToDelete);
         if(cr.isError())
             return cr;
         listProc.get(idProc).deleteMaterialUsed(listMaterialToDelete);
+        if(setTrace() && listMaterialToDelete.size() >0)
+            copex.logDeleteMaterialUsed(proc, listMaterialToDelete);
         // mise a jour du mat
+        if(setTrace() && listMaterialToUpdate.size() > 0){
+            ArrayList<MaterialUsed> oldListMaterial = new ArrayList();
+            for (Iterator<MaterialUsed> m = listMaterialToUpdate.iterator();m.hasNext();){
+                MaterialUsed matCorr = listProc.get(idProc).getMaterialUsedWithId(m.next());
+                if(matCorr != null)
+                    oldListMaterial.add((MaterialUsed)matCorr.clone());
+            }
+            copex.logUpdateMaterialUsed(proc, oldListMaterial, listMaterialToUpdate);
+        }
         cr = ExperimentalProcedureFromDB.updateMaterialUsedInDB(db.getDbC(), getLocale(), listProc.get(idProc).getDbKey(), listMaterialToUpdate);
         if(cr.isError())
             return cr;
@@ -2294,6 +2228,12 @@ public class CopexControllerDB implements ControllerInterface {
             proc.setDataSheet(null);
         else
             proc.setDataSheet(new DataSheet(listDataProd));
+    }
+
+    /* log user action in db */
+    @Override
+    public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute) {
+        return TraceFromDB.logUserActionInDB(db.getDbC(), mission.getDbKey(), dbKeyUser, dbKeyTrace, type, attribute);
     }
     
 }

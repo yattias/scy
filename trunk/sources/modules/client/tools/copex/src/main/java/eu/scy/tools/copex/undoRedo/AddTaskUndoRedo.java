@@ -47,8 +47,8 @@ public class AddTaskUndoRedo extends CopexUndoRedo {
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        edP.updateProc(newProc);
         tree.suppr(listTs);
+        edP.updateProc(newProc);
     }
     
     
@@ -63,9 +63,9 @@ public class AddTaskUndoRedo extends CopexUndoRedo {
             return;
         }
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        edP.updateProc(newProc);
         tree.addTask(task.getSelectedTask(),ts);
         task.setSelectedNode(tree.getNode(task.getSelectedTask()));
+        edP.updateProc(newProc);
     }
     
     

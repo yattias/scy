@@ -101,6 +101,10 @@ public class CopexNode extends CustomNode, Resizable {
       };
    }
 
+    public function  controlQuestion(){
+        copexPanel.controlQuestion();
+    }
+
    function resizeContent(){
       var size = new Dimension(width,height-wrappedCopexPanel.boundsInParent.minY-spacing);
       // setPreferredSize is needed

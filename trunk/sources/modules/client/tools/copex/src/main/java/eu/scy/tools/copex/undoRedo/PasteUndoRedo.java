@@ -49,8 +49,8 @@ public class PasteUndoRedo extends CopexUndoRedo{
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        edP.updateProc(newProc);
         tree.suppr(listTask);
+        edP.updateProc(newProc);
         edP.updateMenu();
     }
     

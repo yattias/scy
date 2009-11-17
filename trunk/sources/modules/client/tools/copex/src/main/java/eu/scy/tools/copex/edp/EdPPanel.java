@@ -1519,6 +1519,7 @@ public class EdPPanel extends JPanel {
                 fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(xproc, fileWriter);
                 procModif=false;
+                copexPanel.logSaveProc(proc);
 			}
 			catch (IOException e)
 			{

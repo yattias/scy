@@ -12,10 +12,12 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.logger.CopexProperty;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  *
@@ -141,6 +143,11 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     @Override
     public void loadHelpProc(LearnerProcedure helpProc) {
         
+    }
+
+    @Override
+    public void logAction(String type, List<CopexProperty> attribute) {
+        copex.logActionInDB(type, attribute);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
