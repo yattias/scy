@@ -14,9 +14,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import org.dom4j.Element;
 import org.jdom.JDOMException;
 import org.w3c.dom.Document;
 
+import eu.scy.actionlogging.ActionXMLTransformer;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
@@ -118,80 +120,73 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
             super.call(command, seq, afterTuple, beforeTuple);
             return;
         }
+        // TODO Look up if this is working.....
+        IAction action = new ActionXMLTransformer((Element) afterTuple.getField(7).getValue()).getActionAsPojo();
+        // If selected vars changed
+        String actionID = afterTuple.getField(0).getValue().toString().trim();
+        String time = afterTuple.getField(1).getValue().toString().trim();
+        String type = afterTuple.getField(2).getValue().toString().trim();
+        String user = afterTuple.getField(3).getValue().toString().trim();
+        // String tool = action.getContext("tool");
+        // String mission = action.getContext("mission");
+        String selection = "";
+        String variableName = "";
+        String oldValue = "";
+        String newValue = "";
 
-        try {
-            IAction action = new eu.scy.actionlogging.logger.Action(XMLUtils.transformDocumentToString((Document) afterTuple.getField(6).getValue()));
-            // If selected vars changed
-            String actionID = afterTuple.getField(0).getValue().toString().trim();
-            String time = afterTuple.getField(1).getValue().toString().trim();
-            String type = afterTuple.getField(2).getValue().toString().trim();
-            String user = afterTuple.getField(3).getValue().toString().trim();
-            // String tool = action.getContext("tool");
-            // String mission = action.getContext("mission");
-            String selection = "";
-            String variableName = "";
-            String oldValue = "";
-            String newValue = "";
+        if (type.trim().equals(Type.VARS_SELECTED.toString())) {
+            selection = action.getAttribute("selected_variables");
+            logger.log(Level.FINEST, "Selected Vars (User:" + user + "): " + selection);
 
-            if (type.trim().equals(Type.VARS_SELECTED.toString())) {
-                selection = action.getAttribute("selected_variables");
-                logger.log(Level.FINEST, "Selected Vars (User:" + user + "): " + selection);
-
-                // if a value of a selected variable changed
-            } else if (type.equals(Type.VALUE_CHANGED.toString())) {
-                variableName = action.getAttribute("name");
-                oldValue = action.getAttribute("oldValue");
-                newValue = action.getAttribute("newValue");
-                logger.log(Level.FINEST, "Value changed (User: " + user + ", Variable: " + variableName + "): From " + oldValue + " to " + newValue);
-                if (variableName.trim().equals(examinedVarName.trim())) {
-                    if (Math.abs(Double.parseDouble(newValue)) <= tolerance) {
-                        diff.clear();
-                    }
-                    if (diff.size() >= 10 && diff.size() < 20) {
-                        VMID qid = new VMID();
-                        // TODO retrieve user experience from another agent
-                        Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "first level scaffold", 50);
-                        Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
-                        try {
-                            getTupleSpace().write(scaffoldQuery);
-                            getTupleSpace().waitToTake(scaffoldResponse, 1000);
-                        } catch (TupleSpaceException e) {
-                            e.printStackTrace();
-                        }
-                        logger.log(Level.FINEST, "First scaffold");
-                    } else if (diff.size() >= 20 && diff.size() < 30) {
-                        VMID qid = new VMID();
-                        Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
-                        Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
-                        try {
-                            getTupleSpace().write(scaffoldQuery);
-                            getTupleSpace().waitToTake(scaffoldResponse, 1000);
-                        } catch (TupleSpaceException e) {
-                            e.printStackTrace();
-                        }
-                        logger.log(Level.FINEST, "Second scaffold");
-                    } else if (diff.size() >= 30) {
-                        VMID qid = new VMID();
-                        Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
-                        Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
-                        try {
-                            getTupleSpace().write(scaffoldQuery);
-                            getTupleSpace().waitToTake(scaffoldResponse, 1000);
-                        } catch (TupleSpaceException e) {
-                            e.printStackTrace();
-                        }
-                        logger.log(Level.FINEST, "Final scaffold");
-                    }
-
-                    diff.add(Math.abs(Double.parseDouble(newValue)));
+            // if a value of a selected variable changed
+        } else if (type.equals(Type.VALUE_CHANGED.toString())) {
+            variableName = action.getAttribute("name");
+            oldValue = action.getAttribute("oldValue");
+            newValue = action.getAttribute("newValue");
+            logger.log(Level.FINEST, "Value changed (User: " + user + ", Variable: " + variableName + "): From " + oldValue + " to " + newValue);
+            if (variableName.trim().equals(examinedVarName.trim())) {
+                if (Math.abs(Double.parseDouble(newValue)) <= tolerance) {
+                    diff.clear();
                 }
-            }
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                if (diff.size() >= 10 && diff.size() < 20) {
+                    VMID qid = new VMID();
+                    // TODO retrieve user experience from another agent
+                    Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "first level scaffold", 50);
+                    Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
+                    try {
+                        getTupleSpace().write(scaffoldQuery);
+                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                    } catch (TupleSpaceException e) {
+                        e.printStackTrace();
+                    }
+                    logger.log(Level.FINEST, "First scaffold");
+                } else if (diff.size() >= 20 && diff.size() < 30) {
+                    VMID qid = new VMID();
+                    Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
+                    Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
+                    try {
+                        getTupleSpace().write(scaffoldQuery);
+                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                    } catch (TupleSpaceException e) {
+                        e.printStackTrace();
+                    }
+                    logger.log(Level.FINEST, "Second scaffold");
+                } else if (diff.size() >= 30) {
+                    VMID qid = new VMID();
+                    Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator", "second level scaffold", 50);
+                    Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class, AgentProtocol.ResonseType.OK);
+                    try {
+                        getTupleSpace().write(scaffoldQuery);
+                        getTupleSpace().waitToTake(scaffoldResponse, 1000);
+                    } catch (TupleSpaceException e) {
+                        e.printStackTrace();
+                    }
+                    logger.log(Level.FINEST, "Final scaffold");
+                }
 
+                diff.add(Math.abs(Double.parseDouble(newValue)));
+            }
+        }
     }
 
     private void initLogger() {
