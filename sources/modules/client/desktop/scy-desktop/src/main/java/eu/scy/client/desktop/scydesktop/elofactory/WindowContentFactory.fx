@@ -22,6 +22,17 @@ import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
 import java.lang.IllegalStateException;
 
+import java.lang.Exception;
+
+import javafx.scene.Node;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
+
+import java.io.CharArrayWriter;
+
+import java.io.PrintWriter;
+
+import javafx.ext.swing.SwingComponent;
+
 /**
  * @author sikkenj
  */
@@ -51,14 +62,20 @@ public class WindowContentFactory extends ContentFactory {
       if (not windowContentCreator.supportType(type)){
          throw new IllegalStateException("windowContentCreator id:{id} does not supports content type:{type}");
       }
-      var contentNode;
-      if (eloUri!=null){
-         contentNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+      try{
+         var contentNode;
+         if (eloUri!=null){
+            contentNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+         }
+         else{
+            contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+         }
+         scyWindow.scyContent = contentNode;
       }
-      else{
-         contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+      catch (e:Exception){
+         scyWindow.scyContent = getErrorNode(e,eloUri,id,type,windowContentCreator);
       }
-       scyWindow.scyContent = contentNode;
+
       voidInspectContent(scyWindow);
    }
 
@@ -76,4 +93,51 @@ public class WindowContentFactory extends ContentFactory {
       }
       checkIfServicesInjected(scyContent);
    }
+
+   function getErrorNode(e:Exception,eloUri:URI,id:String,type:String,windowContentCreator:WindowContentCreatorFX):Node{
+      var textEditor = new TextEditor();
+      textEditor.setEditable(false);
+      textEditor.setText(getErrorMessage(e,eloUri,id,type,windowContentCreator));
+      textEditor.resetScrollbars();
+      return SwingComponent.wrap(textEditor);
+   }
+
+   function getErrorMessage(e:Exception,eloUri:URI,id:String,type:String,windowContentCreator:WindowContentCreatorFX):String{
+      var charArrayWriter:CharArrayWriter;
+      var printWriter:PrintWriter;
+      try{
+         charArrayWriter = new CharArrayWriter();
+         printWriter = new PrintWriter(charArrayWriter);
+         printWriter.println("An exception occured during the creation of the window content.");
+         printWriter.println("ELO uri: {eloUri}");
+         printWriter.println("ELO type: {type}");
+         printWriter.println("Content creator id: {id}");
+         printWriter.println("Content creator class: {windowContentCreator.getClass().getName()}");
+         printWriter.println("Exception type: {e.getClass().getName()}");
+         printWriter.println("Exception message: {e.getMessage()}");
+         printWriter.println("Strack trace:");
+         e.printStackTrace(printWriter);
+         return charArrayWriter.toString();
+      }
+      finally{
+         if (printWriter!=null){
+            try{
+               printWriter.close();
+            }
+            catch(e1){
+               // what to do ???
+            }
+         }
+         if (charArrayWriter!=null){
+            try{
+               charArrayWriter.close();
+            }
+            catch(e1){
+               // what to do ???
+            }
+         }
+      }
+   }
+
+
 }
