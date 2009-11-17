@@ -5,12 +5,18 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+
+import org.jdom.Element;
+
 /**
  * visualization of  data
  * @author Marjolaine Bodin
  */
 public class Visualization implements Cloneable {
-    // PROPERTY
+    private final static String TAG_VISUALIZATION = "visualization";
+    private final static String TAG_VIS_TYPE = "type";
+    private final static String TAG_VIS_ID = "id";
+
     /* identifiant*/
     protected long dbKey;
     /* nom */
@@ -128,5 +134,14 @@ public class Visualization implements Cloneable {
          String toString = this.getName()+ " ("+this.getType().getCode()+") on "+(this.isOnCol ? "col " : "row ") + s+"\n";
          return toString;
      }
+
+    public Element toXMLLog(){
+        Element element = new Element(TAG_VISUALIZATION);
+        element.addContent(new Element(TAG_VIS_TYPE).setText(type.getName()));
+        for(int i=0; i<tabNo.length; i++){
+            element.addContent(new Element(TAG_VIS_ID).setText(Integer.toString(tabNo[i])));
+        }
+        return element;
+    }
     
 }

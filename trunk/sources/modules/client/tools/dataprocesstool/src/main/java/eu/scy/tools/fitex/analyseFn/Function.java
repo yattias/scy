@@ -67,7 +67,7 @@ public class Function
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("La fonction n'a pas pu etre analysee - erreur autre que ErreurDeSyntaxe.");
+            //System.out.println("La fonction n'a pas pu etre analysee - erreur autre que ErreurDeSyntaxe.");
         }
         
         // riecupieration des anciennes valeurs des parametre dans la newMapDesParametres

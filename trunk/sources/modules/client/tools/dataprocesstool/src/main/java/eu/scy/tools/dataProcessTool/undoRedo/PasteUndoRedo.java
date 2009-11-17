@@ -15,6 +15,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jdom.Element;
 
 /**
  * paste : undo/redo
@@ -50,6 +51,7 @@ public class PasteUndoRedo extends DataUndoRedo {
         }
         Dataset nds = (Dataset)v.get(0);
         dataToolPanel.updateDataset(nds);
+        this.dataToolPanel.logRedo(this);
     }
 
     @Override
@@ -97,6 +99,18 @@ public class PasteUndoRedo extends DataUndoRedo {
             dataToolPanel.updateDataset(ds);
         }
         //dataToolPanel.updateDataset(nds);
+        this.dataToolPanel.logUndo(this);
+    }
+
+    @Override
+    public Element toXMLLog(){
+        Element element = new Element("undoRedoPaste");
+        element.addContent(subData.toXMLLog());
+        Element e = new Element("sel_cell");
+        e.addContent(new Element("id_row").setText(Integer.toString(selCell[0])));
+        e.addContent(new Element("id_col").setText(Integer.toString(selCell[1])));
+        element.addContent(e);
+        return element;
     }
 
 

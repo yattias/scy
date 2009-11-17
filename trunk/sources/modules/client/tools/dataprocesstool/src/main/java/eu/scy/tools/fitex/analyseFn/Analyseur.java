@@ -50,7 +50,7 @@ public class Analyseur
             lexical.ordinaryChar('-');
             lexical.ordinaryChar('E');
             //lexical.ordinaryChar('x');
-            System.out.println("f(x) = "+texte);
+            //System.out.println("f(x) = "+texte);
     }
     
     /** autre constructeur qui passe la fonction dans laquelle va
@@ -117,7 +117,7 @@ public class Analyseur
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
         }
-        System.out.println("Expression analysiee ie parenthesage alieatoire : f(x) = " + resultat);
+        //System.out.println("Expression analysiee ie parenthesage alieatoire : f(x) = " + resultat);
         return resultat;
     }
     
@@ -180,7 +180,7 @@ public class Analyseur
         Expression resultat = analyserFacteur();
         while (lexical.ttype == '^' || lexical.ttype == 'E')
         {
-            System.out.println("detection d'une puissance");
+            //System.out.println("detection d'une puissance");
             if (resultat == null)
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_LEFT_FACT_PUISS"));
             boolean estUnePuissance10 = (lexical.ttype == 'E');

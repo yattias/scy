@@ -357,7 +357,6 @@ private void cbTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:e
     }
     private JComboBox getCbData2(){
         if(cbData2 == null){
-            System.out.println("getCbData2");
             cbData2 = new JComboBox();
             cbData2.setName("cbData2");
             cbData2.setBounds(labelY.getX()+labelY.getWidth()+5, 0, 80, 20);

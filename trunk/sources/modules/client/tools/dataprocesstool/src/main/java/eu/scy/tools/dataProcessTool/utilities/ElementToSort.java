@@ -22,7 +22,7 @@ public class ElementToSort {
 		
     
     // CONSTRUCTOR
-    public ElementToSort(String columnName,int order){
+    public ElementToSort(String columnName, int order){
         this.columnName = columnName;
         this.order=order;
     }
@@ -39,5 +39,6 @@ public class ElementToSort {
     public int getOrder() {
         return order;
     }
-    
+
+   
 }

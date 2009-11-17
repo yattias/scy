@@ -6,13 +6,18 @@
 package eu.scy.tools.dataProcessTool.common;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import org.jdom.Element;
 
 /**
  * operation on a dataset
  * @author Marjolaine Bodin
  */
 public class DataOperation implements Cloneable {
-    // PROPERTY
+    private final static String TAG_OPERATION = "operation";
+    private final static String TAG_OPERATION_TYPE = "type";
+    private final static String TAG_OPERATION_ON_COL = "is_on_col";
+    private final static String TAG_OPERATION_ID = "id";
     /* identifiant base de donnees */
     protected long dbKey;
     /* nom donne par l'utilisateur */
@@ -122,6 +127,16 @@ public class DataOperation implements Cloneable {
         }
         toString += "\n";
         return toString ;
+    }
+
+    public Element toXMLLog(){
+         Element e = new Element(TAG_OPERATION);
+         e.addContent(new Element(TAG_OPERATION_TYPE).setText(typeOperation.getCodeName()));
+         e.addContent(new Element(TAG_OPERATION_ON_COL).setText(isOnCol?"true":"false"));
+         for(Iterator<Integer> i=listNo.iterator();i.hasNext();){
+             e.addContent(new Element(TAG_OPERATION_ID).setText(Integer.toString(i.next())));
+         }
+         return e;
     }
     
 }

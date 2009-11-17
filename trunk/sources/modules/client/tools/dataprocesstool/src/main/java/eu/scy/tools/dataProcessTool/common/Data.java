@@ -5,13 +5,21 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import org.jdom.Element;
+
 /**
  * donnees du tableau 
  * ce sont forcement des reels
  * @author Marjolaine Bodin
  */
 public class Data implements Cloneable {
-    // PROPERTY
+    public final static String TAG_DATA = "data";
+    private final static String TAG_DATA_VALUE = "value";
+    private final static String TAG_DATA_NO_ROW = "no_row";
+    private final static String TAG_DATA_NO_COL = "no_col";
+    private final static String TAG_DATA_IGNORED = "is_ignored";
+
+
     /* identifiant base */
     private long dbKey;
     /* valeur */
@@ -91,9 +99,18 @@ public class Data implements Cloneable {
             data.setIsIgnoredData(isIgnoredDataC);
             return data;
         } catch (CloneNotSupportedException e) { 
-	    // this shouldn't happen, since we are Cloneable
-	    throw new InternalError();
-	}
+            // this shouldn't happen, since we are Cloneable
+            throw new InternalError();
+        }
     }
-    
+
+     public Element toXMLLog(){
+         Element e = new Element(TAG_DATA);
+         //e.addContent(new Element(TAG_DATA_VALUE).setText(Double.toString(value)));
+         e.addContent(new Element(TAG_DATA_NO_ROW).setText(Integer.toString(noRow)));
+         e.addContent(new Element(TAG_DATA_NO_COL).setText(Integer.toString(noCol)));
+         e.addContent(new Element(TAG_DATA_IGNORED).setText(isIgnoredData ? "true" : "false"));
+         return e;
+
+     }
 }

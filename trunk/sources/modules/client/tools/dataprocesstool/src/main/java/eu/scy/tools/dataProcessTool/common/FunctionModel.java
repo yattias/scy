@@ -7,13 +7,21 @@ package eu.scy.tools.dataProcessTool.common;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
+import org.jdom.Element;
 
 /**
  * modele de fonctions
  * @author Marjolaine
  */
 public class FunctionModel implements Cloneable{
-    //PROPERTY
+    private final static String TAG_FUNCTION = "function";
+    private final static String TAG_DESCRIPTION = "description";
+    private final static String TAG_COLOR = "color";
+    private final static String TAG_COLOR_R = "color_red";
+    private final static String TAG_COLOR_G = "color_green";
+    private final static String TAG_COLOR_B = "color_blue";
+
     /* identifiant */
     private long dbKey ;
     /* description, suit f(x) = */
@@ -85,6 +93,20 @@ public class FunctionModel implements Cloneable{
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
+    }
+
+    public Element toXML(){
+        Element element = new Element(TAG_FUNCTION);
+        element.addContent(new Element(TAG_DESCRIPTION).setText(description));
+        Element c = new Element(TAG_COLOR);
+        c.addContent(new Element(TAG_COLOR_R).setText(Integer.toString(color.getRed())));
+        c.addContent(new Element(TAG_COLOR_G).setText(Integer.toString(color.getGreen())));
+        c.addContent(new Element(TAG_COLOR_B).setText(Integer.toString(color.getBlue())));
+        element.addContent(c);
+        for(Iterator<FunctionParam> p = listParam.iterator();p.hasNext();){
+            element.addContent(p.next().toXML());
+        }
+        return element;
     }
 
 

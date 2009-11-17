@@ -104,7 +104,7 @@ public class DataPrint {
 
             File temp;
             temp = File.createTempFile(fileName, ".pdf", new File(System.getProperty("java.io.tmpdir")));
-            System.out.println("fichier temporaire : "+temp.getPath());
+            //System.out.println("fichier temporaire : "+temp.getPath());
             String printDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString();
             writer = PdfWriter.getInstance(document, new FileOutputStream(temp));
             writer.setPageEvent(new MyPDFEvent(writer, printDate ));

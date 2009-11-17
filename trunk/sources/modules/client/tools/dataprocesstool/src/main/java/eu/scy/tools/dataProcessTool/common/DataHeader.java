@@ -5,12 +5,16 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import org.jdom.Element;
+
 /**
  * En tete du tableau 
  * @author Marjolaine   
  */
 public class DataHeader implements Cloneable {
-    // PROPERTY 
+    public final static String TAG_HEADER = "header";
+    private final static String TAG_HEADER_UNIT = "unit";
+    private final static String TAG_HEADER_NO =  "no";
     /* identifiant */
     private long dbKey;
     /* valeur */
@@ -82,5 +86,13 @@ public class DataHeader implements Cloneable {
 	    throw new InternalError();
 	}
     }
+
+    public Element toXMLLog(){
+         Element e = new Element(TAG_HEADER);
+         e.addContent(new Element(TAG_HEADER_NO).setText(Integer.toString(noCol)));
+         e.addContent(new Element(TAG_HEADER_UNIT).setText(unit));
+         return e;
+
+     }
 
 }

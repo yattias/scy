@@ -54,15 +54,24 @@
       <version>${pom.version}</version>
       <scope>compile</scope>
     </dependency>
-     <!--<dependency>
+     <dependency>
         <groupId>eu.scy.client.desktop</groupId>
         <artifactId>tool-broker</artifactId>
         <version>${pom.version}</version>
       <scope>compile</scope>
-    </dependency> -->
-
-    
-
+    </dependency> 
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>action-logging-api</artifactId>
+        <version>${pom.version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>action-logging-commons</artifactId>
+        <version>${pom.version}</version>
+        <scope>compile</scope>
+    </dependency>
       
         
    </dependencies>

@@ -1072,6 +1072,19 @@ public class DataControllerDB implements ControllerInterface{
         return new CopexReturn();
     }
 
+    @Override
+    public CopexReturn updateDataset(Dataset ds, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        dataset = (Dataset)ds.clone();
+        v.add(dataset.clone());
+        listDataset.set(idDs, dataset);
+        return new CopexReturn();
+    }
+    
     /* creation d'un dataset avec l'en tete - 1 ligne de donnees */
     @Override
     public CopexReturn createDataset(String name, String[] headers, String[] units, ArrayList v){

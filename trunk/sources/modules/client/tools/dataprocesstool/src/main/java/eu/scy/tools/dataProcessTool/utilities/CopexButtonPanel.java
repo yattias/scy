@@ -67,7 +67,7 @@ public class CopexButtonPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (bg == null){
-            System.out.println("bg null !!");
+            //System.out.println("bg null !!");
             bg = bgSimple;
         }
         boolean d  =g.drawImage(bg, 0, 0, null) ;

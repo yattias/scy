@@ -16,6 +16,7 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import java.util.ArrayList;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jdom.Element;
 
 /**
  * delete datas undo redo
@@ -48,6 +49,7 @@ public class DeleteUndoRedo extends DataUndoRedo {
             Dataset ds = (Dataset)v.get(0);
             dataToolPanel.updateDataset(ds);
         }
+        dataToolPanel.logUndo(this);
     }
 
     @Override
@@ -111,8 +113,14 @@ public class DeleteUndoRedo extends DataUndoRedo {
         }
         // mise a jour
         dataToolPanel.updateDataset(nds) ;
+        dataToolPanel.logRedo(this);
     }
 
 
+    @Override
+    public Element toXMLLog(){
+        Element element = new Element("undoRedoDelete");
+        return element;
+    }
 
 }

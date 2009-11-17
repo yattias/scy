@@ -447,6 +447,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
         for (int i=0; i<this.listCol.length; i++){
             if (i != id1){
                 this.listCol2[j] = this.listCol[i];
+                j++;
             }
         }
         cbYAxis.removeAllItems();
