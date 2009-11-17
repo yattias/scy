@@ -2,6 +2,9 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 import java.util.logging.Level;
 
@@ -41,6 +44,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
 	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
 	private Roster roster;
+	protected Vector<Object> externalUsers = new Vector<Object>();
 
 
 	public AwarenessServiceXMPPImpl() {
@@ -217,14 +221,18 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			@Override
 			public void presenceChanged(Presence presence) {
 				logger.debug("init: presenceChanged: "+presence);
-				if (presence == null)
-					return;
+				if (presence == null) {
+					return;					
+				}
+				else if((presence.toString()).equals("unavailable")) {
+					String correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
+					logger.debug("init: presenceChanged: removing "+correctUserName);
+					externalUsers.remove(correctUserName);
+				}
 
 				for (IAwarenessPresenceListener presenceListener : presenceListeners) {
 					if (presenceListener != null) {
-						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this,
-								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), "new presence", presence
-										.getType().toString(), presence.getStatus());
+						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), "new presence", presence.getType().toString(), presence.getStatus());
 						presenceListener.handleAwarenessPresenceEvent(presenceEvent);
 					}
 				}
@@ -233,7 +241,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 		});
 
-		//Added by Jeremy Toussaint to track non-inintialised chats
+		//Added by Jeremy Toussaint to track non-initialized chats
 		getChatManager().addChatListener(new ChatManagerListener() {
 			
 			@Override
@@ -243,11 +251,14 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					@Override
 					public void processMessage(Chat chat, Message message) {
 						logger.debug("chatCreated: processMessage: "+chat.getParticipant() + " said -> " + message.getBody());
+						logger.debug("chatCreated: processMessage: "+AwarenessServiceXMPPImpl.this.xmppConnection.getUser());
 						if (message.getType() == Message.Type.chat) {
+							String correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
 							for (IAwarenessMessageListener al : messageListeners) {
-								if ((al != null) && (message.getBody() != null)) {
+								if ((al != null) && (message.getBody() != null) && !externalUsers.contains(correctUserName)) {
 									IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
 									al.handleAwarenessMessageEvent(awarenessEvent);
+									externalUsers.add(correctUserName);
 								}
 							}
 						}
