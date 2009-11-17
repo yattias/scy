@@ -104,7 +104,7 @@ public class ChatPanelMain extends JPanel {
 	
 	protected JPanel createChatArea() {
 		
-		chatAreaPanel = new JXTitledPanel("jt151077");
+		chatAreaPanel = new JXTitledPanel("Welcome");
 		chatAreaPanel.setLayout(new MigLayout("wrap 1"));
 		JScrollPane chatAreaScroll = new JScrollPane(chatArea);
 		chatAreaScroll.setPreferredSize(new Dimension(225, 250));
