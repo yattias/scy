@@ -10,6 +10,8 @@
  */
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
+import javax.swing.JScrollBar;
+
 /**
  *
  * @author sikken
@@ -61,5 +63,29 @@ public class TextEditor extends javax.swing.JPanel
    public String getText()
    {
       return textPane.getText();
+   }
+
+   public void setEditable(boolean editable)
+   {
+      textPane.setEditable(editable);
+   }
+
+   public boolean isEditable()
+   {
+      return textPane.isEditable();
+   }
+
+   public void resetScrollbars()
+   {
+      resetScrollbar(textScrollPane.getHorizontalScrollBar());
+      resetScrollbar(textScrollPane.getVerticalScrollBar());
+   }
+
+   private void resetScrollbar(JScrollBar scrollbar)
+   {
+      if (scrollbar!=null)
+      {
+         scrollbar.setValue(scrollbar.getMinimum());
+      }
    }
 }
