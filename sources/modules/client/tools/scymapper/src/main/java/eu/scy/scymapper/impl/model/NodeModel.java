@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.INodeModelConstraints;
 import eu.scy.scymapper.api.diagram.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
@@ -17,40 +18,46 @@ import java.util.ArrayList;
  */
 public class NodeModel implements INodeModel {
 
-	private transient java.util.List<INodeModelListener> listeners;
-	private transient boolean selected = false;
+    private transient java.util.List<INodeModelListener> listeners;
+    private transient boolean selected = false;
 
-	private Dimension size = new Dimension(100, 100);
+    private String label = "New concept";
 
-	private Point location = new Point(20, 20);
+    private INodeShape shape = new DefaultNodeShape();
+    private INodeStyle style = new DefaultNodeStyle();
 
-	private String label = "New concept";
+    private boolean labelHidden = false;
+    private boolean deleted;
 
-	private INodeShape shape = new DefaultNodeShape();
-	private INodeStyle style = new DefaultNodeStyle();
+    private INodeModelConstraints constraints = new NodeModelConstraints();
+    private int x = 20;
+    private int y = 20;
 
-	private boolean labelHidden = false;
+    private int height = 100;
+    private int width = 100;
 
-	private Object readResolve() {
-		listeners = new ArrayList<INodeModelListener>();
-		return this;
-	}
-	public NodeModel() {
+    private Object readResolve() {
+        listeners = new ArrayList<INodeModelListener>();
+        return this;
+    }
+
+    public NodeModel() {
         listeners = new ArrayList<INodeModelListener>();
     }
+
     public NodeModel(INodeShape shape) {
         this();
         this.shape = shape;
     }
 
-	@Override
+    @Override
     public int getDistanceToPerimeter(Point p) {
-        return (int)p.distance(getShape().getConnectionPoint(p, new Rectangle(getLocation(), getSize())));
+        return (int) p.distance(getShape().getConnectionPoint(p, new Rectangle(getLocation(), getSize())));
     }
 
     @Override
     public Point getConnectionPoint(Point p) {
-        return getShape().getConnectionPoint(p,  new Rectangle(getLocation(), getSize()));
+        return getShape().getConnectionPoint(p, new Rectangle(getLocation(), getSize()));
     }
 
     @Override
@@ -69,13 +76,13 @@ public class NodeModel implements INodeModel {
         this.style = style;
     }
 
-	@Override
-	public void setSelected(boolean b) {
-		selected = b;
-		notifySelected();
-	}
+    @Override
+    public void setSelected(boolean b) {
+        selected = b;
+        notifySelected();
+    }
 
-	@Override
+    @Override
     public INodeStyle getStyle() {
         if (style == null) style = new DefaultNodeStyle();
         return style;
@@ -99,24 +106,66 @@ public class NodeModel implements INodeModel {
 
     @Override
     public Dimension getSize() {
-        return this.size;
+        return new Dimension(this.width, this.height);
     }
 
     @Override
-    public void setSize(Dimension size) {
-        this.size = size;
+    public void setSize(int height, int width) {
+        this.height = height;
+        this.width = width;
         notifyResized();
     }
 
     @Override
+    public void setHeight(int height) {
+        setSize(height, width);
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setWidth(int width) {
+        setSize(height, width);
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public void setSize(Dimension size) {
+        setSize(size.height, size.width);
+    }
+
+    @Override
     public void setLocation(Point location) {
-        this.location = location;
+        setLocation(location.x, location.y);
+    }
+
+    @Override
+    public void setLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
         notifyMoved();
     }
 
     @Override
+    public void setX(int x) {
+        setLocation(x, y);
+    }
+
+    @Override
+    public void setY(int y) {
+        setLocation(x, y);
+    }
+
+    @Override
     public Point getLocation() {
-        return this.location;
+        return new Point(x, y);
     }
 
     @Override
@@ -154,25 +203,55 @@ public class NodeModel implements INodeModel {
             listener.labelChanged(this);
         }
     }
+
     @Override
     public void notifyShapeChanged() {
         for (INodeModelListener listener : listeners) {
             listener.shapeChanged(this);
         }
     }
-	@Override
-	public void notifySelected() {
-		for (INodeModelListener listener : listeners) {
+
+    @Override
+    public void notifySelected() {
+        for (INodeModelListener listener : listeners) {
             listener.selectionChanged(this);
         }
-	}
+    }
 
-	@Override
-	public boolean isSelected() {
-		return selected;
-	}
+    @Override
+    public void notifyDeleted() {
+        for (INodeModelListener listener : listeners) {
+            listener.deleted(this);
+        }
+    }
 
-	public void setLabel(String label) {
+    @Override
+    public void setConstraints(INodeModelConstraints constraints) {
+        this.constraints = constraints;
+    }
+
+    @Override
+    public INodeModelConstraints getConstraints() {
+        return constraints;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
+    public void setDeleted(boolean b) {
+        deleted = b;
+        notifyDeleted();
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setLabel(String label) {
         this.label = label;
         notifyLabelChanged();
     }

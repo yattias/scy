@@ -1,6 +1,7 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,6 +104,11 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
 
     @Override
     public void selectionChanged(INodeModel conceptNode) {}
+
+    @Override
+    public void deleted(NodeModel nodeModel) {
+        
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {}

@@ -21,8 +21,8 @@ import roolo.elo.metadata.keys.Contribute;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Locale;
@@ -117,6 +117,7 @@ public class SCYMapperStandalone extends JFrame {
     private SCYMapperPanel createScyMapperPanel() {
         IDiagramModel diagram = new DiagramModel();
         IConceptMap cmap = new DefaultConceptMap(IConceptMap.DEFAULT_CMAP_NAME, diagram);
+        if (configuration.getPredefinedNodes() != null) diagram.addNodes(configuration.getPredefinedNodes());
         return createScyMapperPanel(cmap);
     }
 

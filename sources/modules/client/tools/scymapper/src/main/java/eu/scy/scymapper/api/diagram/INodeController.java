@@ -9,11 +9,13 @@ import java.awt.*;
  * Time: 18:34:13
  */
 public interface INodeController {
-    public void setSize(Dimension size);
+    void setSize(Dimension size);
 
-    public void setLocation(Point location);
+    void setLocation(Point location);
 
-    public void setLabel(String text);
+    void setLabel(String text);
 
-    public void setSelected(boolean b);
+    void setSelected(boolean b);
+
+    void setDeleted(boolean b);
 }

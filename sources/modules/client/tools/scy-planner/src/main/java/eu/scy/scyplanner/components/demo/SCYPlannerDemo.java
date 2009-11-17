@@ -235,4 +235,9 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
         selectedNode = conceptNode;
         selectedLabel.setText("You clicked: " + conceptNode.getLabel());
     }
+
+    @Override
+    public void deleted(NodeModel nodeModel) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

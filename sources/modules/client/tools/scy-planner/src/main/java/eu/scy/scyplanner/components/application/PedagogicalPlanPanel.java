@@ -167,4 +167,9 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     @Override
     public void selectionChanged(INodeModel conceptNode) {
     }
+
+    @Override
+    public void deleted(NodeModel nodeModel) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

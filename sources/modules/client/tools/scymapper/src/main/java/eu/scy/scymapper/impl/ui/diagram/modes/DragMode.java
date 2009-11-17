@@ -2,7 +2,6 @@ package eu.scy.scymapper.impl.ui.diagram.modes;
 
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.NodeView;
-import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -53,7 +52,8 @@ public class DragMode implements IDiagramMode {
             newLocation.translate(relPoint.x, relPoint.y);
             newLocation.translate(-relativePos.x, -relativePos.y);
 
-            view.getModel().setLocation(newLocation);
+            //TODO: Use controller instead
+            if (view.getModel().getConstraints().getCanMove()) view.getModel().setLocation(newLocation);
         }
     };
 

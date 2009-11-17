@@ -20,7 +20,15 @@ public interface INodeModel {
 
 	void setLocation(Point location);
 
+    void setLocation(int x, int y);
+
+    void setX(int x);
+
+    void setY(int y);
+
 	Dimension getSize();
+
+    void setSize(int height, int width);
 
 	void setSize(Dimension size);
 
@@ -39,6 +47,10 @@ public interface INodeModel {
 	void setSelected(boolean b);
 
 	boolean isSelected();
+
+    void setDeleted(boolean b);
+
+    boolean isDeleted();
 
 	INodeStyle getStyle();
 
@@ -59,4 +71,17 @@ public interface INodeModel {
 	void notifyShapeChanged();
 
 	void notifySelected();
+
+	void notifyDeleted();
+
+    void setConstraints(INodeModelConstraints constraints);
+    INodeModelConstraints getConstraints();
+
+    void setHeight(int height);
+
+    int getHeight();
+
+    void setWidth(int width);
+
+    int getWidth();
 }

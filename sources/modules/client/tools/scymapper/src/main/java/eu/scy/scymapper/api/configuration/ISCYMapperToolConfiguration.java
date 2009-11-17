@@ -3,6 +3,7 @@ package eu.scy.scymapper.api.configuration;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
 import eu.scy.scymapper.api.IConceptPrototype;
 import eu.scy.scymapper.api.ILinkType;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
     void setAvailableConceptTypes(List<IConceptPrototype> availableConceptShapes);
 
     void setAvailableLinkTypes(List<ILinkType> availableLinkShapes);
+
+    void setPredefinedNodes(List<INodeModel> predefinedNodes);
+
+    List<INodeModel> getPredefinedNodes();
 }

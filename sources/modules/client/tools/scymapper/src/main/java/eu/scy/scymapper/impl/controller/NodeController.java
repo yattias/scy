@@ -20,7 +20,7 @@ public class NodeController implements INodeController {
 
     @Override
     public void setSize(Dimension p) {
-        model.setSize(p);
+        if (model.getConstraints().getCanResize())  model.setSize(p);
     }
 
     @Override
@@ -28,16 +28,21 @@ public class NodeController implements INodeController {
         if (p.getX() < 0) p.x = 0;
 		if (p.y < 0) p.y = 0;
 
-		model.setLocation(p);
+		if (model.getConstraints().getCanMove())  model.setLocation(p);
     }
 
     @Override
     public void setLabel(String text) {
-        model.setLabel(text);
+        if (model.getConstraints().getCanEditLabel()) model.setLabel(text);
     }
 
 	@Override
 	public void setSelected(boolean b) {
-		model.setSelected(b);
+		 if (model.getConstraints().getCanSelect()) model.setSelected(b);
 	}
+
+    @Override
+    public void setDeleted(boolean b) {
+        if (model.getConstraints().getCanDelete()) model.setDeleted(true);
+    }
 }
