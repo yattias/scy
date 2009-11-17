@@ -5,11 +5,13 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -57,6 +59,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     private void initDataProcessTool(){
         dataProcessPanel = new DataProcessToolPanel(false);
         setTitle("FITEX "+dataProcessPanel.getVersion());
+        setIconImage(dataProcessPanel.getIconDialog());
         dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);
         setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
@@ -88,6 +91,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     public void windowClosing(WindowEvent e) {
         int ok = JOptionPane.showConfirmDialog(this, dataProcessPanel.getBundleString("MESSAGE_FITEX_EXIT"), dataProcessPanel.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
         if(ok == JOptionPane.OK_OPTION){
+            dataProcessPanel.endTool();
             this.dispose();
         }
     }
@@ -115,6 +119,11 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     @Override
     public void windowDeactivated(WindowEvent e) {
 
+    }
+
+    @Override
+    public void logAction(String type, List<FitexProperty> attribute) {
+        
     }
 
 

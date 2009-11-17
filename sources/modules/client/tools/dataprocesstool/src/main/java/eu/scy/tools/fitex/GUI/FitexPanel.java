@@ -519,8 +519,7 @@ public class FitexPanel extends javax.swing.JPanel {
         this.paramGraph = pg;
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(pg) ;
-        
-    }
+   }
 
    
 
@@ -531,6 +530,7 @@ public class FitexPanel extends javax.swing.JPanel {
         this.paramGraph.setY_max(y_max);
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(paramGraph) ;
+        actionFitex.setParam(paramGraph.getHeaderX(), paramGraph.getHeaderY(), paramGraph.isAutoscale(), x_min, x_max, y_max, y_min, y_max, y_max);
     }
     
 

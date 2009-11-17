@@ -197,7 +197,7 @@ public class BoxSpinner extends javax.swing.JPanel {
             else ordre = ordre - nombre.length()+ placeDuPt + 1 ;
         }
         step = Math.pow(10,ordre);
-        System.out.println(step);
+        //System.out.println(step);
     }
     
     public int getHauteur(){

@@ -45,5 +45,36 @@ public class DataConstants {
     /* DROITS */
     public static final char NONE_RIGHT='N';
     public static final char EXECUTIVE_RIGHT='X';
+
+    /* LOG TYPE */
+    public static final String LOG_TYPE_START_TOOL = "start_tool";
+    public static final String LOG_TYPE_END_TOOL = "end_tool";
+    public static final String LOG_TYPE_NEW = "new_elo";
+    public final static String LOG_TYPE_SAVE_DATASET = "save_dataset";
+    public static final String LOG_TYPE_OPEN_DATASET = "open_dataset";
+    public static final String LOG_TYPE_MERGE_DATASET = "merge_dataset";
+    public static final String LOG_TYPE_IMPORT_CSV_FILE = "import_csv_file";
+    public final static String LOG_TYPE_DELETE_DATASET = "delete_dataset";
+    public static final String LOG_TYPE_EDIT_DATA = "edit_data";
+    public static final String LOG_TYPE_EDIT_HEADER = "edit_header";
+    public final static String LOG_TYPE_INSERT_COLUMNS = "insert_columns";
+    public final static String LOG_TYPE_INSERT_ROWS = "insert_rows";
+    public final static String LOG_TYPE_DELETE_ROWS = "delete_rows";
+    public final static String LOG_TYPE_DELETE_COLS = "delete_cols";
+    public final static String LOG_TYPE_DELETE_OPERATIONS = "delete_operations";
+    public final static String LOG_TYPE_ADD_OPERATION = "add_operation";
+    public final static String LOG_TYPE_IGNORE_DATA = "ignore_data";
+    public final static String LOG_TYPE_CREATE_VISUALIZATION = "create_visulization";
+    public final static String LOG_TYPE_DELETE_VISUALIZATION = "delte_visualization";
+    public final static String LOG_TYPE_GRAPH_MODE = "graph_mode";
+    public final static String LOG_TYPE_UPDATE_VISUALIZATION = "update_visualization";
+    public final static String LOG_TYPE_SORT_DATASET = "sort_dataset";
+    public final static String LOG_TYPE_COPY = "copy";
+    public final static String LOG_TYPE_PASTE = "paste";
+    public final static String LOG_TYPE_CUT = "cut";
+    public final static String LOG_TYPE_UNDO = "undo";
+    public final static String LOG_TYPE_REDO = "redo";
+    public final static String LOG_TYPE_GRAPH_FUNCTION = "graph_function";
+    public final static String LOG_TYPE_RENAME_DATASET = "rename_dataset";
     
 }

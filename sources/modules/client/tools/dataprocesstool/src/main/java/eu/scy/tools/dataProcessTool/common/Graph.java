@@ -7,13 +7,14 @@ package eu.scy.tools.dataProcessTool.common;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
+import org.jdom.Element;
 
 /**
  * visualisation sous forme de graphe
  * @author Marjolaine Bodin
  */
 public class Graph extends Visualization implements Cloneable {
-    // PROPERTY
     /* parametre du graphe */
     private ParamGraph paramGraph ;
     /* liste des functions model */
@@ -101,5 +102,16 @@ public class Graph extends Visualization implements Cloneable {
 
     public void setAutoScale(boolean autoScale){
         this.paramGraph.setAutoscale(autoScale);
+    }
+
+    @Override
+    public Element toXMLLog(){
+        Element element = super.toXMLLog();
+        element.addContent(paramGraph.toXML());
+        if(listFunctionModel != null)
+            for(Iterator<FunctionModel> f = listFunctionModel.iterator();f.hasNext();){
+                element.addContent(f.next().toXML());
+            }
+        return element;
     }
 }

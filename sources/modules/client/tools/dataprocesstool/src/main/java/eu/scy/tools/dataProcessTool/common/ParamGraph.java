@@ -5,12 +5,23 @@
 
 package eu.scy.tools.dataProcessTool.common;
 
+import org.jdom.Element;
+
 /**
  * parametres d'un graphe
  * @author Marjolaine
  */
 public class ParamGraph implements Cloneable{
-    // PRPOERTY
+    private final static String TAG_PARAM_GRAPH = "graph_param";
+    private final static String TAG_HEADER_X = "header_x";
+    private final static String TAG_HEADER_Y = "header_y";
+    private final static String TAG_X_MIN = "x_min";
+    private final static String TAG_X_MAX = "x_max";
+    private final static String TAG_DELTA_X = "delta_x";
+    private final static String TAG_Y_MIN = "y_min";
+    private final static String TAG_Y_MAX = "y_max";
+    private final static String TAG_DELTA_Y = "delta_y";
+    private final static String TAG_AUTOSCALE = "autoscale";
     /* axe x*/
     private DataHeader headerX;
     /* axe y */
@@ -147,6 +158,20 @@ public class ParamGraph implements Cloneable{
 	    // this shouldn't happen, since we are Cloneable
 	    throw new InternalError();
 	}
+    }
+
+    public Element toXML(){
+        Element element = new Element(TAG_PARAM_GRAPH);
+        element.addContent(new Element(TAG_HEADER_X).setText(Integer.toString(headerX.getNoCol())));
+        element.addContent(new Element(TAG_HEADER_Y).setText(Integer.toString(headerY.getNoCol())));
+        element.addContent(new Element(TAG_X_MIN).setText(Double.toString(x_min)));
+        element.addContent(new Element(TAG_X_MAX).setText(Double.toString(x_max)));
+        element.addContent(new Element(TAG_DELTA_X).setText(Double.toString(deltaX)));
+        element.addContent(new Element(TAG_Y_MIN).setText(Double.toString(y_min)));
+        element.addContent(new Element(TAG_Y_MAX).setText(Double.toString(y_max)));
+        element.addContent(new Element(TAG_DELTA_Y).setText(Double.toString(deltaY)));
+        element.addContent(new Element(TAG_AUTOSCALE).setText(autoscale ? "true":"false"));
+        return element;
     }
 
 }

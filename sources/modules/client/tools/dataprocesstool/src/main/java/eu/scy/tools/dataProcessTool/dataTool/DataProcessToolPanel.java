@@ -15,14 +15,19 @@ import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.tools.dataProcessTool.controller.DataController;
 import eu.scy.tools.dataProcessTool.controller.DataControllerDB;
+import eu.scy.tools.dataProcessTool.logger.FitexLog;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
+import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -178,6 +185,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
           System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
       }
+      logStartTool();
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
@@ -236,6 +244,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return null;
         }else
             return imgIcon;
+    }
+
+    public Image getIconDialog(){
+        return getCopexImage("labbook.png").getImage();
     }
 
 
@@ -347,9 +359,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 int ok = JOptionPane.showConfirmDialog(this, this.getBundleString("MESSAGE_DATASET_CLOSE"), this.getBundleString("TITLE_DIALOG_EXIT"),JOptionPane.OK_CANCEL_OPTION );
                 if(ok == JOptionPane.OK_OPTION){
                     fitexTabbedPane.removeDataset(ds);
+                    logDeleteDataset(ds);
                 }
             }else{
                 fitexTabbedPane.removeDataset(ds);
+                logDeleteDataset(ds);
             }
         }
     }
@@ -361,6 +375,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
            return false;
         }
+        logDeleteDataset(dataset);
         fitexTabbedPane.removeDataset(dataset);
         return true;
     }
@@ -371,6 +386,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
            return false;
         }
+        logDeleteDataset(dataset);
         fitexTabbedPane.removeDataset(dataset);
         return true;
     }
@@ -415,6 +431,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
 
     public Element getPDS(){
+        logSaveDataset(activFitex.getDataset());
          return activFitex.getPDS();
      }
 
@@ -435,6 +452,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         Dataset ds = (Dataset)v.get(0) ;
         this.setDataset(ds);
+        logNewElo();
     }
     // nouvel elo non scy, multi onglets
     @Override
@@ -463,6 +481,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }
+        logOpenDataset(activFitex.getDataset());
      }
 
     //load/openELO
@@ -506,6 +525,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return null;
         }
         eu.scy.elo.contenttype.dataset.DataSet elo = (eu.scy.elo.contenttype.dataset.DataSet)v.get(0);
+        logImportCsvFile(file.getPath(), activFitex.getDataset());
         return elo;
     }
 
@@ -520,7 +540,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     // merge SCY ou autre
     public void mergeELO(Element elo){
+        Dataset ds = (Dataset)(activFitex.getDataset().clone());
         this.activFitex.mergeELO(elo);
+        logMergeDataset(ds,"", activFitex.getDataset());
     }
 
     @Override
@@ -528,9 +550,11 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         lastUsedFileMerge = file;
         InputStreamReader fileReader = null;
 		try{
+            Dataset ds = (Dataset)(activFitex.getDataset().clone());
             fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             mergeELO(doc.getRootElement());
+            logMergeDataset(ds,file.getPath(), activFitex.getDataset());
         }catch (Exception e){
             e.printStackTrace();
             displayError(new CopexReturn("Erreur durant le chargement "+e, false), "Erreur");
@@ -552,6 +576,176 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         
     }
 
+    /* sortie de l'outil */
+    public void endTool(){
+        logEndTool();
+    }
+    /* log: start tool */
+    public void logStartTool(){
+        action.logAction(DataConstants.LOG_TYPE_START_TOOL, new LinkedList());
+    }
+    /* log: end tool */
+    public void logEndTool(){
+        action.logAction(DataConstants.LOG_TYPE_END_TOOL, new LinkedList());
+    }
+
+    /* log: open dataset */
+    public void logOpenDataset(Dataset ds){
+        List<FitexProperty> attribute = FitexLog.logOpenDataset(ds);
+        action.logAction(DataConstants.LOG_TYPE_OPEN_DATASET, attribute);
+    }
+
+    /* log: edit_dataset*/
+    public void logEditData(Dataset ds, Data oldData, Data newData){
+        List<FitexProperty> attribute = FitexLog.logEditData(ds, oldData, newData);
+        action.logAction(DataConstants.LOG_TYPE_EDIT_DATA, attribute);
+    }
+    /* log: merge dataset*/
+    public void logMergeDataset(Dataset ds,String fileName , Dataset finalDataset){
+       List<FitexProperty> attribute = FitexLog.logMergeDataset(ds,  fileName, finalDataset);
+       action.logAction(DataConstants.LOG_TYPE_MERGE_DATASET, attribute);
+    }
+    /* log: import csv file */
+    public void logImportCsvFile(String fileName, Dataset ds){
+        List<FitexProperty> attribute = FitexLog.logImportCsvFile(fileName, ds);
+        action.logAction(DataConstants.LOG_TYPE_IMPORT_CSV_FILE, attribute);
+    }
+
+    /* log: delete dataset*/
+    public void logDeleteDataset(Dataset ds){
+       List<FitexProperty> attribute = FitexLog.logDeleteDataset(ds);
+       action.logAction(DataConstants.LOG_TYPE_DELETE_DATASET, attribute);
+    }
+
+    /* log: insert columns */
+    public void logInsertColumns(Dataset ds, int nbCol, int idBefore){
+       List<FitexProperty> attribute = FitexLog.logInsertColumns(ds, nbCol, idBefore);
+       action.logAction(DataConstants.LOG_TYPE_INSERT_COLUMNS, attribute);
+    }
+
+    /* log: insert rows */
+    public void logInsertRows(Dataset ds, int nbRows, int idBefore){
+       List<FitexProperty> attribute = FitexLog.logInsertRows(ds, nbRows, idBefore);
+       action.logAction(DataConstants.LOG_TYPE_INSERT_ROWS, attribute);
+    }
+
+
+    /* log: delete rows*/
+    public void logDeleteRows(Dataset ds, ArrayList<Integer> listIdRows){
+        List<FitexProperty> attribute = FitexLog.logDeleteData(ds, listIdRows);
+        action.logAction(DataConstants.LOG_TYPE_DELETE_ROWS, attribute);
+    }
+
+    /* log: delete columns*/
+    public void logDeleteColumns(Dataset ds, ArrayList<Integer> listIdColumns){
+        List<FitexProperty> attribute = FitexLog.logDeleteData(ds, listIdColumns);
+        action.logAction(DataConstants.LOG_TYPE_DELETE_COLS, attribute);
+    }
+
+    /* log: delete operations*/
+    public void logDeleteOperations(Dataset ds, ArrayList<DataOperation> listOperations){
+        List<FitexProperty> attribute = FitexLog.logDeleteOperations(ds, listOperations);
+        action.logAction(DataConstants.LOG_TYPE_DELETE_OPERATIONS, attribute);
+    }
+
+    /* log: add operation */
+    public void logAddOperation(Dataset ds, DataOperation operation){
+        List<FitexProperty> attribute = FitexLog.logAddOperation(ds, operation);
+        action.logAction(DataConstants.LOG_TYPE_ADD_OPERATION, attribute);
+    }
+    /* log: edit data header*/
+    public void logEditHeader(Dataset ds, DataHeader oldHeader, DataHeader newHeader){
+        List<FitexProperty> attribute = FitexLog.logEditHeader(ds, oldHeader, newHeader);
+        action.logAction(DataConstants.LOG_TYPE_EDIT_HEADER, attribute);
+    }
+
+    /* log: ignore data */
+    public void logIgnoreData(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
+        List<FitexProperty> attribute = FitexLog.logIgnoreData(ds, isIgnored, listData);
+        action.logAction(DataConstants.LOG_TYPE_IGNORE_DATA, attribute);
+    }
+
+    /* log: create Visualization */
+    public void logCreateVisualization(Dataset ds, Visualization vis){
+        List<FitexProperty> attribute = FitexLog.logCreateVisualization(ds, vis);
+        action.logAction(DataConstants.LOG_TYPE_CREATE_VISUALIZATION, attribute);
+    }
+
+    /* log: delete visualization */
+    public void logDeleteVisualization(Dataset ds, Visualization vis){
+        List<FitexProperty> attribute = FitexLog.logDeleteVisualization(ds, vis);
+        action.logAction(DataConstants.LOG_TYPE_DELETE_VISUALIZATION, attribute);
+    }
+
+    /* log: graph mode */
+    public void logGraphMode(Dataset ds, Visualization vis, char graphMode){
+        List<FitexProperty> attribute = FitexLog.logGraphMode(ds, vis, graphMode);
+        action.logAction(DataConstants.LOG_TYPE_GRAPH_MODE, attribute);
+    }
+
+    /* log: update graph param */
+    public void logUpdateGraphParam(Dataset ds, String oldName, Visualization newVis){
+        List<FitexProperty> attribute = FitexLog.logUpdateGraphParam(ds, oldName, newVis);
+        action.logAction(DataConstants.LOG_TYPE_UPDATE_VISUALIZATION, attribute);
+    }
+
+    /* sort dataset, list title / 0-1: croissant/decroissant  */
+    public void logSortDataset(Dataset ds, List<Object[]> elementToSort){
+        List<FitexProperty> attribute = FitexLog.logSortDataset(ds, elementToSort);
+        action.logAction(DataConstants.LOG_TYPE_SORT_DATASET, attribute);
+    }
+
+    /* log: copy dataset */
+    public void logCopy(Dataset ds, ArrayList<int[]> listSelCell){
+        List<FitexProperty> attribute = FitexLog.logCopy(ds, listSelCell);
+        action.logAction(DataConstants.LOG_TYPE_COPY, attribute);
+    }
+
+    /* log: paste*/
+    public void logPaste(Dataset ds, int[] selCell, Dataset subData){
+        List<FitexProperty> attribute = FitexLog.logPaste(ds, selCell, subData);
+        action.logAction(DataConstants.LOG_TYPE_PASTE, attribute);
+    }
 
     
+    /* log: undo*/
+    public void logUndo(Dataset ds, DataUndoRedo undoAction){
+        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds,  undoAction);
+        action.logAction(DataConstants.LOG_TYPE_UNDO, attribute);
+    }
+
+    /* log: undo*/
+    public void logRedo(Dataset ds, DataUndoRedo redoAction){
+        List<FitexProperty> attribute = FitexLog.logUndoRedo(ds,  redoAction);
+        action.logAction(DataConstants.LOG_TYPE_REDO, attribute);
+    }
+
+    /* log: function model */
+    public void logFunctionModel(Dataset ds, Graph graph, String description,  Color fColor, ArrayList<FunctionParam> listParam){
+        List<FitexProperty> attribute = FitexLog.logFunctionModel(ds, graph, description, fColor, listParam);
+        action.logAction(DataConstants.LOG_TYPE_GRAPH_FUNCTION, attribute);
+    }
+
+    /* log: rename dataset */
+    public void logRenameDataset(String oldName, String newName){
+        List<FitexProperty> attribute = FitexLog.logRenameDataset(oldName, newName);
+        action.logAction(DataConstants.LOG_TYPE_RENAME_DATASET, attribute);
+    }
+
+    /* log: save dataset */
+    public void logSaveDataset(Dataset ds){
+        List<FitexProperty> attribute = FitexLog.logSaveDataset(ds);
+        action.logAction(DataConstants.LOG_TYPE_SAVE_DATASET, attribute);
+    }
+
+    /* log: new elo */
+    public void logNewElo(){
+        action.logAction(DataConstants.LOG_TYPE_NEW, new LinkedList());
+    }
+
+    
+    /* log an action in db*/
+    public void logAction(String type, List<FitexProperty> attribute){
+        
+    }
 }

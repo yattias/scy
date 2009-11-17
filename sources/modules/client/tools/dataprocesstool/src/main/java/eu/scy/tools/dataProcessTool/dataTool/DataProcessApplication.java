@@ -5,10 +5,12 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -59,6 +61,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
         setTitle(fitexPanel.getBundleString("TITLE_FITEX"));
     }
     public void stop() {
+        fitexPanel.endTool();
         this.dispose();
     }
 
@@ -101,6 +104,12 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             }
         });
 
+    }
+
+    @Override
+    public void logAction(String type, List<FitexProperty> attribute) {
+        // log in  db
+        fitexPanel.logAction(type, attribute);
     }
 
     

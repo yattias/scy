@@ -103,4 +103,7 @@ public interface ControllerInterface {
     public CopexReturn createDefaultDataset(String name, ArrayList v);
     /* fermeture d'un dataset */
     public CopexReturn closeDataset(Dataset ds);
+
+    /* maj dataset */
+    public CopexReturn updateDataset(Dataset ds, ArrayList v);
 }

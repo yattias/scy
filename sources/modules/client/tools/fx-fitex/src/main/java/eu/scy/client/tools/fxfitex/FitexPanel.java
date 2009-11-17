@@ -5,38 +5,75 @@
 
 package eu.scy.client.tools.fxfitex;
 
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.logger.Action;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
 import eu.scy.communications.message.ISyncMessage;
-import javax.swing.JPanel;
+import eu.scy.communications.datasync.event.IDataSyncListener;
+import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel ;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
+import eu.scy.tools.dataProcessTool.logger.FitexLog;
+import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.elo.JDomStringConversion;
+import java.util.List;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import org.jdom.Element;
-import eu.scy.elo.contenttype.dataset.DataSet;
-import roolo.elo.JDomStringConversion;
 import java.io.File;
-import eu.scy.communications.datasync.event.IDataSyncListener;
+import java.util.Iterator;
 
 /**
  *
  * @author Marjolaine
  */
-public class FitexPanel extends JPanel implements IDataSyncListener{
-//public class FitexPanel extends JPanel{
+public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSyncListener{
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
+
+    private ToolBrokerAPI tbi;
+    // how can i get userName & password? + mission name
+    private String username = "default_username";
+    private String password = "default_password";
+    private String mission_name = "mission 1";
+    private IActionLogger actionLogger;
     
     /* Constructor data ToolImpl panel - blank */
     public FitexPanel() {
         super();
         this.setLayout(new BorderLayout());
+        initTBI();
+        initActionLogger();
         initDataProcessTool();
         load();
     }
 
-    
+    /* tbi initialization*/
+    private void initTBI(){
+        //tbi=  new ToolBrokerImpl();
+    }
+    /* initialization action logger */
+    private void initActionLogger(){
+        // TODO: logger from tbi
+        actionLogger = new IActionLogger() {
+            @Override
+            public void log(String username, String source, IAction action) {
+                // nothing
+            }
+
+            @Override
+            public void log(IAction arg0) {
+            }
+        };
+    }
 
     private void initDataProcessTool(){
         dataProcessPanel = new DataProcessToolPanel(true);
+        dataProcessPanel.addActionCopexButton(this);
         add(dataProcessPanel, BorderLayout.CENTER);
 //        setSize(DataProcessToolPanel.PANEL_WIDTH, DataProcessToolPanel.PANEL_HEIGHT);
 //        setPreferredSize(getSize());
@@ -75,5 +112,30 @@ public class FitexPanel extends JPanel implements IDataSyncListener{
         ISyncMessage syncMessage = e.getSyncMessage();
     }
 
+    @Override
+    public void resizeDataToolPanel(int width, int height) {
+
+    }
+
+    @Override
+    public void logAction(String type, List<FitexProperty> attribute) {
+        // action
+        Action action = new Action(type, username);
+		action.addContext(ContextConstants.tool, FitexLog.toolName);
+		action.addContext(ContextConstants.mission, mission_name);
+        for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
+            FitexProperty property = p.next();
+            if(property.getSubElement() == null)
+                action.addAttribute(property.getName(), property.getValue());
+            else
+                action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
+        }
+        // log action
+        actionLogger.log(action);
+    }
+
+    public void stopFitex(){
+        this.dataProcessPanel.endTool();
+    }
     
 }

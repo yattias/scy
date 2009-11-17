@@ -17,17 +17,19 @@ import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.fitex.GUI.DrawPanel;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import org.jdom.Element;
 
 /**
  * donnees + operations
  * @author Marjolaine Bodin
  */
 public class Dataset implements Cloneable{
-    //PROPERTY
+    private final static String TAG_DATASET = "dataset";
     /* identifiant*/
     protected long dbKey;
     /* name */
@@ -837,7 +839,7 @@ public class Dataset implements Cloneable{
                 maxlenght = Math.max(maxlenght, l);
             }
         }else{
-            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));;
+            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));
             int nb = list.size();
             for (int i=0; i<nb; i++){
                 int l=0;
@@ -871,7 +873,7 @@ public class Dataset implements Cloneable{
                 maxlenght2 = Math.max(maxlenght2, l2);
             }
         }else{
-            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));;
+            ArrayList<Double> list = this.getListOperationResult(getListOperationOnRows().get(col-getNbCol()));
             int nb = list.size();
             for (int i=0; i<nb; i++){
                 int l1=0;
@@ -971,5 +973,37 @@ public class Dataset implements Cloneable{
                 return listVisualization.get(i);
         }
         return null;
+    }
+
+    /* xml logger */
+    public Element toXMLLog(){
+        Element e = new Element(TAG_DATASET);
+        for(int j=0; j<listDataHeader.length; j++){
+            if(listDataHeader[j] == null)
+                e.addContent(new Element(DataHeader.TAG_HEADER).setText(""));
+            else{
+                e.addContent(listDataHeader[j].toXMLLog());
+            }
+        }
+        for(int i=0; i<nbRows; i++){
+            for(int j=0; j<nbCol; j++){
+                if(data[i][j] == null){
+                    e.addContent(new Element(Data.TAG_DATA).setText(""));
+                }else{
+                    e.addContent(data[i][j].toXMLLog());
+                }
+            }
+        }
+        if(listOperation != null){
+            for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+                e.addContent(o.next().toXMLLog());
+            }
+        }
+        if(listVisualization != null){
+            for(Iterator<Visualization> v = listVisualization.iterator();v.hasNext();){
+                e.addContent(v.next().toXMLLog());
+            }
+        }
+        return e;
     }
 }

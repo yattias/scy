@@ -537,9 +537,9 @@ public class DataTableModel extends AbstractTableModel {
                 lastRow = true;
             }
         }
-        System.out.println("liste : "+(listSelectedCol.size()>0));
-        System.out.println(" nbop : "+nbOpColSel);
-        System.out.println(" lastCOl : "+lastCol);
+        //System.out.println("liste : "+(listSelectedCol.size()>0));
+        //System.out.println(" nbop : "+nbOpColSel);
+        //System.out.println(" lastCOl : "+lastCol);
         isOnCol = listSelectedCol.size() > 0 || nbOpColSel > 0 || lastCol;
         if (isOnCol){
             nbInsert = listSelectedCol.size()+nbOpColSel ;
@@ -558,9 +558,9 @@ public class DataTableModel extends AbstractTableModel {
                 idBefore = listSelectedRow.get(0);
             }
         }
-        System.out.println("=> "+isOnCol);
-        System.out.println(" "+nbInsert);
-        System.out.println(" "+idBefore);
+        //System.out.println("=> "+isOnCol);
+        //System.out.println(" "+nbInsert);
+        //System.out.println(" "+idBefore);
         v.add(isOnCol);
         v.add(nbInsert);
         v.add(idBefore);

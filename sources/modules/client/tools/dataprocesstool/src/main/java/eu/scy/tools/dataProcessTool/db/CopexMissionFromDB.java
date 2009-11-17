@@ -21,20 +21,20 @@ public class CopexMissionFromDB {
                 "FROM `COPEX_MISSION`  " +
                 "WHERE ID_MISSION = "+dbKeyMission +"   ;";
 
-        System.out.println("query"+query);
+        //System.out.println("query"+query);
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("CODE");
         listFields.add("MISSION_NAME");
         listFields.add("SUM_UP");
 
-        System.out.println("envoi requete ");
+        //.out.println("envoi requete ");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
         int nbR = v2.size();
         
-        System.out.println("nb : "+nbR);
+        //System.out.println("nb : "+nbR);
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String code = rs.getColumnData("CODE");

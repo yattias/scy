@@ -20,6 +20,7 @@ import eu.scy.tools.dataProcessTool.common.TypeVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.tools.dataProcessTool.print.PrintDialog;
+import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.DeleteUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.EditDataUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.EditHeaderUndoRedo;
@@ -27,6 +28,7 @@ import eu.scy.tools.dataProcessTool.undoRedo.IgnoreDataUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.InsertUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.OperationUndoRedo;
 import eu.scy.tools.dataProcessTool.undoRedo.PasteUndoRedo;
+import eu.scy.tools.dataProcessTool.undoRedo.SortUndoRedo;
 import eu.scy.tools.dataProcessTool.utilities.ActionMenu;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
@@ -44,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.BoxLayout;
@@ -541,13 +544,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             datasetTable.delete();
             return;
         }else if (item.equals(getMenuItemCopy())){
-            datasetTable.copy();
+            copy();
             return;
         }else if (item.equals(getMenuItemPaste())){
             datasetTable.paste();
             return;
         }else if (item.equals(getMenuItemCut())){
-            datasetTable.cut();
+            cut();
             return;
         }else if (item.equals(getMenuItemSort())){
             openDialogSort();
@@ -591,6 +594,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
     }
 
+
+    private void copy(){
+        ArrayList<int[]> listSelCell = datasetTable.copy();
+        dataProcessToolPanel.logCopy(dataset, listSelCell);
+    }
+
+    private void cut(){
+        datasetTable.cut();
+    }
 
     public void openDialogGraphParam(Visualization vis){
         if(vis instanceof Graph){
@@ -664,6 +676,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         vis = (Visualization)v.get(1);
         createInternalGraphFrame(vis);
+        dataProcessToolPanel.logCreateVisualization(dataset, vis);
         return true;
     }
 
@@ -706,6 +719,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     /* met la liste des donnees d'un dataset ignoreees ou non */
     public void setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
         ArrayList v = new ArrayList();
+        datasetTable.markSelectedCell();
         CopexReturn cr = this.controller.setDataIgnored(ds, isIgnored, listData,v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -714,9 +728,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
+        datasetTable.selectOldCell();
         updateGraphs(nds, true);
         datasetModif = true;
         datasetTable.addUndo(new IgnoreDataUndoRedo(datasetTable, this, controller, isIgnored, listData));
+        dataProcessToolPanel.logIgnoreData(dataset, isIgnored, listData);
     }
 
     private void  updateGraphs(Dataset ds, boolean update){
@@ -750,10 +766,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetTable.createOperation(nds,  operation);
         datasetModif = true;
         datasetTable.addUndo(new OperationUndoRedo(datasetTable, this, controller, operation));
+        dataProcessToolPanel.logAddOperation(ds, operation);
     }
 
     /* mise a jour d'une donnees dans la table */
     public void updateData(Dataset ds, Double value, int rowIndex, int columnIndex){
+        Data oldData = ds.getData(rowIndex, columnIndex);
         Double oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateData(ds, rowIndex, columnIndex, value, v);
@@ -764,12 +782,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
+        Data newData = nds.getData(rowIndex, columnIndex);
         updateGraphs(nds, true);
         datasetModif = true;
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
+        dataProcessToolPanel.logEditData(ds, oldData, newData);
     }
     /* mise a jour d'une donnees header */
     public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex){
+        DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getUnit();
         ArrayList v = new ArrayList();
@@ -779,10 +800,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return false;
         }
         Dataset nds = (Dataset)v.get(0);
+        DataHeader newHeader = nds.getDataHeader(colIndex);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
         datasetModif = true;
         datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex));
+        dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
         return true;
     }
 
@@ -830,7 +853,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         if(gFrame != null){
            listGraphFrame.remove(gFrame);
         }
-
+        dataProcessToolPanel.logDeleteVisualization(dataset, vis);
         return true;
     }
 
@@ -909,6 +932,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         updateMenuData();
         datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, listData, listHeader, listRowAndCol, listOperation));
+        //log
+        ArrayList<Integer> listIdRows = listRowAndCol[0];
+        ArrayList<Integer> listIdColumns = listRowAndCol[1];
+        if(listIdRows.size() > 0)
+            dataProcessToolPanel.logDeleteRows(dataset, listIdRows);
+        if(listIdColumns.size() > 0)
+            dataProcessToolPanel.logDeleteColumns(dataset, listIdColumns);
+        if(listOperation.size() > 0)
+            dataProcessToolPanel.logDeleteOperations(dataset, listOperation);
     }
 
     /* mise a jour d'un dataset */
@@ -952,6 +984,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset nds = (Dataset)v.get(0);
         dataset = nds;
         datasetModif = true;
+        dataProcessToolPanel.logFunctionModel(dataset, graph, description, fColor, listParam);
     }
 
     /* insertion de lignes ou colonnes */
@@ -972,6 +1005,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         updateMenuData();
         datasetTable.addUndo(new InsertUndoRedo(datasetTable, this, controller, isOnCol, nb, idBefore));
+        if(isOnCol)
+            dataProcessToolPanel.logInsertColumns(ds, nb, idBefore);
+        else
+            dataProcessToolPanel.logInsertRows(ds, nb, idBefore);
     }
 
 
@@ -1003,11 +1040,30 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public void executeSort(ElementToSort keySort1, ElementToSort keySort2, ElementToSort keySort3){
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         datasetTable.executeSort(keySort1, keySort2, keySort3);
+        List<Object[]> elementToSort = new LinkedList();
+        if(keySort1 != null){
+            elementToSort.add(getSortElement(keySort1));
+        }
+        if(keySort2 != null){
+            elementToSort.add(getSortElement(keySort2));
+        }
+        if(keySort3 != null){
+            elementToSort.add(getSortElement(keySort3));
+        }
+        dataProcessToolPanel.logSortDataset(dataset, elementToSort);
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    private Object[] getSortElement(ElementToSort keySort){
+        Object[] tab = new Object[2];
+        tab[0] = keySort.getColumnName();
+        tab[1] = keySort.getOrder();
+        return tab;
     }
 
     /* mise a jour du dataset apres un tri */
     public void updateDatasetRow(Dataset ds, Vector exchange){
+        Dataset oldDs = (Dataset)dataset.clone();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateDatasetRow(ds, exchange, v);
         if (cr.isError()){
@@ -1015,7 +1071,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return;
         }
         Dataset nds = (Dataset)v.get(0);
+        Dataset newDs = (Dataset)nds.clone();
         datasetTable.updateDataset(nds, true);
+        this.datasetTable.addUndo(new SortUndoRedo(datasetTable, this, controller, oldDs, newDs));
     }
 
 
@@ -1055,6 +1113,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* mis a jour des parametres */
     public boolean updateGraphParam(Graph graph, String graphName, ParamGraph pg){
+        String oldName = new String(graph.getName());
         if(!graph.getName().equals(graphName)){
             updateVisualizationName(graph, graphName);
         }
@@ -1085,6 +1144,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             else
                 gFrame.modifyVisualization(newvis);
         }
+        dataProcessToolPanel.logUpdateGraphParam(dataset, oldName, newvis);
         return true;
     }
 
@@ -1137,6 +1197,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         updateGraphs(nds, true);
 
         datasetTable.addUndo(new PasteUndoRedo(datasetTable, this, controller, subData, selCell, listData, listDataHeader, listRowAndCol));
+        dataProcessToolPanel.logPaste(dataset, selCell, subData);
         return true;
     }
 
@@ -1170,6 +1231,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public void setGraphMode(Visualization vis, char graphMode){
         if (vis != null && vis instanceof Graph){
             setAutoScale(dataset.getDbKey(), vis.getDbKey(), graphMode == DataConstants.MODE_AUTOSCALE);
+            dataProcessToolPanel.logGraphMode(dataset, vis, graphMode);
         }
     }
 
@@ -1223,12 +1285,14 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     public boolean renameDataset(String name){
+        String oldName = new String(dataset.getName());
         CopexReturn cr = this.controller.renameDataset(dataset, name);
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }
         this.dataset.setName(name);
+        dataProcessToolPanel.logRenameDataset(oldName,  name);
         return true;
     }
 
@@ -1251,12 +1315,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public void addIcon(){
         nbIcon++;
-        System.out.println("addIcon "+nbIcon);
+        //System.out.println("addIcon "+nbIcon);
         setPanelDatasetHeight();
     }
     public void removeIcon(){
         nbIcon--;
-        System.out.println("removeIcon "+nbIcon);
+        //System.out.println("removeIcon "+nbIcon);
         setPanelDatasetHeight();
     }
     public void setPanelDatasetHeight(){
@@ -1324,6 +1388,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 				fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 				xmlOutputter.output(pds, fileWriter);
                 datasetModif = false;
+                dataProcessToolPanel.logSaveDataset(dataset);
 			}
 			catch (IOException e)
 			{
@@ -1353,5 +1418,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
     public void setModification(){
         this.datasetModif = true;
+    }
+
+    /* log: undo*/
+    public void logUndo(DataUndoRedo undoAction){
+        dataProcessToolPanel.logUndo(dataset, undoAction);
+    }
+
+    /* log: undo*/
+    public void logRedo(DataUndoRedo redoAction){
+        dataProcessToolPanel.logRedo(dataset, redoAction);
     }
 }

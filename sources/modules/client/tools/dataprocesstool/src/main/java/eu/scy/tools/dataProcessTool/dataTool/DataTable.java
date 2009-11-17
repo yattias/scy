@@ -29,6 +29,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.event.MouseMotionListener;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.undo.CannotUndoException;
 
@@ -37,11 +40,11 @@ import javax.swing.undo.CannotUndoException;
  * @author Marjolaine Bodin
  */
 public class DataTable extends JTable implements MouseListener, MouseMotionListener{
-    // CONSTANTES
     /* largeur min d'une colonne */
     private static final int MIN_WIDTH_COL = 20;
     private static final int DELTA_RESIZE_COL = 5;
-    // PROPERTY 
+
+
     /* owner */
     protected FitexToolPanel owner;
     /* modele de donnees */
@@ -78,6 +81,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private int startIdColSel;
     private int startIdRowSel;
 
+    /* selection des cells */
+    private List<int[]> listSelectedCell;
     
     
     // CONSTRUCTOR
@@ -503,6 +508,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
     /* clic sur non ignorer data */
     public void restoreIgnoreData(){
+        markSelectedCell();
         owner.setDataIgnored(dataset, false,getSelectedData());
     }
 
@@ -521,6 +527,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 isOnCol = false;
             }
         }
+        markSelectedCell();
         owner.createOperation(dataset, type, isOnCol, listNo);
     }
     /* somme */
@@ -590,7 +597,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public void updateDataset(Dataset ds, boolean reload){
         this.dataset = ds ;
         this.tableModel.updateDataset(ds, reload);
-        resizeColumn(); 
+        resizeColumn();
         this.revalidate();
         this.repaint();
     }
@@ -600,6 +607,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         this.dataset = ds;
         this.tableModel.createOperation(ds, operation);
         resizeColumn();
+        selectOldCell();
         revalidate();
         repaint();
     }
@@ -622,9 +630,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
     /* copie => met en cache les donnees selectionnees  + update menu */
-    public void copy(){
-        copySubData = getSubData(getSelectedCells());
+    public ArrayList<int[]> copy(){
+        ArrayList<int[]> listSelCell = getSelectedCells();
+        copySubData = getSubData(listSelCell);
         owner.updateMenuData();
+        return listSelCell;
     }
 
     /* resize column */
@@ -678,15 +688,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public void executeSort(ElementToSort keySort1, ElementToSort keySort2, ElementToSort keySort3){
         try{
             //recupere le tableau a trier (concatenation des cles)
-            System.out.println("recupere le tableau a trier ");
             Vector tabToSort = getElementsToSort(dataset, keySort1, keySort2, keySort3);
             if (tabToSort == null)
                 return;
-            System.out.println("quickSort)");
             //tri quickSort sur tout le tableau
             Vector exchange = getExchange(dataset);
             executeQuickSort(0,tabToSort.size() - 1 ,exchange, tabToSort);
-            System.out.println("maj donnees ");
             owner.updateDatasetRow(dataset, exchange);
         }catch(Throwable t){
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_SORT")+" "+t, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
@@ -801,7 +808,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 //                owner.displayError(new CopexReturn ("Erreur fatale : probleme avec la methode getValueMaxSizeIn() !",false),"Construction de la cle de tri");
 //                return null;
 //            }
-            System.out.println("***ELEMENT : "+element+" ****");
+            //System.out.println("***ELEMENT : "+element+" ****");
             int maxSize = ds.getValueMaxSizeIn(col);
             int maxSize1 = ds.getValueMaxDoubleSizeIn(col)[0];
             int maxSize2 = ds.getValueMaxDoubleSizeIn(col)[1];
@@ -865,11 +872,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 String el  = chaine.concat(element1);
                 elementsToSort.removeElementAt(i);
                 elementsToSort.insertElementAt(el,i);
-                System.out.println("=>el : "+el);
+                //System.out.println("=>el : "+el);
             }
             else{
                 elementsToSort.addElement(element1);
-            System.out.println("=>element1 : "+element1);
+            //System.out.println("=>element1 : "+element1);
             }
         }
         
@@ -966,13 +973,13 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
        if(nb > 0){
            if (dataset.getDataHeader(colSel.get(0)) != null) {
                 String column1 = dataset.getDataHeader(colSel.get(0)).getValue() ;
-                ElementToSort keySort1 = new ElementToSort(column1,order);
+                ElementToSort keySort1 = new ElementToSort(column1, order);
                 ElementToSort keySort2 = null;
                 ElementToSort keySort3 = null;
                 if( nb >1 ){
                     if (dataset.getDataHeader(colSel.get(1)) != null) {
                         String column2 = dataset.getDataHeader(colSel.get(1)).getValue() ;
-                        keySort2 = new ElementToSort(column2,order);
+                        keySort2 = new ElementToSort(column2, order);
                     }
                     if(nb > 2){
                         if (dataset.getDataHeader(colSel.get(2)) != null) {
@@ -1167,7 +1174,34 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     public boolean isAllSelectionIgnore(){
         return this.tableModel.isAllSelectionIgnore(getSelectedCells());
     }
-   
+
+
+    /* marque les differentes cell sel */
+    public void markSelectedCell(){
+       listSelectedCell = new LinkedList();
+       int nbRows = getNbRows();
+       int nbCols = getNbCols();
+       for(int i=0; i<nbRows; i++){
+           for(int j=0; j<nbCols; j++){
+               if(isCellSelected(i, j)){
+                   int[] tab = new int[2];
+                   tab[0] = i;
+                   tab[1] = j;
+                   listSelectedCell.add(tab);
+               }
+           }
+       }
+    }
+
+    public void selectOldCell(){
+        if(listSelectedCell == null)
+            return;
+        for(Iterator<int[]> t = listSelectedCell.iterator();t.hasNext();){
+            int[] tab = t.next();
+            changeSelection(tab[0], tab[1], true, false);
+        }
+        owner.updateMenuData();
+    }
 
   
   

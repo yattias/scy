@@ -10,12 +10,13 @@ import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.tools.dataProcessTool.dataTool.DataTable;
 import eu.scy.tools.dataProcessTool.dataTool.FitexToolPanel;
 import javax.swing.undo.AbstractUndoableEdit;
+import org.jdom.Element;
 
 /**
  * action de undo/redo sur une table
  * @author Marjolaine
  */
-public class DataUndoRedo extends AbstractUndoableEdit{
+public abstract class DataUndoRedo extends AbstractUndoableEdit{
     /* table sur laquelle s'effectur le undo/redo */
     protected DataTable table;
     /* data tool panel */
@@ -31,5 +32,9 @@ public class DataUndoRedo extends AbstractUndoableEdit{
 
     protected Dataset getDataset(){
         return this.table.getDataset() ;
+    }
+
+    public Element toXMLLog(){
+        return null;
     }
 }
