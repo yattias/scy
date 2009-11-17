@@ -1,5 +1,7 @@
 package eu.scy.tools.copex.utilities;
 import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.logger.CopexProperty;
+import java.util.List;
 
 /*
  * To change this template, choose Tools | Templates
@@ -12,4 +14,6 @@ import eu.scy.tools.copex.common.LearnerProcedure;
  */
 public interface ActionCopex {
     public void loadHelpProc(LearnerProcedure helpProc);
+
+    public void logAction(String type, List<CopexProperty> attribute);
 }

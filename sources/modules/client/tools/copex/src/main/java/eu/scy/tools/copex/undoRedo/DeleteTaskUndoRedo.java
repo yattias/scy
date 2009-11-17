@@ -54,8 +54,8 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
             }else {
                 taskParent  = ts.getSelectedTask();
             }
-            System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
-            System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
+            //System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
+            //System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
            
             CopexReturn cr = this.controller.addTask(task.getSelectedTask(), tree.getProc(), taskBrother ,taskParent, v, MyConstants.UNDO, false);
             if (cr.isError()){
@@ -63,9 +63,9 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
                 return;
             }
             LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-            edP.updateProc(newProc);
             tree.addTask(task.getSelectedTask(),tree.getTaskSelected(ts.getSelectedTask()), task.attachLikeBrother());
             task.setSelectedNode(tree.getNode(task.getSelectedTask()));
+            edP.updateProc(newProc);
          
         }
         edP.updateMenu();
@@ -82,8 +82,8 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
         }
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
-        edP.updateProc(newProc);
         tree.suppr(listTask);
+        edP.updateProc(newProc);
         edP.updateMenu();
     }
     

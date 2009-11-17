@@ -64,7 +64,7 @@ public class PrintPDF {
 
             File temp;
             temp = File.createTempFile(fileName, ".pdf", new File(System.getProperty("java.io.tmpdir")));
-            System.out.println("fichier temporaire : "+temp.getPath());
+            //System.out.println("fichier temporaire : "+temp.getPath());
             String printDate = CopexUtilities.dateToSQL(CopexUtilities.getCurrentDate());
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(temp));
             writer.setPageEvent(new MyPDFEvent(writer, printDate ));
@@ -565,7 +565,7 @@ public class PrintPDF {
         Process p = null;
         String command = "";
         String fileNamePDF = file.getPath() ;
-        System.out.println("displayPDF : "+fileNamePDF);
+        //System.out.println("displayPDF : "+fileNamePDF);
         //Ouverture par Acrobat Reader
        /* try {
             command = "AcroRd32 "+fileNamePDF;

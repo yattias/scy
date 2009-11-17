@@ -212,7 +212,7 @@ public class TreeTransferHandler extends TransferHandler {
           //System.out.println("brother : "+brother);
           v.add(brother);
           v.add(markNode);
-          System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
+          //System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
           return insertNode;     
     }
     

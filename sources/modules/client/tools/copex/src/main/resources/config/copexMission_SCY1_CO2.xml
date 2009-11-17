@@ -11,7 +11,7 @@
 <mission>
     <options>
         <add_proc>true</add_proc>
-        <trace>false</trace>
+        <trace>true</trace>
     </options>
     <initial_proc>
         <code>TEST</code>

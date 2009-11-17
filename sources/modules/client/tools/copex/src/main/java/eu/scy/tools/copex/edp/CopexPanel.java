@@ -5,13 +5,23 @@
 
 package eu.scy.tools.copex.edp;
 
+import eu.scy.tools.copex.common.CopexAction;
 import eu.scy.tools.copex.common.CopexMission;
 import eu.scy.tools.copex.common.CopexTask;
+import eu.scy.tools.copex.common.Evaluation;
+import eu.scy.tools.copex.common.GeneralPrinciple;
+import eu.scy.tools.copex.common.Hypothesis;
 import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.common.MaterialUsed;
 import eu.scy.tools.copex.common.PhysicalQuantity;
+import eu.scy.tools.copex.common.Question;
+import eu.scy.tools.copex.common.Step;
 import eu.scy.tools.copex.controller.ControllerInterface;
 import eu.scy.tools.copex.controller.CopexController;
 import eu.scy.tools.copex.controller.CopexControllerDB;
+import eu.scy.tools.copex.logger.CopexLog;
+import eu.scy.tools.copex.logger.CopexProperty;
+import eu.scy.tools.copex.logger.TaskTreePosition;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import eu.scy.tools.copex.utilities.CopexImage;
 import eu.scy.tools.copex.utilities.CopexReturn;
@@ -30,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -324,7 +336,7 @@ public class CopexPanel extends JPanel {
         listCopexPanel.add(copex);
         listProc.add(proc);
         if(scyMode){
-            System.out.println("addCopexpanel, scyMode");
+            //System.out.println("addCopexpanel, scyMode");
             this.add(copex, BorderLayout.CENTER);
         }else{
             copexTabbedPane.addTab(proc.getName(getLocale()), copex);
@@ -575,12 +587,296 @@ public class CopexPanel extends JPanel {
 
     // SCY : retourne l'elo courant
     public Element getXProc(){
+        logSaveProc(activCopex.getLearnerProc());
         return activCopex.getExperimentalProcedure();
     }
 
     
     private boolean hasModification(){
         return activCopex.hasModification();
+    }
+
+    /* log : start tool */
+    public void logStartTool(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_START_TOOL, new LinkedList());
+    }
+     /* log : end tool */
+    public void logEndTool(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_END_TOOL, new LinkedList());
+    }
+     /* log : open help */
+    public void logOpenHelp(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_OPEN_HELP, new LinkedList());
+    }
+     /* log : close help */
+    public void logCloseHelp(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_CLOSE_HELP, new LinkedList());
+    }
+    /* log : open help proc */
+    public void logOpenHelpProc(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_OPEN_HELP_PROC, new LinkedList());
+    }
+    /* log : close help proc */
+    public void logCloseHelpProc(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_CLOSE_HELP_PROC, new LinkedList());
+    }
+     /* log: open proc */
+    public void logOpenProc(LearnerProcedure proc, long dbKeyMission, String missionCode){
+        List<CopexProperty> attribute = CopexLog.logOpenProc(locale,proc, dbKeyMission, missionCode);
+        actionCopex.logAction(MyConstants.LOG_TYPE_OPEN_PROC, attribute);
+    }
+
+    /* log : save proc */
+    public void logSaveProc(LearnerProcedure proc){
+        List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
+        actionCopex.logAction(MyConstants.LOG_TYPE_SAVE_PROC, attribute);
+    }
+    /* log: delete proc */
+    public void logDeleteProc(LearnerProcedure proc){
+        List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
+        actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_PROC, attribute);
+    }
+
+    /* log: rename proc */
+    public void logRenameProc(LearnerProcedure proc, String oldName, String newName){
+        List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
+        actionCopex.logAction(MyConstants.LOG_TYPE_RENAME_PROC, attribute);
+    }
+
+    /* log : print proc */
+    public void logPrintProc(LearnerProcedure proc){
+        List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
+        actionCopex.logAction(MyConstants.LOG_TYPE_PRINT_PROC, attribute);
+    }
+
+    /* log: create proc */
+    public void logCreateProc(LearnerProcedure proc){
+        List<CopexProperty> attribute = CopexLog.logProc(locale,proc);
+        actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_PROC, attribute);
+    }
+    /* log: copy proc */
+    public void logCopyProc(LearnerProcedure proc, LearnerProcedure procToCopy){
+        List<CopexProperty> attribute = CopexLog.logCopyProc(locale,proc, procToCopy);
+        actionCopex.logAction(MyConstants.LOG_TYPE_COPY_PROC, attribute);
+    }
+
+    /* log: update task */
+    public void logUpdateQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_QUESTION, attribute);
+    }
+
+    /* log: update step */
+    public void logUpdateStep(LearnerProcedure proc, Step oldStep, Step newStep){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_STEP, attribute);
+    }
+
+    /* log: update action */
+    public void logUpdateAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_ACTION, attribute);
+    }
+
+    /* log: add step*/
+    public void logAddStep(LearnerProcedure proc, Step step,TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, step, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_ADD_STEP, attribute);
+    }
+
+    /* log: add action*/
+    public void logAddAction(LearnerProcedure proc, CopexAction action,TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, action, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_ADD_STEP, attribute);
+    }
+
+    /* log : paste */
+    public void logPaste(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_PASTE, attribute);
+    }
+
+    /* log : copy */
+    public void logCopy(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_COPY, attribute);
+    }
+
+    /* log : suppr */
+    public void logDelete(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_DELETE, attribute);
+    }
+
+    /* log : cut */
+    public void logCut(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_CUT, attribute);
+    }
+
+    /* log : drag&drop */
+    public void logDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+        List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
+        actionCopex.logAction(MyConstants.LOG_TYPE_DRAG_DROP, attribute);
+    }
+
+    /* log : hypothesis */
+    public void logHypothesis(LearnerProcedure proc, Hypothesis oldHypothesis, Hypothesis newHypothesis){
+        List<CopexProperty> attribute = CopexLog.logHypothesis(locale,proc, oldHypothesis, newHypothesis);
+        actionCopex.logAction(MyConstants.LOG_TYPE_HYPOTHESIS, attribute);
+    }
+    /* log : general principle */
+    public void logGeneralPrinciple(LearnerProcedure proc, GeneralPrinciple oldPrinciple, GeneralPrinciple newGeneralPrinciple){
+        List<CopexProperty> attribute = CopexLog.logGeneralPrinciple(locale,proc, oldPrinciple, newGeneralPrinciple);
+        actionCopex.logAction(MyConstants.LOG_TYPE_GENERAL_PRINCIPLE, attribute);
+    }
+    /* log : evaluatione */
+    public void logEvaluation(LearnerProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
+        List<CopexProperty> attribute = CopexLog.logEvaluation(locale,proc, oldEvaluation, newEvaluation);
+        actionCopex.logAction(MyConstants.LOG_TYPE_EVALUATION, attribute);
+    }
+
+    /* log: create material used */
+    public void logCreateMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
+        List<CopexProperty> attribute = CopexLog.logMaterialUsed(locale,proc, listMaterialUsed);
+        actionCopex.logAction(MyConstants.LOG_TYPE_CREATE_MATERIAL_USED, attribute);
+    }
+
+    /* log: delete material used */
+    public void logDeleteMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialUsed){
+        List<CopexProperty> attribute = CopexLog.logMaterialUsed(locale,proc, listMaterialUsed);
+        actionCopex.logAction(MyConstants.LOG_TYPE_DELETE_MATERIAL_USED, attribute);
+    }
+    /* log: update material used */
+    public void logUpdateMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> oldListMaterialUsed, ArrayList<MaterialUsed> newListMaterialUsed){
+        List<CopexProperty> attribute = CopexLog.logUpdateMaterialUsed(locale,proc, oldListMaterialUsed, newListMaterialUsed);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UPDATE_MATERIAL_USED, attribute);
+    }
+
+    /* log: redo rename proc */
+    public void logRedoRenameProc(LearnerProcedure proc, String oldName, String newName){
+        List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_RENAME_PROC, attribute);
+    }
+
+    /* log : redo cut */
+    public void logRedoCut(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_CUT, attribute);
+    }
+
+    /* log : redo paste */
+    public void logRedoPaste(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_PASTE, attribute);
+    }
+
+    /* log : redo drag&drop */
+    public void logRedoDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+        List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_DRAG_DROP, attribute);
+    }
+
+    /* log : redo delete task */
+    public void logRedoDeleteTask(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_DELETE_TASK, attribute);
+    }
+
+    /* log : redo edit step */
+    public void logRedoEditStep(LearnerProcedure proc, Step oldStep, Step newStep){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_STEP, attribute);
+    }
+    /* log : redo edit action */
+    public void logRedoEditAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_ACTION, attribute);
+    }
+    /* log : redo edit question */
+    public void logRedoEditQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_EDIT_QUESTION, attribute);
+    }
+
+    /* log : redo add step */
+    public void logRedoAddStep(LearnerProcedure proc, Step step, TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, step, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_ADD_STEP, attribute);
+    }
+    /* log : redo add action */
+    public void logRedoAddAction(LearnerProcedure proc, CopexAction action, TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logAddTask(locale,proc, action, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_REDO_ADD_ACTION, attribute);
+    }
+     /* log : undo paste */
+    public void logUndoPaste(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_PASTE, attribute);
+    }
+
+    /* log : undo drag&drop */
+    public void logUndoDragDrop(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask, TaskTreePosition insertPosition){
+        List<CopexProperty> attribute = CopexLog.logDragDrop(locale,proc, listTask, listPositionTask, insertPosition);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_DRAG_DROP, attribute);
+    }
+
+    /* log: undo rename proc */
+    public void logUndoRenameProc(LearnerProcedure proc, String oldName, String newName){
+        List<CopexProperty> attribute = CopexLog.logRenameProc(proc, oldName, newName);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_RENAME_PROC, attribute);
+    }
+
+    /* log : undo add task */
+    public void logUndoAddTask(LearnerProcedure proc, ArrayList<CopexTask> listTask, List<TaskTreePosition> listPositionTask){
+        List<CopexProperty> attribute = CopexLog.logListTask(locale,proc, listTask, listPositionTask);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_ADD_TASK, attribute);
+    }
+
+    /* log : undo edit step */
+    public void logUndoEditStep(LearnerProcedure proc, Step oldStep, Step newStep){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldStep, newStep);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_STEP, attribute);
+    }
+    /* log : undo edit action */
+    public void logUndoEditAction(LearnerProcedure proc, CopexAction oldAction, CopexAction newAction){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldAction, newAction);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_ACTION, attribute);
+    }
+    /* log : undo edit question */
+    public void logUndoEditQuestion(LearnerProcedure proc, Question oldQuestion, Question newQuestion){
+        List<CopexProperty> attribute = CopexLog.logUpdateTask(locale,proc, oldQuestion, newQuestion);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_EDIT_QUESTION, attribute);
+    }
+
+    /* log : undo cut */
+    public void logUndoCut(LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logTask(locale,proc, task, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_CUT, attribute);
+    }
+
+    /* log : undo delete task */
+    public void logUndoDeleteTask(LearnerProcedure proc, CopexTask task, TaskTreePosition position){
+        List<CopexProperty> attribute = CopexLog.logTask(locale,proc, task, position);
+        actionCopex.logAction(MyConstants.LOG_TYPE_UNDO_DELETE_TASK, attribute);
+    }
+
+    /* log : load new elo */
+    public void logLoadELO(LearnerProcedure proc){
+        List<CopexProperty> attribute = CopexLog.logProc(locale, proc);
+        actionCopex.logAction(MyConstants.LOG_TYPE_LOAD_ELO, attribute);
+    }
+
+    /* log : new elo */
+    public void logNewELO(){
+        actionCopex.logAction(MyConstants.LOG_TYPE_NEW_ELO, new LinkedList());
+    }
+
+    public void logActionInDB(String type, List<CopexProperty> attribute){
+        CopexReturn cr = this.controller.logUserActionInDB(type, attribute);
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
 }

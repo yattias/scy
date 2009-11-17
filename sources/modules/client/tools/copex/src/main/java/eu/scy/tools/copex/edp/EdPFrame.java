@@ -12,9 +12,11 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.common.LearnerProcedure;
+import eu.scy.tools.copex.logger.CopexProperty;
 import eu.scy.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.UIManager;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -133,6 +135,11 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     @Override
     public void windowDeactivated(WindowEvent e) {
 
+    }
+
+    @Override
+    public void logAction(String type, List<CopexProperty> attribute) {
+        // nothing
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

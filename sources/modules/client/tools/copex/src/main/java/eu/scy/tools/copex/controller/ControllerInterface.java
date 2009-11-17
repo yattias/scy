@@ -19,8 +19,10 @@ import eu.scy.tools.copex.common.Step;
 import eu.scy.tools.copex.common.TypeMaterial;
 import eu.scy.tools.copex.dnd.SubTree;
 import eu.scy.tools.copex.edp.TaskSelected;
+import eu.scy.tools.copex.logger.CopexProperty;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 /**
@@ -112,4 +114,6 @@ public interface ControllerInterface {
     public CopexReturn setEvaluation(LearnerProcedure proc, Evaluation evaluation, ArrayList v);
     /* mise a jour du material used */
     public CopexReturn setMaterialUsed(LearnerProcedure proc, ArrayList<MaterialUsed> listMaterialToCreate, ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate, ArrayList v);
+    /* log user action in db*/
+    public CopexReturn logUserActionInDB(String type, List<CopexProperty> attribute);
 }

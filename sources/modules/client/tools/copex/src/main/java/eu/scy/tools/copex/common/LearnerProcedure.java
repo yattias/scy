@@ -5,6 +5,7 @@
 
 package eu.scy.tools.copex.common;
 
+import eu.scy.tools.copex.logger.TaskTreePosition;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -226,5 +227,78 @@ public class LearnerProcedure extends ExperimentalProcedure{
                 mUsed.setMaterialUsed(true);
             }
         }
+    }
+
+
+    public TaskTreePosition getTaskTreePosition(CopexTask task){
+        CopexTask parentTask = getParentTask(task);
+        List<CopexTask> listChild = getListChild(parentTask);
+        int idChild = getIdChild(listChild, task);
+        return new TaskTreePosition(parentTask.getDbKey(), idChild);
+    }
+
+    private CopexTask getParentTask(CopexTask task){
+        if (task == null)
+            return null;
+        if (task.isQuestionRoot())
+            return null;
+        long id = task.getDbKey();
+        int nbT = getListTask().size();
+        for (int i=0; i<nbT; i++){
+            if (getListTask().get(i).getDbKeyChild() == id){
+                return getListTask().get(i);
+            }
+        }
+        // on n'a pas trouve on cherche dans les grands freres
+        return getParentTask(getOldBrotherTask(task));
+    }
+
+    /* retourne la tache grand frere */
+    private CopexTask getOldBrotherTask(CopexTask task){
+        long id = task.getDbKey();
+        int nbT = getListTask().size();
+        for (int i=0; i<nbT; i++){
+            if (getListTask().get(i).getDbKeyBrother() == id){
+                return getListTask().get(i);
+            }
+        }
+        return null;
+    }
+
+    /* retourne la liste des enfants d'une tache, 1 seul niveau */
+    private List<CopexTask> getListChild(CopexTask task){
+        long dbKeyChild = task.getDbKeyChild();
+        long dbKeyBrother = -2;
+        List<CopexTask> listChild = new LinkedList();
+        for(Iterator<CopexTask> t = getListTask().iterator();t.hasNext();){
+            CopexTask aTask = t.next();
+            // first child
+            if(aTask.getDbKey() == dbKeyChild){
+                listChild.add(aTask);
+                dbKeyBrother = aTask.getDbKeyBrother();
+            }
+            // brohers
+            if(aTask.getDbKey() == dbKeyBrother){
+                listChild.add(aTask);
+                dbKeyBrother = aTask.getDbKeyBrother();
+            }
+        }
+        return listChild;
+    }
+
+    private int getIdChild(List<CopexTask> list, CopexTask task){
+        int nb = list.size();
+        for(int i=0; i<nb; i++){
+            if(list.get(i).getDbKey() == task.getDbKey())
+                return i;
+        }
+        return -1;
+    }
+
+    public MaterialUsed getMaterialUsedWithId(MaterialUsed m){
+        int id = getIdMaterialUsed(m);
+        if(id != -1)
+            return getListMaterialUsed().get(id);
+        return null;
     }
 }
