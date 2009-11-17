@@ -41,10 +41,14 @@ public interface IAction
     public void setUser(String user);
     
     public String getUser();
-    
+    @Deprecated
     public void setTime(String time);
-    
+    @Deprecated
     public String getTime();
+    
+    public void setTimeInMillis(long time);
+    
+    public long getTimeInMillis();
     
     public void setType(String type);
     
