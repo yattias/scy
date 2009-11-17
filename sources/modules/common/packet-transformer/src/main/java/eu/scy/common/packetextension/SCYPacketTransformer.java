@@ -126,7 +126,6 @@ public abstract class SCYPacketTransformer {
 				}
 			}
 		} else {
-			System.out.println(nodeName);
 			item = doc.createElement(nodeName);
 		}
 		parentElement.appendChild(item);
