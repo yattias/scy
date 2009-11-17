@@ -1,4 +1,4 @@
-package eu.scy.agents.serviceprovider.userexperience;
+package eu.scy.agents.sensors.userexperience;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
