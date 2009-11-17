@@ -25,6 +25,8 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
+
 /**
  * @author sikkenj
  */
@@ -44,6 +46,7 @@ def scyModelId = "scy-dynamics";
 def scyFlyingSaucerId = "flying-saucer";
 def scyMapperId = "conceptmap";
 def scyStudentPlanningTool = "studentplanningtool";
+def scyTextId = "text";
 
 var scyDesktopCreator = ScyDesktopCreator {
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
@@ -72,6 +75,7 @@ scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator{},scyFlyingSaucerId);
 
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, scyTextId);
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();

@@ -6,8 +6,8 @@
 
    <!-- <import resource="memoryRooloConfig.xml"/> -->
    <!--<import resource="localRooloTemporaryConfig.xml"/>-->
-   <!--<import resource="localWrappedRooloConfig.xml"/>-->
-   <import resource="localWrappedRooloTemporaryConfig.xml"/>
+   <import resource="localWrappedRooloConfig.xml"/>
+   <!--<import resource="localWrappedRooloTemporaryConfig.xml"/>-->
    <!-- <import resource="remoteRooloConfig.xml"/> -->
 
    <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
@@ -72,11 +72,18 @@
                <property name="contentCreatorId" value="flying-saucer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
             </bean>
-			 <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/mapping"/>
                <property name="display" value="Concept Map"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="conceptmap"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/text"/>
+               <property name="display" value="Text"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="text"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
             </bean>
          </list>
@@ -86,7 +93,7 @@
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="start"/>
-               <property name="uri" value="roolo://memory/0/0/Mission_description.url"/>
+               <property name="uri" value="roolo://memory/11/0/Start_page.url"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="0"/>
                <property name="nextMissionAnchorNames">
@@ -98,7 +105,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="conceptMap"/>
-               <property name="uri" value="roolo://memory/1/0/Mission_concepts.scymapping"/>
+               <property name="uri" value="roolo://memory/6/0/Concept_map.scymapping"/>
                <property name="xPosition" value="160"/>
                <property name="yPosition" value="0"/>
                <property name="nextMissionAnchorNames">
@@ -108,7 +115,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="hypothesis"/>
-               <property name="uri" value="roolo://memory/2/0/Mission_background.text"/>
+               <property name="uri" value="roolo://memory/0/0/Hyposthesis.text"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="40"/>
                <property name="nextMissionAnchorNames">
@@ -120,7 +127,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="conclusion"/>
-               <property name="uri" value="roolo://memory/3/0/Mission_simulation.text"/>
+               <property name="uri" value="roolo://memory/4/0/Conclusion.text"/>
                <property name="xPosition" value="40"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -134,7 +141,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="simulator"/>
-               <property name="uri" value="roolo://memory/4/0/Mission_simulation.scysimconfig"/>
+               <property name="uri" value="roolo://memory/10/0/House_simulator.scysimconfig"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -145,7 +152,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="webData"/>
-               <property name="uri" value="roolo://memory/5/0/Mission_simulation.scydataset"/>
+               <property name="uri" value="roolo://memory/7/0/Data_collected_from_web.scypds"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -158,7 +165,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="unknown1"/>
-               <property name="uri" value="roolo://memory/6/0/Mission_simulation.unknown"/>
+               <property name="uri" value="roolo://memory/98/0/Mission_simulation.unknown"/>
                <property name="xPosition" value="160"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -169,7 +176,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="houseDrawing"/>
-               <property name="uri" value="roolo://memory/7/0/Mission_simulation.scydraw"/>
+               <property name="uri" value="roolo://memory/9/0/Drawing_of_house.scydraw"/>
                <property name="xPosition" value="40"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
@@ -181,7 +188,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="design"/>
-               <property name="uri" value="roolo://memory/8/0/Mission_simulation.text"/>
+               <property name="uri" value="roolo://memory/5/0/Design_document.text"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
@@ -193,7 +200,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="processedData"/>
-               <property name="uri" value="roolo://memory/9/0/Mission_simulation.scydataset"/>
+               <property name="uri" value="roolo://memory/8/0/Processed_data.scypds"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
@@ -206,7 +213,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="houseAnalysis"/>
-               <property name="uri" value="roolo://memory/10/0/Mission_simulation.text"/>
+               <property name="uri" value="roolo://memory/1/0/Analysis_of_house.text"/>
                <property name="xPosition" value="160"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
@@ -220,7 +227,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="presentation"/>
-               <property name="uri" value="roolo://memory/11/0/Mission_simulation.text"/>
+               <property name="uri" value="roolo://memory/3/0/Presentation.text"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="160"/>
                <property name="nextMissionAnchorNames">
@@ -230,7 +237,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="report"/>
-               <property name="uri" value="roolo://memory/12/0/Mission_simulation.text"/>
+               <property name="uri" value="roolo://memory/2/0/Report.text"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="160"/>
                <property name="nextMissionAnchorNames">
@@ -240,7 +247,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="unknown2"/>
-               <property name="uri" value="roolo://memory/13/0/Mission_simulation.unknown"/>
+               <property name="uri" value="roolo://memory/97/0/Mission_simulation.unknown"/>
                <property name="xPosition" value="160"/>
                <property name="yPosition" value="160"/>
                <property name="nextMissionAnchorNames">
