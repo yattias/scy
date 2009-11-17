@@ -7,13 +7,10 @@
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import javafx.util.Math;
-import javafx.util.Sequences;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
 
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
@@ -23,31 +20,40 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
+
 /**
  * @author sikken
  */
 
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl");
+
 public class ScyWindowControlImpl extends ScyWindowControl {
 
-   var activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{
+   def activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{
       activeAnchorChanged(oldActiveAnchor)
    };
    var activeAnchorWindow: ScyWindow;
-//   var windowPositioner: WindowPositioner = WindowPositionerCenterMinimized{
-//   var windowPositioner: WindowPositioner = SimpleWindowPositioner{
-//      width: bind width;
-//      height: bind height;
-//      //        width: bind size.x;
-//      //        height: bind size.y;
-//      forbiddenNodes: bind forbiddenNodes
-//   }
-//   var otherWindows: ScyWindow[];
-//   var relatedWindows: ScyWindow[];
-//   var placedWindows: ScyWindow[];
-//   var titleKey: IMetadataKey;
+   /**
+   * as the uri of a window can change (when saving the elo content, this always result is an other uri),
+   * a simple Map does not work (unless the uris are updated)
+   * but lets keep it simple, use a sequence and a "slow" search
+   */
+   var scyWindows: ScyWindow[];
+   def desktopStates = new HashMap();
 
-   var scyWindows = new HashMap();
-   var desktopStates = new HashMap();
+   public override function newEloSaved(eloUri:URI){
+      var scyWindow = findScyWindow(eloUri);
+      if (scyWindow==null){
+         // the elo is not yet in a window on the desktop, add it
+         logger.info("new elo, is not yet on the desktop, {eloUri}");
+         addOtherScyWindow(eloUri);
+      }
+      else{
+         logger.info("new elo is already on desktop, {eloUri}");
+      }
+   }
 
    public override function addOtherScyWindow(eloUri:URI): ScyWindow{
       var scyWindow = getScyWindow(eloUri);
@@ -62,22 +68,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       windowPositioner.placeOtherWindow(scyWindow);
       return scyWindow;
    }
-
-//   public function newEloSaved(eloUri : URI){
-//      println("newEloSaved: {eloUri}");
-//      var eloType = extensionManager.getType(eloUri);
-//      if ("scy/melo" == eloType){
-//         var eloWindow = getScyWindow(eloUri);
-//         scyDesktop.addScyWindow(eloWindow);
-//         addOtherScyWindow(eloWindow);
-//         positionWindows(true);
-//      }
-//       else {
-//         addRelatedWindow(eloUri);
-//         positionWindows(true);
-//      }
-//   }
-
 
    function activeAnchorChanged(oldActiveAnchor:MissionAnchorFX){
       if (oldActiveAnchor!=null){
@@ -147,11 +137,21 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
    }
 
+   function findScyWindow(eloUri:URI):ScyWindow{
+      for (window in scyWindows){
+         if (window.eloUri==eloUri){
+            return window;
+         }
+      }
+      return null;
+   }
+
+
    function getScyWindow(eloUri:URI):ScyWindow{
-      var scyWindow = scyWindows.get(eloUri) as ScyWindow;
+      var scyWindow = findScyWindow(eloUri);
       if (scyWindow==null){
          scyWindow = createScyWindow(eloUri);
-         scyWindows.put(eloUri, scyWindow);
+         insert scyWindow into scyWindows;
       }
       return scyWindow;
    }
