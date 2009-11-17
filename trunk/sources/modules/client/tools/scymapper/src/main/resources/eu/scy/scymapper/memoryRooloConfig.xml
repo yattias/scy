@@ -16,6 +16,10 @@
     <import resource="localRooloMetadata.xml"/>
     <import resource="localRooloExtensions.xml"/>
 
+    <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
+       <constructor-arg index="0" ref="metadataTypeManager"/>
+    </bean>
+
     <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
         <constructor-arg index="0" ref="metadataTypeManager"/>
     </bean>
