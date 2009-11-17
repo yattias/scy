@@ -1,5 +1,7 @@
 package eu.scy.scymapper.api.diagram;
 
+import eu.scy.scymapper.impl.model.NodeModel;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Bjorge Naess
@@ -8,12 +10,14 @@ package eu.scy.scymapper.api.diagram;
  * To change this template use File | Settings | File Templates.
  */
 public interface INodeModelListener {
-    public void moved(INodeModel node);
-    public void resized(INodeModel node);
+    void moved(INodeModel node);
+    void resized(INodeModel node);
 
-    public void labelChanged(INodeModel node);
+    void labelChanged(INodeModel node);
 
-    public void shapeChanged(INodeModel node);
+    void shapeChanged(INodeModel node);
 
-    public void selectionChanged(INodeModel node);
+    void selectionChanged(INodeModel node);
+
+    void deleted(NodeModel nodeModel);
 }

@@ -79,7 +79,10 @@ public class ConceptMapPanel extends JPanel {
                 }
 
                 for (ILinkModel link : linksToRemove) model.getDiagram().removeLink(link);
-                for (INodeModel selectedNode : selectedNodes) model.getDiagram().removeNode(selectedNode);
+                for (INodeModel selectedNode : selectedNodes) {
+                    if (selectedNode.getConstraints().getCanDelete())
+                        model.getDiagram().removeNode(selectedNode);
+                }
             }
         });
         toolBar.add(removeConceptBtn);

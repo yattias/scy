@@ -20,10 +20,11 @@ public class SCYPlannerDiagramModel implements IDiagramModel {
 private String name;
     private Set<INodeModel> nodes;
     private Set<ILinkModel> links;
-    private Collection<IDiagramListener> listeners;
+    private transient Collection<IDiagramListener> listeners;
     private INodeModel selectedNode;
+    private transient Image backgroundImage;
 
-	public SCYPlannerDiagramModel() {
+    public SCYPlannerDiagramModel() {
         listeners = new ArrayList<IDiagramListener>();
         nodes = new HashSet<INodeModel>();
         links = new HashSet<ILinkModel>();
@@ -136,5 +137,10 @@ private String name;
     @Override
     public INodeModel getNodeAt(Point point) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void addNodes(java.util.List<INodeModel> nodes) {
+        for (INodeModel node : nodes) addNode(node);
     }
 }

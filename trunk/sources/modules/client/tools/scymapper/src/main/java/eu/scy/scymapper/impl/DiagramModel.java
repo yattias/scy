@@ -5,12 +5,10 @@ import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -164,5 +162,10 @@ public class DiagramModel implements IDiagramModel {
 			if (b.contains(point)) return node;
 		}
         return null;
+    }
+
+    @Override
+    public void addNodes(List<INodeModel> nodes) {
+        for (INodeModel node : nodes) addNode(node);
     }
 }

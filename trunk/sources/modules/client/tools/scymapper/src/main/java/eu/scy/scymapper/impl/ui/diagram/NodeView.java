@@ -7,19 +7,16 @@ import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
+import eu.scy.scymapper.impl.model.NodeModel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -112,25 +109,28 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelTextarea.addMouseMotionListener(parentEventDispatcher);
         labelTextarea.addMouseListener(parentEventDispatcher);
 
-        resizeHandle = createResizeHandle();
-        add(resizeHandle);
+        if (model.getConstraints().getCanResize()) {
+            resizeHandle = createResizeHandle();
+            add(resizeHandle);
 
-        resizeHandle.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                Dimension size = NodeView.this.model.getSize();
-                size.height += e.getPoint().y;
-                size.width += e.getPoint().x;
-                if (size.height < 70) size.height = 70;
-                if (size.width < 70) size.width = 70;
-                NodeView.this.controller.setSize(size);
-            }
-        });
-
+            resizeHandle.addMouseMotionListener(new MouseAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    Dimension size = NodeView.this.model.getSize();
+                    size.height += e.getPoint().y;
+                    size.width += e.getPoint().x;
+                    if (size.height < 70) size.height = 70;
+                    if (size.width < 70) size.width = 70;
+                    NodeView.this.controller.setSize(size);
+                }
+            });
+        }
         layoutComponents();
     }
 
     private void setLabelEditable(boolean editable, int caretPos) {
+
+        if (!model.getConstraints().getCanEditLabel()) editable = false;
 
         labelScroller.setOpaque(editable);
         labelScroller.getViewport().setOpaque(editable);
@@ -202,10 +202,12 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelScroller.setBounds((int) x, (int) y, width, height);
         labelScroller.revalidate();
 
-        resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
+        if (resizeHandle != null) {
+            resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
 
-        resizeHandle.setForeground(getForeground());
-        resizeHandle.setBackground(getBackground());
+            resizeHandle.setForeground(getForeground());
+            resizeHandle.setBackground(getBackground());
+        }
     }
 
     public INodeModel getModel() {
@@ -240,6 +242,11 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
                         BorderFactory.createEmptyBorder()
         );
         if (conceptNode.isSelected()) requestFocus();
+    }
+
+    @Override
+    public void deleted(NodeModel nodeModel) {
+        this.setVisible(false);
     }
 
     public void paintComponent(Graphics g) {

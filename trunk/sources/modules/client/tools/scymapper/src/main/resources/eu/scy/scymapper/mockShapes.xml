@@ -26,6 +26,12 @@
                 <ref bean="mutually_influence"/>
             </list>
         </property>
+        <property name="predefinedNodes">
+            <list>
+                <ref bean="houseConcept"/>
+            </list>
+        </property>
+
     </bean>
 
     <bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.concepts.RoundRectangle">
@@ -70,13 +76,15 @@
 
     <bean id="egg" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
         <property name="name" value="Egg"/>
-        <property name="nodeShape">
-            <bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
-                <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
-            </bean>
+        <property name="nodeShape" ref="eggShape">
         </property>
     </bean>
-
+    <bean name="eggShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+        <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
+    </bean>
+    <bean name="houseShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
+        <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/house.svg"/>
+    </bean>
     <bean id="factory" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
         <property name="name" value="Factory"/>
         <property name="nodeShape">
@@ -173,5 +181,22 @@
         </property>
         <property name="width" value="150"/>
         <property name="height" value="75"/>
+    </bean>
+    <bean name="houseConcept" class="eu.scy.scymapper.impl.model.NodeModel">
+        <property name="shape" ref="houseShape"/>
+        <property name="x" value="200"/>
+        <property name="y" value="200"/>
+        <property name="height" value="400"/>
+        <property name="width" value="400"/>
+        <property name="constraints">
+            <bean class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+                <property name="canConnect" value="true"/>
+                <property name="canDelete" value="false"/>
+                <property name="canSelect" value="false"/>
+                <property name="canEditLabel" value="false"/>
+                <property name="canMove" value="true"/>
+                <property name="canResize" value="false"/>
+            </bean>
+            </property>
     </bean>
 </beans>

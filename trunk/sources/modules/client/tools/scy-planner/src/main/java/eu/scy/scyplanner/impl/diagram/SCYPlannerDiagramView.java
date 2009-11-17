@@ -5,6 +5,7 @@ import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.controller.LinkController;
 import eu.scy.scymapper.impl.controller.NodeController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
+import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.ui.diagram.ConceptLinkView;
@@ -104,6 +105,11 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
     @Override
     public void selectionChanged(INodeModel n) {
         System.out.println("ConceptDiagramView.selectionChanged");
+    }
+
+    @Override
+    public void deleted(NodeModel nodeModel) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

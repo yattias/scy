@@ -10,10 +10,6 @@ import org.apache.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +18,6 @@ import java.util.HashMap;
  * Time: 06:40:09
  */
 public class ConceptDiagramView extends JLayeredPane implements IDiagramListener {
-
 
     private IDiagramMode mode = new DragMode(this);
 
@@ -224,13 +219,11 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     private class FocusListenerDelegator implements FocusListener {
         @Override
         public void focusGained(FocusEvent e) {
-            System.out.println("ConceptDiagramView$FocusListenerDelegator.focusGained");
             mode.getFocusListener().focusGained(e);
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-            System.out.println("ConceptDiagramView$FocusListenerDelegator.focusLost");
             mode.getFocusListener().focusLost(e);
         }
     }

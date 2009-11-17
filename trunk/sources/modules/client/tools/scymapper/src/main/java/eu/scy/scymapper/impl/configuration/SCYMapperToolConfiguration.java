@@ -6,6 +6,7 @@ import eu.scy.core.model.pedagogicalplan.Tool;
 import eu.scy.scymapper.api.IConceptPrototype;
 import eu.scy.scymapper.api.ILinkType;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.api.diagram.INodeModel;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     private Tool tool;
     private List<IConceptPrototype> availableConceptPrototypes;
     private List<ILinkType> availableLinkTypes;
+    private List<INodeModel> predefinedNodes;
 
     @Override
     public List<IConceptPrototype> getAvailableConceptTypes() {
@@ -90,5 +92,15 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     @Override
     public void setActivity(Activity activity) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setPredefinedNodes(List<INodeModel> predefinedNodes) {
+        this.predefinedNodes = predefinedNodes;
+    }
+
+    @Override
+    public List<INodeModel> getPredefinedNodes() {
+        return predefinedNodes;
     }
 }
