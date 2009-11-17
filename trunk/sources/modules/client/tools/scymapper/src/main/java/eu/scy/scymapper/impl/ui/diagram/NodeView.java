@@ -8,11 +8,16 @@ import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.api.styling.INodeStyleListener;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,7 +32,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
     private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
     private JComponent resizeHandle;
-	private INodeController controller;
+    private INodeController controller;
     private INodeModel model;
     private JTextArea labelTextarea;
 
@@ -39,7 +44,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
         super();
 
-		this.controller = controller;
+        this.controller = controller;
         this.model = model;
 
         // Subscribe to events in the model
@@ -63,7 +68,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelTextarea.setLineWrap(true);
 
         labelScroller = new JScrollPane(labelTextarea);
-        labelTextarea.setMargin(new Insets(0,0,0,0));
+        labelTextarea.setMargin(new Insets(0, 0, 0, 0));
         labelTextarea.setBorder(BorderFactory.createEmptyBorder());
         labelScroller.getViewport().setOpaque(false);
         setLabelEditable(false);
@@ -87,16 +92,17 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
             }
         });
 
-		labelTextarea.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.isControlDown() && e.getKeyCode() == 10) NodeView.this.requestFocus();
-			}
-		});
+        labelTextarea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.getKeyCode() == 10) NodeView.this.requestFocus();
+            }
+        });
 
         MouseAdapter parentEventDispatcher = new ParentComponentEventDispatcher(this) {
             @Override
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+            }
 
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -106,8 +112,20 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelTextarea.addMouseMotionListener(parentEventDispatcher);
         labelTextarea.addMouseListener(parentEventDispatcher);
 
-//        resizeHandle = createResizeHandle();
-//        add(resizeHandle);
+        resizeHandle = createResizeHandle();
+        add(resizeHandle);
+
+        resizeHandle.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Dimension size = NodeView.this.model.getSize();
+                size.height += e.getPoint().y;
+                size.width += e.getPoint().x;
+                if (size.height < 70) size.height = 70;
+                if (size.width < 70) size.width = 70;
+                NodeView.this.controller.setSize(size);
+            }
+        });
 
         layoutComponents();
     }
@@ -127,29 +145,30 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
         isEditing = editable;
     }
+
     void setLabelEditable(boolean editable) {
         setLabelEditable(editable, labelTextarea.getCaretPosition());
     }
 
-//    private JComponent createResizeHandle() {
-//        if (resizeHandle == null) {
-//            try {
-//                URL uri = getClass().getResource(RESIZEHANDLE_FILENAME);
-//                if (uri == null) throw new FileNotFoundException("File " + RESIZEHANDLE_FILENAME + " not found");
-//                BufferedImage i = ImageIO.read(uri);
-//                resizeHandle = new JLabel(new ImageIcon(i));
-//                resizeHandle.setSize(15, 15);
-//            } catch (IOException e) {
-//                JLabel button = new JLabel(">");
-//                Font f = new Font("Serif", Font.PLAIN, 10);
-//                button.setFont(f);
-//                button.setSize(10, 10);
-//                //button.setMargin(new Insets(1, 1, 1, 1));
-//                resizeHandle = button;
-//            }
-//        }
-//        return resizeHandle;
-//    }
+    private JComponent createResizeHandle() {
+        if (resizeHandle == null) {
+            try {
+                URL uri = getClass().getResource(RESIZEHANDLE_FILENAME);
+                if (uri == null) throw new FileNotFoundException("File " + RESIZEHANDLE_FILENAME + " not found");
+                BufferedImage i = ImageIO.read(uri);
+                resizeHandle = new JLabel(new ImageIcon(i));
+                resizeHandle.setSize(15, 15);
+            } catch (IOException e) {
+                JLabel button = new JLabel(">");
+                Font f = new Font("Serif", Font.PLAIN, 10);
+                button.setFont(f);
+                button.setSize(10, 10);
+                //button.setMargin(new Insets(1, 1, 1, 1));
+                resizeHandle = button;
+            }
+        }
+        return resizeHandle;
+    }
 
 
     private void layoutComponents() {
@@ -157,33 +176,36 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
         int width = f.stringWidth(labelTextarea.getText()) + 10;
 
+        int maxHeight = getHeight() - 20; // 10 px spacing on each side
+        int maxWidth = getWidth() - 20; // 10 px spacing on each side
+
         if (width < 70) width = 70;
-        // Add some space
-        else width = (width + 10 > getWidth()) ? getWidth() : width +10;
+            // Add some space
+        else width = (width + 10 > maxWidth) ? maxWidth : width + 10;
 
-        int height = labelTextarea.getPreferredScrollableViewportSize().height+10;
+        int height = labelTextarea.getPreferredScrollableViewportSize().height + 10;
 
-        if (height > getHeight()) {
-            height = getHeight();
+
+        if (height > maxHeight) {
+            height = maxHeight;
             labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        }
-        else {
+        } else {
             labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         }
 
         //labelTextarea.setSize(width, height);
         labelTextarea.setVisible(!getModel().isLabelHidden());
 
-        double x = (getWidth() / 2) - (width / 2);
-        double y = (getHeight() / 2d) - (height / 2d);
+        double x = ((maxWidth / 2) - (width / 2)) +10;
+        double y = ((maxHeight / 2d) - (height / 2d)) + 10;
 
         labelScroller.setBounds((int) x, (int) y, width, height);
         labelScroller.revalidate();
 
-   //     resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
+        resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
 
-//        resizeHandle.setForeground(getForeground());
- //       resizeHandle.setBackground(getBackground());
+        resizeHandle.setForeground(getForeground());
+        resizeHandle.setBackground(getBackground());
     }
 
     public INodeModel getModel() {
@@ -208,7 +230,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
 
     @Override
     public void shapeChanged(INodeModel node) {
-		repaint();
+        repaint();
     }
 
     @Override
@@ -232,7 +254,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         g2.setColor(style.getBackground());
         g2.setStroke(style.getStroke());
 
-		Rectangle relativeBounds = new Rectangle(new Point(0,0), getSize());
+        Rectangle relativeBounds = new Rectangle(new Point(0, 0), getSize());
 
         INodeShape shape = model.getShape();
         if (shape != null) {
@@ -270,10 +292,10 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
                 '}';
     }
 
-	@Override
-	public void styleChanged(INodeStyle s) {
-		repaint();
-	}
+    @Override
+    public void styleChanged(INodeStyle s) {
+        repaint();
+    }
 }
 
 class ParentComponentEventDispatcher extends MouseAdapter {
