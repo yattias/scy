@@ -13,12 +13,10 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -50,7 +48,7 @@ public class ChatPanelMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(ChatPanelMain.class.getName());
 
-	protected JList buddyList;
+	//protected JList buddyList;
 	JTextPane chatArea;
 	static ChatPanelMain cmp;
 	JXTitledPanel chatAreaPanel;
@@ -93,7 +91,7 @@ public class ChatPanelMain extends JPanel {
 	
 	
 	protected void initGUI() {
-		this.add(createBuddyListPanel(), BorderLayout.WEST);
+//		this.add(createBuddyListPanel(), BorderLayout.WEST);
 		chatArea = new JTextPane();
 		chatArea.setEditable(false);
 		this.registerChatArea(chatArea);
@@ -116,13 +114,14 @@ public class ChatPanelMain extends JPanel {
 				JTextField textfield = (JTextField) e.getSource();
 				String oldText = chatArea.getText();
 				
-				if (buddyList.getSelectedValue() == null) {
-					JOptionPane.showMessageDialog(null, "Please select a recipient before submitting the text ...");
-				}
-				else {
-					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
+//				if (buddyList.getSelectedValue() == null) {
+//					JOptionPane.showMessageDialog(null, "Please select a recipient before submitting the text ...");
+//				}
+//				else {
+//					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
+					chatController.sendMessage(model.elementAt(0), textfield.getText());
 					chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
-				}
+//				}
 			}
 		});
 
@@ -135,14 +134,14 @@ public class ChatPanelMain extends JPanel {
 	protected JPanel createBuddyListPanel() {
 		JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
 
-		buddyList = new JList(model);
-		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//		buddyList = new JList(model);
+//		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		updateModel();
 
-		JScrollPane buddyListScroll = new JScrollPane(buddyList);
-		buddyListScroll.setPreferredSize(new Dimension(150, 250));
-
-		buddyPanel.add(buddyListScroll);
+//		JScrollPane buddyListScroll = new JScrollPane(buddyList);
+//		buddyListScroll.setPreferredSize(new Dimension(150, 250));
+//
+//		buddyPanel.add(buddyListScroll);
 		return buddyPanel;
 	}
 
@@ -167,7 +166,7 @@ public class ChatPanelMain extends JPanel {
 				}
 			}
 		};
-		buddyList.addListSelectionListener(listSelectionListener);
+//		buddyList.addListSelectionListener(listSelectionListener);
 
 		MouseListener mouseListener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent mouseEvent) {
@@ -181,26 +180,16 @@ public class ChatPanelMain extends JPanel {
 				}
 			}
 		};
-		buddyList.addMouseListener(mouseListener);
+//		buddyList.addMouseListener(mouseListener);
 	}
 
-	
-	public JFrame runInFrame() {
-
-		JFrame frame = new JFrame("my awareness");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().add(this);
-		frame.setSize(450, 350);
-		frame.setVisible(true);
-		return frame;
-	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		cmp = new ChatPanelMain();
 		frame.getContentPane().add(cmp);
-		frame.setSize(500, 500);
+		frame.setSize(280, 400);
 		frame.setVisible(true);
 	}
 
@@ -248,10 +237,7 @@ public class ChatPanelMain extends JPanel {
 		IAwarenessUser iau;
 		for(int i=0; i<users.size(); i++) {
 			iau = (IAwarenessUser) users.elementAt(i);
-			if(buddyList.getSelectedIndex() == -1 && iau.getUsername().equals(correctUsername)) {
-				buddyList.setSelectedIndex(i);
-				chatAreaPanel.setTitle("Chatting with: "+iau.getName());
-			}
+//			
 		}
 	}
 }
