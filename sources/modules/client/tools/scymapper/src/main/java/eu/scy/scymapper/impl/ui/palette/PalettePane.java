@@ -7,11 +7,15 @@ import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.ILinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.controller.LinkController;
+import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
-import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
+import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
+import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -29,16 +33,16 @@ import java.util.List;
 public class PalettePane extends JPanel {
 
     private IConceptMap conceptMap;
-    private ConceptMapPanel diagramView;
+    private ConceptMapPanel conceptMapPanel;
     private List<ILinkType> linkProtoTypes;
     private List<IConceptPrototype> conceptPrototypes;
     private AddLinkButton selectedButton;
     //private FillStyleCheckbox opaqueCheckbox;
     //private volatile NodeColorChooserPanel nodeColorChooser;
 
-    public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel diagramView) {
+    public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
         this.conceptMap = conceptMap;
-        this.diagramView = diagramView;
+        this.conceptMapPanel = conceptMapPanel;
         this.linkProtoTypes = conf.getAvailableLinkTypes();
         this.conceptPrototypes = conf.getAvailableConceptTypes();
         initComponents();
@@ -66,7 +70,7 @@ public class PalettePane extends JPanel {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    diagramView.getDiagramView().addMouseListener(new MouseAdapter() {
+                    conceptMapPanel.getDiagramView().addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             INodeModel node = new NodeModel();
@@ -80,12 +84,12 @@ public class PalettePane extends JPanel {
                             loc.translate(w/-2, h/-2);
                             node.setLocation(loc);
                             conceptMap.getDiagram().addNode(node);
-                            diagramView.getDiagramView().removeMouseListener(this);
-                            diagramView.getDiagramView().setCursor(null);
+                            conceptMapPanel.getDiagramView().removeMouseListener(this);
+                            conceptMapPanel.getDiagramView().setCursor(null);
                             button.setSelected(false);
                         }
                     });
-                    diagramView.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+                    conceptMapPanel.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
                 }
             });
             nodePanel.add(button);
@@ -102,6 +106,13 @@ public class PalettePane extends JPanel {
 
                     if (selectedButton != null) selectedButton.setSelected(false);
 
+                    if (selectedButton != null && selectedButton.equals(e.getSource())) {
+                        selectedButton.setSelected(false);
+                        conceptMapPanel.getDiagramView().setMode(new DragMode(conceptMapPanel.getDiagramView()));
+                        selectedButton = null;
+                        return;
+                    }
+
                     selectedButton = button;
 
                     ILinkModel link = new SimpleLink();
@@ -109,9 +120,9 @@ public class PalettePane extends JPanel {
                     link.setLabel(linkType.getLabel());
                     link.setShape(linkType.getLinkShape());
 
-                    diagramView.getDiagramView().setMode(new ConnectMode(diagramView.getDiagramView(), new LinkView(new LinkController(link), link)));
+                    conceptMapPanel.getDiagramView().setMode(new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkController(link), link)));
 
-                    diagramView.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+                    conceptMapPanel.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
                 }
             });
             linkPanel.add(button);
@@ -218,4 +229,118 @@ public class PalettePane extends JPanel {
             selectionChanged(selectionModel);
         }
     }
+
+    class ConnectMode implements IDiagramMode {
+
+        private ConceptDiagramView view;
+        LinkView connector = null;
+
+        public ConnectMode(ConceptDiagramView view, LinkView connector) {
+            this.view = view;
+            this.connector = connector;
+            this.view.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+            view.add(connector);
+            view.setComponentZOrder(connector, 0);
+        }
+
+        private INodeModel sourceNode;
+        private final MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                NodeView comp = (NodeView) e.getSource();
+                sourceNode = comp.getModel();
+                comp.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+                Point relPoint = e.getPoint();
+                Point loc = new Point(sourceNode.getLocation());
+                loc.translate(relPoint.x, relPoint.y);
+                connector.setFrom(loc);
+                connector.setTo(loc);
+                connector.setVisible(true);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                connector.setVisible(false);
+                NodeView node = (NodeView) e.getSource();
+                node.setBorder(BorderFactory.createEmptyBorder());
+
+                if (currentTarget != null) {
+                    NodeLinkModel link = new NodeLinkModel(sourceNode, currentTarget);
+                    ILinkModel connectorLink = connector.getModel();
+                    link.setLabel(connectorLink.getLabel());
+                    link.setShape(connectorLink.getShape());
+                    link.setStyle(connectorLink.getStyle());
+                    view.getModel().addLink(link);
+                    view.remove(connector);
+                    view.setMode(new DragMode(view));
+                    if (PalettePane.this.selectedButton != null) {
+                        PalettePane.this.selectedButton.setSelected(false);
+                    }
+                    node.setBorder(BorderFactory.createEmptyBorder());
+                    getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
+                }
+            }
+        };
+        private INodeModel currentTarget;
+        private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+                // The relative mouse position from the component x,y
+                Point relPoint = e.getPoint();
+
+                NodeView node = (NodeView) e.getSource();
+
+                // Create the new location
+                Point newLocation = node.getLocation();
+                // Translate the newLocation with the relative point
+                //newLocation.translate(relPoint.x, relPoint.y);
+                newLocation.translate(relPoint.x, relPoint.y);
+                connector.setTo(newLocation);
+
+                INodeModel nodeAt = view.getModel().getNodeAt(newLocation);
+
+                if (nodeAt != null && !nodeAt.equals(sourceNode)) {
+                    currentTarget = nodeAt;
+                    // Get the component for target node in order to paint its border
+                    getNodeViewForModel(currentTarget).setBorder(BorderFactory.createLineBorder(Color.green, 1));
+
+                    Point snap = currentTarget.getConnectionPoint(sourceNode.getCenterLocation());
+                    //targetSnap.translate(relCenter.x, relCenter.y);
+                    connector.setTo(snap);
+                    connector.setFrom(sourceNode.getConnectionPoint(snap));
+                }
+                else if (currentTarget != null) {
+                    getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
+                    connector.setTo(newLocation);
+                }
+                else connector.setTo(newLocation);
+                if (nodeAt == null) currentTarget = null;
+            }
+        };
+
+        private NodeView getNodeViewForModel(INodeModel node) {
+            for (Component c : view.getComponents()) {
+                if (c instanceof NodeView && ((NodeView) c).getModel().equals(node)) {
+                    return (NodeView) c;
+                }
+            }
+            return null;
+        }
+        @Override
+        public MouseListener getMouseListener() {
+            return mouseListener;
+        }
+
+        @Override
+        public MouseMotionListener getMouseMotionListener() {
+            return mouseMotionListener;
+        }
+
+        @Override
+        public FocusListener getFocusListener() {
+            return new FocusAdapter() {};
+        }
+    }
+
 }
