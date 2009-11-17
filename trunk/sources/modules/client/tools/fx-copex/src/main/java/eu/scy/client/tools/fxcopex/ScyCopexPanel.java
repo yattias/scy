@@ -6,7 +6,6 @@
 package eu.scy.client.tools.fxcopex;
 
 import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
 import eu.scy.toolbroker.ToolBrokerImpl;
@@ -28,7 +27,7 @@ import javax.swing.JPanel;
  */
 public class ScyCopexPanel extends JPanel implements ActionCopex{
     private CopexPanel copex;
-
+    private ToolBrokerImpl tbi;
     // how can i get userName & password? + mission name
     private String username = "default_username";
     private String password = "default_password";
@@ -48,21 +47,11 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
 
     /* tbi initialization*/
     private void initTBI(){
-        //tbi=  new ToolBrokerImpl();
+        tbi=  new ToolBrokerImpl();
     }
     /* initialization action logger */
     private void initActionLogger(){
-        // TODO: logger from tbi
-        actionLogger = new IActionLogger() {
-            @Override
-            public void log(String username, String source, IAction action) {
-                // nothing
-            }
-
-            @Override
-            public void log(IAction arg0) {
-            }
-        };
+        tbi.getActionLogger();
     }
 
     /* load ELO into copex */
@@ -101,6 +90,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
                 action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
         }
         // log action
-        actionLogger.log(action);
+        if(actionLogger != null)
+            actionLogger.log(action);
     }
 }
