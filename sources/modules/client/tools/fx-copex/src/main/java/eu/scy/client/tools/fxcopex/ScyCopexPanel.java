@@ -51,7 +51,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     }
     /* initialization action logger */
     private void initActionLogger(){
-        tbi.getActionLogger();
+        actionLogger = tbi.getActionLogger();
     }
 
     /* load ELO into copex */
@@ -90,7 +90,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
                 action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
         }
         // log action
-        if(actionLogger != null)
-            actionLogger.log(action);
+//        if(actionLogger != null)
+//            actionLogger.log(action);
     }
 }
