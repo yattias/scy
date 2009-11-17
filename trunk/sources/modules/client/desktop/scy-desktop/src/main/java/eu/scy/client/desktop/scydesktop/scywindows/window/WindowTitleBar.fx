@@ -32,7 +32,7 @@ public class WindowTitleBar extends WindowElement {
    public var width = 100.0;
 //   public var height = 20.0;
    public var title = "very very long title";
-   public var typeChar = "?";
+   public var iconCharacter = "?";
    public var iconSize = 16.0;
    public var iconGap = 2.0;
 
@@ -60,7 +60,7 @@ public class WindowTitleBar extends WindowElement {
                      textAlignment:TextAlignment.CENTER
       					x: iconGap,
 							y: iconSize
-							content: bind typeChar.substring(0, 1)
+							content: bind iconCharacter.substring(0, 1)
 							fill: Color.WHITE
 						}
 					]
@@ -116,7 +116,7 @@ function run(){
                translateY:10;
             }
             WindowTitleBar{
-               typeChar:"w"
+               iconCharacter:"w"
                translateX:10;
                translateY:50;
             }

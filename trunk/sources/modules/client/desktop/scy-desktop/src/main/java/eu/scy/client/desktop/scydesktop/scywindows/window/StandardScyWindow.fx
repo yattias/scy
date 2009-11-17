@@ -546,7 +546,7 @@ public class StandardScyWindow extends ScyWindow {
          iconGap:iconGap;
          color:bind color;
          title:bind title;
-         typeChar:bind eloType;
+         iconCharacter:bind iconCharacter;
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;
       }
