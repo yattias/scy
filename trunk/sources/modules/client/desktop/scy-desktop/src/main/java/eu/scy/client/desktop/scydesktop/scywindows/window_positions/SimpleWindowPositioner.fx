@@ -32,17 +32,20 @@ public class SimpleWindowPositioner extends WindowPositioner {
    def initialY = 10;
    def xStep = 25;
    def yStep = 25;
+   def centerWidthFactor = 0.3;
+   def centerHeightFactor = 0.3;
 
    def maximumIntersectionTarget = 1.0;
 
    public override function clearWindows():Void{
    //       logger.info("clearWindows");
-   delete windows;
+      delete windows;
    }
 
    public override function setActiveAnchorWindow(window:ScyWindow):Void{
    //       logger.info("setCenterWindow");
-      addWindowImmediately(window);
+      //addWindowImmediately(window);
+      placeWindowInCenter(window);
    }
 
    public override function addNextAnchorWindow(window:ScyWindow, direction:Number):Void{
@@ -73,6 +76,17 @@ public class SimpleWindowPositioner extends WindowPositioner {
       }
    }
 
+   function placeWindowInCenter(window:ScyWindow){
+      window.layoutX = centerWidthFactor * width;
+      window.layoutY = centerHeightFactor * height;
+      var maximumIntersection = calculateMaximumIntersection(window,Number.MAX_VALUE);
+      if (maximumIntersection>maximumIntersectionTarget){
+         addWindowImmediately(window);
+      }
+      else{
+         insert window into windows;
+      }
+   }
 
    function isKnownOtherWindow(window:ScyWindow){
       for (win in windows){
