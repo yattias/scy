@@ -6,7 +6,6 @@
 package eu.scy.client.tools.fxfitex;
 
 import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
 import eu.scy.communications.datasync.event.IDataSyncEvent;
@@ -54,21 +53,11 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSy
 
     /* tbi initialization*/
     private void initTBI(){
-        //tbi=  new ToolBrokerImpl();
+        tbi=  new ToolBrokerImpl();
     }
     /* initialization action logger */
     private void initActionLogger(){
-        // TODO: logger from tbi
-        actionLogger = new IActionLogger() {
-            @Override
-            public void log(String username, String source, IAction action) {
-                // nothing
-            }
-
-            @Override
-            public void log(IAction arg0) {
-            }
-        };
+        actionLogger = tbi.getActionLogger();
     }
 
     private void initDataProcessTool(){
@@ -131,7 +120,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSy
                 action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
         }
         // log action
-        actionLogger.log(action);
+//        if(actionLogger != null)
+//            actionLogger.log(action);
     }
 
     public void stopFitex(){
