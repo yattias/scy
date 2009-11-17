@@ -43,6 +43,8 @@ public mixin class ScyWindowControl {
    public abstract function addOtherScyWindow(eloUri:URI): ScyWindow;
    public abstract function addOtherScyWindow(eloType:String): ScyWindow;
 
+   public abstract function newEloSaved(eloUri:URI):Void;
+
 //   public function positionWindows():Void{
 //      positionWindows(false);
 //   }
