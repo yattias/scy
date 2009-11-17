@@ -26,6 +26,10 @@
                <property name="display" value="StudentPlanningTool"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="studentplanningtool"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+              <property name="topDrawerCreatorId" value="presence"/>
+               <property name="bottomDrawerCreatorId" value="task"/>
+               <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
          </list>
       </property>
