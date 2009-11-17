@@ -1,4 +1,4 @@
-package eu.scy.agents.serviceprovider.userexperience;
+package eu.scy.agents.sensors.userexperience;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
@@ -36,6 +36,7 @@ import eu.scy.actionlogging.TimeFormatHelper;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.sensors.userexperience.UserToolExperienceModel;
 import eu.scy.agents.supervisor.SupervisingAgent;
 
 public class ToolExperienceSensor extends AbstractThreadedAgent implements ActionListener {
