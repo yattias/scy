@@ -57,6 +57,27 @@
             <version>${pom.version}</version>
         </dependency>
 
+        <dependency>
+           <groupId>eu.scy.client.tools</groupId>
+           <artifactId>fx-scymapper</artifactId>
+           <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+           <groupId>eu.scy.client.tools</groupId>
+           <artifactId>fx-flying-saucer</artifactId>
+           <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+        <groupId>eu.scy.client.tools</groupId>
+        <artifactId>fx-studentplanningtool</artifactId>
+        <version>${pom.version}</version>
+     </dependency>
+        
+        
+        
+
     </dependencies>
 
     <build>
@@ -184,7 +205,7 @@
                         </keystoreConfig>
 
                     </sign>
-                    <unsign>false</unsign>
+                    <unsign>true</unsign>
 
                     <!-- BUILDING PROCESS -->
 
