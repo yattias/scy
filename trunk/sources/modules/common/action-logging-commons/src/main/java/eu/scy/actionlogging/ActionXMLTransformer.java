@@ -1,16 +1,10 @@
 package eu.scy.actionlogging;
 
-import info.collide.sqlspaces.commons.util.XMLUtils;
-
 import java.util.Iterator;
-
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultAttribute;
 import org.dom4j.tree.DefaultCDATA;
 import org.dom4j.tree.DefaultElement;
-
-import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.Context;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 
@@ -42,6 +36,7 @@ public class ActionXMLTransformer {
             actionElement.add(new DefaultAttribute("user", actionPojo.getUser()));
             actionElement.add(new DefaultAttribute("type", actionPojo.getType()));
             actionElement.add(new DefaultAttribute("time", actionPojo.getTime()));
+            actionElement.add(new DefaultAttribute("timemillis", String.valueOf(actionPojo.getTimeInMillis())));
 
             // creating the context information
             Element contextElement = new DefaultElement("context");
@@ -91,6 +86,7 @@ public class ActionXMLTransformer {
             actionPojo.setUser(actionElement.attributeValue("user"));
             actionPojo.setType(actionElement.attributeValue("type"));
             actionPojo.setTime(actionElement.attributeValue("time"));
+            actionPojo.setTimeInMillis(Long.parseLong(actionElement.attributeValue("time")));
             // creating the context information
             Element contextElement = actionElement.element("context");
             actionPojo.addContext(ContextConstants.tool, contextElement.elementText("tool"));

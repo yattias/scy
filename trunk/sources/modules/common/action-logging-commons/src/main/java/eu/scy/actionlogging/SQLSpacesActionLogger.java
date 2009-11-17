@@ -52,7 +52,8 @@ public class SQLSpacesActionLogger implements IActionLogger {
     public void log(String username, String source, IAction action) {
         if (ts != null) {
             idField = new Field(action.getId());
-            timeField = new Field(action.getTime());
+            //timeField = new Field(TimeFormatHelper.getInstance().getISO8601AsLong(action.getTime()));
+            timeField = new Field(action.getTimeInMillis());
             typeField = new Field(action.getType());
             userField = new Field(action.getUser());
             toolField = new Field(action.getContext(ContextConstants.tool));
