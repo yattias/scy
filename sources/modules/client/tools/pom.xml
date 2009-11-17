@@ -29,7 +29,8 @@
 		<module>scydynamics</module>
 		<module>scysimulator</module>
 		<module>nutpad</module>
-    <module>scy-planner</module>
+    	<module>scy-planner</module>
+    	<module>chat-tool</module>
   </modules>
 	
 </project>
