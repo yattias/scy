@@ -3,12 +3,22 @@
  */
 package eu.scy.commons.whack;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.QName;
 import org.xmpp.packet.PacketExtension;
 
@@ -28,13 +38,35 @@ public class WhacketExtension extends PacketExtension {
 	}
 
 	private Map<String, Integer> pathCounter;
-
+	
 	public WhacketExtension(Element element) {
 		super(element);
 	}
 
 	public WhacketExtension(String name, String namespace) {
 		super(name, namespace);
+	}
+	
+	public WhacketExtension(String name, String namespace, Object pojo) {
+		super(name, namespace);
+		
+		SCYPacketTransformer transformer = transformers.get(namespace);
+		transformer.setObject(pojo);
+		
+		try {
+			//TODO implement transformer.getElement() to avoid double parsing
+			element = (Element) DocumentHelper.parseText(transformer.toXML()).getRootElement().detach();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Object getPojo() {
@@ -50,7 +82,7 @@ public class WhacketExtension extends PacketExtension {
 		
 		return transformer.getObject();
 	}
-
+	
 	private void parseElement(Element element, SCYPacketTransformer transformer, String path) {
 		Integer count = pathCounter.get(path);
 		if (count == null) {
