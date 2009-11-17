@@ -50,6 +50,18 @@ public class SQLSpaceAdapter implements Callback {
         }
     }
     
+	public SQLSpaceAdapter(String serverIp, Integer serverPort) {
+        logger.debug("SQLSpaceAdapter.SQLSpaceAdapter()");
+		try {
+			//props = new Properties();
+            //props.load(SQLSpaceAdapter.class.getResourceAsStream("collaboration.server.properties"));
+			this.serverIp = serverIp;
+			this.serverPort = serverPort;
+        } catch (Exception e) {
+            logger.fatal("Could locate collaboration server properties file", e);
+        }
+    }
+
     /**
      * intialize the tuple space
      * 

@@ -19,6 +19,16 @@ public class SCYHubStarter {
     public SCYHubStarter(SCYHubComponent scyHubComponent) {
         setScyHubComponent(scyHubComponent);
         final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
+        initialize(manager);
+    }
+
+    public SCYHubStarter(SCYHubComponent scyHubComponent, String dataSyncExternalComponentHost, Integer datasyncPort) {
+        setScyHubComponent(scyHubComponent);
+        final ExternalComponentManager manager = new ExternalComponentManager(dataSyncExternalComponentHost, datasyncPort);
+        initialize(manager);
+    }
+
+    private void initialize(ExternalComponentManager manager) {
         manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
         System.out.println("Setting up scy hub");
@@ -29,7 +39,7 @@ public class SCYHubStarter {
             if(manager != null) {
             manager.addComponent(Configuration.getInstance().getDatasyncMessageHub(), getScyHubComponent());
             } else {
-                System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");   
+                System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
         } catch (ComponentException e) {

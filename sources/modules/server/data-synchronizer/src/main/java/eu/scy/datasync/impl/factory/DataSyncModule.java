@@ -33,7 +33,7 @@ import eu.scy.datasync.api.IDataSyncModule;
 public class DataSyncModule implements IDataSyncModule {
     
     private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
-    
+
     private ScyCommunicationAdapter scyCommunicationAdapter;
     private ArrayList<IDataSyncListener> dataSyncListeners = new ArrayList<IDataSyncListener>();
     private Configuration props = Configuration.getInstance();
@@ -44,7 +44,15 @@ public class DataSyncModule implements IDataSyncModule {
      * Creates an instance of a local collaboration service
      */
     public DataSyncModule() {
-        
+        logger.info("======================================================================");
+        logger.info("======================================================================");
+        logger.info("======================================================================");
+        logger.info("======================================================================");
+        logger.info("CREATING NON SPRING BASED DATA SYNC MODULE");
+        logger.info("======================================================================");
+        logger.info("======================================================================");
+        logger.info("======================================================================");
+
         this.scyCommunicationAdapter = ScyCommunicationAdapterHelper.getInstance();
         this.scyCommunicationAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
             
@@ -67,9 +75,36 @@ public class DataSyncModule implements IDataSyncModule {
                 sessionMap.put(iDataSyncSession.getId(), iDataSyncSession);
             }
         }
-        
-        
-        
+    }
+
+    public DataSyncModule(ScyCommunicationAdapter scyCommunicationAdapter) {
+        logger.info("---------------------------------------------------");
+        logger.info("-- CREATING SPRING BASED DATA SYNC MODULE");
+        logger.info("---------------------------------------------------");
+        this.scyCommunicationAdapter = scyCommunicationAdapter;
+        this.scyCommunicationAdapter.addScyCommunicationListener(new IScyCommunicationListener() {
+
+            @Override
+            public void handleCommunicationEvent(ScyCommunicationEvent e) {
+                // get the scy message and send back to the whos listening
+                try {
+                    sendCallBack(e.getSyncMessage());
+                } catch (DataSyncException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        ISyncMessage allSessions = SyncMessageHelper.createSyncMessageWithDefaultExp(null, null, null, null, null, props.getClientEventCreateSession(), null);
+        ArrayList<IDataSyncSession> sss = getSessions(allSessions);
+
+        if (sss != null && !sss.isEmpty()) {
+            for (IDataSyncSession iDataSyncSession : sss) {
+                sessionMap.put(iDataSyncSession.getId(), iDataSyncSession);
+            }
+        }
+
+
     }
     
     @Override

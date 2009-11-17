@@ -31,12 +31,12 @@ import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
  * @author anthonjp
  */
 public class SCYHubComponent implements Component {
-    
+
     private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
     private Configuration conf = Configuration.getInstance();
     private IDataSyncModule dataSyncModule;
     private IActionProcessModule actionProcessModule;
-    
+
     private IActionLogger actionLogger;
 
     public SCYHubComponent() {
@@ -45,76 +45,76 @@ public class SCYHubComponent implements Component {
 
     /**
      * Gets the name
-     * 
+     *
      * @return
      */
     public String getName() {
         return "scyhub";
     }
-    
+
     /**
      * gets the component description
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getDescription() {
         return "SCY Hub Component";
     }
-    
+
     /**
-     * process the packet and route the it to the correct place 
+     * process the packet and route the it to the correct place
      */
     public void processPacket(Packet packet) {
-    	logger.debug("Received packet" + packet);
+        logger.debug("Received packet" + packet);
         // Only process Message packets
         if (packet instanceof Message) {
             // Get the requested station to obtain it's weather information
             Message message = (Message) packet;
-            
+
             PacketExtension packetExtension = message.getExtension(DataSyncPacketExtension.ELEMENT_NAME, DataSyncPacketExtension.NAMESPACE);
-            if (packetExtension != null &&  packetExtension instanceof DataSyncPacketExtension ) {
+            if (packetExtension != null && packetExtension instanceof DataSyncPacketExtension) {
                 //found a datasync extension, yay!
                 try {
                     // pass syncMessage to DataSyncModule for storing
-                    DataSyncPacketExtension dse = ((DataSyncPacketExtension)packetExtension);
-                    if( dse.getEvent().equals(conf.getClientEventCreateData())) {
+                    DataSyncPacketExtension dse = ((DataSyncPacketExtension) packetExtension);
+                    if (dse.getEvent().equals(conf.getClientEventCreateData())) {
                         dataSyncModule.create(dse.toPojo());
-                    } else if (dse.getEvent().equals(conf.getClientEventCreateSession()) ) {
+                    } else if (dse.getEvent().equals(conf.getClientEventCreateSession())) {
                         dataSyncModule.createSession(dse.toPojo());
-                    } else if( dse.getEvent().equals(conf.getClientEventGetSessions()) ) {
+                    } else if (dse.getEvent().equals(conf.getClientEventGetSessions())) {
                         dataSyncModule.getSessions(dse.toPojo());
-                    } else if( dse.getEvent().equals(conf.getClientEventSynchronize()) ) {
+                    } else if (dse.getEvent().equals(conf.getClientEventSynchronize())) {
                         dataSyncModule.synchronizeClientState(dse.toPojo());
-                    } else if( dse.getEvent().equals(conf.getClientEventJoinSession())) {
+                    } else if (dse.getEvent().equals(conf.getClientEventJoinSession())) {
                         dataSyncModule.joinSession(dse.toPojo());
                     }
                 } catch (DataSyncException e) {
                     e.printStackTrace();
                 }// try
             }
-            
+
             ActionPacketTransformer transformer = new ActionPacketTransformer();
             packetExtension = message.getExtension(transformer.getElementname(), transformer.getNamespace());
-            if(packetExtension != null && packetExtension instanceof WhacketExtension) {
-            	WhacketExtension we = (WhacketExtension) packetExtension;
-            	logger.debug("Received packet with ActionLoggingExtension");
+            if (packetExtension != null && packetExtension instanceof WhacketExtension) {
+                WhacketExtension we = (WhacketExtension) packetExtension;
+                logger.debug("Received packet with ActionLoggingExtension");
                 Action action = (Action) we.getPojo();
                 logger.debug("Received action from " + action.getUser());
                 actionProcessModule.create(action);
             }
-            
+
             logger.debug("Packet didn't contain any PacketExtension");
         }// if 
     }
-    
+
     /**
      * initialize
      */
     public void initialize(JID jid, ComponentManager componentManager) {
-    	
+
         initModules();
     }
-    
+
     /**
      * Init the modules
      */
@@ -122,14 +122,18 @@ public class SCYHubComponent implements Component {
         //register extensions
         DataSyncPacketExtension.registerExtension();
         WhacketExtension.registerExtension(new ActionPacketTransformer());
-        
-        
+
+
         //data sync
         try {
-            dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+            logger.info("CREATING NEW DATASYNC MODULE, CURRENT IS: " + dataSyncModule);
+            if (dataSyncModule == null) {
+                dataSyncModule = DataSyncModuleFactory.getDataSyncModule(DataSyncModuleFactory.LOCAL_STYLE);
+            }
+
             // add listner in order to get callbacks on stuff that's happening
-            dataSyncModule.addDataSyncListener(new IDataSyncListener(){
-                
+            dataSyncModule.addDataSyncListener(new IDataSyncListener() {
+
                 @Override
                 public void handleDataSyncEvent(IDataSyncEvent event) {
                     //send a reply
@@ -140,10 +144,10 @@ public class SCYHubComponent implements Component {
                         //TODO: throw exception here?
                         logger.error("Empty from field. Not good.");
                     }
-                    reply.setFrom(SCYHubComponent.this.getName() + "." +conf.getDatasyncExternalComponentHost());
+                    reply.setFrom(SCYHubComponent.this.getName() + "." + conf.getDatasyncExternalComponentHost());
                     reply.setType(Message.Type.normal);
                     reply.setBody("scyhub cares for you");
-                   
+
                     DataSyncPacketExtension d = new DataSyncPacketExtension(event.getSyncMessage());
                     reply.addExtension(d);
                     try {
@@ -151,7 +155,7 @@ public class SCYHubComponent implements Component {
                     } catch (ComponentException e) {
                         e.printStackTrace();
                     }
-                }                     
+                }
             });
         } catch (Exception exeption) {
             logger.error("Something was messed up during creation of dataSyncModule: ");
@@ -160,15 +164,15 @@ public class SCYHubComponent implements Component {
         // action processing
         actionProcessModule = new ActionProcessModule(conf.getSqlSpacesServerHost(), conf.getSqlSpacesServerPort());
     }
-    
-    
+
+
     /**
      * Starts the component
      */
     public void start() {
         logger.debug("SCYHubComponent.start()");
     }
-    
+
     /**
      * Shuts this baby down
      */
