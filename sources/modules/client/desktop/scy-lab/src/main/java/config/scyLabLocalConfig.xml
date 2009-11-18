@@ -6,8 +6,8 @@
 
    <!-- <import resource="memoryRooloConfig.xml"/> -->
    <!--<import resource="localRooloTemporaryConfig.xml"/>-->
-   <import resource="localWrappedRooloConfig.xml"/>
-   <!--<import resource="localWrappedRooloTemporaryConfig.xml"/>-->
+   <!--import resource="localWrappedRooloConfig.xml"/-->
+   <import resource="localWrappedRooloTemporaryConfig.xml"/>
    <!-- <import resource="remoteRooloConfig.xml"/> -->
 
    <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">

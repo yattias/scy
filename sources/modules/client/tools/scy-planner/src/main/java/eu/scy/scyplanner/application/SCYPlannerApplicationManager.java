@@ -49,6 +49,7 @@ public class SCYPlannerApplicationManager {
         */
 
         String url = JOptionPane.showInputDialog("Input host (for example localhost)");
+        String username = JOptionPane.showInputDialog("Enter your freakin username");
 
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
         fb.setServiceInterface(PedagogicalPlanService.class);
@@ -59,7 +60,7 @@ public class SCYPlannerApplicationManager {
         this.pedagogicalPlanService = service;
         toolBrokerAPI = new ToolBrokerImpl();
         //XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
-        XMPPConnection connection = toolBrokerAPI.getConnection("admin", "admin");
+        XMPPConnection connection = toolBrokerAPI.getConnection(username, username);
         IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
         //service = toolBrokerAPI.getPedagogicalPlanService();
         List scenarios = service.getScenarios();
