@@ -86,7 +86,7 @@ public class ActionXMLTransformer {
             actionPojo.setUser(actionElement.attributeValue("user"));
             actionPojo.setType(actionElement.attributeValue("type"));
             actionPojo.setTime(actionElement.attributeValue("time"));
-            actionPojo.setTimeInMillis(Long.parseLong(actionElement.attributeValue("time")));
+            actionPojo.setTimeInMillis(Long.parseLong(actionElement.attributeValue("timemillis")));
             // creating the context information
             Element contextElement = actionElement.element("context");
             actionPojo.addContext(ContextConstants.tool, contextElement.elementText("tool"));
