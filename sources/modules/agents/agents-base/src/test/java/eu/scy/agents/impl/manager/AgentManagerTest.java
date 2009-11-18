@@ -22,6 +22,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ThreadedAgentMock;
+import eu.scy.agents.impl.tsfactory.SQLTupleSpaceFactory;
 
 /**
  * This class provides some tests to check if the {@link AgentManager} is
@@ -38,6 +39,7 @@ public class AgentManagerTest {
 	private static final int TS_PORT = 2525;
 
 	private static final String TS_HOST = "localhost";
+	// private static final String TS_HOST = "scy.collide.info";
 
 	// If there is a working server on TS_HOST or not
 	private static final boolean STANDALONE = true;
@@ -60,6 +62,7 @@ public class AgentManagerTest {
 	@Before
 	public void setUp() {
 		agentManager = new AgentManager(TS_HOST, TS_PORT);
+		agentManager.setTupleSpaceFactory(new SQLTupleSpaceFactory());
 	}
 
 	/**
