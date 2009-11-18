@@ -6,6 +6,7 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
@@ -81,17 +82,21 @@ public class ChatController {
     }
     
     
-    public void sendMessage(Object recipient, String message) {
-       
+    public void sendMessage(Object recipient, final String message) {       
         //send a message to the awareness server
         if (recipient != null) {
-            IAwarenessUser user = (IAwarenessUser) recipient;
-            try {
-				awarenessService.sendMessage(user.getUsername(), message);
-			} catch (AwarenessServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            final IAwarenessUser user = (IAwarenessUser) recipient;
+            //awarenessService.sendMessage(user.getUsername(), message);
+			SwingUtilities.invokeLater(new Runnable() {
+			    public void run() {
+			    	try {
+						awarenessService.sendMessage(user.getUsername(), message);
+					} catch (AwarenessServiceException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			  });
         }
     }
     
