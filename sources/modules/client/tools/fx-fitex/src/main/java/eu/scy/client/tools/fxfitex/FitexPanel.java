@@ -8,9 +8,9 @@ package eu.scy.client.tools.fxfitex;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.Action;
-import eu.scy.communications.datasync.event.IDataSyncEvent;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.datasync.event.IDataSyncListener;
+//import eu.scy.communications.datasync.event.IDataSyncEvent;
+//import eu.scy.communications.message.ISyncMessage;
+//import eu.scy.communications.datasync.event.IDataSyncListener;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel ;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
@@ -30,7 +30,8 @@ import java.util.Iterator;
  *
  * @author Marjolaine
  */
-public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSyncListener{
+//public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSyncListener{
+public class FitexPanel extends JPanel implements ActionDataProcessTool{
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
 
@@ -45,8 +46,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSy
     public FitexPanel() {
         super();
         this.setLayout(new BorderLayout());
-        initTBI();
-        initActionLogger();
+        //initTBI();
+        //initActionLogger();
         initDataProcessTool();
         load();
     }
@@ -96,10 +97,10 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSy
         return null;
     }
 
-    @Override
-    public void handleDataSyncEvent(IDataSyncEvent e) {
-        ISyncMessage syncMessage = e.getSyncMessage();
-    }
+//    @Override
+//    public void handleDataSyncEvent(IDataSyncEvent e) {
+//        ISyncMessage syncMessage = e.getSyncMessage();
+//    }
 
     @Override
     public void resizeDataToolPanel(int width, int height) {

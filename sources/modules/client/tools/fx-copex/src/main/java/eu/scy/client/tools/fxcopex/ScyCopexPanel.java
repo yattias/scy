@@ -37,8 +37,8 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     public ScyCopexPanel() {
         super();
         this.setLayout(new BorderLayout());
-        initTBI();
-        initActionLogger();
+        //initTBI();
+        //initActionLogger();
         copex = new CopexPanel(true);
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
