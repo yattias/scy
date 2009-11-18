@@ -2,18 +2,14 @@ package eu.scy.client.tools.chattool;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -34,8 +30,6 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.IAwarePresenceEvent;
-import eu.scy.awareness.event.IAwarenessEvent;
-import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.toolbroker.ToolBrokerImpl;
@@ -45,14 +39,14 @@ import eu.scy.toolbroker.ToolBrokerImpl;
  * @author jeremyt
  *
  */
-public class ChatPanelMain extends JPanel {
+public class ChatPresencePanelMain extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ChatPanelMain.class.getName());
+	private static final Logger logger = Logger.getLogger(ChatPresencePanelMain.class.getName());
 
-//	protected JList buddyList;
+	protected JList buddyList;
 	JTextPane chatArea;
-	static ChatPanelMain cmp;
+	static ChatPresencePanelMain cmp;
 	JXTitledPanel chatAreaPanel;
 	protected DefaultListModel buddlyListModel;
 	protected JTextField sendMessageTextField;
@@ -62,7 +56,7 @@ public class ChatPanelMain extends JPanel {
 	private Vector<Object> users = new Vector<Object>();;
 
 	
-	public ChatPanelMain() {
+	public ChatPresencePanelMain() {
 		
 
 		try {
@@ -93,57 +87,23 @@ public class ChatPanelMain extends JPanel {
 	
 	
 	protected void initGUI() {
-//		this.add(createBuddyListPanel(), BorderLayout.WEST);
-		chatArea = new JTextPane();
-		chatArea.setEditable(false);
+		this.add(createBuddyListPanel(), BorderLayout.WEST);
 		this.registerChatArea(chatArea);
-		this.add(createChatArea(), BorderLayout.CENTER);
 		initListeners();
-	}
-
-	
-	protected JPanel createChatArea() {
-		
-		chatAreaPanel = new JXTitledPanel("Welcome");
-		chatAreaPanel.setLayout(new MigLayout("wrap 1"));
-		JScrollPane chatAreaScroll = new JScrollPane(chatArea);
-		chatAreaScroll.setPreferredSize(new Dimension(225, 250));
-		chatAreaPanel.add(chatAreaScroll);
-		
-		sendMessageTextField = new JTextField();
-		sendMessageTextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JTextField textfield = (JTextField) e.getSource();
-				String oldText = chatArea.getText();
-				
-//				if (buddyList.getSelectedValue() == null) {
-//					JOptionPane.showMessageDialog(null, "Please select a recipient before submitting the text ...");
-//				}
-//				else {
-//					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
-					chatController.sendMessage(model.elementAt(0), textfield.getText());
-					chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
-//				}
-			}
-		});
-
-		chatAreaPanel.add(sendMessageTextField, "growx");
-		return chatAreaPanel;
-
 	}
 
 	
 	protected JPanel createBuddyListPanel() {
 		JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
 
-//		buddyList = new JList(model);
-//		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		buddyList = new JList(model);
+		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		updateModel();
 
-//		JScrollPane buddyListScroll = new JScrollPane(buddyList);
-//		buddyListScroll.setPreferredSize(new Dimension(150, 250));
-//
-//		buddyPanel.add(buddyListScroll);
+		JScrollPane buddyListScroll = new JScrollPane(buddyList);
+		buddyListScroll.setPreferredSize(new Dimension(150, 100));
+
+		buddyPanel.add(buddyListScroll);
 		return buddyPanel;
 	}
 
@@ -168,7 +128,7 @@ public class ChatPanelMain extends JPanel {
 				}
 			}
 		};
-//		buddyList.addListSelectionListener(listSelectionListener);
+		buddyList.addListSelectionListener(listSelectionListener);
 
 		MouseListener mouseListener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent mouseEvent) {
@@ -182,31 +142,20 @@ public class ChatPanelMain extends JPanel {
 				}
 			}
 		};
-//		buddyList.addMouseListener(mouseListener);
+		buddyList.addMouseListener(mouseListener);
 	}
 
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cmp = new ChatPanelMain();
+		cmp = new ChatPresencePanelMain();
 		frame.getContentPane().add(cmp);
-		frame.setSize(280, 400);
+		frame.setSize(200, 170);
 		frame.setVisible(true);
 	}
 
 	private void registerChatArea(final JTextPane chatArea) {
-		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
-			@Override
-			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
-				String oldText = chatArea.getText();
-				chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");
-				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
-				cmp.selectCorrectChatter(awarenessEvent.getUser());
-			}
-
-		});
-		
 		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
 			
 			@Override
@@ -228,18 +177,6 @@ public class ChatPanelMain extends JPanel {
 			iau = (IAwarenessUser) chatController.getBuddyListArray().elementAt(i);
 			model.addElement(iau);
 			users.addElement(iau);
-		}
-	}
-
-	protected void selectCorrectChatter(String user) {
-		updateModel();
-		StringTokenizer st = new StringTokenizer(user, "/");
-		String correctUsername = st.nextToken();
-		
-		IAwarenessUser iau;
-		for(int i=0; i<users.size(); i++) {
-			iau = (IAwarenessUser) users.elementAt(i);
-//			
 		}
 	}
 }
