@@ -52,7 +52,8 @@ public class SCYMapperStandalone extends JFrame {
                 app.setTitle("SCYMapper Concept Mapping Tool");
                 try {
                     app.setIconImage(ImageIO.read(getClass().getResource("scy-mapper.png")));
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
                 app.setVisible(true);
             }
         });

@@ -1,10 +1,6 @@
 package eu.scy.scymapper.impl;
 
-import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.event.IDataSyncEvent;
-import eu.scy.communications.datasync.event.IDataSyncListener;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.scymapper.api.*;
+import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
@@ -12,7 +8,8 @@ import org.apache.log4j.Logger;
 import org.jivesoftware.smack.XMPPConnection;
 import roolo.api.IRepository;
 import roolo.elo.JDomBasicELOFactory;
-import roolo.elo.api.*;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataTypeManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +19,7 @@ import java.awt.*;
  * Date: 27.aug.2009
  * Time: 13:29:56
  */
-public class SCYMapperPanel extends JPanel implements IDataSyncListener {
+public class SCYMapperPanel extends JPanel {
 
 	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 	private JToolBar toolBar;
@@ -65,16 +62,16 @@ public class SCYMapperPanel extends JPanel implements IDataSyncListener {
 		add(splitPane, BorderLayout.CENTER);
 	}
 
-	@Override
-	public void handleDataSyncEvent(IDataSyncEvent e) {
-		ISyncMessage syncMessage = e.getSyncMessage();
-		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventCreateSession())) {
-			currentToolSessionId = syncMessage.getToolSessionId();
-		}
-		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventSynchronize())) {
-			logger.debug("GOT SYNCH" + syncMessage.getContent());
-		}
-	}
+//	@Override
+//	public void handleDataSyncEvent(IDataSyncEvent e) {
+//		ISyncMessage syncMessage = e.getSyncMessage();
+//		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventCreateSession())) {
+//			currentToolSessionId = syncMessage.getToolSessionId();
+//		}
+//		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventSynchronize())) {
+//			logger.debug("GOT SYNCH" + syncMessage.getContent());
+//		}
+//	}
 
     public void setRepository(IRepository repository) {
         this.repository = repository;
