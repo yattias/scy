@@ -2,6 +2,7 @@ package eu.scy.scyhub;
 
 import eu.scy.common.configuration.Configuration;
 import eu.scy.communications.datasync.properties.CommunicationProperties;
+import org.apache.log4j.Logger;
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.ComponentException;
 
@@ -13,16 +14,24 @@ import org.xmpp.component.ComponentException;
  * To change this template use File | Settings | File Templates.
  */
 public class SCYHubStarter {
-    
+
+    private static final Logger logger = Logger.getLogger(SCYHubStarter.class.getName());
+
     private SCYHubComponent scyHubComponent;
 
     public SCYHubStarter(SCYHubComponent scyHubComponent) {
+        logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
+        logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
+        logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
+        logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
+        logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
         setScyHubComponent(scyHubComponent);
         final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
         initialize(manager);
     }
 
     public SCYHubStarter(SCYHubComponent scyHubComponent, String dataSyncExternalComponentHost, Integer datasyncPort) {
+        logger.info("CREATING SCY HUB WITH: " + dataSyncExternalComponentHost + " " + datasyncPort);
         setScyHubComponent(scyHubComponent);
         final ExternalComponentManager manager = new ExternalComponentManager(dataSyncExternalComponentHost, datasyncPort);
         initialize(manager);
@@ -31,7 +40,7 @@ public class SCYHubStarter {
     private void initialize(ExternalComponentManager manager) {
         manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
-        System.out.println("Setting up scy hub");
+        System.out.println("SETTING UP SCY HUB");
         try {
             if(getScyHubComponent() == null) {
                 System.out.println("SCY HUB COMPOMENT IS NULL!");

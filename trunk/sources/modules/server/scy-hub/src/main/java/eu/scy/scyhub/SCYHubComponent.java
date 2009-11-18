@@ -37,6 +37,9 @@ public class SCYHubComponent implements Component {
     private IDataSyncModule dataSyncModule;
     private IActionProcessModule actionProcessModule;
 
+    private Integer sqlSpacesServerPort;
+    private String sqlSpacesServerAddress;
+
     private IActionLogger actionLogger;
 
     public SCYHubComponent() {
@@ -162,7 +165,14 @@ public class SCYHubComponent implements Component {
             exeption.printStackTrace();
         }
         // action processing
-        actionProcessModule = new ActionProcessModule(conf.getSqlSpacesServerHost(), conf.getSqlSpacesServerPort());
+
+        String serverHost = getSqlSpacesServerAddress();
+        if(serverHost == null) serverHost = conf.getSqlSpacesServerHost();
+        Integer serverPort = getSqlSpacesServerPort();
+        if(serverHost == null) serverPort = conf.getSqlSpacesServerPort();
+
+        logger.info("TRYING TO CONNECT TO SERVER: " + serverHost +  " " + serverPort);
+        actionProcessModule = new ActionProcessModule(serverHost, serverPort);
     }
 
 
@@ -194,5 +204,21 @@ public class SCYHubComponent implements Component {
 
     public void setDataSyncModule(IDataSyncModule dataSyncModule) {
         this.dataSyncModule = dataSyncModule;
+    }
+
+    public Integer getSqlSpacesServerPort() {
+        return sqlSpacesServerPort;
+    }
+
+    public void setSqlSpacesServerPort(Integer sqlSpacesServerPort) {
+        this.sqlSpacesServerPort = sqlSpacesServerPort;
+    }
+
+    public String getSqlSpacesServerAddress() {
+        return sqlSpacesServerAddress;
+    }
+
+    public void setSqlSpacesServerAddress(String sqlSpacesServerAddress) {
+        this.sqlSpacesServerAddress = sqlSpacesServerAddress;
     }
 }
