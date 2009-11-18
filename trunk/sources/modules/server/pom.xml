@@ -100,9 +100,6 @@
     </dependencies>
 
     <build>
-        <filters>
-            <filter>${filter.file}</filter>
-        </filters>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -129,23 +126,22 @@
 
     </build>
 
-    <modules>
+    <!-- modules>
     	<module>action-logging-hibernate</module>
     	<module>action-logging-server</module>
         <module>scy-useradmin-api</module>
         <module>scy-useradmin-impl</module>
         <module>scy-loginservice-webservice-impl</module>
         <module>scy-sessionmanager-impl</module>
-        <!--module>scy-useradmin-web</module-->
-        <module>scy-hub</module>
+        <module>scy-useradmin-web</module>
+        <smodule>scy-hub</module>
         <module>data-synchronizer</module>
         <module>scy-server-utils</module>
     <module>pedagogical-plan-service-impl</module>
-  </modules>
+  </modules -->
 
-    <properties>
+    <!--properties>
         <cxf.version>2.1</cxf.version>
-        <filter.file>${user.dir}/src/main/filters/serverfilter.properties</filter.file>
-    </properties>
+    </properties -->
 
 </project>
