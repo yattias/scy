@@ -33,8 +33,6 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.Tile;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.EloImporterModel;
 
-import com.sun.javafx.io.http.impl.Base64;
-
 
 
 /**
@@ -59,6 +57,7 @@ public class ELOImporterNode extends CustomNode{
 		setScyWindowTitle()
     };
 
+
     var fileChooser = new JFileChooser();
     var file:File;
     public var filename;
@@ -73,13 +72,10 @@ public class ELOImporterNode extends CustomNode{
                     //getting the file from the fileChooser
                     file = fileChooser.getSelectedFile();
                     filename = file.getAbsolutePath();
-                    //start Uploading the file if it can be read
-                    if (file.canRead()){
-                        fileEncoded = Base64.encode(ImportUtils.getBytesFromFile(file));
                     }
             }
         }
-    }
+    
 
     public var titleBox = TextBox{
         
@@ -158,7 +154,7 @@ public class ELOImporterNode extends CustomNode{
                         Button {
                            text: "New"
                            action: function() {
-                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
+                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text); 
                               println("{eloImporterModel.getFilename()}");
                               eloImporterActionWrapper.newELOAction();
 										setScyWindowTitle();
@@ -174,7 +170,7 @@ public class ELOImporterNode extends CustomNode{
                         Button {
                            text: "Save"
                            action: function() {
-                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
+                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text);
                               eloImporterActionWrapper.saveImportedELOAction();
 										setScyWindowTitle();
                            }
@@ -182,7 +178,7 @@ public class ELOImporterNode extends CustomNode{
                         Button {
                            text: "Save as"
                            action: function() {
-                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
+                              eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text);
                               eloImporterActionWrapper.saveImportedELOAsAction();
 										setScyWindowTitle();
                            }

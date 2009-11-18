@@ -2,10 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,41 +16,43 @@ import org.apache.log4j.Logger;
 public class EloImporterModel {
 
     private static final Logger logger = Logger.getLogger(EloImporterModel.class.getName());
-
     private File file;
     private String fileEncoded;
     private String filename;
     private String description;
     private String title;
-
-    private String fileSize;
+    private long fileSize;
     private String fileFormat;
+    private long fileLastModified;
 
-    public EloImporterModel(){
-        this(null,"","","","");
+    public EloImporterModel() {
+        this(null, "", "", "");
     }
 
-    public EloImporterModel(File file, String filename, String description, String title, String fileEncoded) {
-        this.file = file;
-        this.filename = filename;
-        this.description = description;
-        this.title = title;
-        this.fileEncoded=fileEncoded;
+    public EloImporterModel(File file, String filename, String description, String title) {
+        updateModel(file, filename, description, title);
         logger.info("created EloImporterModel");
-//        String[] filenameSplitted = filename.split(".");
-//        this.fileFormat = filenameSplitted[filenameSplitted.length-1];
     }
 
-    public void updateModel(File file, String filename, String description, String title, String fileEncoded) {
+    public void updateModel(File file, String filename, String description, String title) {
         this.file = file;
         this.filename = filename;
         this.description = description;
         this.title = title;
-        this.fileEncoded=fileEncoded;
-//        String[] filenameSplitted = filename.split(".");
-//        this.fileFormat = filenameSplitted[filenameSplitted.length-1];
+        if (file != null) {
+            try {
+                this.fileEncoded = ImportUtils.encodeBase64(ImportUtils.getBytesFromFile(file));
+                logger.info("Java  -base64-encoded: " + fileEncoded);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(EloImporterModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        this.fileSize = file.length();
+        fileLastModified = file.lastModified();
+        String[] filenameSplitted = filename.split(".");
+        this.fileFormat = filenameSplitted[filenameSplitted.length-1];
         logger.info("updated EloImporterModel");
-        logger.info("filename of imported ELO: "+this.filename);
+        logger.info("filename of imported ELO: " + this.filename);
     }
 
     public String getFileEncoded() {
@@ -59,8 +62,6 @@ public class EloImporterModel {
     public void setFileEncoded(String fileEncoded) {
         this.fileEncoded = fileEncoded;
     }
-
-    
 
     public String getDescription() {
         return description;
@@ -93,7 +94,4 @@ public class EloImporterModel {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-
 }
