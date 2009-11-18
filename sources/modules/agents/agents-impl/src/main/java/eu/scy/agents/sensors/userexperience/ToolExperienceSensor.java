@@ -184,12 +184,10 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser());
             exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis());
-//            exp.setToolInactive(a.getContext(ContextConstants.tool), TimeFormatHelper.getInstance().getISO8601AsLong(a.getTime()));
             logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
 
         } else if (a.getType().equals("focus gained")) {
             String sessionid = a.getContext(ContextConstants.session);
-//            long focusTime = TimeFormatHelper.getInstance().getISO8601AsLong(a.getTime());
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime);
@@ -197,7 +195,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         } else if (a.getType().equals("focus lost")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
-//            long focusEndTime = TimeFormatHelper.getInstance().getISO8601AsLong(a.getTime());
             UserToolExperienceModel exp = userModels.get(a.getUser());
             exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime);
             logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
@@ -267,8 +264,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Modelcount: "+userModels.size());
-//        HashMap<String, UserToolExperienceModel> clone = (HashMap<String, UserToolExperienceModel>) userModels.clone();
         for (Entry<String, UserToolExperienceModel> userModel : userModels.entrySet()) {
             UserToolExperienceModel user = userModel.getValue();
             user.updateActiveToolExperience(UPDATE_INTERVAL, System.currentTimeMillis());
