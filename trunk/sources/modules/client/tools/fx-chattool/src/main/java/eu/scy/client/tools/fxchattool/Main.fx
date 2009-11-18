@@ -13,6 +13,12 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
+import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
+
+
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import roolo.elo.api.IMetadataKey;
 
 /**
  * @author jeremyt
@@ -21,13 +27,18 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorF
 InitLog4JFX.initLog4J();
 
 def scychatId = "chat";
-
+def scychatpresenceId = "presence";
 
 var scyDesktopCreator = ScyDesktopCreator {
     configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
 }
 
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
+var tbi:ToolBrokerImpl = new ToolBrokerImpl();
+var awarenessService:IAwarenessService = tbi.getAwarenessService();
+awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
+
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{iAwarenessService:awarenessService;}, scychatId);
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX{}, scychatpresenceId);
 //scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
 
 
