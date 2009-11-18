@@ -13,10 +13,12 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -48,7 +50,7 @@ public class ChatPanelMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(ChatPanelMain.class.getName());
 
-	//protected JList buddyList;
+//	protected JList buddyList;
 	JTextPane chatArea;
 	static ChatPanelMain cmp;
 	JXTitledPanel chatAreaPanel;
@@ -82,7 +84,7 @@ public class ChatPanelMain extends JPanel {
 
 		ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
 		awarenessService = tbi.getAwarenessService();
-		awarenessService.init(tbi.getConnection("jt11@scy.intermedia.uio.no", "jt11"));
+		awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 
 		chatController = new ChatController(awarenessService);
 		chatController.populateBuddyList();
