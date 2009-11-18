@@ -61,6 +61,12 @@
                </key>
                <value>.url</value>
             </entry>
+            <entry>
+               <key>
+                  <value>scy/ppt</value>
+               </key>
+               <value>.ppt</value>
+            </entry>
          </map>
       </property>
    </bean>
