@@ -21,62 +21,59 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>eu.scy.client.desktop</groupId>
-            <artifactId>scy-desktop</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>scy-desktop</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>fx-drawingtool</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-drawingtool</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>fx-simulator</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-scymapper</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>fx-scydynamics</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-simulator</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>fx-fitex</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+         <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-studentplanningtool</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.tools</groupId>
-            <artifactId>fx-copex</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-scydynamics</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-           <groupId>eu.scy.client.tools</groupId>
-           <artifactId>fx-scymapper</artifactId>
-           <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-fitex</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-           <groupId>eu.scy.client.tools</groupId>
-           <artifactId>fx-flying-saucer</artifactId>
-           <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-copex</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-        <groupId>eu.scy.client.tools</groupId>
-        <artifactId>fx-studentplanningtool</artifactId>
-        <version>${pom.version}</version>
-     </dependency>
-        
-        
-        
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-flying-saucer</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
     </dependencies>
 
@@ -190,7 +187,7 @@
                         <!-- defaults to launch.jnlp -->
                         <!-- used to automatically identify the jar containing the main class. -->
                         <!-- this is perhaps going to change -->
-                        <mainClass>eu.scy.client.desktop.scydesktop.Main</mainClass>
+                        <mainClass>eu.scy.client.desktop.scylab.Main</mainClass>
                     </jnlp>
 
                     <sign>
