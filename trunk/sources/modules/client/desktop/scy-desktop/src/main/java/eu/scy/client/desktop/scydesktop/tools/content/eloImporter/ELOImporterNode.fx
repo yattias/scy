@@ -33,7 +33,8 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.Tile;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.EloImporterModel;
 
-import org.apache.commons.codec.binary.Base64;
+import com.sun.javafx.io.http.impl.Base64;
+
 
 
 /**
@@ -74,7 +75,7 @@ public class ELOImporterNode extends CustomNode{
                     filename = file.getAbsolutePath();
                     //start Uploading the file if it can be read
                     if (file.canRead()){
-                        var fileEncoded = Base64.encodeBase64(ImportUtils.getBytesFromFile(file));
+                        fileEncoded = Base64.encode(ImportUtils.getBytesFromFile(file));
                     }
             }
         }
@@ -158,6 +159,7 @@ public class ELOImporterNode extends CustomNode{
                            text: "New"
                            action: function() {
                               eloImporterModel.updateModel(file, filename, descriptionBox.text, titleBox.text, fileEncoded);
+                              println("{eloImporterModel.getFilename()}");
                               eloImporterActionWrapper.newELOAction();
 										setScyWindowTitle();
                            }

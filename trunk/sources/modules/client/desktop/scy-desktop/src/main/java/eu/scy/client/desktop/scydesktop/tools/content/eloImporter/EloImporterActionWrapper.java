@@ -30,13 +30,13 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  *
- * @author sikken
+ *
  */
 public class EloImporterActionWrapper
 {
 
    private static final Logger logger = Logger.getLogger(EloImporterActionWrapper.class.getName());
-   public static final String scyTextType = "scy/text";
+   public static final String scyTextType = "scy/ppt";
    public static final String untitledDocName = "untitled";
    private static final String textTagName = "file";
    private EloImporterModel eloImporterModel;
@@ -112,7 +112,7 @@ public class EloImporterActionWrapper
    public void setDocName(String docName)
    {
       this.docName = docName;
-      String windowTitle = "Text: ";
+      String windowTitle = "File: ";
       if (StringUtils.hasText(docName))
       {
          windowTitle += docName;
@@ -187,6 +187,8 @@ public class EloImporterActionWrapper
       }
       else
       {
+         logger.info("Filename: "+eloImporterModel.getFilename());
+         logger.info("File encoded: "+eloImporterModel.getFileEncoded());
          elo.getContent().setXmlString(textToEloContentXml(eloImporterModel.getFileEncoded()));
          IMetadata resultMetadata = repository.updateELO(elo);
          eloFactory.updateELOWithResult(elo, resultMetadata);
@@ -217,6 +219,8 @@ public class EloImporterActionWrapper
 //				logger.log(Level.WARNING, "failed to create uri", e);
 //			}
          IContent content = eloFactory.createContent();
+         logger.info("Filename: "+eloImporterModel.getFilename());
+         logger.info("File encoded: "+eloImporterModel.getFileEncoded());
          content.setXmlString(textToEloContentXml(eloImporterModel.getFileEncoded()));
          elo.setContent(content);
          IMetadata resultMetadata = repository.addNewELO(elo);
