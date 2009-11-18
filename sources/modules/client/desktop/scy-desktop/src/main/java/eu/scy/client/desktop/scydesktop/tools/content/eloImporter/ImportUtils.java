@@ -8,44 +8,72 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.codec.binary.Base64;
 
 /**
- *
+ * Utilities for importing ELOs, like Base64-Encoding
  * @author Sven
  */
+
 public class ImportUtils {
 
+    /**
+     * File-to-Byte-Array-Conversion, so the file can be Base64-encoded
+     * @param file The File to convert
+     * @return Byte-Array of the File
+     * @throws IOException
+     */
     public static byte[] getBytesFromFile(File file) throws IOException {
         InputStream is = new FileInputStream(file);
-
-        // Get the size of the file
         long length = file.length();
-
-        // You cannot create an array using a long type.
-        // It needs to be an int type.
-        // Before converting to an int type, check
-        // to ensure that file is not larger than Integer.MAX_VALUE.
         if (length > Integer.MAX_VALUE) {
-            // File is too large
+            new Exception ("Maximum filesize reached.");
         }
-
-        // Create the byte array to hold the data
         byte[] bytes = new byte[(int) length];
-
-        // Read in the bytes
         int offset = 0;
         int numRead = 0;
         while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
             offset += numRead;
         }
-
-        // Ensure all the bytes have been read in
         if (offset < bytes.length) {
             throw new IOException("Could not completely read file " + file.getName());
         }
-
-        // Close the input stream and return bytes
         is.close();
         return bytes;
     }
+
+    /**
+     * Base64-Encoding of a Byte-Array
+     * @param bytesFromFile The Byte-Array to encode, for example from a file
+     * @return String (Base64 encoded)
+     */
+    public static String encodeBase64(byte[] bytesFromFile) {
+        return new String(Base64.encodeBase64(bytesFromFile));
+    }
+
+    /**
+     * Base64-Encoding of a File
+     * @param file the File to encode
+     * @return String (Base64 encoded) or an empty String if the File has thrown an IOException
+     */
+    public static String encodeBase64(File file){
+        try {
+            return encodeBase64(ImportUtils.getBytesFromFile(file));
+        } catch (IOException ex) {
+            Logger.getLogger(ImportUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    /**
+     * Base64-Decoding of a Byte-Array
+     * @param base64Data The data to decode
+     * @return A byte-Array of the decoded data
+     */
+    public static byte[] decodeBase64(byte[] base64Data){
+        return Base64.decodeBase64(base64Data);
+    }
+
 }
