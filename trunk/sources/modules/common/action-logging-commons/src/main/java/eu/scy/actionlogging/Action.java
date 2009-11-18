@@ -37,6 +37,7 @@ public class Action extends ScyBaseObject implements IAction {
     public Action() {
         setId(UUID.randomUUID().toString());
         time = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601();
+        timeInMillis=System.currentTimeMillis();
         attributes = new HashMap<String, String>();
     }
 
