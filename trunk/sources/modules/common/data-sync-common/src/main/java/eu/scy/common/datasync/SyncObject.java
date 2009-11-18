@@ -12,20 +12,23 @@ import org.dom4j.Element;
 
 public class SyncObject implements ISyncObject {
 
+	public static final String PATH = "syncobject"; 
+	
 	private String id;
 	private Map<String, String> properties;
 	private String toolname;
-	private String username;
+	private String userId;
 	private long objectCreated;
 	private long lastChange = 0;
 
-	public SyncObject(String toolname, String username) {
-		this.id = UUID.randomUUID().toString();
-		this.properties = new HashMap<String, String>();
-		this.objectCreated = System.currentTimeMillis();
-		this.lastChange = objectCreated;
+	public SyncObject(String toolname, String userId) {
+		this();
+		id = UUID.randomUUID().toString();
+		objectCreated = System.currentTimeMillis();
+		lastChange = objectCreated;
 		this.toolname = toolname;
-		this.username = username;
+		//TODO: we should not set the user here but automatically by the sync service!
+		this.userId = userId;
 	}
 
 	public SyncObject(String xmlString) throws DocumentException {
@@ -44,10 +47,17 @@ public class SyncObject implements ISyncObject {
 			parseProperties(element.element("properties"));
 		}
 	}
+	
+	/**
+	 * Non-argument constructor should only be called by packet transformers!
+	 */
+	public SyncObject() {
+		properties = new HashMap<String, String>();
+	}
 
 	private void parseContext(Element contextElement) {
 		this.id = contextElement.element("id").getText();
-		this.username = contextElement.element("username").getText();
+		this.userId = contextElement.element("username").getText();
 		this.toolname = contextElement.element("toolname").getText();
 		this.objectCreated = Long.parseLong(contextElement.element(
 		"objectCreated").getText());
@@ -56,7 +66,7 @@ public class SyncObject implements ISyncObject {
 	}
 
 	private void parseProperties(Element propertiesElement) {
-		this.properties = new HashMap<String, String>();
+		properties = new HashMap<String, String>();
 		Element property;
 		for (Iterator<Element> propertyElements = propertiesElement
 				.elementIterator("property"); propertyElements.hasNext();) {
@@ -74,7 +84,7 @@ public class SyncObject implements ISyncObject {
 		context.add(elem);
 		
 		elem = DocumentHelper.createElement("username");
-		elem.setText(this.username);
+		elem.setText(this.userId);
 		context.add(elem);
 		
 		elem = DocumentHelper.createElement("toolname");
@@ -122,6 +132,8 @@ public class SyncObject implements ISyncObject {
 	public String getID() {
 		return id;
 	}
+	
+	
 
 	@Override
 	public long getObjectCreatedTime() {
@@ -149,8 +161,8 @@ public class SyncObject implements ISyncObject {
 	}
 
 	@Override
-	public String getUsername() {
-		return this.username;
+	public String getUserId() {
+		return this.userId;
 	}
 
 	@Override
@@ -158,5 +170,29 @@ public class SyncObject implements ISyncObject {
 		this.properties.put(key, value);
 	}
 
-}
+	@Override
+	public void setLastChangeTime(long timestamp) {
+		this.lastChange = timestamp;
+	}
 
+	@Override
+	public void setObjectCreatedTime(long timestamp) {
+		this.objectCreated = timestamp;
+	}
+
+	@Override
+	public void setToolname(String toolname) {
+		this.toolname = toolname;
+	}
+
+	@Override
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	@Override
+	public void setID(String id) {
+		this.id = id;
+	}
+
+}

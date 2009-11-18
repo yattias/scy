@@ -8,13 +8,23 @@ public interface ISyncObject {
 
 	public String getID();
 	
+	public void setID(String id);
+	
 	public long getObjectCreatedTime();
+
+	public void setObjectCreatedTime(long timestamp);
 	
 	public long getLastChangeTime();
 	
-	public String getToolname();
+	public void setLastChangeTime(long timestamp);
 	
-	public String getUsername();
+	public String getToolname();
+
+	public void setToolname(String toolname);
+	
+	public String getUserId();
+
+	public void setUserId(String userId);
 	
 	public void setProperty(String key, String value);
 	
@@ -25,4 +35,5 @@ public interface ISyncObject {
 	public Element toXMLElement();
 	
 	public String toXMLString();
+	
 }
