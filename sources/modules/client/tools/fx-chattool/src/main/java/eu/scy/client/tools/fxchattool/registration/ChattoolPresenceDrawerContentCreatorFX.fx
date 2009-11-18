@@ -11,29 +11,30 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
-import eu.scy.client.tools.chattool.ChatPanelMain;
 
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
-import eu.scy.awareness.IAwarenessService;
+
+import eu.scy.client.tools.chattool.ChatPresencePanelMain;
 
 /**
  * @author jeremyt
  */
 
-public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
-
+public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreatorFX {
     override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
-         return createChatToolNode(scyWindow);
+         return createChatPresenceToolNode(scyWindow);
     }
 
     public var node:Node;
-    public var iAwarenessService:IAwarenessService;
    //public var metadataTypeManager: IMetadataTypeManager;
    // public var repository:IRepository;
 
-    function createChatToolNode(scyWindow:ScyWindow):ChatToolNode {
-        var chatTool = new ChatPanelMain(iAwarenessService);
+    function createChatPresenceToolNode(scyWindow:ScyWindow):ChatPresenceToolNode{
+        var chatPresenceTool = new ChatPresencePanelMain();
 
-        return ChatToolNode{chatTool:chatTool;}
+        return ChatPresenceToolNode{
+            chatPresenceTool:chatPresenceTool;
+
+         }
    }
 }
