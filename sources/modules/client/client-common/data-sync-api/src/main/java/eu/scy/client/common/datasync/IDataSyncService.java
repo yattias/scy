@@ -19,8 +19,9 @@ public interface IDataSyncService {
 	* leaving sessions
 	*
 	* do we need parameters to specify characteristics of a session?
+ * @throws Exception 
    */
-  public ISyncSession createSession(ISyncListener listener);
+  public ISyncSession createSession(ISyncListener listener) throws Exception;
 
   /**
    * joins a session, i.e. registers an IDataSyncListener
