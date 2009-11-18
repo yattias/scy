@@ -3,8 +3,8 @@ package eu.scy.client.tools.scysimulator;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
-import eu.scy.communications.message.IScyMessage;
-import eu.scy.communications.message.impl.ScyMessage;
+//import eu.scy.communications.message.IScyMessage;
+//import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.util.Iterator;
 import java.util.Locale;
@@ -37,17 +37,17 @@ public class DatasetSandbox {
     private void initCollaborationService() throws CollaborationServiceException {
         collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
         // TODO: Username needs to be fetched from the user management
-        collaborationService.synchronizeClientState("User", TOOL_NAME, SESSION_ID, true);
+        //collaborationService.synchronizeClientState("User", TOOL_NAME, SESSION_ID, true);
     }
 
-    private void send(IScyMessage message) {
+    /*private void send(IScyMessage message) {
         System.out.println("DatasetSandbox sending:\n"+message.toString());
         try {
             collaborationService.create(message);
         } catch (CollaborationServiceException ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 
     private void sendDataRows() {
         DataSetRow row;
@@ -58,7 +58,7 @@ public class DatasetSandbox {
     }
 
     public void sendDataSetRow(DataSetRow row) {
-        IScyMessage datarowmessage = ScyMessage.createScyMessage(
+        /*IScyMessage datarowmessage = ScyMessage.createScyMessage(
                 "lars@simulator",  //username
                 TOOL_NAME, //toolName
                 //UUID.randomUUID().toString(), //id
@@ -72,11 +72,11 @@ public class DatasetSandbox {
                 0,  // expiration time
                 SESSION_ID); // session
 
-        send(datarowmessage);
+        send(datarowmessage);*/
     }
 
     private void sendHeaderMessage() {
-        IScyMessage headermessage = ScyMessage.createScyMessage(
+        /*IScyMessage headermessage = ScyMessage.createScyMessage(
                 "lars@simulator",  //username
                 TOOL_NAME, //toolName
                 //UUID.randomUUID().toString(), //id
@@ -90,7 +90,7 @@ public class DatasetSandbox {
                 0,  // expiration time
                 SESSION_ID); // session
 
-        send(headermessage);
+        send(headermessage);*/
     }
 
 }
