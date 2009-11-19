@@ -131,7 +131,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="hypothesis"/>
-               <property name="uri" value="roolo://memory/0/0/Hyposthesis.text"/>
+               <property name="uri" value="roolo://memory/0/0/Hypothesis.text"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="40"/>
                <property name="nextMissionAnchorNames">
