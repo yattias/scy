@@ -199,29 +199,39 @@ public class BasicConfig implements Config
       for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
       {
          BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
-         try
+         missionAnchor.setEloUri(basicMissionAnchorConfig.getUri());
+         IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
+         if (metadata != null)
          {
-            missionAnchor.setEloUri(new URI(basicMissionAnchorConfig.getUri()));
-            IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
-            if (metadata != null)
-            {
-               missionAnchor.setExisting(true);
-               missionAnchor.setTitle((String) metadata.getMetadataValueContainer(titleKey).getValue());
-            }
-            else
-            {
-               missionAnchor.setExisting(false);
-            }
-            missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
-            missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
-            missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
-            basicMissionAnchors.add(missionAnchor);
-            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
+            missionAnchor.setExisting(true);
+            missionAnchor.setTitle((String) metadata.getMetadataValueContainer(titleKey).getValue());
          }
-         catch (URISyntaxException ex)
+         else
          {
-            logger.error("invalid uri '" + basicMissionAnchorConfig.getUri() + "'  used, " + ex.getMessage());
+            missionAnchor.setExisting(false);
          }
+         missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
+         missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
+         missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
+         List<URI> helpEloUris = new ArrayList<URI>();
+         if (basicMissionAnchorConfig.getHelpEloUris() != null)
+         {
+            for (URI helpEloUri : basicMissionAnchorConfig.getHelpEloUris())
+            {
+               IMetadata helpEloMetadata = repository.retrieveMetadata(helpEloUri);
+               if (helpEloMetadata != null)
+               {
+                  helpEloUris.add(helpEloUri);
+               }
+               else
+               {
+                  logger.info("Could not find help elo uri: " + helpEloUri + " for mission anchor " + basicMissionAnchorConfig.getName());
+               }
+            }
+         }
+         missionAnchor.setHelpEloUris(helpEloUris);
+         basicMissionAnchors.add(missionAnchor);
+         basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
       }
       // fill in the links
       for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)

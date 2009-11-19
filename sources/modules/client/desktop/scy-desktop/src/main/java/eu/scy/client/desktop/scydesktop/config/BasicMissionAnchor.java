@@ -25,6 +25,7 @@ public class BasicMissionAnchor implements MissionAnchor
    private boolean existing;
    private List<MissionAnchor> nextMissionAnchors;
    private List<String> relationNames;
+   private List<URI> helpEloUris;
 
    public Color getColor()
    {
@@ -114,6 +115,17 @@ public class BasicMissionAnchor implements MissionAnchor
    public void setYPosition(float yPosition)
    {
       this.yPosition = yPosition;
+   }
+
+   @Override
+   public List<URI> getHelpEloUris()
+   {
+      return helpEloUris;
+   }
+
+   public void setHelpEloUris(List<URI> helpEloUris)
+   {
+      this.helpEloUris = helpEloUris;
    }
 
 
