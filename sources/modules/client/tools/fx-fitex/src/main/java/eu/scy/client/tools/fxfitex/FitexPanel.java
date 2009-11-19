@@ -54,11 +54,11 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool{
 
     /* tbi initialization*/
     private void initTBI(){
-        tbi=  new ToolBrokerImpl();
+        //tbi=  new ToolBrokerImpl();
     }
     /* initialization action logger */
     private void initActionLogger(){
-        actionLogger = tbi.getActionLogger();
+        //actionLogger = tbi.getActionLogger();
     }
 
     private void initDataProcessTool(){
