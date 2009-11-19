@@ -63,9 +63,9 @@ public abstract class Corner extends CustomNode {
       newContent();
       return Group {
          content: [
-            getBackground(),
+//            getBackground(),
             contentGroup,
-            getBorder(),
+//            getBorder(),
          ]
       };
    }
