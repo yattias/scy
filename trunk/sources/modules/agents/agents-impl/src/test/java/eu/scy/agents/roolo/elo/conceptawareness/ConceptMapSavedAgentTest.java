@@ -31,6 +31,7 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 	@AfterClass
 	public static void tearDown() {
 		// stopTupleSpaceServer();
+	    stopTupleSpaceServer();
 	}
 
 	@Override

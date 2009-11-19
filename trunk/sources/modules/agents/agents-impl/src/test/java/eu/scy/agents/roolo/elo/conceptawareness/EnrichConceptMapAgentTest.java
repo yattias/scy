@@ -6,6 +6,7 @@ import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,5 +67,9 @@ public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 		assertEquals("is a", linkLabels.get(2));
 		assertEquals("13768021-13768021", linkLabels.get(3));
 		assertEquals("Determines", linkLabels.get(4));
+	}
+	@After
+	public void tearDown(){
+	    super.stopTupleSpaceServer();
 	}
 }
