@@ -15,6 +15,8 @@
                 <ref bean="factory"/>
                 <ref bean="redcircle"/>
                 <ref bean="greenoval"/>
+                <ref bean="bergen"/>
+                <ref bean="flood"/>
             </list>
         </property>
         <property name="availableLinkTypes">
@@ -26,11 +28,11 @@
                 <ref bean="mutually_influence"/>
             </list>
         </property>
-        <property name="predefinedNodes">
+        <!--property name="predefinedNodes">
             <list>
                 <ref bean="houseConcept"/>
             </list>
-        </property>
+        </property-->
 
     </bean>
 
@@ -76,8 +78,7 @@
 
     <bean id="egg" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
         <property name="name" value="Egg"/>
-        <property name="nodeShape" ref="eggShape">
-        </property>
+        <property name="nodeShape" ref="eggShape"/>
     </bean>
     <bean name="eggShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
         <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/egg.svg"/>
@@ -155,6 +156,31 @@
         <property name="width" value="125"/>
         <property name="height" value="83"/>
     </bean>
+    <bean id="flood" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+        <property name="name" value="Flood"/>
+        <property name="nodeShape">
+            <bean class="eu.scy.scymapper.impl.shapes.concepts.ImageShape">
+                <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/flood.jpg"/>
+            </bean>
+        </property>
+        <property name="nodeStyle">
+            <bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+                <property name="foreground">
+                    <bean class="java.awt.Color">
+                        <constructor-arg value="0xffffff"/>
+                    </bean>
+                </property>
+                <property name="background">
+                    <bean class="java.awt.Color">
+                        <constructor-arg value="0x444444"/>
+                    </bean>
+                </property>
+                <property name="opaque" value="true"/>
+            </bean>
+        </property>
+        <property name="width" value="125"/>
+        <property name="height" value="83"/>
+    </bean>
     <bean id="redcircle" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
         <property name="name" value="Red circle"/>
         <property name="nodeShape">
@@ -193,7 +219,7 @@
                 <property name="canConnect" value="true"/>
                 <property name="canDelete" value="false"/>
                 <property name="canSelect" value="false"/>
-                <property name="canEditLabel" value="false"/>
+                <property name="canEditLabel" value="true"/>
                 <property name="canMove" value="true"/>
                 <property name="canResize" value="false"/>
             </bean>

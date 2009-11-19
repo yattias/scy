@@ -63,25 +63,33 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelTextarea.setForeground(getModel().getStyle().getForeground());
         labelTextarea.setWrapStyleWord(true);
         labelTextarea.setLineWrap(true);
+        labelTextarea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
 
         labelScroller = new JScrollPane(labelTextarea);
         labelTextarea.setMargin(new Insets(0, 0, 0, 0));
         labelTextarea.setBorder(BorderFactory.createEmptyBorder());
         labelScroller.getViewport().setOpaque(false);
+
         setLabelEditable(false);
 
         add(labelScroller);
 
+//        MouseListener dblClickListener = new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (e.getClickCount() == 2)
+//                    setLabelEditable(true);
+//            }
+//        };
+//
+//        addMouseListener(dblClickListener);
         labelTextarea.addMouseListener(new MouseAdapter() {
-            public int caretPos;
-
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) caretPos = labelTextarea.getCaretPosition();
-                if (e.getClickCount() == 2)
-                    setLabelEditable(true, caretPos);
+                setLabelEditable(true);
             }
         });
+
         labelTextarea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -140,6 +148,10 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         labelTextarea.setEditable(editable);
         labelTextarea.setOpaque(editable);
 
+
+        labelTextarea.setForeground(editable ? Color.BLACK : model.getStyle().getForeground());
+        labelTextarea.setBackground(editable ? Color.WHITE : model.getStyle().getBackground());
+
         labelTextarea.setCaretPosition(caretPos);
         if (editable) labelTextarea.requestFocus();
 
@@ -196,7 +208,7 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         //labelTextarea.setSize(width, height);
         labelTextarea.setVisible(!getModel().isLabelHidden());
 
-        double x = ((maxWidth / 2) - (width / 2)) +10;
+        double x = ((maxWidth / 2) - (width / 2)) + 10;
         double y = ((maxHeight / 2d) - (height / 2d)) + 10;
 
         labelScroller.setBounds((int) x, (int) y, width, height);
