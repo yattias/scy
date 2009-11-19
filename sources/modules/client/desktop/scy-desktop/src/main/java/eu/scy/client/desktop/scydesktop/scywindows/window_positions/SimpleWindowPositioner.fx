@@ -32,8 +32,8 @@ public class SimpleWindowPositioner extends WindowPositioner {
    def initialY = 25;
    def xStep = 25;
    def yStep = 25;
-   def centerWidthFactor = 0.3;
-   def centerHeightFactor = 0.3;
+   def centerWidthFactor = 0.25;
+   def centerHeightFactor = 0.1;
 
    def maximumIntersectionTarget = 1.0;
 
