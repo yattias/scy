@@ -27,114 +27,113 @@ import eu.scy.agents.impl.manager.AgentManager;
 
 public class AbstractTestFixture {
 
-	// protected static final String TSHOST = "localhost";
-	protected static final String TSHOST = "scy.collide.info";
-	protected static final int TSPORT = 2525;
+    // protected static final String TSHOST = "localhost";
+    protected static String TSHOST = "scy.collide.info";
 
-	protected IMetadataTypeManager typeManager;
-	protected IExtensionManager extensionManager;
-	protected IRepository repository;
+    protected static final int TSPORT = 2525;
 
-	protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
-	private AgentManager agentFramework;
-	private ArrayList<String> agentList;
-	private TupleSpace tupleSpace;
+    public static final boolean STANDALONE = true;
 
-	protected void setUp() throws Exception {
-		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false,
-				false, AgentProtocol.COMMAND_SPACE_NAME);
+    protected IMetadataTypeManager typeManager;
 
-		agentMap.clear();
+    protected IExtensionManager extensionManager;
 
-		agentList = new ArrayList<String>();
+    protected IRepository repository;
 
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"test-config.xml");
+    protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
 
-		typeManager = (IMetadataTypeManager) applicationContext
-				.getBean("metadataTypeManager");
-		extensionManager = (IExtensionManager) applicationContext
-				.getBean("extensionManager");
-		repository = (IRepository) applicationContext
-				.getBean("localRepository");
-	}
+    private AgentManager agentFramework;
 
-	protected IELO createNewElo() {
-		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
-		return elo;
-	}
+    private ArrayList<String> agentList;
 
-	protected IELO createNewElo(String title, String type) {
-		BasicELO elo = new BasicELO();
-		elo.setIdentifierKey(typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
-		IMetadataValueContainer titleContainer = elo.getMetadata()
-				.getMetadataValueContainer(
-						typeManager
-								.getMetadataKey(CoreRooloMetadataKeyIds.TITLE
-										.getId()));
-		titleContainer.setValue(title);
-		IMetadataValueContainer typeContainer = elo
-				.getMetadata()
-				.getMetadataValueContainer(
-						typeManager
-								.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
-										.getId()));
-		typeContainer.setValue(type);
-		return elo;
-	}
+    private TupleSpace tupleSpace;
 
-	protected static void startTupleSpaceServer() {
-		if (!Server.isRunning()) {
-			Configuration conf = Configuration.getConfiguration();
-			conf.setNonSSLPort(TSPORT);
-			conf.setSSLEnabled(false);
-			conf.setDbType(Database.HSQL);
-			conf.setWebEnabled(false);
-			conf.setWebServicesEnabled(false);
-			Server.startServer();
-		}
-	}
+    protected void setUp() throws Exception {
+        if (STANDALONE) {
+            TSHOST = "localhost";
+            Configuration conf = Configuration.getConfiguration();
+            conf.setWebEnabled(false);
+            Server.startServer();
+        }
+        tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
 
-	protected static void stopTupleSpaceServer() {
-		// if (Server.isRunning()) {
-		Server.stopServer();
-		// }
-	}
+        agentMap.clear();
 
-	public void startAgentFramework(Map<String, Map<String, Object>> agents) {
-		agentList.clear();
-		agentFramework = new AgentManager(TSHOST, TSPORT);
-		agentFramework.setRepository(repository);
-		agentFramework.setMetadataTypeManager(typeManager);
-		for (String agentName : agents.keySet()) {
-			Map<String, Object> params = agents.get(agentName);
-			try {
-				agentList.add(agentFramework.startAgent(agentName, params)
-						.getId());
-			} catch (AgentLifecycleException e) {
-				// TODO what to do with these exception.
-				e.printStackTrace();
-			}
-		}
-	}
+        agentList = new ArrayList<String>();
 
-	public TupleSpace getTupleSpace() throws TupleSpaceException {
-		// return new TupleSpace(new User("test"), "localhost", Configuration
-		// .getConfiguration().getNonSSLPort(), false, false,
-		// AgentProtocol.COMMAND_SPACE_NAME);
-		return tupleSpace;
-	}
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("test-config.xml");
 
-	protected void stopAgentFrameWork() throws AgentLifecycleException {
-		for (String agentId : agentList) {
-			agentFramework.killAgent(agentId);
-		}
-	}
+        typeManager = (IMetadataTypeManager) applicationContext.getBean("metadataTypeManager");
+        extensionManager = (IExtensionManager) applicationContext.getBean("extensionManager");
+        repository = (IRepository) applicationContext.getBean("localRepository");
+    }
 
-	protected PersistentStorage getPersistentStorage() {
-		return new PersistentStorage(TSHOST, TSPORT);
-	}
+    protected IELO createNewElo() {
+        BasicELO elo = new BasicELO();
+        elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+        return elo;
+    }
+
+    protected IELO createNewElo(String title, String type) {
+        BasicELO elo = new BasicELO();
+        elo.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+        IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
+        titleContainer.setValue(title);
+        IMetadataValueContainer typeContainer = elo.getMetadata().getMetadataValueContainer(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
+        typeContainer.setValue(type);
+        return elo;
+    }
+
+    protected static void startTupleSpaceServer() {
+        if (!Server.isRunning()) {
+            Configuration conf = Configuration.getConfiguration();
+            conf.setNonSSLPort(TSPORT);
+            conf.setSSLEnabled(false);
+            conf.setDbType(Database.HSQL);
+            conf.setWebEnabled(false);
+            conf.setWebServicesEnabled(false);
+            Server.startServer();
+        }
+    }
+
+    protected static void stopTupleSpaceServer() {
+        if (STANDALONE) {
+            Server.stopServer();
+        }
+    }
+
+    public void startAgentFramework(Map<String, Map<String, Object>> agents) {
+        agentList.clear();
+        agentFramework = new AgentManager(TSHOST, TSPORT);
+        agentFramework.setRepository(repository);
+        agentFramework.setMetadataTypeManager(typeManager);
+        for (String agentName : agents.keySet()) {
+            Map<String, Object> params = agents.get(agentName);
+            try {
+                agentList.add(agentFramework.startAgent(agentName, params).getId());
+            } catch (AgentLifecycleException e) {
+                // TODO what to do with these exception.
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public TupleSpace getTupleSpace() throws TupleSpaceException {
+        // return new TupleSpace(new User("test"), "localhost", Configuration
+        // .getConfiguration().getNonSSLPort(), false, false,
+        // AgentProtocol.COMMAND_SPACE_NAME);
+        return tupleSpace;
+    }
+
+    protected void stopAgentFrameWork() throws AgentLifecycleException {
+        for (String agentId : agentList) {
+            agentFramework.killAgent(agentId);
+        }
+    }
+
+    protected PersistentStorage getPersistentStorage() {
+        return new PersistentStorage(TSHOST, TSPORT);
+    }
+
+    
 }
