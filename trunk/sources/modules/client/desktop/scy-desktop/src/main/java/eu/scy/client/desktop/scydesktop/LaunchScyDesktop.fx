@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
-//import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ELOImporterToolContentCreator;
+import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ELOImporterToolContentCreator;
 
 /**
  * @author sikkenj
@@ -75,7 +75,7 @@ var scyDesktopCreator = ScyDesktopCreator{
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, "text");
 //scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
-//scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ELOImporterToolContentCreator{}, "ppt");
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ELOImporterToolContentCreator{}, "ppt");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
 

@@ -46,9 +46,9 @@ public class EloImporterModel {
             } catch (IOException ex) {
                 java.util.logging.Logger.getLogger(EloImporterModel.class.getName()).log(Level.SEVERE, null, ex);
             }
+           this.fileSize = file.length();
+           fileLastModified = file.lastModified();
         }
-        this.fileSize = file.length();
-        fileLastModified = file.lastModified();
         String[] filenameSplitted = filename.split(".");
         this.fileFormat = filenameSplitted[filenameSplitted.length-1];
         logger.info("updated EloImporterModel");

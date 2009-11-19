@@ -29,7 +29,7 @@ public class SimpleWindowPositioner extends WindowPositioner {
    var windows:ScyWindow[];
 
    def initialX = 10;
-   def initialY = 10;
+   def initialY = 25;
    def xStep = 25;
    def yStep = 25;
    def centerWidthFactor = 0.3;
@@ -91,8 +91,16 @@ public class SimpleWindowPositioner extends WindowPositioner {
       }
       else{
          // enough space to place to closed window, assume enough space for the opened window
-         window.width = (1-2*centerWidthFactor)*width;
-         window.height = (1-2*centerHeightFactor)*height;
+         var windowWidth = (1-2*centerWidthFactor)*width;
+         var windowHeigth = (1-2*centerHeightFactor)*height;
+         if (window.isClosed){
+            window.openWindow(windowWidth, windowHeigth);
+         }
+         else{
+            window.setMinimize(false);
+            window.width = windowHeigth;
+            window.height = windowHeigth;
+         }
          insert window into windows;
       }
    }
@@ -108,10 +116,19 @@ public class SimpleWindowPositioner extends WindowPositioner {
 
    function addWindowImmediately(window:ScyWindow){
       if (not isKnownOtherWindow(window)){
+         minimizeWindow(window);
          positionWindow(window);
          insert window into windows;
       }
    }
+
+   function minimizeWindow(window:ScyWindow){
+      if (not window.isClosed){
+         window.setMinimize(true);
+      }
+
+   }
+
 
    function positionWindow(window:ScyWindow){
       var startNanos = System.nanoTime();
