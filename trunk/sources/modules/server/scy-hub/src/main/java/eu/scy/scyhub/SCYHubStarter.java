@@ -1,7 +1,6 @@
 package eu.scy.scyhub;
 
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
 import org.apache.log4j.Logger;
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.ComponentException;
