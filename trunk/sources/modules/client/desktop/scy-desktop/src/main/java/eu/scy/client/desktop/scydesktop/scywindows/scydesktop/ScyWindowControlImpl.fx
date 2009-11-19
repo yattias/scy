@@ -151,7 +151,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       var scyWindow = findScyWindow(eloUri);
       if (scyWindow==null){
          scyWindow = createScyWindow(eloUri);
-         insert scyWindow into scyWindows;
       }
       return scyWindow;
    }
@@ -170,6 +169,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
 //      applyMetadataAttributes(scyWindow,eloUri);
 //      windowContentFactory.fillWindowContent(eloUri,scyWindow,null);
       windowStyler.style(scyWindow, eloUri);
+      insert scyWindow into scyWindows;
       return scyWindow;
    }
 
@@ -179,6 +179,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          setScyContent:setScyContent;
       }
       windowStyler.style(scyWindow);
+      insert scyWindow into scyWindows;
       return scyWindow;
    }
 
