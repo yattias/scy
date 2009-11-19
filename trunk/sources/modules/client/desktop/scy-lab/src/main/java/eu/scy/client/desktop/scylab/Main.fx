@@ -90,8 +90,8 @@ scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
 
 var stage = Stage {
     title: "SCY Lab"
-    width: 400
-    height: 300
+    width: 1024
+    height: 700
     scene: Scene {
         content: [
             scyDesktop
