@@ -5,6 +5,7 @@
 
 package eu.scy.client.desktop.scydesktop.config;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -13,11 +14,12 @@ import java.util.List;
  */
 public class BasicMissionAnchorConfig {
    private String name;
-   private String uri;
+   private URI uri;
    private float xPosition;
    private float yPosition;
    private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
+   private List<URI> helpEloUris;
 
    public String getName()
    {
@@ -49,12 +51,22 @@ public class BasicMissionAnchorConfig {
       this.relationNames = relationNames;
    }
 
-   public String getUri()
+   public List<URI> getHelpEloUris()
+   {
+      return helpEloUris;
+   }
+
+   public void setHelpEloUris(List<URI> helpEloUris)
+   {
+      this.helpEloUris = helpEloUris;
+   }
+
+   public URI getUri()
    {
       return uri;
    }
 
-   public void setUri(String uri)
+   public void setUri(URI uri)
    {
       this.uri = uri;
    }

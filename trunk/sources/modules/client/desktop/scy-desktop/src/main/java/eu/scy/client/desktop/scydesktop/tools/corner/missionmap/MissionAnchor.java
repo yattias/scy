@@ -24,4 +24,5 @@ public interface MissionAnchor {
    public boolean isExisting();
    public List<MissionAnchor> getNextMissionAnchors();
    public List<String> getRelationNames();
+   public List<URI> getHelpEloUris();
 }

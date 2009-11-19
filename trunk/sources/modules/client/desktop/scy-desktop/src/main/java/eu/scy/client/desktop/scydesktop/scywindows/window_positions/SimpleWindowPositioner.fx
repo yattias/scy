@@ -58,6 +58,11 @@ public class SimpleWindowPositioner extends WindowPositioner {
       addWindowImmediately(window);
    }
 
+   public override function addHelpWindow(window:ScyWindow):Void{
+   //       logger.info("addOtherWindow({window.title})");
+      addWindowImmediately(window);
+   }
+
    public override function placeOtherWindow(window:ScyWindow):Void{
       addWindowImmediately(window);
    }
@@ -81,9 +86,13 @@ public class SimpleWindowPositioner extends WindowPositioner {
       window.layoutY = centerHeightFactor * height;
       var maximumIntersection = calculateMaximumIntersection(window,Number.MAX_VALUE);
       if (maximumIntersection>maximumIntersectionTarget){
+         // not enough space in the center
          addWindowImmediately(window);
       }
       else{
+         // enough space to place to closed window, assume enough space for the opened window
+         window.width = (1-2*centerWidthFactor)*width;
+         window.height = (1-2*centerHeightFactor)*height;
          insert window into windows;
       }
    }

@@ -49,6 +49,9 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
          }
          missionAnchorFXMap.put(missionAnchorFX.eloUri, missionAnchorFX);
          insert missionAnchorFX into missionModelFX.anchors;
+         for (uriObject in missionAnchor.getHelpEloUris()){
+            insert uriObject as URI into missionAnchorFX.helpEloUris;
+         }
       }
       // fill in the sequences of next anchors
       for (missionAnchor in missionAnchors)

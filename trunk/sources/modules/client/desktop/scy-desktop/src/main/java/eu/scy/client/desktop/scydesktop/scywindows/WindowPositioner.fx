@@ -50,6 +50,12 @@ public mixin class WindowPositioner {
     */
     public abstract function addOtherWindow(window:ScyWindow):Void;
 
+    /**
+    * adds a help window.
+    *
+    * Positioning could be postphoned until positionWindows is called
+    */
+    public abstract function addHelpWindow(window:ScyWindow):Void;
 
     /**
     * adds an other window.
