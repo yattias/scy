@@ -42,7 +42,7 @@ public class BasicConfig implements Config
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
    private List<BasicMissionAnchorConfig> basicMissionAnchorConfigs;
-   private String activeMissionAnchorUri;
+   private URI activeMissionAnchorUri;
    private File loggingDirectory;
    private boolean redirectSystemStreams = false;
    private String backgroundImageFileName;
@@ -174,13 +174,13 @@ public class BasicConfig implements Config
       return basicMissionAnchorConfigs;
    }
 
-   public void setActiveMissionAnchorUri(String activeMissionAnchorUri)
+   public void setActiveMissionAnchorUri(URI activeMissionAnchorUri)
    {
       this.activeMissionAnchorUri = activeMissionAnchorUri;
    }
 
    @Override
-   public String getActiveMissionAnchorUri()
+   public URI getActiveMissionAnchorUri()
    {
       return activeMissionAnchorUri;
    }

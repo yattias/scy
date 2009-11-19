@@ -107,7 +107,7 @@
          </list>
       </property>
 
-      <property name="activeMissionAnchorUri" value="roolo://memory/99/0/Mission_intro.text"/>
+      <property name="activeMissionAnchorUri" value="roolo://memory/0/0/Mission_description.text"/>
 
     <!--  <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
       <property name="backgroundImageFileNameRelative" value="true"/> -->

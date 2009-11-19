@@ -32,6 +32,8 @@ import java.lang.Thread;
 import org.apache.log4j.Logger;
 import javafx.scene.paint.Color;
 
+import java.net.URI;
+
 
 /**
  * @author sikkenj
@@ -171,9 +173,9 @@ public class ScyDesktopCreator {
       return 1 - (1-value)/2.0;
    }
 
-   function getActiveMissionAnchor(missionModel:MissionModelFX, uri:String):MissionAnchorFX{
+   function getActiveMissionAnchor(missionModel:MissionModelFX, uri:URI):MissionAnchorFX{
      for (missionAnchor in missionModel.anchors){
-        if (uri == missionAnchor.eloUri.toString()){
+        if (uri == missionAnchor.eloUri){
            return missionAnchor;
         }
      }
