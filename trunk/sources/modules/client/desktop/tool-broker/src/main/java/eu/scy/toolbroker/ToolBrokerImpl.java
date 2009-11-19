@@ -14,18 +14,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
-import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.client.common.datasync.DataSyncService;
+import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
-import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -75,7 +73,10 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     
     
     @SuppressWarnings("unchecked")
-    public ToolBrokerImpl() {
+    public ToolBrokerImpl(String username, String password) {
+    	
+    	getConnection(username, password);
+    	
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
         
         repository = (IRepository) context.getBean("repository");
@@ -92,7 +93,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         sessionManager = (SessionManager) context.getBean("sessionManager");
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
         collaborationService = (ICollaborationService) context.getBean("collaborationService");
-        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+//        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+        dataSyncService = new DataSyncService(xmppConnection);
         pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
     }
     
@@ -202,11 +204,6 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     }
     
     @Override
-    public ICollaborationService getCollaborationService() {
-        return collaborationService;
-    }
-    
-    @Override
     public IDataSyncService getDataSyncService() {
         return dataSyncService;
     }
@@ -246,8 +243,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	        } catch (XMPPException e1) {
 	            logger.error("xmpp login failed. bummer. " + e1);
 	            e1.printStackTrace();
-	        }
-
+	        }        
 	        
 	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
 	            
@@ -284,7 +280,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     	}
         return xmppConnection;
     }
-
+    
     @Override
     public PedagogicalPlanService getPedagogicalPlanService() {
         return pedagogicalPlanService;

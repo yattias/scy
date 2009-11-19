@@ -20,7 +20,7 @@ public class ToolBrokerTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        toolBroker = new ToolBrokerImpl<IMetadataKey>();
+        toolBroker = new ToolBrokerImpl<IMetadataKey>("obama", "obama");
     }
 
     /**
