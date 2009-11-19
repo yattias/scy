@@ -32,7 +32,7 @@ public class AbstractTestFixture {
 
     protected static final int TSPORT = 2525;
 
-    public static final boolean STANDALONE = true;
+    public static final boolean STANDALONE = false;
 
     protected IMetadataTypeManager typeManager;
 
