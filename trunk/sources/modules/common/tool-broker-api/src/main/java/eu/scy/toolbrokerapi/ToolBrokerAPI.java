@@ -9,13 +9,13 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.collaborationservice.ICollaborationService;
-import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.notification.api.INotificationService;
 import eu.scy.sessionmanager.SessionManager;
 
 /**
- * This is the interface of the ToolImpl-Broker-API. The ToolImpl-Broker-API can return
+ * This is the interface of the Tool-Broker-API. The Tool-Broker-API can return
  * references to all SCY broker services like the repository, the user
  * management etc. These services can then be used by the tools.
  * 
@@ -64,12 +64,6 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      */
     public IAwarenessService getAwarenessService();
     
-    /**
-     * @return the collaboration service
-     */
-    public ICollaborationService getCollaborationService();
-
-
     /**
      * @return the data sync service
      */
