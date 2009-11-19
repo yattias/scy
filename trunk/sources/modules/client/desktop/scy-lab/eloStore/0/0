@@ -3,11 +3,11 @@
   <lom>
     <general>
       <title>
-        <string language="en">Hyposthesis</string>
+        <string language="en">Hypothesis</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/0/0/Hyposthesis.text</entry>
+        <entry>roolo://memory/0/0/Hypothesis.text</entry>
       </identifier>
     </general>
     <technical>
