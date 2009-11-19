@@ -50,6 +50,11 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>9.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.scy.common</groupId>
 			<artifactId>pedagogical-plan-service-api</artifactId>
 			<version>9.8.0-SNAPSHOT</version>
 			<scope>compile</scope>
