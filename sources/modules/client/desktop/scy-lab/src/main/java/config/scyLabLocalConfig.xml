@@ -6,8 +6,8 @@
 
    <!-- <import resource="memoryRooloConfig.xml"/> -->
    <!--<import resource="localRooloTemporaryConfig.xml"/>-->
-   <!--import resource="localWrappedRooloConfig.xml"/-->
-   <import resource="localWrappedRooloTemporaryConfig.xml"/>
+   <import resource="localWrappedRooloConfig.xml"/>
+   <!--<import resource="localWrappedRooloTemporaryConfig.xml"/> -->
    <!-- <import resource="remoteRooloConfig.xml"/> -->
 
    <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
@@ -102,6 +102,14 @@
                      <value>hypothesis</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
+                     <value>roolo://memory/13/0/First_ideas.url</value>
+                     <value>roolo://memory/14/0/Global_Warming.url</value>
+                     <value>roolo://memory/15/0/Websites_global_warming.url</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="conceptMap"/>
@@ -110,6 +118,14 @@
                <property name="yPosition" value="0"/>
                <property name="nextMissionAnchorNames">
                   <list>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
+                     <value>roolo://memory/13/0/First_ideas.url</value>
+                     <value>roolo://memory/14/0/Global_Warming.url</value>
+                     <value>roolo://memory/15/0/Websites_global_warming.url</value>
                   </list>
                </property>
             </bean>
@@ -122,6 +138,14 @@
                   <list>
                      <value>simulator</value>
                      <value>webData</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
+                     <value>roolo://memory/13/0/First_ideas.url</value>
+                     <value>roolo://memory/14/0/Global_Warming.url</value>
+                     <value>roolo://memory/15/0/Websites_global_warming.url</value>
                   </list>
                </property>
             </bean>
@@ -138,6 +162,13 @@
                      <value>unknown2</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
+                     <value>roolo://memory/17/0/Manual_for_converter.url</value>
+                     <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="simulator"/>
@@ -147,6 +178,13 @@
                <property name="nextMissionAnchorNames">
                   <list>
                      <value>conclusion</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
+                     <value>roolo://memory/17/0/Manual_for_converter.url</value>
+                     <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
                   </list>
                </property>
             </bean>
@@ -162,6 +200,10 @@
                      <value>houseAnalysis</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="unknown1"/>
@@ -171,6 +213,10 @@
                <property name="nextMissionAnchorNames">
                   <list>
                      <value>webData</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
                   </list>
                </property>
             </bean>
@@ -185,6 +231,11 @@
                      <value>simulator</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/19/0/Draw_your_house.url</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="design"/>
@@ -195,6 +246,11 @@
                   <list>
                      <value>simulator</value>
                      <value>houseDrawing</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
                   </list>
                </property>
             </bean>
@@ -208,6 +264,13 @@
                      <value>design</value>
                      <value>unknown1</value>
                      <value>houseAnalysis</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
+                     <value>roolo://memory/17/0/Manual_for_converter.url</value>
+                     <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
                   </list>
                </property>
             </bean>
@@ -224,6 +287,10 @@
                      <value>unknown2</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="presentation"/>
@@ -234,6 +301,14 @@
                   <list>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/21/0/Presentation_of_design.url</value>
+                     <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
+                     <value>roolo://memory/23/0/Expert_presentation.url</value>
+                     <value>roolo://memory/24/0/Individual_report.url</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="report"/>
@@ -242,6 +317,14 @@
                <property name="yPosition" value="160"/>
                <property name="nextMissionAnchorNames">
                   <list>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/21/0/Presentation_of_design.url</value>
+                     <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
+                     <value>roolo://memory/23/0/Expert_presentation.url</value>
+                     <value>roolo://memory/24/0/Individual_report.url</value>
                   </list>
                </property>
             </bean>
@@ -255,11 +338,19 @@
                      <value>design</value>
                   </list>
                </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/21/0/Presentation_of_design.url</value>
+                     <value>roolo://memory/22/0/Expert_Concept_Map.url</value>
+                     <value>roolo://memory/23/0/Expert_presentation.url</value>
+                     <value>roolo://memory/24/0/Individual_report.url</value>
+                  </list>
+               </property>
             </bean>
          </list>
       </property>
 
-      <property name="activeMissionAnchorUri" value="roolo://memory/1/0/Mission_background.url"/>
+      <property name="activeMissionAnchorUri" value="roolo://memory/11/0/Start_page.url"/>
    </bean>
 
 </beans>

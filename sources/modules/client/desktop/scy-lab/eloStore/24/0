@@ -3,35 +3,38 @@
   <lom>
     <general>
       <title>
-        <string language="en">Design document</string>
+        <string language="en">Individual report</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/5/0/Design_document.text</entry>
+        <entry>roolo://memory/24/0/Individual_report.url</entry>
       </identifier>
     </general>
     <technical>
-      <format>scy/text</format>
-      <customElements>
-        <dateCreated>1258470286859</dateCreated>
-      </customElements>
+      <format>scy/url</format>
     </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
     <relation>
       <kind>
         <source>LOMv1.0</source>
         <value>is_versioned_by</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/5/1/Design_document.text</entry>
-        </identifier>
+        <identifier />
       </resource>
     </relation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<text>This is the place for the text of the design document.</text>
+<url>http://www.scy-lab.eu/content/mission1/LAS_Reporting/Assignments/A_Individual_report.html</url>
 </content>
 <resources>
 </resources>
