@@ -78,5 +78,7 @@ public abstract class ScyWindow extends CustomNode {
    public abstract function close():Void;
 
    public abstract function openWindow(width:Number, height:Number):Void;
+   
+   public abstract function setMinimize(state: Boolean):Void;
 
 }

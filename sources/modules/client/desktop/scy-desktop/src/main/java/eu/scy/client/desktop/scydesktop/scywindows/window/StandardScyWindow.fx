@@ -186,6 +186,21 @@ public class StandardScyWindow extends ScyWindow {
 		height = openHeight;
 	}
 
+   public override function setMinimize(state: Boolean):Void{
+      if (isClosed){
+         return;
+      }
+      if (isMinimized!=state){
+         if (state){
+            doMinimize();
+         }
+         else{
+            doUnminimize();
+         }
+      }
+   }
+
+
 	function checkScyContent(){
 		//println("checkScyContent: scyContent: {scyContent==null}, setScyContent: {setScyContent!=null}");
 		if (scyContent == null and setScyContent != null){
