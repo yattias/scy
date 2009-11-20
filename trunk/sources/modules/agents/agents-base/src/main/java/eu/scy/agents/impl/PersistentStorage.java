@@ -24,7 +24,7 @@ import eu.scy.agents.api.IPersistentStorage;
 public class PersistentStorage implements IPersistentStorage {
 
 	// private static final String TSHOST = "localhost";
-	private static final String TSHOST = "scy.collide.info";
+	private static final String TSHOST = "localhost";
 	private static final int TSPORT = 2525;
 	private static final String PERSISTENT_STORAGE = "persistent_storage_1_0";
 	private TupleSpace tupleSpace;
