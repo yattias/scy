@@ -33,7 +33,7 @@ var scyDesktopCreator = ScyDesktopCreator {
     configClassPathConfigLocation:"config/scyDesktopChatTestConfig.xml";
 }
 
-var tbi:ToolBrokerImpl = new ToolBrokerImpl();
+var tbi:ToolBrokerImpl = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 var awarenessService:IAwarenessService = tbi.getAwarenessService();
 awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 
