@@ -23,7 +23,7 @@ public class BasicContentCreatorRegistryFX{
    def contentCreatorsFXMap = new HashMap();
 
    protected function registerContentCreatorFX(contentCreator: Object, id: String):Void{
-      logger.info("registering DrawerContentCreatorFX with id {id}, class {contentCreator.getClass()}");
+//      logger.info("registering ContentCreatorFX with id {id}, class {contentCreator.getClass()}");
       checkIfIdIsDefined(id);
       contentCreatorsFXMap.put(id, contentCreator);
    }

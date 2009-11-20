@@ -49,6 +49,7 @@ def scyStudentPlanningTool = "studentplanningtool";
 def scyTextId = "text";
 
 var scyDesktopCreator = ScyDesktopCreator {
+   servicesClassPathConfigLocation:"config/localWrappedRooloConfig.xml";
    configClassPathConfigLocation:"config/scyLabLocalConfig.xml";
 }
 

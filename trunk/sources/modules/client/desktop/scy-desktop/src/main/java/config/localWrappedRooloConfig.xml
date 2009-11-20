@@ -7,6 +7,7 @@
    <alias name="wrappedRepository" alias="repository"/>
    <alias name="localMetadataTypeManager" alias="metadataTypeManager"/>
    <alias name="localExtensionManager" alias="extensionManager"/>
+   <alias name="localEloFactory" alias="eloFactory"/>
 
    <bean name="wrappedRepository" class="eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper">
       <property name="repository" ref="localRepository"/>

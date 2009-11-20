@@ -35,7 +35,7 @@ public class SpringConfigFactory {
       if (context==null){
          throw new IllegalArgumentException("failed to load context from classpath: " + location);
       }
-      readBeans();
+//      readBeans();
    }
 
    public void initFromFileSystem(String location)
@@ -44,7 +44,21 @@ public class SpringConfigFactory {
       if (context==null){
          throw new IllegalArgumentException("failed to load context from file system: " + location);
       }
-      readBeans();
+//      readBeans();
+   }
+
+   public void addFromClassPath(String location)
+   {
+      String[] contextPaths = new String[] { location };
+      ApplicationContext newContext = new ClassPathXmlApplicationContext(contextPaths,context);
+      context = newContext;
+   }
+
+   public void addFromFileSystem(String location)
+   {
+      String[] contextPaths = new String[] { location };
+      ApplicationContext newContext = new FileSystemXmlApplicationContext(contextPaths,context);
+      context = newContext;
    }
 
    private void readBeans(){
@@ -66,6 +80,9 @@ public class SpringConfigFactory {
 
    public Config getConfig()
    {
+      if (config==null){
+         readBeans();
+      }
       return config;
    }
 }

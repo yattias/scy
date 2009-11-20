@@ -44,6 +44,8 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreato
 public class ScyDesktopCreator {
 
    public-init var config:Config;
+   public-init var servicesClassPathConfigLocation:String;
+   public-init var servicesFileSystemConfigLocation:String;
    public-init var configClassPathConfigLocation:String;
    public-init var configFileSystemConfigLocation:String;
 
@@ -56,6 +58,7 @@ public class ScyDesktopCreator {
 
    init{
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
+      parseApplicationParameters();
       findConfig();
       if (eloInfoControl==null){
          eloInfoControl = RooloEloInfoControl{
@@ -85,19 +88,44 @@ public class ScyDesktopCreator {
       }
    }
 
+   function parseApplicationParameters(){
+      var applicationParameters = ApplicationParameters{}
+      servicesClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesClassPathConfigLocation, servicesClassPathConfigLocation);
+      servicesFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesFileSystemConfigLocation, servicesFileSystemConfigLocation);
+      configClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configClassPathConfigLocation, configClassPathConfigLocation);
+      configFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configFileSystemConfigLocation, configFileSystemConfigLocation);
+   }
+
    function findConfig(){
       if (config==null){
-         var springConfigFactory = new SpringConfigFactory();
-         if (configClassPathConfigLocation!=null){
-            logger.info("reading config from class path: {configClassPathConfigLocation}");
-            springConfigFactory.initFromClassPath(configClassPathConfigLocation);
+         // make it compatible with the situation that services location is not defined
+         if (servicesClassPathConfigLocation==null and servicesFileSystemConfigLocation==null){
+            servicesClassPathConfigLocation = configClassPathConfigLocation;
+            configClassPathConfigLocation = null;
+            servicesFileSystemConfigLocation = configFileSystemConfigLocation;
+            configFileSystemConfigLocation = null;
          }
-         else if (configFileSystemConfigLocation!=null){
-            logger.info("reading config from file system: {configFileSystemConfigLocation}");
-            springConfigFactory.initFromFileSystem(configFileSystemConfigLocation);
+
+         var springConfigFactory = new SpringConfigFactory();
+         if (servicesClassPathConfigLocation!=null){
+            logger.info("reading spring config from class path: {servicesClassPathConfigLocation}");
+            springConfigFactory.initFromClassPath(servicesClassPathConfigLocation);
+         }
+         else if (servicesFileSystemConfigLocation!=null){
+            logger.info("reading spring config from file system: {servicesFileSystemConfigLocation}");
+            springConfigFactory.initFromFileSystem(servicesFileSystemConfigLocation);
          }
          else{
             throw new IllegalStateException("no spring config location defined");
+         }
+
+         if (configClassPathConfigLocation!=null){
+            logger.info("adding spring config from class path: {configClassPathConfigLocation}");
+            springConfigFactory.addFromClassPath(configClassPathConfigLocation);
+         }
+         else if (configFileSystemConfigLocation!=null){
+            logger.info("adding spring config from file system: {configFileSystemConfigLocation}");
+            springConfigFactory.addFromFileSystem(configFileSystemConfigLocation);
          }
 
          config = springConfigFactory.getConfig();

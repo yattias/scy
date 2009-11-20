@@ -22,6 +22,15 @@
     <property name="jnlp.versionEnabled" value="true"/>
      $dependencies
   </resources>
+<!-- replaced by jakob
   <application-desc main-class="$mainClass"/>
+-->
+    <application-desc main-class="com.sun.javafx.runtime.Main">
+        <argument>MainJavaFXScript=$mainClass</argument>
+        <argument>-servicesClassPathConfigLocation</argument>
+        <argument>config/localWrappedRooloTemporaryConfig.xml</argument>
+    </application-desc>
+    <update check="always">
+
 </jnlp>
 
