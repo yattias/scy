@@ -37,7 +37,7 @@ public class SCYPlannerApplicationManager {
     private SCYPlannerFrame scyPlannerFrame = null;
     private WindowMenu windowMenu = null;
 
-    ToolBrokerAPI toolBrokerAPI = new ToolBrokerImpl();
+    ToolBrokerAPI toolBrokerAPI = null;//new ToolBrokerImpl();
 
     private PedagogicalPlanService pedagogicalPlanService;
 
