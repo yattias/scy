@@ -1,7 +1,9 @@
 <projectDescription>
   <name>chat-tool</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>awareness-impl</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

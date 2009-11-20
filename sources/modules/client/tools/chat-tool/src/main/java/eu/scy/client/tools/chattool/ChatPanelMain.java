@@ -190,7 +190,7 @@ public class ChatPanelMain extends JPanel {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 		IAwarenessService aService = tbi.getAwarenessService();
 		aService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 		
