@@ -129,7 +129,7 @@ public class AgentManager implements Callback {
 	/**
 	 * This method kills all agents and tidy up the hole manager.
 	 */
-	protected void cleanUp() {
+	public void cleanUp() {
 		for (IThreadedAgent agent : agentIdMap.values()) {
 			try {
 				agent.kill();
