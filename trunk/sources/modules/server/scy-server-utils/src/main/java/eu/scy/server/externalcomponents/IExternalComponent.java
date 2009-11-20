@@ -13,6 +13,4 @@ public interface IExternalComponent {
 
     public void stopComponent() throws ExternalComponentFailedException;
 
-    public int getPriority();
-    
 }

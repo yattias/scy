@@ -35,8 +35,4 @@ public class SQLSpacesComponent implements IExternalComponent {
         Server.stopServer();
     }
 
-    @Override
-    public int getPriority() {
-        return 0;
-    }
 }
