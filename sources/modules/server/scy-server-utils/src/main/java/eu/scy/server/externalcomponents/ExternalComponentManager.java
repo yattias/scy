@@ -1,27 +1,19 @@
 package eu.scy.server.externalcomponents;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.logging.Logger;
 
 public class ExternalComponentManager implements InitializingBean, DisposableBean {
 
     private Logger log = Logger.getLogger("ExternalComponentManager.class");
-    private Set<IExternalComponent> externalComponents;
+    private List<IExternalComponent> externalComponents;
 
     public ExternalComponentManager() {
-        externalComponents = new TreeSet<IExternalComponent>(new Comparator<IExternalComponent>() {
-
-            @Override
-            public int compare(IExternalComponent o1, IExternalComponent o2) {
-                return o1.getPriority() - o2.getPriority();
-            }
-
-        });
+        externalComponents = new ArrayList<IExternalComponent>();
     }
 
     public void startupExternalComponents() throws ExternalComponentFailedException {
@@ -29,11 +21,24 @@ public class ExternalComponentManager implements InitializingBean, DisposableBea
         log.info("****************** STARTING EXTERNAL COMPONENTS ****************************");
         log.info("****************************************************************************");
 
+        ArrayList<Exception> exceptions = new ArrayList<Exception>();
         for (IExternalComponent iExternalComponent : externalComponents) {
             log.info("Starting: " + iExternalComponent.getClass().getName());
-            iExternalComponent.startComponent();
+            try {
+                iExternalComponent.startComponent();
+            } catch (ExternalComponentFailedException e) {
+                exceptions.add(e);
+            }
             log.info("Done starting : " + iExternalComponent.getClass().getName());
-
+        }
+        if (!exceptions.isEmpty()) {
+            StringBuilder sb = new StringBuilder("Got " + exceptions.size() + " exceptions:\n");
+            for (Exception e : exceptions) {
+                sb.append(e.getMessage());
+                sb.append("\n");
+            }
+            sb.append("Notice: The stacktrace belongs only to the first exception!");
+            throw new ExternalComponentFailedException(sb.toString(), exceptions.get(0));
         }
     }
 
@@ -42,10 +47,24 @@ public class ExternalComponentManager implements InitializingBean, DisposableBea
         log.info("****************** STOPPING EXTERNAL COMPONENTS ****************************");
         log.info("****************************************************************************");
 
+        ArrayList<Exception> exceptions = new ArrayList<Exception>();
         for (IExternalComponent iExternalComponent : externalComponents) {
             log.info("Stopping: " + iExternalComponent.getClass().getName());
-            iExternalComponent.stopComponent();
+            try {
+                iExternalComponent.stopComponent();
+            } catch (ExternalComponentFailedException e) {
+                exceptions.add(e);
+            }
             log.info("Done stopping : " + iExternalComponent.getClass().getName());
+        }
+        if (!exceptions.isEmpty()) {
+            StringBuilder sb = new StringBuilder("Got " + exceptions.size() + " exceptions:\n");
+            for (Exception e : exceptions) {
+                sb.append(e.getMessage());
+                sb.append("\n");
+            }
+            sb.append("Notice: The stacktrace belongs only to the first exception!");
+            throw new ExternalComponentFailedException(sb.toString(), exceptions.get(0));
         }
     }
 
@@ -55,11 +74,11 @@ public class ExternalComponentManager implements InitializingBean, DisposableBea
         }
     }
 
-    public Set<IExternalComponent> getExternalComponents() {
+    public List<IExternalComponent> getExternalComponents() {
         return externalComponents;
     }
 
-    public void setExternalComponents(Set<IExternalComponent> externalComponents) {
+    public void setExternalComponents(List<IExternalComponent> externalComponents) {
         this.externalComponents = externalComponents;
     }
 
