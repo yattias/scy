@@ -202,7 +202,7 @@
                         </keystoreConfig>
 
                     </sign>
-                    <unsign>true</unsign>
+                    <unsign>false</unsign>
 
                     <!-- BUILDING PROCESS -->
 

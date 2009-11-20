@@ -58,7 +58,7 @@ public class SCYPlannerApplicationManager {
         PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
         //service.getScenarios();
         this.pedagogicalPlanService = service;
-        toolBrokerAPI = new ToolBrokerImpl();
+        toolBrokerAPI = new ToolBrokerImpl(username, username);
         //XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
         XMPPConnection connection = toolBrokerAPI.getConnection(username, username);
         IActionLogger actionLogger = toolBrokerAPI.getActionLogger();
