@@ -76,7 +76,7 @@ public class ChatPresencePanelMain extends JPanel {
 			logger.error("ChatPanelMain: IllegalAccessException: "+e);
 		}      
 
-		ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 		awarenessService = tbi.getAwarenessService();
 		awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 
