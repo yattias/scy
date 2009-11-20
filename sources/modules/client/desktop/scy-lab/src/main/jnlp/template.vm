@@ -24,7 +24,9 @@
   </resources>
     <application-desc main-class="com.sun.javafx.runtime.Main">
         <argument>MainJavaFXScript=$mainClass</argument>
+        <argument>-servicesClassPathConfigLocation</argument>
+        <argument>config/localWrappedRooloTemporaryConfig.xml</argument>
     </application-desc>
-    <update check="background">
+    <update check="always">
 </jnlp>
 

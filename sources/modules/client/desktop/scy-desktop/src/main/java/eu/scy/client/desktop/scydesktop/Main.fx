@@ -25,6 +25,7 @@ def scyTextId = "text";
 def eloXmlViewerId = "xmlViewer";
 
 var scyDesktopCreator = ScyDesktopCreator {
+   servicesClassPathConfigLocation:"config/localWrappedRooloConfig.xml";
    configClassPathConfigLocation:"config/scyDesktopTestConfig.xml";
 }
 
