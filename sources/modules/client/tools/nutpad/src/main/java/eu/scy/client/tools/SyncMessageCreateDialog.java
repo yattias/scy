@@ -10,13 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.apache.log4j.Logger;
 
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
-import eu.scy.communications.message.impl.SyncMessage;
-
-import net.miginfocom.swing.MigLayout;
 
 
 public class SyncMessageCreateDialog extends JDialog implements ActionListener {
