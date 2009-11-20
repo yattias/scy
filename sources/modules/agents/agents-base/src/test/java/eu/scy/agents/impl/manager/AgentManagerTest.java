@@ -22,7 +22,6 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ThreadedAgentMock;
-//import eu.scy.agents.impl.tsfactory.SQLTupleSpaceFactory;
 
 /**
  * This class provides some tests to check if the {@link AgentManager} is
@@ -62,7 +61,6 @@ public class AgentManagerTest {
 	@Before
 	public void setUp() {
 		agentManager = new AgentManager(TS_HOST, TS_PORT);
-		//agentManager.setTupleSpaceFactory(new SQLTupleSpaceFactory());
 	}
 
 	/**
