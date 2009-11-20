@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,14 +21,14 @@ import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.logger.ActionLogger;
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.event.IDataSyncEvent;
-import eu.scy.communications.datasync.event.IDataSyncListener;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.common.datasync.SyncObject;
 import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.communications.message.impl.SyncMessageHelper;
-import eu.scy.datasync.client.IDataSyncService;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 
@@ -43,11 +43,16 @@ public class NutpadDataSyncTestClient extends JFrame{
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
     private JTextArea editArea;
     private Action openCSAction = new CreateSession();
-    private Action clearEditAreaAction = new ClearEditAreaAction();
-    private Action saveToDataSyncAction = new SaveToDataSyncAction();
-    private Action sendXmppMessageAction = new SendXmppMessageAction();
-    private Action getAllSessionsAction = new GetAllSessionsActions();
+    private Action joinCSAction = new JoinSession();
+//    private Action clearEditAreaAction = new ClearEditAreaAction();
+//    private Action saveToDataSyncAction = new SaveToDataSyncAction();
+//    private Action sendXmppMessageAction = new SendXmppMessageAction();
+//    private Action getAllSessionsAction = new GetAllSessionsActions();
     private Action exitAction = new ExitAction();
+    private Action createSyncObjectAction = new CreateSyncObject();
+    private Action changeSyncObjectAction = new ChangeSyncObject();
+    private Action removeSyncObjectAction = new RemoveSyncObject();
+    private ISyncListener listener = new SyncListener(); 
     
     private IDataSyncService dataSyncService;
     private ArrayList<ISyncMessage> syncMessages;
@@ -55,15 +60,25 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     private IActionLogger actionLogger;
     
-    private Configuration props = Configuration.getInstance();
+    private ISyncSession syncSession;
+    
+    private SyncObject syncObject;
 
+    private Configuration props = Configuration.getInstance();
+    
     private static final String HARD_CODED_TOOL_NAME = "eu.scy.client.tools.nutpad";
-    private static final String HARD_CODED_USER_NAME = "merkel";
-    private static final String HARD_CODED_PASSWORD = "merkel";
+//    private static final String HARD_CODED_USER_NAME = "obama";
+//    private static final String HARD_CODED_PASSWORD = "obama";
+    private static String HARD_CODED_USER_NAME = "merkel";
+    private static String HARD_CODED_PASSWORD = "merkel";
     private static final String HARD_CODED_MISSION_NAME = "nutpad mission";
     
     
     public static void main(String[] args) {
+    	if(args.length == 2) {
+    		HARD_CODED_USER_NAME = args[0];
+    		HARD_CODED_PASSWORD = args[1];
+    	}
         new NutpadDataSyncTestClient();
     }
     
@@ -78,10 +93,17 @@ public class NutpadDataSyncTestClient extends JFrame{
         // build the toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.add(openCSAction);
-        toolBar.add(saveToDataSyncAction);
-        toolBar.add(clearEditAreaAction);
-        toolBar.add(sendXmppMessageAction);
-        toolBar.add(getAllSessionsAction);
+        toolBar.add(joinCSAction);
+        toolBar.add(createSyncObjectAction);
+        toolBar.add(changeSyncObjectAction);
+        toolBar.add(removeSyncObjectAction);
+        
+        changeSyncObjectAction.setEnabled(false);
+		removeSyncObjectAction.setEnabled(false);
+//        toolBar.add(saveToDataSyncAction);
+//        toolBar.add(clearEditAreaAction);
+//        toolBar.add(sendXmppMessageAction);
+//        toolBar.add(getAllSessionsAction);
         toolBar.addSeparator();
         toolBar.add(exitAction);
         
@@ -96,7 +118,7 @@ public class NutpadDataSyncTestClient extends JFrame{
         contentPanel.add(scrollingText, BorderLayout.CENTER);        
         setContentPane(contentPanel);        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("NutPad makes you happy");
+        setTitle("NutPad makes " + HARD_CODED_USER_NAME + " happy!");
         setPreferredSize(new Dimension(800, 650));
         pack();
         setLocationRelativeTo(null);
@@ -109,41 +131,89 @@ public class NutpadDataSyncTestClient extends JFrame{
     public void initialize() {    
         // init the collaboration service
         // add listner in order to get callbacks on stuff that's happening
-        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
+        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD);
         dataSyncService = tbi.getDataSyncService();
-        dataSyncService.init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
-        dataSyncService.addDataSyncListener( new IDataSyncListener() {
-
-            @Override
-            public void handleDataSyncEvent(IDataSyncEvent e) {
-            	System.out.println("handlesyncevent");
-                ISyncMessage syncMessage = e.getSyncMessage();
-                Date date = new java.util.Date(System.currentTimeMillis());
-                java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
-               
-                if( syncMessage.getEvent().equals(props.getClientEventCreateSession()) ) {
-                    editArea.append("\n-------- CREATE SESSION --------- " + ts + "\n" + syncMessage.toString());
-                    currentSession = syncMessage.getToolSessionId();                    
-                } else if( syncMessage.getEvent().equals(props.getClientEventGetSessions())) {
-                    String content = syncMessage.getContent();
-                    editArea.append("\n-------- GET SESSIONS --------- " + ts + "\n" + content);
-                } else {
-                    editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
-                }
-                editArea.setCaretPosition(editArea.getText().length());             
-            }
-        });
+        
+//        dataSyncService.addDataSyncListener( new IDataSyncListener() {
+//
+//            @Override
+//            public void handleDataSyncEvent(IDataSyncEvent e) {
+//            	System.out.println("handlesyncevent");
+//                ISyncMessage syncMessage = e.getSyncMessage();
+//                Date date = new java.util.Date(System.currentTimeMillis());
+//                java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
+//               
+//                if( syncMessage.getEvent().equals(props.getClientEventCreateSession()) ) {
+//                    editArea.append("\n-------- CREATE SESSION --------- " + ts + "\n" + syncMessage.toString());
+//                    currentSession = syncMessage.getToolSessionId();                    
+//                } else if( syncMessage.getEvent().equals(props.getClientEventGetSessions())) {
+//                    String content = syncMessage.getContent();
+//                    editArea.append("\n-------- GET SESSIONS --------- " + ts + "\n" + content);
+//                } else {
+//                    editArea.append("\n-------- new message --------- " + ts + "\n" + syncMessage.toString());
+//                }
+//                editArea.setCaretPosition(editArea.getText().length());             
+//            }
+//        });
         
         
         //action logging test
-        actionLogger = tbi.getActionLogger();
+        //actionLogger = tbi.getActionLogger();
+        // TODO: this should be done inside the TBI
+        //((ActionLogger)actionLogger).init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
     }
     
+    
+    class SyncListener implements ISyncListener {
+    	@Override
+		public void syncObjectRemoved(ISyncObject syncObject) {
+			editArea.append("SyncObject removed remotely: ");
+			editArea.append("id = " + syncObject.getID());
+			editArea.append(", user = " + syncObject.getUserId());
+			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", toolname = " + syncObject.getToolname());
+			if(syncObject.getProperties() != null) {
+				for (String key : syncObject.getProperties().keySet()) {
+					editArea.append(", " + key + " = " + syncObject.getProperty(key));
+				}
+			}
+			editArea.append("\n");
+		}
+	
+		@Override
+		public void syncObjectChanged(ISyncObject syncObject) {
+			editArea.append("SyncObject changed remotely: ");
+			editArea.append("id = " + syncObject.getID());
+			editArea.append(", user = " + syncObject.getUserId());
+			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", toolname = " + syncObject.getToolname());
+			if(syncObject.getProperties() != null) {
+				for (String key : syncObject.getProperties().keySet()) {
+					editArea.append(", " + key + " = " + syncObject.getProperty(key));
+				}
+			}
+			editArea.append("\n");
+		}
+	
+		@Override
+		public void syncObjectAdded(ISyncObject syncObject) {
+			editArea.append("SyncObject created remotely: ");
+			editArea.append("id = " + syncObject.getID());
+			editArea.append(", user = " + syncObject.getUserId());
+			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", toolname = " + syncObject.getToolname());
+			if(syncObject.getProperties() != null) {
+				for (String key : syncObject.getProperties().keySet()) {
+					editArea.append(", " + key + " = " + syncObject.getProperty(key));
+				}
+			}
+			editArea.append("\n");
+		}
+    }
     
     class CreateSession extends AbstractAction {
         
         private static final long serialVersionUID = -5599432544551421021L;
-       
         
         public CreateSession() {
             super("CREATE SESSION");
@@ -153,20 +223,41 @@ public class NutpadDataSyncTestClient extends JFrame{
         
         public void actionPerformed(ActionEvent e) {
         	System.out.println("create session");
-            dataSyncService.createSession(HARD_CODED_TOOL_NAME, HARD_CODED_USER_NAME);
+            try {
+				syncSession = dataSyncService.createSession(listener);
+				if(syncSession == null) {
+					JOptionPane.showMessageDialog(NutpadDataSyncTestClient.this.rootPane.getParent(), "Could not create session!", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					editArea.append("Session \"" + syncSession.getId() + "\" created!\n");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
             
-            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
-            action.setType("create_nutpad_session");
-            action.setUser(HARD_CODED_USER_NAME);
-            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
-            action.addContext(ContextConstants.mission, HARD_CODED_MISSION_NAME);
-            action.addContext(ContextConstants.session, "no session");
-            action.addAttribute("sessionname", "Nutpad Session");
-            
-            //actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
+//            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+//            action.setUser(HARD_CODED_USER_NAME);
+//            action.setType("create_nutpad_session");
+//            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+//            action.addAttribute("sessionname", "Nutpad Session");
+//            
+//            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }
     }
     
+    class  JoinSession extends AbstractAction {
+    	
+		public JoinSession() {
+			super("Join Session");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			syncSession = dataSyncService.joinSession("datasync@syncsessions.scy.collide.info", listener);
+			editArea.append("Session \"" + syncSession.getId() + "\" joined!\n");
+		}
+    	
+    }
     
     class ClearEditAreaAction extends AbstractAction {
         
@@ -194,11 +285,11 @@ public class NutpadDataSyncTestClient extends JFrame{
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventSynchronize(),currentSession);            
-            String[] messageStrings = d.showDialog();
-            ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
-            
-            dataSyncService.sendMessage((SyncMessage) syncMessage);
+//            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventSynchronize(),currentSession);            
+//            String[] messageStrings = d.showDialog();
+//            ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
+//            
+//            dataSyncService.sendMessage((SyncMessage) syncMessage);
         }
     }
     
@@ -213,11 +304,11 @@ public class NutpadDataSyncTestClient extends JFrame{
         
         public void actionPerformed(ActionEvent e) {
             // create pop up            
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventGetSessions(),null);            
-            String[] messageStrings = d.showDialog();
-            ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
-            
-            dataSyncService.sendMessage((SyncMessage) syncMessage);
+//            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventGetSessions(),null);            
+//            String[] messageStrings = d.showDialog();
+//            ISyncMessage syncMessage = SyncMessageHelper.createSyncMessage(messageStrings[0], messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6], Long.parseLong(messageStrings[7].trim()));
+//            
+//            dataSyncService.sendMessage((SyncMessage) syncMessage);
         }
     }
     
@@ -248,22 +339,68 @@ public class NutpadDataSyncTestClient extends JFrame{
         
         public void actionPerformed(ActionEvent e) {
             // create pop up
-            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventCreateData(),currentSession);            
-            String[] messageStrings = d.showDialog();
-            SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(currentSession, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6],  Long.parseLong(messageStrings[7].trim()));
+//            SyncMessageCreateDialog d = new SyncMessageCreateDialog(NutpadDataSyncTestClient.this, HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, props.getClientEventCreateData(),currentSession);            
+//            String[] messageStrings = d.showDialog();
+//            SyncMessage syncMessage = (SyncMessage) SyncMessageHelper.createSyncMessage(currentSession, messageStrings[1], messageStrings[2], messageStrings[3], messageStrings[4], messageStrings[5], messageStrings[6],  Long.parseLong(messageStrings[7].trim()));
 //            dataSyncService.sendMessage(syncMessage);
-            
-            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
-            action.setType("send_message");
-            action.setUser(HARD_CODED_USER_NAME);
-            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
-            action.addContext(ContextConstants.session, "in session");
-            action.addAttribute("sessionname", "Nutpad Session");
-            action.addAttribute("message", "<text color=\"red\">" + messageStrings[4] + "</text>");
-            action.addAttribute("language", "english");
-            
-            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
+//            
+//            eu.scy.actionlogging.logger.Action action = new eu.scy.actionlogging.logger.Action("send_message", HARD_CODED_USER_NAME);
+//            action.addContext("tool", HARD_CODED_TOOL_NAME);
+//            action.addContext("status", "in session");
+//            action.addAttribute("sessionname", "Nutpad Session");
+//            action.addAttribute("message", "english", "<text color=\"red\">" + messageStrings[4] + "</text>");
+//            
+//            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }        
+    }
+    
+    class CreateSyncObject extends AbstractAction {
+    	
+		public CreateSyncObject() {
+			super("Create Sync Object");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			syncObject = new SyncObject("nupaddemo", "obama");
+			syncObject.setProperty("random", Double.toString(Math.random()));
+			syncSession.addSyncObject(syncObject);
+			editArea.append("SyncObject locally created: " + syncObject + "\n");
+			changeSyncObjectAction.setEnabled(true);
+    		removeSyncObjectAction.setEnabled(true);
+		}
+    	
+    }
+    
+    class ChangeSyncObject extends AbstractAction {
+    	
+    	public ChangeSyncObject() {
+    		super("Change Sync Object");
+    	}
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		syncObject.setProperty("random", Double.toString(Math.random()));
+    		syncSession.changeSyncObject(syncObject);
+    		editArea.append("SyncObject locally changed: " + syncObject + "\n");
+    	}
+    	
+    }
+    
+    class RemoveSyncObject extends AbstractAction {
+    	
+    	public RemoveSyncObject() {
+    		super("Remove Sync Object");
+    	}
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		syncSession.removeSyncObject(syncObject);
+    		editArea.append("SyncObject locally deleted: " + syncObject + "\n");
+    		changeSyncObjectAction.setEnabled(false);
+    		removeSyncObjectAction.setEnabled(false);
+    	}
+    	
     }
     
 }

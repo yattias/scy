@@ -1,17 +1,8 @@
 package eu.scy.client.tools;
 
-import static org.junit.Assert.*;
 import roolo.elo.api.IMetadataKey;
-import eu.scy.common.configuration.Configuration;
-import eu.scy.communications.datasync.properties.CommunicationProperties;
+import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.communications.datasync.session.IDataSyncSession;
-import eu.scy.communications.message.ISyncMessage;
-import eu.scy.communications.message.impl.SyncMessage;
-import eu.scy.communications.message.impl.SyncMessageHelper;
-import eu.scy.datasync.api.DataSyncException;
-import eu.scy.datasync.api.IDataSyncModule;
-import eu.scy.datasync.client.IDataSyncService;
-import eu.scy.datasync.impl.factory.DataSyncModuleFactory;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 
