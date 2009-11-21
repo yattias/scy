@@ -44,7 +44,9 @@ public class ELOImporter {
 
 	@SuppressWarnings("unchecked")
 	public ELOImporter() {
-		ToolBrokerAPI<IMetadataKey> toolBroker = new ToolBrokerImpl<IMetadataKey>();
+        String username = "";
+        String password = "";
+		ToolBrokerAPI<IMetadataKey> toolBroker = new ToolBrokerImpl<IMetadataKey>(username, password);
 		this.extensionManager = toolBroker.getExtensionManager();
 		this.typeManager = toolBroker.getMetaDataTypeManager();
 		this.repository = toolBroker.getRepository();
