@@ -85,5 +85,5 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      */
     public PedagogicalPlanService getPedagogicalPlanService();
     
-
+    public void testKidTC();
 }
