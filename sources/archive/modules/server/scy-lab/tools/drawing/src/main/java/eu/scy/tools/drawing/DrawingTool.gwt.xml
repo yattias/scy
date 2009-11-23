@@ -1,8 +1,0 @@
-<!DOCTYPE document SYSTEM "http://google-web-toolkit.googlecode.com/svn/releases/1.5/distro-source/core/src/gwt-module.dtd">
-<module>
-	<!-- Inherit the core Web Toolkit stuff.                  -->
-	<inherits name='com.google.gwt.user.User'/>
-	
-	<!-- Inherit Applet Integration -->
-	<inherits name="com.google.gwt.gwtai.applet.AppletIntegration"/>
-</module>
