@@ -1,6 +1,5 @@
 package eu.scy.toolbrokerapi;
 
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.jivesoftware.smack.XMPPConnection;
 
 import roolo.api.IExtensionManager;
@@ -10,8 +9,8 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.notification.api.INotificationService;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 
 /**
@@ -84,6 +83,4 @@ public interface ToolBrokerAPI<K extends IMetadataKey> {
      * @return  the pedagogical plan service
      */
     public PedagogicalPlanService getPedagogicalPlanService();
-    
-    public void testKidTCYetAnotherTime();
 }
