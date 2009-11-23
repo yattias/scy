@@ -56,6 +56,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
+		stopTupleSpaceServer();
 	}
 
 	private void initModel() {
