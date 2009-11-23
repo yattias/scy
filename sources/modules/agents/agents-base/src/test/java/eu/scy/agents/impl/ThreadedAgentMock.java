@@ -36,11 +36,6 @@ public class ThreadedAgentMock extends AbstractThreadedAgent {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			// @SuppressWarnings("unused")
-			// Tuple triggerTuple = getTupleSpace().waitToTake(new Tuple(NAME,
-			// String.class, Long.class), 5000);
-			// TODO: interpret tuple ...
-			// runCount++;
 		}
 	}
 
