@@ -156,7 +156,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo.webstart</groupId>
                 <artifactId>webstart-maven-plugin</artifactId>
-                <version>1.0-alpha-2</version>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -175,7 +175,7 @@
                     <excludeTransitive>false</excludeTransitive>
 
                     <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <!--<libPath>lib</libPath>-->
+                    <libPath>lib</libPath>
 
                     <!-- JNLP generation -->
                     <jnlp>
@@ -183,7 +183,7 @@
                         <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
                         <inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
                         <!-- relative to inputTemplateResourcePath -->
-                        <outputFile>scylab.jnlp</outputFile>
+                        <outputFile>scy-lab.jnlp</outputFile>
                         <!-- defaults to launch.jnlp -->
                         <!-- used to automatically identify the jar containing the main class. -->
                         <!-- this is perhaps going to change -->
