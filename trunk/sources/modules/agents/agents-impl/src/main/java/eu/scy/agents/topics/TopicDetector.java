@@ -45,7 +45,7 @@ public class TopicDetector extends AbstractRequestAgent {
 			port = (Integer) params.get("tsPort");
 		}
 		agentDatabase = new PersistentStorage();
-		activationTuple = new Tuple(TOPIC_DETECTOR, String.class, String.class,
+		activationTuple = new Tuple(TOPIC_DETECTOR, AgentProtocol.QUERY, String.class, String.class,
 				String.class);
 	}
 
@@ -55,9 +55,9 @@ public class TopicDetector extends AbstractRequestAgent {
 			Tuple tuple = getTupleSpace().waitToTake(activationTuple,
 					AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
-				String queryID = (String) tuple.getField(1).getValue();
-				String modelName = (String) tuple.getField(2).getValue();
-				String text = (String) tuple.getField(3).getValue();
+				String queryID = (String) tuple.getField(2).getValue();
+				String modelName = (String) tuple.getField(3).getValue();
+				String text = (String) tuple.getField(4).getValue();
 				Map<Integer, Double> topicScores = getTopicScores(modelName,
 						text);
 				try {
@@ -78,7 +78,7 @@ public class TopicDetector extends AbstractRequestAgent {
 		out.writeObject(topicScores);
 		bytesOut.toByteArray();
 
-		Tuple topicsDetectedTuple = new Tuple(TOPIC_DETECTOR, queryId
+		Tuple topicsDetectedTuple = new Tuple(TOPIC_DETECTOR, AgentProtocol.RESPONSE,queryId
 				.toString(), bytesOut.toByteArray());
 		getTupleSpace().write(topicsDetectedTuple);
 	}
