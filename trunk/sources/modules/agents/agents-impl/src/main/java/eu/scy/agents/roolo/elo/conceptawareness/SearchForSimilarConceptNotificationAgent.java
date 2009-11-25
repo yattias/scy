@@ -1,10 +1,11 @@
 package eu.scy.agents.roolo.elo.conceptawareness;
 
-import java.util.Map;
-
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import eu.scy.agents.impl.AbstractCommunicationAgent;
+
+import java.util.Map;
+
+import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
@@ -17,7 +18,7 @@ import eu.scy.notification.api.INotification;
  * 
  */
 public class SearchForSimilarConceptNotificationAgent extends
-		AbstractCommunicationAgent {
+		AbstractThreadedAgent {
 
 	private static final String SEARCH_FOR_SIMILAR_CONCEPT_NOTIFICATION_AGENT = "SearchForSimilarConceptNotificationAgent";
 	private boolean stopped;
@@ -57,9 +58,9 @@ public class SearchForSimilarConceptNotificationAgent extends
 				notification.addProperty("target", "awareness");
 				notification.addProperty("eloUri", eloURI);
 
-				getNotificationSender().send(user, "searchSimilarElosAgent",
-						notification);
-				System.err.println();
+//				getNotificationSender().send(user, "searchSimilarElosAgent",
+//						notification);
+//				System.err.println();
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
