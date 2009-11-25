@@ -15,7 +15,7 @@ import sqv.data.DataAgent;
 import sqv.data.DataServer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.SQLSpacesActionLogger;
+import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
@@ -59,13 +59,16 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private XMLOutputter xmlOutputter;
 
+    private static int COUNT = 0;
+
     public ScySimLogger(DataServer dataServer) {
+        COUNT++;
         this.dataServer = dataServer;
         xmlOutputter = new XMLOutputter();
         // TODO: these properties have to be fetched from the SCY environment
-        username = System.getProperty("user.name");
+        username = System.getProperty("user.name")+" No: "+ COUNT;
         missionname = "mission 1";
-        toolname = "scysimulator";
+        toolname = "scysimulator" +"No: "+ COUNT;
         sessionname = "testsession";
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input variables
@@ -105,20 +108,20 @@ public class ScySimLogger implements ActionListener, IDataClient {
         outputVariableTimer.setRepeats(false);
         // TODO that's the way!
         // ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-        actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
-        //actionLogger = new SystemOutActionLogger();
+        //actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
+       actionLogger = new SystemOutActionLogger();
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
         return getVariables(mv, null);
-//        ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
-//        for (ModelVariable variable : dataServer.getVariables("")) {
-//            if (variable.getKind() == mv) {
-//                System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
-//                variables.add(variable);
-//            }
-//        }
-//        return variables;
+        // ArrayList<ModelVariable> variables = new ArrayList<ModelVariable>();
+        // for (ModelVariable variable : dataServer.getVariables("")) {
+        // if (variable.getKind() == mv) {
+        // System.out.println("Logger added variable: " + variable.getName() + " type: " + variable.getKind());
+        // variables.add(variable);
+        // }
+        // }
+        // return variables;
     }
 
     private ArrayList<ModelVariable> getVariables(int mv, String name) {
@@ -221,8 +224,8 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     private void write(IAction action) {
-        
-        actionLogger.log( action);
+
+        actionLogger.log(action);
         // outputter.output(action.getXML(), System.out);
     }
 
@@ -247,6 +250,12 @@ public class ScySimLogger implements ActionListener, IDataClient {
     public void focusLost() {
         IAction focusLost = createBasicAction("focus lost");
         write(focusLost);
+    }
+    public String getToolName(){
+        return toolname;
+    }
+    public String getUserName(){
+        return username;
     }
 
 }
