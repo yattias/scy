@@ -2,7 +2,6 @@ package eu.scy.toolbroker;
 
 import javax.security.auth.login.LoginException;
 
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
@@ -24,7 +23,7 @@ import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.common.configuration.Configuration;
-import eu.scy.notification.api.INotificationService;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
@@ -50,8 +49,6 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private IExtensionManager extensionManager;
     
     private IActionLogger actionLogger;
-    
-    private INotificationService notificationService;
     
     private SessionManager sessionManager;
 
@@ -82,7 +79,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         repository = (IRepository) context.getBean("repository");
         metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
-        
+       
         actionLogger = (IActionLogger) context.getBean("actionlogger");
         // FIXME: init action logger with XMPP connection with fixed credentials!
         //((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
@@ -133,14 +130,6 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         this.actionLogger = actionLogger;
     }
     
-    /**
-     * @param notificationService
-     *            the notificationService to be set
-     */
-    public void setNotificationService(INotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-    
     public void setSessionManager(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
@@ -173,9 +162,6 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
         return actionLogger;
     }
     
-    public INotificationService getNotificationService() {
-        return notificationService;
-    }
     
     @Override
     public SessionManager getUserSession(String username, String password) {
