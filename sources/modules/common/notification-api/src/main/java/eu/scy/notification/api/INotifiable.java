@@ -1,10 +1,10 @@
 package eu.scy.notification.api;
 
-public interface INotificationCallback
+public interface INotifiable
 {
 	/**
 	 * method called by NotificationService if a Notification arrives
 	 * @param notification	Notification received by NotificationService
 	 */
-	public void onNotification(INotification notification);
+	public void processNotification(INotification notification);
 }
