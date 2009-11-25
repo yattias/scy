@@ -29,8 +29,6 @@ import eu.scy.agents.impl.PersistentStorage;
  */
 public class TopicDetector extends AbstractRequestAgent {
 
-	static final String TOPIC_DETECTOR = "topicDetector";
-	static final String KEY_TOPIC_SCORES = "topicScores";
 	static final String NAME = "eu.scy.agents.topics.TopicDetector";
 
 	private PersistentStorage agentDatabase;
@@ -45,8 +43,8 @@ public class TopicDetector extends AbstractRequestAgent {
 			port = (Integer) params.get("tsPort");
 		}
 		agentDatabase = new PersistentStorage();
-		activationTuple = new Tuple(TOPIC_DETECTOR, AgentProtocol.QUERY, String.class, String.class,
-				String.class);
+		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
+				AgentProtocol.QUERY, String.class, String.class, String.class);
 	}
 
 	@Override
@@ -78,8 +76,9 @@ public class TopicDetector extends AbstractRequestAgent {
 		out.writeObject(topicScores);
 		bytesOut.toByteArray();
 
-		Tuple topicsDetectedTuple = new Tuple(TOPIC_DETECTOR, AgentProtocol.RESPONSE,queryId
-				.toString(), bytesOut.toByteArray());
+		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
+				AgentProtocol.RESPONSE, queryId.toString(), bytesOut
+						.toByteArray());
 		getTupleSpace().write(topicsDetectedTuple);
 	}
 
@@ -110,7 +109,8 @@ public class TopicDetector extends AbstractRequestAgent {
 		assignTopicScores.setInputParameter(ObjectIdentifiers.MODEL, model);
 		assignTopicScores.run();
 
-		Map<Integer, Double> topicScores = doc.getFeature(KEY_TOPIC_SCORES);
+		Map<Integer, Double> topicScores = doc
+				.getFeature(TopicAgents.KEY_TOPIC_SCORES);
 		return topicScores;
 	}
 }
