@@ -6,7 +6,19 @@ package eu.scy.core.model.impl.student;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.impl.UserRoleImpl;
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
@@ -17,6 +29,8 @@ import eu.scy.core.model.student.StudentPlannedActivity;
  * @author anthonjp
  *
  */
+@Entity
+@Table(name = "studentplanelo" )
 public class StudentPlanELOImpl implements StudentPlanELO {
 
 	
@@ -31,17 +45,19 @@ public class StudentPlanELOImpl implements StudentPlanELO {
 		studentPlannedActivities.add(activity);
 	}
 
-	@Override
+    @OneToOne(targetEntity = PedagogicalPlan.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="pedagogicalPlan_primKey")
 	public PedagogicalPlan getPedagogicalPlan() {
 		return pedagogicalPlan;
 	}
 
-	@Override
+    @OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentplannedactivity", fetch = FetchType.LAZY)
 	public List<StudentPlannedActivity> getStudentPlannedActivities() {
 		return studentPlannedActivities;
 	}
 
-	@Override
+	@ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_primKey")
 	public User getUser() {
 		return user;
 	}

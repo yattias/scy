@@ -4,7 +4,16 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import eu.scy.core.model.User;
+import eu.scy.core.model.impl.SCYUserImpl;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PlannedELO;
 import eu.scy.core.model.student.StudentPlannedActivity;
 
@@ -30,8 +39,9 @@ public class StudentPlannedActivityImpl implements StudentPlannedActivity {
 		members.add(member);
 	}
 
-	@Override
-	public PlannedELO getAssoicatedELO() {
+	@OneToOne(targetEntity = PlannedELO.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="associatedelo_primKey")
+    public PlannedELO getAssoicatedELO() {
 		return associatedELO;
 	}
 
@@ -40,7 +50,7 @@ public class StudentPlannedActivityImpl implements StudentPlannedActivity {
 		return endDate;
 	}
 
-	@Override
+	@OneToMany(targetEntity = SCYUserImpl.class, mappedBy = "members", fetch = FetchType.LAZY)
 	public List<User> getMembers() {
 		return members;
 	}
