@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.agents</groupId>
 		<version>9.8.0-SNAPSHOT</version>
 	</parent>
+	
 	<modelVersion>4.0.0</modelVersion>
 	<name>agents-impl</name>
 	<artifactId>agents-impl</artifactId>
 	<description></description>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -37,70 +40,74 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<dependencies>
+	
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-mock</artifactId>
 			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server</artifactId>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.swabunga</groupId>
 			<artifactId>jazzy</artifactId>
 			<version>0.5.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>agents-base</artifactId>
 			<version>${pom.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>notification-api</artifactId>
 			<version>${pom.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>notification-impl</artifactId>
 			<version>${pom.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
 			<artifactId>obwious-mallet</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-commons</artifactId>
-			<version>9.8.0-SNAPSHOT</version>
-			<scope>compile</scope>
+			<version>${pom.version}</version>
 		</dependency>
+						
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>agent-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
 	</dependencies>
-
-
 
 	<!--
 		<scm>
@@ -108,4 +115,5 @@
 		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection>
 		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url> </scm>
 	-->
+	
 </project>

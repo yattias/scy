@@ -12,10 +12,8 @@
 	<packaging>jar</packaging>
 	<name>collaboration-service-impl</name>
 
-
 	<dependencies>
-
-
+	
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
@@ -25,7 +23,6 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
 		</dependency>
 
 		<dependency>
@@ -39,25 +36,23 @@
 			<artifactId>smackx</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>collaboration-service-api</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>scy-commons</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.5</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
-			<version>3.7</version>
+			<version>3.7.1</version>
 		</dependency>
 
 	</dependencies>

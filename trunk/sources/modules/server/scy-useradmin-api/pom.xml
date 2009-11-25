@@ -25,7 +25,7 @@
             <version>${pom.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.igniterealtime.openfire</groupId>
+                    <groupId>jivesoftware</groupId>
                     <artifactId>openfire</artifactId>
                 </exclusion>
                 <exclusion>
@@ -34,7 +34,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+		
     </dependencies>
 
     <properties>
