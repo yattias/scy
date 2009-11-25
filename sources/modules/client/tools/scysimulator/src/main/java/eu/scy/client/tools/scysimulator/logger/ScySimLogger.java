@@ -15,6 +15,7 @@ import sqv.data.DataAgent;
 import sqv.data.DataServer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
@@ -109,7 +110,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         // TODO that's the way!
         // ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
         //actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
-       actionLogger = new SystemOutActionLogger();
+       actionLogger = new DevNullActionLogger();
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
