@@ -1,12 +1,12 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
-import java.util.Map;
-
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+
+import java.util.Map;
+
 import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractCommunicationAgent;
-import eu.scy.notification.Notification;
+import eu.scy.agents.impl.AbstractThreadedAgent;
 
 /**
  * Notifies the eloBrowser that an elo has been saved.
@@ -17,7 +17,7 @@ import eu.scy.notification.Notification;
  * @author Florian Schulz
  * 
  */
-public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
+public class NotifyEloBrowserAgent extends AbstractThreadedAgent {
 
 	/**
 	 * Name of the agent.
@@ -46,10 +46,10 @@ public class NotifyEloBrowserAgent extends AbstractCommunicationAgent {
 
 				String eloUri = (String) trigger.getField(1).getValue();
 
-				Notification notification = new Notification();
-				notification.addProperty("eloUri", eloUri);
-				notification.addProperty("target", "elobrowser");
-				getNotificationSender().send("roolo", "roolo", notification);
+//				Notification notification = new Notification();
+//				notification.addProperty("eloUri", eloUri);
+//				notification.addProperty("target", "elobrowser");
+//				getNotificationSender().send("roolo", "roolo", notification);
 			} catch (TupleSpaceException e) {
 				stop();
 			}
