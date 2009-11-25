@@ -85,11 +85,11 @@ public class TopicDetectorTest extends AbstractTestFixture {
 		String queryID = new VMID().toString();
 		System.out.println("Writing tuple");
 		getTupleSpace().write(
-				new Tuple(TopicDetector.TOPIC_DETECTOR, AgentProtocol.QUERY,
+				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY,
 						queryID, "co2_scy_english", TEXT));
 		System.out.println("Tuple written. Waiting for response...");
 		Tuple t = getTupleSpace().waitToTake(
-				new Tuple(TopicDetector.TOPIC_DETECTOR, AgentProtocol.RESPONSE,
+				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE,
 						queryID, Field.createWildCardField()), 5000);
 		System.out.println("Response received");
 		assertNotNull("tuple is null", t);
