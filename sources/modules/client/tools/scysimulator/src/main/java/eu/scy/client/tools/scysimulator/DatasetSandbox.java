@@ -1,53 +1,89 @@
 package eu.scy.client.tools.scysimulator;
 
+import eu.scy.client.common.datasync.DataSyncService;
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.collaborationservice.CollaborationServiceFactory;
 import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.common.datasync.SyncObject;
 //import eu.scy.communications.message.IScyMessage;
 //import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+
 import roolo.elo.JDomStringConversion;
 
 /**
  *
  * @author lars
  */
-public class DatasetSandbox {
+public class DatasetSandbox implements ISyncListener {
     private DataCollector datacollector;
-    private ICollaborationService collaborationService;
-    public static String SESSION_ID = "datasetsandbox";
-    public static String TOOL_NAME = "simulator";
-    public static String USER_NAME = "scy_user";
-
+    private String TOOL_NAME = "scysimulator";
+    private String USER_NAME = "merkel";
+	private IDataSyncService datasync;
+	ISyncSession currentSession = null;
+	private XMPPConnection conn;
 
     DatasetSandbox(DataCollector datacollector) throws CollaborationServiceException {
         this.datacollector = datacollector;
         initCollaborationService();
-        clear();
-        sendHeaderMessage();
-        sendDataRows();
     }
 
     public void clear() {
-        collaborationService.cleanSession(SESSION_ID);
+    	for (ISyncObject syncObject : currentSession.getAllSyncObjects()) {
+    		currentSession.removeSyncObject(syncObject);
+    	}
     }
 
     private void initCollaborationService() throws CollaborationServiceException {
-        collaborationService = CollaborationServiceFactory.getCollaborationService(CollaborationServiceFactory.LOCAL_STYLE);
-        // TODO: Username needs to be fetched from the user management
-        //collaborationService.synchronizeClientState("User", TOOL_NAME, SESSION_ID, true);
+    	// TODO the datasync instance will be soon delivered by the SCY-lab via TBI
+    	ConnectionConfiguration config;
+        config = new ConnectionConfiguration("scy.collide.info", 5222);
+		conn = new XMPPConnection(config);
+		try {
+			conn.connect();
+			conn.login("merkel", "merkel");
+			conn.addConnectionListener(new ConnectionListener() {		
+				public void reconnectionSuccessful() {}
+				public void reconnectionFailed(Exception arg0) {}
+				public void reconnectingIn(int arg0) {}
+				public void connectionClosedOnError(Exception arg0) {}
+				public void connectionClosed() {}
+			});
+			
+			datasync = new DataSyncService(conn);		
+			
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}		
     }
-
-    /*private void send(IScyMessage message) {
-        System.out.println("DatasetSandbox sending:\n"+message.toString());
-        try {
-            collaborationService.create(message);
-        } catch (CollaborationServiceException ex) {
-            ex.printStackTrace();
-        }
-    }*/
+    
+	public void disconnect() {
+		currentSession.removeSyncListener(this);
+		conn.disconnect();
+	}
+    
+    public ISyncSession createSession() {
+    	try {
+    		currentSession = datasync.createSession(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		sendHeaderMessage();
+		sendDataRows();
+		return currentSession;
+    }
 
     private void sendDataRows() {
         DataSetRow row;
@@ -58,39 +94,32 @@ public class DatasetSandbox {
     }
 
     public void sendDataSetRow(DataSetRow row) {
-        /*IScyMessage datarowmessage = ScyMessage.createScyMessage(
-                "lars@simulator",  //username
-                TOOL_NAME, //toolName
-                //UUID.randomUUID().toString(), //id
-                "1234", //id
-                "datasetrow", //objectType
-                "some name", //name
-                new JDomStringConversion().xmlToString(row.toXML()), //description
-                null, // to
-                null, // from
-                "datasetsandbox", // message purpose
-                0,  // expiration time
-                SESSION_ID); // session
-
-        send(datarowmessage);*/
+    	ISyncObject syncObject = new SyncObject(this.TOOL_NAME, this.USER_NAME);
+    	syncObject.setProperty("type", "datasetrow");
+    	syncObject.setProperty("datasetrow", new JDomStringConversion().xmlToString(row.toXML()));
+    	currentSession.addSyncObject(syncObject);
     }
 
-    private void sendHeaderMessage() {
-        /*IScyMessage headermessage = ScyMessage.createScyMessage(
-                "lars@simulator",  //username
-                TOOL_NAME, //toolName
-                //UUID.randomUUID().toString(), //id
-                "1234", //id
-                "datasetheader", //objectType
-                "some name", //name
-                new JDomStringConversion().xmlToString(datacollector.getDataSet().getHeader(Locale.ENGLISH).toXML()), //description
-                null, // to
-                null, // from
-                "datasetsandbox", // message purpose
-                0,  // expiration time
-                SESSION_ID); // session
-
-        send(headermessage);*/
+    public void sendHeaderMessage() {
+    	ISyncObject syncObject = new SyncObject(this.TOOL_NAME, this.USER_NAME);
+    	syncObject.setProperty("type", "datasetheader");
+    	syncObject.setProperty("datasetheader", new JDomStringConversion().xmlToString(datacollector.getDataSet().getHeader(Locale.ENGLISH).toXML()));
+    	currentSession.addSyncObject(syncObject);
     }
+
+	@Override
+	public void syncObjectAdded(ISyncObject syncObject) {
+		// TODO Auto-generated method stub		
+	}
+
+	@Override
+	public void syncObjectChanged(ISyncObject syncObject) {
+		// TODO Auto-generated method stub		
+	}
+
+	@Override
+	public void syncObjectRemoved(ISyncObject syncObject) {
+		// TODO Auto-generated method stub		
+	}
 
 }

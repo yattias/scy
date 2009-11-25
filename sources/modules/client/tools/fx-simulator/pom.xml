@@ -11,6 +11,7 @@
    <modelVersion>4.0.0</modelVersion>
    <artifactId>fx-simulator</artifactId>
    <packaging>jar</packaging>
+   <name>FX SCYSimulator</name>
 
    <licenses>
       <license>
