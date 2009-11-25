@@ -12,6 +12,7 @@
     <name>scy-useradmin-impl</name>
 
     <dependencies>
+    
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>scy-model-api</artifactId>
@@ -29,8 +30,7 @@
                     <artifactId>spring-webmvc</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
-            </exclusions>
-            
+            </exclusions>     
         </dependency>
 
         <dependency>
@@ -79,8 +79,7 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
-            </exclusions>
-            
+            </exclusions>           
         </dependency>
 
         <dependency>
@@ -91,8 +90,7 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
-            </exclusions>
-            
+            </exclusions>           
         </dependency>
 
         <dependency>
@@ -103,8 +101,7 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
-            </exclusions>
-            
+            </exclusions>           
         </dependency>
 
         <dependency>
@@ -149,7 +146,6 @@
             <scope>test</scope>
         </dependency-->
 
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
@@ -174,7 +170,6 @@
             </exclusions>
         </dependency>
 
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
@@ -186,6 +181,7 @@
             <artifactId>asm-all</artifactId>
             <version>2.2.3</version>
         </dependency>
+        
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
@@ -217,13 +213,9 @@
             <scope>test</scope>
         </dependency>
 
-
-
     </dependencies>
 
-
     <build>
-
         <resources>
             <resource>
                 <directory>src/main/java</directory>
@@ -232,7 +224,6 @@
                 </includes>
             </resource>
         </resources>
-
         <filters>
             <filter>${filter.test.file}</filter>
         </filters>
@@ -242,7 +233,6 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -260,13 +250,21 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
-
         </plugins>
-
-
     </build>
 
     <properties>
         <filter.test.file>src/main/filters/serverfilter.properties</filter.test.file>       
     </properties>
+
+<!-- for javassist -->
+<repositories>
+	<repository>
+		<id>jboss-maven</id>
+		<releases></releases>
+		<snapshots></snapshots>
+		<url>http://repository.jboss.org/maven2/</url>
+	</repository>
+</repositories>
+
 </project>
