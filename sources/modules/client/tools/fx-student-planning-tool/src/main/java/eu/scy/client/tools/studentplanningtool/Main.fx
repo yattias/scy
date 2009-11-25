@@ -13,10 +13,6 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentProgressCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentTaskCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentPresenceCreatorFX;
 
 
 /**
@@ -28,8 +24,8 @@ InitLog4JFX.initLog4J();
 def scychatId = "chat";
 def scystudentplanningId = "studentplanningtool";
 def scypresenceId = "presence";
-def scytaskId = "task";
-def scyprogressId = "progress";
+//def scytaskId = "task";
+//def scyprogressId = "progress";
 
 var scyDesktopCreator = ScyDesktopCreator {
     configClassPathConfigLocation:"config/scyDesktopStudentPlanningToolConfig.xml";
@@ -38,10 +34,10 @@ var scyDesktopCreator = ScyDesktopCreator {
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator{},scystudentplanningId);
 
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentPresenceCreatorFX{}, scypresenceId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentTaskCreatorFX{}, scytaskId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentProgressCreatorFX{}, scyprogressId);
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentPresenceCreatorFX{}, scypresenceId);
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentTaskCreatorFX{}, scytaskId);
+//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentProgressCreatorFX{}, scyprogressId);
 
 
 
