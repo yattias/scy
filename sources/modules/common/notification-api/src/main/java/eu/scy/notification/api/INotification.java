@@ -5,6 +5,51 @@ import java.util.Properties;
 public interface INotification {
 
     /**
+     * Sets the sessonId of this notification
+     * 
+     * @param sessionId
+     *            The sessionId to set.
+     */
+    public void setSession(String sessionId);
+
+    /**
+     * Returns the sessionId of this notification
+     * 
+     * @return The sessionId of this notification
+     */
+    public String getSession();
+
+    /**
+     * Sets the Mission of this notification
+     * 
+     * @param misson
+     *            The mission for this notification
+     */
+    public void setMission(String misson);
+
+    /**
+     * Returns the mission of this notification
+     * 
+     * @return The Mission as {@link String}
+     */
+    public String getMission();
+
+    /**
+     * Returns the UniqueID od this notification as a {@link String}
+     * 
+     * @return A {@link String} containing the UniqueID of this notification
+     */
+    public String getUniqueID();
+
+    /**
+     * Sets the UniqueID of this Notification
+     * 
+     * @param uniqueId
+     *            The {@link String} containing the UniqueID
+     */
+    public void setUniqueID(String uniqueId);
+
+    /**
      * Sets the receiver of this notification.
      * 
      * @param receiver
@@ -50,7 +95,6 @@ public interface INotification {
     /**
      * the information is stored in a Properties object
      */
-
 
     /**
      * returns the whole Properties object
