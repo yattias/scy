@@ -7,28 +7,24 @@ import eu.scy.common.datasync.ISyncObject;
 public interface ISyncSession {
 
 	/**
-	 * adds a SyncObject to a session
+	 * adds an ISyncObject to the session
 	 * 
-	 * @param sessionHandle
-	 *            an identifier for the session to which the SyncObject will be
-	 *            added
-	 * @param syncObject
-	 *            the SyncObject to be added
+	 * @param syncObject the SyncObject to be added
 	 */
 	public void addSyncObject(ISyncObject syncObject);
 
 	/**
-	 * changes a SyncObject in a session. if the SyncObject to be changed is
-	 * currently not in the session (according to its ID), a new SyncObject will
+	 * changes an ISyncObject in a session.
+	 * note, that the ISyncObject's ID has to match a previously created
+	 * ISyncObject in this session to successfully update.
+	 * only the properties that have changed in the ISyncObject need to be set.
+	 * if the ISyncObject to be changed is currently not in the session
+	 * (according to its ID), a new SyncObject will
 	 * be created and a "syncObjectAdded()" will be triggered instead.
+	 * note, that the ISyncObject's ID has to match only the properties that 
 	 * 
-	 * @param sessionHandle
-	 *            an identifier for the session in which the SyncObject will be
-	 *            changed
-	 * @param syncObject
-	 *            the SyncObject to be changed
+	 * @param syncObject the SyncObject to be changed
 	 * 
-	 *            shall we throw an exception instead?
 	 */
 	public void changeSyncObject(ISyncObject syncObject);
 
@@ -36,36 +32,47 @@ public interface ISyncSession {
 	 * removes a SyncObject in a session. if the SyncObject to be removed is
 	 * currently not in the session (according to its ID), nothing happens.
 	 * 
-	 * @param sessionHandle
-	 *            an identifier for the session from which the SyncObject will
-	 *            be removed
-	 * @param syncObject
-	 *            the SyncObject to be changed
-	 * 
-	 *            shall we throw an exception instead?
+	 * @param syncObject the SyncObject to be changed
 	 */
 	public void removeSyncObject(ISyncObject syncObject);
 
 	/**
-	 * returns all SyncObjects in a session. if the parameterized session
-	 * doesn`t exist, null will be returned; if the session is empty, an empty
-	 * List will be returned.
+	 * returns all ISyncObjects in this session.
 	 * 
-	 * @param sessionHandle
-	 *            an identifier for the session to which the SyncObject will be
-	 *            added
-	 * @param syncObject
-	 *            the SyncObject to be changed
-	 * 
+	 * @return a List of all ISyncObjects that are currently in this session
 	 */
 	public List<ISyncObject> getAllSyncObjects();
-
+	
+	/**
+	 * returns a single SyncObjects in this session. if no ISyncObject
+	 * with the given id is currently in this session, null will be returned
+	 * 
+	 * @param id the id of ISyncObject that is to be returned
+	 * 
+	 * @return the ISyncObject that matches the given id
+	 */	
 	public ISyncObject getSyncObject(String id);
 
+	/**
+	 * add an ISyncListener to this session.
+	 * 
+	 * @param listener the ISyncListener that will be registered to this session
+	 */
 	public void addSyncListener(ISyncListener listener);
 
+	/**
+	 * removes an ISyncListener from this session.
+	 * 
+	 * @param listener the ISyncListener that will be removed from this session
+	 */
 	public void removeSyncListener(ISyncListener listener);
 
+	/**
+	 * return an unique string that identifies this session.
+	 * needed to get an existing ISyncSession object from the IDataSyncService
+	 * 
+	 * @return a string that identifies this session
+	 */
 	public String getId();
 
 }

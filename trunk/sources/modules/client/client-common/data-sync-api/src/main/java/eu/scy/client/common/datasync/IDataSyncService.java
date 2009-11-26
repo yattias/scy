@@ -2,41 +2,33 @@ package eu.scy.client.common.datasync;
 
 public interface IDataSyncService {
 
-	 /**
-    * initialize the connection
-    * 
-    * @param connection
-	 *
-	 * as we get the datasyncservice instance from the TBI, an "init" may not be needed
-	 * the tbi will probably also handle the XMPPConnection 
-    */
-  //public void init(XMPPConnection connection);
-	
+
   /**
    * creates a new session
    * 
-   * @return SessionHandle unique identifier (e.g. an UUID) for a session, needed for joining and
-	* leaving sessions
-	*
-	* do we need parameters to specify characteristics of a session?
- * @throws Exception 
+   * @return the newly created ISyncSession
+   *
+   * @throws Exception 
    */
   public ISyncSession createSession(ISyncListener listener) throws Exception;
 
   /**
-   * joins a session, i.e. registers an IDataSyncListener
-	*
-	* @param String mucID identifies the session to be joined by means of MultiUserChat identifier
-	* @param iDataSyncListener an IDataSyncListener that will be called whenever something happens in the session
+   * joins a session and registers an IDataSyncListener
+   *
+   * @param mucID a String that identifies the session to be joined, @see ISyncSession#getId
+   * @param iSyncListener the ISyncListener that will be registered to this session
+   *
+   * @return the joined ISyncSession
    */
-  public ISyncSession joinSession(String mucID, ISyncListener iDataSyncListener);
- 
+  public ISyncSession joinSession(String mucID, ISyncListener iSyncListener);
   
   /**
-   * disconnect the xmpp session
-   * 
-	* do we need this? also see "init()"
+   * leaves a session and de-registers an IDataSyncListener
+   *
+   * @param iSyncSession the ISyncSession that should be left
+   * @param iSyncListener the ISyncListener that will be de-registered from the given session
+   *
    */
-  //public void disconnect();
+  public void leaveSession(ISyncSession iSyncSession, ISyncListener iSyncListener);
 
 }
