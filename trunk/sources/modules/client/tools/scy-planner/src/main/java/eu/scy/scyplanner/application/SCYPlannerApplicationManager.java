@@ -48,15 +48,19 @@ public class SCYPlannerApplicationManager {
         getToolBrokerAPI().getPedagogicalPlanService().getScenarios();
         */
 
-        String url = JOptionPane.showInputDialog("Input host (for example localhost)");
+        //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
         String username = JOptionPane.showInputDialog("Enter your freakin username");
 
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
         fb.setServiceInterface(PedagogicalPlanService.class);
-        fb.setServiceUrl("http://" + url + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+        //fb.setServiceUrl("http://" + url + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+        fb.setServiceUrl("http://localhost:8080/webapp/remoting/pedagogicalPlan-httpinvoker");
         fb.afterPropertiesSet();
         PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
-        //service.getScenarios();
+
+
+
+        service.getScenarios();
         this.pedagogicalPlanService = service;
         toolBrokerAPI = new ToolBrokerImpl(username, username);
         //XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
@@ -83,6 +87,7 @@ public class SCYPlannerApplicationManager {
                 }
             }
         }
+
 
     }
 
