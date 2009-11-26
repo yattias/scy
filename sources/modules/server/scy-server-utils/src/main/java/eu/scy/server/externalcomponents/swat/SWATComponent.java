@@ -20,7 +20,7 @@ public class SWATComponent implements IExternalComponent {
         log.info("Initializing SWAT SERVER");
         SWATConfiguration conf = SWATConfiguration.getConfiguration();
         conf.setStandalone(true);
-        conf.setInitialServices("ScyseCompareService,IoService,ScyseService");
+        conf.setInitialServices("ScyseCompareService", "IoService", "ScyseService");
         Configuration.getConfiguration().setLocal(true);
         Vector<String> admins = new Vector<String>();
         admins.add("Jan"); // for SCY-SE
@@ -34,7 +34,7 @@ public class SWATComponent implements IExternalComponent {
 
     @Override
     public void stopComponent() throws ExternalComponentFailedException {
-        log.info("-----> STOPPING: SWAT"); 
+        log.info("-----> STOPPING: SWAT");
         SWAT.killAllAgents();
     }
 

@@ -19,7 +19,7 @@ public class AgentFrameworkComponent implements IExternalComponent {
     private AgentManager agentFramework;
 
     private Set<AgentStartConfiguration> initialAgents;
-    
+
     @Override
     public void startComponent() throws ExternalComponentFailedException {
         log.info("Initializing AGENT FRAMEWORK");
@@ -29,8 +29,8 @@ public class AgentFrameworkComponent implements IExternalComponent {
         agentFramework = new AgentManager(tsHost, tsPort);
         agentFramework.setRepository(null); // TODO: inject via spring
         agentFramework.setMetadataTypeManager(null); // TODO: inject via spring
-        
-        for (AgentStartConfiguration conf: initialAgents) {
+
+        for (AgentStartConfiguration conf : initialAgents) {
             Map<String, Object> params = conf.getProperties();
             if (!params.containsKey("tsHost")) {
                 params.put("tsHost", tsHost);
@@ -50,6 +50,21 @@ public class AgentFrameworkComponent implements IExternalComponent {
     public void stopComponent() throws ExternalComponentFailedException {
         log.info("-----> STOPPING: AGENT FRAMEWORK");
         agentFramework.cleanUp();
+    }
+
+    /**
+     * @return the initialAgents
+     */
+    public Set<AgentStartConfiguration> getInitialAgents() {
+        return initialAgents;
+    }
+
+    /**
+     * @param initialAgents
+     *            the initialAgents to set
+     */
+    public void setInitialAgents(Set<AgentStartConfiguration> initialAgents) {
+        this.initialAgents = initialAgents;
     }
 
 }
