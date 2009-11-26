@@ -190,7 +190,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="webData"/>
-               <property name="uri" value="roolo://memory/7/0/Data_collected_from_web.scypds"/>
+               <property name="uri" value="roolo://memory/7/0/Data_collected_from_web.scydataset"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -256,7 +256,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="processedData"/>
-               <property name="uri" value="roolo://memory/8/0/Processed_data.scypds"/>
+               <property name="uri" value="roolo://memory/8/0/Processed_data.scydataset"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
