@@ -9,6 +9,7 @@ import eu.scy.tools.copex.common.LocalText;
 import eu.scy.tools.copex.common.MaterialStrategy;
 import eu.scy.tools.copex.common.MaterialUsed;
 import eu.scy.tools.copex.edp.EdPPanel;
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -20,7 +21,7 @@ import javax.swing.JTextArea;
  *
  * @author Marjolaine
  */
-public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCopexButton, ActionComment {
+public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCopexButton {
     private MaterialUsed mUsed;
     private MaterialStrategy materialStrategy;
     private String comment;
@@ -28,6 +29,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     private JCheckBox cbUsed;
     private CopexButtonPanel buttonRemove;
     private JLabel labelName;
+    private JLabel labelDescription;
     private JScrollPane scrollPaneDescription;
     private JTextArea areaDescription;
     private JLabel labelType1;
@@ -35,7 +37,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     private JLabel labelParam;
     private JTextArea areaParam;
     private JScrollPane scrollPaneParam;
-    private CommentsPanel panelComments;
+    private JLabel labelComments;
+    private JScrollPane scrollPaneComments;
+    private JTextArea areaComments;
 
     private ActionMaterialDetail action;
 
@@ -43,11 +47,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     private ImageIcon imgRemove;
     private ImageIcon imgRemoveClic;
     private ImageIcon imgRemoveSurvol;
+    private ImageIcon imgRemoveGris;
 
-    private ImageIcon imgMaterialClose;
-    private ImageIcon imgMaterialOpen;
-
-
+    
     public MaterialDetailPanel(EdPPanel edP, JPanel owner, MaterialUsed mUsed, MaterialStrategy materialStrategy) {
         super(edP, owner, "", false);
         this.mUsed = mUsed;
@@ -57,21 +59,16 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     }
 
     private void initGUI(){
-        imgRemove = edP.getCopexImage("Bouton-onglet_fermeture.png");
-        imgRemoveClic = edP.getCopexImage("Bouton-onglet_fermeture_cli.png");
-        imgRemoveSurvol = edP.getCopexImage("Bouton-onglet_fermeture_sur.png");
-        imgMaterialClose = edP.getCopexImage("Puce-mat_ronde.png");
-        imgMaterialOpen = edP.getCopexImage("Puce-mat_ronde_open.png");
-        buttonArrow.setImgHide(imgMaterialClose);
-        buttonArrow.setImgShow(imgMaterialOpen);
-        buttonArrow.revalidate();
-        buttonArrow.repaint();
+        imgRemove = edP.getCopexImage("Bouton-AdT-28_delete.png");
+        imgRemoveClic = edP.getCopexImage("Bouton-AdT-28_delete_cli.png");
+        imgRemoveSurvol = edP.getCopexImage("Bouton-AdT-28_delete_sur.png");
+        imgRemoveGris = edP.getCopexImage("Bouton-AdT-28_delete_gri.png");
         if(materialStrategy.canChooseMaterial())
             getPanelTitle().add(getCBUsed());
         if(mUsed.isUserMaterial())
             getPanelTitle().add(getButtonRemove());
         getPanelTitle().add(getLabelName());
-        getPanelTitle().setSize(labelName.getX()+labelName.getWidth()+5,getPanelTitle().getHeight());
+        getPanelTitle().setSize(labelName.getX()+labelName.getWidth()+5,getPanelTitle().getHeight()-5);
         setSize(getWidth(), getPanelTitle().getHeight());
         setPreferredSize(getSize());
     }
@@ -89,8 +86,10 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             cbUsed = new JCheckBox();
             cbUsed.setName("cbUsed");
             cbUsed.setSelected(mUsed.isUsed());
-            if(mUsed.isAutoUsed())
+            if(mUsed.isAutoUsed()){
                 cbUsed.setEnabled(false);
+                cbUsed.setToolTipText(edP.getBundleString("TOOLTIPTEXT_NO_SELECT_MATERIAL"));
+            }
             cbUsed.setFont(new java.awt.Font("Tahoma", 1, 11));
             cbUsed.setBounds(30,0,20, 20);
         }
@@ -99,10 +98,13 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
 
     private CopexButtonPanel getButtonRemove(){
         if(buttonRemove == null){
-            buttonRemove = new CopexButtonPanel(22, imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemove.getImage() );
+            buttonRemove = new CopexButtonPanel(22, imgRemove.getImage(),imgRemoveSurvol.getImage(), imgRemoveClic.getImage(), imgRemoveGris.getImage() );
             buttonRemove.setBounds(cbUsed.getX()+cbUsed.getWidth()+5,cbUsed.getY()+5, buttonRemove.getWidth(), buttonRemove.getHeight());
             buttonRemove.addActionCopexButton(this);
             buttonRemove.setToolTipText(edP.getBundleString("TOOLTIPTEXT_REMOVE_MATERIAL"));
+            if(mUsed.isAutoUsed()){
+                buttonRemove.setEnabled(false);
+            }
         }
         return buttonRemove;
     }
@@ -111,7 +113,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         if(labelName == null){
             labelName = new JLabel();
             labelName.setName("labelName");
-            labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
+            labelName.setFont(new Font("Tahoma",Font.PLAIN, 11));
             labelName.setText(mUsed.getMaterial().getName(edP.getLocale()));
             int w = CopexUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont()));
             int x = 0;
@@ -127,6 +129,18 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             labelName.setBounds(x, 5, w, 14);
         }
         return labelName;
+    }
+
+    private JLabel getLabelDescription(){
+        if(labelDescription == null){
+            labelDescription = new JLabel();
+            labelDescription.setName("labelDescription");
+            labelDescription.setFont(new Font("Tahoma",Font.BOLD, 11));
+            labelDescription.setText(edP.getBundleString("LABEL_DESCRIPTION"));
+            int w = CopexUtilities.lenghtOfString(this.labelDescription.getText(), getFontMetrics(this.labelDescription.getFont()));
+            labelDescription.setBounds(20, 0, w, 14);
+        }
+        return labelDescription;
     }
 
     private JTextArea getAreaDescription(){
@@ -148,15 +162,58 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         if(scrollPaneDescription == null){
             scrollPaneDescription = new JScrollPane(getAreaDescription());
             scrollPaneDescription.setName("scrollPaneDescription");
-            scrollPaneDescription.setBounds(30,0,300,70);
+            scrollPaneDescription.setBounds(labelDescription.getX()+labelDescription.getWidth()+10,0,300,70);
         }
         return scrollPaneDescription;
+    }
+
+    private JLabel getLabelComments(){
+        if(labelComments == null){
+            labelComments = new JLabel();
+            labelComments.setName("labelComments");
+            labelComments.setFont(new Font("Tahoma",Font.BOLD, 11));
+            labelComments.setText(edP.getBundleString("LABEL_COMMENT"));
+            int w = CopexUtilities.lenghtOfString(this.labelComments.getText(), getFontMetrics(this.labelComments.getFont()));
+            int y =scrollPaneDescription.getY()+scrollPaneDescription.getHeight()+10;
+            if(labelType1 != null){
+                y = labelType1.getY()+labelType1.getHeight()+10;
+            }
+            if(areaParam != null){
+                y = scrollPaneParam.getY()+scrollPaneParam.getHeight()+10;
+            }
+            labelComments.setBounds(labelDescription.getX(), y, w, 14);
+        }
+        return labelComments;
+    }
+
+    private JTextArea getAreaComments(){
+        if(areaComments == null){
+            areaComments = new JTextArea();
+            areaComments.setName("areaComments");
+            areaComments.setWrapStyleWord(true);
+            areaComments.setLineWrap(true);
+            areaComments.setColumns(15);
+            areaComments.setRows(3);
+            areaComments.setText(mUsed.getComment(edP.getLocale()));
+        }
+        return areaComments;
+    }
+
+    private JScrollPane getScrollComments(){
+        if(scrollPaneComments == null){
+            scrollPaneComments = new JScrollPane(getAreaComments());
+            scrollPaneComments.setName("scrollPaneComments");
+            scrollPaneComments.setBounds(labelComments.getX()+labelComments.getWidth()+10,labelComments.getY(),300,70);
+        }
+        return scrollPaneComments;
     }
 
     @Override
     protected void setPanelDetailsShown() {
         super.setPanelDetailsShown();
+        getPanelDetails().add(getLabelDescription());
         getPanelDetails().add(getScrollDescription());
+        
         if(!mUsed.isUserMaterial()){
             // affiche type et parametres si besoin
             getPanelDetails().add(getLabelType1());
@@ -166,8 +223,24 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
                 getPanelDetails().add(getScrollParam());
             }
         }
-        getPanelDetails().add(getPanelComment());
-        panelDetails.setSize(panelDetails.getWidth(), panelComments.getHeight()+panelComments.getY());
+        getPanelDetails().add(getLabelComments());
+        getPanelDetails().add(getScrollComments());
+        int x = Math.max(scrollPaneDescription.getX(), scrollPaneComments.getX());
+        if(labelType2 != null){
+            x = Math.max(x, labelType2.getX());
+        }
+        if(scrollPaneParam != null){
+            x = Math.max(x, scrollPaneParam.getX());
+        }
+        scrollPaneDescription.setBounds(x, scrollPaneDescription.getY(), scrollPaneDescription.getWidth(), scrollPaneDescription.getHeight());
+        scrollPaneComments.setBounds(x, scrollPaneComments.getY(), scrollPaneComments.getWidth(), scrollPaneComments.getHeight());
+        if(labelType2 != null){
+            labelType2.setBounds(x, labelType2.getY(), labelType2.getWidth(), labelType2.getHeight());
+        }
+        if(scrollPaneParam != null){
+            scrollPaneParam.setBounds(x, scrollPaneParam.getY(), scrollPaneParam.getWidth(), scrollPaneParam.getHeight());
+        }
+        panelDetails.setSize(panelDetails.getWidth(), scrollPaneComments.getHeight()+scrollPaneComments.getY());
         setSize(getWidth(),panelDetails.getHeight()+getPanelTitle().getHeight());
         setPreferredSize(getSize());
         revalidate();
@@ -201,23 +274,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             action.actionRemoveMaterial(mUsed);
     }
 
-    private CommentsPanel getPanelComment(){
-        if(panelComments == null){
-            int width=300;
-            panelComments = new CommentsPanel(edP, this, edP.getBundleString("LABEL_ADD_COMMENT"), width);
-            panelComments.addActionComment(this);
-            panelComments.setComments(comment);
-            int y =scrollPaneDescription.getY()+scrollPaneDescription.getHeight()+10;
-            if(labelType1 != null){
-                y = labelType1.getY()+labelType1.getHeight()+10;
-            }
-            if(areaParam != null){
-                y = scrollPaneParam.getY()+scrollPaneParam.getHeight()+10;
-            }
-            panelComments.setBounds(scrollPaneDescription.getX(), y,width, panelComments.getHeight());
-        }
-        return panelComments;
-    }
+   
 
     private JLabel getLabelType1(){
         if(labelType1 == null){
@@ -226,7 +283,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             labelType1.setText(edP.getBundleString("LABEL_TYPE_MATERIAL"));
             labelType1.setFont(new java.awt.Font("Tahoma", 1, 11));
             int w = CopexUtilities.lenghtOfString(this.labelType1.getText(), getFontMetrics(this.labelType1.getFont()));
-            labelType1.setBounds(scrollPaneDescription.getX(), scrollPaneDescription.getY()+scrollPaneDescription.getHeight()+10, w, 14);
+            labelType1.setBounds(labelDescription.getX(), scrollPaneDescription.getY()+scrollPaneDescription.getHeight()+10, w, 14);
         }
         return labelType1;
     }
@@ -249,7 +306,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             labelParam.setText(edP.getBundleString("LABEL_PARAMETERS_MATERIAL"));
             labelParam.setFont(new java.awt.Font("Tahoma", 1, 11));
             int w = CopexUtilities.lenghtOfString(this.labelParam.getText(), getFontMetrics(this.labelParam.getFont()));
-            labelParam.setBounds(scrollPaneDescription.getX(), labelType1.getY()+labelType1.getHeight()+10, w, 14);
+            labelParam.setBounds(labelDescription.getX(), labelType1.getY()+labelType1.getHeight()+10, w, 14);
         }
         return labelParam;
     }
@@ -258,7 +315,7 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         if(scrollPaneParam == null){
            scrollPaneParam = new JScrollPane(getAreaParam());
            scrollPaneParam.setName("scrollPaneParam");
-           scrollPaneParam.setBounds(labelParam.getX()+labelParam.getWidth()+10,labelParam.getY(),scrollPaneDescription.getWidth()-labelParam.getWidth()-10,50);
+           scrollPaneParam.setBounds(labelParam.getX()+labelParam.getWidth()+10,labelParam.getY(),300,70);
         }
         return scrollPaneParam;
     }
@@ -278,28 +335,6 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         return areaParam;
     }
 
-    @Override
-    public void actionComment() {
-        panelDetails.setSize(panelDetails.getWidth(), panelComments.getHeight()+panelComments.getY());
-        setSize(getWidth(),panelDetails.getHeight()+getPanelTitle().getHeight());
-        setPreferredSize(getSize());
-        revalidate();
-        repaint();
-        if(action != null)
-            this.action.actionResize();
-    }
-
-    @Override
-    public void saveComment() {
-        this.comment = panelComments.getComments() ;
-        mUsed.setComment(new LocalText(comment, edP.getLocale()));
-    }
-
-    @Override
-    public void setComment() {
-        this.panelComments.setComments(this.comment);
-    }
-
     
 
     public MaterialUsed getMaterialUsed(){
@@ -307,8 +342,8 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             LocalText text = new LocalText(areaDescription.getText(), edP.getLocale());
             mUsed.getMaterial().setDescription(text);
         }
-        if(panelComments != null){
-            mUsed.setComment(CopexUtilities.getTextLocal(panelComments.getComments(), edP.getLocale()));
+        if(areaComments != null){
+            mUsed.setComment(CopexUtilities.getTextLocal(areaComments.getText(), edP.getLocale()));
         }
         if(materialStrategy.canChooseMaterial())
             mUsed.setUsed(cbUsed.isSelected());

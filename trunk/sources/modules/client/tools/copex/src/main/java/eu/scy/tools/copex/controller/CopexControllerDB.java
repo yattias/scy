@@ -1793,11 +1793,11 @@ public class CopexControllerDB implements ControllerInterface {
         helpProc.setListTask(listTask);
         
         
-        helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()), false));
-        helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()), null, false));
+        helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()),new LinkedList(), false));
+        helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()),new LinkedList(), null, false));
         helpProc.setMaterials(new MaterialProc(listMaterialUsed));
         helpProc.setDataSheet(null);
-        helpProc.setEvaluation(new Evaluation(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_EVALUATION"), getLocale()), false));
+        helpProc.setEvaluation(new Evaluation(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_EVALUATION"), getLocale()),new LinkedList(), false));
        return new CopexReturn(); 
     }
 

@@ -233,7 +233,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             if(node.isQuestion()){
                 String d = ((Question)node.getNode()).getDescription(owner.getLocale());
                 if(d==null || d.length()==0){
-                    d = owner.getBundleString("DEFAULT_TEXT_QUESTION");
+                    d = owner.getBundleString("MSG_QUESTION");
                 }
                 return d;
             }else if(node.isHypothesis()){
@@ -253,7 +253,36 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         return null;
     }
 
+    public String getToolTipTextValue(Object value){
+        if (value instanceof CopexNode ){
+            CopexNode node =  (CopexNode)value;
+            if (node == null)
+                    return null;
+            if(node.isQuestion()){
+                String d = ((Question)node.getNode()).getDescription(owner.getLocale());
+                if(d==null || d.length()==0){
+                    return  owner.getBundleString("MSG_QUESTION");
+                }
+            }else if(node.isHypothesis()){
+                String h = ((Hypothesis)node.getNode()).getHypothesis(owner.getLocale());
+                if(h == null || h.length()==0){
+                    return owner.getBundleString("DEFAULT_TEXT_HYPOTHESIS");
+                }
+            }else if(node.isGeneralPrinciple()){
+                String p = ((GeneralPrinciple)node.getNode()).getPrinciple(owner.getLocale());
+                if(p == null || p.length()==0){
+                    return owner.getBundleString("DEFAULT_TEXT_PRINCIPLE");
+                }
+            }
+        }
+        return null;
+    }
 
+
+    // retourne en mode edition le mot commentaire
+    public String getCommentLabelText(){
+        return owner.getBundleString("LABEL_COMMENTS");
+    }
    // retourne le commentaire
    public String getCommentValue(Object value){
        if (this.displayComm == MyConstants.NO_COMMENTS)
@@ -263,7 +292,10 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             if (node == null)
                     return "";
             if(node.isQuestion()){
-                return ((Question)node.getNode()).getComments(owner.getLocale());
+                String c = ((Question)node.getNode()).getComments(owner.getLocale());
+                if(c==null)
+                    c = "";
+                return c;
             }
             if (value instanceof TaskTreeNode ){
                 TaskTreeNode tnode =  (TaskTreeNode)value;
@@ -271,6 +303,12 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                     return "";
                 return tnode.getTask().getComments(owner.getLocale());
             }
+            if(node.isHypothesis())
+                return ((Hypothesis)node.getNode()).getComment(owner.getLocale());
+            if(node.isGeneralPrinciple())
+                return ((GeneralPrinciple)node.getNode()).getComment(owner.getLocale());
+            if(node.isEvaluation())
+                return ((Evaluation)node.getNode()).getComment(owner.getLocale());
             return "";
        }else
             return "";
@@ -286,7 +324,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             if (node == null)
                     return false;
             if(node.isQuestion()){
-                return false;
+                return true;
             }else if(node.isHypothesis()){
                 return true;
             }else if(node.isGeneralPrinciple()){
@@ -306,13 +344,16 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
    }
 
    // retourne l'intitule dans l'arbre
-   public String getIntituleValue(Object value){
+   public String getIntituleValue(Object value, boolean editionMode){
        if (value instanceof CopexNode ){
             CopexNode node =  (CopexNode)value;
             if (node == null)
                     return "";
             if(node.isQuestion()){
-                return "";
+                if(editionMode)
+                    return owner.getBundleString("TREE_QUESTION");
+                else
+                    return "";
             }else if(node.isHypothesis()){
                 return owner.getBundleString("TREE_HYPOTHESIS");
             }else if(node.isGeneralPrinciple()){
@@ -405,7 +446,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             int level = node.getLevel() ;
             if (level == 0)
                 return totalWidth - 35;
-            return totalWidth - (level*45);
+            return totalWidth - (level*40);
         }
         return totalWidth ;
     }
@@ -450,7 +491,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         CopexNode selNode = getSelectedNode();
         if (selNode == null)
             return false;
-        if(selNode.isHypothesis() || selNode.isGeneralPrinciple() || selNode.isEvaluation()){
+        if(selNode.isQuestion() || selNode.isHypothesis() || selNode.isGeneralPrinciple() || selNode.isEvaluation()){
             return true;
         }
         return false;
@@ -486,7 +527,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             popUpMenu = null;
             int x = e.getPoint().x;
             int y = e.getPoint().y;
-            if (!isElementsSel())
+            if (!isElementSelTaskTree())
                return;
             getPopUpMenu();
            boolean alone =  isOnlyOneElementIsSel();
@@ -528,9 +569,10 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         CopexNode currentNode = getSelectedNode();
         if (currentNode == null)
                 return;
-        if (currentNode.isQuestion()){
-            editQuestion();
-        }else if(currentNode.isMaterial()){
+//        if (currentNode.isQuestion()){
+//            editQuestion();
+//        }else if(currentNode.isMaterial()){
+        if(currentNode.isMaterial()){
             editMaterial();
         }else if(currentNode instanceof TaskTreeNode){
             if (((TaskTreeNode)currentNode).isAction()){
@@ -538,33 +580,53 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             }else if (((TaskTreeNode)currentNode).isStep()){
                 editStep(((TaskTreeNode)currentNode));
             }
-        }
+        }else if(currentNode.isManipulation() && currentNode.getChildCount() == 0){
+            openHelpManipulationDialog();
+        }else if(currentNode.isManipulation() && getLevelTreeDisplay() <2 && currentNode.getChildCount() > 0)
+            displayLevel(2);
     }
 
-    /* ouverture fenetre d'edition de la question */
-   public void editQuestion(){
-       QuestionDialog questD = new QuestionDialog(owner, proc.getQuestion().getEditRight(), false,proc.getQuestion().getDescription(owner.getLocale()), proc.getQuestion().getComments(owner.getLocale()),  proc.getRight());
-       questD.setVisible(true);
-   }
+    private void openHelpManipulationDialog(){
+        HelpManipulationDialog helpD = new HelpManipulationDialog(owner, proc.isTaskProc());
+        helpD.setVisible(true);
+    }
 
-     public void setNodeText(CopexNode node, String txt){
+
+    
+
+     public void setNodeText(CopexNode node, String txt, String comment){
          if(node != null){
              if(node.isHypothesis()){
-                 String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt);
+                 String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt, comment);
                  ((Hypothesis)node.getNode()).setHypothesis(CopexUtilities.getTextLocal(newHyp,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isGeneralPrinciple()){
-                 String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt);
+                 String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt, comment);
                  ((GeneralPrinciple)node.getNode()).setPrinciple(CopexUtilities.getTextLocal(newPrinc,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isEvaluation()){
-                 String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt);
+                 String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt, comment);
                  ((Evaluation)node.getNode()).setEvaluation(CopexUtilities.getTextLocal(newEval,owner.getLocale()));
+                 copexTreeModel.nodeChanged(node);
+             }else if(node.isQuestion()){
+                 String newQuestion = this.owner.updateQuestion((Question)node.getNode(), txt, comment);
+                 ((Question)node.getNode()).setDescription(CopexUtilities.getTextLocal(newQuestion,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }
          }
          repaint();
      }
+
+     public void saveNodeText(CopexNode node, String txt){
+         if(node != null){
+             if(node.isHypothesis()){
+                 System.out.println("en cache");
+                 
+             }
+         }
+     }
+
+    
 
      public void updateProc(LearnerProcedure p){
          this.proc = p;
@@ -787,6 +849,20 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
      */
     public boolean isOnlyOneElementIsSel(){
         return this.getSelectionCount() == 1;
+    }
+
+    /* au - un element de sel dans l'arbre des taches */
+    public boolean isElementSelTaskTree(){
+        TreePath[] tabPaths = this.getSelectionPaths();
+        if (tabPaths == null || tabPaths.length == 0 )
+            return false;
+        for (int i=0;i<tabPaths.length; i++){
+            CopexNode n = (CopexNode)tabPaths[i].getLastPathComponent();
+            if (n instanceof TaskTreeNode){
+                return true;
+            }
+        }
+        return false;
     }
 
     /* ouverture de la fenetre d'edition de l'etape */
@@ -1124,7 +1200,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
     /* retourne le niveau arborescence max */
     public int getLevelTree(){
-        return getLevelTree((CopexNode)copexTreeModel.getRoot())-1;
+        return getLevelTree((CopexNode)copexTreeModel.getRoot());
     }
 
     private int getLevelTree(CopexNode node){
@@ -1281,7 +1357,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
      * niveau 1 : affichage de la racine et de ses enfants (non deployes)....
      */
     public void displayLevel(int level){
-        level = level+1;
+        //level = level+1;
         setVisibleNode(level, (CopexNode)copexTreeModel.getRoot());
     }
 
@@ -1717,7 +1793,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
     /* resize arbre */
     public void resizeWidth(){
-        if(listVisibleNode != null && listVisibleNode.size() == 0)
+//        if(listVisibleNode != null && listVisibleNode.size() == 0)
             markDisplay();
         copexTreeModel.reload();
         displayTree();
@@ -2085,6 +2161,28 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
     public void editMaterial(){
         owner.openMaterialDialog();
+    }
+
+    public void setQuestionEditor(){
+        setNodeEditing((CopexNode)copexTreeModel.getRoot());
+    }
+    public void setHypothesisEditor(){
+        setNodeEditing(copexTreeModel.getHypothesisNode());
+    }
+    public void setPrincipleEditor(){
+        setNodeEditing(copexTreeModel.getGeneralPrincipleNode());
+    }
+    public void setEvaluationEditor(){
+        setNodeEditing(copexTreeModel.getEvaluationNode());
+    }
+
+    private void setNodeEditing(CopexNode node){
+        if(node == null)
+            return;
+        TreePath path  = new TreePath(node.getPath());
+        scrollPathToVisible(path);
+        setSelectionPath(path);
+        startEditingAtPath(path);
     }
     
 }

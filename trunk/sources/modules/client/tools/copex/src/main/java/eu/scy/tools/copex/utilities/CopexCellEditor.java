@@ -1,4 +1,5 @@
 package eu.scy.tools.copex.utilities;
+
 import eu.scy.tools.copex.edp.CopexNode;
 import eu.scy.tools.copex.edp.CopexTree;
 import eu.scy.tools.copex.edp.MyWhiteBoardPanel;
@@ -42,6 +43,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
     private JLabel labelRepeat;
     private JLabel labelNode;
     private JTextArea textNode;
+    private JLabel labelComment;
     private JTextArea commentNode;
     private MyWhiteBoardPanel drawPanel;
     protected JLabel taskImageNode;
@@ -104,6 +106,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         this.panelNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
         getLabelNode();
         getTextNode();
+        getLabelComment();
         getCommentNode();
         this.taskImageNode = new JLabel();
         this.panelNode.add(taskImageNode);
@@ -129,6 +132,17 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         }
         return labelNode;
     }
+     public JLabel getLabelComment(){
+        if(this.labelComment == null){
+            labelComment = new JLabel();
+            labelComment.setName("labelComment");
+            labelComment.setFont(CopexTreeCellRenderer.FONT_INTITULE);
+            this.labelComment.setOpaque(true);
+            this.labelComment.setBackground(CopexTreeCellRenderer.BG_COLOR);
+            this.panelNode.add(labelComment);
+        }
+        return labelNode;
+    }
     public JTextArea getTextNode(){
         if (this.textNode == null){
             this.textNode = new JTextArea();
@@ -149,7 +163,10 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    validText();
+                    //validText();
+//                   if(commentNode != null)
+//                        commentNode.requestFocus();
+
                 }
             });
             this.panelNode.add(textNode);
@@ -193,7 +210,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             icon.setIcon(evaluationIcon);
         
         // labelNode :
-        String txtLabel = ((CopexTree)tree).getIntituleValue(value);
+        String txtLabel = ((CopexTree)tree).getIntituleValue(value, true);
         labelNode.setText(txtLabel);
         labelNode.setSize(CopexUtilities.lenghtOfString(labelNode.getText(), labelNode.getFontMetrics(labelNode.getFont())), 14);
         labelNode.setBounds(0, 5, labelNode.getWidth(), labelNode.getHeight());
@@ -208,6 +225,11 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 this.panelNode.remove(textNode);
             textNode = null;
         }else{
+            getTextNode();
+            if(value instanceof CopexNode && ((CopexNode)value).isQuestion())
+                this.textNode.setFont(CopexTreeCellRenderer.FONT_QUESTION);
+            else
+                this.textNode.setFont(CopexTreeCellRenderer.FONT_NODE);
             boolean editable = ((CopexTree)tree).isEditableValue(value);
             textNode.setText(text);
             textNode.setEditable(editable);
@@ -235,15 +257,34 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 textNode.setBorder(null);
             textNode.setSize(w, heightText);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
+            String toolTipText = ((CopexTree)tree).getToolTipTextValue(value);
+            textNode.setToolTipText(toolTipText);
         }
         // comments
         String comment = ((CopexTree)tree).getCommentValue(value);
         getCommentNode();
         commentNode.setText(comment);
-        if (comment == null || comment.length() == 0){
+        //if (comment == null || comment.length() == 0){
+        if (comment == null){
             this.panelNode.remove(commentNode);
             commentNode = null;
         }else{
+            boolean editable = ((CopexTree)tree).isEditableValue(value);
+            if(editable){
+                getLabelComment();
+                labelComment.setText(((CopexTree)tree).getCommentLabelText());
+                labelComment.setSize(CopexUtilities.lenghtOfString(labelComment.getText(), getFontMetrics(labelComment.getFont())),14);
+                labelComment.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), labelComment.getWidth(), labelComment.getHeight());
+                commentNode.setFont(CopexTreeCellRenderer.FONT_NODE);
+                commentNode.setForeground(Color.BLACK);
+            }else{
+                this.panelNode.remove(labelComment);
+                labelComment = null;
+                commentNode.setFont(CopexTreeCellRenderer.FONT_COMMENT);
+                commentNode.setForeground(CopexTreeCellRenderer.COMMENT_COLOR);
+            }
+            commentNode.setEditable(editable);
+            commentNode.setEnabled(editable);
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             // taille du text area des commentaires
             int nbLC = commentNode.getLineCount() ;
@@ -261,9 +302,19 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             commentNode.setSize(cw, heightComment);
             nbLC = CopexTreeCellRenderer.getNbLine(comment, cw, getFontMetrics(commentNode.getFont()));
             commentNode.setSize(cw, nbLC*CopexTreeCellRenderer.HEIGHT_ONE_LINE_COMMENT);
+            if(editable){
+                cw = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
+                heightComment = Math.max(MIN_HEIGHT_AREA, heightComment);
+                commentNode.setBorder(BorderFactory.createLineBorder(AREA_BORDER_COLOR));
+                commentNode.setSize(cw, heightComment);
+            }else
+                commentNode.setBorder(null);
         }
         if (commentNode != null){
-            this.commentNode.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());
+            int posy = this.textNode.getY()+this.textNode.getHeight();
+            if(labelComment != null)
+                posy = this.labelComment.getY()+labelComment.getHeight();
+            this.commentNode.setBounds(0, posy, this.commentNode.getWidth(), this.commentNode.getHeight());
         }
         ImageIcon taskImage = ((CopexTree)tree).getImageValue(value);
         if (taskImage != null){
@@ -287,8 +338,8 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         if (isSelected){
             labelNode.setBackground(CopexTreeCellRenderer.SELECTED_COLOR);
             if(labelNode.getWidth() == 0 && textNode != null){
-                //cas de la question
-                textNode.setBackground(CopexTreeCellRenderer.SELECTED_COLOR);
+                //cas de la question 
+                //textNode.setBackground(CopexTreeCellRenderer.SELECTED_COLOR);
             }
         }else{
             labelNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
@@ -346,6 +397,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     @Override
     public void cancelCellEditing() {
+        validText();
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         // Process the listeners last to first, notifying
@@ -383,6 +435,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             //this.commentNode.setOpaque(true);
             //this.commentNode.setBounds(0, this.taskImageNode.getY()+this.taskImageNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());
             this.panelNode.add(commentNode);
+            
         }
         return this.commentNode;
     }
@@ -401,6 +454,9 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     public Dimension getPanelPreferredSize() {
         Dimension labelNodeD = labelNode.getSize();
+        Dimension labelCommentD  = new Dimension(0,0);
+        if(labelComment != null)
+            labelCommentD = labelComment.getSize();
         Dimension commentNodeD = new Dimension(0, 0);
         if (this.commentNode != null)
             commentNodeD = commentNode.getSize();
@@ -412,17 +468,26 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         if(this.textNode != null){
             textNodeD = this.textNode.getSize();
         }
-        int height = labelNodeD.height + textNodeD.height+commentNodeD.height+5 + taskImageD.height + taskDrawD.height;
+        int height = labelNodeD.height + textNodeD.height+labelCommentD.height+commentNodeD.height+5 + taskImageD.height + taskDrawD.height;
         //int height = labelNodeD.height + commentNodeD.height+5;
 
         int width = labelNodeD.width < commentNodeD.width ? commentNodeD.width : labelNodeD.width;
+         width = width < labelCommentD.width ? labelCommentD.width : width ;
         width = width < taskImageD.width ? taskImageD.width : width ;
         width = width < textNodeD.width ? textNodeD.width : width ;
         return new Dimension(width, height);
 
     }
-    public void validText(){
-        this.copexTree.setNodeText(node, textNode.getText());
+    public void saveText(){
+        this.copexTree.saveNodeText(node, textNode.getText());
     }
+    public void validText(){
+        String c = "";
+        if(commentNode != null)
+            c = commentNode.getText();
+        this.copexTree.setNodeText(node, textNode.getText(),c);
+    }
+
+    
 
 }

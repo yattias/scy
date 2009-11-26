@@ -42,12 +42,13 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     static public Color SELECTED_COLOR = new Color(167, 225, 255);
     static public Font FONT_COMMENT = new Font("Dialog", Font.ITALIC, 10);
     static public Font FONT_NODE = new Font("Dialog", Font.PLAIN, 11);
+     static public Font FONT_QUESTION = new Font("Dialog", Font.PLAIN, 12);
     static public Font FONT_NODE_DEFAULT_TEXT = new Font("Dialog", Font.ITALIC, 11);
     static public Font FONT_INTITULE= new Font("Dialog", Font.ITALIC,13);
     /* longueur minimum du texte dans l'arbre, avant declenchement scroll*/
     static public final int TEXT_AREA_MIN_WIDTH = 200;
-    static public int HEIGHT_ONE_LINE = 19;
-    static public int HEIGHT_ONE_LINE_COMMENT = 18;
+    static public int HEIGHT_ONE_LINE = 15;
+    static public int HEIGHT_ONE_LINE_COMMENT = 14;
 
 
     private CopexTree copexTree;
@@ -176,7 +177,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         }else if (value instanceof TaskTreeNode && ((TaskTreeNode)value).isStep())
             icon.setIcon(stepIcon);
         // labelNode :
-        String txtLabel = ((CopexTree)tree).getIntituleValue(value);
+        String txtLabel = ((CopexTree)tree).getIntituleValue(value, false);
         labelNode.setText(txtLabel);
         labelNode.setSize(CopexUtilities.lenghtOfString(labelNode.getText(), labelNode.getFontMetrics(labelNode.getFont())), 14);
         labelNode.setBounds(0, 5, labelNode.getWidth(), labelNode.getHeight());
@@ -200,13 +201,19 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 this.panelNode.remove(textNode);
             textNode = null;
         }else{
+            int hl = HEIGHT_ONE_LINE;
             String defaultText = ((CopexTree)tree).getDefaultDescriptionValue(value);
             getTextNode();
             if(text.length() == 0 && defaultText != null){
                 text = defaultText;
                 this.textNode.setFont(FONT_NODE_DEFAULT_TEXT);
-            }else
-                this.textNode.setFont(FONT_NODE);
+            }else{
+                if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
+                    this.textNode.setFont(FONT_QUESTION);
+                    hl = 17;
+                }else
+                    this.textNode.setFont(FONT_NODE);
+            }
             boolean editable = ((CopexTree)tree).isEditableValue(value);
             //setEnabled(tree.isEnabled());
             textNode.setText(text);
@@ -222,13 +229,13 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 oneLine = true;
             }
             int w = Math.max(widthTree, TEXT_AREA_MIN_WIDTH);
-            int heightText = (int)((((float)(textWidth / w))+1)*HEIGHT_ONE_LINE) ;
+            int heightText = (int)((((float)(textWidth / w))+1)*hl) ;
             if (oneLine)
-                heightText = HEIGHT_ONE_LINE;
-            heightText = Math.max(nbL*HEIGHT_ONE_LINE, heightText);
+                heightText = hl;
+            heightText = Math.max(nbL*hl, heightText);
             textNode.setSize(w, heightText);
             nbL = getNbLine(text, w, getFontMetrics(textNode.getFont()));
-            textNode.setSize(w, nbL*HEIGHT_ONE_LINE);
+            textNode.setSize(w, nbL*hl+5);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
         }
         // comments
@@ -239,6 +246,9 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             this.panelNode.remove(commentNode);
             commentNode = null;
         }else{
+            if(value instanceof CopexNode && ((CopexNode)value).isMaterial()){
+                System.out.println("il y a un comment");
+            }
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             // taille du text area des commentaires
             int nbLC = commentNode.getLineCount() ;
@@ -255,7 +265,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             heightComment = Math.max(nbLC*HEIGHT_ONE_LINE_COMMENT, heightComment);
             commentNode.setSize(cw, heightComment);
             nbLC = getNbLine(comment, cw, getFontMetrics(commentNode.getFont()));
-            commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT);
+            commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT+5);
         }
         if (commentNode != null){
             this.commentNode.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());

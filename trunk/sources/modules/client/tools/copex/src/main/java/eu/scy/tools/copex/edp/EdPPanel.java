@@ -69,7 +69,6 @@ public class EdPPanel extends JPanel {
     private JSeparator sep2;
     private JSeparator sep3;
     private JSeparator sep4;
-    private JSeparator sep5;
     private MyMenu menuArbo = null;
     private MyMenuItem menuItem1 = null;
     private MyMenuItem menuItem2 = null;
@@ -189,7 +188,7 @@ public class EdPPanel extends JPanel {
         this.menuBar.setPreferredSize(this.menuBar.getSize());
         if(copexPanel.canSave()){
             menuBar.add(getMenuItemSave());
-            menuBar.add(getSep5());
+            menuBar.add(getSep1());
         }
         if(isMenuHypothesis())
             menuBar.add(getMenuItemHypothesis());
@@ -197,17 +196,16 @@ public class EdPPanel extends JPanel {
             menuBar.add(getMenuItemPrinciple());
         if(isMenuEvaluation())
             menuBar.add(getMenuItemEvaluation());
+        menuBar.add(getMenuItemComm());
+        menuBar.add(getMenuArbo());
+        menuBar.add(getSep2());
         menuBar.add(getMenuItemAddE());
         if(!proc.isTaskProc())
             menuBar.add(getMenuItemAddA());
-        menuBar.add(getSep1());
         menuBar.add(getMenuItemSuppr());
         menuBar.add(getMenuItemCut());
         menuBar.add(getMenuItemCopy());
         menuBar.add(getMenuItemPaste());
-        menuBar.add(getSep2());
-        menuBar.add(getMenuArbo());
-        menuBar.add(getMenuItemComm());
         menuBar.add(getSep3());
         menuBar.add(getMenuItemUndo());
         menuBar.add(getMenuItemRedo());
@@ -222,25 +220,22 @@ public class EdPPanel extends JPanel {
     private JSeparator getSep1(){
         if (sep1 == null){
             sep1 = new JSeparator(JSeparator.VERTICAL);
-            int x = menuItemAddE.getX()+menuItemAddE.getWidth();
-            if(!proc.isTaskProc()){
-                x = menuItemAddA.getX()+menuItemAddA.getWidth();
-            }
-            sep1.setBounds(x, 0, 5, menuBar.getHeight());
+            
+            sep1.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep1;
     }
     private JSeparator getSep2(){
         if (sep2 == null){
             sep2 = new JSeparator(JSeparator.VERTICAL);
-            sep2.setBounds(menuItemPaste.getX()+menuItemPaste.getWidth(), 0, 5, menuBar.getHeight());
+            sep2.setBounds(menuArbo.getX()+menuArbo.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep2;
     }
     private JSeparator getSep3(){
         if (sep3 == null){
             sep3 = new JSeparator(JSeparator.VERTICAL);
-            sep3.setBounds(menuItemComm.getX()+menuItemComm.getWidth(), 0, 5, menuBar.getHeight());
+            sep3.setBounds(menuItemPaste.getX()+menuItemPaste.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep3;
     }
@@ -251,13 +246,7 @@ public class EdPPanel extends JPanel {
         }
         return sep4;
     }
-    private JSeparator getSep5(){
-        if (sep5 == null){
-            sep5 = new JSeparator(JSeparator.VERTICAL);
-            sep5.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
-        }
-        return sep5;
-    }
+    
     private MyMenuItem getMenuItemSave(){
         if (menuItemSave == null){
             menuItemSave = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
@@ -271,7 +260,7 @@ public class EdPPanel extends JPanel {
             menuItemHypothesis = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_HYPOTHESIS"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_hypothesis.png"), getCopexImage("Bouton-AdT-28_hypothesis_survol.png"),  getCopexImage("Bouton-AdT-28_hypothesis_clic.png"), getCopexImage("Bouton-AdT-28_hypothesis_grise.png"));
             int x = 0;
             if(copexPanel.canSave()){
-                x = sep5.getX()+sep5.getWidth();
+                x = sep1.getX()+sep1.getWidth();
             }
             menuItemHypothesis.setBounds(x, 0, menuItemHypothesis.getWidth(), menuItemHypothesis.getHeight());
         }
@@ -282,7 +271,7 @@ public class EdPPanel extends JPanel {
             menuItemPrinciple = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_PRINCIPLE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_principle.png"), getCopexImage("Bouton-AdT-28_principle_survol.png"),  getCopexImage("Bouton-AdT-28_principle_clic.png"), getCopexImage("Bouton-AdT-28_principle_grise.png"));
             int x = 0;
             if(copexPanel.canSave()){
-                x = sep5.getX()+sep5.getWidth();
+                x = sep1.getX()+sep1.getWidth();
             }
             if(isMenuHypothesis()){
                 x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
@@ -296,7 +285,7 @@ public class EdPPanel extends JPanel {
             menuItemEvaluation = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_EVALUATION"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_evaluation.png"), getCopexImage("Bouton-AdT-28_evaluation_survol.png"),  getCopexImage("Bouton-AdT-28_evaluation_clic.png"), getCopexImage("Bouton-AdT-28_evaluation_grise.png"));
             int x = 0;
             if(copexPanel.canSave()){
-                x = sep5.getX()+sep5.getWidth();
+                x = sep1.getX()+sep1.getWidth();
             }
             if(isMenuPrinciple()){
                 x = menuItemPrinciple.getX()+menuItemPrinciple.getWidth();
@@ -315,18 +304,8 @@ public class EdPPanel extends JPanel {
             }else{
                 menuItemAddE = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_ADDE"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_step.png"), getCopexImage("Bouton-AdT-28_step_sur.png"), getCopexImage("Bouton-AdT-28_step_clic.png"), getCopexImage("Bouton-AdT-28_step_gris.png"));
             }
-            int x = 0;
-            if(copexPanel.canSave()){
-                x = sep5.getX()+sep5.getWidth();
-            }
-            if(isMenuEvaluation()){
-                x = menuItemEvaluation.getX()+menuItemEvaluation.getWidth();
-            }else if(isMenuPrinciple()){
-                x = menuItemPrinciple.getX()+menuItemPrinciple.getWidth();
-            }else if (isMenuHypothesis()){
-                x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
-            }
-            menuItemAddE.setBounds(x, 0, menuItemAddE.getWidth(), menuItemAddE.getHeight());
+            
+            menuItemAddE.setBounds(sep2.getX()+sep2.getWidth(), 0, menuItemAddE.getWidth(), menuItemAddE.getHeight());
         }
         return menuItemAddE;
     }
@@ -343,15 +322,26 @@ public class EdPPanel extends JPanel {
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO_GENERAL");
             menuArbo = new MyMenu(this,toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_1.png"), getCopexImage("Bouton-AdT-28_1_survol.png"), getCopexImage("Bouton-AdT-28_1_clic.png"), getCopexImage("Bouton-AdT-28_1na.png"));
            // menuArbo.setBackground(this.menuBar.getBackground());
-            menuArbo.setBounds(sep2.getX()+sep2.getWidth(), 0, menuArbo.getWidth(), menuArbo.getHeight());
+            menuArbo.setBounds(menuItemComm.getX()+menuItemComm.getWidth(), 0, menuArbo.getWidth(), menuArbo.getHeight());
 
         }
         return menuArbo;
     }
      private MyMenuItem getMenuItemComm(){
         if (menuItemComm == null){
-            menuItemComm = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_clicsur.png"), getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment.png"));
-            menuItemComm.setBounds(menuArbo.getX()+menuArbo.getWidth(), 0, menuItemComm.getWidth(), menuItemComm.getHeight());
+            menuItemComm = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_clicsur.png"), getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_grise.png"));
+            int x = 0;
+            if(copexPanel.canSave()){
+                x = sep1.getX()+sep1.getWidth();
+            }
+            if(isMenuEvaluation()){
+                x = menuItemEvaluation.getX()+menuItemEvaluation.getWidth();
+            }else if(isMenuPrinciple()){
+                x = menuItemPrinciple.getX()+menuItemPrinciple.getWidth();
+            }else if (isMenuHypothesis()){
+                x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
+            }
+            menuItemComm.setBounds(x, 0, menuItemComm.getWidth(), menuItemComm.getHeight());
         }
         return menuItemComm;
     }
@@ -417,7 +407,10 @@ public class EdPPanel extends JPanel {
             menuItemSuppr = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_SUPPR"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_supprimer.png"), getCopexImage("Bouton-AdT-28_supprimer_sur.png"), getCopexImage("Bouton-AdT-28_supprimer_cli.png"), getCopexImage("Bouton-AdT-28_supprimer_gri.png"));
             menuItemSuppr.setSize(menuItemSuppr.getWidth(), menuItemSuppr.getHeight());
             menuItemSuppr.setPreferredSize(new Dimension(menuItemSuppr.getWidth(), menuItemSuppr.getHeight()));
-            menuItemSuppr.setBounds(sep1.getX()+sep1.getWidth(), 0, menuItemSuppr.getWidth(), menuItemSuppr.getHeight());
+            int x = menuItemAddE.getX()+menuItemAddE.getWidth();
+            if(menuItemAddA != null)
+                x = menuItemAddA.getX()+menuItemAddA.getWidth();
+            menuItemSuppr.setBounds(x, 0, menuItemSuppr.getWidth(), menuItemSuppr.getHeight());
         }
         return menuItemSuppr;
     }
@@ -612,9 +605,11 @@ public class EdPPanel extends JPanel {
                if(b){
                     menuItemHypothesis.setItemIcon(getCopexImage("Bouton-AdT-28_hypothesis.png"));
                     menuItemHypothesis.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_hypothesis_survol.png"));
+                    menuItemHypothesis.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_HYPOTHESIS"));
                }else{
                     menuItemHypothesis.setItemIcon(getCopexImage("Bouton-AdT-28_hypothesis_clic.png"));
                     menuItemHypothesis.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_hypothesis_clicsur.png"));
+                    menuItemHypothesis.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_NO_HYPOTHESIS"));
                }
            }
            if(isMenuPrinciple()){
@@ -622,9 +617,11 @@ public class EdPPanel extends JPanel {
                if(b){
                     menuItemPrinciple.setItemIcon(getCopexImage("Bouton-AdT-28_principle.png"));
                     menuItemPrinciple.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_principle_survol.png"));
+                    menuItemPrinciple.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_PRINCIPLE"));
                }else{
                     menuItemPrinciple.setItemIcon(getCopexImage("Bouton-AdT-28_principle_clic.png"));
                     menuItemPrinciple.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_principle_clicsur.png"));
+                    menuItemPrinciple.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_NO_PRINCIPLE"));
                }
            }
            if(isMenuEvaluation()){
@@ -632,9 +629,11 @@ public class EdPPanel extends JPanel {
                if(b){
                     menuItemEvaluation.setItemIcon(getCopexImage("Bouton-AdT-28_evaluation.png"));
                     menuItemEvaluation.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_evaluation_survol.png"));
+                    menuItemEvaluation.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_EVALUATION"));
                }else{
                     menuItemEvaluation.setItemIcon(getCopexImage("Bouton-AdT-28_evaluation_clic.png"));
                     menuItemEvaluation.setItemRolloverIcon(getCopexImage("Bouton-AdT-28_evaluation_clicsur.png"));
+                    menuItemEvaluation.setToolTipText(getBundleString("TOOLTIPTEXT_MENU_NO_EVALUATION"));
                }
            }
        }
@@ -648,7 +647,9 @@ public class EdPPanel extends JPanel {
 
    // mise a jour du menu arbo :
    private void updateMenuArbo(){
-       updateLevel(copexTree.getLevelTree());
+       int level = copexTree.getLevelTree();
+       getMenuArbo().setEnabled(level>1);
+       updateLevel(level);
    }
     public void updateLevel(int level){
         // dans le menu arboresence on met jusqu'au niveau demande
@@ -1342,8 +1343,9 @@ public class EdPPanel extends JPanel {
     }
 
     public void setQuestionDialog(){
-       if(!proc.isValidQuestion(getLocale()))
-            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
+//       if(!proc.isValidQuestion(getLocale()))
+//            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
+        //copexTree.setQuestionEditor();
     }
     
     /* chargement ELO */
@@ -1445,7 +1447,9 @@ public class EdPPanel extends JPanel {
     }
 
      public void resizeWidth(int width){
+         int value = scrollPaneTree.getVerticalScrollBar().getValue();
          this.copexTree.resizeWidth();
+         scrollPaneTree.getVerticalScrollBar().setValue(value);
      }
 
      public void cut() {
@@ -1578,6 +1582,8 @@ public class EdPPanel extends JPanel {
         copexTree.addEdit_hypothesis(oldHypothesis, hypothesis);
         setHypothesis(hypothesis);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        copexTree.setHypothesisEditor();
+        
     }
 
     public void setHypothesis(Hypothesis h){
@@ -1611,6 +1617,7 @@ public class EdPPanel extends JPanel {
         copexTree.addEdit_principle(oldPrinciple, principle);
         setGeneralPrinciple(principle);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        copexTree.setPrincipleEditor();
     }
 
     public void setGeneralPrinciple(GeneralPrinciple p){
@@ -1643,6 +1650,7 @@ public class EdPPanel extends JPanel {
         copexTree.addEdit_evaluation(oldEvaluation, evaluation);
         setEvaluation(evaluation);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        copexTree.setEvaluationEditor();
     }
 
     public void setEvaluation(Evaluation e){
@@ -1653,7 +1661,7 @@ public class EdPPanel extends JPanel {
     }
 
     
-    public String updateHypothesis(Hypothesis hypothesis, String newText){
+    public String updateHypothesis(Hypothesis hypothesis, String newText, String newComment){
         if(newText.length() > MyConstants.MAX_LENGHT_HYPOTHESIS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_HYPOTHESIS"));
@@ -1661,15 +1669,25 @@ public class EdPPanel extends JPanel {
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return hypothesis.getHypothesis(getLocale());
         }
+        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
+            return hypothesis.getHypothesis(getLocale());
+        }
         Hypothesis oldHypothesis = (Hypothesis)proc.getHypothesis().clone();
         String oldHyp = proc.getHypothesis().getHypothesis(getLocale()) ;
+        String oldHypComment = proc.getHypothesis().getComment(getLocale()) ;
         proc.getHypothesis().setHypothesis(CopexUtilities.getTextLocal(newText, getLocale()));
+        proc.getHypothesis().setComment(CopexUtilities.getTextLocal(newComment, getLocale()));
         ArrayList v= new ArrayList();
         CopexReturn cr = this.controller.setHypothesis(proc, proc.getHypothesis(), v);
         if(cr.isError()){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             proc.getHypothesis().setHypothesis(CopexUtilities.getTextLocal(oldHyp, getLocale()));
+            proc.getHypothesis().setComment(CopexUtilities.getTextLocal(oldHypComment, getLocale()));
             return oldHyp;
         }
         hypothesis = (Hypothesis)v.get(0);
@@ -1678,7 +1696,7 @@ public class EdPPanel extends JPanel {
         return hypothesis.getHypothesis(getLocale());
     }
 
-    public String updateGeneralPrinciple(GeneralPrinciple principle, String newText){
+    public String updateGeneralPrinciple(GeneralPrinciple principle, String newText, String newComment){
         if(newText.length() > MyConstants.MAX_LENGHT_GENERAL_PRINCIPLE){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_GENERAL_PRINCIPLE"));
@@ -1686,15 +1704,25 @@ public class EdPPanel extends JPanel {
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return principle.getPrinciple(getLocale());
         }
+        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
+            return principle.getPrinciple(getLocale());
+        }
         GeneralPrinciple oldPrinciple = (GeneralPrinciple)proc.getGeneralPrinciple().clone();
         String oldPrinc = proc.getGeneralPrinciple().getPrinciple(getLocale());
+        String oldPrincComment = proc.getGeneralPrinciple().getComment(getLocale());
         proc.getGeneralPrinciple().setPrinciple(CopexUtilities.getTextLocal(newText, getLocale()));
+        proc.getGeneralPrinciple().setComment(CopexUtilities.getTextLocal(newComment, getLocale()));
         ArrayList v= new ArrayList();
         CopexReturn cr = this.controller.setGeneralPrinciple(proc, proc.getGeneralPrinciple(), v);
         if(cr.isError()){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             proc.getGeneralPrinciple().setPrinciple(CopexUtilities.getTextLocal(oldPrinc, getLocale()));
+            proc.getGeneralPrinciple().setComment(CopexUtilities.getTextLocal(oldPrincComment, getLocale()));
             return oldPrinc;
         }
         principle = (GeneralPrinciple)v.get(0);
@@ -1704,7 +1732,7 @@ public class EdPPanel extends JPanel {
     }
 
 
-     public String updateEvaluation(Evaluation evaluation, String newText){
+     public String updateEvaluation(Evaluation evaluation, String newText, String newComment){
         if(newText.length() > MyConstants.MAX_LENGHT_EVALUATION){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_EVALUATION"));
@@ -1712,21 +1740,77 @@ public class EdPPanel extends JPanel {
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return evaluation.getEvaluation(getLocale());
         }
+        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
+            return evaluation.getEvaluation(getLocale());
+        }
         Evaluation oldEvaluation = (Evaluation)proc.getEvaluation().clone();
         String oldEval = proc.getEvaluation().getEvaluation(getLocale());
+        String oldEvalComment = proc.getEvaluation().getComment(getLocale());
         proc.getEvaluation().setEvaluation(CopexUtilities.getTextLocal(newText, getLocale()));
+        proc.getEvaluation().setComment(CopexUtilities.getTextLocal(newComment, getLocale()));
         ArrayList v= new ArrayList();
         CopexReturn cr = this.controller.setEvaluation(proc, proc.getEvaluation(), v);
         if(cr.isError()){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             proc.getEvaluation().setEvaluation(CopexUtilities.getTextLocal(oldEval, getLocale()));
+            proc.getEvaluation().setComment(CopexUtilities.getTextLocal(oldEvalComment, getLocale()));
             return oldEval;
         }
         evaluation = (Evaluation)v.get(0);
         copexTree.addEdit_evaluation(oldEvaluation, evaluation);
         setEvaluation(evaluation);
         return evaluation.getEvaluation(getLocale());
+    }
+
+     public String updateQuestion(Question question, String newText, String newComment){
+        if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+           String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
+            displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+            return question.getDescription(getLocale());
+        }
+        if (newText.length() == 0){
+            String msg = getBundleString("MSG_ERROR_FIELD_NULL");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
+            displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+            return question.getDescription(getLocale());
+        }
+        if (newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+            return question.getDescription(getLocale());
+        }
+
+        Question oldQuestion = (Question)proc.getQuestion().clone();
+        String oldQ = proc.getQuestion().getDescription(getLocale());
+        String oldQComment = proc.getQuestion().getComments(getLocale());
+        proc.getQuestion().setDescription(CopexUtilities.getTextLocal(newText, getLocale()));
+        proc.getQuestion().setComments(CopexUtilities.getTextLocal(newComment, getLocale()));
+        ArrayList v= new ArrayList();
+        CopexReturn cr = this.controller.updateQuestion(proc.getQuestion(), proc, oldQuestion, v);
+        if(cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            proc.getQuestion().setDescription(CopexUtilities.getTextLocal(oldQ, getLocale()));
+            proc.getQuestion().setComments(CopexUtilities.getTextLocal(oldQComment, getLocale()));
+            return oldQ;
+        }
+        LearnerProcedure newProc = (LearnerProcedure)v.get(0);
+        updateProc(newProc);
+        copexTree.updateQuestion(newProc.getQuestion());
+        copexTree.addEdit_updateQuestion(oldQuestion, newProc.getQuestion());
+        updateMenu();
+        procModif = true;
+        return proc.getQuestion().getDescription(getLocale());
+
     }
 
       public boolean hasModification(){
@@ -1761,4 +1845,5 @@ public class EdPPanel extends JPanel {
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
           return true;
       }
+
 }

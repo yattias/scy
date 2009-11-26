@@ -25,10 +25,12 @@ public class GeneralPrinciple implements Cloneable{
     public final static String TAG_PRINCIPLE = "principle";
     public final static String TAG_PRINCIPLE_DRAWING = "principle_drawing";
     public final static String TAG_PRINCIPLE_HIDE = "principle_hide";
+    public final static String TAG_PRINCIPLE_COMMENT = "principle_comment";
 
 
     private long dbKey;
     private List<LocalText> listPrinciple;
+    private List<LocalText> listComments;
     private Element drawing;
     private boolean hide;
 
@@ -36,14 +38,17 @@ public class GeneralPrinciple implements Cloneable{
         this.dbKey = -1;
         this.listPrinciple = new LinkedList();
         this.listPrinciple.add(new LocalText("", locale));
+        this.listComments = new LinkedList();
+        this.listComments.add(new LocalText("", locale));
         this.drawing = null;
         this.hide = false;
     }
 
 
-    public GeneralPrinciple(long dbKey, List<LocalText> listPrinciple, Element drawing, boolean hide) {
+    public GeneralPrinciple(long dbKey, List<LocalText> listPrinciple, List<LocalText> listComments,Element drawing, boolean hide) {
         this.dbKey = dbKey;
         this.listPrinciple = listPrinciple;
+        this.listComments = listComments;
         this.drawing = drawing;
         this.hide = hide;
     }
@@ -56,6 +61,12 @@ public class GeneralPrinciple implements Cloneable{
                 Element e = variableElem.next();
                 Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
                 listPrinciple.add(new LocalText(e.getText(), l));
+            }
+            listComments = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_PRINCIPLE_COMMENT).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listComments.add(new LocalText(e.getText(), l));
             }
             drawing = xmlElem.getChild(TAG_PRINCIPLE_DRAWING);
             hide = xmlElem.getChild(TAG_PRINCIPLE_HIDE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
@@ -101,7 +112,26 @@ public class GeneralPrinciple implements Cloneable{
             this.listPrinciple.set(id, text);
         }
     }
-    
+
+    public List<LocalText> getListComments() {
+        return listComments;
+    }
+
+    public void setListComments(List<LocalText> listComments) {
+        this.listComments = listComments;
+    }
+    public String getComment(Locale locale){
+        return CopexUtilities.getText(listComments, locale);
+    }
+
+    public void setComment(LocalText text){
+        int id = CopexUtilities.getIdText(text.getLocale(), listComments);
+        if(id ==-1){
+            this.listComments.add(text);
+        }else{
+            this.listComments.set(id, text);
+        }
+    }
 
     public boolean isHide() {
         return hide;
@@ -122,6 +152,11 @@ public class GeneralPrinciple implements Cloneable{
                 listPrincipleC.add((LocalText)t.next().clone());
             }
             p.setListPrinciple(listPrincipleC);
+            List<LocalText> listCommentsC = new LinkedList();
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                listCommentsC.add((LocalText)t.next().clone());
+            }
+            p.setListComments(listCommentsC);
             p.setDbKey(dbKeyC);
             Element d = null;
             if(this.drawing != null){
@@ -143,6 +178,15 @@ public class GeneralPrinciple implements Cloneable{
             for (Iterator<LocalText> t = listPrinciple.iterator(); t.hasNext();) {
                 LocalText l = t.next();
                 Element e = new Element(TAG_PRINCIPLE);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        if(listComments != null && listComments.size() > 0){
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_PRINCIPLE_COMMENT);
                 e.setText(l.getText());
                 e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
                 element.addContent(e);

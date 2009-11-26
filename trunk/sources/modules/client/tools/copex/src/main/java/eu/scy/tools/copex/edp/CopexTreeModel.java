@@ -176,16 +176,17 @@ public class CopexTreeModel extends DefaultTreeModel{
         }
     }
 
-    private CopexNode getHypothesisNode(){
+    public CopexNode getHypothesisNode(){
         if(((CopexNode)((CopexNode)root).getChildAt(0)).isHypothesis())
             return ((CopexNode)((CopexNode)root).getChildAt(0));
         return null;
     }
 
     public void setGeneralPrinciple(GeneralPrinciple principle){
-        if(principle == null || principle.isHide()){
+        CopexNode node = getGeneralPrincipleNode();
+        if(node != null && (principle == null || principle.isHide())){
             removeNodeFromParent(getGeneralPrincipleNode());
-        }else if (getGeneralPrincipleNode() == null){
+        }else if (node == null && principle != null && !principle.isHide()){
             CopexNode rootNode = (CopexNode)root;
             CopexNode princChild = new CopexNode(principle);
             int id = 1;
@@ -195,7 +196,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         }
     }
 
-    private CopexNode getGeneralPrincipleNode(){
+    public CopexNode getGeneralPrincipleNode(){
         int nbC = ((CopexNode)root).getChildCount();
         for (int i=0; i<nbC; i++){
             if (((CopexNode)((CopexNode)root).getChildAt(i)).isGeneralPrinciple())
@@ -205,16 +206,17 @@ public class CopexTreeModel extends DefaultTreeModel{
     }
 
     public void setEvaluation(Evaluation evaluation){
-        if(evaluation == null || evaluation.isHide()){
+        CopexNode node = getEvaluationNode();
+        if(node != null && (evaluation == null || evaluation.isHide())){
             removeNodeFromParent(getEvaluationNode());
-        }else if (getEvaluationNode() == null){
+        }else if (node == null && (evaluation !=null && !evaluation.isHide())){
             CopexNode rootNode = (CopexNode)root;
             CopexNode evalChild = new CopexNode(evaluation);
             insertNodeInto(evalChild, rootNode, root.getChildCount());
         }
     }
 
-    private CopexNode getEvaluationNode(){
+    public CopexNode getEvaluationNode(){
         int nbC = ((CopexNode)root).getChildCount();
         for (int i=0; i<nbC; i++){
             if (((CopexNode)((CopexNode)root).getChildAt(i)).isEvaluation())

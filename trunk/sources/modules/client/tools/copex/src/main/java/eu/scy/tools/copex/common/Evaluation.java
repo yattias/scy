@@ -24,20 +24,25 @@ public class Evaluation implements Cloneable{
     public final static String TAG_PROC_EVALUTATION = "proc_evaluation";
     public final static String TAG_EVALUATION = "evaluation";
     public final static String TAG_EVALUATION_HIDE = "evaluation_hide";
+    public final static String TAG_EVALUATION_COMMENT = "evaluation_comment";
 
     private long dbKey;
     private List<LocalText> listEvaluation;
+    private List<LocalText> listComments;
     private boolean hide;
 
     public Evaluation(Locale locale){
         this.dbKey = -1;
         this.listEvaluation = new LinkedList();
         this.listEvaluation.add(new LocalText("", locale));
+        this.listComments = new LinkedList();
+        this.listComments.add(new LocalText("", locale));
         this.hide = false;
     }
-    public Evaluation(long dbKey, List<LocalText> listEvaluation, boolean hide) {
+    public Evaluation(long dbKey, List<LocalText> listEvaluation, List<LocalText> listComments,boolean hide) {
         this.dbKey = dbKey;
         this.listEvaluation = listEvaluation;
+        this.listComments = listComments;
         this.hide = hide;
     }
 
@@ -49,6 +54,12 @@ public class Evaluation implements Cloneable{
                 Element e = variableElem.next();
                 Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
                 listEvaluation.add(new LocalText(e.getText(), l));
+            }
+            listComments = new LinkedList<LocalText>();
+            for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_EVALUATION_COMMENT).iterator(); variableElem.hasNext();) {
+                Element e = variableElem.next();
+                Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
+                listComments.add(new LocalText(e.getText(), l));
             }
             hide = xmlElem.getChild(TAG_EVALUATION_HIDE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
 		} else {
@@ -89,6 +100,26 @@ public class Evaluation implements Cloneable{
         return hide;
     }
 
+    public List<LocalText> getListComments() {
+        return listComments;
+    }
+
+    public void setListComments(List<LocalText> listComments) {
+        this.listComments = listComments;
+    }
+
+    public String getComment(Locale locale) {
+        return CopexUtilities.getText(listComments, locale);
+    }
+
+    public void setComment(LocalText text) {
+        int id = CopexUtilities.getIdText(text.getLocale(), listComments);
+        if(id ==-1){
+            this.listComments.add(text);
+        }else{
+            this.listComments.set(id, text);
+        }
+    }
     public void setHide(boolean hide) {
         this.hide = hide;
     }
@@ -103,6 +134,11 @@ public class Evaluation implements Cloneable{
                 listEvaluationC.add((LocalText)t.next().clone());
             }
             e.setListEvaluation(listEvaluationC);
+            List<LocalText> listCommentsC = new LinkedList();
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                listCommentsC.add((LocalText)t.next().clone());
+            }
+            e.setListComments(listCommentsC);
             e.setDbKey(dbKeyC);
             e.setHide(new Boolean(this.hide));
             return e;
@@ -119,6 +155,15 @@ public class Evaluation implements Cloneable{
             for (Iterator<LocalText> t = listEvaluation.iterator(); t.hasNext();) {
                 LocalText l = t.next();
                 Element e = new Element(TAG_EVALUATION);
+                e.setText(l.getText());
+                e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
+                element.addContent(e);
+            }
+        }
+        if(listComments != null && listComments.size() > 0){
+            for (Iterator<LocalText> t = listComments.iterator(); t.hasNext();) {
+                LocalText l = t.next();
+                Element e = new Element(TAG_EVALUATION_COMMENT);
                 e.setText(l.getText());
                 e.setAttribute(new Attribute(MyConstants.XMLNAME_LANGUAGE, l.getLocale().getLanguage()));
                 element.addContent(e);

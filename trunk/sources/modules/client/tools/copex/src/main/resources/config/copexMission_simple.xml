@@ -13,6 +13,7 @@
         <add_proc>true</add_proc>
         <trace>false</trace>
     </options>
+    
     <initial_proc>
         <code>TEST</code>
         <name language="fr">Procedure</name>
