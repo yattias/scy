@@ -7,11 +7,13 @@ package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.common.MaterialStrategy;
 import eu.scy.tools.copex.common.MaterialUsed;
+import eu.scy.tools.copex.utilities.ActionAddMaterial;
 import eu.scy.tools.copex.utilities.ActionMaterial;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentEvent;
@@ -24,8 +26,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 /**
  * material dialog
@@ -33,7 +37,7 @@ import javax.swing.ScrollPaneConstants;
  *  listmaterialpanel or newMaterialpanel
  * @author Marjolaine
  */
-public class MaterialDialog extends JDialog implements ActionMaterial, ComponentListener{
+public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddMaterial, ComponentListener{
     private EdPPanel edP;
     private List<MaterialUsed> listMaterialUsed;
     private List<MaterialUsed> listInitialMaterialUsed;
@@ -41,14 +45,15 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
     private char procRight;
 
     public static final int panelWidth = 450;
-    private static final int panelHeight = 200;
+    private static final int panelHeight = 350;
     private boolean modeAdd;
     private JPanel panelMaterial;
     private JPanel panelButtons;
+    private JPanel panelCenter;
+    private JSeparator sep;
 
     private JButton buttonOk;
     private JButton buttonCancel;
-    private JButton buttonAdd;
 
     private JPanel panelNoMaterial;
     private JLabel labelNoMaterial;
@@ -74,7 +79,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         this.listMaterialToDelete = new ArrayList();
         this.listMaterialToUpdate = new ArrayList();
         initGUI();
-        setIconImage(edP.getIconDialog());
+        
     }
 
     private void initGUI(){
@@ -82,6 +87,8 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         setLocation(edP.getLocationDialog());
         setModal(true);
         setResizable(true);
+        setIconImage(edP.getIconDialog());
+        setTitle(edP.getBundleString("TITLE_DIALOG_MATERIAL"));
         this.setMinimumSize(new Dimension(panelWidth, panelHeight));
         this.setSize(panelWidth, panelHeight);
         this.setPreferredSize(getSize());
@@ -90,14 +97,11 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         this.modeAdd = false;
         this.addComponentListener(this);
         setListMaterial();
+        setCreateMaterial();
         if(materialStrategy.canAddMaterial() && listMaterialUsed.size() == 0)
-            setCreateMaterial();
+            createMaterial();
         if(procRight == MyConstants.NONE_RIGHT){
-            if(buttonAdd != null){
-                panelButtons.remove(buttonAdd);
-            }
             panelButtons.remove(buttonOk);
-            buttonAdd = null;
             buttonOk = null;
             buttonCancel.setText(edP.getBundleString("BUTTON_OK"));
         }
@@ -108,11 +112,30 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         if (panelMaterial == null){
             panelMaterial = new JPanel();
             panelMaterial.setName("panelMaterial");
-            panelMaterial.setSize(panelWidth, panelHeight-panelButtons.getHeight());
+            panelMaterial.setSize(panelWidth, panelHeight-panelButtons.getHeight()-sep.getHeight());
             panelMaterial.setPreferredSize(panelMaterial.getSize());
             panelMaterial.setLayout(new BorderLayout());
         }
         return panelMaterial;
+    }
+    private JPanel getPanelCenter(){
+        if (panelCenter == null){
+            panelCenter = new JPanel();
+            panelCenter.setName("panelCenter");
+            panelCenter.setSize(panelWidth, panelHeight-panelButtons.getHeight());
+            panelCenter.setPreferredSize(panelCenter.getSize());
+            panelCenter.setLayout(new BorderLayout());
+        }
+        return panelCenter;
+    }
+
+    private JSeparator getSep(){
+        if(sep == null){
+            sep = new JSeparator(SwingConstants.HORIZONTAL);
+            sep.setSize(panelWidth, 5);
+            sep.setName("sep");
+        }
+        return sep;
     }
 
     private JLabel getLabelNoMaterial(){
@@ -145,9 +168,6 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
             panelButtons.setPreferredSize(panelButtons.getSize());
             panelButtons.add(getButtonOk());
             panelButtons.add(getButtonCancel());
-            if(materialStrategy.canAddMaterial()){
-                panelButtons.add(getButtonAdd());
-            }
         }
         return panelButtons;
     }
@@ -186,37 +206,20 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         return buttonOk;
     }
 
-    private JButton getButtonAdd(){
-        if(buttonAdd == null){
-            buttonAdd = new JButton();
-            buttonAdd.setName("buttonAdd");
-            buttonAdd.setText(edP.getBundleString("BUTTON_ADD"));
-            this.buttonAdd.setSize(60+CopexUtilities.lenghtOfString(this.buttonAdd.getText(), getFontMetrics(this.buttonAdd.getFont())), 23);
-            this.buttonAdd.setBounds(panelWidth-buttonAdd.getWidth()-20, 10, buttonAdd.getWidth(), buttonAdd.getHeight());
-            this.buttonAdd.setEnabled(materialStrategy.canAddMaterial());
-            buttonAdd.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    materialAdd();
-                }
-            });
-        }
-        return buttonAdd;
-    }
-
+    
     
 
     // fermeture de la fenetre ou retour a la liste
     private void materialCancel(){
         if(modeAdd)
-            setListMaterial();
+            this.newMaterialPanel.setPanelDetailsHide();
         else
             this.dispose();
     }
 
     // validation de la fentre
     private void materialFinish(){
-        if(newMaterialPanel != null){
+        if(modeAdd){
             ArrayList v = new ArrayList();
             CopexReturn cr = newMaterialPanel.getMaterial(v);
             if(cr.isError()){
@@ -226,7 +229,8 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
             MaterialUsed mUsed = (MaterialUsed)v.get(0);
             this.listMaterialUsed.add(mUsed);
             this.listMaterialToCreate.add(mUsed);
-            setListMaterial();
+            //hideAddMaterial();
+            this.newMaterialPanel.setPanelDetailsHide();
         }else{
             validDialog();
         }
@@ -281,25 +285,16 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         if(isOk)
             this.dispose();
     }
-    // ajout de material
-    private void materialAdd(){
-        updateMaterialUsed();
-        setCreateMaterial();
-    }
-
+    
 
     // affichage de  la liste du material
     private void setListMaterial(){
         this.modeAdd = false;
-        if(buttonAdd != null)
-            this.buttonAdd.setEnabled(true);
-        setTitle(edP.getBundleString("TITLE_DIALOG_MATERIAL_"+materialStrategy.getCode()));
-        if(panelMaterial != null){
-            panelMaterial.removeAll();
-            newMaterialPanel = null;
-        }else{
-            this.add(getPanelMaterial(), BorderLayout.CENTER);
-        }
+        getPanelCenter();
+        panelCenter.add(getSep(), BorderLayout.NORTH);
+        panelCenter.add(getPanelMaterial(), BorderLayout.CENTER);
+        this.add(getPanelCenter(), BorderLayout.CENTER);
+        
         int nbMat = listMaterialUsed.size();
         if(nbMat == 0){
             getPanelNoMaterial().add(getLabelNoMaterial());
@@ -337,23 +332,18 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
         textAreaDescription.setLineWrap(true);
         textAreaDescription.setWrapStyleWord(true);
         textAreaDescription.setText(edP.getBundleString("LABEL_MATERIAL_USED_INFO_"+materialStrategy.getCode()));
-        textAreaDescription.setEnabled(false);
         textAreaDescription.setEditable(false);
+        textAreaDescription.setFont(new Font("Tahoma",Font.ITALIC, 11));
+        textAreaDescription.setForeground(Color.BLACK);
+        textAreaDescription.setBackground(panelMaterial.getBackground());
         return textAreaDescription;
     }
 
     // affichage de creation de material
     private void setCreateMaterial(){
-        this.modeAdd = true;
-        this.buttonAdd.setEnabled(false);
-        setTitle(edP.getBundleString("TITLE_DIALOG_MATERIAL_CREATE"));
-        if(panelMaterial != null){
-            panelMaterial.removeAll();
-            listMaterialPanel = null;
-        }
-        newMaterialPanel = new NewMaterialPanel(edP);
-        panelMaterial.add(newMaterialPanel, BorderLayout.CENTER);
-        panelMaterial.revalidate();
+        newMaterialPanel = new NewMaterialPanel(edP, panelMaterial, edP.getBundleString("LABEL_ADD_MATERIAL"));
+        newMaterialPanel.addActionAddMaterial(this);
+        this.add(newMaterialPanel, BorderLayout.NORTH);
         repaint();
     }
 
@@ -385,9 +375,6 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
             if(buttonOk != null){
                 buttonOk.setBounds(getWidth()/4, buttonOk.getY(), buttonOk.getWidth(), buttonOk.getHeight());
                 buttonCancel.setBounds(getWidth()-getWidth()/4-buttonCancel.getWidth(),buttonCancel.getY(), buttonCancel.getWidth(), buttonCancel.getHeight());
-                if(buttonAdd != null){
-                    buttonAdd.setBounds(getWidth()-buttonAdd.getWidth()-20, buttonAdd.getY(), buttonAdd.getWidth(), buttonAdd.getHeight());
-                }
             }else{
                 buttonCancel.setBounds((getWidth()-buttonCancel.getWidth())/2,buttonCancel.getY(), buttonCancel.getWidth(), buttonCancel.getHeight());
             }
@@ -430,5 +417,47 @@ public class MaterialDialog extends JDialog implements ActionMaterial, Component
                  }
             }
         }
+    }
+
+    private void createMaterial(){
+        
+    }
+
+    @Override
+    public void actionHideAddMaterial() {
+        if(panelCenter != null)
+            panelCenter.removeAll();
+        panelCenter = null;
+        sep = null;
+        if(panelMaterial != null)
+            panelMaterial.removeAll();
+        panelMaterial = null;
+        modeAdd = false;
+        setListMaterial();
+    }
+
+    @Override
+    public void actionShowAddMaterial() {
+        this.remove(panelCenter);
+        if(panelCenter != null)
+            panelCenter.removeAll();
+        panelCenter = null;
+        sep = null;
+        if(panelMaterial != null)
+            panelMaterial.removeAll();
+        panelMaterial = null;
+        modeAdd = true;
+        setSize(getWidth(), newMaterialPanel.getHeight()+panelButtons.getHeight()+20);
+        repaint();
+    }
+
+    @Override
+    public void saveText() {
+
+    }
+
+    @Override
+    public void setMaterial() {
+
     }
 }

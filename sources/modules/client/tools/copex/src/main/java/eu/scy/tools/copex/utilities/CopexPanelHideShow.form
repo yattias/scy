@@ -28,6 +28,9 @@
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panelTitle">
       <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[130, 25]"/>
+        </Property>
         <Property name="name" type="java.lang.String" value="panelTitle" noResource="true"/>
       </Properties>
       <Constraints>

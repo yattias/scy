@@ -156,6 +156,7 @@ public class CopexPanelHideShow extends JPanel {
         });
         setLayout(null);
 
+        panelTitle.setMinimumSize(new java.awt.Dimension(130, 25));
         panelTitle.setName("panelTitle"); // NOI18N
         panelTitle.setLayout(null);
 

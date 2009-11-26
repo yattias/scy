@@ -41,9 +41,10 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
 
     public void load(){
         copex.loadData();
-        copex.setQuestionDialog();
         setSize(550,350);
+        copex.setQuestionDialog();
     }
+    
     private void initEdP(){
         copex = new CopexPanel(false);
         copex.addActionCopex(this);

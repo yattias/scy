@@ -1773,9 +1773,11 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn createHypothesisInDB(DataBaseCommunication dbC,Locale locale,  ExperimentalProcedure proc, Hypothesis hypothesis,  ArrayList v){
         String hyp = hypothesis.getHypothesis(locale);
         hyp =  AccesDB.replace("\'",hyp,"''");
+        String comment = hypothesis.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = hypothesis.isHide() ? 1 : 0;
-        String query = "INSERT INTO HYPOTHESIS (ID_HYPOTHESIS, HYPOTHESIS, HYP_HIDE) " +
-                    " VALUES (NULL,'"+hyp+"' , "+hide+" ); ";
+        String query = "INSERT INTO HYPOTHESIS (ID_HYPOTHESIS, HYPOTHESIS,HYPOTHESIS_COMMENT, HYP_HIDE) " +
+                    " VALUES (NULL,'"+hyp+"' , '"+comment+"', "+hide+" ); ";
         String queryID = "SELECT max(last_insert_id(`ID_HYPOTHESIS`))   FROM HYPOTHESIS ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -1799,8 +1801,10 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn updateHypothesisInDB(DataBaseCommunication dbC, Locale locale,Hypothesis hypothesis){
         String hyp = hypothesis.getHypothesis(locale);
         hyp =  AccesDB.replace("\'",hyp,"''");
+        String comment = hypothesis.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = hypothesis.isHide() ? 1 : 0;
-        String query = "UPDATE HYPOTHESIS SET HYPOTHESIS = '"+hyp+"', HYP_HIDE = "+hide+" WHERE ID_HYPOTHESIS = "+hypothesis.getDbKey()+" ;";
+        String query = "UPDATE HYPOTHESIS SET HYPOTHESIS = '"+hyp+"', HYPOTHESIS_COMMENT = '"+comment+"', HYP_HIDE = "+hide+" WHERE ID_HYPOTHESIS = "+hypothesis.getDbKey()+" ;";
         String[] querys = new String[1];
         querys[0] = query;
         ArrayList v3 =new ArrayList();
@@ -1813,12 +1817,13 @@ public class ExperimentalProcedureFromDB {
 
     public static CopexReturn getHypothesisFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
         Hypothesis hypothesis = null;
-        String query = "SELECT H.ID_HYPOTHESIS, H.HYPOTHESIS, H.HYP_HIDE FROM HYPOTHESIS H , LINK_PROC_HYPOTHESIS L " +
+        String query = "SELECT H.ID_HYPOTHESIS, H.HYPOTHESIS,H.HYPOTHESIS_COMMENT, H.HYP_HIDE FROM HYPOTHESIS H , LINK_PROC_HYPOTHESIS L " +
                 "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_HYPOTHESIS = H.ID_HYPOTHESIS ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("H.ID_HYPOTHESIS");
         listFields.add("H.HYPOTHESIS");
+        listFields.add("H.HYPOTHESIS_COMMENT");
         listFields.add("H.HYP_HIDE");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -1832,9 +1837,10 @@ public class ExperimentalProcedureFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String hyp = rs.getColumnData("H.HYPOTHESIS");
+            String comment = rs.getColumnData("H.HYPOTHESIS_COMMENT");
             s = rs.getColumnData("H.HYP_HIDE");
             boolean hide = s.equals("1");
-            hypothesis = new Hypothesis(dbKey, CopexUtilities.getLocalText(hyp, locale), hide);
+            hypothesis = new Hypothesis(dbKey, CopexUtilities.getLocalText(hyp, locale),CopexUtilities.getLocalText(comment, locale), hide);
         }
         v.add(hypothesis);
         return new CopexReturn();
@@ -1856,13 +1862,15 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn createGeneralPrincipleInDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, GeneralPrinciple principle,  ArrayList v){
         String gp = principle.getPrinciple(locale);
         gp =  AccesDB.replace("\'",gp,"''");
+        String comment = principle.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = principle.isHide() ? 1 : 0;
         String draw = null;
         if(principle.getDrawing() != null){
             draw = CopexUtilities.xmlToString(principle.getDrawing());
         }
-        String query = "INSERT INTO GENERAL_PRINCIPLE (ID_PRINCIPLE, GENERAL_PRINCIPLE, PRINC_HIDE, PRINCIPLE_DRAWING) " +
-                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+draw+"'); ";
+        String query = "INSERT INTO GENERAL_PRINCIPLE (ID_PRINCIPLE, GENERAL_PRINCIPLE, PRINCIPLE_COMMENT,PRINC_HIDE, PRINCIPLE_DRAWING) " +
+                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+comment+"', "+draw+"'); ";
         String queryID = "SELECT max(last_insert_id(`ID_PRINCIPLE`))   FROM GENERAL_PRINCIPLE ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -1886,12 +1894,14 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn updateGeneralPrincipleInDB(DataBaseCommunication dbC, Locale locale,GeneralPrinciple principle){
         String gp = principle.getPrinciple(locale);
         gp =  AccesDB.replace("\'",gp,"''");
+        String comment = principle.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = principle.isHide() ? 1 : 0;
         String draw = null;
         if(principle.getDrawing() != null){
             draw = CopexUtilities.xmlToString(principle.getDrawing());
         }
-        String query = "UPDATE GENERAL_PRINCIPLE SET GENERAL_PRINCIPLE = '"+gp+"', PRINC_HIDE = "+hide+", PRINCIPLE_DRAWING = '"+draw+"' WHERE ID_PRINCIPLE = "+principle.getDbKey()+" ;";
+        String query = "UPDATE GENERAL_PRINCIPLE SET GENERAL_PRINCIPLE = '"+gp+"', PRINCIPLE_COMMENT = '"+comment+"', PRINC_HIDE = "+hide+", PRINCIPLE_DRAWING = '"+draw+"' WHERE ID_PRINCIPLE = "+principle.getDbKey()+" ;";
         String[] querys = new String[1];
         querys[0] = query;
         ArrayList v3 =new ArrayList();
@@ -1904,12 +1914,13 @@ public class ExperimentalProcedureFromDB {
 
     public static CopexReturn getGeneralPrincipleFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
         GeneralPrinciple principle = null;
-        String query = "SELECT P.ID_PRINCIPLE, P.GENERAL_PRINCIPLE, P.PRINC_HIDE, P.PRINCIPLE_DRAWING FROM GENERAL_PRINCIPLE P, LINK_PROC_PRINCIPLE L " +
+        String query = "SELECT P.ID_PRINCIPLE, P.GENERAL_PRINCIPLE,P.PRINCIPLE_COMMENT, P.PRINC_HIDE, P.PRINCIPLE_DRAWING FROM GENERAL_PRINCIPLE P, LINK_PROC_PRINCIPLE L " +
                 "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_PRINCIPLE = P.ID_PRINCIPLE;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("P.ID_PRINCIPLE");
         listFields.add("P.GENERAL_PRINCIPLE");
+        listFields.add("P.PRINCIPLE_COMMENT");
         listFields.add("P.PRINC_HIDE");
         listFields.add("P.PRINCIPLE_DRAWING");
 
@@ -1924,11 +1935,12 @@ public class ExperimentalProcedureFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String p = rs.getColumnData("P.GENERAL_PRINCIPLE");
+            String comment = rs.getColumnData("P.PRINCIPLE_COMMENT");
             s = rs.getColumnData("P.PRINC_HIDE");
             boolean hide = s.equals("1");
             s = rs.getColumnData("P.PRINCIPLE_DRAWING");
             Element drawing = CopexUtilities.getElement(s);
-            principle = new GeneralPrinciple(dbKey, CopexUtilities.getLocalText(p, locale), drawing, hide);
+            principle = new GeneralPrinciple(dbKey, CopexUtilities.getLocalText(p, locale),CopexUtilities.getLocalText(comment, locale), drawing, hide);
         }
         v.add(principle);
         return new CopexReturn();
@@ -1948,9 +1960,11 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn createEvaluationInDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, Evaluation evaluation,  ArrayList v){
         String eval = evaluation.getEvaluation(locale);
         eval =  AccesDB.replace("\'",eval,"''");
+        String comment = evaluation.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = evaluation.isHide() ? 1 : 0;
-        String query = "INSERT INTO EVALUATION (ID_EVALUATION, EVALUATION, EVAL_HIDE) " +
-                    " VALUES (NULL,'"+eval+"', "+hide+"  ); ";
+        String query = "INSERT INTO EVALUATION (ID_EVALUATION, EVALUATION, EVALUATION_COMMENT,EVAL_HIDE) " +
+                    " VALUES (NULL,'"+eval+"', '"+comment+"', "+hide+"  ); ";
         String queryID = "SELECT max(last_insert_id(`ID_EVALUATION`))   FROM EVALUATION ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
@@ -1974,8 +1988,10 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn updateEvaluationInDB(DataBaseCommunication dbC,Locale locale, Evaluation evaluation){
         String eval = evaluation.getEvaluation(locale);
         eval =  AccesDB.replace("\'",eval,"''");
+        String comment = evaluation.getComment(locale);
+        comment =  AccesDB.replace("\'",comment,"''");
         int hide = evaluation.isHide() ? 1 : 0;
-        String query = "UPDATE EVALUATION SET EVALUATION = '"+eval+"', EVAL_HIDE = "+hide+" WHERE ID_EVALUATION = "+evaluation.getDbKey()+" ;";
+        String query = "UPDATE EVALUATION SET EVALUATION = '"+eval+"', EVALUATION_COMMENT = '"+comment+"', EVAL_HIDE = "+hide+" WHERE ID_EVALUATION = "+evaluation.getDbKey()+" ;";
         String[] querys = new String[1];
         querys[0] = query;
         ArrayList v3 =new ArrayList();
@@ -1988,12 +2004,13 @@ public class ExperimentalProcedureFromDB {
 
     public static CopexReturn getEvaluationFromDB(DataBaseCommunication dbC, Locale locale,ExperimentalProcedure proc, ArrayList v){
         Evaluation evaluation = null;
-        String query = "SELECT E.ID_EVALUATION, E.EVALUATION, E.EVAL_HIDE FROM EVALUATION E , LINK_PROC_EVALUATION L " +
+        String query = "SELECT E.ID_EVALUATION, E.EVALUATION,E.EVALUATION_COMMENT, E.EVAL_HIDE FROM EVALUATION E , LINK_PROC_EVALUATION L " +
                 "WHERE L.ID_PROC = "+proc.getDbKey()+" AND L.ID_EVALUATION = E.ID_EVALUATION ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("E.ID_EVALUATION");
         listFields.add("E.EVALUATION");
+        listFields.add("E.EVALUATION_COMMENT");
         listFields.add("E.EVAL_HIDE");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
@@ -2007,9 +2024,10 @@ public class ExperimentalProcedureFromDB {
                 continue;
             long dbKey = Long.parseLong(s);
             String eval = rs.getColumnData("E.EVALUATION");
+            String comment = rs.getColumnData("E.EVALUATION_COMMENT");
             s = rs.getColumnData("E.EVAL_HIDE");
             boolean hide = s.equals("1");
-            evaluation = new Evaluation(dbKey, CopexUtilities.getLocalText(eval, locale), hide);
+            evaluation = new Evaluation(dbKey, CopexUtilities.getLocalText(eval, locale), CopexUtilities.getLocalText(comment, locale),hide);
         }
         v.add(evaluation);
         return new CopexReturn();

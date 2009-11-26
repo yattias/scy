@@ -9,8 +9,10 @@ import eu.scy.tools.copex.common.Material;
 import eu.scy.tools.copex.common.MaterialUsed;
 import eu.scy.tools.copex.common.Parameter;
 import eu.scy.tools.copex.common.TypeMaterial;
+import eu.scy.tools.copex.utilities.ActionAddMaterial;
 import eu.scy.tools.copex.utilities.ActionComment;
 import eu.scy.tools.copex.utilities.CommentsPanel;
+import eu.scy.tools.copex.utilities.CopexPanelHideShow;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import eu.scy.tools.copex.utilities.MyConstants;
@@ -28,51 +30,99 @@ import javax.swing.JTextField;
  * panel : add/update material
  * @author Marjolaine
  */
-public class NewMaterialPanel extends JPanel implements ActionComment{
-    private EdPPanel edP;
-
-    private boolean modeAdd;
+public class NewMaterialPanel extends CopexPanelHideShow {
     private JLabel labelName;
     private JTextField fieldName;
     private JLabel labelDescription;
     private JTextArea areaDescription;
     private JScrollPane scrollDescription;
     private JCheckBox cboxUsed;
-    private CommentsPanel panelComments;
+    private JLabel labelComment;
+    private JScrollPane scrollComment;
+    private JTextArea areaComment;
 
     private MaterialUsed mUsed;
-    private String comment;
+    private ActionAddMaterial actionAddMaterial;
 
-    public NewMaterialPanel(EdPPanel edP) {
-        super();
-        this.edP = edP;
-        initGUI();
-    }
 
-    public NewMaterialPanel(EdPPanel edP, MaterialUsed mUsed){
-        super();
-        this.edP = edP;
-        this.modeAdd = false;
-        this.mUsed = mUsed;
+
+   
+
+    public NewMaterialPanel(EdPPanel edP, JPanel owner, String titleLabel) {
+        super(edP, owner, titleLabel, true);
         initGUI();
-        initMaterial();
     }
 
     private void initGUI(){
         this.setLayout(null);
-        this.add(getLabelName());
-        this.add(getLabelDescription());
-        this.add(getScrollDescription());
-        this.add(getFieldName());
-        this.add(getCBoxUsed());
-        this.add(getPanelComment());
+        
+    }
+
+    @Override
+    protected void setPanelDetailsHide() {
+        actionAddMaterial.saveText();
+        super.setPanelDetailsHide();
+        if (this.panelDetails != null){
+            panelDetails.remove(labelName);
+            panelDetails.remove(fieldName);
+            panelDetails.remove(labelDescription);
+            panelDetails.remove(scrollDescription);
+            panelDetails.remove(cboxUsed);
+            panelDetails.remove(labelComment);
+            panelDetails.remove(scrollComment);
+        }
+        labelName = null;
+        fieldName = null;
+        labelDescription = null;
+        scrollDescription = null;
+        areaDescription = null;
+        cboxUsed = null;
+        labelComment = null;
+        scrollComment = null;
+        areaComment = null;
+        setSize(getWidth(), 30);
+        setPreferredSize(getSize());
+        actionAddMaterial.actionHideAddMaterial();
+        revalidate();
+        repaint();
+    }
+
+    @Override
+    public void setPanelDetailsShown() {
+        if(!isDetails()){
+            super.setPanelDetailsShown();
+            getPanelDetails().add(getLabelName());
+            getPanelDetails().add(getLabelDescription());
+            getPanelDetails().add(getScrollDescription());
+            getPanelDetails().add(getFieldName());
+            getPanelDetails().add(getCBoxUsed());
+            getPanelDetails().add(getLabelComment());
+            getPanelDetails().add(getScrollComment());
+            int x = Math.max(fieldName.getX(),scrollDescription.getX());
+            x = Math.max(x, scrollComment.getX());
+            fieldName.setBounds(x, fieldName.getY(), fieldName.getWidth(), fieldName.getHeight());
+            scrollDescription.setBounds(x, scrollDescription.getY(), scrollDescription.getWidth(), scrollDescription.getHeight());
+            scrollComment.setBounds(x, scrollComment.getY(), scrollComment.getWidth(), scrollComment.getHeight());
+            cboxUsed.setBounds(fieldName.getX()+fieldName.getWidth()+20, cboxUsed.getY(), cboxUsed.getWidth(), cboxUsed.getHeight());
+            panelDetails.setSize(panelDetails.getWidth(), scrollComment.getY()+scrollComment.getHeight()+20);
+            setSize(getWidth(),panelDetails.getHeight()+getPanelTitle().getHeight());
+            setPreferredSize(getSize());
+            actionAddMaterial.actionShowAddMaterial();
+            actionAddMaterial.setMaterial();
+            revalidate();
+            repaint();
+        }
+    }
+
+    private boolean isDetails(){
+        return this.scrollDescription != null;
     }
 
     private void initMaterial(){
         this.fieldName.setText(mUsed.getMaterial().getName(edP.getLocale()));
         this.areaDescription.setText(mUsed.getMaterial().getDescription(edP.getLocale()));
         this.cboxUsed.setSelected(mUsed.isUsed());
-        this.panelComments.setComments(mUsed.getComment(edP.getLocale()));
+        this.areaComment.setText(mUsed.getComment(edP.getLocale()));
     }
 
     private JLabel getLabelName(){
@@ -90,7 +140,7 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
         if(fieldName == null){
             fieldName = new JTextField();
             fieldName.setName("fieldName");
-            fieldName.setBounds(scrollDescription.getX(), labelName.getY(), 150, 20);
+            fieldName.setBounds(labelName.getX()+labelName.getWidth()+10, labelName.getY(), 150, 20);
         }
         return fieldName;
     }
@@ -142,30 +192,47 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
         return cboxUsed;
     }
 
-    private CommentsPanel getPanelComment(){
-        if(panelComments == null){
-            int width=300;
-            panelComments = new CommentsPanel(edP, this, edP.getBundleString("LABEL_ADD_COMMENT"), width);
-            panelComments.addActionComment(this);
-            panelComments.setBounds(labelName.getX(), scrollDescription.getY()+scrollDescription.getHeight()+10,width, panelComments.getHeight());
+    private JLabel getLabelComment(){
+        if(labelComment == null){
+            labelComment = new JLabel();
+            labelComment.setName("labelComment");
+            labelComment.setFont(new java.awt.Font("Tahoma", 1, 11));
+            labelComment.setText(edP.getBundleString("LABEL_COMMENT"));
+            int width = CopexUtilities.lenghtOfString(this.labelComment.getText(), getFontMetrics(this.labelComment.getFont()));
+            labelComment.setBounds(labelName.getX(), scrollDescription.getY()+scrollDescription.getHeight()+20, width, 14);
         }
-        return panelComments;
+        return labelComment;
     }
 
-    @Override
-    public void actionComment() {
-
+    private JScrollPane getScrollComment(){
+        if(scrollComment == null){
+            scrollComment = new JScrollPane(getAreaComment());
+            scrollComment.setName("scrollComment");
+            scrollComment.setBounds(labelComment.getX()+labelComment.getWidth()+10,labelComment.getY(), 300,70);
+        }
+        return scrollComment;
+    }
+    private JTextArea getAreaComment(){
+        if (areaComment == null){
+            areaComment = new JTextArea();
+            areaComment.setName("areaComment");
+            areaComment.setWrapStyleWord(true);
+            areaComment.setLineWrap(true);
+            areaComment.setColumns(20);
+            areaComment.setRows(4);
+            areaComment.setBounds(labelComment.getX()+labelComment.getWidth()+10,labelComment.getY(), areaComment.getWidth(), areaComment.getHeight());
+        }
+        return areaComment;
     }
 
-    @Override
-    public void saveComment() {
-        this.comment = panelComments.getComments() ;
+    /**
+    * Instancie l'objet ActionAddMAterial.
+    * @param action ActionAddMAterial
+    */
+    public void addActionAddMaterial(ActionAddMaterial action){
+        this.actionAddMaterial=action;
     }
 
-    @Override
-    public void setComment() {
-        this.panelComments.setComments(this.comment);
-    }
 
     public CopexReturn getMaterial(ArrayList v){
         // nom
@@ -199,7 +266,7 @@ public class NewMaterialPanel extends JPanel implements ActionComment{
         // used
         boolean used = this.cboxUsed.isSelected();
         // comments
-        String comments = panelComments.getComments();
+        String comments = areaComment.getText();
         if (comments.length() > MyConstants.MAX_LENGHT_MATERIAL_COMMENTS){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_ADD_COMMENT"));

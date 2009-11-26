@@ -308,8 +308,6 @@ public class CopexPanel extends JPanel {
             activCopex = copex;
             listCopexPanel.add(copex);
             this.add(copex, BorderLayout.CENTER);
-            revalidate();
-            repaint();
         }
     }
 
@@ -319,8 +317,8 @@ public class CopexPanel extends JPanel {
         for (int i=0; i<nb; i++){
             addCopexPanel(listProc.get(i));
         }
-        revalidate();
-        repaint();
+//        revalidate();
+//        repaint();
     }
 
     private CopexTabbedPane getCopexTabbedPane(){
@@ -359,7 +357,8 @@ public class CopexPanel extends JPanel {
             activCopex.setQuestionDialog();
     }
 
-    /* recherche de l'indice d'un protocole */
+    /* recherche de l'indice
+     d'un protocole */
     private int getIdProc(long dbKey){
         int id = -1;
         int nbP = listProc.size();
