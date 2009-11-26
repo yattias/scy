@@ -138,4 +138,9 @@ public class DataSyncService implements IDataSyncService {
 		return null;
 	}
 
+	@Override
+	public void leaveSession(ISyncSession iSyncSession,ISyncListener iSyncListener) {
+		// TODO Auto-generated method stub
+	}
+
 }
