@@ -43,10 +43,10 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
    @Override
    public void uncaughtException(Thread t, Throwable e)
    {
-      logger.error("An uncatched exception occured in thread " + t.getName(), e);
-      System.err.println("An uncatched exception occured at " + new Date() + " in thread " + t.getName());
+      logger.error("An uncatched exception occurred in thread " + t.getName(), e);
+      System.err.println("An uncatched exception occurred at " + new Date() + " in thread " + t.getName());
       e.printStackTrace(System.err);
-      JOptionPane.showMessageDialog(null, "An uncatched exception occured:\nApplication: " + appName + "\nThread: " + t.getName() + "\nMessage: " + e.getMessage() + "\nThe exception has been logged.", "An uncatched exception occured",
+      JOptionPane.showMessageDialog(null, "An uncatched exception occurred:\nApplication: " + appName + "\nThread: " + t.getName() + "\nMessage: " + e.getMessage() + "\nThe exception has been logged.", "An uncatched exception occurred",
          JOptionPane.ERROR_MESSAGE);
       if (quit)
       {
