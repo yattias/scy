@@ -17,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 
 import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
-import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
 
 /**
@@ -33,6 +32,7 @@ public class SimpleTooltipManager extends TooltipManager {
    def startShowTime = 1.5s;
    def appearTime = 1.5s;
    def finalOpacity = 0.75;
+   def useAnimation = false;
 
    def showTip:Timeline = Timeline {
       keyFrames: [
@@ -52,20 +52,11 @@ public class SimpleTooltipManager extends TooltipManager {
          }
          KeyFrame {
             time: startShowTime+appearTime
-            values:currentTooltip.opacity => 0.5;
+            values:currentTooltip.opacity => finalOpacity tween Interpolator.EASEBOTH;
             action:function(){
                println("final opacity set: {currentTooltip.opacity}");
             }
-
          }
-//
-//
-//         at (startShowTime) {
-//            currentTooltip.opacity => 0.0;
-//         },
-//         at (1s) {
-//            currentTooltip.opacity => 1.0 tween Interpolator.EASEBOTH;
-//         },
       ]
    }
 
@@ -84,14 +75,18 @@ public override function registerNode(sourceNode:Node, tooltipCreator: TooltipCr
    function onMouseEntered(e:MouseEvent):Void{
       setTooltipNode(e.node);
       if (currentTooltip!=null){
-         showTip.play();
+         if (useAnimation){
+            showTip.play();
+         }
       }
    }
 
    function onMouseExited(e:MouseEvent):Void{
       if (currentTooltip!=null){
-         showTip.stop();
-         showTip.time = 0s;
+         if (useAnimation){
+            showTip.stop();
+            showTip.time = 0s;
+         }
          delete currentTooltip from currentSourceNode.scene.content;
          currentTooltip = null;
          currentSourceNode = null;
@@ -103,7 +98,7 @@ public override function registerNode(sourceNode:Node, tooltipCreator: TooltipCr
          var tooltipCreator = sourceNodes.get(sourceNode) as TooltipCreator;
          currentSourceNode = sourceNode;
          currentTooltip = tooltipCreator.createTooltipNode(currentSourceNode);
-         currentTooltip.opacity = 0.0;
+         currentTooltip.opacity = finalOpacity;
          var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
          currentTooltip.layoutX = sourceSceneBounds.minX-currentTooltip.layoutBounds.width-currentTooltip.layoutBounds.minX;
          currentTooltip.layoutY = sourceSceneBounds.minY-currentTooltip.layoutBounds.height-currentTooltip.layoutBounds.minY;
