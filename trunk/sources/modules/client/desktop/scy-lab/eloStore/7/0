@@ -11,7 +11,7 @@
       </identifier>
     </general>
     <technical>
-      <format>scy/pds</format>
+      <format>scy/dataset</format>
       <customElements>
         <dateCreated>1258470684875</dateCreated>
       </customElements>
