@@ -30,6 +30,7 @@ public abstract class ScyWindow extends CustomNode {
 	public var drawerColor = Color.LIGHTGREEN;
 	public var backgroundColor = color.WHITE;
 
+   public var activated = false; // TODO, make only changeable from (sub) package
 	public var width: Number = 150;
 	public var height: Number = 100;
 

@@ -551,6 +551,7 @@ public class StandardScyWindow extends ScyWindow {
          width:bind contentWidth;
          height:bind contentHeight;
          content:bind scyContent;
+         activated:bind activated;
          activate: activate;
          layoutX: borderWidth / 2 + 1 + contentBorder;
          layoutY: contentTopOffset + contentBorder;
