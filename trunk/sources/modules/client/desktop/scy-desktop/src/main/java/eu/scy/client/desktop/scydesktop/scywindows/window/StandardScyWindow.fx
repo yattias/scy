@@ -268,8 +268,8 @@ public class StandardScyWindow extends ScyWindow {
 
 	function startDragging(e: MouseEvent):Void {
 		activate();
-		originalX = translateX;
-		originalY = translateY;
+		originalX = layoutX;
+		originalY = layoutY;
 		originalW = width;
 		originalH = height;
       maxDifX = 0;
@@ -307,8 +307,8 @@ public class StandardScyWindow extends ScyWindow {
       maxDifX = Math.max(maxDifX, difX);
       maxDifY = Math.max(maxDifY, difY);
 		//System.out.println("difX: {e.x}-{e.dragAnchorX} {difX}, difY: {e.y}-{e.dragAnchorY} {difY}");
-		translateX = originalX + difX;
-		translateY = originalY + difY;
+		layoutX = originalX + difX;
+		layoutY = originalY + difY;
    }
 
 	function doResize(e: MouseEvent) {
@@ -333,8 +333,8 @@ public class StandardScyWindow extends ScyWindow {
 		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
 		width = Math.max(minimumWidth,originalW + difW);
 		height =Math.max(minimumHeight,originalH + difH);
-		translateX = originalX - difX;
-		translateY = originalY - difY;
+		layoutX = originalX - difX;
+		layoutY = originalY - difY;
 //      for(edge in edges) {
 //         edge.repaint();
 //      }
