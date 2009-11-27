@@ -29,6 +29,7 @@ public class WindowContent extends CustomNode {
    public var height = 100.0 on replace {resizeTheContent()};
    public var content:Node;
 
+   public var activated:Boolean;
    public var activate: function():Void;
 
    public var glassPaneBlocksMouse = false on replace{
@@ -37,10 +38,16 @@ public class WindowContent extends CustomNode {
 
 
    def contentGlassPane = Rectangle {
+      blocksMouse:bind not activated;
       x: 0, y: 0
       width: 140, height: 90
       fill: Color.TRANSPARENT
 //      fill: Color.rgb(92,255,92,0.25)
+      onMousePressed: function( e: MouseEvent ):Void {
+         if (not activated){
+            activate();
+         }
+      }
    }
 
 	function resizeTheContent(){

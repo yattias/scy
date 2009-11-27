@@ -51,10 +51,12 @@ var activeWindow:ScyWindow on replace previousActiveWindow {
 
    function setActiveWindowState(scyWindow:ScyWindow){
       scyWindow.effect = activeWindowEffect;
+      scyWindow.activated = true;
    }
 
    function setDeactiveWindowState(scyWindow:ScyWindow){
       scyWindow.effect = inactiveWindowEffect;
+      scyWindow.activated = false;
    }
 
 
