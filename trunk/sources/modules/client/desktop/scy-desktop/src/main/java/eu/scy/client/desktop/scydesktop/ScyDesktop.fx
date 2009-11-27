@@ -91,6 +91,8 @@ import javafx.scene.shape.Rectangle;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
+
 
 
 /**
@@ -115,6 +117,7 @@ public class ScyDesktop extends CustomNode {
    public var bottomLeftCornerTool: Node on replace{bottomLeftCorner.content = bottomLeftCornerTool};
 
    var windows: WindowManager;
+   def tooltipManager = SimpleTooltipManager{};
 
    var windowContentFactory: WindowContentFactory;
    var drawerContentFactory: DrawerContentFactory;
@@ -209,6 +212,9 @@ public class ScyDesktop extends CustomNode {
 
       missionMap = MissionMap{
          missionModel: missionModelFX
+         tooltipManager:tooltipManager
+         scyDesktop:this
+         metadataTypeManager:config.getMetadataTypeManager()
 //         translateX:40;
 //         translateY:40;
       }
