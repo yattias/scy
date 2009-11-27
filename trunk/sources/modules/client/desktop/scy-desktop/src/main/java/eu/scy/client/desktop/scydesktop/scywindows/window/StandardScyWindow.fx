@@ -396,17 +396,28 @@ public class StandardScyWindow extends ScyWindow {
  //       isClosed = false;
       if (newMinimized != isMinimized){
          if (newMinimized){
-            originalWidth = width;
-            originalHeight = height;
-            width = minimumWidth;
-            height = closedHeight;
-            isMinimized = true;
+            doMinimize();
+//            originalWidth = width;
+//            originalHeight = height;
+//            width = minimumWidth;
+//            height = closedHeight;
+//            isMinimized = true;
          }
-            else {
-            width = originalWidth;
-            height = originalHeight;
-            isMinimized = false;
+         else {
+            doUnminimize();
+//            width = originalWidth;
+//            height = originalHeight;
+//            isMinimized = false;
          }
+      }
+   }
+
+   function handleDoubleClick(e:MouseEvent):Void{
+      if (isClosed){
+         openWindow(10, 10);
+      }
+      else{
+         setMinimized(not isMinimized);
       }
    }
 
@@ -657,6 +668,11 @@ public class StandardScyWindow extends ScyWindow {
 
 
 			]
+         onMouseClicked: function( e: MouseEvent ):Void {
+            if (e.clickCount==2){
+               handleDoubleClick(e);
+            }
+         }
 			onMousePressed: function( e: MouseEvent ):Void {
             if (allowDragging) {
                startDragging(e);
