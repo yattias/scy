@@ -9,6 +9,8 @@ package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import javafx.scene.paint.Color;
 import java.net.URI;
 
+import roolo.elo.api.IMetadata;
+
 /**
  * @author sikken
  */
@@ -24,6 +26,8 @@ public class MissionAnchorFX {
     public var iconCharacter = "?";
     public var title = "?";
     public var helpEloUris:URI[];
+    
+    public var metadata:IMetadata;
 
     public override function toString():String{
        return "eloUri:{eloUri}";

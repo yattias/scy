@@ -47,6 +47,7 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
             yPos: missionAnchor.getYPosition()
             exists:missionAnchor.isExisting();
             relationNames: toStringSequence(missionAnchor.getRelationNames())
+            metadata:missionAnchor.getMetadata()
          }
          missionAnchorFXMap.put(missionAnchorFX.eloUri, missionAnchorFX);
          insert missionAnchorFX into missionModelFX.anchors;

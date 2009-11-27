@@ -8,6 +8,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.awt.Color;
 import java.net.URI;
 import java.util.List;
+import roolo.elo.api.IMetadata;
 
 /**
  *
@@ -26,6 +27,7 @@ public class BasicMissionAnchor implements MissionAnchor
    private List<MissionAnchor> nextMissionAnchors;
    private List<String> relationNames;
    private List<URI> helpEloUris;
+   private IMetadata metadata;
 
    public Color getColor()
    {
@@ -126,6 +128,17 @@ public class BasicMissionAnchor implements MissionAnchor
    public void setHelpEloUris(List<URI> helpEloUris)
    {
       this.helpEloUris = helpEloUris;
+   }
+
+   public void setMetadata(IMetadata metadata)
+   {
+      this.metadata = metadata;
+   }
+
+   @Override
+   public IMetadata getMetadata()
+   {
+      return metadata;
    }
 
 

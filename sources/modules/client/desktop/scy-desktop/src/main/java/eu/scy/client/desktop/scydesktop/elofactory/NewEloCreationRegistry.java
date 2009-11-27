@@ -29,6 +29,14 @@ public interface NewEloCreationRegistry {
    public String getEloType(String typeName);
 
    /**
+    * Return the eloType name belonging to the type
+    *
+    * @param type
+    * @return
+    */
+   public String getEloTypeName(String type);
+
+   /**
     * Return all registered ELO type names
     * 
     * @return

@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import java.awt.Color;
 import java.net.URI;
 import java.util.List;
+import roolo.elo.api.IMetadata;
 
 /**
  *
@@ -25,4 +26,5 @@ public interface MissionAnchor {
    public List<MissionAnchor> getNextMissionAnchors();
    public List<String> getRelationNames();
    public List<URI> getHelpEloUris();
+   public IMetadata getMetadata();
 }

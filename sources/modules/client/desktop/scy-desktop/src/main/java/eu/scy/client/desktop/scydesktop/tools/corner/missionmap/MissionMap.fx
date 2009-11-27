@@ -19,6 +19,12 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+
+import roolo.elo.api.IMetadataTypeManager;
+
 /**
  * @author sikken
  */
@@ -28,10 +34,18 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.mis
 public class MissionMap extends CustomNode {
    public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
+   public var tooltipManager: TooltipManager;
+   public var scyDesktop: ScyDesktop;
+   public var metadataTypeManager:IMetadataTypeManager;
 
    var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
+
+   def anchorDisplayTooltipCreator = AnchorDisplayTooltipCreator{
+      scyDesktop: scyDesktop
+      metadataTypeManager: metadataTypeManager
+   }
 
    postinit {
       if (missionModel.activeAnchor != null){
@@ -65,6 +79,7 @@ public class MissionMap extends CustomNode {
             selectionAction: anchorSelected;
          }
          anchorMap.put(anchor,anchorDisplay);
+         tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);
          anchorDisplay
       }
    }

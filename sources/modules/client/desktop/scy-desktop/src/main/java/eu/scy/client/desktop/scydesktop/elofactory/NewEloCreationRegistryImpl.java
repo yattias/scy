@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.elofactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
 /**
@@ -46,6 +47,18 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
    public String getEloType(String typeName)
    {
       return registry.get(typeName);
+   }
+
+   @Override
+   public String getEloTypeName(String type)
+   {
+      for (Entry<String, String> entry : registry.entrySet()){
+         if (entry.getValue().equals(type))
+         {
+            return entry.getKey();
+         }
+      }
+      return "Unknown type: " + type;
    }
 
    @Override

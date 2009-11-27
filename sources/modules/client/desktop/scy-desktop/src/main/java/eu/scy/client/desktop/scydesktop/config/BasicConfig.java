@@ -201,6 +201,7 @@ public class BasicConfig implements Config
          BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
          missionAnchor.setEloUri(basicMissionAnchorConfig.getUri());
          IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
+         missionAnchor.setMetadata(metadata);
          if (metadata != null)
          {
             missionAnchor.setExisting(true);
