@@ -84,25 +84,18 @@ public class SimpleWindowPositioner extends WindowPositioner {
    function placeWindowInCenter(window:ScyWindow){
       window.layoutX = centerWidthFactor * width;
       window.layoutY = centerHeightFactor * height;
-      var maximumIntersection = calculateMaximumIntersection(window,Number.MAX_VALUE);
-      if (maximumIntersection>maximumIntersectionTarget){
-         // not enough space in the center
-         addWindowImmediately(window);
+      // assume enough space to place to closed window, assume enough space for the opened window
+      var windowWidth = (1-2*centerWidthFactor)*width;
+      var windowHeigth = (1-2*centerHeightFactor)*height;
+      if (window.isClosed){
+         window.openWindow(windowWidth, windowHeigth);
       }
       else{
-         // enough space to place to closed window, assume enough space for the opened window
-         var windowWidth = (1-2*centerWidthFactor)*width;
-         var windowHeigth = (1-2*centerHeightFactor)*height;
-         if (window.isClosed){
-            window.openWindow(windowWidth, windowHeigth);
-         }
-         else{
-            window.setMinimize(false);
-            window.width = windowHeigth;
-            window.height = windowHeigth;
-         }
-         insert window into windows;
+         window.setMinimize(false);
+         window.width = windowHeigth;
+         window.height = windowHeigth;
       }
+      insert window into windows;
    }
 
    function isKnownOtherWindow(window:ScyWindow){
