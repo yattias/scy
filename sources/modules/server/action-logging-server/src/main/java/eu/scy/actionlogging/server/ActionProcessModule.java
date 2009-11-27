@@ -48,7 +48,7 @@ public class ActionProcessModule implements IActionProcessModule {
         if (ts != null) {
         	// action properties
             idField = new Field(((Action)action).getId());
-            timeField = new Field(((Action)action).getTime());
+            timeField = new Field(((Action)action).getTimeInMillis());
             typeField = new Field(((Action)action).getType());
             userField = new Field(((Action)action).getUser());
             datatypeField = ((Action)action).getDataType() == null ? new Field(String.class) : new Field(((Action)action).getDataType());
@@ -58,7 +58,7 @@ public class ActionProcessModule implements IActionProcessModule {
             missionField = ((Context)((Action)action).getContext()).getMission() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getMission());
             sessionField = ((Context)((Action)action).getContext()).getSession() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getSession());
             // we first create the tuple
-            actionTuple = new Tuple(new Field("action"), idField, timeField, typeField, userField, datatypeField, dataField, toolField, missionField, sessionField);
+            actionTuple = new Tuple(new Field("action"), idField, timeField, typeField, userField, toolField, missionField, sessionField, datatypeField, dataField);
             // now we add variable attributes
             for(String attribute : ((Action)action).getAttributes().keySet()) {
             	actionTuple.add(attribute + "=" + action.getAttribute(attribute));
