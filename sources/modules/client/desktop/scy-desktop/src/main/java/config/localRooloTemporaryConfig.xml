@@ -9,7 +9,7 @@
    <alias name="localExtensionManager" alias="extensionManager"/>
    <alias name="localEloFactory" alias="eloFactory"/>
 
-   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
+   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
       <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
       <property name="extensionManager" ref="localExtensionManager"/>
    </bean>
