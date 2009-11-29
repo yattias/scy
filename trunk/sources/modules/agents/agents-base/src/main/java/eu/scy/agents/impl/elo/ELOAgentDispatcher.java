@@ -222,29 +222,29 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 	@Override
 	public List<IELO> retrieveELOAllVersions(URI uri)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Agents
+		return repository.retrieveELOAllVersions(uri);
 	}
 
 	@Override
 	public List<IELO> retrieveELOs(List<URI> uris)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Agents
+		return repository.retrieveELOs(uris);
 	}
 
 	@Override
 	public List<IMetadata> retrieveMetadataAllVersions(URI uri)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Agents
+		return repository.retrieveMetadataAllVersions(uri);
 	}
 
 	@Override
 	public List<IMetadata> retrieveMetadatas(List<URI> uris)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Agents
+		return repository.retrieveMetadatas(uris);
 	}
 	
 	
