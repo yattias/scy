@@ -223,15 +223,15 @@ public class RepositoryWrapper implements IRepository
 	}
 
    @Override
-   public IELO retrieveLastVersionELO(URI arg0)
+   public IELO retrieveELOLastVersion(URI arg0)
    {
-      return repository.retrieveLastVersionELO(arg0);
+      return repository.retrieveELOLastVersion(arg0);
    }
 
    @Override
-   public IELO retrieveFirstVersionELO(URI arg0)
+   public IELO retrieveELOFirstVersion(URI arg0)
    {
-      return repository.retrieveFirstVersionELO(arg0);
+      return repository.retrieveELOFirstVersion(arg0);
    }
 
    @Override
@@ -245,4 +245,30 @@ public class RepositoryWrapper implements IRepository
    {
       return repository.retrieveMetadataFirstVersion(arg0);
    }
+
+   @Override
+   public List<IELO> retrieveELOAllVersions(URI uri)
+   {
+      return repository.retrieveELOAllVersions(uri);
+   }
+
+   @Override
+   public List<IELO> retrieveELOs(List<URI> uris)
+   {
+      return repository.retrieveELOs(uris);
+   }
+
+   @Override
+   public List<IMetadata> retrieveMetadataAllVersions(URI uri)
+   {
+      return repository.retrieveMetadataAllVersions(uri);
+   }
+
+   @Override
+   public List<IMetadata> retrieveMetadatas(List<URI> uris)
+   {
+      return repository.retrieveMetadatas(uris);
+   }
+
+
 }

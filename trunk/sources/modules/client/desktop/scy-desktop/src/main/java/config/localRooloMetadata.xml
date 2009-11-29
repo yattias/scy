@@ -21,6 +21,7 @@
             <ref bean="missionKey"/>
             <ref bean="usesRelationKey"/>
             <ref bean="annotatesRelationKey"/>
+            <ref bean="versionKey"/>
 
 
             <ref bean="lineCountKey"/>
@@ -134,6 +135,13 @@
       <constructor-arg index="2" value="UNIVERSAL"/>
       <constructor-arg index="3" value="SINGLE"/>
       <constructor-arg index="4" ref="defaultUriValidator"/>
+   </bean>
+   <bean name="versionKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+      <constructor-arg index="0" value="version"/>
+      <constructor-arg index="1" value="/lom/lifecycle/version"/>
+      <constructor-arg index="2" value="UNIVERSAL"/>
+      <constructor-arg index="3" value="SINGLE"/>
+      <constructor-arg index="4" ref="defaultLongValidator"/>
    </bean>
 
    <bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">

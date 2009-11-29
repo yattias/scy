@@ -15,7 +15,7 @@
       <property name="sendEloSavedEvents" value="true"/>
    </bean>
 
-   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
+   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
       <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
       <property name="extensionManager" ref="localExtensionManager"/>
       <property name="eloStoreDirectory" value="eloStore"/>
