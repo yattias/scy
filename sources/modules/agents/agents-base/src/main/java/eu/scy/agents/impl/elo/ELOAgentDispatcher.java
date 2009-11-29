@@ -197,15 +197,15 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 	}
 
 	@Override
-	public IELO retrieveFirstVersionELO(URI uri) {
+	public IELO retrieveELOFirstVersion(URI uri) {
 		// TODO agents.
-		return repository.retrieveFirstVersionELO(uri);
+		return repository.retrieveELOFirstVersion(uri);
 	}
 
 	@Override
-	public IELO retrieveLastVersionELO(URI uri) {
+	public IELO retrieveELOLastVersion(URI uri) {
 		// TODO Agents?
-		return repository.retrieveLastVersionELO(uri);
+		return repository.retrieveELOLastVersion(uri);
 	}
 
 	@Override
@@ -218,5 +218,35 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 		// TODO Agents
 		return repository.retrieveMetadataLastVersion(uri);
 	}
+
+	@Override
+	public List<IELO> retrieveELOAllVersions(URI uri)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IELO> retrieveELOs(List<URI> uris)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IMetadata> retrieveMetadataAllVersions(URI uri)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IMetadata> retrieveMetadatas(List<URI> uris)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 }
