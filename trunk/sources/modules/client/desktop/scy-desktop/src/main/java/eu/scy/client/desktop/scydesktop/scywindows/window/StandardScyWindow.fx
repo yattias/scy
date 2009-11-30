@@ -156,6 +156,8 @@ public class StandardScyWindow extends ScyWindow {
    public override var bottomDrawerTool on replace {setBottomDrawer()};
    public override var leftDrawerTool on replace {setLeftDrawer()};
 
+   var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
+ 
    postinit {
 		if (isClosed){
 			height = closedHeight;
@@ -165,6 +167,38 @@ public class StandardScyWindow extends ScyWindow {
       setBottomDrawer();
       setLeftDrawer();
    }
+
+   override function addChangesListener(wcl:WindowChangesListener) {
+       insert wcl into changesListeners;
+   }
+
+   override function removeChangesListener(wcl:WindowChangesListener) {
+       delete wcl from changesListeners;
+   }
+
+   /**
+   *    method added to 'catch' the startResize event
+   */
+   function startResize(e: MouseEvent) {
+        // TODO: check if listener notification takes too long -> thread
+        for( wcl in changesListeners) {
+            wcl.resizeStarted();
+        }
+        startDragging(e);
+   }
+
+   /**
+   *    method added to 'catch' the stopResize event
+   */
+   function stopResize(e: MouseEvent) {
+        // TODO: check if listener notification takes too long -> thread
+        for( wcl in changesListeners) {
+            wcl.resizeFinished();
+        }
+        stopDragging(e);
+   }
+
+
 
    function placeAttributes(){
       var sortedScyWindowAttributes =
@@ -267,6 +301,11 @@ public class StandardScyWindow extends ScyWindow {
 	}
 
 	function startDragging(e: MouseEvent):Void {
+                for( wcl in changesListeners) {
+                    wcl.draggingStarted();
+                }
+
+
 		activate();
 		originalX = layoutX;
 		originalY = layoutY;
@@ -280,6 +319,9 @@ public class StandardScyWindow extends ScyWindow {
 	}
 
 	function stopDragging(e: MouseEvent):Void {
+            for( wcl in changesListeners) {
+                        wcl.draggingFinished();
+             }
 //      contentElement.glassPaneBlocksMouse = false;
       MouseBlocker.stopMouseBlocking();
 	}
@@ -585,9 +627,9 @@ public class StandardScyWindow extends ScyWindow {
          color:bind color;
          subColor:controlColor;
          activate: activate;
-         startResize:startDragging;
+         startResize:startResize;
          doResize:doResize;
-         stopResize:stopDragging;
+         stopResize:stopResize;
          layoutX: bind width+controlBorderOffset+controlStrokeWidth;
          layoutY: bind height+controlBorderOffset+controlStrokeWidth;
       }
