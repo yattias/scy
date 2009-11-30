@@ -15,12 +15,14 @@ import java.util.Map;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.impl.AbstractProcessingAgent;
+import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
@@ -32,11 +34,10 @@ import eu.scy.agents.impl.AgentProtocol;
  * @author Florian Schulz
  * 
  */
-public class DetectTopicForElos extends AbstractProcessingAgent implements
+public class DetectTopicForElos extends AbstractRequestAgent implements
 		IRepositoryAgent {
 
-	static final String NAME = "eu.scy.agents.topics.DetectTopicForElos";
-	public static final String MODEL_NAME = "TopicModelName";
+	public static final String NAME = "eu.scy.agents.topics.DetectTopicForElos";
 
 	private String modelName;
 
@@ -52,7 +53,7 @@ public class DetectTopicForElos extends AbstractProcessingAgent implements
 		if (params.containsKey("tsPort")) {
 			port = (Integer) params.get("tsPort");
 		}
-		modelName = (String) params.get(MODEL_NAME);
+		modelName = (String) params.get(TopicAgents.MODEL_NAME);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,15 +71,18 @@ public class DetectTopicForElos extends AbstractProcessingAgent implements
 						String text = new String(elo.getContent().getBytes());
 						String queryID = new VMID().toString();
 						getTupleSpace().write(
-								new Tuple("topicDetector", queryID, modelName,
-										text));
+								new Tuple(TopicAgents.TOPIC_DETECTOR,
+										AgentProtocol.QUERY, queryID,
+										modelName, text));
 						Tuple responseTuple = getTupleSpace().waitToRead(
-								new Tuple("topicDetector", queryID, Field
-										.createWildCardField()), 10 * 1000);
+								new Tuple(TopicAgents.TOPIC_DETECTOR,
+										AgentProtocol.RESPONSE, queryID, Field
+												.createWildCardField()),
+								10 * 1000);
 						if (responseTuple != null) {
 							ObjectInputStream bytesIn = new ObjectInputStream(
 									new ByteArrayInputStream(
-											(byte[]) responseTuple.getField(2)
+											(byte[]) responseTuple.getField(3)
 													.getValue()));
 							HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
 									.readObject();
@@ -110,7 +114,7 @@ public class DetectTopicForElos extends AbstractProcessingAgent implements
 	 */
 
 	private Tuple getTemplateTuple() {
-		return new Tuple("topicDetector", String.class);
+		return new Tuple(TopicAgents.TOPIC_DETECTOR, String.class);
 	}
 
 	private boolean isValidType(IELO elo) {
@@ -127,18 +131,18 @@ public class DetectTopicForElos extends AbstractProcessingAgent implements
 	}
 
 	private void addTopicMetadata(IELO elo, Map<Integer, Double> topicScores) {
-		// IMetadataKey key = metadataTypeManager
-		// .getMetadataKey(TopicDetector.KEY_TOPIC_SCORES);
-		// IMetadataValueContainer topicScoresContainer = elo.getMetadata()
-		// .getMetadataValueContainer(key);
-		// for (Integer topicId : topicScores.keySet()) {
-		// KeyValuePair entry = new KeyValuePair();
-		// entry.setKey("" + topicId);
-		// entry.setValue("" + topicScores.get(topicId));
-		// // Double topicProbability =
-		// // String value = +":" + topicProbability;
-		// topicScoresContainer.addValue(entry);
-		// }
+		IMetadataKey key = metadataTypeManager
+				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+		IMetadataValueContainer topicScoresContainer = elo.getMetadata()
+				.getMetadataValueContainer(key);
+		for (Integer topicId : topicScores.keySet()) {
+			KeyValuePair entry = new KeyValuePair();
+			entry.setKey("" + topicId);
+			entry.setValue("" + topicScores.get(topicId));
+			// Double topicProbability =
+			// String value = +":" + topicProbability;
+			topicScoresContainer.addValue(entry);
+		}
 	}
 
 	@Override
