@@ -25,13 +25,13 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void beforeAll() {
-		// startTupleSpaceServer();
+		startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void tearDown() {
-		// stopTupleSpaceServer();
-	    stopTupleSpaceServer();
+		stopTupleSpaceServer();
+		stopTupleSpaceServer();
 	}
 
 	@Override
@@ -52,6 +52,7 @@ public class ConceptMapSavedAgentTest extends AbstractTestFixture {
 		map.put("tsHost", TSHOST);
 		map.put("tsPort", TSPORT);
 		agent = new ConceptMapSavedAgent(map);
+		// agent.setTuplespaceFactory(tuplespaceFactory);
 		agent.setMetadataTypeManager(typeManager);
 	}
 
