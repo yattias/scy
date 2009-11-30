@@ -9,6 +9,7 @@ import info.collide.sqlspaces.commons.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.ActionXMLTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -43,6 +45,8 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     private static final String ACTION_SPACE = "actionSpace";
 
     private static final String SENSOR_SPACE = "sensorSpace";
+
+    private static final String TOOL_ALIVE_SPACE = "toolAliveSpace";
 
     private static final int UPDATE_INTERVAL = 5 * 1000;
 
@@ -66,11 +70,14 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private List<Action> actionQueue;
 
+    private TupleSpace toolAliveSpace;
+
     public ToolExperienceSensor(Map<String, Object> map) {
-        super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceServiceProvider", (String) map.get("id"), "localhost", 2525);
+        super("eu.scy.agents.serviceprovider.userexperience.ToolExperienceSensor", (String) map.get("id"), "localhost", 2525);
         try {
             sensorSpace = new TupleSpace(new User(getName()), host, port, false, false, SENSOR_SPACE);
             actionSpace = new TupleSpace(new User(getName()), host, port, false, false, ACTION_SPACE);
+            toolAliveSpace = new TupleSpace(new User(getName()), host, port, false, false, TOOL_ALIVE_SPACE);
             init();
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -78,18 +85,20 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             e.printStackTrace();
         } catch (DocumentException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
-    private void init() throws TupleSpaceException, ParseException, DocumentException {
+    private void init() throws TupleSpaceException, ParseException, DocumentException, IOException {
         initLogger();
         actionQueue = new Vector<Action>();
         userModels = new HashMap<String, UserToolExperienceModel>();
         callbacks = new ArrayList<Integer>();
         startedInitialization();
         SessionCallback cb = new SessionCallback();
-        Tuple tupleTemplate = new Tuple(String.class, long.class, String.class, String.class, String.class, String.class, String.class, String.class);
+        Tuple tupleTemplate = new Tuple("action", Field.createWildCardField());
         callbacks.add(actionSpace.eventRegister(Command.WRITE, tupleTemplate, cb, false));
         rebuildFromSpace();
         finishedInitialization();
@@ -98,7 +107,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         timer.start();
     }
 
-    private synchronized void rebuildFromSpace() throws TupleSpaceException, DocumentException, ParseException {
+    private synchronized void rebuildFromSpace() throws TupleSpaceException, DocumentException, ParseException, IOException {
 
         Tuple[] userExpTuples = sensorSpace.readAll(new Tuple("user_exp", Field.createWildCardField()));
         long lastActionTime = 0L;
@@ -106,13 +115,21 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String userName = (String) tuple.getField(1).getValue();
             String tool = (String) tuple.getField(3).getValue();
             long expTime = (Long) tuple.getField(4).getValue();
+            int starts = (Integer) tuple.getField(5).getValue();
+            int stops = (Integer) tuple.getField(6).getValue();
+
+            if (starts > stops) {
+                logger.log(Level.WARNING, "It seemed that the tool " + tool + " of the user " + userName + " crashed the last time...try to fix that!");
+                stops = starts;
+            }
+
             long lastModificationTimestamp = tuple.getLastModificationTimestamp();
             if (lastModificationTimestamp > lastActionTime) {
                 lastActionTime = lastModificationTimestamp;
             }
             UserToolExperienceModel model = userModels.get(userName);
             if (model == null) {
-                model = new UserToolExperienceModel(userName, sensorSpace);
+                model = new UserToolExperienceModel(userName, sensorSpace, toolAliveSpace, starts, stops);
                 userModels.put(userName, model);
             }
             model.setToolTime(tool, expTime);
@@ -158,14 +175,14 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         initializing = true;
     }
 
-    private void finishedInitialization() throws ParseException {
+    private void finishedInitialization() throws ParseException, TupleSpaceException, IOException {
         while (!actionQueue.isEmpty()) {
             processAction(actionQueue.remove(0), false);
         }
         initializing = false;
     }
 
-    private synchronized void processAction(Action a, boolean queued) throws ParseException {
+    private synchronized void processAction(Action a, boolean queued) throws ParseException, TupleSpaceException, IOException {
         logger.log(Level.FINE, "Action to process occured, queued-flag is set to " + queued);
         if (!initializing && queued) {
             actionQueue.add(a);
@@ -175,28 +192,34 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel userModel = userModels.get(a.getUser());
             if (userModel == null) {
-                userModel = new UserToolExperienceModel(a.getUser(), sensorSpace);
+                userModel = new UserToolExperienceModel(a.getUser(), sensorSpace, toolAliveSpace, 1, 0);
                 userModels.put(a.getUser(), userModel);
                 logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
+            } else {
+                userModel.setStarts(userModel.getStarts() + 1);
+            }
+            if (userModel.getStarts() - 1 > userModel.getStops()) {
+                logger.log(Level.WARNING, "[processAction]It seemed that the tool " + a.getContext(ContextConstants.tool) + " of the user " + a.getUser() + " crashed the last time...try to fix that!");
+                userModel.setStarts(userModel.getStops());
             }
             logger.log(Level.FINE, "Tool started with user: " + a.getUser() + " and SessionID: " + sessionid);
         } else if (a.getType().equals("tool stopped")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser());
-            exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis());
+            exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
             logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
 
         } else if (a.getType().equals("focus gained")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
-            exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime);
+            exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
             logger.log(Level.FINE, "Focus gained with user: " + a.getUser() + " and SessionID: " + sessionid);
         } else if (a.getType().equals("focus lost")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
-            exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime);
+            exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
             logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
         }
     }
@@ -247,19 +270,20 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             Element element;
-            try {
-                element = DocumentHelper.parseText((String) afterTuple.getField(7).getValue()).getRootElement();
-                Action a = (Action) new ActionXMLTransformer(element).getActionAsPojo();
-                try {
-                    processAction(a, false);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            } catch (DocumentException e1) {
-                e1.printStackTrace();
-            }
-        }
 
+            Action a = (Action) new ActionTupleTransformer(afterTuple).getActionAsPojo();
+            try {
+                processAction(a, false);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @Override
