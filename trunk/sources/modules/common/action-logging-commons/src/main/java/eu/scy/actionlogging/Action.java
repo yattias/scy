@@ -35,7 +35,11 @@ public class Action extends ScyBaseObject implements IAction {
     private Map<String, String> attributes;
 
     public Action() {
-        setId(UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString());
+    }
+    
+    public Action(String uuid){
+        setId(uuid);
         time = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601();
         timeInMillis=System.currentTimeMillis();
         attributes = new HashMap<String, String>();
