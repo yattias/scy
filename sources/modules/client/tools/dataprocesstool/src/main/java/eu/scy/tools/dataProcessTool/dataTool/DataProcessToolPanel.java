@@ -11,6 +11,9 @@
 
 package eu.scy.tools.dataProcessTool.dataTool;
 
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.controller.ControllerInterface;
 import eu.scy.tools.dataProcessTool.controller.DataController;
@@ -35,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -576,6 +580,41 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         
     }
 
+    //initialize the model with the header
+    public void initializeHeader(DataSetHeader header){
+        if(scyMode){
+            CopexReturn cr = this.controller.deleteDataset(activFitex.getDataset());
+            if(cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+        }
+        int nbC = header.getColumnCount();
+        String[] headers = new String[nbC];
+        String[] units = new String[nbC];
+        int j=0;
+        for (Iterator<DataSetColumn> h = header.getColumns().iterator();h.hasNext();){
+            DataSetColumn c = h.next();
+            headers[j] = c.getSymbol();
+            units[j] = c.getType();
+            j++;
+        }
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.createDataset(userName, headers, units,v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
+        Dataset ds = (Dataset)v.get(0);
+        setDataset(ds);
+        logInitializeHeader(ds);
+    }
+
+    // add row
+    public void addRow(DataSetRow row){
+        if(activFitex != null)
+            activFitex.addData(row);
+    }
+
     /* sortie de l'outil */
     public void endTool(){
         logEndTool();
@@ -627,6 +666,18 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public void logInsertRows(Dataset ds, int nbRows, int idBefore){
        List<FitexProperty> attribute = FitexLog.logInsertRows(ds, nbRows, idBefore);
        action.logAction(DataConstants.LOG_TYPE_INSERT_ROWS, attribute);
+    }
+
+    /* log: addrow */
+    public void logAddRow(Dataset ds, Data data){
+        List<FitexProperty> attribute = FitexLog.logAddRow(ds,data);
+        action.logAction(DataConstants.LOG_ADD_ROW, attribute);
+    }
+
+    /* log: initialize header */
+    public void logInitializeHeader(Dataset ds){
+        List<FitexProperty> attribute = FitexLog.logInitializeHeader(ds);
+        action.logAction(DataConstants.LOG_INITIALIZE_HEADER, attribute);
     }
 
 

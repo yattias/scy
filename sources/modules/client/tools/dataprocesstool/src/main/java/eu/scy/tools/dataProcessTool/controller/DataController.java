@@ -962,7 +962,7 @@ public class DataController implements ControllerInterface{
     
     /* ajout d'une ligne de donnees */
     @Override
-    public CopexReturn addData(long dbKeyDs, Double[] values,boolean findAxisParam, ArrayList v){
+    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v){
         int idDs = getIdDataset(dbKeyDs);
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -986,18 +986,7 @@ public class DataController implements ControllerInterface{
             if(cr.isError())
                 return cr;
         }
-        if (dataset.getListVisualization() != null && findAxisParam){
-            for (int i=0; i<dataset.getListVisualization().size(); i++){
-                if (dataset.getListVisualization().get(i) instanceof Graph){
-                    v2 = new ArrayList();
-                    cr = findAxisParam(dataset, (Graph)dataset.getListVisualization().get(i), v2);
-                    if(cr.isError())
-                        return cr;
-                    ParamGraph pg = (ParamGraph)(v2.get(0));
-                    ((Graph)(dataset.getListVisualization().get(i))).setParamGraph(pg);
-                }
-            }
-        }
+        
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());
         return new CopexReturn() ;

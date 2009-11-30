@@ -112,6 +112,13 @@ public class FitexNode extends CustomNode, Resizable {
 										setScyWindowTitle();
                            }
                         }
+                        Button {
+                           text: "Synchronize"
+                           action: function() {
+                              eloFitexActionWrapper.synchronizeTool();
+										setScyWindowTitle();
+                           }
+                        }
                      ]
                   }
                   wrappedFitexPanel
