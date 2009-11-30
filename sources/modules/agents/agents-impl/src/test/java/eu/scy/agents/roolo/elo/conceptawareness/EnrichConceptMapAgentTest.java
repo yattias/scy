@@ -6,26 +6,29 @@ import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
-import eu.scy.agents.AbstractTestFixture;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.content.BasicContent;
+import eu.scy.agents.AbstractTestFixture;
 
 public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 
 	private EnrichConceptMapAgent agent;
 	private IELO elo;
 
-	@Override
+	@BeforeClass
+	public static void startServer() {
+		startTupleSpaceServer();
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-
 		elo = createNewElo("test", "scy/scymapping");
 		elo.setContent(new BasicContent(
 				ConceptMapAgentsTestFixture.CONCEPT_MAP_CONTENT));
@@ -68,8 +71,9 @@ public class EnrichConceptMapAgentTest extends AbstractTestFixture {
 		assertEquals("13768021-13768021", linkLabels.get(3));
 		assertEquals("Determines", linkLabels.get(4));
 	}
-	@After
-	public void tearDown(){
-	    super.stopTupleSpaceServer();
+
+	@AfterClass
+	public static void stopServer() {
+		stopTupleSpaceServer();
 	}
 }
