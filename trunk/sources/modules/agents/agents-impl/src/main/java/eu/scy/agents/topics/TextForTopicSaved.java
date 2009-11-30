@@ -30,7 +30,8 @@ public class TextForTopicSaved extends AbstractELOAgent {
 				URI eloUri = elo.getUri();
 				try {
 					getTupleSpace().write(
-							new Tuple("topicDetector", eloUri.toString()));
+							new Tuple(TopicAgents.TOPIC_DETECTOR, eloUri
+									.toString()));
 				} catch (TupleSpaceException e) {
 					e.printStackTrace();
 				}

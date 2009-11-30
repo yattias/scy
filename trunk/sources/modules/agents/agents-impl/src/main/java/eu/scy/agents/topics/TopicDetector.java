@@ -50,19 +50,21 @@ public class TopicDetector extends AbstractRequestAgent {
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getTupleSpace().waitToTake(activationTuple,
-					AgentProtocol.ALIVE_INTERVAL);
-			if (tuple != null) {
-				String queryID = (String) tuple.getField(2).getValue();
-				String modelName = (String) tuple.getField(3).getValue();
-				String text = (String) tuple.getField(4).getValue();
-				Map<Integer, Double> topicScores = getTopicScores(modelName,
-						text);
-				try {
+			try {
+				Tuple tuple = getTupleSpace().waitToTake(activationTuple,
+						AgentProtocol.ALIVE_INTERVAL);
+				if (tuple != null) {
+					String queryID = (String) tuple.getField(2).getValue();
+					String modelName = (String) tuple.getField(3).getValue();
+					String text = (String) tuple.getField(4).getValue();
+					Map<Integer, Double> topicScores = getTopicScores(
+							modelName, text);
 					sendTopicsToTS(queryID, topicScores);
-				} catch (IOException e) {
-					throw new AgentLifecycleException("Could not send tuple", e);
 				}
+			} catch (TupleSpaceException e) {
+				// just ignore
+			} catch (IOException e) {
+				throw new AgentLifecycleException("Could not send tuple", e);
 			}
 		}
 	}
