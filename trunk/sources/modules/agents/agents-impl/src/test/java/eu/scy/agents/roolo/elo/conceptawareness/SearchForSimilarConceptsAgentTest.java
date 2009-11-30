@@ -30,7 +30,13 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startServer() {
-		// startTupleSpaceServer();
+		startTupleSpaceServer();
+	}
+
+	@AfterClass
+	public static void afterAll() throws Exception {
+		stopTupleSpaceServer();
+		// TestHelper.deleteDirectory(eloStoreDir.getParentFile());
 	}
 
 	@Override
@@ -90,13 +96,6 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
-		stopTupleSpaceServer();
-	}
-
-	@AfterClass
-	public static void afterAll() throws Exception {
-		// stopTupleSpaceServer();
-		// TestHelper.deleteDirectory(eloStoreDir.getParentFile());
 	}
 
 	@Test
