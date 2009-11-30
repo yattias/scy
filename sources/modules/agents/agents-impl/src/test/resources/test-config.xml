@@ -5,7 +5,7 @@
 	default-autowire="byName">
 
 
-<!--	<alias name="dispatcher" alias="repository" />-->
+	<!--	<alias name="dispatcher" alias="repository" />-->
 	<alias name="localRepository" alias="repository" />
 	<alias name="localMetadataTypeManager" alias="metadataTypeManager" />
 	<alias name="localExtensionManager" alias="extensionManager" />
@@ -86,7 +86,7 @@
 	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository">
 		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
 		<property name="extensionManager" ref="localExtensionManager" />
-		<!--property name="eloStoreDirectory" value="eloStore" /-->
+		<property name="eloStoreDirectory" value="eloStore" />
 		<property name="storeElosInStoreDirectory" value="true" />
 	</bean>
 
@@ -103,15 +103,14 @@
 				<ref bean="authorKey" />
 				<ref bean="annotatesRelationKey" />
 				<ref bean="descriptionKey" />
-
+				<ref bean="versionKey"/>
 				<ref bean="topicScores" />
 
-				<ref bean="lineCountKey" />
-				<ref bean="rectangleCountKey" />
-				<ref bean="ovalCountKey" />
-				<ref bean="freehandCountKey" />
-				<ref bean="textCountKey" />
-				<ref bean="imageCountKey" />
+				<!--
+					<ref bean="lineCountKey" /> <ref bean="rectangleCountKey" /> <ref
+					bean="ovalCountKey" /> <ref bean="freehandCountKey" /> <ref
+					bean="textCountKey" /> <ref bean="imageCountKey" />
+				-->
 				<ref bean="tagPointerCountKey" />
 				<ref bean="nodeLabel" />
 				<ref bean="linkLabel" />
@@ -124,19 +123,22 @@
 		</property>
 	</bean>
 
-
-
-
-
 	<!--  Roolo Keys -->
-	<bean name="topicScores" class="roolo.elo.metadata.keys.StringMetadataKey">
+	<bean name="topicScores" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
 		<constructor-arg index="0" value="topicScores" />
 		<constructor-arg index="1" value="/agentdata/topics/topicScore" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
+		<constructor-arg index="4" ref="defaultEntryValidator" />
 	</bean>
-	
+
+	<bean name="versionKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+		<constructor-arg index="0" value="version" />
+		<constructor-arg index="1" value="/lom/lifecycle/version" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultLongValidator" />
+	</bean>
 
 	<bean name="uriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
 		<constructor-arg index="0" value="identifier" />
@@ -356,6 +358,8 @@
 	<bean name="defaultContributeValidator"
 		class="roolo.elo.metadata.value.validators.ContributeValidator"></bean>
 
+	<bean name="defaultEntryValidator" class="roolo.elo.metadata.value.validators.KeyValueValidator"></bean>
+
 	<bean name="localExtensionManager" class="roolo.cms.repository.mock.MockExtensionManager">
 		<property name="extensions">
 			<map>
@@ -414,6 +418,5 @@
 	<bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
 		<constructor-arg index="0" ref="metadataTypeManager" />
 	</bean>
-
 
 </beans>
