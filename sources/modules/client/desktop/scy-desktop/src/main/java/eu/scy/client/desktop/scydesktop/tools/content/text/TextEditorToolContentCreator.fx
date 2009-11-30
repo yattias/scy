@@ -7,13 +7,13 @@
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
 /**
  * @author sikken
@@ -56,6 +56,4 @@ public class TextEditorToolContentCreator extends WindowContentCreatorFX {
       scyWindow.minimumWidth = 220;
       scyWindow.minimumHeight = 100;
    }
-
-
 }
