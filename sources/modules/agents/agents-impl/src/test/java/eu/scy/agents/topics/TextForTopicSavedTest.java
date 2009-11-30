@@ -6,24 +6,37 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.api.AgentLifecycleException;
 
 public class TextForTopicSavedTest extends AbstractTestFixture {
 
 	private TextForTopicSaved agent;
 	private IELO elo;
 
+	@BeforeClass
+	public static void startTS() {
+		startTupleSpaceServer();
+	}
+
+	@AfterClass
+	public static void stopTS() {
+		stopTupleSpaceServer();
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 
 		agent = new TextForTopicSaved(TSHOST, TSPORT);
+		// agent.setTuplespaceFactory(tuplespaceFactory);
+
 		agent.setMetadataTypeManager(typeManager);
 
 		elo = createNewElo("testElo", "scy/text");
@@ -43,8 +56,9 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 		assertEquals("Uri not the same", elo.getUri().toString(), tuple
 				.getField(1).getValue());
 	}
+
 	@After
 	public void tearDown() {
-	    super.stopTupleSpaceServer();
+		super.stopTupleSpaceServer();
 	}
 }

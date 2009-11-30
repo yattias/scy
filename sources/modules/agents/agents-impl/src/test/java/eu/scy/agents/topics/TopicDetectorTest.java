@@ -32,12 +32,12 @@ public class TopicDetectorTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startTS() {
-		// startTupleSpaceServer();
+		startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void stopTS() {
-		// stopTupleSpaceServer();
+		stopTupleSpaceServer();
 	}
 
 	@Before
