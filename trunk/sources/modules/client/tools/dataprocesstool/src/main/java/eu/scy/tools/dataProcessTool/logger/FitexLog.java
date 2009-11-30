@@ -31,6 +31,7 @@ public class FitexLog {
     private final static String TAG_DATASET = "dataset";
     private final static String TAG_DATASET_NAME = "dataset_name";
     private final static String TAG_DATA = "data";
+    private final static String TAG_HEADER= "header";
     private final static String TAG_OLD = "old";
     private final static String TAG_NEW = "new";
     private final static String TAG_FILE_NAME = "file_name";
@@ -140,6 +141,26 @@ public class FitexLog {
         list.add(new FitexProperty(TAG_ID_BEFORE, Integer.toString(idBefore), null));
         return list;
     }
+
+    /* log: add row */
+    public static List<FitexProperty> logAddRow(Dataset ds, Data data){
+        List<FitexProperty> list = new LinkedList();
+        list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
+        list.add(new FitexProperty(TAG_DATA, Double.toString(data.getValue()), data.toXMLLog()));
+        return list;
+    }
+
+    /* log: initialize header*/
+    public static List<FitexProperty> logInitializeHeader(Dataset ds){
+        List<FitexProperty> list = new LinkedList();
+        list.add(new FitexProperty(TAG_DATASET_NAME, ds.getName(), null));
+        int nbH = ds.getListDataHeader().length;
+        for (int j=0; j<nbH; j++){
+            list.add(new FitexProperty(TAG_HEADER, ds.getDataHeader(j).getValue(), ds.getDataHeader(j).toXMLLog()));
+        }
+        return list;
+    }
+
 
     /* log: delete rows/columns*/
     public static List<FitexProperty> logDeleteData(Dataset ds,ArrayList<Integer> listId){

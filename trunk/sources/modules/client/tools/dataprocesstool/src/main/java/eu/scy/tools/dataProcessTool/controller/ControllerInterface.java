@@ -88,7 +88,7 @@ public interface ControllerInterface {
     public CopexReturn createDataset(String name, String[] headers, String[] units, ArrayList v);
 
     /* ajout d'une ligne de donnees */
-    public CopexReturn addData(long dbKeyDs, Double[] values, boolean autoScale, ArrayList v);
+    public CopexReturn addData(long dbKeyDs, Double[] values, ArrayList v);
     /*mise a jour des param */
     public CopexReturn setParamGraph(long dbKeyDs, long dbKeyVis, ParamGraph pg, ArrayList v);
     /* maj autoscale*/

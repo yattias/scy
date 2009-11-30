@@ -61,6 +61,8 @@ public class DataConstants {
     public final static String LOG_TYPE_INSERT_ROWS = "insert_rows";
     public final static String LOG_TYPE_DELETE_ROWS = "delete_rows";
     public final static String LOG_TYPE_DELETE_COLS = "delete_cols";
+    public final static String LOG_ADD_ROW = "add_row";
+    public final static String LOG_INITIALIZE_HEADER = "initialize_header";
     public final static String LOG_TYPE_DELETE_OPERATIONS = "delete_operations";
     public final static String LOG_TYPE_ADD_OPERATION = "add_operation";
     public final static String LOG_TYPE_IGNORE_DATA = "ignore_data";

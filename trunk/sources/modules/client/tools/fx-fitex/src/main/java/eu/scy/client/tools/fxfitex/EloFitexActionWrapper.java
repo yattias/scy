@@ -341,6 +341,16 @@ public DataSet importFitexAction() {
 		}
    }
 
+   // get the mucID to join simulator session
+   public void synchronizeTool()
+   {
+      logger.fine("sync. tool");
+		String mucID = JOptionPane.showInputDialog("Enter session ID:", "");
+        if (StringUtils.hasText(mucID))
+		{
+            fitexPanel.joinSession(mucID);
+        }
+   }
    // @Action
    // public void closeFitexAction()
    // {

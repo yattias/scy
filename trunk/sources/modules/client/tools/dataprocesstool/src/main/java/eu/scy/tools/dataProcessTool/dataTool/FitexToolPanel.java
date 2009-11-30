@@ -1079,7 +1079,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
 
      /* ajout d'une ligne de donnees   */
-    public void addData(long dbKeyDs,DataSetRow row ){
+    public void addData(DataSetRow row ){
         List<String> listValues = row.getValues() ;
         int nbV = listValues.size() ;
         Double[] values = new Double[nbV];
@@ -1092,25 +1092,27 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             }
             values[i] = d ;
         }
-        addData(dbKeyDs, values);
+        addData(values);
     }
 
 
     /* ajout d'une ligne de donnees   */
-    private void addData(long dbKeyDs, Double[] values){
+    private void addData(Double[] values){
         ArrayList v = new ArrayList();
-        //boolean autoScale = getDataVisTabbedPane().isAutoScale();
-        boolean autoScale = true;
-        CopexReturn cr = this.controller.addData(dbKeyDs, values,  autoScale, v);
+        CopexReturn cr = this.controller.addData(dataset.getDbKey(), values,  v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return ;
         }
         Dataset nds = (Dataset)v.get(0);
+        //Data newData = (Data)v.get(1);
         dataset = nds;
         datasetTable.updateDataset(nds, true);
+        updateGraphs(nds, true);
+        //dataProcessToolPanel.logAddRow(dataset, newData);
     }
 
+    
     /* mis a jour des parametres */
     public boolean updateGraphParam(Graph graph, String graphName, ParamGraph pg){
         String oldName = new String(graph.getName());
