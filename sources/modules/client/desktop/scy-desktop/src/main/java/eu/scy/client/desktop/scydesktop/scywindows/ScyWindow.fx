@@ -17,6 +17,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 
 import javafx.scene.CustomNode;
 
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+
 /**
  * @author sikkenj
  */
@@ -81,5 +83,8 @@ public abstract class ScyWindow extends CustomNode {
    public abstract function openWindow(width:Number, height:Number):Void;
    
    public abstract function setMinimize(state: Boolean):Void;
+
+   public abstract function addChangesListener(wcl:WindowChangesListener):Void;
+   public abstract function removeChangesListener(wcl:WindowChangesListener):Void;
 
 }
