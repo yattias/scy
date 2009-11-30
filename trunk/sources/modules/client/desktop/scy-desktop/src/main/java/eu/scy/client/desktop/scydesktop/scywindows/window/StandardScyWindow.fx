@@ -63,6 +63,8 @@ public class StandardScyWindow extends ScyWindow {
 	public override var scyContent;
 	public override var scyTool;
 
+	public override var activated on replace {activeStateChanged()};
+
 
    public override var scyWindowAttributes on replace {
       placeAttributes()
@@ -168,6 +170,19 @@ public class StandardScyWindow extends ScyWindow {
       setLeftDrawer();
    }
 
+   function activeStateChanged(){
+      if (activated){
+         if (scyTool!=null){
+            scyTool.onGotFocus();
+         }
+      }
+      else{
+         if (scyTool!=null){
+            scyTool.onLostFocus();
+         }
+      }
+   }
+
    override function addChangesListener(wcl:WindowChangesListener) {
        insert wcl into changesListeners;
    }
@@ -198,8 +213,6 @@ public class StandardScyWindow extends ScyWindow {
         stopDragging(e);
    }
 
-
-
    function placeAttributes(){
       var sortedScyWindowAttributes =
       Sequences.sort(scyWindowAttributes,null) as ScyWindowAttribute[];
@@ -211,7 +224,6 @@ public class StandardScyWindow extends ScyWindow {
       }
 
    }
-
 
 	public override function openWindow(openWidth:Number,openHeight:Number){
 		checkScyContent();
@@ -256,6 +268,9 @@ public class StandardScyWindow extends ScyWindow {
                      closedAction(this);
                   }
 						isAnimating = false;
+                  if (scyTool!=null){
+                     scyTool.onClosed();
+                  }
 					}
 				}
 			]
@@ -273,6 +288,9 @@ public class StandardScyWindow extends ScyWindow {
 					]
 					action: function(){
 						isAnimating = false;
+                  if (scyTool!=null){
+                     scyTool.onMinimized();
+                  }
 					}
 				}
 			]
@@ -290,6 +308,9 @@ public class StandardScyWindow extends ScyWindow {
 					]
 					action: function(){
 						isAnimating = false;
+                  if (scyTool!=null){
+                     scyTool.onUnMinimized();
+                  }
 					}
 				}
 			]

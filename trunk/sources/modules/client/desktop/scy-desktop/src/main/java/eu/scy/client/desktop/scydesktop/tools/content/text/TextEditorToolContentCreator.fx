@@ -38,7 +38,7 @@ public class TextEditorToolContentCreator extends WindowContentCreatorFX {
 	function createTextEditorNode(scyWindow:ScyWindow):TextEditorNode{
 //      Thread.sleep(5000);
       setWindowProperties(scyWindow);
-		var textEditor= new TextEditor();
+		var textEditor = new TextEditor();
 		//whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
 		var eloTextEditorActionWrapper= new EloTextEditorActionWrapper(textEditor);
 		eloTextEditorActionWrapper.setRepository(repository);

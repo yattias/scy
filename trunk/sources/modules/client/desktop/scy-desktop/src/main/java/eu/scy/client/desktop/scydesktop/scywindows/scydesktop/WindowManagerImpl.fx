@@ -59,7 +59,6 @@ var activeWindow:ScyWindow on replace previousActiveWindow {
       scyWindow.activated = false;
    }
 
-
    public override function addScyWindow(scyWindow:ScyWindow){
       logger.info("addScyWindow({scyWindow.eloUri})");
       scyWindow.scyDesktop = this;

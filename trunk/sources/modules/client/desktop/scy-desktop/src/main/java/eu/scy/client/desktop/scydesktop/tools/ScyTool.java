@@ -4,22 +4,28 @@
  */
 package eu.scy.client.desktop.scydesktop.tools;
 
+import java.net.URI;
+
 /**
  *
  * @author sikken
  */
 public interface ScyTool
 {
+   public void initialize();
 
-   public void onInit();
+   public void newElo();
+   public void loadElo(URI eloUri);
 
-   public void onStartup();
+   public void onGotFocus();
+   public void onLostFocus();
 
-   public void onFocus();
+   public void onMinimized();
+   public void onUnMinimized();
 
-   public void onHide();
+   public void onClosed();
 
-   public void onMinimize();
+   public void setEloSaver(EloSaver efzloSaver);
 
-   public void onClose();
+   public void setMyEloChanged(MyEloChanged myEloChanged);
 }

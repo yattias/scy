@@ -10,7 +10,6 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
-import eu.scy.client.desktop.scydesktop.dummy.DummyWindowContentCreator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
@@ -26,6 +25,7 @@ import java.lang.Exception;
 
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditor;
+import eu.scy.client.desktop.scydesktop.dummy.DummyScyToolWindowContentCreator;
 
 import java.io.CharArrayWriter;
 
@@ -42,7 +42,7 @@ def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFac
 public class WindowContentFactory extends ContentFactory {
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
 
-   def defaultWindowContentCreator:WindowContentCreatorFX = DummyWindowContentCreator{};
+   def defaultWindowContentCreator:WindowContentCreatorFX = DummyScyToolWindowContentCreator{};
 
    public function fillWindowContent(eloUri:URI,scyWindow:ScyWindow,id:String){
      return fillWindowContent(eloUri,scyWindow,id,getType(eloUri));
@@ -64,11 +64,25 @@ public class WindowContentFactory extends ContentFactory {
       }
       try{
          var contentNode;
-         if (eloUri!=null){
-            contentNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+         if (windowContentCreator instanceof ScyToolWindowContentCreatorFX){
+            contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+//            if (contentNode instanceof ScyTool){
+//               scyWindow.scyTool = contentNode as ScyTool;
+//               if (eloUri!=null){
+//                  scyWindow.scyTool.loadElo(eloUri);
+//               }
+//               else{
+//                  scyWindow.scyTool.newElo();
+//               }
+//            }
          }
          else{
-            contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+            if (eloUri!=null){
+               contentNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+            }
+            else{
+               contentNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+            }
          }
          scyWindow.scyContent = contentNode;
       }
@@ -77,6 +91,16 @@ public class WindowContentFactory extends ContentFactory {
       }
 
       voidInspectContent(scyWindow);
+
+      if (scyWindow.scyTool!=null){
+         if (eloUri!=null){
+            scyWindow.scyTool.loadElo(eloUri);
+         }
+         else{
+            scyWindow.scyTool.newElo();
+         }
+      }
+
    }
 
    function getType(eloUri:URI):String{
