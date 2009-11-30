@@ -10,10 +10,11 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+
 
 /**
  * @author sikkenj
@@ -29,7 +30,7 @@ var scyDesktopCreator = ScyDesktopCreator {
    configClassPathConfigLocation:"config/scyDesktopTestConfig.xml";
 }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, scyTextId);
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator{}, scyTextId);
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "eloXmlViewerId");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
