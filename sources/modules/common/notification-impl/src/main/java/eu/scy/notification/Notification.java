@@ -7,8 +7,8 @@ import java.util.Map;
 import eu.scy.notification.api.INotification;
 
 public class Notification implements INotification {
-	
-	public static final String PATH = "notification";
+
+    public static final String PATH = "notification";
 
     private long timestamp;
 
@@ -34,8 +34,8 @@ public class Notification implements INotification {
      * 
      * @param xml
      */
-    public Notification(String id, String sender, String receiver, long timestamp, String mission, String session, Map<String, String> props) {
-        uniqueId = new VMID().toString();
+    public Notification(String uniqueId, String sender, String receiver, long timestamp, String mission, String session, Map<String, String> props) {
+        this.uniqueId = uniqueId;
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
