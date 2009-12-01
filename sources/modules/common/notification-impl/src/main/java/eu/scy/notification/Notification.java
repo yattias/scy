@@ -1,6 +1,8 @@
 package eu.scy.notification;
 
-import java.util.Properties;
+import java.rmi.dgc.VMID;
+import java.util.HashMap;
+import java.util.Map;
 
 import eu.scy.notification.api.INotification;
 
@@ -10,7 +12,7 @@ public class Notification implements INotification {
 
     private long timestamp;
 
-    private Properties properties;
+    private Map<String, String> properties;
 
     private String receiver;
 
@@ -23,7 +25,8 @@ public class Notification implements INotification {
     private String session;
 
     public Notification() {
-        properties = new Properties();
+        uniqueId = new VMID().toString();
+        properties = new HashMap<String, String>();
     }
 
     /**
@@ -31,20 +34,20 @@ public class Notification implements INotification {
      * 
      * @param xml
      */
-    public Notification(String id, String sender, String receiver, long timestamp, String mission, String session, Properties props) {
-        uniqueId = id;
+    public Notification(String id, String sender, String receiver, long timestamp, String mission, String session, Map<String, String> props) {
+        uniqueId = new VMID().toString();
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
         this.mission = mission;
         this.session = session;
-        properties = (props == null) ? new Properties() : props;
+        properties = (props == null) ? new HashMap<String, String>() : props;
     }
 
     /**
      * returns the properties object
      */
-    public Properties getProperties() {
+    public Map<String, String> getProperties() {
         return properties;
     }
 
@@ -55,7 +58,7 @@ public class Notification implements INotification {
      * @param value
      */
     public void addProperty(String key, String value) {
-        properties.setProperty(key, value);
+        properties.put(key, value);
 
     }
 
@@ -64,7 +67,7 @@ public class Notification implements INotification {
      * @return value of 'key'
      */
     public String getProperty(String key) {
-        return properties.getProperty(key);
+        return properties.get(key);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class Notification implements INotification {
     }
 
     @Override
-    public String getId() {
+    public String getUniqueID() {
         return uniqueId;
     }
 
@@ -113,7 +116,7 @@ public class Notification implements INotification {
     }
 
     @Override
-    public void setId(String uniqueId) {
+    public void setUniqueID(String uniqueId) {
         this.uniqueId = uniqueId;
     }
 

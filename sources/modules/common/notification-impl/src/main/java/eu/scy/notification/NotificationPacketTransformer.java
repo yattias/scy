@@ -3,6 +3,8 @@
  */
 package eu.scy.notification;
 
+import java.util.ArrayList;
+
 import eu.scy.common.packetextension.SCYPacketTransformer;
 
 /**
@@ -46,8 +48,23 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
 	 */
 	@Override
 	public String getValueForXPath(String path) {
-		// TODO Auto-generated method stub
-		return null;
+		if (path.equals(notificationPath + "@id")) {
+            return pojo.getUniqueID();
+		} else if (path.equals(notificationPath + "@timemillis")) {
+			return Long.toString(pojo.getTimestamp());
+		} else if (path.equals(notificationPath + "@receiver")) {
+			return pojo.getReceiver();
+		} else if (path.equals(notificationPath + "@sender")) {
+			return pojo.getSender();
+		} else if (path.equals(notificationPath + "@mission")) {
+			return pojo.getMission();
+		} else if (path.equals(notificationPath + "@session")) {
+			return pojo.getSession();
+		} else if (path.startsWith(propertiesPath)) {
+            String attribute = path.substring(propertiesPath.length());
+            return pojo.getProperty(attribute);
+        }
+        return null;   
 	}
 
 	/* (non-Javadoc)
@@ -55,8 +72,20 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
 	 */
 	@Override
 	public String[] getXPaths() {
-		// TODO Auto-generated method stub
-		return null;
+		if (pojo == null) {
+            throw new IllegalStateException("Object must not be null before using the transformer!");
+        }
+        ArrayList<String> paths = new ArrayList<String>();
+        paths.add(notificationPath + "@id");
+        paths.add(notificationPath + "@timemillis");
+        paths.add(notificationPath + "@receiver");
+        paths.add(notificationPath + "@sender");
+        paths.add(notificationPath + "@mission");
+        paths.add(notificationPath + "@session");
+        for (String key : pojo.getProperties().keySet()) {
+            paths.add(notificationPath + key);
+        }
+        return (String[]) paths.toArray(new String[paths.size()]);
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +93,22 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
 	 */
 	@Override
 	public void mapXMLNodeToObject(String path, String value) {
-		// TODO Auto-generated method stub
-
+		if (path.equals(notificationPath + "@id")) {
+            pojo.setUniqueID(value);
+		} else if (path.equals(notificationPath + "@timemillis")) {
+			pojo.setTimestamp(Long.parseLong(value));
+		} else if (path.equals(notificationPath + "@receiver")) {
+			pojo.setReceiver(value);
+		} else if (path.equals(notificationPath + "@sender")) {
+			pojo.setSender(value);
+		} else if (path.equals(notificationPath + "@mission")) {
+			pojo.setMission(value);
+		} else if (path.equals(notificationPath + "@session")) {
+			pojo.setSession(value);
+		} else if (path.startsWith(propertiesPath)) {
+            String attribute = path.substring(propertiesPath.length());
+            pojo.addProperty(attribute, value);
+        }
 	}
 
 	/* (non-Javadoc)
