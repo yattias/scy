@@ -6,6 +6,8 @@ import java.util.Properties;
 import eu.scy.notification.api.INotification;
 
 public class Notification implements INotification {
+	
+	public static final String PATH = "notification";
 
     private long timestamp;
 
