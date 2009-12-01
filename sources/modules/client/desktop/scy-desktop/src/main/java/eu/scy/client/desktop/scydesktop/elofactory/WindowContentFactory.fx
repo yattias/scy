@@ -33,8 +33,9 @@ import java.io.PrintWriter;
 
 import javafx.ext.swing.SwingComponent;
 
-import eu.scy.client.desktop.scydesktop.tools.EloSaver;
-import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
 
 /**
  * @author sikkenj
@@ -44,8 +45,8 @@ def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFac
 
 public class WindowContentFactory extends ContentFactory {
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
-   public var eloSaver:EloSaver;
-   public var myEloChanged:MyEloChanged;
+//   public var eloSaver:EloSaver;
+//   public var myEloChanged:MyEloChanged;
 
    def defaultWindowContentCreator:WindowContentCreatorFX = DummyScyToolWindowContentCreator{};
 
@@ -102,7 +103,20 @@ public class WindowContentFactory extends ContentFactory {
       voidInspectContent(scyWindow);
 
       if (scyWindow.scyTool!=null){
-         scyWindow.scyTool.setEloSaver(eloSaver);
+         var myEloChanged = SimpleMyEloChanged{
+            window:scyWindow;
+            titleKey:config.getTitleKey()
+         }
+
+         var optionPaneEloSaver = OptionPaneEloSaverFX{
+            repository:config.getRepository()
+            eloFactory:config.getEloFactory()
+            titleKey:config.getTitleKey()
+            window:scyWindow;
+            myEloChanged:myEloChanged;
+         };
+
+         scyWindow.scyTool.setEloSaver(optionPaneEloSaver);
          scyWindow.scyTool.setMyEloChanged(myEloChanged);
          scyWindow.scyTool.initialize();
          if (eloUri!=null){
