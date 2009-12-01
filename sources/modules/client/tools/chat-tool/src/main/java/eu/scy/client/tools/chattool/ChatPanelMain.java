@@ -13,14 +13,11 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -31,9 +28,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
-import org.jdesktop.swingx.SwingXUtilities;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.IAwarePresenceEvent;
@@ -111,9 +106,10 @@ public class ChatPanelMain extends JPanel {
 		chatAreaPanel.add(chatAreaScroll);
 		
 		sendMessageTextField = new JTextField();
+		sendMessageTextField.setEditable(true);
+		sendMessageTextField.setEnabled(true);
 		sendMessageTextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JTextField textfield = (JTextField) e.getSource();
 				String oldText = chatArea.getText();
 				
 //				if (buddyList.getSelectedValue() == null) {
@@ -121,8 +117,8 @@ public class ChatPanelMain extends JPanel {
 //				}
 //				else {
 //					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
-					chatController.sendMessage(model.elementAt(0), textfield.getText());
-					chatArea.setText(oldText + "me: " + textfield.getText() + "\n");
+					chatController.sendMessage(model.elementAt(0), sendMessageTextField.getText());
+					chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");
 //				}
 			}
 		});
@@ -203,9 +199,13 @@ public class ChatPanelMain extends JPanel {
 	private void registerChatArea(final JTextPane chatArea) {
 		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
 			@Override
-			public void handleAwarenessMessageEvent(IAwarenessEvent awarenessEvent) {
-				String oldText = chatArea.getText();
-				chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");
+			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
+				final String oldText = chatArea.getText();
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");
+					}
+				});
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
 				cmp.selectCorrectChatter(awarenessEvent.getUser());
 			}
@@ -243,8 +243,7 @@ public class ChatPanelMain extends JPanel {
 		
 		IAwarenessUser iau;
 		for(int i=0; i<users.size(); i++) {
-			iau = (IAwarenessUser) users.elementAt(i);
-//			
+			iau = (IAwarenessUser) users.elementAt(i);		
 		}
 	}
 }
