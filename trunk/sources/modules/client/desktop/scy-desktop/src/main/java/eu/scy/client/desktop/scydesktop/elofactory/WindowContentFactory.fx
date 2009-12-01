@@ -104,6 +104,7 @@ public class WindowContentFactory extends ContentFactory {
       if (scyWindow.scyTool!=null){
          scyWindow.scyTool.setEloSaver(eloSaver);
          scyWindow.scyTool.setMyEloChanged(myEloChanged);
+         scyWindow.scyTool.initialize();
          if (eloUri!=null){
             scyWindow.scyTool.loadElo(eloUri);
          }

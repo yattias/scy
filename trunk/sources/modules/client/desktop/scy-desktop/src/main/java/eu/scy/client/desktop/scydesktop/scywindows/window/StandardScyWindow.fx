@@ -519,6 +519,7 @@ public class StandardScyWindow extends ScyWindow {
             closedSize:bind width-2*drawerCornerOffset;
             closedStrokeWidth:controlStrokeWidth;
             content:topDrawerTool;
+            activated:bind activated;
             layoutX:drawerCornerOffset;
             layoutY:-drawerBorderOffset;
          }
@@ -542,6 +543,7 @@ public class StandardScyWindow extends ScyWindow {
             closedStrokeWidth:controlStrokeWidth;
             closedSize:bind height-2*drawerCornerOffset;
             content:rightDrawerTool;
+            activated:bind activated;
             layoutX:bind width+drawerBorderOffset;
             layoutY:drawerCornerOffset;
          }
@@ -566,6 +568,7 @@ public class StandardScyWindow extends ScyWindow {
             closedSize:bind width-2*drawerCornerOffset;
             closedStrokeWidth:controlStrokeWidth;
             content:bottomDrawerTool;
+            activated:bind activated;
             layoutX:drawerCornerOffset;
             layoutY:bind height+drawerBorderOffset;
          }
@@ -589,6 +592,7 @@ public class StandardScyWindow extends ScyWindow {
             closedStrokeWidth:controlStrokeWidth;
             closedSize:bind height-2*drawerCornerOffset;
             content:leftDrawerTool;
+            activated:bind activated;
             layoutX:-drawerBorderOffset;
             layoutY:drawerCornerOffset;
          }

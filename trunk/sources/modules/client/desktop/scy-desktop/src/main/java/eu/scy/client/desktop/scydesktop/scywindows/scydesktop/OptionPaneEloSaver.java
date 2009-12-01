@@ -5,6 +5,8 @@
 package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import java.net.URI;
 import javax.swing.JOptionPane;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
@@ -20,9 +22,15 @@ import roolo.elo.api.IMetadataKey;
 public class OptionPaneEloSaver implements EloSaver
 {
 
+   private MyEloChanged myEloChanged;
    private IRepository repository;
    private IELOFactory eloFactory;
    private IMetadataKey titleKey;
+
+   public void setMyEloChanged(MyEloChanged myEloChanged)
+   {
+      this.myEloChanged = myEloChanged;
+   }
 
    public void setEloFactory(IELOFactory eloFactory)
    {
@@ -53,6 +61,11 @@ public class OptionPaneEloSaver implements EloSaver
          }
          IMetadata newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
+         if (myElo)
+         {
+            // TODO fix it
+           // myEloChanged.myEloChanged(elo);
+         }
          return elo;
       }
       return null;
@@ -61,8 +74,20 @@ public class OptionPaneEloSaver implements EloSaver
    @Override
    public IELO updateElo(IELO elo, boolean myElo)
    {
-      IMetadata newMetadata = repository.updateELO(elo);
-      eloFactory.updateELOWithResult(elo, newMetadata);
-      return elo;
+      if (elo.getUri() != null)
+      {
+         URI oldUri = elo.getUri();
+         IMetadata newMetadata = repository.updateELO(elo);
+         eloFactory.updateELOWithResult(elo, newMetadata);
+         if (myElo)
+         {
+            myEloChanged.myEloChanged(oldUri,elo);
+         }
+         return elo;
+      }
+      else
+      {
+         return saveElo(elo, myElo);
+      }
    }
 }

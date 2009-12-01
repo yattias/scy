@@ -36,6 +36,7 @@ public abstract class Drawer extends CustomNode {
    public var closedSize = 40.0;
 
    public var content:Node;
+   public var activated = false; // TODO, make only changeable from (sub) package
 
    def contentBorder = 1.0;
 
@@ -217,6 +218,7 @@ public abstract class Drawer extends CustomNode {
          width:bind width-2*contentBorder-borderSize-1;
          height:bind height-2*contentBorder-borderSize-1;
          content:bind content;
+         activated:bind activated;
          layoutX:contentBorder+borderSize/2+1;
          layoutY:contentBorder+borderSize/2+1;
       }
