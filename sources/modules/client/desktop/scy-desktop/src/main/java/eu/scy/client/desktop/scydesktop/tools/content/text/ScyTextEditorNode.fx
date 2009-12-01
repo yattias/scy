@@ -59,11 +59,11 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
 
    var technicalFormatKey: IMetadataKey;
 
-   init{
+   public override function initialize():Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
-public override function loadElo(uri:URI){
+   public override function loadElo(uri:URI){
       doLoadElo(uri);
    }
 

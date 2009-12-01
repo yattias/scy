@@ -5,7 +5,9 @@
 
 package eu.scy.client.desktop.scydesktop.tools;
 
+import java.net.URI;
 import roolo.elo.api.IELO;
+//import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  *
@@ -13,5 +15,6 @@ import roolo.elo.api.IELO;
  */
 public interface MyEloChanged {
 
-   public void myEloChanged(IELO elo);
+   public void myEloChanged(Object window, IELO elo);
+   public void myEloChanged(URI oldUri, IELO elo);
 }
