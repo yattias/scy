@@ -47,12 +47,25 @@ public class WhacketExtension extends PacketExtension {
 		super(name, namespace);
 	}
 	
+	public WhacketExtension(SCYPacketTransformer transformer) {
+		super(transformer.getElementname(), transformer.getNamespace());
+		
+		initElement(transformer);
+	}
+	
 	public WhacketExtension(String name, String namespace, Object pojo) {
 		super(name, namespace);
 		
 		SCYPacketTransformer transformer = transformers.get(namespace);
 		transformer.setObject(pojo);
 		
+		initElement(transformer);
+	}
+
+	/**
+	 * @param transformer
+	 */
+	private void initElement(SCYPacketTransformer transformer) {
 		try {
 			//TODO implement transformer.getElement() to avoid double parsing
 			element = (Element) DocumentHelper.parseText(transformer.toXML()).getRootElement().detach();
