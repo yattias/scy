@@ -1,73 +1,59 @@
 package eu.scy.actionlogging.server;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
+
+import org.apache.log4j.Logger;
+import org.xmpp.component.Component;
+import org.xmpp.packet.Packet;
+
 import eu.scy.actionlogging.Action;
-import eu.scy.actionlogging.Context;
+import eu.scy.actionlogging.ActionPacketTransformer;
+import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.actionlogging.api.IActionProcessModule;
+import eu.scy.commons.whack.WhacketExtension;
+import eu.scy.scyhub.SCYHubModule;
 
 
-public class ActionProcessModule implements IActionProcessModule {
+public class ActionProcessModule extends SCYHubModule {
     
+	private static final Logger logger = Logger.getLogger(ActionProcessModule.class);
+	
     private TupleSpace ts;
     
-    public ActionProcessModule(String host, int port) {
+    public ActionProcessModule(Component scyhub) {
+    	super(scyhub, new ActionPacketTransformer());
         try {
-            ts = new TupleSpace(new User("Action Logging Module"), host, port, "actions");
+//        	TODO use the REAL conf
+//            ts = new TupleSpace(new User("Action Logging Module"), Configuration.getInstance().getSqlSpacesServerHost(), Configuration.getInstance().getSqlSpacesServerPort(), "actions");
+            ts = new TupleSpace(new User("Action Logging Module"), "localhost", 2525, "actions");
+            logger.debug("ActionProcessModule created!");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
     }
     
-    @Override
-    public void create(IAction action) {
-        try {
-            writeAction(action);
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    protected void writeAction(IAction action) throws TupleSpaceException {
-        Field idField;
-        Field timeField;
-        Field typeField;
-        Field userField;
-        Field toolField;
-        Field missionField;
-        Field sessionField;
-        Field datatypeField;
-        Field dataField;
-        
-        Tuple actionTuple;
-
+    private void writeAction(IAction action) throws TupleSpaceException {
         if (ts != null) {
-        	// action properties
-            idField = new Field(((Action)action).getId());
-            timeField = new Field(((Action)action).getTimeInMillis());
-            typeField = new Field(((Action)action).getType());
-            userField = new Field(((Action)action).getUser());
-            datatypeField = ((Action)action).getDataType() == null ? new Field(String.class) : new Field(((Action)action).getDataType());
-            dataField = ((Action)action).getData() == null ? new Field(String.class) : new Field(((Action)action).getData());
-            // action context values
-            toolField = ((Context)((Action)action).getContext()).getTool() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getTool());
-            missionField = ((Context)((Action)action).getContext()).getMission() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getMission());
-            sessionField = ((Context)((Action)action).getContext()).getSession() == null ? new Field(String.class) : new Field(((Context)((Action)action).getContext()).getSession());
-            // we first create the tuple
-            actionTuple = new Tuple(new Field("action"), idField, timeField, typeField, userField, toolField, missionField, sessionField, datatypeField, dataField);
-            // now we add variable attributes
-            for(String attribute : ((Action)action).getAttributes().keySet()) {
-            	actionTuple.add(attribute + "=" + action.getAttribute(attribute));
-            }
+        	Tuple actionTuple = ActionTupleTransformer.getActionAsTuple(action);
             try {
                 ts.write(actionTuple);
+                logger.debug("Tuple with " + action.getId() + " written into the logging space");
             } catch (TupleSpaceException e) {
-                e.printStackTrace();
+            	logger.error("Could not write tuple into space", e);
             }
-        }
+        } 
     }
+
+	@Override
+	protected void process(Packet packet, WhacketExtension extension) {
+		Action action = (Action) extension.getPojo();
+		try {
+			writeAction(action);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+	}
 }
