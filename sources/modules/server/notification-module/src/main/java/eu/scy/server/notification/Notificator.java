@@ -9,7 +9,8 @@ import info.collide.sqlspaces.commons.User;
 import info.collide.sqlspaces.commons.Callback.Command;
 
 import java.util.ArrayList;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import eu.scy.notification.Notification;
 import eu.scy.notification.api.INotification;
@@ -58,13 +59,13 @@ public class Notificator {
         String sender = (String) notificationTuple.getField(4).getValue();
         String mission = (String) notificationTuple.getField(5).getValue();
         String session = (String) notificationTuple.getField(6).getValue();
-        Properties props = new Properties();
+        Map<String,String> props = new HashMap<String,String>();
         for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
             String keyValue = (String) notificationTuple.getField(i).getValue();
             int index = keyValue.indexOf('=');
             String key = keyValue.substring(0, index - 1);
             String value = keyValue.substring(index + 1, keyValue.length());
-            props.setProperty(key, value);
+            props.put(key, value);
 
         }
         INotification notification = new Notification(uniqueID,sender, receiver, notificationTuple.getCreationTimestamp(), mission, session, props);
