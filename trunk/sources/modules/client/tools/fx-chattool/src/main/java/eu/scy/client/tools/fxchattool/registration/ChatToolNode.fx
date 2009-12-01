@@ -50,17 +50,11 @@ public class ChatToolNode extends CustomNode {
     };
 
    public override function create(): Node {
-     //initTBI();
-    // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
-        wrappedSPTPanel = SwingComponent.wrap(chatTool);
+    wrappedSPTPanel = SwingComponent.wrap(chatTool);
      return Group {
-         blocksMouse:true;
+         blocksMouse:false;
          content:
-
             wrappedSPTPanel;
-
-
-
       };
    }
 }
