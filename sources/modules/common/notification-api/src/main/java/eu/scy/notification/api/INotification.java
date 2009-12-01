@@ -1,6 +1,6 @@
 package eu.scy.notification.api;
 
-import java.util.Properties;
+import java.util.Map;
 
 public interface INotification {
 
@@ -101,7 +101,7 @@ public interface INotification {
      * 
      * @return whole Properties object
      */
-    public Properties getProperties();
+    public Map<String, String> getProperties();
 
     /**
      * adds a new 'property'
