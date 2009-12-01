@@ -15,6 +15,6 @@ import roolo.elo.api.IELO;
  */
 public interface MyEloChanged {
 
-   public void myEloChanged(Object window, IELO elo);
-   public void myEloChanged(URI oldUri, IELO elo);
+   public void myEloChanged(IELO elo);
+//   public void myEloChanged(URI oldUri, IELO elo);
 }

@@ -93,13 +93,6 @@ import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 
-
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaver;
-
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
-
-
-
 /**
  * @author sikkenj
  */
@@ -129,9 +122,6 @@ public class ScyDesktop extends CustomNode {
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl:ScyWindowControl;
    var missionMap: MissionMap;
-
-//   var eloSaver:EloSaver;
-//   var myEloChanged:MyEloChanged;
 
    var topLeftCorner:Corner;
    var topRightCorner:Corner;
@@ -209,21 +199,9 @@ public class ScyDesktop extends CustomNode {
       windows = WindowManagerImpl{
          activeAnchor: bind missionModelFX.activeAnchor;
       }
-      var myEloChanged = SimpleMyEloChanged{
-         windowManager:windows;
-         titleKey:config.getTitleKey()
-      }
-
-      var optionPaneEloSaver = new OptionPaneEloSaver();
-      optionPaneEloSaver.setMyEloChanged(myEloChanged);
-      optionPaneEloSaver.setRepository(config.getRepository());
-      optionPaneEloSaver.setEloFactory(config.getEloFactory());
-      optionPaneEloSaver.setTitleKey(config.getTitleKey());
 
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
-         eloSaver:optionPaneEloSaver;
-         myEloChanged:myEloChanged;
          config:config;
       }
       drawerContentFactory = DrawerContentFactory{

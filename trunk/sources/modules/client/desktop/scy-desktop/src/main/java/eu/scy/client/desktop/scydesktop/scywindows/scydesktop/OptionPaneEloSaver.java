@@ -21,7 +21,6 @@ import roolo.elo.api.IMetadataKey;
  */
 public class OptionPaneEloSaver implements EloSaver
 {
-
    private MyEloChanged myEloChanged;
    private IRepository repository;
    private IELOFactory eloFactory;
@@ -63,8 +62,7 @@ public class OptionPaneEloSaver implements EloSaver
          eloFactory.updateELOWithResult(elo, newMetadata);
          if (myElo)
          {
-            // TODO fix it
-           // myEloChanged.myEloChanged(elo);
+            myEloChanged.myEloChanged(elo);
          }
          return elo;
       }
@@ -81,7 +79,7 @@ public class OptionPaneEloSaver implements EloSaver
          eloFactory.updateELOWithResult(elo, newMetadata);
          if (myElo)
          {
-            myEloChanged.myEloChanged(oldUri,elo);
+            myEloChanged.myEloChanged(elo);
          }
          return elo;
       }
