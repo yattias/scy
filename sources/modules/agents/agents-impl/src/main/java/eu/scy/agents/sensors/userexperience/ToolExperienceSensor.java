@@ -138,7 +138,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
         Field timeStampField = new Field(long.class);
         timeStampField.setLowerBound(lastActionTime + 1l);
-        Tuple tupleTemplate = new Tuple(new Field(String.class), timeStampField, new Field(String.class), new Field(String.class), new Field(String.class), new Field(String.class), new Field(String.class), new Field(String.class));
+        Tuple tupleTemplate = new Tuple("action",new Field(String.class), timeStampField,Field.createWildCardField());
         Tuple[] actionTuples = actionSpace.readAll(tupleTemplate);
         logger.log(Level.FINE, "Have to process: " + actionTuples.length + " tuples.");
         Arrays.sort(actionTuples, new Comparator<Tuple>() {
@@ -155,8 +155,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         });
 
         for (Tuple tuple : actionTuples) {
-            Element actionElement = DocumentHelper.parseText((String) tuple.getField(7).getValue()).getRootElement();
-            Action action = (Action) new ActionXMLTransformer(actionElement).getActionAsPojo();
+            Action action = (Action) ActionTupleTransformer.getActionFromTuple(tuple);
             processAction(action, false);
         }
         for (UserToolExperienceModel m : userModels.values()) {
@@ -213,6 +212,11 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser());
+            if (exp == null) {
+                exp = new UserToolExperienceModel(a.getUser(), sensorSpace, toolAliveSpace, 1, 0);
+                userModels.put(a.getUser(), exp);
+                logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
+            } 
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
             logger.log(Level.FINE, "Focus gained with user: " + a.getUser() + " and SessionID: " + sessionid);
         } else if (a.getType().equals("focus lost")) {
@@ -271,7 +275,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
             Element element;
 
-            Action a = (Action) new ActionTupleTransformer(afterTuple).getActionAsPojo();
+            Action a = (Action) ActionTupleTransformer.getActionFromTuple(afterTuple);
             try {
                 processAction(a, false);
             } catch (ParseException e) {
