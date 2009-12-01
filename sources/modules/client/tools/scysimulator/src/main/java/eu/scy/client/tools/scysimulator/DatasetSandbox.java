@@ -5,22 +5,15 @@ import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaborationservice.CollaborationServiceException;
-import eu.scy.collaborationservice.CollaborationServiceFactory;
-import eu.scy.collaborationservice.ICollaborationService;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
-//import eu.scy.communications.message.IScyMessage;
-//import eu.scy.communications.message.impl.ScyMessage;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-
 import roolo.elo.JDomStringConversion;
 
 /**
@@ -30,8 +23,9 @@ import roolo.elo.JDomStringConversion;
 public class DatasetSandbox implements ISyncListener {
     private DataCollector datacollector;
     private String TOOL_NAME = "scysimulator";
-    private String USER_NAME = "merkel";
-	private IDataSyncService datasync;
+    private String USER_NAME = "obama";
+    private String PASS = "obama";
+    private IDataSyncService datasync;
 	ISyncSession currentSession = null;
 	private XMPPConnection conn;
 
@@ -53,7 +47,7 @@ public class DatasetSandbox implements ISyncListener {
 		conn = new XMPPConnection(config);
 		try {
 			conn.connect();
-			conn.login("merkel", "merkel");
+			conn.login(USER_NAME, PASS);
 			conn.addConnectionListener(new ConnectionListener() {		
 				public void reconnectionSuccessful() {}
 				public void reconnectionFailed(Exception arg0) {}
@@ -62,7 +56,7 @@ public class DatasetSandbox implements ISyncListener {
 				public void connectionClosed() {}
 			});
 			
-			datasync = new DataSyncService(conn);		
+			datasync = new DataSyncService(conn);
 			
 		} catch (XMPPException e) {
 			e.printStackTrace();
@@ -107,19 +101,17 @@ public class DatasetSandbox implements ISyncListener {
     	currentSession.addSyncObject(syncObject);
     }
 
+    /* These ISyncListener methods are empty because SCYSimulator is only sending action,
+     * but not reacting.
+     *  
+     */
 	@Override
-	public void syncObjectAdded(ISyncObject syncObject) {
-		// TODO Auto-generated method stub		
-	}
+	public void syncObjectAdded(ISyncObject syncObject) {}
 
 	@Override
-	public void syncObjectChanged(ISyncObject syncObject) {
-		// TODO Auto-generated method stub		
-	}
+	public void syncObjectChanged(ISyncObject syncObject) {}
 
 	@Override
-	public void syncObjectRemoved(ISyncObject syncObject) {
-		// TODO Auto-generated method stub		
-	}
+	public void syncObjectRemoved(ISyncObject syncObject) {}
 
 }
