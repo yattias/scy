@@ -1,6 +1,5 @@
 package eu.scy.notification;
 
-import java.rmi.dgc.VMID;
 import java.util.Properties;
 
 import eu.scy.notification.api.INotification;
@@ -24,7 +23,6 @@ public class Notification implements INotification {
     private String session;
 
     public Notification() {
-        uniqueId = new VMID().toString();
         properties = new Properties();
     }
 
@@ -33,8 +31,8 @@ public class Notification implements INotification {
      * 
      * @param xml
      */
-    public Notification(String sender, String receiver, long timestamp, String mission, String session, Properties props) {
-        uniqueId = new VMID().toString();
+    public Notification(String id, String sender, String receiver, long timestamp, String mission, String session, Properties props) {
+        uniqueId = id;
         this.sender = sender;
         this.receiver = receiver;
         this.timestamp = timestamp;
@@ -105,7 +103,7 @@ public class Notification implements INotification {
     }
 
     @Override
-    public String getUniqueID() {
+    public String getId() {
         return uniqueId;
     }
 
@@ -115,7 +113,7 @@ public class Notification implements INotification {
     }
 
     @Override
-    public void setUniqueID(String uniqueId) {
+    public void setId(String uniqueId) {
         this.uniqueId = uniqueId;
     }
 
