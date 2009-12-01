@@ -14,9 +14,9 @@ import eu.scy.common.packetextension.SCYPacketTransformer;
  */
 public class SyncActionPacketTransformer extends SCYPacketTransformer {
 
-	public static final String syncActionPath = "/" + SyncAction.PATH;
+	private static final String syncActionPath = "/" + SyncAction.PATH;
 
-	public static final String syncObjectPath = syncActionPath + "/"
+	private static final String syncObjectPath = syncActionPath + "/"
 			+ SyncObject.PATH;
 
 	private static final String propertiesPath = syncObjectPath
