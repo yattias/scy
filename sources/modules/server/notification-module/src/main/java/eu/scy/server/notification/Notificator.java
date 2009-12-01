@@ -52,13 +52,14 @@ public class Notificator {
 
     private synchronized void processNotification(Tuple notificationTuple) {
         // "notification":String, <User>:String, <Receiver>:String, <Sender>:String, <Mission>:String, <Session>:String, <Key=Value>:String*)
-        String userName = (String) notificationTuple.getField(1).getValue();
-        String receiver = (String) notificationTuple.getField(2).getValue();
-        String sender = (String) notificationTuple.getField(3).getValue();
-        String mission = (String) notificationTuple.getField(4).getValue();
-        String session = (String) notificationTuple.getField(5).getValue();
+        String uniqueID =(String) notificationTuple.getField(1).getValue();
+        String userName = (String) notificationTuple.getField(2).getValue();
+        String receiver = (String) notificationTuple.getField(3).getValue();
+        String sender = (String) notificationTuple.getField(4).getValue();
+        String mission = (String) notificationTuple.getField(5).getValue();
+        String session = (String) notificationTuple.getField(6).getValue();
         Properties props = new Properties();
-        for (int i = 6; i < notificationTuple.getNumberOfFields(); i++) {
+        for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
             String keyValue = (String) notificationTuple.getField(i).getValue();
             int index = keyValue.indexOf('=');
             String key = keyValue.substring(0, index - 1);
@@ -66,7 +67,7 @@ public class Notificator {
             props.setProperty(key, value);
 
         }
-        INotification notification = new Notification(sender, receiver, notificationTuple.getCreationTimestamp(), mission, session, props);
+        INotification notification = new Notification(uniqueID,sender, receiver, notificationTuple.getCreationTimestamp(), mission, session, props);
 
         // TODO send via xmpp
 
