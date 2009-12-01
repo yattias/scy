@@ -34,11 +34,14 @@ public class DataSyncSessionLogger {
 
 	public void connect(XMPPConnection connection) throws Exception {
 		MultiUserChat muc = new MultiUserChat(connection, id);
-		muc.create("datasynclistener");
+//		muc.create("datasynclistener");
+		muc.create(id);
 		Form form = new Form(Form.TYPE_SUBMIT);
 		muc.sendConfigurationForm(form);
-		
-		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), "scy.collide.info", 2525, id);
+	
+		// local
+//		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), "scy.collide.info", 2525, id);
+		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), "localhost", 2525, id);
 	}
 	
 	public void log(SyncAction action) {
@@ -48,7 +51,7 @@ public class DataSyncSessionLogger {
 		sat.add(action.getId());
 		sat.add(action.getUserId());
 		sat.add(action.getSessionId());
-		sat.add(action.getType());
+		sat.add(action.getType().toString());
 		sat.add(action.getTimestamp());
 		try {
 			loggingSpace.write(sat);

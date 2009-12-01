@@ -5,9 +5,11 @@ package eu.scy.server.datasync;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -26,6 +28,7 @@ import eu.scy.common.message.SyncMessage.Event;
 import eu.scy.common.message.SyncMessage.Response;
 import eu.scy.common.message.SyncMessage.Type;
 import eu.scy.common.packetextension.SCYPacketTransformer;
+import eu.scy.commons.smack.SmacketExtension;
 import eu.scy.commons.smack.SmacketExtensionProvider;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
@@ -63,6 +66,34 @@ public class DataSyncModule extends SCYHubModule {
 			connection = new XMPPConnection(cc);
 			connection.connect();
 			connection.login("datasynclistener", "datasync");
+			connection.addConnectionListener(new ConnectionListener() {
+
+				@Override
+				public void connectionClosed() {
+					
+				}
+
+				@Override
+				public void connectionClosedOnError(Exception e) {
+					
+				}
+
+				@Override
+				public void reconnectingIn(int seconds) {
+					
+				}
+
+				@Override
+				public void reconnectionFailed(Exception e) {
+					
+				}
+
+				@Override
+				public void reconnectionSuccessful() {
+					
+				}
+				
+			});
 
 			final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
 
@@ -73,7 +104,8 @@ public class DataSyncModule extends SCYHubModule {
 			providerManager.addExtensionProvider(sapt.getElementname(), sapt
 					.getNamespace(), new SmacketExtensionProvider());
 
-			connection.addPacketListener(new DataSyncPacketFilterListener(loggers, transformer), new DataSyncPacketFilterListener(loggers, transformer));
+			DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(loggers, new SyncActionPacketTransformer());
+			connection.addPacketListener(packetFilterListener, packetFilterListener);
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
@@ -97,12 +129,12 @@ public class DataSyncModule extends SCYHubModule {
 			// Create a random session id
 			// right now we create one sync session with a fixed id so we can
 			// better test
-			// String sessionId = UUID.randomUUID().toString() +
-			// "@syncsessions.scy.collide.info";
-			String sessionId = command.getToolId() + "-datasyncsession" + "@syncsessions.scy.collide.info";
+			 String sessionId = UUID.randomUUID().toString() + "@syncsessions.scy.collide.info";
+//			String sessionId = command.getToolId() + "-datasyncsession" + "@syncsessions.scy.collide.info";
 
 			// create a session logger with the random id
 			DataSyncSessionLogger dssl = new DataSyncSessionLogger(sessionId);
+			loggers.put(sessionId, dssl);
 
 			// response to client
 			SyncMessage response = new SyncMessage(Type.answer);
@@ -156,13 +188,15 @@ public class DataSyncModule extends SCYHubModule {
 		@Override
 		public void processPacket(org.jivesoftware.smack.packet.Packet packet) {
 			PacketExtension packetExtension = packet.getExtension(transformer.getElementname(), transformer.getNamespace());
-			if (packetExtension != null && packetExtension instanceof WhacketExtension) {
-				WhacketExtension extension = (WhacketExtension) packetExtension;
+			if (packetExtension != null && packetExtension instanceof SmacketExtension) {
+				SmacketExtension extension = (SmacketExtension) packetExtension;
 				
-				SyncAction action = (SyncAction) extension.getPojo();
+				SyncAction action = (SyncAction) extension.getTransformer().getObject();
 				DataSyncSessionLogger logger = loggers.get(action.getSessionId());
 				
-				logger.log(action);
+				if(logger != null) {
+					logger.log(action);
+				}
 			}
 		}
 		
