@@ -43,7 +43,8 @@ public class Notificator extends SCYHubModule{
     private static final String NOTIFICATION = "notification";
 
     private void init() throws TupleSpaceException {
-    	String host = Configuration.getInstance().getSqlSpacesServerHost();
+//    	String host = Configuration.getInstance().getSqlSpacesServerHost();
+    	String host = "134.91.34.217";
     	int port = Configuration.getInstance().getSqlSpacesServerPort();
     	
     	commandSpace = new TupleSpace(new User(Notificator.class.getName()), host, port, false, false, COMMAND_SPACE);
@@ -65,8 +66,8 @@ public class Notificator extends SCYHubModule{
     private synchronized void processNotification(Tuple notificationTuple) {
         // "notification":String, <User>:String, <Receiver>:String, <Sender>:String, <Mission>:String, <Session>:String, <Key=Value>:String*)
         String uniqueID =(String) notificationTuple.getField(1).getValue();
-        String userName = (String) notificationTuple.getField(2).getValue();
-        String receiver = (String) notificationTuple.getField(3).getValue();
+        String userId = (String) notificationTuple.getField(2).getValue();
+        String toolId = (String) notificationTuple.getField(3).getValue();
         String sender = (String) notificationTuple.getField(4).getValue();
         String mission = (String) notificationTuple.getField(5).getValue();
         String session = (String) notificationTuple.getField(6).getValue();
@@ -74,16 +75,16 @@ public class Notificator extends SCYHubModule{
         for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
             String keyValue = (String) notificationTuple.getField(i).getValue();
             int index = keyValue.indexOf('=');
-            String key = keyValue.substring(0, index - 1);
+            String key = keyValue.substring(0, index);
             String value = keyValue.substring(index + 1, keyValue.length());
             props.put(key, value);
 
         }
-        INotification notification = new Notification(uniqueID,sender, receiver, notificationTuple.getCreationTimestamp(), mission, session, props);
+        INotification notification = new Notification(uniqueID, userId, sender, toolId, notificationTuple.getCreationTimestamp(), mission, session, props);
 
         // Create a message to send the notification with receiver
         Message message = new Message();
-        message.setTo(receiver);
+        message.setTo(userId);
         message.setFrom("scyhub.scy.collide.info");
         // Attach the extension
         transformer.setObject(notification);
