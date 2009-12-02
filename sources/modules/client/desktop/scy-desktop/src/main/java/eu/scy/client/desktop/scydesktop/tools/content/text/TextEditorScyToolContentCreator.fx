@@ -20,20 +20,13 @@ import java.net.URI;
 // place your code here
 public class TextEditorScyToolContentCreator extends ScyToolWindowContentCreatorFX {
 
-   public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
-      var textEditorNode = createTextEditorNode(scyWindow);
-      textEditorNode.loadElo(eloUri);
-      return textEditorNode;
+   public override function getScyToolWindowContent():Node{
+      return createTextEditorNode();
    }
 
-
-   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      return createTextEditorNode(scyWindow);
-   }
-
-	function createTextEditorNode(scyWindow:ScyWindow):ScyTextEditorNode{
+	function createTextEditorNode():ScyTextEditorNode{
 //      Thread.sleep(5000);
-      setWindowProperties(scyWindow);
+//      setWindowProperties(scyWindow);
 		var textEditor = new TextEditor();
 		//whiteboardPanel.setPreferredSize(new Dimension(2000,2000));
 		return ScyTextEditorNode{
@@ -41,10 +34,10 @@ public class TextEditorScyToolContentCreator extends ScyToolWindowContentCreator
 		}
 	}
 
-   function setWindowProperties(scyWindow:ScyWindow){
-      scyWindow.minimumWidth = 220;
-      scyWindow.minimumHeight = 100;
-   }
+//   function setWindowProperties(scyWindow:ScyWindow){
+//      scyWindow.minimumWidth = 220;
+//      scyWindow.minimumHeight = 100;
+//   }
 
 
 }

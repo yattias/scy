@@ -43,14 +43,14 @@ public class ServicesInjector {
       }
    }
 
-   function injectServiceIfWanted(object:Object, serviceClass:Class,propertyName:String,service:Object){
+   public function injectServiceIfWanted(object:Object, serviceClass:Class,propertyName:String,service:Object){
       if (service!=null){
          injectServiceIfWantedJava(object, serviceClass,propertyName,service);
          injectServiceIfWantedFX(object, serviceClass,propertyName,service);
       }
    }
 
-   function injectServiceIfWantedJava(object:Object, serviceClass:Class,propertyName:String,service:Object){
+   public function injectServiceIfWantedJava(object:Object, serviceClass:Class,propertyName:String,service:Object){
       try{
          var setterName = "set{propertyName.substring(0, 1).toUpperCase()}{propertyName.substring(1)}";
          var setServiceMethod = object.getClass().getMethod(setterName, serviceClass);
@@ -63,7 +63,7 @@ public class ServicesInjector {
       }
    }
 
-   function injectServiceIfWantedFX(object:Object, serviceClass:Class,propertyName:String,service:Object){
+   public function injectServiceIfWantedFX(object:Object, serviceClass:Class,propertyName:String,service:Object){
       var context:FXLocal.Context=FXLocal.getContext();
       var objectValue:FXLocal.ObjectValue = new FXLocal.ObjectValue(object,context);
       var cls:FXClassType = objectValue.getClassType();
