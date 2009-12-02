@@ -66,13 +66,13 @@ public class Notificator extends SCYHubModule{
     private synchronized void processNotification(Tuple notificationTuple) {
         // "notification":String, <User>:String, <Receiver>:String, <Sender>:String, <Mission>:String, <Session>:String, <Key=Value>:String*)
         String uniqueID =(String) notificationTuple.getField(1).getValue();
-        String userName = (String) notificationTuple.getField(1).getValue();
-        String receiver = (String) notificationTuple.getField(2).getValue();
-        String sender = (String) notificationTuple.getField(3).getValue();
-        String mission = (String) notificationTuple.getField(4).getValue();
-        String session = (String) notificationTuple.getField(5).getValue();
+        String userName = (String) notificationTuple.getField(2).getValue();
+        String receiver = (String) notificationTuple.getField(3).getValue();
+        String sender = (String) notificationTuple.getField(4).getValue();
+        String mission = (String) notificationTuple.getField(5).getValue();
+        String session = (String) notificationTuple.getField(6).getValue();
         Map<String, String> props = new HashMap<String, String>();
-        for (int i = 6; i < notificationTuple.getNumberOfFields(); i++) {
+        for (int i = 7; i < notificationTuple.getNumberOfFields(); i++) {
             String keyValue = (String) notificationTuple.getField(i).getValue();
             int index = keyValue.indexOf('=');
             String key = keyValue.substring(0, index - 1);
