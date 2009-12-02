@@ -168,6 +168,18 @@ public class RepositoryWrapper implements IRepository
 		return metadata;
    }
 
+   @Override
+   public IMetadata addForkedELO(IELO elo, URI parentUri)
+   {
+		addGeneralMetadata(elo);
+		IMetadata metadata = repository.addForkedELO(elo,parentUri);
+		if (uriKey != null)
+		{
+			sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+		}
+		return metadata;
+   }
+
 	@Override
 	public IELO retrieveELO(URI arg0)
 	{
@@ -185,6 +197,18 @@ public class RepositoryWrapper implements IRepository
 	{
 		addGeneralMetadata(elo);
 		IMetadata metadata = repository.updateELO(elo);
+		if (uriKey != null)
+		{
+			sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+		}
+		return metadata;
+	}
+
+	@Override
+	public IMetadata updateELO(IELO elo, URI parentUri)
+	{
+		addGeneralMetadata(elo);
+		IMetadata metadata = repository.updateELO(elo, parentUri);
 		if (uriKey != null)
 		{
 			sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
