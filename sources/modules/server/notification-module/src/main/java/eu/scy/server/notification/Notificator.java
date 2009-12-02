@@ -11,7 +11,6 @@ import info.collide.sqlspaces.commons.Callback.Command;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
