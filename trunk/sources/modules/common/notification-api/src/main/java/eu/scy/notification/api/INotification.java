@@ -50,19 +50,19 @@ public interface INotification {
     public void setUniqueID(String uniqueId);
 
     /**
-     * Sets the receiver of this notification.
+     * Sets the receiving tool of this notification.
      * 
-     * @param receiver
-     *            either "scylab" or the name of a tool
+     * @param toolId
+     *            either "scylab" or the id of a tool
      */
-    public void setReceiver(String receiver);
+    public void setToolId(String toolI);
 
     /**
-     * Returns the receiver of this notification.
+     * Returns the toolId of the receiving tool of this notification.
      * 
      * @return either "scylab" or the name of a tool
      */
-    public String getReceiver();
+    public String getToolId();
 
     /**
      * Sets the sender of this notification. * @param sender the xmpp name of the sender
@@ -120,5 +120,19 @@ public interface INotification {
      * @return value of 'key'
      */
     public String getProperty(String key);
+    
+    /**
+     * Sets the userId, the actual XMPP receiver. Must be JID conform (Jabber ID).
+     * 
+     * @param userId 
+     */
+    public void setUserId(String userId);
+    
+    /**
+     * Returns the user id, the actual XMPP receiver, of this notification as a JID conform String.
+     *  
+     * @return the userId as String
+     */
+    public String getUserId();
 
 }
