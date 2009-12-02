@@ -46,8 +46,16 @@ public class ActionTupleTransformer {
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.tool)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.mission)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.session)));
-		actionAsTuple.add(new Field(actionAsPojo.getDataType()));
-		actionAsTuple.add(new Field(actionAsPojo.getData()));
+		if(actionAsPojo.getDataType()!=null) {
+			actionAsTuple.add(new Field(actionAsPojo.getDataType()));
+		} else {
+			actionAsTuple.add(new Field(String.class));
+		}
+		if(actionAsPojo.getData()!=null) {
+			actionAsTuple.add(new Field(actionAsPojo.getData()!=null));
+		} else {
+			actionAsTuple.add(new Field(String.class));
+		}
 
 		// creating the attribute list (key/value)
 		Set<Entry<String, String>> entrySet = actionAsPojo.getAttributes().entrySet();
