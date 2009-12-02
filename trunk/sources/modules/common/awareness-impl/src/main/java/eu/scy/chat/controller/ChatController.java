@@ -1,6 +1,7 @@
 package eu.scy.chat.controller;
 
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
@@ -51,16 +52,22 @@ public class ChatController {
 						.debug("ChatController: populateBuddyList: num of buddies: "
 								+ buddies.size());
 				for (IAwarenessUser b : buddies) {
+					b.setUsername(correctName(b.getUsername()));
 					buddyList.addElement(b);
 					logger
 							.debug("ChatController: populateBuddyList: buddy name: "
-									+ b.getName());
+									+ b.getUsername());
 				}
 			}
 		} else {
 			buddyList.addElement("no buddies");
 		}
 		logger.debug("ChatController: populateBuddyList: ####################### end ###########################");
+	}
+
+	private String correctName(String username) {
+		StringTokenizer st = new StringTokenizer(username, "/");
+		return st.nextToken();
 	}
 
 	public AbstractListModel getBuddyList() {
