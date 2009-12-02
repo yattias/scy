@@ -1,6 +1,7 @@
 package eu.scy.awareness.event;
 
 import java.util.EventObject;
+import java.util.StringTokenizer;
 
 
 
@@ -11,9 +12,14 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 
     public AwarenessEvent(Object source, String user, String message){
         super(source);
-        this.user = user;
+        this.user = correctName(user);
         this.message = message;
     }
+    
+    private String correctName(String username) {
+		StringTokenizer st = new StringTokenizer(username, "/");
+		return st.nextToken();
+	}
 
     @Override
     public String getMessage() {

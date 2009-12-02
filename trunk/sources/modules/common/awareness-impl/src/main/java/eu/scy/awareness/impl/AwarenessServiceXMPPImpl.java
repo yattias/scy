@@ -45,6 +45,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
 	private Roster roster;
 	protected Vector<Object> externalUsers = new Vector<Object>();
+	protected Boolean hasAnswered = false;
 
 
 	public AwarenessServiceXMPPImpl() {
@@ -80,6 +81,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				if (al != null) {
 					IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
 					al.handleAwarenessMessageEvent(awarenessEvent);
+					hasAnswered = true;
 				}
 			}
 		}
@@ -255,10 +257,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 						if (message.getType() == Message.Type.chat) {
 							String correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
 							for (IAwarenessMessageListener al : messageListeners) {
-								if ((al != null) && (message.getBody() != null) && !externalUsers.contains(correctUserName)) {
+								if ((al != null) && (message.getBody() != null) && !hasAnswered) {
 									IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
 									al.handleAwarenessMessageEvent(awarenessEvent);
-									externalUsers.add(correctUserName);
+									if(!externalUsers.contains(correctUserName)) {
+										externalUsers.add(correctUserName);										
+									}
 								}
 							}
 						}
