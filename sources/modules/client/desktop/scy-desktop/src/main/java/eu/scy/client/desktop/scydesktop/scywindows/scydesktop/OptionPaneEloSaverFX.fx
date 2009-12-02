@@ -18,24 +18,35 @@ import roolo.elo.api.IELO;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
+import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+
+import roolo.elo.api.IMetadata;
+
 /**
  * @author sikken
  */
 
 public class OptionPaneEloSaverFX extends EloSaver {
 
+   public var newTitleGenerator: NewTitleGenerator;
    public var myEloChanged: MyEloChanged;
    public var repository: IRepository;
    public var eloFactory: IELOFactory;
    public var titleKey: IMetadataKey;
+   public var technicalFormatKey: IMetadataKey;
    public var window:ScyWindow;
 
-   public override function saveElo(elo: IELO, myElo:Boolean):IELO{
+   public override function eloSaveAs(elo: IELO):IELO{
+      var forking = elo.getUri()!=null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
-      if (currentEloTitle==null){
-         currentEloTitle = window.title;
+      var suggestedEloTitle = currentEloTitle;
+      if (suggestedEloTitle==null){
+         suggestedEloTitle = window.title;
       }
-      var newEloTitle = JOptionPane.showInputDialog("Enter title:", currentEloTitle);
+      if (forking){
+         suggestedEloTitle = "Fork of {suggestedEloTitle}";
+      }
+      var newEloTitle = JOptionPane.showInputDialog("Enter title:", suggestedEloTitle);
       if (StringUtils.hasText(newEloTitle)){
          elo.getMetadata().getMetadataValueContainer(titleKey).setValue(newEloTitle);
          if (elo.getUri() != null)
@@ -44,16 +55,13 @@ public class OptionPaneEloSaverFX extends EloSaver {
          }
          var newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
-         if (myElo)
-         {
-            myEloChanged.myEloChanged(elo);
-         }
+         myEloChanged.myEloChanged(elo);
          return elo;
       }
       return null;
    }
 
-   public override function updateElo(elo: IELO, myElo:Boolean):IELO{
+   public override function eloUpdate(elo: IELO):IELO{
       if (elo.getUri() != null) {
          var oldUri = elo.getUri();
          var newMetadata = repository.updateELO(elo);
@@ -62,8 +70,36 @@ public class OptionPaneEloSaverFX extends EloSaver {
          return elo;
       }
       else {
-         return saveElo(elo, myElo);
+         return eloSaveAs(elo);
       }
    }
+   public override function otherEloSaveAs(elo: IELO):IELO{
+      var forking = elo.getUri()!=null;
+      var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
+      var suggestedEloTitle = currentEloTitle;
+      if (suggestedEloTitle==null){
+         var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
+         suggestedEloTitle = newTitleGenerator.generateNewTitle(eloType);
+      }
+      if (forking){
+         suggestedEloTitle = "Fork of {suggestedEloTitle}";
+      }
+      var newEloTitle = JOptionPane.showInputDialog("Enter title:", suggestedEloTitle);
+      if (StringUtils.hasText(newEloTitle)){
+         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(newEloTitle);
+         var newMetadata:IMetadata;
+         if (forking){
+            newMetadata = repository.addForkedELO(elo);
+         }
+         else{
+            newMetadata = repository.addNewELO(elo);
+         }
+         eloFactory.updateELOWithResult(elo, newMetadata);
+         myEloChanged.myEloChanged(elo);
+         return elo;
+      }
+      return null;
+   }
+
 
 }

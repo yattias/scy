@@ -93,6 +93,10 @@ import org.apache.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 
+import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
+
 /**
  * @author sikkenj
  */
@@ -121,6 +125,7 @@ public class ScyDesktop extends CustomNode {
    var drawerContentFactory: DrawerContentFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl:ScyWindowControl;
+   public-read var newTitleGenerator:NewTitleGenerator;
    var missionMap: MissionMap;
 
    var topLeftCorner:Corner;
@@ -200,9 +205,11 @@ public class ScyDesktop extends CustomNode {
          activeAnchor: bind missionModelFX.activeAnchor;
       }
 
+      newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
          config:config;
+         newTitleGenerator:newTitleGenerator;
       }
       drawerContentFactory = DrawerContentFactory{
          drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;

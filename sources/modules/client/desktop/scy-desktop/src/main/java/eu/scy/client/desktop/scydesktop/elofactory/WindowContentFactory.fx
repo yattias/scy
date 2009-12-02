@@ -37,6 +37,8 @@ import javafx.ext.swing.SwingComponent;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
 
+import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+
 /**
  * @author sikkenj
  */
@@ -45,6 +47,7 @@ def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFac
 
 public class WindowContentFactory extends ContentFactory {
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+   public var newTitleGenerator: NewTitleGenerator;
 //   public var eloSaver:EloSaver;
 //   public var myEloChanged:MyEloChanged;
 
@@ -106,6 +109,7 @@ public class WindowContentFactory extends ContentFactory {
          var myEloChanged = SimpleMyEloChanged{
             window:scyWindow;
             titleKey:config.getTitleKey()
+            technicalFormatKey:config.getTechnicalFormatKey();
          }
 
          var optionPaneEloSaver = OptionPaneEloSaverFX{
@@ -114,6 +118,7 @@ public class WindowContentFactory extends ContentFactory {
             titleKey:config.getTitleKey()
             window:scyWindow;
             myEloChanged:myEloChanged;
+            newTitleGenerator:newTitleGenerator
          };
 
          scyWindow.scyTool.setEloSaver(optionPaneEloSaver);

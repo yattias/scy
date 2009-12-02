@@ -33,6 +33,8 @@ import roolo.api.search.ISearchResult;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
+import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+
 /**
  * @author sikkenj
  */
@@ -56,7 +58,7 @@ public class NewScyWindowTool extends CustomNode {
    }
 
 
-   var newWindowCounter = 0;
+//   var newWindowCounter = 0;
    var newButton:Button;
    var loadButton:Button;
 
@@ -87,7 +89,7 @@ public class NewScyWindowTool extends CustomNode {
       if (eloTypeName!=null){
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
-            var title = "new {eloTypeName} {++newWindowCounter}";
+            var title = scyDesktop.newTitleGenerator.generateNewTitle(eloType);
             var scyWindow = scyWindowControl.addOtherScyWindow(eloType);
             scyWindow.title = title;
          }

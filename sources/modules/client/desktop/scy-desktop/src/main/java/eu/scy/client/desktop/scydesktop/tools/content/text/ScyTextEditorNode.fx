@@ -126,14 +126,14 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
 
    function doSaveElo(){
       elo.getContent().setXmlString(textToEloContentXml(textEditor.getText()));
-      var savedElo = eloSaver.updateElo(getElo(),true);
+      var savedElo = eloSaver.eloUpdate(getElo());
       if (savedElo!=null){
          elo = savedElo;
       }
    }
 
    function doSaveAsElo(){
-      var savedElo = eloSaver.saveElo(getElo(),true);
+      var savedElo = eloSaver.eloSaveAs(getElo());
       if (savedElo!=null){
          elo = savedElo;
       }

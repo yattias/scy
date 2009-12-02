@@ -47,7 +47,7 @@ public class OptionPaneEloSaver implements EloSaver
    }
 
    @Override
-   public IELO saveElo(IELO elo, boolean myElo)
+   public IELO eloSaveAs(IELO elo)
    {
       String currentEloTitle = (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue();
       String newEloTitle = JOptionPane.showInputDialog("Enter title:", currentEloTitle);
@@ -60,32 +60,46 @@ public class OptionPaneEloSaver implements EloSaver
          }
          IMetadata newMetadata = repository.addNewELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
-         if (myElo)
-         {
-            myEloChanged.myEloChanged(elo);
-         }
+         myEloChanged.myEloChanged(elo);
          return elo;
       }
       return null;
    }
 
    @Override
-   public IELO updateElo(IELO elo, boolean myElo)
+   public IELO eloUpdate(IELO elo)
    {
       if (elo.getUri() != null)
       {
          URI oldUri = elo.getUri();
          IMetadata newMetadata = repository.updateELO(elo);
          eloFactory.updateELOWithResult(elo, newMetadata);
-         if (myElo)
-         {
             myEloChanged.myEloChanged(elo);
-         }
          return elo;
       }
       else
       {
-         return saveElo(elo, myElo);
+         return eloSaveAs(elo);
       }
    }
+
+   @Override
+   public IELO otherEloSaveAs(IELO elo)
+   {
+      String currentEloTitle = (String) elo.getMetadata().getMetadataValueContainer(titleKey).getValue();
+      String newEloTitle = JOptionPane.showInputDialog("Enter title:", currentEloTitle);
+      if (StringUtils.hasText(newEloTitle))
+      {
+         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(newEloTitle);
+         if (elo.getUri() != null)
+         {
+            eloFactory.detachELO(elo);
+         }
+         IMetadata newMetadata = repository.addNewELO(elo);
+         eloFactory.updateELOWithResult(elo, newMetadata);
+         return elo;
+      }
+      return null;
+   }
+
 }

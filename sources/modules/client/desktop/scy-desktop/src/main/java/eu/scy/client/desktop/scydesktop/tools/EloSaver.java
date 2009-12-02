@@ -13,7 +13,9 @@ import roolo.elo.api.IELO;
  */
 public interface EloSaver {
 
-   public IELO saveElo(IELO elo, boolean myElo);
+   public IELO eloSaveAs(IELO elo);
 
-   public IELO updateElo(IELO elo, boolean myElo);
+   public IELO eloUpdate(IELO elo);
+
+   public IELO otherEloSaveAs(IELO elo);
 }

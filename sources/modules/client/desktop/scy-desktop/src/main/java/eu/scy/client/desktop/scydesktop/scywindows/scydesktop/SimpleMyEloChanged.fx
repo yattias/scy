@@ -27,11 +27,14 @@ public class SimpleMyEloChanged extends MyEloChanged {
 
    public var window:ScyWindow;
    public var titleKey:IMetadataKey;
+   public var technicalFormatKey:IMetadataKey;
 
    public override function myEloChanged(elo: IELO):Void{
       window.eloUri = elo.getUri();
       var title = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       window.title = title;
+      var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
+      window.eloType = eloType;
       logger.info("set title and uri of window: {elo.getUri()}");
    }
 }
