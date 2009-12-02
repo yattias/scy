@@ -25,7 +25,8 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
 import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 
-import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorToolContentCreator;
+
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
 /**
  * @author sikkenj
@@ -76,7 +77,7 @@ scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(
 
 scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator{},scyFlyingSaucerId);
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorToolContentCreator{}, scyTextId);
+scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator{}, scyTextId);
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 var scyDesktop = scyDesktopCreator.createScyDesktop();
