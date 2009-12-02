@@ -63,6 +63,7 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server</artifactId>
+			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
@@ -111,6 +112,13 @@
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.12</version>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.14</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
