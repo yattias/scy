@@ -21,19 +21,12 @@ import roolo.elo.api.IMetadataTypeManager;
 // place your code here
 
 public class DummyScyToolWindowContentCreator extends ScyToolWindowContentCreatorFX {
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
+//   public var eloFactory:IELOFactory;
+//   public var metadataTypeManager: IMetadataTypeManager;
+//   public var repository:IRepository;
 
-   public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
+   public override function getScyToolWindowContent():Node{
       return DummyScyToolWindowContent{
       }
    }
-
-   public override function getScyWindowContentNew(scyWindow:ScyWindow):Node{
-      return DummyScyToolWindowContent{
-      }
-   }
-
-
 }
