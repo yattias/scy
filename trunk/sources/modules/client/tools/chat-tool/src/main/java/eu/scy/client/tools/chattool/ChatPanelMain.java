@@ -110,15 +110,20 @@ public class ChatPanelMain extends JPanel {
 		sendMessageTextField.setEnabled(true);
 		sendMessageTextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String oldText = chatArea.getText();
+				final String oldText = chatArea.getText();
+				updateModel();
 				
 //				if (buddyList.getSelectedValue() == null) {
 //					JOptionPane.showMessageDialog(null, "Please select a recipient before submitting the text ...");
 //				}
 //				else {
 //					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
-					chatController.sendMessage(model.elementAt(0), sendMessageTextField.getText());
-					chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						chatController.sendMessage(model.elementAt(0), sendMessageTextField.getText());
+						chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");
+					}
+				});
 //				}
 			}
 		});
@@ -200,6 +205,7 @@ public class ChatPanelMain extends JPanel {
 		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
 			@Override
 			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
+				//cmp.updateModel();
 				final String oldText = chatArea.getText();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
@@ -207,7 +213,7 @@ public class ChatPanelMain extends JPanel {
 					}
 				});
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
-				cmp.selectCorrectChatter(awarenessEvent.getUser());
+				//cmp.selectCorrectChatter(awarenessEvent.getUser());
 			}
 
 		});
@@ -216,8 +222,7 @@ public class ChatPanelMain extends JPanel {
 			
 			@Override
 			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
-				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);
-				
+				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);				
 				cmp.updateModel();
 			}
 		});
