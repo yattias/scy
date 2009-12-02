@@ -12,6 +12,7 @@ import org.xmpp.packet.Packet;
 
 import eu.scy.actionlogging.server.ActionProcessModule;
 import eu.scy.server.datasync.DataSyncModule;
+import eu.scy.server.notification.Notificator;
 
 /**
  * SCYHub is the central communicator, processes packets and routes them to the correct server side module
@@ -63,7 +64,7 @@ public class SCYHubComponent implements Component {
 				}
 			}
         } else {
-        	logger.debug("Not a message so we skipt it!");
+        	logger.debug("Not a message so we skip it!");
         }
     }
     
@@ -81,6 +82,7 @@ public class SCYHubComponent implements Component {
     	// modules are instantiated pojoily, can be springified 
     	modules.add(new DataSyncModule(this));
     	modules.add(new ActionProcessModule(this));
+    	modules.add(new Notificator(this));
     }
     
     
