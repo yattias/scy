@@ -17,7 +17,6 @@ import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 
 import eu.scy.common.configuration.Configuration;
-import eu.scy.common.packetextension.SCYPacketTransformer;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.notification.Notification;
 import eu.scy.notification.NotificationPacketTransformer;
@@ -26,8 +25,8 @@ import eu.scy.scyhub.SCYHubModule;
 
 public class Notificator extends SCYHubModule{
 
-    protected Notificator(Component scyhub, SCYPacketTransformer transformer) {
-		super(scyhub, transformer);
+    public Notificator(Component scyhub) {
+		super(scyhub, new NotificationPacketTransformer());
 		try {
 			init();
 		} catch (TupleSpaceException e) {
@@ -87,7 +86,8 @@ public class Notificator extends SCYHubModule{
         message.setTo(receiver);
         message.setFrom("scyhub.scy.collide.info");
         // Attach the extension
-        message.addExtension(new WhacketExtension(new NotificationPacketTransformer(notification)));
+        transformer.setObject(notification);
+        message.addExtension(new WhacketExtension(transformer));
         // Send the message to receiver
         send(message);        
     }
