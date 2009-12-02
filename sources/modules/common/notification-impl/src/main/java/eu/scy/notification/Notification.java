@@ -14,7 +14,9 @@ public class Notification implements INotification {
 
     private Map<String, String> properties;
 
-    private String receiver;
+    private String toolId;
+    
+    private String userId;
 
     private String sender;
 
@@ -34,10 +36,11 @@ public class Notification implements INotification {
      * 
      * @param xml
      */
-    public Notification(String uniqueId, String sender, String receiver, long timestamp, String mission, String session, Map<String, String> props) {
+    public Notification(String uniqueId, String userId, String sender, String toolId, long timestamp, String mission, String session, Map<String, String> props) {
         this.uniqueId = uniqueId;
+        this.userId = userId;
         this.sender = sender;
-        this.receiver = receiver;
+        this.toolId = toolId;
         this.timestamp = timestamp;
         this.mission = mission;
         this.session = session;
@@ -71,8 +74,8 @@ public class Notification implements INotification {
     }
 
     @Override
-    public String getReceiver() {
-        return receiver;
+    public String getToolId() {
+        return toolId;
     }
 
     @Override
@@ -86,8 +89,8 @@ public class Notification implements INotification {
     }
 
     @Override
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setToolId(String toolId) {
+        this.toolId = toolId;
     }
 
     @Override
@@ -129,5 +132,15 @@ public class Notification implements INotification {
     public void setSession(String sessionId) {
         this.session = sessionId;
     }
+
+	@Override
+	public String getUserId() {
+		return userId;
+	}
+
+	@Override
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 }

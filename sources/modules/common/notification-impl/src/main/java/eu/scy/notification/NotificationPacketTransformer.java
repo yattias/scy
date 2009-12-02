@@ -52,8 +52,8 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
             return pojo.getUniqueID();
 		} else if (path.equals(notificationPath + "@timemillis")) {
 			return Long.toString(pojo.getTimestamp());
-		} else if (path.equals(notificationPath + "@receiver")) {
-			return pojo.getReceiver();
+		} else if (path.equals(notificationPath + "@toolId")) {
+			return pojo.getToolId();
 		} else if (path.equals(notificationPath + "@sender")) {
 			return pojo.getSender();
 		} else if (path.equals(notificationPath + "@mission")) {
@@ -78,12 +78,12 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
         ArrayList<String> paths = new ArrayList<String>();
         paths.add(notificationPath + "@id");
         paths.add(notificationPath + "@timemillis");
-        paths.add(notificationPath + "@receiver");
+        paths.add(notificationPath + "@toolId");
         paths.add(notificationPath + "@sender");
         paths.add(notificationPath + "@mission");
         paths.add(notificationPath + "@session");
         for (String key : pojo.getProperties().keySet()) {
-            paths.add(notificationPath + key);
+            paths.add(propertiesPath + key);
         }
         return (String[]) paths.toArray(new String[paths.size()]);
 	}
@@ -97,8 +97,8 @@ public class NotificationPacketTransformer extends SCYPacketTransformer {
             pojo.setUniqueID(value);
 		} else if (path.equals(notificationPath + "@timemillis")) {
 			pojo.setTimestamp(Long.parseLong(value));
-		} else if (path.equals(notificationPath + "@receiver")) {
-			pojo.setReceiver(value);
+		} else if (path.equals(notificationPath + "@toolId")) {
+			pojo.setToolId(value);
 		} else if (path.equals(notificationPath + "@sender")) {
 			pojo.setSender(value);
 		} else if (path.equals(notificationPath + "@mission")) {
