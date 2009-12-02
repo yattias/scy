@@ -125,6 +125,19 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 		return metadata;
 	}
 
+	@Override
+	public IMetadata updateELO(IELO elo, URI parentUri) {
+		// TODO from Jakob: handle the parentUri parameter
+		processBefore(elo);
+
+		IMetadata metadata = repository.updateELO(elo, parentUri);
+
+		notifyAgents(elo);
+
+		processAfter(elo);
+		return metadata;
+	}
+
 	private void processAfter(IELO elo) {
 		System.out.println("starting after save processing");
 		for (IELOFilterAgent agent : afterQueue) {
@@ -194,6 +207,12 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 	public IMetadata addForkedELO(IELO elo) {
 		// TODO Need agents to run on this elo.
 		return repository.addForkedELO(elo);
+	}
+
+	@Override
+	public IMetadata addForkedELO(IELO elo, URI parentUri) {
+		// TODO Need agents to run on this elo.
+		return repository.addForkedELO(elo,parentUri);
 	}
 
 	@Override
