@@ -5,7 +5,7 @@
 		<version>9.8.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-  <groupId>eu.scy.server.notification</groupId>
+  <groupId>eu.scy.server</groupId>
   <artifactId>notification-module</artifactId>
   <version>9.8.0-SNAPSHOT</version>
   <name>The module to process Notifications</name>
