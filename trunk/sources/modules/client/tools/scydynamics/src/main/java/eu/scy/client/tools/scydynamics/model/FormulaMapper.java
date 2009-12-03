@@ -28,6 +28,7 @@ public class FormulaMapper {
 		operatorMap.put("/", "/");
 		operatorMap.put("uminus", "-.");
 		operatorMap.put("%", "mod");
+		operatorMap.put("^", "^");
 	}
 	
 	private void createFunctionMap() {
