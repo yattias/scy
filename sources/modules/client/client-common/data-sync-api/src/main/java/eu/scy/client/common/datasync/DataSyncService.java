@@ -36,11 +36,14 @@ public class DataSyncService implements IDataSyncService {
 
 	private SCYPacketTransformer transformer;
 
-	public DataSyncService(XMPPConnection xmppConnection) {
-		this.xmppConnection = xmppConnection;
+	public DataSyncService() {
 		
 		queue = new LinkedList<Packet>();
+	}
+	
+	public void init(XMPPConnection xmppConnection) {
 		
+		this.xmppConnection = xmppConnection;
 		transformer = new DataSyncMessagePacketTransformer();
 		
 		// add extenison provider
@@ -113,6 +116,7 @@ public class DataSyncService implements IDataSyncService {
 				newSession.addSyncListener(listener);
 				
 			} else if (message.getResponse().equals(Response.failure)) {
+				// TODO through exception
 				System.err.println("Failure during session creation");
 			}
 		} catch (InterruptedException e) {
