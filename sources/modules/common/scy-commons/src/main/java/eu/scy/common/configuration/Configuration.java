@@ -31,6 +31,7 @@ public class Configuration {
         }
 	}
 	
+	@Deprecated
 	public static Configuration getInstance() {
 		if (instance == null) {
 			instance = new Configuration();
