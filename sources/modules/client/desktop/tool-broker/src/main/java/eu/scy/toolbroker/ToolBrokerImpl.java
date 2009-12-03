@@ -16,13 +16,15 @@ import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.logger.ActionLogger;
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.notification.NotificationReceiver;
 import eu.scy.collaborationservice.ICollaborationService;
-import eu.scy.common.configuration.Configuration;
+import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -38,7 +40,7 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
     
-    private static final String beanConfigurationFile = "beansWithoutNotificationFreakinService.xml";//"beans.xml";
+    private static final String beanConfigurationFile = "beans.xml";
     
     private ApplicationContext context;
     
@@ -63,6 +65,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     private XMPPConnection xmppConnection;
 
     private PedagogicalPlanService pedagogicalPlanService;
+    
+    private NotificationReceiver notificationReceiver;
 
     private String userName;
 
@@ -76,23 +80,34 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     	
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
         
+        // RoOLO
         repository = (IRepository) context.getBean("repository");
         metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
-       
+        
+        // ActionLogger
         actionLogger = (IActionLogger) context.getBean("actionlogger");
-        // FIXME: init action logger with XMPP connection with fixed credentials!
-        //((ActionLogger) actionLogger).init(getConnection("obama", "obama"));
-        logger.debug("################################## no action logger");
+        ((ActionLogger) actionLogger).init(xmppConnection);
         
-        //notificationService = (INotificationService) context.getBean("notificationService");
-        
+        // SessionManager (Up-to-date?)
         sessionManager = (SessionManager) context.getBean("sessionManager");
+        
+        // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
+        
+        // CollaborationService (up-to-date?)
         collaborationService = (ICollaborationService) context.getBean("collaborationService");
-//        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-        dataSyncService = new DataSyncService(xmppConnection);
+        
+        // DataSyncService
+        dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
+        ((DataSyncService)dataSyncService).init(xmppConnection);
+        
+        // PedagogicalPlan
         pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
+        
+        // NotificationReceiver
+        notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
+        notificationReceiver.init(xmppConnection);
     }
     
     /**
@@ -204,7 +219,8 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
 	        //make it a jid
 	        //userName = userName + "@" + communicationProps.datasyncServerHost;
 	        
-	        config = new ConnectionConfiguration(Configuration.getInstance().getDatasyncServerHost(), Configuration.getInstance().getDatasyncServerPort());
+//	        config = new ConnectionConfiguration(Configuration.getInstance().getDatasyncServerHost(), Configuration.getInstance().getDatasyncServerPort());
+	        config = new ConnectionConfiguration("scy.collide.info", 5222);
 	        config.setCompressionEnabled(true);
 	        config.setReconnectionAllowed(true);
 	        this.xmppConnection = new XMPPConnection(config);
@@ -271,5 +287,10 @@ public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> 
     public PedagogicalPlanService getPedagogicalPlanService() {
         return pedagogicalPlanService;
     }
+
+	@Override
+	public void registerForNotifications(INotifiable notifiable) {
+		notificationReceiver.addNotifiable(notifiable);
+	}
 
 }
