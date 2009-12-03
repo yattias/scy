@@ -17,7 +17,6 @@ import eu.scy.client.desktop.scydesktop.utils.UriUtils;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
 import java.lang.IllegalStateException;
 
@@ -34,10 +33,15 @@ import java.io.PrintWriter;
 import javafx.ext.swing.SwingComponent;
 
 
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
 
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
+
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import java.lang.String;
+
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 
 /**
  * @author sikkenj
@@ -125,6 +129,8 @@ public class WindowContentFactory extends ContentFactory {
          scyWindow.scyTool.setEloSaver(optionPaneEloSaver);
          scyWindow.scyTool.setMyEloChanged(myEloChanged);
          scyWindow.scyTool.initialize();
+         // TODO handle the ScyTool stuff for the drawers
+         scyWindow.scyTool.postInitialize();
          if (eloUri!=null){
             scyWindow.scyTool.loadElo(eloUri);
          }
@@ -144,11 +150,22 @@ public class WindowContentFactory extends ContentFactory {
 
    function inspectContent(scyWindow:ScyWindow){
       var scyContent = scyWindow.scyContent;
-      if (scyContent instanceof ScyTool){
+      if (scyContent instanceof ScyToolGetterPresent){
+         var scyToolGetterPresent = scyWindow.scyContent as ScyToolGetterPresent;
+         scyWindow.scyTool = scyToolGetterPresent.getScyTool();
+         if (scyWindow.scyTool==null){
+            throw new IllegalStateException("getScyTool may not return null");
+         }
+      }
+      else if (scyContent instanceof ScyTool){
          scyWindow.scyTool = scyWindow.scyContent as ScyTool;
       }
       checkIfServicesInjected(scyContent);
       servicesInjector.injectServiceIfWanted(scyContent, scyWindow.getClass(), "scyWindow", scyWindow);
+      if (scyWindow.scyTool!=null){
+         checkIfServicesInjected(scyWindow.scyTool);
+         servicesInjector.injectServiceIfWanted(scyWindow.scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
+      }
    }
 
    function getErrorNode(e:Exception,eloUri:URI,id:String,type:String,windowContentCreator:WindowContentCreatorFX):Node{

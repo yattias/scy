@@ -18,6 +18,13 @@ public interface ScyTool
    public void initialize();
 
    /**
+    * this method is called after initialise is called on the content and all drawer tools.
+    *
+    * Currently the ScyTool interface is only available for the content tool.
+    */
+   public void postInitialize();
+
+   /**
     * this method is called to ask the tool to "create" a new (empty) elo.
     * 
     * Either this method is called or loadElo
@@ -52,9 +59,20 @@ public interface ScyTool
    public void onUnMinimized();
 
    /**
-    * this method is called after the ScyWindow is closed. This is still under investigation.
+    * this method is called after the ScyWindow is closed.
+    *
+    * This is still under investigation.
     */
    public void onClosed();
+
+   /**
+    * this method is called before the ScyWindow is closed. It gives the tool the option to save its content. The tool can block the close action, by returning false.
+    *
+    * This is still under investigation.
+    *
+    * @return true if the close can continue or false if the close should be aborted
+    */
+   public boolean aboutToClose();
 
    /**
     * supplies the tool with eloSaver object, which can be used to save/update elos.

@@ -433,7 +433,13 @@ public class StandardScyWindow extends ScyWindow {
 
 	}
 
-	function doClose(){
+	function doClose():Void{
+      if (scyTool!=null){
+         if (not scyTool.aboutToClose()){
+            // abort close action
+            return;
+         }
+      }
 		if (aboutToCloseAction != null){
 			if (not aboutToCloseAction(this)){
 				// close blocked
