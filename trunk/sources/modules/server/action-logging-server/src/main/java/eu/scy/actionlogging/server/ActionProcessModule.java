@@ -28,7 +28,7 @@ public class ActionProcessModule extends SCYHubModule {
         try {
 //        	TODO use the REAL conf
 //            ts = new TupleSpace(new User("Action Logging Module"), Configuration.getInstance().getSqlSpacesServerHost(), Configuration.getInstance().getSqlSpacesServerPort(), "actions");
-            ts = new TupleSpace(new User("Action Logging Module"), "localhost", 2525, "actions");
+            ts = new TupleSpace(new User("Action Logging Module"), "134.91.34.217", 2525, "actionSpace");
             logger.debug("ActionProcessModule created!");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
@@ -50,6 +50,7 @@ public class ActionProcessModule extends SCYHubModule {
 	@Override
 	protected void process(Packet packet, WhacketExtension extension) {
 		Action action = (Action) extension.getPojo();
+		logger.debug("Received action for logging: " + action);
 		try {
 			writeAction(action);
 		} catch (TupleSpaceException e) {
