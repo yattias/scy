@@ -65,7 +65,8 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 cell.setFont(titleFont);
                 cell.setBackground(headerBackgroundColor);
                 setAlignmentX(CENTER_ALIGNMENT);
-                if(cell instanceof JLabel){
+                if(cell instanceof JLabel && value != null && (value instanceof String[]) && (((String[])value).length ==2) ){
+                //if(cell instanceof JLabel){
                     String text = ((String[])value)[0];
                     if (((String[])value)[1] != null && ((String[])value)[1].length() > 0)
                         text += " ("+((String[])value)[1]+")";
