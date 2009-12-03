@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
@@ -25,6 +26,8 @@ import eu.scy.scyhub.SCYHubModule;
 
 public class Notificator extends SCYHubModule{
 
+	private static final Logger logger = Logger.getLogger(Notificator.class);
+	
     public Notificator(Component scyhub) {
 		super(scyhub, new NotificationPacketTransformer());
 		try {
@@ -52,12 +55,15 @@ public class Notificator extends SCYHubModule{
         SessionCallback cb = new SessionCallback();
         Tuple tupleTemplate = new Tuple(NOTIFICATION, Field.createWildCardField());
         callbacks.add(commandSpace.eventRegister(Command.WRITE, tupleTemplate, cb, false));
+        
+        logger.debug("Notificator initialised on " + host + ":" + port);
     }
 
     class SessionCallback implements Callback {
 
         @Override
         public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
+        	logger.debug("Notificator received notification from tuplespace!");
             processNotification(afterTuple);
         }
 
