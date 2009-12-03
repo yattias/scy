@@ -36,7 +36,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * 
  * @author Giemza
  */
-public class ToolBrokerImpl<K extends IMetadataKey> implements ToolBrokerAPI<K> {
+public class ToolBrokerImpl implements ToolBrokerAPI {
     
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
     

@@ -4,7 +4,6 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
@@ -20,7 +19,7 @@ import eu.scy.sessionmanager.SessionManager;
  * 
  * @author Giemza
  */
-public interface ToolBrokerAPI<K extends IMetadataKey> {
+public interface ToolBrokerAPI {
     
     /**
      * This method returns the repository instance to be used by clients of the

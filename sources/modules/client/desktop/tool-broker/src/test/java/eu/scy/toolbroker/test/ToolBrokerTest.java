@@ -2,7 +2,6 @@ package eu.scy.toolbroker.test;
 
 import org.junit.BeforeClass;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 /**
@@ -13,14 +12,14 @@ import eu.scy.toolbroker.ToolBrokerImpl;
  */
 public class ToolBrokerTest {
     
-    private static ToolBrokerImpl<IMetadataKey> toolBroker;
+    private static ToolBrokerImpl toolBroker;
     
     /**
      * @throws java.lang.Exception
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        toolBroker = new ToolBrokerImpl<IMetadataKey>("obama", "obama");
+        toolBroker = new ToolBrokerImpl("obama", "obama");
     }
 
     /**
