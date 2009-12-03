@@ -29,6 +29,8 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
 import eu.scy.communications.message.ISyncMessage;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
 
@@ -42,6 +44,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     private static final long serialVersionUID = -7511012297227857853L;
     private final static Logger logger = Logger.getLogger(NutpadDataSyncTestClient.class.getName());
     private JTextArea editArea;
+    private ActionLogger actionLogger;
     private Action openCSAction = new CreateSession();
     private Action joinCSAction = new JoinSession();
 //    private Action clearEditAreaAction = new ClearEditAreaAction();
@@ -58,7 +61,6 @@ public class NutpadDataSyncTestClient extends JFrame{
     private ArrayList<ISyncMessage> syncMessages;
     private String currentSession;
     
-    private IActionLogger actionLogger;
     
     private ISyncSession syncSession;
     
@@ -134,6 +136,14 @@ public class NutpadDataSyncTestClient extends JFrame{
         ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD);
         dataSyncService = tbi.getDataSyncService();
         
+        tbi.registerForNotifications(new INotifiable() {
+		
+			@Override
+			public void processNotification(INotification notification) {
+				JOptionPane.showMessageDialog(NutpadDataSyncTestClient.this, notification.getProperty("message"), "Notification from " + notification.getSender(), JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+        
 //        dataSyncService.addDataSyncListener( new IDataSyncListener() {
 //
 //            @Override
@@ -158,7 +168,7 @@ public class NutpadDataSyncTestClient extends JFrame{
         
         
         //action logging test
-        //actionLogger = tbi.getActionLogger();
+        actionLogger = (ActionLogger) tbi.getActionLogger();
         // TODO: this should be done inside the TBI
         //((ActionLogger)actionLogger).init(tbi.getConnection(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD));
     }
@@ -229,19 +239,18 @@ public class NutpadDataSyncTestClient extends JFrame{
 					JOptionPane.showMessageDialog(NutpadDataSyncTestClient.this.rootPane.getParent(), "Could not create session!", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					editArea.append("Session \"" + syncSession.getId() + "\" created!\n");
+					eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+					action.setType("create_nutpad_session");
+					action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+					action.addContext(ContextConstants.mission, "CO2-House");
+					action.addContext(ContextConstants.session, syncSession.getId());
+					action.addAttribute("sessionname", syncSession.getId());
+					
+					actionLogger.log(action);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
-            
-//            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
-//            action.setUser(HARD_CODED_USER_NAME);
-//            action.setType("create_nutpad_session");
-//            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
-//            action.addAttribute("sessionname", "Nutpad Session");
-//            
-//            actionLogger.log(HARD_CODED_USER_NAME, HARD_CODED_TOOL_NAME, action);
         }
     }
     
@@ -255,6 +264,14 @@ public class NutpadDataSyncTestClient extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			syncSession = dataSyncService.joinSession("datasync@syncsessions.scy.collide.info", listener);
 			editArea.append("Session \"" + syncSession.getId() + "\" joined!\n");
+			
+			eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("join_nutpad_session");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addAttribute("sessionname", syncSession.getId());
+            
+            actionLogger.log(action);
 		}
     	
     }
@@ -271,6 +288,15 @@ public class NutpadDataSyncTestClient extends JFrame{
         public void actionPerformed(ActionEvent e) {
             // clear textarea
             editArea.setText("");
+            
+            eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("clear edit area");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, "CO2-House");
+			action.addContext(ContextConstants.session, syncSession.getId());
+            
+            actionLogger.log(action);
         }
     }
     
@@ -323,6 +349,19 @@ public class NutpadDataSyncTestClient extends JFrame{
         }
         
         public void actionPerformed(ActionEvent e) {
+        	eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("exit_nutpad_session");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, "CO2-House");
+            if(syncSession != null) {
+            	action.addContext(ContextConstants.session, syncSession.getId());
+            } else {
+				action.addContext(ContextConstants.session, "nosession");
+            }
+            
+            actionLogger.log(action);
+            
             System.exit(0);
         }
     }
@@ -368,6 +407,16 @@ public class NutpadDataSyncTestClient extends JFrame{
 			editArea.append("SyncObject locally created: " + syncObject + "\n");
 			changeSyncObjectAction.setEnabled(true);
     		removeSyncObjectAction.setEnabled(true);
+    		
+    		eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("create object");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, "CO2-House");
+			action.addContext(ContextConstants.session, syncSession.getId());
+            action.addAttribute("sessionname", syncSession.getId());
+            
+            actionLogger.log(action);
 		}
     	
     }
@@ -383,6 +432,16 @@ public class NutpadDataSyncTestClient extends JFrame{
     		syncObject.setProperty("random", Double.toString(Math.random()));
     		syncSession.changeSyncObject(syncObject);
     		editArea.append("SyncObject locally changed: " + syncObject + "\n");
+    		
+    		eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("change object");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, "CO2-House");
+			action.addContext(ContextConstants.session, syncSession.getId());
+            action.addAttribute("sessionname", syncSession.getId());
+            
+            actionLogger.log(action);
     	}
     	
     }
@@ -399,6 +458,16 @@ public class NutpadDataSyncTestClient extends JFrame{
     		editArea.append("SyncObject locally deleted: " + syncObject + "\n");
     		changeSyncObjectAction.setEnabled(false);
     		removeSyncObjectAction.setEnabled(false);
+    		
+    		eu.scy.actionlogging.Action action = new eu.scy.actionlogging.Action();
+            action.setUser(HARD_CODED_USER_NAME);
+            action.setType("remove object");
+            action.addContext(ContextConstants.tool, HARD_CODED_TOOL_NAME);
+            action.addContext(ContextConstants.mission, "CO2-House");
+			action.addContext(ContextConstants.session, syncSession.getId());
+            action.addAttribute("sessionname", syncSession.getId());
+            
+            actionLogger.log(action);
     	}
     	
     }
