@@ -45,7 +45,7 @@ public class StandardScyWindow extends ScyWindow {
 	public override var backgroundColor = color.WHITE;
 	public override var width = 150 on replace{
 		if (not isAnimating){
-			width = Math.max(width,minimumWidth);
+			width = Math.max(width,getMinimumWidth());
 		}
    };
 
@@ -55,12 +55,20 @@ public class StandardScyWindow extends ScyWindow {
 				height = closedHeight;
 			}
 			else {
-				height = Math.max(height, minimumHeight);
+				height = Math.max(height, getMinimumHeight());
 			}
 		}
    };
    public override var widthHeightProportion = -1.0;
-	public override var scyContent;
+	public override var scyContent on replace {
+      // chekc for minimum size
+      if (width<getMinimumWidth()){
+         width = getMinimumWidth();
+      }
+      if (height<getMinimumHeight()){
+         height = getMinimumHeight();
+      }
+   };
 	public override var scyTool;
 
 	public override var activated on replace {activeStateChanged()};
@@ -228,9 +236,27 @@ public class StandardScyWindow extends ScyWindow {
 	public override function openWindow(openWidth:Number,openHeight:Number){
 		checkScyContent();
 		isClosed = false;
-		width = openWidth;
-		height = openHeight;
+		width = Math.max(openWidth,getMinimumWidth());
+		height = Math.max(openHeight, getMinimumHeight());
 	}
+
+   function getMinimumWidth():Number{
+      var minWidth = minimumWidth;
+      if (scyContent instanceof Resizable){
+         var resizeableScyContent = scyContent as Resizable;
+         minWidth = Math.max(minWidth, resizeableScyContent.getMinWidth());
+      }
+      return minWidth;
+   }
+
+   function getMinimumHeight():Number{
+      var minHeight = minimumHeight;
+      if (scyContent instanceof Resizable){
+         var resizeableScyContent = scyContent as Resizable;
+         minHeight = Math.max(minHeight, resizeableScyContent.getMinHeight());
+      }
+      return minHeight;
+   }
 
    public override function setMinimize(state: Boolean):Void{
       if (isClosed){
