@@ -182,10 +182,10 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
    }
 
    public override function getMinHeight() : Number{
-      return 220;
+      return 100;
    }
 
    public override function getMinWidth() : Number{
-      return 100;
+      return 140;
    }
 }
