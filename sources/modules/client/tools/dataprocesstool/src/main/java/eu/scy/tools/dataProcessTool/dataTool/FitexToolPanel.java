@@ -169,6 +169,8 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public  ImageIcon getCopexImage(String img){
         return dataProcessToolPanel.getCopexImage(img);
     }
+
+    
     
     /* construction desktop*/
     private JDesktopPane getDesktopPanel(){
