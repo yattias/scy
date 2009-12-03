@@ -20,7 +20,7 @@ public class ContentFactory{
    public var config:Config;
 
    def servicesInjectedSet = new HashSet();
-   def servicesInjector = ServicesInjector{
+   protected def servicesInjector = ServicesInjector{
             config:config;
          }
 

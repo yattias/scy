@@ -148,6 +148,7 @@ public class WindowContentFactory extends ContentFactory {
          scyWindow.scyTool = scyWindow.scyContent as ScyTool;
       }
       checkIfServicesInjected(scyContent);
+      servicesInjector.injectServiceIfWanted(scyContent, scyWindow.getClass(), "scyWindow", scyWindow);
    }
 
    function getErrorNode(e:Exception,eloUri:URI,id:String,type:String,windowContentCreator:WindowContentCreatorFX):Node{
