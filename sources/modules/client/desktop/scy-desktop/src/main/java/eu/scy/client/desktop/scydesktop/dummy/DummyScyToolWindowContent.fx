@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
@@ -42,6 +43,7 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
    public override var height on replace {resizeContent()};
 
    public var repository:IRepository on replace {addMessage("repository set")};
+   public var scyWindow:ScyWindow on replace {addMessage("scyWindow set ({scyWindow.title})")};
 
    var uri = "?????";
    def textEditor = new TextEditor();
