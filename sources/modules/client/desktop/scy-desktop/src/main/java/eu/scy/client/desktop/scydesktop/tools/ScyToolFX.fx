@@ -20,6 +20,9 @@ public mixin class ScyToolFX extends ScyTool {
    public override function initialize():Void{
    }
 
+   public override function postInitialize():Void{
+   }
+
    public override function newElo():Void{
    }
 
@@ -39,6 +42,10 @@ public mixin class ScyToolFX extends ScyTool {
    }
 
    public override function onClosed():Void{
+   }
+
+   public override function aboutToClose():Boolean{
+      return true;
    }
 
    public override function setEloSaver(eloSaver:EloSaver):Void{

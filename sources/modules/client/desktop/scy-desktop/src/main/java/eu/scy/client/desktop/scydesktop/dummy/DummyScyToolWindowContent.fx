@@ -84,6 +84,10 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
       addMessage("initialize");
    }
 
+   public override function postInitialize():Void{
+      addMessage("postInitialize");
+   }
+
    public override function newElo():Void{
       addMessage("newElo");
       uri = "no yet set";
@@ -112,6 +116,11 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
 
    public override function onClosed():Void{
       addMessage("onClosed");
+   }
+
+   public override function aboutToClose():Boolean{
+      addMessage("aboutToClose");
+      return true;
    }
 
    public override function setEloSaver(eloSaver:EloSaver):Void{
