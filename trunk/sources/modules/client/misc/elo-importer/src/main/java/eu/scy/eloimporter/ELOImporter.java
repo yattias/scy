@@ -46,7 +46,7 @@ public class ELOImporter {
 	public ELOImporter() {
         String username = "";
         String password = "";
-		ToolBrokerAPI<IMetadataKey> toolBroker = new ToolBrokerImpl<IMetadataKey>(username, password);
+		ToolBrokerAPI toolBroker = new ToolBrokerImpl(username, password);
 		this.extensionManager = toolBroker.getExtensionManager();
 		this.typeManager = toolBroker.getMetaDataTypeManager();
 		this.repository = toolBroker.getRepository();
