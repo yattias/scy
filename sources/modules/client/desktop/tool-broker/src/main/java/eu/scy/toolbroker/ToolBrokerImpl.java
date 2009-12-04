@@ -13,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
-import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
@@ -23,7 +23,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.notification.NotificationReceiver;
-import eu.scy.collaborationservice.ICollaborationService;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.sessionmanager.SessionManager;
@@ -55,8 +55,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     private SessionManager sessionManager;
 
     private IAwarenessService awarenessService;
-
-    private ICollaborationService collaborationService;
 
     private IDataSyncService dataSyncService;
 
@@ -94,9 +92,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         
         // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
-        
-        // CollaborationService (up-to-date?)
-        collaborationService = (ICollaborationService) context.getBean("collaborationService");
         
         // DataSyncService
         dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
@@ -209,24 +204,23 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         return dataSyncService;
     }
 
-    @Override
-    public XMPPConnection getConnection(String userName, String password) {
+    private XMPPConnection getConnection(String userName, String password) {
     	if(xmppConnection == null) {
 	        
 	        this.userName = userName;
 	        this.password = password;
 	        
 	        //make it a jid
-	        //userName = userName + "@" + communicationProps.datasyncServerHost;
+	        if(!userName.contains("@")) {
+	        	userName = userName + "@" + Configuration.getInstance().getOpenFireHost();
+	        }
 	        
-//	        config = new ConnectionConfiguration(Configuration.getInstance().getDatasyncServerHost(), Configuration.getInstance().getDatasyncServerPort());
-	        config = new ConnectionConfiguration("scy.collide.info", 5222);
+	        config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
 	        config.setCompressionEnabled(true);
 	        config.setReconnectionAllowed(true);
 	        this.xmppConnection = new XMPPConnection(config);
 	        this.xmppConnection.DEBUG_ENABLED = true;
 	
-	        //xmpp.client.idle -1 in server to set no time
 	        try {            
 	            this.xmppConnection.connect();
 	            SmackConfiguration.setPacketReplyTimeout(100000);
@@ -291,6 +285,12 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	@Override
 	public void registerForNotifications(INotifiable notifiable) {
 		notificationReceiver.addNotifiable(notifiable);
+	}
+
+	@Override
+	public IELOFactory getELOFactory() {
+		//TODO implement method
+		return null;
 	}
 
 }
