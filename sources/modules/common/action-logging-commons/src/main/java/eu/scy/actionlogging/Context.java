@@ -3,6 +3,7 @@ package eu.scy.actionlogging;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IContext;
 
+
 public class Context implements IContext{
 	
 	public static final String PATH = "context";
