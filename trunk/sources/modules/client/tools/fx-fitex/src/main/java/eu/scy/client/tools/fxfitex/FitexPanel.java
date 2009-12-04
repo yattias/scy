@@ -5,42 +5,43 @@
 
 package eu.scy.client.tools.fxfitex;
 
+import java.awt.BorderLayout;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+
+import roolo.elo.JDomStringConversion;
+import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.actionlogging.logger.Action;
 import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.common.datasync.ISyncObject;
-import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel ;
-import eu.scy.tools.dataProcessTool.logger.FitexProperty;
-import eu.scy.tools.dataProcessTool.logger.FitexLog;
-import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.toolbroker.ToolBrokerImpl;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import roolo.elo.JDomStringConversion;
-import roolo.elo.api.IMetadataKey;
-import java.util.List;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import org.jdom.Element;
-import java.io.File;
-import java.util.Iterator;
-
-import javax.swing.JOptionPane;
-import org.jdom.JDOMException;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
+import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
+import eu.scy.tools.dataProcessTool.logger.FitexLog;
+import eu.scy.tools.dataProcessTool.logger.FitexProperty;
+import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 
 
 /**
@@ -58,7 +59,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
 
-    private ToolBrokerAPI<IMetadataKey> tbi;
+    private ToolBrokerAPI tbi;
     private ISyncSession session = null;
     // how can i get userName & password? + mission name
     private String username = "default_username";
@@ -108,7 +109,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 				public void connectionClosed() {}
 			});
 
-			datasync = new DataSyncService(conn);
+			datasync = new DataSyncService();
+			((DataSyncService)datasync).init(conn);
 
 		} catch (XMPPException e) {
 			e.printStackTrace();
@@ -232,15 +234,18 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     @Override
     public void logAction(String type, List<FitexProperty> attribute) {
         // action
-        Action action = new Action(type, username);
+        IAction action = new Action();
+        action.setType(type);
+        action.setUser(username);
 		action.addContext(ContextConstants.tool, FitexLog.toolName);
 		action.addContext(ContextConstants.mission, mission_name);
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
             FitexProperty property = p.next();
             if(property.getSubElement() == null)
                 action.addAttribute(property.getName(), property.getValue());
-            else
-                action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
+            //else 
+            	// TODO this is not supported anymore!
+                //action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
         }
         // log action
         if(actionLogger != null)
