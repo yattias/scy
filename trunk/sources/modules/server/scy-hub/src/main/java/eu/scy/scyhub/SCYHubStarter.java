@@ -25,7 +25,7 @@ public class SCYHubStarter {
         logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
         logger.info("CREATING SCY HUB OUTSIDE OF SPRING CONTEXT!");
         setScyHubComponent(scyHubComponent);
-        final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
+        final ExternalComponentManager manager = new ExternalComponentManager(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFireExternalComponentPort());
         initialize(manager);
     }
 
@@ -37,7 +37,7 @@ public class SCYHubStarter {
     }
 
     private void initialize(ExternalComponentManager manager) {
-        manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
+        manager.setSecretKey(Configuration.getInstance().getSCYHubName(), Configuration.getInstance().getOpenFireExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
         System.out.println("SETTING UP SCY HUB");
         try {
@@ -45,7 +45,7 @@ public class SCYHubStarter {
                 System.out.println("SCY HUB COMPOMENT IS NULL!");
             }
             if(manager != null) {
-            manager.addComponent(Configuration.getInstance().getDatasyncMessageHub(), getScyHubComponent());
+            manager.addComponent(Configuration.getInstance().getSCYHubName(), getScyHubComponent());
             } else {
                 System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
