@@ -7,11 +7,12 @@ import java.util.UUID;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IContext;
-import eu.scy.core.model.impl.ScyBaseObject;
 
-public class Action extends ScyBaseObject implements IAction {
+public class Action implements IAction {
 
     public static final String PATH = "action";
+    
+    private String id;
 
     /** Maybe we want to have a real user object!? */
     private String user;
@@ -28,10 +29,6 @@ public class Action extends ScyBaseObject implements IAction {
     /** Action context */
     private IContext context;
 
-    private String dataType;
-
-    private String data;
-
     private Map<String, String> attributes;
 
     public Action() {
@@ -39,7 +36,7 @@ public class Action extends ScyBaseObject implements IAction {
     }
     
     public Action(String uuid){
-        setId(uuid);
+        this.id = uuid;
         time = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601();
         timeInMillis=System.currentTimeMillis();
         attributes = new HashMap<String, String>();
@@ -47,7 +44,7 @@ public class Action extends ScyBaseObject implements IAction {
 
     @Override
     public String toString() {
-        return "Action [attributes=" + attributes + ", context=" + context + ", data=" + data + ", dataType=" + dataType + ", time=" + time + ", type=" + type + ", user=" + user + "]";
+        return "Action [attributes=" + attributes + ", context=" + context + ", time=" + time + ", type=" + type + ", user=" + user + "]";
     }
 
     @Override
@@ -155,8 +152,9 @@ public class Action extends ScyBaseObject implements IAction {
      * @return the dataType
      */
     @Override
+    @Deprecated
     public String getDataType() {
-        return dataType;
+        return attributes.get("datatype");
     }
 
     /**
@@ -164,16 +162,18 @@ public class Action extends ScyBaseObject implements IAction {
      *            the dataType to set
      */
     @Override
+    @Deprecated
     public void setDataType(String dataType) {
-        this.dataType = dataType;
+        attributes.put("datatype", dataType);
     }
 
     /**
      * @return the data
      */
     @Override
+    @Deprecated
     public String getData() {
-        return data;
+        return attributes.get("data");
     }
 
     /**
@@ -181,8 +181,9 @@ public class Action extends ScyBaseObject implements IAction {
      *            the data to set
      */
     @Override
+    @Deprecated
     public void setData(String data) {
-        this.data = data;
+    	attributes.put("data", data);
     }
 
     /**
@@ -192,5 +193,14 @@ public class Action extends ScyBaseObject implements IAction {
     public Map<String, String> getAttributes() {
         return attributes;
     }
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }
