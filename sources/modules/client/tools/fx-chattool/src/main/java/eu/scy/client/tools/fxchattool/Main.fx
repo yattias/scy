@@ -38,7 +38,7 @@ var awarenessService:IAwarenessService = tbi.getAwarenessService();
 awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{iAwarenessService:awarenessService;}, scychatId);
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX{}, scychatpresenceId);
+scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX{iAwarenessService:awarenessService;}, scychatpresenceId);
 //scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
 
 

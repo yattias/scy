@@ -39,7 +39,7 @@ public class ChatPresenceToolNode extends CustomNode {
             return;
         }
 
-        scyWindow.title = "Chat: {eloChatActionWrapper.getDocName()}";
+        //scyWindow.title = "Chat: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
@@ -54,13 +54,9 @@ public class ChatPresenceToolNode extends CustomNode {
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(chatPresenceTool);
      return Group {
-         blocksMouse:true;
+         blocksMouse:false;
          content:
-
             wrappedSPTPanel;
-
-
-
       };
    }
 }
