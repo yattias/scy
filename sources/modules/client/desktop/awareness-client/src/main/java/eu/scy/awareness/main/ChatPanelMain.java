@@ -73,10 +73,11 @@ public class ChatPanelMain extends JPanel {
 //        }
 //        
         
+       username = "obama";
+       password = "obama";
         
        ToolBrokerImpl tbi = new ToolBrokerImpl(username, password);
        awarenessService = tbi.getAwarenessService();
-       awarenessService.init(tbi.getConnection("obama", "obama"));
         
         chatController = new ChatController(awarenessService);
         chatController.populateBuddyList();
