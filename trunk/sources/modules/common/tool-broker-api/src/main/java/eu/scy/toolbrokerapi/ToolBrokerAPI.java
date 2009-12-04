@@ -4,6 +4,7 @@ import org.jivesoftware.smack.XMPPConnection;
 
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
+import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
@@ -38,6 +39,8 @@ public interface ToolBrokerAPI {
      * @return the extensionManager
      */
     public IExtensionManager getExtensionManager();
+    
+    public IELOFactory getELOFactory();
 
     /**
      * The session manager for handling user authentication and authorisation
@@ -66,13 +69,6 @@ public interface ToolBrokerAPI {
      * @return the data sync service
      */
     public IDataSyncService getDataSyncService();
-    
-    /**
-     * returns an xmpp connection
-     * 
-     * @return
-     */
-    public XMPPConnection getConnection(String username, String password);
 
     /**
      *
