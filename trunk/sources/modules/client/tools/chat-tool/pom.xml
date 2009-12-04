@@ -32,11 +32,23 @@
 		</dependency>
 
 		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>awareness-impl</artifactId>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+				<groupId>eu.scy.common</groupId>
+				<artifactId>awareness-impl</artifactId>
+				<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>tool-broker</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
-		
+<!--		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>awareness-api</artifactId>
@@ -55,23 +67,19 @@
 			<version>${pom.version}</version>
 		</dependency>
 		
+		
+		
 		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>tool-broker</artifactId>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>configuration</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swingx</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>scy-desktop</artifactId>
+			<groupId>eu.scy</groupId>
+			<artifactId>awareness</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
+		</dependency> -->
 		
 	</dependencies>
 

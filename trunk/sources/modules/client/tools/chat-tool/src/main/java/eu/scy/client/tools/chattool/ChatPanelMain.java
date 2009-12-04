@@ -37,7 +37,6 @@ import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.toolbroker.ToolBrokerImpl;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author jeremyt
@@ -215,7 +214,6 @@ public class ChatPanelMain extends JPanel {
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
 				//cmp.selectCorrectChatter(awarenessEvent.getUser());
 			}
-
 		});
 		
 		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
