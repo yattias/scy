@@ -16,6 +16,7 @@ import sqv.data.DataServer;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
@@ -62,14 +63,15 @@ public class ScySimLogger implements ActionListener, IDataClient {
 
     private static int COUNT = 0;
 
-    public ScySimLogger(DataServer dataServer) {
+    public ScySimLogger(DataServer dataServer, IActionLogger logger) {
         COUNT++;
         this.dataServer = dataServer;
         xmlOutputter = new XMLOutputter();
         // TODO: these properties have to be fetched from the SCY environment
-        username = System.getProperty("user.name")+" No: "+ COUNT;
+        // username = System.getProperty("user.name")+" No: "+ COUNT;
+        username = "astrid";
         missionname = "mission 1";
-        toolname = "scysimulator" +"No: "+ COUNT;
+        toolname = "scysimulator" + "No: " + COUNT;
         sessionname = "testsession";
         DataAgent dataAgent = new BasicDataAgent(this, dataServer);
         // find input variables
@@ -109,8 +111,9 @@ public class ScySimLogger implements ActionListener, IDataClient {
         outputVariableTimer.setRepeats(false);
         // TODO that's the way!
         // ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>();
-        //actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
-       actionLogger = new DevNullActionLogger();
+       // actionLogger = new SQLSpacesActionLogger("localhost", 2525, "actionSpace");
+        actionLogger = logger;
+        // actionLogger = new DevNullActionLogger();
     }
 
     private ArrayList<ModelVariable> getVariables(int mv) {
@@ -252,10 +255,12 @@ public class ScySimLogger implements ActionListener, IDataClient {
         IAction focusLost = createBasicAction("focus lost");
         write(focusLost);
     }
-    public String getToolName(){
+
+    public String getToolName() {
         return toolname;
     }
-    public String getUserName(){
+
+    public String getUserName() {
         return username;
     }
 
