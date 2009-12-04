@@ -6,6 +6,7 @@ import org.jivesoftware.smack.packet.Message;
 import eu.scy.actionlogging.ActionPacketTransformer;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.commons.smack.SmacketExtension;
 
 public class ActionLogger /* extends ScyBaseDAOHibernate */implements
@@ -36,7 +37,7 @@ public class ActionLogger /* extends ScyBaseDAOHibernate */implements
 		Message packet = new Message();
 
 		packet.setFrom(connection.getUser());
-		packet.setTo("scyhub.scy.collide.info");
+		packet.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 
 		action.setUser(connection.getUser());
 		transformer.setObject(action);
