@@ -3,8 +3,7 @@ package eu.scy.actionlogging.api;
 import java.util.Map;
 
 
-public interface IAction
-{
+public interface IAction {
     
     /**
      * This interface describes how Actions should be logged.
@@ -54,12 +53,16 @@ public interface IAction
     
     public String getType();
     
+    @Deprecated
     public void setDataType(String dataType);
     
+    @Deprecated
     public String getDataType();
     
+    @Deprecated
     public void setData(String data);
     
+    @Deprecated
     public String getData();
     
 }

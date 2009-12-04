@@ -18,11 +18,6 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>packet-transformer</artifactId>
-			<version>9.8.0-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 </project>
