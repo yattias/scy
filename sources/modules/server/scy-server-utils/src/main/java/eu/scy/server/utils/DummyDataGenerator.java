@@ -95,15 +95,16 @@ public class DummyDataGenerator implements InitializingBean {
         return activity;
     }
 
-    private LearningActivitySpaceToolConfigurationImpl addToolToActivity(Activity activity, String toolName, String toolDescription) {
-        LearningActivitySpaceToolConfigurationImpl configuration = new SCYMapperConfiguration();
-        Tool scyPlanner = new ToolImpl();
-        scyPlanner.setName(toolName);
-        scyPlanner.setDescription(toolDescription);
-        configuration.setTool(scyPlanner);
-        activity.addLearningActivitySpaceToolConfiguration(configuration);
-        return configuration;
-    }
+    // TODO check this because it did not compile
+//    private LearningActivitySpaceToolConfigurationImpl addToolToActivity(Activity activity, String toolName, String toolDescription) {
+//        LearningActivitySpaceToolConfigurationImpl configuration = new SCYMapperConfiguration();
+//        Tool scyPlanner = new ToolImpl();
+//        scyPlanner.setName(toolName);
+//        scyPlanner.setDescription(toolDescription);
+//        configuration.setTool(scyPlanner);
+//        activity.addLearningActivitySpaceToolConfiguration(configuration);
+//        return configuration;
+//    }
 
     private AnchorELO createAnchorELO(String name) {
         AnchorELO elo = new AnchorELOImpl();
