@@ -14,6 +14,8 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+import eu.scy.toolbroker.ToolBrokerImpl;
+
 import sqv.SimQuestViewer;
 
 public class SCYSimulatorStandaloneApplet extends JApplet {
@@ -24,12 +26,15 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 	private static final long serialVersionUID = -6054788019795975680L;
 	private SimQuestViewer sqv;
 	private DataCollector dataCollector;
+	private ToolBrokerImpl tbi;
 
 	public void init() {	
 		JPanel simquestPanel = new JPanel();
 		createSimQuestViewer();
 		sqv.setContainer(simquestPanel);
 		dataCollector = null;
+	        //TODO remove hardcoded username/pass
+		tbi = new ToolBrokerImpl("scysim", "scysim");
 
 		try {
 			sqv.run();
@@ -40,7 +45,7 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 			simquestPanel.add(sqv.getInterfacePanel(),
 					BorderLayout.CENTER);
 
-			dataCollector = new DataCollector(sqv);
+			dataCollector = new DataCollector(sqv, tbi);
 			simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 			simquestPanel.add(new StandAloneMenu(dataCollector), BorderLayout.NORTH);
 
