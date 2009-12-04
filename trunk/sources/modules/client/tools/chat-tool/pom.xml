@@ -47,40 +47,7 @@
 			<groupId>eu.scy.client.desktop</groupId>
 			<artifactId>tool-broker</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
-<!--		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>awareness-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-commons</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>scy-model-impl</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-		
-		
-		
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>configuration</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>eu.scy</groupId>
-			<artifactId>awareness</artifactId>
-			<version>${pom.version}</version>
-		</dependency> -->
-		
+		</dependency>		
 	</dependencies>
 
 </project>
