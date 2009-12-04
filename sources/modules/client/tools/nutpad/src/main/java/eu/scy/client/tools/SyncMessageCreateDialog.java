@@ -42,7 +42,8 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         this.toolId.setText(toolId);
         this.from.setText(userName);
         this.event.setText(event);
-        this.expiration.setText(String.valueOf(Configuration.getInstance().getDatasyncMessageDefaultExpiration()));
+        //this.expiration.setText(String.valueOf(Configuration.getInstance().getDatasyncMessageDefaultExpiration()));
+        this.expiration.setText("3600");
         initialize();
     }
     
