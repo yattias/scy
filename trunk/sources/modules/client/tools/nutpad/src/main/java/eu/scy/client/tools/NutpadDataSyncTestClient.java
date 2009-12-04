@@ -133,7 +133,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     public void initialize() {    
         // init the collaboration service
         // add listner in order to get callbacks on stuff that's happening
-        ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD);
+        ToolBrokerImpl tbi = new ToolBrokerImpl(HARD_CODED_USER_NAME, HARD_CODED_PASSWORD);
         dataSyncService = tbi.getDataSyncService();
         
         tbi.registerForNotifications(new INotifiable() {
