@@ -59,14 +59,14 @@
 				<serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
 				<serverfilter.db.host>localhost</serverfilter.db.host>
 
-				<client.servername>scy.collide.info</client.servername>
+				<client.servername>scy.intermedia.uio.no</client.servername>
 				<client.httpPort>8080</client.httpPort>
 				<client.contextPath>/scy-useradmin-web</client.contextPath>
 
 				<sqlspaces.server.host>scy.collide.info</sqlspaces.server.host>
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
-				<openfire.host>localhost</openfire.host>
+				<openfire.host>scy.intermedia.uio.no</openfire.host>
 				<openfire.client.port>5222</openfire.client.port>
 				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
 				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
