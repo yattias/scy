@@ -7,7 +7,7 @@ package eu.scy.client.tools.fxcopex;
 
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.actionlogging.logger.Action;
+import eu.scy.actionlogging.Action;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.tools.copex.common.LearnerProcedure;
@@ -79,15 +79,19 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     @Override
     public void logAction(String type, List<CopexProperty> attribute) {
         // action
-        Action action = new Action(type, username);
+        Action action = new Action();
+        action.setUser(username);
+        action.setType(type);
 		action.addContext(ContextConstants.tool, CopexLog.toolName);
 		action.addContext(ContextConstants.mission, mission_name);
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){
             CopexProperty property = p.next();
-            if(property.getSubElement() == null)
+            if(property.getSubElement() == null) {
                 action.addAttribute(property.getName(), property.getValue());
-            else
-                action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
+            } else {
+                action.addAttribute(property.getName(), property.getValue());
+                action.addAttribute(property.getName()+"_sub", property.getSubElement().getValue());
+            }
         }
         // log action
 //        if(actionLogger != null)
