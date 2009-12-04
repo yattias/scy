@@ -12,6 +12,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.SyncAction;
 
 /**
@@ -34,14 +35,11 @@ public class DataSyncSessionLogger {
 
 	public void connect(XMPPConnection connection) throws Exception {
 		MultiUserChat muc = new MultiUserChat(connection, id);
-//		muc.create("datasynclistener");
 		muc.create(id);
 		Form form = new Form(Form.TYPE_SUBMIT);
 		muc.sendConfigurationForm(form);
 	
-		// local
-//		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), "scy.collide.info", 2525, id);
-		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), "localhost", 2525, id);
+		loggingSpace = new TupleSpace(new User("SyncSessionLogger@" + id), Configuration.getInstance().getSQLSpacesServerHost(), Configuration.getInstance().getSQLSpacesServerPort(), id);
 	}
 	
 	public void log(SyncAction action) {
