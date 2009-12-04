@@ -74,7 +74,7 @@ public class ChatPanelMain extends JPanel {
 //        
         
         
-       ToolBrokerImpl<IMetadataKey> tbi = new ToolBrokerImpl<IMetadataKey>(username, password);
+       ToolBrokerImpl tbi = new ToolBrokerImpl(username, password);
        awarenessService = tbi.getAwarenessService();
        awarenessService.init(tbi.getConnection("obama", "obama"));
         
