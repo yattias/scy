@@ -92,6 +92,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         
         // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
+        awarenessService.init(xmppConnection);
         
         // DataSyncService
         dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
