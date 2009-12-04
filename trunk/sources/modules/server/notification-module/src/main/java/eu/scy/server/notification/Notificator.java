@@ -46,9 +46,8 @@ public class Notificator extends SCYHubModule{
     private static final String NOTIFICATION = "notification";
 
     private void init() throws TupleSpaceException {
-//    	String host = Configuration.getInstance().getSqlSpacesServerHost();
-    	String host = "134.91.34.217";
-    	int port = Configuration.getInstance().getSqlSpacesServerPort();
+    	String host = Configuration.getInstance().getSQLSpacesServerHost();
+    	int port = Configuration.getInstance().getSQLSpacesServerPort();
     	
     	commandSpace = new TupleSpace(new User(Notificator.class.getName()), host, port, false, false, COMMAND_SPACE);
         callbacks = new ArrayList<Integer>();
