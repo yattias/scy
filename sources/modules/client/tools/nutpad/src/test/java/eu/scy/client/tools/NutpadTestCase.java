@@ -21,7 +21,7 @@ public class NutpadTestCase {
     private static final String HARD_CODED_PASSWORD = "merkel";
     
     private IDataSyncSession dataSyncSession;
-    private ToolBrokerImpl<IMetadataKey> tbi;
+    private ToolBrokerImpl tbi;
     private IDataSyncService dataSyncService;
     
     public NutpadTestCase() {        
