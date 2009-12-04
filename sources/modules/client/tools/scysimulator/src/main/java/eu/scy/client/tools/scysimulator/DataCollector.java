@@ -35,311 +35,301 @@ import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
- * This class collects datapoints from a SimQuest simulation and stores them as
- * an ELO.
+ * This class collects datapoints from a SimQuest simulation and stores them as an ELO.
  * 
  * @author Lars Bollen
  * 
  */
-public class DataCollector extends JPanel implements ActionListener,
-		IDataClient, WindowListener {
+public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener {
 
-	private static final long serialVersionUID = -2306183502112904729L;
-	private ISimQuestViewer simquestViewer;
-	private JTextArea text = new JTextArea(5, 20);
-	private SCYDataAgent dataAgent;
-	private List<ModelVariable> simulationVariables;
-	private List<ModelVariable> selectedVariables;
-	private JCheckBox checkbox;
-	private DataSet dataset;
-	private JToggleButton sandboxbutton;
-	private DatasetSandbox sandbox = null;
-	private BalanceSlider balanceSlider;
-	private ScySimLogger logger;
+    private static final long serialVersionUID = -2306183502112904729L;
 
-	public DataCollector(ISimQuestViewer simquestViewer) {
-		// initialize the logger
-		logger = new ScySimLogger(simquestViewer.getDataServer());
-		// initialize user interface
-		initGUI();
-		logger.toolStarted();
+    private ISimQuestViewer simquestViewer;
 
-		// setting some often-used variable
-		this.simquestViewer = simquestViewer;
-		simulationVariables = simquestViewer.getDataServer().getVariables(
-				"name is not relevant");
-		setSelectedVariables(simquestViewer.getDataServer().getVariables(
-				"name is not relevant"));
+    private JTextArea text = new JTextArea(5, 20);
 
-		// register agent
-		dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
-		dataAgent.add(simquestViewer.getDataServer().getVariables(
-				"name is not relevant"));
-		simquestViewer.getDataServer().register(dataAgent);
+    private SCYDataAgent dataAgent;
 
-		balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
+    private List<ModelVariable> simulationVariables;
 
-	}
+    private List<ModelVariable> selectedVariables;
 
-	private void initGUI() {
-		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder("SCY Dataset Collector"));
+    private JCheckBox checkbox;
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+    private DataSet dataset;
 
-		JButton button = new JButton("select relevant variables");
-		button.setActionCommand("configure");
-		button.addActionListener(this);
-		buttonPanel.add(button);
+    private JToggleButton sandboxbutton;
 
-		button = new JButton("add current datapoint");
-		button.setActionCommand("adddata");
-		button.addActionListener(this);
-		buttonPanel.add(button);
+    private DatasetSandbox sandbox = null;
 
-		sandboxbutton = new JToggleButton("sandbox");
-		sandboxbutton.setSelected(false);
-		sandboxbutton.setActionCommand("sandbox");
-		sandboxbutton.addActionListener(this);
-		buttonPanel.add(sandboxbutton);
+    private BalanceSlider balanceSlider;
 
-		checkbox = new JCheckBox("add datapoints continuosly");
-		checkbox.setSelected(false);
-		buttonPanel.add(checkbox);
+    private ScySimLogger logger;
 
-		this.add(buttonPanel, BorderLayout.NORTH);
+    private ToolBrokerAPI tbi;
 
-		JScrollPane pane = new JScrollPane(
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		pane.setViewportView(text);
-		this.add(pane, BorderLayout.CENTER);
-	}
+    public DataCollector(ISimQuestViewer simquestViewer,ToolBrokerAPI tbi ) {
+        // initialize the logger
+        this.tbi = tbi;
+        logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
+        // initialize user interface
+        initGUI();
+        logger.toolStarted();
 
-	public void setRotation(double angle) {
-		balanceSlider.setRotationAngle(angle);
-		// System.out.println("DataCollector.setRotation(): "+angle);
-	}
+        // setting some often-used variable
+        this.simquestViewer = simquestViewer;
+        simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
+        setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
 
-	public void addCurrentDatapoint() {
-		ModelVariable var;
-		List<String> values = new LinkedList<String>();
-		for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars
-				.hasNext();) {
-			var = vars.next();
-			values.add(var.getValueString());
-			text.append(var.getExternalName() + ":" + var.getValueString()
-					+ " / ");
-		}
-		text.append("\n");
-		DataSetRow newRow = new DataSetRow(values);
-		dataset.addRow(newRow);
-		logger.logAddRow(newRow);
-		if (sandboxbutton.isSelected()) {
-			sandbox.sendDataSetRow(newRow);
-		}
-	}
+        // register agent
+        dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
+        dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
+        simquestViewer.getDataServer().register(dataAgent);
 
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		if (evt.getActionCommand().equals("adddata")) {
-			addCurrentDatapoint();
-		} else if (evt.getActionCommand().equals("configure")) {
-			VariableSelectionDialog dialog = new VariableSelectionDialog(
-					simquestViewer.getMainFrame(), this);
-			dialog.setVisible(true);
-		} else if (evt.getActionCommand().equals("sandbox")) {
-			if (sandboxbutton.isSelected()) {
-				initSandbox();
-			} else {
-				sandbox.disconnect();
-				// sandbox.clear();
-				sandbox = null;
-				text.append("sandbox and session disconnected.\n");
-			}
-		}
-	}
+        balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
 
-	public void newELO() {
-		dataset.removeAll();
-		if (sandbox != null) {
-			initSandbox();
-		}
-		text.setText("");
-	}
+    }
 
-	public DataSet getDataSet() {
-		return dataset;
-	}
+    private void initGUI() {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder("SCY Dataset Collector"));
 
-	public SimConfig getSimConfig() {
-		return new SimConfig(this);
-	}
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-	public void setSimConfig(String xmlSimConfig) {
-		SimConfig config;
-		ModelVariable var;
-		try {
-			config = new SimConfig(xmlSimConfig);
-			if (config.getSimulationName().equals(
-					getSimQuestViewer().getApplication().getTopic(0).getName())) {
-				// for (Iterator<ModelVariable> variables =
-				// getSimulationVariables().iterator(); variables.hasNext();) {
-				// var = variables.next();
-				// // if the variable name cannot be found in the config, a
-				// nullpointerex. is thrown
-				// var.setValue(config.getVariables().get(var.getName()));
-				// }
+        JButton button = new JButton("select relevant variables");
+        button.setActionCommand("configure");
+        button.addActionListener(this);
+        buttonPanel.add(button);
 
-				for (Iterator<Entry<String, String>> it = config.getVariables()
-						.entrySet().iterator(); it.hasNext();) {
-					Entry<String, String> entry = it.next();
-					var = getVariableByName(entry.getKey());
-					if (var != null) {
-						var.setValue(entry.getValue());
-					}
+        button = new JButton("add current datapoint");
+        button.setActionCommand("adddata");
+        button.addActionListener(this);
+        buttonPanel.add(button);
 
-				}
-			} else {
-				// the simulation names doesn't match
-				JOptionPane
-						.showMessageDialog(
-								this,
-								"The name of the current simulation and the config doesn't match - nothing loaded.",
-								"Config file problem",
-								JOptionPane.WARNING_MESSAGE);
-			}
-		} catch (JDOMException ex) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Could not parse the SimConfig; the current simulation will not be changed.",
-							"Parsing problem", JOptionPane.WARNING_MESSAGE);
-		} catch (NullPointerException ex) {
-			JOptionPane
-					.showMessageDialog(
-							this,
-							"Could not update the Simulation with this Configuration. Do they really match?",
-							"Update problem", JOptionPane.WARNING_MESSAGE);
-		}
-		// trigger an update to all registered clients
-		simquestViewer.getDataServer().updateClients();
-	}
+        sandboxbutton = new JToggleButton("sandbox");
+        sandboxbutton.setSelected(false);
+        sandboxbutton.setActionCommand("sandbox");
+        sandboxbutton.addActionListener(this);
+        buttonPanel.add(sandboxbutton);
 
-	@Override
-	public void updateClient() {
-		if (checkbox.isSelected()) {
-			addCurrentDatapoint();
-		}
-	}
+        checkbox = new JCheckBox("add datapoints continuosly");
+        checkbox.setSelected(false);
+        buttonPanel.add(checkbox);
 
-	public List<ModelVariable> getSimulationVariables() {
-		return simulationVariables;
-	}
+        this.add(buttonPanel, BorderLayout.NORTH);
 
-	public List<ModelVariable> getSelectedVariables() {
-		return selectedVariables;
-	}
+        JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        pane.setViewportView(text);
+        this.add(pane, BorderLayout.CENTER);
+    }
 
-	public ISimQuestViewer getSimQuestViewer() {
-		return simquestViewer;
-	}
+    public void setRotation(double angle) {
+        balanceSlider.setRotationAngle(angle);
+        // System.out.println("DataCollector.setRotation(): "+angle);
+    }
 
-	public void cleanDataSet() {
-		ModelVariable var;
-		List<DataSetColumn> datasetvariables = new LinkedList<DataSetColumn>();
-		List<DataSetHeader> datasetheaders = new LinkedList<DataSetHeader>();
-		for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars
-				.hasNext();) {
-			var = vars.next();
-			datasetvariables.add(new DataSetColumn(var.getName(), var
-					.getExternalName(), "double"));
-		}
-		datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
-		dataset = new DataSet(datasetheaders);
-		if (sandbox != null) {
-			sandbox.clear();
-			sandbox.sendHeaderMessage();
-		}
-		if (text != null) {
-			text.setText("");
-		}
-	}
+    public void addCurrentDatapoint() {
+        ModelVariable var;
+        List<String> values = new LinkedList<String>();
+        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
+            var = vars.next();
+            values.add(var.getValueString());
+            text.append(var.getExternalName() + ":" + var.getValueString() + " / ");
+        }
+        text.append("\n");
+        DataSetRow newRow = new DataSetRow(values);
+        dataset.addRow(newRow);
+        logger.logAddRow(newRow);
+        if (sandboxbutton.isSelected()) {
+            sandbox.sendDataSetRow(newRow);
+        }
+    }
 
-	public void setSelectedVariables(List<ModelVariable> selection) {
-		selectedVariables = selection;
-		cleanDataSet();
-		logger.logSelectedVariables(selectedVariables);
-	}
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getActionCommand().equals("adddata")) {
+            addCurrentDatapoint();
+        } else if (evt.getActionCommand().equals("configure")) {
+            VariableSelectionDialog dialog = new VariableSelectionDialog(simquestViewer.getMainFrame(), this);
+            dialog.setVisible(true);
+        } else if (evt.getActionCommand().equals("sandbox")) {
+            if (sandboxbutton.isSelected()) {
+                initSandbox();
+            } else {
+                sandbox.disconnect();
+                // sandbox.clear();
+                sandbox = null;
+                text.append("sandbox and session disconnected.\n");
+            }
+        }
+    }
 
-	private ModelVariable getVariableByName(String name) {
-		ModelVariable modelVar = null;
-		List<ModelVariable> varList = getSimQuestViewer().getDataServer()
-				.getVariables("dummy");
-		for (Iterator<ModelVariable> it = varList.iterator(); it.hasNext();) {
-			ModelVariable var = it.next();
-			if (var.getName().equals(name)) {
-				modelVar = var;
-			}
-		}
-		return modelVar;
-	}
+    public void newELO() {
+        dataset.removeAll();
+        if (sandbox != null) {
+            initSandbox();
+        }
+        text.setText("");
+    }
 
-	private void initSandbox() {
-		try { // init the sandbox
-			sandbox = new DatasetSandbox(this);
-			text.append("sandbox initialised.\n");
-			ISyncSession session = sandbox.createSession();
-			text.append("session created: " + session.getId() + ".\n");
-		} catch (CollaborationServiceException ex) {
-			text.append("could not initialise sandbox.\n");
-			text.append(ex.getMessage() + "\n");
-			sandboxbutton.setSelected(false);
-		}
-	}
+    public DataSet getDataSet() {
+        return dataset;
+    }
 
-	@Override
-	public void windowActivated(WindowEvent e) {
-		logger.focusGained();
+    public SimConfig getSimConfig() {
+        return new SimConfig(this);
+    }
 
-	}
+    public void setSimConfig(String xmlSimConfig) {
+        SimConfig config;
+        ModelVariable var;
+        try {
+            config = new SimConfig(xmlSimConfig);
+            if (config.getSimulationName().equals(getSimQuestViewer().getApplication().getTopic(0).getName())) {
+                // for (Iterator<ModelVariable> variables =
+                // getSimulationVariables().iterator(); variables.hasNext();) {
+                // var = variables.next();
+                // // if the variable name cannot be found in the config, a
+                // nullpointerex. is thrown
+                // var.setValue(config.getVariables().get(var.getName()));
+                // }
 
-	@Override
-	public void windowClosed(WindowEvent e) {
-		logger.toolStopped();
+                for (Iterator<Entry<String, String>> it = config.getVariables().entrySet().iterator(); it.hasNext();) {
+                    Entry<String, String> entry = it.next();
+                    var = getVariableByName(entry.getKey());
+                    if (var != null) {
+                        var.setValue(entry.getValue());
+                    }
 
-	}
+                }
+            } else {
+                // the simulation names doesn't match
+                JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.", "Config file problem", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (JDOMException ex) {
+            JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.", "Parsing problem", JOptionPane.WARNING_MESSAGE);
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "Could not update the Simulation with this Configuration. Do they really match?", "Update problem", JOptionPane.WARNING_MESSAGE);
+        }
+        // trigger an update to all registered clients
+        simquestViewer.getDataServer().updateClients();
+    }
 
-	@Override
-	public void windowClosing(WindowEvent e) {
-		logger.toolStopped();
-	}
+    @Override
+    public void updateClient() {
+        if (checkbox.isSelected()) {
+            addCurrentDatapoint();
+        }
+    }
 
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		logger.focusLost();
+    public List<ModelVariable> getSimulationVariables() {
+        return simulationVariables;
+    }
 
-	}
+    public List<ModelVariable> getSelectedVariables() {
+        return selectedVariables;
+    }
 
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// logger.focusGained();
+    public ISimQuestViewer getSimQuestViewer() {
+        return simquestViewer;
+    }
 
-	}
+    public void cleanDataSet() {
+        ModelVariable var;
+        List<DataSetColumn> datasetvariables = new LinkedList<DataSetColumn>();
+        List<DataSetHeader> datasetheaders = new LinkedList<DataSetHeader>();
+        for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
+            var = vars.next();
+            datasetvariables.add(new DataSetColumn(var.getName(), var.getExternalName(), "double"));
+        }
+        datasetheaders.add(new DataSetHeader(datasetvariables, Locale.ENGLISH));
+        dataset = new DataSet(datasetheaders);
+        if (sandbox != null) {
+            sandbox.clear();
+            sandbox.sendHeaderMessage();
+        }
+        if (text != null) {
+            text.setText("");
+        }
+    }
 
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// logger.focusLost();
+    public void setSelectedVariables(List<ModelVariable> selection) {
+        selectedVariables = selection;
+        cleanDataSet();
+        logger.logSelectedVariables(selectedVariables);
+    }
 
-	}
+    private ModelVariable getVariableByName(String name) {
+        ModelVariable modelVar = null;
+        List<ModelVariable> varList = getSimQuestViewer().getDataServer().getVariables("dummy");
+        for (Iterator<ModelVariable> it = varList.iterator(); it.hasNext();) {
+            ModelVariable var = it.next();
+            if (var.getName().equals(name)) {
+                modelVar = var;
+            }
+        }
+        return modelVar;
+    }
 
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
+    private void initSandbox() {
+        try { // init the sandbox
+            sandbox = new DatasetSandbox(this, tbi);
+            text.append("sandbox initialised.\n");
+            ISyncSession session = sandbox.createSession();
+            text.append("session created: " + session.getId() + ".\n");
+        } catch (CollaborationServiceException ex) {
+            text.append("could not initialise sandbox.\n");
+            text.append(ex.getMessage() + "\n");
+            sandboxbutton.setSelected(false);
+        }
+    }
 
-	}
+    @Override
+    public void windowActivated(WindowEvent e) {
+        logger.focusGained();
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        logger.toolStopped();
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        logger.toolStopped();
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        logger.focusLost();
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    // logger.focusGained();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    // TODO Auto-generated method stub
+
+    }
+
+    public ScySimLogger getLogger() {
+        return logger;
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    // logger.focusLost();
+
+    }
 
 }
