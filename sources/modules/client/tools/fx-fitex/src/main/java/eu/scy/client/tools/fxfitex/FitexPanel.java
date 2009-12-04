@@ -55,7 +55,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private final static String TYPE_DATASET_ROW = "datasetrow";
     private final static String SIMULATOR_NAME = "scysimulator";
 
-    
+
     /* data process visualization tool */
     private DataProcessToolPanel dataProcessPanel;
 
@@ -67,7 +67,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private String mission_name = "mission 1";
     private IActionLogger actionLogger;
     private IDataSyncService datasync;
-    
+
     /* Constructor data ToolImpl panel - blank */
     public FitexPanel() {
         super();
@@ -89,14 +89,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void initCollaborationService() {
-            	ToolBrokerImpl tbi = new ToolBrokerImpl("merkel", "merkel");
-                datasync = tbi.getDataSyncService();
+        ToolBrokerImpl tbi = new ToolBrokerImpl("merkel", "merkel");
+        datasync = tbi.getDataSyncService();
     }
 
     public void joinSession(String mucID){
             initCollaborationService();
-            Logger.getLogger(FitexPanel.class.getName()).log(Level.SEVERE, null, ex);
-
         session = datasync.joinSession(mucID, this);
         if(session == null){
             JOptionPane.showMessageDialog(null, "join session error, null");
@@ -191,7 +189,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     public Element getPDS(){
         return this.dataProcessPanel.getPDS();
     }
-    
+
     /* import CSV file => EDLO dataset */
     public DataSet importCSVFile(File file){
         if (file  != null)
@@ -216,7 +214,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
             FitexProperty property = p.next();
             if(property.getSubElement() == null)
                 action.addAttribute(property.getName(), property.getValue());
-            //else 
+            //else
             	// TODO this is not supported anymore!
                 //action.addAttribute(property.getName(), property.getValue(), property.getSubElement());
         }
@@ -243,5 +241,5 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     public void syncObjectRemoved(ISyncObject syncObject) {
         //
     }
-    
+
 }
