@@ -38,80 +38,39 @@ public class Configuration {
 		return instance;
 	}
 	
-	public String getTestString() {
-		return props.getProperty("communication.test.property");
-	}
-	
 	public String get(String key) {
 		return props.getProperty(key);
 	}
 
-	public String getDatasyncMessageHub() {
-		return props.getProperty("communication.datasync.messageHub");
+	// ### OpenFireServer
+	public String getOpenFireHost() {
+		return props.getProperty("openfire.host");
 	}
 
-	public String getDatasyncExternalComponentSecretKey() {
-		return props.getProperty("communication.datasync.server.externalComponent.secretKey");
+	public int getOpenFirePort() {
+		return Integer.parseInt(props.getProperty("openfire.client.port"));
 	}
-
-	public String getDatasyncExternalComponentHost() {
-		return props.getProperty("communication.datasync.server.externalComponent.host");
-	}
-
-	public int getDatasyncExternalComponentPort() {
-		return Integer.parseInt(props.getProperty("communication.datasync.server.externalComponent.port"));
-	}
-
-	public String getClientEventCreateData() {
-		return props.getProperty("communication.client.event.create.data");
-	}
-
-	public String getClientEventCreateSession() {
-		return props.getProperty("communication.client.event.create.session");
-	}
-
-	public String getClientEventGetSessions() {
-		return props.getProperty("communication.client.event.get.sessions");		
-	}
-
-	public String getClientEventSynchronize() {
-		return props.getProperty("communication.client.event.synchronize");
-	}
-
-	public String getClientEventJoinSession() {
-		return props.getProperty("communication.client.event.join.session");
-	}
-
-	public int getSqlSpacesServerPort() {
-		return Integer.parseInt(props.getProperty("communication.sqlspaces.server.port"));
-	}
-
-	public String getSqlSpacesServerHost() {
-		return props.getProperty("communication.sqlspaces.server.host");
-	}
-
-	public long getDatasyncMessageDefaultExpiration() {	
-		return Long.parseLong(props.getProperty("communication.datasync.message.default.expiration"));
-	}
-
-	public String getDatasyncServerHost() {
-		return props.getProperty("communication.datasync.server.host");
-	}
-
-	public String getDatasyncMessageHubAddress() {
-		return getDatasyncMessageHub() + "." + getDatasyncServerHost();
-	}
-
-	public int getDatasyncServerPort() {
-		return Integer.parseInt(props.getProperty("communication.datasync.server.port"));
-	}
-
-	public String getSqlSpacesServerSpaceDatasync() {
-		return props.getProperty("communication.sqlspaces.server.space.datasync");
-	}
-
-    public String getEventQuery() {
-        return props.getProperty("communication.client.event.query");
-    }
 	
+	// ### External Component
+	public int getOpenFireExternalComponentPort() {
+		return Integer.parseInt(props.getProperty("openfire.externalcomponent.port"));
+	}
+	
+	public String getOpenFireExternalComponentSecretKey() {
+		return props.getProperty("openfire.externalcomponent.secretkey");
+	}
+	
+	// ### SCYHub
+	public String getSCYHubName() {
+		return props.getProperty("scyhub.name");
+	}
+
+	// ### SQLSpaces
+	public int getSQLSpacesServerPort() {
+		return Integer.parseInt(props.getProperty("sqlspaces.server.port"));
+	}
+
+	public String getSQLSpacesServerHost() {
+		return props.getProperty("sqlspaces.server.host");
+	}
 }
