@@ -30,11 +30,11 @@ public class SCYHubExternalComponent implements IExternalComponent {
 	public void startComponent() throws ExternalComponentFailedException {
 	log.info("Initializing SCYHUB");
         try {
-        	manager = new ExternalComponentManager(Configuration.getInstance().getDatasyncExternalComponentHost(), Configuration.getInstance().getDatasyncExternalComponentPort());
-        	manager.setSecretKey(Configuration.getInstance().getDatasyncMessageHub(), Configuration.getInstance().getDatasyncExternalComponentSecretKey());
-        	manager.setMultipleAllowed("scyhub", true);
+        	manager = new ExternalComponentManager(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFireExternalComponentPort());
+        	manager.setSecretKey(Configuration.getInstance().getSCYHubName(), Configuration.getInstance().getOpenFireExternalComponentSecretKey());
+        	manager.setMultipleAllowed(Configuration.getInstance().getSCYHubName(), true);
         	scyhub = new SCYHubComponent();
-            manager.addComponent(Configuration.getInstance().getDatasyncMessageHub(), scyhub);
+            manager.addComponent(Configuration.getInstance().getSCYHubName(), scyhub);
         } catch (ComponentException e) {
             throw new ExternalComponentFailedException("Could not start SCY-Hub!", e);
         }
@@ -47,9 +47,9 @@ public class SCYHubExternalComponent implements IExternalComponent {
 	public void stopComponent() throws ExternalComponentFailedException {
 	        log.info("-----> STOPPING: SCYHUB");
 		try {
-			manager.removeComponent(Configuration.getInstance().getDatasyncMessageHub());
+			manager.removeComponent(Configuration.getInstance().getSCYHubName());
 		} catch (ComponentException e) {
-			throw new ExternalComponentFailedException("Could not start SCY-Hub!", e);
+			throw new ExternalComponentFailedException("Could not stop SCY-Hub!", e);
 		}
 	}
 
