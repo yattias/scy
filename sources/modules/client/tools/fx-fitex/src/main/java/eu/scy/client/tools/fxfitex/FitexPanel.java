@@ -32,7 +32,6 @@ import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.collaborationservice.CollaborationServiceException;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
@@ -89,43 +88,14 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         actionLogger = new DevNullActionLogger();
     }
 
-    private void initCollaborationService() throws CollaborationServiceException {
-    	// TODO the datasync instance will be soon delivered by the SCY-lab via TBI
-//    	ConnectionConfiguration config;
-//        config = new ConnectionConfiguration("scy.collide.info", 5222);
-//        XMPPConnection  conn = new XMPPConnection(config);
-//		try {
-//			conn.connect();
-//			conn.login("merkel", "merkel");
-//			conn.addConnectionListener(new ConnectionListener() {
-//                @Override
-//				public void reconnectionSuccessful() {}
-//                @Override
-//				public void reconnectionFailed(Exception arg0) {}
-//                @Override
-//				public void reconnectingIn(int arg0) {}
-//                @Override
-//				public void connectionClosedOnError(Exception arg0) {}
-//                @Override
-//				public void connectionClosed() {}
-//			});
-//
-//			datasync = new DataSyncService();
-//			((DataSyncService)datasync).init(conn);
-//
-//		} catch (XMPPException e) {
-//			e.printStackTrace();
-//		}
+    private void initCollaborationService() {
             	ToolBrokerImpl tbi = new ToolBrokerImpl("merkel", "merkel");
                 datasync = tbi.getDataSyncService();
     }
 
     public void joinSession(String mucID){
-        try {
             initCollaborationService();
-        } catch (CollaborationServiceException ex) {
             Logger.getLogger(FitexPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         session = datasync.joinSession(mucID, this);
         if(session == null){
