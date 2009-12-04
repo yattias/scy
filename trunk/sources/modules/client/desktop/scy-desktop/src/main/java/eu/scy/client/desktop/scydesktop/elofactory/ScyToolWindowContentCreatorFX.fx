@@ -13,6 +13,7 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
+ * This interface
  * @author sikken
  */
 
@@ -20,7 +21,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 public mixin class ScyToolWindowContentCreatorFX extends WindowContentCreatorFX{
 
-   public abstract function getScyToolWindowContent():Node;
+   /**
+   * Create the node representing your tool. You do not need to load an elo or so, the ScyTool interface will tell you when.
+   */
+   public abstract function createScyToolWindowContent():Node;
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       return null;

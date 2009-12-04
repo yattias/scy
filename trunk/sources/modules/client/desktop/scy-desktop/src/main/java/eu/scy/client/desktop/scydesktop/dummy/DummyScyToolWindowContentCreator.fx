@@ -25,7 +25,7 @@ public class DummyScyToolWindowContentCreator extends ScyToolWindowContentCreato
 //   public var metadataTypeManager: IMetadataTypeManager;
 //   public var repository:IRepository;
 
-   public override function getScyToolWindowContent():Node{
+   public override function createScyToolWindowContent():Node{
       return DummyScyToolWindowContent{
       }
    }
