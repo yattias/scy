@@ -26,7 +26,6 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
 
-import roolo.elo.api.IMetadataKey;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.IAwarePresenceEvent;
@@ -56,8 +55,8 @@ public class ChatPresencePanelMain extends JPanel {
 	private Vector<Object> users = new Vector<Object>();;
 
 	
-	public ChatPresencePanelMain() {
-		
+	public ChatPresencePanelMain(IAwarenessService awarenessService) {
+		this.awarenessService = awarenessService;
 
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -76,10 +75,6 @@ public class ChatPresencePanelMain extends JPanel {
 			logger.error("ChatPanelMain: IllegalAccessException: "+e);
 		}      
 
-		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
-		awarenessService = tbi.getAwarenessService();
-		awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
-
 		chatController = new ChatController(awarenessService);
 		chatController.populateBuddyList();
 		initGUI();
@@ -97,7 +92,7 @@ public class ChatPresencePanelMain extends JPanel {
 		JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
 
 		buddyList = new JList(model);
-		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		buddyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		updateModel();
 
 		JScrollPane buddyListScroll = new JScrollPane(buddyList);
@@ -120,10 +115,12 @@ public class ChatPresencePanelMain extends JPanel {
 					int selections[] = list.getSelectedIndices();
 					Object selectionValues[] = list.getSelectedValues();
 					for (int i = 0, n = selections.length; i < n; i++) {
-						if (i == 0) {
-							logger.debug("initListeners: Selections:");
+						logger.debug("selectionValues[i]: "+selectionValues[i]);
+						if(String.valueOf(selectionValues[i]).contains("available")) {
+							logger.debug("initListeners: "+selections[i] + "/" + selectionValues[i] + " ");
+							IAwarenessUser iau = (IAwarenessUser) model.elementAt(selections[i]);
+							//cmp.awarenessService.setSelectedUser(iau);
 						}
-						logger.debug("initListeners: "+selections[i] + "/" + selectionValues[i] + " ");
 					}
 				}
 			}
@@ -149,7 +146,13 @@ public class ChatPresencePanelMain extends JPanel {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cmp = new ChatPresencePanelMain();
+		
+		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
+		IAwarenessService aService = tbi.getAwarenessService();
+		aService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
+		
+		
+		cmp = new ChatPresencePanelMain(aService);
 		frame.getContentPane().add(cmp);
 		frame.setSize(200, 170);
 		frame.setVisible(true);
