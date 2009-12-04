@@ -2,6 +2,7 @@
   <name>chat-tool</name>
   <comment/>
   <projects>
+    <project>awareness-api</project>
     <project>awareness-impl</project>
   </projects>
   <buildSpec>
