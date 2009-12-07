@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.dummy.DummyLoginValidator;
 
 /**
  * @author sikken
@@ -29,8 +30,10 @@ public class LoginDialog extends CustomNode {
 
    def passwordName = "password";
    public var windowStyler: WindowStyler;
-   public var createScyDesktop: function(): ScyDesktop;
+   public var createScyDesktop: function(sessionId:String): ScyDesktop;
+   public var loginValidator: LoginValidator;
    var loginWindow: StandardScyWindow;
+   var loginNode: LoginNode;
    var defaultUserName = "";
    var defaultPassword = "";
 
@@ -38,13 +41,14 @@ public class LoginDialog extends CustomNode {
       FX.deferAction(function () {
          MouseBlocker.initMouseBlocker(scene.stage);
       });
-
-
+      if (loginValidator==null){
+         loginValidator = new DummyLoginValidator();
+      }
    }
 
    public override function create(): Node {
       setDefaultLoginEntries();
-      var loginNode = LoginNode {
+      loginNode = LoginNode {
                  loginAction: loginAction
                  defaultUserName: defaultUserName
                  defaultPassword: defaultPassword
@@ -118,14 +122,26 @@ public class LoginDialog extends CustomNode {
    }
 
    function loginAction(userName: String, password: String): Void {
+      println("userName: {userName}, password: {password}");
+      try{
+         var sessionId = loginValidator.login(userName,password);
+         placeScyDescktop(sessionId);
+      }
+      catch (e:LoginFailedException){
+         loginNode.loginFailed();
+      }
+   }
+
+   function placeScyDescktop(sessionId:String){
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
       var sceneContent = scene.content;
-      var scyDesktop = createScyDesktop();
+      var scyDesktop = createScyDesktop(sessionId);
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
       scene.content = sceneContent;
    }
+
 }
 
 function run()  {

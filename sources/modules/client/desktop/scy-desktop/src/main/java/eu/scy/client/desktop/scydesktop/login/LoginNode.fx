@@ -17,6 +17,9 @@ import javafx.scene.control.Label;
 import java.lang.System;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.animation.Interpolator;
 
 /**
  * @author sikken
@@ -24,8 +27,10 @@ import javafx.scene.paint.Color;
 // place your code here
 public class LoginNode extends CustomNode {
 
-   public-init var defaultUserName = "name";
-   public-init var defaultPassword = "pass";
+   public-init
+      var defaultUserName =   "name";
+
+                    public-init var defaultPassword = "pass";
 
    public
       var loginAction   :
@@ -114,6 +119,35 @@ public class LoginNode extends CustomNode {
 
    }
 
+   public function loginFailed():Void{
+      def shiftField = passwordField;
+      def quaterTime = 25ms;
+      def maxShift = 5;
+      Timeline {
+	repeatCount: 5
+	keyFrames : [
+      at(0s){
+         shiftField.translateX => 0 tween Interpolator.EASEBOTH
+      }
+		KeyFrame {
+			time : quaterTime
+			values: shiftField.translateX => maxShift tween Interpolator.EASEBOTH
+		}
+		KeyFrame {
+			time : 3*quaterTime
+			values: shiftField.translateX => -maxShift tween Interpolator.EASEBOTH
+		}
+		KeyFrame {
+			time : 4*quaterTime
+			values: shiftField.translateX => 0 tween Interpolator.EASEBOTH
+		}
+	]
+}.play();
+passwordField.requestFocus();
+
+   }
+
+
 }
 
 function run()    {
@@ -124,19 +158,18 @@ function run()    {
               defaultPassword:"321"
               loginAction:function(userName:String, password:String):Void{
                  println("user name: {userName}, password: {password}");
+                 }
               }
 
-           }
-
-   Stage {
-      title: "Login node test"
-      scene: Scene {
-         width: 300
-         height: 200
-         content: [
-            logingNode
-         ]
+      Stage {
+         title: "Login node test"
+         scene: Scene {
+            width: 300
+            height: 200
+            content: [
+               logingNode
+            ]
+         }
       }
-   }
 
-}
+   }

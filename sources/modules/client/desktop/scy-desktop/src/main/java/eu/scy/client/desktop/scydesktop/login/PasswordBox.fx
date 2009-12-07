@@ -17,6 +17,9 @@ public class PasswordBox extends TextBox {
 
     postinit{
        password = text;
+       if (password==null){
+          password="";
+       }
        text = getStars(password.length());
     }
 
