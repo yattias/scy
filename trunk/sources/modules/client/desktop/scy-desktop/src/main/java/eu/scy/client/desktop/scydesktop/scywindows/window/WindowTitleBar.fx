@@ -3,7 +3,6 @@
  *
  * Created on 4-sep-2009, 16:54:15
  */
-
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.Group;
@@ -25,37 +24,37 @@ import javafx.scene.text.TextAlignment;
 /**
  * @author sikkenj
  */
-
 // place your code here
 public class WindowTitleBar extends WindowElement {
 
-   public var width = 100.0;
+   public
+
+
+    var width = 100.0;
 //   public var height = 20.0;
    public var title = "very very long title";
    public var iconCharacter = "?";
    public var activated = true;
    public var iconSize = 16.0;
    public var iconGap = 2.0;
-
-	def titleFontsize = 12;
-	def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
-	def eloTypeFontsize = 14;
-	def eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
-
+   def titleFontsize = 12;
+   def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
+   def eloTypeFontsize = 14;
+   def eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
    def mainColor = bind if (activated) color else subColor;
    def bgColor = bind if (activated) subColor else color;
 
    public override function create(): Node {
       return Group {
-         content: [
-            Group{ // icon for title
+                 content: [
+                    Group { // icon for title
                var iconChar:Text;
  					content: [
 						Rectangle{
 							x: 0
 							y: 0
-							width: iconSize
-							height: iconSize
+							width: iconSize-1
+							height: iconSize-1
 							fill: bind bgColor
                      stroke:bind color
 						}
@@ -70,33 +69,29 @@ public class WindowTitleBar extends WindowElement {
 						}
 					]
  				},
-            Group{
-					clip: Rectangle {
-						x: iconSize,
-						y: 0
-						width: bind width - iconSize,
-						height: iconSize
-						fill: bind bgColor
-					}
-               content:[
-						Rectangle{
-							x: 0
+            Rectangle{
+							x: iconSize
 							y: 0
-							width: bind width
+							width: bind width - iconSize
 							height: iconSize
 							fill: bind mainColor
-						}
-                  Text { // title
-                     font: textFont
-                     textOrigin:TextOrigin.BOTTOM;
-                     x: iconSize + iconGap,
-                     y: iconSize
-                     fill: bind bgColor;
+						},
+            Text { // title
+               font: textFont
+               textOrigin:TextOrigin.BOTTOM;
+               x: iconSize + iconGap,
+               y: iconSize
+               clip:Rectangle{
+                  x: iconSize
+                  y: 0
+                  width: bind width - iconSize
+                  height: iconSize
+                  fill: bind mainColor
+               }
+               fill: bind bgColor
 
-                     content: bind title;
-                  },
-               ]
-            }
+               content: bind title;
+            },
 
 				//				Group{ // just for checking title clip
 				//					content:[
