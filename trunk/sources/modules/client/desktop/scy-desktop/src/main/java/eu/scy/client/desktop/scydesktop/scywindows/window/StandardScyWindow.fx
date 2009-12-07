@@ -673,6 +673,7 @@ public class StandardScyWindow extends ScyWindow {
          color:bind color;
          title:bind title;
          iconCharacter:bind iconCharacter;
+         activated:bind activated
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;
       }

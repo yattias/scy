@@ -33,6 +33,7 @@ public class WindowTitleBar extends WindowElement {
 //   public var height = 20.0;
    public var title = "very very long title";
    public var iconCharacter = "?";
+   public var activated = true;
    public var iconSize = 16.0;
    public var iconGap = 2.0;
 
@@ -40,6 +41,9 @@ public class WindowTitleBar extends WindowElement {
 	def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
 	def eloTypeFontsize = 14;
 	def eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
+
+   def mainColor = bind if (activated) color else subColor;
+   def bgColor = bind if (activated) subColor else color;
 
    public override function create(): Node {
       return Group {
@@ -52,7 +56,7 @@ public class WindowTitleBar extends WindowElement {
 							y: 0
 							width: iconSize
 							height: iconSize
-							fill: bind color
+							fill: bind bgColor
 						}
 						iconChar = Text {
 							font: eloTypeFont
@@ -61,25 +65,38 @@ public class WindowTitleBar extends WindowElement {
       					x: iconGap,
 							y: iconSize
 							content: bind iconCharacter.substring(0, 1)
-							fill: Color.WHITE
+							fill: bind mainColor
 						}
 					]
  				},
-            Text { // title
-					font: textFont
-               textOrigin:TextOrigin.BOTTOM;
-					x: iconSize + iconGap,
-					y: iconSize
+            Group{
 					clip: Rectangle {
 						x: iconSize,
 						y: 0
 						width: bind width - iconSize,
 						height: iconSize
-						fill: Color.BLACK
+						fill: bind bgColor
 					}
-					fill: bind color;
-					content: bind title;
-				},
+               content:[
+						Rectangle{
+							x: 0
+							y: 0
+							width: bind width
+							height: iconSize
+							fill: bind mainColor
+						}
+                  Text { // title
+                     font: textFont
+                     textOrigin:TextOrigin.BOTTOM;
+                     x: iconSize + iconGap,
+                     y: iconSize
+                     fill: bind bgColor;
+
+                     content: bind title;
+                  },
+               ]
+            }
+
 				//				Group{ // just for checking title clip
 				//					content:[
 				//						Rectangle {
@@ -114,9 +131,11 @@ function run(){
             WindowTitleBar{
                translateX:10;
                translateY:10;
+               activated: true;
             }
             WindowTitleBar{
                iconCharacter:"w"
+               activated:false
                translateX:10;
                translateY:50;
             }
