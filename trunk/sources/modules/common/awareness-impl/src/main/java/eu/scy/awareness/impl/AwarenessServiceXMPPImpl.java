@@ -2,12 +2,9 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import java.util.logging.Level;
-
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
