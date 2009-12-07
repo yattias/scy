@@ -2,6 +2,7 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -31,6 +32,9 @@ import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarenessRosterListener;
+import eu.scy.awareness.tool.ChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
 
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
@@ -40,6 +44,8 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
 	private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
 	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
+	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
+	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private Roster roster;
 	protected Vector<Object> externalUsers = new Vector<Object>();
 	protected Boolean hasAnswered = false;
@@ -138,16 +144,21 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	@Override
 	public ArrayList<IAwarenessUser> getBuddies() throws AwarenessServiceException {
 		roster = this.xmppConnection.getRoster();
-		Collection<RosterEntry> rosterEntries = roster.getEntries();
-		ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
-		for (RosterEntry buddy : rosterEntries) {
-			IAwarenessUser au = new AwarenessUser();
-			au.setName(buddy.getName());
-			au.setUsername(buddy.getUser());
-			au.setPresence(roster.getPresence(buddy.getUser()).toString());
-			buddies.add(au);
+		if(roster != null || !roster.getEntries().isEmpty()) {
+			Collection<RosterEntry> rosterEntries = roster.getEntries();
+			ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
+			for (RosterEntry buddy : rosterEntries) {
+				IAwarenessUser au = new AwarenessUser();
+				au.setName(buddy.getName());
+				au.setUsername(buddy.getUser());
+				au.setPresence(roster.getPresence(buddy.getUser()).toString());
+				buddies.add(au);
+			}
+			return buddies;			
 		}
-		return buddies;
+		else {
+			return null;
+		}
 	}
 
 
@@ -281,5 +292,38 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	@Override
 	public void setPresence(String presenceString) throws AwarenessServiceException {
 		// Presence p = getRoster().getPresence(xmppConnection.getUser());
+	}
+
+
+	@Override
+	public void addChatToolListener(IChatPresenceToolListener listener) {
+		chatToolListeners.add(listener);
+		
+	}
+
+
+	@Override
+	public void addPresenceToolListener(IChatPresenceToolListener listener) {
+		presenceToolListeners.add(listener);
+	}
+	
+	public void updateChatTool(List<IAwarenessUser> users) {
+		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
+		icpte.setMessage("presence tool calling with updates");
+		for (IChatPresenceToolListener icptl : presenceToolListeners) {
+			if (icptl != null) {
+				icptl.handleChatPresenceToolEvent(icpte);
+			}
+		}
+	}
+	
+	public void updatePresenceTool(List<IAwarenessUser> users) {
+		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
+		icpte.setMessage("chat tool calling with updates");
+		for (IChatPresenceToolListener icptl : chatToolListeners) {
+			if (icptl != null) {
+				icptl.handleChatPresenceToolEvent(icpte);
+			}
+		}
 	}
 }

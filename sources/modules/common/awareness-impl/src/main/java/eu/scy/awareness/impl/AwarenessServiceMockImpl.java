@@ -1,7 +1,6 @@
 package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
@@ -12,12 +11,12 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.AwarenessEvent;
 import eu.scy.awareness.event.AwarenessRosterEvent;
-import eu.scy.awareness.event.AwarenessPresenceEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
-import eu.scy.awareness.event.IAwarenessRosterEvent;
-import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
 
 public class AwarenessServiceMockImpl implements IAwarenessService {
     
@@ -160,6 +159,30 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 	@Override
 	public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
 		this.awarenessPresenceListeners.remove(awarenessPresenceListener);
+	}
+
+	@Override
+	public void addChatToolListener(IChatPresenceToolListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addPresenceToolListener(IChatPresenceToolListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateChatTool(List<IAwarenessUser> users) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePresenceTool(List<IAwarenessUser> users) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
