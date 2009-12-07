@@ -117,7 +117,7 @@
 
 	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger"/>
 
-	<bean id="awarenessService" class="eu.scy.awareness.impl.AwarenessServiceMockImpl"/>
+	<bean id="awarenessService" class="eu.scy.awareness.impl.AwarenessServiceXMPPImpl"/>
 
 	<bean id="dataSyncService" class="eu.scy.client.common.datasync.DataSyncService"/>
 
