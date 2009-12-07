@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -35,6 +36,8 @@ import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.tool.IChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
@@ -110,17 +113,14 @@ public class ChatPanelMain extends JPanel {
 		sendMessageTextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final String oldText = chatArea.getText();
-				updateModel();
-				
-//				if (buddyList.getSelectedValue() == null) {
-//					JOptionPane.showMessageDialog(null, "Please select a recipient before submitting the text ...");
-//				}
-//				else {
-//					chatController.sendMessage(buddyList.getSelectedValue(), textfield.getText());
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						chatController.sendMessage(model.elementAt(0), sendMessageTextField.getText());
-						chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");
+						if(!model.isEmpty()) {
+							for(int i = 0; i<model.getSize(); i++) {
+								chatController.sendMessage(model.elementAt(i), sendMessageTextField.getText());
+								chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");							
+							}							
+						}
 					}
 				});
 //				}
@@ -213,6 +213,21 @@ public class ChatPanelMain extends JPanel {
 				});
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
 				//cmp.selectCorrectChatter(awarenessEvent.getUser());
+			}
+		});
+		
+		awarenessService.addPresenceToolListener(new IChatPresenceToolListener() {
+			
+			@Override
+			public void handleChatPresenceToolEvent(IChatPresenceToolEvent event) {
+				System.out.println("mother fucka");				
+				System.out.println("presence tool listeners selected " + event.getUsers() + "message " + event.getMessage());
+				model.removeAllElements();
+				for (IAwarenessUser au : event.getUsers()) {
+					model.addElement(au);
+					
+				}
+			
 			}
 		});
 		
