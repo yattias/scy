@@ -79,11 +79,14 @@ public class SyncSession implements ISyncSession {
 	
 	@Override
 	public void addSyncObject(ISyncObject syncObject) {
+		syncObject.setCreator(muc.getNickname());
 		sendSyncAction(Type.add, syncObject);
 	}
 
 	@Override
 	public void changeSyncObject(ISyncObject syncObject) {
+		syncObject.setLastModificator(muc.getNickname());
+		syncObject.setLastModificationTime(System.currentTimeMillis());
 		sendSyncAction(Type.change, syncObject);
 	}
 
