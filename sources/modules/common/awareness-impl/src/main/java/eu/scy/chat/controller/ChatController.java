@@ -60,7 +60,8 @@ public class ChatController {
 				}
 			}
 		} else {
-			buddyList.addElement("no buddies");
+			//buddyList.addElement("no buddies");
+			logger.debug("ChatController: populateBuddyList: ####################### No buddies ###########################");
 		}
 		logger.debug("ChatController: populateBuddyList: ####################### end ###########################");
 	}
