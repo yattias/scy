@@ -39,7 +39,7 @@ public class ChatToolNode extends CustomNode {
             return;
         }
 
-        //scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
+        scyWindow.title = "StudenPlanningTool: {eloChatActionWrapper.getDocName()}";
         var eloUri = eloChatActionWrapper.getEloUri();
         if (eloUri != null) {
             scyWindow.id = eloUri.toString();
