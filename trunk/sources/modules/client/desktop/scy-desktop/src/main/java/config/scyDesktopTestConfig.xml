@@ -110,8 +110,8 @@
 
       <property name="activeMissionAnchorUri" value="roolo://memory/0/0/Mission_description.text"/>
 
-    <!--  <property name="backgroundImageFileName" value="bckgrnd5b.png"/>
-      <property name="backgroundImageFileNameRelative" value="true"/> -->
+      <property name="backgroundImageFileName" value="bckgrnd2.jpg"/>
+      <property name="backgroundImageFileNameRelative" value="true"/>
 
    </bean>
 
