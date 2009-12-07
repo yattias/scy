@@ -15,6 +15,11 @@ import javafx.util.Math;
 public class PasswordBox extends TextBox {
     public-read var password = "";
 
+    postinit{
+       password = text;
+       text = getStars(password.length());
+    }
+
     override function replaceSelection(arg) {
         var pos1 = Math.min(dot, mark);
         var pos2 = Math.max(dot, mark);

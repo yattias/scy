@@ -32,9 +32,9 @@ var mouseBlockNode = Rectangle {
 
 var mouseBlockingActive = false;
 
-public function initMouseBlocker(stage:Stage){
+public function initMouseBlocker(stage:Stage):Void{
    theStage = stage;
-   println("");
+//   println("");
 }
 
 public function startMouseBlocking(){

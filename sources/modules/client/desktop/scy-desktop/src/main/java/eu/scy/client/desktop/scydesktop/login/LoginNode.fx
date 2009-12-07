@@ -24,6 +24,9 @@ import javafx.scene.paint.Color;
 // place your code here
 public class LoginNode extends CustomNode {
 
+   public-init var defaultUserName = "name";
+   public-init var defaultPassword = "pass";
+
    public
       var loginAction   :
 
@@ -49,9 +52,13 @@ public class LoginNode extends CustomNode {
                     }
                     userNameField = TextBox {
                        layoutX: entryFieldOffset;
-                       text: ""
+                       text: defaultUserName
                        columns: textBoxColumns
                        selectOnFocus: true
+                       action:function(){
+                          passwordField.requestFocus();
+                       }
+
                     }
                     Label {
                        layoutY: rowHeight;
@@ -60,13 +67,22 @@ public class LoginNode extends CustomNode {
                     passwordField = PasswordBox {
                        layoutX: entryFieldOffset;
                        layoutY: rowHeight;
-                       text: ""
+                       text: defaultPassword
                        columns: textBoxColumns
                        selectOnFocus: true
+                       action:function(){
+                          if (userNameField.text.length()==0){
+                           userNameField.requestFocus();
+                          }
+                          else if (passwordField.password.length()>0){
+                             loginButton.action();
+                          }
+                       }
                     }
                     loginButton = Button {
                        layoutX: entryFieldOffset;
                        layoutY: 2 * rowHeight + spacing;
+                       strong:true
                        text: "Login"
                        disable: bind (userNameField.text.length() == 0 or passwordField.password.length() == 0)
                        action: function () {
@@ -104,6 +120,12 @@ function run()    {
    var logingNode = LoginNode {
               layoutX: 10
               layoutY: 10
+              defaultUserName:"123"
+              defaultPassword:"321"
+              loginAction:function(userName:String, password:String):Void{
+                 println("user name: {userName}, password: {password}");
+              }
+
            }
 
    Stage {
