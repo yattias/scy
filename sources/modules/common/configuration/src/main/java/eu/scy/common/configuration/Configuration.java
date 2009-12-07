@@ -40,6 +40,8 @@ public class Configuration {
             }
             if(counter > 0) {
             	logger.log(Level.INFO, "loaded " + counter + " keys from system properties");
+            } else {
+            	logger.log(Level.INFO, "no keys loaded from system properties");
             }
             // check for old configuration items
             if(props.getProperty("communication.client.event.join.session") != null) {
