@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -114,14 +116,19 @@ public class ChatPresencePanelMain extends JPanel {
 					JList list = (JList) listSelectionEvent.getSource();
 					int selections[] = list.getSelectedIndices();
 					Object selectionValues[] = list.getSelectedValues();
+					
+					List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
+					IAwarenessUser iau = null;
 					for (int i = 0, n = selections.length; i < n; i++) {
-						logger.debug("selectionValues[i]: "+selectionValues[i]);
 						if(String.valueOf(selectionValues[i]).contains("available")) {
-							logger.debug("initListeners: "+selections[i] + "/" + selectionValues[i] + " ");
-							IAwarenessUser iau = (IAwarenessUser) model.elementAt(selections[i]);
-							//cmp.awarenessService.setSelectedUser(iau);
-						}
-					}
+							iau = (IAwarenessUser) model.elementAt(selections[i]);
+							users.add(iau);
+							
+						}// if
+					}// for
+					
+					awarenessService.updateChatTool(users);
+					
 				}
 			}
 		};
@@ -140,6 +147,7 @@ public class ChatPresencePanelMain extends JPanel {
 			}
 		};
 		buddyList.addMouseListener(mouseListener);
+		
 	}
 
 
@@ -148,9 +156,7 @@ public class ChatPresencePanelMain extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
-		IAwarenessService aService = tbi.getAwarenessService();
-		//aService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
-		
+		IAwarenessService aService = tbi.getAwarenessService();		
 		
 		cmp = new ChatPresencePanelMain(aService);
 		frame.getContentPane().add(cmp);
