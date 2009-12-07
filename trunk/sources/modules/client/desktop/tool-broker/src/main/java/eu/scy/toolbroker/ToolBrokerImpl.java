@@ -186,19 +186,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     }
 
     @Override
-    public IAwarenessService getAwarenessService() {
-        
-        try {
-            awarenessService = AwarenessServiceFactory.getAwarenessService(AwarenessServiceFactory.XMPP_STYLE);
-            return awarenessService;
-        } catch (AwarenessServiceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        
-        return null;
-    }
+	public IAwarenessService getAwarenessService() {
+		return this.awarenessService;
+	}
     
     @Override
     public IDataSyncService getDataSyncService() {
