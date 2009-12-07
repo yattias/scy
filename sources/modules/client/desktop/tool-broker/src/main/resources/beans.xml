@@ -24,7 +24,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/repository-httpinvoker
+				http://${serverName}:${httpPort}/${contextPath}/remoting/repository-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -48,7 +48,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/metadataTypeManager-httpinvoker
+				http://${serverName}:${httpPort}/${contextPath}/remoting/metadataTypeManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -73,7 +73,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/extensionManager-httpinvoker
+				http://${serverName}:${httpPort}/${contextPath}/remoting/extensionManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -90,14 +90,14 @@
 			</property>
 		-->
 	</bean>
-	
+
 	<!-- Proxy for the HTTP-invoker-exported session manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
 	<bean id="httpInvokerSessionManagerProxy"
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>
-				http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/sessionManager-httpinvoker
+				http://${serverName}:${httpPort}/${contextPath}/remoting/sessionManager-httpinvoker
 			</value>
 		</property>
 		<property name="serviceInterface">
@@ -114,20 +114,20 @@
 			</property>
 		-->
 	</bean>
-	
+
 	<bean id="actionlogger" class="eu.scy.actionlogging.logger.ActionLogger"/>
 
 	<bean id="awarenessService" class="eu.scy.awareness.impl.AwarenessServiceMockImpl"/>
-	
+
 	<bean id="dataSyncService" class="eu.scy.client.common.datasync.DataSyncService"/>
-	
+
 	<bean id="notificationReceiver" class="eu.scy.client.notification.NotificationReceiver"/>
-	
+
     <bean id="httpInvokerPedagogicalPlanServiceProxy"
         class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
             <value>
-                http://${client.serverName}:${client.httpPort}/${client.contextPath}/remoting/pedagogicalPlan-httpinvoker
+                http://${serverName}:${httpPort}/${contextPath}/remoting/pedagogicalPlan-httpinvoker
             </value>
         </property>
         <property name="serviceInterface">
