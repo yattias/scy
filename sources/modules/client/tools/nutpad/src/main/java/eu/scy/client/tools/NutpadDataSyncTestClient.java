@@ -87,7 +87,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     public NutpadDataSyncTestClient() {
         
-    	System.out.println(Configuration.getInstance().get("datasync.server.host"));
+    	System.out.println(Configuration.getInstance());
     	
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
@@ -179,8 +179,8 @@ public class NutpadDataSyncTestClient extends JFrame{
 		public void syncObjectRemoved(ISyncObject syncObject) {
 			editArea.append("SyncObject removed remotely: ");
 			editArea.append("id = " + syncObject.getID());
-			editArea.append(", user = " + syncObject.getUserId());
-			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", user = " + syncObject.getCreator());
+			editArea.append(", creation timestamp = " + syncObject.getCreationTime());
 			editArea.append(", toolname = " + syncObject.getToolname());
 			if(syncObject.getProperties() != null) {
 				for (String key : syncObject.getProperties().keySet()) {
@@ -194,8 +194,8 @@ public class NutpadDataSyncTestClient extends JFrame{
 		public void syncObjectChanged(ISyncObject syncObject) {
 			editArea.append("SyncObject changed remotely: ");
 			editArea.append("id = " + syncObject.getID());
-			editArea.append(", user = " + syncObject.getUserId());
-			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", user = " + syncObject.getCreator());
+			editArea.append(", creation timestamp = " + syncObject.getCreationTime());
 			editArea.append(", toolname = " + syncObject.getToolname());
 			if(syncObject.getProperties() != null) {
 				for (String key : syncObject.getProperties().keySet()) {
@@ -209,8 +209,8 @@ public class NutpadDataSyncTestClient extends JFrame{
 		public void syncObjectAdded(ISyncObject syncObject) {
 			editArea.append("SyncObject created remotely: ");
 			editArea.append("id = " + syncObject.getID());
-			editArea.append(", user = " + syncObject.getUserId());
-			editArea.append(", creation timestamp = " + syncObject.getObjectCreatedTime());
+			editArea.append(", user = " + syncObject.getCreator());
+			editArea.append(", creation timestamp = " + syncObject.getCreationTime());
 			editArea.append(", toolname = " + syncObject.getToolname());
 			if(syncObject.getProperties() != null) {
 				for (String key : syncObject.getProperties().keySet()) {
@@ -401,7 +401,8 @@ public class NutpadDataSyncTestClient extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			syncObject = new SyncObject("nupaddemo", "obama");
+			syncObject = new SyncObject();
+			syncObject.setToolname(HARD_CODED_TOOL_NAME);
 			syncObject.setProperty("random", Double.toString(Math.random()));
 			syncSession.addSyncObject(syncObject);
 			editArea.append("SyncObject locally created: " + syncObject + "\n");
