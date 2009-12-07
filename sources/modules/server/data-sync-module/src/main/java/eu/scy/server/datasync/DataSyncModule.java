@@ -20,6 +20,7 @@ import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
 import eu.scy.common.message.DataSyncMessagePacketTransformer;
@@ -42,8 +43,8 @@ public class DataSyncModule extends SCYHubModule {
 
 	private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
 
-	// sessionid -> sessionlogger
-	private Map<String, DataSyncSessionLogger> loggers;
+	// sessionid -> sessionbridge
+	private Map<String, DataSyncSessionBridge> bridges;
 
 	private XMPPConnection connection;
 
@@ -53,46 +54,21 @@ public class DataSyncModule extends SCYHubModule {
 	public DataSyncModule(Component scyhub) {
 		super(scyhub, new DataSyncMessagePacketTransformer());
 
-		loggers = new HashMap<String, DataSyncSessionLogger>();
+		bridges = new HashMap<String, DataSyncSessionBridge>();
 
 		try {
-			// TODO use Configuration class again, when extracted out of scy-commons blob
-//			ConnectionConfiguration cc = new ConnectionConfiguration(
-//					Configuration.getInstance().getDatasyncServerHost(),
-//					Configuration.getInstance().getDatasyncServerPort());
 			ConnectionConfiguration cc = new ConnectionConfiguration(
-					"scy.collide.info", 5222);
-
+					Configuration.getInstance().getOpenFireHost(),
+					Configuration.getInstance().getOpenFirePort());
 			connection = new XMPPConnection(cc);
 			connection.connect();
 			connection.login("datasynclistener", "datasync");
 			connection.addConnectionListener(new ConnectionListener() {
-
-				@Override
-				public void connectionClosed() {
-					
-				}
-
-				@Override
-				public void connectionClosedOnError(Exception e) {
-					
-				}
-
-				@Override
-				public void reconnectingIn(int seconds) {
-					
-				}
-
-				@Override
-				public void reconnectionFailed(Exception e) {
-					
-				}
-
-				@Override
-				public void reconnectionSuccessful() {
-					
-				}
-				
+				@Override public void connectionClosed() {}
+				@Override public void connectionClosedOnError(Exception e) {}
+				@Override public void reconnectingIn(int seconds) {}
+				@Override public void reconnectionFailed(Exception e) {}
+				@Override public void reconnectionSuccessful() {}
 			});
 
 			final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
@@ -104,7 +80,7 @@ public class DataSyncModule extends SCYHubModule {
 			providerManager.addExtensionProvider(sapt.getElementname(), sapt
 					.getNamespace(), new SmacketExtensionProvider());
 
-			DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(loggers, new SyncActionPacketTransformer());
+			DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(bridges, new SyncActionPacketTransformer());
 			connection.addPacketListener(packetFilterListener, packetFilterListener);
 		} catch (XMPPException e) {
 			e.printStackTrace();
@@ -126,15 +102,11 @@ public class DataSyncModule extends SCYHubModule {
 			logger.debug("Command: " + command.getEvent() + " "
 					+ command.getUserId() + " " + command.getToolId());
 
-			// Create a random session id
-			// right now we create one sync session with a fixed id so we can
-			// better test
-			 String sessionId = UUID.randomUUID().toString() + "@syncsessions.scy.collide.info";
-//			String sessionId = command.getToolId() + "-datasyncsession" + "@syncsessions.scy.collide.info";
+			String sessionId = UUID.randomUUID().toString() + "@syncsessions.scy.collide.info";
 
 			// create a session logger with the random id
-			DataSyncSessionLogger dssl = new DataSyncSessionLogger(sessionId);
-			loggers.put(sessionId, dssl);
+			DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+			bridges.put(sessionId, dssl);
 
 			// response to client
 			SyncMessage response = new SyncMessage(Type.answer);
@@ -171,12 +143,12 @@ public class DataSyncModule extends SCYHubModule {
 	
 	private class DataSyncPacketFilterListener implements PacketFilter, PacketListener {
 
-		private Map<String, DataSyncSessionLogger> loggers;
+		private Map<String, DataSyncSessionBridge> bridges;
 		
 		private SCYPacketTransformer transformer;
 
-		public DataSyncPacketFilterListener(Map<String, DataSyncSessionLogger> loggers, SCYPacketTransformer transformer) {
-			this.loggers = loggers;
+		public DataSyncPacketFilterListener(Map<String, DataSyncSessionBridge> bridges, SCYPacketTransformer transformer) {
+			this.bridges = bridges;
 			this.transformer = transformer;
 		}
 		
@@ -192,10 +164,10 @@ public class DataSyncModule extends SCYHubModule {
 				SmacketExtension extension = (SmacketExtension) packetExtension;
 				
 				SyncAction action = (SyncAction) extension.getTransformer().getObject();
-				DataSyncSessionLogger logger = loggers.get(action.getSessionId());
+				DataSyncSessionBridge bridge = bridges.get(action.getSessionId());
 				
-				if(logger != null) {
-					logger.log(action);
+				if(bridge != null) {
+					bridge.process(action);
 				}
 			}
 		}
