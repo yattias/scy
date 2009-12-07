@@ -26,7 +26,7 @@ var rect:Rectangle;
 println("starting app");
 
 rect = Rectangle {
-  x: 50, y: 50
+  x: 100, y: 50
   width: 50, height: 50
   fill: Color.GRAY
   onMouseEntered: function( e: MouseEvent ):Void {
