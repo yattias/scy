@@ -63,7 +63,7 @@
 				<client.httpPort>8080</client.httpPort>
 				<client.contextPath>/scy-useradmin-web</client.contextPath>
 
-				<sqlspaces.server.host>scy.collide.info</sqlspaces.server.host>
+				<sqlspaces.server.host>scy.intermedia.uio.no</sqlspaces.server.host>
 				<sqlspaces.server.port>2525</sqlspaces.server.port>
 
 				<openfire.host>scy.intermedia.uio.no</openfire.host>
