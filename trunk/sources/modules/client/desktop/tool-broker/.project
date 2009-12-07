@@ -2,9 +2,8 @@
   <name>tool-broker</name>
   <comment/>
   <projects>
-    <project>data-synchronizer</project>
-    <project>scy-commons</project>
-    <project>tool-broker-api</project>
+    <project>awareness-impl</project>
+    <project>configuration</project>
   </projects>
   <buildSpec>
     <buildCommand>
