@@ -37,7 +37,7 @@ public class WindowClose extends WindowActiveElement {
                y: 0;
                width: size,
                height: size
-               fill: bind if (highLighted) subColor else color
+               fill: bind if (not highLighted) subColor else color
                stroke: bind color
                strokeWidth: strokeWidth
             },
@@ -51,7 +51,7 @@ public class WindowClose extends WindowActiveElement {
                      endX: size - closeCrossInset,
                      endY: size - closeCrossInset
                      strokeWidth: strokeWidth
-                     stroke: bind if (highLighted) color else subColor
+                     stroke: bind if (not highLighted) color else subColor
                   }
                   Line {
                      startX: closeCrossInset,
@@ -59,7 +59,7 @@ public class WindowClose extends WindowActiveElement {
                      endX: size - closeCrossInset,
                      endY: closeCrossInset
                      strokeWidth: strokeWidth
-                     stroke: bind if (highLighted) color else subColor
+                     stroke: bind if (not highLighted) color else subColor
                   }
                ]
             }
