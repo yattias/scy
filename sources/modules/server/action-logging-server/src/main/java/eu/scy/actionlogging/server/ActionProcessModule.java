@@ -13,6 +13,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionPacketTransformer;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
 
@@ -26,9 +27,7 @@ public class ActionProcessModule extends SCYHubModule {
     public ActionProcessModule(Component scyhub) {
     	super(scyhub, new ActionPacketTransformer());
         try {
-//        	TODO use the REAL conf
-//            ts = new TupleSpace(new User("Action Logging Module"), Configuration.getInstance().getSqlSpacesServerHost(), Configuration.getInstance().getSqlSpacesServerPort(), "actions");
-            ts = new TupleSpace(new User("Action Logging Module"), "134.91.34.217", 2525, "actionSpace");
+            ts = new TupleSpace(new User("Action Logging Module"), Configuration.getInstance().getSQLSpacesServerHost(), Configuration.getInstance().getSQLSpacesServerPort(), "actions");
             logger.debug("ActionProcessModule created!");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
