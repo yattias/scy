@@ -35,7 +35,7 @@ var scyDesktopCreator = ScyDesktopCreator {
 
 var tbi:ToolBrokerImpl = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 var awarenessService:IAwarenessService = tbi.getAwarenessService();
-awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
+//awarenessService.init(tbi.getConnection("senders11@scy.intermedia.uio.no", "senders11"));
 
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{iAwarenessService:awarenessService;}, scychatId);
 scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX{iAwarenessService:awarenessService;}, scychatpresenceId);
