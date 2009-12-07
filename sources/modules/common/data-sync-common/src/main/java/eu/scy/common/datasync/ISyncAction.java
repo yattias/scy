@@ -46,18 +46,18 @@ public interface ISyncAction {
 	public Type getType();
 	
 	/**
-	 * Sets the timestamp of the action as a {@link String} formated with the {@link TimeFormaterHelper}
+	 * Sets the timestamp of the action as millis
 	 * 
 	 * @param timestamp the timestamp of the action
 	 */
-	public void setTimestamp(String timestamp);
+	public void setTimestamp(long timestamp);
 	
 	/**
 	 * Returns the timestamp of the action.
 	 * 
 	 * @return timestamp the timestamp of the action
 	 */
-	public String getTimestamp();
+	public long getTimestamp();
 	
 	/**
 	 * Sets the id of the user of the action. The id should be a valid {@link org.xmpp.packet.JID} {@link String}.

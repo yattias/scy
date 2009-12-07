@@ -23,7 +23,7 @@ public interface ISyncObject {
 	/**
 	 * @return the ISyncObject creation time in milliseconds-since-1970
 	 */
-	public long getObjectCreatedTime();
+	public long getCreationTime();
 
 	/**
 	 * sets the creation time of the ISyncObject
@@ -31,12 +31,12 @@ public interface ISyncObject {
 	 * 
 	 * @param timestamp
 	 */
-	public void setObjectCreatedTime(long timestamp);
+	public void setCreationTime(long timestamp);
 	
 	/**
 	 * @return the timestamp (in milliseconds) of the last modification of this ISyncObject
 	 */
-	public long getLastChangeTime();
+	public long getLastModificationTime();
 	
 	/**
 	 * sets the time of the last modification
@@ -44,7 +44,7 @@ public interface ISyncObject {
 	 * 
 	 * @param timestamp
 	 */
-	public void setLastChangeTime(long timestamp);
+	public void setLastModificationTime(long timestamp);
 	
 	/**
 	 * @return
@@ -59,12 +59,22 @@ public interface ISyncObject {
 	/**
 	 * @return
 	 */
-	public String getUserId();
+	public String getCreator();
 
 	/**
 	 * @param userId
 	 */
-	public void setUserId(String userId);
+	public void setCreator(String userId);
+	
+	/**
+	 * @return
+	 */
+	public String getLastModificator();
+	
+	/**
+	 * @param userId
+	 */
+	public void setLastModificator(String userId);
 	
 	/**
 	 * @param key
