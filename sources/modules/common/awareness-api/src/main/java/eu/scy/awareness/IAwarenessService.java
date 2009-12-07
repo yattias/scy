@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.jivesoftware.smack.XMPPConnection;
 
-import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.event.IAwarenessRosterListener;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
 
 /**
  * Awareness Service Interface
@@ -109,5 +110,32 @@ public interface IAwarenessService {
      * 
      */
     public void disconnect();
+    
+
+    /**
+     * listens for events coming from ChatTool
+     * @param listener
+     */
+    public void addChatToolListener(IChatPresenceToolListener listener);
+    
+    /**
+     * listens for presence tool events coming from ChatPresenceTool
+     * @param listener
+     */
+    public void addPresenceToolListener(IChatPresenceToolListener listener);
+
+    /**
+     * updates all teh presence tool listeners
+     * 
+     * @param users
+     */
+	public void updatePresenceTool(List<IAwarenessUser> users);
+
+	/**
+	 * updates chat tool listeners
+	 * 
+	 * @param users
+	 */
+	public void updateChatTool(List<IAwarenessUser> users);
    
 }
