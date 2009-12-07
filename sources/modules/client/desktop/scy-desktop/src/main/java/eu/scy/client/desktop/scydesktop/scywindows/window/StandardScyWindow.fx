@@ -233,7 +233,7 @@ public class StandardScyWindow extends ScyWindow {
 
    }
 
-	public override function openWindow(openWidth:Number,openHeight:Number){
+	public override function openWindow(openWidth:Number,openHeight:Number):Void{
 		checkScyContent();
 		isClosed = false;
 		width = Math.max(openWidth,getMinimumWidth());
