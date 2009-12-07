@@ -14,21 +14,27 @@ public class SyncObject implements ISyncObject {
 
 	public static final String PATH = "syncobject"; 
 	
+	// string identifier for deleting a property	
+	public static final String DELETE = "D3L3737H1S";
+	
 	private String id;
-	private Map<String, String> properties;
+	private String creator;
+	private String lastModificator;
+	private long creationTimestamp;
+	private long lastModificationTimestamp = 0;
 	private String toolname;
-	private String userId;
-	private long objectCreated;
-	private long lastChange = 0;
+	private Map<String, String> properties;
 
+	/**
+	 * @param toolname
+	 * @param userId
+	 * @deprecated Use empty constructor instead
+	 */
+	@Deprecated
 	public SyncObject(String toolname, String userId) {
 		this();
-		id = UUID.randomUUID().toString();
-		objectCreated = System.currentTimeMillis();
-		lastChange = objectCreated;
-		this.toolname = toolname;
-		//TODO: we should not set the user here but automatically by the sync service!
-		this.userId = userId;
+		setToolname(toolname);
+		setCreator(userId);
 	}
 
 	public SyncObject(String xmlString) throws DocumentException {
@@ -48,28 +54,41 @@ public class SyncObject implements ISyncObject {
 		}
 	}
 	
-	/**
-	 * Non-argument constructor should only be called by packet transformers!
-	 */
 	public SyncObject() {
 		properties = new HashMap<String, String>();
+		id = UUID.randomUUID().toString();
+		creationTimestamp = System.currentTimeMillis();
+		lastModificationTimestamp = creationTimestamp;
 	}
 
 	private void parseContext(Element contextElement) {
-		this.id = contextElement.element("id").getText();
-		this.userId = contextElement.element("username").getText();
-		this.toolname = contextElement.element("toolname").getText();
-		this.objectCreated = Long.parseLong(contextElement.element(
-		"objectCreated").getText());
-		this.lastChange = Long.parseLong(contextElement.element("lastChange")
-				.getText());
+		this.id = getElementContentAsString(contextElement, "id");
+		this.creator = getElementContentAsString(contextElement, "creator");
+		this.creator = getElementContentAsString(contextElement, "lastmodificator");
+		this.toolname = getElementContentAsString(contextElement, "toolname");
+		this.creationTimestamp = getElementContentAsLong(contextElement,"creationtimestamp");
+		this.lastModificationTimestamp = getElementContentAsLong(contextElement, "lastmodificationtimestamp");
+	}
+	
+	private String getElementContentAsString(Element element, String name) {
+		if(element.element(name) != null) {
+			return element.element(name).getText();
+		}
+		return "";
+	}
+	
+	private Long getElementContentAsLong(Element element, String name) {
+		String toLong = getElementContentAsString(element, name);
+		if(!toLong.equals("")) {
+			Long.parseLong(toLong);
+		}
+ 		return Long.MIN_VALUE;
 	}
 
 	private void parseProperties(Element propertiesElement) {
 		properties = new HashMap<String, String>();
 		Element property;
-		for (Iterator<Element> propertyElements = propertiesElement
-				.elementIterator("property"); propertyElements.hasNext();) {
+		for (Iterator<Element> propertyElements = propertiesElement.elementIterator("property"); propertyElements.hasNext();) {
 			property = propertyElements.next();
 			properties.put(property.attributeValue("name"), property
 					.attributeValue("value"));
@@ -83,20 +102,24 @@ public class SyncObject implements ISyncObject {
 		elem.setText(this.id);
 		context.add(elem);
 		
-		elem = DocumentHelper.createElement("username");
-		elem.setText(this.userId);
+		elem = DocumentHelper.createElement("creator");
+		elem.setText(this.creator);
+		context.add(elem);
+
+		elem = DocumentHelper.createElement("lastmodificator");
+		elem.setText(this.creator);
 		context.add(elem);
 		
 		elem = DocumentHelper.createElement("toolname");
 		elem.setText(this.toolname);
 		context.add(elem);
 		
-		elem = DocumentHelper.createElement("objectCreated");
-		elem.setText(""+objectCreated);
+		elem = DocumentHelper.createElement("creationtimestamp");
+		elem.setText(""+creationTimestamp);
 		context.add(elem);
 		
-		elem = DocumentHelper.createElement("lastChange");
-		elem.setText(""+lastChange);
+		elem = DocumentHelper.createElement("lastmodificationtimestamp");
+		elem.setText(""+lastModificationTimestamp);
 		context.add(elem);
 		
 		return context;
@@ -132,17 +155,15 @@ public class SyncObject implements ISyncObject {
 	public String getID() {
 		return id;
 	}
-	
-	
 
 	@Override
-	public long getObjectCreatedTime() {
-		return this.objectCreated;
+	public long getCreationTime() {
+		return creationTimestamp;
 	}
 
 	@Override
-	public long getLastChangeTime() {
-		return this.lastChange;
+	public long getLastModificationTime() {
+		return lastModificationTimestamp;
 	}
 
 	@Override
@@ -161,23 +182,32 @@ public class SyncObject implements ISyncObject {
 	}
 
 	@Override
-	public String getUserId() {
-		return this.userId;
+	public String getCreator() {
+		return this.creator;
+	}
+	
+	@Override
+	public String getLastModificator() {
+		return lastModificator;
 	}
 
 	@Override
 	public void setProperty(String key, String value) {
 		this.properties.put(key, value);
 	}
-
-	@Override
-	public void setLastChangeTime(long timestamp) {
-		this.lastChange = timestamp;
+	
+	public void deleteProperty(String key) {
+		this.properties.put(key, DELETE);
 	}
 
 	@Override
-	public void setObjectCreatedTime(long timestamp) {
-		this.objectCreated = timestamp;
+	public void setLastModificationTime(long timestamp) {
+		this.lastModificationTimestamp = timestamp;
+	}
+
+	@Override
+	public void setCreationTime(long timestamp) {
+		this.creationTimestamp = timestamp;
 	}
 
 	@Override
@@ -186,8 +216,13 @@ public class SyncObject implements ISyncObject {
 	}
 
 	@Override
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCreator(String userId) {
+		this.creator = userId;
+	}
+	
+	@Override
+	public void setLastModificator(String userId) {
+		this.lastModificator = userId;
 	}
 
 	@Override

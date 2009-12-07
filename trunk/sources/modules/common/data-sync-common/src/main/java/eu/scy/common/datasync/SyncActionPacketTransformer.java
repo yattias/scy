@@ -61,7 +61,7 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 		if (path.equals(syncActionPath + "@id")) {
 			return pojo.getId();
 		} else if (path.equals(syncActionPath + "@timestamp")) {
-			return pojo.getTimestamp();
+			return Long.toString(pojo.getTimestamp());
 		} else if (path.equals(syncActionPath + "@sessionId")) {
 			return pojo.getSessionId();
 		} else if (path.equals(syncActionPath + "@userId")) {
@@ -72,12 +72,14 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 			return pojo.getSyncObject().getID();
 		} else if (path.equals(syncObjectPath + "@toolname")) {
 			return pojo.getSyncObject().getToolname();
-		} else if (path.equals(syncObjectPath + "@userid")) {
-			return pojo.getSyncObject().getUserId();
-		} else if (path.equals(syncObjectPath + "@objectcreatedtimestamp")) {
-			return Long.toString(pojo.getSyncObject().getObjectCreatedTime());
-		} else if (path.equals(syncObjectPath + "@lastchangetimestamp")) {
-			return Long.toString(pojo.getSyncObject().getLastChangeTime());
+		} else if (path.equals(syncObjectPath + "@creator")) {
+			return pojo.getSyncObject().getCreator();
+		} else if (path.equals(syncObjectPath + "@creationtime")) {
+			return Long.toString(pojo.getSyncObject().getCreationTime());
+		} else if (path.equals(syncObjectPath + "@lastmodificator")) {
+			return pojo.getSyncObject().getLastModificator();
+		} else if (path.equals(syncObjectPath + "@lastmodificationtime")) {
+			return Long.toString(pojo.getSyncObject().getLastModificationTime());
 		} else if (path.startsWith(propertiesPath)) {
 			String attribute = path.substring(propertiesPath.length());
 			return pojo.getSyncObject().getProperty(attribute);
@@ -103,9 +105,10 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 		paths.add(syncActionPath + "@type");
 		paths.add(syncObjectPath + "@id");
 		paths.add(syncObjectPath + "@toolname");
-		paths.add(syncObjectPath + "@userid");
-		paths.add(syncObjectPath + "@objectcreatedtimestamp");
-		paths.add(syncObjectPath + "@lastchangetimestamp");
+		paths.add(syncObjectPath + "@creator");
+		paths.add(syncObjectPath + "@lastmodificator");
+		paths.add(syncObjectPath + "@creationtime");
+		paths.add(syncObjectPath + "@lastmodificationtime");
 		for (String key : pojo.getSyncObject().getProperties().keySet()) {
 			paths.add(propertiesPath + key);
 		}
@@ -124,7 +127,7 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 		if (path.equals(syncActionPath + "@id")) {
 			pojo.setId(value);
 		} else if (path.equals(syncActionPath + "@timestamp")) {
-			pojo.setTimestamp(value);
+			pojo.setTimestamp(Long.parseLong(value));
 		} else if (path.equals(syncActionPath + "@sessionId")) {
 			pojo.setSessionId(value);
 		} else if (path.equals(syncActionPath + "@userId")) {
@@ -135,12 +138,14 @@ public class SyncActionPacketTransformer extends SCYPacketTransformer {
 			pojo.getSyncObject().setID(value);
 		} else if (path.equals(syncObjectPath + "@toolname")) {
 			pojo.getSyncObject().setToolname(value);
-		} else if (path.equals(syncObjectPath + "@userid")) {
-			pojo.getSyncObject().setUserId(value);
-		} else if (path.equals(syncObjectPath + "@objectcreatedtimestamp")) {
-			pojo.getSyncObject().setObjectCreatedTime(Long.parseLong(value));
-		} else if (path.equals(syncObjectPath + "@lastchangetimestamp")) {
-			pojo.getSyncObject().setLastChangeTime(Long.parseLong(value));
+		} else if (path.equals(syncObjectPath + "@creator")) {
+			pojo.getSyncObject().setCreator(value);
+		} else if (path.equals(syncObjectPath + "@creationtime")) {
+			pojo.getSyncObject().setCreationTime(Long.parseLong(value));
+		} else if (path.equals(syncObjectPath + "@lastmodificator")) {
+			pojo.getSyncObject().setCreator(value);
+		} else if (path.equals(syncObjectPath + "@lastmodificationtime")) {
+			pojo.getSyncObject().setLastModificationTime(Long.parseLong(value));
 		} else if (path.startsWith(propertiesPath)) {
 			String attribute = path.substring(propertiesPath.length());
 			pojo.getSyncObject().setProperty(attribute, value);

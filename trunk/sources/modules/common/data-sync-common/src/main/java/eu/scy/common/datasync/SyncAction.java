@@ -8,7 +8,7 @@ public class SyncAction implements ISyncAction {
 	
 	private String id;
 	
-	private String timestamp;
+	private long timestamp;
 	
 	private String sessionId;
 	
@@ -40,7 +40,7 @@ public class SyncAction implements ISyncAction {
 	 */
 	public SyncAction() {
 		id = UUID.randomUUID().toString();
-		timestamp = TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601();
+		timestamp = System.currentTimeMillis();
 		
 		syncObject = new SyncObject();
 	}
@@ -61,7 +61,7 @@ public class SyncAction implements ISyncAction {
 	}
 
 	@Override
-	public String getTimestamp() {
+	public long getTimestamp() {
 		return timestamp;
 	}
 
@@ -91,7 +91,7 @@ public class SyncAction implements ISyncAction {
 	}
 
 	@Override
-	public void setTimestamp(String timestamp) {
+	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
