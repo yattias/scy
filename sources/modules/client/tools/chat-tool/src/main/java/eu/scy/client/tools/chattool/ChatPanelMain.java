@@ -192,6 +192,7 @@ public class ChatPanelMain extends JPanel {
 		
 		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 		IAwarenessService aService = tbi.getAwarenessService();
+		logger.debug("ChatPanelMain: is Awareness Service connected?: "+aService.isConnected());
 		
 		cmp = new ChatPanelMain(aService);
 		frame.getContentPane().add(cmp);
