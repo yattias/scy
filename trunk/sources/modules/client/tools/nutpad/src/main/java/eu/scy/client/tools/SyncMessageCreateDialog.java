@@ -14,9 +14,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.common.configuration.Configuration;
-
-
 public class SyncMessageCreateDialog extends JDialog implements ActionListener {
 
     private final static Logger logger = Logger.getLogger(SyncMessageCreateDialog.class.getName());
@@ -42,8 +39,7 @@ public class SyncMessageCreateDialog extends JDialog implements ActionListener {
         this.toolId.setText(toolId);
         this.from.setText(userName);
         this.event.setText(event);
-        //this.expiration.setText(String.valueOf(Configuration.getInstance().getDatasyncMessageDefaultExpiration()));
-        this.expiration.setText("3600");
+        this.expiration.setText("1000");
         initialize();
     }
     
