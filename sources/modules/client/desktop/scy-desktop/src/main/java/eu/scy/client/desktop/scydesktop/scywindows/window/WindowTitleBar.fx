@@ -57,6 +57,7 @@ public class WindowTitleBar extends WindowElement {
 							width: iconSize
 							height: iconSize
 							fill: bind bgColor
+                     stroke:bind color
 						}
 						iconChar = Text {
 							font: eloTypeFont

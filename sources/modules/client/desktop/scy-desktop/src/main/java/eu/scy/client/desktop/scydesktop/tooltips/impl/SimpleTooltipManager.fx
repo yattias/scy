@@ -26,66 +26,79 @@ import javafx.animation.KeyFrame;
 public class SimpleTooltipManager extends TooltipManager {
 
    def sourceNodes = new HashMap();
-   var currentSourceNode:Node;
-   var currentTooltip:Node;
+   var currentSourceNode: Node;
+   var currentTooltip: Node;
+   var currentTimeLine:Timeline;
 
-   def startShowTime = 1.5s;
-   def appearTime = 1.5s;
-   def finalOpacity = 0.9;
-   def useAnimation = false;
+   def startShowTime = 1.0s;
+   def appearTime = 250ms;
+   def showTime = 10s;
+   def finalOpacity = 0.75;
+   def useAnimation = true;
 
-   def showTip:Timeline = Timeline {
-      keyFrames: [
-         KeyFrame {
-            time: 0s
-            values:currentTooltip.opacity => 0.0;
-            action:function(){
-               println("start time line: {currentTooltip.opacity}, {currentTooltip!=null}");
+   function getTimeLine() {
+      def tooltipNode = currentTooltip;
+      Timeline {
+         keyFrames: [
+            KeyFrame {
+               time: 0s
+               values: tooltipNode.opacity => 0.0;
+//               action: function () {
+//                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
+//               }
             }
-         }
-         KeyFrame {
-            time: startShowTime
-            values:currentTooltip.opacity => 0.0;
-            action:function(){
-               println("start opacity set: {currentTooltip.opacity}");
+            KeyFrame {
+               time: startShowTime
+               values: tooltipNode.opacity => 0.0;
+//               action: function () {
+//                  println("start opacity set: {tooltipNode.opacity}");
+//               }
             }
-         }
-         KeyFrame {
-            time: startShowTime+appearTime
-            values:currentTooltip.opacity => finalOpacity tween Interpolator.EASEBOTH;
-            action:function(){
-               println("final opacity set: {currentTooltip.opacity}");
+            KeyFrame {
+               time: startShowTime + appearTime
+               values: tooltipNode.opacity => finalOpacity tween Interpolator.EASEBOTH;
+//               action: function () {
+//                  println("final opacity set: {tooltipNode.opacity}");
+//               }
             }
-         }
-      ]
+            KeyFrame {
+               time: showTime
+               values: tooltipNode.opacity => 0.0 tween Interpolator.EASEBOTH;
+//               action: function () {
+//                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
+//               }
+            }
+         ]
+      }
    }
 
-public override function registerNode(sourceNode:Node, tooltipCreator: TooltipCreator):Void{
+   public override function registerNode(sourceNode: Node, tooltipCreator: TooltipCreator): Void {
       sourceNode.onMouseEntered = onMouseEntered;
       sourceNode.onMouseExited = onMouseExited;
       sourceNodes.put(sourceNode, tooltipCreator);
    }
 
-   public override function unregisterNode(sourceNode:Node):Void{
+   public override function unregisterNode(sourceNode: Node): Void {
       sourceNodes.remove(sourceNode);
       sourceNode.onMouseEntered = null;
       sourceNode.onMouseExited = null;
    }
 
-   function onMouseEntered(e:MouseEvent):Void{
+   function onMouseEntered(e: MouseEvent): Void {
       setTooltipNode(e.node);
-      if (currentTooltip!=null){
-         if (useAnimation){
-            showTip.play();
+      if (currentTooltip != null) {
+         if (useAnimation) {
+            currentTimeLine = getTimeLine();
+            currentTimeLine.play();
          }
       }
    }
 
-   function onMouseExited(e:MouseEvent):Void{
-      if (currentTooltip!=null){
-         if (useAnimation){
-            showTip.stop();
-            showTip.time = 0s;
+   function onMouseExited(e: MouseEvent): Void {
+      if (currentTooltip != null) {
+         if (useAnimation) {
+            currentTimeLine.stop();
+            currentTimeLine.time = 0s;
          }
          delete currentTooltip from currentSourceNode.scene.content;
          currentTooltip = null;
@@ -93,17 +106,16 @@ public override function registerNode(sourceNode:Node, tooltipCreator: TooltipCr
       }
    }
 
-   function setTooltipNode(sourceNode:Node):Void{
-      if (sourceNode!=currentSourceNode){
+   function setTooltipNode(sourceNode: Node): Void {
+      if (sourceNode != currentSourceNode) {
          var tooltipCreator = sourceNodes.get(sourceNode) as TooltipCreator;
          currentSourceNode = sourceNode;
          currentTooltip = tooltipCreator.createTooltipNode(currentSourceNode);
          currentTooltip.opacity = finalOpacity;
          var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-         currentTooltip.layoutX = sourceSceneBounds.minX-currentTooltip.layoutBounds.width-currentTooltip.layoutBounds.minX;
-         currentTooltip.layoutY = sourceSceneBounds.minY-currentTooltip.layoutBounds.height-currentTooltip.layoutBounds.minY;
+         currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+         currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
          insert currentTooltip into currentSourceNode.scene.content;
       }
    }
-
 }
