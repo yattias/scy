@@ -73,6 +73,36 @@
 				<scyhub.name>scyhub</scyhub.name>
 			</properties>
 		</profile>
+		<profile>
+			<id>adam</id>
+			<properties>
+				<serverfilter.db.username>root</serverfilter.db.username>
+				<serverfilter.db.password>root</serverfilter.db.password>
+				<serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+				<serverfilter.db.host>localhost</serverfilter.db.host>
+
+				<client.servername>scy.collide.info</client.servername>
+				<client.httpPort>8080</client.httpPort>
+				<client.contextPath>/scy-useradmin-web</client.contextPath>
+
+				<sqlspaces.server.host>localhost</sqlspaces.server.host>
+				<sqlspaces.server.port>2525</sqlspaces.server.port>
+
+				<openfire.host>scy.collide.info</openfire.host>
+				<openfire.client.port>5222</openfire.client.port>
+				<openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+				<openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+				<scyhub.name>scyhubadam</scyhub.name>
+			</properties>
+		</profile>
 	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 
 </project>

@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -20,14 +20,14 @@ public class Configuration {
 	
 	private Configuration() {
 		try {
-			logger.log(Level.INFO, "initialising default configuration");
+			logger.info("initialising default configuration");
 			props = getDefaultProperties();
-			logger.log(Level.INFO, "loading configuration from file");
+			logger.info("loading configuration from file");
 			URL url = Configuration.class.getResource("scyconfig.properties");
-			logger.log(Level.INFO, "configuration file found in " + url.toString());
+			logger.info("configuration file found in " + url.toString());
 			props.load(url.openStream());
-            logger.log(Level.INFO, "loaded "+props.size()+" keys");
-            logger.log(Level.INFO, "parsing system properties for configuration");
+            logger.info("loaded "+props.size()+" keys");
+            logger.info("parsing system properties for configuration");
             Properties sysprops = System.getProperties();
             int counter = 0;
             for (Object key : sysprops.keySet()) {
@@ -39,9 +39,9 @@ public class Configuration {
                 }
             }
             if(counter > 0) {
-            	logger.log(Level.INFO, "loaded " + counter + " keys from system properties");
+            	logger.info("loaded " + counter + " keys from system properties");
             } else {
-            	logger.log(Level.INFO, "no keys loaded from system properties");
+            	logger.info("no keys loaded from system properties");
             }
             // check for old configuration items
             if(props.getProperty("communication.client.event.join.session") != null) {
