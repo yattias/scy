@@ -1,15 +1,25 @@
 package eu.scy.common.configuration;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class ConfigurationTest {
+	
+	private static final String newSCYHubName = "buhycs";
 
 	public ConfigurationTest() {}
 	
+	@Before
+	public void init() {
+		System.getProperties().setProperty("scyconfig.scyhub.name", newSCYHubName);
+	}
+	
 	@org.junit.Test
     public void testConfiguration() {
-		assertTrue(Configuration.getInstance() != null);
+		assertNotNull(Configuration.getInstance());
 	}
 
     @org.junit.Test
@@ -22,4 +32,9 @@ public class ConfigurationTest {
     	}
     	assertNotNull(port);
     }
+    
+    @Test
+	public void testSystemProperties() throws Exception {
+		assertEquals(newSCYHubName, Configuration.getInstance().getSCYHubName());
+	}
 }
