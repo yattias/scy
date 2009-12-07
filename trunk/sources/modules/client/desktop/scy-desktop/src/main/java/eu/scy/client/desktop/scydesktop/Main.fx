@@ -23,17 +23,17 @@ import javafx.scene.image.ImageView;
  */
 InitLog4JFX.initLog4J();
 
-def scyTextId = "text";
-def eloXmlViewerId = "xmlViewer";
-var scyDesktopCreator = ScyDesktopCreator {
-           servicesClassPathConfigLocation: "config/localWrappedRooloConfig.xml";
-           configClassPathConfigLocation: "config/scyDesktopTestConfig.xml";
-        }
+function createScyDesktop(sessionId: String): ScyDesktop {
+   def scyTextId = "text";
+   def eloXmlViewerId = "xmlViewer";
+   var scyDesktopCreator = ScyDesktopCreator {
+              servicesClassPathConfigLocation: "config/localWrappedRooloConfig.xml";
+              configClassPathConfigLocation: "config/scyDesktopTestConfig.xml";
+           }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "eloXmlViewerId");
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "eloXmlViewerId");
 
-function createScyDesktop(): ScyDesktop {
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
@@ -48,7 +48,6 @@ var loginDialog = LoginDialog {
            createScyDesktop: createScyDesktop
         }
 var stage: Stage;
-
 var backgroundImage = ImageView {
            image: Image {
               url: "{__DIR__}bckgrnd2.jpg"
