@@ -35,7 +35,6 @@ import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
-import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -72,10 +71,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     private ToolBrokerAPI tbi;
 
-    public DataCollector(ISimQuestViewer simquestViewer) {
-        this(simquestViewer, new ToolBrokerImpl("Jan", "jan"));
-    }
-    
     public DataCollector(ISimQuestViewer simquestViewer,ToolBrokerAPI tbi ) {
         // initialize the logger
         this.tbi = tbi;
