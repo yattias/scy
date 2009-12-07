@@ -13,48 +13,122 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Math;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 
 /**
  * @author sikken
  */
 // place your code here
-class LoginDialog extends CustomNode {
+public class LoginDialog extends CustomNode {
 
 
+      def userNameName =   "username";
+
+
+
+   def passwordName = "password";
    public var windowStyler: WindowStyler;
+   public var createScyDesktop: function(): ScyDesktop;
+   var loginWindow: StandardScyWindow;
+   var defaultUserName = "";
+   var defaultPassword = "";
+
+   init {
+      FX.deferAction(function () {
+         MouseBlocker.initMouseBlocker(scene.stage);
+      });
+
+
+   }
 
    public override function create(): Node {
-      var loginNode = LoginNode{
-         loginAction:loginAction
-      }
+      setDefaultLoginEntries();
+      var loginNode = LoginNode {
+                 loginAction: loginAction
+                 defaultUserName: defaultUserName
+                 defaultPassword: defaultPassword
+              }
       //TODO, why Math.abs????
       var loginWidth = loginNode.boundsInLocal.width + Math.abs(loginNode.boundsInLocal.minX);
-      var loginHeight = loginNode.boundsInLocal.height+ Math.abs(loginNode.boundsInLocal.minY);
+      var loginHeight = loginNode.boundsInLocal.height + Math.abs(loginNode.boundsInLocal.minY);
       println("loginNode.boundsInLocal: {loginNode.boundsInLocal}");
-      var loginWindow = StandardScyWindow {
-                 title: "SCY-LAB login"
-                 color: Color.GREEN
-                 drawerColor: Color.color(0.3, 0.7, 0.3);
-                 height: loginHeight;
-                 width:loginWidth;
-                 scyContent:loginNode
-                 allowClose: false;
-                 allowResize: false;
-                 allowRotate: false;
-                 allowMinimize: false;
-              };
+      loginWindow = StandardScyWindow {
+         title: "SCY-LAB login"
+         color: Color.GREEN
+         drawerColor: Color.color(0.3, 0.7, 0.3);
+         height: loginHeight;
+         width: loginWidth;
+         scyContent: loginNode
+         allowClose: false;
+         allowResize: false;
+         allowRotate: false;
+         allowMinimize: false;
+      };
       loginWindow.openWindow(loginWidth, loginHeight);
+      loginWindow.activated = true;
+      FX.deferAction(placeWindowCenter);
+//      placeWindowCenter(loginWindow);
       windowStyler.style(loginWindow);
+
       return loginWindow;
    }
 
-   function loginAction(userName:String,password:String):Void{
-
+   function setDefaultLoginEntries() {
+      // try application parameters
+      defaultUserName = FX.getArgument(userNameName) as String;
+      defaultPassword = FX.getArgument(passwordName) as String;
+      if (defaultUserName == null) {
+         // try web start parameters
+         defaultUserName = getApplicationArgument(userNameName);
+         defaultPassword = getApplicationArgument(passwordName);
+      }
+      if (defaultUserName == null) {
+         // try system properties
+         // TODO does not seem to work
+         defaultUserName = FX.getProperty(userNameName) as String;
+         defaultPassword = FX.getProperty(passwordName) as String;
+      }
+      return defaultUserName != null;
    }
 
+   function getApplicationArgument(name: String): String {
+      var args = FX.getArguments();
+      var i = 0;
+      while (i < sizeof args) {
+         if (args[i].startsWith("-")) {
+            var lcArg = args[i].toLowerCase();
+            if (lcArg == "-{name}") {
+               i++;
+               if (i < sizeof args) {
+                  return args[i];
+               }
+            }
+         }
+         i++;
+      }
+      return null;
+   }
+
+   function placeWindowCenter(): Void {
+      loginWindow.layoutX = this.scene.stage.width / 2 - loginWindow.width / 2;
+      loginWindow.layoutY = this.scene.stage.height / 2 - loginWindow.height / 2;
+      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
+      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
+   }
+
+   function loginAction(userName: String, password: String): Void {
+      // using the sceneContent, with a copy of scene.content, does work
+      // directly adding scyDesktop to scene.content does not seem to work
+      var sceneContent = scene.content;
+      var scyDesktop = createScyDesktop();
+      delete this from sceneContent;
+      insert scyDesktop into sceneContent;
+      scene.content = sceneContent;
+   }
 }
 
-function run(){
+function run()  {
    var loginDialog = LoginDialog {
               layoutX: 10
               layoutY: 10

@@ -181,25 +181,25 @@ public class ScyDesktop extends CustomNode {
 
    function createElements(){
       var backgroundImageUrl;
-      if (config.getBackgroundImageFileName()!=null){
-         if (config.isBackgroundImageFileNameRelative()){
-            backgroundImageUrl = "{__DIR__}{config.getBackgroundImageFileName()}";
-         }
-         else{
-            backgroundImageUrl = config.getBackgroundImageFileName();
-         }
-         backgroundImage = Image {
-             url: backgroundImageUrl
-         }
-         logger.info("background image: {backgroundImage.url}, error: {backgroundImage.error}");
-         backgroundImageView = ImageView {
-            image: backgroundImage
-            fitWidth: bind scene.width
-            fitHeight:bind scene.height
-            preserveRatio:false
-            cache:true
-         }
-      }
+//      if (config.getBackgroundImageFileName()!=null){
+//         if (config.isBackgroundImageFileNameRelative()){
+//            backgroundImageUrl = "{__DIR__}{config.getBackgroundImageFileName()}";
+//         }
+//         else{
+//            backgroundImageUrl = config.getBackgroundImageFileName();
+//         }
+//         backgroundImage = Image {
+//             url: backgroundImageUrl
+//         }
+//         logger.info("background image: {backgroundImage.url}, error: {backgroundImage.error}");
+//         backgroundImageView = ImageView {
+//            image: backgroundImage
+//            fitWidth: bind scene.width
+//            fitHeight:bind scene.height
+//            preserveRatio:false
+//            cache:true
+//         }
+//      }
 
       windows = WindowManagerImpl{
          activeAnchor: bind missionModelFX.activeAnchor;
