@@ -5,11 +5,7 @@ import static org.junit.Assert.assertTrue;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +21,7 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.KeyValuePair;
-import cc.mallet.topics.TopicModelParameter;
 import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.impl.PersistentStorage;
 
 public class DetectTopicForElosTest extends AbstractTestFixture {
 
@@ -49,6 +43,7 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -70,33 +65,13 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		elo.setContent(new BasicContent(TEXT.getBytes()));
 		IMetadata data = repository.addNewELO(elo);
 		eloURI = (URI) data.getMetadataValueContainer(
-				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
-						.getId())).getValue();
+				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId())).getValue();
 		System.out.println("EloURI " + eloURI);
-	}
-
-	private void initModel() {
-		ObjectInputStream in = null;
-		try {
-			InputStream inStream = this.getClass().getResourceAsStream(
-					"/model.dat");
-			in = new ObjectInputStream(inStream);
-			TopicModelParameter model = (TopicModelParameter) in.readObject();
-			in.close();
-			PersistentStorage storage = getPersistentStorage();
-			storage.put(MODEL_NAME, model);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testProcessElo() throws TupleSpaceException,
-			InterruptedException, IOException, ClassNotFoundException,
-			URISyntaxException {
+	public void testProcessElo() throws TupleSpaceException, InterruptedException {
 		assertTrue(true);
 
 		System.out.println("Writing tuple");
@@ -107,8 +82,7 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		Thread.sleep(2000);
 
 		elo = repository.retrieveELO(eloURI);
-		IMetadataKey key = typeManager
-				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+		IMetadataKey key = typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
 		List<KeyValuePair> topicScores = (List<KeyValuePair>) elo.getMetadata()
 				.getMetadataValueContainer(key).getValueList();
 
@@ -128,12 +102,12 @@ public class DetectTopicForElosTest extends AbstractTestFixture {
 		assertEquals("wrong probability for topic 8", 0.0019143937827241963,
 				getTopicScore(topicScores.get(8)), 0.01);
 
-		assertEquals("wrong probability for topic 2", 0.1603676990866432,
-				getTopicScore(topicScores.get(2)), 0.03);
+		assertEquals("wrong probability for topic 2", 0.1603676990866432, getTopicScore(topicScores
+				.get(2)), 0.03);
 		assertEquals("wrong probability for topic 3", 0.05110776312074621,
 				getTopicScore(topicScores.get(3)), 0.03);
-		assertEquals("wrong probability for topic 9", 0.7885358343528651,
-				getTopicScore(topicScores.get(9)), 0.03);
+		assertEquals("wrong probability for topic 9", 0.7885358343528651, getTopicScore(topicScores
+				.get(9)), 0.03);
 
 	}
 
