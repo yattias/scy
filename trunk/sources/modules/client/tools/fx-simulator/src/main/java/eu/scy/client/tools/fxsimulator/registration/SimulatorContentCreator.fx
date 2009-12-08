@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JTextArea;
 import roolo.elo.api.IELO;
+import eu.scy.toolbroker.ToolBrokerImpl;
 
 public class SimulatorContentCreator extends WindowContentCreatorFX {
    public var eloFactory:IELOFactory;
@@ -48,6 +49,9 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
         System.out.println("SimQuestNode.createSimQuestNode(). trying to load: {fileUri.getHost()} {fileUri.getPath()} {fileUri.getQuery()}");
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
+        
+        var tbi:ToolBrokerImpl = new ToolBrokerImpl("Jan", "jan");
+        //var tbi.registerForNotifications(this);
 
         var simquestPanel = new JPanel();
         var dataCollector:DataCollector;
@@ -61,7 +65,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
         	simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450,450));
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
 
-            dataCollector = new DataCollector(simquestViewer);
+            dataCollector = new DataCollector(simquestViewer, tbi);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 
             eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);
