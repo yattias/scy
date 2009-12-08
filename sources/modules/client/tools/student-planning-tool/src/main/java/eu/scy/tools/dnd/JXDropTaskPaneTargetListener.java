@@ -11,15 +11,24 @@ import java.io.IOException;
 
 import org.jdesktop.swingx.JXPanel;
 
-public class JXDropTargetListener implements DropTargetListener {
+import eu.scy.core.model.impl.pedagogicalplan.ActivityImpl;
+import eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl;
+import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
+import eu.scy.core.model.pedagogicalplan.Activity;
+import eu.scy.core.model.pedagogicalplan.AnchorELO;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
+import eu.scy.tools.planning.StudentPlanningToolMain;
 
-	private JXPanel jxPanel;
+public class JXDropTaskPaneTargetListener implements DropTargetListener {
+	
+	private StudentPlanningToolMain spt;
 
-	public JXDropTargetListener(JXPanel jxPanel) {
-		
-		this.jxPanel = jxPanel;
-		
+	public JXDropTaskPaneTargetListener(
+			StudentPlanningToolMain studentPlanningToolMain) {
+		this.spt = studentPlanningToolMain;
 	}
+
+	
 
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
@@ -73,10 +82,33 @@ public class JXDropTargetListener implements DropTargetListener {
 			DnDUtils.debugPrintln("Dragged component class is "
 					+ o.getClass().getName());
 			
+			if( ((Component) o).getName().contains("elo") ) {
+				
+				LearningActivitySpace planning = new LearningActivitySpaceImpl();
+		        planning.setName(((Component) o).getName());
+
+
+		        Activity firstActivity = new ActivityImpl();
+		        firstActivity.setName("Gather in the big hall and listen to your teacher");
+		        planning.addActivity(firstActivity);
+
+		        Activity conceptMappingSession = new  ActivityImpl();
+		        conceptMappingSession.setName("Concept mapping");
+		        planning.addActivity(conceptMappingSession);
+
+		        AnchorELO conceptMap = new AnchorELOImpl();
+		        conceptMap.setName("Expected concept map");
+		        conceptMappingSession.setAnchorELO(conceptMap);
+
+		        LearningActivitySpace lastSpace = new LearningActivitySpaceImpl();
+		        lastSpace.setName("Evaluation");
+		        conceptMap.setInputTo(lastSpace);
+
+		        
+				spt.addTaskContainer(spt.createLASPanel(planning));
+				return true;
+			}
 			
-			jxPanel.add((Component) o);
-			jxPanel.validate();
-			return true;
 		}
 		return false;
 	}

@@ -73,6 +73,7 @@ import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.tools.dnd.ImageSelection;
 import eu.scy.tools.dnd.JXDropTargetListener;
+import eu.scy.tools.dnd.JXDropTaskPaneTargetListener;
 
 public class StudentPlanningToolMain {
 	
@@ -89,6 +90,8 @@ public class StudentPlanningToolMain {
 	private PedagogicalPlanService pedagogicalPlanService;
 	
 	private Map<String, List<Integer>> lasToActivityPercentageMap = new HashMap<String, List<Integer>>();
+
+	private JXTaskPaneContainer taskpanecontainer;
 
 	/**
 	 * creates a JFrame and calls {@link #doInit} to create a JXPanel and adds
@@ -127,8 +130,7 @@ public class StudentPlanningToolMain {
 
 		// add the panel to this frame
 		
-		
-		JXButton openFrame = new JXButton("launchy");
+		JXButton openFrame = new JXButton("Test drag components press here");
 		openFrame.addActionListener(new ActionListener() {
 			
 			@Override
@@ -164,6 +166,8 @@ public class StudentPlanningToolMain {
 
 			}
 		});
+		
+		
 		frame.add(openFrame);
 
 		// when you close the frame, the app exits
@@ -177,7 +181,46 @@ public class StudentPlanningToolMain {
 		
 		
 	}
+	
+	public JXButton testButton() {
+		JXButton openFrame = new JXButton("Test components press here");
+		openFrame.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				JFrame frame = new JFrame("Planning Tool");
+//				frame.setLayout(new MigLayout("insets 0 0 0 0"));
+////				JScrollPane scrollPane = new JScrollPane(doInit());
+////				
+////				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+////				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//				frame.add(createStudentPlanningPanel(null));
+//				//frame.setPreferredSize(new Dimension(500, 600));
+//				// when you close the frame, the app exits
+//				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//
+//				// center the frame and show it
+//				frame.setLocationRelativeTo(null);
+//				frame.pack();
+//				frame.setVisible(true);
+				
+				JFrame frame = new JFrame("Test drag panel");
+				frame.setLayout(new MigLayout("insets 0 0 0 0"));
+				
+				frame.add(createDragPanel());
+				//frame.setPreferredSize(new Dimension(500, 600));
+				// when you close the frame, the app exits
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+				// center the frame and show it
+				frame.setLocationRelativeTo(null);
+				frame.pack();
+				frame.setVisible(true);
+
+			}
+		});
+		return openFrame;
+	}
 	/** creates a JXLabel and attaches a painter to it. */
 	public JComponent createStudentPlanningPanel(Scenario s) {
 		
@@ -188,7 +231,7 @@ public class StudentPlanningToolMain {
 		changeUIdefaults();
 
 		// create a taskpanecontainer
-		JXTaskPaneContainer taskpanecontainer = new JXTaskPaneContainer();
+		taskpanecontainer = new JXTaskPaneContainer();
 		taskpanecontainer.setOpaque(true);
 		taskpanecontainer.setBackgroundPainter(getTaskPaneTitlePainter());
 		taskpanecontainer.setLayout(new VerticalLayout(5));
@@ -202,9 +245,10 @@ public class StudentPlanningToolMain {
 
         List activities = firstSpace.getActivities();		
 		
-        
+        taskpanecontainer.add(testButton());
 		taskpanecontainer.add(createLASPanel(firstSpace));
-	
+
+		taskpanecontainer.setDropTarget(new DropTarget(taskpanecontainer, new JXDropTaskPaneTargetListener(this)));
 		
 		// set the transparency of the JXPanel to 50% transparent
 		// panel.setAlpha(0.7f);
@@ -214,7 +258,7 @@ public class StudentPlanningToolMain {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 //		panel.add(taskpanecontainer, BorderLayout.CENTER);
 //		panel.setPreferredSize(new Dimension(500, 600));
-		scrollPane.setPreferredSize(new Dimension(700, 600));
+		scrollPane.setPreferredSize(new Dimension(400, 600));
 		scrollPane.setOpaque(false);
 		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
 		JXPanel outerPanel = new JXPanel(new HorizontalLayout(1));
@@ -237,6 +281,11 @@ public class StudentPlanningToolMain {
 		
 		return outerPanel;
 	}
+	
+	public void addTaskContainer(JXTaskPane taskpane) {
+		taskpanecontainer.add(taskpane);
+		taskpanecontainer.revalidate();
+	}
 
 	private JComponent createDragPanel() {
 		JXPanel dragPanel = new JXPanel();
@@ -247,15 +296,24 @@ public class StudentPlanningToolMain {
 		
 		JXLabel elo1Label = new JXLabel(Images.Excel1.getIcon());
 		elo1Label.setText("elo 1");
+		elo1Label.setName("anchor elo 1");
 		
 		JXLabel elo2Label = new JXLabel(Images.Excel2.getIcon());
 		elo2Label.setText("elo 2");
+		elo2Label.setName("anchor elo 2");
 		
 		JXLabel member1Label = new JXLabel(Images.Profile.getIcon());
 		member1Label.setText("bob");
 		
 		JXLabel member2Label = new JXLabel(Images.Profile.getIcon());
 		member2Label.setText("jack");
+		
+		JXLabel anchorELOLabel = new JXLabel("ANCHOR ELO");
+		anchorELOLabel.setText("jack");
+		anchorELOLabel.setBackground(Color.black);
+		anchorELOLabel.setForeground(Color.white);
+		
+		
 		
 		MouseListener listener = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -277,6 +335,10 @@ public class StudentPlanningToolMain {
 		member2Label.addMouseListener(listener);
 
 
+		anchorELOLabel.setTransferHandler(new ImageSelection());
+		anchorELOLabel.addMouseListener(listener);
+		anchorELOLabel.setTransferHandler(new ImageSelection());
+		anchorELOLabel.addMouseListener(listener);
 		
 		
 		
@@ -285,6 +347,7 @@ public class StudentPlanningToolMain {
 		dragPanel.add(elo2Label);
 		dragPanel.add(member1Label);
 		dragPanel.add(member2Label);
+		//dragPanel.add(anchorELOLabel);
 		
 //		DragSource dragSource = DragSource.getDefaultDragSource();
 //		    dragSource.createDefaultDragGestureRecognizer(bobLabel,DnDConstants.ACTION_MOVE, new JXDragListener());
@@ -292,7 +355,7 @@ public class StudentPlanningToolMain {
 		return dragPanel;
 	}
 
-	private JXTaskPane createLASPanel(LearningActivitySpace las) {
+	public  JXTaskPane createLASPanel(LearningActivitySpace las) {
 
 		// create a taskpane, and set it's title and icon
 		JXTaskPane taskpane = new JXTaskPane();
@@ -533,7 +596,7 @@ public class StudentPlanningToolMain {
 		infoPanel.setOpaque(false);
 		//infoPanel.setAlpha(0.0f);
 		
-		activityPanel.setRightDecoration(infoLink);
+		//activityPanel.setRightDecoration(infoLink);
 		//activityPanel.setTitlePainter(getActivitTitlePainter());
 		activityPanel.setBackground(Colors.Black.color());
 		activityPanel.setLayout(new VerticalLayout(0));
@@ -836,15 +899,15 @@ public class StudentPlanningToolMain {
 	 */
 	public Scenario setupPedagogicalPlan() {
 
-		 String url = JOptionPane.showInputDialog("Input host (for example localhost)");
-	     String username = JOptionPane.showInputDialog("Enter your freakin username");
-
-		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
-		fb.setServiceInterface(PedagogicalPlanService.class);
-		fb.setServiceUrl("http://" + url
-				+ ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
-		fb.afterPropertiesSet();
-	    PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
+//		 String url = JOptionPane.showInputDialog("Input host (for example localhost)");
+//	     String username = JOptionPane.showInputDialog("Enter your freakin username");
+//
+//		HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+//		fb.setServiceInterface(PedagogicalPlanService.class);
+//		fb.setServiceUrl("http://" + url
+//				+ ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+//		fb.afterPropertiesSet();
+//	    PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
 		
 		
         Scenario scenario = createScenario();
