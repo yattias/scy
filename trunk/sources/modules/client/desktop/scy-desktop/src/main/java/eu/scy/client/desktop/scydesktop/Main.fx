@@ -23,11 +23,13 @@ import javafx.scene.image.ImageView;
  */
 InitLog4JFX.initLog4J();
 
-function createScyDesktop(sessionId: String): ScyDesktop {
+function createScyDesktop(sessionId: String, userName:String): ScyDesktop {
    def scyTextId = "text";
    def eloXmlViewerId = "xmlViewer";
    var scyDesktopCreator = ScyDesktopCreator {
-              servicesClassPathConfigLocation: "config/localWrappedRooloConfig.xml";
+              sessionId:sessionId;
+              userName:userName;
+              servicesClassPathConfigLocation: "config/localScyServices.xml";
               configClassPathConfigLocation: "config/scyDesktopTestConfig.xml";
            }
 

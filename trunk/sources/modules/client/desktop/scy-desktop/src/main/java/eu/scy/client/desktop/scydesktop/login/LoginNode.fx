@@ -43,6 +43,7 @@ public class LoginNode extends CustomNode {
    def rowHeight = 30;
    def textBoxColumns = 15;
    var userNameField: TextBox;
+   var passwordLabel:Label;
    var passwordField: PasswordBox;
    var loginButton: Button;
    var quitButton: Button;
@@ -65,7 +66,7 @@ public class LoginNode extends CustomNode {
                        }
 
                     }
-                    Label {
+                    passwordLabel = Label {
                        layoutY: rowHeight;
                        text: "Password"
                     }
@@ -143,6 +144,7 @@ public class LoginNode extends CustomNode {
 		}
 	]
 }.play();
+passwordLabel.textFill = Color.RED;
 passwordField.requestFocus();
 
    }

@@ -19,6 +19,7 @@
       <property name="extensionManager" ref="extensionManager"/>
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
+      <property name="toolBrokerAPI" ref="toolBrokerAPI"/>
       <property name="titleKey" ref="titleKey"/>
       <property name="technicalFormatKey" ref="technicalFormatKey"/>
       <!--

@@ -43,6 +43,8 @@ public class WindowTitleBar extends WindowElement {
    def eloTypeFont = Font.font("Verdana", FontWeight.BOLD, eloTypeFontsize);
    def mainColor = bind if (activated) color else subColor;
    def bgColor = bind if (activated) subColor else color;
+//   def mainColor =  color;
+//   def bgColor = subColor;
 
    public override function create(): Node {
       return Group {
@@ -91,6 +93,7 @@ public class WindowTitleBar extends WindowElement {
                fill: bind bgColor
 
                content: bind title;
+              // content: bind "- {title}";
             },
 
 				//				Group{ // just for checking title clip

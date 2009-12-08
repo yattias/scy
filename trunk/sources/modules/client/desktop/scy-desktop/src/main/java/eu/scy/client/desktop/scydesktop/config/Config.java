@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.config;
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -27,6 +28,8 @@ public interface Config {
    public IExtensionManager getExtensionManager();
    public IMetadataTypeManager getMetadataTypeManager();
    public IELOFactory getEloFactory();
+
+   public ToolBrokerAPI getToolBrokerAPI();
 
    public IMetadataKey getTitleKey();
    public IMetadataKey getTechnicalFormatKey();
