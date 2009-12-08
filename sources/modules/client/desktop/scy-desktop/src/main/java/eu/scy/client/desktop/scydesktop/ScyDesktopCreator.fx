@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import javafx.scene.paint.Color;
 
 import java.net.URI;
+import java.lang.System;
 
 
 /**
@@ -43,6 +44,8 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreato
 
 public class ScyDesktopCreator {
 
+   public-init var sessionId:String;
+   public-init var userName:String;
    public-init var config:Config;
    public-init var servicesClassPathConfigLocation:String;
    public-init var servicesFileSystemConfigLocation:String;
@@ -55,6 +58,9 @@ public class ScyDesktopCreator {
    public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
+
+   def sessionIdKey = "sessionId";
+   def userNameKey = "userName";
 
    init{
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
@@ -105,6 +111,11 @@ public class ScyDesktopCreator {
             servicesFileSystemConfigLocation = configFileSystemConfigLocation;
             configFileSystemConfigLocation = null;
          }
+
+         // set properties, to make them avaible in spring config files
+         System.setProperty(sessionIdKey, sessionId);
+         System.setProperty(userNameKey, userName);
+
 
          var springConfigFactory = new SpringConfigFactory();
          if (servicesClassPathConfigLocation!=null){

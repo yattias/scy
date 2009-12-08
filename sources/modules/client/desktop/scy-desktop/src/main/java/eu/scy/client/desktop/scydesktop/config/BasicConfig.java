@@ -7,9 +7,9 @@ package eu.scy.client.desktop.scydesktop.config;
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +35,7 @@ public class BasicConfig implements Config
    private IExtensionManager extensionManager;
    private IMetadataTypeManager metadataTypeManager;
    private IELOFactory eloFactory;
+   private ToolBrokerAPI toolBrokerAPI;
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
    private MissionModelCreator missionModelCreator;
@@ -112,6 +113,17 @@ public class BasicConfig implements Config
    public void setRepository(IRepository repository)
    {
       this.repository = repository;
+   }
+
+   @Override
+   public ToolBrokerAPI getToolBrokerAPI()
+   {
+      return toolBrokerAPI;
+   }
+
+   public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI)
+   {
+      this.toolBrokerAPI = toolBrokerAPI;
    }
 
    @Override

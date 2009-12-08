@@ -30,7 +30,7 @@ public class LoginDialog extends CustomNode {
 
    def passwordName = "password";
    public var windowStyler: WindowStyler;
-   public var createScyDesktop: function(sessionId:String): ScyDesktop;
+   public var createScyDesktop: function(sessionId:String,userName:String): ScyDesktop;
    public var loginValidator: LoginValidator;
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
@@ -125,18 +125,18 @@ public class LoginDialog extends CustomNode {
       println("userName: {userName}, password: {password}");
       try{
          var sessionId = loginValidator.login(userName,password);
-         placeScyDescktop(sessionId);
+         placeScyDescktop(sessionId,userName);
       }
       catch (e:LoginFailedException){
          loginNode.loginFailed();
       }
    }
 
-   function placeScyDescktop(sessionId:String){
+   function placeScyDescktop(sessionId:String,userName:String){
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
       var sceneContent = scene.content;
-      var scyDesktop = createScyDesktop(sessionId);
+      var scyDesktop = createScyDesktop(sessionId,userName);
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
       scene.content = sceneContent;

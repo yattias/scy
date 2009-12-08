@@ -73,7 +73,7 @@ public class NewScyWindowTool extends CustomNode {
                      action: createNewScyWindow
                   }
                   loadButton = Button {
-                     text: "Load"
+                     text: "Search"
                      action: loadElo
                   }
                ]
