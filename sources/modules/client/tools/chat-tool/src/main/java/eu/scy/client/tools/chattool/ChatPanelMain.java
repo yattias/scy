@@ -145,13 +145,13 @@ public class ChatPanelMain extends JPanel {
 				List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");
+						if(awarenessEvent.getMessage() != null) {
+							chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");							
+						}
 					}
 				});
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
-				AwarenessUser au = new AwarenessUser();
-				au.setUsername(awarenessEvent.getUser());
-				users.add(au);
+				users.add(awarenessEvent.getUser());
 				awarenessService.updatePresenceTool(users);
 			}
 		});
