@@ -121,7 +121,6 @@ public class TaskSelected {
     
     // retourne vrai si on s'attaache en frere
     public boolean attachLikeBrother(){
-        
         return oldBrother != null;
     }
 

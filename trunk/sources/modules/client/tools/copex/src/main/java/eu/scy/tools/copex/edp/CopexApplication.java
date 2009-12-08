@@ -55,7 +55,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             System.out.println(t);
             this.stop();
         }
-        copex = new CopexPanel(copexURL, idUser, dbKeyMission, mode, userName, firstName);
+        copex = new CopexPanel(this,copexURL, idUser, dbKeyMission, mode, userName, firstName);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);

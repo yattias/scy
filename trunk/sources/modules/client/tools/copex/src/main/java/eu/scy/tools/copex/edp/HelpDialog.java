@@ -28,7 +28,7 @@ public class HelpDialog extends javax.swing.JDialog {
     }
 
     public HelpDialog(EdPPanel edP) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         initComponents();
         init();

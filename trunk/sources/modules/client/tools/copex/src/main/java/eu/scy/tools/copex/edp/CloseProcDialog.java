@@ -36,7 +36,7 @@ public class CloseProcDialog extends JDialog {
 
     // CONSTRUCTEURS 
     public CloseProcDialog(CopexPanel edP, ControllerInterface controller, LearnerProcedure proc) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.controller = controller;
         this.proc = proc;

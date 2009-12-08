@@ -81,6 +81,15 @@ public class MyConstants {
     public final static String XML_BOOLEAN_TRUE = "true";
     public final static String XML_BOOLEAN_FALSE = "false";
 
+    /* menu pop up */
+    public final static char POPUPMENU_STEP = 'S';
+    public final static char POPUPMENU_ACTION = 'A';
+    public final static char POPUPMENU_TASK = 'T';
+    public final static char POPUPMENU_UNDEF = 'U';
+
+    public final static char INSERT_TASK_UNDEF = 'U';
+    public final static char INSERT_TASK_IN = 'I';
+    public final static char INSERT_TASK_AFTER = 'A';
 
     /* log cst */
     public final static String LOG_TYPE_START_TOOL = "start_tool";

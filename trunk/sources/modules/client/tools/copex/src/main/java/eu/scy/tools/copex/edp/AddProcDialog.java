@@ -49,7 +49,7 @@ public class AddProcDialog extends JDialog {
 
     // CONSTRUCTEUR 
     public AddProcDialog(EdPPanel edP, ControllerInterface controller, ArrayList<LearnerProcedure> listProcMission, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, ArrayList<InitialProcedure> listInitialProc) {
-        super();
+        super(edP.getOwnerFrame());
         setLocationRelativeTo(edP);
         this.edP = edP;
         this.controller = controller;

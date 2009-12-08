@@ -5,11 +5,13 @@
 
 package eu.scy.client.tools.fxcopex;
 
+import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.edp.CopexPanel;
 import eu.scy.tools.copex.logger.CopexLog;
@@ -27,18 +29,18 @@ import javax.swing.JPanel;
  */
 public class ScyCopexPanel extends JPanel implements ActionCopex{
     private CopexPanel copex;
-    private ToolBrokerImpl tbi;
+    private ToolBrokerAPI tbi;
     // how can i get userName & password? + mission name
-    private String username = "default_username";
-    private String password = "default_password";
+    private String username = "merkel";
+    private String password = "merkel";
     private String mission_name = "mission 1";
     private IActionLogger actionLogger;
 
     public ScyCopexPanel() {
         super();
         this.setLayout(new BorderLayout());
-        //initTBI();
-        //initActionLogger();
+        initTBI();
+        initActionLogger();
         copex = new CopexPanel(true);
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
@@ -47,11 +49,12 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
 
     /* tbi initialization*/
     private void initTBI(){
-        //tbi=  new ToolBrokerImpl();
+       //tbi=  new ToolBrokerImpl(username, password);
     }
     /* initialization action logger */
     private void initActionLogger(){
         //actionLogger = tbi.getActionLogger();
+        actionLogger = new DevNullActionLogger();
     }
 
     /* load ELO into copex */
@@ -94,7 +97,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
             }
         }
         // log action
-//        if(actionLogger != null)
-//            actionLogger.log(action);
+        if(actionLogger != null)
+            actionLogger.log(action);
     }
 }

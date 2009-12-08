@@ -39,7 +39,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
 
     // CONSTRUCTOR
     public CreateProcDialog(CopexPanel edP, ControllerInterface controller, List<InitialProcedure> listInitialProc) {
-        super();
+        super(edP.getOwnerFrame());
         setLocationRelativeTo(edP);
         this.edP = edP;
         this.controller = controller;

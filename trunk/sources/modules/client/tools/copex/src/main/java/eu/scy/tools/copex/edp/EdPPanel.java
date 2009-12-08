@@ -126,6 +126,10 @@ public class EdPPanel extends JPanel {
     }
 
 
+ public JFrame getOwnerFrame(){
+        return copexPanel.getOwnerFrame();
+    }
+
 
     public String getVersion(){
         return copexPanel.getVersion();
@@ -768,19 +772,19 @@ public class EdPPanel extends JPanel {
 
 
     /* ouverture de la fenetre de dialogue permettant la creation d'une etape */
-    public void openDialogAddE() {
+    public void openDialogAddE(char insertIn) {
         if (proc == null)
             return;
         InitialProcedure initProc = proc.getInitialProc() ;
-        StepDialog addE = new StepDialog(this, initProc.isTaskRepeat(),!proc.isTaskProc());
+        StepDialog addE = new StepDialog(this, initProc.isTaskRepeat(),!proc.isTaskProc(), insertIn);
         addE.setVisible(true);
     }
     // ouverture de la fenetre de dialoguer permettant d'ajouter une action
-    public void openDialogAddA() {
+    public void openDialogAddA(char insertIn) {
         if (proc == null)
             return;
         InitialProcedure initProc = proc.getInitialProc() ;
-        ActionDialog addA = new ActionDialog(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat());
+        ActionDialog addA = new ActionDialog(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat(), insertIn);
         addA.setVisible(true);
     }
 
@@ -830,9 +834,9 @@ public class EdPPanel extends JPanel {
     }
 
     /* ajout d'une nouvelle action */
-    public CopexReturn addAction(CopexAction newAction){
+    public CopexReturn addAction(CopexAction newAction, char insertIn){
         // determine le protocole actif et la position de l'ajout de l'action
-        TaskSelected ts = copexTree.getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected(insertIn);
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
 
@@ -871,9 +875,9 @@ public class EdPPanel extends JPanel {
     }
 
     /* ajout d'une nouvelle etape */
-    public CopexReturn addStep(Step newStep){
+    public CopexReturn addStep(Step newStep, char insertIn){
         // determine le protocole actif et la position de l'ajout de l'etape
-        TaskSelected ts = copexTree.getTaskSelected();
+        TaskSelected ts = copexTree.getTaskSelected(insertIn);
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
 
@@ -1111,6 +1115,12 @@ public class EdPPanel extends JPanel {
         this.proc = p;
         copexTree.setDatasheet(proc.getDataSheet());
         copexTree.updateProc(proc);
+    }
+
+     /* mise a jour proc*/
+     public void updateProc(LearnerProcedure p, boolean update) {
+        this.proc = p;
+        copexTree.updateProc(proc, update);
     }
 
      
@@ -1428,13 +1438,24 @@ public class EdPPanel extends JPanel {
         }
     }
 
-
-   public void addEtape() {
-        openDialogAddE();
+    public void addEtape(){
+        openDialogAddE(MyConstants.INSERT_TASK_UNDEF);
+    }
+   public void addStepAfter() {
+        openDialogAddE(MyConstants.INSERT_TASK_AFTER);
     }
 
-    public void addAction() {
-        openDialogAddA();
+   public void addStepIn() {
+        openDialogAddE(MyConstants.INSERT_TASK_IN);
+    }
+   public void addAction(){
+       openDialogAddA(MyConstants.INSERT_TASK_UNDEF);
+   }
+    public void addActionAfter() {
+        openDialogAddA(MyConstants.INSERT_TASK_AFTER);
+    }
+    public void addActionIn() {
+        openDialogAddA(MyConstants.INSERT_TASK_IN);
     }
     /* renommer un protocole*/
     public void updateProcName(String name) {

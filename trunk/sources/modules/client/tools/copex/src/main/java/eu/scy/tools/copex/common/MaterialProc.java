@@ -7,6 +7,8 @@ package eu.scy.tools.copex.common;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +64,17 @@ public class MaterialProc implements Cloneable {
             }
         }
         return s;
+    }
+
+    public List<String> getListTree(Locale locale){
+        List<String> list = new LinkedList();
+        for(Iterator<MaterialUsed> m = listMaterialUsed.iterator();m.hasNext();){
+            MaterialUsed mUsed = m.next();
+            if(mUsed.isUsed()){
+                list.add(CopexUtilities.getText(mUsed.getMaterial().getListName(), locale));
+            }
+        }
+        return list;
     }
 
 }

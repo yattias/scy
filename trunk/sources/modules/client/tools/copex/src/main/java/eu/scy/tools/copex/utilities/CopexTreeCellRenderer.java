@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -62,6 +64,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     private JTextArea commentNode;
     private MyWhiteBoardPanel drawPanel;
     protected JLabel taskImageNode;
+    private TextTable materialTable;
 
     private ImageIcon hypothesisIcon;
     private ImageIcon principleIcon;
@@ -118,6 +121,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         this.panelNode.setBackground(BG_COLOR);
         getLabelNode();
         getTextNode();
+        getMaterialTable();
         getCommentNode();
         // ajout de l'image
         this.taskImageNode = new JLabel();
@@ -200,7 +204,25 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             if(textNode != null)
                 this.panelNode.remove(textNode);
             textNode = null;
+            List<String> listMaterial = ((CopexTree)tree).getMaterialValue(value);
+            if(listMaterial != null && listMaterial.size() > 0){
+                if(materialTable == null)
+                    getMaterialTable();
+                materialTable.setTextList(listMaterial);
+                materialTable.setNbCol(2);
+                materialTable.setBounds(0, labelNode.getHeight()+labelNode.getY(),materialTable.getWidth(), materialTable.getHeight());
+            }else{
+                if(materialTable != null){
+                    panelNode.remove(materialTable);
+                }
+                materialTable = null;
+            }
+
         }else{
+            if(materialTable != null){
+                panelNode.remove(materialTable);
+            }
+            materialTable = null;
             int hl = HEIGHT_ONE_LINE;
             String defaultText = ((CopexTree)tree).getDefaultDescriptionValue(value);
             getTextNode();
@@ -362,6 +384,15 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         return this.textNode;
     }
 
+    public TextTable getMaterialTable(){
+        if(materialTable == null){
+            materialTable = new TextTable(new LinkedList(), 2);
+            materialTable.setName("materialTable");
+            this.panelNode.add(materialTable);
+        }
+        return this.materialTable;
+    }
+
     
     public JTextArea getCommentNode(){
         if (this.commentNode == null){
@@ -415,13 +446,18 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         Dimension taskDrawD = new Dimension(0,0);
         if (this.drawPanel != null)
             taskDrawD = drawPanel.getSize();
+        Dimension materialTableD = new Dimension(0,0);
+        if(this.materialTable != null){
+            materialTableD = this.materialTable.getSize();
+        }
 
-        int height = labelNodeD.height + textNodeD.height+commentNodeD.height+5 + taskImageD.height + taskDrawD.height;
+        int height = labelNodeD.height + textNodeD.height+materialTableD.height + commentNodeD.height+5 + taskImageD.height + taskDrawD.height;
         //int height = labelNodeD.height + commentNodeD.height+5;
 
         int width = labelNodeD.width < commentNodeD.width ? commentNodeD.width : labelNodeD.width;
         width = width < taskImageD.width ? taskImageD.width : width ;
         width = width < textNodeD.width ? textNodeD.width : width ;
+        width = width < materialTableD.width ? materialTableD.width : width ;
         return new Dimension(width, height);
 
     }

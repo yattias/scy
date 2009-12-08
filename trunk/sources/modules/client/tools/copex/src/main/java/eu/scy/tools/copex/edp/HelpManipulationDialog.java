@@ -12,6 +12,7 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
+import java.awt.Font;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
     private JButton buttonOk;
 
     public HelpManipulationDialog(EdPPanel edP, boolean taskProc) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.taskProc = taskProc;
         initComponents();
@@ -99,7 +100,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
         int id = text.indexOf("{");
         String t1 = text.substring(0, id);
         JLabel label1 = new JLabel(t1);
-        label1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        label1.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 11));
         label1.setBounds(10, 10,CopexUtilities.lenghtOfString(label1.getText(), getFontMetrics(label1.getFont())), 14 );
         getContentPane().add(label1);
         // bouton
@@ -131,7 +132,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
         // fin de la phrase
         String tend = text.substring(id+3, text.length());
         JLabel labelEnd = new JLabel(tend);
-        labelEnd.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelEnd.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 11));
         labelEnd.setBounds(x, 10,CopexUtilities.lenghtOfString(labelEnd.getText(), getFontMetrics(labelEnd.getFont())), 14 );
         getContentPane().add(labelEnd);
         // taille de la fenetre

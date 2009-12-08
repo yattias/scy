@@ -44,7 +44,7 @@ public class EditProcDialog extends javax.swing.JDialog {
     }
 
     public EditProcDialog(EdPPanel edP, boolean isMission, ControllerInterface controller, LearnerProcedure proc) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.controller = controller;
         this.proc = (LearnerProcedure)proc.clone();
