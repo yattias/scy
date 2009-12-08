@@ -15,6 +15,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
+import eu.scy.common.configuration.Configuration;
 import eu.scy.common.message.DataSyncMessagePacketTransformer;
 import eu.scy.common.message.SyncMessage;
 import eu.scy.common.message.SyncMessage.Event;
@@ -84,7 +85,7 @@ public class DataSyncService implements IDataSyncService {
 		
 		Packet sentPacket = new Message();
 		sentPacket.setFrom(xmppConnection.getUser());
-		sentPacket.setTo("scyhubadam.scy.collide.info");
+		sentPacket.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 		
 		SmacketExtension extension = new SmacketExtension(transformer);
 		sentPacket.addExtension(extension);
