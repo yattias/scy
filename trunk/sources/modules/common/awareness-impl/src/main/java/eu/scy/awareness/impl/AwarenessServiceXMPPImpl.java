@@ -257,13 +257,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			@Override
 			public void chatCreated(Chat chat, boolean local) {
 				chat.addMessageListener(new MessageListener() {
-					
+				String correctUserName = null;
 					@Override
 					public void processMessage(Chat chat, Message message) {
 						logger.debug("chatCreated: processMessage: "+chat.getParticipant() + " said -> " + message.getBody());
 						logger.debug("chatCreated: processMessage: "+AwarenessServiceXMPPImpl.this.xmppConnection.getUser());
 						if (message.getType() == Message.Type.chat) {
-							String correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
+							correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
 							for (IAwarenessMessageListener al : messageListeners) {
 								if ((al != null) && (message.getBody() != null) && !hasAnswered) {
 									IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
@@ -318,6 +318,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	}
 	
 	public void updatePresenceTool(List<IAwarenessUser> users) {
+		logger.debug("Received something from Chattool");
 		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
 		icpte.setMessage("chat tool calling with updates");
 		for (IChatPresenceToolListener icptl : chatToolListeners) {
