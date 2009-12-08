@@ -4,16 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -22,20 +18,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
 
+import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
 import eu.scy.awareness.event.IAwarenessMessageListener;
-import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 import eu.scy.chat.controller.ChatController;
@@ -50,16 +43,14 @@ public class ChatPanelMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(ChatPanelMain.class.getName());
 
-//	protected JList buddyList;
-	JTextPane chatArea;
-	static ChatPanelMain cmp;
-	JXTitledPanel chatAreaPanel;
+	private JTextPane chatArea;
+	private static ChatPanelMain cmp;
+	private JXTitledPanel chatAreaPanel;
 	protected DefaultListModel buddlyListModel;
 	protected JTextField sendMessageTextField;
 	protected ChatController chatController;
 	private IAwarenessService awarenessService;
 	private DefaultListModel model = new DefaultListModel();
-	private Vector<Object> users = new Vector<Object>();;
 
 	
 	public ChatPanelMain(IAwarenessService awarenessService) {
@@ -90,18 +81,16 @@ public class ChatPanelMain extends JPanel {
 	
 	
 	protected void initGUI() {
-//		this.add(createBuddyListPanel(), BorderLayout.WEST);
 		chatArea = new JTextPane();
 		chatArea.setEditable(false);
 		this.registerChatArea(chatArea);
 		this.add(createChatArea(), BorderLayout.CENTER);
-		initListeners();
 	}
 
 	
 	protected JPanel createChatArea() {
 		
-		chatAreaPanel = new JXTitledPanel("Welcome");
+		chatAreaPanel = new JXTitledPanel("The mighty scy-chat");
 		chatAreaPanel.setLayout(new MigLayout("wrap 1"));
 		JScrollPane chatAreaScroll = new JScrollPane(chatArea);
 		chatAreaScroll.setPreferredSize(new Dimension(225, 250));
@@ -121,9 +110,11 @@ public class ChatPanelMain extends JPanel {
 								chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");							
 							}							
 						}
+						else {
+							JOptionPane.showMessageDialog(chatAreaPanel, "Please select a recipient in the top drawer");
+						}
 					}
 				});
-//				}
 			}
 		});
 
@@ -132,67 +123,12 @@ public class ChatPanelMain extends JPanel {
 
 	}
 
-	
-	protected JPanel createBuddyListPanel() {
-		JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
-
-//		buddyList = new JList(model);
-//		buddyList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		updateModel();
-
-//		JScrollPane buddyListScroll = new JScrollPane(buddyList);
-//		buddyListScroll.setPreferredSize(new Dimension(150, 250));
-//
-//		buddyPanel.add(buddyListScroll);
-		return buddyPanel;
-	}
-
-	protected void initListeners() {
-		ListSelectionListener listSelectionListener = new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent listSelectionEvent) {
-				logger.debug("initListeners: First index: " + listSelectionEvent.getFirstIndex());
-				logger.debug("initListeners: Last index: " + listSelectionEvent.getLastIndex());
-				boolean adjust = listSelectionEvent.getValueIsAdjusting();
-				logger.debug("initListeners: Adjusting? " + adjust);
-				
-				if (!adjust) {
-					JList list = (JList) listSelectionEvent.getSource();
-					int selections[] = list.getSelectedIndices();
-					Object selectionValues[] = list.getSelectedValues();
-					for (int i = 0, n = selections.length; i < n; i++) {
-						if (i == 0) {
-							logger.debug("initListeners: Selections:");
-						}
-						logger.debug("initListeners: "+selections[i] + "/" + selectionValues[i] + " ");
-					}
-				}
-			}
-		};
-//		buddyList.addListSelectionListener(listSelectionListener);
-
-		MouseListener mouseListener = new MouseAdapter() {
-			public void mouseClicked(MouseEvent mouseEvent) {
-				JList theList = (JList) mouseEvent.getSource();
-				if (mouseEvent.getClickCount() == 2) {
-					int index = theList.locationToIndex(mouseEvent.getPoint());
-					if (index >= 0) {
-						Object o = theList.getModel().getElementAt(index);
-						logger.debug("initListeners: mouseClicked: Double-clicked on: " + o.toString());
-					}
-				}
-			}
-		};
-//		buddyList.addMouseListener(mouseListener);
-	}
-
-
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Selecting JList");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ToolBrokerImpl tbi = new ToolBrokerImpl("senders11@scy.intermedia.uio.no", "senders11");
 		IAwarenessService aService = tbi.getAwarenessService();
-		logger.debug("ChatPanelMain: is Awareness Service connected?: "+aService.isConnected());
 		
 		cmp = new ChatPanelMain(aService);
 		frame.getContentPane().add(cmp);
@@ -206,62 +142,30 @@ public class ChatPanelMain extends JPanel {
 			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
 				//cmp.updateModel();
 				final String oldText = chatArea.getText();
+				List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");
 					}
 				});
 				logger.debug("registerChatArea: "+awarenessEvent.getMessage());
-				//cmp.selectCorrectChatter(awarenessEvent.getUser());
+				AwarenessUser au = new AwarenessUser();
+				au.setUsername(awarenessEvent.getUser());
+				users.add(au);
+				awarenessService.updatePresenceTool(users);
 			}
 		});
 		
-		awarenessService.addPresenceToolListener(new IChatPresenceToolListener() {
-			
+		awarenessService.addPresenceToolListener(new IChatPresenceToolListener() {		
 			@Override
 			public void handleChatPresenceToolEvent(IChatPresenceToolEvent event) {
-				System.out.println("mother fucka");				
-				System.out.println("presence tool listeners selected " + event.getUsers() + "message " + event.getMessage());
+				
+				logger.debug("ChatPanelMain: registerChatArea: handleChatPresenceToolEvent " + event.getUsers() + "message " + event.getMessage());
 				model.removeAllElements();
 				for (IAwarenessUser au : event.getUsers()) {
-					model.addElement(au);
-					
+					model.addElement(au);					
 				}
-			
 			}
 		});
-		
-		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
-			
-			@Override
-			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
-				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);				
-				cmp.updateModel();
-			}
-		});
-	}
-
-	protected void updateModel() {
-		model.removeAllElements();
-		users.removeAllElements();
-		chatController.populateBuddyList();
-		IAwarenessUser iau;
-		
-		for(int i=0; i<chatController.getBuddyList().getSize(); i++) {
-			iau = (IAwarenessUser) chatController.getBuddyListArray().elementAt(i);
-			model.addElement(iau);
-			users.addElement(iau);
-		}
-	}
-
-	protected void selectCorrectChatter(String user) {
-		updateModel();
-		StringTokenizer st = new StringTokenizer(user, "/");
-		String correctUsername = st.nextToken();
-		
-		IAwarenessUser iau;
-		for(int i=0; i<users.size(); i++) {
-			iau = (IAwarenessUser) users.elementAt(i);		
-		}
 	}
 }
