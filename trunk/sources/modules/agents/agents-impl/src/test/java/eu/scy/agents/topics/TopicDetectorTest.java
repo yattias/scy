@@ -42,7 +42,7 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initModel();
+		initTopicModel();
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", new VMID());
 		params.put("tsHost", TSHOST);

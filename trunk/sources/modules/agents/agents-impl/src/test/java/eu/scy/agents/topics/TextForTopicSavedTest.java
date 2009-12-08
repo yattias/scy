@@ -30,12 +30,12 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 
 		agent = new TextForTopicSaved(TSHOST, TSPORT);
-		// agent.setTuplespaceFactory(tuplespaceFactory);
 
 		agent.setMetadataTypeManager(typeManager);
 
@@ -48,13 +48,11 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 	public void testProcessElo() throws TupleSpaceException {
 		agent.processElo(elo);
 
-		Tuple tuple = getTupleSpace().waitToRead(
-				new Tuple("topicDetector", String.class), 5000);
+		Tuple tuple = getTupleSpace().waitToRead(new Tuple("topicDetector", String.class), 5000);
 
 		assertNotNull("no tuple sent", tuple);
 		getTupleSpace().takeTupleById(tuple.getTupleID());
-		assertEquals("Uri not the same", elo.getUri().toString(), tuple
-				.getField(1).getValue());
+		assertEquals("Uri not the same", elo.getUri().toString(), tuple.getField(1).getValue());
 	}
 
 	@After
