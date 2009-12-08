@@ -1,6 +1,7 @@
 package eu.scy.awareness.event;
 
 import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.IAwarenessUser;
 
 
 public class AwarenessPresenceEvent extends AwarenessEvent implements IAwarePresenceEvent {
@@ -8,7 +9,7 @@ public class AwarenessPresenceEvent extends AwarenessEvent implements IAwarePres
     private String presence;
     private String status;
     
-    public AwarenessPresenceEvent(Object source, String user, String message, String presence, String status) {
+    public AwarenessPresenceEvent(Object source, IAwarenessUser user, String message, String presence, String status) {
         super(source, user, message);
         this.presence = presence;
         this.status = status;

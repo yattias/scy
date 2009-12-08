@@ -47,8 +47,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private Roster roster;
-	protected Vector<Object> externalUsers = new Vector<Object>();
-	protected Boolean hasAnswered = false;
 
 
 	public AwarenessServiceXMPPImpl() {
@@ -81,10 +79,16 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			logger.debug("processMessage: "+chat.getParticipant() + " says: " + message.getBody());
 			
 			for (IAwarenessMessageListener al : messageListeners) {
-				if (al != null) {
-					IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
+				if (al != null && message.getBody() != null) {
+					
+					String participant = chat.getParticipant();
+					
+					IAwarenessUser aw = new AwarenessUser();
+					aw.setUsername(participant);
+					
+					
+					IAwarenessEvent awarenessEvent = new AwarenessEvent(this,aw , message.getBody());
 					al.handleAwarenessMessageEvent(awarenessEvent);
-					hasAnswered = true;
 				}
 			}
 		}
@@ -234,15 +238,15 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				if (presence == null) {
 					return;					
 				}
-				else if((presence.toString()).equals("unavailable")) {
-					String correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
-					logger.debug("init: presenceChanged: removing "+correctUserName);
-					externalUsers.remove(correctUserName);
-				}
 
 				for (IAwarenessPresenceListener presenceListener : presenceListeners) {
 					if (presenceListener != null) {
-						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), "new presence", presence.getType().toString(), presence.getStatus());
+						
+						IAwarenessUser aw = new AwarenessUser();
+						aw.setUsername(presence.getFrom());
+						aw.setPresence(presence.getType().toString());
+						
+						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, aw , "updated from awareness service", presence.getType().toString(), presence.getStatus());
 						presenceListener.handleAwarenessPresenceEvent(presenceEvent);
 					}
 				}
@@ -252,30 +256,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		});
 
 		//Added by Jeremy Toussaint to track non-initialized chats
+		
 		getChatManager().addChatListener(new ChatManagerListener() {
 			
 			@Override
 			public void chatCreated(Chat chat, boolean local) {
-				chat.addMessageListener(new MessageListener() {
-				String correctUserName = null;
-					@Override
-					public void processMessage(Chat chat, Message message) {
-						logger.debug("chatCreated: processMessage: "+chat.getParticipant() + " said -> " + message.getBody());
-						logger.debug("chatCreated: processMessage: "+AwarenessServiceXMPPImpl.this.xmppConnection.getUser());
-						if (message.getType() == Message.Type.chat) {
-							correctUserName = AwarenessServiceXMPPImpl.this.xmppConnection.getUser();
-							for (IAwarenessMessageListener al : messageListeners) {
-								if ((al != null) && (message.getBody() != null) && !hasAnswered) {
-									IAwarenessEvent awarenessEvent = new AwarenessEvent(this, chat.getParticipant(), message.getBody());
-									al.handleAwarenessMessageEvent(awarenessEvent);
-									if(!externalUsers.contains(correctUserName)) {
-										externalUsers.add(correctUserName);										
-									}
-								}
-							}
-						}
-					}
-				});
+				chat.addMessageListener(AwarenessServiceXMPPImpl.this);
 			}
 		});
 	}
@@ -327,4 +313,5 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			}
 		}
 	}
+
 }
