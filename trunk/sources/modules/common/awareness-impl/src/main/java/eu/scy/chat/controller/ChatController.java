@@ -31,15 +31,15 @@ public class ChatController {
 		logger.debug("ChatController: Awarness starting ... ");
 	}
 
-	public void populateBuddyList() {
+	public AbstractListModel populateBuddyList() {
 		// get this from the awareness service
 		logger.debug("ChatController: populateBuddyList: ####################### begin ###########################");
 		logger.debug("ChatController: populateBuddyList: awarenessService: "+ awarenessService);
 		logger.debug("ChatController: populateBuddyList: awarenessService.isConnected(): "+ awarenessService.isConnected());
 		buddyList = new DefaultListModel();
 		
+		List<IAwarenessUser> buddies = null;
 		if (awarenessService != null && awarenessService.isConnected()) {
-			List<IAwarenessUser> buddies = null;
 			try {
 				buddies = awarenessService.getBuddies();
 			} catch (AwarenessServiceException e) {
@@ -64,6 +64,7 @@ public class ChatController {
 			logger.debug("ChatController: populateBuddyList: ####################### No buddies ###########################");
 		}
 		logger.debug("ChatController: populateBuddyList: ####################### end ###########################");
+		return buddyList;
 	}
 
 	private String correctName(String username) {

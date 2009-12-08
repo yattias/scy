@@ -97,7 +97,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
         
         //tell every one that a message was send
         for (IAwarenessMessageListener ll : awarenessMessageListeners) {
-            ll.handleAwarenessMessageEvent(new AwarenessEvent(this, username, message));
+           // ll.handleAwarenessMessageEvent(new AwarenessEvent(this, username, message));
         }
     }
         

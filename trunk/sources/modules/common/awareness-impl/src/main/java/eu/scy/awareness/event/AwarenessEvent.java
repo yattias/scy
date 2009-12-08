@@ -1,22 +1,31 @@
 package eu.scy.awareness.event;
 
+import java.util.Collection;
 import java.util.EventObject;
 import java.util.StringTokenizer;
+
+import eu.scy.awareness.IAwarenessUser;
 
 
 
 public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 
     protected String message;
-    protected String user;
+    protected IAwarenessUser user;
 
-    public AwarenessEvent(Object source, String user, String message){
+    public AwarenessEvent(Object source, IAwarenessUser user, String message){
         super(source);
-        this.user = correctName(user);
+        this.user = user;
+        this.user.setCorrectUsername(correctName(user.getUsername()));
         this.message = message;
     }
     
-    private String correctName(String username) {
+    public AwarenessEvent(Object source,String user) {
+    	super(source);
+		// TODO Auto-generated constructor stub
+	}
+
+	private String correctName(String username) {
 		StringTokenizer st = new StringTokenizer(username, "/");
 		return st.nextToken();
 	}
@@ -27,7 +36,7 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
     }
 
     @Override
-    public String getUser() {
+    public IAwarenessUser getUser() {
         return this.user;
     }
     
@@ -38,6 +47,12 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
         sb.append("message: ").append(message);
         return sb.toString();
     }
+
+	@Override
+	public void setIAwarenessUser(IAwarenessUser user) {
+		this.user = user;
+		
+	}
     
 
    
