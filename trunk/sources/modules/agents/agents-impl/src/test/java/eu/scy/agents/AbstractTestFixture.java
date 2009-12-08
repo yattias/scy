@@ -133,7 +133,7 @@ public class AbstractTestFixture {
 		return new PersistentStorage(TSHOST, TSPORT);
 	}
 
-	protected void initModel() {
+	protected void initTopicModel() {
 		ObjectInputStream in = null;
 		try {
 			InputStream inStream = this.getClass().getResourceAsStream("/model.dat");
