@@ -64,7 +64,7 @@ public class OpenCopexDialog  extends JDialog  {
     private JButton buttonCancel;
 
     public OpenCopexDialog(CopexPanel owner, ControllerInterface controller,  File openFile, List<InitialProcedure> listInitialProc) {
-        super();
+        super(owner.getOwnerFrame());
         this.owner = owner;
         this.controller = controller;
         this.dbMode = false;
@@ -80,7 +80,7 @@ public class OpenCopexDialog  extends JDialog  {
     }
 
     public OpenCopexDialog(CopexPanel owner,ControllerInterface controller, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, List<InitialProcedure> listInitialProc) {
-        super();
+        super(owner.getOwnerFrame());
         this.owner = owner;
         this.controller = controller;
         this.dbMode = true;

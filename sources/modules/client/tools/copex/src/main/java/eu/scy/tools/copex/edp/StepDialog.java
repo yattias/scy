@@ -51,6 +51,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     private TaskRepeat taskRepeat;
 
     private TaskRepeatPanel taskRepeatPanel;
+    private char insertIn;
     
     /** Creates new form StepDialog */
     public StepDialog(java.awt.Frame parent, boolean modal) {
@@ -58,8 +59,8 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         initComponents();
     }
 
-    public StepDialog(EdPPanel edP, boolean isTaskRepeat, boolean stepMode) {
-        super();
+    public StepDialog(EdPPanel edP, boolean isTaskRepeat, boolean stepMode, char insertIn) {
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = true;
         this.stepMode = stepMode;
@@ -67,17 +68,18 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         //this.isTaskRepeat = isTaskRepeat;
         this.isTaskRepeat = false;
         this.taskRepeat = null;
+        this.insertIn = insertIn;
         this.setLocationRelativeTo(edP);
         initComponents();
-        setModal(true);
         setLocation(edP.getLocationDialog());
+        setModal(true);
         init();
         setIconImage(edP.getIconDialog());
     }
 
      /* constructeur de la fenetre d'edition de l'action */
     public StepDialog(EdPPanel edP, boolean modeAdd, boolean stepMode, Step step,  ImageIcon taskImage, boolean isTaskRepeat, char right, char procRight ) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = modeAdd;
         this.stepMode = stepMode;
@@ -90,10 +92,11 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         //this.isTaskRepeat = isTaskRepeat;
         this.isTaskRepeat = false;
         this.taskRepeat = step.getTaskRepeat();
+        this.insertIn = MyConstants.INSERT_TASK_UNDEF;
         this.setLocationRelativeTo(edP);
         initComponents();
-        setModal(true);
         setLocation(edP.getLocationDialog());
+        setModal(true);
         init();
     }
     public void init(){
@@ -308,7 +311,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         }
         if (modeAdd){
             // Cree l'etpae
-            CopexReturn cr = edP.addStep(newStep);
+            CopexReturn cr = edP.addStep(newStep, insertIn);
             if (cr.isError()){
                 edP.displayError( cr , edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;

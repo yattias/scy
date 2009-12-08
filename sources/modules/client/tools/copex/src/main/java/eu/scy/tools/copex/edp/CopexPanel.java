@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
@@ -102,9 +103,24 @@ public class CopexPanel extends JPanel {
     private transient SAXBuilder builder = new SAXBuilder(false);
     
     private CopexTabbedPane copexTabbedPane;
+    private JFrame ownerFrame;
 
+
+    public CopexPanel(JFrame ownerFrame,boolean scyMode){
+        this.ownerFrame = ownerFrame;
+        this.idUser = "1";
+        this.dbKeyMission = 1;
+        this.mode = MyConstants.COPEX_MODE;
+        this.userName = "";
+        this.firstName = "";
+        this.listTaskImage = new ArrayList();
+        this.scyMode = scyMode;
+        this.dbMode = false;
+        initEdP(null, null);
+    }
 
     public CopexPanel(boolean scyMode){
+        this.ownerFrame = null;
         this.idUser = "1";
         this.dbKeyMission = 1;
         this.mode = MyConstants.COPEX_MODE;
@@ -117,9 +133,8 @@ public class CopexPanel extends JPanel {
     }
 
 
-
-
-    public CopexPanel(URL copexURL, String idUser, long dbKeyMission, int mode, String userName, String firstName) {
+    public CopexPanel(JFrame ownerFrame,URL copexURL, String idUser, long dbKeyMission, int mode, String userName, String firstName) {
+        this.ownerFrame = ownerFrame;
         this.idUser = idUser;
         this.dbKeyMission = dbKeyMission;
         this.mode = mode;
@@ -135,6 +150,7 @@ public class CopexPanel extends JPanel {
         // i18n
         locale = Locale.getDefault();
         locale = new Locale("en", "GB");
+        //locale = new Locale("fr", "FR");
         try{
             this.bundle = ResourceBundle.getBundle("CopexBundle", locale);
         }catch(MissingResourceException e){
@@ -187,7 +203,7 @@ public class CopexPanel extends JPanel {
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
        // appel au noyau : chargement des donnees
       //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
-      //String fileMission = "copexMission_SCI131.xml";
+      //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
       String fileMission = "copexMission_SCY1_CO2.xml";
       CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission, mode, userName, firstName, fileMission);
@@ -206,6 +222,10 @@ public class CopexPanel extends JPanel {
 
     public Image getIconDialog(){
         return getCopexImage("labbook.png").getImage();
+    }
+
+    public JFrame getOwnerFrame(){
+        return this.ownerFrame;
     }
     
     public  ImageIcon getCopexImage(String img){
@@ -450,6 +470,13 @@ public class CopexPanel extends JPanel {
         }
     }
 
+    public void updateProc(LearnerProcedure proc, boolean update){
+        int id = getIdProc(proc.getDbKey());
+        if(id != -1){
+            listProc.set(id, proc);
+            listCopexPanel.get(id).updateProc(proc, update);
+        }
+    }
     
     
 

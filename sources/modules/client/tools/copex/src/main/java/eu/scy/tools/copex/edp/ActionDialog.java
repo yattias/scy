@@ -41,6 +41,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
     /* action en cours de selection */
     private InitialNamedAction actionNamedSel = null;
+    private char insertIn;
 
     /*action*/
     /* description action */
@@ -108,8 +109,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
 
     /* Constructeur de la fenetre d'ajout d'une action */
-    public ActionDialog(EdPPanel edP, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, boolean isActionRepeat) {
-        super();
+    public ActionDialog(EdPPanel edP, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, boolean isActionRepeat, char insertIn) {
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = true;
         this.isFreeAction = isFreeAction;
@@ -120,6 +121,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         this.taskDraw = null;
         this.taskRepeat = null;
         this.isActionRepeat = isActionRepeat ;
+        this.insertIn = insertIn;
         setModal(true);
         setLocation(edP.getLocationDialog());
         initGUI();
@@ -128,7 +130,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
     /* constructeur de la fenetre d'edition de l'action */
     public ActionDialog(EdPPanel edP, boolean modeAdd, String description, String comments, ImageIcon taskImage, Element taskDraw, InitialNamedAction actionNamed, char right, char procRight, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, Object[] tabParam, ArrayList<Object> materialsProd, ArrayList<Object> datasProd, boolean isActionRepeat, TaskRepeat tr ) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = modeAdd;
         this.description = description;
@@ -139,6 +141,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         this.right = right;
         this.procRight = procRight;
         this.isFreeAction = isFreeAction ;
+        this.insertIn = MyConstants.INSERT_TASK_UNDEF;
         this.listInitialNamedAction = listInitialNamedActions ;
         this.listPhysicalQuantity = listPhysicalQuantity ;
         this.tabParam = tabParam ;
@@ -874,7 +877,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if (modeAdd){
             // Cree l'action
-            CopexReturn cr = edP.addAction(newAction);
+            CopexReturn cr = edP.addAction(newAction, insertIn);
             if (cr.isError()){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 edP.displayError(cr,  edP.getBundleString("TITLE_DIALOG_ERROR"));

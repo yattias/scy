@@ -66,7 +66,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
 
 
     public MaterialDialog(EdPPanel edP,char procRight, List<MaterialUsed> listMaterialUsed,  MaterialStrategy materialStrategy) {
-        super();
+        super(edP.getOwnerFrame());
         this.edP = edP;
         this.procRight = procRight;
         this.materialStrategy = materialStrategy;
@@ -314,10 +314,10 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
             scroll.setPreferredSize(scroll.getSize());
             scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             panelMaterial.add(scroll, BorderLayout.CENTER);
-            JScrollPane scrollPaneDescription = new JScrollPane();
-            scrollPaneDescription.setName("scrollPaneDescription");
-            scrollPaneDescription.setViewportView(getTextAreaDescription());
-            panelMaterial.add(scrollPaneDescription, BorderLayout.NORTH);
+//            JScrollPane scrollPaneDescription = new JScrollPane();
+//            scrollPaneDescription.setName("scrollPaneDescription");
+//            scrollPaneDescription.setViewportView(getTextAreaDescription());
+//            panelMaterial.add(scrollPaneDescription, BorderLayout.NORTH);
         }
         panelMaterial.revalidate();
         repaint();

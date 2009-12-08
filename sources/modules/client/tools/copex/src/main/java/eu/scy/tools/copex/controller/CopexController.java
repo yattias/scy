@@ -1591,7 +1591,7 @@ public class CopexController implements ControllerInterface {
         if (idP == -1)
             return new CopexReturn(copex.getBundleString("MSG_ERROR_DRAG_AND_DROP"), false);
         
-        copex.updateProc((LearnerProcedure)listProc.get(idP).clone());
+        copex.updateProc((LearnerProcedure)listProc.get(idP).clone(), false);
         return new CopexReturn();
     }
     

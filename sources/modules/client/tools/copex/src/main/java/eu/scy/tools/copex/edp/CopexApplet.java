@@ -78,7 +78,7 @@ public class CopexApplet extends JApplet implements ActionCopex {
             this.stop();
             this.destroy();
         }
-        copex = new CopexPanel(null, idUser, dbKeyMission, mode, userName, firstName);
+        copex = new CopexPanel(null,null, idUser, dbKeyMission, mode, userName, firstName);
         copex.addActionCopex(this);
         getContentPane().remove(labelWait);
         add(copex, BorderLayout.CENTER);

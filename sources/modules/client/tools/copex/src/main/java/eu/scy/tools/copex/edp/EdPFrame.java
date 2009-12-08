@@ -46,7 +46,7 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     }
     
     private void initEdP(){
-        copex = new CopexPanel(false);
+        copex = new CopexPanel(this,false);
         copex.addActionCopex(this);
         add(copex, BorderLayout.CENTER);
         setSize(CopexPanel.PANEL_WIDTH, CopexPanel.PANEL_HEIGHT);
