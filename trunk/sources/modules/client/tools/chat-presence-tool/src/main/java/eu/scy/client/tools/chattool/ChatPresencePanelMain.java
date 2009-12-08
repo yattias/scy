@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -28,10 +29,13 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTitledPanel;
 
+import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.tool.IChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.toolbroker.ToolBrokerImpl;
 
@@ -165,13 +169,27 @@ public class ChatPresencePanelMain extends JPanel {
 	}
 
 	private void registerChatArea(final JTextPane chatArea) {
-		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {
-			
+		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {		
 			@Override
 			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
-				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);
-				
+				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);				
 				cmp.updateModel();
+			}
+		});
+		
+		awarenessService.addChatToolListener(new IChatPresenceToolListener() {		
+			@Override
+			public void handleChatPresenceToolEvent(IChatPresenceToolEvent event) {
+				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + event);
+				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + event.getUsers().size());
+				AwarenessUser au = (AwarenessUser) event.getUsers().get(0);
+				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + au.getUsername());
+				for(int i = 0; i<model.getSize(); i++) {
+					String mau = ((AwarenessUser) model.get(i)).getUsername();
+					if(mau.equals(au.getUsername())) {
+						buddyList.setSelectedIndex(i);
+					}
+				}
 			}
 		});
 	}
@@ -188,4 +206,19 @@ public class ChatPresencePanelMain extends JPanel {
 			users.addElement(iau);
 		}
 	}
+	
+//	protected void selectCorrectChatter(String user) {
+//		updateModel();
+//		StringTokenizer st = new StringTokenizer(user, "/");
+//		String correctUsername = st.nextToken();
+//		
+//		IAwarenessUser iau;
+//		for(int i=0; i<users.size(); i++) {
+//			iau = (IAwarenessUser) users.elementAt(i);	
+//			if(buddyList.getSelectedIndex() == -1 && iau.getUsername().equals(correctUsername)) {
+//				buddyList.setSelectedIndex(i);
+//				chatAreaPanel.setTitle("Chatting with: "+iau.getName());
+//			}
+//		}
+//	}
 }
