@@ -18,7 +18,6 @@ import org.junit.Test;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.metadata.keys.KeyValuePair;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 
@@ -40,6 +39,7 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
@@ -57,10 +57,8 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 
 	private void initElos() {
 		topicElo1 = createNewElo("topicElo1", "scy/text");
-		IMetadataValueContainer container1 = topicElo1.getMetadata()
-				.getMetadataValueContainer(
-						typeManager
-								.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
+		IMetadataValueContainer container1 = topicElo1.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
 		for (int i = 0; i < 10; i++) {
 			KeyValuePair topicEntry = new KeyValuePair();
 			topicEntry.setKey("" + i);
@@ -69,10 +67,8 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 		}
 
 		topicElo2 = createNewElo("topicElo2", "scy/text");
-		IMetadataValueContainer container2 = topicElo2.getMetadata()
-				.getMetadataValueContainer(
-						typeManager
-								.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
+		IMetadataValueContainer container2 = topicElo2.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
 		for (int i = 0; i < 10; i++) {
 			if (i == SEARCHED_TOPIC) {
 				KeyValuePair topicEntry = new KeyValuePair();
@@ -88,10 +84,8 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 		}
 
 		topicElo3 = createNewElo("topicElo3", "scy/text");
-		IMetadataValueContainer container3 = topicElo3.getMetadata()
-				.getMetadataValueContainer(
-						typeManager
-								.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
+		IMetadataValueContainer container3 = topicElo3.getMetadata().getMetadataValueContainer(
+				typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES));
 		for (int i = 0; i < 10; i++) {
 			if (i == SEARCHED_TOPIC) {
 				KeyValuePair topicEntry = new KeyValuePair();
@@ -112,14 +106,12 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 	}
 
 	@Test
-	public void testSearchForTopicElos() throws TupleSpaceException,
-			InterruptedException {
+	public void testSearchForTopicElos() throws TupleSpaceException {
 		String queryId = new VMID().toString();
-		getTupleSpace().write(
-				new Tuple("getTopicElos", queryId, SEARCHED_TOPIC, 0.1));
+		getTupleSpace().write(new Tuple("getTopicElos", queryId, SEARCHED_TOPIC, 0.1));
 		Tuple response = getTupleSpace().waitToTake(
-				new Tuple("getTopicElos", queryId, Integer.class, Field
-						.createWildCardField()), 5000);
+				new Tuple("getTopicElos", queryId, Integer.class, Field.createWildCardField()),
+				5000);
 		assertNotNull("response empty", response);
 		int number = (Integer) response.getField(2).getValue();
 		assertEquals(2, number);
