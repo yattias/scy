@@ -26,5 +26,5 @@ public interface IAwarePresenceEvent extends IAwarenessEvent {
      */
     public String getStatus();
     
-    
+
 }
