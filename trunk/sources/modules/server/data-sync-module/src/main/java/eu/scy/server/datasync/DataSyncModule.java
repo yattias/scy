@@ -102,7 +102,7 @@ public class DataSyncModule extends SCYHubModule {
 			logger.debug("Command: " + command.getEvent() + " "
 					+ command.getUserId() + " " + command.getToolId());
 
-			String sessionId = UUID.randomUUID().toString() + "@syncsessions.scy.collide.info";
+			String sessionId = UUID.randomUUID().toString() + "@syncsessions." + Configuration.getInstance().getOpenFireHost();
 
 			// create a session logger with the random id
 			DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
@@ -134,7 +134,7 @@ public class DataSyncModule extends SCYHubModule {
 			responseMessage.addExtension(new WhacketExtension(transformer
 					.getElementname(), transformer.getNamespace(), response));
 			responseMessage.setTo(packet.getFrom());
-			responseMessage.setFrom("scyhub.scy.collide.info");
+			responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 			responseMessage.setID(packet.getID());
 
 			send(responseMessage);
