@@ -59,7 +59,7 @@
 				<serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
 				<serverfilter.db.host>localhost</serverfilter.db.host>
 
-				<client.servername>scy.intermedia.uio.no</client.servername>
+				<client.serverName>scy.intermedia.uio.no</client.serverName>
 				<client.httpPort>8080</client.httpPort>
 				<client.contextPath>/scy-useradmin-web</client.contextPath>
 
