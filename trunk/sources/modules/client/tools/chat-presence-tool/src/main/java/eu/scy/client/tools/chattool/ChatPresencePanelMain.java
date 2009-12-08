@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -58,7 +57,6 @@ public class ChatPresencePanelMain extends JPanel {
 	protected ChatController chatController;
 	private IAwarenessService awarenessService;
 	private DefaultListModel model = new DefaultListModel();
-	private Vector<Object> users = new Vector<Object>();;
 
 	
 	public ChatPresencePanelMain(IAwarenessService awarenessService) {
@@ -172,8 +170,19 @@ public class ChatPresencePanelMain extends JPanel {
 		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {		
 			@Override
 			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
-				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e);				
-				cmp.updateModel();
+				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e.getUser().getCorrectUsername()+" : "+e.getUser().getPresence());				
+				//cmp.updateModel();
+				//TODO: update the model with the new user
+				
+				IAwarenessUser iau;
+				for(int i=0; i<model.getSize(); i++) {
+					iau = (IAwarenessUser) model.elementAt(i);
+					logger.debug("registerChatArea: handleAwarenessPresenceEvent: " + iau.getUsername());	
+					if(iau.getUsername().equals(e.getUser().getCorrectUsername())) {
+						((IAwarenessUser) model.elementAt(i)).setPresence(e.getUser().getPresence());
+					}
+				}
+				buddyList.repaint();
 			}
 		});
 		
@@ -195,30 +204,13 @@ public class ChatPresencePanelMain extends JPanel {
 	}
 
 	protected void updateModel() {
+		//chatController.populateBuddyList();
 		model.removeAllElements();
-		users.removeAllElements();
-		chatController.populateBuddyList();
 		IAwarenessUser iau;
 		
-		for(int i=0; i<chatController.getBuddyList().getSize(); i++) {
+		for(int i=0; i<chatController.populateBuddyList().getSize(); i++) {
 			iau = (IAwarenessUser) chatController.getBuddyListArray().elementAt(i);
 			model.addElement(iau);
-			users.addElement(iau);
 		}
 	}
-	
-//	protected void selectCorrectChatter(String user) {
-//		updateModel();
-//		StringTokenizer st = new StringTokenizer(user, "/");
-//		String correctUsername = st.nextToken();
-//		
-//		IAwarenessUser iau;
-//		for(int i=0; i<users.size(); i++) {
-//			iau = (IAwarenessUser) users.elementAt(i);	
-//			if(buddyList.getSelectedIndex() == -1 && iau.getUsername().equals(correctUsername)) {
-//				buddyList.setSelectedIndex(i);
-//				chatAreaPanel.setTitle("Chatting with: "+iau.getName());
-//			}
-//		}
-//	}
 }
