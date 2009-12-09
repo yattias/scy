@@ -59,15 +59,19 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         scenario.setName("Exploration");
         scenario.setDescription("Exploration scenario that will make you shiver!");
 
-        LearningActivitySpace orientation = createLAS("LA(r)S Orientation");
+        LearningActivitySpace orientation = createLAS("LAS Orientation");
         scenario.setLearningActivitySpace(orientation);
         Activity act1 = addActivity(orientation, "Identify goal states");
         AnchorELO anchorELO = createAnchorELO("A product you can be proud of!");
         act1.setAnchorELO(anchorELO);
+        orientation.addAnchorELO(anchorELO);
 
         Activity act2 = addActivity(orientation, "Identify learning goals");
         AnchorELO anchorELO2 = createAnchorELO("A concept map concepting something really bad!");
         act2.setAnchorELO(anchorELO2);
+        LearningActivitySpaceToolConfiguration conf = new SCYMapperConfiguration();
+
+        act2.addLearningActivitySpaceToolConfiguration(conf);
 
 
 
@@ -88,7 +92,8 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
     }
 
     private Activity addActivity(LearningActivitySpace las, String activityName) {
-        Activity act = createActivity("Concept map on global warming");
+        Activity act = createActivity(activityName);
+        
         las.addActivity(act);
         return act;
     }

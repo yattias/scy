@@ -25,6 +25,10 @@ import javax.swing.table.DefaultTableModel;
  * Time: 11:02:22
  */
 public class LASOverviewPanel extends JPanel {
+    private final static String EMPTY_STRING = "";
+    private final static String YES = "Yes";
+    private final static String NO = "No";
+    
     private LearningActivitySpace las = null;
 
     public LASOverviewPanel(LearningActivitySpace las) {
@@ -47,7 +51,7 @@ public class LASOverviewPanel extends JPanel {
         for (Activity activity : activities) {
             Vector activityData = new Vector();
             activityData.add(activity.getName());
-            activityData.add(String.valueOf(activity.getAnchorELO()));
+            activityData.add(activity.getAnchorELO());
             activityData.add(activity.getLearningActivitySpaceToolConfigurations().size());
             activityData.add(activity.getWorkArrangementType());
             activityData.add(activity.getTeacherRoleType());
@@ -93,8 +97,8 @@ public class LASOverviewPanel extends JPanel {
                 AnchorELO element = elements.next();
                 Vector activityData = new Vector();
                 activityData.add(element.getName());
-                activityData.add(String.valueOf(element.getAssessment()));
-                activityData.add(element.getObligatoryInPortfolio());
+                activityData.add(element.getAssessment());
+                activityData.add(booleanText(element.getObligatoryInPortfolio()));
                 data.add(activityData);
             }
 
@@ -139,5 +143,13 @@ public class LASOverviewPanel extends JPanel {
             setOpaque(false);
             add(BorderLayout.NORTH, new JLabel(message));
         }
+    }
+
+    private String booleanText(boolean value) {
+        if (value == false) {
+            return NO;
+        }
+
+        return YES;
     }
 }
