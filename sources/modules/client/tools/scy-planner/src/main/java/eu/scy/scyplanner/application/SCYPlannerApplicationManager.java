@@ -49,7 +49,7 @@ public class SCYPlannerApplicationManager {
         */
 
         //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
-        String username = JOptionPane.showInputDialog("Enter your freakin username");
+        /*String username = JOptionPane.showInputDialog("Enter your freakin username");
 
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
         fb.setServiceInterface(PedagogicalPlanService.class);
@@ -87,7 +87,7 @@ public class SCYPlannerApplicationManager {
                 }
             }
         }
-
+        */
 
     }
 
