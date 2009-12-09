@@ -3,6 +3,7 @@ package eu.scy.scyplanner.components.application;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scymapper.api.diagram.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
+import eu.scy.scymapper.impl.model.DefaultNode;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
@@ -56,17 +57,17 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
     private IDiagramModel getInitialPedagogicalPlanModel(final Mission mission, final Scenario scenario) {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
-        INodeModel orientationLas = createLASElement(scenario.getLearningActivitySpace().getName(), 10, 100);
+        DefaultNode orientationLas = createLASElement(scenario.getLearningActivitySpace(), 10, 100);
 
-        INodeModel producedByOrientationELO = createELOElement("ELO", 150, 100);
+        //INodeModel producedByOrientationELO = createELOElement("ELO", 150, 100);
 
         LearningActivitySpace firstLas = scenario.getLearningActivitySpace();
 
-        INodeModel firstLasNode = createLASElement(firstLas.getName(), 150,100);
+        DefaultNode firstLasNode = createLASElement(firstLas, 150,100);
         addNode(pedagogicalPlan,firstLasNode);
         addAnchorEloNode(firstLasNode, firstLas, pedagogicalPlan);
 
-        connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
+        //connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
 
         return pedagogicalPlan;
     }
@@ -77,7 +78,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         for (int i = 0; i < activities.size(); i++) {
             Activity activity = activities.get(i);
             if(activity.getAnchorELO() != null) {
-                INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO().getName(), (int) (lasNode.getLocation().getY() + lasNode.getSize().getWidth() + 50) , (int)(lasNode.getLocation().getY() + (100*i)));
+                INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO(), (int) (lasNode.getLocation().getY() + lasNode.getSize().getWidth() + 50) , (int)(lasNode.getLocation().getY() + (100*i)));
                 addNode(pedagogicalPlan,anchorNodeModel);
                 connectNodes(pedagogicalPlan, lasNode, anchorNodeModel);
                 if(activity.getAnchorELO().getInputTo() != null) addLASNode(anchorNodeModel, activity.getAnchorELO(), pedagogicalPlan);
@@ -87,7 +88,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
     private void addLASNode(INodeModel anchorEloNode, AnchorELO elo, SCYPlannerDiagramModel pedagogicalPlan ) {
         LearningActivitySpace las = elo.getInputTo();
-        INodeModel lasModel = createLASElement(las.getName(), 500, 300);
+        DefaultNode lasModel = createLASElement(las, 500, 300);
         connectNodes(pedagogicalPlan, anchorEloNode, lasModel);
         addNode(pedagogicalPlan, lasModel);
     }
@@ -97,8 +98,9 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
         pedagogicalPlan.addNode(node);
     }
 
-    private INodeModel createLASElement(String name, Integer xPos, Integer yPos) {
-        INodeModel las = new NodeModel();
+    private DefaultNode createLASElement(LearningActivitySpace learningActivitySpace, Integer xPos, Integer yPos) {
+        DefaultNode las = new DefaultNode();
+        las.setObject(learningActivitySpace);
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/LASShape.svg");
 
         try {
@@ -109,16 +111,17 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
             System.err.println("File not found: /eu/scy/scyplanner/impl/shapes/LASShape.svg");
         }
 
-        las.setLabel(name);
+        //las.setLabel(name);
 
         las.setLocation(new Point(xPos, yPos));
         las.setSize(new Dimension(142, 73));
         return las;
     }
 
-    private INodeModel createELOElement(String name, Integer xPos, Integer yPos) {
+    private INodeModel createELOElement(AnchorELO elo, Integer xPos, Integer yPos) {
 
-        INodeModel eloNodeModel = new NodeModel();
+        DefaultNode eloNodeModel = new DefaultNode();
+        eloNodeModel.setObject(elo);
 
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/ELOShape.svg");
 
