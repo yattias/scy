@@ -4,7 +4,6 @@ import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
-import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
