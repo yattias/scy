@@ -98,4 +98,9 @@ public class ScyBaseObject implements ScyBase, Serializable {
         return result;
     }
     */
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
