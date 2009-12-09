@@ -1,6 +1,8 @@
 package eu.scy.scymapper.impl.ui.palette;
 
-import eu.scy.scymapper.api.*;
+import eu.scy.scymapper.api.IConceptMap;
+import eu.scy.scymapper.api.IConceptType;
+import eu.scy.scymapper.api.ILinkType;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
 import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
@@ -22,8 +24,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * User: Bjoerge Naess
@@ -35,7 +37,7 @@ public class PalettePane extends JPanel {
     private IConceptMap conceptMap;
     private ConceptMapPanel conceptMapPanel;
     private List<ILinkType> linkProtoTypes;
-    private List<IConceptPrototype> conceptPrototypes;
+    private List<IConceptType> conceptTypes;
     private AddLinkButton selectedButton;
     //private FillStyleCheckbox opaqueCheckbox;
     //private volatile NodeColorChooserPanel nodeColorChooser;
@@ -44,7 +46,7 @@ public class PalettePane extends JPanel {
         this.conceptMap = conceptMap;
         this.conceptMapPanel = conceptMapPanel;
         this.linkProtoTypes = conf.getAvailableLinkTypes();
-        this.conceptPrototypes = conf.getAvailableConceptTypes();
+        this.conceptTypes = conf.getAvailableConceptTypes();
         initComponents();
     }
 
@@ -64,8 +66,8 @@ public class PalettePane extends JPanel {
         JPanel nodePanel = new JPanel(new MigLayout("wrap 2", "[grow,fill]"));
         nodePanel.setBorder(BorderFactory.createTitledBorder("Add concept"));
 
-        for (final IConceptPrototype conceptPrototype : conceptPrototypes) {
-            final AddConceptButton button = new AddConceptButton(conceptPrototype);
+        for (final IConceptType conceptType : conceptTypes) {
+            final AddConceptButton button = new AddConceptButton(conceptType);
             button.setHorizontalAlignment(JButton.LEFT);
             button.addActionListener(new ActionListener() {
                 @Override
@@ -74,16 +76,17 @@ public class PalettePane extends JPanel {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             INodeModel node = new NodeModel();
-                            node.setLabel(conceptPrototype.getName());
-                            node.setShape(conceptPrototype.getNodeShape());
-                            int w = conceptPrototype.getWidth();
-                            int h = conceptPrototype.getHeight();
+                            node.setLabel(conceptType.getName());
+                            node.setShape(conceptType.getNodeShape());
+                            int w = conceptType.getWidth();
+                            int h = conceptType.getHeight();
                             node.setSize(new Dimension(w, h));
-                            node.setStyle(conceptPrototype.getNodeStyle());
+                            node.setStyle(conceptType.getNodeStyle());
                             Point loc = new Point(e.getPoint());
                             loc.translate(w/-2, h/-2);
                             node.setLocation(loc);
-                            conceptMap.getDiagram().addNode(node);
+
+                            conceptMapPanel.getDiagramView().getController().addNode(node);
                             conceptMapPanel.getDiagramView().removeMouseListener(this);
                             conceptMapPanel.getDiagramView().setCursor(null);
                             button.setSelected(false);
@@ -270,7 +273,7 @@ public class PalettePane extends JPanel {
                     link.setLabel(connectorLink.getLabel());
                     link.setShape(connectorLink.getShape());
                     link.setStyle(connectorLink.getStyle());
-                    view.getModel().addLink(link);
+                    view.getController().addLink(link);
                     view.remove(connector);
                     view.setMode(new DragMode(view));
                     if (PalettePane.this.selectedButton != null) {

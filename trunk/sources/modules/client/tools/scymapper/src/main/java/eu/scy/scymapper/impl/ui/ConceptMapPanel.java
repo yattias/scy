@@ -1,8 +1,6 @@
 package eu.scy.scymapper.impl.ui;
 
 import eu.scy.scymapper.api.IConceptMap;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
@@ -52,8 +50,8 @@ public class ConceptMapPanel extends JPanel {
         clearConceptMapBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will remove all concepts from the current concept map. Are you sure you'd like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
-                    model.getDiagram().removeAll();
+                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will removeNode all concepts from the current concept map. Are you sure you'd like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
+                    conceptDiagramView.getController().removeAll();
             }
         });
         toolBar.add(clearConceptMapBtn);
@@ -62,26 +60,8 @@ public class ConceptMapPanel extends JPanel {
         removeConceptBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                java.util.List<INodeModel> selectedNodes = model.getDiagramSelectionModel().getSelectedNodes();
-
-                java.util.List<ILinkModel> linksToRemove = model.getDiagramSelectionModel().getSelectedLinks();
-
-                for (INodeModel selectedNode : selectedNodes) {
-                    for (ILinkModel link : model.getDiagram().getLinks()) {
-                        if (link instanceof INodeLinkModel) {
-                            INodeLinkModel nodeLink = (INodeLinkModel) link;
-                            if (selectedNode.equals(nodeLink.getFromNode()) || selectedNode.equals(nodeLink.getToNode())) {
-                                linksToRemove.add(nodeLink);
-                            }
-                        }
-                    }
-                }
-
-                for (ILinkModel link : linksToRemove) model.getDiagram().removeLink(link);
-                for (INodeModel selectedNode : selectedNodes) {
-                    if (selectedNode.getConstraints().getCanDelete())
-                        model.getDiagram().removeNode(selectedNode);
+                for (INodeModel selectedNode : model.getDiagramSelectionModel().getSelectedNodes()) {
+                    conceptDiagramView.getController().removeNode(selectedNode);
                 }
             }
         });

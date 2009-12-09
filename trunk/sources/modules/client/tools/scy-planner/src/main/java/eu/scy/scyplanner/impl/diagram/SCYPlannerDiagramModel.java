@@ -1,9 +1,6 @@
 package eu.scy.scyplanner.impl.diagram;
 
-import eu.scy.scymapper.api.diagram.IDiagramListener;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -143,4 +140,8 @@ private String name;
     public void addNodes(java.util.List<INodeModel> nodes) {
         for (INodeModel node : nodes) addNode(node);
     }
+
+	public IDiagramElement getElementById(String id) {
+		return null;
+	}
 }

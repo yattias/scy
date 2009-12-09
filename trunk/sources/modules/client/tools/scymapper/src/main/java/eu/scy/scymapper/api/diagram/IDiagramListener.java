@@ -1,10 +1,8 @@
 package eu.scy.scymapper.api.diagram;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 24.jun.2009
- * Time: 11:27:10
+ * @author bjoerge
+ * @created 24.jun.2009 11:27:10
  */
 public interface IDiagramListener {
     void linkAdded(ILinkModel link);

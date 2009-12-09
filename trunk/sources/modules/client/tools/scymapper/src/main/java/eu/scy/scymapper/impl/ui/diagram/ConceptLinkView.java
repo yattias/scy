@@ -91,6 +91,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
 
     @Override
     public void resized(INodeModel node) {
+		System.out.println("ONE OF MY NODES WERE MOVED = ");
         updatePosition();
         layoutComponents();
     }

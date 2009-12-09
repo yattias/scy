@@ -3,8 +3,8 @@ package eu.scy.scymapper.api.diagram;
 import java.util.Stack;
 
 /**
- * User: Bjoerge Naess
- * Date: 24.sep.2009
+ * @author bjoerge
+ * @created 24.sep.2009
  * Time: 15:57:41
  */
 public interface IDiagramSelectionModel {
@@ -23,18 +23,18 @@ public interface IDiagramSelectionModel {
 
 	/**
 	 * Remove node from selection
-	 * @param node The node to remove
+	 * @param node The node to removeNode
 	 */
 	void unselect(INodeModel node);
 
 	/**
 	 * Remove node from selection
-	 * @param link the link to remove
+	 * @param link the link to removeNode
 	 */
 	void unselect(ILinkModel link);
 
 	/**
-	 * Clear selection (i.e. remove all links AND nodes from the selection)
+	 * Clear selection (i.e. removeNode all links AND nodes from the selection)
 	 */
 	void clearSelection();
 

@@ -6,12 +6,11 @@ import eu.scy.scymapper.api.styling.INodeStyle;
 import java.awt.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 22.jun.2009
+ * @author bjoerge
+ * @created 22.jun.2009
  * Time: 19:00:33
  */
-public interface INodeModel {
+public interface INodeModel extends IDiagramElement {
 	String getLabel();
 
 	void setLabel(String label);

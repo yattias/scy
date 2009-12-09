@@ -1,9 +1,8 @@
 package eu.scy.scymapper.api.diagram;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 22.jun.2009
+ * @author bjoerge
+ * @created 22.jun.2009
  * Time: 18:59:55
  * To change this template use File | Settings | File Templates.
  */

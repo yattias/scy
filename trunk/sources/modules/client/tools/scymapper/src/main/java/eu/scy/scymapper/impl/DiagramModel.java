@@ -1,9 +1,6 @@
 package eu.scy.scymapper.impl;
 
-import eu.scy.scymapper.api.diagram.IDiagramListener;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -74,6 +71,7 @@ public class DiagramModel implements IDiagramModel {
 	@Override
     public synchronized void removeNode(INodeModel n) {
         nodes.remove(n);
+        System.out.println("#######################REMOVED NOW NOTIFYING LISTENERS = " + n);
         notifyNodeRemoved(n);
     }
 
@@ -99,14 +97,25 @@ public class DiagramModel implements IDiagramModel {
         return nodes;
     }
 
-    @Override
-    public void addDiagramListener(IDiagramListener o) {
-        listeners.add(o);
+	@Override
+	public IDiagramElement getElementById(String id) {
+		for (INodeModel node : nodes) {
+			if (node.getId().equals(id)) return node;
+		}
+		for (ILinkModel link : links) {
+			if (link.getId().equals(id)) return link;
+		}
+		return null;
+	}
+
+	@Override
+    public void addDiagramListener(IDiagramListener l) {
+        listeners.add(l);
     }
 
     @Override
-    public void removeDiagramListener(IDiagramListener o) {
-        listeners.remove(o);
+    public void removeDiagramListener(IDiagramListener l) {
+        listeners.remove(l);
     }
 
     @Override

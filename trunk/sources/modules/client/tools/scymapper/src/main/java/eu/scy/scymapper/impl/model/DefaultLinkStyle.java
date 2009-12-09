@@ -45,17 +45,13 @@ public class DefaultLinkStyle implements ILinkStyle {
     }
 
     @Override
-    public void addStyleListener(ILinkStyleListener o) {
-        listeners.add(o);
+    public void addStyleListener(ILinkStyleListener l) {
+        listeners.add(l);
     }
 
     @Override
-    public void removeStyleListener(ILinkStyleListener o) {
-        listeners.remove(o);
-    }
-    @Override
-    public boolean hasStyleListener(ILinkStyleListener o) {
-        return listeners.contains(o);
+    public void removeStyleListener(ILinkStyleListener l) {
+        listeners.remove(l);
     }
 
     @Override

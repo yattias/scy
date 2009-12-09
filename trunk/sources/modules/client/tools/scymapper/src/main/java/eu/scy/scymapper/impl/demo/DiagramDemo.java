@@ -7,7 +7,9 @@ import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
-import eu.scy.scymapper.impl.shapes.concepts.*;
+import eu.scy.scymapper.impl.shapes.concepts.RoundRectangle;
+import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
+import eu.scy.scymapper.impl.shapes.concepts.Star;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 

@@ -136,6 +136,10 @@ public class NodeView extends JComponent implements INodeModelListener, KeyListe
         layoutComponents();
     }
 
+	public INodeController getController() {
+		return controller;
+	}
+
     private void setLabelEditable(boolean editable, int caretPos) {
 
         if (!model.getConstraints().getCanEditLabel()) editable = false;

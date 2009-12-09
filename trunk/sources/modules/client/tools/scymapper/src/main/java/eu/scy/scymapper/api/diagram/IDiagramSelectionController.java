@@ -1,9 +1,8 @@
 package eu.scy.scymapper.api.diagram;
 
 /**
- * User: Bjoerge Naess
- * Date: 24.sep.2009
- * Time: 18:19:45
+ * @author bjoerge
+ * @created 24.sep.2009 18:19:45
  */
 public interface IDiagramSelectionController {
 
@@ -21,18 +20,18 @@ public interface IDiagramSelectionController {
 
 	/**
 	 * Remove node from selection
-	 * @param node The node to remove
+	 * @param node The node to removeNode
 	 */
 	void remove(INodeModel node);
 
 	/**
 	 * Remove node from selection
-	 * @param link the link to remove
+	 * @param link the link to removeNode
 	 */
 	void remove(ILinkModel link);
 
 	/**
-	 * Clear selection (i.e. remove all links AND nodes from the selection)
+	 * Clear selection (i.e. removeNode all links AND nodes from the selection)
 	 */
 	void clearSelection();
 

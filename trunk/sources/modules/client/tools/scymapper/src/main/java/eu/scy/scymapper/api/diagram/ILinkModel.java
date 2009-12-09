@@ -7,12 +7,11 @@ import java.awt.*;
 import java.io.Serializable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 22.jun.2009
+ * @author bjoerge
+ * @created 22.jun.2009
  * Time: 18:29:15
  */
-public interface ILinkModel extends Serializable {
+public interface ILinkModel extends IDiagramElement, Serializable {
     String getLabel();
     void setLabel(String label);
 

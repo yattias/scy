@@ -33,4 +33,11 @@ public class SCYPlannerDiagramController implements IDiagramController {
 	public void addLink(ILinkModel l) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
+
+    public void removeNode(INodeModel n) {
+
+	}
+    public void removeAll() {
+
+	}
 }

@@ -1,14 +1,12 @@
 package eu.scy.scymapper.api;
 
 import eu.scy.scymapper.api.shapes.ILinkShape;
-import eu.scy.scymapper.api.shapes.INodeShape;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Bjoerge
+ * @author Bjoerge Naess
  * Date: 30.okt.2009
  * Time: 13:07:28
- * To change this template use File | Settings | File Templates.
  */
 public interface ILinkType {
 

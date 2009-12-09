@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.configuration;
 
-import eu.scy.scymapper.api.IConceptPrototype;
+import eu.scy.scymapper.api.IConceptType;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.model.DefaultNodeStyle;
@@ -11,7 +11,7 @@ import eu.scy.scymapper.impl.model.DefaultNodeStyle;
  * Date: 30.okt.2009
  * Time: 13:25:49
  */
-public class ConceptPrototype implements IConceptPrototype {
+public class ConceptType implements IConceptType {
     private INodeShape shape;
     private String name;
     private String description;

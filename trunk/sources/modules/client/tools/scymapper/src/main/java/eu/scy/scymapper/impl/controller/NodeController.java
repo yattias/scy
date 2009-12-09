@@ -12,7 +12,7 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class NodeController implements INodeController {
-    private INodeModel model;
+    protected INodeModel model;
 
 	public NodeController(INodeModel node) {
         this.model = node;

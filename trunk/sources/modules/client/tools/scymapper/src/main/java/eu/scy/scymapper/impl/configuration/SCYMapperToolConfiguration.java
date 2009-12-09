@@ -3,7 +3,7 @@ package eu.scy.scymapper.impl.configuration;
 import eu.scy.core.model.pedagogicalplan.Activity;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Tool;
-import eu.scy.scymapper.api.IConceptPrototype;
+import eu.scy.scymapper.api.IConceptType;
 import eu.scy.scymapper.api.ILinkType;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.INodeModel;
@@ -21,13 +21,13 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     private String description;
     private LearningActivitySpace learningActivitySpace;
     private Tool tool;
-    private List<IConceptPrototype> availableConceptPrototypes;
+    private List<IConceptType> availableConceptTypes;
     private List<ILinkType> availableLinkTypes;
     private List<INodeModel> predefinedNodes;
 
     @Override
-    public List<IConceptPrototype> getAvailableConceptTypes() {
-        return availableConceptPrototypes;
+    public List<IConceptType> getAvailableConceptTypes() {
+        return availableConceptTypes;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     }
 
     @Override
-    public void setAvailableConceptTypes(List<IConceptPrototype> availableConceptPrototypes) {
-        this.availableConceptPrototypes = availableConceptPrototypes;
+    public void setAvailableConceptTypes(List<IConceptType> availableConceptTypes) {
+        this.availableConceptTypes = availableConceptTypes;
     }
 
     @Override

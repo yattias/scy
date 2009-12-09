@@ -1,11 +1,14 @@
 package eu.scy.scymapper.impl;
 
+import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
+import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactory;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
+import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
 import org.apache.log4j.Logger;
-import org.jivesoftware.smack.XMPPConnection;
 import roolo.api.IRepository;
 import roolo.elo.JDomBasicELOFactory;
 import roolo.elo.api.IELOFactory;
@@ -23,36 +26,31 @@ public class SCYMapperPanel extends JPanel {
 
 	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 	private JToolBar toolBar;
-	private String currentToolSessionId;
 
-	private XMPPConnection connection;
     private IELOFactory eloFactory = new JDomBasicELOFactory();
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
     private JSplitPane splitPane;
     private IConceptMap conceptMap;
     private ISCYMapperToolConfiguration configuration;
+    private ConceptDiagramView conceptDiagramView;
 
     public SCYMapperPanel(IConceptMap cmap, ISCYMapperToolConfiguration configuration) {
         conceptMap = cmap;
         this.configuration = configuration;
-        initToolBroker();
         setLayout(new BorderLayout());
 		initComponents();
 	}
 
-	private void initToolBroker() {
-		//logger.debug("Getting datasync-service");
-		//dataSyncService = toolBroker.getDataSyncService();
-		//dataSyncService.init(toolBroker.getConnection(username, password));
-
-		//dataSyncService.addDataSyncListener(this);
-		//dataSyncService.createSession("eu.scy.scymapper", username);
+    public void setSession(ISyncSession session) {
+        conceptDiagramView.setController(new DataSyncDiagramController(conceptMap.getDiagram(), session));
+		conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
 	}
 
 	private void initComponents() {
         ConceptMapPanel cmapPanel = new ConceptMapPanel(conceptMap);
         cmapPanel.setBackground(Color.WHITE);
+        conceptDiagramView = cmapPanel.getDiagramView();
 
         JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
         palettePane.setPreferredSize(new Dimension(200, 0));
@@ -61,17 +59,6 @@ public class SCYMapperPanel extends JPanel {
 
 		add(splitPane, BorderLayout.CENTER);
 	}
-
-//	@Override
-//	public void handleDataSyncEvent(IDataSyncEvent e) {
-//		ISyncMessage syncMessage = e.getSyncMessage();
-//		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventCreateSession())) {
-//			currentToolSessionId = syncMessage.getToolSessionId();
-//		}
-//		if (syncMessage.getEvent().equals(Configuration.getInstance().getClientEventSynchronize())) {
-//			logger.debug("GOT SYNCH" + syncMessage.getContent());
-//		}
-//	}
 
     public void setRepository(IRepository repository) {
         this.repository = repository;

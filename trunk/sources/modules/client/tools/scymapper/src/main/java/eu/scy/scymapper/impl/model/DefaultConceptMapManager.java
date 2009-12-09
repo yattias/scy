@@ -62,7 +62,7 @@ public class DefaultConceptMapManager implements IConceptMapManager {
 	}
 
 	@Override
-	public void removeChangeListener(IConceptMapSelectionListener listener) {
+	public void removeSelectionChangeListener(IConceptMapSelectionListener listener) {
 		selectionListeners.remove(listener);
 	}
 
