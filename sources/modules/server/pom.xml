@@ -138,6 +138,7 @@
         <!-- module>scy-useradmin-web</module -->
         <module>webbrowsingtoolELOSaver</module>
         <module>whacket-extension</module>
+    <module>server-external-components</module>
   </modules>
 
     <!--properties>
