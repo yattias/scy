@@ -52,7 +52,7 @@ public class AwarenessUser implements IAwarenessUser {
 	}
 	@Override
 	public void setCorrectUsername(String uc) {
-		this.correctUsername = uc;
+		this.correctUsername = trimIt(uc);
 	}
 
 
