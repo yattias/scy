@@ -44,6 +44,7 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreato
 
 public class ScyDesktopCreator {
 
+   public-init var initializer: Initializer;
    public-init var sessionId:String;
    public-init var userName:String;
    public-init var config:Config;
@@ -61,9 +62,9 @@ public class ScyDesktopCreator {
 
    def sessionIdKey = "sessionId";
    def userNameKey = "userName";
+   def loggingDirectoryKey = "loggingDirectory";
 
    init{
-      Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       parseApplicationParameters();
       findConfig();
       if (eloInfoControl==null){
@@ -115,7 +116,11 @@ public class ScyDesktopCreator {
          // set properties, to make them avaible in spring config files
          System.setProperty(sessionIdKey, sessionId);
          System.setProperty(userNameKey, userName);
-
+         var loggingDirectory = "";
+         if (initializer.loggingDirectory!=null){
+            loggingDirectory = initializer.loggingDirectory.getAbsolutePath();
+         }
+         System.setProperty(loggingDirectoryKey, loggingDirectory);
 
          var springConfigFactory = new SpringConfigFactory();
          if (servicesClassPathConfigLocation!=null){
