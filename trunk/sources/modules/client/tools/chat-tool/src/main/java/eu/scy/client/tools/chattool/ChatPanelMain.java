@@ -146,7 +146,7 @@ public class ChatPanelMain extends JPanel {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						if(awarenessEvent.getMessage() != null) {
-							chatArea.setText(oldText + awarenessEvent.getUser() + ": " + awarenessEvent.getMessage() + "\n");							
+							chatArea.setText(oldText + awarenessEvent.getUser().getCorrectUsername() + ": " + awarenessEvent.getMessage() + "\n");							
 						}
 					}
 				});
