@@ -69,9 +69,13 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         AnchorELO anchorELO2 = createAnchorELO("A concept map concepting something really bad!");
         act2.setAnchorELO(anchorELO2);
 
+
+
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
         addActivity(conceptualization, "Build a model");
         addActivity(conceptualization, "Give and classify examples");
+
+        anchorELO.setInputTo(conceptualization);
 
         LearningActivitySpace experiment = createLAS("LAS Experiment");
         addActivity(experiment, "Design an experimental procedure");
