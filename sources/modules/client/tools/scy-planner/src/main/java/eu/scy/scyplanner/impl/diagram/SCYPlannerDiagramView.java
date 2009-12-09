@@ -13,6 +13,7 @@ import eu.scy.scymapper.impl.ui.diagram.ConnectionPoint;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
 import eu.scy.scymapper.impl.ui.diagram.NodeView;
 
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -38,9 +39,11 @@ public class SCYPlannerDiagramView extends JPanel implements INodeModelListener,
 
     private ObservableView observable = new ObservableView();
 
-    public SCYPlannerDiagramView(IDiagramController controller, IDiagramModel model) {
+    public SCYPlannerDiagramView(IDiagramController controller, IDiagramModel model) {        
         this.controller = controller;
         this.model = model;
+
+        setBackground(SCYPlannerApplicationManager.getAlternativeBackgroundColor());
 
         // Register myself as observer for changes in the model
         this.model.addDiagramListener(this);
