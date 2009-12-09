@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -170,15 +171,13 @@ public class ChatPresencePanelMain extends JPanel {
 		awarenessService.addAwarenessPresenceListener(new IAwarenessPresenceListener() {		
 			@Override
 			public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
-				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e.getUser().getCorrectUsername()+" : "+e.getUser().getPresence());				
-				//cmp.updateModel();
-				//TODO: update the model with the new user
+				logger.debug("registerChatArea: handleAwarenessPresenceEvent: smthg happened...: " + e.getUser().getUsername()+" : "+e.getUser().getPresence());				
 				
 				IAwarenessUser iau;
 				for(int i=0; i<model.getSize(); i++) {
 					iau = (IAwarenessUser) model.elementAt(i);
 					logger.debug("registerChatArea: handleAwarenessPresenceEvent: " + iau.getUsername());	
-					if(iau.getUsername().equals(e.getUser().getCorrectUsername())) {
+					if(iau.getUsername().equals(trimIt(e.getUser().getUsername()))) {
 						((IAwarenessUser) model.elementAt(i)).setPresence(e.getUser().getPresence());
 					}
 				}
@@ -192,10 +191,11 @@ public class ChatPresencePanelMain extends JPanel {
 				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + event);
 				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + event.getUsers().size());
 				AwarenessUser au = (AwarenessUser) event.getUsers().get(0);
-				logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + au.getUsername());
 				for(int i = 0; i<model.getSize(); i++) {
 					String mau = ((AwarenessUser) model.get(i)).getUsername();
-					if(mau.equals(au.getUsername())) {
+					logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + trimIt(au.getUsername()));
+					logger.debug("ChatPresencePanelMain: registerChatArea: handleChatPresenceToolEvent: " + mau);
+					if(mau.equals(trimIt(au.getUsername()))) {
 						buddyList.setSelectedIndex(i);
 					}
 				}
@@ -212,5 +212,10 @@ public class ChatPresencePanelMain extends JPanel {
 			iau = (IAwarenessUser) chatController.getBuddyListArray().elementAt(i);
 			model.addElement(iau);
 		}
+	}
+	
+	private String trimIt(String username2) {
+		StringTokenizer st = new StringTokenizer(username2, "/");
+		return st.nextToken();
 	}
 }
