@@ -12,7 +12,6 @@ import java.util.List;
  * User: Henrik
  * Date: 09.des.2009
  * Time: 05:49:09
- * To change this template use File | Settings | File Templates.
  */
 public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate implements PedagogicalPlanPersistenceDAO {
 

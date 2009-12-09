@@ -3,6 +3,9 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.LearningMaterial;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Set;
 
 /**
@@ -11,9 +14,12 @@ import java.util.Set;
  * Date: 15.sep.2009
  * Time: 14:21:50
  */
+
+@Entity
+@Table(name = "mission")
 public class MissionImpl extends LearningGoalContainerImpl implements Mission {
 
-    @Override
+    @Transient
     public Set<? extends LearningMaterial> getLearningMaterials() {
         return null;
     }
@@ -28,7 +34,7 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
 
     }
 
-    @Override
+    @Transient
     public String getMissionOutline() {
         return null;
     }
@@ -38,7 +44,7 @@ public class MissionImpl extends LearningGoalContainerImpl implements Mission {
 
     }
 
-    @Override
+    @Transient
     public String getTargetGroup() {
         return null;
     }

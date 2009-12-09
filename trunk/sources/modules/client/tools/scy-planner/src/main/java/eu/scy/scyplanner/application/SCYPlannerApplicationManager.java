@@ -10,6 +10,7 @@ import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanServiceMock;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.jivesoftware.smack.XMPPConnection;
@@ -42,6 +43,9 @@ public class SCYPlannerApplicationManager {
     private PedagogicalPlanService pedagogicalPlanService;
 
     private SCYPlannerApplicationManager() {
+
+        pedagogicalPlanService = new PedagogicalPlanServiceMock();
+
 
         /*HttpInvokerProxyFactoryBean bean = (HttpInvokerProxyFactoryBean) getToolBrokerAPI().getBean("httpInvokerPedagogicalPlanServiceProxy");
         bean.setServiceUrl("http://localhost:8080/webapp/remoting/pedagogicalPlan-httpinvoker");
@@ -170,5 +174,13 @@ public class SCYPlannerApplicationManager {
         if (component != null) {
             component.setCursor(cursor);
         }
+    }
+
+    public PedagogicalPlanService getPedagogicalPlanService() {
+        return pedagogicalPlanService;
+    }
+
+    public void setPedagogicalPlanService(PedagogicalPlanService pedagogicalPlanService) {
+        this.pedagogicalPlanService = pedagogicalPlanService;
     }
 }
