@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.IllegalStateException;
 import org.apache.log4j.Logger;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
@@ -22,6 +23,7 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  *
@@ -80,6 +82,16 @@ public class BasicConfig implements Config
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
       this.metadataTypeManager = metadataTypeManager;
+      titleKey = getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+      technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+   }
+
+   private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId){
+      IMetadataKey key = metadataTypeManager.getMetadataKey(keyId.getId());
+      if (key==null){
+         throw new IllegalStateException("cannot find key " + keyId.getId());
+      }
+      return key;
    }
 
    @Override
@@ -124,6 +136,10 @@ public class BasicConfig implements Config
    public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI)
    {
       this.toolBrokerAPI = toolBrokerAPI;
+      setRepository(toolBrokerAPI.getRepository());
+      setExtensionManager(toolBrokerAPI.getExtensionManager());
+      setMetadataTypeManager(toolBrokerAPI.getMetaDataTypeManager());
+      setEloFactory(toolBrokerAPI.getELOFactory());
    }
 
    @Override

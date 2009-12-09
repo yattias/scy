@@ -3,7 +3,6 @@
  *
  * Created on 7-jul-2009, 14:23:46
  */
-
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
@@ -26,87 +25,81 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistryImpl;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFXImpl;
 
-import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
-import java.lang.Thread;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import org.apache.log4j.Logger;
 import javafx.scene.paint.Color;
 
 import java.net.URI;
 import java.lang.System;
-
+import eu.scy.client.desktop.scydesktop.config.BasicConfig;
 
 /**
  * @author sikkenj
  */
-
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreator");
 
 public class ScyDesktopCreator {
 
    public-init var initializer: Initializer;
-   public-init var sessionId:String;
-   public-init var userName:String;
-   public-init var config:Config;
-   public-init var servicesClassPathConfigLocation:String;
-   public-init var servicesFileSystemConfigLocation:String;
-   public-init var configClassPathConfigLocation:String;
-   public-init var configFileSystemConfigLocation:String;
-
+   public-init var toolBrokerAPI: ToolBrokerAPI;
+   public-init var userName: String;
+   public-init var config: Config;
+   public-init var servicesClassPathConfigLocation: String;
+   public-init var servicesFileSystemConfigLocation: String;
+   public-init var configClassPathConfigLocation: String;
+   public-init var configFileSystemConfigLocation: String;
    public-init var missionModelFX: MissionModelFX;
    public-init var eloInfoControl: EloInfoControl;
    public-init var windowStyler: WindowStyler;
    public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
-
-   def sessionIdKey = "sessionId";
    def userNameKey = "userName";
-   def loggingDirectoryKey = "loggingDirectory";
 
-   init{
+   init {
       parseApplicationParameters();
       findConfig();
-      if (eloInfoControl==null){
-         eloInfoControl = RooloEloInfoControl{
+      if (eloInfoControl == null) {
+         eloInfoControl = RooloEloInfoControl {
             repository: config.getRepository();
             extensionManager: config.getExtensionManager();
-            titleKey:config.getTitleKey();
+            titleKey: config.getTitleKey();
          }
       }
-      if (windowStyler==null){
-         windowStyler = DummyWindowStyler{
-            eloInfoControl:eloInfoControl;
+      if (windowStyler == null) {
+         windowStyler = DummyWindowStyler {
+            eloInfoControl: eloInfoControl;
          };
       }
-      if (windowContentCreatorRegistryFX==null){
-         windowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl{};
+      if (windowContentCreatorRegistryFX == null) {
+         windowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl {};
       }
-      if (newEloCreationRegistry==null){
-         newEloCreationRegistry = NewEloCreationRegistryImpl{};
+      if (newEloCreationRegistry == null) {
+         newEloCreationRegistry = NewEloCreationRegistryImpl {};
       }
-      if (drawerContentCreatorRegistryFX==null){
-         drawerContentCreatorRegistryFX = DrawerContentCreatorRegistryFXImpl{};
+      if (drawerContentCreatorRegistryFX == null) {
+         drawerContentCreatorRegistryFX = DrawerContentCreatorRegistryFXImpl {};
       }
 
       handleToolRegistration();
-      if (missionModelFX==null){
+      if (missionModelFX == null) {
          readMissionModel();
       }
    }
 
-   function parseApplicationParameters(){
-      var applicationParameters = ApplicationParameters{}
+   function parseApplicationParameters() {
+      var applicationParameters = ApplicationParameters {}
       servicesClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesClassPathConfigLocation, servicesClassPathConfigLocation);
       servicesFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesFileSystemConfigLocation, servicesFileSystemConfigLocation);
       configClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configClassPathConfigLocation, configClassPathConfigLocation);
       configFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configFileSystemConfigLocation, configFileSystemConfigLocation);
    }
 
-   function findConfig(){
-      if (config==null){
+   function findConfig() {
+      if (config == null) {
          // make it compatible with the situation that services location is not defined
-         if (servicesClassPathConfigLocation==null and servicesFileSystemConfigLocation==null){
+         if (servicesClassPathConfigLocation == null and servicesFileSystemConfigLocation == null) {
             servicesClassPathConfigLocation = configClassPathConfigLocation;
             configClassPathConfigLocation = null;
             servicesFileSystemConfigLocation = configFileSystemConfigLocation;
@@ -114,130 +107,120 @@ public class ScyDesktopCreator {
          }
 
          // set properties, to make them avaible in spring config files
-         System.setProperty(sessionIdKey, sessionId);
          System.setProperty(userNameKey, userName);
-         var loggingDirectory = "";
-         if (initializer.loggingDirectory!=null){
-            loggingDirectory = initializer.loggingDirectory.getAbsolutePath();
-         }
-         System.setProperty(loggingDirectoryKey, loggingDirectory);
 
          var springConfigFactory = new SpringConfigFactory();
-         if (servicesClassPathConfigLocation!=null){
+         if (servicesClassPathConfigLocation != null) {
             logger.info("reading spring config from class path: {servicesClassPathConfigLocation}");
             springConfigFactory.initFromClassPath(servicesClassPathConfigLocation);
-         }
-         else if (servicesFileSystemConfigLocation!=null){
+         } else if (servicesFileSystemConfigLocation != null) {
             logger.info("reading spring config from file system: {servicesFileSystemConfigLocation}");
             springConfigFactory.initFromFileSystem(servicesFileSystemConfigLocation);
-         }
-         else{
+         } else {
             throw new IllegalStateException("no spring config location defined");
          }
 
-         if (configClassPathConfigLocation!=null){
+         if (configClassPathConfigLocation != null) {
             logger.info("adding spring config from class path: {configClassPathConfigLocation}");
             springConfigFactory.addFromClassPath(configClassPathConfigLocation);
-         }
-         else if (configFileSystemConfigLocation!=null){
+         } else if (configFileSystemConfigLocation != null) {
             logger.info("adding spring config from file system: {configFileSystemConfigLocation}");
             springConfigFactory.addFromFileSystem(configFileSystemConfigLocation);
          }
 
-         config = springConfigFactory.getConfig();
+         var basicConfig = springConfigFactory.getConfig() as BasicConfig;
+         basicConfig.setToolBrokerAPI(toolBrokerAPI);
+         config = basicConfig;
       }
-      if (config==null){
+      if (config == null) {
          throw new IllegalStateException("config is not defined and could not be found");
       }
    }
 
-   function handleToolRegistration(){
-      if (config.getRegisterContentCreators()!=null){
-         for (registerContentCreators in config.getRegisterContentCreators()){
+   function handleToolRegistration() {
+      if (config.getRegisterContentCreators() != null) {
+         for (registerContentCreators in config.getRegisterContentCreators()) {
             registerContentCreators.registerWindowContentCreators(windowContentCreatorRegistryFX);
             registerContentCreators.registerDrawerContentCreators(drawerContentCreatorRegistryFX);
             registerContentCreators.registerNewEloCreation(newEloCreationRegistry);
          }
       }
-      for (newEloDescription in config.getNewEloDescriptions()){
-         newEloCreationRegistry.registerEloCreation(newEloDescription.getType(),newEloDescription.getDisplay());
+      for (newEloDescription in config.getNewEloDescriptions()) {
+         newEloCreationRegistry.registerEloCreation(newEloDescription.getType(), newEloDescription.getDisplay());
       }
 
    }
 
-   function readMissionModel(){
+   function readMissionModel() {
 //      if (config.getMissionModelCreator().createMissionModel()!=null){
 //         var missionModel = config.getMissionModelCreator().createMissionModel();
 //         missionModelFX = MissionModelFX.createMissionModelFX(missionModel);
 //      }
 //      else
       var missionAnchors = config.getMissionAnchors();
-      if (missionAnchors!=null){
+      if (missionAnchors != null) {
          missionModelFX = MissionModelUtils.createBasicMissionModelFX(missionAnchors);
-         var activeAnchor = getActiveMissionAnchor(missionModelFX,config.getActiveMissionAnchorUri());
-         if (activeAnchor.exists){
-            missionModelFX.activeAnchor= activeAnchor;
-         }
-         else{
+         var activeAnchor = getActiveMissionAnchor(missionModelFX, config.getActiveMissionAnchorUri());
+         if (activeAnchor.exists) {
+            missionModelFX.activeAnchor = activeAnchor;
+         } else {
             logger.error("specified active anchor elo does not exists: {activeAnchor.eloUri}");
          }
 
       }
 
-      if (missionModelFX==null){
-         missionModelFX = MissionModelFX{};
+      if (missionModelFX == null) {
+         missionModelFX = MissionModelFX {};
       }
       addEloStatusInformationToMissionModel();
    }
 
-   function addEloStatusInformationToMissionModel(){
-      for (missionAnchor in missionModelFX.anchors){
+   function addEloStatusInformationToMissionModel() {
+      for (missionAnchor in missionModelFX.anchors) {
          // fill in the missing info
          var type = eloInfoControl.getEloType(missionAnchor.eloUri);
          missionAnchor.color = windowStyler.getScyColor(type);
          missionAnchor.iconCharacter = windowStyler.getScyIconCharacter(type);
          var metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
-         if (metadata!=null){
-            missionAnchor.exists=true;
+         if (metadata != null) {
+            missionAnchor.exists = true;
             missionAnchor.title = metadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
-         }
-         else{
-            missionAnchor.exists=false;
+         } else {
+            missionAnchor.exists = false;
             // change the color, to show the elo does not exists
             missionAnchor.color = getNotExistingColor(missionAnchor.color);
          }
       }
    }
 
-   function getNotExistingColor(color:Color):Color{
+   function getNotExistingColor(color: Color): Color {
       Color.color(getLighterColorComponent(color.red), getLighterColorComponent(color.green), getLighterColorComponent(color.blue));
    }
 
-   function getLighterColorComponent(value:Number):Number{
-      return 1 - (1-value)/2.0;
+   function getLighterColorComponent(value: Number): Number {
+      return 1 - (1 - value) / 2.0;
    }
 
-   function getActiveMissionAnchor(missionModel:MissionModelFX, uri:URI):MissionAnchorFX{
-     for (missionAnchor in missionModel.anchors){
-        if (uri == missionAnchor.eloUri){
-           return missionAnchor;
-        }
-     }
-     logger.info("failed to get active mission anchor with uri: {uri}");
-     return null;
+   function getActiveMissionAnchor(missionModel: MissionModelFX, uri: URI): MissionAnchorFX {
+      for (missionAnchor in missionModel.anchors) {
+         if (uri == missionAnchor.eloUri) {
+            return missionAnchor;
+         }
+      }
+      logger.info("failed to get active mission anchor with uri: {uri}");
+      return null;
    }
 
-   public function createScyDesktop():ScyDesktop{
-      ScyDesktop{
-         config:config;
-         missionModelFX : missionModelFX;
+   public function createScyDesktop(): ScyDesktop {
+      ScyDesktop {
+         config: config;
+         missionModelFX: missionModelFX;
          eloInfoControl: eloInfoControl;
-         windowStyler:windowStyler;
-         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+         windowStyler: windowStyler;
+         windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
          newEloCreationRegistry: newEloCreationRegistry;
-         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
+         drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
       }
 
    }
-
 }
