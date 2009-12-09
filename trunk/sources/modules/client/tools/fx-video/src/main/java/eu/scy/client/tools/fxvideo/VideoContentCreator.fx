@@ -6,23 +6,20 @@
 
 package eu.scy.client.tools.fxvideo;
 
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
-
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.net.URI;
 
-import java.util.Properties;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
  
 /**
  * @author pg
  */
 
-public class VideoContentCreator extends WindowContentCreatorFX {
-
+//public class VideoContentCreator extends WindowContentCreatorFX {
+public class VideoContentCreator extends ScyToolWindowContentCreatorFX {
+        override function createScyToolWindowContent():Node {
+                return VideoNode{};
+        }
+        /*
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -57,4 +54,5 @@ public class VideoContentCreator extends WindowContentCreatorFX {
             scyWindow.minimumWidth = 320;
             scyWindow.minimumHeight = 200;
         }
+        */
 }

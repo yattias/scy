@@ -17,18 +17,16 @@ import javafx.scene.control.Button;
 import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-
-
-
-
-import java.lang.System;
-
-
 import javafx.scene.layout.HBox;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 
-import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import roolo.api.IRepository;
+import roolo.elo.api.IELOFactory;
+import roolo.elo.api.IMetadataTypeManager;
 
 
 /**
@@ -40,23 +38,21 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
  *      http://codecs.com/FFDShow_download.htm
  */
 
-public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener {
+public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyTool {
+
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };
     def spacing = 5.0;
-
+    public var repository:IRepository;
+    public var eloFactory:IELOFactory;
+    public var metadataTypeManager:IMetadataTypeManager;
     public var eloVideoActionWrapper:EloVideoActionWrapper;
 
-    public function loadElo(uri:URI) {
-       eloVideoActionWrapper.loadElo(uri);
-       setScyWindowTitle();
-    }
-
-   var media:String;
-   var title:String;
-   var subtitle:String;
-   var mediaBox:MediaBox =  MediaBox {
+    var media:String;
+    var title:String;
+    var subtitle:String;
+    var mediaBox:MediaBox =  MediaBox {
                 mediaSource: media
                 mediaTitle: title;
                 mediaDescription: subtitle;
@@ -70,7 +66,7 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener {
                 //height: bind scyWindow.height - 50;
                 autoPlay: false
                 mediaControlBarHeight: 25
-        }
+    }
 
     function setScyWindowTitle() {
         scyWindow.title = "Video: {this.title}";
@@ -131,7 +127,66 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener {
 
     override function draggingFinished():Void {
     }
-    
+     /**
+    * ScyTool methods
+    */
+    override function initialize():Void {
+
+    }
+
+    /**
+    * step 6 in sequence of calls -> wiki ScyTool
+    * ScyWindow + repository should be fine now -> create eloactionwrapper and be happy!
+    */
+    override function postInitialize():Void {
+
+            this.eloVideoActionWrapper = new EloVideoActionWrapper(this);
+            eloVideoActionWrapper.setRepository(repository);
+            eloVideoActionWrapper.setMetadataTypeManager(metadataTypeManager);
+            eloVideoActionWrapper.setEloFactory(eloFactory);
+            eloVideoActionWrapper.setDocName(scyWindow.title);
+    }
+
+    override function newElo():Void {
+
+    }
+
+    override function loadElo(uri:URI):Void {
+        eloVideoActionWrapper.loadElo(uri);
+        setScyWindowTitle();
+    }
+
+    override function onGotFocus():Void {
+
+    }
+
+    override function onLostFocus():Void {
+
+    }
+
+    override function onMinimized():Void {
+
+    }
+
+    override function onUnMinimized():Void {
+
+    }
+
+    override function onClosed():Void {
+
+    }
+
+    override function aboutToClose():Boolean {
+        return true
+    }
+
+    override function setEloSaver(eloSaver:EloSaver):Void {
+
+    }
+
+    override function setMyEloChanged(myEloChanged:MyEloChanged) {
+
+    }
     public override function create():Node {
 
         scyWindow.addChangesListener(this);

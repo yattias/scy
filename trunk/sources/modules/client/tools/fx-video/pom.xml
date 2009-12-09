@@ -37,6 +37,11 @@
           <artifactId>jaxb-api</artifactId>
           <version>2.2</version>
       </dependency>
+      <dependency>
+         <groupId>com.sun.javafx</groupId>
+         <artifactId>mediabox</artifactId>
+         <version>20090413</version>
+      </dependency>
   
    </dependencies>
 
@@ -49,7 +54,7 @@
          <resource>
             <directory>src/main/java</directory>
             <includes>
-               <include>client.properties</include>
+               <include>properties</include>
             </includes>
          </resource>
       </resources>
