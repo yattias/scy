@@ -57,11 +57,17 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
     private Scenario createExplorationScenario() {
         Scenario scenario = new ScenarioImpl();
         scenario.setName("Exploration");
+        scenario.setDescription("Exploration scenario that will make you shiver!");
 
         LearningActivitySpace orientation = createLAS("LA(r)S Orientation");
         scenario.setLearningActivitySpace(orientation);
-        addActivity(orientation, "Identify goal states");
-        addActivity(orientation, "Identify learning goals");
+        Activity act1 = addActivity(orientation, "Identify goal states");
+        AnchorELO anchorELO = createAnchorELO("A product you can be proud of!");
+        act1.setAnchorELO(anchorELO);
+
+        Activity act2 = addActivity(orientation, "Identify learning goals");
+        AnchorELO anchorELO2 = createAnchorELO("A concept map concepting something really bad!");
+        act2.setAnchorELO(anchorELO2);
 
         LearningActivitySpace conceptualization = createLAS("LAS Conceptualization");
         addActivity(conceptualization, "Build a model");
@@ -93,6 +99,12 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         Activity activity = new ActivityImpl();
         activity.setName(name);
         return activity;
+    }
+
+    private AnchorELO createAnchorELO(String name) {
+        AnchorELO anchorElo = new AnchorELOImpl();
+        anchorElo.setName(name);
+        return anchorElo;
     }
 
     private PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {

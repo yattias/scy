@@ -1,5 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
+import eu.scy.core.model.pedagogicalplan.Activity;
+import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.Mission;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.scymapper.api.diagram.*;
@@ -61,12 +63,32 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
         INodeModel producedByOrientationELO = createELOElement("ELO", 150, 100);
 
-        addNode(pedagogicalPlan, orientationLas);
-        addNode(pedagogicalPlan, producedByOrientationELO);
+        LearningActivitySpace firstLas = scenario.getLearningActivitySpace();
+
+        INodeModel firstLasNode = createLASElement(firstLas.getName(), 150,100);
+        addNode(pedagogicalPlan,firstLasNode);
+        addAnchorEloNode(firstLasNode, firstLas, pedagogicalPlan);
+
+
+
+        //addNode(pedagogicalPlan, orientationLas);
+        //addNode(pedagogicalPlan, producedByOrientationELO);
 
         connectNodes(pedagogicalPlan, orientationLas, producedByOrientationELO);
 
         return pedagogicalPlan;
+    }
+
+
+    private void addAnchorEloNode(INodeModel lasNode, LearningActivitySpace las , SCYPlannerDiagramModel pedagogicalPlan) {
+        java.util.List <Activity> activities = las.getActivities();
+        for (int i = 0; i < activities.size(); i++) {
+            Activity activity = activities.get(i);
+            if(activity.getAnchorELO() != null) {
+                INodeModel anchorNodeModel = createELOElement(activity.getAnchorELO().getName(), 200, (int)(lasNode.getLocation().getY() + (100*i)));
+                addNode(pedagogicalPlan,anchorNodeModel);
+            }
+        }
     }
 
     private void addNode(SCYPlannerDiagramModel pedagogicalPlan, INodeModel node) {
