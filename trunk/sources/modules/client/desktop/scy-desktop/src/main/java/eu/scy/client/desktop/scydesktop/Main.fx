@@ -12,21 +12,20 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
-import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * @author sikkenj
  */
-InitLog4JFX.initLog4J();
+var initializer = Initializer{
+
+}
 
 function createScyDesktop(sessionId: String, userName:String): ScyDesktop {
    def scyTextId = "text";
    def eloXmlViewerId = "xmlViewer";
    var scyDesktopCreator = ScyDesktopCreator {
+              initializer: initializer;
               sessionId:sessionId;
               userName:userName;
               servicesClassPathConfigLocation: "config/localScyServices.xml";
@@ -46,28 +45,21 @@ function createScyDesktop(sessionId: String, userName:String): ScyDesktop {
    }
    return scyDesktop;
 }
-var loginDialog = LoginDialog {
-           createScyDesktop: createScyDesktop
-        }
+
 var stage: Stage;
-var backgroundImage = ImageView {
-           image: Image {
-              url: "{__DIR__}bckgrnd2.jpg"
-           }
-           fitWidth: bind stage.scene.width
-           fitHeight: bind stage.scene.height
-           preserveRatio: false
-           cache: true
-        }
+var scene:Scene;
 
 stage = Stage {
    title: "SCY Desktop"
    width: 400
    height: 300
-   scene: Scene {
+   scene: scene=Scene {
       content: [
-         backgroundImage,
-         loginDialog
+         initializer.getBackgroundImageView(scene),
+         LoginDialog {
+           createScyDesktop: createScyDesktop
+           loginValidator:initializer.loginValidator;
+        }
       ]
    }
 }
