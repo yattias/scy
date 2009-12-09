@@ -13,6 +13,7 @@ import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolCont
 
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
@@ -21,14 +22,14 @@ var initializer = Initializer{
 
 }
 
-function createScyDesktop(sessionId: String, userName:String): ScyDesktop {
+function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {
    def scyTextId = "text";
    def eloXmlViewerId = "xmlViewer";
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
-              sessionId:sessionId;
+              toolBrokerAPI:toolBrokerAPI;
               userName:userName;
-              servicesClassPathConfigLocation: "config/localScyServices.xml";
+              //servicesClassPathConfigLocation: "config/localScyServices.xml";
               configClassPathConfigLocation: "config/scyDesktopTestConfig.xml";
            }
 
@@ -58,7 +59,7 @@ stage = Stage {
          initializer.getBackgroundImageView(scene),
          LoginDialog {
            createScyDesktop: createScyDesktop
-           loginValidator:initializer.loginValidator;
+           toolBrokerLogin:initializer.toolBrokerLogin;
         }
       ]
    }

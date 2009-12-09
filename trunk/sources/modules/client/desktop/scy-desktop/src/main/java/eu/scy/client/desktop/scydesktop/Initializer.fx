@@ -19,8 +19,8 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.login.LoginValidator;
-import eu.scy.client.desktop.scydesktop.dummy.DummyLoginValidator;
+import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
+import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,19 +38,31 @@ public class Initializer {
    public-init var lookAndFeel = "nimbus";
    public-read var backgroundImage: Image;
    public-read var loggingDirectory: File;
-   public-read var loginValidator: LoginValidator = new DummyLoginValidator();
+   public-read var toolBrokerLogin: ToolBrokerLogin;
+   public-init var localToolBrokerLoginConfigFile: String = "/config/localScyServices.xml";
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
+   def loggingDirectoryKey = "loggingDirectory";
 
    init {
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       setupLog4J();
       setupBackgroundImage();
+      var loggingDirectoryKeyValue = "";
       loggingDirectory = findLoggingDirectory();
-      if (loggingDirectory != null and redirectSystemStream) {
-         doRedirectSystemStream();
+      if (loggingDirectory != null) {
+         if (redirectSystemStream) {
+            doRedirectSystemStream();
+         }
+         loggingDirectoryKeyValue = loggingDirectory.getAbsolutePath();
       }
       setLookAndFeel();
+      if (toolBrokerLogin == null) {
+         var localToolBrokerLogin = new LocalToolBrokerLogin();
+         localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
+         toolBrokerLogin = localToolBrokerLogin;
+      }
+
    }
 
    public function getBackgroundImageView(scene: Scene): ImageView {

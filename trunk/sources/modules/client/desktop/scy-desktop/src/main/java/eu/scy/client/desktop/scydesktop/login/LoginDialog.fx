@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import eu.scy.client.desktop.scydesktop.dummy.DummyLoginValidator;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -30,8 +30,8 @@ public class LoginDialog extends CustomNode {
 
    def passwordName = "password";
    public var windowStyler: WindowStyler;
-   public var createScyDesktop: function(sessionId:String,userName:String): ScyDesktop;
-   public var loginValidator: LoginValidator;
+   public var createScyDesktop: function(tbi:ToolBrokerAPI,userName:String): ScyDesktop;
+   public var toolBrokerLogin: ToolBrokerLogin;
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
    var defaultUserName = "";
@@ -41,9 +41,6 @@ public class LoginDialog extends CustomNode {
       FX.deferAction(function () {
          MouseBlocker.initMouseBlocker(scene.stage);
       });
-      if (loginValidator==null){
-         loginValidator = new DummyLoginValidator();
-      }
    }
 
    public override function create(): Node {
@@ -117,26 +114,26 @@ public class LoginDialog extends CustomNode {
    function placeWindowCenter(): Void {
       loginWindow.layoutX = this.scene.stage.width / 2 - loginWindow.width / 2;
       loginWindow.layoutY = this.scene.stage.height / 2 - loginWindow.height / 2;
-      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
-      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
+//      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
+//      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
    }
 
    function loginAction(userName: String, password: String): Void {
       println("userName: {userName}, password: {password}");
       try{
-         var sessionId = loginValidator.login(userName,password);
-         placeScyDescktop(sessionId,userName);
+         var toolBrokerAPI = toolBrokerLogin.login(userName,password);
+         placeScyDescktop(toolBrokerAPI,userName);
       }
       catch (e:LoginFailedException){
          loginNode.loginFailed();
       }
    }
 
-   function placeScyDescktop(sessionId:String,userName:String){
+   function placeScyDescktop(toolBrokerAPI:ToolBrokerAPI,userName:String){
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
       var sceneContent = scene.content;
-      var scyDesktop = createScyDesktop(sessionId,userName);
+      var scyDesktop = createScyDesktop(toolBrokerAPI,userName);
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
       scene.content = sceneContent;
