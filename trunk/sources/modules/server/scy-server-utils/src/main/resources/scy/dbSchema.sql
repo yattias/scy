@@ -85,6 +85,19 @@ CREATE TABLE `tool` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `pedagogicalplan`;
+CREATE TABLE `pedagogicalplan` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`pedtype` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `pedagogicalPlanTemplate_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`),
+    KEY `pedPlanToTemplate` (`pedagogicalPlanTemplate_primKey`),
+    CONSTRAINT `pedagogicalPlanRefTemplate` FOREIGN KEY (`pedagogicalPlanTemplate_primKey`) REFERENCES `pedagogicalPlan` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 set FOREIGN_KEY_CHECKS=1;
 

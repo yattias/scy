@@ -18,13 +18,9 @@ import java.util.List;
  * Time: 21:24:04
  * To change this template use File | Settings | File Templates.
  */
-public class ScenarioDAOHibernateTest extends AbstractTransactionalSpringContextTests {
+public class ScenarioDAOHibernateTest extends AbstractDAOTest {
 
     private ScenarioDAO scenarioDAO;
-
-    protected String[] getConfigLocations() {
-        return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
-    }
 
 
     public ScenarioDAO getScenarioDAO() {

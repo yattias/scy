@@ -153,5 +153,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="pedagogicalPlanPersistenceDAO" class="eu.scy.core.persistence.hibernate.PedagogicalPlanPersistenceDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
 
 </beans>

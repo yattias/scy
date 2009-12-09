@@ -18,6 +18,8 @@
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.AnchorELOImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceToolConfigurationImpl"/>
         <mapping class="eu.scy.core.model.impl.pedagogicalplan.ToolImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanTemplateImpl"/>
+        <mapping class="eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -8,4 +8,8 @@
         <property name="scenarioDAO" ref="scenarioDAO"/>
     </bean>
 
+    <bean id="pedagogicalPlanPersistenceService" class="eu.scy.core.PedagogicalPlanPersistenceServiceImpl">
+        <property name="pedagogicalPlanPersistenceDAO" ref="pedagogicalPlanPersistenceDAO"/>
+    </bean>
+
 </beans>

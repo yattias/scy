@@ -18,15 +18,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ProjectDAOHibernateTest extends AbstractTransactionalSpringContextTests {
+public class ProjectDAOHibernateTest extends AbstractDAOTest {
 
     private ProjectDAO projectDAO;
-
-    protected String[] getConfigLocations() {
-        //return null;
-        return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
-        //return null;
-    }
 
     public ProjectDAO getProjectDAO() {
         return projectDAO;

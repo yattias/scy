@@ -16,5 +16,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="transactionTemplate" ref="sharedTransactionTemplate"/>
     </bean>
+    
+    <bean id="pedagogicalPlanPersistenceDAO" class="eu.scy.core.persistence.hibernate.PedagogicalPlanPersistenceDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
 </beans>
