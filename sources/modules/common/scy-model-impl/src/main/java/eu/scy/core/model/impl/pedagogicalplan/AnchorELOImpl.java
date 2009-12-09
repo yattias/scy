@@ -9,21 +9,20 @@ import javax.persistence.*;
  * User: Henrik
  * Date: 05.nov.2009
  * Time: 09:41:46
- * To change this template use File | Settings | File Templates.
  */
 @Entity
 @Table(name="anchorelo")
 public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
 
-    private Assessment assessment;
+    private Assessment assessment = null;
 
-    private Activity producedBy;
+    private Activity producedBy = null;
 
-    private LearningActivitySpace inputTo;
+    private LearningActivitySpace inputTo = null;
 
-    private Boolean includedInPortfolio;
+    private boolean includedInPortfolio = false;
 
-    private Boolean obligatoryInPortfolio;
+    private boolean obligatoryInPortfolio = false;
 
     public void setAssessment(Assessment assessment) {
         this.assessment = assessment;
@@ -53,20 +52,20 @@ public class AnchorELOImpl extends BaseObjectImpl implements AnchorELO {
     }
 
     @Transient
-    public Boolean getIncludedInPortfolio() {
+    public boolean getIncludedInPortfolio() {
         return includedInPortfolio;
     }
 
-    public void setIncludedInPortfolio(Boolean includedInPortfolio) {
+    public void setIncludedInPortfolio(boolean includedInPortfolio) {
         this.includedInPortfolio = includedInPortfolio;
     }
 
-    public void setObligatoryInPortfolio(Boolean obligatoryInPortfolio) {
+    public void setObligatoryInPortfolio(boolean obligatoryInPortfolio) {
         this.obligatoryInPortfolio = obligatoryInPortfolio;
     }
 
     @Transient
-    public Boolean getObligatoryInPortfolio() {
+    public boolean getObligatoryInPortfolio() {
         return this.obligatoryInPortfolio;
     }
 }
