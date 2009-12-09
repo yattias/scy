@@ -14,7 +14,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Test
-public class ScenarioTest {
+public class ScenarioTest extends AbstractPedagogicalPlanTest{
 
     @Test
     public void setupPedagogicalPlan() {

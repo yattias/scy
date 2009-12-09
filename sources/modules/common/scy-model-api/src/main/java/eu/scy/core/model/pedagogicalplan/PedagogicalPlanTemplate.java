@@ -1,5 +1,7 @@
 package eu.scy.core.model.pedagogicalplan;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -7,15 +9,9 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 12:10:19
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlanTemplate extends BaseObject{
+public interface PedagogicalPlanTemplate extends PedagogicalPlanBase{
 
-    public void setMission(Mission mission);
-    public Mission getMission();
+    public List<PedagogicalPlan> getPedagogicalPlans();
 
-    public void setScenario(Scenario scenario);
-    public Scenario getScenario();
-
-    public void setPortfolioTemplate(PortfolioTemplate portfolioTemplate);
-    public PortfolioTemplate getPortfolioTemplate();
-
+    void addPedagogicalPlan(PedagogicalPlan plan);
 }
