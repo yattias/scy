@@ -46,6 +46,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
                 if (model instanceof LearningActivitySpace) {
                     tabbedPane.addTab(model.toString(), new LASOverviewPanel((LearningActivitySpace) model));
+                    tabbedPane.setSelectedIndex(tabbedPane.getTabCount()-1);
                 } else {
                     JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), "Error, I do not know how to handle objects of type " + model.getClass().getName(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
