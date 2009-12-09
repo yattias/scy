@@ -95,7 +95,7 @@ public class AwarenessView extends JPanel implements IAwarenessMessageListener, 
 		@Override
 		public void handleAwarenessPresenceEvent(IAwarePresenceEvent e) {
 			connectionStatus.setText(e.getPresence());
-			userName.setText(e.getUser());
+			userName.setText(e.getUser().getUsername());
 		}
 	}
 
