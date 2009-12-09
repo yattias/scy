@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.elobrowser.tool.pictureviewer.map;
+package eu.scy.client.tools.fxpictureviewer.map;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
