@@ -7,6 +7,7 @@ import eu.scy.scymapper.impl.model.DefaultNode;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
+import eu.scy.scyplanner.application.SCYPlannerApplicationManager;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramView;
@@ -39,12 +40,16 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
 
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
         tabbedPane.addTab("Overview", view);
-        tabbedPane.addTab("Mission", new JPanel());
-        tabbedPane.addTab("Scenario", new JPanel());
         view.addObserver(new Observer() {
             public void update(Observable observable, Object object) {
-                INodeModel model = (INodeModel) object;
-                tabbedPane.addTab(model.getLabel(), new JPanel());
+                Object model = (((DefaultNode) object).getObject());
+
+                if (model instanceof LearningActivitySpace) {
+                    tabbedPane.addTab(model.toString(), new LASOverviewPanel((LearningActivitySpace) model));
+                } else {
+                    JOptionPane.showMessageDialog(SCYPlannerApplicationManager.getApplicationManager().getScyPlannerFrame(), "Error, I do not know how to handle objects of type " + model.getClass().getName(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
         });
 
