@@ -16,6 +16,12 @@
             <version>${pom.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
     </dependencies>
 </project>
 

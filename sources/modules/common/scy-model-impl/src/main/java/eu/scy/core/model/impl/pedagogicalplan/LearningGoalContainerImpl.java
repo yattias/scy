@@ -4,6 +4,7 @@ import eu.scy.core.model.pedagogicalplan.BaseObject;
 import eu.scy.core.model.pedagogicalplan.LearningGoalContainer;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
 
+import javax.persistence.Transient;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,8 +16,10 @@ import java.util.HashSet;
  * Time: 15:08:34
  */
 public class LearningGoalContainerImpl extends BaseObjectImpl implements LearningGoalContainer {
+
     private Set<LearningGoal> learningGoals = new HashSet<LearningGoal>();
 
+    @Transient
     public Set<LearningGoal> getLearningGoals() {
         return learningGoals;
     }

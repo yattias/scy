@@ -68,12 +68,13 @@ public class NewPedagogicalPlanPanel extends JPanel {
 
     private DefaultListModel createScenarioListModel() {
         DefaultListModel model = new DefaultListModel();
-
-        /*List <Scenario> scenarios = SCYPlannerApplicationManager.getApplicationManager().getToolBrokerAPI().getPedagogicalPlanService().getScenarios();
+        System.out.println("GETTING SCENIS!");
+        List <Scenario> scenarios = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getScenarios();
         for (Scenario scenario: scenarios) {
             model.addElement(scenario);
-        } */
-
+            System.out.println("adding " + scenario.getName());
+        }
+/*
         model.addElement(createScenario("Design Challenge", "A desing never seen before", new LearningActivitySpaceImpl(), "Orientation"));
         model.addElement(createScenario("Inquiry Learning", "Inquire and become a better learner", new LearningActivitySpaceImpl(), "Conceptualisation"));
         model.addElement(createScenario("Problem Resolution", "A problem is never too large", new LearningActivitySpaceImpl(), "Design"));
@@ -84,7 +85,7 @@ public class NewPedagogicalPlanPanel extends JPanel {
         model.addElement(createScenario("The Big Project", "The largest project ever seen", new LearningActivitySpaceImpl(), "Design"));
         model.addElement(createScenario("Collaborative Controversies", "Enjoyable controversies for better learning", new LearningActivitySpaceImpl(), "Conceptualisation"));
         model.addElement(createScenario("Co-Learn", "Controversies is old fashioned, collaboration is in!", new LearningActivitySpaceImpl(), "Orientation"));
-
+  */
         return model;
     }
 
