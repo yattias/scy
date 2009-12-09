@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package eu.scy.elobrowser.tool.pictureviewer.map;
+package eu.scy.client.tools.fxpictureviewer.map;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -162,9 +163,23 @@ public class MapManager {
         return this.map; //...sinn? ...vorhanden.
     }
 
+
     public void centerPosition(double x, double y) {
         map.setAddressLocation(new GeoPosition(x, y));
         map.recenterToAddressLocation();
 
     }
+
+    /**
+     *
+     * @param factor new zoom level
+     */
+    public void zoom(int value) {
+        map.setZoom(value);
+    }
+
+    public int getZoom() {
+        return this.map.getZoom();
+    }
+
 }

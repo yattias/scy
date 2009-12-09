@@ -4,7 +4,7 @@
  * Created on 16.06.2009, 15:11:41
  */
 
-package eu.scy.elobrowser.tool.pictureviewer.map;
+package eu.scy.client.tools.fxpictureviewer.map;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
@@ -21,6 +21,11 @@ import javafx.scene.input.MouseEvent;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import javafx.ext.swing.SwingSlider;
+
+
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author pg
@@ -46,10 +51,69 @@ public class MapWrapper extends CustomNode {
             at (0.5s) { this.opacity => 1.0 tween Interpolator.LINEAR}
         ]
     }
-    var fadeButton = SwingButton {
+    var goBackButton = SwingButton {
         text: "hide";
+        translateX: 45;
+        translateY: 5;
         onMouseReleased: function(e:MouseEvent):Void {
             hideMap();
+        }
+
+    }
+
+    var centerButton = SwingButton {
+        translateX: 105;
+        translateY: 5;
+        text: "center view";
+        onMouseReleased: function(e:MouseEvent):Void {
+            centerView(viewX, viewY);
+        }
+    }
+
+    var zoomOutButton = SwingButton {
+        text: "-";
+        translateX: 5;
+        translateY: 5;
+        onMouseReleased: function(e:MouseEvent):Void {
+            manager.zoom(manager.getZoom()+1);
+            zoomSlider.value = manager.getZoom();
+        }
+    }
+
+    var zoomInButton = SwingButton {
+        text: "+";
+        translateX: 5;
+        translateY: 165;
+        onMouseReleased: function(e:MouseEvent):Void {
+            manager.zoom(manager.getZoom()-1);
+            zoomSlider.value = manager.getZoom();
+        }
+    }
+
+    function updateSlider():Void {
+        manager.zoom(zoomSlider.value);
+    }
+
+    var zoomSlider:SwingSlider = SwingSlider {
+            translateX: 15;
+            translateY: 30;
+            height: 130;
+            maximum: 15,
+            minimum: 1,
+            value: 1;
+            vertical: true;
+            //use onMouseDragged instead of onMouseReleased to have a live update
+            onMouseDragged:function(e:MouseEvent):Void {
+                updateSlider();
+            }
+    }
+
+    var hideControlsButton:SwingButton = SwingButton {
+        translateX: 120;
+        translateY: 5;
+        text: "hide controls";
+        onMouseReleased:function(e:MouseEvent):Void {
+
         }
 
     }
@@ -77,20 +141,24 @@ public class MapWrapper extends CustomNode {
         }
     }
 
-
-
+    var mapComponent:SwingComponent;
      public override function create():Node {
+        //myMap.setSize(width, height);
         myMap.setPreferredSize(new java.awt.Dimension(width, height));
-
-        var mapComponent = SwingComponent.wrap(myMap);
+        mapComponent = SwingComponent.wrap(myMap);
         mapComponent.visible = true;
         this.opacity = 0.0;
          //manager.addPosition(51.427783, 6.800172, "UDE Scy Headquarters");
          var g = Group {
             content: [
                     mapComponent,
-                    goBack,
-                    centerViewButton
+                    //goBack,
+                    //centerViewButton,
+                    centerButton,
+                    goBackButton,
+                    zoomInButton,
+                    zoomOutButton,
+                    zoomSlider
             ]
         };
         return g;
@@ -118,8 +186,14 @@ public class MapWrapper extends CustomNode {
         this.viewY = y;
     }
 
-
-
+    public function setSize(width:Number, height:Number) {
+        //myMap.setPreferredSize(new java.awt.Dimension(width, height));
+        //manager.setSize(width, height);
+        //TODO: HELL THIS SAKKZ!!!
+        mapComponent.height = height;
+        mapComponent.width = width;
+        //println("setting size to {width}|{height}");
+    }
 
 
 }

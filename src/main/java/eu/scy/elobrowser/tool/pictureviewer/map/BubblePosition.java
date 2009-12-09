@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.elobrowser.tool.pictureviewer.map;
+package eu.scy.client.tools.fxpictureviewer.map;
 
 import java.util.HashSet;
 import java.util.Set;
