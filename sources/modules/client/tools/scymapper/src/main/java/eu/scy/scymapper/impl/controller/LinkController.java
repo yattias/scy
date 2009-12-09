@@ -6,11 +6,9 @@ import eu.scy.scymapper.api.diagram.ILinkModel;
 import java.awt.*;
 
 /**
- * Created by IntelliJ IDEA.
  * User: Bjorge Naess
  * Date: 22.jun.2009
  * Time: 20:00:05
- * To change this template use File | Settings | File Templates.
  */
 public class LinkController implements ILinkController {
     private ILinkModel model;

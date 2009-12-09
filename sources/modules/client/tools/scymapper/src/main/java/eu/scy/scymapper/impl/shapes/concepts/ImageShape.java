@@ -1,8 +1,6 @@
 package eu.scy.scymapper.impl.shapes.concepts;
 
-import eu.scy.scymapper.api.IConceptMapListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
-import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,7 +8,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.

@@ -53,7 +53,7 @@ public class DragMode implements IDiagramMode {
             newLocation.translate(-relativePos.x, -relativePos.y);
 
             //TODO: Use controller instead
-            if (view.getModel().getConstraints().getCanMove()) view.getModel().setLocation(newLocation);
+            if (view.getModel().getConstraints().getCanMove()) view.getController().setLocation(newLocation);
         }
     };
 

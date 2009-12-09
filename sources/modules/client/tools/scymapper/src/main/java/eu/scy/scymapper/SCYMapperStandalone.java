@@ -3,12 +3,18 @@ package eu.scy.scymapper;
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.common.datasync.ISyncObject;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.IDiagramModel;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.SCYMapperPanel;
 import eu.scy.scymapper.impl.model.DefaultConceptMap;
+import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -21,6 +27,7 @@ import roolo.elo.metadata.keys.Contribute;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,7 +39,7 @@ import java.util.Locale;
  * Date: 01.okt.2009
  * Time: 19:53:10
  */
-public class SCYMapperStandalone extends JFrame {
+public class SCYMapperStandalone extends JFrame implements ISyncListener {
 
     private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/standaloneConfig.xml";
     private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
@@ -43,6 +50,10 @@ public class SCYMapperStandalone extends JFrame {
     private IMetadataTypeManager metadataTypeManager;
     private final static Logger logger = Logger.getLogger(SCYMapperStandalone.class);
     private ISCYMapperToolConfiguration configuration;
+    private IDataSyncService dataSyncService;
+    private ToolBrokerAPI toolBroker;
+    private ISyncSession currentSession;
+    private SCYMapperPanel scyMapperPanel;
 
     public static void main(String[] args) {
         initLAF();
@@ -106,7 +117,7 @@ public class SCYMapperStandalone extends JFrame {
     }
 
     private SCYMapperPanel createScyMapperPanel(IConceptMap cmap) {
-        SCYMapperPanel scyMapperPanel = new SCYMapperPanel(cmap, configuration);
+        scyMapperPanel = new SCYMapperPanel(cmap, configuration);
 
         scyMapperPanel.setRepository(repository);
         scyMapperPanel.setEloFactory(eloFactory);
@@ -145,7 +156,24 @@ public class SCYMapperStandalone extends JFrame {
         fileMenu.add(exitItem);
 
         menuBar.add(fileMenu);
-        //menuBar.add(editMenu);
+
+		// Session menu
+        JMenu sessionMenu = new JMenu("Session");
+
+		JMenu debugMenu = new JMenu("Debug");
+		debugMenu.add(new ShortcutAction("obama", "obama", true));
+        debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
+        debugMenu.add(new ShortcutAction("biden", "biden"));
+        debugMenu.add(new ShortcutAction("merkel", "merkel"));
+
+		sessionMenu.add(debugMenu);
+
+        sessionMenu.add(new LoginAction());
+        sessionMenu.add(new CreateSessionAction());
+        sessionMenu.add(new JoinSessionAction());
+        sessionMenu.add(new ShowSessionIDAction());
+
+        menuBar.add(sessionMenu);
 
         setJMenuBar(menuBar);
     }
@@ -253,4 +281,144 @@ public class SCYMapperStandalone extends JFrame {
             saveELO(currentConceptMap, false);
         }
     }
+
+    private class LoginAction extends AbstractAction {
+        private LoginAction() {
+            super("Login");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            String username = JOptionPane.showInputDialog("Enter username");
+            String password = JOptionPane.showInputDialog("Enter password");
+            doLogin(username, password);
+        }
+    }
+
+    private class CreateSessionAction extends AbstractAction {
+        private CreateSessionAction() {
+            super("Create session");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ev) {
+            if (toolBroker == null) {
+                JOptionPane.showMessageDialog(SCYMapperStandalone.this, "Please login first", "Not logged in", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            System.out.println("CREATING SESSION");
+            createSession();
+            displaySessionId();
+
+        }
+    }
+
+    private class ShowSessionIDAction extends AbstractAction {
+        private ShowSessionIDAction() {
+            super("Display session ID");
+        }
+
+		@Override
+        public void actionPerformed(ActionEvent ev) {
+            displaySessionId();
+        }
+    }
+
+    private class JoinSessionAction extends AbstractAction {
+        private JoinSessionAction() {
+            super("Join session");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (toolBroker == null) {
+                JOptionPane.showMessageDialog(SCYMapperStandalone.this, "Please login first", "Not logged in", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            joinSession();
+        }
+    }
+
+    private class ShortcutAction extends AbstractAction {
+        private String username;
+        private String password;
+        private boolean autojoin;
+
+        public ShortcutAction(String username, String password) {
+            this(username, password, false);
+        }
+
+        public ShortcutAction(String username, String password, boolean autojoin) {
+            super();
+            this.autojoin = autojoin;
+            if (autojoin)
+                putValue(Action.NAME, "Login as " + username + ", create a session and join it");
+            else
+                putValue(Action.NAME, "Login as " + username + " and join another session");
+
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            doLogin(this.username, this.password);
+
+            if (autojoin) {
+                createSession();
+                scyMapperPanel.setSession(currentSession);
+                displaySessionId();
+            }
+            else {
+                joinSession();
+            }
+
+        }
+    }
+
+    void doLogin(String username, String password) {
+        toolBroker = new ToolBrokerImpl(username, password);
+        dataSyncService = toolBroker.getDataSyncService();
+        setTitle(username+" / "+getTitle());
+    }
+
+    void displaySessionId() {
+        if (currentSession == null) {
+            JOptionPane.showMessageDialog(SCYMapperStandalone.this, "You are not in any session", "No session", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JTextField sessionTextField = new JTextField(currentSession.getId());
+        sessionTextField.setEditable(false);
+        Component[] comps = {new JLabel("Your session ID is:"), sessionTextField};
+        JOptionPane.showMessageDialog(SCYMapperStandalone.this, comps, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+    private void joinSession() {
+        String sessId = JOptionPane.showInputDialog("Enter session ID");
+        currentSession = dataSyncService.joinSession(sessId, this);
+        scyMapperPanel.setSession(currentSession);
+    }
+
+    private void createSession() {
+        try {
+            currentSession = dataSyncService.createSession(this);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+	@Override
+	public void syncObjectAdded(ISyncObject syncObject) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void syncObjectChanged(ISyncObject syncObject) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void syncObjectRemoved(ISyncObject syncObject) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
 }

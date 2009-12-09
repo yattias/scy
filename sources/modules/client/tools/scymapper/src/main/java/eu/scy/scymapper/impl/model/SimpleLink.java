@@ -8,6 +8,7 @@ import eu.scy.scymapper.api.styling.ILinkStyleListener;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +27,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
     private ILinkStyle style;
     private boolean labelHidden = false;
     private transient boolean selected;
+    private String id;
 
     private Object readResolve() {
         listeners = new ArrayList<ILinkModelListener>();
@@ -33,6 +35,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
     }
 
     public SimpleLink() {
+		id = UUID.randomUUID().toString();
         listeners = new ArrayList<ILinkModelListener>();
     }
 
@@ -144,5 +147,15 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
     @Override
     public void setLabelHidden(boolean labelHidden) {
         this.labelHidden = labelHidden;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }

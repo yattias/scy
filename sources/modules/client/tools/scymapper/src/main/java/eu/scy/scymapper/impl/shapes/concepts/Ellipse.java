@@ -1,7 +1,6 @@
 package eu.scy.scymapper.impl.shapes.concepts;
 
 import eu.scy.scymapper.api.shapes.INodeShape;
-import eu.scy.scymapper.api.styling.INodeStyle;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

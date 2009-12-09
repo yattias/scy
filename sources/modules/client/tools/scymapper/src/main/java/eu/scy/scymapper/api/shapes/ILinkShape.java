@@ -1,16 +1,12 @@
 package eu.scy.scymapper.api.shapes;
 
-import eu.scy.scymapper.api.styling.ILinkStyle;
-
 import java.awt.*;
 import java.io.Serializable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
+ * @author bjoerge
  * Date: 17.jun.2009
  * Time: 16:10:07
- * To change this template use File | Settings | File Templates.
  */
 public interface ILinkShape extends Serializable {
     /**

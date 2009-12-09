@@ -5,7 +5,6 @@ import eu.scy.scymapper.api.diagram.INodeModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
-import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import eu.scy.scymapper.impl.ui.diagram.NodeView;
 
 import javax.swing.*;
@@ -59,7 +58,7 @@ public class ConnectMode implements IDiagramMode {
                 link.setLabel(connectorLink.getLabel());
                 link.setShape(connectorLink.getShape());
                 link.setStyle(connectorLink.getStyle());
-                view.getModel().addLink(link);
+                view.getController().addLink(link);
                 view.remove(connector);
                 view.setMode(new DragMode(view));
                 node.setBorder(BorderFactory.createEmptyBorder());

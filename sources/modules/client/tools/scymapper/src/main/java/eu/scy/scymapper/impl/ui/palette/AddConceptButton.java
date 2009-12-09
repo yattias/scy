@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.ui.palette;
 
-import eu.scy.scymapper.api.IConceptPrototype;
+import eu.scy.scymapper.api.IConceptType;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 
@@ -15,13 +15,13 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class AddConceptButton extends JToggleButton {
-    private IConceptPrototype prototype;
+    private IConceptType type;
 
-    public AddConceptButton(IConceptPrototype prototype) {
+    public AddConceptButton(IConceptType type) {
         super();
         setIcon(new ShapedIcon(20, 20));
-        this.prototype = prototype;
-        setText(prototype.getName());
+        this.type = type;
+        setText(type.getName());
     }
 
 	class ShapedIcon implements Icon {
@@ -37,8 +37,8 @@ public class AddConceptButton extends JToggleButton {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			Graphics2D g2d = (Graphics2D) g.create();
 
-            INodeStyle style = prototype.getNodeStyle();
-            INodeShape shape = prototype.getNodeShape();
+            INodeStyle style = type.getNodeStyle();
+            INodeShape shape = type.getNodeShape();
 
 			g2d.setColor(style.getBackground());
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

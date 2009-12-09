@@ -86,10 +86,6 @@ public class DefaultNodeStyle implements INodeStyle {
     public void removeStyleListener(INodeStyleListener o) {
         listeners.remove(o);
     }
-    @Override
-    public boolean hasObserver(INodeStyleListener o) {
-        return listeners.contains(o);
-    }
 
     @Override
     public void notifyStyleChanged(INodeStyle s) {

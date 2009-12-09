@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
 import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.impl.controller.LinkController;
-import eu.scy.scymapper.impl.controller.NodeController;
+import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
+import eu.scy.scymapper.impl.controller.IElementControllerFactory;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import org.apache.log4j.Logger;
@@ -22,13 +22,14 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     private IDiagramMode mode = new DragMode(this);
 
     private IDiagramModel model;
+    private IElementControllerFactory elementControllerFactory = new DefaultElementControllerFactory();
     private IDiagramController controller;
 
     private IDiagramSelectionModel selectionModel;
 
     private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
 
-    public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
+	public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
         this.controller = controller;
         this.model = model;
         this.selectionModel = selectionModel;
@@ -54,20 +55,24 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         this.mode = mode;
     }
 
+	public void setElementControllerFactory(IElementControllerFactory factory) {
+		elementControllerFactory = factory;
+	}
+
     private void initializeGUI() {
 
         // Create views for links in my model
         for (ILinkModel link : model.getLinks()) {
-            addLink(link);
+            addLinkView(link);
         }
         // Create views for nodes in my model
         for (INodeModel node : model.getNodes()) {
-            addNode(node);
+            addNodeView(node);
         }
     }
 
-    private void addNode(INodeModel node) {
-        NodeView view = new NodeView(new NodeController(node), node);
+    private void addNodeView(INodeModel node) {
+        NodeView view = new NodeView(elementControllerFactory.createNodeController(node), node);
 
         // Subscribe to mouse events in this nodes component to display the add-link button
         view.addMouseListener(new MouseListenerDelegator());
@@ -83,9 +88,10 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
         view.repaint();
     }
 
-    private void addLink(ILinkModel link) {
+    private void addLinkView(ILinkModel link) {
         if (link instanceof INodeLinkModel) {
-            final ConceptLinkView view = new ConceptLinkView(new LinkController(link), (INodeLinkModel) link);
+
+            final ConceptLinkView view = new ConceptLinkView(elementControllerFactory.createLinkController(link), (INodeLinkModel) link);
             view.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -131,12 +137,12 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     @Override
     public void nodeAdded(INodeModel node) {
-        addNode(node);
+        addNodeView(node);
     }
 
     @Override
     public void linkAdded(ILinkModel link) {
-        addLink(link);
+        addLinkView(link);
     }
 
     @Override
@@ -174,6 +180,13 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     public IDiagramSelectionModel getSelectionModel() {
         return selectionModel;
+    }
+
+    public IDiagramController getController() {
+        return controller;
+    }
+    public void setController(IDiagramController controller) {
+        this.controller = controller;
     }
 
     private class MouseMotionListenerDelegator implements MouseMotionListener {

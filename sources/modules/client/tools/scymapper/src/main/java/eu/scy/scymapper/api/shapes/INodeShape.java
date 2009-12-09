@@ -1,16 +1,19 @@
 package eu.scy.scymapper.api.shapes;
 
-import eu.scy.scymapper.api.styling.INodeStyle;
-
 import java.awt.*;
 import java.io.Serializable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 03.jun.2009
- * Time: 13:24:30
- * To change this template use File | Settings | File Templates.
+ * @author bjoerge
+ * @created 03.jun.2009 13:24:30
+ * Implementations of this abstract class is responsible for painting a node on a graphics object
+ * In addition, it is responsible for returning a connection point for links at certain points in the diagram
+ * I.e. a connected link may ask where the node want it to connect in regards of a nearby point.
+ * Lets say the link L starts at [10, 10] and is supposed to connect to the node N which resides at [30,30]
+ * In order to figure out where the link should connect to the node, it asks the node to decide by calling
+ * N.getConnectionPoint([10, 10]). The node would then return an appropriate location, i.e. [30, 30] which is
+ * the upper left corner. If another link is already connected to [30, 30], the node may return another point, like
+ * [30,40]
  */
 public abstract class INodeShape implements Serializable {
 
@@ -18,10 +21,19 @@ public abstract class INodeShape implements Serializable {
     public static final int FILL = 1;
     private int mode = DRAW;
 
+    /**
+     * Sets the paint mode. Can be either INodeShape.DRAW or INodeShape.FILL
+     * @param mode paint mode
+     */
     public void setMode(int mode) {
         if (mode != DRAW && mode != FILL) throw new IllegalArgumentException("Unsupported mode");
         this.mode = mode;
     }
+
+    /**
+     * Returns paint mode. Either INodeShape.DRAW or INodeShape.FILL
+     * @return paint mode
+     */
     public int getMode() {
         return mode;
     }
