@@ -24,17 +24,14 @@ import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
- * Retrieves ELOs that contain a certain topic.
- * 
- * ("getTopicElos", <QueryId>:String, <TopicId>:Integer, <MinProb>:Double) ->
- * ("getTopicElos", <QueryId>:String, <NumELOs>:Integer, <ELOUri_1>:<String>,
- * <ELOUri_2>:<String>, ...)
+ * Retrieves ELOs that contain a certain topic. ("getTopicElos", <QueryId>:String,
+ * <TopicId>:Integer, <MinProb>:Double) -> ("getTopicElos", <QueryId>:String, <NumELOs>:Integer,
+ * <ELOUri_1>:<String>, <ELOUri_2>:<String>, ...)
  * 
  * @author Florian Schulz
- * 
  */
-public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
-		IRequestAgent, IRepositoryAgent {
+public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IRequestAgent,
+		IRepositoryAgent {
 
 	static final String NAME = "eu.scy.agents.topics.RetrieveEloForGivenTopic";
 
@@ -54,23 +51,21 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple t = getTupleSpace().waitToTake(getTemplateTuple(),
-					AgentProtocol.ALIVE_INTERVAL);
+			Tuple t = getTupleSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
 			if (t != null) {
-				String queryId = (String) t.getField(1).getValue();
-				Integer topicId = (Integer) t.getField(2).getValue();
-				Double topicProbability = (Double) t.getField(3).getValue();
+				String queryId = (String) t.getField(2).getValue();
+				Integer topicId = (Integer) t.getField(3).getValue();
+				Double topicProbability = (Double) t.getField(4).getValue();
 				KeyValuePair topicQuery = new KeyValuePair();
 				topicQuery.setKey("" + topicId);
 				topicQuery.setValue("" + topicProbability);
 				IQuery query = new BasicMetadataQuery(typeManager
-						.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES),
-						BasicSearchOperations.HAS, topicQuery, null);
+						.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES), BasicSearchOperations.HAS,
+						topicQuery, null);
 
 				List<ISearchResult> hits = repository.search(query);
 
-				List<URI> resultURIs = collectResults(topicId,
-						topicProbability, hits);
+				List<URI> resultURIs = collectResults(topicId, topicProbability, hits);
 				sendAnswer(queryId, resultURIs);
 			} else {
 				sendAliveUpdate();
@@ -81,15 +76,13 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
 	@SuppressWarnings("unchecked")
 	private List<URI> collectResults(Integer topicId, Double topicProbability,
 			List<ISearchResult> hits) {
-		IMetadataKey topicScoresKey = typeManager
-				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+		IMetadataKey topicScoresKey = typeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
 
 		List<URI> resultURIs = new ArrayList<URI>();
 		for (ISearchResult hit : hits) {
 			IELO elo = repository.retrieveELO(hit.getUri());
 			List<? extends KeyValuePair> topicScoreEntryList = (List<KeyValuePair>) elo
-					.getMetadata().getMetadataValueContainer(topicScoresKey)
-					.getValueList();
+					.getMetadata().getMetadataValueContainer(topicScoresKey).getValueList();
 			for (KeyValuePair entry : topicScoreEntryList) {
 				if (entry.getKey().equals("" + topicId)) {
 					if (Double.parseDouble(entry.getValue()) >= topicProbability) {
@@ -101,10 +94,10 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
 		return resultURIs;
 	}
 
-	private void sendAnswer(String queryId, List<URI> resultURIs)
-			throws TupleSpaceException {
+	private void sendAnswer(String queryId, List<URI> resultURIs) throws TupleSpaceException {
 		Tuple answer = new Tuple();
 		answer.add(TopicAgents.GET_TOPIC_ELOS);
+		answer.add(AgentProtocol.RESPONSE);
 		answer.add(queryId);
 		answer.add(resultURIs.size());
 		for (URI uri : resultURIs) {
@@ -114,7 +107,7 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
 	}
 
 	private Tuple getTemplateTuple() {
-		return new Tuple(TopicAgents.GET_TOPIC_ELOS, String.class,
+		return new Tuple(TopicAgents.GET_TOPIC_ELOS, AgentProtocol.QUERY, String.class,
 				Integer.class, Double.class);
 	}
 
