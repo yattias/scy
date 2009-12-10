@@ -214,7 +214,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+  /*  @Override
     @Deprecated
     public void setTime(String time) {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -224,7 +224,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     @Deprecated
     public String getTime() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    }*/
     @Override
     public void setTimeInMillis(long timeInMillis) {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -245,7 +245,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+ /*   @Override
     public void setDataType(String dataType) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -263,7 +263,7 @@ public class PersistentAction extends ScyBaseObject implements IAction {
     @Override
     public String getData() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    }*/
 
 	@Override
 	public Map<String, String> getAttributes() {

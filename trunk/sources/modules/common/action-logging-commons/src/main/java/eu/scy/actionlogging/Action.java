@@ -97,24 +97,24 @@ public class Action implements IAction {
         this.user = user;
     }
 
-    /**
+/*    *//**
      * @return the time
-     */
+     *//*
     @Override
     @Deprecated
     public String getTime() {
         return time;
-    }
+    }*/
 
-    /**
+/*    *//**
      * @param time
      *            the time to set
-     */
+     *//*
     @Override
     @Deprecated
     public void setTime(String time) {
         this.time = time;
-    }
+    }*/
 
     /**
      * @return the time in milliseconds from 1970
@@ -148,43 +148,43 @@ public class Action implements IAction {
         this.type = type;
     }
 
-    /**
+/*    *//**
      * @return the dataType
-     */
+     *//*
     @Override
     @Deprecated
     public String getDataType() {
         return attributes.get("datatype");
-    }
+    }*/
 
     /**
      * @param dataType
      *            the dataType to set
      */
-    @Override
+/*    @Override
     @Deprecated
     public void setDataType(String dataType) {
         attributes.put("datatype", dataType);
-    }
+    }*/
 
     /**
      * @return the data
      */
-    @Override
+/*    @Override
     @Deprecated
     public String getData() {
         return attributes.get("data");
-    }
+    }*/
 
     /**
      * @param data
      *            the data to set
      */
-    @Override
+/*    @Override
     @Deprecated
     public void setData(String data) {
     	attributes.put("data", data);
-    }
+    }*/
 
     /**
      * @return the attributes

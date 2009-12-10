@@ -40,11 +40,12 @@ public interface IAction {
     public void setUser(String user);
     
     public String getUser();
-    @Deprecated
+    
+    /*@Deprecated
     public void setTime(String time);
     @Deprecated
     public String getTime();
-    
+    */
     public void setTimeInMillis(long time);
     
     public long getTimeInMillis();
@@ -53,7 +54,7 @@ public interface IAction {
     
     public String getType();
     
-    @Deprecated
+    /*@Deprecated
     public void setDataType(String dataType);
     
     @Deprecated
@@ -64,5 +65,5 @@ public interface IAction {
     
     @Deprecated
     public String getData();
-    
+    */
 }

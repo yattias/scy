@@ -21,8 +21,8 @@ public class ActionTupleTransformer {
 		actionAsPojo.addContext(ContextConstants.mission, (String) actionAsTuple.getField(6).getValue());
 		actionAsPojo.addContext(ContextConstants.session, (String) actionAsTuple.getField(7).getValue());
 		// Datatype and data
-		actionAsPojo.setDataType((String) actionAsTuple.getField(8).getValue());
-		actionAsPojo.setData((String) actionAsTuple.getField(9).getValue());
+		/*actionAsPojo.setDataType((String) actionAsTuple.getField(8).getValue());
+		actionAsPojo.setData((String) actionAsTuple.getField(9).getValue());*/
 
 		// creating the attribute list (key/value)
 
@@ -46,7 +46,7 @@ public class ActionTupleTransformer {
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.tool)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.mission)));
 		actionAsTuple.add(new Field(actionAsPojo.getContext(ContextConstants.session)));
-		if(actionAsPojo.getDataType()!=null) {
+		/*if(actionAsPojo.getDataType()!=null) {
 			actionAsTuple.add(new Field(actionAsPojo.getDataType()));
 		} else {
 			actionAsTuple.add(new Field(String.class));
@@ -55,7 +55,7 @@ public class ActionTupleTransformer {
 			actionAsTuple.add(new Field(actionAsPojo.getData()!=null));
 		} else {
 			actionAsTuple.add(new Field(String.class));
-		}
+		}*/
 
 		// creating the attribute list (key/value)
 		Set<Entry<String, String>> entrySet = actionAsPojo.getAttributes().entrySet();
