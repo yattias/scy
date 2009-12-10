@@ -39,6 +39,7 @@ public class AgentFrameworkComponent implements IExternalComponent {
                 params.put("tsPort", tsPort);
             }
             try {
+                log.info("Starting agent '" + conf.getClassName() + "'");
                 agentFramework.startAgent(conf.getClassName(), params);
             } catch (AgentLifecycleException e) {
                 e.printStackTrace();
