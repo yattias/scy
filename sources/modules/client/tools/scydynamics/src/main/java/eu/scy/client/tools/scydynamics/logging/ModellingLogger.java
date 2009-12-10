@@ -88,9 +88,8 @@ public class ModellingLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.setData(modelString);
-			action.setDataType("model");
-			logger.log(username, toolname, action);
+			action.addAttribute("model", modelString);
+			logger.log(action);
 		}
 	}
 	
@@ -151,9 +150,8 @@ public class ModellingLogger implements IModellingLogger {
 			action.addAttribute("id", object.getID());
 		}
 		if (action != null) {
-			action.setData(modelString);
-			action.setDataType("model");
-			logger.log(username, toolname, action);
+			action.addAttribute("model", modelString);
+			logger.log(action);
 		}
 	}
 	
@@ -175,7 +173,7 @@ public class ModellingLogger implements IModellingLogger {
 		action.addAttribute("id", id);
 		action.addAttribute("old", oldName);
 		action.addAttribute("new", newName);
-		logger.log(username, toolname, action);
+		logger.log(action);
 	}
 	
 	/* (non-Javadoc)
@@ -187,16 +185,15 @@ public class ModellingLogger implements IModellingLogger {
 		action.addAttribute("name", name);
 		action.addAttribute("expression", expression);
 		action.addAttribute("unit", unit);
-		action.setData(modelString);
-		action.setDataType("model");
-		logger.log(username, toolname, action);
+		action.addAttribute("model", modelString);
+		logger.log(action);
 	}
 
 	/* (non-Javadoc)
 	 * @see eu.scy.client.tools.scydynamics.logging.IModellingLogger#logSimpleAction(java.lang.String)
 	 */
 	public void logSimpleAction(String type) {	
-		logger.log(username, toolname, createBasicAction(type));
+		logger.log(createBasicAction(type));
 	}
 	
 	/* (non-Javadoc)
@@ -204,9 +201,8 @@ public class ModellingLogger implements IModellingLogger {
 	 */
 	public void logSimpleAction(String type, String modelString) {
 		action = createBasicAction(type);
-		action.setData(modelString);
-		action.setDataType("model");
-		logger.log(username, toolname, action);
+		action.addAttribute("model", modelString);
+		logger.log(action);
 	}
 
 	/* (non-Javadoc)
@@ -215,7 +211,7 @@ public class ModellingLogger implements IModellingLogger {
 	public void logInspectVariablesAction(String type, String selectedVariables) {
 		action = createBasicAction(type);
 		action.addAttribute("variables", selectedVariables);
-		logger.log(username, toolname, action);
+		logger.log(action);
 	}
 
 	/* (non-Javadoc)
@@ -223,9 +219,8 @@ public class ModellingLogger implements IModellingLogger {
 	 */
 	public void logLoadAction(String modelString) {
 		action = createBasicAction("load_model");
-		action.setData(modelString);
-		action.setDataType("model");
-		logger.log(username, toolname, action);
+		action.addAttribute("model", modelString);
+		logger.log(action);
 	}
 
 	/* (non-Javadoc)
@@ -246,7 +241,7 @@ public class ModellingLogger implements IModellingLogger {
 			action.addAttribute("w", "0");
 			action.addAttribute("h", "0");				
 		}
-		logger.log(username, toolname, action);
+		logger.log(action);
 	}
 
 }

@@ -35,7 +35,7 @@ public class ActionXMLTransformer {
             actionElement.add(new DefaultAttribute("id", actionPojo.getId()));
             actionElement.add(new DefaultAttribute("user", actionPojo.getUser()));
             actionElement.add(new DefaultAttribute("type", actionPojo.getType()));
-            actionElement.add(new DefaultAttribute("time", actionPojo.getTime()));
+            //actionElement.add(new DefaultAttribute("time", actionPojo.getTime()));
             actionElement.add(new DefaultAttribute("timemillis", String.valueOf(actionPojo.getTimeInMillis())));
 
             // creating the context information
@@ -59,19 +59,19 @@ public class ActionXMLTransformer {
                 key = it.next();
                 propertyElement = new DefaultElement("property");
                 propertyElement.add(new DefaultAttribute("name", key));
-                propertyElement.add(new DefaultAttribute("value", actionPojo.getAttribute(key)));
+                propertyElement.add(new DefaultCDATA(actionPojo.getAttribute(key)));
+                //propertyElement.add(new DefaultAttribute("value", actionPojo.getAttribute(key)));
                 attributesElement.add(propertyElement);
             }
             actionElement.add(attributesElement);
 
             // creating the data element
-            if (actionPojo.getData() != null) {
+            /*if (actionPojo.getData() != null) {
                 Element dataElement = new DefaultElement("data");
                 dataElement.add(new DefaultAttribute("type", actionPojo.getDataType()));
-                // dataElement.setText(new DefaultCDATA(actionPojo.getData()).toString());
                 dataElement.add(new DefaultCDATA(actionPojo.getData()));
                 actionElement.add(dataElement);
-            }
+            }*/
 
             return actionElement;
         }
@@ -85,7 +85,7 @@ public class ActionXMLTransformer {
             actionPojo = new Action();
             actionPojo.setUser(actionElement.attributeValue("user"));
             actionPojo.setType(actionElement.attributeValue("type"));
-            actionPojo.setTime(actionElement.attributeValue("time"));
+            //actionPojo.setTime(actionElement.attributeValue("time"));
             actionPojo.setTimeInMillis(Long.parseLong(actionElement.attributeValue("timemillis")));
             // creating the context information
             Element contextElement = actionElement.element("context");
@@ -97,15 +97,16 @@ public class ActionXMLTransformer {
             for (Iterator<Element> it = attributesElement.elementIterator("property"); it.hasNext();) {
                 Element nextElement = it.next();
                 String key = nextElement.attributeValue("name");
-                String value = nextElement.attributeValue("value");
+                //String value = nextElement.attributeValue("value");
+                String value = nextElement.getStringValue();
                 actionPojo.addAttribute(key, value);
             }
             // creating the data element
-            Element dataElement = actionElement.element("data");
+           /* Element dataElement = actionElement.element("data");
             if (dataElement != null) {
                 actionPojo.setDataType(dataElement.attributeValue("type"));
                 actionPojo.setData(dataElement.getStringValue());
-            }
+            }*/
             return actionPojo;
         }
     }

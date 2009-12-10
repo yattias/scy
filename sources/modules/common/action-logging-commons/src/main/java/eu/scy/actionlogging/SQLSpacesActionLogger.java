@@ -67,8 +67,8 @@ public class SQLSpacesActionLogger implements IActionLogger {
             missionField = new Field(action.getContext(ContextConstants.mission));
             sessionField = new Field(action.getContext(ContextConstants.session));
            
-            dataTypeField = (action.getDataType()==null)?new Field(String.class):new Field(action.getDataType());
-            dataField = (action.getData()==null)?new Field(String.class):new Field(action.getData());
+            //dataTypeField = (action.getDataType()==null)?new Field(String.class):new Field(action.getDataType());
+            //dataField = (action.getData()==null)?new Field(String.class):new Field(action.getData());
             
             actionTuple = new Tuple(actionField,idField, timeField, typeField, userField, toolField, missionField, sessionField, dataTypeField,dataField);
             for (Entry<String, String> entry : action.getAttributes().entrySet()) {

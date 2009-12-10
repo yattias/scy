@@ -36,18 +36,18 @@ public class ActionPacketTransformer extends SCYPacketTransformer {
     public String getValueForXPath(String path) {
         if (path.equals(actionPath + "@user")) {
             return pojo.getUser();
-        } else if (path.equals(actionPath + "@time")) {
-            return pojo.getTime();
+        /*} else if (path.equals(actionPath + "@time")) {
+            return pojo.getTime();*/
         } else if (path.equals(actionPath + "@timemillis")) {
             return String.valueOf(pojo.getTimeInMillis());
         } else if (path.equals(actionPath + "@type")) {
             return pojo.getType();
         } else if (path.equals(actionPath + "@id")) {
             return pojo.getId();
-        } else if (path.equals(actionPath + "@datatype")) {
+        /*} else if (path.equals(actionPath + "@datatype")) {
             return pojo.getDataType();
         } else if (path.equals(actionPath + "@data")) {
-            return pojo.getData();
+            return pojo.getData();*/
         } else if (path.startsWith(contextPath)) {
             String constant = path.substring(contextPath.length());
             ContextConstants key = ContextConstants.valueOf(constant);
@@ -66,12 +66,12 @@ public class ActionPacketTransformer extends SCYPacketTransformer {
         }
         ArrayList<String> paths = new ArrayList<String>();
         paths.add(actionPath + "@user");
-        paths.add(actionPath + "@time");
+        //paths.add(actionPath + "@time");
         paths.add(actionPath + "@timemillis");
         paths.add(actionPath + "@type");
         paths.add(actionPath + "@id");
-        paths.add(actionPath + "@datatype");
-        paths.add(actionPath + "@data");
+        //paths.add(actionPath + "@datatype");
+        //paths.add(actionPath + "@data");
         for (ContextConstants context : ContextConstants.values()) {
             paths.add(actionPath + "/" + Context.PATH + "/" + context.toString());
         }
@@ -85,18 +85,18 @@ public class ActionPacketTransformer extends SCYPacketTransformer {
     public void mapXMLNodeToObject(String path, String value) {
         if (path.equals(actionPath + "@user")) {
             pojo.setUser(value);
-        } else if (path.equals(actionPath + "@time")) {
-            pojo.setTime(value);
+        /*} else if (path.equals(actionPath + "@time")) {
+            pojo.setTime(value);*/
         } else if (path.equals(actionPath + "@timemillis")) {
             pojo.setTimeInMillis(Long.parseLong(value));
         } else if (path.equals(actionPath + "@type")) {
             pojo.setType(value);
         } else if (path.equals(actionPath + "@id")) {
             pojo.setId(value);
-        } else if (path.equals(actionPath + "@datatype")) {
+        /*} else if (path.equals(actionPath + "@datatype")) {
             pojo.setDataType(value);
         } else if (path.equals(actionPath + "@data")) {
-            pojo.setData(value);
+            pojo.setData(value);*/
         } else if (path.startsWith(contextPath)) {
             String constant = path.substring(contextPath.length());
             ContextConstants key = ContextConstants.valueOf(constant);
