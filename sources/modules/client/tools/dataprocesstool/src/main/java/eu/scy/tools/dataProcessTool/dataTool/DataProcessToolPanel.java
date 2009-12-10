@@ -61,7 +61,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //CONSTANTES
     public final static Color backgroundColor = SystemColor.control;
     /* width */
-    public static final int PANEL_WIDTH = 530;
+    public static final int PANEL_WIDTH = 565;
     /* height */
     public static final int PANEL_HEIGHT = 330;
 
@@ -480,6 +480,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
+            activFitex.deleteAll();
         }
         CopexReturn cr = this.controller.loadELO(xmlContent);
         if (cr.isError()){
@@ -529,17 +530,21 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             return null;
         }
         eu.scy.elo.contenttype.dataset.DataSet elo = (eu.scy.elo.contenttype.dataset.DataSet)v.get(0);
+        if(elo != null ){
+            loadELO(new JDomStringConversion().xmlToString(elo.toXML()));
+        }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
         return elo;
     }
 
     @Override
     public void importELO(File file) {
+        
         lastUsedFileImport = file;
         eu.scy.elo.contenttype.dataset.DataSet dsElo = importCSVFile(file);
-        if(dsElo != null && !scyMode){
-            loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
-        }
+//        if(dsElo != null && !scyMode){
+//            loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
+//        }
     }
 
     // merge SCY ou autre

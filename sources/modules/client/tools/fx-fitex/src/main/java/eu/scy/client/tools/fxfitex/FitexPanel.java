@@ -9,26 +9,16 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-
 import roolo.elo.JDomStringConversion;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
@@ -62,8 +52,8 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     private ToolBrokerAPI tbi;
     private ISyncSession session = null;
     // how can i get userName & password? + mission name
-    private String username = "default_username";
-    private String password = "default_password";
+    private String username = "merkel";
+    private String password = "merkel";
     private String mission_name = "mission 1";
     private IActionLogger actionLogger;
     private IDataSyncService datasync;
@@ -80,7 +70,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     /* tbi initialization*/
     private void initTBI(){
-        //tbi=  new ToolBrokerImpl<IMetadataKey>(username, password);
+        //tbi=  new ToolBrokerImpl(username, password);
     }
     /* initialization action logger */
     private void initActionLogger(){
@@ -89,18 +79,18 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     private void initCollaborationService() {
-        ToolBrokerImpl tbi = new ToolBrokerImpl("merkel", "merkel");
         datasync = tbi.getDataSyncService();
     }
 
     public void joinSession(String mucID){
-            initCollaborationService();
+        initCollaborationService();
         session = datasync.joinSession(mucID, this);
         if(session == null){
             JOptionPane.showMessageDialog(null, "join session error, null");
         }else
             readAllSyncObjects();
     }
+
     private void readAllSyncObjects(){
         List<ISyncObject> syncObjects = session.getAllSyncObjects();
         // find the header first

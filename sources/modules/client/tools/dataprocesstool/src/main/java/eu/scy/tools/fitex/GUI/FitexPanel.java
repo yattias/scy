@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -93,6 +94,7 @@ public class FitexPanel extends javax.swing.JPanel {
 
     private JPanel panelFctParam;
     private JPanel parametresFn;
+    private JScrollPane scrollPaneParametresFn;
     private JSeparator sepDrawFct;
 
 
@@ -296,9 +298,10 @@ public class FitexPanel extends javax.swing.JPanel {
             panelFctParam = null;
             panelDist = null;
             parametresFn = null;
+            scrollPaneParametresFn = null;
         }
         panelFctModel.add(getPanelFctParam(), BorderLayout.CENTER);
-        panelFctModel.revalidate();
+         panelFctModel.revalidate();
         panelFctModel.repaint();
         recupererFn();
         formComponentResized(null);
@@ -498,6 +501,8 @@ public class FitexPanel extends javax.swing.JPanel {
         // si il n'existe pas, creation de l'objet fonction
         if (this.datas.getRowCount() == 0)
             return ;
+        if(panelFctModel == null)
+            this.add(getPanelFctModel(), BorderLayout.NORTH);
         drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
@@ -530,7 +535,7 @@ public class FitexPanel extends javax.swing.JPanel {
         this.paramGraph.setY_max(y_max);
         if (zoneDeTrace != null)
             zoneDeTrace.setParam(paramGraph) ;
-        actionFitex.setParam(paramGraph.getHeaderX(), paramGraph.getHeaderY(), paramGraph.isAutoscale(), x_min, x_max, y_max, y_min, y_max, y_max);
+        actionFitex.setParam(paramGraph.getHeaderX(), paramGraph.getHeaderY(), paramGraph.isAutoscale(), x_min, x_max, paramGraph.getDeltaX(), y_min, y_max, paramGraph.getDeltaY());
     }
     
 
@@ -603,7 +608,7 @@ public class FitexPanel extends javax.swing.JPanel {
     /** MaJ de l'affichage des parametres de la fonction */
     public void affichageParametres(Color coul){
         // calcul de la taille du panel contenant les spinners
-        int heightPanel = 5;
+        int heightPanel = 0;
         int widthPanel=5;
         //int widthPanel = parametresFn.getWidth();
         Dimension dim = new Dimension() ;
@@ -624,11 +629,12 @@ public class FitexPanel extends javax.swing.JPanel {
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
                 heightPanel = mapDesSpinners.get(param).getHauteur() ;
+                heightPanel = 40;
             }
         }
-        dim.setSize(widthPanel, heightPanel) ;
-        parametresFn.setPreferredSize(dim);
-        parametresFn.setMinimumSize(dim);
+        dim.setSize(getWidth(), heightPanel) ;
+        scrollPaneParametresFn.setPreferredSize(dim);
+        scrollPaneParametresFn.setMinimumSize(dim);
         this.repaint();
     }
 
@@ -690,6 +696,7 @@ public class FitexPanel extends javax.swing.JPanel {
            panelFctParam = null;
            panelDist = null;
            parametresFn = null;
+           scrollPaneParametresFn = null;
        }else{
            this.add(getPanelFctModel(), BorderLayout.NORTH);
        }
@@ -710,17 +717,25 @@ public class FitexPanel extends javax.swing.JPanel {
            panelFctParam = new JPanel();
            panelFctParam.setName("panelFctParam");
            panelFctParam.setLayout(new BorderLayout());
-           panelFctParam.add(getParametresFn(), BorderLayout.NORTH);
+           panelFctParam.add(getScrollPaneParametresFn(), BorderLayout.NORTH);
            panelFctParam.add(getPanelDist(), BorderLayout.CENTER);
        }
        return panelFctParam;
+   }
+   private JScrollPane getScrollPaneParametresFn(){
+       if(scrollPaneParametresFn == null){
+           scrollPaneParametresFn = new JScrollPane();
+           scrollPaneParametresFn.setName("scrollPaneParametresFn");
+           scrollPaneParametresFn.setViewportView(getParametresFn());
+       }
+       return scrollPaneParametresFn;
    }
    private JPanel getParametresFn(){
        if(parametresFn == null){
            parametresFn = new JPanel();
            parametresFn.setName("parametresFn");
            parametresFn.setLayout(new FlowLayout(FlowLayout.LEFT));
-           parametresFn.setPreferredSize(new Dimension(0,0));
+           //parametresFn.setPreferredSize(new Dimension(0,0));
        }
        return parametresFn;
    }
