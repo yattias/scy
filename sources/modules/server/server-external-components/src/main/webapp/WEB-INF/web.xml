@@ -13,7 +13,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/applicationcontext-externalcomponents.xml
+            /WEB-INF/applicationcontext-externalcomponents.xml,
+            /WEB-INF/agents.xml
         </param-value>
     </context-param>
 
@@ -47,10 +48,10 @@
     </servlet>
 
     <!-- Servlet Mappings -->
-    <servlet-mapping>
+    <!-- servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>webapp/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping-->
 
 
     <session-config>
