@@ -39,7 +39,7 @@ public class StandardScyWindow extends ScyWindow {
 	public override var title = "???";
 	public override var eloType = "?123";
    public override var eloUri;
-   public override var iconCharacter = "?";
+//   public override var iconCharacter = "?";
 	public override var color = Color.GREEN;
 	public override var drawerColor = Color.LIGHTGREEN;
 	public override var backgroundColor = color.WHITE;
@@ -672,7 +672,8 @@ public class StandardScyWindow extends ScyWindow {
          iconGap:iconGap;
          color:bind color;
          title:bind title;
-         iconCharacter:bind iconCharacter;
+//         iconCharacter:bind iconCharacter;
+         eloIcon:bind eloIcon;
          activated:bind activated
          layoutX:titleBarLeftOffset;
          layoutY:titleBarTopOffset;
