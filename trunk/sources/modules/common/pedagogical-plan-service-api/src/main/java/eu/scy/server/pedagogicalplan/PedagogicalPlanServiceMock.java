@@ -4,9 +4,7 @@ import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,9 +17,27 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
 
     private List <PedagogicalPlanTemplate>pedagogicalPlanTemplates = new LinkedList<PedagogicalPlanTemplate>();
 
+    private List <Tool> tools = new ArrayList<Tool>();
+
     public PedagogicalPlanServiceMock() {
         pedagogicalPlanTemplates.add(createPedagogicalPlanTemplate("Mission 1"));
+        tools.add(createTool("SCYmapper", "A mappingTool!"));
+        tools.add(createTool("SCYSim", "A simtool"));
+        tools.add(createTool("Nutpad", "A padder"));
+        tools.add(createTool("SCYWriter", "A text pad"));
+        tools.add(createTool("SCYOverallTool", "A general tool"));
+    }
 
+    private Tool createTool(String name, String description) {
+        Tool tool = new ToolImpl();
+        tool.setName(name);
+        tool.setDescription(description);
+        return tool;
+    }
+
+    @Override
+    public List<Tool> getTools() {
+        return tools;
     }
 
     public List<Scenario> getScenarios() {
@@ -62,11 +78,17 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         LearningActivitySpace orientation = createLAS("LAS Orientation");
         scenario.setLearningActivitySpace(orientation);
         Activity act1 = addActivity(orientation, "Identify goal states");
+        createToolConfigurationForActivity(act1, 0);
+        createToolConfigurationForActivity(act1, 2);
         AnchorELO anchorELO = createAnchorELO("A product you can be proud of!");
         act1.setAnchorELO(anchorELO);
         orientation.addAnchorELO(anchorELO);
 
+        orientation.setAssessment(createAssessment("An assessment"));
+
         Activity act2 = addActivity(orientation, "Identify learning goals");
+        createToolConfigurationForActivity(act2, 2);
+        createToolConfigurationForActivity(act2, 1);
         AnchorELO anchorELO2 = createAnchorELO("A concept map concepting something really bad!");
         act2.setAnchorELO(anchorELO2);
         LearningActivitySpaceToolConfiguration conf = new SCYMapperConfiguration();
@@ -89,6 +111,18 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
 
 
         return scenario;
+    }
+
+    private Assessment createAssessment(String name) {
+        Assessment assessment = new AssessmentImpl();
+        assessment.setAssessmentStrategy(new PeerToPeerAssessmentStrategyImpl());
+        return assessment;
+    }
+
+    private void createToolConfigurationForActivity(Activity activity, int toolIndex) {
+        LearningActivitySpaceToolConfiguration config = new LearningActivitySpaceToolConfigurationImpl();
+        config.setTool(tools.get(toolIndex));
+        activity.addLearningActivitySpaceToolConfiguration(config);
     }
 
     private Activity addActivity(LearningActivitySpace las, String activityName) {

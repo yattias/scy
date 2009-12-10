@@ -9,7 +9,7 @@ import java.util.List;
  * Time: 12:10:19
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlanTemplate extends PedagogicalPlanBase{
+public interface PedagogicalPlanTemplate extends PedagogicalPlanBase, Template{
 
     public List<PedagogicalPlan> getPedagogicalPlans();
 

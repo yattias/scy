@@ -7,15 +7,15 @@ package eu.scy.core.model.pedagogicalplan;
  * Time: 11:00:58
  * To change this template use File | Settings | File Templates.
  */
-public interface PedagogicalPlan extends PedagogicalPlanBase{
+public interface PedagogicalPlan extends PedagogicalPlanBase, BasedOnTemplate{
 
 
     /**
      * Sets the template this pedagogical plan is based on. The plan will inherit all default values from the template
      * @return
      */
-    public PedagogicalPlanTemplate getPedagogicalPlanTemplate();
+    public PedagogicalPlanTemplate getTemplate();
 
-    public void setPedagogicalPlanTemplate(PedagogicalPlanTemplate template);
+    public void setTemplate(PedagogicalPlanTemplate template);
 
 }

@@ -20,11 +20,11 @@ public class PedagogicalPlanImpl extends PedagogicalPlanBaseImpl implements Peda
 
     @ManyToOne(targetEntity = PedagogicalPlanTemplateImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="pedagogicalPlanTemplate_primKey")
-    public PedagogicalPlanTemplate getPedagogicalPlanTemplate() {
+    public PedagogicalPlanTemplate getTemplate() {
         return pedagogicalPlanTemplate;
     }
 
-    public void setPedagogicalPlanTemplate(PedagogicalPlanTemplate pedagogicalPlanTemplate) {
+    public void setTemplate(PedagogicalPlanTemplate pedagogicalPlanTemplate) {
         this.pedagogicalPlanTemplate = pedagogicalPlanTemplate;
     }
 }
