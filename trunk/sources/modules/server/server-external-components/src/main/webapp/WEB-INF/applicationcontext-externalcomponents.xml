@@ -8,7 +8,7 @@
                 <ref local="sqlSpacesComponent"/>
                 <ref local="swatComponent"/>
 				<ref local="scyHubExternalComponent"/>
-				<!--ref local="agentFrameworkComponent"/-->
+				<ref local="agentFrameworkComponent"/>
 			</list>
 		</property>
 	</bean>
@@ -16,16 +16,16 @@
     <bean id="sqlSpacesComponent" class="eu.scy.server.externalcomponents.sqlspaces.SQLSpacesComponent" singleton="true"/>
     <bean id="swatComponent" class="eu.scy.server.externalcomponents.swat.SWATComponent" singleton="true" />
     <bean id="scyHubExternalComponent" class="eu.scy.server.externalcomponents.scyhub.SCYHubExternalComponent" singleton="true"/>
-	<!--bean id="agentFrameworkComponent" class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent" singleton="true">
+	<bean id="agentFrameworkComponent" class="eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent" singleton="true">
 		<property name="initialAgents">
 			<set>
+				<!--  ref bean="supervisor" /-->
+				<ref bean="ontologylookup" />
 				<ref bean="topicdetector" />
 				<ref bean="scysim" />
-				<ref bean="supervisor" />
-				<ref bean="ontologylookup" />
 				<ref bean="toolexperience" />
 			</set>
 		</property>
-	</bean-->
+	</bean>
 
 </beans>
