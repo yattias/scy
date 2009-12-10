@@ -25,6 +25,12 @@
 			<type>war</type>
 		</dependency>
 		<dependency>
+			<groupId>eu.scy.server</groupId>
+			<artifactId>server-external-components</artifactId>
+			<version>9.8.0-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server-web</artifactId>
 			<version>3.7.0-SNAPSHOT</version>
@@ -105,7 +111,7 @@
 							<deployer>
 								<type>remote</type>
 								<deployables>
-									<deployable>
+									<!-- deployable>
 										<groupId>net.sf.sail</groupId>
 										<artifactId>webapp</artifactId>
 										<properties>
@@ -126,6 +132,14 @@
 										<artifactId>sqlspaces-server-web</artifactId>
 										<properties>
 											<context>/investigator</context>
+										</properties>
+										<type>war</type>
+									</deployable-->
+									<deployable>
+										<groupId>eu.scy.server</groupId>
+										<artifactId>server-external-components</artifactId>
+										<properties>
+											<context>/extcomp</context>
 										</properties>
 										<type>war</type>
 									</deployable>
