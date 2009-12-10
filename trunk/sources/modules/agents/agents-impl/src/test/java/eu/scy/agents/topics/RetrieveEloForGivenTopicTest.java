@@ -20,6 +20,7 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AgentProtocol;
 
 public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 
@@ -108,10 +109,11 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 	@Test
 	public void testSearchForTopicElos() throws TupleSpaceException {
 		String queryId = new VMID().toString();
-		getTupleSpace().write(new Tuple("getTopicElos", queryId, SEARCHED_TOPIC, 0.1));
+		getTupleSpace().write(
+				new Tuple("getTopicElos", AgentProtocol.QUERY, queryId, SEARCHED_TOPIC, 0.1));
 		Tuple response = getTupleSpace().waitToTake(
-				new Tuple("getTopicElos", queryId, Integer.class, Field.createWildCardField()),
-				5000);
+				new Tuple("getTopicElos", AgentProtocol.RESPONSE, queryId, Integer.class, Field
+						.createWildCardField()), 5000);
 		assertNotNull("response empty", response);
 		int number = (Integer) response.getField(2).getValue();
 		assertEquals(2, number);
