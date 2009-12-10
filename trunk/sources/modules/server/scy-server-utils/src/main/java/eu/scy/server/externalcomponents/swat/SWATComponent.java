@@ -4,6 +4,7 @@ import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.swat.SWAT;
 import info.collide.swat.SWATConfiguration;
+import info.collide.swat.model.SWATException;
 
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ public class SWATComponent implements IExternalComponent {
         try {
             SWAT.start();
         } catch (TupleSpaceException e) {
+            throw new ExternalComponentFailedException(e);
+        } catch (SWATException e) {
             throw new ExternalComponentFailedException(e);
         }
     }
