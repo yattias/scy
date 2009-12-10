@@ -10,6 +10,11 @@ import java.util.Map;
  */
 public class AgentStartConfiguration {
 
+    public AgentStartConfiguration(String className, Map<String, Object> properties) {
+        this.className = className;
+        this.properties = properties;
+    }
+
     private String className;
 
     private Map<String, Object> properties;
