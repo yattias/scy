@@ -19,7 +19,7 @@ public class PedagogicalPlanTemplateImpl extends PedagogicalPlanBaseImpl impleme
 
     private List<PedagogicalPlan> pedagogicalPlans;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pedagogicalPlanTemplate", targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "template", targetEntity = PedagogicalPlanImpl.class, fetch = FetchType.EAGER)
     public List<PedagogicalPlan> getPedagogicalPlans() {
         if(pedagogicalPlans == null) pedagogicalPlans = new LinkedList<PedagogicalPlan>();
         return pedagogicalPlans;
@@ -32,6 +32,6 @@ public class PedagogicalPlanTemplateImpl extends PedagogicalPlanBaseImpl impleme
     @Override
     public void addPedagogicalPlan(PedagogicalPlan plan) {
         getPedagogicalPlans().add(plan);
-        plan.setPedagogicalPlanTemplate(this);
+        plan.setTemplate(this);
     }
 }

@@ -1,10 +1,7 @@
 package eu.scy.core.persistence.hibernate;
 
-import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
-import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanTemplateImpl;
-import eu.scy.core.model.impl.pedagogicalplan.ScenarioImpl;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
+import eu.scy.core.model.impl.pedagogicalplan.*;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 import org.junit.Test;
 
@@ -62,13 +59,15 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
 
     }
 
+    @Test
     public void testPersistingPedagogicalPlan() {
         PedagogicalPlanTemplate template = createPedagogicalPlanTemplate("A pedagogical plan");
         PedagogicalPlanImpl plan = (PedagogicalPlanImpl) createPedagogicalPlan(template);
         assertTrue(plan.getId() != null);
-        assertTrue(((PedagogicalPlanTemplateImpl) plan.getPedagogicalPlanTemplate()).getId() != null);
+        assertTrue(((PedagogicalPlanTemplateImpl) plan.getTemplate()).getId() != null);
     }
 
+    @Test
     public void testGetPlansThatExtendsATemplate() {
         PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate("A template with a bunch of plans");
         assertNull(template.getId());
@@ -84,12 +83,13 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
         assertNotNull(plan2.getId());
         assertNotNull(plan3.getId());
 
-        assertNotNull(plan1.getPedagogicalPlanTemplate());
-        assertNotNull(plan2.getPedagogicalPlanTemplate());
-        assertNotNull(plan3.getPedagogicalPlanTemplate());
+        assertNotNull(plan1.getTemplate());
+        assertNotNull(plan2.getTemplate());
+        assertNotNull(plan3.getTemplate());
 
     }
 
+    @Test
     public void testInheritedValuesFromTemplate() {
 
         String plan1Name = "A freakin overridden name!";
@@ -110,19 +110,68 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
         assertNotNull(plan2.getId());
         assertNotNull(plan3.getId());
 
-        assertTrue(plan1.getPedagogicalPlanTemplate() != null);
-        assertTrue(plan2.getPedagogicalPlanTemplate() != null);
-        assertTrue(plan3.getPedagogicalPlanTemplate() != null);
+        assertTrue(plan1.getTemplate() != null);
+        assertTrue(plan2.getTemplate() != null);
+        assertTrue(plan3.getTemplate() != null);
 
         assertTrue(plan1.getName().equals(plan1Name));
-        assertTrue(plan2.getName().equals(plan2.getPedagogicalPlanTemplate().getName()));
-        assertTrue(plan3.getName().equals(plan3.getPedagogicalPlanTemplate().getName()));
-        
+        assertTrue(plan2.getName().equals(plan2.getTemplate().getName()));
+        assertTrue(plan3.getName().equals(plan3.getTemplate().getName()));
+
     }
+
+    @Test
+    public void testStoringTools() {
+        ToolImpl tool = createTool("SCYMapper");
+        getPedagogicalPlanPersistenceDAO().save(tool);
+        assertNotNull(tool.getId());
+    }
+
+    private ToolImpl createTool(String name) {
+        ToolImpl tool = new ToolImpl();
+        tool.setName(name);
+        tool.setDescription("A concptmapping tool");
+        return tool;
+    }
+
+    @Test
+    public void testAddToolConfigurationToActivity() {
+        LearningActivitySpaceToolConfigurationImpl config = new LearningActivitySpaceToolConfigurationImpl();
+        ToolImpl mapper = createTool("SCYMapper");
+        assertNull(mapper.getId());
+        config.setTool(mapper);
+        assertNotNull(config.getTool());
+        getPedagogicalPlanPersistenceDAO().save(config);
+        assertNotNull(config.getId());
+        assertNotNull(mapper.getId());
+    }
+
+    @Test
+    public void testStoringAssessments() {
+        AssessmentImpl assessment = (AssessmentImpl) createAssessment("Default Assessment");
+        assertNotNull(assessment);
+        assessment.setAssessmentStrategy(createAssessmentStrategy());
+        getPedagogicalPlanPersistenceDAO().save(assessment);
+        assertNotNull(assessment.getId());
+        assertNotNull(((AssessmentStrategyImpl)assessment.getAssessmentStrategy()).getId());
+
+    }
+
+    private AssessmentStrategy createAssessmentStrategy() {
+        PeerToPeerAssessmentStrategy strategy = new PeerToPeerAssessmentStrategyImpl();
+        return strategy;
+    }
+
+    private Assessment createAssessment(String name) {
+        Assessment assessment = new AssessmentImpl();
+        assessment.setName(name);
+        return assessment;
+    }
+
 
     private PedagogicalPlanTemplateImpl createPedagogicalPlanTemplate(String name) {
         PedagogicalPlanTemplateImpl template1 = new PedagogicalPlanTemplateImpl();
-        template1.setName("Template 1");
+        template1.setName(name);
         return template1;
     }
 

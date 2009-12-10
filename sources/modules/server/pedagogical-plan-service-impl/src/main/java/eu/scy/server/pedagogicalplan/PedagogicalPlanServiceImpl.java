@@ -4,6 +4,7 @@ import eu.scy.core.ScenarioService;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.Tool;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -20,6 +21,11 @@ public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
     private static Logger log = Logger.getLogger("PedagogicalPlanServiceImpl.class");
 
     private ScenarioService scenarioService = null;
+
+    @Override
+    public List<Tool> getTools() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     public List<Scenario> getScenarios() {
         return getScenarioService().getScenarios();

@@ -108,6 +108,28 @@ CREATE TABLE `mission` (
 	PRIMARY KEY  (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `assessment`;
+CREATE TABLE `assessment` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+    `assessmentStrategy_primKey` varchar(55) default NULL,
+	PRIMARY KEY  (`primKey`),
+    KEY `assessmentToAStrategy` (`assessmentStrategy_primKey`),
+    CONSTRAINT `assessmentToAStrategyConst` FOREIGN KEY (`assessmentStrategy_primKey`) REFERENCES `assessmentStrategy` (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `assessmentstrategy`;
+CREATE TABLE `assessmentstrategy` (
+	`primKey` varchar(55) NOT NULL default '',
+	`name` varchar(250) default NULL,
+	`strategytype` varchar(250) default NULL,
+	`description` text,
+    `timeCreated` bigint(20) NOT NULL default '0',
+	PRIMARY KEY  (`primKey`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 set FOREIGN_KEY_CHECKS=1;
 

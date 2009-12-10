@@ -1,6 +1,7 @@
 package eu.scy.core.model.impl;
 
 import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.pedagogicalplan.BasedOnTemplate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +27,13 @@ public class ScyBaseObject implements ScyBase, Serializable {
     }
 
     public String getName() {
+        if (name == null) {
+            if (this instanceof BasedOnTemplate) {
+                if (((BasedOnTemplate) this).getTemplate() != null) {
+                    return ((BasedOnTemplate) this).getTemplate().getName();
+                }
+            }
+        }
         return name;
     }
 
@@ -34,9 +42,9 @@ public class ScyBaseObject implements ScyBase, Serializable {
     }
 
     @Id
-	@GeneratedValue(generator = "nboid")
-	@org.hibernate.annotations.GenericGenerator(name = "nboid", strategy = "uuid")
-	@Column(name = "primKey", length = 55)
+    @GeneratedValue(generator = "nboid")
+    @org.hibernate.annotations.GenericGenerator(name = "nboid", strategy = "uuid")
+    @Column(name = "primKey", length = 55)
     public String getId() {
         return id;
     }

@@ -2,6 +2,7 @@ package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.Tool;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface PedagogicalPlanService {
+
+    public List <Tool> getTools();
 
     public List<Scenario> getScenarios();
 
