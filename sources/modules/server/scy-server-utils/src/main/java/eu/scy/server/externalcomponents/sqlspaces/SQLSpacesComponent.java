@@ -26,7 +26,9 @@ public class SQLSpacesComponent implements IExternalComponent {
         Configuration.getConfiguration().setDbPassword("sqlspaces");
         Configuration.getConfiguration().setWebEnabled(false);
         Configuration.getConfiguration().setWebServicesEnabled(false);
+        Level level = Logger.getLogger("").getLevel();
         Server.startServer();
+        Logger.getLogger("").setLevel(level);
     }
 
     @Override
