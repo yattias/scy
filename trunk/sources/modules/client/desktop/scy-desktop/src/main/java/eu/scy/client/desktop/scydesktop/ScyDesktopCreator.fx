@@ -129,7 +129,9 @@ public class ScyDesktopCreator {
          }
 
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
-         basicConfig.setToolBrokerAPI(toolBrokerAPI);
+         if (toolBrokerAPI!=null){
+            basicConfig.setToolBrokerAPI(toolBrokerAPI);
+         }
          config = basicConfig;
       }
       if (config == null) {
