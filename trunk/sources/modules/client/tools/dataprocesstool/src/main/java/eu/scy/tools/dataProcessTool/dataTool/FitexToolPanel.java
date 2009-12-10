@@ -118,6 +118,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private MyMenuItem menuItemMax;
     private MyMenuItem menuItemAddGraph;
     private MyMenuItem menuItemPrint;
+    private MyMenuItem menuItemHelp;
     /* data organizer*/
     private JScrollPane scrollPaneDataOrganizer;
     private DataTable datasetTable;
@@ -240,11 +241,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             menuBarData.add(getMenuItemRedo());
             menuBarData.add(getSep5());
             menuBarData.add(getMenuItemAddGraph());
+            menuBarData.add(getSep6());
             if(dataProcessToolPanel.canPrint()){
-                menuBarData.add(getSep6());
                 menuBarData.add(getMenuItemPrint());
             }
-
+            menuBarData.add(getMenuItemHelp());
             panelMenuData.add(menuBarData);
         }
         return panelMenuData;
@@ -455,6 +456,18 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         return menuItemPrint;
     }
+     private MyMenuItem getMenuItemHelp(){
+        if (menuItemHelp == null){
+            menuItemHelp = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
+            int x = sep6.getX()+sep6.getWidth();
+            if(menuItemPrint != null){
+                x = menuItemPrint.getX()+menuItemPrint.getWidth();
+            }
+            menuItemHelp.setBounds(x, 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
+            menuItemHelp.addActionMenu(this);
+        }
+        return menuItemHelp;
+    }
 
 
     /* scroll pane data organizer */
@@ -592,6 +605,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             saveFitex();
             return;
         }
+//        }else if(item.equals(menuItemHelp)){
+//            openHelpDialog();
+//            return;
+//        }
 
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
     }
@@ -616,7 +633,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
     }
 
-
+    /* ouverture fenetre d'aide */
+    private void openHelpDialog(){
+        HelpDialog helpD = new HelpDialog(this);
+        helpD.setVisible(true);
+    }
 
 
      /* ouverture dialog creation viuals */

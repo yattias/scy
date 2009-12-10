@@ -53,7 +53,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     public void load(){
         dataProcessPanel.loadData();
-        setSize(530, 335);
+        setSize(565, 335);
     }
 
     private void initDataProcessTool(){
@@ -68,7 +68,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 
     private void initGUI(){
         this.addWindowListener(this);
-        setMinimumSize(new Dimension(530, 330));
+        setMinimumSize(new Dimension(565, 330));
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FITEX ");
         setLayout(new BorderLayout());

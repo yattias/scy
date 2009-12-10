@@ -31,6 +31,7 @@ import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.tools.drawing.ELOLoadedChangedEvent;
 import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -54,7 +55,7 @@ public class EloFitexActionWrapper {
    private IMetadataKey authorKey;
    private JDomStringConversion jdomStringConversion = new JDomStringConversion();
    private FitexPanel fitexPanel;
-   private File lastUsedFile = null;
+   private File lastUsedFileImport = null;
    private String docName = untitledDocName;
    private IELO elo = null;
    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
@@ -218,15 +219,13 @@ public class EloFitexActionWrapper {
 		}
    }
 
-   public void loadElo(DataSet dsElo)
-	{
-		if (dsElo != null)
-		{
-			this.fitexPanel.loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
-			sendELOLoadedChangedListener();
-		}
-
+   public void loadElo(DataSet dsElo){
+       if (dsElo != null){
+            this.fitexPanel.loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
+            sendELOLoadedChangedListener();
 	}
+
+  }
 
    
    public void mergeFitexAction()
@@ -275,17 +274,33 @@ public void mergeElo(URI eloUri)
 
 	}
 
-public DataSet importFitexAction() {
+    public DataSet importFitexAction() {
         JFileChooser aFileChooser = new JFileChooser();
-		if (lastUsedFile != null)
-			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
-		int userResponse = aFileChooser.showOpenDialog(null);
-		if (userResponse == JFileChooser.APPROVE_OPTION){
-			File file = aFileChooser.getSelectedFile();
-			lastUsedFile = file;
-            return fitexPanel.importCSVFile(file);
-		}
+        aFileChooser.setFileFilter(new MyFileFilterCSV());
+	if (lastUsedFileImport != null){
+            aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
+            aFileChooser.setSelectedFile(lastUsedFileImport);
+        }
+	int userResponse = aFileChooser.showOpenDialog(null);
+	if (userResponse == JFileChooser.APPROVE_OPTION){
+		File file = aFileChooser.getSelectedFile();
+                if(!isCSVFile(file)){
+                    JOptionPane.showMessageDialog(fitexPanel ,"Error: the file must be a csv file." , "Error Import csv",JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+                lastUsedFileImport = file;
+                if(lastUsedFileImport != null)
+                    return fitexPanel.importCSVFile(file);
+	}
+
         return null;
+    }
+
+    public static boolean isCSVFile(File file){
+        int id = file.getName().lastIndexOf(".");
+        if(id == -1 || id==file.getName().length()-1)
+            return false;
+        return file.getName().substring(id+1).equals("csv");
     }
 
 

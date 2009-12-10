@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 import eu.scy.tools.fitex.dataStruct.Expression;
 import java.awt.Font;
-import java.awt.geom.Rectangle2D;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -169,6 +168,8 @@ public class DrawPanel extends javax.swing.JPanel {
     }
 
     public void updateSize(int width, int height){
+        if(getGraphics() != null)
+            effacerZone(getGraphics());
         this.width = width;
         this.height = height;
         repaint();
