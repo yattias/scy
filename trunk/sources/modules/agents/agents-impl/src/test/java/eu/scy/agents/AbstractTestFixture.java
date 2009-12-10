@@ -69,13 +69,17 @@ public class AbstractTestFixture {
 
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
-		elo.setUriKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		elo
+				.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
+						.getId()));
 		return elo;
 	}
 
 	protected IELO createNewElo(String title, String type) {
 		BasicELO elo = new BasicELO();
-		elo.setUriKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId()));
+		elo
+				.setIdentifierKey(typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER
+						.getId()));
 		IMetadataValueContainer titleContainer = elo.getMetadata().getMetadataValueContainer(
 				typeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId()));
 		titleContainer.setValue(title);
