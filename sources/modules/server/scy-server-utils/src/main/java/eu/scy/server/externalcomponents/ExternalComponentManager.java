@@ -48,7 +48,8 @@ public class ExternalComponentManager implements InitializingBean, DisposableBea
         log.info("****************************************************************************");
 
         ArrayList<Exception> exceptions = new ArrayList<Exception>();
-        for (IExternalComponent iExternalComponent : externalComponents) {
+        for (int i = externalComponents.size() - 1; i >= 0; i--) {
+            IExternalComponent iExternalComponent = externalComponents.get(i);
             log.info("Stopping: " + iExternalComponent.getClass().getName());
             try {
                 iExternalComponent.stopComponent();
