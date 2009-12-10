@@ -135,6 +135,9 @@ public class BasicConfig implements Config
 
    public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI)
    {
+      if (toolBrokerAPI==null){
+         throw new IllegalArgumentException("toolBrokerAPI may not be null");
+      }
       this.toolBrokerAPI = toolBrokerAPI;
       setRepository(toolBrokerAPI.getRepository());
       setExtensionManager(toolBrokerAPI.getExtensionManager());

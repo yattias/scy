@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
 import org.apache.log4j.Logger;
 
@@ -81,6 +83,14 @@ public class DummyWindowStyler extends WindowStyler {
          iconChar = "W";
       return iconChar;
    }
+
+   public override function getScyEloIcon(type:String):EloIcon{
+      return CharacterEloIcon{
+         iconCharacter:getScyIconCharacter(type);
+         color:getScyColor(type)
+      };
+   }
+
 }
 
 

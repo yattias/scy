@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -20,6 +19,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import javafx.scene.text.TextAlignment;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.scene.control.Button;
 
 /**
  * @author sikkenj
@@ -28,13 +31,13 @@ import javafx.scene.text.TextAlignment;
 public class WindowTitleBar extends WindowElement {
 
    public
-
-
-    var width = 100.0;
+      var width
+            = 100.0;
 //   public var height = 20.0;
    public var title = "very very long title";
+   public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
    public var iconCharacter = "?";
-   public var activated = true;
+   public var activated = true on replace{eloIcon.selected = activated;};
    public var iconSize = 16.0;
    public var iconGap = 2.0;
    def titleFontsize = 12;
@@ -46,31 +49,18 @@ public class WindowTitleBar extends WindowElement {
 //   def mainColor =  color;
 //   def bgColor = subColor;
 
+   var nodeGroup:Group;
+//   var fixedGroup:Group;
+
+   function eloIconChanged(oldEloIcon:EloIcon){
+      delete oldEloIcon from nodeGroup.content;
+      insert eloIcon before nodeGroup.content[0];
+   }
+
    public override function create(): Node {
-      return Group {
-                 content: [
-                    Group { // icon for title
-               var iconChar:Text;
- 					content: [
-						Rectangle{
-							x: 0
-							y: 0
-							width: iconSize-1
-							height: iconSize-1
-							fill: bind bgColor
-                     stroke:bind color
-						}
-						iconChar = Text {
-							font: eloTypeFont
-                     textOrigin:TextOrigin.BOTTOM;
-                     textAlignment:TextAlignment.CENTER
-      					x: iconGap,
-							y: iconSize
-							content: bind iconCharacter.substring(0, 1)
-							fill: bind mainColor
-						}
-					]
- 				},
+      nodeGroup = Group{
+         content:[
+            eloIcon,
             Rectangle{
 							x: iconSize
 							y: 0
@@ -117,31 +107,66 @@ public class WindowTitleBar extends WindowElement {
 				},
          ]
       };
+//      nodeGroup = Group{
+//         content:[
+//            eloIcon,
+//            fixedGroup
+//         ]
+//      }
+//
    }
 }
 
 function run(){
-      Stage {
-      title : "test title bar"
-      scene: Scene {
-         width: 200
-         height: 200
-         content: [
-            WindowTitleBar{
-               translateX:10;
-               translateY:10;
-               activated: true;
-            }
-            WindowTitleBar{
-               iconCharacter:"w"
-               activated:false
-               translateX:10;
-               translateY:50;
-            }
+   var windowTitleBar1:WindowTitleBar;
 
-         ]
+   var eloIcon1 = CharacterEloIcon {
+                     iconCharacter: "1"
+                  }
+   var eloIcon2 = CharacterEloIcon {
+                     iconCharacter: "2"
+                  }
+
+   var windowTitleBar2: WindowTitleBar;
+   var stage:Stage;
+   stage = Stage {
+         title: "test title bar"
+         scene: Scene {
+            width: 200
+            height: 200
+            content: [
+               windowTitleBar1 = WindowTitleBar {
+                  eloIcon: CharacterEloIcon {
+                     iconCharacter: "?"
+                  }
+                  translateX: 10;
+                  translateY: 10;
+                  activated: true;
+               }
+               windowTitleBar2 =WindowTitleBar {
+                  eloIcon: CharacterEloIcon {
+                     iconCharacter: "W"
+                  }
+                  iconCharacter: "w"
+                  activated: false
+                  translateX: 10;
+                  translateY: 50;
+               }
+               Button {
+                  translateX: 10;
+                  translateY: 90;
+                  text: "Swap icon"
+                  action: function () {
+                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
+                     windowTitleBar1.activated = not windowTitleBar1.activated;
+                  }
+               }
+            ]
+         }
       }
+      windowTitleBar2.eloIcon = CharacterEloIcon {
+                     iconCharacter: "Y"
+                  }
+      stage;
+
    }
-
-
-}

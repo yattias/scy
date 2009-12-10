@@ -27,7 +27,8 @@ public abstract class ScyWindow extends CustomNode {
    public var title = "???";
 	public var eloType = "?123";
    public var eloUri:URI;
-   public var iconCharacter = "?";
+   public var eloIcon:EloIcon;
+//   public var iconCharacter = "?";
 	public var color = Color.GREEN;
 	public var drawerColor = Color.LIGHTGREEN;
 	public var backgroundColor = color.WHITE;
