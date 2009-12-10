@@ -115,11 +115,11 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 				new Tuple("getTopicElos", AgentProtocol.RESPONSE, queryId, Integer.class, Field
 						.createWildCardField()), 5000);
 		assertNotNull("response empty", response);
-		int number = (Integer) response.getField(2).getValue();
+		int number = (Integer) response.getField(3).getValue();
 		assertEquals(2, number);
-		String uri1 = (String) response.getField(3).getValue();
+		String uri1 = (String) response.getField(4).getValue();
 		assertEquals("roolo://memory/0/0/topicElo1.scytext", uri1);
-		String uri2 = (String) response.getField(4).getValue();
+		String uri2 = (String) response.getField(5).getValue();
 		assertEquals("roolo://memory/2/0/topicElo3.scytext", uri2);
 	}
 
