@@ -18,6 +18,12 @@
         </param-value>
     </context-param>
 
+    <listener>
+        <listener-class>
+            eu.scy.server.listeners.ConfigurationOverrider
+        </listener-class>
+    </listener>
+
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
