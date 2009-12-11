@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Resolves ${...} placeholders from client.properties -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- <property name="location"><value>client.properties</value></property> -->
+		<property name="systemPropertiesMode" value="2"/>
+	</bean>
+
+   <import resource="localWrappedRooloTemporaryConfig.xml"/>
+
+   <bean name="toolBrokerAPI" class="eu.scy.client.desktop.scydesktop.dummy.SimpleToolBrokerAPI">
+      <property name="repository" ref="repository"/>
+      <property name="extensionManager" ref="extensionManager"/>
+      <property name="metadataTypeManager" ref="metadataTypeManager"/>
+      <property name="eloFactory" ref="eloFactory"/>
+      <property name="userName" value="${userName}"/>
+   </bean>
+</beans>

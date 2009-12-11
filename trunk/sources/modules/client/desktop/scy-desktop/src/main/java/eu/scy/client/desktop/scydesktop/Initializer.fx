@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop;
 
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.io.File;
 import java.lang.IllegalArgumentException;
@@ -191,9 +192,7 @@ public class Initializer {
       var backgroundImageView: ImageView;
       if (backgroundImage != null) {
          backgroundImageView = ImageView {
-            image: Image {
-               url: "{__DIR__}bckgrnd2.jpg"
-            }
+            image: backgroundImage
             fitWidth: bind scene.width
             fitHeight: bind scene.height
             preserveRatio: false
@@ -214,7 +213,7 @@ public class Initializer {
    function setupBackgroundImage() {
       if (backgroundImageUrl.length() > 0) {
          backgroundImage = Image {
-            url: "{__DIR__}bckgrnd2.jpg"
+            url: backgroundImageUrl
          }
       }
    }
