@@ -40,13 +40,13 @@ import javax.swing.event.ChangeListener;
 
 import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
 import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 
-public class ModelEditor extends JPanel implements AdjustmentListener,
-ActionListener {
+public class ModelEditor extends JPanel implements AdjustmentListener {
 	static final long serialVersionUID = -8181842250058665865L;
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;
@@ -88,16 +88,6 @@ ActionListener {
 		this.properties = getDefaultProperties();
 		properties.putAll(newProps);
 		actionLogger = new ModellingLogger(new DevNullActionLogger(), "obama");
-		/*
-		 * if (props.get("actionlog.to.scy").equals("true")) { logger = new
-		 * ScyActionLogger("obama"); } else if
-		 * (props.get("actionlog.to.file").equals("true")) { logger = new
-		 * FileActionLogger("obama"); } else if
-		 * (props.get("actionlog.to.sqlspaces").equals("true")) { logger = new
-		 * SQLSpacesActionLogger("obama", props); } else { logger = new
-		 * DevNullActionLogger(); }
-		 */
-
 		jtools = new JTools(JColab.JCOLABAPP_RESOURCES,
 				JColab.JCOLABSYS_RESOURCES);
 		aSelection = new ModelSelection();
@@ -132,6 +122,8 @@ ActionListener {
 	}
 
 	private void initComponents() {
+		EditorActionListener actionListener = new EditorActionListener(this);
+
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent evt) {
@@ -144,7 +136,7 @@ ActionListener {
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane, BorderLayout.CENTER);
 
-		editorTab = new EditorTab(this);
+		editorTab = new EditorTab(this, actionListener);
 		this.aCanvas = (editorTab).getEditorPanel();
 		this.toolbar = (editorTab).getToolbar();
 		graphTab = new GraphTab(this);
@@ -159,18 +151,18 @@ ActionListener {
 			addTable();
 		}
 
-		this.registerKeyboardAction(this, "delete", KeyStroke.getKeyStroke(
+		this.registerKeyboardAction(actionListener, EditorToolbar.DELETE+"", KeyStroke.getKeyStroke(
 				KeyEvent.VK_DELETE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(this, "copy", KeyStroke.getKeyStroke(
+		this.registerKeyboardAction(actionListener, EditorToolbar.COPY+"", KeyStroke.getKeyStroke(
 				KeyEvent.VK_C, ActionEvent.CTRL_MASK, false),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(this, "paste", KeyStroke.getKeyStroke(
+		this.registerKeyboardAction(actionListener, EditorToolbar.PASTE+"", KeyStroke.getKeyStroke(
 				KeyEvent.VK_V, ActionEvent.CTRL_MASK, false),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(this, "cut", KeyStroke.getKeyStroke(
+		this.registerKeyboardAction(actionListener, EditorToolbar.CUT+"", KeyStroke.getKeyStroke(
 				KeyEvent.VK_X, ActionEvent.CTRL_MASK, false),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		this.registerKeyboardAction(this, "all", KeyStroke.getKeyStroke(
+		this.registerKeyboardAction(actionListener, EditorToolbar.ALL+"", KeyStroke.getKeyStroke(
 				KeyEvent.VK_A, ActionEvent.CTRL_MASK, false),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
@@ -1063,29 +1055,6 @@ ActionListener {
 		h.put("value", String.valueOf(e.getValue()));
 		// sendVisualToolEvent("AdjustmentEvent", h);
 	}
-
-	// ---------------------------------------------------------------------------
-	public void actionPerformed(ActionEvent e) {
-		String aCmd = e.getActionCommand();
-		if ("delete".equals(aCmd)) {
-			aSelection.deleteSelection(this);
-			// sendVisualToolEvent("DeleteSelection", "DeleteSelection");
-		} else if ("all".equals(aCmd)) {
-			selectAllObjects();
-			// sendVisualToolEvent("SelectAll", "SelectAll");
-		} else if ("copy".equals(aCmd)) {
-			copySelection();
-			// aEditorVT.sendVisualToolEvent("ActionEvent", e, aCmd);
-		} else if ("paste".equals(aCmd)) {
-			pasteSelection();
-			// aEditorVT.sendVisualToolEvent("ActionEvent", e, aCmd);
-		} else if ("cut".equals(aCmd)) {
-			cutSelection();
-			// aEditorVT.sendVisualToolEvent("ActionEvent", e, aCmd);
-		}
-	}
-
-	// ---------------------------------------------------------------------------
 
 	public EditorToolbar getEditorToolbar() {
 		return this.editorTab.getEditorToolbar();
