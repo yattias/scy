@@ -1,6 +1,8 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -12,12 +14,12 @@ public class EditorTab extends JPanel implements ChangeListener {
 	private EditorToolbar toolbar;
 	private FileToolbar filetoolbar;
 
-	public EditorTab(ModelEditor editor) {
+	public EditorTab(ModelEditor editor, ActionListener listener) {
 		super();
 		this.editor = editor;
 		this.setLayout(new BorderLayout());
 		aCanvas = new EditorPanel();
-		toolbar = new EditorToolbar();
+		toolbar = new EditorToolbar(listener);
 		filetoolbar = new FileToolbar(editor);
 		this.add(toolbar, BorderLayout.WEST);
 		if (editor.getProperties().get("show.filetoolbar").equals("true")) {			

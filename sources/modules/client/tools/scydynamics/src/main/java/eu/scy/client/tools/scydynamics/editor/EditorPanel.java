@@ -113,7 +113,7 @@ public void paintComponent(Graphics g) {
   //-------------------------------------------------------------------------
   public void extendRect(int x2, int y2) {
     if (rDrag!=null) {
-      Graphics g = this.getGraphics();
+      Graphics2D g = (Graphics2D) this.getGraphics();
       g.setXORMode(this.getBackground());
       g.drawRoundRect(rDrag.x, rDrag.y, rDrag.width, rDrag.height,2,2);
       int x,y,w,h;
@@ -139,7 +139,7 @@ public void paintComponent(Graphics g) {
   public Rectangle stopRect() {
     Rectangle r = null;
     if (rDrag!=null) {
-      Graphics g = this.getGraphics();
+      Graphics2D g = (Graphics2D) this.getGraphics();
       g.setXORMode(this.getBackground());
       g.drawRoundRect(rDrag.x, rDrag.y, rDrag.width, rDrag.height,2,2);
       g.setPaintMode();
