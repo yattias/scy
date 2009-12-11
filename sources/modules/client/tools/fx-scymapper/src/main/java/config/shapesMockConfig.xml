@@ -51,7 +51,7 @@
         </property>
     </bean>
 
-    <bean id="phenomena" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="phenomena" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Pollution"/>
         <property name="description" value=""/>
         <property name="nodeShape" ref="roundRectangle"/>
@@ -60,7 +60,7 @@
         <property name="nodeStyle" ref="redNonOpaque"/>
     </bean>
 
-    <bean id="safe_to_eat" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="safe_to_eat" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Safe to eat"/>
         <property name="description" value=""/>
         <property name="nodeShape" ref="roundRectangle"/>
@@ -69,7 +69,7 @@
         <property name="width" value="175"/>
     </bean>
 
-    <bean id="egg" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="egg" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Egg"/>
         <property name="nodeShape">
             <bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
@@ -78,7 +78,7 @@
         </property>
     </bean>
 
-    <bean id="factory" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="factory" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Factory"/>
         <property name="nodeShape">
             <bean class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
@@ -108,7 +108,7 @@
         <property name="linkShape" ref="line"/>
     </bean>
 
-    <bean id="star" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="star" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Star"/>
         <property name="nodeShape" ref="starshape"/>
     </bean>
@@ -138,7 +138,7 @@
     <bean id="redNonOpaque" parent="redOpaque">
         <property name="opaque" value="false"/>
     </bean>
-    <bean id="bergen" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="bergen" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Bergen"/>
         <property name="nodeShape">
             <bean class="eu.scy.scymapper.impl.shapes.concepts.ImageShape">
@@ -148,7 +148,7 @@
         <property name="width" value="125"/>
         <property name="height" value="83"/>
     </bean>
-    <bean id="redcircle" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="redcircle" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Red circle"/>
         <property name="nodeShape">
             <bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
@@ -157,7 +157,7 @@
         <property name="width" value="100"/>
         <property name="height" value="100"/>
     </bean>
-    <bean id="greenoval" class="eu.scy.scymapper.impl.configuration.ConceptPrototype">
+    <bean id="greenoval" class="eu.scy.scymapper.impl.configuration.ConceptType">
         <property name="name" value="Green Oval"/>
         <property name="nodeShape">
             <bean class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
