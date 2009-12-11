@@ -173,5 +173,12 @@ public class DataSyncModule extends SCYHubModule {
 		}
 		
 	}
-	
+
+	@Override
+	public void shutdown() {
+		for (DataSyncSessionBridge bridge : bridges.values()) {
+			bridge.shutdown();
+		}
+		connection.disconnect();
+	}
 }

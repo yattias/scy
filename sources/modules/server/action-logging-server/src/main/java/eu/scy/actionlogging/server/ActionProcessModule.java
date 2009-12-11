@@ -56,4 +56,14 @@ public class ActionProcessModule extends SCYHubModule {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void shutdown() {
+		try {
+			ts.disconnect();
+			logger.debug("Shutdown ActionProcessModule");
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+	}
 }
