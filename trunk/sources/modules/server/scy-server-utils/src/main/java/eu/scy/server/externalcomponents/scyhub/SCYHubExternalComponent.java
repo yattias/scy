@@ -48,6 +48,7 @@ public class SCYHubExternalComponent implements IExternalComponent {
 	        log.info("-----> STOPPING: SCYHUB");
 		try {
 			manager.removeComponent(Configuration.getInstance().getSCYHubName());
+			scyhub.shutdown(); // XXX: Adam, I don't think that shutdown is the correct method here. better check that, sw
 		} catch (ComponentException e) {
 			throw new ExternalComponentFailedException("Could not stop SCY-Hub!", e);
 		}
