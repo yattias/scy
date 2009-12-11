@@ -15,8 +15,9 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.image.ImageView;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 
 /**
  * @author sikkenj
@@ -58,7 +59,14 @@ stage = Stage {
    height: 300
    scene: scene = Scene {
       content: [
-         initializer.getBackgroundImageView(scene),
+//         initializer.getBackgroundImageView(scene),
+          ImageView {
+            image: initializer.backgroundImage
+            fitWidth: bind scene.width
+            fitHeight: bind scene.height
+            preserveRatio: false
+            cache: true
+         }
          LoginDialog {
             createScyDesktop: createScyDesktop
             initializer: initializer;
