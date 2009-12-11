@@ -7,7 +7,6 @@ package eu.scy.client.tools.fxflyingsaucer;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
@@ -25,7 +24,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  */
 var initializer = Initializer {
            log4JInitFile: "/config/scy-flying-saucer-log4j.xml"
-           scyDesktopConfigFile: "config/scyDesktopTestConfig.xml"
+           scyDesktopConfigFile: "config/scyDesktopFlyingSaucerTestConfig.xml"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -34,7 +33,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyFlyingSaucerId = "flying-saucer";
 
    var scyDesktopCreator = ScyDesktopCreator {
-              configClassPathConfigLocation: "config/scyDesktopFlyingSaucerTestConfig.xml";
+              initializer: initializer;
+              toolBrokerAPI: toolBrokerAPI;
+              userName: userName;
            }
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator {}, scyFlyingSaucerId);
