@@ -22,7 +22,7 @@ import eu.scy.server.notification.Notificator;
  */
 public class SCYHubComponent implements Component {
     
-    private static final Logger logger = Logger.getLogger(SCYHubComponent.class.getName());
+    private static final Logger logger = Logger.getLogger(SCYHubComponent.class);
 
     private List<SCYHubModule> modules;
 
@@ -98,5 +98,8 @@ public class SCYHubComponent implements Component {
      */
     public void shutdown() {
         logger.debug("SCYHubComponent.shutdown()");
+        for(SCYHubModule module : modules) {
+        	module.shutdown();
+        }
     }
 }
