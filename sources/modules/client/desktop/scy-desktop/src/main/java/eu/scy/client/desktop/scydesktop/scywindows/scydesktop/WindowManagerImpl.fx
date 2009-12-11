@@ -15,10 +15,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import javafx.util.Sequences;
 
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.paint.Color;
-
 import javafx.scene.Group;
 
 import java.net.URI;
@@ -42,20 +38,11 @@ var activeWindow:ScyWindow on replace previousActiveWindow {
    };
    var windowStateListMap:Map = new HashMap();
 
-   def activeWindowEffect: Effect = DropShadow {
-      offsetX: 6,
-      offsetY: 6,
-      color: Color.color(0.25,.25,.25)
-   }
-   def inactiveWindowEffect: Effect = null;
-
    function setActiveWindowState(scyWindow:ScyWindow){
-      scyWindow.effect = activeWindowEffect;
       scyWindow.activated = true;
    }
 
    function setDeactiveWindowState(scyWindow:ScyWindow){
-      scyWindow.effect = inactiveWindowEffect;
       scyWindow.activated = false;
    }
 

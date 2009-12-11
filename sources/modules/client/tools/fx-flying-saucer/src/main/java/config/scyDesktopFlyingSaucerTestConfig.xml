@@ -7,9 +7,11 @@
    <import resource="localRooloConfig.xml"/>
 	<!-- <import resource="remoteRooloConfig.xml"/> -->
 
+<!--
    <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
       <constructor-arg index="0" ref="metadataTypeManager"/>
    </bean>
+-->
 
    <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig">
       <property name="repository" ref="repository"/>

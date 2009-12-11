@@ -9,13 +9,14 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
 /**
  * @author sikken
@@ -23,19 +24,12 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 // place your code here
 public class LoginDialog extends CustomNode {
 
-
-      def userNameName =   "username";
-
-
-
-   def passwordName = "password";
-   public var windowStyler: WindowStyler;
-   public var createScyDesktop: function(tbi:ToolBrokerAPI,userName:String): ScyDesktop;
-   public var toolBrokerLogin: ToolBrokerLogin;
+   public var initializer: Initializer;
+   public var createScyDesktop: function(tbi:ToolBrokerAPI, userName : String): ScyDesktop;
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
-   var defaultUserName = "";
-   var defaultPassword = "";
+
+   def loginColor = Color.web("#0ea7bf");
 
    init {
       FX.deferAction(function () {
@@ -44,20 +38,23 @@ public class LoginDialog extends CustomNode {
    }
 
    public override function create(): Node {
-      setDefaultLoginEntries();
       loginNode = LoginNode {
                  loginAction: loginAction
-                 defaultUserName: defaultUserName
-                 defaultPassword: defaultPassword
+                 defaultUserName: initializer.defaultUserName
+                 defaultPassword: initializer.defaultPassword
               }
       //TODO, why Math.abs????
       var loginWidth = loginNode.boundsInLocal.width + Math.abs(loginNode.boundsInLocal.minX);
       var loginHeight = loginNode.boundsInLocal.height + Math.abs(loginNode.boundsInLocal.minY);
       println("loginNode.boundsInLocal: {loginNode.boundsInLocal}");
       loginWindow = StandardScyWindow {
-         title: "SCY-LAB login"
-         color: Color.GREEN
-         drawerColor: Color.color(0.3, 0.7, 0.3);
+         title: "SCY-Lab login"
+         eloIcon: CharacterEloIcon {
+            iconCharacter: "L"
+            color: loginColor
+         }
+         color: loginColor
+         drawerColor: loginColor;
          height: loginHeight;
          width: loginWidth;
          scyContent: loginNode
@@ -69,46 +66,8 @@ public class LoginDialog extends CustomNode {
       loginWindow.openWindow(loginWidth, loginHeight);
       loginWindow.activated = true;
       FX.deferAction(placeWindowCenter);
-//      placeWindowCenter(loginWindow);
-      windowStyler.style(loginWindow);
 
       return loginWindow;
-   }
-
-   function setDefaultLoginEntries() {
-      // try application parameters
-      defaultUserName = FX.getArgument(userNameName) as String;
-      defaultPassword = FX.getArgument(passwordName) as String;
-      if (defaultUserName == null) {
-         // try web start parameters
-         defaultUserName = getApplicationArgument(userNameName);
-         defaultPassword = getApplicationArgument(passwordName);
-      }
-      if (defaultUserName == null) {
-         // try system properties
-         // TODO does not seem to work
-         defaultUserName = FX.getProperty(userNameName) as String;
-         defaultPassword = FX.getProperty(passwordName) as String;
-      }
-      return defaultUserName != null;
-   }
-
-   function getApplicationArgument(name: String): String {
-      var args = FX.getArguments();
-      var i = 0;
-      while (i < sizeof args) {
-         if (args[i].startsWith("-")) {
-            var lcArg = args[i].toLowerCase();
-            if (lcArg == "-{name}") {
-               i++;
-               if (i < sizeof args) {
-                  return args[i];
-               }
-            }
-         }
-         i++;
-      }
-      return null;
    }
 
    function placeWindowCenter(): Void {
@@ -120,28 +79,26 @@ public class LoginDialog extends CustomNode {
 
    function loginAction(userName: String, password: String): Void {
       println("userName: {userName}, password: {password}");
-      try{
-         var toolBrokerAPI = toolBrokerLogin.login(userName,password);
-         placeScyDescktop(toolBrokerAPI,userName);
-      }
-      catch (e:LoginFailedException){
+      try {
+         var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
+         placeScyDescktop(toolBrokerAPI, userName);
+      } catch (e: LoginFailedException) {
          loginNode.loginFailed();
       }
    }
 
-   function placeScyDescktop(toolBrokerAPI:ToolBrokerAPI,userName:String){
+   function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String) {
       // using the sceneContent, with a copy of scene.content, does work
       // directly adding scyDesktop to scene.content does not seem to work
       var sceneContent = scene.content;
-      var scyDesktop = createScyDesktop(toolBrokerAPI,userName);
+      var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
       scene.content = sceneContent;
    }
-
 }
 
-function run()  {
+function run()   {
    var loginDialog = LoginDialog {
               layoutX: 10
               layoutY: 10

@@ -33,36 +33,158 @@ public class Initializer {
 
    public-init var log4JInitFile = "";
    public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2.jpg";
+   public-init var enableLogging = false;
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
    public-init var lookAndFeel = "nimbus";
-   public-read var backgroundImage: Image;
-   public-read var loggingDirectory: File;
-   public-read var toolBrokerLogin: ToolBrokerLogin;
+   public-init var loginType = "local";
    public-init var localToolBrokerLoginConfigFile: String = "/config/localScyServices.xml";
+   public-init var remoteToolBrokerLoginConfigFile: String = "/config/remoteScyServices.xml";
+   public-init var defaultUserName: String;
+   public-init var defaultPassword: String;
+   public-init var autoLogin = false;
+   public-init var scyDesktopConfigFile: String;
+   public-read var backgroundImage: Image;
+   public-read var loggingDirectory: File = null;
+   public-read var toolBrokerLogin: ToolBrokerLogin;
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
+   def enableLoggingKey = "enableLogging";
    def loggingDirectoryKey = "loggingDirectory";
+   // parameter option names
+   def log4JInitFileOption = "log4JInitFile";
+   def backgroundImageUrlOption = "backgroundImageUrl";
+   def enableLoggingOption = "enableLogging";
+   def loggingDirectoryNameOption = "loggingDirectoryName";
+   def redirectSystemStreamOption = "redirectSystemStream";
+   def lookAndFeelOption = "lookAndFeel";
+   def loginTypeOption = "loginType";
+   def localToolBrokerLoginConfigFileOption = "localToolBrokerLoginConfigFile";
+   def remoteToolBrokerLoginConfigFileOption = "remoteToolBrokerLoginConfigFile";
+   def defaultUserNameOption = "defaultUserName";
+   def defaultPasswordOption = "defaultPassword";
+   def autoLoginOption = "autoLogin";
+   def scyDesktopConfigFileOption = "scyDesktopConfigFile";
 
    init {
+      parseApplicationParameters();
+      parseWebstartParameters();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       setupLog4J();
+//      if (isEmpty(scyDesktopConfigFile)){
+//         throw new IllegalArgumentException("{scyDesktopConfigFileOption} may not be empty");
+//      }
       setupBackgroundImage();
+      System.setProperty(enableLoggingKey, "{enableLogging}");
       var loggingDirectoryKeyValue = "";
-      loggingDirectory = findLoggingDirectory();
-      if (loggingDirectory != null) {
-         if (redirectSystemStream) {
-            doRedirectSystemStream();
+      if (enableLogging) {
+         loggingDirectory = findLoggingDirectory();
+         if (loggingDirectory != null) {
+            if (redirectSystemStream) {
+               doRedirectSystemStream();
+            }
+            loggingDirectoryKeyValue = loggingDirectory.getAbsolutePath();
          }
-         loggingDirectoryKeyValue = loggingDirectory.getAbsolutePath();
       }
+      System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       setLookAndFeel();
-      if (toolBrokerLogin == null) {
-         var localToolBrokerLogin = new LocalToolBrokerLogin();
-         localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
-         toolBrokerLogin = localToolBrokerLogin;
-      }
+      setupToolBrokerLogin();
+   }
 
+   function parseApplicationParameters() {
+      var argumentsList = ArgumentsList {
+                 arguments: FX.getArguments()
+              }
+      while (argumentsList.hasMoreArguments()) {
+         var argument = argumentsList.nextArgument();
+         var lcArg = argument.toLowerCase();
+         if (lcArg.startsWith('-')) {
+            var option = lcArg.substring(1);
+            if (option == log4JInitFileOption.toLowerCase()) {
+               log4JInitFile = argumentsList.nextStringValue(log4JInitFileOption);
+               logger.info("app: {log4JInitFileOption}: {log4JInitFile}");
+            } else if (option == backgroundImageUrlOption.toLowerCase()) {
+               backgroundImageUrl = argumentsList.nextStringValue(backgroundImageUrlOption);
+               logger.info("app: {backgroundImageUrlOption}: {backgroundImageUrl}");
+            } else if (option == enableLoggingOption.toLowerCase()) {
+               enableLogging = argumentsList.nextBooleanValue(enableLoggingOption);
+               logger.info("app: {enableLoggingOption}: {enableLogging}");
+            } else if (option == loggingDirectoryNameOption.toLowerCase()) {
+               loggingDirectoryName = argumentsList.nextStringValue(loggingDirectoryNameOption);
+               logger.info("app: {loggingDirectoryNameOption}: {loggingDirectoryName}");
+            } else if (option == redirectSystemStreamOption.toLowerCase()) {
+               redirectSystemStream = argumentsList.nextBooleanValue(redirectSystemStreamOption);
+               logger.info("app: {redirectSystemStreamOption}: {redirectSystemStream}");
+            } else if (option == lookAndFeelOption.toLowerCase()) {
+               lookAndFeel = argumentsList.nextStringValue(lookAndFeelOption);
+               logger.info("app: {lookAndFeelOption}: {lookAndFeel}");
+            } else if (option == loginTypeOption.toLowerCase()) {
+               loginType = argumentsList.nextStringValue(loginTypeOption);
+               logger.info("app: {loginTypeOption}: {loginType}");
+            } else if (option == localToolBrokerLoginConfigFileOption.toLowerCase()) {
+               localToolBrokerLoginConfigFile = argumentsList.nextStringValue(localToolBrokerLoginConfigFileOption);
+               logger.info("app: {localToolBrokerLoginConfigFileOption}: {localToolBrokerLoginConfigFile}");
+            } else if (option == remoteToolBrokerLoginConfigFileOption.toLowerCase()) {
+               remoteToolBrokerLoginConfigFile = argumentsList.nextStringValue(remoteToolBrokerLoginConfigFileOption);
+               logger.info("app: {remoteToolBrokerLoginConfigFileOption}: {remoteToolBrokerLoginConfigFile}");
+            } else if (option == defaultUserNameOption.toLowerCase()) {
+               defaultUserName = argumentsList.nextStringValue(defaultUserNameOption);
+               logger.info("app: {defaultUserNameOption}: {defaultUserName}");
+            } else if (option == defaultPasswordOption.toLowerCase()) {
+               defaultPassword = argumentsList.nextStringValue(defaultPasswordOption);
+               logger.info("app: {defaultPasswordOption}: {defaultPassword}");
+            } else if (option == autoLoginOption.toLowerCase()) {
+               autoLogin = argumentsList.nextBooleanValue(autoLoginOption);
+               logger.info("app: {autoLoginOption}: {autoLogin}");
+            } else if (option == scyDesktopConfigFileOption.toLowerCase()) {
+               scyDesktopConfigFile = argumentsList.nextStringValue(scyDesktopConfigFileOption);
+               logger.info("app: {scyDesktopConfigFileOption}: {scyDesktopConfigFile}");
+            } else {
+               logger.info("Unknown option: {option}");
+            }
+         } else {
+            logger.info("ignored parameter: {argument}");
+         }
+      }
+   }
+
+   function parseWebstartParameters() {
+      log4JInitFile = getWebstartParameterStringValue(log4JInitFileOption, log4JInitFile);
+      backgroundImageUrl = getWebstartParameterStringValue(backgroundImageUrlOption, backgroundImageUrl);
+      enableLogging = getWebstartParameterBooleanValue(enableLoggingOption, enableLogging);
+      loggingDirectoryName = getWebstartParameterStringValue(loggingDirectoryNameOption, loggingDirectoryName);
+      redirectSystemStream = getWebstartParameterBooleanValue(redirectSystemStreamOption, redirectSystemStream);
+      lookAndFeel = getWebstartParameterStringValue(lookAndFeelOption, lookAndFeel);
+      loginType = getWebstartParameterStringValue(loginTypeOption, loginType);
+      localToolBrokerLoginConfigFile = getWebstartParameterStringValue(localToolBrokerLoginConfigFileOption, localToolBrokerLoginConfigFile);
+      remoteToolBrokerLoginConfigFile = getWebstartParameterStringValue(remoteToolBrokerLoginConfigFileOption, remoteToolBrokerLoginConfigFile);
+      defaultUserName = getWebstartParameterStringValue(defaultUserNameOption, defaultUserName);
+      defaultPassword = getWebstartParameterStringValue(defaultPasswordOption, defaultPassword);
+      autoLogin = getWebstartParameterBooleanValue(autoLoginOption, autoLogin);
+      scyDesktopConfigFile = getWebstartParameterStringValue(scyDesktopConfigFileOption, scyDesktopConfigFile);
+   }
+
+   function getWebstartParameterStringValue(name: String, default: String): String {
+      var webstartValue = FX.getArgument(name) as String;
+      if (isEmpty(webstartValue)) {
+         return default;
+      }
+      logger.info("ws: {name}: {webstartValue}");
+      return webstartValue;
+   }
+
+   function getWebstartParameterBooleanValue(name: String, default: Boolean): Boolean {
+      var webstartValue = FX.getArgument(name) as String;
+      if (isEmpty(webstartValue)) {
+         return default;
+      }
+      var boolValue = "true".equalsIgnoreCase(webstartValue);
+      logger.info("ws: {name}: {boolValue}");
+      return boolValue;
+   }
+
+   public function isEmpty(string: String): Boolean {
+      return string == null or string.length() == 0;
    }
 
    public function getBackgroundImageView(scene: Scene): ImageView {
@@ -156,4 +278,16 @@ public class Initializer {
          return null;
       }
    }
+
+   function setupToolBrokerLogin(){
+      if ("local".equalsIgnoreCase(loginType)){
+          var localToolBrokerLogin = new LocalToolBrokerLogin();
+         localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
+         toolBrokerLogin = localToolBrokerLogin;
+      }
+      else {
+         throw new IllegalArgumentException("unknown login type: {loginType}");
+      }
+   }
+
 }
