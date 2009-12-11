@@ -19,7 +19,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  * @author sikkenj
  */
 var initializer = Initializer{
-
+   scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
 }
 
 function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {
@@ -29,8 +29,6 @@ function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesk
               initializer: initializer;
               toolBrokerAPI:toolBrokerAPI;
               userName:userName;
-              //servicesClassPathConfigLocation: "config/localScyServices.xml";
-              configClassPathConfigLocation: "config/scyDesktopTestConfig.xml";
            }
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
@@ -59,7 +57,7 @@ stage = Stage {
          initializer.getBackgroundImageView(scene),
          LoginDialog {
            createScyDesktop: createScyDesktop
-           toolBrokerLogin:initializer.toolBrokerLogin;
+           initializer:initializer;
         }
       ]
    }

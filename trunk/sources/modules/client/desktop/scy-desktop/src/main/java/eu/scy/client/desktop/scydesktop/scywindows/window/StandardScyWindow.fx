@@ -28,6 +28,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import java.lang.System;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import java.lang.Void;
 
 /**
  * @author sikkenj
@@ -119,6 +122,13 @@ public class StandardScyWindow extends ScyWindow {
    def contentWidth = bind width - borderWidth - 2 * contentBorder - 1;
    def contentHeight = bind height - contentTopOffset - borderWidth / 2 - 2 * contentBorder;
 
+   def activeWindowEffect: Effect = DropShadow {
+      offsetX: 6,
+      offsetY: 6,
+      color: Color.color(0.25,.25,.25)
+   }
+   def inactiveWindowEffect: Effect = null;
+
 	var originalX: Number;
 	var originalY: Number;
 	var originalW: Number;
@@ -183,11 +193,13 @@ public class StandardScyWindow extends ScyWindow {
          if (scyTool!=null){
             scyTool.onGotFocus();
          }
+         this.effect = activeWindowEffect;
       }
       else{
          if (scyTool!=null){
             scyTool.onLostFocus();
          }
+         this.effect = inactiveWindowEffect;
       }
    }
 

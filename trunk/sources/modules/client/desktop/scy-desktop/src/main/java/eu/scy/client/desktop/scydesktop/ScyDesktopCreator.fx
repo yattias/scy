@@ -45,7 +45,7 @@ public class ScyDesktopCreator {
    public-init var toolBrokerAPI: ToolBrokerAPI;
    public-init var userName: String;
    public-init var config: Config;
-   public-init var servicesClassPathConfigLocation: String;
+//   public-init var servicesClassPathConfigLocation: String;
    public-init var servicesFileSystemConfigLocation: String;
    public-init var configClassPathConfigLocation: String;
    public-init var configFileSystemConfigLocation: String;
@@ -58,7 +58,6 @@ public class ScyDesktopCreator {
    def userNameKey = "userName";
 
    init {
-      parseApplicationParameters();
       findConfig();
       if (eloInfoControl == null) {
          eloInfoControl = RooloEloInfoControl {
@@ -88,45 +87,41 @@ public class ScyDesktopCreator {
       }
    }
 
-   function parseApplicationParameters() {
-      var applicationParameters = ApplicationParameters {}
-      servicesClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesClassPathConfigLocation, servicesClassPathConfigLocation);
-      servicesFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.servicesFileSystemConfigLocation, servicesFileSystemConfigLocation);
-      configClassPathConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configClassPathConfigLocation, configClassPathConfigLocation);
-      configFileSystemConfigLocation = applicationParameters.returnValueIfNotEmpty(applicationParameters.configFileSystemConfigLocation, configFileSystemConfigLocation);
-   }
-
    function findConfig() {
       if (config == null) {
          // make it compatible with the situation that services location is not defined
-         if (servicesClassPathConfigLocation == null and servicesFileSystemConfigLocation == null) {
-            servicesClassPathConfigLocation = configClassPathConfigLocation;
-            configClassPathConfigLocation = null;
-            servicesFileSystemConfigLocation = configFileSystemConfigLocation;
-            configFileSystemConfigLocation = null;
+//         if (servicesClassPathConfigLocation == null and servicesFileSystemConfigLocation == null) {
+//            servicesClassPathConfigLocation = configClassPathConfigLocation;
+//            configClassPathConfigLocation = null;
+//            servicesFileSystemConfigLocation = configFileSystemConfigLocation;
+//            configFileSystemConfigLocation = null;
+//         }
+         if (initializer.scyDesktopConfigFile.length()>0){
+            configClassPathConfigLocation = initializer.scyDesktopConfigFile;
          }
+
 
          // set properties, to make them avaible in spring config files
          System.setProperty(userNameKey, userName);
 
          var springConfigFactory = new SpringConfigFactory();
-         if (servicesClassPathConfigLocation != null) {
-            logger.info("reading spring config from class path: {servicesClassPathConfigLocation}");
-            springConfigFactory.initFromClassPath(servicesClassPathConfigLocation);
-         } else if (servicesFileSystemConfigLocation != null) {
-            logger.info("reading spring config from file system: {servicesFileSystemConfigLocation}");
-            springConfigFactory.initFromFileSystem(servicesFileSystemConfigLocation);
+         if (configClassPathConfigLocation != null) {
+            logger.info("reading spring config from class path: {configClassPathConfigLocation}");
+            springConfigFactory.initFromClassPath(configClassPathConfigLocation);
+//         } else if (servicesFileSystemConfigLocation != null) {
+//            logger.info("reading spring config from file system: {servicesFileSystemConfigLocation}");
+//            springConfigFactory.initFromFileSystem(servicesFileSystemConfigLocation);
          } else {
             throw new IllegalStateException("no spring config location defined");
          }
 
-         if (configClassPathConfigLocation != null) {
-            logger.info("adding spring config from class path: {configClassPathConfigLocation}");
-            springConfigFactory.addFromClassPath(configClassPathConfigLocation);
-         } else if (configFileSystemConfigLocation != null) {
-            logger.info("adding spring config from file system: {configFileSystemConfigLocation}");
-            springConfigFactory.addFromFileSystem(configFileSystemConfigLocation);
-         }
+//         if (configClassPathConfigLocation != null) {
+//            logger.info("adding spring config from class path: {configClassPathConfigLocation}");
+//            springConfigFactory.addFromClassPath(configClassPathConfigLocation);
+//         } else if (configFileSystemConfigLocation != null) {
+//            logger.info("adding spring config from file system: {configFileSystemConfigLocation}");
+//            springConfigFactory.addFromFileSystem(configFileSystemConfigLocation);
+//         }
 
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
          if (toolBrokerAPI!=null){

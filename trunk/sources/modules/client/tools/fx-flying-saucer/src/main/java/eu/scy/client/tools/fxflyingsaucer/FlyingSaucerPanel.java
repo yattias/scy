@@ -230,6 +230,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void handlePageLoadFailed(String url_text, Exception ex)
    {
+      logger.info("show error for url: " + url_text,ex);
       isPageLoaded = false;
       final XMLResource xr;
       final String rootCause = getRootCause(ex);
@@ -238,16 +239,16 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
          "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
          "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n" +
+         "<head><title>Document can't be loaded</title></head>\n" +
          "<body>\n" +
          "<h1>Document can't be loaded</h1>\n" +
-         "<p>Could not load the page at \n" +
+         "<p>Could not load the page at </p>\n" +
          "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n" +
-         "</p>\n" +
          "<p>The page failed to load; the error was </p>\n" +
          "<pre>" + msg + "</pre>\n" +
          "</body>\n" +
          "</html>";
-
+      logger.debug("error message xhtml:\n" + notFound);
       xr = XMLResource.load(new StringReader(notFound));
       SwingUtilities.invokeLater(new Runnable()
       {
