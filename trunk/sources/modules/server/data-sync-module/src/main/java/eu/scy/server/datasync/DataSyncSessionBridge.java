@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.muc.MultiUserChat;
@@ -27,6 +28,8 @@ import eu.scy.common.datasync.SyncObject;
  * @author giemza
  */
 public class DataSyncSessionBridge {
+	
+	private final Logger logger = Logger.getLogger(DataSyncSessionBridge.class);
 
 	private String id;
 	private String toolId;
@@ -34,20 +37,26 @@ public class DataSyncSessionBridge {
 
 	private TupleSpace sessionSpace;
 
+	private MultiUserChat muc;
+
 	public DataSyncSessionBridge(String id) {
 		this.id = id;
 		users = new ArrayList<String>();
+		
+		logger.debug("DataSyncSessionBridge initialised for session " + id);
 	}
 
 	public void connect(XMPPConnection connection) throws Exception {
-		MultiUserChat muc = new MultiUserChat(connection, id);
+		muc = new MultiUserChat(connection, id);
 		muc.create(id);
 		Form form = new Form(Form.TYPE_SUBMIT);
 		muc.sendConfigurationForm(form);
+		logger.debug("Successfully connected to MUC session");
 
 		sessionSpace = new TupleSpace(new User("SyncSessionBridge@" + id),
 				Configuration.getInstance().getSQLSpacesServerHost(),
 				Configuration.getInstance().getSQLSpacesServerPort(), id);
+		logger.debug("Successfully connected to TupleSpace");
 	}
 
 	public void process(SyncAction action) {
@@ -74,6 +83,7 @@ public class DataSyncSessionBridge {
 			sat.add(syncObject.getID());
 			sat.add(Field.createWildCardField());
 			sessionSpace.take(sat);
+			logger.debug("Logged object removed event for object " + syncObject.getID() + " into " + id);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -121,6 +131,7 @@ public class DataSyncSessionBridge {
 				nsat.add(key + "=" + value);
 			}
 			sessionSpace.update(sat.getTupleID(), nsat);
+			logger.debug("Logged object update event for object " + syncObject.getID() + " into " + id);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -146,6 +157,7 @@ public class DataSyncSessionBridge {
 		}
 		try {
 			sessionSpace.write(sat);
+			logger.debug("Logged object added event for object " + syncObject.getID() + " into " + id);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -185,5 +197,19 @@ public class DataSyncSessionBridge {
 		if (userName != null && this.users.contains(userName)) {
 			this.users.remove(userName);
 		}
+	}
+
+	public void shutdown() {
+		if(muc.isJoined()) {
+			muc.leave();
+		}
+		try {
+			if(sessionSpace.isConnected()) {
+				sessionSpace.disconnect();
+			}
+		} catch (TupleSpaceException e) {
+			logger.error(e);
+		}
+		logger.debug("Shutdown DataSyncSessionBridge for session " + id);
 	}
 }
