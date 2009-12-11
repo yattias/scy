@@ -3,7 +3,6 @@
  *
  * Created on 8-jul-2009, 17:21:12
  */
-
 package eu.scy.client.tools.fxdrawingtool;
 
 import javafx.scene.Scene;
@@ -15,42 +14,56 @@ import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.tools.fxdrawingtool.registration.DrawingtoolContentCreator;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
  */
+var initializer = Initializer {
+           scyDesktopConfigFile: "config/scyDesktopDrawingTestConfig.xml"
+        }
 
-InitLog4JFX.initLog4J();
+function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+   def scyDrawingId = "drawing";
 
-//def scyDrawingType = "scy/drawing";
-def scyDrawingId = "drawing";
+   var scyDesktopCreator = ScyDesktopCreator {
+              initializer: initializer;
+              toolBrokerAPI: toolBrokerAPI;
+              userName: userName;
+           }
 
-var scyDesktopCreator = ScyDesktopCreator{
-   configClassPathConfigLocation:"config/scyDesktopDrawingTestConfig.xml";
-}
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator {}, scyDrawingId);
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(DrawingtoolContentCreator{},scyDrawingId);
-//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyDrawingType,"drawing");
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+   var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-var scyDesktop = scyDesktopCreator.createScyDesktop();
-
-scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
-      scyDesktop:scyDesktop;
-      repository:scyDesktopCreator.config.getRepository();
-      titleKey:scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
+   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+      scyDesktop: scyDesktop;
+      repository: scyDesktopCreator.config.getRepository();
+      titleKey: scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
 
+   return scyDesktop;
+}
+var stage: Stage;
+var scene: Scene;
 
-var stage = Stage {
-    title: "SCY desktop with drawing tool"
-    width: 400
-    height: 300
-    scene: Scene {
-        content: [
-            scyDesktop
-        ]
-    }
+stage = Stage {
+   title: "SCY desktop with drawing tool"
+   width: 400
+   height: 300
+   scene: scene = Scene {
+      content: [
+         initializer.getBackgroundImageView(scene),
+         LoginDialog {
+            createScyDesktop: createScyDesktop
+            initializer: initializer;
+         }
+      ]
+   }
 }
