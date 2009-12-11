@@ -3,55 +3,66 @@
  *
  * Created on 17 août 2009, 13:49:57
  */
-
 package eu.scy.client.tools.fxfitex;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
-
-import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
-import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
+import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
 /**
  * @author Marjolaine
  */
+var initializer = Initializer {
+           scyDesktopConfigFile: "config/scyDesktopFitexTestConfig.xml"
+        }
 
-
-InitLog4JFX.initLog4J();
-
+function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
 //def scyFitexType = "scy/fitex";
-def scyFitexId = "fitex";
+   def scyFitexId = "fitex";
 
-var scyDesktopCreator = ScyDesktopCreator{
-    configClassPathConfigLocation:"config/scyDesktopFitexTestConfig.xml";
-}
+   var scyDesktopCreator = ScyDesktopCreator {
+              initializer: initializer;
+              toolBrokerAPI: toolBrokerAPI;
+              userName: userName;
+           }
 
-scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator{},scyFitexId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FitexContentCreator {}, scyFitexId);
 //scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFitexType,"fitex");
 
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
-var scyDesktop = scyDesktopCreator.createScyDesktop();
+   var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-scyDesktop.bottomLeftCornerTool = NewScyWindowTool{
-      scyDesktop:scyDesktop;
-      repository:scyDesktopCreator.config.getRepository();
-      titleKey:scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
+   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+      scyDesktop: scyDesktop;
+      repository: scyDesktopCreator.config.getRepository();
+      titleKey: scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+   }
+
+   return scyDesktop;
 }
+var stage: Stage;
+var scene: Scene;
 
-
-var stage = Stage {
-     title: "Data Processing Tool"
-     width: 400
-     height: 300
-     scene: Scene {
-         content: [
-         scyDesktop
+stage = Stage {
+   title: "Data Processing Tool"
+   width: 400
+   height: 300
+   scene: scene = Scene {
+      content: [
+         initializer.getBackgroundImageView(scene),
+         LoginDialog {
+            createScyDesktop: createScyDesktop
+            initializer: initializer;
+         }
       ]
-    }
+   }
 }
-
