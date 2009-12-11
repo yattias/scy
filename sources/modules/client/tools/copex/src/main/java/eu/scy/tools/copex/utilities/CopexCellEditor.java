@@ -5,13 +5,16 @@ import eu.scy.tools.copex.edp.CopexTree;
 import eu.scy.tools.copex.edp.MyWhiteBoardPanel;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FocusTraversalPolicy;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -51,6 +54,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
     protected JLabel taskImageNode;
     private TextTable materialTable;
 
+    private ImageIcon questionIcon;
     private ImageIcon hypothesisIcon;
     private ImageIcon principleIcon;
     private ImageIcon materialIcon;
@@ -66,6 +70,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     private CopexNode node;
 
+    private boolean isDefaultText = false;
     transient private ChangeEvent changeEvent = null;
 
 
@@ -73,6 +78,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         super();
         listenerList = new EventListenerList();
         this.copexTree = copexTree;
+        this.questionIcon= copexTree.getQuestionImageIcon();
         this.hypothesisIcon = copexTree.getHypothesisImageIcon();
         this.principleIcon = copexTree.getPrincipleImageIcon();
         this.materialIcon = copexTree.getMaterialImageIcon();
@@ -131,6 +137,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             labelNode.setName("labelNode");
             labelNode.setFont(CopexTreeCellRenderer.FONT_INTITULE);
             labelNode.setMinimumSize(new Dimension(0,0));
+            labelNode.setFocusable(true);
             this.labelNode.setOpaque(true);
             this.panelNode.add(labelNode);
         }
@@ -163,7 +170,10 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
                 @Override
                 public void focusGained(FocusEvent e) {
-                    
+                    if(isDefaultText){
+                        textNode.setText("");
+                       textNode.setFont(CopexTreeCellRenderer.FONT_NODE);
+                    }
                 }
 
                 @Override
@@ -203,14 +213,16 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         if(value instanceof CopexNode)
             node = (CopexNode)value;
         // icon
-        if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
-            icon.setSize(0,0);
-            icon.setPreferredSize(icon.getSize());
-        }else{
+//        if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
+//            icon.setSize(0,0);
+//            icon.setPreferredSize(icon.getSize());
+//        }else{
             icon.setSize(38,40);
             icon.setPreferredSize(icon.getSize());
-        }
-        if(value instanceof CopexNode && ((CopexNode)value).isHypothesis())
+//        }
+        if(value instanceof CopexNode && ((CopexNode)value).isQuestion())
+            icon.setIcon(questionIcon);
+        else if(value instanceof CopexNode && ((CopexNode)value).isHypothesis())
             icon.setIcon(hypothesisIcon);
         else if(value instanceof CopexNode && ((CopexNode)value).isGeneralPrinciple())
             icon.setIcon(principleIcon);
@@ -258,11 +270,17 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             materialTable = null;
             String defaultText = ((CopexTree)tree).getDefaultDescriptionValue(value);
             getTextNode();
-            if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
-                this.textNode.setFont(CopexTreeCellRenderer.FONT_QUESTION);
-            }else
-                this.textNode.setFont(CopexTreeCellRenderer.FONT_NODE);
-
+            if(text.length() == 0 && defaultText != null){
+                text = defaultText;
+                this.textNode.setFont(CopexTreeCellRenderer.FONT_NODE_DEFAULT_TEXT);
+                isDefaultText = true;
+            }else{
+                isDefaultText = false;
+                if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
+                    this.textNode.setFont(CopexTreeCellRenderer.FONT_QUESTION);
+                }else
+                    this.textNode.setFont(CopexTreeCellRenderer.FONT_NODE);
+            }
             boolean editable = ((CopexTree)tree).isEditableValue(value);
             textNode.setText(text);
             textNode.setEditable(editable);
@@ -290,8 +308,8 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 textNode.setBorder(null);
             textNode.setSize(w, heightText);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
-            String toolTipText = ((CopexTree)tree).getToolTipTextValue(value);
-            textNode.setToolTipText(toolTipText);
+//            String toolTipText = ((CopexTree)tree).getToolTipTextValue(value);
+//            textNode.setToolTipText(toolTipText);
         }
         // comments
         String comment = ((CopexTree)tree).getCommentValue(value);
@@ -386,7 +404,6 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         Dimension dtot = getPreferredSize() ;
         setSize(dtot);
         setPreferredSize(dtot);
-
         return this;
     }
 
@@ -519,9 +536,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         return new Dimension(width, height);
 
     }
-    public void saveText(){
-        this.copexTree.saveNodeText(node, textNode.getText());
-    }
+    
     public void validText(){
         String c = "";
         if(commentNode != null)
