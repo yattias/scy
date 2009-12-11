@@ -53,6 +53,7 @@ public class EdPPanel extends JPanel {
     private boolean procModif;
     /* action du panel*/
     private EdPAction action;
+    private boolean openQuestion=false;
 
 
     /* panel */
@@ -1356,6 +1357,11 @@ public class EdPPanel extends JPanel {
 //       if(!proc.isValidQuestion(getLocale()))
 //            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
         //copexTree.setQuestionEditor();
+        System.out.println("setQuestionDialog");
+        if(!proc.isValidQuestion(getLocale())){
+            System.out.println("setQuestionDialog => openQ à true");
+            openQuestion = true;
+        }
     }
     
     /* chargement ELO */
@@ -1471,6 +1477,10 @@ public class EdPPanel extends JPanel {
          int value = scrollPaneTree.getVerticalScrollBar().getValue();
          this.copexTree.resizeWidth();
          scrollPaneTree.getVerticalScrollBar().setValue(value);
+         if(openQuestion){
+             copexTree.setQuestionEditor();
+             //openQuestion = false;
+         }
      }
 
      public void cut() {
@@ -1789,17 +1799,19 @@ public class EdPPanel extends JPanel {
     }
 
      public String updateQuestion(Question question, String newText, String newComment){
-         if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+        if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
            String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
             displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
             return question.getDescription(getLocale());
         }
-        if (newText.length() == 0){
-            String msg = getBundleString("MSG_ERROR_FIELD_NULL");
-            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
-            displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+        if (newText.length() == 0 ){
+            if(!openQuestion){
+                String msg = getBundleString("MSG_ERROR_FIELD_NULL");
+                msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
+                displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+            }
             return question.getDescription(getLocale());
         }
         if (newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
@@ -1809,7 +1821,6 @@ public class EdPPanel extends JPanel {
             displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
             return question.getDescription(getLocale());
         }
-
         Question oldQuestion = (Question)proc.getQuestion().clone();
         String oldQ = proc.getQuestion().getDescription(getLocale());
         String oldQComment = proc.getQuestion().getComments(getLocale());
@@ -1824,6 +1835,7 @@ public class EdPPanel extends JPanel {
             proc.getQuestion().setComments(CopexUtilities.getTextLocal(oldQComment, getLocale()));
             return oldQ;
         }
+        openQuestion = false;
         LearnerProcedure newProc = (LearnerProcedure)v.get(0);
         updateProc(newProc);
         copexTree.updateQuestion(newProc.getQuestion());
