@@ -1789,7 +1789,7 @@ public class EdPPanel extends JPanel {
     }
 
      public String updateQuestion(Question question, String newText, String newComment){
-        if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+         if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
            String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);

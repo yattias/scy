@@ -134,6 +134,9 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         return this.proc;
     }
    
+    public ImageIcon getQuestionImageIcon(){
+        return this.owner.getCopexImage("icone_AdT_question.png");
+    }
     public ImageIcon getHypothesisImageIcon(){
         return this.owner.getCopexImage("icone_AdT_hypothese.png");
     }
@@ -459,7 +462,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                     return totalWidth;
             int level = node.getLevel() ;
             if (level == 0)
-                return totalWidth - 35;
+                return totalWidth - 45;
             return totalWidth - (level*40);
         }
         return totalWidth ;
@@ -610,18 +613,30 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
      public void setNodeText(CopexNode node, String txt, String comment){
          if(node != null){
              if(node.isHypothesis()){
+                 if(txt.equals(getDefaultDescriptionValue(node))){
+                     txt = "";
+                 }
                  String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt, comment);
                  ((Hypothesis)node.getNode()).setHypothesis(CopexUtilities.getTextLocal(newHyp,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isGeneralPrinciple()){
+                 if(txt.equals(getDefaultDescriptionValue(node))){
+                     txt = "";
+                 }
                  String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt, comment);
                  ((GeneralPrinciple)node.getNode()).setPrinciple(CopexUtilities.getTextLocal(newPrinc,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isEvaluation()){
+                 if(txt.equals(getDefaultDescriptionValue(node))){
+                     txt = "";
+                 }
                  String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt, comment);
                  ((Evaluation)node.getNode()).setEvaluation(CopexUtilities.getTextLocal(newEval,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isQuestion()){
+                 if(txt.equals(owner.getBundleString("MSG_QUESTION"))){
+                     txt = "";
+                 }
                  String newQuestion = this.owner.updateQuestion((Question)node.getNode(), txt, comment);
                  ((Question)node.getNode()).setDescription(CopexUtilities.getTextLocal(newQuestion,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
@@ -630,14 +645,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
          repaint();
      }
 
-     public void saveNodeText(CopexNode node, String txt){
-         if(node != null){
-             if(node.isHypothesis()){
-                 System.out.println("en cache");
-                 
-             }
-         }
-     }
+    
 
     
 

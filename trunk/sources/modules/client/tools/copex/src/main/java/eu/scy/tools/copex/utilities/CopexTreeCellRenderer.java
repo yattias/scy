@@ -66,6 +66,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     protected JLabel taskImageNode;
     private TextTable materialTable;
 
+    private ImageIcon questionIcon;
     private ImageIcon hypothesisIcon;
     private ImageIcon principleIcon;
     private ImageIcon materialIcon;
@@ -84,6 +85,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         super();
         this.copexTree = copexTree;
         // recuperation des images
+        this.questionIcon = copexTree.getQuestionImageIcon();
         this.hypothesisIcon = copexTree.getHypothesisImageIcon();
         this.principleIcon = copexTree.getPrincipleImageIcon();
         this.materialIcon = copexTree.getMaterialImageIcon();
@@ -142,15 +144,17 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         this.setToolTipText(null);
         // icon
-        if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
-            icon.setSize(0,0);
-        }else if(value instanceof TaskTreeNode){
+//        if(value instanceof CopexNode && ((CopexNode)value).isQuestion()){
+//            icon.setSize(0,0);
+        if(value instanceof TaskTreeNode){
             icon.setSize(25, 22);
         }else{
             icon.setSize(38,40);
         }
         icon.setPreferredSize(icon.getSize());
-        if(value instanceof CopexNode && ((CopexNode)value).isHypothesis())
+        if(value instanceof CopexNode && ((CopexNode)value).isQuestion())
+            icon.setIcon(questionIcon);
+        else if(value instanceof CopexNode && ((CopexNode)value).isHypothesis())
             icon.setIcon(hypothesisIcon);
         else if(value instanceof CopexNode && ((CopexNode)value).isGeneralPrinciple())
             icon.setIcon(principleIcon);
@@ -241,7 +245,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             textNode.setText(text);
             textNode.setEditable(editable);
             textNode.setEnabled(editable);
-            int textWidth = CopexUtilities.lenghtOfString(text, getFontMetrics(textNode.getFont()))+5;
+            int textWidth = CopexUtilities.lenghtOfString(text, textNode.getFontMetrics(textNode.getFont()))+5;
             int nbL = textNode.getLineCount() ;
 
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
@@ -256,7 +260,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 heightText = hl;
             heightText = Math.max(nbL*hl, heightText);
             textNode.setSize(w, heightText);
-            nbL = getNbLine(text, w, getFontMetrics(textNode.getFont()));
+            nbL = getNbLine(text, w, textNode.getFontMetrics(textNode.getFont()));
             textNode.setSize(w, nbL*hl+5);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
         }
@@ -346,7 +350,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
 
     public static  int getNbLine(String t, int width, FontMetrics fm){
         String text = new String(t);
-        int nbL = 1;
+        int nbL = (int)(((float)(CopexUtilities.lenghtOfString(t, fm) / width))+1);
         int id1 = 0;
         int id2 = text.indexOf("\n");
         while(id2 != -1 && id2> id1){
