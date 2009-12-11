@@ -3,56 +3,67 @@
  *
  * Created on 04.09.2009, 12:34:29
  */
-
 package eu.scy.client.tools.fxvideo;
-
-
-
-
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
+import eu.scy.client.desktop.scydesktop.Initializer;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+
 /**
  * @author pg
  */
-//InitLog4JFX.initLog4J();
+var initializer = Initializer {
+           scyDesktopConfigFile: "config/scyDesktopVideoTestConfig.xml"
+        }
 
- //def scyWebType = "scy/webressource";
-def scyVideoId = "video";
+function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
+   //def scyWebType = "scy/webressource";
+   def scyVideoId = "video";
 //var test = JAXBTest{};
 //test.show();
 
- var scyDesktopCreator = ScyDesktopCreator {
-     configClassPathConfigLocation: "config/scyDesktopVideoTestConfig.xml";
- }
+   var scyDesktopCreator = ScyDesktopCreator {
+              initializer: initializer;
+              toolBrokerAPI: toolBrokerAPI;
+              userName: userName;
+           }
 
- scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator{}, scyVideoId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
 // scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyWebType, "webressource");
 
-scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
 
 
- var scyDesktop = scyDesktopCreator.createScyDesktop();
- scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+   var scyDesktop = scyDesktopCreator.createScyDesktop();
+   scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
+      scyDesktop: scyDesktop;
+      repository: scyDesktopCreator.config.getRepository();
+      titleKey: scyDesktopCreator.config.getTitleKey();
+      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+   }
+   return scyDesktop;
+}
+var stage: Stage;
+var scene: Scene;
 
-     scyDesktop:scyDesktop;
-     repository:scyDesktopCreator.config.getRepository();
-     titleKey:scyDesktopCreator.config.getTitleKey();
-     technicalFormatKey:scyDesktopCreator.config.getTechnicalFormatKey();
- }
-
-
-Stage {
-    title: "Video"
-    width: 250
-    height: 80
-    scene: Scene {
-        content: [
-                scyDesktop
-        ]
-    }
+stage = Stage {
+   title: "video"
+   width: 400
+   height: 300
+   scene: scene = Scene {
+      content: [
+         initializer.getBackgroundImageView(scene),
+         LoginDialog {
+            createScyDesktop: createScyDesktop
+            initializer: initializer;
+         }
+      ]
+   }
 }
