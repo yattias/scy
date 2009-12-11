@@ -24,8 +24,8 @@
   </resources>
     <application-desc main-class="com.sun.javafx.runtime.Main">
         <argument>MainJavaFXScript=$mainClass</argument>
-        <argument>-servicesClassPathConfigLocation</argument>
-        <argument>config/localWrappedRooloTemporaryConfig.xml</argument>
+        <argument>-localToolBrokerLoginConfigFile</argument>
+        <argument>config/localReadOnlyScyServices.xml</argument>
     </application-desc>
     <update check="always">
 </jnlp>

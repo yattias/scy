@@ -30,6 +30,7 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import javafx.scene.image.ImageView;
 
 /**
  * @author sikkenj
@@ -94,7 +95,14 @@ var stage = Stage {
            height: 700
            scene: scene = Scene {
               content: [
-                 initializer.getBackgroundImageView(scene),
+                 // initializer.getBackgroundImageView(scene),
+                 ImageView {
+                    image: initializer.backgroundImage
+                    fitWidth: bind scene.width
+                    fitHeight: bind scene.height
+                    preserveRatio: false
+                    cache: true
+                 }
                  LoginDialog {
                     createScyDesktop: createScyDesktop
                     initializer: initializer;
