@@ -7,7 +7,6 @@ package eu.scy.client.tools.fxdrawingtool;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
