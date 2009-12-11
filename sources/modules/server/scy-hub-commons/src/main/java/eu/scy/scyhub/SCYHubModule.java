@@ -91,4 +91,9 @@ public abstract class SCYHubModule {
 	 */
 	protected abstract void process(Packet packet, WhacketExtension extension);
 
+	/**
+	 * Notifies the module to shutdown.
+	 */
+	public abstract void shutdown();
+
 }
