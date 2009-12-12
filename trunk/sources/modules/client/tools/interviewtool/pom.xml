@@ -10,8 +10,6 @@
    </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>interviewtool</groupId>
-    <version>1.0</version>
     <artifactId>interviewtool</artifactId>
     <name>interviewtool</name>
     <packaging>jar</packaging>
@@ -40,6 +38,12 @@
             <groupId>javax</groupId>
             <artifactId>jnlp</artifactId>
             <version>0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>scy-desktop</artifactId>
+            <version>${pom.version}</version>
         </dependency>
 
     </dependencies>
