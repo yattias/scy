@@ -91,6 +91,10 @@
 		-->
 	</bean>
 
+   <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+
 	<!-- Proxy for the HTTP-invoker-exported session manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
 	<bean id="httpInvokerSessionManagerProxy"

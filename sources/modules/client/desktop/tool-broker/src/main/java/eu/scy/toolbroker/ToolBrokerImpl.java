@@ -40,7 +40,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     
     private static final Logger logger = Logger.getLogger(ToolBrokerImpl.class.getName());
     
-    private static final String beanConfigurationFile = "beans.xml";
+    private static final String defaultBeanConfigurationFile = "beans.xml";
     
     private ApplicationContext context;
     
@@ -49,7 +49,9 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     private IMetadataTypeManager metaDataTypeManager;
     
     private IExtensionManager extensionManager;
-    
+
+    private IELOFactory eloFactory;
+
     private IActionLogger actionLogger;
     
     private SessionManager sessionManager;
@@ -70,9 +72,13 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 
     private String password;
     
-    
-    @SuppressWarnings("unchecked")
+
     public ToolBrokerImpl(String username, String password) {
+       this(username,password,defaultBeanConfigurationFile);
+    }
+
+    @SuppressWarnings("unchecked")
+    public ToolBrokerImpl(String username, String password, String beanConfigurationFile) {
     	
     	getConnection(username, password);
     	
@@ -82,6 +88,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         repository = (IRepository) context.getBean("repository");
         metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
         extensionManager = (IExtensionManager) context.getBean("extensionManager");
+        eloFactory = (IELOFactory) context.getBean("eloFactory");
         
         // ActionLogger
         actionLogger = (IActionLogger) context.getBean("actionlogger");
@@ -105,7 +112,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
         notificationReceiver.init(xmppConnection);
     }
-    
+
     /**
      * Sets the repository instance into the ToolBroker. Is mainly used for
      * Spring bean injection.
@@ -280,8 +287,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 
 	@Override
 	public IELOFactory getELOFactory() {
-		//TODO implement method
-		return null;
+		return eloFactory;
 	}
 
 }
