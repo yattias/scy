@@ -78,6 +78,12 @@
          <version>${pom.version}</version>
       </dependency>
 
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>tool-broker</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
 
    </dependencies>
 

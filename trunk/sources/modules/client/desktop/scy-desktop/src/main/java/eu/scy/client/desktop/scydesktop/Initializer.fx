@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop;
 
 import javafx.scene.image.Image;
-import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import java.io.File;
 import java.lang.IllegalArgumentException;
@@ -17,12 +16,13 @@ import eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher;
 import java.lang.Thread;
 import java.lang.Exception;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * @author sikken
@@ -280,9 +280,14 @@ public class Initializer {
 
    function setupToolBrokerLogin(){
       if ("local".equalsIgnoreCase(loginType)){
-          var localToolBrokerLogin = new LocalToolBrokerLogin();
+         var localToolBrokerLogin = new LocalToolBrokerLogin();
          localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
          toolBrokerLogin = localToolBrokerLogin;
+      }
+      if ("remote".equalsIgnoreCase(loginType)){
+         var remoteToolBrokerLogin = new RemoteToolBrokerLogin();
+         remoteToolBrokerLogin.setSpringConfigFile(remoteToolBrokerLoginConfigFile);
+         toolBrokerLogin = remoteToolBrokerLogin;
       }
       else {
          throw new IllegalArgumentException("unknown login type: {loginType}");
