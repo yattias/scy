@@ -15,6 +15,7 @@
         <param-value>
             /WEB-INF/applicationcontext-externalcomponents.xml,
             /WEB-INF/agents.xml
+            /WEB-INF/localWrappedRooloConfig.xml
         </param-value>
     </context-param>
 
@@ -58,6 +59,16 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>webapp/*</url-pattern>
     </servlet-mapping-->
+
+
+   <!--
+      - Dispatcher servlet mapping for HTTP remoting via Hessian, Burlap, and
+      - Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
+   -->
+   <servlet-mapping>
+      <servlet-name>remoting</servlet-name>
+      <url-pattern>/remoting/*</url-pattern>
+   </servlet-mapping>
 
 
     <session-config>
