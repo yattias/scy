@@ -12,7 +12,7 @@ import de.fhg.iais.kd.tm.obwious.operator.sandbox.RemoveStopWords;
 import de.fhg.iais.kd.tm.obwious.operator.sandbox.StemTokens;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.atomic.ProvideTermFrequency;
 import de.fhg.iais.kd.tm.obwious.operator.system.feature.modelbased.ProvideTfIdf;
-import eu.scy.agents.keywords.workflow.operators.ExtractTopicModelKeywords;
+import eu.scy.agents.keywords.workflow.operators.ExtractTfIdfKeywords;
 import eu.scy.agents.keywords.workflow.operators.ImprovedTokenize;
 
 public class ExtractTfIdfKeywordsWorkflow extends Workflow {
@@ -23,7 +23,7 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 	private static final String PROVIDE_TOKENS = "ProvideTokens";
 	private static final String TFIDF = "TfIdf";
 	private static final String STEM_TOKENS = "StemTokens";
-	private static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
+	private static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTopicModelKeywords";
 	private static final String REMOVE_STOPWORDS = "RemoveStopwords";
 
 	public ExtractTfIdfKeywordsWorkflow() {
@@ -51,7 +51,7 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 		addOperatorSpecification(PROVIDE_TERM_FREQUENCY, ProvideTermFrequency.class);
 
 		addOperatorSpecification(TFIDF, ProvideTfIdf.class);
-		addOperatorSpecification(EXTRACT_TOPIC_MODEL_KEYWORDS, ExtractTopicModelKeywords.class);
+		addOperatorSpecification(EXTRACT_TFIDF_KEYWORDS, ExtractTfIdfKeywords.class);
 
 		addNamespaceLink(TFIDF, KeywordConstants.DOCUMENT_FREQUENCY);
 
