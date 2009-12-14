@@ -21,22 +21,9 @@ public class ConfigurationOverrider implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            logger.info("------------------------------------------------------------------");
-            logger.info("--- OVERRIDING CONFIGURATION! WISH ME THE BEST!");
-            logger.info("------------------------------------------------------------------");
-
             URL url = ConfigurationOverrider.class.getResource("serverconfig.properties");
-            logger.info("configuration file found in " + url.toString());
             Properties props = new Properties();
             props.load(url.openStream());
-            logger.info("loaded " + props.size() + " keys");
-            logger.info("--------------------------");
-            logger.info("--------------------------");
-            logger.info("--------------------------");
-            logger.info("--------------------------");
-            logger.info("--------------------------");
-            logger.info("--------------------------");
-            //Properties props = System.getProperties();
             int counter = 0;
             for (Object key : props.keySet()) {
                 if (key.toString().startsWith("scyconfig.")) {
@@ -44,20 +31,16 @@ public class ConfigurationOverrider implements ServletContextListener {
                     String keyString = key.toString();
                     keyString = keyString.substring("scyconfig.".length());
                     String prop = props.getProperty(key.toString());
-                    logger.info("PROP=====>" + prop);
                     if (prop != null && !prop.equals("null")) {
                         if (prop.indexOf("$") >= 0) {
                             //hehe - totally freakin hack man!
                         } else {
                             System.setProperty((String) key, prop);
-                            logger.info("OVERRIDDEN PROPERTY: " + key + ":::" + prop);
+                            logger.fine("==> OVERRIDDEN PROPERTY: " + key + ":::" + prop);
                         }
 
 
                     }
-
-                    //System.setProperty(key.toString(), props.getProperty(key.toString()));
-
                 } else {
                     logger.info("NOT USING KEY: " + key.toString());
                 }
