@@ -7,11 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjørge
- * Date: 11.des.2009
- * Time: 19:02:55
- * To change this template use File | Settings | File Templates.
+ * @author Bjoerge
+ * @created 11.des.2009 19:02:55
  */
 public class Diamond extends INodeShape {
 	private int xPoints[] = {100,	200,	100, 0};
