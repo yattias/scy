@@ -25,29 +25,23 @@ import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * This class provides a facility to manage the agents inside SCY.<br>
- * It is used to start/stop/kill single or multiple agents of the same or
- * different kind.<br>
+ * It is used to start/stop/kill single or multiple agents of the same or different kind.<br>
  * <br>
- * 
- * There are some conventions regarding the agents which can be managed using
- * this manager: - All manageable agents must be an implementation of
- * {@link IThreadedAgent}.<br>
+ * There are some conventions regarding the agents which can be managed using this manager: - All
+ * manageable agents must be an implementation of {@link IThreadedAgent}.<br>
  * <br>
- * 
- * - All manageable agents must implement a constructor like {@code
- * MyAgent(Map<String, Object> map)} This maps is usually used to set some
- * properties. If you do not need properties, you can ignore the map exept for
- * the entry <i>"id"</i> which contains the uniqueID ({@link VMID} as String) of
- * the single instances.<br>
+ * - All manageable agents must implement a constructor like {@code MyAgent(Map<String, Object>
+ * map)} This maps is usually used to set some properties. If you do not need properties, you can
+ * ignore the map exept for the entry <i>"id"</i> which contains the uniqueID ({@link VMID} as
+ * String) of the single instances.<br>
  * - The whole inter-agent-communication is handled using the SQLSpaces
- * (http://weinbrenner.collide.info/sqlspaces-site/) and follows following
- * convention:<br/> {@code ("query"|"response"|"agentCommand"), queryID [String],
- * agentID [String], agentName [String], serviceName [String], ....(Payload)}
+ * (http://weinbrenner.collide.info/sqlspaces-site/) and follows following convention:<br/> {@code
+ * ("query"|"response"|"agentCommand"), queryID [String], agentID [String], agentName [String],
+ * serviceName [String], ....(Payload)}
  * 
  * @author Florian Schulz
  * @author Jan Engler
  * @author Stefan Weinbrenner
- * 
  */
 public class AgentManager implements Callback {
 
@@ -59,8 +53,7 @@ public class AgentManager implements Callback {
 
 	private Map<String, Long> agentAlive;
 
-	private static final Logger logger = Logger.getLogger(AgentManager.class
-			.getName());
+	private static final Logger logger = Logger.getLogger(AgentManager.class.getName());
 
 	private static final Level LOGLEVEL = Level.OFF;
 
@@ -73,16 +66,13 @@ public class AgentManager implements Callback {
 	private IMetadataTypeManager manager;
 
 	/**
-	 * This constructor is used to start an agent manager. Please make sure that
-	 * only one instance is running on one SQLSpace. We intentionally used no
-	 * Singleton Pattern or Lazy creation to provide the possibility to have
-	 * several managers running parallel, but you have to know what you are
-	 * doing.
+	 * This constructor is used to start an agent manager. Please make sure that only one instance
+	 * is running on one SQLSpace. We intentionally used no Singleton Pattern or Lazy creation to
+	 * provide the possibility to have several managers running parallel, but you have to know what
+	 * you are doing.
 	 * 
-	 * @param host
-	 *            The host of the SQLSpaces server (e.g. localhost)
-	 * @param port
-	 *            The port of the SQLSpaces server (e.g. 2525)
+	 * @param host The host of the SQLSpaces server (e.g. localhost)
+	 * @param port The port of the SQLSpaces server (e.g. 2525)
 	 */
 	public AgentManager(String host, int port) {
 		initLogger();
@@ -95,16 +85,14 @@ public class AgentManager implements Callback {
 			// TODO COmmand.all
 			tupleSpace = new TupleSpace(new User("AgentManager"), host, port,
 					AgentProtocol.COMMAND_SPACE_NAME);
-			tupleSpace.eventRegister(Command.WRITE,
-					AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
-			tupleSpace.eventRegister(Command.UPDATE,
-					AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
-			tupleSpace.eventRegister(Command.DELETE,
-					AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
+			tupleSpace.eventRegister(Command.WRITE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
+			tupleSpace
+					.eventRegister(Command.UPDATE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
+			tupleSpace
+					.eventRegister(Command.DELETE, AgentProtocol.ALIVE_TUPLE_TEMPLATE, this, true);
 		} catch (TupleSpaceException e) {
 			throw new RuntimeException(
-					"TupleSpace could not be accessed. Agent manager won't work",
-					e);
+					"TupleSpace could not be accessed. Agent manager won't work", e);
 		}
 		Runnable r = new Runnable() {
 
@@ -156,23 +144,20 @@ public class AgentManager implements Callback {
 
 	/**
 	 * This methods sends a stop-Tuple to the passed {@link IThreadedAgent}.<br>
-	 * The agent itself have to make sure that it is stopped correctly.
+	 * The agent itself have to make sure that it is stopped correctly. After sent the tuple, the
+	 * agent is taken from the list of actual agents ( {@code agentIdMap}) and a reference is stored
+	 * in the {@code oldAgents} -Map.<br>
+	 * This is to make sure that if an alive-tuple with the id of an already killed agent is
+	 * received (via callback) this agent can be referenced and killed the <i>"hard way"</i> (via
+	 * {@code Thread.stop()})
 	 * 
-	 * After sent the tuple, the agent is taken from the list of actual agents (
-	 * {@code agentIdMap}) and a reference is stored in the {@code oldAgents}
-	 * -Map.<br>
-	 * This is to make sure that if an alive-tuple with the id of an already
-	 * killed agent is received (via callback) this agent can be referenced and
-	 * killed the <i>"hard way"</i> (via {@code Thread.stop()})
-	 * 
-	 * @param agent
-	 *            The agent to send the stop-tuple
+	 * @param agent The agent to send the stop-tuple
 	 * @return The name of the agent you have forced to stop.
 	 */
 	public String stopAgent(IThreadedAgent agent) {
 		try {
-			tupleSpace.write(AgentProtocol.getStopTuple(agent.getId(), agent
-					.getName(), new VMID()));
+			tupleSpace
+					.write(AgentProtocol.getStopTuple(agent.getId(), agent.getName(), new VMID()));
 			oldAgents.put(agent.getId(), agent);
 			agentIdMap.remove(agent.getId());
 			return agent.getName();
@@ -182,17 +167,14 @@ public class AgentManager implements Callback {
 	}
 
 	/**
-	 * This methods sends a stop-Tuple to the passed agentId({@link VMID} as
-	 * String). The agent itself have to make sure that it is stopped correctly.
+	 * This methods sends a stop-Tuple to the passed agentId({@link VMID} as String). The agent
+	 * itself have to make sure that it is stopped correctly. After sent the tuple, the agent is
+	 * taken from the list of actual agents ( {@code agentIdMap} and a reference is stored in the
+	 * {@code oldAgents}-Map This is to make sure that if an alive-tuple with the id of an already
+	 * killed agent is received (via callback) this agent can be referenced and killed the
+	 * "hard way" ({@code Thread.stop()})
 	 * 
-	 * After sent the tuple, the agent is taken from the list of actual agents (
-	 * {@code agentIdMap} and a reference is stored in the {@code oldAgents}-Map
-	 * This is to make sure that if an alive-tuple with the id of an already
-	 * killed agent is received (via callback) this agent can be referenced and
-	 * killed the "hard way" ({@code Thread.stop()})
-	 * 
-	 * @param agentId
-	 *            The agent's id to send the stop-tuple
+	 * @param agentId The agent's id to send the stop-tuple
 	 * @return The name of the agent you have forced to stop.
 	 */
 	public String stopAgent(String agentId) {
@@ -202,19 +184,14 @@ public class AgentManager implements Callback {
 	/**
 	 * This method is used to start an agent using this manager. To start this
 	 * {@link IThreadedAgent} you have to pass the (fully qualified) name (e.g.
-	 * eu.scy.agents.impl.ThreadedAgentMock) which can be accessed using the
-	 * classpath. You can pass a {@link Map} with properties to the agent. If
-	 * you pass {@code null} instead, a new HashMap with only the instance ID of
-	 * this agent will be created.
+	 * eu.scy.agents.impl.ThreadedAgentMock) which can be accessed using the classpath. You can pass
+	 * a {@link Map} with properties to the agent. If you pass {@code null} instead, a new HashMap
+	 * with only the instance ID of this agent will be created.
 	 * 
-	 * @param name
-	 *            The (fully qualified, classpath accessible) Name of the new
-	 *            Agent
-	 * @param params
-	 *            A {@link Map} with properties. Can be {@code null}
+	 * @param name The (fully qualified, classpath accessible) Name of the new Agent
+	 * @param params A {@link Map} with properties. Can be {@code null}
 	 * @return The new (just started) {@link IThreadedAgent}
-	 * @throws AgentLifecycleException
-	 *             If something went wrong during the creation of the new agent
+	 * @throws AgentLifecycleException If something went wrong during the creation of the new agent
 	 *             (e.g. in the process of reflection) this Exception is thrown
 	 */
 	public IThreadedAgent startAgent(String name, Map<String, Object> params)
@@ -241,48 +218,38 @@ public class AgentManager implements Callback {
 			}
 			// The agent is started
 			agent.start();
-			logger.log(Level.INFO, "Agent started: " + agent.getName()
-					+ ", id: " + agent.getId());
+			logger.log(Level.INFO, "Agent started: " + agent.getName() + ", id: " + agent.getId());
 			return agent;
 		} catch (ClassNotFoundException e) {
 			throw new AgentLifecycleException("Class for agent " + name
 					+ " not found! Could not be started!", e);
 		} catch (SecurityException e) {
-			throw new AgentLifecycleException(
-					"Error during instantiation of agent " + name
-							+ "! Could not be started!", e);
+			throw new AgentLifecycleException("Error during instantiation of agent " + name
+					+ "! Could not be started!", e);
 		} catch (NoSuchMethodException e) {
 			throw new AgentLifecycleException("Agent " + name
-					+ " has no constructor as expected! Could not be started!",
-					e);
+					+ " has no constructor as expected! Could not be started!", e);
 		} catch (IllegalArgumentException e) {
-			throw new AgentLifecycleException(
-					"Error during instantiation of agent " + name
-							+ "! Could not be started!", e);
+			throw new AgentLifecycleException("Error during instantiation of agent " + name
+					+ "! Could not be started!", e);
 		} catch (InstantiationException e) {
-			throw new AgentLifecycleException(
-					"Error during instantiation of agent " + name
-							+ "! Could not be started!", e);
+			throw new AgentLifecycleException("Error during instantiation of agent " + name
+					+ "! Could not be started!", e);
 		} catch (IllegalAccessException e) {
-			throw new AgentLifecycleException(
-					"Error during instantiation of agent " + name
-							+ "! Could not be started!", e);
+			throw new AgentLifecycleException("Error during instantiation of agent " + name
+					+ "! Could not be started!", e);
 		} catch (InvocationTargetException e) {
-			throw new AgentLifecycleException(
-					"Error during instantiation of agent " + name
-							+ "! Could not be started!", e);
+			throw new AgentLifecycleException("Error during instantiation of agent " + name
+					+ "! Could not be started!", e);
 		}
 	}
 
 	/**
-	 * This Method uses the "hard-way" to stop an agent. If an agent is still
-	 * alive although it has been forced to stop the Thread in which this agent
-	 * lives will be stopped by Thread.stop()
+	 * This Method uses the "hard-way" to stop an agent. If an agent is still alive although it has
+	 * been forced to stop the Thread in which this agent lives will be stopped by Thread.stop()
 	 * 
-	 * @param id
-	 *            The uniqueID ({@link VMID} as String) of the agent
-	 * @throws AgentLifecycleException
-	 *             If something went wrong during the killing of this agent this
+	 * @param id The uniqueID ({@link VMID} as String) of the agent
+	 * @throws AgentLifecycleException If something went wrong during the killing of this agent this
 	 *             exception is thrown.
 	 */
 	public void killAgent(String id) throws AgentLifecycleException {
@@ -291,10 +258,9 @@ public class AgentManager implements Callback {
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple,
-			Tuple beforeTuple) {
-		if (AgentProtocol.ALIVE_TUPLE_TEMPLATE.matches(afterTuple)) {
-			if ((Command.WRITE == command) || (Command.UPDATE == command)) {
+	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+		if ((Command.WRITE == command) || (Command.UPDATE == command)) {
+			if (AgentProtocol.ALIVE_TUPLE_TEMPLATE.matches(afterTuple)) {
 				String agentId = (String) afterTuple.getField(2).getValue();
 				long aliveTS = afterTuple.getLastModificationTimestamp();
 				if (oldAgents.containsKey(agentId)) {
@@ -313,17 +279,17 @@ public class AgentManager implements Callback {
 				} else if (agentIdMap.containsKey(agentId)) {
 					agentAlive.put(agentId, aliveTS);
 				}
-			} else if (Command.DELETE == command) {
-				String agentId = (String) beforeTuple.getField(2).getValue();
-				if (oldAgents.containsKey(agentId)) {
-					oldAgents.remove(agentId);
-					startParameters.remove(agentId);
-				} else if (agentIdMap.containsKey(agentId)) {
-					try {
-						restartAgent(agentId);
-					} catch (AgentLifecycleException e) {
-						e.printStackTrace();
-					}
+			}
+		} else if (Command.DELETE == command) {
+			String agentId = (String) beforeTuple.getField(2).getValue();
+			if (oldAgents.containsKey(agentId)) {
+				oldAgents.remove(agentId);
+				startParameters.remove(agentId);
+			} else if (agentIdMap.containsKey(agentId)) {
+				try {
+					restartAgent(agentId);
+				} catch (AgentLifecycleException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -335,10 +301,9 @@ public class AgentManager implements Callback {
 	}
 
 	/*
-	 * This Method is used internally to restart an agent which should be alive
-	 * but isn't. We use the kill method to stop this agent the "hard way" to
-	 * make sure that (a potential) zomie-instance is shut down. After that we
-	 * start an agent using his parameter.
+	 * This Method is used internally to restart an agent which should be alive but isn't. We use
+	 * the kill method to stop this agent the "hard way" to make sure that (a potential)
+	 * zomie-instance is shut down. After that we start an agent using his parameter.
 	 */
 	private void restartAgent(String agentId) throws AgentLifecycleException {
 		logger.log(Level.FINE, "restartAgent with ID: " + agentId);
@@ -349,8 +314,7 @@ public class AgentManager implements Callback {
 	}
 
 	/**
-	 * This method is just for testing purposes. In a later version this methods
-	 * will be deleted.
+	 * This method is just for testing purposes. In a later version this methods will be deleted.
 	 * 
 	 * @return A {@link Map} with the old agents in it.
 	 */
@@ -360,8 +324,7 @@ public class AgentManager implements Callback {
 	}
 
 	/**
-	 * This method is just for testing purposes. In a later version this methods
-	 * will be deleted.
+	 * This method is just for testing purposes. In a later version this methods will be deleted.
 	 * 
 	 * @return A {@link Map} with the actual agents in it.
 	 */
