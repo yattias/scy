@@ -255,6 +255,7 @@ public class Initializer {
          if (lookAndFeelClassName != null) {
             try {
                UIManager.setLookAndFeel(lookAndFeelClassName);
+               logger.info("set lookAndFeel to {lookAndFeel}, class {lookAndFeelClassName}");
             } catch (e: Exception) {
                logger.error("problems with setting the look and feel: {lookAndFeel}", e);
             }
@@ -284,7 +285,7 @@ public class Initializer {
          localToolBrokerLogin.setSpringConfigFile(localToolBrokerLoginConfigFile);
          toolBrokerLogin = localToolBrokerLogin;
       }
-      if ("remote".equalsIgnoreCase(loginType)){
+      else if ("remote".equalsIgnoreCase(loginType)){
          var remoteToolBrokerLogin = new RemoteToolBrokerLogin();
          remoteToolBrokerLogin.setSpringConfigFile(remoteToolBrokerLoginConfigFile);
          toolBrokerLogin = remoteToolBrokerLogin;
