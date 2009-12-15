@@ -112,6 +112,13 @@
         </dependency>
 
 
+        <dependency>
+        	<groupId>eu.scy.client.desktop</groupId>
+        	<artifactId>scy-desktop</artifactId>
+        	<version>${pom.version}</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
