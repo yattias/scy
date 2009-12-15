@@ -107,7 +107,8 @@ public class ChatPanelMain extends JPanel {
 						if(!model.isEmpty()) {
 							for(int i = 0; i<model.getSize(); i++) {
 								chatController.sendMessage(model.elementAt(i), sendMessageTextField.getText());
-								chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");							
+								chatArea.setText(oldText + "me: " + sendMessageTextField.getText() + "\n");		
+								sendMessageTextField.setText("");
 							}							
 						}
 						else {
