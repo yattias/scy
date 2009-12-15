@@ -147,6 +147,13 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>eu.scy.scyhub.ExternalSCYHubComponent</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
