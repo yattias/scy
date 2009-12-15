@@ -66,7 +66,7 @@
       - Spring's HTTP invoker (see remoting-servlet.xml for the controllers).
    -->
    <servlet-mapping>
-      <servlet-name>remoting</servlet-name>
+      <servlet-name>dispatcher</servlet-name>
       <url-pattern>/remoting/*</url-pattern>
    </servlet-mapping>
 
