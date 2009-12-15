@@ -7,12 +7,14 @@ package eu.scy.client.desktop.scydesktop.login;
 
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author sikken
  */
 public class RemoteToolBrokerLogin implements ToolBrokerLogin {
+   private final static Logger logger = Logger.getLogger(RemoteToolBrokerLogin.class);
 
    private String springConfigFile;
 
@@ -36,9 +38,9 @@ public class RemoteToolBrokerLogin implements ToolBrokerLogin {
          return new ToolBrokerImpl(userName,password);
       }
       catch (Exception e){
-
+         logger.error("error during remote login",e);
+         throw new LoginFailedException("exception: " + e.getMessage());
       }
-      throw new UnsupportedOperationException("Not supported yet.");
    }
 
 }
