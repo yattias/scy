@@ -33,12 +33,22 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
     */
     public static void main(String args[]) {
         // Initialisation du look and feel
-        try{
-            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(myLookAndFeel);
-        }catch(Exception e){
-            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
-            //JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
+//        try{
+//            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
+//            UIManager.setLookAndFeel(myLookAndFeel);
+//        }catch(Exception e){
+//            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+//            //JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
+//        }
+        for (UIManager.LookAndFeelInfo laf :UIManager.getInstalledLookAndFeels() ){
+            if ("Nimbus".equals(laf.getName())) {
+                try {
+                    UIManager.setLookAndFeel(laf.getClassName());
+
+                } catch (Exception e) {
+                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                }
+            }
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

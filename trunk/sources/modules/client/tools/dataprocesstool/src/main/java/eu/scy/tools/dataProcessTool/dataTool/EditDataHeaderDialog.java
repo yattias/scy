@@ -58,12 +58,12 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
             this.textFieldUnit.setText(header.getUnit());
         }
         // resize
-        this.labelHeaderName.setSize(MyUtilities.lenghtOfString(this.labelHeaderName.getText(), getFontMetrics(this.labelHeaderName.getFont())), this.labelHeaderName.getHeight());
-        this.labelUnit.setSize(MyUtilities.lenghtOfString(this.labelUnit.getText(), getFontMetrics(this.labelUnit.getFont())), this.labelUnit.getHeight());
+        this.labelHeaderName.setSize(MyUtilities.lenghtOfString(this.labelHeaderName.getText(), labelHeaderName.getFontMetrics(this.labelHeaderName.getFont())), this.labelHeaderName.getHeight());
+        this.labelUnit.setSize(MyUtilities.lenghtOfString(this.labelUnit.getText(), labelUnit.getFontMetrics(this.labelUnit.getFont())), this.labelUnit.getHeight());
         int posx = Math.max(labelHeaderName.getX()+labelHeaderName.getWidth(), labelUnit.getX()+labelUnit.getWidth());
         posx += 10;
-        this.textFieldHeaderName.setBounds(posx, textFieldHeaderName.getY(), textFieldHeaderName.getWidth(), textFieldHeaderName.getHeight());
-        this.textFieldUnit.setBounds(posx, textFieldUnit.getY(), textFieldUnit.getWidth(), textFieldUnit.getHeight());
+        this.textFieldHeaderName.setBounds(posx, textFieldHeaderName.getY()-4, textFieldHeaderName.getWidth(), textFieldHeaderName.getHeight());
+        this.textFieldUnit.setBounds(posx, textFieldUnit.getY()-4, textFieldUnit.getWidth(), textFieldUnit.getHeight());
         int width = 300;
         width = Math.max(textFieldHeaderName.getX()+textFieldHeaderName.getWidth(), textFieldUnit.getX()+textFieldUnit.getWidth());
         width += 20;
@@ -145,14 +145,14 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         getContentPane().add(labelHeaderName);
         labelHeaderName.setBounds(10, 10, 75, 14);
         getContentPane().add(textFieldHeaderName);
-        textFieldHeaderName.setBounds(110, 10, 180, 20);
+        textFieldHeaderName.setBounds(110, 10, 180, 25);
 
         labelUnit.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelUnit.setText(owner.getBundleString("LABEL_HEADER_UNIT"));
         getContentPane().add(labelUnit);
         labelUnit.setBounds(10, 40, 75, 14);
         getContentPane().add(textFieldUnit);
-        textFieldUnit.setBounds(110, 40, 180, 20);
+        textFieldUnit.setBounds(110, 40, 180, 25);
 
         buttonCancel.setText(owner.getBundleString("BUTTON_CANCEL"));
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {

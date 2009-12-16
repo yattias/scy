@@ -207,7 +207,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        labelType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelType.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelType.setText(this.owner.getBundleString("LABEL_TYPE"));
         getContentPane().add(labelType);
         labelType.setBounds(10, 40, 75, 14);
@@ -238,12 +238,14 @@ public class CreateDataVisualDialog extends javax.swing.JDialog {
         getContentPane().add(buttonCancel);
         buttonCancel.setBounds(190, 140, 99, 23);
 
-        labelName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelName.setText(this.owner.getBundleString("LABEL_NAME"));
         getContentPane().add(labelName);
         labelName.setBounds(10, 10, 75, 14);
+
+        fieldName.setPreferredSize(new java.awt.Dimension(6, 26));
         getContentPane().add(fieldName);
-        fieldName.setBounds(90, 10, 230, 20);
+        fieldName.setBounds(90, 10, 230, 26);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

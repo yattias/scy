@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 
 /*
@@ -32,9 +33,13 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     private ImageIcon iconDisabled ;
     private boolean isSelected;
     private String toolTipText;
+    private Color bgColor;
+    private Color bgSelColor;
 
-    public CloseTab(Dataset ds, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
+    public CloseTab(Dataset ds, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
         this.ds = ds;
+        this.bgColor = bgColor;
+        this.bgSelColor = bgSelColor;
         this.title = title;
         this.icon = icon;
         this.iconClic = iconClic;
@@ -63,6 +68,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         }
         labelIcon.setToolTipText(toolTipText);
         add(labelIcon);
+        setOpaque(false);
         setSize(d);
         setPreferredSize(d);
         setSelected(false);
@@ -83,12 +89,13 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         this.isSelected = selected;
         Color color;
         if (selected){
-            color = Color.WHITE;
+            color = bgSelColor;
         }else{
             //color = new Color(238, 238, 238);
-            color = DataProcessToolPanel.backgroundColor;
+            color = bgColor;
         }
         setBackground(color);
+        labelTitle.setBackground(color);
         labelIcon.setBackground(color);
         repaint();
     }

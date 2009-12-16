@@ -61,6 +61,8 @@ public class RenameDatasetDialog extends javax.swing.JDialog {
         labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelName.setText(fitex.getBundleString("LABEL_NAME"));
 
+        fieldName.setPreferredSize(new java.awt.Dimension(6, 27));
+
         buttonOk.setText(fitex.getBundleString("BUTTON_OK"));
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +105,7 @@ public class RenameDatasetDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonOk)
                     .addComponent(buttonCancel))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();

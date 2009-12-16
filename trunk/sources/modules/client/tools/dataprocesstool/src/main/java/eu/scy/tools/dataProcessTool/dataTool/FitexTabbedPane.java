@@ -37,16 +37,16 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
 
     private void initGUI(){
        setName("fitexTabbedPane");
-       UIManager.put("TabbedPane.contentAreaColors", Color.WHITE);
-       UIManager.put("TabbedPane.selectedColor",Color.WHITE);
-       UIManager.put("TabbedPane.selected",Color.WHITE);
-       UIManager.put("TabbedPane.focus",Color.WHITE);
-       UIManager.put("TabbedPane.borderHightlightColor",DataProcessToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.tabAreaBackground",DataProcessToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.light",DataProcessToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabBackground",DataProcessToolPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabHighlight",DataProcessToolPanel.backgroundColor);
-       updateUI();
+//       UIManager.put("TabbedPane.contentAreaColors", Color.WHITE);
+//       UIManager.put("TabbedPane.selectedColor",Color.WHITE);
+//       UIManager.put("TabbedPane.selected",Color.WHITE);
+//       UIManager.put("TabbedPane.focus",Color.WHITE);
+//      UIManager.put("TabbedPane.borderHightlightColor",Color.WHITE);
+//       UIManager.put("TabbedPane.tabAreaBackground",DataProcessToolPanel.backgroundColor);
+//       UIManager.put("TabbedPane.light",DataProcessToolPanel.backgroundColor);
+//       UIManager.put("TabbedPane.unselectedTabBackground",DataProcessToolPanel.backgroundColor);
+//       UIManager.put("TabbedPane.unselectedTabHighlight",DataProcessToolPanel.backgroundColor);
+//       updateUI();
        this.listCloseTab = new ArrayList();
        // initialisation du tabbedPane : onglet vierge afin d'ajouter un dataset
        addTab(null, new JLabel(""));
@@ -54,7 +54,7 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
        ImageIcon  iconRollOver = owner.getCopexImage("Bouton-onglet_ouverture_sur.png");
        ImageIcon  iconClic = owner.getCopexImage("Bouton-onglet_ouverture_cli.png");
        ImageIcon  iconDisabled = owner.getCopexImage("Bouton-onglet_ouverture_grise.png");
-       closeTabAdd = new CloseTab(null, "", iconClose, iconRollOver, iconClic, iconDisabled, owner.getToolTipTextOpen());
+       closeTabAdd = new CloseTab(null,  getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, owner.getToolTipTextOpen());
        closeTabAdd.addActionCloseTab(this);
        setTabComponentAt(0, closeTabAdd);
      }
@@ -104,7 +104,7 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
         if (component instanceof FitexToolPanel){
             ds =((FitexToolPanel)component).getDataset();
         }
-        CloseTab closeTab = new CloseTab(ds, title, iconClose, iconRollOver, iconClic, iconClose, owner.getBundleString("TOOLTIPTEXT_CLOSE_DATASET"));
+        CloseTab closeTab = new CloseTab(ds, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, owner.getBundleString("TOOLTIPTEXT_CLOSE_DATASET"));
         closeTab.addActionCloseTab(this);
         if (component instanceof FitexToolPanel){
             listPanelFitex.add((FitexToolPanel)component);
@@ -170,5 +170,12 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
                 return i;
         }
         return -1;
+    }
+
+    private Color getBgColor(){
+        return UIManager.getColor("TabbedPane.background");
+    }
+    private Color getBgSelColor(){
+        return UIManager.getColor("TabbedPane.highlight");
     }
 }
