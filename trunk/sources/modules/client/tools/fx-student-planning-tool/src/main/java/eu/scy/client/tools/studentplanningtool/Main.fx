@@ -14,21 +14,24 @@ import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolC
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
+import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
+import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-
+import eu.scy.awareness.IAwarenessService;
+import org.apache.log4j.Logger;
 /**
  * @author jeremyt
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopStudentPlanningToolConfig.xml"
-        }
+           loginType:"remote"
+        };
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
    def scychatId = "chat";
+   def scychatpresenceId = "presence";
    def scystudentplanningId = "studentplanningtool";
-   def scypresenceId = "presence";
-//def scytaskId = "task";
-//def scyprogressId = "progress";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -36,15 +39,13 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
               userName: userName;
            }
 
+    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+    logger.info("awarenessService exists: {awarenessService.isConnected()}");
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatId);
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatpresenceId);
+
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
-
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX{}, scychatId);
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentPresenceCreatorFX{}, scypresenceId);
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentTaskCreatorFX{}, scytaskId);
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentProgressCreatorFX{}, scyprogressId);
-
-
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
