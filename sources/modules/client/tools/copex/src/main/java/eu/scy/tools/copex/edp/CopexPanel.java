@@ -166,14 +166,14 @@ public class CopexPanel extends JPanel {
             }
         }
       // Initialisation du look and feel
-        try{
-            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(myLookAndFeel);
-        }catch(Exception e){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
-            JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
-        }
+//        try{
+//            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
+//            UIManager.setLookAndFeel(myLookAndFeel);
+//        }catch(Exception e){
+//            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+//            JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
+//        }
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
       if(applet == null)

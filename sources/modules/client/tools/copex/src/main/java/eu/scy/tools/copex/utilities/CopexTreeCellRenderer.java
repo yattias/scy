@@ -272,9 +272,6 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             this.panelNode.remove(commentNode);
             commentNode = null;
         }else{
-            if(value instanceof CopexNode && ((CopexNode)value).isMaterial()){
-                System.out.println("il y a un comment");
-            }
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             // taille du text area des commentaires
             int nbLC = commentNode.getLineCount() ;
@@ -322,9 +319,12 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 textNode.setBackground(SELECTED_COLOR);
             }
         }else{
+            labelNode.setBackground(new Color(0,0,0,0));
             labelNode.setBackground(BG_COLOR);
-            if(textNode != null)
+            if(textNode != null){
                 textNode.setBackground(BG_COLOR);
+                textNode.setBackground(new Color(0,0,0,0));
+            }
         }
         //drag & drop
         if(value instanceof TaskTreeNode &&( (TaskTreeNode) value ).isMouseover()){
@@ -381,8 +381,11 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             this.textNode.setMinimumSize(new Dimension(0,0));
             this.textNode.setMaximumSize(new Dimension(2147483647, 2147483647));
             this.textNode.setFont(FONT_NODE);
-            this.textNode.setOpaque(true);
+            this.textNode.setOpaque(false);
+            textNode.setBackground(new Color(0,0,0,0));
             this.textNode.setDisabledTextColor(Color.BLACK);
+            this.textNode.setBackground(BG_COLOR);
+            this.textNode.setBorder(null);
             this.panelNode.add(textNode);
         }
         return this.textNode;
@@ -408,7 +411,10 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             this.commentNode.setMaximumSize(new Dimension(2147483647, 2147483647));
             commentNode.setFont(FONT_COMMENT);
             commentNode.setForeground(COMMENT_COLOR);
-            //this.commentNode.setOpaque(true);
+            this.commentNode.setBorder(null);
+            this.commentNode.setBackground(BG_COLOR);
+            commentNode.setBackground(new Color(0,0,0,0));
+            this.commentNode.setOpaque(false);
             //this.commentNode.setBounds(0, this.taskImageNode.getY()+this.taskImageNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());
             this.panelNode.add(commentNode);
         }
@@ -430,11 +436,9 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         Dimension iconD = icon.getSize();
         Dimension repeatD = labelRepeat.getSize();
         Dimension textD = getPanelPreferredSize();
-
         int height = iconD.height < textD.height ?
 					textD.height : iconD.height;
         return new Dimension(iconD.width +repeatD.width+ textD.width+8, height);
-
     }
 
     public Dimension getPanelPreferredSize() {
@@ -454,7 +458,6 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         if(this.materialTable != null){
             materialTableD = this.materialTable.getSize();
         }
-
         int height = labelNodeD.height + textNodeD.height+materialTableD.height + commentNodeD.height+5 + taskImageD.height + taskDrawD.height;
         //int height = labelNodeD.height + commentNodeD.height+5;
 
@@ -463,7 +466,6 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         width = width < textNodeD.width ? textNodeD.width : width ;
         width = width < materialTableD.width ? materialTableD.width : width ;
         return new Dimension(width, height);
-
     }
 
     

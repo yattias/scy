@@ -173,11 +173,12 @@ public class CreateProcDialog extends javax.swing.JDialog {
             }
         });
 
-        labelNameProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelNameProc.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelNameProc.setText(edP.getBundleString("LABEL_PROC_NAME"));
         labelNameProc.setName("labelNameProc"); // NOI18N
 
         fieldProcName.setName("fieldProcName"); // NOI18N
+        fieldProcName.setPreferredSize(new java.awt.Dimension(6, 27));
         fieldProcName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldProcNameActionPerformed(evt);
@@ -237,7 +238,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonOk)
                     .addComponent(buttonCancel))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();

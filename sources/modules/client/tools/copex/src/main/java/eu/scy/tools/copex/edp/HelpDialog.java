@@ -7,6 +7,7 @@
 package eu.scy.tools.copex.edp;
 
 import eu.scy.tools.copex.utilities.CopexUtilities;
+import java.awt.Color;
 import javax.swing.*;
 
 /**
@@ -58,6 +59,9 @@ public class HelpDialog extends javax.swing.JDialog {
         this.jScrollPaneQuestion.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         this.jScrollPaneQuestion.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.jScrollPaneQuestion.setBorder(null);
+        textAreaQuestion.setBackground(new Color(0,0,0,0));
+        textAreaQuestion.setBorder(null);
+
         this.jScrollPaneQuestion.setSize(txtAreaW, h);
         this.textAreaQuestion.setSize(this.jScrollPaneQuestion.getSize());
         this.jScrollPaneQuestion.setBounds(x+10, this.labelHelp.getY()+this.labelHelp.getHeight()+10, this.jScrollPaneQuestion.getWidth(), this.jScrollPaneQuestion.getHeight());
@@ -68,6 +72,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconHypothesis.setBounds(x, this.jScrollPaneQuestion.getY()+jScrollPaneQuestion.getHeight()+10, this.labelIconHypothesis.getWidth(), this.labelIconHypothesis.getHeight());;
         this.textAreaHypothesis.setLineWrap(true);
         this.textAreaHypothesis.setWrapStyleWord(true);
+        textAreaHypothesis.setBackground(new Color(0,0,0,0));
+        textAreaHypothesis.setBorder(null);
         this.textAreaHypothesis.setText(edP.getBundleString("TEXT_HELP_HYPOTHESIS"));
         l = CopexUtilities.lenghtOfString(this.textAreaHypothesis.getText(), getFontMetrics(this.textAreaHypothesis.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -84,6 +90,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconPrinciple.setBounds(x, this.jScrollPaneHypothesis.getY()+jScrollPaneHypothesis.getHeight()+10, this.labelIconPrinciple.getWidth(), this.labelIconPrinciple.getHeight());
         this.textAreaPrinciple.setLineWrap(true);
         this.textAreaPrinciple.setWrapStyleWord(true);
+        textAreaPrinciple.setBackground(new Color(0,0,0,0));
+        textAreaPrinciple.setBorder(null);
         this.textAreaPrinciple.setText(edP.getBundleString("TEXT_HELP_GENERAL_PRINCIPLE"));
         l = CopexUtilities.lenghtOfString(this.textAreaPrinciple.getText(), getFontMetrics(this.textAreaPrinciple.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -100,6 +108,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconMaterial.setBounds(x, this.jScrollPanePrinciple.getY()+jScrollPanePrinciple.getHeight()+10, this.labelIconMaterial.getWidth(), this.labelIconMaterial.getHeight());
         this.textAreaMaterial.setLineWrap(true);
         this.textAreaMaterial.setWrapStyleWord(true);
+        textAreaMaterial.setBackground(new Color(0,0,0,0));
+        textAreaMaterial.setBorder(null);
         this.textAreaMaterial.setText(edP.getBundleString("TEXT_HELP_MATERIAL"));
         l = CopexUtilities.lenghtOfString(this.textAreaMaterial.getText(), getFontMetrics(this.textAreaMaterial.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -116,6 +126,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconManipulation.setBounds(x, this.jScrollPaneMaterial.getY()+jScrollPaneMaterial.getHeight()+10, this.labelIconManipulation.getWidth(), this.labelIconManipulation.getHeight());
         this.textAreaManipulation.setLineWrap(true);
         this.textAreaManipulation.setWrapStyleWord(true);
+        textAreaManipulation.setBackground(new Color(0,0,0,0));
+        textAreaManipulation.setBorder(null);
         this.textAreaManipulation.setText(edP.getBundleString("TEXT_HELP_MANIPULATION"));
         l = CopexUtilities.lenghtOfString(this.textAreaManipulation.getText(), getFontMetrics(this.textAreaManipulation.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -132,6 +144,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconAction.setBounds(x, this.jScrollPaneManipulation.getY() + this.jScrollPaneManipulation.getHeight()+10, this.labelIconAction.getWidth(), this.labelIconAction.getHeight());
         this.textAreaAction.setLineWrap(true);
         this.textAreaAction.setWrapStyleWord(true);
+        textAreaAction.setBackground(new Color(0,0,0,0));
+        textAreaAction.setBorder(null);
         this.textAreaAction.setText(edP.getBundleString("TEXT_HELP_ACTION"));
         l = CopexUtilities.lenghtOfString(this.textAreaAction.getText(), getFontMetrics(this.textAreaAction.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -148,6 +162,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconStep.setBounds(x, this.jScrollPaneAction.getY() + this.jScrollPaneAction.getHeight()+10, this.labelIconStep.getWidth(), this.labelIconStep.getHeight());
         this.textAreaStep.setLineWrap(true);
         this.textAreaStep.setWrapStyleWord(true);
+        textAreaStep.setBackground(new Color(0,0,0,0));
+        textAreaStep.setBorder(null);
         this.textAreaStep.setText(edP.getBundleString("TEXT_HELP_STEP"));
         l = CopexUtilities.lenghtOfString(this.textAreaStep.getText(), getFontMetrics(this.textAreaStep.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -161,6 +177,8 @@ public class HelpDialog extends javax.swing.JDialog {
         // droits
         this.textAreaTaskRight.setLineWrap(true);
         this.textAreaTaskRight.setWrapStyleWord(true);
+        textAreaTaskRight.setBackground(new Color(0,0,0,0));
+        textAreaTaskRight.setBorder(null);
         this.textAreaTaskRight.setText(edP.getBundleString("TEXT_HELP_PROC_STRUCT"));
         l = CopexUtilities.lenghtOfString(this.textAreaTaskRight.getText(), getFontMetrics(this.textAreaTaskRight.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -177,6 +195,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconDatasheet.setBounds(x, this.jScrollPaneRight.getY()+jScrollPaneRight.getHeight()+10, this.labelIconDatasheet.getWidth(), this.labelIconDatasheet.getHeight());
         this.textAreaDatasheet.setLineWrap(true);
         this.textAreaDatasheet.setWrapStyleWord(true);
+        textAreaDatasheet.setBackground(new Color(0,0,0,0));
+        textAreaDatasheet.setBorder(null);
         this.textAreaDatasheet.setText(edP.getBundleString("TEXT_HELP_DATASHEET"));
         l = CopexUtilities.lenghtOfString(this.textAreaDatasheet.getText(), getFontMetrics(this.textAreaDatasheet.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -193,6 +213,8 @@ public class HelpDialog extends javax.swing.JDialog {
         this.labelIconEvaluation.setBounds(x, this.jScrollPaneDatasheet.getY()+jScrollPaneDatasheet.getHeight()+10, this.labelIconEvaluation.getWidth(), this.labelIconEvaluation.getHeight());
         this.textAreaEvaluation.setLineWrap(true);
         this.textAreaEvaluation.setWrapStyleWord(true);
+        textAreaEvaluation.setBackground(new Color(0,0,0,0));
+        textAreaEvaluation.setBorder(null);
         this.textAreaEvaluation.setText(edP.getBundleString("TEXT_HELP_EVALUATION"));
         l = CopexUtilities.lenghtOfString(this.textAreaEvaluation.getText(), getFontMetrics(this.textAreaEvaluation.getFont()));
         h = ((l / txtAreaW) + 2)*15;
@@ -291,7 +313,7 @@ public class HelpDialog extends javax.swing.JDialog {
 
         labelHelp.setName("labelHelp"); // NOI18N
         getContentPane().add(labelHelp);
-        labelHelp.setBounds(20, 10, 20, 10);
+        labelHelp.setBounds(20, 10, 20, 15);
 
         jScrollPaneQuestion.setName("jScrollPaneQuestion"); // NOI18N
 
@@ -302,6 +324,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaQuestion.setLineWrap(true);
         textAreaQuestion.setRows(5);
         textAreaQuestion.setName("textAreaQuestion"); // NOI18N
+        textAreaQuestion.setOpaque(false);
         jScrollPaneQuestion.setViewportView(textAreaQuestion);
 
         getContentPane().add(jScrollPaneQuestion);
@@ -312,7 +335,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaAction.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaAction.setColumns(20);
         textAreaAction.setEditable(false);
-        textAreaAction.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaAction.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaAction.setLineWrap(true);
         textAreaAction.setRows(5);
         textAreaAction.setName("textAreaAction"); // NOI18N
@@ -326,7 +349,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaStep.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaStep.setColumns(20);
         textAreaStep.setEditable(false);
-        textAreaStep.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaStep.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaStep.setLineWrap(true);
         textAreaStep.setRows(5);
         textAreaStep.setName("textAreaStep"); // NOI18N
@@ -340,7 +363,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaTaskRight.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaTaskRight.setColumns(20);
         textAreaTaskRight.setEditable(false);
-        textAreaTaskRight.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaTaskRight.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaTaskRight.setLineWrap(true);
         textAreaTaskRight.setRows(5);
         textAreaTaskRight.setName("textAreaTaskRight"); // NOI18N
@@ -366,6 +389,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaHypothesis.setLineWrap(true);
         textAreaHypothesis.setRows(5);
         textAreaHypothesis.setName("textAreaHypothesis"); // NOI18N
+        textAreaHypothesis.setOpaque(false);
         jScrollPaneHypothesis.setViewportView(textAreaHypothesis);
 
         getContentPane().add(jScrollPaneHypothesis);
@@ -394,7 +418,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaMaterial.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaMaterial.setColumns(20);
         textAreaMaterial.setEditable(false);
-        textAreaMaterial.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaMaterial.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaMaterial.setLineWrap(true);
         textAreaMaterial.setRows(5);
         textAreaMaterial.setName("textAreaMaterial"); // NOI18N
@@ -408,7 +432,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaManipulation.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaManipulation.setColumns(20);
         textAreaManipulation.setEditable(false);
-        textAreaManipulation.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaManipulation.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaManipulation.setLineWrap(true);
         textAreaManipulation.setRows(5);
         textAreaManipulation.setName("textAreaManipulation"); // NOI18N
@@ -422,7 +446,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaDatasheet.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaDatasheet.setColumns(20);
         textAreaDatasheet.setEditable(false);
-        textAreaDatasheet.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaDatasheet.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaDatasheet.setLineWrap(true);
         textAreaDatasheet.setRows(5);
         textAreaDatasheet.setName("textAreaDatasheet"); // NOI18N
@@ -436,7 +460,7 @@ public class HelpDialog extends javax.swing.JDialog {
         textAreaEvaluation.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         textAreaEvaluation.setColumns(20);
         textAreaEvaluation.setEditable(false);
-        textAreaEvaluation.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        textAreaEvaluation.setFont(new java.awt.Font("Tahoma", 0, 11));
         textAreaEvaluation.setLineWrap(true);
         textAreaEvaluation.setRows(5);
         textAreaEvaluation.setName("textAreaEvaluation"); // NOI18N

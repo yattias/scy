@@ -79,7 +79,7 @@ public class EditProcDialog extends javax.swing.JDialog {
             jScrollPane1 = null;
             textAreaMission = null;
             this.labelProc.setBounds(10,10,labelProc.getWidth(), labelProc.getHeight());
-            this.textFieldProc.setBounds(labelProc.getX()+labelProc.getWidth()+5, labelProc.getY()-3, textFieldProc.getWidth(), textFieldProc.getHeight());
+            this.textFieldProc.setBounds(labelProc.getX()+labelProc.getWidth()+5, labelProc.getY()-5, textFieldProc.getWidth(), textFieldProc.getHeight());
             if(buttonOk != null){
                 buttonOk.setBounds(buttonOk.getX(), textFieldProc.getY()+textFieldProc.getHeight()+20, buttonOk.getWidth(), buttonOk.getHeight());
             }
@@ -170,7 +170,7 @@ public class EditProcDialog extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        labelMission.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelMission.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelMission.setText(edP.getBundleString("LABEL_MISSION"));
         labelMission.setName("labelMission"); // NOI18N
         getContentPane().add(labelMission);
@@ -191,20 +191,21 @@ public class EditProcDialog extends javax.swing.JDialog {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(110, 10, 250, 90);
 
-        labelProc.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelProc.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelProc.setText(edP.getBundleString("LABEL_PROC"));
         labelProc.setName("labelProc"); // NOI18N
         getContentPane().add(labelProc);
         labelProc.setBounds(20, 110, 75, 14);
 
         textFieldProc.setName("textFieldProc"); // NOI18N
+        textFieldProc.setPreferredSize(new java.awt.Dimension(6, 27));
         textFieldProc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 textFieldProcKeyReleased(evt);
             }
         });
         getContentPane().add(textFieldProc);
-        textFieldProc.setBounds(110, 110, 250, 20);
+        textFieldProc.setBounds(110, 110, 250, 27);
 
         buttonOk.setText(edP.getBundleString("BUTTON_OK"));
         buttonOk.setName("buttonOk"); // NOI18N
