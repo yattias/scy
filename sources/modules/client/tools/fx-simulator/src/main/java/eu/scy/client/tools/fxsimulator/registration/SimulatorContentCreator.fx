@@ -16,13 +16,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JTextArea;
 import roolo.elo.api.IELO;
-import eu.scy.toolbroker.ToolBrokerImpl;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class SimulatorContentCreator extends WindowContentCreatorFX {
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
    public var simulationUriString:String = "http://scy.collide.info/balance.sqzx";
+   public var toolBrokerAPI:ToolBrokerAPI;
 
    public override function getScyWindowContent(eloUri:URI, scyWindow:ScyWindow):Node{
       var newElo:IELO  = repository.retrieveELO(eloUri);
@@ -50,7 +51,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
         
-        var tbi:ToolBrokerImpl = new ToolBrokerImpl("Jan", "jan");
+        //var tbi:ToolBrokerImpl = new ToolBrokerImpl("Jan", "jan");
         //var tbi.registerForNotifications(this);
 
         var simquestPanel = new JPanel();
@@ -65,7 +66,7 @@ public class SimulatorContentCreator extends WindowContentCreatorFX {
         	simquestViewer.getInterfacePanel().setMinimumSize(new Dimension(450,450));
             simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
 
-            dataCollector = new DataCollector(simquestViewer, tbi);
+            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI);
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
 
             eloSimQuestWrapper = new EloSimQuestWrapper(dataCollector);

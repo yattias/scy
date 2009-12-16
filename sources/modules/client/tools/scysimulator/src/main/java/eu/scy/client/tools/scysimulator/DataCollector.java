@@ -1,6 +1,5 @@
 package eu.scy.client.tools.scysimulator;
 
-//import eu.scy.client.tools.scysimulator.logger.Logger;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -27,7 +26,7 @@ import org.jdom.JDOMException;
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
-import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.actionlogging.DevNullActionLogger;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
 import eu.scy.collaborationservice.CollaborationServiceException;
@@ -36,6 +35,7 @@ import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import org.apache.log4j.Logger;
 
 /**
  * This class collects datapoints from a SimQuest simulation and stores them as an ELO.
@@ -45,36 +45,31 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  */
 public class DataCollector extends JPanel implements ActionListener, IDataClient, WindowListener {
 
-    private static final long serialVersionUID = -2306183502112904729L;
-
     private ISimQuestViewer simquestViewer;
-
     private JTextArea text = new JTextArea(5, 20);
-
     private SCYDataAgent dataAgent;
-
     private List<ModelVariable> simulationVariables;
-
     private List<ModelVariable> selectedVariables;
-
     private JCheckBox checkbox;
-
     private DataSet dataset;
-
     private JToggleButton sandboxbutton;
-
     private DatasetSandbox sandbox = null;
-
     private BalanceSlider balanceSlider;
-
     private ScySimLogger logger;
-
+    private Logger debugLogger;
     private ToolBrokerAPI tbi;
 
-    public DataCollector(ISimQuestViewer simquestViewer,ToolBrokerAPI tbi ) {
-        // initialize the logger
+    public DataCollector(ISimQuestViewer simquestViewer,ToolBrokerAPI tbi) {
+        // initialize the logger(s)
+        debugLogger = Logger.getLogger(DataCollector.class.getName());
         this.tbi = tbi;
-        logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
+        if (tbi.getActionLogger() != null) {
+            debugLogger.info("setting action logger to "+tbi.getActionLogger());
+            logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
+        } else {
+            debugLogger.info("setting action logger to DevNullActionLogger");
+            logger = new ScySimLogger(simquestViewer.getDataServer(), new DevNullActionLogger());
+        }
         // initialize user interface
         initGUI();
         logger.toolStarted();
@@ -90,7 +85,6 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         simquestViewer.getDataServer().register(dataAgent);
 
         balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
-
     }
 
     private void initGUI() {
@@ -110,7 +104,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         button.addActionListener(this);
         buttonPanel.add(button);
 
-        sandboxbutton = new JToggleButton("sandbox");
+        sandboxbutton = new JToggleButton("synchronise");
         sandboxbutton.setSelected(false);
         sandboxbutton.setActionCommand("sandbox");
         sandboxbutton.addActionListener(this);
@@ -277,14 +271,19 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
 
     private void initSandbox() {
         try { // init the sandbox
+        	if (tbi==null || tbi.getDataSyncService()==null) {
+        		throw new CollaborationServiceException("no datasyncservice available");
+        	}
             sandbox = new DatasetSandbox(this, tbi);
             text.append("sandbox initialised.\n");
             ISyncSession session = sandbox.createSession();
-            text.append("session created: " + session.getId() + ".\n");
+            text.append("session created: " + session.getId() + "\n");
+            JOptionPane.showMessageDialog(this, "A sychronised session has been created; use the identifier\n in the text box below to join this session", "Session created", JOptionPane.INFORMATION_MESSAGE);
         } catch (CollaborationServiceException ex) {
             text.append("could not initialise sandbox.\n");
             text.append(ex.getMessage() + "\n");
             sandboxbutton.setSelected(false);
+            JOptionPane.showMessageDialog(this, "A synchronised session could not be created.\nIs a DataSyncService really available?", "Session not created", JOptionPane.WARNING_MESSAGE);
         }
     }
 
