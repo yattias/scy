@@ -17,11 +17,13 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikken
  */
 // place your code here
+def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 public class LoginDialog extends CustomNode {
 
    public var initializer: Initializer;
@@ -81,6 +83,14 @@ public class LoginDialog extends CustomNode {
       println("userName: {userName}, password: {password}");
       try {
          var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
+         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}");
+         logger.info("tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}");
+         logger.info("tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}");
+         logger.info("tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}");
+         logger.info("tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}");
+         logger.info("tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}");
+         logger.info("tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}");
+         logger.info("tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
          placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {
          loginNode.loginFailed();
