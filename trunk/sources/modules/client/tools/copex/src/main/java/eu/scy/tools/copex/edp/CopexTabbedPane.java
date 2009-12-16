@@ -47,16 +47,16 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
 
 
     protected void init(){
-       UIManager.put("TabbedPane.contentAreaColor",Color.WHITE);
-       UIManager.put("TabbedPane.selectedColor",Color.WHITE);
-       UIManager.put("TabbedPane.selected",Color.WHITE);
-       UIManager.put("TabbedPane.focus",Color.WHITE);
-       UIManager.put("TabbedPane.borderHightlightColor",CopexPanel.backgroundColor);
-       UIManager.put("TabbedPane.tabAreaBackground",CopexPanel.backgroundColor);
-       UIManager.put("TabbedPane.light",CopexPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabBackground",CopexPanel.backgroundColor);
-       UIManager.put("TabbedPane.unselectedTabHighlight",CopexPanel.backgroundColor);
-       updateUI();
+//       UIManager.put("TabbedPane.contentAreaColor",Color.WHITE);
+//       UIManager.put("TabbedPane.selectedColor",Color.WHITE);
+//       UIManager.put("TabbedPane.selected",Color.WHITE);
+//       UIManager.put("TabbedPane.focus",Color.WHITE);
+//       UIManager.put("TabbedPane.borderHightlightColor",CopexPanel.backgroundColor);
+//       UIManager.put("TabbedPane.tabAreaBackground",CopexPanel.backgroundColor);
+//       UIManager.put("TabbedPane.light",CopexPanel.backgroundColor);
+//       UIManager.put("TabbedPane.unselectedTabBackground",CopexPanel.backgroundColor);
+//       UIManager.put("TabbedPane.unselectedTabHighlight",CopexPanel.backgroundColor);
+//       updateUI();
        this.listCloseTab = new ArrayList();
        // initialisation du tabbedPane : onglet vierge afin d'ajouter un proc
        addTab(null, new JLabel(""));
@@ -64,7 +64,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
        ImageIcon  iconRollOver = copex.getCopexImage("Bouton-onglet_ouverture_sur.png");
        ImageIcon  iconClic = copex.getCopexImage("Bouton-onglet_ouverture_cli.png");
        ImageIcon  iconDisabled = copex.getCopexImage("Bouton-onglet_ouverture_grise.png");
-        closeTabAdd = new CloseTab(null, "", iconClose, iconRollOver, iconClic, iconDisabled, copex.getToolTipTextOpen());
+        closeTabAdd = new CloseTab(null, getBgColor(), getBgSelColor(),"", iconClose, iconRollOver, iconClic, iconDisabled, copex.getToolTipTextOpen());
         closeTabAdd.addActionCloseTab(this);
         setTabComponentAt(0, closeTabAdd);
    }
@@ -87,7 +87,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         if (component instanceof EdPPanel){
             p =((EdPPanel)component).getLearnerProc();
         }
-        CloseTab closeTab = new CloseTab(p, title, iconClose, iconRollOver, iconClic, iconClose, copex.getBundleString("TOOLTIPTEXT_CLOSE_PROC"));
+        CloseTab closeTab = new CloseTab(p, getBgColor(), getBgSelColor(),title, iconClose, iconRollOver, iconClic, iconClose, copex.getBundleString("TOOLTIPTEXT_CLOSE_PROC"));
         closeTab.addActionCloseTab(this);
         if (component instanceof EdPPanel){
             listCopexPanel.add((EdPPanel)component);
@@ -245,7 +245,12 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         }
     }
 
-
+    private Color getBgColor(){
+        return UIManager.getColor("TabbedPane.background");
+    }
+    private Color getBgSelColor(){
+        return UIManager.getColor("TabbedPane.highlight");
+    }
       
 
     

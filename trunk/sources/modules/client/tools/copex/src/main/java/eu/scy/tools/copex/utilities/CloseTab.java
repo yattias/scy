@@ -31,11 +31,15 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
     private ImageIcon iconDisabled ;
     private boolean isSelected;
     private String toolTipText;
+    private Color bgColor;
+    private Color bgSelColor;
     
     
     // CONSTRUCTEURS
-    public CloseTab(LearnerProcedure proc, String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
+    public CloseTab(LearnerProcedure proc, Color bgColor,Color bgSelColor,String title, ImageIcon icon, ImageIcon iconSurvol, ImageIcon iconClic, ImageIcon iconDisabled, String toolTipText){
         this.proc = proc;
+        this.bgColor = bgColor;
+        this.bgSelColor = bgSelColor;
         this.title = title;
         this.icon = icon;
         this.iconClic = iconClic;
@@ -72,6 +76,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
             labelIcon.setBounds(0, 2, 20, labelTitle.getHeight());
             d = new Dimension(15, 16);
         }
+        setOpaque(false);
         labelIcon.setToolTipText(toolTipText);
         add(labelIcon);
         setSize(d);
@@ -94,12 +99,13 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         this.isSelected = selected;
         Color color;
         if (selected){
-            color = Color.WHITE;
+            color = bgSelColor;
         }else{
             //color = new Color(238, 238, 238);
-            color = CopexPanel.backgroundColor;
+            color = bgColor;
         }
         setBackground(color);
+        labelTitle.setBackground(color);
         labelIcon.setBackground(color);
         repaint();
     }

@@ -613,23 +613,20 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
      public void setNodeText(CopexNode node, String txt, String comment){
          if(node != null){
              if(node.isHypothesis()){
-                 if(txt.equals(getDefaultDescriptionValue(node))){
+                 if(txt.equals(owner.getBundleString("DEFAULT_TEXT_HYPOTHESIS"))){
                      txt = "";
                  }
                  String newHyp = this.owner.updateHypothesis((Hypothesis)node.getNode(), txt, comment);
                  ((Hypothesis)node.getNode()).setHypothesis(CopexUtilities.getTextLocal(newHyp,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isGeneralPrinciple()){
-                 if(txt.equals(getDefaultDescriptionValue(node))){
+                 if(txt.equals(owner.getBundleString("DEFAULT_TEXT_PRINCIPLE"))){
                      txt = "";
                  }
                  String newPrinc = this.owner.updateGeneralPrinciple((GeneralPrinciple)node.getNode(), txt, comment);
                  ((GeneralPrinciple)node.getNode()).setPrinciple(CopexUtilities.getTextLocal(newPrinc,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
              }else if(node.isEvaluation()){
-                 if(txt.equals(getDefaultDescriptionValue(node))){
-                     txt = "";
-                 }
                  String newEval = this.owner.updateEvaluation((Evaluation)node.getNode(), txt, comment);
                  ((Evaluation)node.getNode()).setEvaluation(CopexUtilities.getTextLocal(newEval,owner.getLocale()));
                  copexTreeModel.nodeChanged(node);
@@ -858,6 +855,18 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     private boolean  isComments(CopexNode node){
         if(node.isQuestion()){
             if(((Question)node.getNode()).getComments(owner.getLocale()) != null && !((Question)node.getNode()).getComments(owner.getLocale()).equals(""))
+                return true;
+        }
+        else if(node.isHypothesis()){
+            if(((Hypothesis)node.getNode()).getComment(owner.getLocale()) != null && !((Hypothesis)node.getNode()).getComment(owner.getLocale()).equals(""))
+                return true;
+        }
+        else if(node.isGeneralPrinciple()){
+            if(((GeneralPrinciple)node.getNode()).getComment(owner.getLocale()) != null && !((GeneralPrinciple)node.getNode()).getComment(owner.getLocale()).equals(""))
+                return true;
+        }
+        else if(node.isEvaluation()){
+            if(((Evaluation)node.getNode()).getComment(owner.getLocale()) != null && !((Evaluation)node.getNode()).getComment(owner.getLocale()).equals(""))
                 return true;
         }
        if (node instanceof TaskTreeNode && ((TaskTreeNode)node).getTask().getComments(owner.getLocale()) != null && !((TaskTreeNode)node).getTask().getComments(owner.getLocale()).equals(""))

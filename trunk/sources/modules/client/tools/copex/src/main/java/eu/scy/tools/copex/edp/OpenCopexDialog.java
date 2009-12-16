@@ -190,7 +190,7 @@ public class OpenCopexDialog  extends JDialog  {
         if(fieldName == null){
             fieldName = new JTextField();
             fieldName.setName("fieldName");
-            fieldName.setBounds(labelCreateName.getX()+labelCreateName.getWidth()+5, labelCreateName.getY()-3, 230,20);
+            fieldName.setBounds(labelCreateName.getX()+labelCreateName.getWidth()+5, labelCreateName.getY()-5, 230,27);
         }
         return fieldName;
     }
