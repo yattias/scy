@@ -24,6 +24,8 @@ import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCrea
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
 
+import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
+import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
@@ -37,6 +39,7 @@ import javafx.scene.image.ImageView;
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
+           loginType:"remote"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -50,6 +53,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyMapperId = "conceptmap";
    def scyStudentPlanningTool = "studentplanningtool";
    def scyTextId = "text";
+   def scychatId = "chat";
+   def scychatpresenceId = "presence";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -78,6 +83,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {}, scychatpresenceId);
+
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {
@@ -95,14 +103,14 @@ var stage = Stage {
            height: 700
            scene: scene = Scene {
               content: [
-                 // initializer.getBackgroundImageView(scene),
-                 ImageView {
-                    image: initializer.backgroundImage
-                    fitWidth: bind scene.width
-                    fitHeight: bind scene.height
-                    preserveRatio: false
-                    cache: true
-                 }
+                 initializer.getBackgroundImageView(scene),
+//                 ImageView {
+//                    image: initializer.backgroundImage
+//                    fitWidth: bind scene.width
+//                    fitHeight: bind scene.height
+//                    preserveRatio: false
+//                    cache: true
+//                 }
                  LoginDialog {
                     createScyDesktop: createScyDesktop
                     initializer: initializer;
