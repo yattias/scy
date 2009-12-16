@@ -27,12 +27,12 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
     }
 
     public var node:Node;
-    public var iAwarenessService:IAwarenessService;
+    public var awarenessService:IAwarenessService;
    //public var metadataTypeManager: IMetadataTypeManager;
    // public var repository:IRepository;
 
     function createChatPresenceToolNode(scyWindow:ScyWindow):ChatPresenceToolNode{
-        var chatPresenceTool = new ChatPresencePanelMain(iAwarenessService);
+        var chatPresenceTool = new ChatPresencePanelMain(awarenessService);
 
         return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;

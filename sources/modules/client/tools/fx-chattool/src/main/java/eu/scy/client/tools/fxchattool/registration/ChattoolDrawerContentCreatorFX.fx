@@ -27,12 +27,12 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     }
 
     public var node:Node;
-    public var iAwarenessService:IAwarenessService;
+    public var awarenessService:IAwarenessService;
    //public var metadataTypeManager: IMetadataTypeManager;
    // public var repository:IRepository;
 
     function createChatToolNode(scyWindow:ScyWindow):ChatToolNode {
-        var chatTool = new ChatPanelMain(iAwarenessService);
+        var chatTool = new ChatPanelMain(awarenessService);
 
         return ChatToolNode{chatTool:chatTool;}
    }
