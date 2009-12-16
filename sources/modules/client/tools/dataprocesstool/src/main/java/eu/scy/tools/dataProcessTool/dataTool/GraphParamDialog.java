@@ -303,7 +303,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
         getContentPane().add(labelDeltaX);
         labelDeltaX.setBounds(320, 50, 50, 14);
 
-        labelYMin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelYMin.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelYMin.setText(dataToolPanel.getBundleString("LABEL_YMIN"));
         getContentPane().add(labelYMin);
         labelYMin.setBounds(10, 90, 50, 14);
@@ -317,18 +317,30 @@ public class GraphParamDialog extends javax.swing.JDialog {
         labelDeltaY.setText(dataToolPanel.getBundleString("LABEL_DELTAY"));
         getContentPane().add(labelDeltaY);
         labelDeltaY.setBounds(320, 90, 50, 14);
+
+        textFieldXMin.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldXMin);
-        textFieldXMin.setBounds(70, 50, 80, 20);
+        textFieldXMin.setBounds(70, 45, 80, 27);
+
+        textFieldXMax.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldXMax);
-        textFieldXMax.setBounds(220, 50, 80, 20);
+        textFieldXMax.setBounds(220, 45, 80, 27);
+
+        textFieldDeltaX.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldDeltaX);
-        textFieldDeltaX.setBounds(380, 50, 80, 20);
+        textFieldDeltaX.setBounds(380, 45, 80, 27);
+
+        textFieldYMin.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldYMin);
-        textFieldYMin.setBounds(70, 90, 80, 20);
+        textFieldYMin.setBounds(70, 85, 80, 27);
+
+        textFieldYMax.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldYMax);
-        textFieldYMax.setBounds(220, 90, 80, 20);
+        textFieldYMax.setBounds(220, 85, 80, 27);
+
+        textFieldDeltaY.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(textFieldDeltaY);
-        textFieldDeltaY.setBounds(380, 90, 80, 20);
+        textFieldDeltaY.setBounds(380, 85, 80, 27);
 
         buttonOk.setText(dataToolPanel.getBundleString("BUTTON_OK"));
         buttonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -348,7 +360,7 @@ public class GraphParamDialog extends javax.swing.JDialog {
         getContentPane().add(buttonCancel);
         buttonCancel.setBounds(270, 190, 99, 23);
 
-        labelXNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11));
+        labelXNameAxis.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelXNameAxis.setText(dataToolPanel.getBundleString("LABEL_X"));
         getContentPane().add(labelXNameAxis);
         labelXNameAxis.setBounds(80, 130, 30, 14);
@@ -364,22 +376,24 @@ public class GraphParamDialog extends javax.swing.JDialog {
             }
         });
         getContentPane().add(cbXAxis);
-        cbXAxis.setBounds(110, 130, 90, 20);
+        cbXAxis.setBounds(110, 127, 90, 20);
 
         getContentPane().add(cbYAxis);
-        cbYAxis.setBounds(280, 130, 90, 20);
+        cbYAxis.setBounds(280, 127, 90, 20);
 
-        labelPlot1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelPlot1.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelPlot1.setText("jLabel1");
         getContentPane().add(labelPlot1);
         labelPlot1.setBounds(10, 130, 60, 14);
 
-        labelName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelName.setFont(new java.awt.Font("Tahoma", 1, 11));
         labelName.setText(dataToolPanel.getBundleString("LABEL_NAME"));
         getContentPane().add(labelName);
         labelName.setBounds(10, 10, 75, 14);
+
+        fieldName.setPreferredSize(new java.awt.Dimension(6, 27));
         getContentPane().add(fieldName);
-        fieldName.setBounds(150, 10, 230, 20);
+        fieldName.setBounds(150, 5, 230, 27);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

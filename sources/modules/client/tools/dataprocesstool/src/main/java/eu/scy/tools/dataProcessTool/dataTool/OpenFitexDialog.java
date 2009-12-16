@@ -152,7 +152,7 @@ public class OpenFitexDialog extends JDialog {
         if(fieldName == null){
             fieldName = new JTextField();
             fieldName.setName("fieldName");
-            fieldName.setBounds(labelCreateName.getX()+labelCreateName.getWidth()+5, labelCreateName.getY()-3, 230,20);
+            fieldName.setBounds(labelCreateName.getX()+labelCreateName.getWidth()+5, labelCreateName.getY()-3, 230,(int)fieldName.getPreferredSize().getHeight());
         }
         return fieldName;
     }
@@ -164,7 +164,7 @@ public class OpenFitexDialog extends JDialog {
             rbOpen.setText(owner.getBundleString("LABEL_OPEN_ELO"));
             rbOpen.setSelected(false);
             rbOpen.setFont(new java.awt.Font("Tahoma", 1, 11));
-            rbOpen.setSize(60+MyUtilities.lenghtOfString(this.rbOpen.getText(), getFontMetrics(this.rbOpen.getFont())), 23);
+            rbOpen.setSize(60+MyUtilities.lenghtOfString(this.rbOpen.getText(), getFontMetrics(this.rbOpen.getFont())), 20);
             rbOpen.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {

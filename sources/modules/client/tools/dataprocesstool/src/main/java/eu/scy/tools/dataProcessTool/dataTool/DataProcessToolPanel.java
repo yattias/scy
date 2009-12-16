@@ -59,7 +59,7 @@ import roolo.elo.JDomStringConversion;
 public class DataProcessToolPanel extends javax.swing.JPanel implements OpenDataAction {
 
     //CONSTANTES
-    public final static Color backgroundColor = SystemColor.control;
+    
     /* width */
     public static final int PANEL_WIDTH = 565;
     /* height */
@@ -73,7 +73,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public static final int MENU_BAR_HEIGHT = 28;
     public static final int ICON_HEIGHT=31;
     public static final int ICON_WIDTH = 160;
-    //PROPERTY
+
     /* locale */
     private Locale locale ;
     /* ressource bundle */
@@ -178,6 +178,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public String getVersion(){
         return this.version;
     }
+    
 
     /* chargement des donnees */
     public void loadData(){
@@ -258,14 +259,14 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     /* initialisation de l'applet */
     protected void initGUI(){
         // Initialisation du look and feel
-        try{
-            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(myLookAndFeel);
-        }catch(Exception e){
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
-            JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
-        }
+//        try{
+//            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
+//            UIManager.setLookAndFeel(myLookAndFeel);
+//        }catch(Exception e){
+//            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+//            JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
+//        }
         setMinimumSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setSize(PANEL_WIDTH, PANEL_HEIGHT);
         setLayout(new BorderLayout());

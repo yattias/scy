@@ -102,7 +102,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         // cell editor
         CellEditorTextField cellField = new CellEditorTextField(this);
         //myCellEditor = new DefaultCellEditor(cellField);
-        myCellEditor = new MyTableEditor(cellField);
+        myCellEditor = new MyTableEditor(this,cellField);
         //this.setCellEditor(new DefaultCellEditor(cellField));
         this.setCellEditor(myCellEditor);
         this.setDefaultEditor(Object.class, myCellEditor);
