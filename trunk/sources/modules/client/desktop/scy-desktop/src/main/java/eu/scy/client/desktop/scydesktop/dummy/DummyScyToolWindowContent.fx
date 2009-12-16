@@ -31,6 +31,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import roolo.api.IRepository;
+import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.api.IExtensionManager;
+import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.IELOFactory;
+import eu.scy.client.common.datasync.IDataSyncService;
 
 /**
  * @author sikken
@@ -42,7 +50,15 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
 
-   public var repository:IRepository on replace {addMessage("repository set")};
+   public var toolBrokerAPI:ToolBrokerAPI on replace {serviceSet("toolBrokerAPI",toolBrokerAPI)};
+   public var repository:IRepository on replace {serviceSet("repository",repository)};
+   public var extensionManager:IExtensionManager on replace {serviceSet("extensionManager",extensionManager)};
+   public var metadataTypeManager:IMetadataTypeManager on replace {serviceSet("metadataTypeManager",metadataTypeManager)};
+   public var eloFactory:IELOFactory on replace {serviceSet("eloFactory",eloFactory)};
+   public var actionLogger:IActionLogger on replace {serviceSet("actionLogger",actionLogger)};
+   public var awarenessService:IAwarenessService on replace {serviceSet("awarenessService",awarenessService)};
+   public var dataSyncService:IDataSyncService on replace {serviceSet("dataSyncService",dataSyncService)};
+   public var pedagogicalPlanService:PedagogicalPlanService on replace {serviceSet("pedagogicalPlanService",pedagogicalPlanService)};
    public var scyWindow:ScyWindow on replace {addMessage("scyWindow set ({scyWindow.title})")};
 
    var uri = "?????";
@@ -70,6 +86,15 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
          ]
       };
    }
+
+   function serviceSet(name:String,service:Object){
+      var message = "service {name} set";
+      if (service==null){
+         message = "{message}, but it is null!!!";
+      }
+      addMessage(message);
+   }
+
 
    function addMessage(message:String){
       var newLine = "";
