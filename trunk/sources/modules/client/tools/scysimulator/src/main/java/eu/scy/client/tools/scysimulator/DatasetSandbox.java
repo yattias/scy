@@ -22,19 +22,11 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 public class DatasetSandbox implements ISyncListener {
 
     private DataCollector datacollector;
-
     private String TOOL_NAME = "scysimulator";
-
-    private String USER_NAME = "obama";
-
-    private String PASS = "obama";
-
+    private String USER_NAME = "scysimulator-user";
     private IDataSyncService datasync;
-
-    ISyncSession currentSession = null;
-
+    private ISyncSession currentSession = null;
     private XMPPConnection conn;
-
     private ToolBrokerAPI tbi;
 
     DatasetSandbox(DataCollector datacollector, ToolBrokerAPI tbi) throws CollaborationServiceException {
@@ -50,7 +42,6 @@ public class DatasetSandbox implements ISyncListener {
     }
 
     private void initCollaborationService() throws CollaborationServiceException {
-        // TODO the datasync instance will be soon delivered by the SCY-lab via TBI
         datasync = tbi.getDataSyncService();
     }
 
@@ -79,21 +70,26 @@ public class DatasetSandbox implements ISyncListener {
     }
 
     public void sendDataSetRow(DataSetRow row) {
-        ISyncObject syncObject = new SyncObject(this.TOOL_NAME, this.USER_NAME);
+        ISyncObject syncObject = new SyncObject();
+        syncObject.setCreator(this.USER_NAME);
+        syncObject.setToolname(this.TOOL_NAME);
         syncObject.setProperty("type", "datasetrow");
         syncObject.setProperty("datasetrow", new JDomStringConversion().xmlToString(row.toXML()));
         currentSession.addSyncObject(syncObject);
     }
 
     public void sendHeaderMessage() {
-        ISyncObject syncObject = new SyncObject(this.TOOL_NAME, this.USER_NAME);
+    	ISyncObject syncObject = new SyncObject();
+        syncObject.setCreator(this.USER_NAME);
+        syncObject.setToolname(this.TOOL_NAME);
         syncObject.setProperty("type", "datasetheader");
         syncObject.setProperty("datasetheader", new JDomStringConversion().xmlToString(datacollector.getDataSet().getHeader(Locale.ENGLISH).toXML()));
         currentSession.addSyncObject(syncObject);
     }
 
     /*
-     * These ISyncListener methods are empty because SCYSimulator is only sending action, but not reacting.
+     * These ISyncListener methods are empty because SCYSimulator is only sending action,
+     * but not reacting on incoming actions / changes.
      */
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {}
