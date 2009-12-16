@@ -111,6 +111,10 @@ public class DataSyncModule extends SCYHubModule {
 			// response to client
 			SyncMessage response = new SyncMessage(Type.answer);
 			try {
+				//first check if connection is still alive
+				if(!connection.isConnected()) {
+					connection.connect();
+				}
 				// try to connect the logger
 				dssl.connect(connection);
 
