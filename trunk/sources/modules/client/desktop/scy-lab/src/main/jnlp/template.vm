@@ -27,6 +27,6 @@
         <argument>-localToolBrokerLoginConfigFile</argument>
         <argument>config/localReadOnlyScyServices.xml</argument>
     </application-desc>
-    <update check="always">
+    <update check="always"/>
 </jnlp>
 
