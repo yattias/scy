@@ -21,7 +21,8 @@ public class SmacketExtensionProvider implements PacketExtensionProvider {
 	@Override
 	public PacketExtension parseExtension(XmlPullParser parser) throws Exception {
 		SCYPacketTransformer transformer = transformers.get(parser.getNamespace());
-
+		transformer.resetParser();
+		
 		try {
 			boolean done = false;
 			
@@ -34,6 +35,7 @@ public class SmacketExtensionProvider implements PacketExtensionProvider {
 					if (parser.getName() != null) {
 						path += "/" + parser.getName();
 						lastElementName.add("/" + parser.getName());
+//						transformer.startNode(path);
 						if(parser.getAttributeCount() > 0) {
 							for (int i = 0; i < parser.getAttributeCount(); i++) {
 								String attribKey = parser.getAttributeName(i);
@@ -45,6 +47,7 @@ public class SmacketExtensionProvider implements PacketExtensionProvider {
 				} else if (eventType == XmlPullParser.TEXT) {
 					transformer.mapXMLNodeToObject(path, parser.getText());
 				} else if (eventType == XmlPullParser.END_TAG) {
+//					transformer.endNode(path);
 					path = path.substring(0, path.indexOf(lastElementName.getLast()));
 					lastElementName.removeLast();
 					if (parser.getName().equals(transformer.getName())) {
