@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -1343,7 +1344,10 @@ public class EdPPanel extends JPanel {
         return this.isVisible();
     }
 
-    
+    public URL getHelpManualPage(){
+        String helpFile = "copexHelpManual-"+getLocale().getLanguage()+".xhtml";
+        return  this.getClass().getClassLoader().getResource(helpFile);
+    }
 
 
     /* retourne vrai si il y a une liste de materiel a afficher */
