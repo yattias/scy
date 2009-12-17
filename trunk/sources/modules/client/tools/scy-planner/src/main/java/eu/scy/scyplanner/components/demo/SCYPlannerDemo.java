@@ -1,9 +1,11 @@
 package eu.scy.scyplanner.components.demo;
 
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.impl.shapes.concepts.RoundRectangle;
 import eu.scy.scymapper.impl.shapes.concepts.SVGConcept;
+import eu.scy.scymapper.impl.shapes.concepts.Star;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramController;
 import eu.scy.scyplanner.impl.diagram.SCYPlannerDiagramModel;
@@ -22,7 +24,7 @@ import java.util.Observer;
  * Date: 28.aug.2009
  * Time: 12:28:20
  */
-public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeModelListener {
+public class SCYPlannerDemo extends JPanel {
     private IDiagramModel diagramModel;
 
     private INodeModel selectedNode;
@@ -33,8 +35,8 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
 
         diagramModel = getInitialPedagogicalPlanModel();
 
-        diagramModel.addDiagramListener(this);
-
+		// The view should be created before nodes are added to the model because it creates its node views when
+		// IDiagramListener.nodeAdded is invoked by the model
         SCYPlannerDiagramView view = new SCYPlannerDiagramView(new SCYPlannerDiagramController(diagramModel), diagramModel);
         tabbedPane.addTab("Test", view);
         view.addObserver(new Observer() {
@@ -65,14 +67,16 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
 
     private IDiagramModel getInitialPedagogicalPlanModel() {
         SCYPlannerDiagramModel pedagogicalPlan = new SCYPlannerDiagramModel();
-        INodeModel orientationLas = createLASElement("Orientation", 10, 100);
-        INodeModel conseptualisationLas  = createLASElement("Conceptualisation", 300, 10);
-        INodeModel designLas  = createLASElement("Design", 550, 10);
-        INodeModel buildLas  = createLASElement("Build", 700, 220);
-        INodeModel experimentLas  = createLASElement("Experiment", 650, 400);
-        INodeModel evaluationLas  = createLASElement("Evaluation", 300, 300);
-        INodeModel reflectionLas  = createLASElement("Reflection", 250, 500);
-        INodeModel reportingLas  = createLASElement("Reporting", 100, 600);
+        INodeModel orientationLas = createLASElement("Orientation", 10, 100, 50, 50);
+
+        INodeModel conseptualisationLas  = createLASElement("Conceptualisation", 300, 10, 50, 100);
+
+        INodeModel designLas  = createLASElement("Design", 550, 10, 50, 100);
+        INodeModel buildLas  = createLASElement("Build", 700, 220, 50, 100);
+        INodeModel experimentLas  = createLASElement("ExperimentExperiment", 650, 400, 50, 100);
+        INodeModel evaluationLas  = createLASElement("Evaluation", 300, 300, 50, 100);
+        INodeModel reflectionLas  = createLASElement("Reflection", 250, 500, 50, 100);
+        INodeModel reportingLas  = createLASElement("Reporting", 100, 600, 50, 100);
 
         INodeModel producedByOrientationELO = createELOElement("Orientation", 150, 100);
         INodeModel producedByConceptualisationInputToDesign = createELOElement("ELO", 450, 10);
@@ -125,37 +129,27 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
         return pedagogicalPlan;
     }
 
-    private void addNode(SCYPlannerDiagramModel pedagogicalPlan, INodeModel node) {
-        node.addListener(this);
+    private void addNode(IDiagramModel pedagogicalPlan, INodeModel node) {
         pedagogicalPlan.addNode(node);
     }
 
-
-    private INodeModel createLASElement(String name, Integer xPos, Integer yPos) {
-        //INodeModel las = new LearningActivitySpaceNodeModel();
-        //las.setStyle(new DefaultNodeStyle());
-        //las.getStyle().setOpaque(INodeStyle.FILLSTYLE_FILLED);
-        //las.getStyle().setBackground(new Color(0xcc0000));
+    private INodeModel createLASElement(String name, int x, int y, int h, int w) {
 
         INodeModel las = new NodeModel();
-        //eloNodeModel.setLabel("I'm a fried SVG egg");
-        //eloNodeModel.setStyle(new DefaultNodeStyle());
-        //eloNodeModel.getStyle().setOpaque(INodeStyle.FILLSTYLE_FILLED);
         URL theurl = getClass().getResource("/eu/scy/scyplanner/impl/shapes/LASShape.svg");
-
         try {
-
             INodeShape s = new SVGConcept(theurl);
             las.setShape(s);
         } catch (IOException e) {
-            System.err.println("File not found: /eu/scy/scyplanner/impl/shapes/LASShape.svg");
+            System.err.println("File not found: "+e.getLocalizedMessage());
         }
 
+		las.setShape(new RoundRectangle());
         //las.setShape(new LASShape());
         las.setLabel(name);
-        
-        las.setLocation(new Point(xPos, yPos));
-        las.setSize(new Dimension(142, 73));
+
+        las.setLocation(new Point(x, y));
+        las.setSize(new Dimension(h, w));
         return las;
     }
 
@@ -169,75 +163,25 @@ public class SCYPlannerDemo extends JPanel implements IDiagramListener, INodeMod
             INodeShape s = new SVGConcept(theurl);
             eloNodeModel.setShape(s);
         } catch (IOException e) {
-            System.err.println("File not found /eu/scy/scyplanner/impl/shapes/ELOShape.svg");
+            System.err.println("File not found: "+e.getLocalizedMessage());
         }
+		
+		eloNodeModel.setShape(new Star());
 
         eloNodeModel.setLocation(new Point(xPos, yPos));
-        eloNodeModel.setSize(new Dimension(75,75));
+        eloNodeModel.setSize(new Dimension(50+(int)(Math.random() *100),50+(int)(Math.random() *100)));
         eloNodeModel.setLabelHidden(true);
 
         return eloNodeModel;
     }
 
-    private void connectNodes(SCYPlannerDiagramModel diagramModel, INodeModel from, INodeModel to) {
+    private void connectNodes(IDiagramModel diagramModel, INodeModel from, INodeModel to) {
         INodeLinkModel link = new LearningActivitySpaceLinkModel(from, to);
         link.setLabelHidden(true);
         link.getStyle().setColor(new Color(0x4f81bc));
-        link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));        
+        link.getStyle().setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 6.0f));
 
         link.setShape(new Arrow());
         diagramModel.addLink(link);
-    }
-
-    @Override
-    public void linkAdded(ILinkModel link) {
-    }
-
-    @Override
-    public void linkRemoved(ILinkModel link) {
-    }
-
-    @Override
-    public void nodeAdded(INodeModel n) {
-    }
-
-    @Override
-    public void nodeRemoved(INodeModel n) {
-    }
-
-    @Override
-    public void updated(IDiagramModel diagramModel) {
-    }
-
-    @Override
-    public void nodeSelected(INodeModel n) {
-        System.out.println("SCYPlannerDemo.nodeSelected");
-    }
-
-    @Override
-    public void moved(INodeModel node) {
-    }
-
-    @Override
-    public void resized(INodeModel node) {
-    }
-
-    @Override
-    public void labelChanged(INodeModel node) {
-    }
-
-    @Override
-    public void shapeChanged(INodeModel node) {
-    }
-
-    @Override
-    public void selectionChanged(INodeModel conceptNode) {
-        selectedNode = conceptNode;
-        selectedLabel.setText("You clicked: " + conceptNode.getLabel());
-    }
-
-    @Override
-    public void deleted(NodeModel nodeModel) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
