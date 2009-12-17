@@ -721,14 +721,16 @@ public class StandardScyWindow extends ScyWindow {
 
       closeElement = WindowClose{
          visible: bind allowClose and not isClosed;
-         size:closeBoxSize;
-         strokeWidth:controlStrokeWidth/2;
+         size:closeBoxSize-controlStrokeWidth;
+         strokeWidth:controlStrokeWidth;
          color:bind color;
          subColor:controlColor;
          activate: activate;
          closeAction:doClose;
-         layoutX: bind width +controlBorderOffset+controlStrokeWidth+2 - closeBoxSize;
-         layoutY: -controlBorderOffset-controlStrokeWidth-1;
+//         layoutX: bind width +controlBorderOffset+controlStrokeWidth+2 - closeBoxSize;
+//         layoutY: -controlBorderOffset-controlStrokeWidth-1;
+         layoutX: bind width -1.5*controlStrokeWidth - closeBoxSize+controlStrokeWidth;
+         layoutY: 1.5*controlStrokeWidth;
       }
 
       minimizeElement = WindowMinimize{

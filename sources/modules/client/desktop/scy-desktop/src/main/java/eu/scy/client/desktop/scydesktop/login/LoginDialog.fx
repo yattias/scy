@@ -24,11 +24,35 @@ import org.apache.log4j.Logger;
  */
 // place your code here
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
+
 public class LoginDialog extends CustomNode {
 
-   public var initializer: Initializer;
-   public var createScyDesktop: function(tbi:ToolBrokerAPI, userName : String): ScyDesktop;
-   var loginWindow: StandardScyWindow;
+   public
+      var initializer   :  Initializer ;
+
+
+
+   public var createScyDesktop: function( tbi:  ToolBrokerAPI
+
+
+     ,
+
+
+      userName
+
+
+
+
+
+
+
+
+
+     : String
+
+          )
+         : ScyDesktop;
+      var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
 
    def loginColor = Color.web("#0ea7bf");
@@ -36,6 +60,17 @@ public class LoginDialog extends CustomNode {
    init {
       FX.deferAction(function () {
          MouseBlocker.initMouseBlocker(scene.stage);
+//         FX.deferAction(function(){
+//            if (initializer.autoLogin){
+//               if (loginNode.loginEnabled){
+//                  loginNode.login();
+//               }
+//               else{
+//                  println("autoLogin, but login is not enabled");
+//               }
+//            }
+//         });
+
       });
    }
 
@@ -44,6 +79,7 @@ public class LoginDialog extends CustomNode {
                  loginAction: loginAction
                  defaultUserName: initializer.defaultUserName
                  defaultPassword: initializer.defaultPassword
+                 autoLogin:initializer.autoLogin
               }
       //TODO, why Math.abs????
       var loginWidth = loginNode.boundsInLocal.width + Math.abs(loginNode.boundsInLocal.minX);
@@ -108,7 +144,7 @@ public class LoginDialog extends CustomNode {
    }
 }
 
-function run()   {
+function run()    {
    var loginDialog = LoginDialog {
               layoutX: 10
               layoutY: 10
