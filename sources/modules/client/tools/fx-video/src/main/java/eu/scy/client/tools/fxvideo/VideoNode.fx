@@ -200,7 +200,15 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
                                         action:  function() {
                                             eloVideoActionWrapper.loadVideoAction();
                                         }
+                               },
+                               Button {
+                                        text: "resize video";
+                                        action: function() {
+                                            setSizeToCurrent();
+                                        }
+
                                }
+
                         ]
                        },
                        mediaBox
