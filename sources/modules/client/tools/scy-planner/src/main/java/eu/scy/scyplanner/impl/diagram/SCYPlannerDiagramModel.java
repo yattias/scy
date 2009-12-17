@@ -1,6 +1,6 @@
 package eu.scy.scyplanner.impl.diagram;
 
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,8 +18,6 @@ private String name;
     private Set<INodeModel> nodes;
     private Set<ILinkModel> links;
     private transient Collection<IDiagramListener> listeners;
-    private INodeModel selectedNode;
-    private transient Image backgroundImage;
 
     public SCYPlannerDiagramModel() {
         listeners = new ArrayList<IDiagramListener>();

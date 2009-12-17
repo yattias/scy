@@ -1,8 +1,7 @@
 package eu.scy.scyplanner.impl.model;
 
-import eu.scy.scymapper.impl.model.SimpleLink;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
 
 /**
  * User: Bjoerge Naess

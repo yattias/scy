@@ -1,9 +1,9 @@
 package eu.scy.scyplanner.impl.diagram;
 
-import eu.scy.scymapper.api.diagram.IDiagramController;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.controller.IDiagramController;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 /**
  * User: Bjoerge Naess
@@ -11,33 +11,41 @@ import eu.scy.scymapper.api.diagram.INodeModel;
  * Time: 11:51:09
  */
 public class SCYPlannerDiagramController implements IDiagramController {
-	public SCYPlannerDiagramController(IDiagramModel diagramModel) {
+	IDiagramModel model;
+	public SCYPlannerDiagramController(IDiagramModel model) {
+		this.model = model;
 	}
 
 	@Override
 	public void setName(String name) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		model.setName(name);
 	}
 
 	@Override
 	public void addNode(INodeModel n, boolean preventOverlap) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		addNode(n);
 	}
 
 	@Override
 	public void addNode(INodeModel n) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		model.addNode(n);
 	}
 
 	@Override
 	public void addLink(ILinkModel l) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		model.addLink(l);
 	}
 
     public void removeNode(INodeModel n) {
-
+		model.removeNode(n);
 	}
-    public void removeAll() {
 
+	@Override
+	public void removeLink(ILinkModel l) {
+		model.removeLink(l);
+	}
+
+	public void removeAll() {
+		model.removeAll();
 	}
 }

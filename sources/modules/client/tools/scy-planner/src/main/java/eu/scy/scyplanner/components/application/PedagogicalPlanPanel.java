@@ -1,7 +1,7 @@
 package eu.scy.scyplanner.components.application;
 
 import eu.scy.core.model.pedagogicalplan.*;
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.model.DefaultNode;
 import eu.scy.scymapper.impl.model.NodeModel;
@@ -201,7 +201,7 @@ public class PedagogicalPlanPanel extends JPanel implements IDiagramListener, IN
     }
 
     @Override
-    public void deleted(NodeModel nodeModel) {
+    public void deleted(INodeModel nodeModel) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }
