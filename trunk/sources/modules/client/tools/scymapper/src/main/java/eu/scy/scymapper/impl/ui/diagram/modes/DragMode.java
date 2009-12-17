@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.ui.diagram.modes;
 
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
-import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ public class DragMode implements IDiagramMode {
             Component com = e.getComponent();
             com.getParent().setComponentZOrder(com, 0);
             if (!e.isControlDown()) view.getSelectionModel().clearSelection();
-            view.getSelectionModel().select(((NodeView) com).getModel());
+            view.getSelectionModel().select(((RichNodeView) com).getModel());
         }
     };
     private final MouseMotionListener mouseMotionListener = new MouseMotionAdapter() {
@@ -44,7 +44,7 @@ public class DragMode implements IDiagramMode {
             // The relative mouse position from the component x,y
             Point relPoint = e.getPoint();
 
-            NodeView view = (NodeView) e.getSource();
+            RichNodeView view = (RichNodeView) e.getSource();
 
             // Create the new location
             Point newLocation = view.getLocation();

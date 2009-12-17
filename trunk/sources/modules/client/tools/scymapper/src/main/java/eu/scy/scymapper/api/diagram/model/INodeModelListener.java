@@ -1,6 +1,4 @@
-package eu.scy.scymapper.api.diagram;
-
-import eu.scy.scymapper.impl.model.NodeModel;
+package eu.scy.scymapper.api.diagram.model;
 
 /**
  * @author bjoerge
@@ -16,5 +14,5 @@ public interface INodeModelListener {
 
     void selectionChanged(INodeModel node);
 
-    void deleted(NodeModel nodeModel);
+    void deleted(INodeModel nodeModel);
 }

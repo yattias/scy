@@ -1,86 +1,173 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
-import eu.scy.scymapper.api.diagram.*;
-import eu.scy.scymapper.impl.model.NodeModel;
+import eu.scy.scymapper.api.diagram.controller.ILinkController;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Bjorge Naess
- * Date: 11.jun.2009
- * Time: 11:24:47
- * To change this template use File | Settings | File Templates.
+ * @author bjoerge
+ * @created  11.jun.2009 11:24:47
  */
-public class ConceptLinkView extends LinkView implements KeyListener, INodeModelListener {
+public class ConceptLinkView extends LinkView implements INodeModelListener {
 
-    private JTextField labelEditor;
+    private JTextArea labelTextarea;
+    private JScrollPane labelScroller;
+    private boolean isEditing;
 
-    public ConceptLinkView(ILinkController controller, INodeLinkModel model) {
+	public ConceptLinkView(ILinkController controller, INodeLinkModel model) {
         super(controller, model);
 
         // I want to observe changes in my connected nodes
         if (model.getFromNode() != null) model.getFromNode().addListener(this);
         if (model.getToNode() != null) model.getToNode().addListener(this);
 
-        labelEditor = new JTextField(model.getLabel());
-        labelEditor.setHorizontalAlignment(JTextField.CENTER);
-        labelEditor.addKeyListener(this);
-        labelEditor.setEditable(false);
-		labelEditor.setBorder(BorderFactory.createLineBorder(new Color(0xe0e0e0), 1));
+        labelTextarea = new JTextArea(getModel().getLabel());
+        //labelTextarea.setHorizontalAlignment(JTextField.CENTER);
+        //labelTextarea.setForeground(getModel().getStyle().getColor());
+        labelTextarea.setWrapStyleWord(true);
+        labelTextarea.setLineWrap(true);
+        labelTextarea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
 
-        add(labelEditor);
-        labelEditor.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                labelEditor.setEditable(true);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                labelEditor.setEditable(false);
-            }
-        });
-		labelEditor.addKeyListener(new KeyAdapter() {
+        labelScroller = new JScrollPane(labelTextarea);
+		labelScroller.getViewport().addChangeListener(new ChangeListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == 10) ConceptLinkView.this.requestFocus();
+			public void stateChanged(ChangeEvent e) {
+				((JComponent)e.getSource()).repaint();
 			}
 		});
+        labelTextarea.setMargin(new Insets(0, 0, 0, 0));
+        labelTextarea.setBorder(BorderFactory.createEmptyBorder());
+        labelScroller.getViewport().setOpaque(false);
+
+        add(labelScroller);
+
+        setLabelEditable(true, true);
+
+        MouseListener dblClickListener = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2)
+                    setLabelEditable(true);
+            }
+        };
+        addMouseListener(dblClickListener);
+
+        labelTextarea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setLabelEditable(true);
+            }
+        });
+
+        labelTextarea.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                setLabelEditable(false);
+				if (!labelTextarea.getText().equals(getModel().getLabel())) {
+					getController().setLabel(labelTextarea.getText());
+				}
+            }
+        });
+
+        labelTextarea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.getKeyCode() == 10) ConceptLinkView.this.requestFocus();
+            }
+        });
 
         updatePosition();
         layoutComponents();
     }
 
+	private void setLabelEditable(boolean editable, final boolean select) {
+
+        labelScroller.setOpaque(editable);
+        labelScroller.getViewport().setOpaque(editable);
+        labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        labelTextarea.setFocusable(editable);
+        labelTextarea.setEditable(editable);
+
+		if (!editable && labelTextarea.getText().equals("")) {
+			labelTextarea.setOpaque(false);
+		}
+		else {
+			labelTextarea.setOpaque(true);
+			labelTextarea.setForeground(editable ? Color.BLACK : getModel().getStyle().getColor());
+			labelTextarea.setBackground(editable ? Color.WHITE : new Color(255, 255, 255, 150));
+		}
+        if (editable) {
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(100);
+						labelTextarea.requestFocus();
+						if (select) labelTextarea.selectAll();
+					}
+					catch (InterruptedException e) {
+
+					}
+				}
+			}.start();
+		}
+
+    }
+
+    void setLabelEditable(boolean editable) {
+        setLabelEditable(editable, false);
+    }
+
     private void layoutComponents() {
-        FontMetrics f = labelEditor.getFontMetrics(labelEditor.getFont());
-        int width = f.stringWidth(labelEditor.getText());
-        width += labelEditor.getMargin().left + labelEditor.getMargin().right;
-        width += labelEditor.getBorder().getBorderInsets(null).left + labelEditor.getBorder().getBorderInsets(null).right;
 
-        if (width < 20) width = 20;
+        FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
+        int width = f.stringWidth(labelTextarea.getText()) + 10;
 
-        // Add some space
-        width += 10;
-        if (width > getWidth()) width = getWidth();
+        int maxHeight = getHeight() - 140; // 10 px spacing on each side
+        int maxWidth = getWidth() - 140; // 10 px spacing on each side
 
-        int height = f.getHeight();
-        height += labelEditor.getMargin().top + labelEditor.getMargin().bottom;
-        height += labelEditor.getBorder().getBorderInsets(null).top + labelEditor.getBorder().getBorderInsets(null).bottom;
+        if (width < 70) width = 70;
+            // Add some space
+        else width = (width + 10 > maxWidth) ? maxWidth : width + 10;
 
-        double x = (getWidth() / 2) - (width / 2);
-        double y = (getHeight() / 2d) - (height / 2d);
+        int height = labelTextarea.getPreferredScrollableViewportSize().height + 10;
 
-        labelEditor.setBounds((int) x, (int) y, width, height);
-        labelEditor.setVisible(!getModel().isLabelHidden());
+        if (height > maxHeight) {
+            height = maxHeight;
+            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        } else {
+            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        }
+
+		if (width < 100) width = 100;
+		if (height <= 25) height = 25;
+
+        labelTextarea.setSize(width, height);
+        labelTextarea.setVisible(!getModel().isLabelHidden());
+
+        double x = ((maxWidth / 2) - (width / 2)) + 70;
+        double y = ((maxHeight / 2d) - (height / 2d)) + 70;
+
+        labelScroller.setBounds((int) x, (int) y, width, height);
+        labelScroller.revalidate();
     }
 
     @Override
     public void updated(ILinkModel m) {
-        layoutComponents();
-        super.updated(m);
+		if (!m.getLabel().equals(labelTextarea.getText())) {
+			labelTextarea.setText(m.getLabel());
+		}
+		super.updated(m);
+		layoutComponents();
     }
 
     @Override
@@ -91,7 +178,6 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
 
     @Override
     public void resized(INodeModel node) {
-		System.out.println("ONE OF MY NODES WERE MOVED = ");
         updatePosition();
         layoutComponents();
     }
@@ -107,16 +193,7 @@ public class ConceptLinkView extends LinkView implements KeyListener, INodeModel
     public void selectionChanged(INodeModel conceptNode) {}
 
     @Override
-    public void deleted(NodeModel nodeModel) {
+    public void deleted(INodeModel nodeModel) {
         
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyPressed(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {
-        getController().setLabel(labelEditor.getText());
     }
 }

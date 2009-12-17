@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.controller;
 
-import eu.scy.scymapper.api.diagram.ILinkController;
-import eu.scy.scymapper.api.diagram.ILinkModel;
+import eu.scy.scymapper.api.diagram.controller.ILinkController;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
 
 import java.awt.*;
 
@@ -11,7 +11,7 @@ import java.awt.*;
  * Time: 20:00:05
  */
 public class LinkController implements ILinkController {
-    private ILinkModel model;
+    protected ILinkModel model;
 
     public LinkController(ILinkModel link) {
         this.model = link;

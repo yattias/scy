@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.diagram;
+package eu.scy.scymapper.api.diagram.model;
 
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;

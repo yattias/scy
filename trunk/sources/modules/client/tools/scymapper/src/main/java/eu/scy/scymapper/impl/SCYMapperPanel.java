@@ -8,11 +8,8 @@ import eu.scy.scymapper.impl.controller.datasync.DataSyncElementControllerFactor
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.palette.PalettePane;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.JDomBasicELOFactory;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +22,8 @@ import java.awt.*;
 public class SCYMapperPanel extends JPanel {
 
 	private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
-	private JToolBar toolBar;
 
-    private IELOFactory eloFactory = new JDomBasicELOFactory();
-    private IRepository repository;
-    private IMetadataTypeManager metadataTypeManager;
+    private ToolBrokerAPI toolBroker;
     private JSplitPane splitPane;
     private IConceptMap conceptMap;
     private ISCYMapperToolConfiguration configuration;
@@ -42,7 +36,11 @@ public class SCYMapperPanel extends JPanel {
 		initComponents();
 	}
 
-    public void setSession(ISyncSession session) {
+	public synchronized void setToolBroker(ToolBrokerAPI tbi) {
+		this.toolBroker = tbi;
+	}
+
+    public synchronized void joinSession(ISyncSession session) {
         conceptDiagramView.setController(new DataSyncDiagramController(conceptMap.getDiagram(), session));
 		conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
 	}
@@ -53,25 +51,12 @@ public class SCYMapperPanel extends JPanel {
         conceptDiagramView = cmapPanel.getDiagramView();
 
         JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
-        palettePane.setPreferredSize(new Dimension(200, 0));
+        palettePane.setPreferredSize(new Dimension(100, 0));
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, palettePane, cmapPanel);
 
 		add(splitPane, BorderLayout.CENTER);
 	}
-
-    public void setRepository(IRepository repository) {
-        this.repository = repository;
-    }
-
-    public void setEloFactory(IELOFactory eloFactory) {
-        this.eloFactory = eloFactory;
-    }
-
-    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager) {
-        this.metadataTypeManager = metadataTypeManager;
-    }
-
     public IConceptMap getConceptMap() {
         return conceptMap;
     }

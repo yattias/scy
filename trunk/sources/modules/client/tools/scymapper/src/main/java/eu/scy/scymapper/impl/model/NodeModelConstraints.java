@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.diagram.INodeModelConstraints;
+import eu.scy.scymapper.api.diagram.model.INodeModelConstraints;
 
 /**
  * Created by IntelliJ IDEA.

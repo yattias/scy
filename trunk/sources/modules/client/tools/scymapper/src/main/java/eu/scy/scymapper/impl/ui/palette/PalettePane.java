@@ -4,24 +4,24 @@ import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptType;
 import eu.scy.scymapper.api.ILinkType;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.impl.controller.LinkController;
+import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
+import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.impl.controller.LinkConnectorController;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.model.SimpleLink;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
-import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
 import net.miginfocom.swing.MigLayout;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -33,8 +33,8 @@ import java.util.Stack;
  * Time: 13:24:59
  */
 public class PalettePane extends JPanel {
+	private final static Logger logger = Logger.getLogger(PalettePane.class);
 
-    private IConceptMap conceptMap;
     private ConceptMapPanel conceptMapPanel;
     private List<ILinkType> linkProtoTypes;
     private List<IConceptType> conceptTypes;
@@ -43,7 +43,6 @@ public class PalettePane extends JPanel {
     //private volatile NodeColorChooserPanel nodeColorChooser;
 
     public PalettePane(IConceptMap conceptMap, ISCYMapperToolConfiguration conf, ConceptMapPanel conceptMapPanel) {
-        this.conceptMap = conceptMap;
         this.conceptMapPanel = conceptMapPanel;
         this.linkProtoTypes = conf.getAvailableLinkTypes();
         this.conceptTypes = conf.getAvailableConceptTypes();
@@ -52,7 +51,7 @@ public class PalettePane extends JPanel {
 
     private void initComponents() {
 
-        setBorder(new TitledBorder("Palette"));
+        //setBorder(new TitledBorder("Palette"));
         setLayout(new GridLayout(0, 1));
 
 //        nodeColorChooser = new NodeColorChooserPanel();
@@ -64,7 +63,7 @@ public class PalettePane extends JPanel {
 //        nodeStylePanel.add(opaqueCheckbox);
 
         JPanel nodePanel = new JPanel(new MigLayout("wrap 2", "[grow,fill]"));
-        nodePanel.setBorder(BorderFactory.createTitledBorder("Add concept"));
+        nodePanel.setBorder(BorderFactory.createTitledBorder("Concepts"));
 
         for (final IConceptType conceptType : conceptTypes) {
             final AddConceptButton button = new AddConceptButton(conceptType);
@@ -98,16 +97,14 @@ public class PalettePane extends JPanel {
             nodePanel.add(button);
         }
 
-        JPanel linkPanel = new JPanel(new MigLayout("wrap 2", "[grow,fill]"));
-        linkPanel.setBorder(BorderFactory.createTitledBorder("Add link"));
+        JPanel linkPanel = new JPanel(new MigLayout("wrap 1", "[grow,fill]"));
+        linkPanel.setBorder(BorderFactory.createTitledBorder("Links"));
         for (final ILinkType linkType : linkProtoTypes) {
             final AddLinkButton button = new AddLinkButton(linkType.getLabel(), linkType.getLinkShape());
             button.setHorizontalAlignment(JButton.LEFT);
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    if (selectedButton != null) selectedButton.setSelected(false);
 
                     if (selectedButton != null && selectedButton.equals(e.getSource())) {
                         selectedButton.setSelected(false);
@@ -123,7 +120,7 @@ public class PalettePane extends JPanel {
                     link.setLabel(linkType.getLabel());
                     link.setShape(linkType.getLinkShape());
 
-                    conceptMapPanel.getDiagramView().setMode(new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkController(link), link)));
+                    conceptMapPanel.getDiagramView().setMode(new ConnectMode(conceptMapPanel.getDiagramView(), new LinkView(new LinkConnectorController(link), link)));
 
                     conceptMapPanel.getDiagramView().setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
                 }
@@ -250,7 +247,7 @@ public class PalettePane extends JPanel {
         private final MouseListener mouseListener = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                NodeView comp = (NodeView) e.getSource();
+                RichNodeView comp = (RichNodeView) e.getSource();
                 sourceNode = comp.getModel();
                 comp.setBorder(BorderFactory.createLineBorder(Color.green, 1));
                 Point relPoint = e.getPoint();
@@ -264,7 +261,7 @@ public class PalettePane extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 connector.setVisible(false);
-                NodeView node = (NodeView) e.getSource();
+                RichNodeView node = (RichNodeView) e.getSource();
                 node.setBorder(BorderFactory.createEmptyBorder());
 
                 if (currentTarget != null) {
@@ -278,6 +275,7 @@ public class PalettePane extends JPanel {
                     view.setMode(new DragMode(view));
                     if (PalettePane.this.selectedButton != null) {
                         PalettePane.this.selectedButton.setSelected(false);
+                        PalettePane.this.selectedButton = null;
                     }
                     node.setBorder(BorderFactory.createEmptyBorder());
                     getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
@@ -292,7 +290,7 @@ public class PalettePane extends JPanel {
                 // The relative mouse position from the component x,y
                 Point relPoint = e.getPoint();
 
-                NodeView node = (NodeView) e.getSource();
+                RichNodeView node = (RichNodeView) e.getSource();
 
                 // Create the new location
                 Point newLocation = node.getLocation();
@@ -317,15 +315,17 @@ public class PalettePane extends JPanel {
                     getNodeViewForModel(currentTarget).setBorder(BorderFactory.createEmptyBorder());
                     connector.setTo(newLocation);
                 }
-                else connector.setTo(newLocation);
+                else {
+					connector.setTo(newLocation);
+				}
                 if (nodeAt == null) currentTarget = null;
             }
         };
 
-        private NodeView getNodeViewForModel(INodeModel node) {
+        private RichNodeView getNodeViewForModel(INodeModel node) {
             for (Component c : view.getComponents()) {
-                if (c instanceof NodeView && ((NodeView) c).getModel().equals(node)) {
-                    return (NodeView) c;
+                if (c instanceof RichNodeView && ((RichNodeView) c).getModel().equals(node)) {
+                    return (RichNodeView) c;
                 }
             }
             return null;

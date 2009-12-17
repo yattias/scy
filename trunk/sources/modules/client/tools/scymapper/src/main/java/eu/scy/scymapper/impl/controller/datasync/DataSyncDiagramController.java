@@ -6,11 +6,10 @@ import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import org.apache.log4j.Logger;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,17 +18,13 @@ import java.util.Map;
  * @created 08.des.2009 17:04:53
  */
 public class DataSyncDiagramController extends DiagramController implements ISyncListener {
-	public final static int PROP_NODE_LOCATION = 0;
-	public final static int PROP_NODE_SIZE = 1;
-	public final static int PROP_NODE_STYLE = 2;
-	public final static int PROP_NODE_SHAPE = 3;
 
 	private final static Logger logger = Logger.getLogger(DataSyncDiagramController.class);
 
 	private ISyncSession syncSession;
 
 	// Keep track of all sync ids
-	Map<String, IDiagramElement> elementIds = new HashMap<String, IDiagramElement>();
+	public static Map<String, ISyncObject> syncObjects = new HashMap<String, ISyncObject>();
 
 	public DataSyncDiagramController(IDiagramModel model, ISyncSession syncSession) {
 		super(model);
@@ -45,9 +40,13 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void syncObjectAdded(ISyncObject syncObject) {
 
+		logger.debug("SYNC OBJECT ADDED TO SESSION!!!");
+
 		String xml = syncObject.getProperty("initial");
 		XStream xstream = new XStream(new DomDriver());
 		IDiagramElement element = (IDiagramElement) xstream.fromXML(xml);
+
+		syncObjects.put(element.getId(), syncObject);
 
 		//TODO: This is not the most elegant way of doin' it
 		if (element instanceof INodeModel) {
@@ -57,45 +56,59 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		if (element instanceof INodeLinkModel) {
 			// Get the actual local objects for the from / to node of this link (it is deserialized)
 			INodeLinkModel link = (INodeLinkModel) element;
-			link.setFromNode((INodeModel)model.getElementById(link.getFromNode().getId()));
-			link.setToNode((INodeModel)model.getElementById(link.getToNode().getId()));
+			link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
+			link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
 			model.addLink(link);
 		}
+	}
 
-		// Remove initial data after the sync object is added
-		syncObject.setProperty("initial", null);
+	void sync(ISyncObject syncObj, INodeModel node) {
+		for (Map.Entry<String, String> prop : syncObj.getProperties().entrySet()) {
+			String key = prop.getKey();
+			String value = prop.getValue();
+			if (key.equals("location")) {
+				String[] pos = value.split(",");
+				int x = new Integer(pos[0]);
+				int y = new Integer(pos[1]);
+				node.setLocation(x, y);
+			}
+			if (key.equals("size")) {
+				String[] pos = value.split(",");
+				int h = new Integer(pos[0]);
+				int w = new Integer(pos[1]);
+				node.setSize(h, w);
+			}
+			if (key.equals("label")) {
+				node.setLabel(value);
+			}
+		}
+	}
 
-		logger.debug("Added sync object with id " + syncObject.getID() + " for element with id " + element.getId());
+	void sync(ISyncObject syncObj, ILinkModel link) {
+		for (Map.Entry<String, String> prop : syncObj.getProperties().entrySet()) {
+			String key = prop.getKey();
+			String value = prop.getValue();
+
+			if (key.equals("label")) {
+				link.setLabel(value);
+			}
+		}
 	}
 
 	@Override
 	public void syncObjectChanged(ISyncObject syncObject) {
 
-		String elementId = syncObject.getProperty("elementId");
-
-		IDiagramElement element = model.getElementById(elementId);
-
+		IDiagramElement element = model.getElementById(syncObject.getProperty("id"));
 
 		if (element == null) {
 			logger.warn("NOOOO!!!! Requesting to change a remote diagram element that is not added locally!!!!!");
 		} else {
-			int changedProperty = new Integer(syncObject.getProperty("changedProperty"));
-
-			switch (changedProperty) {
-				case PROP_NODE_LOCATION:
-					synchronized (this) {
-						INodeModel node = ((INodeModel) element);
-						logger.debug("######### syncObjectChanged::: " + changedProperty + " :: NODE: " + node);
-						int x = new Integer(syncObject.getProperty("x"));
-						int y = new Integer(syncObject.getProperty("y"));
-						System.out.println("y = " + y);
-						System.out.println("x = " + x);
-						node.setLocation(new Point(x, y));
-					}
-					break;
+			if (element instanceof INodeModel) {
+				sync(syncObject, (INodeModel) element);
+			} else if (element instanceof ILinkModel) {
+				sync(syncObject, (ILinkModel) element);
 			}
 		}
-
 	}
 
 	/**
@@ -104,11 +117,11 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void syncObjectRemoved(ISyncObject syncObject) {
 
-		String elementId = syncObject.getProperty("elementId");
+		String id = syncObject.getProperty("id");
 
-		logger.debug("Sync object for element id " + elementId + " deleted remotely!!");
+		logger.debug("Sync object for element id " + id + " deleted remotely!!");
 
-		IDiagramElement element = model.getElementById(elementId);
+		IDiagramElement element = model.getElementById(id);
 		if (element != null) {
 
 			if (element instanceof INodeModel)
@@ -133,7 +146,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		ISyncObject syncObject = new SyncObject();
 
-		syncObject.setProperty("elementId", n.getId());
+		syncObject.setProperty("id", n.getId());
 
 		syncObject.setToolname("scymapper");
 
@@ -145,7 +158,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		syncSession.addSyncObject(syncObject);
 
-		logger.debug("Added sync object: " + syncObject.getID());
+		logger.debug("Added sync object to session: " + syncObject.getID());
 	}
 
 	@Override
@@ -162,6 +175,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		//System.out.println("xml = " + xml);
 		syncObject.setProperty("initial", xml);
+		syncObject.setProperty("id", l.getId());
 
 		syncSession.addSyncObject(syncObject);
 
@@ -178,7 +192,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		logger.debug("User is locally removing node with ID " + node.getId());
 
 		ISyncObject syncObject = new SyncObject();
-		syncObject.setProperty("elementId", node.getId());
+		syncObject.setProperty("id", node.getId());
 
 		logger.warn("Sync object for node with id " + node.getId() + " NOT FOUND!!!");
 

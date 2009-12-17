@@ -1,4 +1,7 @@
-package eu.scy.scymapper.api.diagram;
+package eu.scy.scymapper.api.diagram.controller;
+
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 /**
  * @author bjoerge
@@ -13,4 +16,5 @@ public interface IDiagramController {
     void removeAll();
 
     void removeNode(INodeModel n);
+    void removeLink(ILinkModel l);
 }

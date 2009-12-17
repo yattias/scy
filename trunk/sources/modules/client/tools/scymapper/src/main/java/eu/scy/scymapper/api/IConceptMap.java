@@ -1,7 +1,7 @@
 package eu.scy.scymapper.api;
 
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 
 import java.io.Serializable;
 

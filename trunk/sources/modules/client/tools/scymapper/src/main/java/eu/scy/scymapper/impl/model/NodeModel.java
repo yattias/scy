@@ -1,8 +1,8 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.diagram.INodeModel;
-import eu.scy.scymapper.api.diagram.INodeModelConstraints;
-import eu.scy.scymapper.api.diagram.INodeModelListener;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.diagram.model.INodeModelConstraints;
+import eu.scy.scymapper.api.diagram.model.INodeModelListener;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
 import eu.scy.scymapper.impl.shapes.concepts.DefaultNodeShape;

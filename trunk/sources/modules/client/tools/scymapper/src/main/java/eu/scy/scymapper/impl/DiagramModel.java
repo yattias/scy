@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl;
 
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 
 import java.awt.*;
 import java.util.ArrayList;

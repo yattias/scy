@@ -43,12 +43,14 @@ public class Arrow implements ILinkShape {
         gp.append(line.getShape(from, to), false);
 
 		if (arrowhead != null) {
+			//arrowhead.setRotation(line.getAngleAtEnd(from, to));
 			arrowhead.setRotation(Line.getAngle(from, to));
 			AffineTransform at = AffineTransform.getTranslateInstance(to.x, to.y);
 			gp.append(at.createTransformedShape(arrowhead.getShape()), false);
 
 			if (isBidirectional()) {
-				tail.setRotation(Line.getAngle(from , to)+Math.PI);
+				//tail.setRotation(line.getAngleAtStart(from, to)+Math.PI);
+				tail.setRotation(Line.getAngle(from, to)+Math.PI);
 				at = AffineTransform.getTranslateInstance(from.x, from.y);
 				gp.append(at.createTransformedShape(tail.getShape()), false);
 			}

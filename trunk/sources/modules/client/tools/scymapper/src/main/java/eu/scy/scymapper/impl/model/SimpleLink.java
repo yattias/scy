@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.ILinkModelListener;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModelListener;
 import eu.scy.scymapper.api.shapes.ILinkShape;
 import eu.scy.scymapper.api.styling.ILinkStyle;
 import eu.scy.scymapper.api.styling.ILinkStyleListener;

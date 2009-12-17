@@ -1,9 +1,9 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.diagram.IDiagramSelectionListener;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
+import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import java.util.ArrayList;
 import java.util.Stack;
