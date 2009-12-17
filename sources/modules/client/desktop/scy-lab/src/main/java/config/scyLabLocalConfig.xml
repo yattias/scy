@@ -127,13 +127,28 @@
                <property name="uri" value="roolo://memory/11/0/Start_page.url"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="0"/>
+               <property name="mainAnchorElo" value="true"/>
                <property name="nextMissionAnchorNames">
                   <list>
                      <value>conceptMap</value>
                      <value>hypothesis</value>
                   </list>
                </property>
+               <property name="inputAnchorEloNames">
+                  <list>
+                     <value>conceptMap</value>
+                     <value>hypothesis</value>
+                  </list>
+               </property>
                <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
+                     <value>roolo://memory/13/0/First_ideas.url</value>
+                     <value>roolo://memory/14/0/Global_Warming.url</value>
+                     <value>roolo://memory/15/0/Websites_global_warming.url</value>
+                  </list>
+               </property>
+               <property name="supportEloUris">
                   <list>
                      <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
                      <value>roolo://memory/13/0/First_ideas.url</value>
