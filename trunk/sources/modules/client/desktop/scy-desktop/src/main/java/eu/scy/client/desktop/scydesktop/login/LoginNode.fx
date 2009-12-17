@@ -31,12 +31,13 @@ public class LoginNode extends CustomNode {
       var defaultUserName =   "name";
 
                     public-init var defaultPassword = "pass";
-
+                    public-init var autoLogin = false;
    public
       var loginAction   :
 
 
      function(userName:String,password:String): Void;
+
    def spacing = 5;
    def borderSize = 5;
    def entryFieldOffset = 100;
@@ -47,6 +48,31 @@ public class LoginNode extends CustomNode {
    var passwordField: PasswordBox;
    var loginButton: Button;
    var quitButton: Button;
+   def loginEnabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0);
+
+   postinit{
+      if (autoLogin){
+         Timeline {
+            repeatCount: 1
+            keyFrames : [
+               KeyFrame {
+                  time : 5000ms
+                  action:doAutoLogin
+               }
+            ]
+         }.play();
+      }
+   }
+
+   function doAutoLogin(){
+      if (loginEnabled){
+         loginButton.action();
+      }
+      else{
+         println("autoLogin, but login is not enabled");
+      }
+   }
+
 
    public override function create(): Node {
       var loginGroup = Group {
@@ -90,7 +116,7 @@ public class LoginNode extends CustomNode {
                        layoutY: 2 * rowHeight + spacing;
                        strong:true
                        text: "Login"
-                       disable: bind (userNameField.text.length() == 0 or passwordField.password.length() == 0)
+                       disable: bind loginEnabled
                        action: function () {
                           loginAction(userNameField.text,passwordField.password);
                        }
@@ -119,6 +145,7 @@ public class LoginNode extends CustomNode {
               }
 
    }
+
 
    public function loginFailed():Void{
       def shiftField = passwordField;

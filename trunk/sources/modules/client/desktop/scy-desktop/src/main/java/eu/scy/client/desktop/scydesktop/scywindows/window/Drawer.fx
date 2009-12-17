@@ -234,7 +234,7 @@ public abstract class Drawer extends CustomNode {
       }
       closeControl = WindowClose {
          size: controlSize;
-         strokeWidth: 1.5;
+         strokeWidth: 3;
          color: bind color;
          subColor: bind subColor;
          closeAction: function () {

@@ -28,27 +28,23 @@ public class MouseEventInScene{
          var deltaX = mouseEvent.sceneX;
          x -= deltaX;
          dragX -= deltaX;
-         println("deltaX: {deltaX}");
       }
       else if (mouseEvent.sceneX>mouseEvent.node.scene.width){
          var deltaX = mouseEvent.sceneX-mouseEvent.node.scene.width;
          x -= deltaX;
          dragX -= deltaX;
-         println("deltaX: {deltaX}");
-      }
+       }
       y = mouseEvent.y;
       dragY = mouseEvent.dragY;
       if (mouseEvent.sceneY<0){
          var deltaY = mouseEvent.sceneY;
          y -= deltaY;
          dragY -= deltaY;
-         println("deltaY: {deltaY}");
       }
       else if (mouseEvent.sceneY>mouseEvent.node.scene.height){
          var deltaY = mouseEvent.sceneY-mouseEvent.node.scene.height;
          y -= deltaY;
          dragY -= deltaY;
-         println("deltaY: {deltaY}");
       }
    }
 }
