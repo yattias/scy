@@ -42,7 +42,8 @@ public class EloXmlViewer extends javax.swing.JPanel {
       xmlViewerScrollPane = new javax.swing.JScrollPane();
       xmlViewer = new javax.swing.JTextArea();
 
-      setMinimumSize(new java.awt.Dimension(200, 60));
+      setMinimumSize(new java.awt.Dimension(150, 75));
+      setPreferredSize(new java.awt.Dimension(200, 100));
 
       updateButton.setText("Update");
       updateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -53,7 +54,7 @@ public class EloXmlViewer extends javax.swing.JPanel {
 
       xmlViewer.setColumns(1);
       xmlViewer.setEditable(false);
-      xmlViewer.setFont(new java.awt.Font("Monospaced", 0, 12));
+      xmlViewer.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
       xmlViewer.setRows(1);
       xmlViewerScrollPane.setViewportView(xmlViewer);
 

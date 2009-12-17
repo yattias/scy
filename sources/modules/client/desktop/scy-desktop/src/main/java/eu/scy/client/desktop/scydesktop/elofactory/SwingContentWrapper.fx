@@ -60,6 +60,22 @@ public class SwingContentWrapper extends CustomNode, Resizable {
       swingContent.setSize(newSize);
    }
 
+   public override function getMaxHeight() : Number{
+      return swingContent.getMaximumSize().getHeight();
+   }
+
+   public override function getMaxWidth() : Number{
+      return swingContent.getMaximumSize().getWidth();
+   }
+
+   public override function getMinHeight() : Number{
+      return swingContent.getMinimumSize().getHeight();
+   }
+
+   public override function getMinWidth() : Number{
+      return swingContent.getMinimumSize().getWidth();
+   }
+
    public override function getPrefHeight(width: Number) : Number{
       return swingContent.getPreferredSize().getHeight();
    }
