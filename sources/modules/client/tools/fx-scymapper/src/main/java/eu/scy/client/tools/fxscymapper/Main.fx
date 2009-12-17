@@ -17,12 +17,14 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.common.datasync.IDataSyncService;
 
 /**
  * @author sikkenj
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyMapperTestConfig.xml"
+            loginType:"remote"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -33,7 +35,9 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
            }
 
    def scyMapperId = "conceptmap";
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {}, scyMapperId);
+
+   
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {toolBroker:toolBrokerAPI}, scyMapperId);
 
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
