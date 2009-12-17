@@ -36,6 +36,10 @@ public class EditorTab extends JPanel implements ChangeListener {
 		return toolbar;
 	}
 	
+	public FileToolbar getFileToolbar() {
+		return this.filetoolbar;
+	}
+	
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		editor.getActionLogger().logActivateWindow("model", null, this);
