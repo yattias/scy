@@ -9,7 +9,7 @@ import eu.scy.scymapper.api.styling.INodeStyle;
  * A concept type is used as a template when creating new concepts. When the user adds a new concept based
  * on a concept type, a new INodeModel instance is created with the properties of the ConceptType copied to the
  * INodeModel instance as initial values.
- * @see eu.scy.scymapper.api.diagram.INodeModel
+ * @see eu.scy.scymapper.api.diagram.model.INodeModel
  */
 public interface IConceptType {
     /**

@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.diagram;
+package eu.scy.scymapper.api.diagram.controller;
 
 import java.awt.*;
 

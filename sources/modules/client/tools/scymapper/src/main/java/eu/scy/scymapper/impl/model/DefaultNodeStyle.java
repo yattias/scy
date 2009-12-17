@@ -23,6 +23,10 @@ public class DefaultNodeStyle implements INodeStyle {
 
     private boolean opaque = true;
 
+	private int minWidth = 60;
+
+	private int minHeight = 60;
+
     private transient java.util.List<INodeStyleListener> listeners = new ArrayList<INodeStyleListener>();
 
     private Object readResolve() {
@@ -103,4 +107,24 @@ public class DefaultNodeStyle implements INodeStyle {
     public void setSelectionColor(Color c) {
         selectionColor = c;
     }
+
+	@Override
+	public int getMinHeight() {
+		return minHeight;
+	}
+
+	@Override
+	public void setMinHeight(int h) {
+		minHeight = h;
+	}
+
+	@Override
+	public int getMinWidth() {
+		return minWidth;
+	}
+
+	@Override
+	public void setMinWidth(int w) {
+		minWidth = w;
+	}
 }

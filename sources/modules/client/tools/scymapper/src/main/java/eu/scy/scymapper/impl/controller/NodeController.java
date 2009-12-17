@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.controller;
-import eu.scy.scymapper.api.diagram.INodeController;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.controller.INodeController;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import java.awt.*;
 
@@ -20,7 +20,15 @@ public class NodeController implements INodeController {
 
     @Override
     public void setSize(Dimension p) {
-        if (model.getConstraints().getCanResize())  model.setSize(p);
+        if (!model.getConstraints().getCanResize()) return;
+		
+		int minHeight = model.getStyle().getMinHeight();
+		int minWidth = model.getStyle().getMinWidth();
+
+		if (p.height < minHeight) p.height = minHeight;
+		if (p.width < minWidth) p.width = minWidth;
+
+		model.setSize(p);
     }
 
     @Override

@@ -3,7 +3,7 @@ package eu.scy.scymapper.impl.controller.datasync;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.controller.NodeController;
 import org.apache.log4j.Logger;
 
@@ -24,26 +24,27 @@ public class DataSyncNodeController extends NodeController {
     }
 
 	@Override
-    public void setSize(Dimension p) {
-        super.setSize(p);
+    public void setSize(Dimension d) {
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+		syncObject.setProperty("size", d.height+","+d.width);
+		syncSession.changeSyncObject(syncObject);
     }
 
     @Override
     public void setLocation(Point p) {
 		ISyncObject syncObject = new SyncObject();
-
-		syncObject.setProperty("elementId", model.getId());
-
-		logger.debug(syncObject.getProperty("initial"));
-		syncObject.setProperty("changedProperty", String.valueOf(DataSyncDiagramController.PROP_NODE_LOCATION));
-		syncObject.setProperty("x", String.valueOf(p.x));
-		syncObject.setProperty("y", String.valueOf(p.y));
+		syncObject.setProperty("id", model.getId());
+		syncObject.setProperty("location", p.x+","+p.y);
 		syncSession.changeSyncObject(syncObject);
     }
 
     @Override
     public void setLabel(String text) {
-        super.setLabel(text);
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", model.getId());
+		syncObject.setProperty("label", text);
+		syncSession.changeSyncObject(syncObject);
     }
 
 	@Override

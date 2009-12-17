@@ -2,8 +2,8 @@ package eu.scy.scymapper.impl.model;
 
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.IConceptMapListener;
-import eu.scy.scymapper.api.diagram.IDiagramModel;
-import eu.scy.scymapper.api.diagram.IDiagramSelectionModel;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 import eu.scy.scymapper.impl.DiagramModel;
 
 import java.util.ArrayList;

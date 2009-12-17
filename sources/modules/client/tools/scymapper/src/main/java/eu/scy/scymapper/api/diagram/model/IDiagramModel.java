@@ -1,4 +1,4 @@
-package eu.scy.scymapper.api.diagram;
+package eu.scy.scymapper.api.diagram.model;
 
 import java.awt.*;
 import java.io.Serializable;

@@ -1,7 +1,7 @@
 package eu.scy.scymapper.impl.model;
 
-import eu.scy.scymapper.api.diagram.INodeLinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import java.awt.*;
 

@@ -1,6 +1,10 @@
 package eu.scy.scymapper.impl.controller;
 
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.controller.IDiagramController;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
@@ -67,6 +71,7 @@ public class DiagramController implements IDiagramController {
     }
 
     public void removeLink(ILinkModel l) {
+		logger.debug("Removing link: "+l);
         model.removeLink(l);
     }
 }

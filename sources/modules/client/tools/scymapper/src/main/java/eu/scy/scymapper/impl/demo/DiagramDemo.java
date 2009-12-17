@@ -1,6 +1,6 @@
 package eu.scy.scymapper.impl.demo;
 
-import eu.scy.scymapper.api.diagram.*;
+import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.controller.DiagramController;

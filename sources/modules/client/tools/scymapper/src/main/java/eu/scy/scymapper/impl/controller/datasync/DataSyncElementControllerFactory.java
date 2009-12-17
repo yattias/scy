@@ -1,10 +1,10 @@
 package eu.scy.scymapper.impl.controller.datasync;
 
 import eu.scy.client.common.datasync.ISyncSession;
-import eu.scy.scymapper.api.diagram.ILinkController;
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeController;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.controller.ILinkController;
+import eu.scy.scymapper.api.diagram.controller.INodeController;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.controller.IElementControllerFactory;
 
 /**

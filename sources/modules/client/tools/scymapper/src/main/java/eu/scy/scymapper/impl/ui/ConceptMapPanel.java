@@ -1,7 +1,8 @@
 package eu.scy.scymapper.impl.ui;
 
 import eu.scy.scymapper.api.IConceptMap;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
@@ -62,6 +63,9 @@ public class ConceptMapPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 for (INodeModel selectedNode : model.getDiagramSelectionModel().getSelectedNodes()) {
                     conceptDiagramView.getController().removeNode(selectedNode);
+                }
+                for (ILinkModel selectedNode : model.getDiagramSelectionModel().getSelectedLinks()) {
+                    conceptDiagramView.getController().removeLink(selectedNode);
                 }
             }
         });

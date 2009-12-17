@@ -90,4 +90,12 @@ public interface INodeStyle {
      * @param c the selection color
      */
     void setSelectionColor(Color c);
+
+	int getMinHeight();
+
+	void setMinHeight(int h);
+
+	int getMinWidth();
+
+	void setMinWidth(int w);
 }

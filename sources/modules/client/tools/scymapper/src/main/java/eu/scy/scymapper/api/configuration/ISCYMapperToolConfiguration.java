@@ -3,7 +3,7 @@ package eu.scy.scymapper.api.configuration;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
 import eu.scy.scymapper.api.IConceptType;
 import eu.scy.scymapper.api.ILinkType;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 
 import java.util.List;
 

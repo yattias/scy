@@ -9,20 +9,18 @@ import java.awt.geom.GeneralPath;
  * User: Bjorge Naess
  * Date: 11.jun.2009
  * Time: 18:22:03
- * To change this template use File | Settings | File Templates.
  */
 public class Arrowhead {
 
 	private transient double angle = Math.PI / 3;
 
-	private transient double length = 25;
+	private double length = 25;
 	private transient double rotation = Double.NaN;
 
 	private boolean fixedSize;
 
 	private Object readResolve() {
 		angle = Math.PI / 3;
-		length = 25;
 		return this;
 	}
 

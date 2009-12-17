@@ -1,4 +1,6 @@
-package eu.scy.scymapper.api.diagram;
+package eu.scy.scymapper.api.diagram.model;
+
+import eu.scy.scymapper.api.diagram.controller.IDiagramSelectionListener;
 
 import java.util.Stack;
 

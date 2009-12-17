@@ -1,11 +1,11 @@
 package eu.scy.scymapper.impl.ui.diagram.modes;
 
-import eu.scy.scymapper.api.diagram.ILinkModel;
-import eu.scy.scymapper.api.diagram.INodeModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 import eu.scy.scymapper.impl.ui.diagram.LinkView;
-import eu.scy.scymapper.impl.ui.diagram.NodeView;
+import eu.scy.scymapper.impl.ui.diagram.RichNodeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,7 @@ public class ConnectMode implements IDiagramMode {
     private final MouseListener mouseListener = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            NodeView comp = (NodeView) e.getSource();
+            RichNodeView comp = (RichNodeView) e.getSource();
             sourceNode = comp.getModel();
             comp.setBorder(BorderFactory.createLineBorder(Color.green, 1));
             Point relPoint = e.getPoint();
@@ -49,7 +49,7 @@ public class ConnectMode implements IDiagramMode {
         @Override
         public void mouseReleased(MouseEvent e) {
             connector.setVisible(false);
-            NodeView node = (NodeView) e.getSource();
+            RichNodeView node = (RichNodeView) e.getSource();
             node.setBorder(BorderFactory.createEmptyBorder());
 
             if (currentTarget != null) {
@@ -74,7 +74,7 @@ public class ConnectMode implements IDiagramMode {
             // The relative mouse position from the component x,y
             Point relPoint = e.getPoint();
 
-            NodeView node = (NodeView) e.getSource();
+            RichNodeView node = (RichNodeView) e.getSource();
 
             // Create the new location
             Point newLocation = node.getLocation();
@@ -104,10 +104,10 @@ public class ConnectMode implements IDiagramMode {
         }
     };
 
-    private NodeView getNodeViewForModel(INodeModel node) {
+    private RichNodeView getNodeViewForModel(INodeModel node) {
         for (Component c : view.getComponents()) {
-            if (c instanceof NodeView && ((NodeView) c).getModel().equals(node)) {
-                return (NodeView) c;
+            if (c instanceof RichNodeView && ((RichNodeView) c).getModel().equals(node)) {
+                return (RichNodeView) c;
             }
         }
         return null;
