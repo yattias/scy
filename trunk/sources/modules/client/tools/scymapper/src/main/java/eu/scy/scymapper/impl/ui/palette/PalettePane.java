@@ -62,8 +62,7 @@ public class PalettePane extends JPanel {
 //        opaqueCheckbox = new FillStyleCheckbox();
 //        nodeStylePanel.add(opaqueCheckbox);
 
-        JPanel nodePanel = new JPanel(new MigLayout("wrap 2", "[grow,fill]"));
-        nodePanel.setBorder(BorderFactory.createTitledBorder("Concepts"));
+        JPanel nodePanel = new JPanel(new MigLayout("wrap 2", "[grow]"));
 
         for (final IConceptType conceptType : conceptTypes) {
             final AddConceptButton button = new AddConceptButton(conceptType);
@@ -97,8 +96,7 @@ public class PalettePane extends JPanel {
             nodePanel.add(button);
         }
 
-        JPanel linkPanel = new JPanel(new MigLayout("wrap 1", "[grow,fill]"));
-        linkPanel.setBorder(BorderFactory.createTitledBorder("Links"));
+        JPanel linkPanel = new JPanel(new MigLayout("wrap 2", "[grow]"));
         for (final ILinkType linkType : linkProtoTypes) {
             final AddLinkButton button = new AddLinkButton(linkType.getLabel(), linkType.getLinkShape());
             button.setHorizontalAlignment(JButton.LEFT);
@@ -129,8 +127,13 @@ public class PalettePane extends JPanel {
         }
 
         //add(nodeStylePanel);
-        add(nodePanel);
-        add(linkPanel);
+		JScrollPane nodeScrollPane = new JScrollPane(nodePanel);
+        nodeScrollPane.setBorder(BorderFactory.createTitledBorder("Concepts"));
+
+		JScrollPane linkScrollPane = new JScrollPane(linkPanel);
+        linkScrollPane.setBorder(BorderFactory.createTitledBorder("Links"));
+        add(nodeScrollPane);
+        add(linkScrollPane);
 
     }
 

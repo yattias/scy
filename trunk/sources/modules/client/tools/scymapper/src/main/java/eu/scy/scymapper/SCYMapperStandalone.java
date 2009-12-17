@@ -504,6 +504,7 @@ public class SCYMapperStandalone extends JFrame {
 			setTitle(username + " / " + getTitle());
 			((JLabel)loginStatus).setIcon(onlineIcon);
 			((JLabel)loginStatus).setText("Logged in as "+username);
+			scyMapperPanel.setToolBroker(toolBroker);
 		}
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(SCYMapperStandalone.this, "Error logging in: " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -25,11 +25,14 @@ import roolo.elo.api.IELOFactory;
 
 
 import roolo.elo.api.IELO;
+import eu.scy.client.common.datasync.IDataSyncService;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class SCYMapperContentCreator extends WindowContentCreatorFX {
     public-init var eloFactory:IELOFactory;
     public-init var metadataTypeManager: IMetadataTypeManager;
     public-init var repository:IRepository;
+    public-init var toolBroker:ToolBrokerAPI;
 
     var repositoryWrapper;
 
@@ -58,13 +61,15 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 
     function createScyMapperNode(scyWindow:ScyWindow, elo:IELO): SCYMapperNode{
         setWindowProperties(scyWindow);
-        var shapesConfig = new ClassPathXmlApplicationContext("config/shapesMockConfig.xml");
+        var shapesConfig = new ClassPathXmlApplicationContext("eu/scy/scymapper/shapesConfig.xml");
 
         var configuration = (shapesConfig.getBean("configuration")  as SCYMapperToolConfiguration);
 
         var conceptMap = repositoryWrapper.getELOConceptMap(elo);
 
         var scymapperPanel= new SCYMapperPanel(conceptMap, configuration);
+
+        scymapperPanel.setToolBroker(toolBroker);
 
         return SCYMapperNode{
             scyMapperPanel:scymapperPanel;

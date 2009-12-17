@@ -16,6 +16,7 @@ public class AddLinkButton extends JToggleButton {
 
 	public AddLinkButton(String text, ILinkShape shape) {
         super(new LinkIcon(shape, 20, 20));
+		setHorizontalAlignment(CENTER);
 		this.shape = shape;
 		setText(text);
     }
