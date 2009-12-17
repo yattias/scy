@@ -120,6 +120,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public IModellingLogger getActionLogger() {
 		return actionLogger;
 	}
+	
+	public FileToolbar getFileToolbar() {
+		return editorTab.getFileToolbar();
+	}
 
 	private void initComponents() {
 		EditorActionListener actionListener = new EditorActionListener(this);

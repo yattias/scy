@@ -8,35 +8,24 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-
-import colab.um.tools.JTools;
 import colab.um.xml.model.JxmModel;
-import eu.scy.client.tools.scydynamics.model.SimquestModel;
-
-import utils.XmlUtilities;
-
 
 public class FileToolbar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = -5071178017935714682L;
 	private ModelEditor editor;
 	private String filename = null;
+	private Frame parentFrame = new Frame();
 
 	public FileToolbar(ModelEditor editor) {
 		super(JToolBar.HORIZONTAL);
@@ -45,10 +34,10 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		add(Util.createJButton("new", "new", "editorNew", this));
 		add(Util.createJButton("open", "open", "editorOpen", this));
 		add(Util.createJButton("save", "save", "editorSave", this));
-		add(Util.createJButton("save as", "saveas", "editorSave", this));
+		add(Util.createJButton("save as", "saveas", "editorSave", this));	
 	}
-
-	private void load(String filename) {
+	
+	public void load(String filename) {
 		// JxmModel xmlModel = JxmModel.readFileXML(filename);
 		// editor.setXmModel(xmlModel);
 		JxmModel xmlModel = null;
@@ -101,8 +90,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 				saveas();
 			}
 		} else if (evt.getActionCommand().equals("open")) {
-			FileDialog dialog = new FileDialog((Frame) editor.getRootPane()
-					.getParent(), "Load model...", FileDialog.LOAD);
+			FileDialog dialog = new FileDialog(parentFrame, "Load model...", FileDialog.LOAD);
 			// dialog.setFile("*.xml");
 			dialog.setVisible(true);
 			if (dialog.getFile() != null) {
@@ -142,8 +130,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	}
 
 	private void saveas() {
-		FileDialog dialog = new FileDialog((Frame) editor.getRootPane()
-				.getParent(), "Save model to a file...", FileDialog.SAVE);
+		FileDialog dialog = new FileDialog(parentFrame, "Save model to a file...", FileDialog.SAVE);
 		dialog.setFile("*.xml");
 		dialog.setVisible(true);
 		if (dialog.getFile() != null) {
