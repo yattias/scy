@@ -403,8 +403,9 @@ public class StandardScyWindow extends ScyWindow {
       printMousePos("drag",e);
       if (isInvalidMousePos(e))
 		return;
-		var difX = e.dragX;
-		var difY = e.dragY;
+      var mouseEventInScene = MouseEventInScene{mouseEvent:e};
+		var difX = mouseEventInScene.dragX;
+		var difY = mouseEventInScene.dragY;
       maxDifX = Math.max(maxDifX, difX);
       maxDifY = Math.max(maxDifY, difY);
 		//System.out.println("difX: {e.x}-{e.dragAnchorX} {difX}, difY: {e.y}-{e.dragAnchorY} {difY}");
@@ -423,9 +424,10 @@ public class StandardScyWindow extends ScyWindow {
 			isMinimized = false;
 		}
 		checkScyContent();
+      var mouseEventInScene = MouseEventInScene{mouseEvent:e};
 		var angle = Math.toRadians(rotate);
-		var difW = Math.cos(angle) * e.dragX + Math.sin(angle) * e.dragY;
-		var difH = Math.cos(angle) * e.dragY - Math.sin(angle) * e.dragX;
+		var difW = Math.cos(angle) * mouseEventInScene.dragX + Math.sin(angle) * mouseEventInScene.dragY;
+		var difH = Math.cos(angle) * mouseEventInScene.dragY - Math.sin(angle) * mouseEventInScene.dragX;
 		var difX: Number;
 		var difY: Number;
 		difX = (1 - Math.cos(angle)) * difW / 2;
@@ -752,7 +754,7 @@ public class StandardScyWindow extends ScyWindow {
 
 		return Group {
          cursor: Cursor.MOVE;
-
+         cache:true;
 			content: [
             emptyWindow,
             contentElement,
