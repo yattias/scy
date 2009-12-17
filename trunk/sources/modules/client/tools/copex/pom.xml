@@ -98,6 +98,12 @@
                     <include>*.xml</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources/copexHelp</directory>
+                <includes>
+                    <include>*.xhtml</include>
+                </includes>
+            </resource>
         </resources>
     </build>
     
