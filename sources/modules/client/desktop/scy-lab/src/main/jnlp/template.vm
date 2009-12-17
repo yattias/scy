@@ -1,6 +1,6 @@
 <jnlp
     spec="$jnlpspec"
-    codebase="$project.Url"
+    codebase="$$codebase"
     href="$outputFile">
   <information>
     <title>SCY-Lab</title>
