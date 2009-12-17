@@ -20,6 +20,9 @@ public class BasicMissionAnchorConfig {
    private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
    private List<URI> helpEloUris;
+   private List<String> inputAnchorEloNames;
+   private List<URI> supportEloUris;
+   private boolean mainAnchorElo;
 
    public String getName()
    {
@@ -59,6 +62,36 @@ public class BasicMissionAnchorConfig {
    public void setHelpEloUris(List<URI> helpEloUris)
    {
       this.helpEloUris = helpEloUris;
+   }
+
+   public List<String> getInputAnchorEloNames()
+   {
+      return inputAnchorEloNames;
+   }
+
+   public void setInputAnchorEloNames(List<String> inputAnchorEloNames)
+   {
+      this.inputAnchorEloNames = inputAnchorEloNames;
+   }
+
+   public List<URI> getSupportEloUris()
+   {
+      return supportEloUris;
+   }
+
+   public void setSupportEloUris(List<URI> supportEloUris)
+   {
+      this.supportEloUris = supportEloUris;
+   }
+
+   public boolean isMainAnchorElo()
+   {
+      return mainAnchorElo;
+   }
+
+   public void setMainAnchorElo(boolean mainAnchorElo)
+   {
+      this.mainAnchorElo = mainAnchorElo;
    }
 
    public URI getUri()
