@@ -56,7 +56,7 @@ public class LoginNode extends CustomNode {
             repeatCount: 1
             keyFrames : [
                KeyFrame {
-                  time : 5000ms
+                  time : 250ms
                   action:doAutoLogin
                }
             ]
@@ -65,7 +65,7 @@ public class LoginNode extends CustomNode {
    }
 
    function doAutoLogin(){
-      if (loginEnabled){
+      if (not loginButton.disabled){
          loginButton.action();
       }
       else{

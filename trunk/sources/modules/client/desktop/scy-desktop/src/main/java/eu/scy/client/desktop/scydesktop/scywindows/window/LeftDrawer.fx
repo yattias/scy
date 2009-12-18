@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
 // place your code here
 public class LeftDrawer extends Drawer{
 
-   override def absoluteMinimumHeight = 2*controlSize;
+   //override def absoluteMinimumHeight = 2*controlSize;
    override def horizontal = false;
 
    init{
@@ -35,9 +35,9 @@ public class LeftDrawer extends Drawer{
       }
 //      println("this.layoutX:{this.layoutX}, this.translateX:{this.translateX},"
 //         " drawerGroup.layoutX:{drawerGroup.layoutX}, drawerGroup.translateX:{drawerGroup.translateX}");
-      closeControl.layoutX = width-1.5*controlSize;
-      closeControl.layoutY = controlSize/2;
-      resizeControl.layoutX = controlSize;
+      closeControl.layoutX = width-1.5*closeControlSize;
+      closeControl.layoutY = closeControlSize/2;
+      resizeControl.layoutX = resizeControlSize;
       resizeControl.layoutY = height;
       resizeControl.rotate = 90;
    }

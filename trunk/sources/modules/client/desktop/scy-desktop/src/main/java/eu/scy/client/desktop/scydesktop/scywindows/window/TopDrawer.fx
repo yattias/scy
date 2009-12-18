@@ -19,7 +19,7 @@ import javafx.scene.shape.Rectangle;
 // place your code here
 public class TopDrawer extends Drawer{
 
-   override def absoluteMinimumWidth = 2*controlSize;
+  // override def absoluteMinimumWidth = 2*controlSize;
 
    init{
       resizeYFactor = -1;
@@ -32,10 +32,10 @@ public class TopDrawer extends Drawer{
       else{
          this.translateY = 1;
       }
-      closeControl.layoutX = width-1.5*controlSize;
-      closeControl.layoutY = height-1.5*controlSize;
+      closeControl.layoutX = width-1.5*closeControlSize;
+      closeControl.layoutY = height-1.5*closeControlSize;
       resizeControl.layoutX = width;
-      resizeControl.layoutY = controlSize;
+      resizeControl.layoutY = resizeControlSize;
       resizeControl.rotate = -90;
    }
 }
