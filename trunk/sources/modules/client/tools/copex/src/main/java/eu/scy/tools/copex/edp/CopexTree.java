@@ -114,6 +114,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
         this.setRowHeight(0);
         this.setUI(new TaskBasicTreeUI(this));
         this.setEditable(true);
+        if(proc.getRight() == MyConstants.NONE_RIGHT)
+            setEditable(false);
         setToggleClickCount(0);
         this.addMouseListener(this);
         this.addKeyListener(this);

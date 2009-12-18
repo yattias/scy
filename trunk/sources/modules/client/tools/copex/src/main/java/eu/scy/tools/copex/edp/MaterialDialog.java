@@ -97,9 +97,8 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
         this.modeAdd = false;
         this.addComponentListener(this);
         setListMaterial();
-        setCreateMaterial();
         if(materialStrategy.canAddMaterial() && listMaterialUsed.size() == 0)
-            createMaterial();
+            setCreateMaterial();
         if(procRight == MyConstants.NONE_RIGHT){
             panelButtons.remove(buttonOk);
             buttonOk = null;
@@ -306,7 +305,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
             }
             panelNoMaterial = null;
             labelNoMaterial = null;
-            listMaterialPanel = new ListMaterialPanel(edP, materialStrategy, listMaterialUsed, this.getWidth()-30);
+            listMaterialPanel = new ListMaterialPanel(edP, procRight,materialStrategy, listMaterialUsed, this.getWidth()-30);
             listMaterialPanel.addActionMaterial(this);
             JScrollPane scroll = new JScrollPane(listMaterialPanel);
             scroll.setName("scroll");
@@ -419,9 +418,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
         }
     }
 
-    private void createMaterial(){
-        
-    }
+    
 
     @Override
     public void actionHideAddMaterial() {
