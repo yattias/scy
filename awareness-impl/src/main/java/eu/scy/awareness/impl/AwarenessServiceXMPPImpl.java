@@ -1,0 +1,317 @@
+package eu.scy.awareness.impl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.Roster;
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Presence;
+
+import eu.scy.awareness.AwarenessServiceException;
+import eu.scy.awareness.AwarenessUser;
+import eu.scy.awareness.IAwarenessService;
+import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.AwarenessEvent;
+import eu.scy.awareness.event.AwarenessPresenceEvent;
+import eu.scy.awareness.event.AwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarePresenceEvent;
+import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessMessageListener;
+import eu.scy.awareness.event.IAwarenessPresenceListener;
+import eu.scy.awareness.event.IAwarenessRosterEvent;
+import eu.scy.awareness.event.IAwarenessRosterListener;
+import eu.scy.awareness.tool.ChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolEvent;
+import eu.scy.awareness.tool.IChatPresenceToolListener;
+
+public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
+
+	private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
+	private ConnectionConfiguration config;
+	private XMPPConnection xmppConnection;
+	private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
+	private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
+	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
+	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
+	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
+	private Roster roster;
+
+
+	public AwarenessServiceXMPPImpl() {
+	}
+
+
+	@Override
+	public boolean isConnected() {
+		if (xmppConnection != null)
+			return xmppConnection.isConnected();
+
+		return false;
+	}
+
+
+	@Override
+	public void sendMessage(String recipient, String message) {
+		Chat chat = xmppConnection.getChatManager().createChat(recipient, this);
+		try {
+			chat.sendMessage(message);
+		} catch (XMPPException e) {
+			logger.error("sendMessage: XMPPException: "+e);
+			e.printStackTrace();
+		}
+	}
+
+
+	public void processMessage(Chat chat, Message message) {
+		if (message.getType() == Message.Type.chat) {
+			logger.debug("processMessage: "+chat.getParticipant() + " says: " + message.getBody());
+			
+			for (IAwarenessMessageListener al : messageListeners) {
+				if (al != null && message.getBody() != null) {
+					
+					String participant = chat.getParticipant();
+					
+					IAwarenessUser aw = new AwarenessUser();
+					aw.setUsername(participant);
+					
+					
+					IAwarenessEvent awarenessEvent = new AwarenessEvent(this,aw , message.getBody());
+					al.handleAwarenessMessageEvent(awarenessEvent);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener) {
+		messageListeners.add(awarenessMessageListener);
+	}
+
+
+	@Override
+	public void addAwarenessRosterListener(IAwarenessRosterListener awarenessListListener) {
+		rosterListeners.add(awarenessListListener);
+	}
+
+
+	@Override
+	public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+		presenceListeners.add(awarenessPresenceListener);
+	}
+
+
+	public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener) {
+		presenceListeners.remove(awarenessPresenceListener);
+	}
+
+
+	@Override
+	public void addBuddy(String buddyName) throws AwarenessServiceException {
+		roster = this.xmppConnection.getRoster();
+		Collection<RosterEntry> rosterEntries = roster.getEntries();
+		try {
+			roster.createEntry(buddyName, buddyName, new String[] { "everybody" });
+		} catch (XMPPException e) {
+			logger.error("addBuddy: XMPPException: "+e);
+		}
+	}
+
+
+	@Override
+	public void removeBuddy(String buddyName) throws AwarenessServiceException {
+		RosterEntry entry = xmppConnection.getRoster().getEntry(buddyName);
+		try {
+			xmppConnection.getRoster().removeEntry(entry);
+		} catch (XMPPException e) {
+			logger.error("removeBuddy: XMPPException: "+e);
+		}
+		Presence unsubbed = new Presence(Presence.Type.unsubscribed);
+		unsubbed.setTo(buddyName);
+		this.xmppConnection.sendPacket(unsubbed);
+
+	}
+
+
+	@Override
+	public ArrayList<IAwarenessUser> getBuddies() throws AwarenessServiceException {
+		roster = this.xmppConnection.getRoster();
+		if(roster != null || !roster.getEntries().isEmpty()) {
+			Collection<RosterEntry> rosterEntries = roster.getEntries();
+			ArrayList<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
+			for (RosterEntry buddy : rosterEntries) {
+				IAwarenessUser au = new AwarenessUser();
+				au.setName(buddy.getName());
+				au.setUsername(buddy.getUser());
+				au.setPresence(roster.getPresence(buddy.getUser()).toString());
+				buddies.add(au);
+			}
+			return buddies;			
+		}
+		else {
+			return null;
+		}
+	}
+
+
+	@Override
+	public void disconnect() {
+		this.xmppConnection.disconnect();
+	}
+
+
+	protected Roster getRoster() {
+		return this.xmppConnection.getRoster();
+	}
+
+
+	protected ChatManager getChatManager() {
+		return this.xmppConnection.getChatManager();
+	}
+
+
+	@Override
+	public void init(XMPPConnection connection) {
+		this.xmppConnection = connection;
+		getRoster().setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+		getRoster().addRosterListener(new RosterListener() {
+
+			@Override
+			public void entriesAdded(Collection<String> addresses) {
+				logger.debug("init: entriesAdded: "+addresses);
+
+				for (IAwarenessRosterListener rosterListener : rosterListeners) {
+					if (rosterListener != null) {
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.ADD,
+								addresses);
+						rosterListener.handleAwarenessRosterEvent(rosterEvent);
+					}
+				}
+
+			}
+
+
+			@Override
+			public void entriesDeleted(Collection<String> addresses) {
+				logger.debug("init: entriesDeleted: "+addresses);
+				for (IAwarenessRosterListener rosterListener : rosterListeners) {
+					if (rosterListener != null) {
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.REMOVE,
+								addresses);
+						rosterListener.handleAwarenessRosterEvent(rosterEvent);
+					}
+				}
+			}
+
+
+			@Override
+			public void entriesUpdated(Collection<String> addresses) {
+				logger.debug("init: entriesUpdated: "+addresses);
+				for (IAwarenessRosterListener rosterListener : rosterListeners) {
+					if (rosterListener != null) {
+						IAwarenessRosterEvent rosterEvent = new AwarenessRosterEvent(AwarenessServiceXMPPImpl.this,
+								AwarenessServiceXMPPImpl.this.xmppConnection.getUser(), IAwarenessRosterEvent.UPDATED,
+								addresses);
+						rosterListener.handleAwarenessRosterEvent(rosterEvent);
+					}
+				}
+			}
+
+
+			@Override
+			public void presenceChanged(Presence presence) {
+				logger.debug("init: presenceChanged: "+presence);
+				if (presence == null) {
+					return;					
+				}
+
+				for (IAwarenessPresenceListener presenceListener : presenceListeners) {
+					if (presenceListener != null) {
+						
+						IAwarenessUser aw = new AwarenessUser();
+						aw.setUsername(presence.getFrom());
+						aw.setPresence(presence.getType().toString());
+						
+						IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(AwarenessServiceXMPPImpl.this, aw , "updated from awareness service", presence.getType().toString(), presence.getStatus());
+						presenceListener.handleAwarenessPresenceEvent(presenceEvent);
+					}
+				}
+
+			}
+
+		});
+
+		//Added by Jeremy Toussaint to track non-initialized chats
+		
+		getChatManager().addChatListener(new ChatManagerListener() {
+			
+			@Override
+			public void chatCreated(Chat chat, boolean local) {
+				chat.addMessageListener(AwarenessServiceXMPPImpl.this);
+			}
+		});
+	}
+
+
+	@Override
+	public void setStatus(String status) throws AwarenessServiceException {
+		Presence presence = getRoster().getPresence(xmppConnection.getUser());
+		presence.setStatus(status);
+
+	}
+
+
+	@Override
+	public void setPresence(String presenceString) throws AwarenessServiceException {
+		// Presence p = getRoster().getPresence(xmppConnection.getUser());
+	}
+
+
+	@Override
+	public void addChatToolListener(IChatPresenceToolListener listener) {
+		chatToolListeners.add(listener);
+		
+	}
+
+
+	@Override
+	public void addPresenceToolListener(IChatPresenceToolListener listener) {
+		presenceToolListeners.add(listener);
+	}
+	
+	public void updateChatTool(List<IAwarenessUser> users) {
+		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
+		icpte.setMessage("presence tool calling with updates");
+		for (IChatPresenceToolListener icptl : presenceToolListeners) {
+			if (icptl != null) {
+				icptl.handleChatPresenceToolEvent(icpte);
+			}
+		}
+	}
+	
+	public void updatePresenceTool(List<IAwarenessUser> users) {
+		logger.debug("Received something from Chattool");
+		IChatPresenceToolEvent icpte = new ChatPresenceToolEvent(users);
+		icpte.setMessage("chat tool calling with updates");
+		for (IChatPresenceToolListener icptl : chatToolListeners) {
+			if (icptl != null) {
+				icptl.handleChatPresenceToolEvent(icpte);
+			}
+		}
+	}
+
+}
