@@ -244,7 +244,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             //setEnabled(tree.isEnabled());
             textNode.setText(text);
             textNode.setEditable(editable);
-            textNode.setEnabled(editable);
+            textNode.setEnabled(true);
             int textWidth = CopexUtilities.lenghtOfString(text, textNode.getFontMetrics(textNode.getFont()))+5;
             int nbL = textNode.getLineCount() ;
 
