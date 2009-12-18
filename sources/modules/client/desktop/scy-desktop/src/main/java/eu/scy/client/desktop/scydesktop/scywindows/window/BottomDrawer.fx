@@ -22,8 +22,8 @@ public class BottomDrawer extends Drawer{
    override def absoluteMinimumWidth = 2*controlSize;
 
    override function positionControlElements():Void{
-      closeControl.layoutX = -controlSize/2;
-      closeControl.layoutY = height-controlSize/2;
+      closeControl.layoutX = width-1.5*controlSize;
+      closeControl.layoutY = controlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
@@ -49,6 +49,7 @@ function run(){
                closedSize:80;
                layoutX:20;
                layoutY:30
+               opened:true
             }
 
          ]

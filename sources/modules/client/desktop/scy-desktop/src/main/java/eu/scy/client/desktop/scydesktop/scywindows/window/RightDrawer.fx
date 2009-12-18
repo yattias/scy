@@ -26,8 +26,8 @@ public class RightDrawer extends Drawer{
    override def horizontal = false;
 
    override function positionControlElements():Void{
-      closeControl.layoutX = width-controlSize/2;
-      closeControl.layoutY = -controlSize/2;
+      closeControl.layoutX = controlSize/2;
+      closeControl.layoutY = controlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }
@@ -59,6 +59,7 @@ function run(){
                   }
                layoutX:30;
                layoutY:20
+               opened:true
             }
 
          ]
