@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-	<alias name="httpInvokerRepositoryProxy" alias="repository" />
+	<alias name="wrappedRepository" alias="repository" />
 	<alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
 	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
 	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
@@ -17,6 +17,12 @@
 			<value>/config/client.properties</value>
 		</property>
 	</bean>
+
+   <bean name="wrappedRepository" class="eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper">
+      <property name="repository" ref="httpInvokerRepositoryProxy"/>
+      <property name="metadataTypeManager" ref="httpInvokerMetadataTypeManagerProxy"/>
+      <property name="sendEloSavedEvents" value="true"/>
+   </bean>
 
 	<!-- Proxy for the HTTP-invoker-exported repository -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
