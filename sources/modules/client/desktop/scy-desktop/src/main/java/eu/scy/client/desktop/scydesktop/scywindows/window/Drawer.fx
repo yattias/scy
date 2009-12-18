@@ -40,7 +40,8 @@ public abstract class Drawer extends CustomNode {
    public var activated = false; // TODO, make only changeable from (sub) package
    def contentBorder = 1.0;
    protected var horizontal = true;
-   protected def controlSize = 10.0;
+   protected def resizeControlSize = 10.0;
+   protected def closeControlSize = 8.0;
    protected var opened = false;
    protected var width = 50.0 on replace {
               sizeChanged()
@@ -48,8 +49,8 @@ public abstract class Drawer extends CustomNode {
    protected var height = 50.0 on replace {
               sizeChanged()
            };
-   protected var absoluteMinimumWidth = controlSize;
-   protected var absoluteMinimumHeight = controlSize;
+   protected var absoluteMinimumWidth = closeControlSize+resizeControlSize;
+   protected var absoluteMinimumHeight = closeControlSize+resizeControlSize;
    protected var resizeXFactor = 1.0;
    protected var resizeYFactor = 1.0;
    protected var drawerGroup: Group;
@@ -233,10 +234,12 @@ public abstract class Drawer extends CustomNode {
          layoutY: contentBorder + borderSize / 2 + 1;
       }
       closeControl = WindowClose {
-         size: controlSize;
-         strokeWidth: 3;
+         size: closeControlSize;
+         strokeWidth: 4;
          color: bind color;
          subColor: bind subColor;
+         activated:false
+         outlineFactor:0.5
          closeAction: function () {
             opened = false;
             positionControlElements();
@@ -244,7 +247,7 @@ public abstract class Drawer extends CustomNode {
       }
       if (resizeAllowed) {
          resizeControl = WindowResize {
-            size: controlSize;
+            size: resizeControlSize;
             color: bind color;
             subColor: bind subColor;
             startResize: startResize;

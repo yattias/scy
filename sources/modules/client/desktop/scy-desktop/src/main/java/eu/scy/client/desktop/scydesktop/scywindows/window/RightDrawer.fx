@@ -22,12 +22,12 @@ import javafx.scene.control.Button;
 // place your code here
 public class RightDrawer extends Drawer{
 
-   override def absoluteMinimumHeight = 2*controlSize;
+   //override def absoluteMinimumHeight = 2*controlSize;
    override def horizontal = false;
 
    override function positionControlElements():Void{
-      closeControl.layoutX = controlSize/2;
-      closeControl.layoutY = controlSize/2;
+      closeControl.layoutX = closeControlSize/2;
+      closeControl.layoutY = closeControlSize/2;
       resizeControl.layoutX = width;
       resizeControl.layoutY = height;
    }

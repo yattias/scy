@@ -27,48 +27,31 @@ public class WindowClose extends WindowActiveElement {
 
 
     var closeAction: function(): Void;
+   public var activated = true;
+   public var outlineFactor = 0.5;
+   public var backgroundExtender = 0.0;
    def closeCrossInset = 2 * strokeWidth;
-   def outsideColor = bind if (highLighted) {if (active) subColor else color } else {if (active) color else subColor };
-   def insideColor = bind if (highLighted) {if (active) color else subColor } else {if (active) subColor else color };
+   def outsideColor = bind if (activated) {
+              if (highLighted) subColor else color
+           } else {
+              if (highLighted) color else subColor
+           };
+   def insideColor = bind if (activated) {
+              if (highLighted) color else subColor
+           } else {
+              if (highLighted) subColor else color
+           };
 
    public override function create(): Node {
       Group { // the close element
          cursor: Cursor.HAND
          blocksMouse: true;
-         //         translateX: bind width - topLeftBlockSize / 2
-         //         translateY: -topLeftBlockSize / 2
          content: [
-//            Rectangle { // background rect
-//               x: 0,
-//               y: 0;
-//               width: size,
-//               height: size
-//               fill: bind if (not highLighted) subColor else color
-//               stroke: bind color
-//               strokeWidth: strokeWidth
-//            },
-//            Group { // close cross
-//               translateX: 0
-//               translateY: 0
-//               content: [
-//                  Line {
-//                     startX: closeCrossInset,
-//                     startY: closeCrossInset
-//                     endX: size - closeCrossInset,
-//                     endY: size - closeCrossInset
-//                     strokeWidth: strokeWidth
-//                     stroke: bind if (not highLighted) color else subColor
-//                  }
-//                  Line {
-//                     startX: closeCrossInset,
-//                     startY: size - closeCrossInset
-//                     endX: size - closeCrossInset,
-//                     endY: closeCrossInset
-//                     strokeWidth: strokeWidth
-//                     stroke: bind if (not highLighted) color else subColor
-//                  }
-//               ]
-//            }
+            Rectangle {
+               x: -backgroundExtender, y: -backgroundExtender
+               width: size+1+2*backgroundExtender, height: size+1+2*backgroundExtender
+               fill: bind if (activated) color else subColor
+            }
             Polyline {
                points: [0, 0, size, size]
                strokeWidth: strokeWidth
@@ -81,12 +64,12 @@ public class WindowClose extends WindowActiveElement {
             }
             Polyline {
                points: [0, 0, size, size]
-               strokeWidth: strokeWidth/2
+               strokeWidth: outlineFactor * strokeWidth
                stroke: bind insideColor;
             }
             Polyline {
                points: [size, 0, 0, size]
-               strokeWidth: strokeWidth/2
+               strokeWidth: outlineFactor * strokeWidth
                stroke: bind insideColor;
             }
          ]
@@ -103,7 +86,7 @@ public class WindowClose extends WindowActiveElement {
    }
 }
 
-function run() {
+function run()   {
 
    Stage {
       title: "window close test"
@@ -114,25 +97,30 @@ function run() {
             WindowClose {
                layoutX: 20
                layoutY: 20
-               active: false
+               activated: false
                highLighted: false
             }
             WindowClose {
-               layoutX: 40
+               layoutX: 50
                layoutY: 20
-               active: false
+               activated: false
                highLighted: true
+            }
+            Rectangle {
+               x: 15, y: 40
+               width: 140, height: 30
+               fill: Color.GREEN
             }
             WindowClose {
                layoutX: 20
-               layoutY: 40
-               active: true
+               layoutY: 50
+               activated: true
                highLighted: false
             }
             WindowClose {
-               layoutX: 40
-               layoutY: 40
-               active: true
+               layoutX: 50
+               layoutY: 50
+               activated: true
                highLighted: true
             }
          ]

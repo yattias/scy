@@ -102,7 +102,7 @@ public class StandardScyWindow extends ScyWindow {
 	def controlColor = Color.WHITE;
 	def controlLength = 18.0;
 	def controlStrokeWidth = 4.0;
-   def closeBoxSize = 14.0;
+   def closeBoxSize = 8.0;
 
    def iconSize = 16.0;
    def iconGap = 2.0;
@@ -684,6 +684,7 @@ public class StandardScyWindow extends ScyWindow {
          width:bind width - 1 * borderWidth - titleBarLeftOffset
          iconSize:iconSize;
          iconGap:iconGap;
+         closeBoxWidth:bind if (closeElement.visible) closeBoxSize+1.5*controlStrokeWidth else 0.0;
          color:bind color;
          title:bind title;
 //         iconCharacter:bind iconCharacter;
@@ -721,16 +722,15 @@ public class StandardScyWindow extends ScyWindow {
 
       closeElement = WindowClose{
          visible: bind allowClose and not isClosed;
-         size:closeBoxSize-controlStrokeWidth;
+         size:closeBoxSize;
          strokeWidth:controlStrokeWidth;
          color:bind color;
          subColor:controlColor;
          activate: activate;
+         activated:bind activated
          closeAction:doClose;
-//         layoutX: bind width +controlBorderOffset+controlStrokeWidth+2 - closeBoxSize;
-//         layoutY: -controlBorderOffset-controlStrokeWidth-1;
-         layoutX: bind width -1.5*controlStrokeWidth - closeBoxSize+controlStrokeWidth;
-         layoutY: 1.5*controlStrokeWidth;
+         layoutX: bind width -1.0*controlStrokeWidth - closeBoxSize - 1;
+         layoutY: 2*controlStrokeWidth;
       }
 
       minimizeElement = WindowMinimize{

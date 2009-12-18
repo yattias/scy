@@ -40,6 +40,7 @@ public class WindowTitleBar extends WindowElement {
    public var activated = true on replace{eloIcon.selected = activated;};
    public var iconSize = 16.0;
    public var iconGap = 2.0;
+   public var closeBoxWidth = 0.0;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def eloTypeFontsize = 14;
@@ -76,7 +77,7 @@ public class WindowTitleBar extends WindowElement {
                clip:Rectangle{
                   x: iconSize
                   y: 0
-                  width: bind width - iconSize
+                  width: bind width - iconSize - closeBoxWidth
                   height: iconSize
                   fill: bind mainColor
                }
