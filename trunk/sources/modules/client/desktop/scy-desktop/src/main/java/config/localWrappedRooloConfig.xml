@@ -13,6 +13,7 @@
       <property name="repository" ref="localRepository"/>
       <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
       <property name="sendEloSavedEvents" value="true"/>
+      <property name="userId" value="${userName}"/>
    </bean>
 
    <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">

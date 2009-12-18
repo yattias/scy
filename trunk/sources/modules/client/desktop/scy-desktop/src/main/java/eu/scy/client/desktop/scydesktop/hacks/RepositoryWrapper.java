@@ -8,6 +8,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
@@ -15,6 +16,8 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.Contribute;
 
 /**
  *
@@ -23,114 +26,124 @@ import roolo.elo.api.IMetadataTypeManager;
 public class RepositoryWrapper implements IRepository
 {
 
-	private final static Logger logger = Logger.getLogger(RepositoryWrapper.class);
+   private final static Logger logger = Logger.getLogger(RepositoryWrapper.class);
 //	private final static String meloType = "scy/melo";
-	private String userId;
-	private URI anchorEloUri;
-	private IRepository repository;
-	private IMetadataTypeManager metadataTypeManager;
-	private boolean sendEloSavedEvents = false;
-	private IMetadataKey uriKey;
-//	private IMetadataKey authorKey;
+   private String userId;
+   private URI anchorEloUri;
+   private IRepository repository;
+   private IMetadataTypeManager metadataTypeManager;
+   private boolean sendEloSavedEvents = false;
+   private IMetadataKey uriKey;
+   private IMetadataKey authorKey;
+   private IMetadataKey dateCreatedKey;
+   private IMetadataKey dateLastModifiedKey;
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
-	private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
+   private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
 
-	public void addEloSavedListener(EloSavedListener eloSavedListener)
-	{
-		if (!eloSavedListeners.contains(eloSavedListener))
-		{
-			eloSavedListeners.add(eloSavedListener);
-		}
-	}
+   public void addEloSavedListener(EloSavedListener eloSavedListener)
+   {
+      if (!eloSavedListeners.contains(eloSavedListener))
+      {
+         eloSavedListeners.add(eloSavedListener);
+      }
+   }
 
-	public void removeEloSavedListener(EloSavedListener eloSavedListener)
-	{
-		if (eloSavedListeners.contains(eloSavedListener))
-		{
-			eloSavedListeners.remove(eloSavedListener);
-		}
-	}
+   public void removeEloSavedListener(EloSavedListener eloSavedListener)
+   {
+      if (eloSavedListeners.contains(eloSavedListener))
+      {
+         eloSavedListeners.remove(eloSavedListener);
+      }
+   }
 
-	private void sendNewEloSavedEvent(URI eloURI)
-	{
-		if (sendEloSavedEvents)
-		{
-			for (EloSavedListener eloSavedListener : eloSavedListeners)
-			{
-				eloSavedListener.newEloSaved(eloURI);
-			}
-		}
-	}
+   private void sendNewEloSavedEvent(URI eloURI)
+   {
+      if (sendEloSavedEvents)
+      {
+         for (EloSavedListener eloSavedListener : eloSavedListeners)
+         {
+            eloSavedListener.newEloSaved(eloURI);
+         }
+      }
+   }
 
-	private void sendForkedEloSavedEvent(URI eloURI)
-	{
-		if (sendEloSavedEvents)
-		{
-			for (EloSavedListener eloSavedListener : eloSavedListeners)
-			{
-				eloSavedListener.forkedEloSaved(eloURI);
-			}
-		}
-	}
+   private void sendForkedEloSavedEvent(URI eloURI)
+   {
+      if (sendEloSavedEvents)
+      {
+         for (EloSavedListener eloSavedListener : eloSavedListeners)
+         {
+            eloSavedListener.forkedEloSaved(eloURI);
+         }
+      }
+   }
 
-	private void sendEloUpdatedEvent(URI eloURI)
-	{
-		if (sendEloSavedEvents)
-		{
-			for (EloSavedListener eloSavedListener : eloSavedListeners)
-			{
-				eloSavedListener.eloUpdated(eloURI);
-			}
-		}
-	}
+   private void sendEloUpdatedEvent(URI eloURI)
+   {
+      if (sendEloSavedEvents)
+      {
+         for (EloSavedListener eloSavedListener : eloSavedListeners)
+         {
+            eloSavedListener.eloUpdated(eloURI);
+         }
+      }
+   }
 
-	public void setAnchorEloUri(URI anchorEloUri)
-	{
-		this.anchorEloUri = anchorEloUri;
-	}
+   public void setAnchorEloUri(URI anchorEloUri)
+   {
+      this.anchorEloUri = anchorEloUri;
+   }
 
-	public void setRepository(IRepository repository)
-	{
-		this.repository = repository;
-	}
+   public void setRepository(IRepository repository)
+   {
+      this.repository = repository;
+   }
 
-	public void setUserId(String userId)
-	{
-		this.userId = userId;
-	}
+   public void setUserId(String userId)
+   {
+      this.userId = userId;
+   }
 
-	public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
-	{
-		this.metadataTypeManager = metadataTypeManager;
-		uriKey = getMetadataKey("identifier");
-//		authorKey = getMetadataKey("author");
+   public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
+   {
+      this.metadataTypeManager = metadataTypeManager;
+      uriKey = getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
+      authorKey = getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+      dateCreatedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED);
+      dateLastModifiedKey = getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED);
 //		typeKey = getMetadataKey("type");
 //		annotatesRelationKey = getMetadataKey("annotates");
 //		  System.out.println("AddGeneralMetadataRepositoryWrapper found:\n- authorKey: " + authorKey + "\n-annotatesRelationKey: " + annotatesRelationKey);
-	}
+   }
 
-	private IMetadataKey getMetadataKey(String keyName)
-	{
-		IMetadataKey key = metadataTypeManager.getMetadataKey(keyName);
-		if (key == null)
-		{
-			logger.error("Couldn't get metadata key named: " + keyName);
-		}
-		return key;
-	}
+   private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId)
+   {
+      IMetadataKey key = metadataTypeManager.getMetadataKey(keyId);
+      if (key == null)
+      {
+         logger.error("Couldn't get metadata key named: " + keyId);
+      }
+      return key;
+   }
 
-	public void setSendEloSavedEvents(boolean sendEloSavedEvents)
-	{
-		this.sendEloSavedEvents = sendEloSavedEvents;
-	}
+   public void setSendEloSavedEvents(boolean sendEloSavedEvents)
+   {
+      this.sendEloSavedEvents = sendEloSavedEvents;
+   }
 
-	private void addGeneralMetadata(IELO elo)
-	{
-//		if (StringUtils.hasLength(userId) && authorKey != null)
-//		{
-//			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId, System.currentTimeMillis()));
-//		}
+   private void addGeneralMetadata(IELO elo)
+   {
+      if (StringUtils.hasLength(userId) && authorKey != null)
+      {
+         elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId, System.currentTimeMillis()));
+      }
+      if (!elo.getMetadata().metadataKeyExists(dateCreatedKey))
+      {
+         // no date created key, add it
+         elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(System.currentTimeMillis());
+      }
+      elo.getMetadata().getMetadataValueContainer(dateLastModifiedKey).setValue(System.currentTimeMillis());
 //		else
 //		{
 //			elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(User.instance.getUsername(), System.currentTimeMillis()));
@@ -142,109 +155,109 @@ public class RepositoryWrapper implements IRepository
 //		{
 //			elo.getMetadata().getMetadataValueContainer(annotatesRelationKey).setValue(anchorEloUri);
 //		}
-	}
+   }
 
-	@Override
-	public IMetadata addNewELO(IELO elo)
-	{
-		addGeneralMetadata(elo);
-		IMetadata metadata = repository.addNewELO(elo);
-		if (uriKey != null)
-		{
-			sendNewEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
-		}
-		return metadata;
-	}
+   @Override
+   public IMetadata addNewELO(IELO elo)
+   {
+      addGeneralMetadata(elo);
+      IMetadata metadata = repository.addNewELO(elo);
+      if (uriKey != null)
+      {
+         sendNewEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+      }
+      return metadata;
+   }
 
    @Override
    public IMetadata addForkedELO(IELO elo)
    {
-		addGeneralMetadata(elo);
-		IMetadata metadata = repository.addForkedELO(elo);
-		if (uriKey != null)
-		{
-			sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
-		}
-		return metadata;
+      addGeneralMetadata(elo);
+      IMetadata metadata = repository.addForkedELO(elo);
+      if (uriKey != null)
+      {
+         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+      }
+      return metadata;
    }
 
    @Override
    public IMetadata addForkedELO(IELO elo, URI parentUri)
    {
-		addGeneralMetadata(elo);
-		IMetadata metadata = repository.addForkedELO(elo,parentUri);
-		if (uriKey != null)
-		{
-			sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
-		}
-		return metadata;
+      addGeneralMetadata(elo);
+      IMetadata metadata = repository.addForkedELO(elo, parentUri);
+      if (uriKey != null)
+      {
+         sendForkedEloSavedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+      }
+      return metadata;
    }
 
-	@Override
-	public IELO retrieveELO(URI arg0)
-	{
-		return repository.retrieveELO(arg0);
-	}
+   @Override
+   public IELO retrieveELO(URI arg0)
+   {
+      return repository.retrieveELO(arg0);
+   }
 
-	@Override
-	public void deleteELO(URI arg0)
-	{
-		repository.deleteELO(arg0);
-	}
+   @Override
+   public void deleteELO(URI arg0)
+   {
+      repository.deleteELO(arg0);
+   }
 
-	@Override
-	public IMetadata updateELO(IELO elo)
-	{
-		addGeneralMetadata(elo);
-		IMetadata metadata = repository.updateELO(elo);
-		if (uriKey != null)
-		{
-			sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
-		}
-		return metadata;
-	}
+   @Override
+   public IMetadata updateELO(IELO elo)
+   {
+      addGeneralMetadata(elo);
+      IMetadata metadata = repository.updateELO(elo);
+      if (uriKey != null)
+      {
+         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+      }
+      return metadata;
+   }
 
-	@Override
-	public IMetadata updateELO(IELO elo, URI parentUri)
-	{
-		addGeneralMetadata(elo);
-		IMetadata metadata = repository.updateELO(elo, parentUri);
-		if (uriKey != null)
-		{
-			sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
-		}
-		return metadata;
-	}
+   @Override
+   public IMetadata updateELO(IELO elo, URI parentUri)
+   {
+      addGeneralMetadata(elo);
+      IMetadata metadata = repository.updateELO(elo, parentUri);
+      if (uriKey != null)
+      {
+         sendEloUpdatedEvent((URI) metadata.getMetadataValueContainer(uriKey).getValue());
+      }
+      return metadata;
+   }
 
-	@Override
-	public void archiveELO(URI arg0)
-	{
-		repository.archiveELO(arg0);
-	}
+   @Override
+   public void archiveELO(URI arg0)
+   {
+      repository.archiveELO(arg0);
+   }
 
-	@Override
-	public void unarchiveELO(URI arg0)
-	{
-		repository.unarchiveELO(arg0);
-	}
+   @Override
+   public void unarchiveELO(URI arg0)
+   {
+      repository.unarchiveELO(arg0);
+   }
 
-	@Override
-	public List<ISearchResult> search(IQuery arg0)
-	{
-		return repository.search(arg0);
-	}
+   @Override
+   public List<ISearchResult> search(IQuery arg0)
+   {
+      return repository.search(arg0);
+   }
 
-	@Override
-	public IMetadata retrieveMetadata(URI arg0)
-	{
-		return repository.retrieveMetadata(arg0);
-	}
+   @Override
+   public IMetadata retrieveMetadata(URI arg0)
+   {
+      return repository.retrieveMetadata(arg0);
+   }
 
-	@Override
-	public void addMetadata(URI arg0, IMetadata arg1)
-	{
-		repository.addMetadata(arg0, arg1);
-	}
+   @Override
+   public void addMetadata(URI arg0, IMetadata arg1)
+   {
+      repository.addMetadata(arg0, arg1);
+   }
 
    @Override
    public IELO retrieveELOLastVersion(URI arg0)
@@ -293,6 +306,4 @@ public class RepositoryWrapper implements IRepository
    {
       return repository.retrieveMetadatas(uris);
    }
-
-
 }
