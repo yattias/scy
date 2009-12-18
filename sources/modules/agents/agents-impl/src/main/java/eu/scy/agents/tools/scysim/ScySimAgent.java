@@ -76,14 +76,10 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException {
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
             sendAliveUpdate();
-            try {
-                Thread.sleep(AgentProtocol.ALIVE_INTERVAL - 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(AgentProtocol.ALIVE_INTERVAL - 1000);
         }
     }
 

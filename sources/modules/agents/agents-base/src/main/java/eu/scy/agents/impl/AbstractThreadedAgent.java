@@ -125,8 +125,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
      *             TupleSpace couldn't be accessed.
      * @throws AgentLifecycleException
      *             Something went wrong with the life-cycle of the agent.
+     * @throws InterruptedException
+     *             Agent was asked to stop from external call.
      */
-    protected abstract void doRun() throws TupleSpaceException, AgentLifecycleException;
+    protected abstract void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException;
 
     /**
      * Clean up the agent.
@@ -145,9 +147,22 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
 
     @Override
     public boolean isRunning() {
-        return status == Status.Running;
+        return status == Status.Running && myThread.isAlive();
     }
 
+    private boolean waitToDie(long millis) {
+        if (!isRunning()) {
+            return true;
+        } else {
+            try {
+                myThread.join(millis);
+            } catch (InterruptedException e) {
+                // no real problem
+            }
+            return isRunning();
+        }
+    }
+    
     /**
      * Is the agent really stopped.
      * 
@@ -169,8 +184,11 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
             }
             // we use the dangerous method Thread.stop() intentionally. Inside
             // the ResponseThread the ThreadDeath-Error is handled.
-            myThread.stop();
-
+            myThread.interrupt();
+            boolean died = waitToDie(2000);
+            if (!died) {
+                myThread.stop();
+            }
         } else {
             throw new AgentLifecycleException(name + " cannot be killed, is null");
         }
@@ -190,6 +208,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
             if (e instanceof TupleSpaceException && ((TupleSpaceException) e).getError().equals(TupleSpaceError.THREAD_KILLED) && this.killed) {
                 // Everything OK
                 // TODO some kind of output?
+            } else if (e instanceof InterruptedException && killed) { 
+                // also ok
             } else {
                 e.printStackTrace();
             }
@@ -200,9 +220,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
                 }
                 if (status != Status.Stopping) {
                     stop();
-
                 }
-
             } catch (AgentLifecycleException e1) {
                 e1.printStackTrace();
             }

@@ -290,14 +290,10 @@ public class SupervisingAgent extends AbstractThreadedAgent implements Callback 
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException {
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
         while (status == Status.Running) {
             sendAliveUpdate();
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(5000);
         }
     }
 
