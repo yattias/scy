@@ -229,15 +229,11 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
     }
 
     @Override
-    protected void doRun() throws TupleSpaceException, AgentLifecycleException {
+    protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
 
         while (status == Status.Running) {
             sendAliveUpdate();
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(5000);
         }
 
     }
