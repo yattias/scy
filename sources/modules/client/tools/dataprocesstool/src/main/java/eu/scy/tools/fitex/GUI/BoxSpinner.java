@@ -75,7 +75,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         champValeur.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         champValeur.setText("jTextField1");
         champValeur.setMinimumSize(new java.awt.Dimension(6, 18));
-        champValeur.setPreferredSize(new java.awt.Dimension(70, 18));
+        champValeur.setPreferredSize(new java.awt.Dimension(70, 25));
         champValeur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champValeurActionPerformed(evt);
