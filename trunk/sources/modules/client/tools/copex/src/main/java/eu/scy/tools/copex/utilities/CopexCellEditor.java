@@ -158,7 +158,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
     public JTextArea getTextNode(){
         if (this.textNode == null){
             this.textNode = new JTextArea();
-            this.textNode.setEnabled(false);
+            //this.textNode.setEnabled(false);
             this.textNode.setLineWrap(true);
             this.textNode.setWrapStyleWord(true);
             this.textNode.setMinimumSize(new Dimension(CopexTreeCellRenderer.TEXT_AREA_MIN_WIDTH, 10));
