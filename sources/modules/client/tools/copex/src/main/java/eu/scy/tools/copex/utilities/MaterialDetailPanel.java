@@ -22,6 +22,7 @@ import javax.swing.JTextArea;
  * @author Marjolaine
  */
 public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCopexButton {
+    private char procRight;
     private MaterialUsed mUsed;
     private MaterialStrategy materialStrategy;
     private String comment;
@@ -50,9 +51,10 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     private ImageIcon imgRemoveGris;
 
     
-    public MaterialDetailPanel(EdPPanel edP, JPanel owner, MaterialUsed mUsed, MaterialStrategy materialStrategy) {
+    public MaterialDetailPanel(EdPPanel edP, char procRight, JPanel owner, MaterialUsed mUsed, MaterialStrategy materialStrategy) {
         super(edP, owner, "", false);
         this.mUsed = mUsed;
+        this.procRight = procRight;
         this.materialStrategy = materialStrategy;
         this.comment = mUsed.getComment(edP.getLocale());
         initGUI();
@@ -89,6 +91,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             if(mUsed.isAutoUsed()){
                 cbUsed.setEnabled(false);
                 cbUsed.setToolTipText(edP.getBundleString("TOOLTIPTEXT_NO_SELECT_MATERIAL"));
+            }
+            if(procRight == MyConstants.NONE_RIGHT){
+                cbUsed.setEnabled(false);
             }
             cbUsed.setFont(new java.awt.Font("Tahoma", 1, 11));
             cbUsed.setBounds(30,0,20, 20);
@@ -153,7 +158,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             areaDescription.setRows(3);
             areaDescription.setText(mUsed.getMaterial().getDescription(edP.getLocale()));
             boolean editable = mUsed.isUserMaterial();
-            areaDescription.setEnabled(editable);
+            if(procRight == MyConstants.NONE_RIGHT)
+                editable = false;
+            areaDescription.setEditable(editable);
         }
         return areaDescription;
     }
@@ -195,6 +202,9 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
             areaComments.setColumns(15);
             areaComments.setRows(3);
             areaComments.setText(mUsed.getComment(edP.getLocale()));
+            if(procRight == MyConstants.NONE_RIGHT)
+                areaComments.setEditable(false);
+
         }
         return areaComments;
     }

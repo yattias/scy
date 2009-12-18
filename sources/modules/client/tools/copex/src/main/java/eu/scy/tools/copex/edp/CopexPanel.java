@@ -304,7 +304,7 @@ public class CopexPanel extends JPanel {
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
     }
 
-
+    
       /* initialisation de l'application avec les donnees */
     public void initEdp(CopexMission mission, ArrayList<LearnerProcedure> listProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
        setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -418,9 +418,12 @@ public class CopexPanel extends JPanel {
      /* affichage du proc d'aide */
     public void displayHelpProc(LearnerProcedure helpProc){
         if(scyMode){
-            // a terme il faut ouvrir un nouvel elo ?
-            if(actionCopex != null)
-                actionCopex.loadHelpProc(helpProc);
+//            // a terme il faut ouvrir un nouvel elo ?
+//            if(actionCopex != null)
+//                actionCopex.loadHelpProc(helpProc);
+            EdPPanel helpPanel = new EdPPanel(this, helpProc, controller, helpProc.getMission(), helpProc.getMission().getListInitialProc(), listPhysicalQuantity);
+            HelpDialog help = new HelpDialog(activCopex, helpPanel);
+            help.setVisible(true);
         }else{
             if (getIdProc(helpProc.getDbKey()) == -1)
                 addCopexPanel(helpProc);

@@ -1753,8 +1753,7 @@ public class CopexController implements ControllerInterface {
         listTask.add(action_4);
         helpProc.setListTask(listTask);
         
-        
-        helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()),new LinkedList(), false));
+        //helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()),new LinkedList(), false));
         helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()),new LinkedList(), null, false));
         helpProc.setMaterials(new MaterialProc(listMaterialUsed));
         helpProc.setDataSheet(null);

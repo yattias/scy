@@ -22,6 +22,7 @@ import javax.swing.JPanel;
  */
 public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
     private EdPPanel edP;
+    private char procRight;
     private ActionMaterial actionMaterial;
     private MaterialStrategy materialStrategy;
     private List<MaterialUsed> listMaterialUsed;
@@ -30,9 +31,10 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
     private int panelWidth;
 
 
-    public ListMaterialPanel(EdPPanel edP, MaterialStrategy materialStrategy, List<MaterialUsed> listMaterialUsed, int panelWidth) {
+    public ListMaterialPanel(EdPPanel edP, char procRight,MaterialStrategy materialStrategy, List<MaterialUsed> listMaterialUsed, int panelWidth) {
         super();
         this.edP = edP;
+        this.procRight = procRight;
         this.materialStrategy = materialStrategy;
         this.listMaterialUsed = listMaterialUsed;
         this.listPanel = new ArrayList();
@@ -61,7 +63,7 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
     }
 
     private int setMaterial(MaterialUsed mUsed, int id){
-        MaterialDetailPanel m = new MaterialDetailPanel(edP, this, mUsed, materialStrategy);
+        MaterialDetailPanel m = new MaterialDetailPanel(edP, procRight,this, mUsed, materialStrategy);
         int h = m.getHeight();
         int y = id*h;
         m.setBounds(0,y,MaterialDialog.panelWidth, h);

@@ -6,10 +6,10 @@
 
 package eu.scy.tools.copex.edp;
 
+import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JButton;
@@ -50,6 +50,18 @@ public class HelpDialog extends javax.swing.JDialog {
         this.setResizable(true);
         init();
     }
+
+    public HelpDialog(EdPPanel edP, EdPPanel helpPanel){
+        super(edP.getOwnerFrame());
+        this.edP = edP;
+        initComponents();
+        setIconImage(edP.getIconDialog());
+        this.setLocationRelativeTo(edP);
+        this.setModal(true);
+        setLocation(edP.getLocationDialog());
+        this.setResizable(true);
+        initHelpProc(helpPanel);
+    }
     
     // initialisation du texte de l'aide 
     private void init(){
@@ -71,6 +83,18 @@ public class HelpDialog extends javax.swing.JDialog {
         // bouton fermer
         this.buttonClose.setSize(60+CopexUtilities.lenghtOfString(this.buttonClose.getText(), getFontMetrics(this.buttonClose.getFont())), this.buttonClose.getHeight());
         this.buttonClose.setBounds(getWidth()-50-this.buttonClose.getWidth(), buttonOpenProc.getY(), this.buttonClose.getWidth(), this.buttonClose.getHeight());
+    }
+
+    private void initHelpProc(EdPPanel helpPanel){
+        setLayout(new BorderLayout());
+        getContentPane().add(helpPanel, BorderLayout.CENTER);
+        getContentPane().add(getPanelButton(), BorderLayout.SOUTH);
+        this.panelButton.setSize(getWidth(), 60);
+        panelButton.remove(buttonOpenProc);
+        buttonOpenProc = null;
+        // bouton fermer
+        this.buttonClose.setSize(60+CopexUtilities.lenghtOfString(this.buttonClose.getText(), getFontMetrics(this.buttonClose.getFont())), this.buttonClose.getHeight());
+        this.buttonClose.setBounds((getWidth()-this.buttonClose.getWidth())/2, 20, this.buttonClose.getWidth(), this.buttonClose.getHeight());
     }
 
     public JScrollPane getScrollPaneHelp() {
@@ -145,12 +169,17 @@ public class HelpDialog extends javax.swing.JDialog {
     }
 
     private void resizeButtonPanel(){
-        this.scrollPaneHelp.setSize(scrollPaneHelp.getWidth(), getHeight()-100);
-        scrollPaneHelp.setPreferredSize(scrollPaneHelp.getSize());
-        scrollPaneHelp.revalidate();
+        if(scrollPaneHelp != null){
+            this.scrollPaneHelp.setSize(scrollPaneHelp.getWidth(), getHeight()-100);
+            scrollPaneHelp.setPreferredSize(scrollPaneHelp.getSize());
+            scrollPaneHelp.revalidate();
+            this.buttonClose.setBounds(getWidth()-50-this.buttonClose.getWidth(), buttonClose.getY(), this.buttonClose.getWidth(), this.buttonClose.getHeight());
+        }else{
+            this.buttonClose.setBounds((getWidth()-this.buttonClose.getWidth())/2, buttonClose.getY(), this.buttonClose.getWidth(), this.buttonClose.getHeight());
+        }
         this.panelButton.setSize(getWidth(), panelButton.getHeight());
         this.panelButton.setPreferredSize(panelButton.getSize());
-        this.buttonClose.setBounds(getWidth()-50-this.buttonClose.getWidth(), buttonOpenProc.getY(), this.buttonClose.getWidth(), this.buttonClose.getHeight());
+        
     }
 
     /** This method is called from within the constructor to
