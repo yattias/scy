@@ -11,7 +11,7 @@ import java.util.List;
  * Time: 05:49:08
  * A user in the SCY system.
  */
-@Deprecated
+
 public interface User   {
     /*
     public String getUserName();
@@ -54,5 +54,7 @@ public interface User   {
 
     public void addUserSession(UserSession userSession);
     */
+    long getId();
 
+    UserDetails getUserDetails();
 }
