@@ -32,8 +32,8 @@ public class TopDrawer extends Drawer{
       else{
          this.translateY = 1;
       }
-      closeControl.layoutX = -controlSize/2;
-      closeControl.layoutY = -controlSize/2;
+      closeControl.layoutX = width-1.5*controlSize;
+      closeControl.layoutY = height-1.5*controlSize;
       resizeControl.layoutX = width;
       resizeControl.layoutY = controlSize;
       resizeControl.rotate = -90;
@@ -60,6 +60,7 @@ function run(){
                closedSize:80;
                layoutX:20;
                layoutY:100
+               opened:true
             }
 
          ]

@@ -35,8 +35,8 @@ public class LeftDrawer extends Drawer{
       }
 //      println("this.layoutX:{this.layoutX}, this.translateX:{this.translateX},"
 //         " drawerGroup.layoutX:{drawerGroup.layoutX}, drawerGroup.translateX:{drawerGroup.translateX}");
-      closeControl.layoutX = -controlSize/2;
-      closeControl.layoutY = -controlSize/2;
+      closeControl.layoutX = width-1.5*controlSize;
+      closeControl.layoutY = controlSize/2;
       resizeControl.layoutX = controlSize;
       resizeControl.layoutY = height;
       resizeControl.rotate = 90;
@@ -63,6 +63,7 @@ function run(){
                closedSize:80;
                layoutX:100-3;
                layoutY:20
+               opened:true
             }
 
          ]

@@ -81,6 +81,7 @@ Stage {
             closedSize:60;
             layoutX:120;
             layoutY:200+borderOffset;
+            opened:true
          }
          LeftDrawer{
             highliteColor:drawerHighliteColor;
