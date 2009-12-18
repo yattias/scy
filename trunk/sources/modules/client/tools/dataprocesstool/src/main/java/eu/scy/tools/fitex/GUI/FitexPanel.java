@@ -629,7 +629,7 @@ public class FitexPanel extends javax.swing.JPanel {
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
                 heightPanel = mapDesSpinners.get(param).getHauteur() ;
-                heightPanel = 40;
+                heightPanel = 50;
             }
         }
         dim.setSize(getWidth(), heightPanel) ;
