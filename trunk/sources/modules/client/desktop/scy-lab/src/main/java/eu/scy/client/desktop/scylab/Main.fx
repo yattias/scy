@@ -28,11 +28,11 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorF
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
+import eu.scy.client.tools.interviewtool.InterviewToolContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
-import javafx.scene.image.ImageView;
 
 /**
  * @author sikkenj
@@ -55,6 +55,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyTextId = "text";
    def scychatId = "chat";
    def scychatpresenceId = "presence";
+   def scyInterviewId = "interview";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -81,6 +82,10 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator {}, scyFlyingSaucerId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
+
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
+
+
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
