@@ -22,17 +22,17 @@ public class TextForTopicSavedTest extends AbstractTestFixture {
 
 	@BeforeClass
 	public static void startTS() {
-		startTupleSpaceServer();
 	}
 
 	@AfterClass
 	public static void stopTS() {
-		stopTupleSpaceServer();
+//		stopTupleSpaceServer();
 	}
 
 	@Override
 	@Before
 	public void setUp() throws Exception {
+                startTupleSpaceServer();
 		super.setUp();
 
 		agent = new TextForTopicSaved(TSHOST, TSPORT);
