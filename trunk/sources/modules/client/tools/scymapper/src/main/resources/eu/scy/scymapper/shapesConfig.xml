@@ -283,14 +283,14 @@
 					<property name="name" value="Egg"/>
 					<property name="nodeShape" ref="eggShape"/>
 				</bean>
-				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
+				<!--bean class="eu.scy.scymapper.impl.configuration.ConceptType">
 					<property name="name" value="Bacon"/>
 					<property name="nodeShape">
 						<bean name="baconShape" class="eu.scy.scymapper.impl.shapes.concepts.SVGConcept">
 							<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bacon.svg"/>
 						</bean>
 					</property>
-				</bean>
+				</bean-->
 			</list>
 		</property>
 		<property name="availableLinkTypes">
