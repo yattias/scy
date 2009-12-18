@@ -103,7 +103,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 }
 var scene: Scene;
 var stage = Stage {
-           title: "SCY Lab"
+           title: "SCY-Lab"
            width: 1024
            height: 700
            scene: scene = Scene {
