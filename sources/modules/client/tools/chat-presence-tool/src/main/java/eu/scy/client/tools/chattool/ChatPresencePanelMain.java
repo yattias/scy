@@ -62,7 +62,7 @@ public class ChatPresencePanelMain extends JPanel {
 	
 	public ChatPresencePanelMain(IAwarenessService awarenessService) {
 		this.awarenessService = awarenessService;
-
+/*
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		        if ("Nimbus".equals(info.getName())) {
@@ -79,7 +79,7 @@ public class ChatPresencePanelMain extends JPanel {
 		} catch (IllegalAccessException e) {
 			logger.error("ChatPanelMain: IllegalAccessException: "+e);
 		}      
-
+*/
 		chatController = new ChatController(awarenessService);
 		chatController.populateBuddyList();
 		initGUI();
