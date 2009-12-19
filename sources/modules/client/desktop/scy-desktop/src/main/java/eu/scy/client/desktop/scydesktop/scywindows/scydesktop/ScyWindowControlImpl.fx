@@ -166,6 +166,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          eloType: eloInfoControl.getEloType(eloUri);
          title: eloInfoControl.getEloTitle(eloUri);
          setScyContent:setScyContent;
+         missionModelFX:missionModel
       }
       var anchor = getAnchor(eloUri);
       if (anchor!=null){
@@ -182,6 +183,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       var scyWindow = StandardScyWindow{
          eloType: eloType;
          setScyContent:setScyContent;
+         missionModelFX:missionModel
       }
       windowStyler.style(scyWindow);
       insert scyWindow into scyWindows;

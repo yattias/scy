@@ -180,6 +180,8 @@ public class ScyDesktopCreator {
          // still no mission model, create an empty one
          missionModelFX = MissionModelFX {};
       }
+      missionModelFX.repository = config.getRepository();
+      missionModelFX.eloFactory = config.getEloFactory();
    }
 
    function retrieveStoredMissionModel():MissionModelFX{
@@ -195,6 +197,7 @@ public class ScyDesktopCreator {
                var missionModelElo = config.getRepository().retrieveELO(searchResult.getUri());
                var missionModel = MissionModelXml.convertToMissionModel(missionModelElo.getContent().getXmlString());
                addEloStatusInformationToMissionModel(missionModel);
+               missionModel.elo = missionModelElo;
                return missionModel;
             }
          }
