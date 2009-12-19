@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
-import eu.scy.client.desktop.scydesktop.missionmap.AnchorFX;
 import java.net.URI;
 
 
@@ -96,6 +95,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 
 /**
  * @author sikkenj
@@ -385,42 +385,42 @@ function run(){
    var config = springConfigFactory.getConfig();
 
 //   InitLog4j.init();
-   var anchor0 = AnchorFX{
+   var anchor0 = MissionAnchorFX{
        title: "0";
        xPos: 00;
        yPos: 20;
        color: Color.BLUE;
        eloUri: new URI("test://anchor0.tst");
    }
-   var anchor1 = AnchorFX{
+   var anchor1 = MissionAnchorFX{
        title: "1";
        xPos: 40;
        yPos: 00;
        color: Color.BLUE;
        eloUri: new URI("test://anchor1.tst");
    }
-   var anchor2 = AnchorFX{
+   var anchor2 = MissionAnchorFX{
        title: "2";
        xPos: 80;
        yPos: 00;
        color: Color.GREEN;
        eloUri: new URI("test://anchor2.tst");
    }
-   var anchor3 = AnchorFX{
+   var anchor3 = MissionAnchorFX{
        title: "3";
        xPos: 40;
        yPos: 40;
        color: Color.RED;
        eloUri: new URI("test://anchor3.tst");
    }
-   var anchor4 = AnchorFX{
+   var anchor4 = MissionAnchorFX{
        title: "4";
        xPos: 80;
        yPos: 40;
        color: Color.ORANGE;
        eloUri: new URI("test://anchor4.tst");
    }
-   var anchor5 = AnchorFX{
+   var anchor5 = MissionAnchorFX{
        title: "5";
        xPos: 120;
        yPos: 20;
