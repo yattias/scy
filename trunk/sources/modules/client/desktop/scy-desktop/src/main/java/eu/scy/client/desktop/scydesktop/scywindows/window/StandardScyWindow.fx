@@ -30,6 +30,7 @@ import java.lang.System;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Void;
 
 /**
@@ -41,7 +42,7 @@ public class StandardScyWindow extends ScyWindow {
 
 	public override var title = "???";
 	public override var eloType = "?123";
-   public override var eloUri;
+   public override var eloUri on replace oldEloUri {missionModelFX.eloUriChanged(oldEloUri, eloUri);};
 //   public override var iconCharacter = "?";
 	public override var color = Color.GREEN;
 	public override var drawerColor = Color.LIGHTGREEN;
@@ -175,6 +176,8 @@ public class StandardScyWindow extends ScyWindow {
    public override var rightDrawerTool on replace {setRightDrawer()};
    public override var bottomDrawerTool on replace {setBottomDrawer()};
    public override var leftDrawerTool on replace {setLeftDrawer()};
+
+   public var missionModelFX:MissionModelFX;
 
    var changesListeners:WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
  

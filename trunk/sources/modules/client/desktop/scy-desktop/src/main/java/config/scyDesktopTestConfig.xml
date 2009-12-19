@@ -118,6 +118,4 @@
 
    </bean>
 
-   <bean  name="missionModelCreator" class="eu.scy.client.desktop.scydesktop.test.TestMissionModelCreator"/>
-
 </beans>
