@@ -20,12 +20,16 @@ public class MissionAnchorFX {
     public var xPos:Number = 0;
     public var yPos:Number = 0;
     public var nextAnchors: MissionAnchorFX[];
+    public var previousAnchors: MissionAnchorFX[];
+    public var inputAnchors: MissionAnchorFX[];
     public var relationNames:String[];
+    public var mainAnchor = true;
     public var exists = false;
     public var color = Color.LIGHTGRAY;
     public var iconCharacter = "?";
     public var title = "?";
     public var helpEloUris:URI[];
+    public var supportEloUris:URI[];
     
     public var metadata:IMetadata;
 
