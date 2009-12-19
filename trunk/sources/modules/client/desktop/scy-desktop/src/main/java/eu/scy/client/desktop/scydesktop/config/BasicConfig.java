@@ -6,7 +6,6 @@ package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
-import eu.scy.client.desktop.scydesktop.missionmap.MissionModelCreator;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
@@ -40,7 +39,6 @@ public class BasicConfig implements Config
    private ToolBrokerAPI toolBrokerAPI;
    private IMetadataKey titleKey;
    private IMetadataKey technicalFormatKey;
-   private MissionModelCreator missionModelCreator;
    private RegisterContentCreators[] registerContentCreators;
    private Map<String, EloConfig> eloConfigs;
    private List<NewEloDescription> newEloDescriptions;
@@ -92,17 +90,6 @@ public class BasicConfig implements Config
          throw new IllegalStateException("cannot find key " + keyId.getId());
       }
       return key;
-   }
-
-   @Override
-   public MissionModelCreator getMissionModelCreator()
-   {
-      return missionModelCreator;
-   }
-
-   public void setMissionModelCreator(MissionModelCreator missionModelCreator)
-   {
-      this.missionModelCreator = missionModelCreator;
    }
 
    @Override
