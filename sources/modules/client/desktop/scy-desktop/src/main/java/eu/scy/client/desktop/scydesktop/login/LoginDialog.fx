@@ -18,45 +18,30 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import org.apache.log4j.Logger;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.animation.Interpolator;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sikken
  */
 // place your code here
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
+package def loginColor = Color.hsb(255, 1, 1.0);
+package def successColor = Color.hsb(135, 1, 0.8);
+package def failedColor = Color.hsb(360, 1, 0.9);
+
 
 public class LoginDialog extends CustomNode {
 
-   public
-      var initializer   :  Initializer ;
+   public var initializer   :  Initializer ;
+   public var createScyDesktop: function( tbi:  ToolBrokerAPI,userName: String): ScyDesktop;
 
-
-
-   public var createScyDesktop: function( tbi:  ToolBrokerAPI
-
-
-     ,
-
-
-      userName
-
-
-
-
-
-
-
-
-
-     : String
-
-          )
-         : ScyDesktop;
-      var loginWindow: StandardScyWindow;
+   var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
 
-   def loginColor = Color.web("#0ea7bf");
-
+//   def loginColor = Color.web("#0ea7bf");
    init {
       FX.deferAction(function () {
          MouseBlocker.initMouseBlocker(scene.stage);
@@ -127,11 +112,45 @@ public class LoginDialog extends CustomNode {
          logger.info("tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}");
          logger.info("tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}");
          logger.info("tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
+         showLoginResult(true);
          placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {
+         showLoginResult(false);
+      }
+   }
+
+   function showLoginResult(successfull:Boolean){
+      def window = loginWindow;
+      if (successfull){
+         Timeline {
+            repeatCount: 1
+            keyFrames : [
+               KeyFrame {
+                  time : 500ms
+                  values:window.color => successColor tween Interpolator.LINEAR;
+               }
+            ]
+         }.play();
+      }
+      else{
+         Timeline {
+            repeatCount: 6
+            autoReverse:true
+            keyFrames : [
+               KeyFrame {
+                  time : 0ms
+                  values:window.color => loginColor tween Interpolator.LINEAR;
+               }
+               KeyFrame {
+                  time : 500ms
+                  values:window.color => failedColor tween Interpolator.LINEAR;
+               }
+            ]
+         }.play();
          loginNode.loginFailed();
       }
    }
+
 
    function placeScyDescktop(toolBrokerAPI: ToolBrokerAPI, userName: String) {
       // using the sceneContent, with a copy of scene.content, does work
@@ -156,6 +175,22 @@ function run()    {
          width: 300
          height: 200
          content: [
+            Rectangle {
+               x: 10, y: 10
+               width: 10, height: 10
+               fill: loginColor
+            }
+            Rectangle {
+               x: 30, y: 10
+               width: 10, height: 10
+               fill: successColor
+            }
+            Rectangle {
+               x: 50, y: 10
+               width: 10, height: 10
+               fill: failedColor
+            }
+
             loginDialog
          ]
       }
