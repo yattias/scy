@@ -85,8 +85,9 @@ public class LoginDialog extends CustomNode {
          allowResize: false;
          allowRotate: false;
          allowMinimize: false;
+         opacity:0.0;
       };
-      loginWindow.openWindow(loginWidth, loginHeight);
+      loginWindow.openWindow(0, 0);
       loginWindow.activated = true;
       FX.deferAction(placeWindowCenter);
 
@@ -96,6 +97,18 @@ public class LoginDialog extends CustomNode {
    function placeWindowCenter(): Void {
       loginWindow.layoutX = this.scene.stage.width / 2 - loginWindow.width / 2;
       loginWindow.layoutY = this.scene.stage.height / 2 - loginWindow.height / 2;
+      def window = loginWindow;
+      Timeline {
+         repeatCount: 1
+         keyFrames : [
+            at(0ms){
+               window.opacity => 0.0
+            }
+            at(750ms){
+               window.opacity => 1.0
+            }
+         ]
+      }.play();
 //      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
 //      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
    }
@@ -112,22 +125,34 @@ public class LoginDialog extends CustomNode {
          logger.info("tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}");
          logger.info("tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}");
          logger.info("tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
-         showLoginResult(true);
-         placeScyDescktop(toolBrokerAPI, userName);
+         showLoginResult(toolBrokerAPI,userName);
+         //placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {
-         showLoginResult(false);
+         showLoginResult(null,userName);
       }
    }
 
-   function showLoginResult(successfull:Boolean){
+   function showLoginResult(toolBrokerAPI:ToolBrokerAPI, userName: String){
       def window = loginWindow;
-      if (successfull){
+      if (toolBrokerAPI!=null){
+         // successfull login
          Timeline {
             repeatCount: 1
             keyFrames : [
                KeyFrame {
-                  time : 500ms
+                  time : 750ms
                   values:window.color => successColor tween Interpolator.LINEAR;
+                  action:function(){
+                     loginWindow.scyContent = WelcomeNode{
+                        name:userName;
+                     }
+                  }
+               }
+               KeyFrame {
+                  time : 1000ms
+                  action:function(){
+                     placeScyDescktop(toolBrokerAPI, userName);
+                  }
                }
             ]
          }.play();
