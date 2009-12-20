@@ -9,6 +9,12 @@
          <map>
             <entry>
                <key>
+                  <value>scy/missionmodel</value>
+               </key>
+               <value>.scymissionmodel</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>
