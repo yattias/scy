@@ -65,6 +65,7 @@ import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.I18nType;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.MetadataValueCount;
 import roolo.elo.metadata.keys.StringMetadataKey;
 import roolo.elo.metadata.value.validators.StringValidator;
@@ -149,6 +150,8 @@ public class GetELOResource {
             Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        
+        
         typeKey = new StringMetadataKey("type", "/testpath/", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
         query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/html", null);
         log.info(query.toString());
@@ -160,8 +163,8 @@ public class GetELOResource {
                 //Authentication ok
 
                 //This query was only for testing purpose. Real queries would be passed to this service.
-                IMetadataKey searchKey = configLoader.getTypeManager().getMetadataKey("technicalFormat");
-                IMetadataQuery metadataQuery = new BasicMetadataQuery(searchKey, BasicSearchOperations.EQUALS, "scy/text", null);
+                IMetadataKey searchKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+                IMetadataQuery metadataQuery = new BasicMetadataQuery(searchKey, BasicSearchOperations.EQUALS, "scy/html", null);
 
                 //make a query to the repository, retrieve a list of search results, create a List of ELOS
                 List<ISearchResult> searchResultList = configLoader.getRepository().search(metadataQuery);

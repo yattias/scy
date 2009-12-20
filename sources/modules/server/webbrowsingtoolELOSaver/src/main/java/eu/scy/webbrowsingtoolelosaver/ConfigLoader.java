@@ -29,7 +29,7 @@ public class ConfigLoader {
     private static ConfigLoader instance;
 
     private ConfigLoader(){
-        this("saveEloLocalConfig.xml");
+        this("beans.xml");
     }
 
 

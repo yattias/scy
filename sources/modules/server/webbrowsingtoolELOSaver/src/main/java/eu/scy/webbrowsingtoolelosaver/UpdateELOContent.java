@@ -41,12 +41,7 @@
 package eu.scy.webbrowsingtoolelosaver;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Path;
@@ -60,41 +55,31 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import roolo.elo.BasicELO;
-import roolo.elo.api.I18nType;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
-import roolo.elo.api.metadata.MetadataValueCount;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
-import roolo.elo.metadata.keys.StringMetadataKey;
-import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
-import roolo.elo.metadata.value.validators.StringValidator;
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/saveAndroidFormELO")
-public class SaveAndroidELOResource {
+@Path("/updateELO")
+public class UpdateELOContent {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveAndroidELOResource.class.getName());
+    private final static Logger log = Logger.getLogger(UpdateELOContent.class.getName());
     private IELO elo;
-    private IMetadataKey uriKey;
     private IMetadataKey titleKey;
-    private IMetadataKey typeKey;
-    private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-    private IMetadataKey authorKey;
-    private IMetadataKey technicalFormat;
+    private IMetadataKey dateLastModiefiedKey;
 
     /** Creates a new instance of SaveELOResource */
-    public SaveAndroidELOResource() {
+    public UpdateELOContent() {
         //configure the Logger
         BasicConfigurator.configure();
     }
@@ -133,23 +118,25 @@ public class SaveAndroidELOResource {
     @Produces("text/plain")
     public String saveHtmlELO(JSONObject jsonData) {
 
-        String content = null;
+        String identifier = null;
+        String annotations = null;
+        String html = null;
+        String preview = null;
         String username = null;
         String password = null;
         String language = null;
-        String country = null;
         String title = null;
-        String description = null;
         try {
-            content = jsonData.getString("content");
+            identifier = jsonData.getString("identifier");
+            annotations = jsonData.getString("annotations");
+            html = jsonData.getString("html");
+            preview = jsonData.getString("preview");
             username = jsonData.getString("username");
             password = jsonData.getString("password");
             language = jsonData.getString("language");
-            country = jsonData.getString("country");
             title = jsonData.getString("title");
-            description = jsonData.getString("description");
         } catch (JSONException ex) {
-            Logger.getLogger(SaveAndroidELOResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateELOContent.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
@@ -157,74 +144,19 @@ public class SaveAndroidELOResource {
             if (true) { //XXX replace by real User-Management
                 //Authentication ok
 
-                //Creating Timestamp for title or filename, safe for Filesystem!!!
-                Calendar calendar = new GregorianCalendar();
-                DateFormat df = DateFormat.getDateInstance();
-                df.setCalendar(calendar);
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                int minute = calendar.get(Calendar.MINUTE);
-                String timestamp = Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day) + "__" + hour + "-" + minute;
-                /*String directory = "D:\\";
-                String filename = username;
-                String fileType = ".summary";*/
-
                 //Creating the ELO
-//                elo = configLoader.getConfig().getEloFactory().createELO();
-                elo = new BasicELO();
+                elo = configLoader.getRepository().retrieveELO(new URI(identifier));
 
-                log.info("ELO created");
-                Locale defaultLocale = new Locale(language,country);
-                elo.setDefaultLanguage(defaultLocale);
-//                elo.setDefaultLanguage(Locale.ENGLISH);
+                log.info("ELO loeaded");
 
-                typeKey = new StringMetadataKey("type", "/testpath/", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
-                IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
-                if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-                    configLoader.getTypeManager().registerMetadataKey(typeKey);
-                }
-                elo.getMetadata().addMetadataPair(typeKey, container);
-//                String docName = "Webbrowsing-ELO by " + username + " at " + timestamp;
-
-                /*//Logging the Key IDs...
-                log.warning("MetadataKeys-Size: " + configLoader.getTypeManager().getMetadataKeys().size());
-                Collection col = configLoader.getTypeManager().getMetadataKeys();
-                for (Iterator it = col.iterator(); it.hasNext();) {
-                    IMetadataKey key = (IMetadataKey) it.next();
-                    log.info("ID of the Key: " + key.getId());
-                }*/
-
-                //FIX Enum hardcoded values from RooloMetadataKeys from jcr-elo lib, which collides to the elo-api
-                titleKey = configLoader.getTypeManager().getMetadataKey("title");
-                typeKey = configLoader.getTypeManager().getMetadataKey("type");
-                dateCreatedKey = configLoader.getTypeManager().getMetadataKey("dateCreated");
-                missionKey = configLoader.getTypeManager().getMetadataKey("mission");
-//                authorKey = configLoader.getTypeManager().getMetadataKey("author");
-                technicalFormat = configLoader.getTypeManager().getMetadataKey("technicalFormat");
-
+                dateLastModiefiedKey =  configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId());
+                elo.getMetadata().getMetadataValueContainer(dateLastModiefiedKey).setValue(new Date());
+                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
-//                authorKey = new StringMetadataKey(id, path, type, metadataValueCount, validator);
-
-                elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title, defaultLocale);
-
-                configLoader.getExtensionManager().registerExtension("scy/html", ".xml");
-                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/html");
-                elo.getMetadata().getMetadataValueContainer(technicalFormat).setValue("scy/text");
-//                elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Long(System.currentTimeMillis()));
-                elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
-                try {
-                    elo.getMetadata().getMetadataValueContainer(missionKey).setValue(new URI("roolo://somewhere/myMission.mission"));
-//                    elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis()));
-//                    log.info("Value of authorKey: " + elo.getMetadata().getMetadataValueContainer(authorKey).getValue().toString());
-                } catch (URISyntaxException e) {
-                    log.log(Level.WARNING, "failed to create uri", e);
-                }
-                log.info("Metadata set");
+                log.info("Metadata updated");
                 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
-                //String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
+                String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
                 elo.setContent(new BasicContent(content));
                 try {
                     configLoader.getRepository().addNewELO(elo);
@@ -233,13 +165,8 @@ public class SaveAndroidELOResource {
                 } catch (Exception e) {
                     log.warning(e.getMessage());
                 }
-                log.info("Added ELO to repository");
+                log.info("Content updated");
 
-                /*File file = new File(directory + filename + timestamp + fileType);
-                FileWriter fw = new FileWriter(file);
-                fw.write(summary);
-                fw.close();*/
-                
                 //return simplified codes for easier localization!
                 //ELO saved
                 return "eloSaved";

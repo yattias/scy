@@ -21,21 +21,21 @@ public class BasicConfig implements Config
    private IRepository repository;
    private IExtensionManager extensionManager;
    private IMetadataTypeManager metadataTypeManager;
-   private IELOFactory eloFactory;
-   private IMetadataKey titleKey;
+//   private IELOFactory eloFactory;
+//   private IMetadataKey titleKey;
 //   private MissionModelCreator missionModelCreator;
 //   private RegisterWindowContentCreators[] registerWindowContentCreators;
 
-   @Override
-   public IELOFactory getEloFactory()
-   {
-      return eloFactory;
-   }
-
-   public void setEloFactory(IELOFactory eloFactory)
-   {
-      this.eloFactory = eloFactory;
-   }
+//   @Override
+//   public IELOFactory getEloFactory()
+//   {
+//      return eloFactory;
+//   }
+//
+//   public void setEloFactory(IELOFactory eloFactory)
+//   {
+//      this.eloFactory = eloFactory;
+//   }
 
    @Override
    public IExtensionManager getExtensionManager()
@@ -70,14 +70,14 @@ public class BasicConfig implements Config
       this.repository = repository;
    }
 
-   @Override
-   public IMetadataKey getTitleKey()
-   {
-      return titleKey;
-   }
-
-   public void setTitleKey(IMetadataKey titleKey)
-   {
-      this.titleKey = titleKey;
-   }
+//   @Override
+//   public IMetadataKey getTitleKey()
+//   {
+//      return titleKey;
+//   }
+//
+//   public void setTitleKey(IMetadataKey titleKey)
+//   {
+//      this.titleKey = titleKey;
+//   }
 }
