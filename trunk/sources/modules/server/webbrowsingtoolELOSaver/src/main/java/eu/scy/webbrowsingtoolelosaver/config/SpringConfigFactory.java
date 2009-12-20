@@ -55,7 +55,7 @@ public class SpringConfigFactory {
 
    private void readBeans(){
 
-      config = (Config) getBean("saveEloLocalConfig");
+      config = (Config) getBean("saveEloConfig");
    }
 
    private Object getBean(String name)
