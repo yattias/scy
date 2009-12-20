@@ -30,12 +30,15 @@ public class MissionModelFX {
    public var eloFactory:IELOFactory;
 
    public function eloUriChanged(oldEloUri:URI, newEloUri:URI){
+      //logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
       for (anchor in anchors){
          if (anchor.eloUri==oldEloUri){
-            anchor.eloUri==newEloUri;
+            anchor.eloUri=newEloUri;
+            updateElo();
+            return;
          }
       }
-      updateElo();
+      logger.info("no anchor elo found: {oldEloUri}");
    }
 
    function updateElo():Void{
