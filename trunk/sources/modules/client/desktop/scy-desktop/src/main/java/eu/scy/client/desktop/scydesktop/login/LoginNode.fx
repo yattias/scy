@@ -56,7 +56,7 @@ public class LoginNode extends CustomNode {
             repeatCount: 1
             keyFrames : [
                KeyFrame {
-                  time : 250ms
+                  time : 1000ms
                   action:doAutoLogin
                }
             ]
@@ -76,8 +76,8 @@ public class LoginNode extends CustomNode {
 
    public override function create(): Node {
       var loginGroup = Group {
-                 layoutX: borderSize
-                 layoutY: borderSize
+                 layoutX: 4*borderSize
+                 layoutY: 3*borderSize
                  content: [
                     Label {
                        text: "User name"
@@ -152,27 +152,27 @@ public class LoginNode extends CustomNode {
       def quaterTime = 25ms;
       def maxShift = 5;
       Timeline {
-	repeatCount: 5
-	keyFrames : [
-      at(0s){
-         shiftField.translateX => 0 tween Interpolator.EASEBOTH
-      }
-		KeyFrame {
-			time : quaterTime
-			values: shiftField.translateX => maxShift tween Interpolator.EASEBOTH
-		}
-		KeyFrame {
-			time : 3*quaterTime
-			values: shiftField.translateX => -maxShift tween Interpolator.EASEBOTH
-		}
-		KeyFrame {
-			time : 4*quaterTime
-			values: shiftField.translateX => 0 tween Interpolator.EASEBOTH
-		}
-	]
-}.play();
-passwordLabel.textFill = Color.RED;
-passwordField.requestFocus();
+         repeatCount: 5
+         keyFrames : [
+            at(0s){
+               shiftField.translateX => 0 tween Interpolator.EASEBOTH
+            }
+            KeyFrame {
+               time : quaterTime
+               values: shiftField.translateX => maxShift tween Interpolator.EASEBOTH
+            }
+            KeyFrame {
+               time : 3*quaterTime
+               values: shiftField.translateX => -maxShift tween Interpolator.EASEBOTH
+            }
+            KeyFrame {
+               time : 4*quaterTime
+               values: shiftField.translateX => 0 tween Interpolator.EASEBOTH
+            }
+         ]
+      }.play();
+      passwordLabel.textFill = Color.RED;
+      passwordField.requestFocus();
 
    }
 
@@ -181,8 +181,8 @@ passwordField.requestFocus();
 
 function run()    {
    var logingNode = LoginNode {
-              layoutX: 10
-              layoutY: 10
+              layoutX: 0
+              layoutY: 0
               defaultUserName:"123"
               defaultPassword:"321"
               loginAction:function(userName:String, password:String):Void{
