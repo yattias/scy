@@ -45,6 +45,7 @@ public class Initializer {
    public-init var defaultPassword: String;
    public-init var autoLogin = false;
    public-init var scyDesktopConfigFile: String;
+   public-init var storeElosOnDisk = true;
    public-read var backgroundImage: Image;
    public-read var loggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -52,6 +53,7 @@ public class Initializer {
    def systemErrFileName = "systemErr";
    def enableLoggingKey = "enableLogging";
    def loggingDirectoryKey = "loggingDirectory";
+   def storeElosOnDiskKey = "storeElosOnDisk";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
    def backgroundImageUrlOption = "backgroundImageUrl";
@@ -66,6 +68,7 @@ public class Initializer {
    def defaultPasswordOption = "defaultPassword";
    def autoLoginOption = "autoLogin";
    def scyDesktopConfigFileOption = "scyDesktopConfigFile";
+   def storeElosOnDiskOption = "storeElosOnDisk";
 
    init {
       parseApplicationParameters();
@@ -88,6 +91,7 @@ public class Initializer {
          }
       }
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
+      System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
       setLookAndFeel();
       setupToolBrokerLogin();
    }
@@ -140,6 +144,9 @@ public class Initializer {
             } else if (option == scyDesktopConfigFileOption.toLowerCase()) {
                scyDesktopConfigFile = argumentsList.nextStringValue(scyDesktopConfigFileOption);
                logger.info("app: {scyDesktopConfigFileOption}: {scyDesktopConfigFile}");
+            } else if (option == storeElosOnDiskOption.toLowerCase()) {
+               storeElosOnDisk = argumentsList.nextBooleanValue(storeElosOnDiskOption);
+               logger.info("app: {storeElosOnDiskOption}: {storeElosOnDisk}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -163,6 +170,7 @@ public class Initializer {
       defaultPassword = getWebstartParameterStringValue(defaultPasswordOption, defaultPassword);
       autoLogin = getWebstartParameterBooleanValue(autoLoginOption, autoLogin);
       scyDesktopConfigFile = getWebstartParameterStringValue(scyDesktopConfigFileOption, scyDesktopConfigFile);
+      storeElosOnDisk = getWebstartParameterBooleanValue(storeElosOnDiskOption, storeElosOnDisk);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {

@@ -21,6 +21,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 var initializer = Initializer{
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
    loginType:"remote"
+   storeElosOnDisk:false
 }
 
 function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {
