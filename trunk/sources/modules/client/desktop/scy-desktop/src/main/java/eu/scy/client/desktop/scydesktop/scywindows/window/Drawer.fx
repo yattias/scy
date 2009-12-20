@@ -10,13 +10,10 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import javafx.util.Math;
 
 import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
 import javafx.scene.shape.Line;
@@ -87,55 +84,6 @@ public abstract class Drawer extends CustomNode {
       };
    }
 
-//   function createClosedDrawerNode(): Node{
-//      var rect:Rectangle;
-//      var mouseEntered = false;
-//      Group{
-//         cursor: Cursor.HAND;
-//         content:[
-//            // thick background
-//            if (horizontal){
-//               Polyline {
-//                  points: bind [ 0,0, closedSize,0 ]
-//                  strokeWidth: closedStrokeWidth
-//                  stroke: bind if (mouseEntered) highliteColor else color;
-//               }
-//            }
-//            else{
-//                Polyline {
-//                  points: bind [ 0,0, 0,closedSize ]
-//                  strokeWidth: closedStrokeWidth
-//                  stroke: bind if (mouseEntered) highliteColor else color;
-//               }
-//            }
-//            // inner line
-//            if (horizontal){
-//               Polyline {
-//                  points: bind [ 0,0, closedSize,0 ]
-//                  strokeWidth: closedStrokeWidth/2
-//                  stroke: bind if (mouseEntered) color else highliteColor;
-//               }
-//            }
-//            else{
-//                Polyline {
-//                  points: bind [ 0,0, 0,closedSize ]
-//                  strokeWidth: closedStrokeWidth/2
-//                  stroke: bind if (mouseEntered) color else highliteColor;
-//               }
-//            }
-//         ]
-//         onMouseClicked: function( e: MouseEvent ):Void {
-//            opened = true;
-//            positionControlElements();
-//         }
-//         onMouseEntered: function( e: MouseEvent ):Void {
-//            mouseEntered = true;
-//         }
-//         onMouseExited: function( e: MouseEvent ):Void {
-//            mouseEntered = false;
-//         }
-//      }
-//   }
    function createClosedDrawerNode(): Node {
       var rect: Rectangle;
       var mouseEntered = false;
@@ -194,7 +142,7 @@ public abstract class Drawer extends CustomNode {
          if (content instanceof Resizable) {
             var resizableContent = content as Resizable;
             width = Math.max(resizableContent.getPrefWidth(width), absoluteMinimumWidth);
-            height = Math.max(resizableContent.getPrefWidth(height), absoluteMinimumWidth);
+            height = Math.max(resizableContent.getPrefWidth(height), absoluteMinimumHeight);
          } else if (content != null) {
             width = content.boundsInLocal.width;
             height = content.boundsInLocal.height;
