@@ -49,7 +49,7 @@ public class StandardScyWindow extends ScyWindow {
 	public override var backgroundColor = color.WHITE;
 	public override var width = 150 on replace{
 		if (not isAnimating){
-			width = Math.max(width,getMinimumWidth());
+         width = limitSize(width,height).x;
 		}
    };
 
@@ -59,19 +59,13 @@ public class StandardScyWindow extends ScyWindow {
 				height = closedHeight;
 			}
 			else {
-				height = Math.max(height, getMinimumHeight());
+            height = limitSize(width,height).y;
 			}
 		}
    };
    public override var widthHeightProportion = -1.0;
 	public override var scyContent on replace {
-      // chekc for minimum size
-      if (width<getMinimumWidth()){
-         width = getMinimumWidth();
-      }
-      if (height<getMinimumHeight()){
-         height = getMinimumHeight();
-      }
+      scyContentChanged();
    };
 	public override var scyTool;
 
@@ -120,8 +114,10 @@ public class StandardScyWindow extends ScyWindow {
    def drawerBorderGap = secondBorderWidth;
    def drawerBorderOffset = controlBorderOffset+drawerBorderGap+controlStrokeWidth/2;
 
-   def contentWidth = bind width - borderWidth - 2 * contentBorder - 1;
-   def contentHeight = bind height - contentTopOffset - borderWidth / 2 - 2 * contentBorder;
+   def deltaWidthContentWidth = borderWidth + 2 * contentBorder + 1;
+   def deltaHeightContentHeight = contentTopOffset + borderWidth / 2 + 2 * contentBorder;
+   def contentWidth = bind width - deltaWidthContentWidth;
+   def contentHeight = bind height - deltaHeightContentHeight;
 
    def activeWindowEffect: Effect = DropShadow {
       offsetX: 6,
@@ -191,6 +187,56 @@ public class StandardScyWindow extends ScyWindow {
       setLeftDrawer();
    }
 
+   function scyContentChanged(){
+      if (scyContent instanceof Resizable){
+            var resizableContent = scyContent as Resizable;
+            width = Math.max(resizableContent.getPrefWidth(width), minimumWidth);
+            height = Math.max(resizableContent.getPrefWidth(height), minimumHeight);
+         allowResize = true;
+      }
+      else{
+         width = scyContent.boundsInLocal.width;
+         height = scyContent.boundsInLocal.height;
+         allowResize = false;
+      }
+   }
+
+   function limitSize(w:Number, h:Number):Point2D{
+      var limittedWidth = Math.max(w, minimumWidth);
+      var limittedHeight = Math.max(h, minimumHeight);
+      if (scyContent!=null){
+         // this is check on content limits, subtract "border" sizes
+         limittedWidth -= deltaHeightContentHeight;
+         limittedHeight -= deltaHeightContentHeight;
+         if (scyContent instanceof Resizable) {
+            var resizableContent = scyContent as Resizable;
+            limittedWidth = Math.max(limittedWidth, resizableContent.getMinWidth());
+            limittedHeight = Math.max(limittedHeight, resizableContent.getMinHeight());
+            limittedWidth = Math.min(limittedWidth, resizableContent.getMaxWidth());
+            limittedHeight = Math.min(limittedHeight, resizableContent.getMaxHeight());
+         }
+         else{
+            limittedWidth = scyContent.boundsInLocal.width;
+            limittedHeight = scyContent.boundsInLocal.height;
+         }
+         // this is check on content limits, add "border" sizes
+         limittedWidth += deltaHeightContentHeight;
+         limittedHeight += deltaHeightContentHeight;
+      }
+      else{
+         // no content
+         limittedHeight = closedHeight;
+      }
+
+      //println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
+      return Point2D{
+         x:limittedWidth;
+         y:limittedHeight
+      }
+   }
+
+
+
    function activeStateChanged(){
       if (activated){
          if (scyTool!=null){
@@ -251,27 +297,10 @@ public class StandardScyWindow extends ScyWindow {
 	public override function openWindow(openWidth:Number,openHeight:Number):Void{
 		checkScyContent();
 		isClosed = false;
-		width = Math.max(openWidth,getMinimumWidth());
-		height = Math.max(openHeight, getMinimumHeight());
+      var useSize = limitSize(openWidth,openHeight);
+		width = useSize.x;
+		height = useSize.y;
 	}
-
-   function getMinimumWidth():Number{
-      var minWidth = minimumWidth;
-      if (scyContent instanceof Resizable){
-         var resizeableScyContent = scyContent as Resizable;
-         minWidth = Math.max(minWidth, resizeableScyContent.getMinWidth());
-      }
-      return minWidth;
-   }
-
-   function getMinimumHeight():Number{
-      var minHeight = minimumHeight;
-      if (scyContent instanceof Resizable){
-         var resizeableScyContent = scyContent as Resizable;
-         minHeight = Math.max(minHeight, resizeableScyContent.getMinHeight());
-      }
-      return minHeight;
-   }
 
    public override function setMinimize(state: Boolean):Void{
       if (isClosed){
@@ -437,8 +466,10 @@ public class StandardScyWindow extends ScyWindow {
 		difY = (1 - Math.cos(angle)) * difH / 2;
 		//difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
 		//difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
-		width = Math.max(minimumWidth,originalW + difW);
-		height =Math.max(minimumHeight,originalH + difH);
+
+      width = originalW + difW;
+      height = originalH + difH;
+
 		layoutX = originalX - difX;
 		layoutY = originalY - difY;
 //      for(edge in edges) {
@@ -495,8 +526,6 @@ public class StandardScyWindow extends ScyWindow {
 		}
 		else {
 			isMinimized = false;
-			//				width = originalWidth;
-			//				height = originalHeight;
 			var unminimizedTimeline = getUnminimizeTimeline(originalWidth,originalHeight);
 			isAnimating = true;
 			unminimizedTimeline.play();
@@ -505,21 +534,12 @@ public class StandardScyWindow extends ScyWindow {
 	}
 
    public function setMinimized(newMinimized:Boolean){
- //       isClosed = false;
       if (newMinimized != isMinimized){
          if (newMinimized){
             doMinimize();
-//            originalWidth = width;
-//            originalHeight = height;
-//            width = minimumWidth;
-//            height = closedHeight;
-//            isMinimized = true;
          }
          else {
             doUnminimize();
-//            width = originalWidth;
-//            height = originalHeight;
-//            isMinimized = false;
          }
       }
    }
