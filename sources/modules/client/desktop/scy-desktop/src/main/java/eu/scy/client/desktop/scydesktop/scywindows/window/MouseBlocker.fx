@@ -46,7 +46,10 @@ public function startMouseBlocking(){
    mouseBlockingActive = true;
    mouseBlockNode.width = theStage.scene.width-2*testBorder;
    mouseBlockNode.height = theStage.scene.height-2*testBorder;
-   insert mouseBlockNode into theStage.scene.content;
+   //insert mouseBlockNode into theStage.scene.content;
+   var sceneContent = theStage.scene.content;
+   insert mouseBlockNode into sceneContent;
+   theStage.scene.content = sceneContent;
 }
 
 public function stopMouseBlocking(){
@@ -56,7 +59,10 @@ public function stopMouseBlocking(){
       return;
    }
    mouseBlockingActive = false;
-   delete mouseBlockNode from theStage.scene.content;
+   //delete mouseBlockNode from theStage.scene.content;
+   var sceneContent = theStage.scene.content;
+   delete mouseBlockNode from sceneContent;
+   theStage.scene.content = sceneContent;
 }
 
 function checkInitialisation(){
