@@ -21,6 +21,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 
 /**
@@ -31,8 +33,16 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scyde
 
 public class ScyWindowControlImpl extends ScyWindowControl {
 
+   var firstNewAnchor = true;
    def activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{
-      activeAnchorChanged(oldActiveAnchor)
+      activeAnchorChanged(oldActiveAnchor);
+      if (firstNewAnchor and activeAnchor!=null){
+         FX.deferAction(function(){
+            activeAnchorChanged(activeAnchor);
+         });
+         firstNewAnchor = false;
+      }
+
    };
    var activeAnchorWindow: ScyWindow;
    /**
@@ -70,6 +80,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    function activeAnchorChanged(oldActiveAnchor:MissionAnchorFX){
+      logger.info("new active anchor: {activeAnchor.eloUri}");
       if (oldActiveAnchor!=null){
          // store window state of the old active anchor
          desktopStates.put(oldActiveAnchor.eloUri, getDesktopState());
