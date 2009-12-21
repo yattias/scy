@@ -51,7 +51,7 @@ public class ConceptMapPanel extends JPanel {
         clearConceptMapBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will removeNode all concepts from the current concept map. Are you sure you'd like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
+                if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "This will removeNode all concepts from the current concept map. Are you sure you would like to do this?", "Are you sure?", JOptionPane.YES_NO_OPTION))
                     conceptDiagramView.getController().removeAll();
             }
         });
@@ -61,12 +61,7 @@ public class ConceptMapPanel extends JPanel {
         removeConceptBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (INodeModel selectedNode : model.getDiagramSelectionModel().getSelectedNodes()) {
-                    conceptDiagramView.getController().removeNode(selectedNode);
-                }
-                for (ILinkModel selectedNode : model.getDiagramSelectionModel().getSelectedLinks()) {
-                    conceptDiagramView.getController().removeLink(selectedNode);
-                }
+                conceptDiagramView.confirmAndRemoveSelectedObjects();
             }
         });
         toolBar.add(removeConceptBtn);
