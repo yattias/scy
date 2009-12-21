@@ -20,7 +20,8 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
  */
 var initializer = Initializer{
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
-   loginType:"remote"
+//   localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
+   loginType:"local"
    storeElosOnDisk:false
 }
 
