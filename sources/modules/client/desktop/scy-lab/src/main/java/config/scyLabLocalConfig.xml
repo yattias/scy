@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
    <!-- <import resource="memoryRooloConfig.xml"/> -->
    <!--<import resource="localRooloTemporaryConfig.xml"/>-->
@@ -35,7 +35,7 @@
                <property name="topDrawerCreatorId" value="presence"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
-               
+
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/studentplanningtool"/>
@@ -97,7 +97,7 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
-			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/mapping"/>
                <property name="display" value="Concept Map"/>
                <property name="creatable" value="true"/>
@@ -130,6 +130,411 @@
          </list>
       </property>
 
+      <!-- version of Rachel -->
+      <property name="basicMissionAnchorConfigs">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="start"/>
+               <property name="uri" value="roolo://memory/11/0/Start_page.url"/>
+               <property name="xPosition" value="80"/>
+               <property name="yPosition" value="0"/>
+               <property name="mainAnchorElo" value="true"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>conceptMap</value>
+                     <!--<value>planning</value>-->
+                     <!--<value>reflection1</value>-->
+                     <value>firstIdeas</value>
+                  </list>
+               </property>
+               <property name="inputAnchorEloNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="conceptMap"/>
+               <property name="uri" value="roolo://memory/6/0/Concept_map.scymapping"/>
+               <property name="xPosition" value="120"/>
+               <property name="yPosition" value="0"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/12/0/Concept_Map_on_CO2_levels.url</value>
+                     <value>roolo://memory/14/0/Global_Warming.url</value>
+                     <value>roolo://memory/15/0/Websites_global_warming.url</value>
+                     <!--<value>roolo://memory/38/0/Videos_global_warming.url</value>-->
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="firstIdeas"/>
+               <property name="uri" value="roolo://memory/38/0/First_Ideas.scymapping"/>
+               <property name="xPosition" value="120"/>
+               <property name="yPosition" value="40"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>researchQuestions</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/13/0/First_ideas.url</value>
+                     <value>roolo://memory/39/0/CO2_friendly_house.url</value>
+                     <!--<value>roolo://memory/39/0/Videos_CO2_friendly_house.url</value>-->
+                     <!--<value>roolo://memory/39/0/Websites_CO2_friendly_house.url</value>-->
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="researchQuestions"/>
+               <property name="uri" value="roolo://memory/40/0/Research_Questions.text"/>
+               <property name="xPosition" value="80"/>
+               <property name="yPosition" value="40"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>hypothesis</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                     <value>roolo://memory/42/0/Websites_Expert_groups.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="hypothesis"/>
+               <property name="uri" value="roolo://memory/0/0/Hypothesis.text"/>
+               <property name="xPosition" value="40"/>
+               <property name="yPosition" value="40"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>simulator</value>
+                     <value>webInformation</value>
+                     <value>experimentalProcedure</value>
+                     <value>interview</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                     <value>roolo://memory/42/0/Websites_Expert_groups.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="experimentalProcedure"/>
+               <property name="uri" value="roolo://memory/43/0/Experimental_procedure.scy"/>
+               <property name="xPosition" value="80"/>
+               <property name="yPosition" value="80"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>processedData</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="simulator"/>
+               <property name="uri" value="roolo://memory/50/0/Data_from_simulation_in_expert_group.scysimconfig"/>
+               <property name="xPosition" value="40"/>
+               <property name="yPosition" value="80"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>conclusion</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="webInformation"/>
+               <property name="uri" value="roolo://memory/44/0/Web_information.text"/>
+               <property name="xPosition" value="160"/>
+               <property name="yPosition" value="80"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>processedData</value>
+                     <value>conclusion</value>
+                     <value>critic</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="interview"/>
+               <property name="uri" value="roolo://memory/99/0/Interview.text"/>
+               <property name="xPosition" value="120"/>
+               <property name="yPosition" value="80"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>processedData</value>
+                     <value>conclusion</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="processedData"/>
+               <property name="uri" value="roolo://memory/45/0/Processed_data.scypds"/>
+               <property name="xPosition" value="80"/>
+               <property name="yPosition" value="120"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>conclusion</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="critic"/>
+               <property name="uri" value="roolo://memory/46/0/Critic_of_resources.text"/>
+               <property name="xPosition" value="120"/>
+               <property name="yPosition" value="120"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>webInformation</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="conclusion"/>
+               <property name="uri" value="roolo://memory/4/0/Conclusion.text"/>
+               <property name="xPosition" value="40"/>
+               <property name="yPosition" value="120"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>expertConceptMap</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/41/0/expertResearch.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="expertConceptMap"/>
+               <property name="uri" value="roolo://memory/47/0/expertConceptMap.scymapping"/>
+               <property name="xPosition" value="40"/>
+               <property name="yPosition" value="160"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>expertPresentation</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/48/0/Expert_CMap.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="expertPresentation"/>
+               <property name="uri" value="roolo://memory/56/0/Expert_presentation.text"/>
+               <property name="xPosition" value="80"/>
+               <property name="yPosition" value="160"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>inventorySolution</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/23/0/Expert_presentation.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="inventorySolution"/>
+               <property name="uri" value="roolo://memory/49/0/inventorySolutions.scymapping"/>
+               <property name="xPosition" value="120"/>
+               <property name="yPosition" value="160"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>firstChoices</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="firstChoices"/>
+               <property name="uri" value="roolo://memory/52/0/firstChoices.scymapping"/>
+               <property name="xPosition" value="160"/>
+               <property name="yPosition" value="160"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>simulator</value>
+                     <value>houseDrawing</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/20/0/Inventory_and_choices_of_solutions.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="simulator"/>
+               <property name="uri" value="roolo://memory/51/0/Data_from_simulation_in_design_group.scysimconfig"/>
+               <property name="xPosition" value="200"/>
+               <property name="yPosition" value="120"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>ProcessedData</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/18/0/Manual_for_thermal_simulation.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                     <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="houseDrawing"/>
+               <property name="uri" value="roolo://memory/9/0/Drawing_of_house.scydraw"/>
+               <property name="xPosition" value="160"/>
+               <property name="yPosition" value="120"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/19/0/Draw_your_house.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="processedData"/>
+               <property name="uri" value="roolo://memory/8/0/Processed_data.scydataset"/>
+               <property name="xPosition" value="200"/>
+               <property name="yPosition" value="80"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>houseAnalysis</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/16/0/Experiment_in_Design_Group.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="houseAnalysis"/>
+               <property name="uri" value="roolo://memory/1/0/Analysis_of_house.text"/>
+               <property name="xPosition" value="200"/>
+               <property name="yPosition" value="40"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>firstChoices</value>
+                     <value>presentationDesign</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="presentationDesign"/>
+               <property name="uri" value="roolo://memory/57/0/Presentation_of_design.text"/>
+               <property name="xPosition" value="160"/>
+               <property name="yPosition" value="40"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <value>report</value>
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/21/0/Presentation_of_design.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
+               <property name="name" value="report"/>
+               <property name="uri" value="roolo://memory/2/0/Report.text"/>
+               <property name="xPosition" value="160"/>
+               <property name="yPosition" value="0"/>
+               <property name="nextMissionAnchorNames">
+                  <list>
+                     <!--<value>reflection2</value>-->
+                  </list>
+               </property>
+               <property name="helpEloUris">
+                  <list>
+                     <value>roolo://memory/24/0/Individual_report.url</value>
+                     <value>roolo://memory/37/0/Glossary.url</value>
+                  </list>
+               </property>
+            </bean>
+         </list>
+      </property>
+
+
+      <!-- the first version -->
+      <!--
       <property name="basicMissionAnchorConfigs">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
@@ -405,6 +810,7 @@
             </bean>
          </list>
       </property>
+      -->
 
       <property name="activeMissionAnchorUri" value="roolo://memory/11/0/Start_page.url"/>
    </bean>

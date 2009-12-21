@@ -3,17 +3,17 @@
   <lom>
     <general>
       <title>
-        <string language="en">Drawing of house</string>
+        <string language="en">First Ideas</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/9/0/Drawing_of_house.scydraw</entry>
+        <entry>roolo://memory/38/0/First_Ideas.scymapping</entry>
       </identifier>
     </general>
     <technical>
-      <format>scy/drawing</format>
+      <format>scy/mapping</format>
       <customElements>
-        <dateCreated>1258470818906</dateCreated>
+        <dateCreated>1261065674753</dateCreated>
       </customElements>
     </technical>
     <lifecycle>
@@ -24,7 +24,7 @@
         </role>
         <entity>my vcard</entity>
         <date>
-          <dateTime>2009-11-17T16:13:38.906+0100</dateTime>
+          <dateTime>2009-12-17T17:01:14.754+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
@@ -32,21 +32,31 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_forked_by</value>
+        <value>is_version_of</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/33/0/Drawing_of_house.scydraw</entry>
-        </identifier>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
       </resource>
     </relation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<whiteboard>
-  <whiteboardContainers />
-</whiteboard>
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>First Ideas</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes/>
+    <links/>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
 </content>
 <resources>
 </resources>

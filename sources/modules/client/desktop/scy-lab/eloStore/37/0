@@ -3,18 +3,15 @@
   <lom>
     <general>
       <title>
-        <string language="en">Report</string>
+        <string language="en">Glossary</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/2/0/Report.text</entry>
+        <entry>roolo://memory/37/0/Glossary.url</entry>
       </identifier>
     </general>
     <technical>
-      <format>scy/text</format>
-      <customElements>
-        <dateCreated>1258469778078</dateCreated>
-      </customElements>
+      <format>scy/url</format>
     </technical>
     <relation>
       <kind>
@@ -34,10 +31,13 @@
         <identifier />
       </resource>
     </relation>
+    <lifecycle>
+      <version>0</version>
+    </lifecycle>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<text>This is the place for the text of the report.</text>
+<url>http://www.scy-lab.eu/content/mission1/Commun/resources/R_Glossary.html</url>
 </content>
 <resources>
 </resources>

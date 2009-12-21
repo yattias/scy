@@ -7,13 +7,13 @@
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/8/0/Processed_data.scydataset</entry>
+        <entry>roolo://memory/45/0/Processed_data.scypds</entry>
       </identifier>
     </general>
     <technical>
-      <format>scy/dataset</format>
+      <format>scy/pds</format>
       <customElements>
-        <dateCreated>1258470713765</dateCreated>
+        <dateCreated>1261147177288</dateCreated>
       </customElements>
     </technical>
     <lifecycle>
@@ -24,7 +24,7 @@
         </role>
         <entity>my vcard</entity>
         <date>
-          <dateTime>2009-11-17T16:11:53.765+0100</dateTime>
+          <dateTime>2009-12-18T15:39:37.289+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
@@ -32,13 +32,19 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_forked_by</value>
+        <value>is_version_of</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/34/0/Processed_data.scydataset</entry>
-        </identifier>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
       </resource>
     </relation>
   </lom>

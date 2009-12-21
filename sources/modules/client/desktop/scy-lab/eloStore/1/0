@@ -16,22 +16,19 @@
         <dateCreated>1258469732140</dateCreated>
       </customElements>
     </technical>
+    <lifecycle>
+      <version>0</version>
+    </lifecycle>
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_version_of</value>
+        <value>is_forked_by</value>
       </kind>
       <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/35/0/Analysis_of_house.text</entry>
+        </identifier>
       </resource>
     </relation>
   </lom>
