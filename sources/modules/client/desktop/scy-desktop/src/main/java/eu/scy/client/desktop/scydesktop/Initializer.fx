@@ -220,10 +220,16 @@ public class Initializer {
 
    function setupBackgroundImage() {
       if (backgroundImageUrl.length() > 0) {
+         logger.info("loading background image: {backgroundImageUrl}");
          backgroundImage = Image {
             url: backgroundImageUrl
          }
+         logger.info("background image, error: {backgroundImage.error}, progress: {backgroundImage.progress}");
       }
+      else{
+         logger.info("no background image specified");
+      }
+
    }
 
    function findLoggingDirectory(): File {
