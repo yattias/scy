@@ -67,8 +67,8 @@ public class FlyingSaucerContentCreator extends WindowContentCreatorFX, EloSaved
    }
 
    function setWindowProperties(scyWindow:ScyWindow){
-      scyWindow.minimumWidth = 320;
-      scyWindow.minimumHeight = 100;
+//      scyWindow.minimumWidth = 320;
+//      scyWindow.minimumHeight = 100;
    }
 
    public override function eloSaved(eloSavedEvent: EloSavedEvent):Void{
