@@ -69,6 +69,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/interview</value>
+               </key>
+               <value>.scyinterview</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/ppt</value>
                </key>
                <value>.ppt</value>

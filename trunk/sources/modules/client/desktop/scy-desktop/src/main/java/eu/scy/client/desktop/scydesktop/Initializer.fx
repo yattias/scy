@@ -46,6 +46,7 @@ public class Initializer {
    public-init var autoLogin = false;
    public-init var scyDesktopConfigFile: String;
    public-init var storeElosOnDisk = true;
+   public-init var createPersonalMissionMap = true;
    public-read var backgroundImage: Image;
    public-read var loggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -69,6 +70,7 @@ public class Initializer {
    def autoLoginOption = "autoLogin";
    def scyDesktopConfigFileOption = "scyDesktopConfigFile";
    def storeElosOnDiskOption = "storeElosOnDisk";
+   def createPersonalMissionMapOption = "createPersonalMissionMap";
 
    init {
       parseApplicationParameters();
@@ -147,6 +149,9 @@ public class Initializer {
             } else if (option == storeElosOnDiskOption.toLowerCase()) {
                storeElosOnDisk = argumentsList.nextBooleanValue(storeElosOnDiskOption);
                logger.info("app: {storeElosOnDiskOption}: {storeElosOnDisk}");
+            } else if (option == createPersonalMissionMapOption.toLowerCase()) {
+               createPersonalMissionMap = argumentsList.nextBooleanValue(createPersonalMissionMapOption);
+               logger.info("app: {createPersonalMissionMapOption}: {createPersonalMissionMap}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -171,6 +176,7 @@ public class Initializer {
       autoLogin = getWebstartParameterBooleanValue(autoLoginOption, autoLogin);
       scyDesktopConfigFile = getWebstartParameterStringValue(scyDesktopConfigFileOption, scyDesktopConfigFile);
       storeElosOnDisk = getWebstartParameterBooleanValue(storeElosOnDiskOption, storeElosOnDisk);
+      createPersonalMissionMap = getWebstartParameterBooleanValue(createPersonalMissionMapOption, createPersonalMissionMap);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {

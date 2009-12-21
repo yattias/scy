@@ -228,6 +228,7 @@ public class BasicConfig implements Config
          else
          {
             missionAnchor.setExisting(false);
+            logger.info("Couldn't find anchor elo: "+ missionAnchor.getEloUri());
          }
          missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
          missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
