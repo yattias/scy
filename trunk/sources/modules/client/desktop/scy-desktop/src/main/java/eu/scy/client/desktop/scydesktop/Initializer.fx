@@ -33,7 +33,7 @@ def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.Initializer");
 public class Initializer {
 
    public-init var log4JInitFile = "";
-   public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2.jpg";
+   public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
    public-init var enableLogging = false;
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
