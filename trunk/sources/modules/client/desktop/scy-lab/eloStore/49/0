@@ -3,11 +3,11 @@
   <lom>
     <general>
       <title>
-        <string language="en">Concept map</string>
+        <string language="en">Inventory of solutions</string>
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/6/0/Concept_map.scymapping</entry>
+        <entry>roolo://memory/49/0/inventorySolutions.scymapping</entry>
       </identifier>
     </general>
     <technical>
@@ -27,18 +27,23 @@
           <dateTime>2009-11-17T16:09:41.500+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
     </lifecycle>
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_forked_by</value>
+        <value>is_version_of</value>
       </kind>
       <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/30/0/Concept_map.scymapping</entry>
-        </identifier>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
       </resource>
     </relation>
   </lom>
@@ -47,8 +52,8 @@
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
   <name>Concept map</name>
   <diagram class="eu.scy.scymapper.impl.DiagramModel">
-    <nodes />
-    <links />
+    <nodes/>
+    <links/>
   </diagram>
 </eu.scy.scymapper.impl.model.DefaultConceptMap>
 </content>
