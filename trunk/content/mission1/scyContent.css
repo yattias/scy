@@ -16,8 +16,21 @@ h2,.subTitle{
 	font-weight:bold
 }
 
+h3,.minorTitle{
+	font-size:10px;
+	font-weight:bold
+}
+
 img{
     display: block;
     margin-left: auto;
     margin-right: auto
+}
+
+a,a.internal{
+	color:#30F
+}
+
+a.external{
+	color:#F00000
 }
