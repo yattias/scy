@@ -247,10 +247,16 @@ public class ScyDesktopCreator {
       for (missionAnchor in missionModel.anchors){
          if (missionAnchor.exists){
             var missionAnchorElo = config.getRepository().retrieveELO(missionAnchor.eloUri);
-            var forkedMissionAnchorEloMetadata = config.getRepository().addForkedELO(missionAnchorElo);
-            config.getEloFactory().updateELOWithResult(missionAnchorElo,forkedMissionAnchorEloMetadata);
-            missionAnchor.eloUri = missionAnchorElo.getUri();
-            missionAnchor.metadata = forkedMissionAnchorEloMetadata;
+            if (missionAnchorElo!=null){
+               var forkedMissionAnchorEloMetadata = config.getRepository().addForkedELO(missionAnchorElo);
+               config.getEloFactory().updateELOWithResult(missionAnchorElo,forkedMissionAnchorEloMetadata);
+               missionAnchor.eloUri = missionAnchorElo.getUri();
+               missionAnchor.metadata = forkedMissionAnchorEloMetadata;
+            }
+            else{
+               logger.error("failed to load existing anchor elo, uri: {missionAnchor.eloUri}");
+            }
+
          }
       }
       missionModel.elo = config.getEloFactory().createELO();
