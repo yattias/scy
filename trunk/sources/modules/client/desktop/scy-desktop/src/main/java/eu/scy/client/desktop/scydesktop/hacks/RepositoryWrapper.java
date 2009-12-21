@@ -134,6 +134,10 @@ public class RepositoryWrapper implements IRepository
 
    private void addGeneralMetadata(IELO elo)
    {
+      if (elo==null)
+      {
+         return;
+      }
       if (StringUtils.hasLength(userId) && authorKey != null)
       {
          elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId, System.currentTimeMillis()));
