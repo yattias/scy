@@ -66,10 +66,6 @@ public class LoginDialog extends CustomNode {
                  defaultPassword: initializer.defaultPassword
                  autoLogin:initializer.autoLogin
               }
-      //TODO, why Math.abs????
-      var loginWidth = loginNode.boundsInLocal.width + Math.abs(loginNode.boundsInLocal.minX);
-      var loginHeight = loginNode.boundsInLocal.height + Math.abs(loginNode.boundsInLocal.minY);
-      println("loginNode.boundsInLocal: {loginNode.boundsInLocal}");
       loginWindow = StandardScyWindow {
          title: "SCY-Lab login"
          eloIcon: CharacterEloIcon {
@@ -78,8 +74,8 @@ public class LoginDialog extends CustomNode {
          }
          color: loginColor
          drawerColor: loginColor;
-         height: loginHeight;
-         width: loginWidth;
+//         height: loginHeight;
+//         width: loginWidth;
          scyContent: loginNode
          allowClose: false;
          allowResize: false;
