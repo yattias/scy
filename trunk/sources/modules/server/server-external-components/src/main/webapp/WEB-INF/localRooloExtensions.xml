@@ -9,6 +9,12 @@
          <map>
             <entry>
                <key>
+                  <value>scy/missionmodel</value>
+               </key>
+               <value>.scymissionmodel</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>
@@ -60,6 +66,12 @@
                   <value>scy/url</value>
                </key>
                <value>.url</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/interview</value>
+               </key>
+               <value>.scyinterview</value>
             </entry>
             <entry>
                <key>
