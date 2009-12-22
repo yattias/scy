@@ -36,7 +36,7 @@ public class NodeModel implements INodeModel {
 
     private int height = 100;
     private int width = 100;
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private Object readResolve() {
         listeners = new ArrayList<INodeModelListener>();
@@ -44,7 +44,6 @@ public class NodeModel implements INodeModel {
     }
 
     public NodeModel() {
-		id = UUID.randomUUID().toString();
         listeners = new ArrayList<INodeModelListener>();
     }
 

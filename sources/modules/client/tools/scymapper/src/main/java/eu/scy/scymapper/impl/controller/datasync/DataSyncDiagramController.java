@@ -10,6 +10,7 @@ import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import org.apache.log4j.Logger;
 
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -26,8 +27,9 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		super(model);
 		this.syncSession = syncSession;
 		this.syncSession.addSyncListener(this);
-		ISyncObject initObj = new SyncObject();
-		this.syncSession.addSyncObject(initObj);
+
+		// This is a hack - for some reason the first sync object is not sendt to all clients
+		this.syncSession.addSyncObject(new SyncObject());
 	}
 
 	/**
@@ -97,10 +99,17 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void syncObjectChanged(ISyncObject syncObject) {
 
-		IDiagramElement element = model.getElementById(syncObject.getProperty("id"));
+		String id = syncObject.getProperty("id");
+
+		if (id == null) {
+			logger.info("No id of sync object. SKIPPING.");
+			return;
+		}
+
+		IDiagramElement element = model.getElementById(id);
 
 		if (element == null) {
-			logger.warn("NOOOO!!!! Requesting to change a remote diagram element that is not added locally!!!!!");
+			logger.warn("NOOOO!!!! Requesting to change a remote diagram element that is not added locally! ID = "+id);
 		} else {
 			if (element instanceof INodeModel) {
 				sync(syncObject, (INodeModel) element);
@@ -122,12 +131,24 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		IDiagramElement element = model.getElementById(id);
 		if (element != null) {
-			if (element instanceof INodeModel)
-				super.removeNode((INodeModel) element);
+			if (element instanceof INodeModel) {
+				INodeModel n = (INodeModel) element;
+				HashSet<INodeLinkModel> linksToRemove = new HashSet<INodeLinkModel>();
+				for (ILinkModel link : model.getLinks()) {
+					if (link instanceof INodeLinkModel) {
+						INodeLinkModel nodeLink = (INodeLinkModel) link;
+						if (n.equals(nodeLink.getFromNode()) || n.equals(nodeLink.getToNode())) {
+							linksToRemove.add(nodeLink);
+						}
+					}
+				}
+				model.removeNode(n);
+				for (ILinkModel link : linksToRemove) model.removeLink(link);
+			}
 			else if (element instanceof ILinkModel)
-				super.removeLink((ILinkModel) element);
+				model.removeLink((ILinkModel) element);
 		} else {
-			logger.warn("Diagram element for syncobject with id " + syncObject.getID() + " NOT FOUND!!!");
+			logger.warn("Diagram element with id "+id+" for syncobject with id " + syncObject.getID() + " NOT FOUND!!!");
 		}
 	}
 
@@ -186,6 +207,11 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 */
 	@Override
 	public void removeNode(INodeModel node) {
+        if (!node.getConstraints().getCanDelete()) {
+            logger.warn("Tried to delete a locked node");
+            return;
+        }
+
 		logger.debug("User is locally removing node with ID " + node.getId());
 		ISyncObject syncObject = new SyncObject();
 		syncObject.setProperty("id", node.getId());

@@ -133,6 +133,9 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 				}
 			});
 		}
+
+		//setToolTipText(model.getId());
+
 		layoutComponents();
 	}
 
