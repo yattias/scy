@@ -39,7 +39,10 @@ import eu.scy.client.desktop.scydesktop.login.LoginDialog;
  */
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
+           localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
            loginType:"remote"
+           storeElosOnDisk:true;
+           createPersonalMissionMap:true
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
@@ -53,8 +56,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyMapperId = "conceptmap";
    def scyStudentPlanningTool = "studentplanningtool";
    def scyTextId = "text";
-   def scychatId = "chat";
-   def scychatpresenceId = "presence";
+   def scychatId = "Xchat";
+   def scychatpresenceId = "Xpresence";
    def scyInterviewId = "interview";
 
    var scyDesktopCreator = ScyDesktopCreator {
