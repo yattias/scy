@@ -38,7 +38,7 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class EloVideoActionWrapper {
     private static final Logger logger = Logger.getLogger(EloVideoActionWrapper.class.getName());
-    public static final String scyVideoType = "scy/text";
+    public static final String scyVideoType = "scy/video";
     public static final String untitledDocName = "untitled video";
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
