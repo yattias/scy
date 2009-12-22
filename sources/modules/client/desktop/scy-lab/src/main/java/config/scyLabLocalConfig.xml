@@ -58,7 +58,7 @@
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/copex"/>
+               <property name="type" value="scy/xproc"/>
                <property name="display" value="Experimental procedure"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="copex"/>
@@ -247,8 +247,8 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="roolo://memory/60/0/Experimental_procedure.scyxproc"/>
-               <property name="uri" value="experimentalProcedure"/>
+               <property name="name" value="experimentalProcedure"/>
+               <property name="uri" value="roolo://memory/60/0/Experimental_procedure.scyxproc"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -320,7 +320,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="processedData"/>
-               <property name="uri" value="roolo://memory/45/0/Processed_data.scypds"/>
+               <property name="uri" value="roolo://memory/45/0/Processed_data.scydataset"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
