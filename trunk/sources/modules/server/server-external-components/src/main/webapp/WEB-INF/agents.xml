@@ -29,6 +29,18 @@
                         <map />
                 </constructor-arg>
         </bean>
+        <bean id="votat" class="eu.scy.agents.impl.AgentStartConfiguration">
+                <constructor-arg index="0" value="eu.scy.agents.votat.VotatAgent" />
+                <constructor-arg index="1">
+                        <map />
+                </constructor-arg>
+        </bean>
+        <bean id="canonical" class="eu.scy.agents.impl.AgentStartConfiguration">
+                <constructor-arg index="0" value="eu.scy.agents.canonical.CanonicalAgent" />
+                <constructor-arg index="1">
+                        <map />
+                </constructor-arg>
+        </bean>
         <bean id="toolexperience" class="eu.scy.agents.impl.AgentStartConfiguration">
                 <constructor-arg index="0" value="eu.scy.agents.sensors.userexperience.ToolExperienceSensor" />
                 <constructor-arg index="1">
