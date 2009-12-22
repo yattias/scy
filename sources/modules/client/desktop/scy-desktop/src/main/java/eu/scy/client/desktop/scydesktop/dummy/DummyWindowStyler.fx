@@ -32,6 +32,9 @@ public class DummyWindowStyler extends WindowStyler {
    public def mappingType = "scy/mapping";
    public def meloType = "scy/melo";
    public def urlType = "scy/url";
+   public def videoType = "scy/video";
+   public def interviewType = "scy/interview";
+   public def xprocType = "scy/xproc";
 
    public def scyGreen = Color.web("#8db800");
    public def scyPurple = Color.web("#7243db");
@@ -49,15 +52,23 @@ public class DummyWindowStyler extends WindowStyler {
       else if (type == simulationConfigType)
          scyColor = scyPink
       else if (type == mappingType)
-         scyColor = scyBlue
+         scyColor = scyGreen
       else if (type == imageType)
+         scyColor = scyOrange
+      else if (type == videoType)
          scyColor = scyOrange
       else if (type == meloType)
          scyColor = scyOrange
       else if (type == textType)
          scyColor = scyBlue
       else if (type == urlType)
-         scyColor = scyOrange;
+         scyColor = scyOrange
+      else if (type == urlType)
+         scyColor = scyOrange
+      else if (type == interviewType)
+         scyColor = scyBlue
+      else if (type == xprocType)
+         scyColor = scyPink;
       return scyColor;
    }
 
@@ -80,7 +91,13 @@ public class DummyWindowStyler extends WindowStyler {
       else if (type == mappingType)
          iconChar = "M"
       else if (type == urlType)
-         iconChar = "W";
+         iconChar = "W"
+      else if (type == videoType)
+         iconChar = "V"
+      else if (type == interviewType)
+         iconChar = "I"
+      else if (type == xprocType)
+         iconChar = "X";
       return iconChar;
    }
 
