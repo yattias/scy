@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Technasium</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/59/0/Technasium.video</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/video</format>
+      <customElements>
+        <dateCreated>1252574962998</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<document><title>Technasium</title><subtitle>CO2 Mission Start </subtitle><URI>http://www.scy-lab.eu/video/technasium.flv</URI></document>
+</content>
+<resources>
+</resources>
+</elo>
