@@ -14,7 +14,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,11 +42,11 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		initComponents();
 	}
 
-	public synchronized void setToolBroker(ToolBrokerAPI tbi) {
+	public void setToolBroker(ToolBrokerAPI tbi) {
 		this.toolBroker = tbi;
 	}
 
-	public synchronized void joinSession(ISyncSession session) {
+	public void joinSession(ISyncSession session) {
 		conceptDiagramView.setController(new DataSyncDiagramController(conceptMap.getDiagram(), session));
 		conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
 	}
@@ -181,6 +180,7 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 	}
 
 	private void createSession() {
+		if (toolBroker == null) JOptionPane.showMessageDialog(this, "Error: ToolBroker is null", "Error", JOptionPane.ERROR_MESSAGE);
 		try {
 			currentSession = toolBroker.getDataSyncService().createSession(SCYMapperPanel.this);
 			joinSession(currentSession);

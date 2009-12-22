@@ -175,7 +175,8 @@ public class SCYMapperStandalone extends JFrame {
 		});
 		fileMenu.add(new CreateConceptMapAction());
 		fileMenu.add(new OpenConceptMapAction());
-		fileMenu.add(new SaveConceptMapAction());
+		fileMenu.add(new SaveAction());
+		fileMenu.add(new SaveAsAction());
 		fileMenu.add(new JPopupMenu.Separator());
 		fileMenu.add(new ImportConceptMapAction());
 		fileMenu.add(new ExportConceptMapAction());
@@ -188,20 +189,37 @@ public class SCYMapperStandalone extends JFrame {
 		JMenu sessionMenu = new JMenu("Session");
 
 		JMenu debugMenu = new JMenu("Debug");
-		//debugMenu.add(new ShortcutAction("obama", "obama"));
-		//debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
-		//debugMenu.add(new ShortcutAction("henrik", "henrik"));
-		//debugMenu.add(new ShortcutAction("biden", "biden"));
-		//debugMenu.add(new ShortcutAction("merkel", "merkel"));
 
-		debugMenu.add(new ShortcutAction("obamao11", "obamao11"));
-		debugMenu.add(new ShortcutAction("senders11", "senders11"));
-		debugMenu.add(new ShortcutAction("djed11", "djed11"));
-		debugMenu.add(new ShortcutAction("henrikh11", "henrikh11"));
-		debugMenu.add(new ShortcutAction("henriks11", "henriks11"));
-//		debugMenu.add(new ShortcutAction("henrikv11", "henrikv11"));
-		debugMenu.add(new ShortcutAction("bobb11", "bobb11"));
-
+		String ofHost = Configuration.getInstance().getOpenFireHost();
+		if (ofHost.equals("scy.collide.info")) {
+			debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
+			debugMenu.add(new ShortcutAction("adam", "henrik"));
+			debugMenu.add(new ShortcutAction("henrik", "henrik"));
+			debugMenu.add(new ShortcutAction("wouter", "wouter"));
+			debugMenu.add(new ShortcutAction("jakob", "jakob"));
+			debugMenu.add(new ShortcutAction("stefan", "stefan"));
+			debugMenu.add(new ShortcutAction("lars", "lars"));
+			debugMenu.add(new ShortcutAction("anthony", "anthony"));
+			debugMenu.add(new ShortcutAction("jeremy", "jeremy"));
+			debugMenu.add(new ShortcutAction("marjolaine", "marjolaine"));
+			debugMenu.add(new ShortcutAction("jan", "jan"));
+			debugMenu.add(new ShortcutAction("philipp", "philipp"));
+		}
+		else if (ofHost.equals("scy.intermedia.uio.no")) {
+			debugMenu.add(new ShortcutAction("obamao11", "obamao11"));
+			debugMenu.add(new ShortcutAction("senders11", "senders11"));
+			debugMenu.add(new ShortcutAction("djed11", "djed11"));
+			debugMenu.add(new ShortcutAction("henrikh11", "henrikh11"));
+			debugMenu.add(new ShortcutAction("henriks11", "henriks11"));
+			debugMenu.add(new ShortcutAction("bobb11", "bobb11"));
+		}
+		else if (ofHost.equals("129.177.24.191")) {
+			debugMenu.add(new ShortcutAction("obama", "obama"));
+			debugMenu.add(new ShortcutAction("bjoerge", "bjoerge"));
+			debugMenu.add(new ShortcutAction("henrik", "henrik"));
+			debugMenu.add(new ShortcutAction("biden", "biden"));
+			debugMenu.add(new ShortcutAction("merkel", "merkel"));
+		}
 		sessionMenu.add(debugMenu);
 
 		sessionMenu.add(new LoginAction());
@@ -244,6 +262,7 @@ public class SCYMapperStandalone extends JFrame {
 		String xml = xstream.toXML(cmap);
 		content.setXmlString(xml);
 		elo.setContent(content);
+
 		IMetadata resultMetadata = toolBroker.getRepository().addNewELO(elo);
 //		toolBroker.getRepository().addMetadata(elo.getUri(), resultMetadata);
 	}
@@ -311,8 +330,8 @@ public class SCYMapperStandalone extends JFrame {
 		}
 	}
 
-	private class SaveConceptMapAction extends AbstractAction {
-		private SaveConceptMapAction() {
+	private class SaveAction extends AbstractAction {
+		private SaveAction() {
 			super("Save");
 			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png")));
 		}
@@ -325,6 +344,22 @@ public class SCYMapperStandalone extends JFrame {
 			}
 
 			saveELO(currentConceptMap, false);
+		}
+	}
+	private class SaveAsAction extends AbstractAction {
+		private SaveAsAction() {
+			super("Save as...");
+			putValue(SMALL_ICON, new ImageIcon(getClass().getResource("icons/save.png")));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (toolBroker == null) {
+				JOptionPane.showMessageDialog(SCYMapperStandalone.this, "Please login first", "Not logged in", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			saveELO(currentConceptMap, true);
 		}
 	}
 

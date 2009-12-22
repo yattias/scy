@@ -10,7 +10,6 @@ import eu.scy.scymapper.api.diagram.model.*;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,13 +22,12 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 	private ISyncSession syncSession;
 
-	// Keep track of all sync ids
-	public static Map<String, ISyncObject> syncObjects = new HashMap<String, ISyncObject>();
-
 	public DataSyncDiagramController(IDiagramModel model, ISyncSession syncSession) {
 		super(model);
 		this.syncSession = syncSession;
 		this.syncSession.addSyncListener(this);
+		ISyncObject initObj = new SyncObject();
+		this.syncSession.addSyncObject(initObj);
 	}
 
 	/**
@@ -46,19 +44,22 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		XStream xstream = new XStream(new DomDriver());
 		IDiagramElement element = (IDiagramElement) xstream.fromXML(xml);
 
-		syncObjects.put(element.getId(), syncObject);
+		System.out.println("element = " + element);
 
 		//TODO: This is not the most elegant way of doin' it
 		if (element instanceof INodeModel) {
 			INodeModel node = (INodeModel) element;
 			model.addNode(node);
 		}
-		if (element instanceof INodeLinkModel) {
+		else if (element instanceof INodeLinkModel) {
 			// Get the actual local objects for the from / to node of this link (it is deserialized)
 			INodeLinkModel link = (INodeLinkModel) element;
 			link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
 			link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
 			model.addLink(link);
+		}
+		else {
+			logger.debug("Could not recognize sync object. Skipping.");
 		}
 	}
 
