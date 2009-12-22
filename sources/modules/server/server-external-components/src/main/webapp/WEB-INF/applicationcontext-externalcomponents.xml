@@ -20,6 +20,8 @@
 		<property name="initialAgents">
 			<set>
 				<!--  ref bean="supervisor" /-->
+				<ref bean="votat" />
+				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
 				<ref bean="topicdetector" />
 				<ref bean="scysim" />
