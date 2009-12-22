@@ -27,7 +27,7 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
     private ILinkStyle style;
     private boolean labelHidden = false;
     private transient boolean selected;
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private Object readResolve() {
         listeners = new ArrayList<ILinkModelListener>();
@@ -35,7 +35,6 @@ public class SimpleLink implements ILinkModel, ILinkStyleListener {
     }
 
     public SimpleLink() {
-		id = UUID.randomUUID().toString();
         listeners = new ArrayList<ILinkModelListener>();
     }
 

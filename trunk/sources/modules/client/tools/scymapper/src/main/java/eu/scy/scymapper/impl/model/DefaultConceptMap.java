@@ -26,7 +26,6 @@ public class DefaultConceptMap implements IConceptMap {
 	private Object readResolve() {
 		listeners = new ArrayList<IConceptMapListener>();
 		selectionModel = new DefaultDiagramSelectionModel();
-		System.out.println("After instantiating MyExecutor");
 		// at the end returns itself
 		return this;
 	}
