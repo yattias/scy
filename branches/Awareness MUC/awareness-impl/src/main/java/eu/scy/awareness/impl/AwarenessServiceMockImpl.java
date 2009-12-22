@@ -173,6 +173,46 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 		
 	}
 
+	
+
+
+
+	@Override
+	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void joinMUCRoom(String ELOUri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean doesRoomExist(String ELOUri) {
+		return false;
+	}
+
+	public boolean hasJoinedRoom(String ELOUri, String user) {
+		return false;
+	}
+
+	public void destoryMUCRoom(String ELOUri) {
+	}
+
 	@Override
 	public void updateChatTool(List<IAwarenessUser> users) {
 		// TODO Auto-generated method stub
