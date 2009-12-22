@@ -137,5 +137,59 @@ public interface IAwarenessService {
 	 * @param users
 	 */
 	public void updateChatTool(List<IAwarenessUser> users);
+	
+	/**
+	 * Creates a Multi User Chat
+	 * 
+	 * @param ELOUri
+	 * @param buddies
+	 */
+	public void joinMUCRoom(String ELOUri);
+	
+	/**
+	 * get the chat buddies
+	 * 
+	 * @param ELOUri
+	 * @return
+	 */
+	public List<IAwarenessUser> getChatBuddies(String ELOUri);
    
+	/**
+	 * add the buddy to MUC
+	 * 
+	 * @param buddy
+	 */
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri);
+	
+	/**
+	 * removes a buddy from the MUC
+	 * 
+	 * @param buddy
+	 */
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri);
+
+	/**
+	 * checks to see if chat room is joined
+	 * 
+	 * @param ELOUri
+	 * @param user
+	 * @return
+	 */
+	public boolean hasJoinedRoom(String ELOUri, String user);
+	
+	/**
+	 * checks to see if the room exists
+	 * 
+	 * @param ELOUri
+	 * @return
+	 */
+	public boolean doesRoomExist(String ELOUri);
+
+	/**
+	 * destroy destroy
+	 * 
+	 * @param ELOUri
+	 */
+	public void destoryMUCRoom(String ELOUri);
+
 }

@@ -2,13 +2,14 @@ package eu.scy.awareness.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
-import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
@@ -18,6 +19,11 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smackx.Form;
+import org.jivesoftware.smackx.FormField;
+import org.jivesoftware.smackx.muc.Affiliate;
+import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.RoomInfo;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
@@ -40,13 +46,15 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
 	private ConnectionConfiguration config;
-	private XMPPConnection xmppConnection;
+	public XMPPConnection xmppConnection;
 	private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
 	private ArrayList<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
 	private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
 	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private Roster roster;
+	private Map<String, MultiUserChat> mucToELOUris = new HashMap<String, MultiUserChat>();
+	public List<String> joinedMUCRooms;
 
 
 	public AwarenessServiceXMPPImpl() {
@@ -255,15 +263,45 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 		});
 
+		
+		//look up all the MUC chats this user is in
+		
+		
 		//Added by Jeremy Toussaint to track non-initialized chats
 		
-		getChatManager().addChatListener(new ChatManagerListener() {
-			
-			@Override
-			public void chatCreated(Chat chat, boolean local) {
-				chat.addMessageListener(AwarenessServiceXMPPImpl.this);
-			}
-		});
+		//we create a MUC now with ELOId
+		
+//		getChatManager().addChatListener(new ChatManagerListener() {
+//			
+//			@Override
+//			public void chatCreated(Chat chat, boolean local) {
+//				chat.addMessageListener(AwarenessServiceXMPPImpl.this);
+//			}
+//		});
+	}
+	
+	public boolean hasJoinedRoom(String ELOUri, String user) {
+		Iterator<String> jrooms = MultiUserChat.getJoinedRooms(xmppConnection, user);
+		
+		joinedMUCRooms = new ArrayList<String>();
+		
+		for (Iterator i = jrooms; jrooms.hasNext(); ) {
+		   joinedMUCRooms.add((String) i.next());
+		}
+		
+		return joinedMUCRooms.contains(ELOUri);
+	}
+	
+	public boolean doesRoomExist(String ELOUri) {
+		RoomInfo info;
+		try {
+			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri + "@conference.scy.intermedia.uio.no");
+		} catch (XMPPException e) {
+			//e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 
@@ -310,6 +348,130 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		for (IChatPresenceToolListener icptl : chatToolListeners) {
 			if (icptl != null) {
 				icptl.handleChatPresenceToolEvent(icpte);
+			}
+		}
+	}
+
+	public void destoryMUCRoom(String ELOUri) {
+		if( doesRoomExist(ELOUri)) {
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+"@conference.scy.intermedia.uio.no");
+			try {
+				muc.destroy("hate this room", null);
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	@Override
+	public void joinMUCRoom(String ELOUri) {
+		//first look of the muc to see if it as been create first
+		
+		if(ELOUri != null){
+			
+			
+				MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+"@conference.scy.intermedia.uio.no");
+				try {
+					
+					//first check if the room exists
+					if( doesRoomExist(ELOUri)) {
+						//am i joined
+						if( hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false )
+							muc.join(xmppConnection.getUser());
+						
+						
+					} else {
+						//create it
+						//we need to create
+					    muc.create(ELOUri);
+
+						// Get the the room's configuration form
+						Form form = muc.getConfigurationForm();
+						// Create a new form to submit based on the original form
+						Form submitForm = form.createAnswerForm();
+						// Add default answers to the form to submit
+						for (Iterator fields = form.getFields(); fields.hasNext();) {
+							FormField field = (FormField) fields.next();
+							if (!FormField.TYPE_HIDDEN.equals(field.getType())
+									&& field.getVariable() != null) {
+								// Sets the default value as the answer
+								submitForm.setDefaultAnswer(field.getVariable());
+							}
+						}
+						// Sets the new owner of the room
+//						List owners = new ArrayList();
+//						owners.add("djed11");
+						submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+						// Send the completed form (with default values) to the
+						// server to configure the room
+						muc.sendConfigurationForm(submitForm);
+//						if( joinedMUCRooms.contains(ELOUri) == false )
+//							 joinedMUCRooms.add(ELOUri);
+					}
+				} catch (XMPPException e) {
+					e.printStackTrace();
+				}
+
+		}
+	
+	}
+
+
+	@Override
+	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
+		if(ELOUri != null  ){
+			List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+			try {
+				Collection<Affiliate> members = muc.getMembers();
+				
+				for (Affiliate affiliate : members) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setName(affiliate.getNick());
+					user.setUsername(affiliate.getJid());
+					users.add(user);
+				}
+				
+				return users;
+				
+			} catch (XMPPException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+
+	@Override
+	public void addBuddyToMUC(IAwarenessUser buddy, String ELOUri) {
+		if(ELOUri != null){
+			
+			//check to see if the room exists
+			if( this.doesRoomExist(ELOUri) ) {
+				MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+				try {
+					muc.join(buddy.getUsername());
+				} catch (XMPPException e) {
+					e.printStackTrace();
+				}
+			} else {
+				//the room does not exist.
+			}
+			
+		}
+		
+	}
+
+
+	@Override
+	public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) {
+		if(ELOUri != null){
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+			try {
+				muc.kickParticipant(buddy.getUsername(), "had to go");
+			} catch (XMPPException e) {
+				e.printStackTrace();
 			}
 		}
 	}
