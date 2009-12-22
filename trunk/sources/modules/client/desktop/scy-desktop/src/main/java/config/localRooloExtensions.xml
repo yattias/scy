@@ -39,6 +39,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/copex</value>
+               </key>
+               <value>.scycopex</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/text</value>
                </key>
                <value>.text</value>
@@ -72,6 +78,18 @@
                   <value>scy/interview</value>
                </key>
                <value>.scyinterview</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/video</value>
+               </key>
+               <value>.video</value>
+            </entry>
+            <entry>
+               <key>
+                  <value>scy/xproc</value>
+               </key>
+               <value>.scyxproc</value>
             </entry>
             <entry>
                <key>
