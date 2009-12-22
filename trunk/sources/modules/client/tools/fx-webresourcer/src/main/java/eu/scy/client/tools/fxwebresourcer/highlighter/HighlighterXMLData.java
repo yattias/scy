@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 public class HighlighterXMLData {
 //TODO: change xml to new version
 //    @XmlElement(name = "title")
+
     private String title;
     @XmlElementWrapper(name = "summary")
     @XmlElement(name = "bullet")
