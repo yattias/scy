@@ -57,8 +57,8 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scyMapperId = "conceptmap";
    def scyStudentPlanningTool = "studentplanningtool";
    def scyTextId = "text";
-   def scychatId = "Xchat";
-   def scychatpresenceId = "Xpresence";
+   def scychatId = "chat";
+   def scychatpresenceId = "presence";
    def scyInterviewId = "interview";
    def scyVideoId = "video";
 
