@@ -28,6 +28,11 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 
+import javafx.scene.layout.Resizable;
+
+import java.lang.System;
+
+
 
 /**
  * @author pg
@@ -38,7 +43,7 @@ import roolo.elo.api.IMetadataTypeManager;
  *      http://codecs.com/FFDShow_download.htm
  */
 
-public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyTool {
+public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyTool, Resizable {
 
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
@@ -139,12 +144,12 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     * ScyWindow + repository should be fine now -> create eloactionwrapper and be happy!
     */
     override function postInitialize():Void {
-
             this.eloVideoActionWrapper = new EloVideoActionWrapper(this);
             eloVideoActionWrapper.setRepository(repository);
             eloVideoActionWrapper.setMetadataTypeManager(metadataTypeManager);
             eloVideoActionWrapper.setEloFactory(eloFactory);
             eloVideoActionWrapper.setDocName(scyWindow.title);
+
     }
 
     override function newElo():Void {
@@ -187,6 +192,15 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     override function setMyEloChanged(myEloChanged:MyEloChanged) {
 
     }
+
+    override function getPrefHeight(width:Number) {
+        return 450;
+    }
+
+    override function getPrefWidth(height: Number):Number {
+        return 550;
+    }
+
     public override function create():Node {
 
         scyWindow.addChangesListener(this);
