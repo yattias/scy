@@ -49,16 +49,14 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 		//TODO: This is not the most elegant way of doin' it
 		if (element instanceof INodeModel) {
 			INodeModel node = (INodeModel) element;
-			model.addNode(node);
-		}
-		else if (element instanceof INodeLinkModel) {
+			super.addNode(node);
+		} else if (element instanceof INodeLinkModel) {
 			// Get the actual local objects for the from / to node of this link (it is deserialized)
 			INodeLinkModel link = (INodeLinkModel) element;
 			link.setFromNode((INodeModel) model.getElementById(link.getFromNode().getId()));
 			link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
-			model.addLink(link);
-		}
-		else {
+			super.addLink(link);
+		} else {
 			logger.debug("Could not recognize sync object. Skipping.");
 		}
 	}
@@ -124,14 +122,12 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 
 		IDiagramElement element = model.getElementById(id);
 		if (element != null) {
-
 			if (element instanceof INodeModel)
-				model.removeNode((INodeModel) element);
-			if (element instanceof ILinkModel)
-				model.removeLink((ILinkModel) element);
-
+				super.removeNode((INodeModel) element);
+			else if (element instanceof ILinkModel)
+				super.removeLink((ILinkModel) element);
 		} else {
-			logger.warn("Node for syncobject with id " + syncObject.getID() + " NOT FOUND!!!");
+			logger.warn("Diagram element for syncobject with id " + syncObject.getID() + " NOT FOUND!!!");
 		}
 	}
 
@@ -191,14 +187,16 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	@Override
 	public void removeNode(INodeModel node) {
 		logger.debug("User is locally removing node with ID " + node.getId());
-
 		ISyncObject syncObject = new SyncObject();
 		syncObject.setProperty("id", node.getId());
-
-		logger.warn("Sync object for node with id " + node.getId() + " NOT FOUND!!!");
-
 		syncSession.removeSyncObject(syncObject);
+	}
 
-		logger.debug("Removed sync object: " + syncObject.getID());
+	@Override
+	public void removeLink(ILinkModel l) {
+		logger.debug("User is locally removing link with ID " + l.getId());
+		ISyncObject syncObject = new SyncObject();
+		syncObject.setProperty("id", l.getId());
+		syncSession.removeSyncObject(syncObject);
 	}
 }

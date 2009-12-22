@@ -71,7 +71,6 @@ public class DiagramController implements IDiagramController {
     }
 
     public void removeLink(ILinkModel l) {
-		logger.debug("Removing link: "+l);
         model.removeLink(l);
     }
 }
