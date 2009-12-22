@@ -1,12 +1,9 @@
 package eu.scy.agents.impl;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashSet;
 
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IThreadedAgent;
@@ -24,33 +21,6 @@ public abstract class AbstractForeignAgent implements IThreadedAgent {
 	private String id;
 
 	private Process process;
-
-	/**
-	 * Finds the absolute path to an executable file in the path. It is also
-	 * possible to search for several names, which is particularly useful if it
-	 * should work for multiple operating systems.
-	 * 
-	 * @param exeNames
-	 *            an array containing all file names to be searched
-	 * @return the path to a given executable
-	 */
-	protected static File findExecutable(String... exeNames) {
-		HashSet<String> exes = new HashSet<String>(Arrays.asList(exeNames));
-		String pathVar = System.getenv("PATH");
-		System.out.println(pathVar);
-		String[] pathComps = pathVar.split(File.pathSeparator);
-		for (String p : pathComps) {
-			File f = new File(p);
-			if (f.listFiles() != null) {
-				for (File f1 : f.listFiles()) {
-					if (exes.contains(f1.getName())) {
-						return f1;
-					}
-				}
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Create a new {@link AbstractForeignAgent}.
