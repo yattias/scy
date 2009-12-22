@@ -118,9 +118,9 @@ public class RetrieveEloForGivenTopicTest extends AbstractTestFixture {
 		int number = (Integer) response.getField(3).getValue();
 		assertEquals(2, number);
 		String uri1 = (String) response.getField(4).getValue();
-		assertEquals("roolo://memory/0/0/topicElo1.scytext", uri1);
+		assertEquals("roolo://memory/1/0/topicElo1.scytext", uri1);
 		String uri2 = (String) response.getField(5).getValue();
-		assertEquals("roolo://memory/2/0/topicElo3.scytext", uri2);
+		assertEquals("roolo://memory/3/0/topicElo3.scytext", uri2);
 	}
 
 	@After
