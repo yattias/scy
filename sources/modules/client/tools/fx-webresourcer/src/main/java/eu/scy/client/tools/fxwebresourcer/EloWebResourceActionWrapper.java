@@ -39,7 +39,7 @@ import roolo.elo.metadata.keys.Contribute;
 public class EloWebResourceActionWrapper {
     private static final Logger logger = Logger.getLogger(EloWebResourceActionWrapper.class.getName());
     public static final String scyWebType = "scy/text";
-    public static final String untitledDocName = "untitled webressource";
+    public static final String untitledDocName = "untitled webresource";
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
     private IELOFactory eloFactory;
@@ -172,16 +172,16 @@ public class EloWebResourceActionWrapper {
             loadElo(webUri);
         }
         else {
-            System.out.println("you should never read this.");
+            //System.out.println("error. elo did not want to be loaded :(");
         }
     }
 
 
     public void loadElo(URI eloUri) {
         logger.info("Trying to load elo " + eloUri);
-        System.out.println("loading: "+eloUri);
-        System.out.println(repository);
-        System.out.println(repository.retrieveELO(eloUri));
+        //System.out.println("loading: "+eloUri);
+        //.out.println(repository);
+        //System.out.println(repository.retrieveELO(eloUri));
         IELO newElo = repository.retrieveELO(eloUri);
         if (newElo != null)
         {
@@ -204,7 +204,7 @@ public class EloWebResourceActionWrapper {
             //sendEloLoadedChangedListener();
         }
         else {
-            System.out.println("loadElo() - you should never read this. oops.");
+            //System.out.println("loadElo() - you should never read this. oops.");
         }
     }
 
@@ -223,7 +223,7 @@ public class EloWebResourceActionWrapper {
     }
 
     public void saveAsWebAction() {
-        logger.fine("save as WEBREZZOURZZEE");
+        logger.fine("save as webresource");
         String webName = JOptionPane.showInputDialog("Enter WebResouceR name:", docName);
         if (StringUtils.hasText(webName)) {
             setDocName(webName);

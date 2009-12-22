@@ -11,12 +11,8 @@ import javafx.scene.layout.HBox;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
-import javax.xml.bind.Unmarshaller;
 
-import javax.xml.bind.JAXBContext;
 
-import eu.scy.client.tools.fxwebresourcer.highlighter.HighlighterXMLData;
-import java.io.StringReader;
 
 import eu.scy.client.tools.fxwebresourcer.EloWebResourceActionWrapper;
 
@@ -35,11 +31,18 @@ import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 
+import javafx.scene.layout.Resizable;
+
+import java.lang.System;
+import java.lang.Thread;
+
+import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
+
 /**
  * @author pg
  */
 
-public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
+public class WebResourceNode extends CustomNode, ILoadXML, ScyTool, Resizable {
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -48,7 +51,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
     public var metadataTypeManager:IMetadataTypeManager;
     def spacing = 5.0;
     public var eloWebResourceActionWrapper:EloWebResourceActionWrapper;
-    var dataFromXML:HighlighterXMLData; 
+    //var dataFromXML:HighlighterXMLData;
     var myContent:ContentNode = ContentNode {
             webNode: this
     };
@@ -111,26 +114,30 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
         }
         */
         //remove linebreaks -> JAXB seems to have some trouble with them.
-        var xml = input.replaceAll("[\r\n]+", "");
+        /*var xml = input.replaceAll("[\r\n]+", "");
         //use JAXB to create an object from xml inupt
         var context:JAXBContext = JAXBContext.newInstance(HighlighterXMLData.class);
         var um:Unmarshaller = context.createUnmarshaller();
         dataFromXML = (um.unmarshal( new StringReader(xml)) as HighlighterXMLData);
+        */
         //clear and add new content
+        var xmlData:XMLData = new XMLData(input);
         myContent.clearQuotations();
-        myContent.setTitle(dataFromXML.getTitle());
-        for(bullet in dataFromXML.bullet) {
+        myContent.setTitle(xmlData.getTitle());
+        for(bullet in xmlData.getBullets()) {
              myContent.addQuotation(bullet);
         }
-        myContent.setComment(dataFromXML.getComments().replaceAll("LINEBREAKISAFORBIDDENWORD", "\r\n"));
-        myContent.setSource(dataFromXML.getSources());
+        //myContent.setComment(xmlData.getComments().replaceAll("LINEBREAKISAFORBIDDENWORD", "\r\n"));
+        myContent.setComment(xmlData.getComments());
+        myContent.setSource(xmlData.getSources());
         setScyWindowTitle();
         updateScrollbars();
     }
 
     public override function getXML():String {
-        dataFromXML.setComments(myContent.comment);
-        return dataFromXML.toString();
+        //dataFromXML.setComments(myContent.comment);
+        //return dataFromXML.toString();
+        return "";
     }
 
     function setScyWindowTitle() {
@@ -166,6 +173,9 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
             eloWebResourceActionWrapper.setMetadataTypeManager(metadataTypeManager);
             eloWebResourceActionWrapper.setEloFactory(eloFactory);
             eloWebResourceActionWrapper.setDocName(scyWindow.title);
+            System.out.println("foo, bar");
+
+            System.out.println("bar, foo");
     }
 
     override function newElo():Void {
@@ -208,6 +218,16 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
     override function setMyEloChanged(myEloChanged:MyEloChanged) {
 
     }
+
+    override function getPrefHeight(width:Number):Number {
+        return 500;
+    }
+
+    override function getPrefWidth(height:Number):Number {
+        return 400;
+    }
+
+    
 
     public override function create():Node {
         var g = Group {
@@ -252,6 +272,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
 										setScyWindowTitle();
                            }
                         }*/
+                        /*
                         Button {
                            text: "Save copy"
                            action: function() {
@@ -259,6 +280,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyTool {
                                 setScyWindowTitle();
                            }
                         }
+                        */
                      ]
                   }
                   hBox
