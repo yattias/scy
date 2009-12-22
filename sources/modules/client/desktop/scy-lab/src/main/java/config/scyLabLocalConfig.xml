@@ -127,6 +127,16 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="progress"/>
             </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/video"/>
+               <property name="display" value="Video"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="video"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="topDrawerCreatorId" value="presence"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="progress"/>
+            </bean>
          </list>
       </property>
 
@@ -154,6 +164,7 @@
                <property name="helpEloUris">
                   <list>
                      <value>roolo://memory/37/0/Glossary.url</value>
+                     <value>roolo://memory/59/0/Technasium.video</value>
                   </list>
                </property>
             </bean>
@@ -236,8 +247,8 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="experimentalProcedure"/>
-               <property name="uri" value="roolo://memory/43/0/Experimental_procedure.scy"/>
+               <property name="name" value="roolo://memory/60/0/Experimental_procedure.scyxproc"/>
+               <property name="uri" value="experimentalProcedure"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
@@ -291,7 +302,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="interview"/>
-               <property name="uri" value="roolo://memory/99/0/Interview.text"/>
+               <property name="uri" value="roolo://memory/58/0/Interview.scyinterview"/>
                <property name="xPosition" value="120"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
