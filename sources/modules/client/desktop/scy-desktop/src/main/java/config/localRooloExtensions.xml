@@ -93,6 +93,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/webresourcer</value>
+               </key>
+               <value>.scywebresourcer</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/ppt</value>
                </key>
                <value>.ppt</value>

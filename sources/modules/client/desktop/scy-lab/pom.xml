@@ -80,6 +80,11 @@
 			<artifactId>fx-video</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-webresourcer</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>

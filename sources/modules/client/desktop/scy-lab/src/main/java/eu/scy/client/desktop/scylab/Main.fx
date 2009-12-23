@@ -30,6 +30,7 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContent
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.tools.interviewtool.InterviewToolContentCreator;
 import eu.scy.client.tools.fxvideo.VideoContentCreator;
+import eu.scy.client.tools.fxwebresourcer.WebResourceContentCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -61,6 +62,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    def scychatpresenceId = "presence";
    def scyInterviewId = "interview";
    def scyVideoId = "video";
+   def scyWebresourceId = "webresource";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -92,6 +94,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
 
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
 
