@@ -38,7 +38,7 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class EloWebResourceActionWrapper {
     private static final Logger logger = Logger.getLogger(EloWebResourceActionWrapper.class.getName());
-    public static final String scyWebType = "scy/text";
+    public static final String scyWebType = "scy/html";
     public static final String untitledDocName = "untitled webresource";
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
