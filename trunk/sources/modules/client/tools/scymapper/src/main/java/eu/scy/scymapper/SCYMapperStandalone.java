@@ -48,7 +48,6 @@ import java.util.Locale;
  * Time: 19:53:10
  */
 public class SCYMapperStandalone extends JFrame {
-
 	private final String CONTEXT_CONFIG_CLASS_PATH_LOCATION = "eu/scy/scymapper/standaloneConfig.xml";
 	private final String SHAPES_CONFIG = "eu/scy/scymapper/shapesConfig.xml";
 	private static final String SCYMAPPER_ELOTYPE = "scy/mapping";
@@ -56,6 +55,8 @@ public class SCYMapperStandalone extends JFrame {
 
 	private Icon offlineIcon;
 	private Icon onlineIcon;
+
+	private IELO currentELO;
 
 	private ToolBrokerAPI toolBroker;
 	private IConceptMap currentConceptMap;
@@ -151,14 +152,14 @@ public class SCYMapperStandalone extends JFrame {
 
 	private SCYMapperPanel createScyMapperPanel() {
 		IDiagramModel diagram = new DiagramModel();
-		IConceptMap cmap = new DefaultConceptMap(IConceptMap.DEFAULT_CMAP_NAME, diagram);
+		currentConceptMap = new DefaultConceptMap(null, diagram);
 		if (configuration.getPredefinedNodes() != null) diagram.addNodes(configuration.getPredefinedNodes());
-		return createScyMapperPanel(cmap);
+		return createScyMapperPanel(currentConceptMap);
 	}
 
 	private JPanel createScyMapperPanel(URI eloURI) {
-		IConceptMap cmap = loadElo(eloURI);
-		return createScyMapperPanel(cmap);
+		loadElo(eloURI);
+		return createScyMapperPanel(currentConceptMap);
 	}
 
 	private void initMenuBar() {
@@ -232,53 +233,67 @@ public class SCYMapperStandalone extends JFrame {
 		setJMenuBar(menuBar);
 	}
 
-	public void saveELO(IConceptMap cmap, boolean saveAs) {
+	public void saveELO(boolean saveAs) {
 
-		if (saveAs || cmap.getName() == null || cmap.getName().equals(IConceptMap.DEFAULT_CMAP_NAME)) {
+		if (saveAs || currentConceptMap.getName() == null) {
 
-			String name = "";
+			String name;
 
-			do name = JOptionPane.showInputDialog("Enter name:", cmap.getName());
-			while (name.trim().equals(""));
+			do name = JOptionPane.showInputDialog("Enter name:", currentConceptMap.getName());
+			while (name != null && name.trim().equals(""));
 
-			cmap.setName(name);
+			if (name == null) return;
+			currentConceptMap.setName(name);
 		}
 
-		IELO elo = toolBroker.getELOFactory().createELO();
+		IELO elo;
+		if (currentELO == null || saveAs) {
+			elo = toolBroker.getELOFactory().createELO();
+		}
+		else {
+			elo = currentELO;
+		}
 		elo.setDefaultLanguage(Locale.ENGLISH);
 		IMetadataKey uriKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
 		IMetadataKey titleKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
 		IMetadataKey typeKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
 		IMetadataKey dateCreatedKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
 		IMetadataKey authorKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(cmap.getName());
-		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(cmap.getName(), Locale.CANADA);
+		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(currentConceptMap.getName());
+		elo.getMetadata().getMetadataValueContainer(titleKey).setValue(currentConceptMap.getName(), Locale.CANADA);
 		elo.getMetadata().getMetadataValueContainer(typeKey).setValue(SCYMAPPER_ELOTYPE);
 		elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Long(System.currentTimeMillis()));
 
 		elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute("my vcard", System.currentTimeMillis()));
 		IContent content = toolBroker.getELOFactory().createContent();
 		XStream xstream = new XStream(new DomDriver());
-		String xml = xstream.toXML(cmap);
+		String xml = xstream.toXML(currentConceptMap);
 		content.setXmlString(xml);
 		elo.setContent(content);
 
-		IMetadata resultMetadata = toolBroker.getRepository().addNewELO(elo);
-//		toolBroker.getRepository().addMetadata(elo.getUri(), resultMetadata);
+		IMetadata metadata;
+		if (elo.getUri() != null) {
+			metadata = toolBroker.getRepository().updateELO(elo);
+		}
+		else {
+			metadata = toolBroker.getRepository().addNewELO(elo);
+		}
+		toolBroker.getELOFactory().updateELOWithResult(elo, metadata);
+		currentELO = elo;
 	}
 
-	public IConceptMap loadElo(URI eloUri) throws ResourceException {
+	public void loadElo(URI eloUri) throws ResourceException {
 		logger.info("Trying to load elo " + eloUri);
 
 		IELO elo = toolBroker.getRepository().retrieveELO(eloUri);
+
+		currentELO = elo;
 
 		if (elo == null) {
 			throw new ResourceException("Could not find ELO " + eloUri);
 		}
 
-		IMetadataKey titleKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
 		IMetadataKey typeKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-		IMetadataKey dateCreatedKey = toolBroker.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
 
 		String eloType = elo.getMetadata().getMetadataValueContainer(typeKey).getValue().toString();
 
@@ -287,7 +302,7 @@ public class SCYMapperStandalone extends JFrame {
 
 		XStream xstream = new XStream(new DomDriver());
 
-		return (IConceptMap) xstream.fromXML(elo.getContent().getXmlString());
+		currentConceptMap = (IConceptMap) xstream.fromXML(elo.getContent().getXmlString());
 	}
 
 	private class OpenConceptMapAction extends AbstractAction {
@@ -343,7 +358,7 @@ public class SCYMapperStandalone extends JFrame {
 				return;
 			}
 
-			saveELO(currentConceptMap, false);
+			saveELO(false);
 		}
 	}
 	private class SaveAsAction extends AbstractAction {
@@ -359,7 +374,7 @@ public class SCYMapperStandalone extends JFrame {
 				return;
 			}
 
-			saveELO(currentConceptMap, true);
+			saveELO(true);
 		}
 	}
 

@@ -145,13 +145,19 @@ public class SCYMapperNode extends CustomNode, Resizable {
         var conceptMap = scyMapperPanel.getConceptMap();
 
         var name = "";
-        while (StringUtils.hasText(name) == false) {
+
+        while (name == "") {
             name = JOptionPane.showInputDialog("Enter name:", conceptMap.getName());
+            if (name == null) return;
         }
+
         conceptMap.setName(name);
+
+        currentELO = repositoryWrapper.createELO();
 
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
         repositoryWrapper.saveELO(currentELO);
+
         JOptionPane.showMessageDialog(null, "ELO successfully saved as {conceptMap.getName()}", "Saved", JOptionPane.PLAIN_MESSAGE);
     }
 

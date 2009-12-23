@@ -23,9 +23,9 @@ import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import roolo.elo.api.IELOFactory;
 
+import org.apache.log4j.Logger;
 
 import roolo.elo.api.IELO;
-import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class SCYMapperContentCreator extends WindowContentCreatorFX {
@@ -35,7 +35,7 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
     public-init var toolBroker:ToolBrokerAPI;
 
     var repositoryWrapper;
-
+    def logger = Logger.getLogger("eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator");
     function initRepositoryWrapper() {
         if (repositoryWrapper == null) {
             repositoryWrapper = new ScyMapperRepositoryWrapper();
@@ -68,6 +68,8 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
         var conceptMap = repositoryWrapper.getELOConceptMap(elo);
 
         var scymapperPanel= new SCYMapperPanel(conceptMap, configuration);
+
+        logger.debug("TOOLBROKER: {toolBroker}");
 
         scymapperPanel.setToolBroker(toolBroker);
 
