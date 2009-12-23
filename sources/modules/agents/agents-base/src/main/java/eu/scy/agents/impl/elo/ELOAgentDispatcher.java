@@ -205,14 +205,23 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 
 	@Override
 	public IMetadata addForkedELO(IELO elo) {
-		// TODO Need agents to run on this elo.
-		return repository.addForkedELO(elo);
+		processBefore(elo);
+
+		IMetadata metadata = repository.addForkedELO(elo);
+
+		notifyAgents(elo);
+		processAfter(elo);
+		return metadata;
 	}
 
 	@Override
 	public IMetadata addForkedELO(IELO elo, URI parentUri) {
-		// TODO Need agents to run on this elo.
-		return repository.addForkedELO(elo,parentUri);
+		processBefore(elo);
+		IMetadata metadata = repository.addForkedELO(elo, parentUri);
+		notifyAgents(elo);
+		processAfter(elo);
+		return metadata;
+
 	}
 
 	@Override
@@ -239,33 +248,27 @@ public class ELOAgentDispatcher implements IELOAgentDispatcher {
 	}
 
 	@Override
-	public List<IELO> retrieveELOAllVersions(URI uri)
-	{
+	public List<IELO> retrieveELOAllVersions(URI uri) {
 		// TODO Agents
 		return repository.retrieveELOAllVersions(uri);
 	}
 
 	@Override
-	public List<IELO> retrieveELOs(List<URI> uris)
-	{
+	public List<IELO> retrieveELOs(List<URI> uris) {
 		// TODO Agents
 		return repository.retrieveELOs(uris);
 	}
 
 	@Override
-	public List<IMetadata> retrieveMetadataAllVersions(URI uri)
-	{
+	public List<IMetadata> retrieveMetadataAllVersions(URI uri) {
 		// TODO Agents
 		return repository.retrieveMetadataAllVersions(uri);
 	}
 
 	@Override
-	public List<IMetadata> retrieveMetadatas(List<URI> uris)
-	{
+	public List<IMetadata> retrieveMetadatas(List<URI> uris) {
 		// TODO Agents
 		return repository.retrieveMetadatas(uris);
 	}
-	
-	
 
 }
