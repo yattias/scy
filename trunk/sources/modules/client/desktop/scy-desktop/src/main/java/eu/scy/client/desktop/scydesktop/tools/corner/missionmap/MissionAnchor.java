@@ -17,6 +17,7 @@ import roolo.elo.api.IMetadata;
 public interface MissionAnchor {
 
    public URI getEloUri();
+   public String getName();
    public String getTitle();
    public char getIconCharacter();
    public Color getColor();

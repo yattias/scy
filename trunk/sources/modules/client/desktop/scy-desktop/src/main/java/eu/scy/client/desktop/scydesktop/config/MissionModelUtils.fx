@@ -43,6 +43,7 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
       {
          var missionAnchorFX = MissionAnchorFX{
             eloUri: missionAnchor.getEloUri()
+            name: missionAnchor.getName()
             xPos: missionAnchor.getXPosition()
             yPos: missionAnchor.getYPosition()
             exists:missionAnchor.isExisting();

@@ -17,6 +17,7 @@ import roolo.elo.api.IMetadata;
 
 public class MissionAnchorFX {
     public var eloUri: URI;
+    public var name= "?";
     public var xPos:Number = 0;
     public var yPos:Number = 0;
     public var nextAnchors: MissionAnchorFX[];
