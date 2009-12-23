@@ -14,23 +14,23 @@
     <alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
     <alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
     <alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
-	<!--<alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />-->
+    <alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
 
-	<!-- Resolves ${...} placeholders from client.properties -->
-	<!--<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-			<value>client.properties</value>
-		</property>
-	</bean>
+    <!-- Resolves ${...} placeholders from client.properties -->
+    <bean id="propertyConfigurer"
+            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location">
+                    <value>client.properties</value>
+            </property>
+    </bean>
 
-	--><!-- Proxy for the HTTP-invoker-exported repository -->
-	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+    <!-- Proxy for the HTTP-invoker-exported repository -->
+    <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
     <bean id="httpInvokerRepositoryProxy"
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
             <value>
-				http://localhost:8080/server-external-components-9.8.0-SNAPSHOT/remoting/repository-httpinvoker
+		http://${serverName}:${httpPort}/${contextPath}/remoting/repository-httpinvoker
             </value>
         </property>
         <property name="serviceInterface">
@@ -54,7 +54,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
             <value>
-				http://localhost:8080/server-external-components-9.8.0-SNAPSHOT/remoting/metadataTypeManager-httpinvoker
+                    http://${serverName}:${httpPort}/${contextPath}/remoting/metadataTypeManager-httpinvoker
             </value>
         </property>
         <property name="serviceInterface">
@@ -79,7 +79,7 @@
 		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
             <value>
-				http://localhost:8080/server-external-components-9.8.0-SNAPSHOT/remoting/extensionManager-httpinvoker
+                    http://${serverName}:${httpPort}/${contextPath}/remoting/extensionManager-httpinvoker
             </value>
         </property>
         <property name="serviceInterface">
