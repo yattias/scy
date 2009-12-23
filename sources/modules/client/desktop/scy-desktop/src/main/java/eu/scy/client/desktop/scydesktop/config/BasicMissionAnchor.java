@@ -18,6 +18,7 @@ public class BasicMissionAnchor implements MissionAnchor
 {
 
    private URI eloUri;
+   private String name;
    private String title;
    private char iconCharacter;
    private Color color;
@@ -47,6 +48,17 @@ public class BasicMissionAnchor implements MissionAnchor
    public void setEloUri(URI eloUri)
    {
       this.eloUri = eloUri;
+   }
+
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
+   @Override
+   public String getName()
+   {
+      return name;
    }
 
    public boolean isExisting()

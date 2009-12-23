@@ -241,7 +241,7 @@
                <property name="yPosition" value="40"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>simulator</value>
+                     <value>simulatorExpert</value>
                      <value>webInformation</value>
                      <value>experimentalProcedure</value>
                      <value>interview</value>
@@ -262,7 +262,7 @@
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>processedData</value>
+                     <value>processedData_E</value>
                   </list>
                </property>
                <property name="helpEloUris">
@@ -273,7 +273,7 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="simulator"/>
+               <property name="name" value="simulatorExpert"/>
                <property name="uri" value="roolo://memory/50/0/Data_from_simulation_in_expert_group.scysimconfig"/>
                <property name="xPosition" value="40"/>
                <property name="yPosition" value="80"/>
@@ -297,7 +297,7 @@
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>processedData</value>
+                     <value>processedData_E</value>
                      <value>conclusion</value>
                      <value>critic</value>
                   </list>
@@ -316,7 +316,7 @@
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>processedData</value>
+                     <value>processedData_E</value>
                      <value>conclusion</value>
                   </list>
                </property>
@@ -328,7 +328,7 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="processedData"/>
+               <property name="name" value="processedData_E"/>
                <property name="uri" value="roolo://memory/45/0/Processed_data.scydataset"/>
                <property name="xPosition" value="80"/>
                <property name="yPosition" value="120"/>
@@ -437,7 +437,7 @@
                <property name="yPosition" value="160"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>simulator</value>
+                     <value>simulatorDesign</value>
                      <value>houseDrawing</value>
                   </list>
                </property>
@@ -449,13 +449,13 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="simulator"/>
+               <property name="name" value="simulatorDesign"/>
                <property name="uri" value="roolo://memory/51/0/Data_from_simulation_in_design_group.scysimconfig"/>
                <property name="xPosition" value="200"/>
                <property name="yPosition" value="120"/>
                <property name="nextMissionAnchorNames">
                   <list>
-                     <value>ProcessedData</value>
+                     <value>processedData_D</value>
                   </list>
                </property>
                <property name="helpEloUris">
@@ -483,13 +483,14 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
-               <property name="name" value="processedData"/>
+               <property name="name" value="processedData_D"/>
                <property name="uri" value="roolo://memory/8/0/Processed_data.scydataset"/>
                <property name="xPosition" value="200"/>
                <property name="yPosition" value="80"/>
                <property name="nextMissionAnchorNames">
                   <list>
                      <value>houseAnalysis</value>
+                     <value>presentationDesign</value>
                   </list>
                </property>
                <property name="helpEloUris">

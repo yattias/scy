@@ -84,9 +84,11 @@ public class BasicConfig implements Config
       technicalFormatKey = getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
-   private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId){
+   private IMetadataKey getMetadataKey(CoreRooloMetadataKeyIds keyId)
+   {
       IMetadataKey key = metadataTypeManager.getMetadataKey(keyId.getId());
-      if (key==null){
+      if (key == null)
+      {
          throw new IllegalStateException("cannot find key " + keyId.getId());
       }
       return key;
@@ -122,7 +124,8 @@ public class BasicConfig implements Config
 
    public void setToolBrokerAPI(ToolBrokerAPI toolBrokerAPI)
    {
-      if (toolBrokerAPI==null){
+      if (toolBrokerAPI == null)
+      {
          throw new IllegalArgumentException("toolBrokerAPI may not be null");
       }
       this.toolBrokerAPI = toolBrokerAPI;
@@ -218,6 +221,7 @@ public class BasicConfig implements Config
       {
          BasicMissionAnchor missionAnchor = new BasicMissionAnchor();
          missionAnchor.setEloUri(basicMissionAnchorConfig.getUri());
+         missionAnchor.setName(basicMissionAnchorConfig.getName());
          IMetadata metadata = repository.retrieveMetadata(missionAnchor.getEloUri());
          missionAnchor.setMetadata(metadata);
          if (metadata != null)
@@ -228,7 +232,7 @@ public class BasicConfig implements Config
          else
          {
             missionAnchor.setExisting(false);
-            logger.info("Couldn't find anchor elo: "+ missionAnchor.getEloUri());
+            logger.error("Couldn't find anchor elo: " + missionAnchor.getEloUri());
          }
          missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
          missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
@@ -245,13 +249,20 @@ public class BasicConfig implements Config
                }
                else
                {
-                  logger.info("Could not find help elo uri: " + helpEloUri + " for mission anchor " + basicMissionAnchorConfig.getName());
+                  logger.error("Could not find help elo uri: " + helpEloUri + " for mission anchor " + basicMissionAnchorConfig.getName());
                }
             }
          }
          missionAnchor.setHelpEloUris(helpEloUris);
          basicMissionAnchors.add(missionAnchor);
-         basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
+         if (basicMissionAnchorsMap.containsKey(basicMissionAnchorConfig.getName()))
+         {
+            logger.error("duplicate anchor name: " + basicMissionAnchorConfig.getName());
+         }
+         else
+         {
+            basicMissionAnchorsMap.put(basicMissionAnchorConfig.getName(), missionAnchor);
+         }
       }
       // fill in the links
       for (BasicMissionAnchorConfig basicMissionAnchorConfig : basicMissionAnchorConfigs)
@@ -271,7 +282,7 @@ public class BasicConfig implements Config
                   }
                   else
                   {
-                     logger.info("can't find next mission anchor with name: " + name);
+                     logger.error("can't find next mission anchor with name: " + name + " for mission anchor " + basicMissionAnchorConfig.getName());
                   }
                }
             }
