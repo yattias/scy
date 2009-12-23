@@ -29,10 +29,10 @@ import roolo.elo.api.IELO;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class SCYMapperContentCreator extends WindowContentCreatorFX {
-    public-init var eloFactory:IELOFactory;
-    public-init var metadataTypeManager: IMetadataTypeManager;
-    public-init var repository:IRepository;
-    public-init var toolBroker:ToolBrokerAPI;
+    public var eloFactory:IELOFactory;
+    public var metadataTypeManager: IMetadataTypeManager;
+    public var repository:IRepository;
+    public var toolBrokerAPI:ToolBrokerAPI;
 
     var repositoryWrapper;
     def logger = Logger.getLogger("eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator");
@@ -69,9 +69,9 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
 
         var scymapperPanel= new SCYMapperPanel(conceptMap, configuration);
 
-        logger.debug("TOOLBROKER: {toolBroker}");
+        logger.debug("THE TOOLBROKERAPI IS: {toolBrokerAPI}");
 
-        scymapperPanel.setToolBroker(toolBroker);
+        scymapperPanel.setToolBroker(toolBrokerAPI);
 
         return SCYMapperNode{
             scyMapperPanel:scymapperPanel;
