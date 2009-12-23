@@ -150,7 +150,7 @@
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>jnlp-single</goal>
+                            <goal>jnlp</goal>
                             <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
                         </goals>
                     </execution>

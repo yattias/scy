@@ -145,7 +145,6 @@ public class SCYMapperNode extends CustomNode, Resizable {
         var conceptMap = scyMapperPanel.getConceptMap();
 
         var name = "";
-
         while (name == "") {
             name = JOptionPane.showInputDialog("Enter name:", conceptMap.getName());
             if (name == null) return;
