@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import org.apache.log4j.Logger;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
@@ -180,6 +181,7 @@ public class LoginDialog extends CustomNode {
       var scyDesktop = createScyDesktop(toolBrokerAPI, userName);
       delete this from sceneContent;
       insert scyDesktop into sceneContent;
+      insert SimpleTooltipManager.tooltipGroup into sceneContent;
       scene.content = sceneContent;
    }
 }
