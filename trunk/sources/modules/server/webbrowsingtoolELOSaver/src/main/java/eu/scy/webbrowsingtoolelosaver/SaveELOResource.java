@@ -177,8 +177,8 @@ public class SaveELOResource {
 
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
 
-                configLoader.getExtensionManager().registerExtension("scy/html", ".xml");
-                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/html");
+                configLoader.getExtensionManager().registerExtension("scy/webresourcer", ".scywebresourcer");
+                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/webresourcer");
                 elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
                 log.info("Metadata set");
                 
