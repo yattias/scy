@@ -153,7 +153,7 @@ public class GetELOResource {
         
         
         typeKey = new StringMetadataKey("type", "/testpath/", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, new StringValidator());
-        query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/html", null);
+        query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/webresourcer", null);
         log.info(query.toString());
 
         try {
