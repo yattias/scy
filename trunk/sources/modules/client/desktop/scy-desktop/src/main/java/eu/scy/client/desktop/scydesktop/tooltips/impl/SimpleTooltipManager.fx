@@ -20,11 +20,19 @@ import javafx.animation.KeyFrame;
 
 import java.lang.Exception;
 import org.apache.log4j.Logger;
+import javafx.scene.Scene;
+import javafx.scene.Group;
 
 /**
  * @author sikken
  */
 def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager");
+
+public var scene:Scene;
+public var tooltipGroup = Group{
+
+};
+
 
 public class SimpleTooltipManager extends TooltipManager {
 
@@ -109,7 +117,11 @@ public class SimpleTooltipManager extends TooltipManager {
             currentTimeLine.stop();
             currentTimeLine.time = 0s;
          }
-         delete currentTooltip from currentSourceNode.scene.content;
+         //delete currentTooltip from currentSourceNode.scene.content;
+         delete currentTooltip from tooltipGroup.content;
+//         var contentList = currentSourceNode.scene.content;
+//         delete currentTooltip from contentList;
+//         currentSourceNode.scene.content = contentList;
          currentTooltip = null;
          currentSourceNode = null;
       }
@@ -122,7 +134,11 @@ public class SimpleTooltipManager extends TooltipManager {
             currentSourceNode = sourceNode;
             currentTooltip = tooltipCreator.createTooltipNode(currentSourceNode);
             currentTooltip.opacity = 0.0;
-            insert currentTooltip into currentSourceNode.scene.content;
+            //insert currentTooltip into currentSourceNode.scene.content;
+            insert currentTooltip into tooltipGroup.content;
+//            var contentList = currentSourceNode.scene.content;
+//            insert currentTooltip into contentList;
+//            currentSourceNode.scene.content = contentList;
             var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
             currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
             currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
