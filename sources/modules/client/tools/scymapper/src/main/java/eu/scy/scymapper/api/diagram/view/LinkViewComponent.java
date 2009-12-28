@@ -32,6 +32,8 @@ public class LinkViewComponent extends JComponent {
 
 	public void paintComponent(Graphics g) {
 
+		Graphics2D g2 = (Graphics2D) g.create();
+
 		Point from = model.getFrom();
 		Point to = model.getTo();
 
@@ -45,7 +47,6 @@ public class LinkViewComponent extends JComponent {
 		Point relTo = new Point(to);
 		relTo.translate(-getX(), -getY());
 
-		Graphics2D g2 = (Graphics2D) g.create();
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 

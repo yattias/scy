@@ -17,6 +17,7 @@ public class ConnectionPoint extends Component {
         image = i;
     }
     public void paint(Graphics g) {
-        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+		Graphics2D g2 = (Graphics2D ) g.create();
+        g2.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
     }
 }

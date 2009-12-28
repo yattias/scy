@@ -156,19 +156,20 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
 		//labelTextarea.setCaretPosition(caretPos);
 		if (editable) {
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						Thread.sleep(100);
-						labelTextarea.requestFocus();
-						if (selected) labelTextarea.selectAll();
-					}
-					catch (InterruptedException e) {
+			SwingUtilities.invokeLater(
+					new Thread() {
+						@Override
+						public void run() {
+							try {
+								Thread.sleep(100);
+								labelTextarea.requestFocus();
+								if (selected) labelTextarea.selectAll();
+							}
+							catch (InterruptedException e) {
 
-					}
-				}
-			}.start();
+							}
+						}
+					});
 		}
 		isEditing = editable;
 	}

@@ -76,9 +76,9 @@ public class SCYMapperStandalone extends JFrame {
 	};
 
 	public static void main(String[] args) {
-		initLAF();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				initLAF();
 				SCYMapperStandalone app = new SCYMapperStandalone();
 				app.setTitle("SCYMapper Concept Mapping Tool");
 				try {
