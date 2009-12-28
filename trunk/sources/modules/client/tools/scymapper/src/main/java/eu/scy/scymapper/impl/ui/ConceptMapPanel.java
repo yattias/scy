@@ -1,8 +1,6 @@
 package eu.scy.scymapper.impl.ui;
 
 import eu.scy.scymapper.api.IConceptMap;
-import eu.scy.scymapper.api.diagram.model.ILinkModel;
-import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
 
