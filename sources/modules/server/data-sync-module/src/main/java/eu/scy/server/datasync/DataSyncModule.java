@@ -3,6 +3,23 @@
  */
 package eu.scy.server.datasync;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.packet.PacketExtension;
+import org.jivesoftware.smack.provider.ProviderManager;
+import org.xmpp.component.Component;
+import org.xmpp.packet.Message;
+import org.xmpp.packet.Packet;
+
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
@@ -16,18 +33,6 @@ import eu.scy.commons.smack.SmacketExtension;
 import eu.scy.commons.smack.SmacketExtensionProvider;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
-import org.apache.log4j.Logger;
-import org.jivesoftware.smack.*;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.packet.PacketExtension;
-import org.jivesoftware.smack.provider.ProviderManager;
-import org.xmpp.component.Component;
-import org.xmpp.packet.Message;
-import org.xmpp.packet.Packet;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 
 /**
@@ -57,14 +62,8 @@ public class DataSyncModule extends SCYHubModule {
 					Configuration.getInstance().getOpenFirePort());
 			connection = new XMPPConnection(cc);
 			connection.connect();
-			connection.login("jt11", "jt11");
-			connection.addConnectionListener(new ConnectionListener() {
-				@Override public void connectionClosed() {}
-				@Override public void connectionClosedOnError(Exception e) {}
-				@Override public void reconnectingIn(int seconds) {}
-				@Override public void reconnectionFailed(Exception e) {}
-				@Override public void reconnectionSuccessful() {}
-			});
+			connection.login("datasynclistener", "datasync");
+			connection.addConnectionListener(new DataSyncConnectionListener(connection));
 
 			final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
 
@@ -179,5 +178,42 @@ public class DataSyncModule extends SCYHubModule {
 			bridge.shutdown();
 		}
 		connection.disconnect();
+	}
+	
+	class DataSyncConnectionListener implements ConnectionListener {
+		
+		private XMPPConnection connection;
+		
+		public DataSyncConnectionListener(XMPPConnection connection) {
+			this.connection = connection;
+		}
+
+		@Override
+		public void connectionClosed() {}
+
+		@Override
+		public void connectionClosedOnError(Exception e) {
+			logger.debug("XMPPConnection closed. Reconnecting...");
+			try {
+				connection.connect();
+				logger.debug("Reconncetion successful!");
+			} catch (XMPPException ex) {
+				logger.debug("Could not reconnect", ex);
+			}
+		}
+
+		@Override
+		public void reconnectingIn(int seconds) {}
+
+		@Override
+		public void reconnectionFailed(Exception e) {
+			logger.debug("Reconnection to server failed: ", e);
+		}
+
+		@Override
+		public void reconnectionSuccessful() {
+			logger.debug("Reconnection sucessful!");
+		}
+		
 	}
 }
