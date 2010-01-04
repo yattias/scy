@@ -18,34 +18,34 @@ public class AwarenessMUCTest {
 
 	private ToolBrokerImpl tbi;
 	private IAwarenessService aService;
-	private String ELOUri = "BESTCHATEVER";
+	private String ELOUri = "1rxodm8f80qcb";
 	private String user1 = "senders11";
 	private String pass1 = "senders11";
 	private String user2 = "djed11";
 	private String pass2 = "djed11";
 	private String tail = "@scy.intermedia.uio.no";
-
-	@Ignore
+	private String conferenceExtension = "conference.scy.intermedia.uio.no";
+	@Before
 	public void setUp() throws Exception {
 
 		tbi = new ToolBrokerImpl(user2, pass2);
 		aService = tbi.getAwarenessService();
-
+		aService.setMUCConferenceExtension(conferenceExtension);
 		// generate chat room id
 		Random r = new Random();
 		String token = Long.toString(Math.abs(r.nextLong()), 36);
-		ELOUri = ELOUri + "-" + token;
+		//ELOUri = token;
 	}
 
 	@Ignore
 	public void testGetChatBuddies() {
 		aService.joinMUCRoom(ELOUri);
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 
 		List<IAwarenessUser> chatBuddies = aService.getChatBuddies(ELOUri);
 
@@ -94,7 +94,7 @@ public class AwarenessMUCTest {
 		}
 
 		assertTrue(foundOne == true && foundTwo == true);
-
+		this.forEver();
 	}
 
 	@Ignore
@@ -141,10 +141,8 @@ public class AwarenessMUCTest {
 	@Ignore
 	public void joinMUC() {
 
-		aService.joinMUCRoom("BESTCHATEVER");
-		for (;;)
-			;
-
+		aService.joinMUCRoom(ELOUri);
+		this.forEver();
 	}
 
 	@Ignore
@@ -153,4 +151,7 @@ public class AwarenessMUCTest {
 		aService.destoryMUCRoom(ELOUri);
 	}
 
+	public void forEver() {
+		for (;;);
+	}
 }

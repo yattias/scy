@@ -192,4 +192,18 @@ public interface IAwarenessService {
 	 */
 	public void destoryMUCRoom(String ELOUri);
 
+	/**
+	 * sets the address of the confernce extension for MUC
+	 * 
+	 * @param CONFERENCE_EXT
+	 */
+	public void setMUCConferenceExtension(String CONFERENCE_EXT);
+
+	/**
+	 * get the address conference extension, adds an "@" at the front of it.for MUC
+	 * 
+	 * @return
+	 */
+	public String getMUCConferenceExtension();
+
 }

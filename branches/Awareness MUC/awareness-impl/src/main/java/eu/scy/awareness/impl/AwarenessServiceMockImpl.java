@@ -225,4 +225,11 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 		
 	}
 
+	public String getMUCConferenceExtension() {
+		return null;
+	}
+
+	public void setMUCConferenceExtension(String CONFERENCE_EXT) {
+	}
+
 }

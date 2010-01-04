@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -17,8 +18,6 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.logger.ActionLogger;
-import eu.scy.awareness.AwarenessServiceException;
-import eu.scy.awareness.AwarenessServiceFactory;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.client.common.datasync.DataSyncService;
 import eu.scy.client.common.datasync.IDataSyncService;
@@ -85,32 +84,33 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
         context = new ClassPathXmlApplicationContext(beanConfigurationFile);
         
         // RoOLO
-        repository = (IRepository) context.getBean("repository");
-        metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
-        extensionManager = (IExtensionManager) context.getBean("extensionManager");
-        eloFactory = (IELOFactory) context.getBean("eloFactory");
+        //
+       // repository = (IRepository) context.getBean("repository");
+       // metaDataTypeManager = (IMetadataTypeManager) context.getBean("metadataTypeManager");
+        //extensionManager = (IExtensionManager) context.getBean("extensionManager");
+        //eloFactory = (IELOFactory) context.getBean("eloFactory");
         
         // ActionLogger
         actionLogger = (IActionLogger) context.getBean("actionlogger");
-        ((ActionLogger) actionLogger).init(xmppConnection);
+        ((ActionLogger) actionLogger).init(getXmppConnection());
         
         // SessionManager (Up-to-date?)
-        sessionManager = (SessionManager) context.getBean("sessionManager");
+       // sessionManager = (SessionManager) context.getBean("sessionManager");
         
         // AwarenessService
         awarenessService = (IAwarenessService) context.getBean("awarenessService");
-        awarenessService.init(xmppConnection);
+        awarenessService.init(getXmppConnection());
         
         // DataSyncService
         dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-        ((DataSyncService)dataSyncService).init(xmppConnection);
+        ((DataSyncService)dataSyncService).init(getXmppConnection());
         
         // PedagogicalPlan
-        pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
+        //pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
         
         // NotificationReceiver
         notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
-        notificationReceiver.init(xmppConnection);
+        notificationReceiver.init(getXmppConnection());
     }
 
     /**
@@ -203,7 +203,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
     }
 
     private XMPPConnection getConnection(String userName, String password) {
-    	if(xmppConnection == null) {
+    	if(getXmppConnection() == null) {
 	        
 	        this.userName = userName;
 	        this.password = password;
@@ -216,13 +216,14 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	        config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
 	        config.setCompressionEnabled(true);
 	        config.setReconnectionAllowed(true);
-	        this.xmppConnection = new XMPPConnection(config);
-	        this.xmppConnection.DEBUG_ENABLED = true;
+	        this.setXmppConnection(new XMPPConnection(config));
+	        this.getXmppConnection().DEBUG_ENABLED = true;
 	
 	        try {            
-	            this.xmppConnection.connect();
-	            SmackConfiguration.setPacketReplyTimeout(100000);
-	            SmackConfiguration.setKeepAliveInterval(10000);
+	            this.getXmppConnection().connect();
+	            SmackConfiguration.setPacketReplyTimeout(10000);
+	            SmackConfiguration.setKeepAliveInterval(10000000);
+	            SASLAuthentication.supportSASLMechanism("PLAIN", 0);
                 logger.debug("User logging in: " + userName + " " + password);
 	            logger.debug("successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
 	        } catch (XMPPException e) {
@@ -232,20 +233,20 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	        
 	        
 	        try {
-	            this.xmppConnection.login(userName, password);
+	            this.getXmppConnection().login(userName, password);
 	            logger.debug("xmpp login ok " + userName + " " + password);
 	        } catch (XMPPException e1) {
 	            logger.error("xmpp login failed. bummer. " + e1);
 	            e1.printStackTrace();
 	        }        
 	        
-	        this.xmppConnection.addConnectionListener(new ConnectionListener() {
+	        this.getXmppConnection().addConnectionListener(new ConnectionListener() {
 	            
 	            @Override
 	            public void connectionClosed() {
 	                logger.debug("TBI closed connection");
 	                try {
-	                    xmppConnection.connect();
+	                    getXmppConnection().connect();
 	                    logger.debug("TBI reconnected");
 	                } catch (XMPPException e) {
 	                    e.printStackTrace();
@@ -272,7 +273,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	            }
 	        });
     	}
-        return xmppConnection;
+        return getXmppConnection();
     }
     
     @Override
@@ -288,6 +289,14 @@ public class ToolBrokerImpl implements ToolBrokerAPI {
 	@Override
 	public IELOFactory getELOFactory() {
 		return eloFactory;
+	}
+
+	public void setXmppConnection(XMPPConnection xmppConnection) {
+		this.xmppConnection = xmppConnection;
+	}
+
+	public XMPPConnection getXmppConnection() {
+		return xmppConnection;
 	}
 
 }
