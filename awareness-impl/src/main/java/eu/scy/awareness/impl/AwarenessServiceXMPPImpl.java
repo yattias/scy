@@ -19,10 +19,12 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.Affiliate;
 import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.Occupant;
 import org.jivesoftware.smackx.muc.RoomInfo;
 
 import eu.scy.awareness.AwarenessServiceException;
@@ -44,6 +46,7 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
+	protected String CONFERENCE_EXT = "@conference.scy.intermedia.uio.no";
 	private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
 	private ConnectionConfiguration config;
 	public XMPPConnection xmppConnection;
@@ -53,7 +56,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	private ArrayList<IChatPresenceToolListener> chatToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
 	private Roster roster;
-	private Map<String, MultiUserChat> mucToELOUris = new HashMap<String, MultiUserChat>();
 	public List<String> joinedMUCRooms;
 
 
@@ -70,6 +72,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	}
 
 
+	public void setMUCConferenceExtension(String CONFERENCE_EXT){
+		this.CONFERENCE_EXT = "@" + CONFERENCE_EXT;
+	}
+
+	public String getMUCConferenceExtension(){
+		return this.CONFERENCE_EXT;
+	}
 	@Override
 	public void sendMessage(String recipient, String message) {
 		Chat chat = xmppConnection.getChatManager().createChat(recipient, this);
@@ -295,7 +304,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	public boolean doesRoomExist(String ELOUri) {
 		RoomInfo info;
 		try {
-			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri + "@conference.scy.intermedia.uio.no");
+			info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri + CONFERENCE_EXT);
 		} catch (XMPPException e) {
 			//e.printStackTrace();
 			return false;
@@ -354,7 +363,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
 	public void destoryMUCRoom(String ELOUri) {
 		if( doesRoomExist(ELOUri)) {
-			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+"@conference.scy.intermedia.uio.no");
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+CONFERENCE_EXT);
 			try {
 				muc.destroy("hate this room", null);
 			} catch (XMPPException e) {
@@ -371,7 +380,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		if(ELOUri != null){
 			
 			
-				MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+"@conference.scy.intermedia.uio.no");
+				MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri+CONFERENCE_EXT);
 				try {
 					
 					//first check if the room exists
@@ -422,10 +431,18 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	public List<IAwarenessUser> getChatBuddies(String ELOUri) {
 		if(ELOUri != null  ){
 			List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
-			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
+			MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri + CONFERENCE_EXT);
+			Iterator<String> occupants = muc.getOccupants();
 			try {
-				Collection<Affiliate> members = muc.getMembers();
+				Collection<Occupant> participants = muc.getParticipants();
+				for (Occupant occupant : participants) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setName(occupant.getNick());
+					user.setUsername(occupant.getJid());
+					users.add(user);
+				}
 				
+				Collection<Affiliate> members = muc.getMembers();
 				for (Affiliate affiliate : members) {
 					IAwarenessUser user = new AwarenessUser();
 					user.setName(affiliate.getNick());
@@ -433,11 +450,26 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					users.add(user);
 				}
 				
-				return users;
+				Collection<Occupant> moderators = muc.getModerators();
+				for (Occupant occupant : moderators) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setName(occupant.getNick());
+					user.setUsername(occupant.getJid());
+					users.add(user);
+				}
 				
+				Collection<Affiliate> admins = muc.getAdmins();
+				for (Affiliate affiliate : admins) {
+					IAwarenessUser user = new AwarenessUser();
+					user.setName(affiliate.getNick());
+					user.setUsername(affiliate.getJid());
+					users.add(user);
+				}
+				System.out.println();
 			} catch (XMPPException e) {
 				e.printStackTrace();
-			}
+			}			
+			return users;
 		}
 		return null;
 	}
