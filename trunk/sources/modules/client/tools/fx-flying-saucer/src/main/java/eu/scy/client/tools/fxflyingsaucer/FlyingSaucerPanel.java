@@ -45,7 +45,9 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       urlField = new javax.swing.JTextField();
       loadButton = new javax.swing.JButton();
       browserScrollPane = new FSScrollPane();
-      browser = new MyXhtmlPanel(new BrowserAgentCallback(this));
+      System.getProperties().setProperty("xr.use.listeners", "false");
+      browser = new MyXhtmlPanel(new BrowserAgentCallback(this),true);
+      System.getProperties().setProperty("xr.use.listeners", "true");
       browser.addDocumentListener(new DocumentListener()
       {
 

@@ -25,6 +25,8 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 var initializer = Initializer {
            log4JInitFile: "/config/scy-flying-saucer-log4j.xml"
            scyDesktopConfigFile: "config/scyDesktopFlyingSaucerTestConfig.xml"
+           storeElosOnDisk:false;
+           loginType:"local"
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
