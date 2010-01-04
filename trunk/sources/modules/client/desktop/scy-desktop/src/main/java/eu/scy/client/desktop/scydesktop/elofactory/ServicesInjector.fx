@@ -115,9 +115,6 @@ public class ServicesInjector {
          try{
             varRef.setValue(objectValue, context.mirrorOf(service));
             logger.info("the variable {propertyName} in {object.getClass().getName()} is set");
-         } catch (e: IllegalAccessException) {
-            // no access to property, no error, but only a "warning"
-            logger.info("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}, error {e.getMessage()}");
          } catch (e: Exception) {
             logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}, error {e.getMessage()}");
 //            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}", e);
