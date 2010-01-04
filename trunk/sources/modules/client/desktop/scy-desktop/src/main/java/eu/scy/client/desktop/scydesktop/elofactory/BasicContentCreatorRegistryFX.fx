@@ -16,9 +16,8 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.BasicContentCreatorRegistryFX");
-
 public class BasicContentCreatorRegistryFX{
+   def logger = Logger.getLogger(this.getClass());
 
    def contentCreatorsFXMap = new HashMap();
 

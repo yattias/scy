@@ -12,23 +12,25 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import javafx.util.Sequences;
 
 import javafx.scene.Group;
 
 import java.net.URI;
+import java.lang.Void;
+import org.apache.log4j.Logger;
 
 
 /**
  * @author sikkenj
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl");
 
 public class WindowManagerImpl extends WindowManager {
+   def logger = Logger.getLogger(this.getClass());
+
    public-read override var scyWindows = Group{};
 
-var activeWindow:ScyWindow on replace previousActiveWindow {
+   var activeWindow:ScyWindow on replace previousActiveWindow {
       if (previousActiveWindow!=null){
          setDeactiveWindowState(previousActiveWindow);
       }

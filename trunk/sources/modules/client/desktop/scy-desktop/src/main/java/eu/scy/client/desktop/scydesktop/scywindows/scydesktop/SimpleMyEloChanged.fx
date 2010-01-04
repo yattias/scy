@@ -21,9 +21,8 @@ import org.apache.log4j.Logger;
  * @author sikken
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged");
-
 public class SimpleMyEloChanged extends MyEloChanged {
+   def logger = Logger.getLogger(this.getClass());
 
    public var window:ScyWindow;
    public var titleKey:IMetadataKey;

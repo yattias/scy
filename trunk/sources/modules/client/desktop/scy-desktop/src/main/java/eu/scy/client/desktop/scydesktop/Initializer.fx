@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop;
 
 import javafx.scene.image.Image;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.scydesktop.utils.InitJavaUtilLogging;
 import java.io.File;
 import java.lang.IllegalArgumentException;
 import java.lang.System;
@@ -28,11 +29,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
  * @author sikken
  */
 // place your code here
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.Initializer");
 
 public class Initializer {
+   def logger = Logger.getLogger(this.getClass());
 
    public-init var log4JInitFile = "";
+   public-init var javaUtilLoggingInitFile = "";
    public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
    public-init var enableLogging = false;
    public-init var loggingDirectoryName = "logging";
@@ -76,10 +78,7 @@ public class Initializer {
       parseApplicationParameters();
       parseWebstartParameters();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
-      setupLog4J();
-//      if (isEmpty(scyDesktopConfigFile)){
-//         throw new IllegalArgumentException("{scyDesktopConfigFileOption} may not be empty");
-//      }
+      setupCodeLogging();
       setupBackgroundImage();
       System.setProperty(enableLoggingKey, "{enableLogging}");
       var loggingDirectoryKeyValue = "";
@@ -216,11 +215,16 @@ public class Initializer {
       return backgroundImageView;
    }
 
-   function setupLog4J() {
+   function setupCodeLogging() {
       if (log4JInitFile.length() > 0) {
          InitLog4JFX.initLog4J(log4JInitFile);
       } else {
          InitLog4JFX.initLog4J();
+      }
+      if (javaUtilLoggingInitFile.length() > 0) {
+         InitJavaUtilLogging.initJavaUtilLogging(javaUtilLoggingInitFile);
+      } else {
+         InitJavaUtilLogging.initJavaUtilLogging();
       }
    }
 

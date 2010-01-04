@@ -22,9 +22,8 @@ import java.lang.System;
  * @author sikkenj
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner");
-
 public class SimpleWindowPositioner extends WindowPositioner {
+   def logger = Logger.getLogger(this.getClass());
 
    var windows:ScyWindow[];
 

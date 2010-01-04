@@ -16,10 +16,11 @@ import roolo.elo.api.IELOFactory;
  * @author sikken
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX");
 public def eloType = "scy/missionmodel";
 
 public class MissionModelFX {
+   def logger = Logger.getLogger(this.getClass());
+
    public var anchors:MissionAnchorFX[];
    public var activeAnchor:MissionAnchorFX on replace{
          logger.info("new activeAncher {activeAnchor}");

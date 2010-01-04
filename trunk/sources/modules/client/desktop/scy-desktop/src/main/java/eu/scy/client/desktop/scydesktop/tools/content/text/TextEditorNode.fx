@@ -27,8 +27,7 @@ import org.apache.log4j.Logger;
 
 // place your code here
 public class TextEditorNode extends CustomNode, Resizable {
-
-   def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorNode");
+   def logger = Logger.getLogger(this.getClass());
 
    public-init var textEditor:TextEditor;
    public-init var eloTextEditorActionWrapper:EloTextEditorActionWrapper;

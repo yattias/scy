@@ -28,13 +28,13 @@ import javafx.scene.shape.Rectangle;
  * @author sikken
  */
 // place your code here
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.login.LoginDialog");
 package def loginColor = Color.hsb(255, 1, 1.0);
 package def successColor = Color.hsb(135, 1, 0.8);
 package def failedColor = Color.hsb(360, 1, 0.9);
 
 
 public class LoginDialog extends CustomNode {
+   def logger = Logger.getLogger(this.getClass());
 
    public var initializer   :  Initializer ;
    public var createScyDesktop: function( tbi:  ToolBrokerAPI,userName: String): ScyDesktop;
@@ -114,14 +114,15 @@ public class LoginDialog extends CustomNode {
       println("userName: {userName}, password: {password}");
       try {
          var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
-         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}");
-         logger.info("tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}");
-         logger.info("tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}");
-         logger.info("tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}");
-         logger.info("tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}");
-         logger.info("tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}");
-         logger.info("tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}");
-         logger.info("tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
+
+         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}/n"
+         "tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}/n"
+         "tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}/n"
+         "tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}/n"
+         "tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}/n"
+         "tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}/n"
+         "tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}/n"
+         "tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
          showLoginResult(toolBrokerAPI,userName);
          //placeScyDescktop(toolBrokerAPI, userName);
       } catch (e: LoginFailedException) {

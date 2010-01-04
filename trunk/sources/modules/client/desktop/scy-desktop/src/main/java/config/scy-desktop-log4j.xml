@@ -22,7 +22,19 @@
 		<level value="error" />
 	</logger>
 
-	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl">
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows">
+		<level value="error" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
+		<level value="error" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
+		<level value="error" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.scydesktop.elofactory">
 		<level value="error" />
 	</logger>
 

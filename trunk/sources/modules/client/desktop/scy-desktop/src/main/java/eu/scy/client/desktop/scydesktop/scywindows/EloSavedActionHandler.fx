@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler");
-
 public class EloSavedActionHandler extends EloSavedListener{
+   def logger = Logger.getLogger(this.getClass());
+
    public var scyWindowControl:ScyWindowControl;
 
    public override function newEloSaved(eloUri : URI):Void{
