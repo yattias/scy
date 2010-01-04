@@ -100,9 +100,9 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 /**
  * @author sikkenj
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktop");
 
 public class ScyDesktop extends CustomNode {
+   def logger = Logger.getLogger(this.getClass());
 
    public var config:Config;
 

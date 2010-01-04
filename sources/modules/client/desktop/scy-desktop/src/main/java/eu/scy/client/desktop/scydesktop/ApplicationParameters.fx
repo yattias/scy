@@ -14,9 +14,9 @@ import java.lang.IllegalArgumentException;
  * @author sikken
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ApplicationParameters");
-
 public class ApplicationParameters {
+   def logger = Logger.getLogger(this.getClass());
+
    public-read var servicesClassPathConfigLocation:String;
    public-read var servicesFileSystemConfigLocation:String;
    public-read var configClassPathConfigLocation:String;

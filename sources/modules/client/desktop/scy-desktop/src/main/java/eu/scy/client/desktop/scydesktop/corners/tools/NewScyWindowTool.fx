@@ -41,9 +41,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 
 // place your code here
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool");
-
 public class NewScyWindowTool extends CustomNode {
+   def logger = Logger.getLogger(this.getClass());
 
    public var scyDesktop: ScyDesktop;
    public var scyWindowControl: ScyWindowControl;

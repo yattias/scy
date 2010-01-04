@@ -26,8 +26,6 @@ import javafx.scene.Group;
 /**
  * @author sikken
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager");
-
 public var scene:Scene;
 public var tooltipGroup = Group{
 
@@ -35,6 +33,7 @@ public var tooltipGroup = Group{
 
 
 public class SimpleTooltipManager extends TooltipManager {
+   def logger = Logger.getLogger(this.getClass());
 
    def sourceNodes = new HashMap();
    var currentSourceNode: Node;

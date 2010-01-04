@@ -47,9 +47,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged
  * @author sikkenj
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentFactory");
-
 public class WindowContentFactory extends ContentFactory {
+   def logger = Logger.getLogger(this.getClass());
+
    public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var newTitleGenerator: NewTitleGenerator;
 //   public var eloSaver:EloSaver;

@@ -24,16 +24,18 @@ import javafx.reflect.FXType;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import java.lang.IllegalAccessException;
+import eu.scy.client.common.datasync.IDataSyncService;
 import org.apache.log4j.Logger;
+
 
 /**
  * @author sikkenj
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.ServicesInjector");
 
 public class ServicesInjector {
+   def logger = Logger.getLogger(this.getClass());
 
    public var config: Config;
 
@@ -98,12 +100,14 @@ public class ServicesInjector {
    }
 
    public function injectServiceIfWantedFX(object: Object, serviceClass: Class, propertyName: String, service: Object) {
-      var context: FXLocal  .Context
-        = FXLocal.getContext
-         ();
-      var objectValue: FXLocal  .ObjectValue
-        = new FXLocal.ObjectValue(object,context);
+      var context: FXLocal.Context = FXLocal.getContext();
+      var objectValue: FXLocal.ObjectValue  = new FXLocal.ObjectValue(object,context);
       var cls:FXClassType = objectValue.getClassType();
+      if (not cls.isJfxType() and not cls.isMixin()){
+         // object is not a javafx object
+         //println("not a javafx object: {object.getClass()}");
+         return;
+      }
       var varRef:FXVarMember = cls.getVariable(propertyName);
       if (varRef!=null){
          var type:FXType = varRef.getType();
@@ -111,8 +115,11 @@ public class ServicesInjector {
          try{
             varRef.setValue(objectValue, context.mirrorOf(service));
             logger.info("the variable {propertyName} in {object.getClass().getName()} is set");
+         } catch (e: IllegalAccessException) {
+            // no access to property, no error, but only a "warning"
+            logger.info("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}, error {e.getMessage()}");
          } catch (e: Exception) {
-            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}");
+            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}, error {e.getMessage()}");
 //            logger.error("failed to set FX property {propertyName} of type {type.getName()} in {object.getClass().getName()}, with type {service.getClass()}", e);
          }
       } else {

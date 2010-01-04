@@ -16,9 +16,8 @@ import org.apache.log4j.Logger;
 
 // place your code here
 
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.DrawerContentCreatorRegistryFXImpl");
-
 public class DrawerContentCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX, DrawerContentCreatorRegistryFX{
+   def logger = Logger.getLogger(this.getClass());
 
    public override function registerDrawerContentCreator(drawerContentCreator: DrawerContentCreator, id: String):Void{
       registerDrawerContentCreatorFX(DrawerContentCreatorWrapper{drawerContentCreator:drawerContentCreator },id);

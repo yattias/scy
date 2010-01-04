@@ -29,9 +29,9 @@ import roolo.elo.api.IMetadataTypeManager;
  * @author sikken
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap");
-
 public class MissionMap extends CustomNode {
+   def logger = Logger.getLogger(this.getClass());
+
    public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
    public var tooltipManager: TooltipManager;

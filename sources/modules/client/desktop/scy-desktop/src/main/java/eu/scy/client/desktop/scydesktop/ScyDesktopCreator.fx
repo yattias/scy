@@ -42,9 +42,9 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
 /**
  * @author sikkenj
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.ScyDesktopCreator");
 
 public class ScyDesktopCreator {
+   def logger = Logger.getLogger(this.getClass());
 
    public-init var initializer: Initializer;
    public-init var toolBrokerAPI: ToolBrokerAPI;

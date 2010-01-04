@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 /**
  * @author sikkenj
  */
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler");
 
 public class DummyWindowStyler extends WindowStyler {
+   def logger = Logger.getLogger(this.getClass());
 
    public def drawingType = "scy/drawing";
    public def datasetType = "scy/dataset";

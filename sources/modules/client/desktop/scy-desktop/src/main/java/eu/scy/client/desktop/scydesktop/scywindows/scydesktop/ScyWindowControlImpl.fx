@@ -29,9 +29,8 @@ import javafx.animation.KeyFrame;
  * @author sikken
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl");
-
 public class ScyWindowControlImpl extends ScyWindowControl {
+   def logger = Logger.getLogger(this.getClass());
 
    var firstNewAnchor = true;
    def activeAnchor = bind missionModel.activeAnchor on replace oldActiveAnchor{

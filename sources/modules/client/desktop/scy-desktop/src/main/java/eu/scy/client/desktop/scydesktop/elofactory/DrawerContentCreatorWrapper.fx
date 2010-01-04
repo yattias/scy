@@ -19,9 +19,9 @@ import eu.scy.client.desktop.scydesktop.config.Config;
 
 // place your code here
 
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.DrawerContentCreatorWrapper");
-
 public class DrawerContentCreatorWrapper extends DrawerContentCreatorFX {
+   def logger = Logger.getLogger(this.getClass());
+
    public var config:Config on replace {injectServices()};
 
    public var drawerContentCreator: DrawerContentCreator;

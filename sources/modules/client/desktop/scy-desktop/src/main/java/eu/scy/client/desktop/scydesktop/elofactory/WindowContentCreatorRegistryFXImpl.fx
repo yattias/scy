@@ -14,9 +14,8 @@ import org.apache.log4j.Logger;
  * @author sikkenj
  */
 
-def logger = Logger.getLogger("eu.scy.client.desktop.elofactory.WindowContentCreatorRegistryFXImpl");
-
 public class WindowContentCreatorRegistryFXImpl extends BasicContentCreatorRegistryFX, WindowContentCreatorRegistryFX {
+   def logger = Logger.getLogger(this.getClass());
 
    public override function registerWindowContentCreatorFX(windowContentCreator: WindowContentCreatorFX, id: String):Void{
       logger.info("registering WindowContentCreatorFX for id {id}, class {windowContentCreator.getClass()}");

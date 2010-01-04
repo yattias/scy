@@ -36,8 +36,8 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
  */
 
 public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX {
+   def logger = Logger.getLogger(this.getClass());
 
-   def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.tools.content.text.ScyTextEditorNode");
    def scyTextType = "scy/text";
 //   def untitledDocName = "untitled";
    def textTagName = "text";
