@@ -22,8 +22,8 @@ var initializer = Initializer{
    scyDesktopConfigFile:"config/scyDesktopTestConfig.xml"
 //   localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
    loginType:"local"
-   storeElosOnDisk:true
-   createPersonalMissionMap:false
+   storeElosOnDisk:false
+   createPersonalMissionMap:true
 }
 
 function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {
