@@ -17,6 +17,7 @@ import org.xhtmlrenderer.swing.LinkListener;
  */
 public class MyLinkListener extends LinkListener
 {
+
    private final static Logger logger = Logger.getLogger(MyLinkListener.class);
    private final static String EXTERNAL_TARGET = "_external";
    private final static String EXTERNAL_CSS = "external";
@@ -24,7 +25,7 @@ public class MyLinkListener extends LinkListener
    @Override
    public void onMouseUp(BasicPanel panel, Box box)
    {
-        checkForLink(panel, box);
+      checkForLink(panel, box);
    }
 
    // tests whether the element associated with the Box has an associated URI (e.g. is an anchor), and if so, calls
@@ -40,7 +41,14 @@ public class MyLinkListener extends LinkListener
 
       if (uri != null)
       {
-         linkClicked(panel, uri);
+         try
+         {
+            linkClicked(panel, uri);
+         }
+         catch (Exception e)
+         {
+            logger.info("exception during loading of " + uri, e);
+         }
       }
    }
 
@@ -59,10 +67,12 @@ public class MyLinkListener extends LinkListener
             boolean useExternalBrowser = false;
             String target = panel.getSharedContext().getNamespaceHandler().getAttributeValue((Element) node, "target");
             logger.debug("link target: " + target);
-            if (EXTERNAL_TARGET.equalsIgnoreCase(target)){
+            if (EXTERNAL_TARGET.equalsIgnoreCase(target))
+            {
                useExternalBrowser = true;
             }
-            if (useExternalBrowser){
+            if (useExternalBrowser)
+            {
                logger.info("launch external browser for " + uri);
                BareBonesBrowserLaunch.openURL(uri);
                uri = null;
