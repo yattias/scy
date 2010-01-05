@@ -26,18 +26,19 @@ import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
-import java.lang.System;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Void;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikkenj
  */
 
 public class StandardScyWindow extends ScyWindow {
+   def logger = Logger.getLogger(this.getClass()); 
 	def scyWindowAttributeDevider = 3.0;
 
 	public override var title = "???";
@@ -502,7 +503,7 @@ public class StandardScyWindow extends ScyWindow {
          closeTimeline.play();
       }
 
-      System.out.println("closed {title}");
+      logger.debug("closed {title}");
 	}
 
 	function doMinimize(){
@@ -517,7 +518,7 @@ public class StandardScyWindow extends ScyWindow {
 			isAnimating = true;
 			minimizeTimeline.play();
 		}
-		System.out.println("minimized {title}");
+		logger.debug("minimized {title}");
 	}
 
 	function doUnminimize(){
@@ -530,7 +531,7 @@ public class StandardScyWindow extends ScyWindow {
 			isAnimating = true;
 			unminimizedTimeline.play();
 		}
-		System.out.println("unminimized {title}");
+		logger.debug("unminimized {title}");
 	}
 
    public function setMinimized(newMinimized:Boolean){

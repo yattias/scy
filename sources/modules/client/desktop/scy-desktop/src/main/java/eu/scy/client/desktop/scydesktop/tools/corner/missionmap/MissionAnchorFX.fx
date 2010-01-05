@@ -31,6 +31,7 @@ public class MissionAnchorFX {
     public var title = "?";
     public var helpEloUris:URI[];
     public var supportEloUris:URI[];
+    public var toolTip:String;
     
     public var metadata:IMetadata;
 

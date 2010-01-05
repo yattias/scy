@@ -122,6 +122,20 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowPositioner.addNextAnchorWindow(anchorWindow,getAnchorDirection(anchor));
          }
       }
+      for (anchor in activeAnchor.previousAnchors){
+         if (anchor.exists){
+            var anchorWindow = getScyWindow(anchor.eloUri);
+            windowManager.addScyWindow(anchorWindow);
+            windowPositioner.addPreviousAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+         }
+      }
+      for (anchor in activeAnchor.inputAnchors){
+         if (anchor.exists){
+            var anchorWindow = getScyWindow(anchor.eloUri);
+            windowManager.addScyWindow(anchorWindow);
+            windowPositioner.addInputAnchorWindow(anchorWindow,getAnchorDirection(anchor));
+         }
+      }
       for (relationName in activeAnchor.relationNames){
          // add the related elos
       }
@@ -129,6 +143,11 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             var helpEloWindow = getScyWindow(helpEloUri);
             windowManager.addScyWindow(helpEloWindow);
             windowPositioner.addHelpWindow(helpEloWindow);
+      }
+      for (supportEloUri in activeAnchor.supportEloUris){
+            var supportEloWindow = getScyWindow(supportEloUri);
+            windowManager.addScyWindow(supportEloWindow);
+            windowPositioner.addSupportWindow(supportEloWindow);
       }
       if (desktopState!=null){
          // add the user elos

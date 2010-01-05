@@ -85,6 +85,7 @@
                      <value>roolo://memory/3/0/help_elo_2.text</value>
                   </list>
                </property>
+               <property name="toolTip" value="description tooltip"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchorConfig">
                <property name="name" value="missionIntro"/>
@@ -102,7 +103,7 @@
                <property name="uri" value="roolo://memory/1/0/Mission_background.text"/>
                <property name="xPosition" value="40"/>
                <property name="yPosition" value="60"/>
-               <property name="nextMissionAnchorNames">
+               <property name="inputMissionAnchorNames">
                   <list>
                      <value>missionDescription</value>
                   </list>

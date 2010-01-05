@@ -11,6 +11,7 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
+import java.util.HashMap;
 
 /**
  * @author sikken
@@ -23,7 +24,7 @@ public class MissionModelFX {
 
    public var anchors:MissionAnchorFX[];
    public var activeAnchor:MissionAnchorFX on replace{
-         logger.info("new activeAncher {activeAnchor}");
+         logger.debug("new activeAncher {activeAnchor}");
          updateElo();
       };
    public var elo: IELO;
@@ -31,6 +32,11 @@ public class MissionModelFX {
    public var eloFactory:IELOFactory;
 
    var contentChanged = false;
+
+   init{
+      findPreviousMissionAnchorLinks();
+   }
+
 
    public function eloUriChanged(oldEloUri:URI, newEloUri:URI){
       //logger.info("eloUri changed from {oldEloUri} to {newEloUri}");
@@ -83,5 +89,15 @@ public class MissionModelFX {
       contentChanged = false;
    }
 
+   public function findPreviousMissionAnchorLinks(){
+      for (anchor in anchors){
+         delete anchor.previousAnchors;
+      }
+      for (anchor in anchors){
+         for (nextAnchor in anchor.nextAnchors){
+            insert anchor into nextAnchor.previousAnchors;
+         }
+      }
+   }
 
 }

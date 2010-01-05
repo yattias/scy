@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
