@@ -66,22 +66,22 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel
 
    public void setRepository(IRepository repository)
    {
-      logger.info("repository set");
+      logger.debug("repository set");
       this.repository = repository;
    }
 
    public void setMetadataTypeManager(IMetadataTypeManager metadataTypeManager)
    {
-      logger.info("metadataTypeManager set");
+      logger.debug("metadataTypeManager set");
       this.metadataTypeManager = metadataTypeManager;
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-      logger.info("retrieved key " + titleKey.getId());
+      logger.debug("retrieved key " + titleKey.getId());
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    }
 
    public void setEloFactory(IELOFactory eloFactory)
    {
-      logger.info("eloFactory set");
+      logger.debug("eloFactory set");
       this.eloFactory = eloFactory;
    }
 
