@@ -12,7 +12,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * @author sikkenj
  */
 
-def configFileName = "/config/scy-desktop-log4j.xml";
+def configFileName = "/config/scy-lab-log4j.xml";
 
 public function initLog4J() {
    initLog4J(configFileName);

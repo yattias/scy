@@ -37,6 +37,6 @@ public class InitLog4j
 
    public static void init()
    {
-      initFromClassPath("/config/scy-desktop-log4j.xml");
+      initFromClassPath("/config/scy-lab-log4j.xml");
    }
 }
