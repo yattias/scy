@@ -40,8 +40,10 @@
  */
 package eu.scy.webbrowsingtoolelosaver;
 
-import java.util.Date;
-import java.util.Locale;
+import java.net.URI;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Path;
@@ -53,41 +55,42 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.BasicConfigurator;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import roolo.elo.BasicELO;
+import roolo.api.search.IMetadataQuery;
+import roolo.api.search.ISearchResult;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.exceptions.ELONotAddedException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
-import roolo.elo.metadata.keys.Contribute;
-import roolo.elo.metadata.keys.ContributeMetadataKey;
-import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
-
 
 /**
  * REST Web Service
  *
  * @author __SVEN__
  */
-@Path("/saveELOAndroid")
-public class SaveAndroidELOResource {
+@Path("/getELOListAndroid")
+public class GetELOListAndroid {
 
     @Context
     private UriInfo context;
     private static final ConfigLoader configLoader = ConfigLoader.getInstance();
     private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
     private IELO elo;
+    private IMetadataKey uriKey;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-    private ContributeMetadataKey authorKey;
+    private IMetadataKey authorKey;
+    private IMetadataKey technicalFormat;
+    IMetadataQuery query;
+    private Vector<IELO> retrievedELOs;
 
     /** Creates a new instance of SaveELOResource */
-    public SaveAndroidELOResource() {
+    public GetELOListAndroid() {
         //configure the Logger
         BasicConfigurator.configure();
     }
@@ -116,98 +119,96 @@ public class SaveAndroidELOResource {
 
     /**
      * POST method for creating a new ELO Resource
-     * @param summary the summary representation of the ELO content
+     * @param xml the xml representation of the ELO content 
      * @param username the username of the ELO's creator
      * @param password the password of the ELO's creator
      * @return an HTTP response with content of the updated or created resource.
      */
     @POST
     @Consumes("application/json")
-    @Produces("text/plain")
-    public String saveHtmlELO(JSONObject jsonData) {
+    @Produces("application/json")
+    public JSONObject getHtmlELO(JSONObject jsonData) {
 
-        String content = null;
-        String username = null;
-        String password = null;
-        String language = null;
-        String country = null;
-        String title = null;
-        String description = null;
-        try {
-            content = jsonData.getString("content");
-            username = jsonData.getString("username");
-            password = jsonData.getString("password");
-            language = jsonData.getString("language");
-            country = jsonData.getString("country");
-            title = jsonData.getString("title");
-            description = jsonData.getString("description");
-        } catch (JSONException ex) {
-            Logger.getLogger(SaveAndroidELOResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        String author = null;
+//        String title = null;
+//        String description = null;
+//        try {
+//            author = jsonData.getString("author");
+//            title = jsonData.getString("title");
+//            description = jsonData.getString("description");
+////            password = jsonData.getString("password");
+//        } catch (JSONException ex) {
+//            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        
+        query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/form", null);
+
+        log.info(query.toString());
+
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
             //TODO authenticate User!
             if (true) { //XXX replace by real User-Management
                 //Authentication ok
 
-                //Creating the ELO
-                elo = new BasicELO();
-
-                log.info("ELO created");
-                Locale defaultLocale = new Locale(language,country);
-                elo.setDefaultLanguage(defaultLocale);
-
-                //Authenticate the user and set real user name, not user-id
-                authorKey = (ContributeMetadataKey)configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-                //FIXME replace username by vcard
-                Contribute contribute = new Contribute(username, new Date().getTime());
-                elo.getMetadata().getMetadataValueContainer(authorKey).addValue(contribute);
-
-                typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-                IMetadataValueContainer container = new MetadataSingleUniversalValueContainer(elo.getMetadata(), typeKey);
-                if (!configLoader.getTypeManager().isMetadataKeyRegistered(typeKey)) {
-                    configLoader.getTypeManager().registerMetadataKey(typeKey);
-                }
-                elo.getMetadata().addMetadataPair(typeKey, container);
-
-                titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-                dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-
-                elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
-
-                configLoader.getExtensionManager().registerExtension("scy/form", ".form");
-                elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/form");
-
-                elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(new Date());
-                log.info("Metadata set");
-
-                //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
+                //make a query to the repository, retrieve a list of search results, create a List of ELOS
+                List<ISearchResult> searchResultList = configLoader.getRepository().search(query);
+                log.info(searchResultList.size() + " search results foung.");
                 
-                elo.setContent(new BasicContent(content));
-                try {
-                    configLoader.getRepository().addNewELO(elo);
-                } catch (ELONotAddedException e) {
-                    log.warning(e.getMessage());
-                } catch (Exception e) {
-                    log.warning(e.getMessage());
-                }
-                log.info("Added ELO to repository");
+                JSONArray elos = new JSONArray();
 
-                //return simplified codes for easier localization!
-                //ELO saved
-                return elo.getUri().toString();
+                for (Iterator<ISearchResult> it = searchResultList.iterator(); it.hasNext();) {
+                    ISearchResult searchResult = it.next();
+                    IELO retrievedElo = configLoader.getRepository().retrieveELO(searchResult.getUri());
+                    URI uri = searchResult.getUri();
+                    String eloTitle = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId())).getValue().toString();
+                    String eloDescription = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId())).getValue().toString();
+                    String eloAuthor = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId())).getValue().toString();
+
+                    JSONObject eloAsJson = new JSONObject();
+                    eloAsJson.put("title",eloTitle);
+                    eloAsJson.put("description",eloDescription);
+                    eloAsJson.put("uri", searchResult.getUri().toString());
+                    eloAsJson.put("author", eloAuthor);
+
+                    elos.put(eloAsJson);
+                    log.info("Retrieved ELO with content: \n" + retrievedElo.getContent() + "\nfrom searchResults");
+                }
+                
+                JSONObject output = new JSONObject();
+                output.accumulate("errors", "none");
+                output.accumulate("elos", elos);
+
+                log.warning("===========================================");
+                log.warning("json-String of the output");
+                log.warning("===========================================");
+                log.warning(output.toString());
+                log.warning("===========================================");
+                return output;
             } else {//Authentication failed!
+
+                JSONObject output = new JSONObject();
+                output.accumulate("errors", "authentication_failed");
+                output.accumulate("elos", null);
+                return output;
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
-                return "loginFailedCheckLoginData";
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
             log.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
-            return "serverErrorSaving";
+            JSONObject output = new JSONObject();
+            try {
+                output.accumulate("errors", "server_error");
+                output.accumulate("elos", null);
+
+            } catch (JSONException ex) {
+                log.warning(ex.getMessage());
+            }
+            return output;
         }
     }
 }
-
-
