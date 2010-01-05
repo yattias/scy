@@ -25,6 +25,7 @@ def xPosName = "xPos";
 def yPosName = "yPos";
 def eloUriName = "eloUri";
 def mainAnchorName = "mainAnchor";
+def toolTipName = "toolTip";
 def nextAnchorsName = "nextAnchors";
 def inputAnchorsName = "inputAnchors";
 def supportElosName = "supportElos";
@@ -61,6 +62,7 @@ function createMissionAnchorXml(missionAnchor:MissionAnchorFX):Element{
    root.addContent(createElement(xPosName, "{missionAnchor.xPos}"));
    root.addContent(createElement(yPosName, "{missionAnchor.yPos}"));
    root.addContent(createElement(mainAnchorName, "{missionAnchor.mainAnchor}"));
+   root.addContent(createElement(toolTipName, "{missionAnchor.toolTip}"));
    root.addContent(createAnchorListXml(nextAnchorsName,missionAnchor.nextAnchors));
    root.addContent(createAnchorListXml(inputAnchorsName,missionAnchor.inputAnchors));
    root.addContent(createEloUriListXml(supportElosName,missionAnchor.supportEloUris));
@@ -115,6 +117,7 @@ public function convertToMissionModel(xml: String): MissionModelFX {
          missionAnchor.nextAnchors = createMissionAnchorList(missionAnchorElement.getChild(nextAnchorsName),missionAnchorsMap);
          missionAnchor.inputAnchors = createMissionAnchorList(missionAnchorElement.getChild(inputAnchorsName),missionAnchorsMap);
       }
+      missionModel.findPreviousMissionAnchorLinks();
    }
    var activeAnchorUriName = root.getChildText(activeAnchorName);
    if (activeAnchorUriName != null)
@@ -128,6 +131,7 @@ function createMissionAnchor(root:Element):MissionAnchorFX{
       xPos: java.lang.Float.parseFloat(root.getChildText(xPosName));
       yPos: java.lang.Float.parseFloat(root.getChildText(yPosName));
       mainAnchor:java.lang.Boolean.parseBoolean(root.getChildText(mainAnchorName))
+      toolTip: root.getChildText(toolTipName)
       supportEloUris: createEloUriList(root.getChild(supportElosName))
       helpEloUris: createEloUriList(root.getChild(helpElosName))
       relationNames: createStringList(root.getChild(relationsName))

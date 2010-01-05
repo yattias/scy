@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import java.awt.Color;
 import java.net.URI;
 import java.util.List;
@@ -20,16 +19,19 @@ public class BasicMissionAnchor implements MissionAnchor
    private URI eloUri;
    private String name;
    private String title;
+   private String toolTip;
    private char iconCharacter;
    private Color color;
    private float xPosition;
    private float yPosition;
    private boolean existing;
    private List<MissionAnchor> nextMissionAnchors;
+   private List<MissionAnchor> inputMissionAnchors;
    private List<String> relationNames;
    private List<URI> helpEloUris;
    private IMetadata metadata;
 
+   @Override
    public Color getColor()
    {
       return color;
@@ -40,6 +42,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.color = color;
    }
 
+   @Override
    public URI getEloUri()
    {
       return eloUri;
@@ -61,6 +64,7 @@ public class BasicMissionAnchor implements MissionAnchor
       return name;
    }
 
+   @Override
    public boolean isExisting()
    {
       return existing;
@@ -71,6 +75,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.existing = existing;
    }
 
+   @Override
    public char getIconCharacter()
    {
       return iconCharacter;
@@ -81,6 +86,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.iconCharacter = iconCharacter;
    }
 
+   @Override
    public List<MissionAnchor> getNextMissionAnchors()
    {
       return nextMissionAnchors;
@@ -91,6 +97,18 @@ public class BasicMissionAnchor implements MissionAnchor
       this.nextMissionAnchors = nextMissionAnchors;
    }
 
+   @Override
+   public List<MissionAnchor> getInputMissionAnchors()
+   {
+      return inputMissionAnchors;
+   }
+
+   public void setInputMissionAnchors(List<MissionAnchor> inputMissionAnchors)
+   {
+      this.inputMissionAnchors = inputMissionAnchors;
+   }
+
+   @Override
    public List<String> getRelationNames()
    {
       return relationNames;
@@ -101,6 +119,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.relationNames = relationNames;
    }
 
+   @Override
    public String getTitle()
    {
       return title;
@@ -111,6 +130,18 @@ public class BasicMissionAnchor implements MissionAnchor
       this.title = title;
    }
 
+   @Override
+   public String getToolTip()
+   {
+      return toolTip;
+   }
+
+   public void setToolTip(String toolTip)
+   {
+      this.toolTip = toolTip;
+   }
+
+   @Override
    public float getXPosition()
    {
       return xPosition;
@@ -121,6 +152,7 @@ public class BasicMissionAnchor implements MissionAnchor
       this.xPosition = xPosition;
    }
 
+   @Override
    public float getYPosition()
    {
       return yPosition;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
+package eu.scy.client.desktop.scydesktop.config;
 
 import java.awt.Color;
 import java.net.URI;
@@ -19,12 +19,14 @@ public interface MissionAnchor {
    public URI getEloUri();
    public String getName();
    public String getTitle();
+   public String getToolTip();
    public char getIconCharacter();
    public Color getColor();
    public float getXPosition();
    public float getYPosition();
    public boolean isExisting();
    public List<MissionAnchor> getNextMissionAnchors();
+   public List<MissionAnchor> getInputMissionAnchors();
    public List<String> getRelationNames();
    public List<URI> getHelpEloUris();
    public IMetadata getMetadata();

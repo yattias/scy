@@ -14,13 +14,14 @@ import java.util.List;
  */
 public class BasicMissionAnchorConfig {
    private String name;
+   private String toolTip;
    private URI uri;
    private float xPosition;
    private float yPosition;
    private List<String> nextMissionAnchorNames;
    private List<String> relationNames;
    private List<URI> helpEloUris;
-   private List<String> inputAnchorEloNames;
+   private List<String> inputMissionAnchorNames;
    private List<URI> supportEloUris;
    private boolean mainAnchorElo;
 
@@ -32,6 +33,16 @@ public class BasicMissionAnchorConfig {
    public void setName(String name)
    {
       this.name = name;
+   }
+
+   public String getToolTip()
+   {
+      return toolTip;
+   }
+
+   public void setToolTip(String toolTip)
+   {
+      this.toolTip = toolTip;
    }
 
    public List<String> getNextMissionAnchorNames()
@@ -64,14 +75,14 @@ public class BasicMissionAnchorConfig {
       this.helpEloUris = helpEloUris;
    }
 
-   public List<String> getInputAnchorEloNames()
+   public List<String> getInputMissionAnchorNames()
    {
-      return inputAnchorEloNames;
+      return inputMissionAnchorNames;
    }
 
-   public void setInputAnchorEloNames(List<String> inputAnchorEloNames)
+   public void setInputMissionAnchorNames(List<String> inputMissionAnchorNames)
    {
-      this.inputAnchorEloNames = inputAnchorEloNames;
+      this.inputMissionAnchorNames = inputMissionAnchorNames;
    }
 
    public List<URI> getSupportEloUris()

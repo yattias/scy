@@ -11,7 +11,6 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.net.URI;
 import java.util.HashMap;
 
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import java.lang.String;
 
@@ -60,23 +59,10 @@ public function createBasicMissionModelFX(missionAnchorsList:List):MissionModelF
       for (missionAnchor in missionAnchors)
       {
          var missionAnchorFX = missionAnchorFXMap.get(missionAnchor.getEloUri()) as MissionAnchorFX;
-         if (missionAnchor.getNextMissionAnchors()!=null){
-            for (nextMissionAnchor in missionAnchor.getNextMissionAnchors()){
-               var nextMissionAnchorFX = missionAnchorFXMap.get(nextMissionAnchor.getEloUri()) as MissionAnchorFX;
-               if (nextMissionAnchorFX != null){
-                  insert nextMissionAnchorFX into missionAnchorFX.nextAnchors;
-               }
-               else
-               {
-                  logger.info("can't find next mission anchor with uri: {nextMissionAnchor.getEloUri()}");
-               }
-            }
-         }
-         else{
-            logger.info("no next anchors for {missionAnchor.getEloUri()}");
-         }
-
+         missionAnchorFX.nextAnchors = toMissionAnchorList(missionAnchor.getNextMissionAnchors(),missionAnchorFXMap);
+         missionAnchorFX.inputAnchors = toMissionAnchorList(missionAnchor.getInputMissionAnchors(),missionAnchorFXMap);
       }
+      missionModelFX.findPreviousMissionAnchorLinks();
    }
    return missionModelFX;
 }
@@ -90,4 +76,23 @@ function toStringSequence(names:List):String[]{
    }
    return nameSequence;
 }
+
+function toMissionAnchorList(missionAnchors: List,missionAnchorFXMap: HashMap):MissionAnchorFX[]{
+   var missionAnchorFXList:MissionAnchorFX[];
+   if (missionAnchors!=null){
+      for (missionAnchorObject in missionAnchors){
+         var missionAnchor = missionAnchorObject as MissionAnchor;
+         var nextMissionAnchorFX = missionAnchorFXMap.get(missionAnchor.getEloUri()) as MissionAnchorFX;
+         if (nextMissionAnchorFX != null){
+            insert nextMissionAnchorFX into missionAnchorFXList;
+         }
+         else
+         {
+            logger.info("can't find next mission anchor with uri: {missionAnchor.getEloUri()}");
+         }
+      }
+   }
+   return missionAnchorFXList;
+}
+
 

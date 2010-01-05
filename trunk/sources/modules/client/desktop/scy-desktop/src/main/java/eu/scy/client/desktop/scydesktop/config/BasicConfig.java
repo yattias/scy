@@ -5,7 +5,6 @@
 package eu.scy.client.desktop.scydesktop.config;
 
 import eu.scy.client.desktop.scydesktop.elofactory.RegisterContentCreators;
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchor;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.io.File;
 import java.net.URI;
@@ -237,6 +236,7 @@ public class BasicConfig implements Config
          missionAnchor.setXPosition(basicMissionAnchorConfig.getXPosition());
          missionAnchor.setYPosition(basicMissionAnchorConfig.getYPosition());
          missionAnchor.setRelationNames(basicMissionAnchorConfig.getRelationNames());
+         missionAnchor.setToolTip(basicMissionAnchorConfig.getToolTip());
          List<URI> helpEloUris = new ArrayList<URI>();
          if (basicMissionAnchorConfig.getHelpEloUris() != null)
          {
@@ -270,27 +270,8 @@ public class BasicConfig implements Config
          BasicMissionAnchor missionAnchor = basicMissionAnchorsMap.get(basicMissionAnchorConfig.getName());
          if (missionAnchor != null)
          {
-            List<MissionAnchor> nextMissionAnchors = new ArrayList<MissionAnchor>();
-            if (basicMissionAnchorConfig.getNextMissionAnchorNames() != null)
-            {
-               for (String name : basicMissionAnchorConfig.getNextMissionAnchorNames())
-               {
-                  BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(name);
-                  if (nextMissionAnchor != null)
-                  {
-                     nextMissionAnchors.add(nextMissionAnchor);
-                  }
-                  else
-                  {
-                     logger.error("can't find next mission anchor with name: " + name + " for mission anchor " + basicMissionAnchorConfig.getName());
-                  }
-               }
-            }
-            else
-            {
-               logger.info("no next anchor names for " + basicMissionAnchorConfig.getUri());
-            }
-            missionAnchor.setNextMissionAnchors(nextMissionAnchors);
+            missionAnchor.setNextMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getNextMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri()));
+            missionAnchor.setInputMissionAnchors(createMissionAnchorList(basicMissionAnchorConfig.getInputMissionAnchorNames(), basicMissionAnchorsMap, basicMissionAnchorConfig.getUri()));
          }
       }
       // "convert" the list
@@ -299,6 +280,31 @@ public class BasicConfig implements Config
          missionAnchors.add(basicMissionAnchor);
       }
       return missionAnchors;
+   }
+
+   private List<MissionAnchor> createMissionAnchorList(List<String> names, Map<String, BasicMissionAnchor> basicMissionAnchorsMap, URI missionAnchorUri)
+   {
+      List<MissionAnchor> nextMissionAnchors = new ArrayList<MissionAnchor>();
+      if (names != null)
+      {
+         for (String name : names)
+         {
+            BasicMissionAnchor nextMissionAnchor = basicMissionAnchorsMap.get(name);
+            if (nextMissionAnchor != null)
+            {
+               nextMissionAnchors.add(nextMissionAnchor);
+            }
+            else
+            {
+               logger.error("can't find next mission anchor with name: " + name + " for mission anchor " + name);
+            }
+         }
+      }
+      else
+      {
+         logger.info("no next anchor names for " + missionAnchorUri);
+      }
+      return nextMissionAnchors;
    }
 
    @Override

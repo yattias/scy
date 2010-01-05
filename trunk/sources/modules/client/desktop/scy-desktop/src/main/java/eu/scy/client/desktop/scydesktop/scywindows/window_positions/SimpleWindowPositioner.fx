@@ -52,12 +52,27 @@ public class SimpleWindowPositioner extends WindowPositioner {
       addWindowImmediately(window);
    }
 
-   public override function addOtherWindow(window:ScyWindow):Void{
-   //       logger.info("addOtherWindow({window.title})");
+   public override function addPreviousAnchorWindow(window:ScyWindow, direction:Number):Void{
+   //       logger.info("addLinkedWindow");
+      addWindowImmediately(window);
+   }
+
+   public override function addInputAnchorWindow(window:ScyWindow, direction:Number):Void{
+   //       logger.info("addLinkedWindow");
       addWindowImmediately(window);
    }
 
    public override function addHelpWindow(window:ScyWindow):Void{
+   //       logger.info("addOtherWindow({window.title})");
+      addWindowImmediately(window);
+   }
+
+   public override function addSupportWindow(window:ScyWindow):Void{
+   //       logger.info("addOtherWindow({window.title})");
+      addWindowImmediately(window);
+   }
+
+   public override function addOtherWindow(window:ScyWindow):Void{
    //       logger.info("addOtherWindow({window.title})");
       addWindowImmediately(window);
    }
