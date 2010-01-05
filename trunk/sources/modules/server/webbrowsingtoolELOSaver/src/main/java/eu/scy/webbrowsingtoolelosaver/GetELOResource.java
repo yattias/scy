@@ -88,7 +88,7 @@ public class GetELOResource {
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-//    private IMetadataKey authorKey;
+    private IMetadataKey authorKey;
     private IMetadataKey technicalFormat;
     IMetadataQuery query;
     private Vector<IELO> retrievedELOs;
@@ -187,7 +187,7 @@ public class GetELOResource {
                     eloAsJson.put("title",eloTitle);
                     eloAsJson.put("date",eloDate);
                     eloAsJson.put("uri", searchResult.getUri().toString());
-                    eloAsJson.put("author", "Sven");
+                    eloAsJson.put("author", author);
 
                     elos.put(eloAsJson);
                     log.info("Retrieved ELO with content: \n" + retrievedElo.getContent() + "\nfrom searchResults");
