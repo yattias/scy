@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 
 /**
  * @author sikkenj
@@ -54,8 +55,6 @@ public class AnchorDisplay extends CustomNode {
    var contentColor = defaultContentColor;
 
 	var eloContour = EloContour{
-		translateX: anchor.xPos;
-		translateY: anchor.yPos;
 		width: size;
 		height: size;
 		controlLength: 5;
@@ -99,29 +98,13 @@ public class AnchorDisplay extends CustomNode {
          content: bind displayTitle,
          translateX: 1;
       }
-      titleDisplay.x = anchor.xPos + (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
-      titleDisplay.y = anchor.yPos + (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 1;
+      titleDisplay.x = (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
+      titleDisplay.y = (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 1;
       return Group {
+         layoutX: bind anchor.xPos;
+         layoutY: bind anchor.yPos;
          content: [
-				//            Rectangle {
-				//               x: bind anchor.xPos,
-				//               y: bind anchor.yPos,
-				//               width: size,
-				//               height: size
-				//               fill: bind contentColor
-				//               stroke: bind anchor.color;
-				//               strokeWidth:2;
-				//            },
-            EloContour{
-					translateX: anchor.xPos;
-					translateY: anchor.yPos;
-					width: size;
-					height: size;
-					controlLength: 5;
-					borderWidth: 2;
-					borderColor: bind anchor.color;
-					fillColor: bind contentColor;
-				}
+            eloContour,
 				titleDisplay
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
@@ -132,8 +115,36 @@ public class AnchorDisplay extends CustomNode {
                selected = not selected;
             }
          },
+         onMousePressed:mousePressed
+         onMouseDragged:mouseDragged
+         onMouseReleased:mouseReleased
+
       };
    }
+
+   var dragging = false;
+   var originalAnchorXPos:Number;
+   var originalAnchorYPos:Number;
+   function mousePressed( e: MouseEvent ):Void{
+      if (not e.controlDown){
+         return;
+      }
+      dragging = true;
+      originalAnchorXPos = anchor.xPos;
+      originalAnchorYPos = anchor.yPos;
+   }
+   function mouseDragged( e: MouseEvent ):Void{
+      if (not dragging){
+         return;
+      }
+      var mouseEventInScene = MouseEventInScene{mouseEvent:e};
+      anchor.xPos = originalAnchorXPos+mouseEventInScene.dragX;
+      anchor.yPos = originalAnchorYPos+mouseEventInScene.dragY;
+   }
+   function mouseReleased( e: MouseEvent ):Void{
+      dragging = false;
+   }
+
 }
 
 function run(){

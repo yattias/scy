@@ -32,8 +32,6 @@ public class AnchorLink extends CustomNode {
 
     public override function create(): Node {
         var lineAngle = findLineAngle();
-        var xArrowPoint = (toAnchor.xCenter + fromAnchor.xCenter) / 2;
-        var yArrowPoint = (toAnchor.yCenter + fromAnchor.yCenter) / 2;
 //        xArrowPoint -=
 //        Math.sin(lineAngle) * arrowHeight;
 //        yArrowPoint +=
@@ -44,8 +42,10 @@ public class AnchorLink extends CustomNode {
         var angle2 = lineAngle + arrowAngle;
         var x2 = Math.sin(angle2) * arrowLineLength;
         var y2 = Math.cos(angle2) * arrowLineLength;
-		  xArrowPoint += (x2-x1)/2;
-		  yArrowPoint -= (y2-y1)/2;
+        var xArrowPoint = bind (toAnchor.xCenter + fromAnchor.xCenter) / 2 + (x2-x1)/2;
+        var yArrowPoint = bind (toAnchor.yCenter + fromAnchor.yCenter) / 2 - (y2-y1)/2;
+//		  xArrowPoint += (x2-x1)/2;
+//		  yArrowPoint -= (y2-y1)/2;
         //      println("to:{toAnchor.anchor.title}, lineAngle:{lineAngle}, angle1:{angle1}, x1:{x1}, y1:{y1}, angle2:{angle2}, x2:{x2}, y2:{y2}");
         return Group {
             content: [
@@ -58,18 +58,18 @@ public class AnchorLink extends CustomNode {
                     stroke: color
                 },
                 Line {
-                    startX: xArrowPoint,
-                    startY: yArrowPoint,
-                    endX: xArrowPoint + x1,
-                    endY: yArrowPoint - y1,
+                    startX: bind xArrowPoint,
+                    startY: bind yArrowPoint,
+                    endX: bind xArrowPoint + x1,
+                    endY: bind yArrowPoint - y1,
                     strokeWidth: strokeWidth
                     stroke: color
                 },
                 Line {
-                    startX: xArrowPoint,
-                    startY: yArrowPoint,
-                    endX: xArrowPoint - x2,
-                    endY: yArrowPoint + y2,
+                    startX: bind xArrowPoint,
+                    startY: bind yArrowPoint,
+                    endX: bind xArrowPoint - x2,
+                    endY: bind yArrowPoint + y2,
                     strokeWidth: strokeWidth
                     stroke: color
                 },
