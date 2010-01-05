@@ -7,9 +7,9 @@ package eu.scy.client.tools.fxflyingsaucer;
 import java.awt.event.ActionEvent;
 import java.io.StringReader;
 import java.net.URL;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
 import org.xhtmlrenderer.event.DocumentListener;
 import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.FSScrollPane;
@@ -40,13 +40,15 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    @SuppressWarnings("unchecked")
    private void initComponents()
    {
-
+      previousButton = new javax.swing.JButton();
+      nextButton = new javax.swing.JButton();
       homeButton = new javax.swing.JButton();
       urlField = new javax.swing.JTextField();
       loadButton = new javax.swing.JButton();
       browserScrollPane = new FSScrollPane();
       System.getProperties().setProperty("xr.use.listeners", "false");
-      browser = new MyXhtmlPanel(new BrowserAgentCallback(this),true);
+      uriManager = new UriManager(this);
+      browser = new MyXhtmlPanel(uriManager, true);
       System.getProperties().setProperty("xr.use.listeners", "true");
       browser.addDocumentListener(new DocumentListener()
       {
@@ -68,14 +70,40 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          public void onLayoutException(Throwable e)
          {
 //            System.err.println("Exception during layout in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
-            e.printStackTrace(System.err);
+            logger.debug("onLayoutException during " + browser.getURL(), e);
+//            e.printStackTrace(System.err);
          }
 
          @Override
          public void onRenderException(Throwable e)
          {
 //            System.err.println("Exception during rendering in: \n- url:" + browser.getURL() + "\n- exception:" + e.getMessage());
-            e.printStackTrace(System.err);
+            logger.debug("onRenderException during " + browser.getURL(), e);
+//            e.printStackTrace(System.err);
+         }
+      });
+
+      previousButton.setText("Prev");
+      previousButton.setEnabled(false);
+      previousButton.addActionListener(new java.awt.event.ActionListener()
+      {
+
+         @Override
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            previousButtonActionPerformed(evt);
+         }
+      });
+
+      nextButton.setText("Next");
+      nextButton.setEnabled(false);
+      nextButton.addActionListener(new java.awt.event.ActionListener()
+      {
+
+         @Override
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            nextButtonActionPerformed(evt);
          }
       });
 
@@ -85,6 +113,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       homeButton.addActionListener(new java.awt.event.ActionListener()
       {
 
+         @Override
          public void actionPerformed(java.awt.event.ActionEvent evt)
          {
             homeButtonActionPerformed(evt);
@@ -95,6 +124,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       urlField.addKeyListener(new java.awt.event.KeyAdapter()
       {
 
+         @Override
          public void keyTyped(java.awt.event.KeyEvent evt)
          {
             urlFieldKeyTyped(evt);
@@ -105,6 +135,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       loadButton.addActionListener(new java.awt.event.ActionListener()
       {
 
+         @Override
          public void actionPerformed(java.awt.event.ActionEvent evt)
          {
             loadButtonActionPerformed(evt);
@@ -116,10 +147,20 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
       this.setLayout(layout);
       layout.setHorizontalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(loadButton)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(previousButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(nextButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(loadButton)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
       layout.setVerticalGroup(
-         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(loadButton)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
+         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(previousButton).add(nextButton).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(loadButton)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
    }// </editor-fold>
+
+   private void previousButtonActionPerformed(java.awt.event.ActionEvent evt)
+   {
+      loadUrl(uriManager.getPrevious());
+   }
+
+   private void nextButtonActionPerformed(java.awt.event.ActionEvent evt)
+   {
+      loadUrl(uriManager.getNext());
+   }
 
    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt)
    {
@@ -154,8 +195,11 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       }
    }
    // Variables declaration - do not modify
+   private UriManager uriManager;
    private XHTMLPanel browser;
    private FSScrollPane browserScrollPane;
+   private javax.swing.JButton previousButton;
+   private javax.swing.JButton nextButton;
    private javax.swing.JButton homeButton;
    private javax.swing.JButton loadButton;
    private javax.swing.JTextField urlField;
@@ -193,18 +237,15 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       }
       catch (Exception e)
       {
-         System.out.println("An exception occured while loading '" + url + "', " + e.getMessage());
+         //logger.info("An exception occured while loading '" + url + "', " + e.getMessage());
          handlePageLoadFailed(url, e);
-//         showErrorMessage(e.getMessage());
       }
    }
 
-   private void XXshowErrorMessage(String errorMessage)
+   public void updatePreviousNextButtonState()
    {
-//      browser.setDocumentFromString(getXhtmlErrorText(browser.getURL(), errorMessage),browser.getURL().toString(), null);
-      String dialoTitle = "An error occured";
-      String dialogContent = "An error occured.\nURL: " + browser.getURL().toString() + "\nError: " + errorMessage;
-      JOptionPane.showMessageDialog(browser, dialogContent, dialoTitle, JOptionPane.ERROR_MESSAGE);
+      previousButton.setEnabled(uriManager.hasPrevious());
+      nextButton.setEnabled(uriManager.hasNext());
    }
 
    private String getXhtmlErrorText(URL url, String errorMessage)
@@ -232,49 +273,74 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    public void handlePageLoadFailed(String url_text, Exception ex)
    {
-      logger.info("show error for url: " + url_text,ex);
+      logger.info("show error for url: " + url_text, ex);
       isPageLoaded = false;
       final XMLResource xr;
       final String rootCause = getRootCause(ex);
       final String msg = GeneralUtil.escapeHTML(addLineBreaks(rootCause, 80));
+      final String triedUri = url_text;
       String notFound =
-         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-         "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
-         "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n" +
-         "<head><title>Document can't be loaded</title></head>\n" +
-         "<body>\n" +
-         "<h1>Document can't be loaded</h1>\n" +
-         "<p>Could not load the page at </p>\n" +
-         "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n" +
-         "<p>The page failed to load; the error was </p>\n" +
-         "<pre>" + msg + "</pre>\n" +
-         "</body>\n" +
-         "</html>";
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+         + "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+         + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
+         + "<head><title>Document can't be loaded</title></head>\n"
+         + "<body>\n"
+         + "<h1>Document can't be loaded</h1>\n"
+         + "<p>Could not load the page at </p>\n"
+         + "<pre>" + GeneralUtil.escapeHTML(url_text) + "</pre>\n"
+         + "<p>The page failed to load; the error was </p>\n"
+         + "<pre>" + msg + "</pre>\n"
+         + "</body>\n"
+         + "</html>";
       logger.debug("error message xhtml:\n" + notFound);
       xr = XMLResource.load(new StringReader(notFound));
+      Document doc = xr.getDocument();
       SwingUtilities.invokeLater(new Runnable()
       {
 
+         @Override
          public void run()
          {
-            browser.setDocument(xr.getDocument(), null);
+            browser.setDocument(xr.getDocument(), triedUri);
          }
       });
    }
 
    private String getRootCause(Exception ex)
    {
+      String lastNotNullExceptionMessage = ex.getMessage();
+      Throwable lastCause = ex;
       Throwable cause = ex;
       while (cause != null)
       {
+         lastCause = cause;
+         if (!isEmpty(cause.getMessage()))
+         {
+            lastNotNullExceptionMessage = cause.getMessage();
+         }
          cause = cause.getCause();
       }
+//      String exceptionMessage = cause == null ? ex.getMessage() : cause.getMessage();
+//      if (exceptionMessage != null)
+//      {
+//         return exceptionMessage;
+//      }
+      if (isEmpty(lastNotNullExceptionMessage)){
+          return lastCause.getClass().getName();
+      }
+      return lastNotNullExceptionMessage;
+   }
 
-      return cause == null ? ex.getMessage() : cause.getMessage();
+   private boolean isEmpty(String string){
+      return string==null || string.length()==0;
    }
 
    private String addLineBreaks(String _text, int maxLineLength)
    {
+      if (_text == null)
+      {
+         return "";
+      }
       StringBuffer broken = new StringBuffer(_text.length() + 10);
       boolean needBreak = false;
       for (int i = 0; i < _text.length(); i++)
@@ -296,7 +362,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
             broken.append(c);
          }
       }
-      System.out.println("Broken! " + broken.toString());
+//      System.out.println("Broken! " + broken.toString());
       return broken.toString();
    }
 }
