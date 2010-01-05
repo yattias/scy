@@ -11,7 +11,7 @@ import java.util.logging.LogManager;
  * @author sikken
  */
 
-def configFileName = "/config/scy-desktop-java-util-logging.properties";
+def configFileName = "/config/scy-lab-java-util-logging.properties";
 
 public function initJavaUtilLogging() {
    initJavaUtilLogging(configFileName);
