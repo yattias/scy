@@ -19,7 +19,6 @@ import javafx.scene.layout.Resizable;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import java.lang.Void;
 
 /**
  * @author sikkenj
@@ -35,6 +34,8 @@ public abstract class Drawer extends CustomNode {
    public var closedSize = 40.0;
    public var content: Node;
    public var activated = false; // TODO, make only changeable from (sub) package
+   public var activate: function():Void;
+
    def contentBorder = 1.0;
    protected var horizontal = true;
    protected def resizeControlSize = 10.0;
@@ -178,6 +179,7 @@ public abstract class Drawer extends CustomNode {
          height: bind height - 2 * contentBorder - borderSize - 1;
          content: bind content;
          activated: bind activated;
+         activate:activate
          layoutX: contentBorder + borderSize / 2 + 1;
          layoutY: contentBorder + borderSize / 2 + 1;
       }
@@ -187,6 +189,7 @@ public abstract class Drawer extends CustomNode {
          color: bind color;
          subColor: bind subColor;
          activated:false
+         activate:activate
          outlineFactor:0.5
          closeAction: function () {
             opened = false;
@@ -198,6 +201,7 @@ public abstract class Drawer extends CustomNode {
             size: resizeControlSize;
             color: bind color;
             subColor: bind subColor;
+            activate:activate
             startResize: startResize;
             doResize: doResize;
             stopResize: stopResize;
