@@ -73,6 +73,9 @@ public class WindowClose extends WindowActiveElement {
                stroke: bind insideColor;
             }
          ]
+         onMousePressed: function( e: MouseEvent ):Void {
+            activate();
+         }
          onMouseClicked: function (e: MouseEvent): Void {
             closeAction();
          }

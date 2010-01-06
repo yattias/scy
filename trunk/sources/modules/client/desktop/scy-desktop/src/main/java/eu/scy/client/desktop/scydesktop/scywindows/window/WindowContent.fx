@@ -41,8 +41,8 @@ public class WindowContent extends CustomNode {
       blocksMouse:bind not activated;
       x: 0, y: 0
       width: 140, height: 90
-      fill: Color.TRANSPARENT
-//      fill: Color.rgb(92,255,92,0.25)
+//      fill: Color.TRANSPARENT
+      fill: Color.rgb(92,255,92,0.25)
       onMousePressed: function( e: MouseEvent ):Void {
          if (not activated){
             activate();
