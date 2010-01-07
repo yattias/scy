@@ -24,6 +24,8 @@ var initializer = Initializer{
    loginType:"local"
    storeElosOnDisk:false
    createPersonalMissionMap:true
+           enableLogging:true
+           redirectSystemStream:true
 }
 
 function createScyDesktop(toolBrokerAPI:ToolBrokerAPI, userName:String): ScyDesktop {

@@ -23,6 +23,7 @@ import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
+import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -78,7 +79,6 @@ public class Initializer {
       parseApplicationParameters();
       parseWebstartParameters();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
-      setupCodeLogging();
       setupBackgroundImage();
       System.setProperty(enableLoggingKey, "{enableLogging}");
       var loggingDirectoryKeyValue = "";
@@ -93,6 +93,7 @@ public class Initializer {
       }
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
       System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
+      setupCodeLogging();
       setLookAndFeel();
       setupToolBrokerLogin();
    }
@@ -263,13 +264,13 @@ public class Initializer {
 
    function createPrintStream(fileName: String): PrintStream// throws IOException
    {
-      var fileCount = 0;
-      var streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
-      while (streamFile.exists()) {
-         ++fileCount;
-         streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
-      }
-      var outputStream = new FileOutputStream(streamFile, false);
+//      var fileCount = 0;
+//      var streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
+//      while (streamFile.exists()) {
+//         ++fileCount;
+//         streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
+//      }
+      var outputStream = new FileOutputStream(RedirectSystemStreams.getLogFile(loggingDirectory,fileName,".txt"), false);
       return new PrintStream(outputStream, true);
    }
 
