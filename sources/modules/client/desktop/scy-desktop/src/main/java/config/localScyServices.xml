@@ -18,6 +18,8 @@
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
       <property name="actionLogger" ref="actionLogger"/>
+      <property name="awarenessService" ref="awarenessService"/>
+      <property name="dataSyncService" ref="dataSyncService"/>
       <property name="userName" value="${userName}"/>
    </bean>
 
@@ -25,4 +27,10 @@
       <constructor-arg index="0" value="${loggingDirectory}"/>
       <property name="enableLogging" value="${enableLogging}"/>
    </bean>
+
+   <bean name="awarenessService" class="eu.scy.client.desktop.scydesktop.dummy.DummyAwarenessService">
+    </bean>
+
+   <bean name="dataSyncService" class="eu.scy.client.desktop.scydesktop.dummy.DummyDataSyncService">
+    </bean>
 </beans>
