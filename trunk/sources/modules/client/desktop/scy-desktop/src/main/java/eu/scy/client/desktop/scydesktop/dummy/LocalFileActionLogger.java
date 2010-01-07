@@ -6,26 +6,32 @@ package eu.scy.client.desktop.scydesktop.dummy;
 
 import eu.scy.actionlogging.FileLogger;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 
 /**
  *
  * @author sikken
  */
-public class LocalFileActionLogger extends FileLogger
+public class LocalFileActionLogger implements IActionLogger
 {
    private static final String fileName = "actions";
+   private String logDirectory;
+   private FileLogger fileLogger = null;
 
-   private boolean enableLogging = true;
+   private boolean enableLogging = false;
 
    public LocalFileActionLogger(String logDirectory)
    {
-      super(RedirectSystemStreams.getLogFile(logDirectory,fileName,".txt").getAbsolutePath());
+      this.logDirectory = logDirectory;
    }
 
    public void setEnableLogging(boolean enableLogging)
    {
       this.enableLogging = enableLogging;
+      if (enableLogging && fileLogger==null){
+         fileLogger = new FileLogger(RedirectSystemStreams.getLogFile(logDirectory,fileName,".txt").getAbsolutePath());
+      }
    }
 
    @Override
@@ -33,7 +39,16 @@ public class LocalFileActionLogger extends FileLogger
    {
       if (enableLogging)
       {
-         super.log(action);
+         fileLogger.log(action);
+         fileLogger.flush();
       }
    }
+
+   @Override
+   public void log(String username, String source, IAction action)
+   {
+      log(action);
+   }
+
+
 }
