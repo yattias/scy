@@ -17,6 +17,12 @@
       <property name="extensionManager" ref="extensionManager"/>
       <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="eloFactory" ref="eloFactory"/>
+      <property name="actionLogger" ref="actionLogger"/>
       <property name="userName" value="${userName}"/>
+   </bean>
+
+   <bean name="actionLogger" class="eu.scy.client.desktop.scydesktop.dummy.LocalFileActionLogger">
+      <constructor-arg index="0" value="${loggingDirectory}"/>
+      <property name="enableLogging" value="${enableLogging}"/>
    </bean>
 </beans>
