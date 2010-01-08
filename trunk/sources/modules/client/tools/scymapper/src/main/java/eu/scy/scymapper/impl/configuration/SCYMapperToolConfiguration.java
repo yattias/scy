@@ -24,8 +24,21 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     private List<IConceptType> availableConceptTypes;
     private List<ILinkType> availableLinkTypes;
     private List<INodeModel> predefinedNodes;
+	private static ISCYMapperToolConfiguration INSTANCE;
+	private boolean debugMode;
 
-    @Override
+	private SCYMapperToolConfiguration() {
+
+	}
+
+	public static ISCYMapperToolConfiguration getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new SCYMapperToolConfiguration();
+		}
+		return INSTANCE;
+	}
+
+	@Override
     public List<IConceptType> getAvailableConceptTypes() {
         return availableConceptTypes;
     }
@@ -103,4 +116,13 @@ public class SCYMapperToolConfiguration implements ISCYMapperToolConfiguration {
     public List<INodeModel> getPredefinedNodes() {
         return predefinedNodes;
     }
+
+	@Override
+	public boolean isDebug() {
+		return debugMode;
+	}
+
+	public void setDebug(boolean b) {
+		debugMode = b;
+	}
 }

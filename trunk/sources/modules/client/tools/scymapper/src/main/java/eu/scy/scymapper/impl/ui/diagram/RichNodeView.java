@@ -62,6 +62,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		labelTextarea.setMargin(new Insets(0, 0, 0, 0));
 		labelTextarea.setBorder(BorderFactory.createEmptyBorder());
 		labelScroller.getViewport().setOpaque(false);
+		labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
 		setLabelEditable(false, true);
 
@@ -106,19 +107,6 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 			}
 		});
 
-		MouseAdapter parentEventDispatcher = new ParentComponentEventDispatcher(this) {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				if (!isEditing) super.mouseDragged(e);
-			}
-		};
-		labelTextarea.addMouseMotionListener(parentEventDispatcher);
-		labelTextarea.addMouseListener(parentEventDispatcher);
-
 		if (model.getConstraints().getCanResize()) {
 			resizeHandle = createResizeHandle();
 			add(resizeHandle);
@@ -135,6 +123,21 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 		}
 
 		//setToolTipText(model.getId());
+
+		labelTextarea.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// Create a border using the inverted background color
+				int c = getModel().getStyle().getBackground().getRGB() ^ 0xFFFFFF;
+				if (!isEditing) labelScroller.setBorder(BorderFactory.createLineBorder(new Color(c), 1));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (!isEditing) labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+			}
+		});
+		labelTextarea.setToolTipText("Click to add or edit text");
 
 		layoutComponents();
 	}
@@ -160,14 +163,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 					new Thread() {
 						@Override
 						public void run() {
-							try {
-								Thread.sleep(100);
-								labelTextarea.requestFocus();
-								if (selected) labelTextarea.selectAll();
-							}
-							catch (InterruptedException e) {
-
-							}
+							labelTextarea.requestFocus();
+							if (selected) labelTextarea.selectAll();
 						}
 					});
 		}
@@ -287,50 +284,3 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 	}
 }
 
-class ParentComponentEventDispatcher extends MouseAdapter {
-	private Component reciever;
-
-	ParentComponentEventDispatcher(Component reciever) {
-		this.reciever = reciever;
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		redirectMouseEvent(e);
-	}
-
-	void redirectMouseEvent(MouseEvent e) {
-		//e.translatePoint(reciever.getX(), reciever.getY());
-		reciever.dispatchEvent(SwingUtilities.convertMouseEvent(e.getComponent(), e, reciever));
-	}
-}

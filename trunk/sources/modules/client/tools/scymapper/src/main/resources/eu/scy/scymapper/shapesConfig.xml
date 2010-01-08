@@ -9,7 +9,10 @@
 
 	<alias name="genericConfiguration" alias="configuration"/>
 
-	<bean id="genericConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration">
+	<bean id="genericConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration" factory-method="getInstance">
+
+		<property name="debug" value="false"/>
+
 		<property name="availableConceptTypes">
 			<list>
 				<bean class="eu.scy.scymapper.impl.configuration.ConceptType">
@@ -219,6 +222,42 @@
 				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
 					<property name="label" value=""/>
 					<property name="linkShape" ref="line"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedLine2"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedLine"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedBiDirArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedBiDirArrow2"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedArrow2"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedBiDirArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.LinkPrototype">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedLine"/>
 				</bean>
 			</list>
 		</property>

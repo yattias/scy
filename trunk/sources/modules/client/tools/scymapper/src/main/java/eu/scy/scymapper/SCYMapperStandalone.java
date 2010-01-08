@@ -13,6 +13,7 @@ import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.model.IDiagramModel;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.SCYMapperPanel;
+import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.model.DefaultConceptMap;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -166,6 +167,11 @@ public class SCYMapperStandalone extends JFrame {
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
+		JMenu viewMenu = new JMenu("View");
+		JMenu sessionMenu = new JMenu("Session");
+		menuBar.add(fileMenu);
+		menuBar.add(viewMenu);
+		menuBar.add(sessionMenu);
 
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(new ActionListener() {
@@ -184,12 +190,14 @@ public class SCYMapperStandalone extends JFrame {
 		fileMenu.add(new JPopupMenu.Separator());
 		fileMenu.add(exitItem);
 
-		menuBar.add(fileMenu);
 
-		// Session menu
-		JMenu sessionMenu = new JMenu("Session");
+		JMenuItem debugModeItem = new JCheckBoxMenuItem(new SetDebugModeAction());
+		debugModeItem.setSelected(SCYMapperToolConfiguration.getInstance().isDebug());
+		viewMenu.add(debugModeItem);
 
 		JMenu debugMenu = new JMenu("Debug");
+
+		sessionMenu.add(new LoginAction());
 
 		String ofHost = Configuration.getInstance().getOpenFireHost();
 		if (ofHost.equals("scy.collide.info")) {
@@ -227,8 +235,6 @@ public class SCYMapperStandalone extends JFrame {
 		sessionMenu.add(new CreateSessionAction());
 		sessionMenu.add(new JoinSessionAction());
 		sessionMenu.add(new ShowSessionIDAction());
-
-		menuBar.add(sessionMenu);
 
 		setJMenuBar(menuBar);
 	}
@@ -540,6 +546,21 @@ public class SCYMapperStandalone extends JFrame {
 		}
 	}
 
+	private class SetDebugModeAction extends AbstractAction {
+
+		public SetDebugModeAction() {
+			super();
+			putValue(Action.NAME, "Debug mode");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() instanceof JCheckBoxMenuItem) {
+				JCheckBoxMenuItem item = (JCheckBoxMenuItem)e.getSource();
+				SCYMapperToolConfiguration.getInstance().setDebug(item.isSelected());
+			}
+		}
+	}
 	void doLogin(String username, String password) {
 		try {
 			String ofHost = Configuration.getInstance().getOpenFireHost();

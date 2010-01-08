@@ -32,7 +32,7 @@
     <bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.concepts.RoundRectangle">
     </bean>
     <bean id="starshape" class="eu.scy.scymapper.impl.shapes.concepts.Star"/>
-    <bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
+    <bean id="line" class="eu.scy.scymapper.impl.shapes.links.CubicCurvedLine"/>
 
     <bean id="arrow" class="eu.scy.scymapper.impl.shapes.links.Arrow">
         <property name="head">

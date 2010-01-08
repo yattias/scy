@@ -131,8 +131,7 @@ public class ScyMapperRepositoryWrapper {
         elo.getMetadata().getMetadataValueContainer(titleKey).setValue(conceptMap.getName(), Locale.CANADA);
         IMetadata resultMetadata = repository.updateELO(elo);
 
-        repository.addForkedELO(elo, elo.getUri());
-        //eloFactory.updateELOWithResult(elo, resultMetadata);
+        eloFactory.updateELOWithResult(elo, resultMetadata);
         return elo;
     }
 
