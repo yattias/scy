@@ -6,7 +6,7 @@
 
 package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;

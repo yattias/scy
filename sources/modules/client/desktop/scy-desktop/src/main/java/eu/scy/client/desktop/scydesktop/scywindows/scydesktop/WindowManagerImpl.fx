@@ -17,8 +17,8 @@ import javafx.util.Sequences;
 import javafx.scene.Group;
 
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import java.lang.Void;
-import org.apache.log4j.Logger;
 
 
 /**
@@ -129,6 +129,17 @@ public class WindowManagerImpl extends WindowManager {
    public override function removeAllScyWindows():Void{
       delete scyWindows.content;
       activeWindow = null;
+   }
+
+   public override function getWindowUnderMouse(sceneX:Number,sceneY:Number):ScyWindow{
+      for (index in [sizeof scyWindows.content - 1 .. 0 step -1]){
+         var window = scyWindows.content[index] as ScyWindow;
+         var localMousePosition = window.sceneToLocal(sceneX, sceneY);
+         if (window.contains(localMousePosition)){
+            return window;
+         }
+      }
+      return null;
    }
 
 }

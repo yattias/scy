@@ -51,4 +51,5 @@ public mixin class WindowManager {
 //   public function checkVisibilityScyWindows(showIt: function(ScyWindow):Boolean){
 //   }
 
+   public abstract function getWindowUnderMouse(sceneX:Number,sceneY:Number):ScyWindow;
 }
