@@ -2,6 +2,8 @@ package eu.scy.awareness;
 
 import java.util.StringTokenizer;
 
+import org.jivesoftware.smack.util.StringUtils;
+
 import eu.scy.awareness.IAwarenessUser;
 
 public class AwarenessUser implements IAwarenessUser {
@@ -11,19 +13,9 @@ public class AwarenessUser implements IAwarenessUser {
     private String status;
     private String presence;
 	private String correctUsername;
+	private String jid;
+	private String nickName;
     
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getName() {
-        return name;
-    }
     public void setStatus(String status) {
         this.status = status;
     }
@@ -39,20 +31,30 @@ public class AwarenessUser implements IAwarenessUser {
     
     @Override
     public String toString() {
-        return trimIt(username) + " [" + presence + "]";
+        return this.nickName + " [" + presence + "]";
     }
-    
-	private String trimIt(String username2) {
-		StringTokenizer st = new StringTokenizer(username2, "@");
-		return st.nextToken();
+
+	@Override
+	public String getJid() {
+		return this.jid;
 	}
 	@Override
-	public String getCorrectUsername() {
-		return this.correctUsername;
+	public String getNickName() {
+		
+		if( this.nickName != null && this.nickName.contains("@") )
+			this.nickName = StringUtils.parseName(nickName);
+		
+		return this.nickName;
 	}
 	@Override
-	public void setCorrectUsername(String uc) {
-		this.correctUsername = trimIt(uc);
+	public void setJid(String jid) {
+		this.jid = jid;
+		//create nick name
+		this.nickName = StringUtils.parseName(jid);
+	}
+	@Override
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 

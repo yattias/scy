@@ -16,7 +16,6 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
     public AwarenessEvent(Object source, IAwarenessUser user, String message){
         super(source);
         this.user = user;
-        this.user.setCorrectUsername(correctName(user.getUsername()));
         this.message = message;
     }
     
@@ -25,10 +24,6 @@ public class AwarenessEvent extends EventObject implements IAwarenessEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	private String correctName(String username) {
-		StringTokenizer st = new StringTokenizer(username, "/");
-		return st.nextToken();
-	}
 
     @Override
     public String getMessage() {
