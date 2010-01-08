@@ -26,7 +26,7 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
@@ -42,7 +42,7 @@ import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
  * @author pg
  */
 
-public class WebResourceNode extends CustomNode, ILoadXML, ScyTool, Resizable {
+public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable {
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };

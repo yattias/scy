@@ -36,7 +36,7 @@ import javafx.scene.layout.VBox;
 import java.awt.image.BufferedImage;
 import javafx.ext.swing.SwingUtils;
 
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 
@@ -50,7 +50,7 @@ import roolo.elo.api.IMetadataTypeManager;
  * @author phil
  */
 
-public class PictureViewerNode extends CustomNode, ILoadPicture, ScyTool {
+public class PictureViewerNode extends CustomNode, ILoadPicture, ScyToolFX {
   //default toolwindow stuff
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
