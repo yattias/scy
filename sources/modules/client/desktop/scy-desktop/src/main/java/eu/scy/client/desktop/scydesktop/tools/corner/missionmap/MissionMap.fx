@@ -80,6 +80,7 @@ public class MissionMap extends CustomNode {
             anchor: anchor,
             selectionAction: anchorSelected;
             dragAndDropManager:dragAndDropManager
+            windowStyler:scyDesktop.windowStyler
          }
          anchorMap.put(anchor,anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);

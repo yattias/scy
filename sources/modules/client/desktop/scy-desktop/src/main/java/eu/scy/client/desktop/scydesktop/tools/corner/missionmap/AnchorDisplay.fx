@@ -18,12 +18,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 /**
  * @author sikkenj
@@ -31,30 +29,22 @@ import javafx.scene.shape.Rectangle;
 
 
 public class AnchorDisplay extends CustomNode {
-   def size = 20.0;
-   def titleFont = Font {
-      size: 20
-   }
+   def size = 19.0;
    def defaultTitleColor = Color.WHITE;
    def defaultContentColor = Color.GRAY;
 
    public var anchor: MissionAnchorFX;
-   def iconCharacter = bind anchor.iconCharacter on replace {
-      checkIconCharacter()
-   };
-   var displayTitle = "?";
-	//      public var color = Color.LIGHTGRAY;
-	//      public var xPos = 0;
-	//      public var yPos = 0;
+   public var windowStyler:WindowStyler;
    public-read var xCenter = bind anchor.xPos + size / 2;
    public-read var yCenter = bind anchor.yPos + size / 2;
    public var selected = false on replace {
-      setColors()
+      setColors();
+      eloIcon.selected = selected;
    };
    public var selectionAction: function(AnchorDisplay):Void;
    public var dragAndDropManager: DragAndDropManager;
 
-   var titleColor = defaultTitleColor;
+   def eloIcon = windowStyler.getScyEloIcon(anchor.eloUri);
    var contentColor = defaultContentColor;
 
 	var eloContour = EloContour{
@@ -65,52 +55,32 @@ public class AnchorDisplay extends CustomNode {
 		borderColor: bind anchor.color;
 		fillColor: bind contentColor;
 	}
-   var titleDisplay:Text;
-
-
-   function checkIconCharacter(){
-      if (iconCharacter == null or iconCharacter.length() == 0){
-         displayTitle = "?";
-      }
-      else {
-         displayTitle = iconCharacter.substring(0,1);
-      }
-   }
 
    function setColors(){
       if (selected){
-         titleColor = anchor.color;
          contentColor = defaultTitleColor;
       }
       else {
-         titleColor = defaultTitleColor;
          contentColor = anchor.color;
       }
    }
-
 
    public override function create(): Node {
       disable = not anchor.exists;
       if (anchor.exists){
          cursor = Cursor.HAND;
+      } else{
+         eloIcon.opacity = 0.5;
       }
-      titleDisplay = Text {
-         font: titleFont,
-         x: 0,
-         y: 0,
-         fill: bind titleColor,
-         content: bind displayTitle,
-         translateX: 1;
-         translateY: 1;
-      }
-      titleDisplay.x = (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
-      titleDisplay.y = (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 0;
+
+      eloIcon.translateX = (size - eloIcon.boundsInLocal.maxX - eloIcon.boundsInLocal.minX) / 2 + 0;
+      eloIcon.translateY = (size - eloIcon.boundsInLocal.maxY - eloIcon.boundsInLocal.minY) / 2 + 0;
       return Group {
          layoutX: bind anchor.xPos;
          layoutY: bind anchor.yPos;
          content: [
             eloContour,
-				titleDisplay
+            eloIcon
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
             if (selectionAction != null){
@@ -133,6 +103,10 @@ public class AnchorDisplay extends CustomNode {
    function mousePressed( e: MouseEvent ):Void{
 //      println("anchorDisplay.onMousePressed");
       if (not e.controlDown){
+         var dragEloIcon = windowStyler.getScyEloIcon(anchor.eloUri);
+         dragEloIcon.translateX = eloIcon.translateX;
+         dragEloIcon.translateY = eloIcon.translateY;
+         dragEloIcon.selected = eloIcon.selected;
          var dragNode = Group{
             content:[
                EloContour{
@@ -143,15 +117,7 @@ public class AnchorDisplay extends CustomNode {
                   borderColor: anchor.color;
                   fillColor: contentColor;
                }
-               Text {
-                  font: titleFont,
-                  x: titleDisplay.x,
-                  y: titleDisplay.y,
-                  fill: titleColor,
-                  content: displayTitle,
-                  translateX: 1;
-                  translateY: 1;
-               }
+               dragEloIcon
             ]
          }
          dragAndDropManager.startDrag(dragNode, anchor.metadata,this,e);

@@ -35,6 +35,11 @@ public mixin class WindowStyler {
       };
    }
 
+   public function getScyEloIcon(uri:URI):EloIcon{
+      var type = eloInfoControl.getEloType(uri);
+      return getScyEloIcon(type);
+   }
+
    public function getScyColor(uri:URI):Color{
       var type = eloInfoControl.getEloType(uri);
       var scyColor = getScyColor(type);
