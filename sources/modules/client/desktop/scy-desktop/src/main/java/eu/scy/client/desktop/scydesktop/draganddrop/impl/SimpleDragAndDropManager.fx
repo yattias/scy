@@ -12,6 +12,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 
 /**
  * @author sikken
@@ -61,8 +62,9 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
 
    function mouseDragged(e: MouseEvent): Void {
       if (dragNode != null) {
-         dragNode.layoutX = orginalDragNodeX + e.dragX;
-         dragNode.layoutY = orginalDragNodeY + e.dragY;
+         var mouseEventInScene = MouseEventInScene{mouseEvent:e};
+         dragNode.layoutX = orginalDragNodeX + mouseEventInScene.dragX;
+         dragNode.layoutY = orginalDragNodeY + mouseEventInScene.dragY;
 //         println("SimpleDragAndDropManager.mouseDragged ({dragNode.layoutX},{dragNode.layoutY})");
          checkDropStatus(e);
       } else {
