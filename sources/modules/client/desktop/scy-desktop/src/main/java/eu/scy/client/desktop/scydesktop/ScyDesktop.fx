@@ -88,7 +88,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindow
 
 import javafx.scene.shape.Rectangle;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 

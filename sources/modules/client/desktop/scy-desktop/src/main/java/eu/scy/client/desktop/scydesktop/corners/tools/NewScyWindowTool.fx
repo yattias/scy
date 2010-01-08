@@ -23,7 +23,7 @@ import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 import java.net.URI;
 

@@ -10,7 +10,7 @@ import eu.scy.client.desktop.scydesktop.hacks.EloSavedListener;
 
 import java.net.URI;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 
 /**

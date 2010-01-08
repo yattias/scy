@@ -27,7 +27,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryF
 
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.paint.Color;
 
 import java.net.URI;

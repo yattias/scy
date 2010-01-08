@@ -13,7 +13,7 @@ import javax.swing.JComponent;
 
 import javafx.ext.swing.SwingComponent;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 
 import eu.scy.client.desktop.scydesktop.config.Config;

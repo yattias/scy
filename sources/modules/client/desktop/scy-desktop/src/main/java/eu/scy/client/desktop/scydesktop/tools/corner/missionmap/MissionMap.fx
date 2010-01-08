@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.net.URI;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.elo.api.IMetadataTypeManager;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
