@@ -44,24 +44,26 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import roolo.elo.BasicELO;
+
+import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
 import roolo.elo.metadata.keys.Contribute;
 import roolo.elo.metadata.keys.ContributeMetadataKey;
 import roolo.elo.metadata.value.containers.MetadataSingleUniversalValueContainer;
@@ -82,7 +84,6 @@ public class SaveELOResource {
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
-    private IMetadataKey missionKey;
     private ContributeMetadataKey authorKey;
 
     /** Creates a new instance of SaveELOResource */
@@ -150,7 +151,7 @@ public class SaveELOResource {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = new BasicELO();
+                elo = configLoader.getEloFactory().createELO();
 
                 log.info("ELO created");
                 Locale defaultLocale = new Locale(language);
@@ -184,7 +185,9 @@ public class SaveELOResource {
                 
                 //The content consists of a summary (annotations and excerpt), the whole html doc and the preview (the styled summary)
                 String content = "<preview><![CDATA["+preview+"]]></preview>"+"<annotations> <![CDATA["+annotations+"]]></annotations>"+"\n <html> \n <![CDATA["+html+"]]> \n </html>";
-                elo.setContent(new BasicContent(content));
+                IContent eloContent = configLoader.getEloFactory().createContent();
+                eloContent.setXmlString(content);
+                elo.setContent(eloContent);
                 try {
                     configLoader.getRepository().addNewELO(elo);
                 } catch (ELONotAddedException e) {
