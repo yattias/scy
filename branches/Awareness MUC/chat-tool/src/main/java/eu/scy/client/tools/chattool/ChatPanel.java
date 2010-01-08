@@ -2,11 +2,11 @@ package eu.scy.client.tools.chattool;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.LinearGradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -17,6 +17,8 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledPanel;
+import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.Painter;
 
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
@@ -46,9 +48,23 @@ public class ChatPanel extends JXTitledPanel {
 		this.chatController.connectToRoom();
 		this.initListners();
 		this.setTitle(this.chatController.getCurrentUser());
+		//this.setTitleForeground(Colors.White.color());
+		this.setTitlePainter(getTitlePainter());
 
 	}
 
+	public Painter getTitlePainter() {
+		int width = 100;
+		int height = 100;
+		Color color1 = Colors.White.color(0.5f);
+		Color color2 = Colors.Black.color(0.5f);
+
+		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 0.0f,
+				width, height, new float[] { 0.0f, 1.0f }, new Color[] {
+				color1, color2});
+		MattePainter mattePainter = new MattePainter(gradientPaint);
+		return mattePainter;
+	}
 	protected void initGUI() {
 		JXPanel p = new JXPanel(new MigLayout("insets 1 1 1 1,wrap 1"));
 		p.setBackground(Color.white);
