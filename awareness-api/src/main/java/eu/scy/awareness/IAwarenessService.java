@@ -8,6 +8,7 @@ import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 
 /**
  * Awareness Service Interface
@@ -17,6 +18,8 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 public interface IAwarenessService {
     //to be replace with scy user
     
+	public XMPPConnection getConnection();
+	
     /**
      * Get all the buddies
      * 
@@ -33,6 +36,16 @@ public interface IAwarenessService {
      * @throws AwarenessServiceException
      */
     public void sendMessage(String recipient, String message) throws AwarenessServiceException;
+    
+    
+    /**
+	 * sends a message to a MUC chat room
+	 * 
+	 * @param ELOUri
+	 * @param message
+	 */
+	public void sendMUCMessage(String ELOUri, String message) throws AwarenessServiceException;
+	
     
     /**
      * sets the presence of user either online or offline
@@ -58,6 +71,11 @@ public interface IAwarenessService {
      */
     public void addAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener);
     
+    /**
+     * removes awareness presence listener
+     * 
+     * @param awarenessPresenceListener
+     */
     public void removeAwarenessPresenceListener(IAwarenessPresenceListener awarenessPresenceListener);
     
     /**
@@ -205,5 +223,14 @@ public interface IAwarenessService {
 	 * @return
 	 */
 	public String getMUCConferenceExtension();
+
+	
+	/**
+	 * gets a MUC for an ELO
+	 * 
+	 * @param ELOUri
+	 * @return
+	 */
+	public MultiUserChat getMultiUserChat(String ELOUri);
 
 }
