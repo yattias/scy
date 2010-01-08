@@ -19,6 +19,7 @@ import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContent
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.IAwarenessService;
 import org.apache.log4j.Logger;
+import eu.scy.chat.controller.ChatController;
 /**
  * @author jeremyt
  */
@@ -39,11 +40,25 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
               userName: userName;
            }
 
-    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
-    logger.info("awarenessService exists: {awarenessService.isConnected()}");
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatId);
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {awarenessService: awarenessService;}, scychatpresenceId);
+    
 
+    var awarenessService:IAwarenessService = toolBrokerAPI.getAwarenessService();
+    var eloUri = "z168fb1jo51y";
+    var chatController = new ChatController(awarenessService, eloUri);
+
+    logger.info("awarenessService exists: {awarenessService.isConnected()}");
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+                },
+            scychatId);
+    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+            ChattoolPresenceDrawerContentCreatorFX {
+                awarenessService: awarenessService;
+                chatController: chatController;
+            },
+            scychatpresenceId);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scystudentplanningId);
 

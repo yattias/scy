@@ -24,8 +24,12 @@
             <entry operation="=" key="maven.dependency.classpath" value="${maven-ant-tasks.dependency.path}"/>
         </propertyfile>
     </target>
+     <!--
     <target name="-pre-compile" depends="-maven-retrieve"/>
     <target name="-pre-compile-single" depends="-maven-retrieve"/>
+    -->
+   <target name="-post-clean" depends="-maven-retrieve"/>
+    
     <!--
 
     There exist several targets which are by default empty and which can be 
