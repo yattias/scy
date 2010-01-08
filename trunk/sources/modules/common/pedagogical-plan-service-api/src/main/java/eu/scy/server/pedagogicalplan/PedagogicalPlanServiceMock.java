@@ -20,12 +20,14 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
     private List <Tool> tools = new ArrayList<Tool>();
 
     public PedagogicalPlanServiceMock() {
-        pedagogicalPlanTemplates.add(createPedagogicalPlanTemplate("Mission 1"));
+
         tools.add(createTool("SCYmapper", "A mappingTool!"));
         tools.add(createTool("SCYSim", "A simtool"));
         tools.add(createTool("Nutpad", "A padder"));
         tools.add(createTool("SCYWriter", "A text pad"));
         tools.add(createTool("SCYOverallTool", "A general tool"));
+        
+        pedagogicalPlanTemplates.add(createPedagogicalPlanTemplate("Mission 1"));
     }
 
     private Tool createTool(String name, String description) {
@@ -54,7 +56,7 @@ public class PedagogicalPlanServiceMock implements PedagogicalPlanService {
         return scenarios;
     }
 
-    public List<PedagogicalPlan> getPedagogicalPlans() {
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates() {
         return Collections.EMPTY_LIST;
     }
 

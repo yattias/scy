@@ -93,4 +93,6 @@ public interface UserDAO extends SCYBaseDAO{
      * @param id
      */
     public void deleteUser(Long id);
+
+    User createUser(String username, String password);
 }

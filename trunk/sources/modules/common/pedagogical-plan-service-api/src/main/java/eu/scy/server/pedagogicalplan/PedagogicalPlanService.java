@@ -1,6 +1,7 @@
 package eu.scy.server.pedagogicalplan;
 
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
 
@@ -19,7 +20,7 @@ public interface PedagogicalPlanService {
 
     public List<Scenario> getScenarios();
 
-    public List<PedagogicalPlan> getPedagogicalPlans();
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
 
 
 }

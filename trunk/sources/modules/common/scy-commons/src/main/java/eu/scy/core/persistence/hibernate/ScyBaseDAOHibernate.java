@@ -44,7 +44,8 @@ public class ScyBaseDAOHibernate extends HibernateDaoSupport implements SCYBaseD
                 getHibernateTemplate().saveOrUpdate(persistable);
             }
         } */else {
-            throw new RuntimeException("WAS NOT ABLE TO STORE OBJECT : " + object + "_____" + object.getClass().getName());
+            getHibernateTemplate().saveOrUpdate(object);
+            //throw new RuntimeException("WAS NOT ABLE TO STORE OBJECT : " + object + "_____" + object.getClass().getName());
         }
 
         return object;
