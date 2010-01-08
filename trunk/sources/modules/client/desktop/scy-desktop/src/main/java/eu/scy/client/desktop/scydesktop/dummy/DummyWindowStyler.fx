@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 /**
  * @author sikkenj

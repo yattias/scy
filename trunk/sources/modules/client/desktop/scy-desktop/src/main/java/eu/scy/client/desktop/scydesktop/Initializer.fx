@@ -21,7 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.login.ToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.dummy.LocalToolBrokerLogin;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 import javax.swing.UIManager.LookAndFeelInfo;

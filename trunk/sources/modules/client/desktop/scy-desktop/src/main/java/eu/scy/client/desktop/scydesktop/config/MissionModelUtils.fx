@@ -15,7 +15,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import java.lang.String;
 
 import java.util.List;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 /**
  * @author sikken

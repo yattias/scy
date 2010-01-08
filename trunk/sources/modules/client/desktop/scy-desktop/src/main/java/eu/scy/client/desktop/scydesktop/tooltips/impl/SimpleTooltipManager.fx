@@ -19,7 +19,7 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 
 import java.lang.Exception;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Scene;
 import javafx.scene.Group;
 

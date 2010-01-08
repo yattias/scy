@@ -9,7 +9,7 @@ package eu.scy.client.desktop.scydesktop.elofactory;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
 

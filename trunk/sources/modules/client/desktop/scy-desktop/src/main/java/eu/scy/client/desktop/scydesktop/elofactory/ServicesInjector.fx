@@ -27,7 +27,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import java.lang.IllegalAccessException;
 import eu.scy.client.common.datasync.IDataSyncService;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 
 /**

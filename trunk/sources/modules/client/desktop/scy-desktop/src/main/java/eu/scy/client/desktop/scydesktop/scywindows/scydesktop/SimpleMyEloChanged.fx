@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import roolo.elo.api.IMetadataKey;
 
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 
 /**
