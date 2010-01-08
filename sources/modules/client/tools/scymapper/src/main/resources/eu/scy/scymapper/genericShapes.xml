@@ -10,8 +10,13 @@
 	<bean id="diamondshape" class="eu.scy.scymapper.impl.shapes.concepts.Diamond"/>
 	<bean id="triangle" class="eu.scy.scymapper.impl.shapes.concepts.Triangle"/>
 	<bean id="ellipse" class="eu.scy.scymapper.impl.shapes.concepts.Ellipse"/>
-	<bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
 
+	<bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
+    <bean id="cubicCurvedLine" class="eu.scy.scymapper.impl.shapes.links.CubicCurvedLine"/>
+    <bean id="quadCurvedLine2" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine">
+		<property name="curving" value="0.25"/>
+	</bean>
+    <bean id="quadCurvedLine" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine"/>
 	<bean id="arrow" class="eu.scy.scymapper.impl.shapes.links.Arrow">
 		<property name="head">
 			<bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">
@@ -27,6 +32,28 @@
 				<property name="length" value="10"/>
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="cubicCurvedArrow" parent="arrow">
+		<property name="lineShape" ref="cubicCurvedLine"/>
+	</bean>
+	<bean id="quadCurvedArrow2" parent="arrow">
+		<property name="lineShape" ref="quadCurvedLine2"/>
+	</bean>
+	<bean id="quadCurvedArrow" parent="arrow">
+		<property name="lineShape" ref="quadCurvedLine"/>
+	</bean>
+
+	<bean id="cubicCurvedBiDirArrow" parent="bidirectional_arrow">
+		<property name="lineShape" ref="cubicCurvedLine"/>
+	</bean>
+	<bean id="quadCurvedBiDirArrow" parent="bidirectional_arrow">
+		<property name="lineShape" ref="quadCurvedLine"/>
+	</bean>
+
+
+	<bean id="quadCurvedBiDirArrow2" parent="bidirectional_arrow">
+		<property name="lineShape" ref="quadCurvedLine2"/>
 	</bean>
 
 	<bean id="white" class="java.awt.Color">

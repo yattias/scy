@@ -1,16 +1,27 @@
 package eu.scy.scymapper.impl.ui.diagram;
 
+import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.api.diagram.controller.ILinkController;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.diagram.model.INodeModelListener;
+import eu.scy.scymapper.api.shapes.ILinkShape;
+import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
+import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
+import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextLayout;
+import java.awt.geom.Point2D;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
 
 /**
  * @author bjoerge
@@ -22,8 +33,15 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 	private JScrollPane labelScroller;
 	private boolean isEditing;
 
+	JPanel debugPanel;
+	private JSlider slider;
+	private ISCYMapperToolConfiguration conf;
+	private double labelPos = 0.5;
+
 	public ConceptLinkView(ILinkController controller, INodeLinkModel model) {
 		super(controller, model);
+
+		conf = SCYMapperToolConfiguration.getInstance();
 
 		// I want to observe changes in my connected nodes
 		if (model.getFromNode() != null) model.getFromNode().addListener(this);
@@ -44,7 +62,9 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 			}
 		});
 		labelTextarea.setMargin(new Insets(0, 0, 0, 0));
+		labelTextarea.setMinimumSize(new Dimension(150, 22));
 		labelTextarea.setBorder(BorderFactory.createEmptyBorder());
+
 		labelScroller.getViewport().setOpaque(false);
 
 		add(labelScroller);
@@ -84,15 +104,71 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 			}
 		});
 
+		labelTextarea.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (!isEditing)
+					labelScroller.setBorder(BorderFactory.createEtchedBorder(Color.white, new Color(200, 200, 200, 150)));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (!isEditing) labelScroller.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			}
+		});
+		labelTextarea.setToolTipText("Click to add or edit text");
+
+		if (conf.isDebug()) {
+			addCurveSlider();
+		}
+
 		updatePosition();
 		layoutComponents();
+	}
+
+	private void addCurveSlider() {
+		ILinkShape linkShape = getModel().getShape();
+		if (!(linkShape instanceof QuadCurvedLine))
+			return;
+
+		slider = new JSlider();
+		slider.setExtent(1);
+		slider.setPaintTicks(true);
+		slider.setMaximum(100);
+		slider.setMinimum(1);
+		slider.setBounds(0, 0, 100, 25);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		slider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource();
+				ILinkShape linkShape = getModel().getShape();
+				if (linkShape instanceof QuadCurvedLine) {
+					System.out.println("source.getValue() = " + source.getValue());
+					double curving = ((double) source.getValue()) / 100d;
+					((QuadCurvedLine) linkShape).setCurving(curving);
+					System.out.println("curving = " + curving);
+					repaint();
+				}
+			}
+		});
+		add(slider);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		for (Component component : getComponents()) {
+			if (component.getBounds().contains(x, y)) return true;
+		}
+		return super.contains(x, y);
 	}
 
 	private void setLabelEditable(boolean editable, final boolean select) {
 
 		labelScroller.setOpaque(editable);
 		labelScroller.getViewport().setOpaque(editable);
-		labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 		labelTextarea.setFocusable(editable);
 		labelTextarea.setEditable(editable);
@@ -106,20 +182,15 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		}
 		if (editable) {
 			SwingUtilities.invokeLater(
-					new Thread() {
+					new Runnable() {
 						@Override
 						public void run() {
-							try {
-								Thread.sleep(100);
-								labelTextarea.requestFocus();
-								if (select) labelTextarea.selectAll();
-							}
-							catch (InterruptedException e) {
-
-							}
+							labelTextarea.requestFocus();
+							if (select) labelTextarea.selectAll();
 						}
 					});
 		}
+		isEditing = editable;
 
 	}
 
@@ -127,45 +198,117 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		setLabelEditable(editable, false);
 	}
 
+	public Dimension calculateStringBounds(JTextArea textComponent, int breakWidth) {
+		FontMetrics fm = textComponent.getFontMetrics(textComponent.getFont());
+		FontRenderContext frc = fm.getFontRenderContext();
+		String text = textComponent.getText();
+		if (text.equals("")) text = " ";
+		String[] lines = StringUtils.splitPreserveAllTokens(text, System.getProperty("line.separator"));
+		int numLines = 0;
+		double maxWidth = 0.0;
+		for (String line : lines) {
+			// Ignore blank lines
+			if (line.equals("")) line = " ";
+
+			AttributedString str = new AttributedString(line);
+			AttributedCharacterIterator lineIt = str.getIterator();
+			int paragraphStart = lineIt.getBeginIndex();
+			int paragraphEnd = lineIt.getEndIndex();
+			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(lineIt, frc);
+			lineMeasurer.setPosition(paragraphStart);
+			// Get lines until the entire line has been iterated over.
+			while (lineMeasurer.getPosition() < paragraphEnd) {
+				TextLayout layout = lineMeasurer.nextLayout(breakWidth);
+				double w = layout.getBounds().getWidth();
+				if (w > maxWidth) maxWidth = w;
+				numLines++;
+			}
+		}
+		int lineHeight = fm.getMaxAscent() + fm.getMaxDescent() + fm.getLeading();
+		return new Dimension((int) maxWidth, numLines * lineHeight);
+	}
+
 	private void layoutComponents() {
 
-		FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
-		int width = f.stringWidth(labelTextarea.getText()) + 10;
+		// Lay out the text area component
+		// The size of the text area is negotiated in the following order:
+		//
+		// 1. First, find out the ideal size of the text box based on its content
+		// 2. if the ideal size is bigger than the available size, shrink the component to fit in the container
+		// 3. Calculate the ideal location of the text box of this size (using the link shape)
+		//		This location should be based on the deCasteljauPoint or half-way point of the link shape
+		//		if x + ideal width exeeds available width, move the component the exeeded amount of pixels to the left
+		//		if y + ideal height exeeds available height, move the component the exeeded amount of pixels to the top
+		// 4. Set the location of the text input component accordingly
+		Rectangle relBounds = new Rectangle(getInnerBounds());
+		relBounds.translate(-getX(), -getY());
 
-		int maxHeight = getHeight() - 140; // 10 px spacing on each side
-		int maxWidth = getWidth() - 140; // 10 px spacing on each side
-
-		if (width < 70) width = 70;
-			// Add some space
-		else width = (width + 10 > maxWidth) ? maxWidth : width + 10;
-
-		int height = labelTextarea.getPreferredScrollableViewportSize().height + 10;
-
-		if (height > maxHeight) {
-			height = maxHeight;
-			labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		} else {
-			labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		if (relBounds.width < 150) {
+			double diff = relBounds.width - 150;
+			relBounds.x += diff / 2d;
+			relBounds.width = 150;
+		}
+		if (relBounds.height < 50) {
+			double diff = relBounds.height - 50;
+			relBounds.y += diff / 2;
+			relBounds.height = 50;
 		}
 
-		if (width < 100) width = 100;
-		if (height <= 25) height = 25;
+		if (conf.isDebug()) {
+			if (debugPanel == null) {
+				debugPanel = new JPanel();
+				debugPanel.setOpaque(false);
+				debugPanel.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+				add(debugPanel);
+			}
+			debugPanel.setBounds(relBounds);
+		}
 
-		labelTextarea.setSize(width, height);
-		labelTextarea.setVisible(!getModel().isLabelHidden());
+		Dimension prefSize = calculateStringBounds(labelTextarea, 250);
 
-		double x = ((maxWidth / 2) - (width / 2)) + 70;
-		double y = ((maxHeight / 2d) - (height / 2d)) + 70;
+		if (prefSize.width < 100) prefSize.width = 100;
+		if (prefSize.height < 22) prefSize.height = 22;
 
-		labelScroller.setBounds((int) x, (int) y, width, height);
+		Point relFrom = new Point(getModel().getFrom());
+		relFrom.translate(-getX(), -getY());
+
+		Point relTo = new Point(getModel().getTo());
+		relTo.translate(-getX(), -getY());
+
+		// This is the point that should be the x,y of the text box
+		Point2D p = getModel().getShape().getDeCasteljauPoint(relFrom, relTo, labelPos);
+		int x = (int) p.getX();
+		int y = (int) p.getY();
+		int width = prefSize.width;
+		int height = prefSize.height;
+
+		if (height > relBounds.height) height = relBounds.height - 4;
+		if (width > relBounds.width) width = relBounds.width;
+
+		x -= width / 2;
+		y -= height / 2;
+
+		while (x + width > relBounds.x + relBounds.width) {
+			x--;
+		}
+		while (y + height > relBounds.y + relBounds.height) {
+			y--;
+		}
+
+		labelScroller.setBounds(x, y - 4, width, height + 4);
 		labelScroller.revalidate();
 	}
 
 	@Override
 	public void updated(ILinkModel m) {
+		System.out.println("ConceptLinkView.updated");
 		if (!m.getLabel().equals(labelTextarea.getText())) {
 			labelTextarea.setText(m.getLabel());
 		}
+		if (conf.isDebug()) {
+			labelPos = Math.min(Integer.parseInt(labelTextarea.getText()), 100) / 100d;
+		}
+
 		super.updated(m);
 		layoutComponents();
 	}

@@ -40,8 +40,7 @@ public class AddLinkButton extends JToggleButton {
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.translate(x, y);
 
-			shape.paint(g2d, new Point(0, iconHeight/2), new Point(iconWidth, iconHeight/2));
-
+			shape.paint(g2d, new Point(0, (iconHeight/2) - 5), new Point(iconWidth, (iconHeight/2) + 5));
 		}
 
 		@Override

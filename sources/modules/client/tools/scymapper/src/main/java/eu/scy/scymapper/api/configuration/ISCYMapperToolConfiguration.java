@@ -55,4 +55,17 @@ public interface ISCYMapperToolConfiguration extends LearningActivitySpaceToolCo
      * @return list of predefined nodes that should be added to the concept map at startup time
      */
     List<INodeModel> getPredefinedNodes();
+
+	/**
+	 * Returns true if SCYMapper is running in debug mode
+	 *
+	 * @return true if SCYMapper is running in debug mode
+	 */
+	boolean isDebug();
+
+	/**
+	 * Sets debug mode
+	 * @param b true if debug mode should be on, false otherwise
+	 */
+	void setDebug(boolean b);
 }
