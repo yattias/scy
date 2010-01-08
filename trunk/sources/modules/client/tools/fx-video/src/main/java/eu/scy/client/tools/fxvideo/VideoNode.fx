@@ -23,7 +23,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -43,7 +43,7 @@ import java.lang.System;
  *      http://codecs.com/FFDShow_download.htm
  */
 
-public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyTool, Resizable {
+public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyToolFX, Resizable {
 
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
