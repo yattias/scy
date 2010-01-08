@@ -8,15 +8,14 @@ package eu.scy.awareness;
  */
 public interface IAwarenessUser {
 
-	public void setCorrectUsername(String uc);
-	public String getCorrectUsername();
-    public void setUsername(String username) ;
-    public String getUsername() ;
-    public void setName(String name) ;
-    public String getName() ;
     public void setStatus(String status);
     public String getStatus() ;
     public void setPresence(String presence);
     public String getPresence();
     
+    public void setJid(String jid);
+    public String getJid();
+    
+    public void setNickName(String nickName);
+    public String getNickName();
 }
