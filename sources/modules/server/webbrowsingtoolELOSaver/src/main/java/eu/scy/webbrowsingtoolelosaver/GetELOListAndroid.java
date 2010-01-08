@@ -43,21 +43,22 @@ package eu.scy.webbrowsingtoolelosaver;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
 import roolo.api.search.IMetadataQuery;
 import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
@@ -74,25 +75,30 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 @Path("/getELOListAndroid")
 public class GetELOListAndroid {
 
+	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
+
+	private static final ConfigLoader configLoader = ConfigLoader.getInstance();
+	
     @Context
     private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
-    private IELO elo;
-    private IMetadataKey uriKey;
+
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
-    private IMetadataKey dateCreatedKey;
-    private IMetadataKey missionKey;
     private IMetadataKey authorKey;
-    private IMetadataKey technicalFormat;
-    IMetadataQuery query;
-    private Vector<IELO> retrievedELOs;
+    private IMetadataKey descriptionKey;
+    
+    private IMetadataQuery query;
 
     /** Creates a new instance of SaveELOResource */
     public GetELOListAndroid() {
         //configure the Logger
         BasicConfigurator.configure();
+        
+        //configure keys
+        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
+        titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
+        descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+        authorKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
     }
 
     /**
@@ -129,23 +135,8 @@ public class GetELOListAndroid {
     @Produces("application/json")
     public JSONObject getHtmlELO(JSONObject jsonData) {
 
-//        String author = null;
-//        String title = null;
-//        String description = null;
-//        try {
-//            author = jsonData.getString("author");
-//            title = jsonData.getString("title");
-//            description = jsonData.getString("description");
-////            password = jsonData.getString("password");
-//        } catch (JSONException ex) {
-//            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-        typeKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-        
-        query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/form", null);
-
-        log.info(query.toString());
+    	query = new BasicMetadataQuery(typeKey, BasicSearchOperations.EQUALS, "scy/form", null);
+        logger.info(query.toString());
 
         try {
             //User user = new User(saveBean.getUsername(),saveBean.getPassword());
@@ -155,17 +146,17 @@ public class GetELOListAndroid {
 
                 //make a query to the repository, retrieve a list of search results, create a List of ELOS
                 List<ISearchResult> searchResultList = configLoader.getRepository().search(query);
-                log.info(searchResultList.size() + " search results foung.");
+                logger.info(searchResultList.size() + " search results found.");
                 
                 JSONArray elos = new JSONArray();
 
                 for (Iterator<ISearchResult> it = searchResultList.iterator(); it.hasNext();) {
                     ISearchResult searchResult = it.next();
-                    IELO retrievedElo = configLoader.getRepository().retrieveELO(searchResult.getUri());
                     URI uri = searchResult.getUri();
-                    String eloTitle = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId())).getValue().toString();
-                    String eloDescription = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId())).getValue().toString();
-                    String eloAuthor = configLoader.getRepository().retrieveELO(uri).getMetadata().getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId())).getValue().toString();
+                    IELO retrievedElo = configLoader.getRepository().retrieveELO(uri);
+                    String eloTitle = retrievedElo.getMetadata().getMetadataValueContainer(titleKey).getValue().toString();
+                    String eloDescription = retrievedElo.getMetadata().getMetadataValueContainer(descriptionKey).getValue().toString();
+                    String eloAuthor = retrievedElo.getMetadata().getMetadataValueContainer(authorKey).getValue().toString();
 
                     JSONObject eloAsJson = new JSONObject();
                     eloAsJson.put("title",eloTitle);
@@ -174,18 +165,12 @@ public class GetELOListAndroid {
                     eloAsJson.put("author", eloAuthor);
 
                     elos.put(eloAsJson);
-                    log.info("Retrieved ELO with content: \n" + retrievedElo.getContent() + "\nfrom searchResults");
+                    logger.info("Retrieved ELO with content: \n" + retrievedElo.getContent() + "\nfrom searchResults");
                 }
                 
                 JSONObject output = new JSONObject();
                 output.accumulate("errors", "none");
                 output.accumulate("elos", elos);
-
-                log.warning("===========================================");
-                log.warning("json-String of the output");
-                log.warning("===========================================");
-                log.warning(output.toString());
-                log.warning("===========================================");
                 return output;
             } else {//Authentication failed!
 
@@ -197,7 +182,7 @@ public class GetELOListAndroid {
                 //Login failed. Please Check Your Login-Data
             }
         } catch (Exception e) {//Exception: Filewriting didnt work
-            log.warning(e.getMessage());
+            logger.warning(e.getMessage());
             //return simplified codes for easier localization!
             //Server-Error during saving ELO. The Admin should clean up his harddisk
             JSONObject output = new JSONObject();
@@ -206,7 +191,7 @@ public class GetELOListAndroid {
                 output.accumulate("elos", null);
 
             } catch (JSONException ex) {
-                log.warning(ex.getMessage());
+                logger.warning(ex.getMessage());
             }
             return output;
         }

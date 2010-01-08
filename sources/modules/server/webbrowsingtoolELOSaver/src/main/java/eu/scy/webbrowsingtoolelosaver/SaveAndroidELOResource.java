@@ -56,7 +56,9 @@ import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import roolo.elo.BasicELO;
+import roolo.elo.MetadataTypeManager;
 import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.exceptions.ELONotAddedException;
@@ -84,7 +86,8 @@ public class SaveAndroidELOResource {
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
     private IMetadataKey missionKey;
-    private ContributeMetadataKey authorKey;
+    private IMetadataKey descriptionKey;
+    private IMetadataKey authorKey;
 
     /** Creates a new instance of SaveELOResource */
     public SaveAndroidELOResource() {
@@ -151,7 +154,7 @@ public class SaveAndroidELOResource {
                 //Authentication ok
 
                 //Creating the ELO
-                elo = new BasicELO();
+                elo = configLoader.getEloFactory().createELO();
 
                 log.info("ELO created");
                 Locale defaultLocale = new Locale(language,country);
@@ -172,8 +175,10 @@ public class SaveAndroidELOResource {
 
                 titleKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
                 dateCreatedKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-
+                descriptionKey = configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.DESCRIPTION.getId());
+                
                 elo.getMetadata().getMetadataValueContainer(titleKey).setValue(title);
+                elo.getMetadata().getMetadataValueContainer(descriptionKey).setValue(description);
 
                 configLoader.getExtensionManager().registerExtension("scy/form", ".form");
                 elo.getMetadata().getMetadataValueContainer(typeKey).setValue("scy/form");
@@ -185,17 +190,16 @@ public class SaveAndroidELOResource {
                 
                 elo.setContent(new BasicContent(content));
                 try {
-                    configLoader.getRepository().addNewELO(elo);
+                    IMetadata metadata = configLoader.getRepository().addNewELO(elo);
+                    if(metadata != null) {
+                    	log.info("Added ELO to repository");
+                    	return metadata.getMetadataValueContainer(configLoader.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue().toString();
+                    }
                 } catch (ELONotAddedException e) {
                     log.warning(e.getMessage());
                 } catch (Exception e) {
                     log.warning(e.getMessage());
                 }
-                log.info("Added ELO to repository");
-
-                //return simplified codes for easier localization!
-                //ELO saved
-                return elo.getUri().toString();
             } else {//Authentication failed!
                 //return simplified codes for easier localization!
                 //Login failed. Please Check Your Login-Data
@@ -207,6 +211,7 @@ public class SaveAndroidELOResource {
             //Server-Error during saving ELO. The Admin should clean up his harddisk
             return "serverErrorSaving";
         }
+        return null;
     }
 }
 

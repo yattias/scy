@@ -40,117 +40,106 @@
  */
 package eu.scy.webbrowsingtoolelosaver;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Produces;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.log4j.BasicConfigurator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.jdom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import roolo.api.search.IMetadataQuery;
+
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataKey;
 
 /**
  * REST Web Service
- *
+ * 
  * @author __SVEN__
  */
 @Path("/getELOAndroid")
 public class GetELOAndroid {
 
-    @Context
-    private UriInfo context;
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
-    private final static Logger log = Logger.getLogger(SaveELOResource.class.getName());
-    private IELO elo;
-    private IMetadataKey uriKey;
-    private IMetadataKey titleKey;
-    private IMetadataKey typeKey;
-    private IMetadataKey dateCreatedKey;
-    private IMetadataKey missionKey;
-//    private IMetadataKey authorKey;
-    private IMetadataKey technicalFormat;
-    IMetadataQuery query;
-    private Vector<IELO> retrievedELOs;
+	private static final ConfigLoader configLoader = ConfigLoader.getInstance();
 
-    /** Creates a new instance of SaveELOResource */
-    public GetELOAndroid() {
-        //configure the Logger
-        BasicConfigurator.configure();
-    }
+	private final static Logger logger = Logger.getLogger(SaveELOResource.class.getName());
 
-    /**
-     * Retrieves representation of an instance of saveelo.SaveELOResource
-     * For testing purpose!
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Produces("text/html")
-    public String getXml() {
-        return "<html><body><h1>Hello World!</body></h1></html>";
-    }
+	@Context
+	private UriInfo context;
 
-    /**
-     * PUT method for updating or creating an instance of SaveELOResource
-     * For testing purpose!
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
-    @PUT
-    @Consumes("application/xml")
-    public void putXml(String content) {
-    }
+	/** Creates a new instance of SaveELOResource */
+	public GetELOAndroid() {
+		// configure the Logger
+		BasicConfigurator.configure();
+	}
 
-    /**
-     * POST method for creating a new ELO Resource
-     * @param xml the xml representation of the ELO content
-     * @param username the username of the ELO's creator
-     * @param password the password of the ELO's creator
-     * @return an HTTP response with content of the updated or created resource.
-     */
-    @POST
-    @Consumes("application/json")
-    @Produces("application/json")
-    public JSONObject getHtmlELO(JSONObject jsonData) {
+	/**
+	 * Retrieves representation of an instance of saveelo.SaveELOResource For
+	 * testing purpose!
+	 * 
+	 * @return an instance of java.lang.String
+	 */
+	@GET
+	@Produces("text/html")
+	public String getXml() {
+		return "<html><body>This RESTful Web Service provides access to RoOLO for Androids!</body></html>";
+	}
 
-        String uri = null;
-        try {
-            uri = jsonData.getString("uri");
-        } catch (JSONException ex) {
-            Logger.getLogger(SaveELOResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            elo = configLoader.getRepository().retrieveELO(new URI(uri));
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(GetELOAndroid.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	/**
+	 * PUT method for updating or creating an instance of SaveELOResource For
+	 * testing purpose!
+	 * 
+	 * @param content
+	 *            representation for the resource
+	 * @return an HTTP response with content of the updated or created resource.
+	 */
+	@PUT
+	@Consumes("application/xml")
+	public void putXml(String content) {
+	}
 
-        String contentString = elo.getContent().getXmlString();
-      
-        JSONObject output = new JSONObject();
-        try {
-            output.put("content", contentString);
-        } catch (JSONException ex) {
-            Logger.getLogger(GetELOAndroid.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	/**
+	 * POST method for creating a new ELO Resource
+	 * 
+	 * @param xml
+	 *            the xml representation of the ELO content
+	 * @param username
+	 *            the username of the ELO's creator
+	 * @param password
+	 *            the password of the ELO's creator
+	 * @return an HTTP response with content of the updated or created resource.
+	 */
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	public JSONObject getHtmlELO(JSONObject jsonData) {
+		JSONObject output = new JSONObject();
 
-        return output;
-    }
+		String uri = null;
+		try {
+			uri = jsonData.getString("uri");
+			IELO elo = configLoader.getRepository().retrieveELO(new URI(uri));
+			String contentString = elo.getContent().getXmlString();
+			output.put("content", contentString);
+		} catch (JSONException ex) {
+			logger.log(Level.SEVERE, "Could not store ELO xml string inside JSON object", ex);
+			try {
+				output.put("error", ex.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (URISyntaxException ex) {
+			logger.log(Level.SEVERE, "ELO URI does not match the URI syntax", ex);
+		}
+
+		return output;
+	}
 }
