@@ -1,5 +1,11 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
+
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -8,4 +14,9 @@ package eu.scy.core;
  * To change this template use File | Settings | File Templates.
  */
 public interface PedagogicalPlanPersistenceService {
+
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates(); 
+
+    public void save(ScyBase scyBaseObject);
+
 }

@@ -1,5 +1,6 @@
 package eu.scy.server.utils;
 
+import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
@@ -16,10 +17,21 @@ import org.springframework.beans.factory.InitializingBean;
 public class DummyDataGenerator implements InitializingBean {
 
     private ScenarioService scenarioService;
+    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
-    private void generateDummyScenario() {
+    private void generatePedagogicalPlanTemplates() {
+        PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
+        template.setName("Mission 1");
+        template.setDescription("A pedagogical plan for people with white teeth");
+        template.setScenario(generateScenario());
+        getPedagogicalPlanPersistenceService().save(template);
+
+
+    }
+
+    private Scenario generateScenario() {
         Scenario scenario = new ScenarioImpl();
-        scenario.setName("Mission 1");
+        scenario.setName("Scenario 1 - Exploration");
 
         LearningActivitySpace orientation = createLAS("LAS Orientation");
         scenario.setLearningActivitySpace(orientation);
@@ -71,7 +83,8 @@ public class DummyDataGenerator implements InitializingBean {
         //AnchorELO conceptualizationELO = createAnchorELO("ConceptualisationELO");
         //conceptualizationActivity.setAnchorELO(conceptualizationELO);
         */
-        getScenarioService().createScenario(scenario);
+        //getScenarioService().createScenario(scenario);
+        return scenario;
 
 
 
@@ -121,8 +134,17 @@ public class DummyDataGenerator implements InitializingBean {
         this.scenarioService = scenarioService;
     }
 
+    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
+        return pedagogicalPlanPersistenceService;
+    }
+
+    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
+        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        generateDummyScenario();
+
+        generatePedagogicalPlanTemplates();
     }
 }

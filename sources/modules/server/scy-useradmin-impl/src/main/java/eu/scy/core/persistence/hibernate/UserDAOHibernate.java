@@ -1,16 +1,14 @@
 package eu.scy.core.persistence.hibernate;
 
+import eu.scy.core.model.impl.SCYUserDetails;
 import eu.scy.core.persistence.UserDAO;
 import eu.scy.core.model.impl.RoleImpl;
 import eu.scy.core.model.impl.SCYUserImpl;
-import eu.scy.core.model.impl.UserGroupConnectionImpl;
 import eu.scy.core.model.*;
 
 
 import java.util.*;
 import java.util.logging.Logger;
-
-import org.springframework.beans.factory.annotation.Required;
 
 
 /**
@@ -39,6 +37,17 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         getSession().createQuery("delete from SCYUserImpl where id = :id")
                 .setLong("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public User createUser(String username, String password) {
+        SCYUserImpl newUser = new SCYUserImpl();
+        SCYUserDetails userDetails = new SCYUserDetails();
+        userDetails.setUsername(username);
+        userDetails.setPassword(password);
+        newUser.setUserDetails(userDetails);
+        save(newUser);
+        return newUser;
     }
 
 

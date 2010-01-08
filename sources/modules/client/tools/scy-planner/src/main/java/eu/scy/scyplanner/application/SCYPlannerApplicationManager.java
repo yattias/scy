@@ -1,27 +1,18 @@
 package eu.scy.scyplanner.application;
 
-import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.actionlogging.logger.ActionLogger;
-import eu.scy.core.model.pedagogicalplan.Activity;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpaceToolConfiguration;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.Scenario;
+import eu.scy.core.model.pedagogicalplan.*;
 import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanServiceMock;
-import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import org.jivesoftware.smack.XMPPConnection;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
 import javax.swing.border.Border;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +21,9 @@ import java.util.Set;
  * Time: 23:29:42
  */
 public class SCYPlannerApplicationManager {
+
+    private static Logger log = Logger.getLogger("SCYPlannerApplicationManager.class");
+
     private final static Color LINK_COLOR = Color.LIGHT_GRAY;
     private final static Color ALTERNATIVE_BACKGROUND_COLOR = Color.WHITE;
     private final static int DEFAULT_BORDER_SIZE = 7;
@@ -44,7 +38,7 @@ public class SCYPlannerApplicationManager {
 
     private SCYPlannerApplicationManager() {
 
-        pedagogicalPlanService = new PedagogicalPlanServiceMock();
+        //pedagogicalPlanService = new PedagogicalPlanServiceMock();
 
 
         /*HttpInvokerProxyFactoryBean bean = (HttpInvokerProxyFactoryBean) getToolBrokerAPI().getBean("httpInvokerPedagogicalPlanServiceProxy");
@@ -53,19 +47,31 @@ public class SCYPlannerApplicationManager {
         */
 
         //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
-        /*String username = JOptionPane.showInputDialog("Enter your freakin username");
+        String username = JOptionPane.showInputDialog("Enter your freakin username");
 
         HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
         fb.setServiceInterface(PedagogicalPlanService.class);
         //fb.setServiceUrl("http://" + url + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
-        fb.setServiceUrl("http://localhost:8080/webapp/remoting/pedagogicalPlan-httpinvoker");
+        fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/pedagogicalPlan-httpinvoker");
         fb.afterPropertiesSet();
         PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
+        List pedagogicalPlans = service.getPedagogicalPlanTemplates();
+        for (int i = 0; i < pedagogicalPlans.size(); i++) {
+            PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlans.get(i);
+            System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
+        }
 
 
 
-        service.getScenarios();
+        List scenarios = service.getScenarios();
+        System.out.println("SECARIO COUNT: " + scenarios.size());
+        for (int i = 0; i < scenarios.size(); i++) {
+            Scenario scenario = (Scenario) scenarios.get(i);
+            System.out.println("SCENARIO: " + scenario.getName());
+        }
+
         this.pedagogicalPlanService = service;
+        /*
         toolBrokerAPI = new ToolBrokerImpl(username, username);
         //XMPPConnection connection = toolBrokerAPI.getConnection("henrikh11", "henrikh11");
         //XMPPConnection connection = toolBrokerAPI.getConnection(username, username);

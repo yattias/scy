@@ -1,8 +1,8 @@
 package eu.scy.server.pedagogicalplan;
 
+import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
-import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.Tool;
 
@@ -21,6 +21,7 @@ public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
     private static Logger log = Logger.getLogger("PedagogicalPlanServiceImpl.class");
 
     private ScenarioService scenarioService = null;
+    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
     @Override
     public List<Tool> getTools() {
@@ -31,8 +32,8 @@ public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
         return getScenarioService().getScenarios();
     }
 
-    public List<PedagogicalPlan> getPedagogicalPlans() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates() {
+        return getPedagogicalPlanPersistenceService().getPedagogicalPlanTemplates();
     }
 
     public ScenarioService getScenarioService() {
@@ -41,5 +42,13 @@ public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
 
     public void setScenarioService(ScenarioService scenarioService) {
         this.scenarioService = scenarioService;
+    }
+
+    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
+        return pedagogicalPlanPersistenceService;
+    }
+
+    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
+        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
     }
 }

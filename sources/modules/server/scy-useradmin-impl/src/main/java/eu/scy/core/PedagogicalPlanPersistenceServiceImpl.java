@@ -1,7 +1,11 @@
 package eu.scy.core;
 
+import eu.scy.core.model.ScyBase;
+import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -23,5 +27,13 @@ public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPer
 
     public void setPedagogicalPlanPersistenceDAO(PedagogicalPlanPersistenceDAO pedagogicalPlanPersistenceDAO) {
         this.pedagogicalPlanPersistenceDAO = pedagogicalPlanPersistenceDAO;
+    }
+
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates() {
+        return pedagogicalPlanPersistenceDAO.getPedagogicalPlanTemplates();
+    }
+
+    public void save(ScyBase scyBaseObject) {
+        getPedagogicalPlanPersistenceDAO().save(scyBaseObject);
     }
 }

@@ -11,5 +11,9 @@
     <bean id="pedagogicalPlanPersistenceService" class="eu.scy.core.PedagogicalPlanPersistenceServiceImpl">
         <property name="pedagogicalPlanPersistenceDAO" ref="pedagogicalPlanPersistenceDAO"/>
     </bean>
+    
+    <bean id="userService" class="eu.scy.core.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
 
 </beans>
