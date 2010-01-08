@@ -7,6 +7,7 @@
 package eu.scy.client.desktop.scydesktop.tools;
 
 import java.net.URI;
+import java.lang.IllegalStateException;
 
 /**
  * @author sikken
@@ -54,6 +55,14 @@ public mixin class ScyToolFX extends ScyTool {
 
    public override function setMyEloChanged(myEloChanged:MyEloChanged):Void{
       this.myEloChanged = myEloChanged;
+   }
+
+   public override function canAcceptDrop(object:Object):Boolean{
+      return false;
+   }
+
+   public override function acceptDrop(object:Object):Void{
+      throw new IllegalStateException("cannot accept drop object");
    }
 
 }

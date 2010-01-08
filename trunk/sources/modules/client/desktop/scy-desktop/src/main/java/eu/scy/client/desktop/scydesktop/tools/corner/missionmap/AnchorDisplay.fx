@@ -22,6 +22,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
+import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sikkenj
@@ -50,6 +52,7 @@ public class AnchorDisplay extends CustomNode {
       setColors()
    };
    public var selectionAction: function(AnchorDisplay):Void;
+   public var dragAndDropManager: DragAndDropManager;
 
    var titleColor = defaultTitleColor;
    var contentColor = defaultContentColor;
@@ -62,6 +65,7 @@ public class AnchorDisplay extends CustomNode {
 		borderColor: bind anchor.color;
 		fillColor: bind contentColor;
 	}
+   var titleDisplay:Text;
 
 
    function checkIconCharacter(){
@@ -90,16 +94,17 @@ public class AnchorDisplay extends CustomNode {
       if (anchor.exists){
          cursor = Cursor.HAND;
       }
-      var titleDisplay = Text {
+      titleDisplay = Text {
          font: titleFont,
          x: 0,
          y: 0,
          fill: bind titleColor,
          content: bind displayTitle,
          translateX: 1;
+         translateY: 1;
       }
       titleDisplay.x = (size - titleDisplay.boundsInLocal.maxX - titleDisplay.boundsInLocal.minX) / 2 + 0;
-      titleDisplay.y = (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 1;
+      titleDisplay.y = (size - titleDisplay.boundsInLocal.maxY - titleDisplay.boundsInLocal.minY) / 2 + 0;
       return Group {
          layoutX: bind anchor.xPos;
          layoutY: bind anchor.yPos;
@@ -126,7 +131,37 @@ public class AnchorDisplay extends CustomNode {
    var originalAnchorXPos:Number;
    var originalAnchorYPos:Number;
    function mousePressed( e: MouseEvent ):Void{
+//      println("anchorDisplay.onMousePressed");
       if (not e.controlDown){
+         var dragNode = Group{
+            content:[
+               EloContour{
+                  width: size;
+                  height: size;
+                  controlLength: 5;
+                  borderWidth: 2;
+                  borderColor: anchor.color;
+                  fillColor: contentColor;
+               }
+               Text {
+                  font: titleFont,
+                  x: titleDisplay.x,
+                  y: titleDisplay.y,
+                  fill: titleColor,
+                  content: displayTitle,
+                  translateX: 1;
+                  translateY: 1;
+               }
+            ]
+         }
+
+//         var dragNode = Rectangle {
+//            x: -100, y: -100
+//            width: 200, height: 200
+//            fill: Color.color(.5, .5, .5, .5)
+//         }
+
+         dragAndDropManager.startDrag(dragNode, anchor.metadata,this,e);
          return;
       }
       dragging = true;
@@ -134,6 +169,7 @@ public class AnchorDisplay extends CustomNode {
       originalAnchorYPos = anchor.yPos;
    }
    function mouseDragged( e: MouseEvent ):Void{
+//      println("anchorDisplay.onMouseDragged");
       if (not dragging){
          return;
       }
@@ -142,6 +178,7 @@ public class AnchorDisplay extends CustomNode {
       anchor.yPos = originalAnchorYPos+mouseEventInScene.dragY;
    }
    function mouseReleased( e: MouseEvent ):Void{
+//      println("anchorDisplay.onMouseReleased");
       dragging = false;
    }
 

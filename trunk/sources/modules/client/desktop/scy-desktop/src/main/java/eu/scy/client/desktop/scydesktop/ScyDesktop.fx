@@ -96,6 +96,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
+import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
+import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author sikkenj
@@ -118,8 +121,13 @@ public class ScyDesktop extends CustomNode {
    public var bottomRightCornerTool: Node; // TODO, still hard coded to missionMap
    public var bottomLeftCornerTool: Node on replace{bottomLeftCorner.content = bottomLeftCornerTool};
 
-   var windows: WindowManager;
-   def tooltipManager = SimpleTooltipManager{};
+   def windows: WindowManager = WindowManagerImpl{
+         activeAnchor: bind missionModelFX.activeAnchor;
+      };
+   def tooltipManager:TooltipManager = SimpleTooltipManager{};
+   def dragAndDropManager:DragAndDropManager = SimpleDragAndDropManager{
+         windowManager:windows;
+      };
 
    var windowContentFactory: WindowContentFactory;
    var drawerContentFactory: DrawerContentFactory;
@@ -201,9 +209,6 @@ public class ScyDesktop extends CustomNode {
 //         }
 //      }
 
-      windows = WindowManagerImpl{
-         activeAnchor: bind missionModelFX.activeAnchor;
-      }
 
       newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
       windowContentFactory = WindowContentFactory{
@@ -219,6 +224,7 @@ public class ScyDesktop extends CustomNode {
       missionMap = MissionMap{
          missionModel: missionModelFX
          tooltipManager:tooltipManager
+         dragAndDropManager:dragAndDropManager
          scyDesktop:this
          metadataTypeManager:config.getMetadataTypeManager()
 //         translateX:40;

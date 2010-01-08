@@ -18,12 +18,13 @@ import java.net.URI;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import roolo.elo.api.IMetadataTypeManager;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 
-import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * @author sikken
@@ -35,6 +36,7 @@ public class MissionMap extends CustomNode {
    public var missionModel: MissionModelFX;
    public var scyWindowControl: ScyWindowControl;
    public var tooltipManager: TooltipManager;
+   public var dragAndDropManager: DragAndDropManager;
    public var scyDesktop: ScyDesktop;
    public var metadataTypeManager:IMetadataTypeManager;
 
@@ -77,6 +79,7 @@ public class MissionMap extends CustomNode {
          var anchorDisplay = AnchorDisplay{
             anchor: anchor,
             selectionAction: anchorSelected;
+            dragAndDropManager:dragAndDropManager
          }
          anchorMap.put(anchor,anchorDisplay);
          tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);

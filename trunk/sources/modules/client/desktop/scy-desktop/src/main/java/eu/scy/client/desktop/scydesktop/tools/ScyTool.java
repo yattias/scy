@@ -12,6 +12,7 @@ import java.net.URI;
  */
 public interface ScyTool
 {
+
    /**
     * initialise is called after the create() and the properties are injected.
     */
@@ -85,4 +86,14 @@ public interface ScyTool
     * @param myEloChanged
     */
    public void setMyEloChanged(MyEloChanged myEloChanged);
+
+   /**
+    * this method is called when an object is dragged above the window, return true if the object can be accepted
+    */
+   public boolean canAcceptDrop(Object object);
+
+   /**
+    * this method is called when an object is dropped on the window. This method will only be called after canAcceptDrop has returned true
+    */
+   public void acceptDrop(Object object);
 }

@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
@@ -45,7 +45,7 @@ import eu.scy.client.common.datasync.IDataSyncService;
  */
 
 // place your code here
-public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
+public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX {
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
@@ -152,6 +152,15 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyTool {
    }
 
    public override function setMyEloChanged(myEloChanged:MyEloChanged):Void{
+   }
+
+   public override function canAcceptDrop(object:Object):Boolean{
+      addMessage("canAcceptDrop of {object.getClass()}");
+      return true;
+   }
+
+   public override function acceptDrop(object:Object):Void{
+      addMessage("acceptDrop of {object.getClass()}");
    }
 
    function resizeContent(){

@@ -31,7 +31,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.lang.Void;
-import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 /**
  * @author sikkenj
@@ -252,6 +252,20 @@ public class StandardScyWindow extends ScyWindow {
          this.effect = inactiveWindowEffect;
       }
    }
+
+   public override function canAcceptDrop(object:Object):Boolean{
+      if (scyTool!=null){
+         return scyTool.canAcceptDrop(object);
+      }
+      return false;
+   }
+
+   public override function acceptDrop(object:Object):Void{
+      if (scyTool!=null){
+         scyTool.acceptDrop(object);
+      }
+   }
+
 
    override function addChangesListener(wcl:WindowChangesListener) {
        insert wcl into changesListeners;
