@@ -1,12 +1,14 @@
 package eu.scy.client.tools.chattool;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -46,27 +48,34 @@ public class ChatPresencePanel extends JPanel {
 	static ChatPresencePanel cmp;
 	JXTitledPanel chatAreaPanel;
 	protected DefaultListModel buddlyListModel;
-	protected ChatController chatController;
+	private ChatController chatController;
 	private DefaultListModel model = new DefaultListModel();
 
 	
 	public ChatPresencePanel(ChatController chatController) {
 		this.chatController = chatController;
+		logger.debug("ChatPresencePanel: starting ... ");
+		logger.debug("ChatPresencePanel: awareness: awarenessService.isConnected(): "+ chatController.getAwarenessService().isConnected());
 		initGUI();
 		updateModel();
 	}
 	
 	
 	protected void initGUI() {
-		this.add(createBuddyListPanel(), BorderLayout.WEST);
+		this.setLayout(new MigLayout("insets 0 0 0 0, wrap 1"));
+		this.setBackground(Color.white);
+		this.add(createBuddyListPanel(), "align center,grow");
 		initListeners();
 	}
 
 	
 	protected JPanel createBuddyListPanel() {
-		JPanel buddyPanel = new JPanel(new MigLayout("wrap 1"));
-
+		//JPanel buddyPanel = new JPanel(new MigLayout("insets 0 0 0 0,wrap 1"));
+		JPanel buddyPanel = new JPanel();
+		buddyPanel.setBackground(Color.white);
+		buddyPanel.setBorder(BorderFactory.createEmptyBorder());
 		buddyList = new JList(model);
+		buddyList.setBorder(BorderFactory.createEmptyBorder());
 		buddyList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		buddyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		buddyList.setVisibleRowCount(1);
@@ -74,6 +83,7 @@ public class ChatPresencePanel extends JPanel {
 		//updateModel();
 
 		JScrollPane buddyListScroll = new JScrollPane(buddyList);
+		buddyListScroll.setBorder(BorderFactory.createEmptyBorder());
 		//buddyListScroll.setPreferredSize(new Dimension(400, 100));
 
 		buddyPanel.add(buddyListScroll);
@@ -170,6 +180,16 @@ public class ChatPresencePanel extends JPanel {
 			iau = (IAwarenessUser) chatController.getBuddyListArray().elementAt(i);
 			model.addElement(iau);
 		}
+	}
+
+
+	public void setChatController(ChatController chatController) {
+		this.chatController = chatController;
+	}
+
+
+	public ChatController getChatController() {
+		return chatController;
 	}
 	
 }
