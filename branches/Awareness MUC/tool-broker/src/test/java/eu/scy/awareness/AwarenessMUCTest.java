@@ -7,6 +7,8 @@ import java.util.Random;
 
 import junit.framework.Assert;
 
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -30,6 +32,7 @@ public class AwarenessMUCTest {
 
 		tbi = new ToolBrokerImpl(user2, pass2);
 		aService = tbi.getAwarenessService();
+		//should be in the toolbroker
 		aService.setMUCConferenceExtension(conferenceExtension);
 		// generate chat room id
 		Random r = new Random();
@@ -37,6 +40,30 @@ public class AwarenessMUCTest {
 		//ELOUri = token;
 	}
 
+	
+	@Ignore
+	public void testSendMUCMessage() {
+		aService.joinMUCRoom(ELOUri);
+		
+		String messageToSend = "hei hei you, satan is your leader";
+		
+		try {
+			aService.sendMUCMessage(ELOUri, messageToSend);
+		} catch (AwarenessServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		MultiUserChat muc = aService.getMultiUserChat(ELOUri);
+		
+		Message messageSent = muc.nextMessage();
+	
+		
+		assertEquals(messageToSend, messageSent.getBody());
+	}
+	
+	
+	
 	@Ignore
 	public void testGetChatBuddies() {
 		aService.joinMUCRoom(ELOUri);
@@ -72,8 +99,8 @@ public class AwarenessMUCTest {
 	@Ignore
 	public void testADDBuddytoChat() {
 		IAwarenessUser awarenessUser = new AwarenessUser();
-		awarenessUser.setUsername(user2 + tail);
-		awarenessUser.setName(user2);
+		awarenessUser.setJid(user2 + tail);
+		awarenessUser.setNickName(user2);
 
 		// have user1 join the chat
 		aService.joinMUCRoom(ELOUri);
@@ -87,9 +114,9 @@ public class AwarenessMUCTest {
 		boolean foundOne = false;
 		boolean foundTwo = false;
 		for (IAwarenessUser iAwarenessUser : chatBuddies) {
-			if (iAwarenessUser.getName().equals(user1))
+			if (iAwarenessUser.getNickName().equals(user1))
 				foundOne = true;
-			if (iAwarenessUser.getName().equals(user2))
+			if (iAwarenessUser.getNickName().equals(user2))
 				foundTwo = true;
 		}
 

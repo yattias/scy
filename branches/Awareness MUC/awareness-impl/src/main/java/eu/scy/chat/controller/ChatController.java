@@ -1,18 +1,24 @@
 package eu.scy.chat.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.util.StringUtils;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessMessageListener;
 
 public class ChatController {
 
@@ -20,28 +26,34 @@ public class ChatController {
 			.getName());
 	private DefaultListModel buddyList = new DefaultListModel();
 	private IAwarenessService awarenessService;
+	private String ELOUri;
+	private boolean isTempMUCRoom;
 
-	public ChatController() {
-		populateBuddyList();
-	}
-
-	public ChatController(IAwarenessService awarenessService) {
+	public ChatController(IAwarenessService awarenessService, String ELOUri) {
+		logger.debug("ChatController: starting ... ");
+		logger.debug("ChatController: populateBuddyList: awarenessService.isConnected(): "+ awarenessService.isConnected());
+		this.ELOUri = ELOUri;
 		this.awarenessService = awarenessService;
-		// just working with the collaboration service right now
-		logger.debug("ChatController: Awarness starting ... ");
 	}
+	
+	public String getCurrentUser() {
+		String user = getAwarenessService().getConnection().getUser();
+		if( user != null)
+			return StringUtils.parseName(user);
+		
+		return "NO ONE";
+	}
+	
 
 	public AbstractListModel populateBuddyList() {
 		// get this from the awareness service
-		logger.debug("ChatController: populateBuddyList: ####################### begin ###########################");
-		logger.debug("ChatController: populateBuddyList: awarenessService: "+ awarenessService);
-		logger.debug("ChatController: populateBuddyList: awarenessService.isConnected(): "+ awarenessService.isConnected());
+		
 		buddyList = new DefaultListModel();
 		
 		List<IAwarenessUser> buddies = null;
-		if (awarenessService != null && awarenessService.isConnected()) {
+		if (getAwarenessService() != null && getAwarenessService().isConnected()) {
 			try {
-				buddies = awarenessService.getBuddies();
+				buddies = getAwarenessService().getBuddies();
 			} catch (AwarenessServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,11 +64,11 @@ public class ChatController {
 						.debug("ChatController: populateBuddyList: num of buddies: "
 								+ buddies.size());
 				for (IAwarenessUser b : buddies) {
-					b.setUsername(correctName(b.getUsername()));
+					b.setNickName(b.getNickName());
 					buddyList.addElement(b);
 					logger
 							.debug("ChatController: populateBuddyList: buddy name: "
-									+ b.getUsername());
+									+ b.getNickName());
 				}
 			}
 		} else {
@@ -67,10 +79,7 @@ public class ChatController {
 		return buddyList;
 	}
 
-	private String correctName(String username) {
-		StringTokenizer st = new StringTokenizer(username, "/");
-		return st.nextToken();
-	}
+	
 
 	public AbstractListModel getBuddyList() {
 		return buddyList;
@@ -88,6 +97,19 @@ public class ChatController {
 			return vec;
 		}
 	}
+	
+	public void sendMUCMessage(final String ELOUri, final String message){
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					awarenessService.sendMUCMessage(ELOUri, message);
+				} catch (AwarenessServiceException e) {
+					logger.error("ChatController: sendMessageMUC: AwarenessServiceException for ELOUri:" + ELOUri + " " + e);
+				}
+			}
+		});
+		
+	}
 
 	public void sendMessage(Object recipient, final String message) {
 		// send a message to the awareness server
@@ -97,7 +119,7 @@ public class ChatController {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						awarenessService.sendMessage(user.getUsername(),
+						awarenessService.sendMessage(user.getJid(),
 								message);
 					} catch (AwarenessServiceException e) {
 						logger.error("ChatController: sendMessage: AwarenessServiceException: "+e);
@@ -105,10 +127,6 @@ public class ChatController {
 				}
 			});
 		}
-	}
-
-	public void receiveMessage() {
-
 	}
 
 	public void addBuddy(final String buddy) {
@@ -125,5 +143,59 @@ public class ChatController {
 				buddyList.removeElement(buddy);
 			}
 		});
+	}
+
+	public void registerChatArea(final JTextArea chatArea) {
+		
+		awarenessService.addAwarenessMessageListener(new IAwarenessMessageListener() {
+			@Override
+			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
+			
+				System.out.println("calling message event");
+				
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							
+							String oldText = chatArea.getText();
+							List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
+							
+							if(awarenessEvent.getMessage() != null) {
+								chatArea.setText(oldText + awarenessEvent.getUser().getNickName() + ": " + awarenessEvent.getMessage() + "\n");	
+								logger.debug("message sent from: " + awarenessEvent.getUser().getNickName() + " message: " + awarenessEvent.getMessage());
+							}	
+							
+							users.add(awarenessEvent.getUser());
+							awarenessService.updatePresenceTool(users);
+						}
+					});
+			
+			}
+		});
+		
+		
+	
+		
+	}
+	
+	public void connectToRoom() {
+		logger.debug("ChatController: Joining room with ELOUri: "+ getELOUri());
+		this.getAwarenessService().setMUCConferenceExtension("conference.scy.intermedia.uio.no");
+		this.getAwarenessService().joinMUCRoom(this.ELOUri);
+	}
+
+	public void setAwarenessService(IAwarenessService awarenessService) {
+		this.awarenessService = awarenessService;
+	}
+
+	public IAwarenessService getAwarenessService() {
+		return awarenessService;
+	}
+
+	public void setELOUri(String eLOUri) {
+		ELOUri = eLOUri;
+	}
+
+	public String getELOUri() {
+		return ELOUri;
 	}
 }
