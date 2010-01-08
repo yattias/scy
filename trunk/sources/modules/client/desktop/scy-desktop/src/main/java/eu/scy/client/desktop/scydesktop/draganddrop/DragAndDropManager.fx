@@ -9,10 +9,22 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
 /**
+ * This is the interface describing the drag and drop manager.
+ *
  * @author sikken
  */
 
 public mixin class DragAndDropManager {
 
+   /**
+   * starts a drag and drop action.
+   *
+   * It is assumed that the drag and drop action is initiated from a onMousePressed handler. You create a new JavaFX node, which will be dragged around.
+   *
+   * @param node - the JavaFX node which will be dragged around
+   * @param object - the object to be dropped some where
+   * @param source - the JavaFX source node where the drag starts
+   * @param e - the mouseEvent which initiated the drag and drop action
+   */
    public abstract function startDrag(node:Node, object:Object, source:Node, e:MouseEvent):Void;
 }

@@ -154,13 +154,6 @@ public class AnchorDisplay extends CustomNode {
                }
             ]
          }
-
-//         var dragNode = Rectangle {
-//            x: -100, y: -100
-//            width: 200, height: 200
-//            fill: Color.color(.5, .5, .5, .5)
-//         }
-
          dragAndDropManager.startDrag(dragNode, anchor.metadata,this,e);
          return;
       }
