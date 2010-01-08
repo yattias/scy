@@ -8,14 +8,14 @@ package eu.scy.client.tools.fxchattool.registration;
 
 
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
-
-import eu.scy.client.tools.chattool.ChatPresencePanelMain;
+import eu.scy.client.tools.chattool.ChatPresencePanel;
 import eu.scy.awareness.IAwarenessService;
+import eu.scy.chat.controller.ChatController;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 
 /**
  * @author jeremyt
@@ -28,11 +28,12 @@ public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreator
 
     public var node:Node;
     public var awarenessService:IAwarenessService;
-   //public var metadataTypeManager: IMetadataTypeManager;
-   // public var repository:IRepository;
-
+    public var chatController:ChatController;
+   
     function createChatPresenceToolNode(scyWindow:ScyWindow):ChatPresenceToolNode{
-        var chatPresenceTool = new ChatPresencePanelMain(awarenessService);
+
+        //needs to be the same awareness service as the one initized with chatpanelmain
+        var chatPresenceTool = new ChatPresencePanel(chatController);
 
         return ChatPresenceToolNode{
             chatPresenceTool:chatPresenceTool;

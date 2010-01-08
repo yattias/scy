@@ -14,7 +14,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
 
-import eu.scy.client.tools.chattool.ChatPresencePanelMain;
+import eu.scy.client.tools.chattool.ChatPresencePanel;
+import javafx.scene.paint.Color;
 /**
  * @author jeremyt
  */
@@ -24,7 +25,7 @@ public class ChatPresenceToolNode extends CustomNode {
 
 
     public var wrappedSPTPanel:SwingComponent;
-    public var chatPresenceTool:ChatPresencePanelMain;
+    public var chatPresenceTool:ChatPresencePanel;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
@@ -53,7 +54,10 @@ public class ChatPresenceToolNode extends CustomNode {
      //initTBI();
     // wrappedSPTPanel = studentPlanningTool.createStudentPlanningPanel();
         wrappedSPTPanel = SwingComponent.wrap(chatPresenceTool);
+        wrappedSPTPanel.foreground = Color.WHITE;
+
      return Group {
+         
          blocksMouse:false;
          content:
             wrappedSPTPanel;
