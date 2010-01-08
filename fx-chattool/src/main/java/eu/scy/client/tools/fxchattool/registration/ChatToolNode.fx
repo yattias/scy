@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 import javafx.ext.swing.SwingComponent;
 
-import eu.scy.client.tools.chattool.ChatPanelMain;
+import eu.scy.client.tools.chattool.ChatPanel;
 /**
  * @author jeremyt
  */
@@ -24,7 +24,7 @@ public class ChatToolNode extends CustomNode {
 
 
     public var wrappedSPTPanel:SwingComponent;
-    public var chatTool:ChatPanelMain;
+    public var chatTool:ChatPanel;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
