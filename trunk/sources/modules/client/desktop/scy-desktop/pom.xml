@@ -93,16 +93,19 @@
             <targetPath></targetPath>
             <directory>src/main/resources</directory>
          </resource>
+         <!--
          <resource>
             <targetPath>config</targetPath>
             <directory>src/main/java/config</directory>
          </resource>
+         -->
          <resource>
             <targetPath></targetPath>
             <directory>src/main/java</directory>
             <includes>
                <include>**/*.jpg</include>
                <include>**/*.png</include>
+               <include>config/*.*</include>
             </includes>
          </resource>
       </resources>
