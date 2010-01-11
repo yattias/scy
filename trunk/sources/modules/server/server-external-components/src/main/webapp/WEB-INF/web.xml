@@ -14,7 +14,12 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/applicationcontext-externalcomponents.xml,
-            /WEB-INF/agents.xml
+            /WEB-INF/agents.xml,
+            classpath:eu/scy/server/pedagogicalplan/applicationContext-pedagogicalPlanService.xml,
+            classpath:eu/scy/core/applicationContext-service.xml,
+            classpath:eu/scy/core/persistence/hibernate/applicationContext-dao.xml,
+            /WEB-INF/applicationContext-hibernate.xml,
+            /WEB-INF/dataGenerator.xml,
             /WEB-INF/localRooloConfig.xml
         </param-value>
     </context-param>
@@ -55,6 +60,14 @@
 		<url-pattern>*.jnlp</url-pattern>
 	</servlet-mapping>
 
+    <!--servlet>
+        <servlet-name>remoting</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet-->
+
     <servlet>
         <servlet-name>remoting</servlet-name>
         <servlet-class>
@@ -62,13 +75,6 @@
         </servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <!-- Servlet Mappings -->
-    <!-- servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>webapp/*</url-pattern>
-    </servlet-mapping-->
-
 
    <!--
       - Dispatcher servlet mapping for HTTP remoting via Hessian, Burlap, and

@@ -4,8 +4,9 @@ import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class DummyDataGenerator implements InitializingBean {
 
+    private static Logger log = Logger.getLogger("DummyDataGenerator.class");
+
     private ScenarioService scenarioService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
 
@@ -24,7 +27,13 @@ public class DummyDataGenerator implements InitializingBean {
         template.setName("Mission 1");
         template.setDescription("A pedagogical plan for people with white teeth");
         template.setScenario(generateScenario());
-        getPedagogicalPlanPersistenceService().save(template);
+        if(getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) != null)  {
+            log.info("Did not find a default plan - creating one...");
+            getPedagogicalPlanPersistenceService().save(template);
+        } else {
+            log.info("The default plan is already added - will not create any more!");
+        }
+
 
 
     }

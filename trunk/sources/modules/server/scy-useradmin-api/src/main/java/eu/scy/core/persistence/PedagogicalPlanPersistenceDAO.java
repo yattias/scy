@@ -16,4 +16,6 @@ public interface PedagogicalPlanPersistenceDAO extends SCYBaseDAO {
     public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
 
     PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template);
+
+    PedagogicalPlan getPedagogicalPlanByName(String name);
 }
