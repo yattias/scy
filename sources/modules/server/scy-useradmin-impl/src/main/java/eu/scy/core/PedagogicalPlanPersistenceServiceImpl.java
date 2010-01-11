@@ -1,7 +1,7 @@
 package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
-import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 import eu.scy.core.persistence.PedagogicalPlanPersistenceDAO;
 
@@ -35,5 +35,9 @@ public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPer
 
     public void save(ScyBase scyBaseObject) {
         getPedagogicalPlanPersistenceDAO().save(scyBaseObject);
+    }
+
+    public PedagogicalPlan getPedagogicalPlanByName(String name) {
+        return getPedagogicalPlanPersistenceDAO().getPedagogicalPlanByName(name);
     }
 }

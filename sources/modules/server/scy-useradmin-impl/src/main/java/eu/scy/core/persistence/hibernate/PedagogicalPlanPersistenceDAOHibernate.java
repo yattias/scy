@@ -20,11 +20,17 @@ public class PedagogicalPlanPersistenceDAOHibernate extends ScyBaseDAOHibernate 
                 .list();
     }
 
-    @Override
     public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
         PedagogicalPlan plan = new PedagogicalPlanImpl();
         template.addPedagogicalPlan(plan);
         save(plan);
         return plan;
+    }
+
+    public PedagogicalPlan getPedagogicalPlanByName(String name) {
+        return (PedagogicalPlan) getSession().createQuery("select pedagogicalPlanTemplate from PedagogicalPlanImpl as pedagogicalPlanTemplate where name like :name")
+                .setString("name", name)
+                .setMaxResults(1)
+                .uniqueResult();
     }
 }

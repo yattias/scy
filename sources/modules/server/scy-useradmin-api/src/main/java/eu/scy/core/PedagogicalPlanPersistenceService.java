@@ -2,6 +2,7 @@ package eu.scy.core;
 
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.impl.ScyBaseObject;
+import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlanTemplate;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface PedagogicalPlanPersistenceService {
 
     public void save(ScyBase scyBaseObject);
 
+    PedagogicalPlan getPedagogicalPlanByName(String name);
 }

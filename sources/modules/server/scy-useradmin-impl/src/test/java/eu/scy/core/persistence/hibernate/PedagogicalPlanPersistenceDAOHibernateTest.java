@@ -90,6 +90,19 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
     }
 
     @Test
+    public void testGetPedagogicalPlanByName() {
+        final String NAME = "PlanName";
+        PedagogicalPlanTemplateImpl template = createPedagogicalPlanTemplate(NAME);
+        assertNull(template.getId());
+
+        PedagogicalPlanImpl plan1 = (PedagogicalPlanImpl) createPedagogicalPlan(template);
+        PedagogicalPlan loadedPlan = (PedagogicalPlan) pedagogicalPlanPersistenceDAO.getPedagogicalPlanByName(NAME);
+        assertNotNull(loadedPlan);
+
+
+    }
+
+    @Test
     public void testInheritedValuesFromTemplate() {
 
         String plan1Name = "A freakin overridden name!";
