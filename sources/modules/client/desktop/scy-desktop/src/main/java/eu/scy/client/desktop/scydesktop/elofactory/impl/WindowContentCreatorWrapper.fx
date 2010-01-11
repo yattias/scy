@@ -4,7 +4,7 @@
  * Created on 3-jul-2009, 14:49:59
  */
 
-package eu.scy.client.desktop.scydesktop.elofactory;
+package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
@@ -15,6 +15,10 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 
 import eu.scy.client.desktop.scydesktop.config.Config;
+import eu.scy.client.desktop.scydesktop.elofactory.ServicesInjector;
+import eu.scy.client.desktop.scydesktop.elofactory.SwingContentWrapper;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreator;
+import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 
 /**
  * @author sikkenj
@@ -25,13 +29,15 @@ public class WindowContentCreatorWrapper extends WindowContentCreatorFX {
 
    public var config:Config on replace {injectServices()};
 
-   public var windowContentCreator: WindowContentCreator;
+   public var windowContentCreator: WindowContentCreator on replace {injectServices()};
 
    function injectServices(){
-      var servicesInjector = ServicesInjector{
-         config:config;
+      if (config!=null and windowContentCreator!=null){
+         var servicesInjector = ServicesInjector{
+            config:config;
+         }
+         servicesInjector.injectServices(windowContentCreator);
       }
-      servicesInjector.injectServices(windowContentCreator);
    }
 
 

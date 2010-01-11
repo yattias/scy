@@ -40,6 +40,13 @@ public interface ScyTool
    public void loadElo(URI eloUri);
 
    /**
+    * this method is called to report to the tool that the elo loaded in the window content tool has changed. This will happen after an elo has been loaded, saved or save as.
+    *
+    * Either this method is called or newElo
+    */
+   public void loadedEloChanged(URI eloUri);
+
+   /**
     * this method is called after the ScyWindow has got the focus
     */
    public void onGotFocus();
@@ -60,13 +67,6 @@ public interface ScyTool
    public void onUnMinimized();
 
    /**
-    * this method is called after the ScyWindow is closed.
-    *
-    * This is still under investigation.
-    */
-   public void onClosed();
-
-   /**
     * this method is called before the ScyWindow is closed. It gives the tool the option to save its content. The tool can block the close action, by returning false.
     *
     * This is still under investigation.
@@ -74,6 +74,13 @@ public interface ScyTool
     * @return true if the close can continue or false if the close should be aborted
     */
    public boolean aboutToClose();
+
+   /**
+    * this method is called after the ScyWindow is closed.
+    *
+    * This is still under investigation.
+    */
+   public void onClosed();
 
    /**
     * supplies the tool with eloSaver object, which can be used to save/update elos.
