@@ -11,8 +11,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,7 +18,6 @@ import org.junit.Test;
 
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
@@ -69,19 +66,6 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 	}
 
 	@Test
-	public void testMerge() {
-		List<String> mergedKeywords = ExtractKeywords.mergeKeywords(Arrays.asList(new String[] { "test1", "test2",
-				"test3" }), Arrays.asList(new String[] { "test4", "test5", "test6" }));
-		assertEquals(6, mergedKeywords.size());
-		assertEquals("test1", mergedKeywords.get(0));
-		assertEquals("test2", mergedKeywords.get(1));
-		assertEquals("test3", mergedKeywords.get(2));
-		assertEquals("test4", mergedKeywords.get(3));
-		assertEquals("test5", mergedKeywords.get(4));
-		assertEquals("test6", mergedKeywords.get(5));
-	}
-
-	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
 		getTupleSpace().write(
@@ -89,7 +73,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 
 		Tuple response = getTupleSpace().waitToRead(
 				new Tuple("notification", String.class, "obama", "scymapper", "Sender", "Mission", "Session", Field
-						.createWildCardField()), AgentProtocol.ALIVE_INTERVAL * 10);
+						.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no response received", response);
 		int payloadfieldStart = 7;
 		for (int i = payloadfieldStart; i < response.getNumberOfFields(); i++) {
