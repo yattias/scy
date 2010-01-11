@@ -93,9 +93,12 @@ CREATE TABLE `pedagogicalplan` (
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
     `pedagogicalPlanTemplate_primKey` varchar(55) default NULL,
+    `scenario_primKey` varchar(55) default NULL,
 	PRIMARY KEY  (`primKey`),
     KEY `pedPlanToTemplate` (`pedagogicalPlanTemplate_primKey`),
-    CONSTRAINT `pedagogicalPlanRefTemplate` FOREIGN KEY (`pedagogicalPlanTemplate_primKey`) REFERENCES `pedagogicalPlan` (`primKey`)
+    KEY `pedPlanToScenario` (`scenario_primKey`),
+    CONSTRAINT `pedagogicalPlanRefTemplate` FOREIGN KEY (`pedagogicalPlanTemplate_primKey`) REFERENCES `pedagogicalPlan` (`primKey`),
+    CONSTRAINT `pedagogicalPlanRefScenario` FOREIGN KEY (`scenario_primKey`) REFERENCES `scenario` (`primKey`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
