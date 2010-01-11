@@ -15,6 +15,7 @@ import eu.scy.tools.copex.edp.TaskSelected;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * undo redo : suppression de taches
@@ -54,9 +55,9 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
             }else {
                 taskParent  = ts.getSelectedTask();
             }
-            //System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
-            //System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
-           
+//            System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
+//            System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
+//           System.out.println(" => taskBrother : "+(taskBrother == null ? "taskBrother null" : taskBrother.getDescription(edP.getLocale())));
             CopexReturn cr = this.controller.addTask(task.getSelectedTask(), tree.getProc(), taskBrother ,taskParent, v, MyConstants.UNDO, false);
             if (cr.isError()){
                 edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));

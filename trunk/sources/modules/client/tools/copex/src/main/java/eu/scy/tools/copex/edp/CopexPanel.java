@@ -50,7 +50,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -66,7 +65,7 @@ public class CopexPanel extends JPanel {
     public final static int PANEL_HEIGHT = 350;
 
     /* version */
-    private String version = "2.0";
+    private String version = "2.1";
     protected ControllerInterface controller;
     public final static Color backgroundColor = SystemColor.control;
     /* locale */

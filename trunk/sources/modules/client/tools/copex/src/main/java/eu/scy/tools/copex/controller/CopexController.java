@@ -774,6 +774,7 @@ public class CopexController implements ControllerInterface {
         // mise a jour des donnees 
         task.setDbKey(newDbKey);
         if (taskBrother == null){
+            long oldFC = listProc.get(idP).getListTask().get(idB).getDbKeyChild();
             taskParent.setDbKeyChild(newDbKey);
             // mise a jour dans la liste
             //proc.getListTask().get(idB).setDbKeyChild(newDbKey);
@@ -781,6 +782,9 @@ public class CopexController implements ControllerInterface {
             if (listProc.get(idP).getListTask().get(idB).getDbKey() == listProc.get(idP).getQuestion().getDbKey()){
                 listProc.get(idP).getQuestion().setDbKeyChild(newDbKey);
                 proc.getQuestion().setDbKeyChild(newDbKey);
+            }
+            if(oldFC != -1){
+                task.setDbKeyBrother(oldFC);
             }
         }else{
             long dbKeyOldBrother = listProc.get(idP).getListTask().get(idB).getDbKeyBrother();
@@ -1564,23 +1568,23 @@ public class CopexController implements ControllerInterface {
     }
 
     private void printRecap(LearnerProcedure proc){
-        List<CopexTask> listTask = proc.getListTask();
-        int n = listTask.size();
-        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
-        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
-        for (int k=0; k<n; k++){
-            CopexTask task = listTask.get(k);
-            String frere = " sans frere ";
-            String enfant = " sans enfant ";
-            if (task.getDbKeyBrother() != -1)
-                frere = " "+task.getDbKeyBrother()+" ";
-            if (task.getDbKeyChild() != -1)
-                enfant = " "+task.getDbKeyChild()+" ";
-            String visible = task.isVisible() ? "visible" :"cachee";
-            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
-           
-        }
-        System.out.println("********************************************************");
+//        List<CopexTask> listTask = proc.getListTask();
+//        int n = listTask.size();
+//        System.out.println("************RECAP DES "+n+" TACHES DU PROC "+proc.getName(getLocale())+" *****************");
+//        System.out.println("question : "+proc.getQuestion().getDescription(getLocale())+" ("+proc.getQuestion().getDbKey()+") : "+proc.getQuestion().getDbKeyChild());
+//        for (int k=0; k<n; k++){
+//            CopexTask task = listTask.get(k);
+//            String frere = " sans frere ";
+//            String enfant = " sans enfant ";
+//            if (task.getDbKeyBrother() != -1)
+//                frere = " "+task.getDbKeyBrother()+" ";
+//            if (task.getDbKeyChild() != -1)
+//                enfant = " "+task.getDbKeyChild()+" ";
+//            String visible = task.isVisible() ? "visible" :"cachee";
+//            System.out.println("  - Tache "+task.getDescription(getLocale())+" ("+task.getDbKey()+") : "+frere+" / "+enfant+ " ("+visible+")");
+//
+//        }
+//        System.out.println("********************************************************");
         
     }
     
@@ -1899,6 +1903,7 @@ public class CopexController implements ControllerInterface {
             }
             updateDatasheetProd(proc);
             proc.lockMaterialUsed();
+            dbKeyProblem();
             copex.createProc((LearnerProcedure)proc.clone());
             if(setTrace())
                 copex.logLoadELO(proc);

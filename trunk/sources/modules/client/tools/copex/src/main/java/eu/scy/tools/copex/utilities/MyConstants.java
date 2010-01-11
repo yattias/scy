@@ -90,6 +90,7 @@ public class MyConstants {
     public final static char INSERT_TASK_UNDEF = 'U';
     public final static char INSERT_TASK_IN = 'I';
     public final static char INSERT_TASK_AFTER = 'A';
+    public final static char INSERT_TASK_FIX = 'F';
 
     /* log cst */
     public final static String LOG_TYPE_START_TOOL = "start_tool";

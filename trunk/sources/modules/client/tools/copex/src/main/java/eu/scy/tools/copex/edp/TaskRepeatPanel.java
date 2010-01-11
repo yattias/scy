@@ -62,7 +62,7 @@ import javax.swing.event.ChangeListener;
  */
 public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexButton, ActionSelectParamTaskRepeat {
 
-    private final static int HEIGHT_PANEL_PARAM = 30;
+    private final static int HEIGHT_PANEL_PARAM = 35;
     /* edp*/
     private EdPPanel edP;
     /*liste des parametres */
@@ -148,7 +148,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             labelTaskRepeat.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelTaskRepeat.setName("labelTaskRepeat");
             int w = CopexUtilities.lenghtOfString(this.labelTaskRepeat.getText(), getFontMetrics(this.labelTaskRepeat.getFont()));
-            labelTaskRepeat.setBounds(0, 0,w, 14 );
+            labelTaskRepeat.setBounds(0, 5,w, 14 );
         }
         return this.labelTaskRepeat;
     }
@@ -157,7 +157,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             spinnerNbRepeat = new JSpinner();
             spinnerNbRepeat.setModel(new SpinnerNumberModel(nbRepeat,1,null,1));
             spinnerNbRepeat.setName("spinnerNbRepeat");
-            spinnerNbRepeat.setBounds(labelTaskRepeat.getX()+labelTaskRepeat.getWidth()+10, 0, 40, 20);
+            spinnerNbRepeat.setBounds(labelTaskRepeat.getX()+labelTaskRepeat.getWidth()+10, 0, 40, 25);
             spinnerNbRepeat.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent evt) {
@@ -174,7 +174,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             labelTaskRepeat2.setFont(new java.awt.Font("Tahoma", 1, 11));
             labelTaskRepeat2.setName("labelTaskRepeat2");
             int w = CopexUtilities.lenghtOfString(this.labelTaskRepeat2.getText(), getFontMetrics(this.labelTaskRepeat2.getFont()));
-            labelTaskRepeat2.setBounds(this.spinnerNbRepeat.getX()+spinnerNbRepeat.getWidth()+10, 0,w, 14 );
+            labelTaskRepeat2.setBounds(this.spinnerNbRepeat.getX()+spinnerNbRepeat.getWidth()+10, 5,w, 14 );
         }
         return this.labelTaskRepeat2;
     }
@@ -515,7 +515,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     private void resizePanel(){
         int width = getWidth();
         int nb = this.listPanels.size();
-        int height = 20;
+        int height = 25;
         if(panelParam != null && buttonAddParam !=null){
             int h1 = nb*HEIGHT_PANEL_PARAM;
             int h = scrollPaneParam.getHeight()+buttonAddParam.getHeight()+20+labelModifyParam.getHeight()+10;
