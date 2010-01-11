@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * Time: 05:51:54
  * To change this template use File | Settings | File Templates.
  */
-public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
+public class PedagogicalPlanServiceImpl extends AbstractPedagogicalPlanService implements PedagogicalPlanService {
 
     private static Logger log = Logger.getLogger("PedagogicalPlanServiceImpl.class");
 
@@ -25,7 +25,7 @@ public class PedagogicalPlanServiceImpl implements PedagogicalPlanService {
 
     @Override
     public List<Tool> getTools() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public List<Scenario> getScenarios() {

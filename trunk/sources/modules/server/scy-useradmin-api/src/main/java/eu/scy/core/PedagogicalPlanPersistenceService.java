@@ -16,9 +16,17 @@ import java.util.List;
  */
 public interface PedagogicalPlanPersistenceService {
 
-    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates(); 
+    public List<PedagogicalPlanTemplate> getPedagogicalPlanTemplates();
+
+    public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template);
 
     public void save(ScyBase scyBaseObject);
 
-    PedagogicalPlan getPedagogicalPlanByName(String name);
+    /**
+     * retrieves a pedagogical plan based on its name
+     * @param name
+     * @return
+     */
+
+    public PedagogicalPlan getPedagogicalPlanByName(String name);
 }

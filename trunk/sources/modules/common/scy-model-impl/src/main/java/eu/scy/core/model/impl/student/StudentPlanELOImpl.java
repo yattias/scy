@@ -6,14 +6,7 @@ package eu.scy.core.model.impl.student;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.SCYUserImpl;
@@ -45,19 +38,22 @@ public class StudentPlanELOImpl implements StudentPlanELO {
 		studentPlannedActivities.add(activity);
 	}
 
-    @OneToOne(targetEntity = PedagogicalPlan.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="pedagogicalPlan_primKey")
+    //OneToOne(targetEntity = PedagogicalPlan.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //JoinColumn(name="pedagogicalPlan_primKey")
+    @Transient
 	public PedagogicalPlan getPedagogicalPlan() {
 		return pedagogicalPlan;
 	}
 
-    @OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentplannedactivity", fetch = FetchType.LAZY)
+    //OneToMany(targetEntity = StudentPlannedActivityImpl.class, mappedBy = "studentplannedactivity", fetch = FetchType.LAZY)
+    @Transient
 	public List<StudentPlannedActivity> getStudentPlannedActivities() {
 		return studentPlannedActivities;
 	}
 
-	@ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_primKey")
+	//ManyToOne(targetEntity = SCYUserImpl.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	//JoinColumn(name = "user_primKey")
+    @Transient
 	public User getUser() {
 		return user;
 	}

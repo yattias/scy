@@ -5,6 +5,7 @@
     <bean id="dummyDataGenerator" class="eu.scy.server.utils.DummyDataGenerator">
         <property name="scenarioService" ref="scenarioService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="serverDataInitializer" class="eu.scy.server.utils.ServerDataInitializer">

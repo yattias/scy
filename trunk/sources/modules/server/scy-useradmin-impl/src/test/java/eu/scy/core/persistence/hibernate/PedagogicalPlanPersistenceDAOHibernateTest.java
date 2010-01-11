@@ -190,7 +190,7 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
 
     private PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
         PedagogicalPlan plan = getPedagogicalPlanPersistenceDAO().createPedagogicalPlan(template);
-        template.addPedagogicalPlan(plan);
+        //template.addPedagogicalPlan(plan);
         return plan;
     }
 

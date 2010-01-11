@@ -37,10 +37,28 @@ public class ServerDataInitializer implements InitializingBean {
         return getUserService().createUser(username, password);
     }
 
+    private void generateDummyUsers() {
+        addUserIfNotExists("Henrik", "von Schlanbusch", "hillary", "clinton");
+        addUserIfNotExists("Adam", "Gizzy", "adie", "aaad");
+    }
+
+    private void addUserIfNotExists(String firstName, String lastName, String userName, String password) {
+        log.info("ADding user if not exists: " + firstName + " " + lastName + " " + userName + " shhhhh " + password);
+        if (getUserService().getUser(userName) == null) {
+            getUserService().createUser(userName, password);
+        }
+    }
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        checkForDataSyncServiceUser();
+        //checkForDataSyncServiceUser();
+        createDefaultUsers();
 
+    }
+
+    private void createDefaultUsers() {
+        generateDummyUsers();       
 
     }
 
