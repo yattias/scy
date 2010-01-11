@@ -53,6 +53,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DropMode;
 import javax.swing.ImageIcon;
@@ -834,9 +835,14 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     private boolean taskSelected(){
-        CopexNode node = getSelectedNode();
-        if(!(node instanceof TaskTreeNode))
+        ArrayList<CopexNode> listNode = getSelectedNodes();
+        if(listNode == null)
             return false;
+        for(Iterator<CopexNode> n = listNode.iterator();n.hasNext();){
+            if(!(n.next() instanceof TaskTreeNode)){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -980,7 +986,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
           int nbC = selNode.getChildCount();
           for (int c=0; c<nbC; c++){
               if (!isSelectedNode((CopexNode)selNode.getChildAt(c)))
-                listTreeNode.add((TaskTreeNode)selNode.getChildAt(c));
+                listTreeNode.add((CopexNode)selNode.getChildAt(c));
           }
       }
 
@@ -1137,6 +1143,10 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     }
 
     /* retourne la ts */
+    public TaskSelected getTaskSelected(CopexTask selTask, char insertIn){
+        return getTaskSelected(getNode(selTask, (CopexNode)copexTreeModel.getRoot()), insertIn);
+    }
+    /* retourne la ts */
     private TaskSelected getTaskSelected(CopexNode selNode, char insertIn){
         if (selNode == null)
             return null;
@@ -1163,6 +1173,26 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             brotherNode =  getLastChild(selNode);
             // si etape ouverte ou vide => place en fin d'etape
             // si etape fermee => apres etape (frere)
+
+            // si fixee => on garde les parametres actuels
+            if(insertIn == MyConstants.INSERT_TASK_FIX){
+                // si 1er enfant=> parent
+                // sinon frere
+                CopexNode p =(CopexNode)selNode.getParent();
+                int id = selNode.getIndex(p);
+                if (id==0){
+                    taskParent = selNode.getTask();
+                    parentNode = selNode;
+                    if(selNode.isManipulation()){
+                        taskParent = proc.getQuestion();
+                    }
+                }else{
+                    brotherNode = selNode;
+                     taskBrother = brotherNode.getTask();
+                     if(selNode.isManipulation())
+                         taskBrother = proc.getQuestion();
+                }
+            }else{
             if (brotherNode == null){
                 if(insertIn == MyConstants.INSERT_TASK_UNDEF || insertIn == MyConstants.INSERT_TASK_IN)  {
                     taskParent = selNode.getTask();
@@ -1194,6 +1224,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
                     }
                 }
              }
+            }
         }
 
        // determine le grand frere qui n'est pas sel
@@ -1449,9 +1480,17 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
             owner.updateLevel(getLevelTree());
             revalidate();
             repaint();
+        }else if(!ts.getSelectedTask().isAction() && !brother){
+            TaskTreeNode newNode = new TaskTreeNode(newTask);
+            CopexNode pn = ts.getSelectedNode();
+            copexTreeModel.insertNodeInto(newNode, pn, 0);
+            // developpe le chemin
+            this.scrollPathToVisible(new TreePath(newNode.getPath()));
+            owner.updateLevel(getLevelTree());
+            revalidate();
+            repaint();
         }else
             addTask(newTask, ts);
-
     }
 
 
@@ -1572,7 +1611,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
            //TaskTreeNode node = listTs.get(i).getSelectedNode();
            CopexNode n = getNode(listTs.get(i).getSelectedTask());
            suppr(n);
-           listVisibleNode.remove(n);
+           if(n instanceof TaskTreeNode)
+            listVisibleNode.remove((TaskTreeNode)n);
        }
       copexTreeModel.reload();
       clearSelection();
@@ -1587,6 +1627,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
     /* suppression d'un noeud*/
     private void suppr(CopexNode node){
+        if(node==null)
+            return;
         try{
             copexTreeModel.removeNodeFromParent(node);
         }catch(IllegalArgumentException e){
@@ -1797,10 +1839,10 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
     public boolean moveSubTree(SubTree subTree, CopexNode node, boolean brother){
         TaskSelected ots ;
         TaskSelected t = getTaskSelected(subTree.getFirstTask());
-        //System.out.println("premiere tache ss arbre : "+t.getSelectedTask().getDescription(owner.getLocale()));
-        ots = getTaskSelected(t.getTaskToAttach());
+//        System.out.println("premiere tache ss arbre : "+t.getSelectedTask().getDescription(owner.getLocale()));
+        ots = getTaskSelected(t.getTaskToAttach(), MyConstants.INSERT_TASK_FIX);
 //        if(t.getTaskToAttach() != null)
-//            System.out.println("attachee a : "+t.getTaskToAttach().getDescription(owner.getLocale()));
+//            System.out.println("attachee a : "+t.getTaskToAttach().getDescription(owner.getLocale())+" comme frere ?"+t.attachLikeBrother());
 
         TaskSelected ts = getSelectedTask(node, brother);
         //System.out.println("recupe task selected");
@@ -1855,8 +1897,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
 
         this.subTree = new SubTree(owner, owner.getController(), proc, this, listTask, updateListNode, true);
         //subTree.setListNodes(updateListNode);
-        newTs = getTaskSelected(newTs.getSelectedTask());
-        oldTs = getTaskSelected(oldTs.getSelectedTask());
+        //newTs = getTaskSelected(newTs.getSelectedTask(), MyConstants.INSERT_TASK_FIX);
+        oldTs = getTaskSelected(oldTs.getSelectedTask(), MyConstants.INSERT_TASK_FIX);
         if (addEdit)
             addEdit_dragDrop(this.subTree, newTs, oldTs);
         refreshMouseOver((CopexNode)copexTreeModel.getRoot());
@@ -2066,6 +2108,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
       /* retourne vrai si les taches sel ne sont pas lies par le materiel a d'autres taches */
       private boolean areActionSelLinkedByMaterial(){
           ArrayList<CopexTask> listTask = getSelectedTasks() ;
+          if(listTask == null)
+              return false;
           int nbT = listTask.size();
           for (int i=0; i<nbT; i++){
               if (isActionLinkedByMaterial(listTask.get(i)))
@@ -2078,6 +2122,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener{
       /* retourne vrai si les taches sel ne sont pas lies par le data a d'autres taches */
       private boolean areActionSelLinkedByData(){
           ArrayList<CopexTask> listTask = getSelectedTasks() ;
+          if(listTask == null)
+              return false;
           int nbT = listTask.size();
           for (int i=0; i<nbT; i++){
               if (isActionLinkedByData(listTask.get(i)))

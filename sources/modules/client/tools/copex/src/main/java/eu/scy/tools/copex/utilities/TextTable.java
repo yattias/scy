@@ -1,4 +1,5 @@
 package eu.scy.tools.copex.utilities;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TextTable extends JTable{
         this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.setShowGrid(false);
         this.setIntercellSpacing(new Dimension(0,0));
+        this.setBackground(Color.WHITE);
     }
 
     public void setTextList(List<String> textList){

@@ -635,6 +635,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         }
         // calcule de la nouvelle width de la fenetre
         int newWidth = 2*posx+areaW;
+        if(panelSetting != null)
+                newWidth = Math.max(newWidth, panelSetting.getWidth()+2*posx);
         if(taskImg != null){
             newWidth = Math.max(newWidth, taskImg.getIconWidth()+2*posx);
         }
@@ -1131,8 +1133,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            if (param instanceof InitialParamQuantity){
                // text field
                JTextField tf = new JTextField("");
-               tf.setSize(60, 20);
-               tf.setPreferredSize(new Dimension(60,20));
+               tf.setSize(60, 25);
+               tf.setPreferredSize(new Dimension(60,25));
                tf.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ACTION_PARAM_VALUE"));
                panelSetting.add(tf);
                if (!modeAdd && tabParam != null && tabParam[i] != null && tabParam[i] instanceof ActionParamQuantity){
@@ -1231,8 +1233,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 label.setSize(CopexUtilities.lenghtOfString(label.getText(), getFontMetrics(label.getFont())), 20);
                 panelSetting.add(label);
                 JTextField tf = new JTextField() ;
-                tf.setSize(80, 20);
-                tf.setPreferredSize(new Dimension(80,20));
+                tf.setSize(80, 25);
+                tf.setPreferredSize(new Dimension(80,25));
                 panelSetting.add(tf);
                 listDataProd.add(tf);
                 if (!modeAdd && this.datasProd.get(i) instanceof QData){
@@ -1248,8 +1250,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 label.setSize(CopexUtilities.lenghtOfString(label.getText(), getFontMetrics(label.getFont())), 20);
                 panelSetting.add(label);
                 JTextField tf = new JTextField() ;
-                tf.setSize(80, 20);
-                tf.setPreferredSize(new Dimension(80,20));
+                tf.setSize(80, 25);
+                tf.setPreferredSize(new Dimension(80,25));
                 panelSetting.add(tf);
                 listDataProd.add(tf);
                 if (!modeAdd && this.datasProd.get(i) instanceof QData){
@@ -1258,9 +1260,9 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            }
        }
        if((maxWidthLabel+20) > this.getWidth()){
-            this.panelSetting.setSize(maxWidthLabel+10,150);
+            this.panelSetting.setSize(maxWidthLabel+20,190);
        }else{
-           this.panelSetting.setSize(325,150);
+           this.panelSetting.setSize(325,190);
        }
        //this.panelSetting.setSize(325,125);
        this.panelSetting.revalidate();
@@ -1297,6 +1299,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         if(minDim == null || panelComments == null)
             return;
         int newWidth = this.getWidth() ;
+        if(panelSetting != null)
+            newWidth = panelSetting.getWidth()+20;
         int newHeight = this.getHeight() ;
         if(newWidth < minDim.getWidth()){
             setSize((int)minDim.getWidth(), newHeight);

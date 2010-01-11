@@ -6,7 +6,6 @@
 
 package eu.scy.tools.copex.edp;
 
-import eu.scy.tools.copex.common.LearnerProcedure;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.CopexUtilities;
 import java.awt.BorderLayout;

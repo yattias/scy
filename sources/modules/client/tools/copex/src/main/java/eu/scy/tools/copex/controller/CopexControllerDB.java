@@ -886,12 +886,16 @@ public class CopexControllerDB implements ControllerInterface {
         // mise a jour des donnees 
         task.setDbKey(newDbKey);
         if (taskBrother == null){
+            long oldFC = listProc.get(idP).getListTask().get(idB).getDbKeyChild();
             taskParent.setDbKeyChild(newDbKey);
             // mise a jour dans la liste
             //proc.getListTask().get(idB).setDbKeyChild(newDbKey);
             listProc.get(idP).getListTask().get(idB).setDbKeyChild(newDbKey);
             if (listProc.get(idP).getListTask().get(idB).getDbKey() == listProc.get(idP).getQuestion().getDbKey())
                 listProc.get(idP).getQuestion().setDbKeyChild(newDbKey);
+            if(oldFC != -1){
+                task.setDbKeyBrother(oldFC);
+            }
         }else{
             long dbKeyOldBrother = listProc.get(idP).getListTask().get(idB).getDbKeyBrother();
             task.setDbKeyBrother(dbKeyOldBrother);

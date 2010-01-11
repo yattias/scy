@@ -250,7 +250,11 @@ public class LearnerProcedure extends ExperimentalProcedure{
             }
         }
         // on n'a pas trouve on cherche dans les grands freres
-        return getParentTask(getOldBrotherTask(task));
+        CopexTask t = getOldBrotherTask(task);
+        if(t==null)
+            return null;
+        else
+            return getParentTask(t);
     }
 
     /* retourne la tache grand frere */
@@ -267,6 +271,8 @@ public class LearnerProcedure extends ExperimentalProcedure{
 
     /* retourne la liste des enfants d'une tache, 1 seul niveau */
     private List<CopexTask> getListChild(CopexTask task){
+        if(task == null)
+            return new LinkedList();
         long dbKeyChild = task.getDbKeyChild();
         long dbKeyBrother = -2;
         List<CopexTask> listChild = new LinkedList();

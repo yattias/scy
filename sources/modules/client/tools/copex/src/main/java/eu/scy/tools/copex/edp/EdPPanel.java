@@ -993,7 +993,7 @@ public class EdPPanel extends JPanel {
             int nbTs = listTsSuppr.size();
             for (int i=0;i<nbTs; i++){
                 CopexTask task = listTsSuppr.get(i).getTaskToAttach();
-                 TaskSelected ts = copexTree.getTaskSelected(task);
+                 TaskSelected ts = copexTree.getTaskSelected(task, MyConstants.INSERT_TASK_FIX);
                  list.add(ts);
             }
             CopexReturn cr = this.controller.suppr(listTs, v, confirm, MyConstants.NOT_UNDOREDO);
@@ -1361,9 +1361,7 @@ public class EdPPanel extends JPanel {
 //       if(!proc.isValidQuestion(getLocale()))
 //            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
         //copexTree.setQuestionEditor();
-        System.out.println("setQuestionDialog");
         if(!proc.isValidQuestion(getLocale())){
-            System.out.println("setQuestionDialog => openQ à true");
             openQuestion = true;
         }
     }

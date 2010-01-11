@@ -29,7 +29,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -299,7 +301,12 @@ public class PrintPDF {
     private CopexReturn setMaterial(){
         boolean isMaterial = proc.getMaterials() != null;
         if(isMaterial){
-            return setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  proc.getMaterials().toTreeString(copex.getLocale()));
+            //return setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  proc.getMaterials().toTreeString(copex.getLocale()));
+            CopexReturn cr = setText("icone_AdT_material.png",copex.getBundleString("TREE_MATERIAL"),  "");
+            if(cr.isError())
+                return cr;
+            cr = setList(proc.getMaterials().getListTree(copex.getLocale()));
+            return cr;
         }else{
             return new CopexReturn();
         }
@@ -314,6 +321,58 @@ public class PrintPDF {
         return cr;
     }
 
+    private CopexReturn setList(List<String> list){
+       try{
+           Table table = new Table(3);
+           table.setBorderWidth(0);
+           table.setAlignment(Element.ALIGN_LEFT);
+           
+           int nb = list.size();
+           int nbRow = 0;
+           if(nb%2 == 1){
+               nbRow =nb/2+1;
+           }else
+               nbRow = nb/2;
+
+           for(int i=0; i<nbRow; i++){
+               Cell indentCell=  new Cell("");
+                indentCell.setBorder(0);
+                table.addCell(indentCell);
+               for (int j=1; j<3; j++){
+                       int k = i+(j-1)*nbRow;
+                       Chunk c;
+                       if(k < nb){
+                           c = new Chunk(list.get(k), getNormalFont());
+                       }else{
+                           c = new Chunk("", getNormalFont());
+                       }
+                       Paragraph p = new Paragraph(c);
+                       Cell aCell = new Cell();
+                       aCell.setBorder(0);
+                       aCell.add(p);
+                       table.addCell(aCell);
+               }
+           }
+           float[] widths = new float[3];
+           widths[0] = 20;
+           widths[1] = 85;
+           widths[2] =85;
+           table.setWidths(widths);
+           table.setWidth(90);
+           Paragraph p = new Paragraph();
+           p.add(table);
+           p.setSpacingAfter(0);
+           p.setSpacingBefore(0);
+           document.add(p);
+           return new CopexReturn();
+
+       }catch (DocumentException ex) {
+            Logger.getLogger(PrintPDF.class.getName()).log(Level.SEVERE, null, ex);
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
+        }
+    }
+
+    
     private CopexReturn setText(String img,String title, String text){
         try{
             Image image = Image.getInstance(getClass().getResource( "/" +img));
@@ -372,6 +431,8 @@ public class PrintPDF {
             return new CopexReturn(copex.getBundleString("MSG_ERROR_PRINT"), false);
         }
     }
+
+    
 
     private CopexReturn setTask(CopexTask task, int nbTab){
         try{

@@ -12,6 +12,9 @@ import eu.scy.tools.copex.edp.EdPPanel;
 import eu.scy.tools.copex.edp.TaskSelected;
 import eu.scy.tools.copex.utilities.CopexReturn;
 import eu.scy.tools.copex.utilities.MyConstants;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -61,7 +64,7 @@ public class DragAndDropUndoRedo extends CopexUndoRedo {
      @Override
     public void redo(){
          super.redo();
-         CopexReturn cr = this.controller.move(ts, subTree, MyConstants.REDO);
+        CopexReturn cr = this.controller.move(ts, subTree, MyConstants.REDO);
          if (cr.isError()){
             edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;

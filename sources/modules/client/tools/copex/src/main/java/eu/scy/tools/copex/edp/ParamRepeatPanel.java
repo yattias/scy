@@ -248,15 +248,15 @@ public class ParamRepeatPanel extends JPanel{
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField tf = new JTextField("");
-        tf.setSize(60, 20);
-        tf.setPreferredSize(new Dimension(60,20));
+        tf.setSize(60, 25);
+        tf.setPreferredSize(new Dimension(60,25));
         panel.add(tf);
         JComboBox cb = new JComboBox(listItem);
-        cb.setSize(40, 20);
+        cb.setSize(40, 25);
         panel.add(cb);
         JSeparator sep = new JSeparator(SwingConstants.VERTICAL);
         sep.setBackground(Color.BLACK);
-        sep.setSize(5, 20);
+        sep.setSize(5, 25);
         panel.add(sep);
         this.add(panel);
         this.listComponents.add(panel);
@@ -319,7 +319,7 @@ public class ParamRepeatPanel extends JPanel{
         panel.add(cb);
         JSeparator sep = new JSeparator(SwingConstants.VERTICAL);
         sep.setBackground(Color.BLACK);
-        sep.setSize(5, 20);
+        sep.setSize(5, 25);
         panel.add(sep);
         this.add(panel);
         this.listComponents.add(panel);
@@ -394,7 +394,7 @@ public class ParamRepeatPanel extends JPanel{
             panel.add(cb);
             JSeparator sep = new JSeparator(SwingConstants.VERTICAL);
             sep.setBackground(Color.BLACK);
-            sep.setSize(5, 20);
+            sep.setSize(5, 25);
             panel.add(sep);
             this.add(panel);
             this.listComponents.add(panel);
@@ -452,7 +452,7 @@ public class ParamRepeatPanel extends JPanel{
             panel.add(cb);
             JSeparator sep = new JSeparator(SwingConstants.VERTICAL);
             sep.setBackground(Color.BLACK);
-            sep.setSize(5, 20);
+            sep.setSize(5, 25);
             panel.add(sep);
             this.add(panel);
             this.listComponents.add(panel);
@@ -573,8 +573,8 @@ public class ParamRepeatPanel extends JPanel{
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         JTextField field = new JTextField();
-        field.setSize(60, 20);
-        field.setPreferredSize(new Dimension(60,20));
+        field.setSize(60, 25);
+        field.setPreferredSize(new Dimension(60,25));
         panel.add(field);
         field.addActionListener(new ActionListener() {
             @Override
@@ -637,7 +637,7 @@ public class ParamRepeatPanel extends JPanel{
                 width+= tab[j].getPreferredSize().getWidth();
             }
         }
-        setSize(width, 20);
+        setSize(width, 25);
         setPreferredSize(getSize());
         revalidate();
         repaint();
