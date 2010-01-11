@@ -31,8 +31,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
-		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY,
-				String.class, String.class);
+		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
 	}
 
 	@Override
@@ -57,23 +56,19 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			keywordBuffer.append(keyword);
 			keywordBuffer.append(";");
 		}
-		return new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE, queryId,
-				keywordBuffer.toString().trim());
+		return new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer.toString().trim());
 	}
 
 	private Set<String> extractKeywords(String text) {
 		PersistentStorage storage = new PersistentStorage();
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
-		TopicModelAnnotator tm = new TopicModelAnnotator((TopicModelParameter) storage
-				.get("co2_scy_english"));
+		TopicModelAnnotator tm = new TopicModelAnnotator((TopicModelParameter) storage.get("co2_scy_english"));
 
 		Document document = convertTextToDocument(text);
 
-		Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow()
-				.getOperator("Main");
+		Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow().getOperator("Main");
 		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
-		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL,
-				dfModel);
+		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 		extractKeywordsOperator.setInputParameter(KeywordConstants.TOPIC_MODEL, tm);
 		Container result = extractKeywordsOperator.run();
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);

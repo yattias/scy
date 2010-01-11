@@ -19,6 +19,12 @@ import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
 
+/**
+ * (ExtractTfIdfKeywords:String, query:String, <QueryId>:String, <Text>:String)-> (ExtractTfIdfKeywords:String,
+ * response:String, <QueryId>:String, <Keywords>:String)->
+ * 
+ * @author fschulz
+ */
 public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	public static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTfIdfKeywords";
@@ -29,8 +35,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
-		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class,
-				String.class);
+		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
 	}
 
 	@Override
@@ -55,8 +60,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			keywordBuffer.append(keyword);
 			keywordBuffer.append(";");
 		}
-		return new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer
-				.toString().trim());
+		return new Tuple(EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId, keywordBuffer.toString().trim());
 	}
 
 	private Set<String> extractKeywords(String text) {
@@ -67,8 +71,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 		Operator extractKeywordsOperator = new ExtractTfIdfKeywordsWorkflow().getOperator("Main");
 		extractKeywordsOperator.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
-		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL,
-				dfModel);
+		extractKeywordsOperator.setInputParameter(KeywordConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
 		Container result = extractKeywordsOperator.run();
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 
