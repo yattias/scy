@@ -30,6 +30,9 @@ public mixin class ScyToolFX extends ScyTool {
    public override function loadElo(eloUri:URI):Void{
    }
 
+   public override function loadedEloChanged(eloUri:URI):Void{
+   }
+
    public override function onGotFocus():Void{
    }
 
