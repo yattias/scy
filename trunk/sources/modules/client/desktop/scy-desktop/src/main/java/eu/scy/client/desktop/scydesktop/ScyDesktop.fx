@@ -99,6 +99,8 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 
 /**
  * @author sikkenj
@@ -112,8 +114,9 @@ public class ScyDesktop extends CustomNode {
    public var missionModelFX: MissionModelFX= MissionModelFX{};
    public var eloInfoControl: EloInfoControl;
    public var windowStyler: WindowStyler;
-   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+   public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public var newEloCreationRegistry:NewEloCreationRegistry;
+   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
 
    public var topLeftCornerTool: Node on replace{topLeftCorner.content = topLeftCornerTool};
@@ -129,6 +132,7 @@ public class ScyDesktop extends CustomNode {
          windowManager:windows;
       };
 
+   var scyToolFactory : ScyToolFactory;
    var windowContentFactory: WindowContentFactory;
    var drawerContentFactory: DrawerContentFactory;
    var windowPositioner: WindowPositioner;
@@ -211,6 +215,11 @@ public class ScyDesktop extends CustomNode {
 
 
       newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
+      scyToolFactory = ScyToolFactory{
+         scyToolCreatorRegistryFX:scyToolCreatorRegistryFX;
+         config:config;
+         newTitleGenerator:newTitleGenerator;
+      }
       windowContentFactory = WindowContentFactory{
          windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
          config:config;
@@ -296,49 +305,30 @@ public class ScyDesktop extends CustomNode {
       }
    }
 
-//   public function XXaddScyWindow(uri:URI){
-//      if (windows.findScyWindow(uri)!=null){
-//        // window is already there, nothing to do
-//        logger.info("there is already a window for uri: {uri}");
-//        return;
-//      }
-//      addScyWindow(createScyWindow(uri));
-//      logger.info("added new window for uri: {uri}");
-//   }
-//
-//   function createScyWindow(eloUri:URI):ScyWindow{
-//      var eloMetadata = config.getRepository().retrieveMetadata(eloUri);
-//      var title = eloMetadata.getMetadataValueContainer(config.getTitleKey()).getValue() as String;
-//      var eloType = eloMetadata.getMetadataValueContainer(config.getTechnicalFormatKey()).getValue() as String;
-//
-//       var window:ScyWindow = StandardScyWindow{
-//         title:title
-//         eloUri:eloUri;
-//         eloType:eloType;
-////         id:"new://{title}"
-//         allowClose: true;
-//         allowResize: true;
-//         allowRotate: true;
-//         allowMinimize: true;
-//         cache:true;
-//      }
-//   }
-//
-//
-//
-//   public function XXaddScyWindow(window:ScyWindow){
-//      if (window.scyContent==null and window.setScyContent==null){
-//         window.setScyContent=fillNewScyWindow
-//      }
-//      var eloType = window.eloType;
-//      var eloConfig = config.getEloConfig(window.eloType);
-//      logger.info("eloType: {window.eloType} -> eloConfig: {eloConfig}");
-//      windowStyler.style(window);
-//      addDrawerTools(window,eloConfig);
-//      windows.addScyWindow(window);
-//      scyWindowControl.addOtherScyWindow(window);
-//      scyWindowControl.positionWindows(true);
-//   }
+   function fillNewScyWindow2(window:ScyWindow):Void{
+      var pleaseWait = Text {
+            font : Font {
+               size: 14
+            }
+            x: 5, y: 20
+            content: "Loading, please wait..."
+         }
+      window.scyContent = pleaseWait;
+      FX.deferAction(function(){
+            realFillNewScyWindow2(window);
+         });
+   }
+
+   function realFillNewScyWindow2(window:ScyWindow):Void{
+      var eloConfig = config.getEloConfig(window.eloType);
+      // don't place the window content tool in the window, let the please wait message stay until every thing is created
+      var scyContent = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
+      window.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(),window.eloType, window.eloUri, window, true);
+      window.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(),window.eloType, window.eloUri, window, true);
+      window.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(),window.eloType, window.eloUri, window, true);
+      window.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(),window.eloType, window.eloUri, window, true);
+      window.scyContent = scyContent;
+   }
 
    function fillNewScyWindow(window: ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);

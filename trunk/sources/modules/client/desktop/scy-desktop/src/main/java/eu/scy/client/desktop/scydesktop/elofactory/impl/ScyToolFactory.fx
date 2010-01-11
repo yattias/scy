@@ -19,6 +19,7 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
 
 /**
  * @author sikken
@@ -32,40 +33,63 @@ public class ScyToolFactory extends ContentFactory {
    public var newTitleGenerator: NewTitleGenerator;
 
    public function createNewScyToolNode(id: String, type: String, eloUri: URI, scyWindow: ScyWindow, drawer: Boolean): Node {
+      if (id == null) {
+         // no tool specified
+         return null;
+      }
+      var toolNode: Node;
+
       var scyToolCreator = scyToolCreatorRegistryFX.getScyToolCreatorFX(id);
       if (scyToolCreator != null) {
          try {
-            return scyToolCreator.createScyToolNode();
+            checkIfServicesInjected(scyToolCreator);
+            toolNode = scyToolCreator.createScyToolNode();
          } catch (e: Exception) {
-            return createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator));
+            toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator));
          }
       }
-      if (drawer) {
-         var drawerContentCreator = drawerContentCreatorRegistryFX.getDrawerContentCreatorFX(id);
-         if (drawerContentCreator != null) {
-            try {
-               return drawerContentCreator.getDrawerContent(eloUri, scyWindow);
-            } catch (e: Exception) {
-               return createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator));
-            }
-         }
-      } else {
-         var windowContentCreator = windowContentCreatorRegistryFX.getWindowContentCreatorFX(id);
-         if (windowContentCreator != null) {
-            try {
-               if (eloUri != null) {
-                  return windowContentCreator.getScyWindowContent(eloUri, scyWindow);
-               } else {
-                  return windowContentCreator.getScyWindowContentNew(scyWindow);
+      if (toolNode == null) {
+         if (drawer) {
+            var drawerContentCreator = drawerContentCreatorRegistryFX.getDrawerContentCreatorFX(id);
+            if (drawerContentCreator != null) {
+               checkIfServicesInjected(drawerContentCreator);
+               try {
+                  toolNode = drawerContentCreator.getDrawerContent(eloUri, scyWindow);
+               } catch (e: Exception) {
+                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator));
                }
+            }
+         } else {
+            var windowContentCreator = windowContentCreatorRegistryFX.getWindowContentCreatorFX(id);
+            if (windowContentCreator != null) {
+               checkIfServicesInjected(windowContentCreator);
+               try {
+                  if (eloUri != null) {
+                     toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+                  } else {
+                     toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+                  }
 
-            } catch (e: Exception) {
-               return createErrorNode(getErrorMessage(e, eloUri, id, type,false, windowContentCreator));
+               } catch (e: Exception) {
+                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator));
+               }
             }
          }
       }
 
-      return createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+      if (toolNode == null) {
+         toolNode = createErrorNode("Cannot find creator for {if (drawer) "drawer" else "window"} tool: {id}\nElo uri: {eloUri}\nEloType: {type}");
+      }
+
+      checkIfServicesInjected(toolNode);
+      servicesInjector.injectServiceIfWanted(toolNode, scyWindow.getClass(), "scyWindow", scyWindow);
+      if (toolNode instanceof ScyToolGetterPresent) {
+         var scyTool = (toolNode as ScyToolGetterPresent).getScyTool();
+         checkIfServicesInjected(scyTool);
+         servicesInjector.injectServiceIfWanted(scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
+      }
+
+      return toolNode;
    }
 
    function createErrorNode(errorMessage: String): Node {
