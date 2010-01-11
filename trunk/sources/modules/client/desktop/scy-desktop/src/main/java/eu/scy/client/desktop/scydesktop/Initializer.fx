@@ -37,7 +37,7 @@ public class Initializer {
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
    public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
-   public-init var enableLogging = true;
+   public-init var enableLocalLogging = true;
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
    public-init var lookAndFeel = "nimbus";
@@ -51,17 +51,17 @@ public class Initializer {
    public-init var storeElosOnDisk = true;
    public-init var createPersonalMissionMap = true;
    public-read var backgroundImage: Image;
-   public-read var loggingDirectory: File = null;
+   public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
-   def enableLoggingKey = "enableLogging";
+   def enableLocalLoggingKey = "enableLocalLogging";
    def loggingDirectoryKey = "loggingDirectory";
    def storeElosOnDiskKey = "storeElosOnDisk";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
    def backgroundImageUrlOption = "backgroundImageUrl";
-   def enableLoggingOption = "enableLogging";
+   def enableLocalLoggingOption = "enableLocalLogging";
    def loggingDirectoryNameOption = "loggingDirectoryName";
    def redirectSystemStreamOption = "redirectSystemStream";
    def lookAndFeelOption = "lookAndFeel";
@@ -80,15 +80,15 @@ public class Initializer {
       parseWebstartParameters();
       Thread.setDefaultUncaughtExceptionHandler(new ExceptionCatcher("SCY-LAB"));
       setupBackgroundImage();
-      System.setProperty(enableLoggingKey, "{enableLogging}");
+      System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
       var loggingDirectoryKeyValue = "";
-      if (enableLogging) {
-         loggingDirectory = findLoggingDirectory();
-         if (loggingDirectory != null) {
+      if (enableLocalLogging) {
+         localLoggingDirectory = findLocalLoggingDirectory();
+         if (localLoggingDirectory != null) {
             if (redirectSystemStream) {
                doRedirectSystemStream();
             }
-            loggingDirectoryKeyValue = loggingDirectory.getAbsolutePath();
+            loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
          }
       }
       System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
@@ -113,9 +113,9 @@ public class Initializer {
             } else if (option == backgroundImageUrlOption.toLowerCase()) {
                backgroundImageUrl = argumentsList.nextStringValue(backgroundImageUrlOption);
                logger.info("app: {backgroundImageUrlOption}: {backgroundImageUrl}");
-            } else if (option == enableLoggingOption.toLowerCase()) {
-               enableLogging = argumentsList.nextBooleanValue(enableLoggingOption);
-               logger.info("app: {enableLoggingOption}: {enableLogging}");
+            } else if (option == enableLocalLoggingOption.toLowerCase()) {
+               enableLocalLogging = argumentsList.nextBooleanValue(enableLocalLoggingOption);
+               logger.info("app: {enableLocalLoggingOption}: {enableLocalLogging}");
             } else if (option == loggingDirectoryNameOption.toLowerCase()) {
                loggingDirectoryName = argumentsList.nextStringValue(loggingDirectoryNameOption);
                logger.info("app: {loggingDirectoryNameOption}: {loggingDirectoryName}");
@@ -164,7 +164,7 @@ public class Initializer {
    function parseWebstartParameters() {
       log4JInitFile = getWebstartParameterStringValue(log4JInitFileOption, log4JInitFile);
       backgroundImageUrl = getWebstartParameterStringValue(backgroundImageUrlOption, backgroundImageUrl);
-      enableLogging = getWebstartParameterBooleanValue(enableLoggingOption, enableLogging);
+      enableLocalLogging = getWebstartParameterBooleanValue(enableLocalLoggingOption, enableLocalLogging);
       loggingDirectoryName = getWebstartParameterStringValue(loggingDirectoryNameOption, loggingDirectoryName);
       redirectSystemStream = getWebstartParameterBooleanValue(redirectSystemStreamOption, redirectSystemStream);
       lookAndFeel = getWebstartParameterStringValue(lookAndFeelOption, lookAndFeel);
@@ -243,7 +243,7 @@ public class Initializer {
 
    }
 
-   function findLoggingDirectory(): File {
+   function findLocalLoggingDirectory(): File {
       var logDirectory: File;
       if (loggingDirectoryName.length() > 0) {
          logDirectory = new File(loggingDirectoryName);
@@ -270,7 +270,7 @@ public class Initializer {
 //         ++fileCount;
 //         streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
 //      }
-      var outputStream = new FileOutputStream(RedirectSystemStreams.getLogFile(loggingDirectory,fileName,".txt"), false);
+      var outputStream = new FileOutputStream(RedirectSystemStreams.getLogFile(localLoggingDirectory,fileName,".txt"), false);
       return new PrintStream(outputStream, true);
    }
 
