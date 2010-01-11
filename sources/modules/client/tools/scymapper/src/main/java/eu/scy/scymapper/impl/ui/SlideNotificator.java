@@ -13,11 +13,11 @@ import java.awt.image.BufferedImage;
 public class SlideNotificator {
 
 	protected static final float ANIMATION_TIME = 500;
-	protected static final int ANIMATION_DELAY = 50;
+	protected static final int ANIMATION_DELAY = 10;
 
 	private Roller roller;
-	private Timer animationTimer;
 	private int startY;
+	private Timer animationTimer;
 	private long animationStart;
 	private JFrame ownerFrame;
 
@@ -86,7 +86,7 @@ public class SlideNotificator {
 				}
 			}
 		};
-		animationTimer = new Timer(ANIMATION_DELAY, animation);
+		animationTimer = new javax.swing.Timer(ANIMATION_DELAY, animation);
 		animationStart = System.currentTimeMillis();
 		roller.setBounds(window.getX(), window.getY()+window.getHeight(), window.getWidth(), 1);
 		roller.setVisible(true);

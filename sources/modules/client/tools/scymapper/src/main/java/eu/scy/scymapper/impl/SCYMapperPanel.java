@@ -3,6 +3,9 @@ package eu.scy.scymapper.impl;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
+import eu.scy.notification.Notification;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
@@ -18,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * User: Bjoerge
@@ -46,14 +51,65 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 	}
 
 	public void setToolBroker(ToolBrokerAPI tbi) {
-		this.toolBroker = tbi;
-//		notificationService = toolBroker.get
-
+		toolBroker = tbi;
+		if (toolBroker != null) {
+			toolBroker.registerForNotifications(new INotifiable() {
+				@Override
+				public void processNotification(INotification notification) {
+					showNotification(notification);
+				}
+			});
+		}
 	}
 
 	public void joinSession(ISyncSession session) {
 		conceptDiagramView.setController(new DataSyncDiagramController(conceptMap.getDiagram(), session));
 		conceptDiagramView.setElementControllerFactory(new DataSyncElementControllerFactory(session));
+	}
+
+	private void showNotification(INotification notification) {
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setBorder(BorderFactory.createEtchedBorder());
+		Icon icon = UIManager.getIcon("OptionPane.informationIcon");
+		JLabel label = new JLabel("Notification recieved", icon, SwingConstants.LEFT);
+		panel.add(BorderLayout.NORTH, label);
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("--- NOTIFICATION ---").append("\n\n").
+			append("ToolID:	").append(notification.getToolId()).append("\n").
+			append("Mission:	").append(notification.getMission()).append("\n").
+			append("Sender:	").append(notification.getSender()).append("\n").
+			append("UserId:	").append(notification.getUserId()).append("\n").
+			append("ToolId:	").append(notification.getToolId()).append("\n").
+			append("Session:	").append(notification.getSession()).append("\n").
+			append("Properties --------------\n");
+
+		for (Map.Entry<String, String> entry : notification.getProperties().entrySet()) {
+			sb.append("  ").append(entry.getKey()).append(":	").append(entry.getValue()).append("\n");
+		}
+
+		JTextArea textArea = new JTextArea(sb.toString());
+		panel.add(BorderLayout.CENTER, textArea);
+
+		panel.setSize(400, 350);
+		if (notificator != null) notificator.hide();
+		notificator = new SlideNotificator(SCYMapperPanel.this, panel);
+
+		final SlideNotificator n = notificator;
+		JButton close = new JButton("Close");
+		close.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				n.hide();
+			}
+		});
+
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(close);
+		panel.add(BorderLayout.SOUTH, btnPanel);
+
+		notificator.show();
 	}
 
 	private void initComponents() {
@@ -84,40 +140,15 @@ public class SCYMapperPanel extends JPanel implements ISyncListener {
 		sessionPanel.add(createSessionButton);
 		sessionPanel.add(joinSessionButton);
 
-		JButton makeNotificationButton = new JButton("Make notification");
+		JButton makeNotificationButton = new JButton("Create dummy notification");
 		makeNotificationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				JPanel panel = new JPanel(new BorderLayout());
-				panel.setBorder(BorderFactory.createEtchedBorder());
-				Icon icon = UIManager.getIcon("OptionPane.informationIcon");
-				JLabel label = new JLabel("Look this way!", icon, SwingConstants.LEFT);
-				panel.add(BorderLayout.NORTH, label);
-
-				JTextArea textArea = new JTextArea("This is a dummy notification. You can type here.");
-				panel.add(BorderLayout.CENTER, textArea);
-
-				JComponent p = SCYMapperPanel.this.conceptDiagramView;
-				int w = 400;
-				int h = 100;
-				panel.setSize(w, h);
-				notificator = new SlideNotificator(p, panel);
-
-				final SlideNotificator n = notificator; 
-				JButton close = new JButton("Close");
-				close.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						n.hide();
-					}
-				});
-
-				JPanel btnPanel = new JPanel();
-				btnPanel.add(close);
-				panel.add(BorderLayout.SOUTH, btnPanel);
-
-				notificator.show();
+				INotification notification = new Notification();
+				notification.setToolId("scymapper");
+				notification.setSender("obama");
+				notification.addProperty("dummyProperty", "DummyValue");
+				showNotification(notification);
 			}
 		});
 		sessionPanel.add(makeNotificationButton);
