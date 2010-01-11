@@ -59,7 +59,7 @@ public class ExtractKeywords extends AbstractRequestAgent {
 		}
 	}
 
-	public static ArrayList<String> mergeKeywords(List<String> keywords1, List<String> keywords2) {
+	private ArrayList<String> mergeKeywords(List<String> keywords1, List<String> keywords2) {
 		ArrayList<String> mergedResult = new ArrayList<String>();
 		mergedResult.addAll(keywords1);
 		mergedResult.addAll(keywords2);
