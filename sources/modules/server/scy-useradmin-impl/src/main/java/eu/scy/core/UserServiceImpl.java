@@ -4,6 +4,8 @@ import eu.scy.core.model.User;
 import eu.scy.core.persistence.UserDAO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -12,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  * To change this template use File | Settings | File Templates.
  */
 public class UserServiceImpl implements UserService{
+
+    private static Logger log = Logger.getLogger("UserServiceImpl.class");
 
     UserDAO userDAO;
 
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public User createUser(String username, String password) {
+        log.info("Creating user :" + username);
         return getUserDAO().createUser(username, password);
     }
 

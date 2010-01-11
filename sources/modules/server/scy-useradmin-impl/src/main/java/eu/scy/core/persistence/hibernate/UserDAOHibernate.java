@@ -47,6 +47,7 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
         userDetails.setPassword(password);
         newUser.setUserDetails(userDetails);
         save(newUser);
+        log.info("CREATED USER : " + userDetails.getUsername() + " " + userDetails.getId());
         return newUser;
     }
 

@@ -33,6 +33,10 @@ public class PedagogicalPlanPersistenceServiceImpl implements PedagogicalPlanPer
         return pedagogicalPlanPersistenceDAO.getPedagogicalPlanTemplates();
     }
 
+    public PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
+        return getPedagogicalPlanPersistenceDAO().createPedagogicalPlan(template);
+    }
+
     public void save(ScyBase scyBaseObject) {
         getPedagogicalPlanPersistenceDAO().save(scyBaseObject);
     }

@@ -38,6 +38,17 @@ public class UserDAOHibernateTest extends AbstractDAOTest {
         assert(user.getUserDetails() != null);
     }
 
+    @Test
+    public void testLoadUser() {
+        final String USER_NAME = "henrikthecoolestmanonearth";
+        final String LAST_NAME = "sshhhhh-secret";
+        User u = getUserDAO().createUser(USER_NAME,LAST_NAME);
+
+        User user = getUserDAO().getUserByUsername(USER_NAME);
+        assertNotNull(user);
+        System.out.println("USER:" + user.getUserDetails());
+    }
+
 
 
 

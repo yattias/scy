@@ -2,6 +2,8 @@ package eu.scy.server.utils;
 
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.ScenarioService;
+import eu.scy.core.UserService;
+import eu.scy.core.model.User;
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,19 +23,21 @@ public class DummyDataGenerator implements InitializingBean {
 
     private ScenarioService scenarioService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
+    private UserService userService;
+
 
     private void generatePedagogicalPlanTemplates() {
         PedagogicalPlanTemplate template = new PedagogicalPlanTemplateImpl();
         template.setName("Mission 1");
         template.setDescription("A pedagogical plan for people with white teeth");
         template.setScenario(generateScenario());
-        if(getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) != null)  {
+        if (getPedagogicalPlanPersistenceService().getPedagogicalPlanByName(template.getName()) == null) {
             log.info("Did not find a default plan - creating one...");
             getPedagogicalPlanPersistenceService().save(template);
+            getPedagogicalPlanPersistenceService().createPedagogicalPlan(template);
         } else {
             log.info("The default plan is already added - will not create any more!");
-        }
-
+        } 
 
 
     }
@@ -96,7 +100,6 @@ public class DummyDataGenerator implements InitializingBean {
         return scenario;
 
 
-
     }
 
     private Activity addActivity(LearningActivitySpace las, String activityName) {
@@ -151,9 +154,24 @@ public class DummyDataGenerator implements InitializingBean {
         this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
     }
 
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
-
+         log.info("============================================================================");
+         log.info("============================================================================");
+         log.info("============================================================================");
+         log.info("============================================================================");
+         log.info("============================================================================");
         generatePedagogicalPlanTemplates();
+        //generateDummyUsers();
     }
+
+
 }
