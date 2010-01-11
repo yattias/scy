@@ -26,6 +26,8 @@
         <argument>MainJavaFXScript=$mainClass</argument>
         <argument>-localToolBrokerLoginConfigFile</argument>
         <argument>config/localReadOnlyScyServices.xml</argument>
+        <argument>-enableLocalLogging</argument>
+        <argument>false</argument>
     </application-desc>
     <update check="always"/>
 </jnlp>

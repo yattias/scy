@@ -42,9 +42,11 @@ import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"remote"
+           loginType:"local"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
+           redirectSystemStream:true
+           enableLocalLogging:true
         }
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
