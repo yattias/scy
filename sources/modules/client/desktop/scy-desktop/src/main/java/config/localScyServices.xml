@@ -25,7 +25,7 @@
 
    <bean name="actionLogger" class="eu.scy.client.desktop.scydesktop.dummy.LocalFileActionLogger">
       <constructor-arg index="0" value="${loggingDirectory}"/>
-      <property name="enableLogging" value="${enableLogging}"/>
+      <property name="enableLogging" value="${enableLocalLogging}"/>
    </bean>
 
    <bean name="awarenessService" class="eu.scy.client.desktop.scydesktop.dummy.DummyAwarenessService">
