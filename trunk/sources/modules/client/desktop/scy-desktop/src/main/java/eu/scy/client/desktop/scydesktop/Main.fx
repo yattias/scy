@@ -24,7 +24,7 @@ var initializer = Initializer{
    loginType:"local"
    storeElosOnDisk:false
    createPersonalMissionMap:true
-           enableLogging:false
+           enableLocalLogging:false
            redirectSystemStream:false
 }
 
