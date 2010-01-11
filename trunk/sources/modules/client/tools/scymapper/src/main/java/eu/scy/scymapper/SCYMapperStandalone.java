@@ -112,7 +112,11 @@ public class SCYMapperStandalone extends JFrame {
 		appContext = new ClassPathXmlApplicationContext(SHAPES_CONFIG);
 		configuration = (ISCYMapperToolConfiguration) appContext.getBean("configuration");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(1400, 900);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+		setSize((int) (dim.getWidth()*.8), (int) (dim.getHeight()*.8));
+
+		setLocation((int)(dim.getWidth() *.1), (int)(dim.getHeight() *.1));
 
 		onlineIcon = new ImageIcon(getClass().getResource("online.png"));
 		offlineIcon = new ImageIcon(getClass().getResource("offline.png"));
