@@ -39,15 +39,18 @@ import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -170,8 +173,18 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public  ImageIcon getCopexImage(String img){
         return dataProcessToolPanel.getCopexImage(img);
     }
+    public Image getIconDialog(){
+        return dataProcessToolPanel.getIconDialog();
+    }
+    @Override
+    public Locale getLocale(){
+        return dataProcessToolPanel.getLocale();
+    }
 
-    
+    public URL getHelpManualPage(){
+        String helpFile = "fitexHelpManual-"+getLocale().getLanguage()+".xhtml";
+        return  this.getClass().getClassLoader().getResource(helpFile);
+    }
     
     /* construction desktop*/
     private JDesktopPane getDesktopPanel(){
@@ -604,11 +617,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }else if(item.equals(menuItemSave)){
             saveFitex();
             return;
+        }else if(item.equals(menuItemHelp)){
+            openHelpDialog();
+            return;
         }
-//        }else if(item.equals(menuItemHelp)){
-//            openHelpDialog();
-//            return;
-//        }
 
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
     }
