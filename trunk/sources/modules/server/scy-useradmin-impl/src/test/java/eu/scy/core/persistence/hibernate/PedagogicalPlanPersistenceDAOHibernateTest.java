@@ -12,17 +12,7 @@ import org.junit.Test;
  * Time: 05:55:01
  * To change this template use File | Settings | File Templates.
  */
-public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest {
-
-    private PedagogicalPlanPersistenceDAO pedagogicalPlanPersistenceDAO = null;
-
-    public PedagogicalPlanPersistenceDAO getPedagogicalPlanPersistenceDAO() {
-        return pedagogicalPlanPersistenceDAO;
-    }
-
-    public void setPedagogicalPlanPersistenceDAO(PedagogicalPlanPersistenceDAO pedagogicalPlanPersistenceDAO) {
-        this.pedagogicalPlanPersistenceDAO = pedagogicalPlanPersistenceDAO;
-    }
+public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractPedagogicalPlanRelatedTest {
 
     @Test
     public void testSetup() {
@@ -170,28 +160,5 @@ public class PedagogicalPlanPersistenceDAOHibernateTest extends AbstractDAOTest 
 
     }
 
-    private AssessmentStrategy createAssessmentStrategy() {
-        PeerToPeerAssessmentStrategy strategy = new PeerToPeerAssessmentStrategyImpl();
-        return strategy;
-    }
-
-    private Assessment createAssessment(String name) {
-        Assessment assessment = new AssessmentImpl();
-        assessment.setName(name);
-        return assessment;
-    }
-
-
-    private PedagogicalPlanTemplateImpl createPedagogicalPlanTemplate(String name) {
-        PedagogicalPlanTemplateImpl template1 = new PedagogicalPlanTemplateImpl();
-        template1.setName(name);
-        return template1;
-    }
-
-    private PedagogicalPlan createPedagogicalPlan(PedagogicalPlanTemplate template) {
-        PedagogicalPlan plan = getPedagogicalPlanPersistenceDAO().createPedagogicalPlan(template);
-        //template.addPedagogicalPlan(plan);
-        return plan;
-    }
 
 }

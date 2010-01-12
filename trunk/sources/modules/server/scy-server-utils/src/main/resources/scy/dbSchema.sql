@@ -139,7 +139,11 @@ CREATE TABLE `studentplanelo` (
 	`name` varchar(250) default NULL,
 	`description` text,
     `timeCreated` bigint(20) NOT NULL default '0',
-	PRIMARY KEY  (`primKey`)
+    `user_primKey` varchar(55) NOT NULL default '',
+	PRIMARY KEY  (`primKey`),
+	KEY `studentplaneloToUser` (`user_primKey`),
+	CONSTRAINT `studentplaneloToUserConst` FOREIGN KEY (`user_primKey`) REFERENCES `user` (`primKey`)
+
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
