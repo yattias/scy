@@ -15,8 +15,9 @@ public interface ScyTool
 
    /**
     * initialise is called after the create() and the properties are injected.
+    * @param windowContent - true if tool is placed in the window, false if the tool is placed in a drawer
     */
-   public void initialize();
+   public void initialize(boolean windowContent);
 
    /**
     * this method is called after initialise is called on the content and all drawer tools.

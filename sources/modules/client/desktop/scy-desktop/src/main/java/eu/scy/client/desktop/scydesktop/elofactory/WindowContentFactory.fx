@@ -110,34 +110,34 @@ public class WindowContentFactory extends ContentFactory {
 
       inspectContent(scyWindow);
 
-      if (scyWindow.scyTool!=null){
-         var myEloChanged = SimpleMyEloChanged{
-            window:scyWindow;
-            titleKey:config.getTitleKey()
-            technicalFormatKey:config.getTechnicalFormatKey();
-         }
-
-         var optionPaneEloSaver = OptionPaneEloSaverFX{
-            repository:config.getRepository()
-            eloFactory:config.getEloFactory()
-            titleKey:config.getTitleKey()
-            window:scyWindow;
-            myEloChanged:myEloChanged;
-            newTitleGenerator:newTitleGenerator
-         };
-
-         scyWindow.scyTool.setEloSaver(optionPaneEloSaver);
-         scyWindow.scyTool.setMyEloChanged(myEloChanged);
-         scyWindow.scyTool.initialize();
-         // TODO handle the ScyTool stuff for the drawers
-         scyWindow.scyTool.postInitialize();
-         if (eloUri!=null){
-            scyWindow.scyTool.loadElo(eloUri);
-         }
-         else{
-            scyWindow.scyTool.newElo();
-         }
-      }
+//      if (scyWindow.scyTool!=null){
+//         var myEloChanged = SimpleMyEloChanged{
+//            window:scyWindow;
+//            titleKey:config.getTitleKey()
+//            technicalFormatKey:config.getTechnicalFormatKey();
+//         }
+//
+//         var optionPaneEloSaver = OptionPaneEloSaverFX{
+//            repository:config.getRepository()
+//            eloFactory:config.getEloFactory()
+//            titleKey:config.getTitleKey()
+//            window:scyWindow;
+//            myEloChanged:myEloChanged;
+//            newTitleGenerator:newTitleGenerator
+//         };
+//
+//         scyWindow.scyTool.setEloSaver(optionPaneEloSaver);
+//         scyWindow.scyTool.setMyEloChanged(myEloChanged);
+//         scyWindow.scyTool.initialize();
+//         // TODO handle the ScyTool stuff for the drawers
+//         scyWindow.scyTool.postInitialize();
+//         if (eloUri!=null){
+//            scyWindow.scyTool.loadElo(eloUri);
+//         }
+//         else{
+//            scyWindow.scyTool.newElo();
+//         }
+//      }
 
    }
 
@@ -149,23 +149,23 @@ public class WindowContentFactory extends ContentFactory {
    }
 
    function inspectContent(scyWindow:ScyWindow){
-      var scyContent = scyWindow.scyContent;
-      if (scyContent instanceof ScyToolGetterPresent){
-         var scyToolGetterPresent = scyWindow.scyContent as ScyToolGetterPresent;
-         scyWindow.scyTool = scyToolGetterPresent.getScyTool();
-         if (scyWindow.scyTool==null){
-            throw new IllegalStateException("getScyTool may not return null");
-         }
-      }
-      else if (scyContent instanceof ScyTool){
-         scyWindow.scyTool = scyWindow.scyContent as ScyTool;
-      }
-      checkIfServicesInjected(scyContent);
-      servicesInjector.injectServiceIfWanted(scyContent, scyWindow.getClass(), "scyWindow", scyWindow);
-      if (scyWindow.scyTool!=null){
-         checkIfServicesInjected(scyWindow.scyTool);
-         servicesInjector.injectServiceIfWanted(scyWindow.scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
-      }
+//      var scyContent = scyWindow.scyContent;
+//      if (scyContent instanceof ScyToolGetterPresent){
+//         var scyToolGetterPresent = scyWindow.scyContent as ScyToolGetterPresent;
+//         scyWindow.scyTool = scyToolGetterPresent.getScyTool();
+//         if (scyWindow.scyTool==null){
+//            throw new IllegalStateException("getScyTool may not return null");
+//         }
+//      }
+//      else if (scyContent instanceof ScyTool){
+//         scyWindow.scyTool = scyWindow.scyContent as ScyTool;
+//      }
+//      checkIfServicesInjected(scyContent);
+//      servicesInjector.injectServiceIfWanted(scyContent, scyWindow.getClass(), "scyWindow", scyWindow);
+//      if (scyWindow.scyTool!=null){
+//         checkIfServicesInjected(scyWindow.scyTool);
+//         servicesInjector.injectServiceIfWanted(scyWindow.scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
+//      }
    }
 
    function getErrorNode(e:Exception,eloUri:URI,id:String,type:String,windowContentCreator:WindowContentCreatorFX):Node{

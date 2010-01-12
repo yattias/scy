@@ -38,6 +38,8 @@ import roolo.api.search.ISearchResult;
 import roolo.cms.repository.mock.BasicMetadataQuery;
 import roolo.cms.repository.search.BasicSearchOperations;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelXml;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
 
 /**
  * @author sikkenj
@@ -57,8 +59,9 @@ public class ScyDesktopCreator {
    public-init var missionModelFX: MissionModelFX;
    public-init var eloInfoControl: EloInfoControl;
    public-init var windowStyler: WindowStyler;
-   public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
+   public-init var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
+   public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
    def userNameKey = "userName";
 
@@ -76,14 +79,20 @@ public class ScyDesktopCreator {
             eloInfoControl: eloInfoControl;
          };
       }
-      if (windowContentCreatorRegistryFX == null) {
-         windowContentCreatorRegistryFX = WindowContentCreatorRegistryFXImpl {};
+      var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl{
+            config:config;
+         }
+      if (scyToolCreatorRegistryFX == null) {
+         scyToolCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
       }
       if (newEloCreationRegistry == null) {
          newEloCreationRegistry = NewEloCreationRegistryImpl {};
       }
+      if (windowContentCreatorRegistryFX == null) {
+         windowContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
+      }
       if (drawerContentCreatorRegistryFX == null) {
-         drawerContentCreatorRegistryFX = DrawerContentCreatorRegistryFXImpl {};
+         drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
       }
 
       handleToolRegistration();
@@ -273,8 +282,9 @@ public class ScyDesktopCreator {
          missionModelFX: missionModelFX;
          eloInfoControl: eloInfoControl;
          windowStyler: windowStyler;
-         windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
+         scyToolCreatorRegistryFX:scyToolCreatorRegistryFX
          newEloCreationRegistry: newEloCreationRegistry;
+         windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
          drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
       }
 

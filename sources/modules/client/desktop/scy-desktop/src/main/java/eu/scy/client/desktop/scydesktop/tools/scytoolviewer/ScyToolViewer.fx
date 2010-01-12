@@ -1,10 +1,10 @@
 /*
- * DummyScyToolWindowContent.fx
+ * ScyToolViewer.fx
  *
- * Created on 30-nov-2009, 12:16:13
+ * Created on 12-jan-2010, 15:34:49
  */
 
-package eu.scy.client.desktop.scydesktop.dummy;
+package eu.scy.client.desktop.scydesktop.tools.scytoolviewer;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
@@ -45,7 +45,7 @@ import eu.scy.client.common.datasync.IDataSyncService;
  */
 
 // place your code here
-public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX {
+public class ScyToolViewer  extends CustomNode,Resizable, ScyToolFX {
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
@@ -62,6 +62,7 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX 
    public var scyWindow:ScyWindow on replace {addMessage("scyWindow set ({scyWindow.title})")};
 
    var uri = "?????";
+   var location = "?";
    def textEditor = new TextEditor();
    def wrappedTextEditor = SwingComponent.wrap(textEditor);
    def spacing = 5.0;
@@ -81,6 +82,14 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX 
                x: 0,
                y: 0
                content: bind "uri - {uri}"
+            }
+            Text {
+               font: Font {
+                  size: 12
+               }
+               x: 0,
+               y: 0
+               content: bind "Location - {location}"
             }
             wrappedTextEditor
          ]
@@ -106,7 +115,8 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX 
    }
 
    public override function initialize(windowContent: Boolean):Void{
-      addMessage("initialize");
+      addMessage("initialize({windowContent})");
+      location = if (windowContent) "window" else "drawer";
    }
 
    public override function postInitialize():Void{
@@ -121,6 +131,10 @@ public class DummyScyToolWindowContent  extends CustomNode,Resizable, ScyToolFX 
    public override function loadElo(eloUri:URI):Void{
       addMessage("loadElo {eloUri}");
       uri = "{eloUri}";
+   }
+
+   public override function loadedEloChanged(eloUri:URI):Void{
+      addMessage("loadedEloChanged({eloUri})");
    }
 
    public override function onGotFocus():Void{

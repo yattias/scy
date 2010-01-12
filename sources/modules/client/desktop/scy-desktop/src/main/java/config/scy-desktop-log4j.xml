@@ -18,12 +18,8 @@
 		<level value="debug" />
 	</logger>
 
-	<logger name="eu.scy.client.desktop.elofactory.ServicesInjector">
-		<level value="error" />
-	</logger>
-
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows">
-		<level value="error" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
@@ -35,6 +31,10 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.elofactory">
+		<level value="debug" />
+	</logger>
+
+	<logger name="eu.scy.client.desktop.elofactory.ServicesInjector">
 		<level value="error" />
 	</logger>
 

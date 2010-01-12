@@ -19,7 +19,9 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import java.lang.Exception;
 
 /**
  * @author sikken
@@ -64,12 +66,15 @@ public class ScyToolFactory extends ContentFactory {
             if (windowContentCreator != null) {
                checkIfServicesInjected(windowContentCreator);
                try {
-                  if (eloUri != null) {
-                     toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+                  if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
+                     toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
                   } else {
-                     toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+                     if (eloUri != null) {
+                        toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+                     } else {
+                        toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+                     }
                   }
-
                } catch (e: Exception) {
                   toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator));
                }
@@ -85,8 +90,10 @@ public class ScyToolFactory extends ContentFactory {
       servicesInjector.injectServiceIfWanted(toolNode, scyWindow.getClass(), "scyWindow", scyWindow);
       if (toolNode instanceof ScyToolGetterPresent) {
          var scyTool = (toolNode as ScyToolGetterPresent).getScyTool();
-         checkIfServicesInjected(scyTool);
-         servicesInjector.injectServiceIfWanted(scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
+         if (scyTool!=null){
+            checkIfServicesInjected(scyTool);
+            servicesInjector.injectServiceIfWanted(scyTool, scyWindow.getClass(), "scyWindow", scyWindow);
+         }
       }
 
       return toolNode;

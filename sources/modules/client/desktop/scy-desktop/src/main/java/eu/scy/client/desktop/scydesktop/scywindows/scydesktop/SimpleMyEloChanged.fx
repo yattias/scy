@@ -34,6 +34,7 @@ public class SimpleMyEloChanged extends MyEloChanged {
       window.title = title;
       var eloType = elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue() as String;
       window.eloType = eloType;
+      window.scyToolsList.loadedEloChanged(window.eloUri);
       logger.info("set title and uri of window: {elo.getUri()}");
    }
 }

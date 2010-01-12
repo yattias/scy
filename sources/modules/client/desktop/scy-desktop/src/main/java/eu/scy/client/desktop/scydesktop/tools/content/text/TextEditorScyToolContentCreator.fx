@@ -7,7 +7,7 @@
 package eu.scy.client.desktop.scydesktop.tools.content.text;
 
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 
 
@@ -16,9 +16,9 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX
  */
 
 // place your code here
-public class TextEditorScyToolContentCreator extends ScyToolWindowContentCreatorFX {
+public class TextEditorScyToolContentCreator extends ScyToolCreatorFX {
 
-   public override function createScyToolWindowContent():Node{
+   public override function createScyToolNode():Node{
       return createTextEditorNode();
    }
 

@@ -101,6 +101,8 @@ import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManage
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolFactory;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.OptionPaneEloSaverFX;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 
 /**
  * @author sikkenj
@@ -217,6 +219,8 @@ public class ScyDesktop extends CustomNode {
       newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
       scyToolFactory = ScyToolFactory{
          scyToolCreatorRegistryFX:scyToolCreatorRegistryFX;
+         windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
+         drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
          config:config;
          newTitleGenerator:newTitleGenerator;
       }
@@ -278,7 +282,7 @@ public class ScyDesktop extends CustomNode {
           extensionManager:config.getExtensionManager();
           repository:config.getRepository();
           metadataTypeManager:config.getMetadataTypeManager();
-          setScyContent:fillNewScyWindow;
+          setScyContent:fillNewScyWindow2;
       };
 
     }
@@ -328,9 +332,37 @@ public class ScyDesktop extends CustomNode {
       window.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(),window.eloType, window.eloUri, window, true);
       window.leftDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getLeftDrawerCreatorId(),window.eloType, window.eloUri, window, true);
       window.scyContent = scyContent;
+      // all tools are created and placed in the window
+      // now do the ScyTool initialisation
+      var myEloChanged = SimpleMyEloChanged{
+         window:window;
+         titleKey:config.getTitleKey()
+         technicalFormatKey:config.getTechnicalFormatKey();
+      }
+
+      var optionPaneEloSaver = OptionPaneEloSaverFX{
+         repository:config.getRepository()
+         eloFactory:config.getEloFactory()
+         titleKey:config.getTitleKey()
+         window:window;
+         myEloChanged:myEloChanged;
+         newTitleGenerator:newTitleGenerator
+      };
+
+      window.scyToolsList.setEloSaver(optionPaneEloSaver);
+      window.scyToolsList.setMyEloChanged(myEloChanged);
+      window.scyToolsList.initialize();
+      window.scyToolsList.postInitialize();
+      if (window.eloUri!=null){
+         window.scyToolsList.loadElo(window.eloUri);
+      }
+      else{
+         window.scyToolsList.newElo();
+      }
+      window.scyToolsList.loadedEloChanged(window.eloUri);
    }
 
-   function fillNewScyWindow(window: ScyWindow):Void{
+   function XfillNewScyWindow(window: ScyWindow):Void{
       var eloConfig = config.getEloConfig(window.eloType);
       if (window.eloUri==null){
          var pleaseWait = Text {
@@ -467,7 +499,7 @@ function run(){
    var drawerContentCreatorRegistryFX:DrawerContentCreatorRegistryFX =DrawerContentCreatorRegistryFXImpl{
          };
 
-   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+//   drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
    var scyDesktop:ScyDesktop = ScyDesktop{
       config:config;
       missionModelFX : missionModel;

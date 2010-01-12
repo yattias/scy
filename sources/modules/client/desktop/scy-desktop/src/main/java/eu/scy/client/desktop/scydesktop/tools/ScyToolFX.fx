@@ -18,7 +18,7 @@ public mixin class ScyToolFX extends ScyTool {
    public-read var eloSaver:EloSaver;
    public-read var myEloChanged:MyEloChanged;
 
-   public override function initialize():Void{
+   public override function initialize(windowContent: Boolean):Void{
    }
 
    public override function postInitialize():Void{

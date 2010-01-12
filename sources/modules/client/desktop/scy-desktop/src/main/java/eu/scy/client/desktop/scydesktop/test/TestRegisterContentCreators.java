@@ -33,7 +33,7 @@ public class TestRegisterContentCreators implements RegisterContentCreators {
    @Override
    public void registerDrawerContentCreators(DrawerContentCreatorRegistry drawerContentCreatorRegistry)
    {
-      drawerContentCreatorRegistry.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+//      drawerContentCreatorRegistry.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
    }
 
 }

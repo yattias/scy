@@ -115,13 +115,13 @@ public class LoginDialog extends CustomNode {
       try {
          var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
 
-         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}/n"
-         "tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}/n"
-         "tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}/n"
-         "tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}/n"
-         "tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}/n"
-         "tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}/n"
-         "tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}/n"
+         logger.info("tbi.getRepository() : {toolBrokerAPI.getRepository()}\n"
+         "tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n"
+         "tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n"
+         "tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n"
+         "tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n"
+         "tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n"
+         "tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n"
          "tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}");
          showLoginResult(toolBrokerAPI,userName);
          //placeScyDescktop(toolBrokerAPI, userName);

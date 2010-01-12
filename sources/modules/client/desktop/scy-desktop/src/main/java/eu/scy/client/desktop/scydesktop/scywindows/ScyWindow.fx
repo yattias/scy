@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import javafx.scene.CustomNode;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 
 /**
  * @author sikkenj
@@ -49,12 +50,14 @@ public abstract class ScyWindow extends CustomNode {
    public var widthHeightProportion: Number = -1.0;
 
 	public var scyContent: Node;
-	public var scyTool: ScyTool;
+//	public var scyTool: ScyTool;
 
    public var topDrawerTool:Node;
    public var rightDrawerTool:Node;
    public var bottomDrawerTool:Node;
    public var leftDrawerTool:Node;
+
+   public var scyToolsList: ScyToolsList;
 
    public var scyWindowAttributes: ScyWindowAttribute[];
 
