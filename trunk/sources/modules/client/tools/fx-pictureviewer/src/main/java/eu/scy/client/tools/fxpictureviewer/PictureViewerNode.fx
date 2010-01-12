@@ -312,7 +312,7 @@ public class PictureViewerNode extends CustomNode, ILoadPicture, ScyToolFX {
     /**
     * ScyTool methods
     */
-    override function initialize():Void {
+    override function initialize(windowContent:Boolean):Void {
 
     }
 
