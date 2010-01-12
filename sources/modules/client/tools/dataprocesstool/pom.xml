@@ -90,6 +90,12 @@
                     <include>*.gif</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources/fitexHelp</directory>
+                <includes>
+                    <include>*.xhtml</include>
+                </includes>
+            </resource>
         </resources>
     </build>
     

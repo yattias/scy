@@ -31,7 +31,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.SystemColor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -255,7 +254,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         return getCopexImage("labbook.png").getImage();
     }
 
-
+    
     /* initialisation de l'applet */
     protected void initGUI(){
         // Initialisation du look and feel
