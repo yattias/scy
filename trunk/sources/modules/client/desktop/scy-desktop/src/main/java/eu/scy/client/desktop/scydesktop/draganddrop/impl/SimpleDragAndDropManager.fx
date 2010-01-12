@@ -76,17 +76,21 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
    function mouseReleased(e: MouseEvent): Void {
       if (dragNode != null) {
 //         println("SimpleDragAndDropManager.mouseReleased");
-         tryDrop(e);
-         var sceneContent = dragNode.scene.content;
-         delete dragNode from sceneContent;
-         dragNode.scene.content = sceneContent;
+         try{
+            tryDrop(e);
+         }
+         finally{
+            var sceneContent = dragNode.scene.content;
+            delete dragNode from sceneContent;
+            dragNode.scene.content = sceneContent;
 
-         dragNode = null;
+            dragNode = null;
 
-         sourceNode.onMouseDragged = sourceNodeOnMouseDragged;
-         sourceNode.onMouseReleased = sourceNodeOnMouseReleased;
-         sourceNode = null;
-         MouseBlocker.stopMouseBlocking();
+            sourceNode.onMouseDragged = sourceNodeOnMouseDragged;
+            sourceNode.onMouseReleased = sourceNodeOnMouseReleased;
+            sourceNode = null;
+            MouseBlocker.stopMouseBlocking();
+         }
       } else {
          logger.warn("SimpleDragAndDropManager.mouseReleased, but no dragNode!!!");
       }

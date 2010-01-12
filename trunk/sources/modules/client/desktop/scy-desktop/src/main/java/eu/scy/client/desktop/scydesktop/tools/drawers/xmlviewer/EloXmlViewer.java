@@ -11,6 +11,10 @@
 
 package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 
+import eu.scy.client.desktop.scydesktop.tools.EloSaver;
+import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
 import java.net.URI;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
@@ -20,7 +24,7 @@ import roolo.elo.api.IELO;
  *
  * @author sikkenj
  */
-public class EloXmlViewer extends javax.swing.JPanel {
+public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyToolGetterPresent {
 
    private final static Logger logger = Logger.getLogger(EloXmlViewer.class);
 
@@ -123,6 +127,90 @@ public class EloXmlViewer extends javax.swing.JPanel {
       }
       xmlViewer.setText(xml);
 //      logger.info("new xml: " + xml);
+   }
+
+   @Override
+   public ScyTool getScyTool()
+   {
+      return this;
+   }
+
+   @Override
+   public void initialize(boolean windowContent)
+   {
+   }
+
+   @Override
+   public void postInitialize()
+   {
+   }
+
+   @Override
+   public void newElo()
+   {
+   }
+
+   @Override
+   public void loadElo(URI eloUri)
+   {
+   }
+
+   @Override
+   public void loadedEloChanged(URI eloUri)
+   {
+      setEloUri(eloUri);
+   }
+
+   @Override
+   public void onGotFocus()
+   {
+   }
+
+   @Override
+   public void onLostFocus()
+   {
+   }
+
+   @Override
+   public void onMinimized()
+   {
+   }
+
+   @Override
+   public void onUnMinimized()
+   {
+   }
+
+   @Override
+   public boolean aboutToClose()
+   {
+      return true;
+   }
+
+   @Override
+   public void onClosed()
+   {
+   }
+
+   @Override
+   public void setEloSaver(EloSaver eloSaver)
+   {
+   }
+
+   @Override
+   public void setMyEloChanged(MyEloChanged myEloChanged)
+   {
+   }
+
+   @Override
+   public boolean canAcceptDrop(Object object)
+   {
+      return false;
+   }
+
+   @Override
+   public void acceptDrop(Object object)
+   {
    }
 
 }

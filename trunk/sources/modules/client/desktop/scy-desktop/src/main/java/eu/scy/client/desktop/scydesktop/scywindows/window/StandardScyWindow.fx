@@ -68,7 +68,9 @@ public class StandardScyWindow extends ScyWindow {
 	public override var scyContent on replace {
       scyContentChanged();
    };
-	public override var scyTool;
+//	public override var scyTool;
+   public override var scyToolsList = ScyToolsList{};
+
 
 	public override var activated on replace {activeStateChanged()};
 
@@ -190,9 +192,9 @@ public class StandardScyWindow extends ScyWindow {
 
    function scyContentChanged(){
       if (scyContent instanceof Resizable){
-            var resizableContent = scyContent as Resizable;
-            width = Math.max(resizableContent.getPrefWidth(width), minimumWidth);
-            height = Math.max(resizableContent.getPrefWidth(height), minimumHeight);
+         var resizableContent = scyContent as Resizable;
+         width = Math.max(resizableContent.getPrefWidth(width), minimumWidth);
+         height = Math.max(resizableContent.getPrefWidth(height), minimumHeight);
          allowResize = true;
       }
       else{
@@ -200,6 +202,7 @@ public class StandardScyWindow extends ScyWindow {
          height = scyContent.boundsInLocal.height;
          allowResize = false;
       }
+      scyToolsList.windowContentTool = scyContent;
    }
 
    function limitSize(w:Number, h:Number):Point2D{
@@ -240,30 +243,21 @@ public class StandardScyWindow extends ScyWindow {
 
    function activeStateChanged(){
       if (activated){
-         if (scyTool!=null){
-            scyTool.onGotFocus();
-         }
+         scyToolsList.onGotFocus();
          this.effect = activeWindowEffect;
       }
       else{
-         if (scyTool!=null){
-            scyTool.onLostFocus();
-         }
+         scyToolsList.onLostFocus();
          this.effect = inactiveWindowEffect;
       }
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
-      if (scyTool!=null){
-         return scyTool.canAcceptDrop(object);
-      }
-      return false;
-   }
+      return scyToolsList.canAcceptDrop(object);
+    }
 
    public override function acceptDrop(object:Object):Void{
-      if (scyTool!=null){
-         scyTool.acceptDrop(object);
-      }
+      scyToolsList.acceptDrop(object);
    }
 
 
@@ -353,9 +347,7 @@ public class StandardScyWindow extends ScyWindow {
                      closedAction(this);
                   }
 						isAnimating = false;
-                  if (scyTool!=null){
-                     scyTool.onClosed();
-                  }
+                  scyToolsList.onClosed();
 					}
 				}
 			]
@@ -373,9 +365,7 @@ public class StandardScyWindow extends ScyWindow {
 					]
 					action: function(){
 						isAnimating = false;
-                  if (scyTool!=null){
-                     scyTool.onMinimized();
-                  }
+                  scyToolsList.onMinimized();
 					}
 				}
 			]
@@ -393,10 +383,8 @@ public class StandardScyWindow extends ScyWindow {
 					]
 					action: function(){
 						isAnimating = false;
-                  if (scyTool!=null){
-                     scyTool.onUnMinimized();
-                  }
-					}
+                  scyToolsList.onUnMinimized();
+ 					}
 				}
 			]
       }
@@ -497,11 +485,9 @@ public class StandardScyWindow extends ScyWindow {
 	}
 
 	function doClose():Void{
-      if (scyTool!=null){
-         if (not scyTool.aboutToClose()){
-            // abort close action
-            return;
-         }
+      if (not scyToolsList.aboutToClose()){
+         // abort close action
+         return;
       }
 		if (aboutToCloseAction != null){
 			if (not aboutToCloseAction(this)){
@@ -610,6 +596,7 @@ public class StandardScyWindow extends ScyWindow {
          }
          insert topDrawer into drawerGroup.content;
       }
+      scyToolsList.topDrawerTool = topDrawerTool;
    }
 
    function setRightDrawer(){
@@ -635,6 +622,7 @@ public class StandardScyWindow extends ScyWindow {
          }
          insert rightDrawer into drawerGroup.content;
       }
+      scyToolsList.rightDrawerTool = rightDrawerTool;
    }
 
    function setBottomDrawer(){
@@ -661,6 +649,7 @@ public class StandardScyWindow extends ScyWindow {
          }
          insert bottomDrawer into drawerGroup.content;
       }
+      scyToolsList.bottomDrawerTool = bottomDrawerTool;
    }
 
    function setLeftDrawer(){
@@ -686,6 +675,7 @@ public class StandardScyWindow extends ScyWindow {
          }
          insert leftDrawer into drawerGroup.content;
       }
+      scyToolsList.leftDrawerTool = leftDrawerTool;
    }
 
 	public override function create(): Node {

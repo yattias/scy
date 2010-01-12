@@ -15,12 +15,13 @@ import javafx.ext.swing.SwingComponent;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
-
 import eu.scy.client.desktop.scydesktop.config.Config;
 
 import javafx.scene.layout.Resizable;
 
 import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 
 /**
  * @author sikken
@@ -28,7 +29,7 @@ import java.awt.Dimension;
 
 // place your code here
 
-public class SwingContentWrapper extends CustomNode, Resizable {
+public class SwingContentWrapper extends CustomNode, Resizable, ScyToolGetterPresent {
    def logger = Logger.getLogger(this.getClass());
 
    public var swingContent: JComponent;
@@ -83,6 +84,17 @@ public class SwingContentWrapper extends CustomNode, Resizable {
 
    public override function getPrefWidth(width: Number) : Number{
       return swingContent.getPreferredSize().getWidth();
+   }
+
+   public override function getScyTool():ScyTool{
+//      logger.debug("checking swingContent {swingContent.getClass()}");
+      if (swingContent instanceof ScyTool){
+         return swingContent as ScyTool;
+      }
+      else if (swingContent instanceof ScyToolGetterPresent){
+         return (swingContent as ScyToolGetterPresent).getScyTool();
+      }
+      return null;
    }
 
 }

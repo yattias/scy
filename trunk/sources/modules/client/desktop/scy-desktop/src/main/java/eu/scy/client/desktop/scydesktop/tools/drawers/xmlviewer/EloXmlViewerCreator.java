@@ -5,22 +5,20 @@
 
 package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreator;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreator;
 import java.awt.Dimension;
-import java.net.URI;
 import javax.swing.JComponent;
 
 /**
  *
  * @author sikkenj
  */
-public class EloXmlViewerCreator implements DrawerContentCreator {
+public class EloXmlViewerCreator implements ScyToolCreator {
 
    @Override
-   public JComponent getDrawerContent(URI eloUri)
+   public JComponent getScyToolComponent()
    {
       EloXmlViewer eloXmlViewer = new EloXmlViewer();
-      eloXmlViewer.setEloUri(eloUri);
       eloXmlViewer.setPreferredSize(new Dimension(200,100));
       return eloXmlViewer;
    }
