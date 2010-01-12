@@ -37,7 +37,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(PictureViewerContentCreator {}, scyPictureViewerId);
 // scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyPictureType, "pictureviewer");
 
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreator(new EloXmlViewerCreator(), "xmlViewer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
    scyDesktop.bottomLeftCornerTool = NewScyWindowTool {

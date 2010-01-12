@@ -158,7 +158,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
  /**
     * ScyTool methods
     */
-    override function initialize():Void {
+    override function initialize(windowContent: Boolean):Void {
 
     }
 

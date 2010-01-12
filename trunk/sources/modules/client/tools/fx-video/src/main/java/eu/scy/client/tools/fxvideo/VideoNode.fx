@@ -135,7 +135,7 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
      /**
     * ScyTool methods
     */
-    override function initialize():Void {
+    override function initialize(windowContent:Boolean):Void {
 
     }
 
