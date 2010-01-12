@@ -14,12 +14,12 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/applicationcontext-externalcomponents.xml,
-            /WEB-INF/agents.xml,
+            /WEB-INF/agents.xml,                                   
             classpath:eu/scy/server/pedagogicalplan/applicationContext-pedagogicalPlanService.xml,
             classpath:eu/scy/core/applicationContext-service.xml,
             classpath:eu/scy/core/persistence/hibernate/applicationContext-dao.xml,
             /WEB-INF/applicationContext-hibernate.xml,
-            /WEB-INF/dataGenerator.xml,
+            <!--/WEB-INF/dataGenerator.xml-->
             /WEB-INF/localRooloConfig.xml
         </param-value>
     </context-param>
