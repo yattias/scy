@@ -12,6 +12,10 @@
         <property name="pedagogicalPlanPersistenceDAO" ref="pedagogicalPlanPersistenceDAO"/>
     </bean>
     
+    <bean id="studentPedagogicalPlanService" class="eu.scy.core.StudentPedagogicalPlanPersistenceServiceImpl">
+        <property name="studentPedagogicalPlanPersistenceDAO" ref="studentPedagogicalPlanPersistenceDAO"/>
+    </bean>
+
     <bean id="userService" class="eu.scy.core.UserServiceImpl">
         <property name="userDAO" ref="userDAO"/>
     </bean>

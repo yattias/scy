@@ -5,6 +5,7 @@ import eu.scy.scyplanner.components.application.SCYPlannerFrame;
 import eu.scy.scyplanner.components.application.WindowMenu;
 import eu.scy.scyplanner.components.titled.TitledPanel;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
+import eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
@@ -49,12 +50,11 @@ public class SCYPlannerApplicationManager {
         //String url = JOptionPane.showInputDialog("Input host (for example localhost)");
         String username = JOptionPane.showInputDialog("Enter your freakin username");
 
-        HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
-        fb.setServiceInterface(PedagogicalPlanService.class);
-        //fb.setServiceUrl("http://" + url + ":8080/webapp/remoting/pedagogicalPlan-httpinvoker");
-        fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/pedagogicalPlan-httpinvoker");
-        fb.afterPropertiesSet();
-        PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
+        PedagogicalPlanService service = createPedagogicalPlanService();
+        /*StudentPedagogicalPlanService studentService = createStudentPedagogicalPlanService();
+        if(studentService == null) throw new RuntimeException("STUDENT SERVICE IS NULL!");
+        studentService.createStudentPlan(null, null);
+        */
         List pedagogicalPlans = service.getPedagogicalPlanTemplates();
         for (int i = 0; i < pedagogicalPlans.size(); i++) {
             PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlans.get(i);
@@ -100,6 +100,26 @@ public class SCYPlannerApplicationManager {
         */
 
     }
+
+    private PedagogicalPlanService createPedagogicalPlanService() {
+        HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+        fb.setServiceInterface(PedagogicalPlanService.class);
+        fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/pedagogicalPlan-httpinvoker");
+        fb.afterPropertiesSet();
+        PedagogicalPlanService service = (PedagogicalPlanService) fb.getObject();
+        return service;
+    }
+
+    private StudentPedagogicalPlanService createStudentPedagogicalPlanService() {
+        HttpInvokerProxyFactoryBean fb = new HttpInvokerProxyFactoryBean();
+        fb.setServiceInterface(StudentPedagogicalPlanService.class);
+        fb.setServiceUrl("http://localhost:8080/server-external-components/remoting/studentPlan-httpinvoker");
+        fb.afterPropertiesSet();
+        StudentPedagogicalPlanService service = (StudentPedagogicalPlanService) fb.getObject();
+        return service;
+    }
+
+
 
     public static SCYPlannerApplicationManager getApplicationManager() {
         return applicationManager;

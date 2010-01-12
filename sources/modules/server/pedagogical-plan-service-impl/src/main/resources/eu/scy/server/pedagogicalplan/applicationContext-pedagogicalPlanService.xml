@@ -9,4 +9,8 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
     </bean>
 
+    <bean id="studentPpedagogicalPlanService" class="eu.scy.server.pedagogicalplan.StudentPedagogicalPlanServiceImpl">
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+    </bean>
+
 </beans>
