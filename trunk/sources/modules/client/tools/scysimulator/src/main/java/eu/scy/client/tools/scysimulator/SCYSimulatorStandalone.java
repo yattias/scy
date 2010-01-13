@@ -107,7 +107,7 @@ public class SCYSimulatorStandalone implements INotifiable {
         // addJXLayer(simquestPanel, mainFrame);
         String userName = dataCollector.getLogger().getUserName();
         String toolName = dataCollector.getLogger().getToolName();
-        toolAliveSpace = new TupleSpace(new User(userName), "localhost", 2525, "toolAliveSpace");
+        toolAliveSpace = new TupleSpace(new User(userName), "scy.collide.info", 2525, "toolAliveSpace");
         startAliveThread(toolAliveSpace, userName, toolName);
     }
 
