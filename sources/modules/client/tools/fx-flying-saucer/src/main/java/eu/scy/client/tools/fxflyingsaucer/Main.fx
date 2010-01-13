@@ -11,13 +11,12 @@ import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
 
-import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerContentCreator;
-
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 
 /**
  * @author sikkenj
@@ -31,7 +30,6 @@ var initializer = Initializer {
 
 function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDesktop {
 
-//def scyFlyingSaucerType = "scy/url";
    def scyFlyingSaucerId = "flying-saucer";
 
    var scyDesktopCreator = ScyDesktopCreator {
@@ -40,8 +38,7 @@ function createScyDesktop(toolBrokerAPI: ToolBrokerAPI, userName: String): ScyDe
               userName: userName;
            }
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FlyingSaucerContentCreator {}, scyFlyingSaucerId);
-//scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyFlyingSaucerType,"Flying saucer");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
