@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         // initialize the logger(s)
         debugLogger = Logger.getLogger(DataCollector.class.getName());
         this.tbi = tbi;
-        if (tbi.getActionLogger() != null) {
+        if (tbi != null) {
             debugLogger.info("setting action logger to "+tbi.getActionLogger());
             logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger());
         } else {
@@ -78,7 +79,8 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
         setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
-
+        setSelectedVariables(new ArrayList<ModelVariable>());
+        
         // register agent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
         dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
@@ -127,6 +129,10 @@ public class DataCollector extends JPanel implements ActionListener, IDataClient
     }
 
     public void addCurrentDatapoint() {
+    	if (selectedVariables.size() == 0) {
+            JOptionPane.showMessageDialog(this, "You have not selected any relevant variables,\na new datapoint has not been added.", "Session created", JOptionPane.INFORMATION_MESSAGE);
+
+    	}
         ModelVariable var;
         List<String> values = new LinkedList<String>();
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
