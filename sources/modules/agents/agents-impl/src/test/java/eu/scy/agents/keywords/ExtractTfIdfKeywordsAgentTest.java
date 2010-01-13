@@ -56,6 +56,7 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
+		stopAgentFrameWork();
 		super.tearDown();
 	}
 
