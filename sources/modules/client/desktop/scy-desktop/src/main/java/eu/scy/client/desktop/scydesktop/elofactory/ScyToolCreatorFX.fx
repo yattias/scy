@@ -9,9 +9,10 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
+ * The interface for creating new instances JavaFX tools in SCY-LAB.
+ *
  * @author sikken
  */
-
 public mixin class ScyToolCreatorFX {
 
    /**
@@ -20,6 +21,12 @@ public mixin class ScyToolCreatorFX {
     */
    public abstract function createScyToolNode():Node;
 
+   /**
+    * Check if the creator supports the given type
+    *
+    * @param type
+    * @return true if the type is supported, otherwise false
+    */
    public function supportType(type: String): Boolean{
       return true;
    }

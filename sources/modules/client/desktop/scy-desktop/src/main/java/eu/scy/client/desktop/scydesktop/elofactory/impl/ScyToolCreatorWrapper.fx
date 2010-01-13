@@ -35,7 +35,7 @@ public class ScyToolCreatorWrapper extends ScyToolCreatorFX {
 
 
     override public function createScyToolNode () : Node {
-      var component = scyToolCreator.getScyToolComponent();
+      var component = scyToolCreator.createScyToolComponent();
       SwingContentWrapper{
          swingContent:component;
       }

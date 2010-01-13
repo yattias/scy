@@ -14,7 +14,7 @@ package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolGetterPresent;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.net.URI;
 import org.apache.log4j.Logger;
 import roolo.api.IRepository;
@@ -24,7 +24,7 @@ import roolo.elo.api.IELO;
  *
  * @author sikkenj
  */
-public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyToolGetterPresent {
+public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyToolGetter {
 
    private final static Logger logger = Logger.getLogger(EloXmlViewer.class);
 
