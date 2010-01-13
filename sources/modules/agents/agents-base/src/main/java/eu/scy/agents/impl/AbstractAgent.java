@@ -101,6 +101,8 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getActionSpace() {
 		if (tupleSpace == null) {
 			try {
+				tupleSpace = new TupleSpace(new User(getSimpleName()), host, port,
+						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
 				String simpleName = getName();
 				simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
 				tupleSpace = new TupleSpace(new User(simpleName), host, port, runAutonomous, false,
@@ -112,6 +114,16 @@ public abstract class AbstractAgent implements IAgent {
 		return tupleSpace;
 	}
 
+	public String getSimpleName() {
+            if (getName().contains(".")) {
+                return getName().substring(getName().lastIndexOf('.') + 1);
+            } else {
+                return getName();
+            }
+   
+	}
+	
+	
 	@Override
 	public String getName() {
 		return name;
