@@ -31,20 +31,26 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
+		if (params.containsKey("tsHost")) {
+			host = (String) params.get("tsHost");
+		}
+		if (params.containsKey("tsPort")) {
+			port = (Integer) params.get("tsPort");
+		}
 		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS, AgentProtocol.QUERY, String.class, String.class);
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getTupleSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
+			Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
 				String queryId = (String) tuple.getField(2).getValue();
 				String text = (String) tuple.getField(3).getValue();
 
 				Set<String> keywords = extractKeywords(text);
 
-				getTupleSpace().write(getResponseTuple(keywords, queryId));
+				getCommandSpace().write(getResponseTuple(keywords, queryId));
 			}
 			sendAliveUpdate();
 		}
@@ -60,7 +66,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	private Set<String> extractKeywords(String text) {
-		PersistentStorage storage = new PersistentStorage();
+		PersistentStorage storage = new PersistentStorage(host, port);
 		DocumentFrequencyModel dfModel = storage.get(KeywordConstants.DOCUMENT_FREQUENCY_MODEL);
 		TopicModelAnnotator tm = new TopicModelAnnotator((TopicModelParameter) storage.get("co2_scy_english"));
 

@@ -47,38 +47,27 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 		elo = createNewElo("TestELO", "scy/scymapping");
 
 		ELOFiller fillerELO1 = new ELOFiller(elo, typeManager);
-		fillerELO1.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
-				new Contribute("user1", 3L));
-		fillerELO1.fillListValue("nodeLabel",
-				ConceptMapAgentsTestFixture.elo1NodeLabelList);
-		fillerELO1.fillListValue("linkLabel",
-				ConceptMapAgentsTestFixture.elo1LinkLabelList);
+		fillerELO1.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(), new Contribute("user1", 3L));
+		fillerELO1.fillListValue("nodeLabel", ConceptMapAgentsTestFixture.elo1NodeLabelList);
+		fillerELO1.fillListValue("linkLabel", ConceptMapAgentsTestFixture.elo1LinkLabelList);
 
 		IMetadata metadata = repository.addNewELO(elo);
 		elo.setMetadata(metadata);
 
 		IELO conceptMap1ELO = createNewElo("testELO2", "scy/scymapping");
 		ELOFiller fillerELO2 = new ELOFiller(conceptMap1ELO, typeManager);
-		fillerELO2.fillListValue("nodeLabel",
-				ConceptMapAgentsTestFixture.elo2NodeLabelList);
-		fillerELO2.fillListValue("linkLabel",
-				ConceptMapAgentsTestFixture.elo2LinkLabelList);
-		fillerELO2.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
-				new Contribute("user2", 3L));
-		conceptMap1ELO.setContent(new BasicContent(
-				ConceptMapAgentsTestFixture.CONCEPT_MAP1));
+		fillerELO2.fillListValue("nodeLabel", ConceptMapAgentsTestFixture.elo2NodeLabelList);
+		fillerELO2.fillListValue("linkLabel", ConceptMapAgentsTestFixture.elo2LinkLabelList);
+		fillerELO2.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(), new Contribute("user2", 3L));
+		conceptMap1ELO.setContent(new BasicContent(ConceptMapAgentsTestFixture.CONCEPT_MAP1));
 		repository.addNewELO(conceptMap1ELO);
 
 		IELO conceptMap2ELO = createNewElo("testELO3", "scy/scymapping");
 		ELOFiller fillerELO3 = new ELOFiller(conceptMap2ELO, typeManager);
-		fillerELO3.fillListValue("nodeLabel",
-				ConceptMapAgentsTestFixture.elo3NodeLabelList);
-		fillerELO3.fillListValue("linkLabel",
-				ConceptMapAgentsTestFixture.elo3LinkLabelList);
-		fillerELO3.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(),
-				new Contribute("user3", 3L));
-		conceptMap2ELO.setContent(new BasicContent(
-				ConceptMapAgentsTestFixture.CONCEPT_MAP2));
+		fillerELO3.fillListValue("nodeLabel", ConceptMapAgentsTestFixture.elo3NodeLabelList);
+		fillerELO3.fillListValue("linkLabel", ConceptMapAgentsTestFixture.elo3LinkLabelList);
+		fillerELO3.fillValue(CoreRooloMetadataKeyIds.AUTHOR.getId(), new Contribute("user3", 3L));
+		conceptMap2ELO.setContent(new BasicContent(ConceptMapAgentsTestFixture.CONCEPT_MAP2));
 		repository.addNewELO(conceptMap2ELO);
 
 		String agentId = new VMID().toString();
@@ -86,29 +75,25 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 		params.put("id", agentId);
 		params.put("tsHost", TSHOST);
 		params.put("tsPort", TSPORT);
-		agentMap
-				.put(
-						"eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent",
-						params);
+		agentMap.put("eu.scy.agents.roolo.elo.conceptawareness.SearchForSimilarConceptsAgent", params);
 		startAgentFramework(agentMap);
 	}
 
+	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
+		super.tearDown();
 	}
 
 	@Test
 	public void testRun() throws TupleSpaceException {
-		Tuple triggerTuple = new Tuple("scymapper", System.currentTimeMillis(),
-				elo.getUri().toString());
+		Tuple triggerTuple = new Tuple("scymapper", System.currentTimeMillis(), elo.getUri().toString());
 		getTupleSpace().write(triggerTuple);
 		Tuple resultTuple = getTupleSpace().waitToTake(
-				new Tuple("searchSimilarElosAgent", String.class, String.class,
-						String.class), 2 * 1000);
+				new Tuple("searchSimilarElosAgent", String.class, String.class, String.class), 2 * 1000);
 		assertNotNull("tuple is null, should not be", resultTuple);
-		assertEquals(elo.getUri().toString(), resultTuple.getField(3)
-				.getValue());
+		assertEquals(elo.getUri().toString(), resultTuple.getField(3).getValue());
 		assertEquals("user1", resultTuple.getField(2).getValue());
 		assertEquals("user2;user3;", resultTuple.getField(1).getValue());
 	}
@@ -121,8 +106,7 @@ public class SearchForSimilarConceptsAgentTest extends AbstractTestFixture {
 		getTupleSpace().write(triggerTuple);
 		System.err.println("Waiting for tuple");
 		Tuple resultTuple = getTupleSpace().waitToTake(
-				new Tuple("searchSimilarElosAgent", String.class, String.class,
-						String.class), 2 * 1000);
+				new Tuple("searchSimilarElosAgent", String.class, String.class, String.class), 2 * 1000);
 		System.err.println("Got tuple");
 		assertNull(resultTuple);
 	}

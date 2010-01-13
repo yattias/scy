@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,6 +19,7 @@ import org.junit.Test;
 
 import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.workflow.KeywordConstants;
 
@@ -51,6 +53,12 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 		startAgentFramework(agentMap);
 	}
 
+	@Override
+	@After
+	public void tearDown() throws AgentLifecycleException {
+		super.tearDown();
+	}
+
 	private void initDfModel() throws ClassNotFoundException, IOException {
 		InputStream inStream = this.getClass().getResourceAsStream("/models/df.out");
 		ObjectInputStream in = new ObjectInputStream(inStream);
@@ -62,15 +70,14 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
 		getTupleSpace().write(
-				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY,
-						queryId.toString(), TEXT));
+				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.QUERY, queryId.toString(),
+						TEXT));
 		Tuple response = getTupleSpace().waitToRead(
-				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE,
-						queryId.toString(), String.class), AgentProtocol.ALIVE_INTERVAL);
+				new Tuple(ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, AgentProtocol.RESPONSE, queryId.toString(),
+						String.class), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no response received", response);
 		String keywords = (String) response.getField(3).getValue();
-		assertEquals("wrong keywords",
-				"ingredients;nontoxic;binder;solvent;labels;toxic;chemical;voc;paint;pigment;",
+		assertEquals("wrong keywords", "ingredients;nontoxic;binder;solvent;labels;toxic;chemical;voc;paint;pigment;",
 				keywords);
 	}
 }

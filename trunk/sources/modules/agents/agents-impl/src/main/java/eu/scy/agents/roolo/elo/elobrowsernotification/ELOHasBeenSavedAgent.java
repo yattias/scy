@@ -44,7 +44,7 @@ public class ELOHasBeenSavedAgent extends AbstractELOAgent {
 		Tuple tuple = new Tuple("notifyEloBrowser", elo.getUri().toString());
 
 		try {
-			getTupleSpace().write(tuple);
+			getCommandSpace().write(tuple);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}

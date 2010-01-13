@@ -20,12 +20,10 @@ import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.PersistentStorage;
 
 /**
- * ("topicDetector":String, <QueryID>:String, <ModelName>:String, <Text>:String)
- * -> ("topicDetector":String, <QueryID>:String,
- * <topicModelScore>:byte[](HashMap<Integer,Double>))
+ * ("topicDetector":String, <QueryID>:String, <ModelName>:String, <Text>:String) -> ("topicDetector":String,
+ * <QueryID>:String, <topicModelScore>:byte[](HashMap<Integer,Double>))
  * 
  * @author fschulz_2
- * 
  */
 public class TopicDetector extends AbstractRequestAgent {
 
@@ -42,23 +40,21 @@ public class TopicDetector extends AbstractRequestAgent {
 		if (params.containsKey("tsPort")) {
 			port = (Integer) params.get("tsPort");
 		}
-		agentDatabase = new PersistentStorage();
-		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
-				AgentProtocol.QUERY, String.class, String.class, String.class);
+		agentDatabase = new PersistentStorage(host, port);
+		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, String.class, String.class,
+				String.class);
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
 			try {
-				Tuple tuple = getTupleSpace().waitToTake(activationTuple,
-						AgentProtocol.ALIVE_INTERVAL);
+				Tuple tuple = getCommandSpace().waitToTake(activationTuple, AgentProtocol.ALIVE_INTERVAL);
 				if (tuple != null) {
 					String queryID = (String) tuple.getField(2).getValue();
 					String modelName = (String) tuple.getField(3).getValue();
 					String text = (String) tuple.getField(4).getValue();
-					Map<Integer, Double> topicScores = getTopicScores(
-							modelName, text);
+					Map<Integer, Double> topicScores = getTopicScores(modelName, text);
 					sendTopicsToTS(queryID, topicScores);
 				}
 			} catch (TupleSpaceException e) {
@@ -69,8 +65,8 @@ public class TopicDetector extends AbstractRequestAgent {
 		}
 	}
 
-	private void sendTopicsToTS(String queryId, Map<Integer, Double> topicScores)
-			throws IOException, TupleSpaceException {
+	private void sendTopicsToTS(String queryId, Map<Integer, Double> topicScores) throws IOException,
+			TupleSpaceException {
 
 		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
 		ObjectOutputStream out = new ObjectOutputStream(bytesOut);
@@ -78,10 +74,9 @@ public class TopicDetector extends AbstractRequestAgent {
 		out.writeObject(topicScores);
 		bytesOut.toByteArray();
 
-		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
-				AgentProtocol.RESPONSE, queryId.toString(), bytesOut
-						.toByteArray());
-		getTupleSpace().write(topicsDetectedTuple);
+		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryId.toString(),
+				bytesOut.toByteArray());
+		getCommandSpace().write(topicsDetectedTuple);
 	}
 
 	@Override
@@ -103,16 +98,13 @@ public class TopicDetector extends AbstractRequestAgent {
 	private Map<Integer, Double> getTopicScores(String modelName, String text) {
 		Document doc = new Document("text");
 		doc.setFeature(Features.TEXT, text);
-		TopicModelAnnotator model = new TopicModelAnnotator(
-				(TopicModelParameter) agentDatabase.get(modelName));
-		Operator assignTopicScores = new AssignTopicScores()
-				.getOperator("Main");
+		TopicModelAnnotator model = new TopicModelAnnotator((TopicModelParameter) agentDatabase.get(modelName));
+		Operator assignTopicScores = new AssignTopicScores().getOperator("Main");
 		assignTopicScores.setInputParameter(ObjectIdentifiers.DOCUMENT, doc);
 		assignTopicScores.setInputParameter(ObjectIdentifiers.MODEL, model);
 		assignTopicScores.run();
 
-		Map<Integer, Double> topicScores = doc
-				.getFeature(TopicAgents.KEY_TOPIC_SCORES);
+		Map<Integer, Double> topicScores = doc.getFeature(TopicAgents.KEY_TOPIC_SCORES);
 		return topicScores;
 	}
 }

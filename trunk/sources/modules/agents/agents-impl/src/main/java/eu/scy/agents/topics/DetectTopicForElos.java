@@ -60,7 +60,7 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 	@Override
 	public void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple tuple = getTupleSpace().waitToTake(getTemplateTuple(),
+			Tuple tuple = getCommandSpace().waitToTake(getTemplateTuple(),
 					AgentProtocol.ALIVE_INTERVAL);
 			if (tuple != null) {
 				String uri = "";
@@ -70,11 +70,11 @@ public class DetectTopicForElos extends AbstractRequestAgent implements
 					if (isValidType(elo)) {
 						String text = new String(elo.getContent().getBytes());
 						String queryID = new VMID().toString();
-						getTupleSpace().write(
+						getCommandSpace().write(
 								new Tuple(TopicAgents.TOPIC_DETECTOR,
 										AgentProtocol.QUERY, queryID,
 										modelName, text));
-						Tuple responseTuple = getTupleSpace().waitToRead(
+						Tuple responseTuple = getCommandSpace().waitToRead(
 								new Tuple(TopicAgents.TOPIC_DETECTOR,
 										AgentProtocol.RESPONSE, queryID, Field
 												.createWildCardField()),

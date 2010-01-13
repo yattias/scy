@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -72,11 +73,10 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 				new Tuple(ExtractKeywords.EXTRACT_KEYWORDS, AgentProtocol.QUERY, queryId.toString(), TEXT));
 
 		Tuple response = getTupleSpace().waitToRead(
-				new Tuple("notification", String.class, "obama", "scymapper", "Sender", "Mission", "Session", Field
-						.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
+				new Tuple("notification", String.class, "jeremy@scy.collide.info/Smack", "scymapper", "Sender",
+						"Mission", "Session", Field.createWildCardField()), AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no response received", response);
-		int payloadfieldStart = 7;
-		for (int i = payloadfieldStart; i < response.getNumberOfFields(); i++) {
+		for (int i = 7; i < response.getNumberOfFields(); i++) {
 			String keyword = (String) response.getField(i).getValue();
 			assertEquals(expectedKeywords[i - 7], keyword);
 		}

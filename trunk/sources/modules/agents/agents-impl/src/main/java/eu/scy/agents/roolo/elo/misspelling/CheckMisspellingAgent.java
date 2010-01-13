@@ -66,7 +66,7 @@ public class CheckMisspellingAgent extends AbstractProcessingAgent {
 				content));
 		sendAliveUpdate();
 		if (numOfErrors > 0) {
-			getTupleSpace().write(
+			getCommandSpace().write(
 					new Tuple("misspellings", uri, System.currentTimeMillis(),
 							numOfErrors, user));
 		}
@@ -77,7 +77,7 @@ public class CheckMisspellingAgent extends AbstractProcessingAgent {
 		while (status == Status.Running) {
 			try {
 				sendAliveUpdate();
-				Tuple trigger = getTupleSpace().waitToTake(getTemplateTuple(),
+				Tuple trigger = getCommandSpace().waitToTake(getTemplateTuple(),
 						AgentProtocol.ALIVE_INTERVAL);
 				String content = (String) trigger.getField(3).getValue();
 				content = content.replaceAll("<[^>]*>", "");

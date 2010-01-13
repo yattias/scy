@@ -51,7 +51,7 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
-			Tuple t = getTupleSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
+			Tuple t = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.ALIVE_INTERVAL);
 			if (t != null) {
 				String queryId = (String) t.getField(2).getValue();
 				Integer topicId = (Integer) t.getField(3).getValue();
@@ -103,7 +103,7 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements IR
 		for (URI uri : resultURIs) {
 			answer.add(uri.toString());
 		}
-		getTupleSpace().write(answer);
+		getCommandSpace().write(answer);
 	}
 
 	private Tuple getTemplateTuple() {
