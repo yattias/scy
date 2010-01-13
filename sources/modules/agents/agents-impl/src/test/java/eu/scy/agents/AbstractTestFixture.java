@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.After;
+import org.junit.Before;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import roolo.api.IExtensionManager;
@@ -53,7 +54,8 @@ public class AbstractTestFixture {
 
 	private TupleSpace tupleSpace;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		tupleSpace = new TupleSpace(new User("test"), TSHOST, TSPORT, false, false, AgentProtocol.COMMAND_SPACE_NAME);
 
 		agentMap.clear();
@@ -69,6 +71,7 @@ public class AbstractTestFixture {
 
 	@After
 	public void tearDown() throws AgentLifecycleException {
+		System.out.println("super.tearDown");
 		if (tupleSpace != null) {
 			try {
 				tupleSpace.disconnect();
