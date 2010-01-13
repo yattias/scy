@@ -91,7 +91,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
                 if (AgentProtocol.MESSAGE_STOP.equals(message) && afterTuple.getField(2).getValue().equals(getId().trim())) {
                     try {
                         // if the message was to stop....
-                        getTupleSpace().take(afterTuple);
+                        getCommandSpace().take(afterTuple);
                         this.stop();
                     } catch (AgentLifecycleException e) {
                         e.printStackTrace();
@@ -110,7 +110,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
                 @Override
                 public void run() {
                     try {
-                        getTupleSpace().write(getIdentifyTuple(queryId));
+                        getCommandSpace().write(getIdentifyTuple(queryId));
                     } catch (TupleSpaceException e) {
                         e.printStackTrace();
                     }
@@ -179,7 +179,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
             status = Status.Stopping;
             killed = true;
             try {
-                getTupleSpace().disconnect();
+                getCommandSpace().disconnect();
             } catch (TupleSpaceException e) {
                 // e.printStackTrace();
             }
@@ -237,10 +237,10 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
     protected void sendAliveUpdate() throws TupleSpaceException {
         if (aliveTupleID == null) {
             // write new alive tuple
-            aliveTupleID = getTupleSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
+            aliveTupleID = getCommandSpace().write(AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
         } else {
             // update already present alive tuple
-            getTupleSpace().update(aliveTupleID, AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
+            getCommandSpace().update(aliveTupleID, AgentProtocol.getAliveTuple(getId(), getName(), new VMID()));
         }
     }
 
@@ -257,8 +257,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
         try {
             // register commandEvents & identifyEvents
             // TODO Reverse-structured names
-            commandId = getTupleSpace().eventRegister(Command.WRITE, AgentProtocol.getCommandTuple(this.id, this.name), this, true);
-            identifyId = getTupleSpace().eventRegister(Command.WRITE, AgentProtocol.getIdentifyTuple(this.id, this.name), this, true);
+            commandId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getCommandTuple(this.id, this.name), this, true);
+            identifyId = getCommandSpace().eventRegister(Command.WRITE, AgentProtocol.getIdentifyTuple(this.id, this.name), this, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -298,11 +298,11 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements ITh
     public final void tidy() {
         try {
             // command & identify Callbacks are deregistered
-            if (getTupleSpace() != null && getTupleSpace().isConnected()) {
-                getTupleSpace().eventDeRegister(commandId);
-                getTupleSpace().eventDeRegister(identifyId);
+            if (getCommandSpace() != null && getCommandSpace().isConnected()) {
+                getCommandSpace().eventDeRegister(commandId);
+                getCommandSpace().eventDeRegister(identifyId);
                 // disconnect from tuplespace
-                getTupleSpace().disconnect();
+                getCommandSpace().disconnect();
             }
         } catch (TupleSpaceException e) {
             // we do not care about exceptions here

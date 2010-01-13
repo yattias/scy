@@ -36,58 +36,41 @@ public abstract class AbstractAgent implements IAgent {
 	/**
 	 * Create a new AbstractAgent with <code>name</code> and <code>id</code>.
 	 * 
-	 * @param agentName
-	 *            The name of the agent.
-	 * @param agentId
-	 *            The id of the agent.
+	 * @param agentName The name of the agent.
+	 * @param agentId The id of the agent.
 	 */
 	public AbstractAgent(String agentName, String agentId) {
-		this(agentName, agentId, DEFAULT_HOST, Configuration.getConfiguration()
-				.getNonSSLPort());
+		this(agentName, agentId, DEFAULT_HOST, Configuration.getConfiguration().getNonSSLPort());
 	}
 
 	/**
-	 * Create a new AbstractAgent that connects to the by <code>host:port</code>
-	 * specified TupleSpace.
+	 * Create a new AbstractAgent that connects to the by <code>host:port</code> specified TupleSpace.
 	 * 
-	 * @param agentName
-	 *            The name of the agent.
-	 * @param agentId
-	 *            The id of the agent.
-	 * @param tsHost
-	 *            The host where the TupleSpace is running.
-	 * @param tsPort
-	 *            The port the TupleSpace is running on.
+	 * @param agentName The name of the agent.
+	 * @param agentId The id of the agent.
+	 * @param tsHost The host where the TupleSpace is running.
+	 * @param tsPort The port the TupleSpace is running on.
 	 */
-	public AbstractAgent(String agentName, String agentId, String tsHost,
-			int tsPort) {
+	public AbstractAgent(String agentName, String agentId, String tsHost, int tsPort) {
 		this(agentName, agentId, tsHost, tsPort, false);
 	}
 
 	/**
-	 * Create a new AbstractAgent that connects to the by <code>host:port</code>
-	 * specified TupleSpace. If <code>runAutonomous</code> is true the agent
-	 * will allocate a communication thread to the tuplespace that must be
-	 * explicitly stopped. Needed if the agent does not waitToTake but registers
-	 * a listener to TupleSpace updates.
+	 * Create a new AbstractAgent that connects to the by <code>host:port</code> specified TupleSpace. If
+	 * <code>runAutonomous</code> is true the agent will allocate a communication thread to the tuplespace that must be
+	 * explicitly stopped. Needed if the agent does not waitToTake but registers a listener to TupleSpace updates.
 	 * 
-	 * @param agentName
-	 *            The name of the agent.
-	 * @param agentId
-	 *            The id of the agent.
-	 * @param tsHost
-	 *            The host where the TupleSpace is running.
-	 * @param tsPort
-	 *            The port the TupleSpace is running on.
-	 * @param runAutonomous
-	 *            true if the agents allocated own communication thread.
+	 * @param agentName The name of the agent.
+	 * @param agentId The id of the agent.
+	 * @param tsHost The host where the TupleSpace is running.
+	 * @param tsPort The port the TupleSpace is running on.
+	 * @param runAutonomous true if the agents allocated own communication thread.
 	 */
-	public AbstractAgent(String agentName, String agentId, String tsHost,
-			int tsPort, boolean runAutonomous) {
-		this.name = agentName;
-		this.id = agentId;
-		this.host = tsHost;
-		this.port = tsPort;
+	public AbstractAgent(String agentName, String agentId, String tsHost, int tsPort, boolean runAutonomous) {
+		name = agentName;
+		id = agentId;
+		host = tsHost;
+		port = tsPort;
 		this.runAutonomous = runAutonomous;
 	}
 
@@ -96,13 +79,32 @@ public abstract class AbstractAgent implements IAgent {
 	 * 
 	 * @return The global instance of the tuple space.
 	 */
-	public TupleSpace getTupleSpace() {
+	public TupleSpace getCommandSpace() {
 		if (tupleSpace == null) {
 			try {
-			        String simpleName = getName();
-			        simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
-				tupleSpace = new TupleSpace(new User(simpleName), host, port,
-						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
+				String simpleName = getName();
+				simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
+				tupleSpace = new TupleSpace(new User(simpleName), host, port, runAutonomous, false,
+						AgentProtocol.COMMAND_SPACE_NAME);
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+		return tupleSpace;
+	}
+
+	/**
+	 * Get an instance of the tuplespace.
+	 * 
+	 * @return The global instance of the tuple space.
+	 */
+	public TupleSpace getActionSpace() {
+		if (tupleSpace == null) {
+			try {
+				String simpleName = getName();
+				simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
+				tupleSpace = new TupleSpace(new User(simpleName), host, port, runAutonomous, false,
+						AgentProtocol.ACTION_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
 			}
