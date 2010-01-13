@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * @author kaido
@@ -37,6 +39,8 @@ public class InterviewTextArea extends SwingComponent {
         var myFont = new Font(font.name, fontStyle, font.size);
         textArea.setFont(myFont);
     }
+    public var textBefore:String;
+    public var textAfter:String;
     public override function createJComponent():JComponent{
         textArea = new JTextArea();
         textArea.setWrapStyleWord(true);
@@ -54,6 +58,14 @@ public class InterviewTextArea extends SwingComponent {
             }
             public override function keyTyped(keyEvent:KeyEvent) {
                 length = textArea.getDocument().getLength();
+            }
+        });
+        textArea.addFocusListener(FocusListener{
+            public override function focusGained(focusEvent:FocusEvent) {
+                textBefore = text;
+            }
+            public override function focusLost(focusEvent:FocusEvent) {
+                textAfter = text;
             }
         });
         var scrollPane = new JScrollPane(textArea);

@@ -22,6 +22,8 @@ import eu.scy.client.tools.interviewtool.InterviewObject;
 import javafx.scene.control.Label;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.DefaultCellEditor;
 import javax.swing.table.TableCellEditor;
 import java.beans.PropertyChangeListener;
@@ -57,7 +59,7 @@ package class InterviewTable extends SwingComponent {
     var table: JTable;
     public var model: DefaultTableModel;
     public var selection: Integer;
-//    public var focusLostCount: Integer;
+    public var focusLostCount: Integer;
     public var isModified: Boolean;
     public override var font on replace {
         var fontStyle = Font.PLAIN;
@@ -124,21 +126,19 @@ package class InterviewTable extends SwingComponent {
                 }
             }
         );
-        /*
         table.addFocusListener(
             FocusListener {
                 public override function focusGained(event: FocusEvent) {
-                    println("focus gained");
+//                    println("focus gained");
                 }
                 public override function focusLost(event: FocusEvent) {
                     if (table.isEditing())
                         table.getCellEditor().stopCellEditing();
                     focusLostCount++;
-                    println("focus lost");
+//                    println("focus lost");
                 }
             }
         );
-        */
         return new JScrollPane(table);
     }
 }
@@ -154,14 +154,16 @@ package class InterviewTableEditor extends CustomNode {
     public-init var classType: String;
     public-init var headerText: String;
     public-init var refreshAction: function();
+    public-init var logAction: function(type:String,attributes:InterviewObject[]);
+    public-init var logNamelyAction: function(checked:Boolean);
     public-init var width: Number;
     public-init var height: Number;
     public-init var font: javafx.scene.text.Font;
     public-init var headerFont: javafx.scene.text.Font;
     public-init var namelyShow: Boolean on replace{if (namelyShow) offset=30 else offset=0};
-    public var namelyChecked: Boolean on replace{isModified=true};
-//    var focusLostCount: Integer = 0 on replace{if (focusLostCount>0) saveTable()};
-    def defaultNamelyChecked = namelyChecked;
+    public var namelyChecked: Boolean on replace{if (isModified and logNamelyAction!=null) logNamelyAction(namelyChecked);isModified=true};
+    var focusLostCount: Integer = 0 on replace{if (focusLostCount>0 and isModified) logCancelTable("FOCUS_LOST")};
+    var defaultNamelyChecked = namelyChecked;
     var isModified: Boolean = false;
     var offset: Integer;
     var objects: InterviewObject[];
@@ -171,7 +173,7 @@ package class InterviewTableEditor extends CustomNode {
                     height: height
                     font: font
                     headerFont: headerFont
-//                    focusLostCount: bind focusLostCount with inverse
+                    focusLostCount: bind focusLostCount with inverse
                     isModified: bind isModified with inverse
                     columns: [
                         TableColumn {
@@ -208,14 +210,37 @@ package class InterviewTableEditor extends CustomNode {
         insert o into objects;
         nextID++;
     }
+    function removeRow() {
+        if (logAction != null) {
+            logAction("REMOVE",objects[selection]);
+        }
+        delete objects[selection];
+        isModified=true;
+    }
     function saveTable() {
+        if (logAction != null) {
+            logAction("BEFORE_SAVE",oldObjects);
+        }
         for (i in [0..sizeof objects-1]) {
             objects[i].setValue(table.model.getValueAt(i, 0).toString());
         }
         oldObjects=objects;
+        defaultNamelyChecked=namelyChecked;
         isModified=false;
         if (refreshAction != null) {
             refreshAction();
+        }
+        if (logAction != null) {
+            logAction("AFTER_SAVE",objects);
+        }
+    }
+    function logCancelTable(type:String) {
+        if (logAction != null) {
+            var logObjects = objects;
+            for (i in [0..sizeof logObjects-1]) {
+                logObjects[i].setValue(table.model.getValueAt(i, 0).toString());
+            }
+            logAction(type,logObjects);
         }
     }
     public override function create() {
@@ -242,13 +267,15 @@ package class InterviewTableEditor extends CustomNode {
                             action: function(){
                                 addRow();
                                 isModified=true;
+                                if (logAction != null) {
+                                    logAction("ADD",null);
+                                }
                             }
                         },
                         Button{
                             text: "Remove"
                             action: function(){
-                                delete objects[selection];
-                                isModified=true;
+                                removeRow();
                             }
                         },
                         Button{
@@ -260,6 +287,7 @@ package class InterviewTableEditor extends CustomNode {
                         Button{
                             text: "Cancel"
                             action: function(){
+                                logCancelTable("BEFORE_CANCEL");
                                 // insert needed for refresh
                                 if (sizeof objects == sizeof oldObjects) {
                                     addRow();
@@ -267,6 +295,7 @@ package class InterviewTableEditor extends CustomNode {
                                 objects=oldObjects;
                                 namelyChecked = defaultNamelyChecked;
                                 isModified=false;
+                                logCancelTable("AFTER_CANCEL");
                             }
                         }
                     ]
