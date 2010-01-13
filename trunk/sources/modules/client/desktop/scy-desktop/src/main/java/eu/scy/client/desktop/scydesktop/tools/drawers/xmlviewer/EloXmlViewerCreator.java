@@ -16,11 +16,17 @@ import javax.swing.JComponent;
 public class EloXmlViewerCreator implements ScyToolCreator {
 
    @Override
-   public JComponent getScyToolComponent()
+   public JComponent createScyToolComponent()
    {
       EloXmlViewer eloXmlViewer = new EloXmlViewer();
       eloXmlViewer.setPreferredSize(new Dimension(200,100));
       return eloXmlViewer;
+   }
+
+   @Override
+   public boolean supportType(String type)
+   {
+      return true;
    }
 
 }
