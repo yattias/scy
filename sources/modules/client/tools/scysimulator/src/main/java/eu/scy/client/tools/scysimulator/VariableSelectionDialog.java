@@ -153,19 +153,33 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 		}
 	}
 
-	private Map<ComparableJCheckBox, ModelVariable> createVariables(
-			List<ModelVariable> simulationvariables) {
+	private Map<ComparableJCheckBox, ModelVariable> createVariables(List<ModelVariable> simulationvariables) {
 		Map<ComparableJCheckBox, ModelVariable> temp = new TreeMap<ComparableJCheckBox, ModelVariable>();
 		ModelVariable var;
-		ComparableJCheckBox checkbox;
 		for (Iterator<ModelVariable> i = collector.getSimulationVariables()
 				.iterator(); i.hasNext();) {
 			var = i.next();
-			if ((var.getKind() == ModelVariable.VK_INPUT)
-					|| (var.getKind() == ModelVariable.VK_OUTPUT)
-					|| (var.getKind() == ModelVariable.VK_TIME)) {
-				checkbox = new ComparableJCheckBox(var.getName() + ": "
-						+ var.getExternalName());
+			
+			//if ((var.getKind() == ModelVariable.VK_INPUT)
+			//|| (var.getKind() == ModelVariable.VK_OUTPUT)
+			//|| (var.getKind() == ModelVariable.VK_TIME)) {
+			ComparableJCheckBox checkbox = null;
+			if (var.getDescription() == null) {
+				// variable description does not exist
+				// create a checkbox with ext.name and int.name
+				checkbox = new ComparableJCheckBox(var.getExternalName() + ": " + var.getName());
+			} else if (var.getDescription().equals("")) {
+				// description is empty
+				checkbox = new ComparableJCheckBox(var.getExternalName() + ": "	+ var.getName());				
+			} else if ( (var.getDescription().equals("n/a") || (var.getKind() == ModelVariable.VK_SPECIAL))) {
+				// description is "n/a" or it's a special variable, doing nothing
+			} else {
+				// description has some meaningful content
+				checkbox = new ComparableJCheckBox(var.getExternalName() + ": " + var.getDescription());
+			}
+			
+			if (checkbox != null) {
+			// has a checkbox been created in the previous block?
 				if (collector.getSelectedVariables().contains(var)) {
 					checkbox.setSelected(true);
 				}
