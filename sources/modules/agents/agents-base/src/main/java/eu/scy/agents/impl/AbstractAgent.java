@@ -99,7 +99,9 @@ public abstract class AbstractAgent implements IAgent {
 	public TupleSpace getTupleSpace() {
 		if (tupleSpace == null) {
 			try {
-				tupleSpace = new TupleSpace(new User(getName()), host, port,
+			        String simpleName = getName();
+			        simpleName = simpleName.substring(simpleName.lastIndexOf('.') + 1);
+				tupleSpace = new TupleSpace(new User(simpleName), host, port,
 						runAutonomous, false, AgentProtocol.COMMAND_SPACE_NAME);
 			} catch (TupleSpaceException e) {
 				e.printStackTrace();
