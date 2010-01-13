@@ -16,6 +16,7 @@ public class SQLSpacesComponent implements IExternalComponent {
     @Override
     public void startComponent() throws ExternalComponentFailedException {
         log.info("Initializing SQLSPACES SERVER");
+        Configuration.getConfiguration().setConnectionPoolSize(100);
         Configuration.getConfiguration().setLogLevel(Level.INFO);
         Configuration.getConfiguration().setDbType(Configuration.Database.MYSQL);
         Configuration.getConfiguration().setSSLEnabled(false);
